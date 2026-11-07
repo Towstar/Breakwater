@@ -83,3 +83,11 @@ Executed on 2026-11-07 with the same MSVC/CMake toolchain:
 The transport module is not yet connected to the desktop/agent and does not change
 volume-plan feasibility. PyTorch differentiation, PhysicsNeMo training/inference and
 Lean proofs remain subsequent independent increments.
+
+## Increment 3 / A3: differentiable storage science
+
+The standalone PyTorch rollout and gradient checks are implemented in `science/`.
+This increment adds only a private native fixture-export executable and its target
+under `engine/`; the existing public native interfaces and shared contracts are unchanged.
+See [science/PROGRESS.md](../science/PROGRESS.md) for actual normal/ASan reference
+comparisons, gradient errors, pinned environment, commands and limitations.

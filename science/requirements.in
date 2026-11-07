@@ -1,0 +1,5 @@
+# A3 CPU reference environment; resolved for Windows x64 / CPython 3.12.
+# Regenerate requirements-win-cpu-py312.txt with the command in README.md.
+torch==2.15.0+cpu
+# Torch's NumPy bridge is initialized at import; pin its working runtime too.
+numpy

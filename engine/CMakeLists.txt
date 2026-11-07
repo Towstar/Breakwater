@@ -12,6 +12,10 @@ target_link_libraries(breakwater_search_example PRIVATE breakwater_engine)
 add_executable(breakwater_transport_example examples/transport_example.cpp)
 target_link_libraries(breakwater_transport_example PRIVATE breakwater_engine)
 
+# Executed by science's cross-language checks; this is a private test fixture format.
+add_executable(breakwater_rollout_reference examples/rollout_reference.cpp)
+target_link_libraries(breakwater_rollout_reference PRIVATE breakwater_engine)
+
 if(BUILD_TESTING)
   add_executable(breakwater_engine_tests tests/engine_tests.cpp)
   target_link_libraries(breakwater_engine_tests PRIVATE breakwater_engine)
