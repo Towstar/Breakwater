@@ -1,4 +1,5 @@
 #include "breakwater/engine.hpp"
+#include "forecast_kernels.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -173,25 +174,21 @@ SimulationResult simulate(const CompiledNetwork& c, SimulationConfig config, Sol
     std::vector<double> state = c.initial_m3;
     std::vector<double> rates(state.size());
     std::vector<double> incidence;
+    const detail::StorageRatesView rates_view{c.external_in_m3h, c.external_out_m3h, c.edges};
     if (solver == Solver::dense_reference) {
-        incidence.assign(state.size() * c.edges.size(), 0.0);
-        for (std::size_t e = 0; e < c.edges.size(); ++e) {
-            incidence[c.edges[e].source * c.edges.size() + e] -= 1.0;
-            incidence[c.edges[e].target * c.edges.size() + e] += 1.0;
-        }
+        incidence.resize(state.size() * c.edges.size());
+        detail::build_incidence(rates_view, incidence);
     }
     for (std::size_t i = 0; i < state.size(); ++i) r.volumes_m3[i][0] = state[i];
     for (std::size_t k = 1; k <= steps; ++k) {
         if (solver == Solver::affine) evaluate_endpoints(c, r.time_h[k], state);
         else {
-            for (std::size_t i = 0; i < state.size(); ++i) {
+            if (solver == Solver::dense_reference) detail::dense_rates(rates_view, incidence, rates);
+            else if (solver == Solver::sparse) detail::sparse_rates(rates_view, rates);
+            else for (std::size_t i = 0; i < rates.size(); ++i)
                 rates[i] = c.external_in_m3h[i] - c.external_out_m3h[i];
-                if (solver == Solver::dense_reference)
-                    for (std::size_t e = 0; e < c.edges.size(); ++e) rates[i] += incidence[i * c.edges.size() + e] * c.edges[e].flow_m3h;
-            }
-            if (solver == Solver::sparse) for (const auto& e : c.edges) { rates[e.source] -= e.flow_m3h; rates[e.target] += e.flow_m3h; }
             const double dt = r.time_h[k] - r.time_h[k - 1];
-            for (std::size_t i = 0; i < state.size(); ++i) state[i] += dt * rates[i];
+            detail::euler_update(state, rates, dt);
         }
         for (std::size_t i = 0; i < state.size(); ++i) {
             if (!std::isfinite(state[i])) throw std::runtime_error("Nonfinite simulated volume.");
