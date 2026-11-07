@@ -1,0 +1,30 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "network": {
+    "assets": [
+      {"id":"tank_a","label":"Tank A","kind":"tank","capacity_m3":120,"initial_m3":80},
+      {"id":"tank_b","label":"Tank B","kind":"tank","capacity_m3":130,"initial_m3":114},
+      {"id":"source_a","label":"Production A","kind":"source","inflow_m3h":52,"curtailment_m3h":0,"curtailment_max_m3h":15,"cost_per_m3":250},
+      {"id":"source_b","label":"Production B","kind":"source","inflow_m3h":16,"curtailment_m3h":0,"curtailment_max_m3h":0,"cost_per_m3":250},
+      {"id":"treatment","label":"Treatment","kind":"treatment","capacity_m3h":60,"cost_per_m3":0},
+      {"id":"trucking","label":"Emergency trucking","kind":"trucking","capacity_m3h":22,"cost_per_m3":80}
+    ],
+    "routes": [
+      {"id":"feed_a","source_id":"source_a","target_id":"tank_a","capacity_m3h":52,"setpoint_m3h":52,"has_pump":false,"available":true,"cost_per_m3":0},
+      {"id":"feed_b","source_id":"source_b","target_id":"tank_b","capacity_m3h":16,"setpoint_m3h":16,"has_pump":false,"available":true,"cost_per_m3":0},
+      {"id":"main_pump","source_id":"tank_a","target_id":"treatment","capacity_m3h":55,"setpoint_m3h":44,"has_pump":true,"available":true,"cost_per_m3":0},
+      {"id":"backup_pump","source_id":"tank_b","target_id":"treatment","capacity_m3h":35,"setpoint_m3h":16,"has_pump":true,"available":true,"cost_per_m3":0},
+      {"id":"bypass","source_id":"tank_a","target_id":"tank_b","capacity_m3h":25,"setpoint_m3h":0,"has_pump":false,"available":true,"cost_per_m3":0},
+      {"id":"truck_route","source_id":"tank_a","target_id":"trucking","capacity_m3h":22,"setpoint_m3h":0,"has_pump":false,"available":true,"cost_per_m3":0}
+    ]
+  },
+  "layout": {
+    "positions": {
+      "tank_a":{"x":-100,"z":30},"tank_b":{"x":80,"z":30},
+      "source_a":{"x":-240,"z":30},"source_b":{"x":80,"z":190},
+      "treatment":{"x":100,"z":-130},"trucking":{"x":-120,"z":-150}
+    },
+    "camera":{"yaw":35,"pitch":-55,"distance":720}
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "version": 6,
+  "configurePresets": [
+    {"name":"native-base","hidden":true,"generator":"Ninja","cacheVariables":{"CMAKE_BUILD_TYPE":"RelWithDebInfo","BUILD_TESTING":"ON"}},
+    {"name":"headless","inherits":"native-base","binaryDir":"${sourceDir}/out/headless","cacheVariables":{"BREAKWATER_BUILD_DESKTOP":"OFF"}},
+    {"name":"desktop","inherits":"native-base","binaryDir":"${sourceDir}/out/desktop"},
+    {"name":"asan","inherits":"headless","binaryDir":"${sourceDir}/out/asan","cacheVariables":{"BREAKWATER_ENABLE_ASAN":"ON"}}
+  ],
+  "buildPresets":[{"name":"headless","configurePreset":"headless"},{"name":"desktop","configurePreset":"desktop"},{"name":"asan","configurePreset":"asan"}],
+  "testPresets":[{"name":"headless","configurePreset":"headless","output":{"outputOnFailure":true}},{"name":"desktop","configurePreset":"desktop","output":{"outputOnFailure":true}},{"name":"asan","configurePreset":"asan","output":{"outputOnFailure":true}}]
+}

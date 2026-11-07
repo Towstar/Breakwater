@@ -1,0 +1,41 @@
+# Local credentials
+.env
+.env.*
+!.env.example
+
+# Python environments and caches
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.mypy_cache/
+.ruff_cache/
+.coverage
+htmlcov/
+
+# JavaScript dependencies and generated output
+node_modules/
+.next/
+dist/
+
+# Native and Lean build output
+build/
+out/
+.cache/
+.lake/
+
+# Generated scientific artifacts; keep small demo fixtures versioned
+artifacts/checkpoints/
+artifacts/generated/
+
+# Local editor and operating-system files
+.vs/
+*.user
+.DS_Store
+Thumbs.db
+
+# Project-local tool downloads and machine-specific CMake settings
+.tools/
+CMakeUserPresets.json
+aqtinstall.log
