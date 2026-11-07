@@ -4,18 +4,35 @@ qt_add_library(breakwater_desktop_base STATIC ProjectDocument.cpp ProjectControl
 target_include_directories(breakwater_desktop_base PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_desktop_base PUBLIC breakwater_engine Qt6::Quick Qt6::Concurrent)
 
+qt_add_library(breakwater_agent STATIC
+  agent/ModelTransport.hpp agent/NemotronClient.hpp agent/NemotronClient.cpp
+  agent/SimulationGateway.hpp agent/SimulationGateway.cpp
+  agent/AgentOrchestrator.hpp agent/AgentOrchestrator.cpp
+  agent/AgentController.hpp agent/AgentController.cpp)
+target_include_directories(breakwater_agent PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base Qt6::Network Qt6::Concurrent)
+qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
+target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
+
 qt_add_executable(breakwater WIN32 main.cpp)
-target_link_libraries(breakwater PRIVATE breakwater_desktop_base Qt6::QuickControls2 Qt6::Quick3D Qt6::Network)
+target_link_libraries(breakwater PRIVATE breakwater_agent Qt6::QuickControls2 Qt6::Quick3D)
 get_filename_component(_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
 set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_prefix}/bin;%PATH%")
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
-  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml)
+  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml)
 
 if(BUILD_TESTING)
   qt_add_executable(breakwater_desktop_tests tests/project_tests.cpp)
   target_link_libraries(breakwater_desktop_tests PRIVATE breakwater_desktop_base Qt6::Test)
   target_compile_definitions(breakwater_desktop_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
   add_test(NAME desktop.project COMMAND breakwater_desktop_tests)
+  foreach(_suite nemotron_client agent_gateway agent_orchestrator)
+    qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
+    target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_agent Qt6::Test)
+    add_test(NAME desktop.${_suite} COMMAND breakwater_${_suite}_tests)
+    set_tests_properties(desktop.${_suite} PROPERTIES TIMEOUT 60
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endforeach()
   add_test(NAME desktop.qml_smoke COMMAND breakwater --smoke)
   set_tests_properties(desktop.qml_smoke PROPERTIES TIMEOUT 30)
   set_tests_properties(desktop.project desktop.qml_smoke PROPERTIES

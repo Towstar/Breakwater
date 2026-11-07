@@ -1,9 +1,86 @@
 # Implementation status
 
-Scope: the user's reduced **minimum base for Person A and Person B**, with the complete
-accepted plan preserved in IMPLEMENTATION_PLAN.md. The original handoff is unchanged.
+Scope: the shared base plus Person B's native agent/run-store increment, following
+KICKOFF_PERSON_B.md at `bf90e55`. The accepted plan and original handoff are preserved.
+
+## Person B agent increment — November 7, 2026
+
+Implemented:
+
+- Asynchronous Qt Network Nemotron client with process-environment configuration,
+  non-streaming tool calls, matching tool-result continuation, retries, deadlines,
+  cancellation, bounds, redirect rejection and redacted errors.
+- Eight allowlisted tools backed by the existing engine, immutable snapshot/run IDs,
+  a 128-run session store, full retained trajectories, explicit independent validation,
+  candidate comparison and approval staging. Existing native contracts are unchanged.
+- Bounded adaptive orchestration: 12 calls, three candidate-refinement/search rounds,
+  two minutes. Model-generated numbers cannot establish feasibility or create runs.
+- A Qt investigator panel with activity, historical run summaries, grounded result
+  fields and an explicit operator action to apply a staged simulated plan.
+- Numerical edits/reset invalidate sessions and approvals; layout-only moves preserve
+  them. Completed evidence survives cancellation/failure within the current session.
+- Protocol/full-investigation live smoke executable and integration guide with schemas:
+  [AGENT_INTEGRATION.md](AGENT_INTEGRATION.md).
+
+Actual checks on Person B's laptop:
+
+- Qt 6.12.0 pinned SDK, MSVC 19.44.35219.0 / VS2022 17.14.19, CMake 3.31.6 / Ninja.
+- Native baseline: engine acceptance passed; baseline/bad/mixed/healthy CLI cases
+  reproduce 0.769230769231 h, 2.66666666667 h, mixed 80/117 m3 and cost 12,780.
+- Desktop RelWithDebInfo build and all six CTest suites passed: engine, project,
+  fake-HTTP transport, real-engine gateway, fake-model orchestration and QML render.
+- Full desktop AddressSanitizer build and the same six CTest suites passed with no
+  reported sanitizer failures. The render smoke now waits for an actual rendered
+  frame within 20 seconds instead of assuming readiness after a fixed delay.
+- Agent-panel screenshot captured and visually inspected. Interactive model execution
+  was not exercised in the screenshot; automated controller tests use a fake model.
+- `breakwater_nemotron_smoke.exe`: exit 2, credentials unavailable, no live request.
+- Independent same-family subagent code review identified cancellation/restart signal
+  reentrancy; guards and regression cases now cover that issue and custom graph IDs.
+
+Reproduce with `scripts/build.ps1 -Preset desktop -EmbeddedDebugInfo` after setting up
+the Qt SDK. This machine also needed a short process-local PATH before importing the
+VS developer shell. `/Z7` avoids this installation's C1902 PDB-helper mismatch. Checked
+desktop configuration used `BREAKWATER_ENABLE_ASAN=ON`, `BREAKWATER_BUILD_DESKTOP=ON`
+and `CMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded` in a separate build directory.
+
+Unavailable/limited:
+
+- Live NVIDIA model access/tool execution is **unverified**; no API key is configured.
+  Fake responses test software behavior, not live adaptive model performance.
+- Person A's native bounded search (`4eea5a7`) is merged and exposed through
+  `search_interventions`; combined post-merge verification is recorded below.
+- History is in memory for the current agent session; persistence/replay, streaming,
+  HTTP 202 polling, robust optimization and detailed charts remain later work.
+- Quality, scientific ML and proofs remain separate and unavailable as described below.
 
 ## Implemented
+
+### Person A search integrated into Person B
+
+- Merged `codex/person-a-engine` commit `4eea5a7` without conflicts.
+- Added the real `search_interventions` tool without changing the existing engine
+  interfaces. Search axes, candidate counts, fixed horizon, run storage, native
+  reference validation and operator approval gates are enforced in C++.
+- Post-merge desktop/Ninja build: **9/9 CTest suites passed**. Full desktop MSVC
+  AddressSanitizer build: **9/9 passed**, including the 16-case engine search suite,
+  both search examples, gateway search and model/tool orchestration tests.
+- The canonical tool test actually evaluates 432 combinations, finds 39 screening
+  survivors and stores five independently validated finalists. Lowest evaluated cost
+  is 4,800 synthetic units; final A/B volumes 116/117 m3, minimum headroom 4 m3.
+  This uses storage headroom and establishes neither global optimality nor indefinite
+  sustainability. The restricted search reports no feasible plan among its inputs.
+- The fake-model integration test chooses search, receives real stored run IDs and
+  native validation, stages the selected result and produces a grounded recommendation.
+  This remains distinct from an unexecuted live NVIDIA investigation.
+- Regenerated `Breakwater.slnx` with the optional VS2022 generator and existing .NET
+  10 migration. The complete generated graph (50 projects, 127 dependency edges)
+  is preserved, including all new agent/search targets. Direct single-process MSBuild
+  of the root solution passed, followed by **9/9 generated-tree CTest suites passed**.
+  VS2026 remains the generation-script default. No generated `.vcxproj` or SDK files
+  are committed.
+
+### Shared base
 
 - C++20 / MSVC numerical library, canonical scenario, native CLI and 13 acceptance cases.
 - Generic supported topology, control catalog, immutable candidate compilation, dense
@@ -13,7 +90,7 @@ accepted plan preserved in IMPLEMENTATION_PLAN.md. The original handoff is uncha
 - Qt Quick 3D editor: primitives, placement, connections, pump attachment,
   property editing, save/load, undo/redo, background forecasts and approval invalidation.
 
-## Verified
+## Original baseline evidence recorded before this increment
 
 - `scripts/build.ps1 -Preset headless`: native compilation and all 13 engine cases passed.
 - `scripts/Generate-VisualStudio.ps1 -Headless -Build`: Visual Studio/MSBuild x64 build
@@ -33,12 +110,11 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 
 ## Planned, not implemented in this base
 
-- Nemotron HTTPS client, real tool dispatcher/loop, batch search and run comparisons.
-- Historical run store, replay, robust optimization, and detailed charts.
+- Durable history/replay, robust optimization and detailed charts.
 - Desktop-to-Python process adapter, transport reference, Torch differentiation,
   PhysicsNeMo model/training/inference, and ML readiness evidence.
 - Lean/Mathlib project and checked algorithm proofs.
 - Performance benchmarks, custom SIMD/GPU kernels, and sophisticated routing handles.
 
-The UI labels these capabilities as planned. No model execution, completed proof,
+The UI labels unavailable science capabilities as planned. No live model execution, completed proof,
 validated chemical quality, measured speedup, or production control is claimed.

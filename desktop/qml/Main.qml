@@ -7,6 +7,8 @@ import QtQuick3D
 ApplicationWindow {
     id: app
     required property var controller
+    required property var investigator
+    property bool showAgent: false
     width: 1440
     height: 900
     minimumWidth: 1100
@@ -139,7 +141,8 @@ ApplicationWindow {
                             onClicked: app.clickAsset(modelData.id)
                         }
                     }
-                    Label { text: "Nemotron: planned\nPhysicsNeMo: planned\nLean proofs: planned"; color: "#8ca5b4"; font.pixelSize: 11; lineHeight: 1.3 }
+                    Button { Layout.fillWidth: true; text: "Nemotron investigator"; onClicked: app.showAgent = !app.showAgent }
+                    Label { text: "PhysicsNeMo: planned\nLean proofs: planned"; color: "#8ca5b4"; font.pixelSize: 11; lineHeight: 1.3 }
                 }
             }
 
@@ -294,8 +297,10 @@ ApplicationWindow {
             }
         }
         Rectangle {
-            Layout.fillWidth: true; Layout.preferredHeight: 196; color: "#172735"
+            Layout.fillWidth: true; Layout.preferredHeight: app.showAgent ? 310 : 196; color: "#172735"
+            AgentPanel { anchors.fill: parent; anchors.margins: 14; visible: app.showAgent; investigator: app.investigator }
             ColumnLayout {
+                visible: !app.showAgent
                 anchors.fill: parent; anchors.margins: 14; spacing: 5
                 RowLayout {
                     Layout.fillWidth: true
