@@ -45,5 +45,19 @@ and concurrent candidate isolation. See STATUS for actual executed commands.
 The affine endpoint function accepts caller-owned workspace and allocates no memory
 inside its evaluation loop. No benchmark speedup has been measured yet.
 
-Lean proofs, transport, PyTorch gradients and PhysicsNeMo execution remain planned.
+## Native single-pipe transport
+
+PR #4 delivers a cell-centered finite-volume scalar reference with upwind advection,
+centered dispersion, decay/source terms, stable boundary-aware stepping and signed
+mass accounting. Equations, units, boundary semantics and resource limits are in
+[engine/TRANSPORT.md](../engine/TRANSPORT.md); executed checks are in
+[engine/PROGRESS.md](../engine/PROGRESS.md).
+
+The 64-cell example used 136 substeps with max CFL 0.9 and maximum mass residual
+1.36887055523e-12 mg. Eighteen transport case groups and the example passed normal and
+MSVC ASan builds. This is a standalone synthetic scalar-pipe calculation; it does not
+add tank chemistry, quality approval or physical pipe inventories to the storage model.
+
+Lean proofs, PyTorch gradients and PhysicsNeMo execution remain planned. The next
+checks and acceptance gates are in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md).
 No formal safety guarantee is claimed for the C++ implementation.

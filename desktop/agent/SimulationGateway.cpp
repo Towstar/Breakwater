@@ -14,6 +14,7 @@ namespace {
 constexpr std::size_t max_runs = 128;
 constexpr qsizetype max_candidates = 32;
 constexpr qsizetype max_controls = 384;
+constexpr int max_control_id_length = 512;
 QString q(const std::string& value) { return QString::fromStdString(value); }
 QString uuid() { return QUuid::createUuid().toString(QUuid::WithoutBraces); }
 struct InvalidCall { QString code; QString message; };
@@ -29,10 +30,10 @@ void keys(const QJsonObject& object, std::initializer_list<const char*> allowed,
     for (const auto* name : required)
         if (!object.contains(QLatin1String(name))) reject("invalid_arguments", QStringLiteral("Missing argument: ") + QLatin1String(name));
 }
-QString string(const QJsonObject& object, const QString& name) {
+QString string(const QJsonObject& object, const QString& name, int maximumLength = 256) {
     const auto value = object.value(name);
-    if (!value.isString() || value.toString().trimmed().isEmpty() || value.toString().size() > 256)
-        reject("invalid_arguments", "Expected nonempty string (maximum 256 characters): " + name);
+    if (!value.isString() || value.toString().trimmed().isEmpty() || value.toString().size() > maximumLength)
+        reject("invalid_arguments", QString("Expected nonempty string (maximum %1 characters): %2").arg(maximumLength).arg(name));
     return value.toString();
 }
 QJsonArray issues_json(const std::vector<Issue>& issues) {
@@ -60,7 +61,7 @@ QJsonArray controls_json(const std::vector<ControlValue>& controls) {
 QJsonObject schema(const QJsonObject& properties, const QJsonArray& required) {
     return {{"type", "object"}, {"properties", properties}, {"required", required}, {"additionalProperties", false}};
 }
-QJsonObject text_schema() { return {{"type", "string"}, {"minLength", 1}, {"maxLength", 256}}; }
+QJsonObject text_schema(int maximumLength = 256) { return {{"type", "string"}, {"minLength", 1}, {"maxLength", maximumLength}}; }
 QJsonObject tool(const char* name, const char* description, const QJsonObject& parameters) {
     return {{"type", "function"}, {"function", QJsonObject{{"name", name}, {"description", description}, {"parameters", parameters}}}};
 }
@@ -86,7 +87,7 @@ std::vector<ControlValue> SimulationGateway::parseControls(const QJsonArray& con
         if (!entry.isObject()) reject("invalid_arguments", "Each control must be an object.");
         const auto object = entry.toObject();
         keys(object, {"control_id", "value"}, {"control_id", "value"});
-        const auto id = string(object, "control_id");
+        const auto id = string(object, "control_id", max_control_id_length);
         if (seen.contains(id)) reject("invalid_control", "Duplicate control ID: " + id);
         seen.insert(id);
         const auto value = object.value("value");
@@ -356,7 +357,7 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
             if (!entry.isObject()) reject("invalid_arguments", "Each search axis must be an object.");
             const auto object = entry.toObject();
             keys(object, {"control_id", "values"}, {"control_id", "values"});
-            const auto id = string(object, "control_id");
+            const auto id = string(object, "control_id", max_control_id_length);
             if (seen.contains(id)) reject("invalid_control", "Search control IDs must be unique.");
             seen.insert(id);
             const auto descriptor = std::find_if(catalog.begin(), catalog.end(), [&](const ControlDescriptor& item) { return q(item.id) == id; });
@@ -436,14 +437,14 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
 
 QJsonArray SimulationGateway::toolDefinitions() {
     const QJsonObject snapshot{{"snapshot_id", text_schema()}};
-    const auto control = schema({{"control_id", text_schema()}, {"value", QJsonObject{{"type", "number"}, {"minimum", 0}}}}, {"control_id", "value"});
+    const auto control = schema({{"control_id", text_schema(max_control_id_length)}, {"value", QJsonObject{{"type", "number"}, {"minimum", 0}}}}, {"control_id", "value"});
     const auto candidate = schema({{"candidate_id", text_schema()}, {"controls", QJsonObject{{"type", "array"}, {"maxItems", static_cast<int>(max_controls)}, {"items", control}}}}, {"candidate_id", "controls"});
     auto candidate_args = snapshot;
     candidate_args["candidates"] = QJsonObject{{"type", "array"}, {"minItems", 1}, {"maxItems", static_cast<int>(max_candidates)}, {"items", candidate}};
     auto run_args = snapshot; run_args["run_id"] = text_schema();
     auto compare_args = snapshot;
     compare_args["run_ids"] = QJsonObject{{"type", "array"}, {"minItems", 2}, {"maxItems", 32}, {"uniqueItems", true}, {"items", text_schema()}};
-    const auto search_axis = schema({{"control_id", text_schema()},
+    const auto search_axis = schema({{"control_id", text_schema(max_control_id_length)},
         {"values", QJsonObject{{"type", "array"}, {"minItems", 1}, {"maxItems", static_cast<int>(max_search_candidates)},
             {"items", QJsonObject{{"type", "number"}, {"minimum", 0}}}}}}, {"control_id", "values"});
     auto search_args = snapshot;

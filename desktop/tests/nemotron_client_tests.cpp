@@ -20,7 +20,7 @@ struct Response {
     int delayMs = 0;
     QNetworkReply::NetworkError error = QNetworkReply::NoError;
     QByteArray retryAfter;
-    bool notifyReadyRead = true;
+    bool emitReadyRead = true;
 };
 
 class FakeReply final : public QNetworkReply {
@@ -37,7 +37,7 @@ public:
             if (isFinished()) return;
             delivered_ = true;
             if (response_.error != QNetworkReply::NoError) setError(response_.error, "private-transport-message");
-            if (!response_.bytes.isEmpty() && response_.notifyReadyRead) emit readyRead();
+            if (response_.emitReadyRead && !response_.bytes.isEmpty()) emit readyRead();
             setFinished(true);
             emit finished();
         });
@@ -342,6 +342,44 @@ private slots:
         QCOMPARE(failure.front().at(0).toString(), QString("response_too_large"));
         network.responses.append(Response{302, {}}); client.request(messages(), {}); QTRY_COMPARE(failure.size(), 2);
         QCOMPARE(failure.at(1).at(0).toString(), QString("redirect_rejected")); QCOMPARE(network.requests.size(), 2);
+    }
+
+    void oversizedFinalBodyCannotFinishReplacementRequest() {
+        FakeNetwork network;
+        // A reply may still contain unread final bytes when finished is emitted.
+        network.responses.append(Response{200, QByteArray(2 * 1024 * 1024 + 1, 'x'),
+            0, QNetworkReply::NoError, {}, false});
+        network.responses.append(Response{200, textCompletion()});
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy failure(&client, &ModelTransport::requestFailed), success(&client, &ModelTransport::replyReady);
+        bool restarted = false;
+        connect(&client, &ModelTransport::requestFailed, &network, [&](const QString& code, const QString&) {
+            if (code == "response_too_large" && !restarted) {
+                restarted = true;
+                client.request(messages(), {});
+            }
+        });
+        client.request(messages(), {});
+        QTRY_COMPARE(success.size(), 1);
+        QVERIFY(restarted); QCOMPARE(network.requests.size(), 2); QCOMPARE(failure.size(), 1);
+        QCOMPARE(failure.front().at(0).toString(), QString("response_too_large"));
+        QCOMPARE(success.front().front().toJsonObject()["content"].toString(), QString("Ready."));
+    }
+
+    void oversizedFinalBodyFailureMayDestroyClient() {
+        FakeNetwork network;
+        network.responses.append(Response{200, QByteArray(2 * 1024 * 1024 + 1, 'x'),
+            0, QNetworkReply::NoError, {}, false});
+        auto* client = new NemotronClient(configuration(), nullptr, &network);
+        QPointer<NemotronClient> guard(client);
+        QSignalSpy failure(client, &ModelTransport::requestFailed), success(client, &ModelTransport::replyReady);
+        connect(client, &ModelTransport::requestFailed, &network, [&](const QString& code, const QString&) {
+            if (code == "response_too_large") { delete client; client = nullptr; }
+        });
+        client->request(messages(), {});
+        QTRY_VERIFY(guard.isNull());
+        QCOMPARE(network.requests.size(), 1); QCOMPARE(failure.size(), 1); QCOMPARE(success.size(), 0);
+        QCOMPARE(failure.front().at(0).toString(), QString("response_too_large"));
     }
 
     void refusesMissingCredentialsAndInsecureConfiguration() {
