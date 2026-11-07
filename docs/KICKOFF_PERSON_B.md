@@ -24,11 +24,13 @@ READ FIRST
 AGENTS.md
 docs/PARALLEL_WORK.md
 docs/STATUS.md
+docs/CONTINUATION_PLAN.md
 docs/IMPLEMENTATION_PLAN.md
 For Dev Agents.md, Part A
 README.md and contracts/README.md
 desktop/ProjectController.hpp/.cpp and ProjectDocument.hpp/.cpp
 engine/include/breakwater/engine.hpp and contracts/include/breakwater/types.hpp
+engine/TRANSPORT.md and engine/include/breakwater/transport.hpp
 
 OWNERSHIP
 You own desktop/, contracts/, root build/configuration, scripts/, Breakwater.slnx,
@@ -41,7 +43,10 @@ BASELINE AND SETUP
 The app is C++20/MSVC x64, Qt Quick/QML and Qt Quick 3D 6.12, using Visual Studio 2026.
 The existing editor already supports primitive equipment, connections, parameters,
 save/load, undo/redo, background forecasts, timeline scrubbing and approval invalidation.
-It is not an empty scaffold. Nemotron is not implemented yet.
+Native Nemotron orchestration, real tools, bounded search, immutable agent runs and
+approval staging are integrated, including review fixes. Live hosted model calling is
+still unverified without credentials. Native single-pipe transport is also merged;
+its desktop integration and the scientific Python process adapter remain pending.
 
 Inspect the machine rather than assuming the original developer's SDKs are installed.
 .tools/ and out/ are ignored and will be absent in a fresh clone. Follow README for
@@ -50,39 +55,36 @@ commit SDKs or generated .vcxproj files. With the SDK available, run:
   .\scripts\Generate-VisualStudio.ps1 -QtPrefix 'C:\Qt\6.12.0\msvc2022_64' -Build
 Omit -QtPrefix when using the documented project-local SDK. Open Breakwater.slnx, use
 x64 / RelWithDebInfo and startup project breakwater. You own any committed regeneration
-of the root solution. If Qt setup is blocked, continue native tool/run-store work using
-the headless engine and record the concrete setup failure.
+of the root solution. If Qt setup is blocked, continue B3 contract/schema examples and
+adapter protocol test design, and record the concrete setup failure.
 
-FIRST INCREMENT: REAL RUN STORE AND TOOLS
-Replace the single displayed-run limitation with a bounded immutable run store, candidate
-comparison and approval staging. Preserve snapshot/revision identity and provenance.
-Implement real tools against the EXISTING engine functions: inspect_network,
-control_catalog, compile, simulate and validate. Start with:
-  get_network_state
-  get_control_catalog
-  forecast_baseline
-  simulate_candidates
-  validate_run
-  compare_runs
-  request_approval
-Every simulation must store actual computed results and return real run IDs. Existing
-controls remain unchanged unless explicitly overridden. The planning request fixes
-the horizon. Validation must use the same captured network, candidate and horizon.
+NEXT INCREMENT: B3 SCIENCE CONTRACTS
+Publish an additive selected-pipe request/result contract and worker capability/method
+examples. Include route/run/snapshot identity, numerical and physical-parameter hashes,
+explicit units, cell-average array ordering, signed mass ledger, method/version and
+errors. Specify backward-compatible parameter persistence and invalidation semantics.
+Coordinate units and numerical semantics with A before adopting the committed contract.
 
-Do not wait for A's search, transport, PyTorch, PhysicsNeMo or Lean work. Add a search
-tool only after A's real engine implementation is integrated; never substitute a passing stub.
+Physical pipe length/area/dispersion/decay are independent of layout. Flow comes from
+the captured numerical run, including availability. Worker JSON lines are limited to
+1 MiB but native fields may contain four million values; define bounded display output
+and any size/hash-checked application-owned artifact references. Keep health v1 working.
 
-SECOND INCREMENT: NEMOTRON LOOP
-Implement an asynchronous native HTTPS client with Qt Network using configurable
-NVIDIA_API_KEY, NVIDIA_BASE_URL and model ID. Verify the current vendor API before
-coding its request/response parsing. Keep credentials in process configuration, out
-of QML, project files and logs. Do not ask the user to paste an API key into chat.
+THEN B4: NATIVE PIPE VIEWER; B5: ASYNC WORKER ADAPTER
+Expose the existing C++ transport off-thread for a selected route and captured run.
+Show outlet/field preview, signed mass ledger and CFL with separate quality provenance.
+Preserve results on layout moves and reject stale/deleted-route completions. This UI
+does not wait for A's PyTorch/PhysicsNeMo work and does not change volume feasibility.
 
-Nemotron should do most planning: inspect structured topology/constraints, choose
-controls, propose candidates, call real simulation/validation tools, compare results
-and revise failures. Use actual asset/control IDs so it works on user-created networks.
-Cap sessions at 12 tool calls, three refinement rounds and two minutes. Preserve
-completed runs on failure, and keep the UI responsive.
+Implement the QProcess adapter as a separate increment: configurable interpreter,
+health/capability negotiation, strict framing and IDs, bounded buffers, separate stderr,
+timeouts/cancellation/restart. Test fake workers, then A's actual scientific methods
+when available. A owns science/ implementations and dependency pins; do not edit them.
+
+Retain the integrated Nemotron limits: 12 tool calls, three refinement rounds and two
+minutes. Keep credentials in process configuration, out of QML, project files and logs.
+With credentials, run the existing genuine hosted smoke and record actual tool/run IDs.
+Do not ask the user to paste a key into chat. Missing access does not block native work.
 
 Do not let model text create a passing verdict, invent a run, shorten the horizon,
 relax a bound, modify topology or approve a plan. Recommendations must cite stored,
@@ -98,8 +100,10 @@ editing and concurrent jobs for stale-result leakage. Run the desktop project/re
 tests. With credentials, separately run and record a genuine model-issued tool call;
 otherwise report live integration unverified and continue the deterministic work.
 
-Update docs/STATUS.md with actual evidence. Keep synthetic data and unavailable science
-features clearly labeled. Deliver the tool/run-store increment before expanding UI polish.
+Also cover selected-pipe parity, maximum output, wrong request IDs, missing Python,
+worker crashes/restarts and quality-result invalidation. Keep quality separate from
+volume approval. Update docs/STATUS.md with actual evidence. Follow B7 for durable
+evidence export/reopen after the native viewer and worker boundary; defer UI polish.
 Push your feature branch and open a PR. You are the integration owner: review A's small
 increments, integrate agreed changes through PRs after relevant tests pass, and keep
 main runnable. Do not force-push or put feature work directly onto main.

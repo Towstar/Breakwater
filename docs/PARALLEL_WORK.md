@@ -64,10 +64,11 @@ are not delivered by Git. Each machine needs its own supported environment.
 
 1. Both people push small commits to their own feature branches and open PRs. B is the
    sole integrator for `main`; do not push feature work directly to `main`.
-2. B's first Nemotron/tool increment uses today's simulator and validator. It does not
-   wait for A's search, transport or ML additions.
-3. A delivers bounded candidate evaluation/search first, then the transport/science
-   increments. B adds the search tool after its implementation is integrated.
+2. Search, native transport and B's Nemotron/tool increment are merged. Follow
+   CONTINUATION_PLAN.md for the next work rather than repeating the original milestones.
+3. A starts differentiable storage/gradient checks. B publishes additive science
+   contracts, then exposes native transport. Adopt the same committed contract before
+   A adds worker science methods and B maps them into the desktop process adapter.
 4. Merge complete increments through PRs, then update each person's own branch from
    `origin/main`. Rebase only unshared local work; merge main into an already shared
    branch so no force push is needed. Do not both cherry-pick and later merge the same work.

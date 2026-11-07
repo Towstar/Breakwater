@@ -21,6 +21,18 @@ set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
   QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml)
 
+# Qt 6.12's statistics target can precede the executable's QML cache generation
+# in a fresh parallel Visual Studio build. Qt creates that target at root deferral.
+if(CMAKE_GENERATOR MATCHES "^Visual Studio")
+  function(_breakwater_order_qml_aotstats)
+    if(TARGET module_breakwater_aotstats_target)
+      add_dependencies(module_breakwater_aotstats_target breakwater)
+    endif()
+  endfunction()
+  cmake_language(DEFER DIRECTORY "${CMAKE_SOURCE_DIR}"
+    CALL _breakwater_order_qml_aotstats)
+endif()
+
 if(BUILD_TESTING)
   qt_add_executable(breakwater_desktop_tests tests/project_tests.cpp)
   target_link_libraries(breakwater_desktop_tests PRIVATE breakwater_desktop_base Qt6::Test)

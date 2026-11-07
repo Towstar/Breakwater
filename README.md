@@ -7,7 +7,9 @@ configuration, actual tool-call smoke commands, snapshot rules and approval stag
 C++20 / MSVC Windows base for an editable synthetic fluid-network workbench.
 The original handoff is preserved in [For Dev Agents.md](For%20Dev%20Agents.md).
 The complete accepted roadmap is [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
-This implementation is the requested **minimum base for Person A and Person B**.
+The next increments and parallel ownership are in
+[docs/CONTINUATION_PLAN.md](docs/CONTINUATION_PLAN.md).
+The base now includes native search, Nemotron tools and single-pipe transport.
 
 ## Open in Visual Studio
 
@@ -97,9 +99,10 @@ Send a line such as:
 {"protocol_version":1,"request_id":"check","method":"health","payload":{}}
 ```
 
-Only protocol/health behavior exists at this milestone. Torch, PhysicsNeMo, the native
-process adapter, Nemotron orchestration, transport, search, and Lean proofs remain
-explicitly planned. See [docs/STATUS.md](docs/STATUS.md) for actual verification evidence.
+The Python worker implements protocol/health only. Torch, PhysicsNeMo, the native
+process adapter and Lean proofs remain planned. Native search and Nemotron orchestration
+are integrated; native pipe transport is available through its C++ API/example and is
+not yet connected to the desktop. See [docs/STATUS.md](docs/STATUS.md) for evidence.
 
 ## Optional project-local Qt setup
 
@@ -117,5 +120,5 @@ Do not switch branches underneath the other developer's session.
 
 The shared baseline is now committed. Continue with the [parallel workflow](docs/PARALLEL_WORK.md)
 and separate copy/paste kickoffs for [Person A](docs/KICKOFF_PERSON_A.md) and
-[Person B](docs/KICKOFF_PERSON_B.md). Person B can start the app/Nemotron work against
-the existing engine immediately.
+[Person B](docs/KICKOFF_PERSON_B.md). A starts differentiable storage/gradient checks;
+B publishes science contracts and integrates the existing native pipe transport.

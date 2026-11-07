@@ -15,6 +15,7 @@ READ FIRST
 AGENTS.md
 docs/PARALLEL_WORK.md
 docs/STATUS.md
+docs/CONTINUATION_PLAN.md
 docs/IMPLEMENTATION_PLAN.md
 For Dev Agents.md, Part A
 contracts/README.md
@@ -28,31 +29,34 @@ Put your evidence in engine/PROGRESS.md and science/proof-local notes. Person B 
 shared documentation and integrates the two branches.
 
 CURRENT STATE
-The engine already supports generic fixed-flow storage networks, immutable candidate
-compilation, dense/sparse/affine forecasts, a control catalog and independent validation.
-The canonical cases and native ASan checks have passed on the original machine.
-Search, transport, PyTorch, PhysicsNeMo and Lean proofs are still planned.
+Main includes generic fixed-flow storage networks, dense/sparse/affine forecasts,
+independent validation, bounded search and authoritative single-pipe finite-volume
+transport. Native Nemotron tools and the editor are integrated. See engine/SEARCH.md,
+engine/TRANSPORT.md and engine/PROGRESS.md for APIs and actual evidence.
+PyTorch, PhysicsNeMo execution, benchmarks and checked Lean proofs are still pending.
 Confirm the baseline on this machine rather than treating old results as your own.
 
-FIRST INCREMENT
-Implement bounded generic candidate evaluation/search in engine/, preserving existing
-APIs and shared types. Use an additive engine-owned header for new native search types.
-Accept catalog control IDs and explicit candidate values; bound search to four varying
-controls and 10,000 combinations. Keep unspecified controls unchanged and all candidates
-on the same immutable incident state. Use affine endpoints to screen candidates, then
-independently reference-simulate and validate recommendations. Rank actual feasible
-candidates by computed cost and return an explicit no-feasible-plan result.
+NEXT INCREMENT: A3 DIFFERENTIABLE STORAGE ROLLOUT
+Implement a generic CPU torch.float64 storage rollout in science/, with pinned working
+Python 3.12 dependencies, an executable native-reference comparison and meaningful
+autograd/finite-difference checks. Preserve stable IDs, initial sample, exact horizon,
+unchanged unspecified controls and explicit invalid-control errors. Compare canonical
+and renamed/custom networks against actual native dense/sparse/affine results using
+the documented tolerance. Check interior gradients at several perturbation sizes;
+document objective units, numerical tolerances and nonsmooth boundary limitations.
 
-Test arbitrary asset/control IDs, invalid and unavailable controls, candidate limits,
-concurrent isolation, cost ordering and no-feasible-plan behavior. Preserve the existing
-analytic outcomes and avoid global-optimality claims. Add an executable usage example.
-Commit and report this working increment before taking on the whole science roadmap.
+Keep C++ authoritative for feasibility. Do not differentiate through clipping or claim
+gradients through discrete candidate search. A standalone science PR can proceed while
+B publishes the additive worker contract; adopt that committed contract before exposing
+methods through NDJSON. Do not build B's process adapter or shared contract yourself.
+Commit and report this increment before starting PhysicsNeMo training.
 
 NEXT INCREMENTS
-Implement authoritative single-pipe finite-volume transport with boundary-flux accounting
-and stable stepping; then PyTorch rollout/gradient checks and genuine PhysicsNeMo
-execution/evaluation. Pin a real Lean/Mathlib project and check the agreed kernel proofs.
-Keep these as separate tested increments. Do not start a broad hydraulic engine or GPU rewrite.
+Follow CONTINUATION_PLAN.md: A4 genuine PhysicsNeMo model/residual/training/checkpoint/
+reference comparison; A5 measured 100/1,000/10,000-candidate benchmarks; A6 pinned Lean
+finite-graph algorithm proofs. Each is a separate tested PR. Use the existing native
+transport reference, consistent cell averages and a signed boundary-mass ledger.
+Do not start a broad hydraulic engine or GPU rewrite.
 
 BOUNDARIES AND VALIDATION
 Keep the engine independent of Qt, Python and model APIs. Preserve units, time-zero

@@ -1,7 +1,30 @@
 # Implementation status
 
-Scope: the shared base plus Person B's native agent/run-store increment, following
-KICKOFF_PERSON_B.md at `bf90e55`. The accepted plan and original handoff are preserved.
+Scope: shared base, native search, Person B's agent/run store and the single-pipe
+transport reference merged through PRs #1–#4. The accepted plan and original handoff
+are preserved. Next work is ordered in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md);
+the kickoff prompts now target unfinished increments.
+
+## Person A transport integration — November 7, 2026
+
+- PR #4 merged the pure C++20 finite-volume scalar transport API, example/CSV export,
+  numerical documentation and 18 transport case groups. See engine/TRANSPORT.md and
+  engine/PROGRESS.md for equations, limitations and original executed evidence.
+- Headless normal and MSVC ASan builds passed six CTest programs: 47 baseline/search/
+  transport case groups and three executable examples. The post-PR #2 integration
+  headless run also passed. Transport remains separate from volume feasibility.
+- Example: 64 cells, 41 frames, 136 substeps, maximum CFL 0.9 and maximum signed mass
+  residual 1.36887055523e-12 mg. No model training or quality qualification is claimed.
+- Desktop selected-pipe UI, physical-parameter persistence and worker integration are
+  planned next. The Python worker still supports health only.
+- Regenerated the full Visual Studio 2026 solution after transport integration:
+  52 projects and 134 dependency references, with no missing project paths. A fresh
+  parallel build exposed Qt 6.12's QML statistics aggregation preceding its input
+  generation; a deferred executable dependency now orders that target correctly.
+- After MSBuild Clean (with generated QML statistics confirmed absent), direct parallel
+  root `.slnx` MSVC 19.51 / Qt 6.12.0 build passed, followed by **11/11 combined CTest
+  suites passed**. This is a new normal-build result; prior component ASan evidence
+  above does not imply a new combined 11-suite sanitizer run.
 
 ## Person B agent increment — November 7, 2026
 
@@ -111,7 +134,7 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 ## Planned, not implemented in this base
 
 - Durable history/replay, robust optimization and detailed charts.
-- Desktop-to-Python process adapter, transport reference, Torch differentiation,
+- Desktop-to-Python process adapter, selected-pipe transport UI, Torch differentiation,
   PhysicsNeMo model/training/inference, and ML readiness evidence.
 - Lean/Mathlib project and checked algorithm proofs.
 - Performance benchmarks, custom SIMD/GPU kernels, and sophisticated routing handles.
