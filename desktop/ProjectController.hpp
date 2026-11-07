@@ -45,6 +45,9 @@ public:
     QVariantMap camera() const;
     void setForecastFraction(double value);
     QJsonObject document() const { return project_json(project_); }
+    QJsonObject pipeParameters(const QString& routeId) const;
+    bool setPipeParameters(const QString& routeId, const QJsonObject& parameters);
+    QJsonObject capturedRun() const;
     bool restore(const QJsonObject& object);
     // Called only by the human-facing approval controller after stored validation.
     bool applyControlsForApproval(const std::vector<ControlValue>& controls, const QString& expectedHash);

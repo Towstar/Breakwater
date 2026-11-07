@@ -3,6 +3,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QSet>
+#include <algorithm>
 #include <cmath>
 #include <stdexcept>
 
@@ -46,8 +47,14 @@ QJsonObject project_json(const ProjectDocument& p) {
     QJsonObject positions;
     for (auto it = p.positions.cbegin(); it != p.positions.cend(); ++it)
         positions[it.key()] = QJsonObject{{"x", it.value().x()}, {"z", it.value().z()}};
-    return {{"version", project_version}, {"synthetic", true}, {"network", network_json(p.network)},
+    QJsonObject result{{"version", project_version}, {"synthetic", true}, {"network", network_json(p.network)},
         {"layout", QJsonObject{{"positions", positions}, {"camera", QJsonObject{{"yaw", p.camera_yaw}, {"pitch", p.camera_pitch}, {"distance", p.camera_distance}, {"x", p.camera_x}, {"z", p.camera_z}}}}}};
+    if (!p.pipe_parameters.isEmpty()) {
+        QJsonObject routes;
+        for (auto it = p.pipe_parameters.cbegin(); it != p.pipe_parameters.cend(); ++it) routes[it.key()] = quality::pipe_parameters_json(it.value());
+        result["pipe_transport"] = QJsonObject{{"version", 1}, {"routes", routes}};
+    }
+    return result;
 }
 ProjectDocument parse_project(const QJsonObject& root) {
     if (number(root, "version", -1.0) != project_version || !root.value("network").isObject()) throw std::invalid_argument("Unsupported or missing project version/network.");
@@ -83,6 +90,19 @@ ProjectDocument parse_project(const QJsonObject& root) {
     for (const auto& r : p.network.routes) {
         if (r.id.empty() || ids.contains(q(r.id))) throw std::invalid_argument("Duplicate/empty route ID.");
         ids.insert(q(r.id));
+    }
+    if (root.contains("pipe_transport")) {
+        if (!root.value("pipe_transport").isObject()) throw std::invalid_argument("Pipe transport parameters must be an object.");
+        const auto transport = root.value("pipe_transport").toObject();
+        if (transport.size() != 2 || number(transport, "version", -1.0) != 1.0 || !transport.value("routes").isObject())
+            throw std::invalid_argument("Unsupported pipe transport parameter version/structure.");
+        const auto entries = transport.value("routes").toObject();
+        if (entries.size() > static_cast<qsizetype>(p.network.routes.size())) throw std::invalid_argument("Too many pipe parameter entries.");
+        for (auto it = entries.begin(); it != entries.end(); ++it) {
+            const bool exists = std::any_of(p.network.routes.begin(), p.network.routes.end(), [&](const Route& r) { return q(r.id) == it.key(); });
+            if (!exists || !it.value().isObject()) throw std::invalid_argument("Pipe parameters require an existing route.");
+            p.pipe_parameters[it.key()] = quality::parse_pipe_parameters(it.value().toObject());
+        }
     }
     const auto layout = root.value("layout").toObject();
     const auto positions = layout.value("positions").toObject();

@@ -1,0 +1,35 @@
+{
+  "protocol_version": 1,
+  "request_id": "33333333-3333-4333-8333-333333333333",
+  "method": "pipe_transport",
+  "payload": {
+    "method_version": 1,
+    "identity": {
+      "snapshot_id": "11111111-1111-4111-8111-111111111111",
+      "volume_run_id": "22222222-2222-4222-8222-222222222222",
+      "numerical_revision": 7,
+      "physical_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "route_id": "west-transfer",
+      "parameter_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "parameters": {
+      "length_m": 100,
+      "area_m2": 0.1,
+      "dispersion_m2_h": 1,
+      "decay_per_h": 0.1,
+      "cells": 64,
+      "initial_mg_l": 0,
+      "inlet_mg_l": 1,
+      "source_mg_l_h": 0,
+      "output_step_h": 0.025,
+      "cfl_safety": 0.9,
+      "boundary": "dirichlet_inlet"
+    },
+    "flow_m3h": 1,
+    "horizon_h": 1,
+    "preview": {
+      "max_times": 256,
+      "max_cells": 128
+    }
+  }
+}

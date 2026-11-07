@@ -1,6 +1,7 @@
 qt_standard_project_setup(REQUIRES 6.12)
 
-qt_add_library(breakwater_desktop_base STATIC ProjectDocument.cpp ProjectController.cpp ProjectDocument.hpp ProjectController.hpp)
+qt_add_library(breakwater_desktop_base STATIC ProjectDocument.cpp ProjectController.cpp ProjectDocument.hpp ProjectController.hpp
+  quality/PipeParameters.hpp quality/PipeParameters.cpp)
 target_include_directories(breakwater_desktop_base PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_desktop_base PUBLIC breakwater_engine Qt6::Quick Qt6::Concurrent)
 
@@ -43,6 +44,11 @@ if(BUILD_TESTING)
   target_link_libraries(breakwater_desktop_tests PRIVATE breakwater_desktop_base Qt6::Test)
   target_compile_definitions(breakwater_desktop_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
   add_test(NAME desktop.project COMMAND breakwater_desktop_tests)
+  qt_add_executable(breakwater_pipe_parameters_tests tests/pipe_parameters_tests.cpp)
+  target_link_libraries(breakwater_pipe_parameters_tests PRIVATE breakwater_desktop_base Qt6::Test)
+  add_test(NAME desktop.pipe_parameters COMMAND breakwater_pipe_parameters_tests)
+  set_tests_properties(desktop.pipe_parameters PROPERTIES TIMEOUT 30
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker)
     qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
     target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_agent Qt6::Test)

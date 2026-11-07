@@ -1,0 +1,21 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Towstar/Breakwater/main/contracts/science/pipe-parameters-v1.schema.json",
+  "title": "Selected-pipe physical and numerical parameters v1",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["length_m", "area_m2", "dispersion_m2_h", "decay_per_h", "cells", "initial_mg_l", "inlet_mg_l", "source_mg_l_h", "output_step_h", "cfl_safety", "boundary"],
+  "properties": {
+    "length_m": {"type": "number", "exclusiveMinimum": 0},
+    "area_m2": {"type": "number", "exclusiveMinimum": 0},
+    "dispersion_m2_h": {"type": "number", "minimum": 0},
+    "decay_per_h": {"type": "number", "minimum": 0},
+    "cells": {"type": "integer", "minimum": 2, "maximum": 4096},
+    "initial_mg_l": {"type": "number", "minimum": 0},
+    "inlet_mg_l": {"type": "number", "minimum": 0},
+    "source_mg_l_h": {"type": "number", "minimum": 0},
+    "output_step_h": {"type": "number", "exclusiveMinimum": 0},
+    "cfl_safety": {"type": "number", "exclusiveMinimum": 0, "maximum": 1},
+    "boundary": {"enum": ["dirichlet_inlet", "closed_no_flux"]}
+  }
+}

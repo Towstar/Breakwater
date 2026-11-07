@@ -18,11 +18,15 @@
       <BuildDependency Project="out/visual-studio/desktop/breakwater_history_controller_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_nemotron_client_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_nemotron_smoke.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_pipe_parameters_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_python_worker_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_session_repository_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_benchmark.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_cli.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_engine_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_physicsnemo_reference.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_rollout_reference.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_search_example.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_search_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_transport_example.vcxproj" />
@@ -119,6 +123,9 @@
       <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
     </Project>
     <Project Path="out/visual-studio/desktop/breakwater_nemotron_smoke_qmlimportscan.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_pipe_parameters_tests_qmlimportscan.vcxproj">
       <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
     </Project>
     <Project Path="out/visual-studio/desktop/breakwater_python_worker_tests_qmlimportscan.vcxproj">
@@ -262,6 +269,12 @@
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_pipe_parameters_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_pipe_parameters_tests_qmlimportscan.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
   <Project Path="out/visual-studio/desktop/breakwater_python_worker_tests.vcxproj">
     <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
@@ -276,6 +289,10 @@
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>
+  <Project Path="out/visual-studio/engine/breakwater_benchmark.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
   <Project Path="out/visual-studio/engine/breakwater_cli.vcxproj">
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
@@ -284,6 +301,14 @@
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>
   <Project Path="out/visual-studio/engine/breakwater_engine_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_physicsnemo_reference.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_rollout_reference.vcxproj">
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>

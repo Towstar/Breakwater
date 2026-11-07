@@ -1,0 +1,56 @@
+{
+  "protocol_version": 1,
+  "request_id": "33333333-3333-4333-8333-333333333333",
+  "method": "storage_rollout",
+  "payload": {
+    "method_version": 1,
+    "identity": {
+      "snapshot_id": "11111111-1111-4111-8111-111111111111",
+      "volume_run_id": "22222222-2222-4222-8222-222222222222",
+      "numerical_revision": 7,
+      "physical_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"
+    },
+    "network": {
+      "assets": [
+        {
+          "id": "west",
+          "label": "West storage",
+          "kind": "tank",
+          "capacity_m3": 100,
+          "initial_m3": 50
+        },
+        {
+          "id": "plant",
+          "label": "Treatment",
+          "kind": "treatment",
+          "capacity_m3h": 10,
+          "cost_per_m3": 0
+        }
+      ],
+      "routes": [
+        {
+          "id": "west-transfer",
+          "source_id": "west",
+          "target_id": "plant",
+          "capacity_m3h": 10,
+          "setpoint_m3h": 1,
+          "has_pump": false,
+          "available": true,
+          "cost_per_m3": 0
+        }
+      ]
+    },
+    "controls": [
+      {
+        "control_id": "route:west-transfer:flow",
+        "value": 1
+      }
+    ],
+    "horizon_h": 1,
+    "step_h": 0.5,
+    "derivatives": true,
+    "preview": {
+      "max_times": 256
+    }
+  }
+}

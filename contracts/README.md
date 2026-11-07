@@ -47,7 +47,10 @@ One JSON object per line on stdin/stdout, maximum 1 MiB. Example request:
 
 Responses echo the protocol/request ID and contain `status`, plus `result` or `error`.
 Only `health` is implemented. Package detection is not an executed ML integration.
-The desktop-to-worker process adapter and scientific model methods remain planned.
+The desktop has an asynchronous health adapter. Scientific method extensions are
+reserved, not implemented by the worker; see [science/README.md](science/README.md)
+and [SCIENCE_CONTRACTS.md](../docs/SCIENCE_CONTRACTS.md). Project-v1 may retain optional
+versioned per-route pipe parameters independently of layout and volume controls.
 
 ## Native agent tools v1
 

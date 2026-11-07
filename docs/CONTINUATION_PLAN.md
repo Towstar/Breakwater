@@ -12,9 +12,11 @@ Desktop foundation follow-up: the subsequently approved desktop-first increment 
 implements automatic SQLite investigation history, comparison/charts, explicit plan
 review and the health-only Python adapter. See [DESKTOP_FOUNDATION.md](DESKTOP_FOUNDATION.md)
 and [STATUS.md](STATUS.md) for scope and executed checks. This completes the health
-portion of B5 and investigation-retention portion of B7 below; selected-pipe contracts,
-the pipe viewer, scientific methods and their integration remain future work. Hosted
-Nemotron evidence remains pending local credentials.
+portion of B5 and investigation-retention portion of B7 below. A's A3/A4/A5 source at
+`eca890d` is now merged into this workstream, and B3 publishes the selected-pipe/science
+boundary plus independent physical-parameter persistence. The worker remains health-only;
+scientific method adoption and the native pipe viewer are the next integration steps.
+Hosted Nemotron access is verified; clean operator-review rehearsals remain incomplete.
 
 The next visible milestone is selecting a pipe in the editor, running authoritative
 tracer transport from a captured forecast, and inspecting its outlet trace and mass
@@ -28,10 +30,12 @@ learned predictions.
   Nemotron tools/run store, and explicit simulated operator approval.
 - Newly merged: authoritative single-pipe finite-volume scalar transport, native
   example/CSV output and 18 transport case groups. It is not yet exposed in the UI.
-- Unfinished: differentiable science, actual PhysicsNeMo execution, desktop scientific
-  methods beyond health, checked Lean proofs, measured benchmarks and pipe-quality evidence.
-- Live hosted Nemotron calling remains unverified because credentials are unavailable.
-  Fake-model tests execute real engine tools but do not establish live model behavior.
+- Newly integrated A3/A4/A5: standalone differentiable storage, A-reported fixed-case
+  PhysicsNeMo execution and measured native benchmarks. Their worker methods are not wired.
+- Unfinished: desktop scientific methods beyond health, checked Lean proofs and generic
+  pipe-quality integration/qualification. Native volume approval remains separate.
+- Live hosted Nemotron calling is verified with archived traces; bounded no-plan and
+  unstaged advisory results mean the three clean review rehearsals remain incomplete.
 
 Volume feasibility stays authoritative in native C++. Quality/learned results remain
 separate and experimental. Layout does not set physical length, pressure or flow.

@@ -5,6 +5,31 @@ transport reference merged through PRs #1–#4. The accepted plan and original h
 are preserved. Next work is ordered in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md);
 the kickoff prompts now target unfinished increments.
 
+## Person A merge and B3 science boundary — November 7, 2026
+
+- Merged `codex/person-a-engine` at `eca890d` into this workstream with both parents
+  preserved and no conflicts. Public numerical interfaces and worker health-v1 remain
+  unchanged. A's source adds standalone CPU-double rollout/gradient checks, the fixed-case
+  PhysicsNeMo smoke, native reference exporters and measured benchmark evidence.
+- Independent scoped reviews found no integration blocker. The merged baseline passed
+  **7/7 native suites** and **15/15 combined desktop ASan suites**, including the new
+  benchmark correctness check. No performance measurements were repeated here.
+- A's scientific training/parity results remain A-reported in `science/PROGRESS.md`.
+  This laptop's bundled interpreter has no Torch/PhysicsNeMo; only the two dependency-
+  free worker tests were rerun locally. The worker still implements health only.
+- B3 publishes explicit units, identity, array ordering, signed mass ledger, bounded
+  previews and safe reserved artifact rules. All three Draft 2020-12 schemas and all
+  seven illustrative examples passed `jsonschema` 4.25.1 validation. These are proposed
+  scientific methods for A's review/adoption, not advertised worker capabilities.
+- Added strict native pipe-parameter parsing/hashing and optional project-v1 route
+  profiles. Geometry is independent of layout; quality edits preserve otherwise eligible
+  volume runs/approval. Route deletion/undo, malformed profiles and old-project round trips
+  are covered. Projects without profiles keep their previous serialized shape.
+- B3 combined checks: **16/16 suites passed** in both the direct VS2022 normal build
+  and full desktop MSVC ASan build. Regenerated the root solution: 63 projects,
+  170 dependency references and no missing project paths. Native pipe UI integration
+  is the next B4 increment; A4's fixed-case model is not generic route inference.
+
 ## Live Nemotron verification follow-up — November 7, 2026
 
 - A locally configured Windows user-environment key authenticated successfully. The

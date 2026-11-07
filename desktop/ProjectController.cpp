@@ -3,6 +3,7 @@
 #include <QFile>
 #include <QFutureWatcher>
 #include <QJsonDocument>
+#include <QJsonArray>
 #include <QSaveFile>
 #include <QUuid>
 #include <algorithm>
@@ -16,6 +17,25 @@ struct JobResult { SimulationResult result; ValidationReport validation; QString
 }
 
 ProjectController::ProjectController(QObject* parent) : QObject(parent), project_(example_project()) {}
+QJsonObject ProjectController::pipeParameters(const QString& routeId) const {
+    return quality::pipe_parameters_json(project_.pipe_parameters.value(routeId));
+}
+bool ProjectController::setPipeParameters(const QString& routeId, const QJsonObject& parameters) {
+    const bool exists = std::any_of(project_.network.routes.begin(), project_.network.routes.end(), [&](const Route& r) { return q(r.id) == routeId; });
+    if (!exists) return false;
+    try {
+        const auto parsed = quality::parse_pipe_parameters(parameters);
+        edit([&] { project_.pipe_parameters[routeId] = parsed; });
+        return true;
+    } catch (const std::exception&) { return false; }
+}
+QJsonObject ProjectController::capturedRun() const {
+    if (!run_ || run_->revision != revision_ || run_->result.time_h.empty()) return {};
+    return {{"run_id", run_->id}, {"snapshot_id", run_->id}, {"physical_hash", networkHash()},
+        {"numerical_revision", static_cast<qint64>(revision_)}, {"horizon_h", run_->result.time_h.back()},
+        {"network", network_json(project_.network)}, {"controls", QJsonArray{}}, {"historical", false},
+        {"volume_feasible", run_->validation.feasible}};
+}
 std::size_t ProjectController::sampleIndex() const {
     return run_ ? static_cast<std::size_t>(std::llround(forecast_fraction_ * static_cast<double>(run_->result.time_h.size() - 1))) : 0;
 }
@@ -166,6 +186,10 @@ void ProjectController::deleteSelected() {
     edit([&] {
         std::erase_if(project_.network.assets, [&](const Asset& a) { return a.id == id; });
         std::erase_if(project_.network.routes, [&](const Route& r) { return r.id == id || r.source_id == id || r.target_id == id; });
+        for (auto it = project_.pipe_parameters.begin(); it != project_.pipe_parameters.end();) {
+            const bool exists = std::any_of(project_.network.routes.begin(), project_.network.routes.end(), [&](const Route& r) { return q(r.id) == it.key(); });
+            if (!exists) it = project_.pipe_parameters.erase(it); else ++it;
+        }
         project_.positions.remove(selected_id_); selected_id_.clear();
     });
 }
