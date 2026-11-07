@@ -1,0 +1,18 @@
+ℹ [1058/1060] Replayed Breakwater.Audit
+info: Breakwater/Audit.lean:9:0: 'Breakwater.sparse_eq_dense' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:10:0: 'Breakwater.sparse_permuted_eq_dense' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:11:0: 'Breakwater.denseRate_total_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:12:0: 'Breakwater.sparse_total_conserved' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:13:0: 'Breakwater.graphEuler_total_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:14:0: 'Breakwater.Affine.repeatedEuler_closed_form' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:15:0: 'Breakwater.Affine.variableEuler_closed_form' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:16:0: 'Breakwater.Affine.timeSteps_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:17:0: 'Breakwater.Affine.variableEuler_on_grid' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:18:0: 'Breakwater.Affine.scalar_endpoint_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:19:0: 'Breakwater.Affine.trajectory_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:20:0: 'Breakwater.Affine.trajectory_zero_horizon_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:21:0: 'Breakwater.network_rollout_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:22:0: 'Breakwater.network_rollout_total_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:23:0: 'Breakwater.network_interval_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+info: Breakwater/Audit.lean:62:0: A6 assumption audit passed for 15 algorithm theorems
+Build completed successfully (1060 jobs).
