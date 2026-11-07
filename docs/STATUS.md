@@ -1,9 +1,40 @@
 # Implementation status
 
-Scope: shared base, native search, Person B's agent/run store and the single-pipe
-transport reference merged through PRs #1–#4. The accepted plan and original handoff
-are preserved. Next work is ordered in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md);
-the kickoff prompts now target unfinished increments.
+Scope: shared base, native search, Person B's agent/run store, single-pipe transport,
+and Person A's A3–A6 science, benchmark and proof increments, merged through PR #6.
+The accepted plan and original handoff are preserved. The execution sequence remains
+in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
+
+## PR #6 integration — November 7, 2026
+
+- Merged A3–A6 at `fe40c20` without conflicts. Native reference exporters and benchmark
+  targets are included in the regenerated root Visual Studio solution.
+- Direct Visual Studio 2026/MSVC x64 RelWithDebInfo build of `Breakwater.slnx` passed,
+  followed by **12/12 combined CTest suites passed**, including benchmark correctness
+  and desktop/QML checks. This normal-build result does not imply a new combined
+  sanitizer run.
+- The regenerated solution includes 55 projects with valid paths. The merged-main
+  Python suite also passed **39/39 tests** in the pinned science environment.
+- A3 delivers CPU double-precision PyTorch storage rollout, actual dense/sparse/affine
+  native comparisons and finite-difference/autograd checks. Recorded comparison:
+  12 cases, 44 varying controls and 132 central-difference checks; maximum all-sample
+  volume difference `7.67386154621e-13 m3`. See [science evidence](../science/PROGRESS.md).
+- A4 executed an actual PhysicsNeMo 2.2.2 model, PDE residual, bounded 1,800-step
+  training, checkpoint round-trip and held-out native transport comparison. The full
+  component Python suite passed 39 tests. This is an experimental fixed-case smoke,
+  not a qualified chemical-quality predictor. See [PHYSICSNEMO.md](../science/PHYSICSNEMO.md).
+- A5 records 100/1,000/10,000-candidate optimized MSVC benchmarks for two network
+  shapes, separating dense/sparse sampled kernels, affine screening, retained-run
+  validation and full search. Normal and MSVC ASan component checks passed. Timing
+  scopes, raw evidence and limitations are in [BENCHMARKS.md](../engine/BENCHMARKS.md).
+- A6 delivers Lean 4.35.0/Mathlib-pinned exact-real algorithm proofs for valid finite
+  graphs. Repeated in the merged-main checkout: `lake build` completed all 1,060 jobs,
+  the 15-theorem assumption audit passed, and the deliberate unapproved-assumption
+  probe was rejected as required. Local verification logs are under ignored
+  `out/a6-proofs/`. See [component proof evidence](../proofs/PROGRESS.md) and
+  [proof scope](SCIENCE_VALIDATION.md#checked-lean-algorithms).
+- The health-only worker is unchanged. Desktop science contracts, process adapter
+  and selected-pipe transport UI remain separate integration work.
 
 ## Person A transport integration — November 7, 2026
 
@@ -75,7 +106,8 @@ Unavailable/limited:
   `search_interventions`; combined post-merge verification is recorded below.
 - History is in memory for the current agent session; persistence/replay, streaming,
   HTTP 202 polling, robust optimization and detailed charts remain later work.
-- Quality, scientific ML and proofs remain separate and unavailable as described below.
+- Scientific calculations and proofs are available as standalone components; desktop
+  science integration and qualified quality predictions remain unavailable.
 
 ## Implemented
 
@@ -134,13 +166,14 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 ## Planned, not implemented in this base
 
 - Durable history/replay, robust optimization and detailed charts.
-- Desktop-to-Python process adapter, selected-pipe transport UI, Torch differentiation,
-  PhysicsNeMo model/training/inference, and ML readiness evidence.
-- Lean/Mathlib project and checked algorithm proofs.
-- Performance benchmarks, custom SIMD/GPU kernels, and sophisticated routing handles.
+- Desktop-to-Python process adapter and selected-pipe transport UI.
+- Qualified/generalized ML quality predictions and transport differentiation.
+- Custom SIMD/GPU kernels and sophisticated routing handles.
 
-The UI labels unavailable science capabilities as planned. No live model execution, completed proof,
-validated chemical quality, measured speedup, or production control is claimed.
+The UI's unavailable science integrations remain planned. Actual standalone PhysicsNeMo
+execution, checked algorithm proofs and measured native timings are recorded above;
+live hosted Nemotron execution, validated chemical quality and production control
+remain unverified or outside scope.
 
 ## PR #2 integration review (2026-11-07)
 
