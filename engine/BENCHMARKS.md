@@ -1,5 +1,9 @@
 # A5: measured native candidate performance
 
+The original A5 experiment below is retained as historical evidence. The current
+version-2 runner also compares the precomputed control-influence evaluator; see
+[A7 measurements](#a7-precomputed-control-influence) and run it with `-Influence`.
+
 The native benchmark measures production dense/sparse sampled kernels, production
 affine screening, independent retained-run validation and the complete public search
 API separately. It does not introduce SIMD, parallel search, GPU execution or a new
@@ -148,3 +152,94 @@ Committed evidence: [raw timings](benchmarks/results/2026-11-07-msvc-release.jso
 The run correctly records the A4 parent commit and a dirty A5 working tree; source
 hashes identify the actual measured files. No source changed between this measurement
 and the A5 commit; documentation/evidence was added afterward.
+
+## A7: precomputed control influence
+
+See [CONTROL_INFLUENCE.md](CONTROL_INFLUENCE.md) for the algorithm, proof mapping,
+floating-point fallback and exact survivor-cost ordering. Reproduce the new matrix:
+
+```powershell
+.\engine\benchmarks\run.ps1 -Influence
+.\engine\benchmarks\run.ps1 -Influence -SkipBuild -Count 2048
+```
+
+These use separate optimized `out/a7-release` and `out/a7-benchmarks` directories.
+The first command measures the requested 100/1,000/10,000 rows on both graphs; the
+second measures the dispatch boundary. All use the same candidate generation,
+three-hour/121-sample forecast, seven rotated repetitions, two warmups and calibration
+as A5. Both commands run all eight Release CTest suites before timing.
+
+Additional version-2 phases:
+
+| Phase | Scope |
+|---|---|
+| `influence_precompute` | Construct one map and reusable workspace; consume a checksum of all numeric preparation; includes allocation, destruction and checksum work |
+| `route_walk_screen_kernel` | Original endpoint/storage/shared-destination/cost screen; consumes all rates, destination totals, status and cost |
+| `influence_screen_kernel` | Same rows and output consumption using prepared columns; includes boundary fallbacks and original-order cost recomputation for every potential survivor |
+| `route_walk_search_total` | Private baseline using shared production request processing, original screen, ranking, retained simulation and independent validation |
+| `public_search_total` | Current public API with automatic workload dispatch; otherwise the same full-search work |
+
+The paired screen ratio compares the same numeric task and includes matching checksum
+overhead. Rejected influence-row costs are affine estimates; potential-row costs are
+bitwise canonical before ranking. The old A5 `affine_screen_kernel` remains present
+with its smaller status/cost checksum and should not be substituted for the paired
+route-walk phase. Preparation is measured once, not once per candidate. These phases
+overlap and cannot be added or subtracted to account for full-search time.
+
+Before timers, every row is independently compiled, dense-simulated and validated.
+Checks cover all-row rate/destination/cost agreement, no discarded reference-feasible
+row, and exact best-five cost/index rankings from both full evaluators. The final
+matrix and boundary run check 26,296 candidate rows; nested prefixes reuse earlier
+rows. Exactly one forced-map fallback occurred per case. Maximum discrepancies were
+`7.11e-15 m3/h` in rates, `8.88e-16 m3/h` in destination totals, and `1.14e-12` in
+rejected-row cost estimates. Survivor costs and recommendation ordering matched exactly.
+
+### Recorded final run: November 7, 2026
+
+Same Ryzen 7 7730U / 16 reported logical processors, Windows build 26300, MSVC
+19.51.36260 and CMake 4.3.1. Release `/O2`, C++20, `/fp:precise`, ASan OFF. Values
+are median **milliseconds per complete batch**, not per candidate.
+
+| Graph | Candidates | Old screen | Influence screen | Old full search | Public full search | Public evaluator |
+|---|---:|---:|---:|---:|---:|---|
+| Canonical | 100 | .00633 | .00651 | .11660 | .13140 | Route walk |
+| Canonical | 1,000 | .05948 | .05719 | .43818 | .42309 | Route walk |
+| Canonical | 2,048 | .12022 | .11788 | .71847 | .76078 | Route walk |
+| Canonical | 10,000 | .50069 | .49457 | 2.95328 | 3.38780 | Route walk |
+| Custom 24 tanks | 100 | .02949 | .01638 | 1.33835 | 1.35293 | Route walk |
+| Custom 24 tanks | 1,000 | .30001 | .15752 | 1.81665 | 1.84916 | Route walk |
+| Custom 24 tanks | 2,048 | .62973 | .32630 | 2.47959 | 2.22734 | Influence |
+| Custom 24 tanks | 10,000 | 3.36940 | 1.54706 | 7.84100 | 7.16745 | Influence |
+
+For custom 10,000 rows the paired screen ratio is **2.178x**, while full search is
+**1.094x**; input processing, sorting and retained validation limit the total gain.
+At the selected 2,048 boundary, the ratios are **1.930x** and **1.113x**. Preparation
+including workspace/checksum costs approximately 1.45–1.82 microseconds for canonical
+and 4.08–4.23 microseconds for custom, excluded from paired screen timers and included
+in full searches that select the influence path.
+
+The initial all-influence implementation showed no canonical full-search benefit
+(10,000 rows: 4.20275 ms old versus 5.37553 ms influence). The final policy selects
+influence only with at least 32 routes and 2,048 rows; smaller requests retain the
+original algorithm. This heuristic was checked at the boundary and is not a universal
+break-even rule. Even route-walk-selected public/direct-baseline timings differ in
+the final sample. Wrapper/code-generation effects and system variation are not
+isolated; no universal zero-overhead or no-regression claim is made. Mobile power,
+thermal and background-load conditions remain uncontrolled. Raw distributions are
+retained instead of asserting performance in CI.
+
+Final evidence:
+
+- [100/1,000/10,000 raw matrix](benchmarks/results/2026-11-07-control-influence-msvc-release.json).
+- [Machine, binary and source hashes](benchmarks/results/2026-11-07-control-influence-msvc-environment.json).
+- [2,048 boundary timings](benchmarks/results/2026-11-07-control-influence-msvc-threshold.json).
+- [Boundary environment/source evidence](benchmarks/results/2026-11-07-control-influence-msvc-threshold-environment.json).
+- Initial [timings](benchmarks/results/2026-11-07-control-influence-msvc-release-initial.json)
+  and [environment](benchmarks/results/2026-11-07-control-influence-msvc-environment-initial.json)
+  preserve the measurements that motivated dispatch.
+
+The records identify parent `5c47d4f` plus the actual dirty implementation's source
+hashes; documentation/evidence followed measurement. A separate MSVC ASan build
+passed all eight suites, including 14 influence acceptance groups; sanitizer timing
+is not used here. Lean's 21-theorem audit proves the exact-real algebra, not the
+measured speed, floating-point classification, ranking or global optimality.

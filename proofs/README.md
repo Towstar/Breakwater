@@ -1,4 +1,4 @@
-# A6: checked finite-network algorithms
+# Checked finite-network and control-influence algorithms
 
 This is a standalone Lean project for the mathematical storage algorithms. The graph,
 conservation, trajectory and endpoint-bound proofs apply to arbitrary valid finite
@@ -85,6 +85,62 @@ zero rate, equality at a limit and zero horizon. For a queried point the assumpt
 constant vector, repeated graph steps equal the affine trajectory, total changes are
 exactly external net flow, and graph endpoint bounds imply interval storage bounds.
 
+## Precomputed control influence
+
+`ControlInfluence.lean` proves the additional optimization for arbitrary finite
+numbers of routes, selected controls and output coordinates. A route's candidate
+flow is
+
+```text
+q[route] = q_base[route] + sum_control coefficient[route, control] * delta[control]
+delta[control] = candidate[control] - captured_base[control]
+```
+
+For the native model, a selected route setpoint has coefficient `+1` on that route.
+Source curtailment has coefficient `-1` on its feed route. Other route/control
+pairs have coefficient zero. All unselected controls remain in the captured baseline.
+
+The direct evaluator performs an actual sequential route fold of weighted candidate
+flows. Precomputation obtains baseline outputs and each control column through the
+same route-fold definition, while the optimized evaluator performs an actual
+sequential **control-column fold**. Loop induction, distributivity and finite-sum
+interchange prove equality; the equivalence is not assumed in the hypotheses.
+
+| New checked result | Meaning |
+|---|---|
+| `weightedFold_eq_sum` | Sequential weighted route updates equal an independent finite sum |
+| `weighted_candidate_decomposition` | Weighted candidate route sums equal baseline sums plus precomputed columns |
+| `precomputed_eq_direct` | The prepared-column loop equals full route recomputation, including direct control terms |
+| `precomputed_zero_delta` | Zero changes reproduce the captured baseline, including zero selected controls |
+| `precomputed_network_rate` | Incidence-weight columns yield exactly the existing finite-graph network rate |
+| `precomputed_network_trajectory` | Using those columns leaves the exact-real affine trajectory unchanged |
+
+One generic output row can represent a tank rate (signed source/target weights),
+destination throughput (receipt weights), gross incident flow (nonnegative endpoint
+weights), or hourly synthetic cost (route plus destination prices). Direct control
+terms cover source-curtailment cost. Therefore the main equivalence theorem covers
+these numeric calculations together, not just a single two-tank example.
+
+The coefficient matrix, baseline and weights are fixed for one captured network and
+selected-control set. They must be rebuilt when that input changes. Finite graph
+indices are valid by construction; zero-sized finite dimensions are supported.
+Real coefficients, changes and weights may be signed, so the proof covers the
+native nonnegative physical input subset without assuming away cancellation.
+
+The numerical implementation still needs separate checks for arithmetic rounding,
+nonfinite results and cost-ranking ties. The theorem does not itself justify a
+floating-point rejection or a recommendation's complete feasibility.
+
+In [control_influence.hpp](../engine/src/control_influence.hpp), `ControlInfluence`
+stores request-local `base_rates_`, `base_destinations_`, `base_cost_` and sparse
+`columns_`. Its candidate loop applies baseline plus column times control delta.
+This is the part covered by the exact-real equivalence. The implementation's
+`maximum_flows_`, `maximum_destinations_`, `maximum_cost_` and rounding guards are
+conservative envelopes, rather than equal candidate outputs; their construction and
+the near-boundary fallback are separate implementation checks. Potential survivors
+have cost recomputed in the original source-then-route order before sorting, so the
+formal cost identity is not used to assert bitwise floating-point ranking equality.
+
 ## Assumptions and C++ correspondence
 
 All arithmetic is **exact over real numbers**. Graph, flows and external rates are
@@ -101,13 +157,14 @@ or conservation conclusion. Interval bounds assume only the bounds at both endpo
 | `graphEuler`, recursive rollout | `euler_update` and sampled loop in [engine.cpp](../engine/src/engine.cpp) |
 | `trajectory`, time-grid closed form | `evaluate_endpoints` and exact-horizon sample grid in the native engine |
 | Interval storage bounds | Mathematical basis for constant-rate endpoint screening in [search_kernel.hpp](../engine/src/search_kernel.hpp) |
+| `directOutputs`, `baselineOutputs`, `controlColumn`, `evaluateColumns` | Route evaluator in [search_kernel.hpp](../engine/src/search_kernel.hpp) and request-local `ControlInfluence` baseline/columns/candidate loop in [control_influence.hpp](../engine/src/control_influence.hpp) |
 
 This mapping is documented and reviewed; it is **not a compiler/refinement proof**
 of the C++ binary or parser. Floating-point order, roundoff guards, nonfinite values,
 index/memory safety and implementation correctness still rely on their separate native
 tests and sanitizer checks. Exact-real edge-order independence is not permission to
 reorder floating-point operations. There is no formal speedup, hydraulics, tracer PDE,
-shared-destination/control/cost constraint, ML quality, robustness or optimizer proof.
+complete destination/control/cost constraint validation, ML quality, robustness or optimizer proof.
 Endpoint screening still needs actual independent native validation for recommendations.
 
 ## Assumption audit
@@ -117,7 +174,7 @@ Owned sources contain no proof placeholders, custom assumption declarations, uns
 declarations or compiler-trusted decision shortcuts. The wrapper also rejects those
 tokens lexically in the owned Lean files.
 
-`Audit.lean` prints the transitive assumptions of 15 advertised algorithm theorems,
+`Audit.lean` prints the transitive assumptions of 21 advertised algorithm theorems,
 checks that their types are propositions, and rejects every dependency outside the
 explicit standard-foundation allowlist: `propext`, `Classical.choice`, `Quot.sound`.
 These standard principles of the pinned classical-real library are disclosed; this

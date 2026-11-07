@@ -1,11 +1,13 @@
 #include "breakwater/search.hpp"
-#include "search_kernel.hpp"
+#include "control_influence.hpp"
+#include "search_evaluation.hpp"
 
 #include <algorithm>
 #include <array>
 #include <cmath>
 #include <limits>
 #include <stdexcept>
+#include <type_traits>
 #include <unordered_map>
 
 namespace breakwater {
@@ -14,17 +16,30 @@ namespace {
 
 struct Survivor { std::size_t index; double cost; };
 
-template<class Materialize>
+struct RouteWalkPlan {
+    const Prepared& prepared;
+    const CandidateSet& candidates;
+    struct workspace_type : Workspace {
+        explicit workspace_type(const RouteWalkPlan& plan) : Workspace(plan.prepared) {}
+    };
+    Screen screen(const Values& values, double horizon, workspace_type& workspace, double& cost) const {
+        return screen_candidate(prepared, candidates, values, horizon, workspace, cost);
+    }
+};
+
+template<bool Precomputed, class Materialize>
 SearchResult execute(const Prepared& p, const CandidateSet& set, const SearchOptions& options,
                      Materialize materialize) {
     SearchResult result;
     result.diagnostics.candidates_evaluated = set.values.size();
-    Workspace workspace(p);
+    using Plan = std::conditional_t<Precomputed, ControlInfluence, RouteWalkPlan>;
+    const Plan plan{p, set};
+    typename Plan::workspace_type workspace(plan);
     std::vector<Survivor> survivors;
     survivors.reserve(set.values.size());
     for (std::size_t i = 0; i < set.values.size(); ++i) {
         double cost = 0.0;
-        const auto screen = screen_candidate(p, set, set.values[i], options.config.horizon_h, workspace, cost);
+        const auto screen = plan.screen(set.values[i], options.config.horizon_h, workspace, cost);
         if (screen == Screen::potential) { survivors.push_back({i, cost}); ++result.diagnostics.screen_passes; }
         else if (screen == Screen::constraint_failure) ++result.diagnostics.constraint_screen_rejections;
         else ++result.diagnostics.numerical_screen_rejections;
@@ -83,14 +98,19 @@ SearchResult search_candidates(const Network& network, std::span<const SearchAxi
             set.values[i][col - 1] = values[index % values.size()]; index /= values.size();
         }
     }
-    return execute(prepared, set, options, [&](std::size_t index) {
+    const auto materialize = [&](std::size_t index) {
         std::vector<ControlValue> overrides; overrides.reserve(axes.size());
         for (std::size_t col = 0; col < axes.size(); ++col) overrides.push_back({axes[col].control_id, set.values[index][col]});
         return overrides;
-    });
+    };
+    return use_control_influence(network.routes.size(), count) ?
+        execute<true>(prepared, set, options, materialize) :
+        execute<false>(prepared, set, options, materialize);
 }
 
-SearchResult evaluate_candidates(const Network& network, std::span<const CandidateControls> candidates, SearchOptions options) {
+namespace {
+template<bool Precomputed>
+SearchResult evaluate_batch(const Network& network, std::span<const CandidateControls> candidates, SearchOptions options) {
     check_options(options);
     if (candidates.empty() || candidates.size() > max_search_candidates) throw std::invalid_argument("Explicit batches need 1..10000 candidates.");
     const Prepared prepared(network);
@@ -120,7 +140,19 @@ SearchResult evaluate_candidates(const Network& network, std::span<const Candida
             set.values[row][col] = value.value;
         }
     }
-    return execute(prepared, set, options, [&](std::size_t row) { return candidates[row].overrides; });
+    return execute<Precomputed>(prepared, set, options, [&](std::size_t row) { return candidates[row].overrides; });
+}
+} // namespace
+
+SearchResult evaluate_candidates(const Network& network, std::span<const CandidateControls> candidates, SearchOptions options) {
+    return use_control_influence(network.routes.size(), candidates.size()) ?
+        evaluate_batch<true>(network, candidates, options) :
+        evaluate_batch<false>(network, candidates, options);
+}
+
+SearchResult detail::evaluate_candidates_route_walk(const Network& network,
+    std::span<const CandidateControls> candidates, SearchOptions options) {
+    return evaluate_batch<false>(network, candidates, options);
 }
 
 } // namespace breakwater
