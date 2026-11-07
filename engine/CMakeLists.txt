@@ -12,7 +12,22 @@ target_link_libraries(breakwater_search_example PRIVATE breakwater_engine)
 add_executable(breakwater_transport_example examples/transport_example.cpp)
 target_link_libraries(breakwater_transport_example PRIVATE breakwater_engine)
 
+# Executed by science's cross-language checks; this is a private test fixture format.
+add_executable(breakwater_rollout_reference examples/rollout_reference.cpp)
+target_link_libraries(breakwater_rollout_reference PRIVATE breakwater_engine)
+
+# Private A4 science comparison data, produced by the authoritative transport solver.
+add_executable(breakwater_physicsnemo_reference examples/physicsnemo_transport_reference.cpp)
+target_link_libraries(breakwater_physicsnemo_reference PRIVATE breakwater_engine)
+
+add_executable(breakwater_benchmark benchmarks/benchmark.cpp)
+target_link_libraries(breakwater_benchmark PRIVATE breakwater_engine)
+target_compile_definitions(breakwater_benchmark PRIVATE
+  BREAKWATER_BENCH_CONFIGURATION="$<CONFIG>"
+  BREAKWATER_BENCH_CHECKED=$<BOOL:${BREAKWATER_ENABLE_ASAN}>)
+
 if(BUILD_TESTING)
+  add_test(NAME engine.benchmark_correctness COMMAND breakwater_benchmark --verify-only --count 100)
   add_executable(breakwater_engine_tests tests/engine_tests.cpp)
   target_link_libraries(breakwater_engine_tests PRIVATE breakwater_engine)
   add_test(NAME engine.acceptance COMMAND breakwater_engine_tests)

@@ -1,0 +1,22 @@
+{
+  "config_version": 1,
+  "seed": 20261107,
+  "threads": 1,
+  "adam_steps": 1800,
+  "learning_rate": 0.002,
+  "collocation_points": 256,
+  "initial_points": 64,
+  "initial_loss_weight": 10.0,
+  "training_time_limit_s": 120.0,
+  "thresholds": {
+    "native_fine_rmse_mg_l": 0.01,
+    "native_time_refinement_rmse_mg_l": 0.002,
+    "heldout_field_rmse_mg_l": 0.03,
+    "heldout_field_max_mg_l": 0.1,
+    "heldout_residual_rms_mg_l_h": 0.05,
+    "outlet_max_mg_l": 0.1,
+    "inventory_relative_error": 0.05,
+    "minimum_prediction_mg_l": -0.005,
+    "checkpoint_max_abs_mg_l": 1e-10
+  }
+}
