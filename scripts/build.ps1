@@ -1,7 +1,8 @@
 param(
     [ValidateSet('headless','desktop','asan')][string]$Preset = 'headless',
     [string]$QtPrefix = '',
-    [switch]$NoTests
+    [switch]$NoTests,
+    [switch]$EmbeddedDebugInfo
 )
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent $PSScriptRoot
@@ -16,6 +17,7 @@ if (-not $QtPrefix -and (Test-Path -LiteralPath "$projectRoot\.tools\Qt\6.12.0\m
     $QtPrefix = "$projectRoot\.tools\Qt\6.12.0\msvc2022_64"
 }
 $configureArguments = @('--preset', $Preset)
+if ($EmbeddedDebugInfo) { $configureArguments += '-DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded' }
 if ($QtPrefix) { $configureArguments += "-DCMAKE_PREFIX_PATH=$QtPrefix" }
 Push-Location -LiteralPath $projectRoot
 try {

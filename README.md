@@ -1,5 +1,9 @@
 # BREAKWATER
 
+Person B's native Nemotron tools and investigation panel are documented in
+[docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md), including environment
+configuration, actual tool-call smoke commands, snapshot rules and approval staging.
+
 C++20 / MSVC Windows base for an editable synthetic fluid-network workbench.
 The original handoff is preserved in [For Dev Agents.md](For%20Dev%20Agents.md).
 The complete accepted roadmap is [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
@@ -22,6 +26,16 @@ Then open **`Breakwater.slnx`** at the repository root. Select **x64** and
 use C++20. Qt code generation and source references come from CMake; regenerate after
 changing the build structure. Generated `.vcxproj` files live in ignored `out/visual-studio`.
 The root `.slnx` retains the generated dependency graph and includes the documentation.
+
+Visual Studio 2022 17.14 with the existing .NET 10 SDK is also supported locally:
+
+```powershell
+.\scripts\Generate-VisualStudio.ps1 -Generator 'Visual Studio 17 2022' -EmbeddedDebugInfo -Build
+```
+
+That option migrates CMake's generated `.sln` to `.slnx` with `dotnet sln migrate`.
+The default generator remains Visual Studio 2026. Regenerate after pulling engine or
+desktop target changes; SDKs and generated project files are not delivered by Git.
 
 If using the project-local SDK downloaded during development, omit `-QtPrefix`.
 The script detects `.tools/Qt/6.12.0/msvc2022_64` automatically.
@@ -48,6 +62,8 @@ without `-Headless` to restore desktop projects.
 `scripts/build.ps1` initializes the MSVC developer environment. Its `desktop` preset
 also accepts `-QtPrefix`. In restricted agent environments MSVC's PDB helper may need
 an unrestricted build process; this is separate from ordinary Visual Studio usage.
+If the local PDB helper reports compiler error C1902, use `-EmbeddedDebugInfo` to
+select MSVC `/Z7` through CMake, including checked builds. This avoids the PDB helper.
 
 ## Workbench controls
 

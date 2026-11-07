@@ -1,239 +1,265 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Solution>
   <Configurations>
     <BuildType Name="Debug" />
-    <BuildType Name="Release" />
     <BuildType Name="MinSizeRel" />
+    <BuildType Name="Release" />
     <BuildType Name="RelWithDebInfo" />
     <Platform Name="x64" />
   </Configurations>
-  <Project Path="out/visual-studio/desktop/breakwater.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="5c4ed58a-7a02-31d1-9bde-f773ef2e3445" DefaultStartup="true">
-    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  <Folder Name="/CMakePredefinedTargets/">
+    <Project Path="out/visual-studio/ALL_BUILD.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_gateway_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_orchestrator_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_nemotron_client_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_nemotron_smoke.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_cli.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_engine_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_search_example.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_search_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/INSTALL.vcxproj">
+      <BuildDependency Project="out/visual-studio/ALL_BUILD.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/RUN_TESTS.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Folder>
+  <Folder Name="/CTestDashboardTargets/">
+    <Project Path="out/visual-studio/Continuous.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/Experimental.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/Nightly.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/NightlyMemoryCheck.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/QtInternalTargets/">
+    <Project Path="out/visual-studio/all_aotstats.vcxproj">
+      <BuildDependency Project="out/visual-studio/module_breakwater_aotstats_target.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/all_qmltyperegistrations.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_qmltyperegistration.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_agent_autogen.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_agent_automoc_json_extraction.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_autogen.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_agent_gateway_tests_qmlimportscan.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_agent_orchestrator_tests_qmlimportscan.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_autogen.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_qml.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_res.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj" />
+      <BuildDependency Project="out/visual-studio/generate_finalqtconf_breakwater.vcxproj" />
+      <BuildDependency Project="out/visual-studio/generate_qmlls_build_ini_file.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_automoc_json_extraction.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_autogen.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_copy_qml.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_copy_res.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_desktop_base_autogen.vcxproj">
+      <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_autogen.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_desktop_tests_qmlimportscan.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_nemotron_client_tests_qmlimportscan.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_nemotron_smoke_qmlimportscan.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_qmltyperegistration.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_automoc_json_extraction.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_automoc_json_extraction.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/clean_qml_context_properties.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/dump_qml_context_properties.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/generate_finalqtconf_breakwater.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/generate_qmlls_build_ini_file.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/module_breakwater_aotstats_target.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_qmltyperegistration.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+  </Folder>
+  <Folder Name="/QtInternalTargets/QmlLinter/">
+    <Project Path="out/visual-studio/all_qmllint.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/all_qmllint_json.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/all_qmllint_module.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_qmllint.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/all_qmltyperegistrations.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_qmllint_json.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/all_qmltyperegistrations.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_qmllint_module.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/all_qmltyperegistrations.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+  </Folder>
+  <Folder Name="/QtInternalTargets/QmlPreview/">
+    <Project Path="out/visual-studio/desktop/breakwater_qmlpreview.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+      <Build Project="false" />
+    </Project>
+  </Folder>
+  <Project Path="out/visual-studio/desktop/breakwater.vcxproj" DefaultStartup="true">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_automoc_json_extraction.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_autogen.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_automoc_json_extraction.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_qml.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_res.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj" />
-    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/generate_finalqtconf_breakwater.vcxproj" />
     <BuildDependency Project="out/visual-studio/generate_qmlls_build_ini_file.vcxproj" />
-  </Project>
-  <Project Path="out/visual-studio/engine/breakwater_cli.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="bd51c6b6-d695-3115-9e35-54a97b3aec5d">
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_agent.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_autogen.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_automoc_json_extraction.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
-  </Project>
-  <Project Path="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="75352d9e-3c1e-390e-939f-cde0b7adea6d">
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_agent_gateway_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_gateway_tests_qmlimportscan.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_agent_orchestrator_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_orchestrator_tests_qmlimportscan.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_desktop_base.vcxproj">
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_autogen.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj" />
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
-  </Project>
-  <Project Path="out/visual-studio/desktop/breakwater_desktop_tests.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="62750692-d88d-3079-be25-8e637fc2420e">
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_desktop_tests.vcxproj">
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_tests_qmlimportscan.vcxproj" />
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
-  </Project>
-  <Project Path="out/visual-studio/engine/breakwater_engine.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4fb94f34-3fb8-33c0-a64c-c7e9870b4c1e">
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>
-  <Project Path="out/visual-studio/engine/breakwater_engine_tests.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="fd714517-06f0-392a-b80b-44e0431960f1">
-    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  <Project Path="out/visual-studio/desktop/breakwater_nemotron_client_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_nemotron_client_tests_qmlimportscan.vcxproj" />
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>
-  <Folder Name="/CMakePredefinedTargets/">
-    <Project Path="out/visual-studio/ALL_BUILD.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4e908943-6178-384c-a6b9-72b787fdcc46">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater.vcxproj" />
-      <BuildDependency Project="out/visual-studio/engine/breakwater_cli.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_tests.vcxproj" />
-      <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
-      <BuildDependency Project="out/visual-studio/engine/breakwater_engine_tests.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/INSTALL.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ba968ab3-18c4-3ec0-bd6d-5ba70d57aa2a">
-      <BuildDependency Project="out/visual-studio/ALL_BUILD.vcxproj" />
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/RUN_TESTS.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="eb2dde93-c3fa-32d5-a27c-b076880c3a48">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/ZERO_CHECK.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ad80e7b6-8d5d-3554-96d0-871e76720ec3" />
-  </Folder>
-  <Folder Name="/CTestDashboardTargets/">
-    <Project Path="out/visual-studio/Continuous.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="5a93428e-a976-352f-80e2-1e45e7237c1c">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/Experimental.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="a38b643c-c18f-3ed6-ba71-d7db1ca827d3">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/Nightly.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="f4d98a72-0465-32b1-811f-2a8ea3dce322">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/NightlyMemoryCheck.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="9e07f812-baba-3751-aac9-d98c82267143">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-  </Folder>
-  <Folder Name="/QtInternalTargets/">
-    <Project Path="out/visual-studio/all_aotstats.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="7762e173-1d68-3d0a-a194-cb4f9096c0af">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/module_breakwater_aotstats_target.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/all_qmltyperegistrations.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="65dde55f-83ba-3ec0-b244-8a8cbdc54b9a">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_qmltyperegistration.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_autogen.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="e3f56f87-f683-33d7-84e7-00b8c3f20c12">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_qml.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_res.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj" />
-      <BuildDependency Project="out/visual-studio/generate_finalqtconf_breakwater.vcxproj" />
-      <BuildDependency Project="out/visual-studio/generate_qmlls_build_ini_file.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_automoc_json_extraction.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="45e85635-39f7-34e6-a520-6ceaf93d6f59">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_autogen.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_copy_qml.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="0641174e-0bf8-3ea2-a04b-2c00aa6101e9">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_copy_res.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="9a419fe8-7aff-3e94-b9bf-577f6711ade7">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_desktop_base_autogen.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="c94cfaca-26e8-3fb1-a07f-51148ea6b2bd">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="79ac351c-9f29-34da-a015-481cd2dd16f0">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_autogen.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_desktop_tests_qmlimportscan.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="a1193ab6-2ca5-3086-a256-da14ea534829">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="5b7fc4df-4a6b-302f-8ac7-83dc5e56a795">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_qmltyperegistration.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="2e773122-b39c-36b4-b55c-86ce02e9c1e6">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_automoc_json_extraction.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/clean_qml_context_properties.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="0080a972-b233-3c38-af2e-cc657fa1d8c1">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/dump_qml_context_properties.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="38d680a8-ef3f-34f8-8684-dddc2d424eba">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/generate_finalqtconf_breakwater.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="4ebc7d45-89d2-340b-b276-3cd093ed2cbd">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/generate_qmlls_build_ini_file.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="b845eea1-ef1f-320c-be04-2d58133ee64f">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-    </Project>
-    <Project Path="out/visual-studio/module_breakwater_aotstats_target.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="f7c1c6f3-8323-3da7-9554-2e2ff6d72f56">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater_qmltyperegistration.vcxproj" />
-    </Project>
-  </Folder>
-  <Folder Name="/QtInternalTargets/QmlLinter/">
-    <Project Path="out/visual-studio/all_qmllint.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="6dbccd91-58b5-35df-9b9e-ce25f6acaf97">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/all_qmllint_json.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="72889fd5-7b82-3819-9308-ab4e7efe521d">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/all_qmllint_module.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="3bd11eef-f20a-3cb1-8c36-95b82009f374">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_qmllint.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="d37eeb9d-349a-3314-9a38-29339264d203">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/all_qmltyperegistrations.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_qmllint_json.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="80f62943-084c-3092-b2bd-1163743a972e">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/all_qmltyperegistrations.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-    <Project Path="out/visual-studio/desktop/breakwater_qmllint_module.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="b24659b8-115c-3df7-b0ec-47456b614c81">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/all_qmltyperegistrations.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-  </Folder>
-  <Folder Name="/QtInternalTargets/QmlPreview/">
-    <Project Path="out/visual-studio/desktop/breakwater_qmlpreview.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="450f155e-b64c-37ff-b3e2-55dad76399be">
-      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
-      <BuildDependency Project="out/visual-studio/desktop/breakwater.vcxproj" />
-      <Build Solution="Debug|*" Project="false" />
-      <Build Solution="Release|*" Project="false" />
-      <Build Solution="MinSizeRel|*" Project="false" />
-      <Build Solution="RelWithDebInfo|*" Project="false" />
-    </Project>
-  </Folder>
+  <Project Path="out/visual-studio/desktop/breakwater_nemotron_smoke.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_nemotron_smoke_qmlimportscan.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_cli.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_engine.vcxproj">
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_engine_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_search_example.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_search_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Properties Name="ExtensibilityAddIns" Scope="PostLoad" />
   <Folder Name="/Documentation/">
     <File Path="README.md" />
     <File Path="docs/IMPLEMENTATION_PLAN.md" />
