@@ -1,0 +1,106 @@
+{
+  "schema_version": 1,
+  "status": "completed",
+  "started_utc": "2026-11-07T22:46:00.8368755Z",
+  "source_commit": "0e3187abac9f1fa27cb6cb223e94c0226c90e031",
+  "source_dirty": true,
+  "os": "Microsoft Windows NT 10.0.26300.0",
+  "os_architecture": "X64",
+  "process_architecture": "X64",
+  "logical_processors_environment": 16,
+  "logical_processors_dotnet": 16,
+  "cpu_brand": "AMD Ryzen 7 7730U with Radeon Graphics",
+  "cpu_brand_read_error": null,
+  "powershell_version": "7.4.22",
+  "cmake_version": "cmake version 4.3.1-msvc1",
+  "executable_sha256": "39d38aae8db26b9d7eca81d8ad4398caaffba858bf0b401eab71027011d6d986",
+  "compile_commands_sha256": "67edad6a8b5f30af829d03528b404991c1c1dcb33883e6948f114cdc24314045",
+  "source_hashes": [
+    {
+      "path": "engine/benchmarks/benchmark.cpp",
+      "sha256": "e4a3bbd93bad847caa290f358319c006ff7c70df2bec43f037f286c1f6688bb5"
+    },
+    {
+      "path": "engine/benchmarks/timing.hpp",
+      "sha256": "6b17f12c23dcad96029dc40743dd2200f2350135cade920daa93f56f7f30f272"
+    },
+    {
+      "path": "engine/benchmarks/workloads.hpp",
+      "sha256": "8bdcb203df0faf1d27a071fd5ad21ac2ca3b8b2cad12fac870f4859cc167afa0"
+    },
+    {
+      "path": "engine/benchmarks/run.ps1",
+      "sha256": "e3fa1f76a0171d2fc39795d9d3ca9199a1990f6c0d5b12ba8b2e30b679a3b400"
+    },
+    {
+      "path": "engine/src/forecast_kernels.hpp",
+      "sha256": "a4de659dc587e7d9b907aadc5607990e7fbe08f54b360a46c196e0a0edf42725"
+    },
+    {
+      "path": "engine/src/search_kernel.hpp",
+      "sha256": "5093be63497ae922fde62d433b51bee3308105db7484f6d1f029d8d562b2ec90"
+    },
+    {
+      "path": "engine/src/engine.cpp",
+      "sha256": "9a368186788984c1beb507bb52d6d29996f9fc925b78364e92abe11b477846e7"
+    },
+    {
+      "path": "engine/src/search.cpp",
+      "sha256": "4a13f1f43bb169917b5afb38a83ac9dbcbe8c2aaff7602c01b5e979450ecde37"
+    },
+    {
+      "path": "engine/src/scenario.cpp",
+      "sha256": "e4e1b9a904b0a2ae6cd35284d64001e41eefcd9b1155ce4ea4bd17c202bbf1e1"
+    },
+    {
+      "path": "engine/include/breakwater/engine.hpp",
+      "sha256": "c03aa5c91ce9fe71f7bb75a0030380b25dbd1e3170344ebe0e0454bfd7e13b16"
+    },
+    {
+      "path": "engine/include/breakwater/search.hpp",
+      "sha256": "6af7fa019a56c6b7de34cec9902b00c9f9d0603eaa33e04f2b0aba67d7c356c8"
+    },
+    {
+      "path": "engine/CMakeLists.txt",
+      "sha256": "73bf72c5a8bb0be19f6d973d174d85514099f81a8734ee132c721d67454fdaff"
+    },
+    {
+      "path": "contracts/include/breakwater/types.hpp",
+      "sha256": "d888f688e59effdb956e95fffdf9ec6792385da8a2e838c213fd4acfd142d03c"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "sha256": "8de2b77fb557997282955e061c1b0b42ddaf23632af1f08337f7612bc623c59a"
+    }
+  ],
+  "configuration": {
+    "build_type": "Release",
+    "generator": "Ninja",
+    "asan": false,
+    "desktop": false,
+    "repeats": 7,
+    "warmups": 2,
+    "candidates": [
+      100,
+      1000,
+      10000
+    ],
+    "workloads": [
+      "canonical_incident",
+      "custom_24_tanks"
+    ],
+    "horizon_h": 3.0,
+    "sample_step_h": 0.025,
+    "skip_build": false
+  },
+  "cmake_cache_evidence": [
+    "BREAKWATER_BUILD_DESKTOP:BOOL=OFF",
+    "BREAKWATER_ENABLE_ASAN:BOOL=OFF",
+    "BUILD_TESTING:BOOL=ON",
+    "CMAKE_BUILD_TYPE:STRING=Release",
+    "CMAKE_CXX_COMPILER:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe",
+    "CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /EHsc",
+    "CMAKE_CXX_FLAGS_RELEASE:STRING=/O2 /Ob2 /DNDEBUG"
+  ],
+  "finished_utc": "2026-11-07T22:46:24.4046512Z"
+}
