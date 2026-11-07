@@ -1,0 +1,44 @@
+{
+  "status": "passed",
+  "started_utc": "2026-11-07T23:25:47.9935551Z",
+  "finished_utc": "2026-11-07T23:27:05.9625827Z",
+  "lean_version": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)",
+  "lake_version": "Lake version 5.0.0-src+eb6cafb (Lean version 4.35.0)",
+  "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+  "manifest_sha256": "bbd82dd6989564554676df56ac852325ae93006cb0ebcc4655cfcc375831cf97",
+  "audited_algorithm_theorems": 21,
+  "permitted_foundational_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "warning_as_error": true,
+  "unapproved_assumption_probe_rejected": true,
+  "source_hashes": [
+    {
+      "path": "Breakwater.lean",
+      "sha256": "583e599fe83c5c3c612a9c233a73fb13b79dd2e2a82994407312150ea8bcf723"
+    },
+    {
+      "path": "Breakwater/Affine.lean",
+      "sha256": "639eb99cbfc0d55abe130d670b6efc29c441e3d00e028a720357ca2ed969b255"
+    },
+    {
+      "path": "Breakwater/Audit.lean",
+      "sha256": "b783b87cc0aa05e4c81d9a19ad42bd45e1c92fc15a529caba85506a060a7921f"
+    },
+    {
+      "path": "Breakwater/ControlInfluence.lean",
+      "sha256": "15f493e7e7b73b0ae0cc80f1347292001b1a2637a153590887b7849128ce1af4"
+    },
+    {
+      "path": "Breakwater/Graph.lean",
+      "sha256": "c47f5ed50ce1425fd5bf687311c80bbb557740012bfc963798723be95ad0f9d7"
+    },
+    {
+      "path": "Breakwater/Network.lean",
+      "sha256": "5536f840755df2ad7bcb7fedaed24d819d3c68859258caaa7fd855d864584e5b"
+    }
+  ],
+  "scope": "Exact-real finite-graph algorithms; not IEEE floating-point, compiled C++ memory safety, or hydraulics."
+}

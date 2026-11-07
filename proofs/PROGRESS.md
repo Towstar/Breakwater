@@ -82,3 +82,65 @@ Scope and handoff:
 - [README.md](README.md) gives installation/build commands, theorem assumptions and
   per-function native mapping. No root build integration is required for this standalone
   Lean project; Person B can incorporate this evidence into shared status at integration.
+
+## Precomputed control influence — November 7, 2026
+
+Implemented in `Breakwater/ControlInfluence.lean` on `codex/person-a-engine`, from
+integrated baseline `5c47d4f`. The previous A6 results and dependency pins remain.
+
+The new direct evaluator traverses every finite route, forms its affine candidate
+flow, and sequentially adds its weighted contribution to each output. The optimized
+evaluator traverses selected controls and sequentially applies precomputed columns.
+Baseline totals and each column are themselves defined by route folds. Their
+equality follows from actual fold induction and finite-sum distributivity/interchange,
+rather than an equivalence assumption or identical top-level definitions.
+
+Six additional advertised results are now part of the default-build audit:
+
+1. `weightedFold_eq_sum`: actual weighted route traversal equals its finite sum.
+2. `weighted_candidate_decomposition`: the direct weighted route sum decomposes
+   into baseline plus selected-control influence columns.
+3. `precomputed_eq_direct`: prepared-column evaluation equals route recomputation,
+   including direct control terms such as source-curtailment synthetic cost.
+4. `precomputed_zero_delta`: unchanged selected controls reproduce the baseline.
+5. `precomputed_network_rate`: incidence-weight columns equal the original sparse
+   finite-graph rate for the same candidate flows and fixed external terms.
+6. `precomputed_network_trajectory`: substituting the prepared rate preserves every
+   exact-real affine sample, including the endpoint used for screening.
+
+Arbitrary finite dimensions and signed real weights/changes are supported, including
+empty selected-control sets. Tank rates, shared-destination totals, incident flow
+magnitudes and hourly cost can all be output coordinates of the generic theorem.
+The native sparse `+1` route-setpoint and `-1` source-feed-curtailment coefficients
+are a supported specialization. Baseline, coefficient matrix and weights must all
+belong to the same captured network/control selection.
+
+Actual checks, November 7, 2026 (23:25:47–23:27:05 UTC):
+
+```powershell
+.\proofs\verify.ps1 -LeanBin 'C:\Projects\Breakwater\.tools\lean-4.35.0-windows\bin'
+```
+
+- The new module first passed a direct warning-as-error Lean check.
+- `lake build` then completed successfully with **1,061 jobs**, including the new
+  module, composed audit and root library. No proof errors or warnings were reported.
+- The independent direct audit passed **21 algorithm theorems**, preserving all
+  original 15 and adding the six above.
+- All six new results report exactly `[propext, Classical.choice, Quot.sound]`, the
+  unchanged standard foundational allowlist. Owned-source placeholder/unchecked-token
+  checks passed.
+- The deliberate unapproved-assumption probe was rejected for the expected reason.
+- `verify.ps1` exited **0** and recorded source hashes, versions, pins and probe status.
+
+New evidence is retained separately from the historical A6 run:
+
+- [Lake build](evidence/2026-11-07-control-influence-lake-build.log).
+- [Transitive assumption report](evidence/2026-11-07-control-influence-axiom-audit.log).
+- [Expected rejection](evidence/2026-11-07-control-influence-negative-audit.log).
+- [Versions, pins and checked-source hashes](evidence/2026-11-07-control-influence-verification.json).
+
+These are exact-real algorithm equivalence results. No C++ extraction/refinement,
+IEEE rounding bound, finite-input validation, ranking/tie behavior, feasibility
+classification, memory safety, optimization speed or global optimum is formally
+proved by this increment. The C++ correspondence and numerical guard/fallback behavior
+require independent implementation tests; performance requires measured benchmarks.

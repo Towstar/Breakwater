@@ -175,3 +175,87 @@ Limitations / handoff:
 - B can regenerate the full solution for the additive benchmark target during
   integration. No public contract, numerical equation or approval behavior changed.
 - Next Person A milestone is A6, a pinned Lean/Mathlib algorithm-proof project.
+
+## A7: precomputed control influence — November 7, 2026
+
+Implemented on `codex/person-a-engine` from integrated main `5c47d4f`. A6 is already
+delivered; its standalone proof project now also checks this optimization. This
+increment changes only Person A's `engine/` and `proofs/` paths. No desktop, contracts,
+root CMake/presets/scripts/solution, shared README/docs or scenario constants changed.
+
+Delivered:
+
+- Request-local baseline rates, destination totals and synthetic cost plus up to
+  four sparse control columns, shared by public batch and Cartesian search.
+- Source curtailment includes reduced feed flow/pricing; partial overrides preserve
+  unspecified controls. Preparation is rebuilt from each captured network.
+- Conservative finite-range envelopes and route-walk fallback near limits or for
+  unusable/nonfinite preparation. No clipping or relaxed approval constraints.
+- Exact original-order cost recomputation on every potential survivor before sort,
+  preserving reference costs, input-index ties and the recommendation cutoff.
+- Shared private route-walk baseline for tests/benchmarks, without public type or
+  worker-protocol changes. Independent dense finalist simulation/validation remains.
+- Measured dispatch: at least 32 routes and 2,048 candidates selects influence;
+  smaller workloads retain route walk. This is a performance heuristic, not a new
+  feasibility rule. See [CONTROL_INFLUENCE.md](CONTROL_INFLUENCE.md).
+- New generic Lean equivalence of actual route and prepared-control folds, with
+  direct-cost terms and graph-rate/trajectory corollaries. Proof scope is exact-real
+  algebra; see [proof evidence](../proofs/PROGRESS.md).
+
+Actual validation on the final source:
+
+1. `.\scripts\build.ps1 -Preset headless`: MSVC C++20 RelWithDebInfo built; **8/8 CTest
+   suites passed**, 3.42 s. Local log: `out/a7-headless.log`.
+2. `.\scripts\build.ps1 -Preset asan`: **8/8 MSVC AddressSanitizer suites passed**,
+   23.20 s, no reported sanitizer findings. Local log: `out/a7-asan.log`.
+3. The new suite passed **14/14 groups**: numeric old/new comparisons; independent
+   dense/validator oracle; partial/source controls; shared/storage boundaries and
+   fallback; ULP-scale cost ties at the cutoff; overflow repair and cancellation;
+   changed snapshots; invalid/unavailable requests; and 2,048-row optimized public
+   batch plus Cartesian-grid ranking checks.
+   Review then forced direct-map checks inside the small oracle fixtures so dispatch
+   cannot bypass their coverage. The `2^53 + 1` captured-cost example specifically
+   exposes naive rebased-cost rounding. The strengthened 14-group target passed
+   again in normal and ASan builds (1.34 s / 11.73 s); production/benchmark sources
+   did not change, and their recorded hashes still match.
+4. `.\engine\benchmarks\run.ps1 -Influence`: separate optimized Release build and
+   **8/8 CTest suites passed**, then the requested 100/1,000/10,000 matrix completed
+   on canonical and custom graphs. `.\engine\benchmarks\run.ps1 -Influence -SkipBuild
+   -Count 2048` checked the dispatch boundary. Seven repeats/two warmups; all-row
+   native equivalence/feasibility/ranking gates passed before timing.
+5. `.\proofs\verify.ps1 -LeanBin 'C:\Projects\Breakwater\.tools\lean-4.35.0-windows\bin'`:
+   pinned `lake build` completed 1,061 jobs; **21 theorem audits** and the intentional
+   unapproved-assumption rejection passed, exit 0. This preserves all 15 A6 results
+   and adds six. No dependency updates or unchecked proof placeholders.
+
+Final custom 24-tank/66-route medians (milliseconds per complete batch):
+
+| Candidates | Old screen | Influence screen | Old full search | Public full search | Selected path |
+|---:|---:|---:|---:|---:|---|
+| 100 | .029492 | .016381 | 1.338350 | 1.352925 | Route walk |
+| 1,000 | .300014 | .157516 | 1.816650 | 1.849163 | Route walk |
+| 2,048 | .629728 | .326303 | 2.479588 | 2.227338 | Influence |
+| 10,000 | 3.369400 | 1.547063 | 7.841000 | 7.167450 | Influence |
+
+At 10,000, the same-task screen ratio is **2.178x**, while full search is **1.094x**.
+At 2,048 the ratios are 1.930x/1.113x. Preparation plus workspace/checksum is about
+4.08–4.23 microseconds on the custom graph. Canonical forced screens are near parity;
+the initial forced-influence total regressed, motivating the measured dispatch.
+Even route-walk-selected public and baseline timings vary; no universal speedup or
+zero-overhead claim is made. Full distributions and all graph sizes are recorded in
+[BENCHMARKS.md](BENCHMARKS.md) and its linked raw/environment artifacts.
+
+The final matrix/boundary pass checked 26,296 rows (nested prefixes, not unique
+scenarios). Exactly one forced-map fallback per case; maximum rate/destination
+differences were 7.11e-15/8.88e-16 m3/h, and rejected-row cost-estimate difference
+1.14e-12. Survivor costs and best-five rankings matched exactly. Raw source/binary
+hashes identify the measured dirty implementation, with documentation added later.
+
+Limitations / handoff:
+
+- Formal equivalence covers fixed exact-real coefficients, not compiled C++, IEEE
+  rounding guards, complete feasibility, cost ranking or a global optimum.
+- Synthetic constant-flow physics, nominal horizon and quality separation remain.
+  No SIMD, GPU, parallel search, hydraulic model or learned-model changes.
+- B should integrate the branch and regenerate the Visual Studio solution for the
+  additive `breakwater_control_influence_tests` target. B owns shared status updates.
