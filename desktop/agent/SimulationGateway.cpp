@@ -1,5 +1,6 @@
 #include "SimulationGateway.hpp"
 #include "ProjectDocument.hpp"
+#include "breakwater/search.hpp"
 
 #include <QDateTime>
 #include <QSet>
@@ -132,6 +133,9 @@ QJsonObject SimulationGateway::summary(const StoredRun& run) const {
         {"warnings", QJsonArray{"Synthetic constant-flow model; nominal volume feasibility only.",
             "Quality is not evaluated. Finite candidate evaluation does not establish global optimality."}}};
     if (!run.validation_id.isEmpty()) result["validation_id"] = run.validation_id;
+    if (!run.validation_source.isEmpty()) result["validation_source"] = run.validation_source;
+    if (!run.search_id.isEmpty()) result["search_id"] = run.search_id;
+    if (run.search_candidate_index) result["search_candidate_index"] = static_cast<qint64>(*run.search_candidate_index);
     return result;
 }
 
@@ -204,7 +208,7 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
             { std::lock_guard lock(mutex_); network_inspected_ = true; }
             return {{"ok", true}, {"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h},
                 {"network", network_json(network_)}, {"draft_issues", issues_json(issues)},
-                {"capabilities", QJsonObject{{"native_simulation", true}, {"independent_validation", true}, {"search_interventions", false}}},
+                {"capabilities", QJsonObject{{"native_simulation", true}, {"independent_validation", true}, {"search_interventions", true}}},
                 {"model_limitations", QJsonArray{"Synthetic constant-flow network; geometry does not determine flow.", "Quality is not evaluated."}}};
         }
         if (name == "get_control_catalog") {
@@ -286,6 +290,7 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
             auto& run = runs_.at(id);
             run.explicit_validation = report;
             run.validation_id = uuid();
+            run.validation_source = "validate_run";
             auto result = summary(run);
             if (!current_.load()) {
                 auto error = failure("stale_snapshot", "The physical snapshot changed during validation.");
@@ -326,7 +331,96 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
             return {{"ok", true}, {"plan", plan}, {"run_id", id}, {"approval_status", "pending_operator"},
                 {"applied", false}, {"message", "Staged for an explicit human action. No operating controls were changed."}};
         }
-        return failure("capability_unavailable", "Numerical search has not been integrated; no search was executed.");
+        keys(args, {"snapshot_id", "axes", "result_limit"}, {"snapshot_id", "axes"});
+        if (!args.value("axes").isArray()) reject("invalid_arguments", "axes must be an array.");
+        const auto requested_axes = args.value("axes").toArray();
+        if (requested_axes.size() > static_cast<qsizetype>(max_search_controls))
+            reject("resource_limit", "Search permits at most four controls.");
+        std::size_t result_limit = max_search_recommendations;
+        if (args.contains("result_limit")) {
+            const auto limit = args.value("result_limit");
+            if (!limit.isDouble() || !std::isfinite(limit.toDouble()) || limit.toDouble() < 1.0 ||
+                limit.toDouble() > static_cast<double>(max_search_recommendations) || std::floor(limit.toDouble()) != limit.toDouble())
+                reject("invalid_arguments", "result_limit must be an integer from 1 to 5.");
+            result_limit = static_cast<std::size_t>(limit.toInt());
+        }
+        const auto catalog = control_catalog(network_);
+        std::vector<SearchAxis> axes;
+        QSet<QString> seen;
+        std::size_t combinations = 1;
+        for (const auto& entry : requested_axes) {
+            if (!entry.isObject()) reject("invalid_arguments", "Each search axis must be an object.");
+            const auto object = entry.toObject();
+            keys(object, {"control_id", "values"}, {"control_id", "values"});
+            const auto id = string(object, "control_id");
+            if (seen.contains(id)) reject("invalid_control", "Search control IDs must be unique.");
+            seen.insert(id);
+            const auto descriptor = std::find_if(catalog.begin(), catalog.end(), [&](const ControlDescriptor& item) { return q(item.id) == id; });
+            if (descriptor == catalog.end()) reject("invalid_control", "Unknown search control ID: " + id);
+            if (!object.value("values").isArray()) reject("invalid_arguments", "Search values must be an array.");
+            const auto values = object.value("values").toArray();
+            if (values.isEmpty()) reject("invalid_arguments", "Every search axis needs explicit candidate values.");
+            if (static_cast<std::size_t>(values.size()) > max_search_candidates / combinations)
+                reject("resource_limit", "Search exceeds 10000 combinations.");
+            combinations *= static_cast<std::size_t>(values.size());
+            SearchAxis axis; axis.control_id = id.toStdString();
+            axis.values.reserve(static_cast<std::size_t>(values.size()));
+            for (const auto& value : values) {
+                if (!value.isDouble() || !std::isfinite(value.toDouble()) ||
+                    value.toDouble() < descriptor->minimum || value.toDouble() > descriptor->maximum)
+                    reject("invalid_control", "Search values must be finite and respect catalog bounds: " + id);
+                axis.values.push_back(value.toDouble());
+            }
+            axes.push_back(std::move(axis));
+        }
+        {
+            std::lock_guard lock(mutex_);
+            if (runs_.size() + result_limit > max_runs) reject("resource_limit", "The session has insufficient run-store capacity for the requested search result limit.");
+        }
+        if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed before search began.");
+        const auto search_id = uuid();
+        const auto searched = search_candidates(network_, axes, SearchOptions{config_, result_limit});
+        const auto& diagnostics = searched.diagnostics;
+        QJsonObject response{{"ok", true}, {"search_id", search_id}, {"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_},
+            {"horizon_h", config_.horizon_h}, {"result_limit", static_cast<int>(result_limit)},
+            {"search_status", searched.status == SearchStatus::recommendations_ready ? "recommendations_ready" : "no_feasible_plan_found"},
+            {"diagnostics", QJsonObject{{"candidates_evaluated", static_cast<qint64>(diagnostics.candidates_evaluated)},
+                {"screen_passes", static_cast<qint64>(diagnostics.screen_passes)},
+                {"constraint_screen_rejections", static_cast<qint64>(diagnostics.constraint_screen_rejections)},
+                {"numerical_screen_rejections", static_cast<qint64>(diagnostics.numerical_screen_rejections)},
+                {"reference_checks", static_cast<qint64>(diagnostics.reference_checks)},
+                {"reference_rejections", static_cast<qint64>(diagnostics.reference_rejections)}}},
+            {"scope", "Best validated plans among the evaluated finite candidates; no global optimum, global infeasibility or indefinite sustainability is established."}};
+        QJsonArray results, ids;
+        for (const auto& candidate : searched.recommendations) {
+            StoredRun run;
+            run.id = uuid(); run.candidate_id = "search:" + search_id + ":" + QString::number(static_cast<qulonglong>(candidate.candidate_index));
+            run.created_at = QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs);
+            run.compiled = compile(network_, candidate.overrides);
+            run.result = candidate.run;
+            run.reported_validation = candidate.validation;
+            run.explicit_validation = candidate.validation;
+            run.validation_id = uuid(); run.validation_source = "native_search_dense_reference";
+            run.search_id = search_id; run.search_candidate_index = candidate.candidate_index;
+            run.overrides = candidate.overrides;
+            std::lock_guard lock(mutex_);
+            if (runs_.size() >= max_runs) {
+                response["ok"] = false;
+                response["error"] = QJsonObject{{"code", "resource_limit"}, {"message", "The run-store limit was reached while retaining search results."}};
+                response["completed_runs"] = results; response["run_ids"] = ids;
+                return response;
+            }
+            const auto id = run.id;
+            results.append(summary(run)); ids.append(id);
+            runs_.emplace(id, std::move(run));
+        }
+        response["runs"] = results; response["run_ids"] = ids;
+        if (!current_.load()) {
+            response["ok"] = false;
+            response["error"] = QJsonObject{{"code", "stale_snapshot"}, {"message", "The physical snapshot changed during search; completed results are historical evidence only."}};
+            response["completed_runs"] = results;
+        }
+        return response;
     } catch (const InvalidCall& error) {
         return failure(error.code, error.message);
     } catch (const std::invalid_argument&) {
@@ -345,6 +439,12 @@ QJsonArray SimulationGateway::toolDefinitions() {
     auto run_args = snapshot; run_args["run_id"] = text_schema();
     auto compare_args = snapshot;
     compare_args["run_ids"] = QJsonObject{{"type", "array"}, {"minItems", 2}, {"maxItems", 32}, {"uniqueItems", true}, {"items", text_schema()}};
+    const auto search_axis = schema({{"control_id", text_schema()},
+        {"values", QJsonObject{{"type", "array"}, {"minItems", 1}, {"maxItems", static_cast<int>(max_search_candidates)},
+            {"items", QJsonObject{{"type", "number"}, {"minimum", 0}}}}}}, {"control_id", "values"});
+    auto search_args = snapshot;
+    search_args["axes"] = QJsonObject{{"type", "array"}, {"maxItems", static_cast<int>(max_search_controls)}, {"items", search_axis}};
+    search_args["result_limit"] = QJsonObject{{"type", "integer"}, {"minimum", 1}, {"maximum", static_cast<int>(max_search_recommendations)}};
     return {
         tool("get_network_state", "Read the actual immutable incident topology, IDs, state, fixed planning horizon and capabilities. Required before recommending.", schema({}, {})),
         tool("get_control_catalog", "Read actual stable control IDs, units, snapshot values and bounds. Required before recommending; unspecified controls retain snapshot values.", schema({}, {})),
@@ -352,7 +452,8 @@ QJsonArray SimulationGateway::toolDefinitions() {
         tool("simulate_candidates", "Evaluate 1..32 intervention candidates through the real native engine from the same immutable snapshot and fixed horizon. Only specified controls change.", schema(candidate_args, {"snapshot_id", "candidates"})),
         tool("validate_run", "Independently validate a stored run using the authoritative native validator. Only an explicitly validated feasible run may be recommended or staged.", schema(run_args, {"snapshot_id", "run_id"})),
         tool("compare_runs", "Compare real stored run costs, validation, limit times, headroom, controls and trajectories from this snapshot and horizon.", schema(compare_args, {"snapshot_id", "run_ids"})),
-        tool("request_approval", "Stage an inspected, explicitly validated feasible run for human review. This does not approve or apply controls.", schema(run_args, {"snapshot_id", "run_id"}))
+        tool("request_approval", "Stage an inspected, independently validated feasible run for human review. This does not approve or apply controls.", schema(run_args, {"snapshot_id", "run_id"})),
+        tool("search_interventions", "Run the real native finite search across at most four catalog control axes and 10000 combinations at the fixed snapshot/horizon. Finalists are independently dense-reference validated and stored; the result is best among evaluated candidates, not a global optimum. Empty axes evaluate unchanged operation once.", schema(search_args, {"snapshot_id", "axes"}))
     };
 }
 

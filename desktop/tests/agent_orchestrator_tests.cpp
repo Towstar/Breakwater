@@ -280,6 +280,40 @@ private slots:
         QVERIFY(session.gateway() == replacement);
         QCOMPARE(session.result()["status"].toString(), "no_validated_plan");
     }
+    void nativeSearchToolProducesStoredValidatedRecommendations() {
+        FakeModel model;
+        model.respond = [step = 0, snapshot = QString{}, selected = QString{}](const QJsonArray& history) mutable -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
+            case 1: {
+                snapshot = resultFor(history, "state")["snapshot_id"].toString();
+                const QJsonArray axes{
+                    QJsonObject{{"control_id", "route:bypass:flow"}, {"values", QJsonArray{0, 5, 10, 15, 20, 25}}},
+                    QJsonObject{{"control_id", "route:backup_pump:flow"}, {"values", QJsonArray{16, 25, 35}}},
+                    QJsonObject{{"control_id", "route:truck_route:flow"}, {"values", QJsonArray{0, 5, 10, 15, 20, 22}}},
+                    QJsonObject{{"control_id", "source:source_a:curtail"}, {"values", QJsonArray{0, 5, 10, 15}}}
+                };
+                return calls({call("search", "search_interventions", {{"snapshot_id", snapshot}, {"axes", axes}, {"result_limit", 5}})});
+            }
+            case 2: {
+                const auto runs = resultFor(history, "search")["runs"].toArray();
+                if (runs.isEmpty()) return conclusion();
+                selected = runs.first().toObject()["run_id"].toString();
+                return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", selected}})});
+            }
+            default: return conclusion(selected);
+            }
+        };
+        AgentOrchestrator session(&model);
+        session.start(std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()), "search-incident"), "Find a low-cost validated response.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QCOMPARE(resultFor(model.history, "search")["diagnostics"].toObject()["candidates_evaluated"].toInt(), 432);
+        QVERIFY(session.result()["verified_feasible"].toBool());
+        QCOMPARE(session.result()["verified_cost"].toDouble(), 4800.0);
+        QCOMPARE(session.result()["approval_status"].toString(), "pending_operator");
+        QVERIFY(!session.result()["validation_id"].toString().isEmpty());
+        QVERIFY(session.result()["warnings"].toArray().size() > 0);
+    }
 };
 QTEST_GUILESS_MAIN(OrchestratorTests)
 #include "agent_orchestrator_tests.moc"

@@ -10,10 +10,10 @@ Implemented:
 - Asynchronous Qt Network Nemotron client with process-environment configuration,
   non-streaming tool calls, matching tool-result continuation, retries, deadlines,
   cancellation, bounds, redirect rejection and redacted errors.
-- Seven allowlisted tools backed by the existing engine, immutable snapshot/run IDs,
+- Eight allowlisted tools backed by the existing engine, immutable snapshot/run IDs,
   a 128-run session store, full retained trajectories, explicit independent validation,
   candidate comparison and approval staging. Existing native contracts are unchanged.
-- Bounded adaptive orchestration: 12 calls, three candidate-refinement batches,
+- Bounded adaptive orchestration: 12 calls, three candidate-refinement/search rounds,
   two minutes. Model-generated numbers cannot establish feasibility or create runs.
 - A Qt investigator panel with activity, historical run summaries, grounded result
   fields and an explicit operator action to apply a staged simulated plan.
@@ -48,13 +48,33 @@ Unavailable/limited:
 
 - Live NVIDIA model access/tool execution is **unverified**; no API key is configured.
   Fake responses test software behavior, not live adaptive model performance.
-- Engine search is not integrated and no search tool is advertised. Person A owns
-  that dependency. Existing compile/simulate/validate already support real candidates.
+- Person A's native bounded search (`4eea5a7`) is merged and exposed through
+  `search_interventions`; combined post-merge verification is recorded below.
 - History is in memory for the current agent session; persistence/replay, streaming,
   HTTP 202 polling, robust optimization and detailed charts remain later work.
 - Quality, scientific ML and proofs remain separate and unavailable as described below.
 
 ## Implemented
+
+### Person A search integrated into Person B
+
+- Merged `codex/person-a-engine` commit `4eea5a7` without conflicts.
+- Added the real `search_interventions` tool without changing the existing engine
+  interfaces. Search axes, candidate counts, fixed horizon, run storage, native
+  reference validation and operator approval gates are enforced in C++.
+- Post-merge desktop/Ninja build: **9/9 CTest suites passed**. Full desktop MSVC
+  AddressSanitizer build: **9/9 passed**, including the 16-case engine search suite,
+  both search examples, gateway search and model/tool orchestration tests.
+- The canonical tool test actually evaluates 432 combinations, finds 39 screening
+  survivors and stores five independently validated finalists. Lowest evaluated cost
+  is 4,800 synthetic units; final A/B volumes 116/117 m3, minimum headroom 4 m3.
+  This uses storage headroom and establishes neither global optimality nor indefinite
+  sustainability. The restricted search reports no feasible plan among its inputs.
+- The fake-model integration test chooses search, receives real stored run IDs and
+  native validation, stages the selected result and produces a grounded recommendation.
+  This remains distinct from an unexecuted live NVIDIA investigation.
+
+### Shared base
 
 - C++20 / MSVC numerical library, canonical scenario, native CLI and 13 acceptance cases.
 - Generic supported topology, control catalog, immutable candidate compilation, dense
@@ -84,7 +104,7 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 
 ## Planned, not implemented in this base
 
-- Native batch search, durable history/replay, robust optimization and detailed charts.
+- Durable history/replay, robust optimization and detailed charts.
 - Desktop-to-Python process adapter, transport reference, Torch differentiation,
   PhysicsNeMo model/training/inference, and ML readiness evidence.
 - Lean/Mathlib project and checked algorithm proofs.

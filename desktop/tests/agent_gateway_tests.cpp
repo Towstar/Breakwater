@@ -3,6 +3,7 @@
 #include <QtTest>
 #include <cmath>
 #include <future>
+#include <limits>
 
 using namespace breakwater;
 using namespace breakwater::desktop::agent;
@@ -30,6 +31,13 @@ QJsonObject runCase(SimulationGateway& gateway, const std::string& name) {
 QJsonObject validateCase(SimulationGateway& gateway, const QJsonObject& run) {
     return gateway.execute("validate_run", args(gateway, {{"run_id", run["run_id"]}}));
 }
+QJsonObject axis(const QString& id, const QJsonArray& values) { return {{"control_id", id}, {"values", values}}; }
+QJsonArray canonicalSearchAxes() {
+    return {axis("route:bypass:flow", {0, 5, 10, 15, 20, 25}),
+        axis("route:backup_pump:flow", {16, 25, 35}),
+        axis("route:truck_route:flow", {0, 5, 10, 15, 20, 22}),
+        axis("source:source_a:curtail", {0, 5, 10, 15})};
+}
 }
 
 class AgentGatewayTests : public QObject {
@@ -43,7 +51,7 @@ private slots:
             QVERIFY(!function["parameters"].toObject()["additionalProperties"].toBool(true));
         }
         QCOMPARE(names, QStringList({"get_network_state", "get_control_catalog", "forecast_baseline",
-            "simulate_candidates", "validate_run", "compare_runs", "request_approval"}));
+            "simulate_candidates", "validate_run", "compare_runs", "request_approval", "search_interventions"}));
     }
     void baselineUsesActualEngineEvidence() {
         SimulationGateway gateway(main_pump_failure(canonical_scenario()), "hash-incident");
@@ -203,7 +211,8 @@ private slots:
         for (int i = 0; i < 128; ++i) QVERIFY(gateway.execute("forecast_baseline", args(gateway))["ok"].toBool());
         QCOMPARE(gateway.runs().size(), 128);
         QCOMPARE(errorCode(gateway.execute("forecast_baseline", args(gateway))), "resource_limit");
-        QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway))), "capability_unavailable");
+        QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway))), "invalid_arguments");
+        QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway, {{"axes", QJsonArray{}}}))), "resource_limit");
     }
     void concurrentRunsRetainIndependentEvidence() {
         SimulationGateway gateway(main_pump_failure(canonical_scenario()), "physical");
@@ -236,6 +245,129 @@ private slots:
         QCOMPARE(details["time_h"].toArray().size(), 121);
         QCOMPARE(details["volumes_m3"].toArray().size(), 1);
         QVERIFY(!details["run"].toObject()["current"].toBool(true));
+    }
+    void nativeSearchStoresActualReferenceValidatedRecommendations() {
+        SimulationGateway gateway(main_pump_failure(canonical_scenario()), "search-incident");
+        const auto state = gateway.execute("get_network_state", {});
+        QVERIFY(state["capabilities"].toObject()["search_interventions"].toBool());
+        const auto searched = gateway.execute("search_interventions", args(gateway, {{"axes", canonicalSearchAxes()}}));
+        QVERIFY2(searched["ok"].toBool(), QJsonDocument(searched).toJson().constData());
+        QCOMPARE(searched["search_status"].toString(), "recommendations_ready");
+        const auto diagnostics = searched["diagnostics"].toObject();
+        QCOMPARE(diagnostics["candidates_evaluated"].toInt(), 432);
+        QCOMPARE(diagnostics["screen_passes"].toInt(), 39);
+        QCOMPARE(diagnostics["reference_checks"].toInt(), 5);
+        QCOMPARE(searched["run_ids"].toArray().size(), 5);
+        QCOMPARE(gateway.runs().size(), 5);
+        const auto best = searched["runs"].toArray().first().toObject();
+        QCOMPARE(best["snapshot_id"].toString(), gateway.snapshotId());
+        QCOMPARE(best["horizon_h"].toDouble(), 3.0);
+        QCOMPARE(best["solver"].toString(), "dense_reference");
+        QCOMPARE(best["validation_source"].toString(), "native_search_dense_reference");
+        QCOMPARE(best["validation_status"].toString(), "validated");
+        QVERIFY(!best["validation_id"].toString().isEmpty());
+        QVERIFY(best["validation"].toObject()["feasible"].toBool());
+        QVERIFY(std::abs(best["cost"].toDouble() - 4800.0) < 1e-8);
+        QVERIFY(std::abs(best["validation"].toObject()["minimum_headroom_m3"].toDouble() - 4.0) < 1e-8);
+        const auto tanks = best["tanks"].toArray();
+        QVERIFY(std::abs(tanks[0].toObject()["final_m3"].toDouble() - 116.0) < 1e-8);
+        QVERIFY(std::abs(tanks[1].toObject()["final_m3"].toDouble() - 117.0) < 1e-8);
+        const auto id = best["run_id"].toString();
+        // Search performs actual independent validation, while inspection is still mandatory.
+        QCOMPARE(errorCode(gateway.recommendation(id)), "inspection_required");
+        QVERIFY(gateway.execute("get_control_catalog", {})["ok"].toBool());
+        const auto recommendation = gateway.recommendation(id);
+        QVERIFY(recommendation["ok"].toBool());
+        QCOMPARE(recommendation["verified_cost"].toDouble(), best["cost"].toDouble());
+        QVERIFY(gateway.execute("request_approval", args(gateway, {{"run_id", id}}))["ok"].toBool());
+        QCOMPARE(gateway.stagedPlan()["selected_run_id"].toString(), id);
+        // Staging does not modify the immutable incident, even after optimized search.
+        const auto baseline = gateway.execute("forecast_baseline", args(gateway))["run"].toObject();
+        QVERIFY(std::abs(baseline["tanks"].toArray().first().toObject()["final_m3"].toDouble() - 236.0) < 1e-8);
+    }
+    void nativeSearchReportsNoFeasiblePlanWithoutInventingRuns() {
+        SimulationGateway gateway(main_pump_failure(canonical_scenario()), "restricted-search");
+        const auto searched = gateway.execute("search_interventions", args(gateway,
+            {{"axes", QJsonArray{axis("route:bypass:flow", {0, 5})}}}));
+        QVERIFY(searched["ok"].toBool());
+        QCOMPARE(searched["search_status"].toString(), "no_feasible_plan_found");
+        QCOMPARE(searched["diagnostics"].toObject()["candidates_evaluated"].toInt(), 2);
+        QCOMPARE(searched["diagnostics"].toObject()["reference_checks"].toInt(), 0);
+        QVERIFY(searched["runs"].toArray().isEmpty());
+        QVERIFY(gateway.runs().isEmpty());
+        QVERIFY(searched["scope"].toString().contains("no global"));
+        QVERIFY(!gateway.stagedPlan()["ok"].toBool());
+        SimulationGateway healthy(canonical_scenario(), "unchanged-search");
+        const auto unchanged = healthy.execute("search_interventions", args(healthy, {{"axes", QJsonArray{}}}));
+        QVERIFY(unchanged["ok"].toBool());
+        QCOMPARE(unchanged["diagnostics"].toObject()["candidates_evaluated"].toInt(), 1);
+        QCOMPARE(unchanged["runs"].toArray().size(), 1);
+    }
+    void nativeSearchRejectsMalformedOutOfBoundsAndOversizedRequests() {
+        SimulationGateway gateway(main_pump_failure(canonical_scenario()), "search-limits");
+        const std::vector<QJsonArray> invalid_axes{
+            {axis("invented", {0})}, {axis("route:bypass:flow", {-1})},
+            {axis("route:bypass:flow", {26})}, {axis("route:main_pump:flow", {1})},
+            {axis("route:bypass:flow", {true})}, {axis("route:bypass:flow", {"20"})},
+            {axis("route:bypass:flow", {std::numeric_limits<double>::infinity()})},
+            {axis("route:bypass:flow", {0}), axis("route:bypass:flow", {5})}
+        };
+        for (const auto& axes : invalid_axes) {
+            QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway, {{"axes", axes}}))), "invalid_control");
+            QVERIFY(gateway.runs().isEmpty());
+        }
+        const std::vector<QJsonObject> invalid_arguments{
+            {{"axes", "not an array"}}, {{"axes", QJsonArray{axis("route:bypass:flow", {})}}},
+            {{"axes", QJsonArray{QJsonObject{{"control_id", "route:bypass:flow"}, {"values", QJsonArray{0}}, {"extra", true}}}}},
+            {{"axes", QJsonArray{QJsonObject{{"control_id", "route:bypass:flow"}, {"values", "not an array"}}}}},
+            {{"axes", QJsonArray{42}}},
+            {{"axes", QJsonArray{}}, {"horizon_h", 1.0}},
+            {{"axes", QJsonArray{}}, {"result_limit", 0}}, {{"axes", QJsonArray{}}, {"result_limit", 6}},
+            {{"axes", QJsonArray{}}, {"result_limit", 1.5}}, {{"axes", QJsonArray{}}, {"result_limit", true}}
+        };
+        for (const auto& request : invalid_arguments)
+            QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway, request))), "invalid_arguments");
+        QJsonArray excessive_axes;
+        for (int i = 0; i < 5; ++i) excessive_axes.append(axis("route:bypass:flow", {0}));
+        QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway, {{"axes", excessive_axes}}))), "resource_limit");
+        QJsonArray over_hundred, hundred;
+        for (int i = 0; i < 101; ++i) over_hundred.append(0);
+        for (int i = 0; i < 100; ++i) hundred.append(16);
+        const QJsonArray too_many_combinations{axis("route:bypass:flow", over_hundred), axis("route:backup_pump:flow", hundred)};
+        QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway, {{"axes", too_many_combinations}}))), "resource_limit");
+        QVERIFY(gateway.runs().isEmpty());
+    }
+    void nativeSearchHandlesCustomColonIdsFixedHorizonAndStaleness() {
+        Network network;
+        network.assets = {{"west:tank", "West", AssetKind::tank, 100.0, 50.0},
+            {"east:tank", "East", AssetKind::tank, 100.0, 50.0}, {"north:tank", "North", AssetKind::tank, 100.0, 50.0},
+            {"treatment:plant", "Plant", AssetKind::treatment, 10.0}};
+        network.routes = {{"west:east", "west:tank", "east:tank", 10.0, 1.0},
+            {"east:north", "east:tank", "north:tank", 10.0, 1.0},
+            {"north:plant", "north:tank", "treatment:plant", 10.0, 1.0}};
+        SimulationGateway gateway(network, "custom-search", 1.5); inspect(gateway);
+        const auto id = gateway.execute("get_control_catalog", {})["controls"].toArray().first().toObject()["control_id"].toString();
+        const auto searched = gateway.execute("search_interventions", args(gateway,
+            {{"axes", QJsonArray{axis(id, {1.0, 2.0})}}, {"result_limit", 1}}));
+        QVERIFY(searched["ok"].toBool());
+        QCOMPARE(searched["diagnostics"].toObject()["candidates_evaluated"].toInt(), 2);
+        QCOMPARE(searched["runs"].toArray().size(), 1);
+        const auto run = searched["runs"].toArray().first().toObject();
+        QCOMPARE(run["tanks"].toArray().size(), 3);
+        QCOMPARE(run["horizon_h"].toDouble(), 1.5);
+        QCOMPARE(run["controls"].toArray().first().toObject()["control_id"].toString(), id);
+        QVERIFY(!QJsonDocument(run).toJson().contains("tank_a"));
+        const auto run_id = run["run_id"].toString();
+        QVERIFY(gateway.recommendation(run_id)["ok"].toBool());
+        gateway.invalidate();
+        QCOMPARE(errorCode(gateway.recommendation(run_id)), "stale_snapshot");
+        QCOMPARE(errorCode(gateway.execute("request_approval", args(gateway, {{"run_id", run_id}}))), "stale_snapshot");
+        QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway, {{"axes", QJsonArray{}}}))), "stale_snapshot");
+        const auto retained = gateway.runDetails(run_id);
+        QVERIFY(retained["ok"].toBool());
+        QCOMPARE(retained["time_h"].toArray().last().toDouble(), 1.5);
+        QVERIFY(!retained["run"].toObject()["current"].toBool(true));
+        QCOMPARE(gateway.runs().size(), 1);
     }
 };
 

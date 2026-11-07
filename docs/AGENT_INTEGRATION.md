@@ -40,6 +40,7 @@ the exact tool-call ID so it can revise its approach.
 | `simulate_candidates` | `snapshot_id`, `candidates` | Actual stored candidate runs |
 | `validate_run` | `snapshot_id`, `run_id` | Independent authoritative validation, validation ID |
 | `compare_runs` | `snapshot_id`, `run_ids` | Comparable stored summaries from the same snapshot/horizon |
+| `search_interventions` | `snapshot_id`, `axes`, optional `result_limit` | Actual engine search diagnostics and independently validated stored finalists |
 | `request_approval` | `snapshot_id`, `run_id` | Human review request; `applied: false` |
 
 Example candidate request (obtain the actual snapshot/control IDs from inspection):
@@ -63,8 +64,9 @@ runs, and candidate IDs must be unique within a batch. Full trajectories remain
 available through the application's `SimulationGateway::runDetails`; the model sees
 compact initial/middle/final samples, limits, cost and validation evidence.
 
-Only an explicitly successful `validate_run` makes a run eligible for recommendation
-or staging. Unknown/foreign run IDs, failed validation and stale snapshots are rejected.
+An authoritative passing validation report is required for recommendation or staging.
+Individually simulated runs need `validate_run`; native search finalists carry their
+independent reference validation. Unknown/foreign run IDs, failures and stale snapshots are rejected.
 The final model message must be JSON with `selected_run_id` and `explanation` only:
 
 ```json
@@ -75,10 +77,20 @@ Use `null` for the selected ID when no validated plan was selected. This never
 establishes global infeasibility. Costs, settings, margins and feasibility are copied
 from the stored run/report, never accepted from generated numerical fields.
 
-There is **no published search tool** in this increment. Person A's future native
-search implementation is the dependency for adding one. The model can propose and
-evaluate bounded candidate batches now. No simulator, validator or optimizer is
-duplicated in the agent layer.
+Person A's search at `4eea5a7` is now integrated. `search_interventions` accepts up to
+four axes `{control_id, values: [numbers...]}`, at most 10,000 Cartesian combinations,
+and 1–5 requested finalists. It calls the actual `search_candidates` implementation
+at the fixed session horizon. Native dense-reference trajectories and passing reports
+are stored with real application IDs. Screening counts never imply validation of every
+survivor. No simulator, validator or optimizer is duplicated in the agent layer.
+
+```json
+{"snapshot_id":"actual-id","axes":[{"control_id":"route:bypass:flow","values":[0,10,20,25]}],"result_limit":5}
+```
+
+A no-plan result applies only to the evaluated inputs. Engine search finalists already
+carry authoritative independent validation; individually simulated candidates still
+require an explicit `validate_run` call before recommendation or staging.
 
 ## Sessions, snapshots and approval
 
@@ -89,7 +101,7 @@ All simulations and validation run through the existing `compile`, `simulate` an
 `validate` functions on background workers. Qt-owned activity updates return through
 future-watcher signals on the UI thread.
 
-Sessions stop at 12 tool calls, three candidate-refinement batches, or two minutes.
+Sessions stop at 12 tool calls, three candidate-refinement/search rounds, or two minutes.
 The client uses non-streaming asynchronous HTTPS, 30-second request timeouts, bounded
 transient retries, a 2 MiB request/response limit and manual redirect rejection.
 Cancellation ignores late results; physical edits and reset invalidate sessions and

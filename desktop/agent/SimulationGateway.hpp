@@ -39,6 +39,9 @@ private:
         ValidationReport reported_validation;
         std::optional<ValidationReport> explicit_validation;
         QString validation_id;
+        QString validation_source;
+        QString search_id;
+        std::optional<std::size_t> search_candidate_index;
         std::vector<ControlValue> overrides;
     };
     const Network network_;
