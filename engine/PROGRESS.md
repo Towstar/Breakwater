@@ -56,3 +56,30 @@ counts do not imply all survivors were reference-validated. No speedup benchmark
 formal proof is claimed. Transport, differentiable PyTorch, PhysicsNeMo execution and
 Lean proofs remain separate future increments. Shared docs/STATUS.md is for B to update
 when this branch is integrated.
+
+## Increment 2: single-pipe transport reference
+
+Status: implemented and verified on the same isolated Person A branch. Adds only
+engine-owned transport API, implementation, example, tests and numerical notes.
+
+- Conservative cell-centered upwind/centered advection-diffusion-reaction solver, with
+  half-cell Dirichlet inlet, zero-gradient diffusive outlet and optional closed boundary.
+- Forward/zero flow schedules, interval-average piecewise-linear inlet forcing, output
+  and schedule event alignment, enforced boundary-aware positivity CFL, bounded work.
+- Time-distance fields, exact final-time sample and signed tracer-mass ledger in mg.
+- Robust finite-mass accumulation and scaled roundoff/ledger checks; no clipping.
+- `engine/TRANSPORT.md` records equations, units, boundaries, resource limits and usage.
+
+Executed on 2026-11-07 with the same MSVC/CMake toolchain:
+
+1. `scripts/build.ps1 -Preset headless`: all six CTest programs passed, containing
+   13 baseline, 16 search and 18 transport cases plus three executable examples.
+2. `scripts/build.ps1 -Preset asan`: the same six programs passed under AddressSanitizer.
+3. Explicit native example/CSV run: 64 cells, 41 frames, 136 substeps, max CFL 0.9,
+   final inventory 1994.10774493 mg, max mass residual 1.36887055523e-12 mg.
+4. Independent source review checked boundary coefficients, signed unit conversion,
+   event alignment and positivity. Extreme-value findings received regression tests.
+
+The transport module is not yet connected to the desktop/agent and does not change
+volume-plan feasibility. PyTorch differentiation, PhysicsNeMo training/inference and
+Lean proofs remain subsequent independent increments.
