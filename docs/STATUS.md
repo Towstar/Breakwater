@@ -73,6 +73,12 @@ Unavailable/limited:
 - The fake-model integration test chooses search, receives real stored run IDs and
   native validation, stages the selected result and produces a grounded recommendation.
   This remains distinct from an unexecuted live NVIDIA investigation.
+- Regenerated `Breakwater.slnx` with the optional VS2022 generator and existing .NET
+  10 migration. The complete generated graph (50 projects, 127 dependency edges)
+  is preserved, including all new agent/search targets. Direct single-process MSBuild
+  of the root solution passed, followed by **9/9 generated-tree CTest suites passed**.
+  VS2026 remains the generation-script default. No generated `.vcxproj` or SDK files
+  are committed.
 
 ### Shared base
 

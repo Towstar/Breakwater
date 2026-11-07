@@ -27,6 +27,16 @@ use C++20. Qt code generation and source references come from CMake; regenerate 
 changing the build structure. Generated `.vcxproj` files live in ignored `out/visual-studio`.
 The root `.slnx` retains the generated dependency graph and includes the documentation.
 
+Visual Studio 2022 17.14 with the existing .NET 10 SDK is also supported locally:
+
+```powershell
+.\scripts\Generate-VisualStudio.ps1 -Generator 'Visual Studio 17 2022' -EmbeddedDebugInfo -Build
+```
+
+That option migrates CMake's generated `.sln` to `.slnx` with `dotnet sln migrate`.
+The default generator remains Visual Studio 2026. Regenerate after pulling engine or
+desktop target changes; SDKs and generated project files are not delivered by Git.
+
 If using the project-local SDK downloaded during development, omit `-QtPrefix`.
 The script detects `.tools/Qt/6.12.0/msvc2022_64` automatically.
 
