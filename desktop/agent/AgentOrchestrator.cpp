@@ -36,6 +36,9 @@ AgentOrchestrator::AgentOrchestrator(ModelTransport* transport, QObject* parent)
         if (running_ && awaiting_model_) event("model_request_started");
     });
     connect(transport_, &ModelTransport::replyReady, this, &AgentOrchestrator::receive);
+    connect(transport_, &ModelTransport::requestCompleted, this, [this](const QJsonObject& metadata) {
+        if ((running_ && awaiting_model_) || recording_cancel_metadata_) event("model_request_completed", {{"request", metadata}});
+    });
     connect(transport_, &ModelTransport::requestFailed, this, [this](const QString& code, const QString& message) {
         if (running_ && awaiting_model_) fail(code, message);
     });
@@ -223,8 +226,11 @@ void AgentOrchestrator::fail(const QString& code, const QString& message) {
     pending_calls_ = {}; status_ = message;
     const auto epoch = generation_;
     const QPointer<AgentOrchestrator> guard(this);
+    recording_cancel_metadata_ = true;
     transport_->cancel();
-    if (!guard || generation_ != epoch || running_) return;
+    if (!guard) return;
+    recording_cancel_metadata_ = false;
+    if (generation_ != epoch || running_) return;
     event("agent_failed", {{"error", QJsonObject{{"code", code}, {"message", message}}}});
 }
 
@@ -234,8 +240,11 @@ void AgentOrchestrator::cancel() {
     pending_calls_ = {}; status_ = "Cancelled. Completed runs were retained.";
     const auto epoch = generation_;
     const QPointer<AgentOrchestrator> guard(this);
+    recording_cancel_metadata_ = true;
     transport_->cancel();
-    if (!guard || generation_ != epoch || running_) return;
+    if (!guard) return;
+    recording_cancel_metadata_ = false;
+    if (generation_ != epoch || running_) return;
     event("agent_cancelled");
 }
 

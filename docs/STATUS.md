@@ -3,6 +3,55 @@
 Scope: the shared base plus Person B's native agent/run-store increment, following
 KICKOFF_PERSON_B.md at `bf90e55`. The accepted plan and original handoff are preserved.
 
+## Person B desktop foundation — November 7, 2026
+
+PRs #1 and #2 were reviewed and merged with merge commits. The new foundation work
+starts from `main` commit `630e33c`; Person A's native/scientific files are unchanged.
+
+Implemented:
+
+- Automatic SQLite investigation history with a dedicated worker-owned connection,
+  transactional complete checkpoints, out-of-order checkpoint rejection, interrupted
+  session recovery, atomic JSON export and validated historical-only import.
+- Saved immutable snapshots, complete native trajectories/reports, objectives, events,
+  sanitized model request metadata, recommendations and operator approval audit.
+- History browsing, baseline/candidate selection, cost/control/margin/violation
+  comparison, tank selection and actual trajectory charts including capacity boundaries
+  and unclipped violations. Selection does not change simulated operating controls.
+- Explicit staged-plan review showing IDs, native evidence and current→proposed
+  controls. Historical evidence or a different selected/staged/recommended run cannot
+  be applied; existing revision/reset/validation/double-application gates remain.
+- An asynchronous Python-worker health adapter for the existing NDJSON-v1 protocol,
+  with identity/schema checks, bounded output, timeout/cancel/crash handling, local
+  interpreter configuration and accurate unavailable/not-implemented states.
+- Sanitized request completion metadata before terminal events, including cancellation
+  and deadlines. Final checkpoint capture/serialization is queued off the UI thread.
+- The project-v1 and numerical engine interfaces remain unchanged. Imported evidence
+  is never inserted into an authoritative live model gateway.
+
+Executed evidence:
+
+- Current desktop/Ninja build: **12/12 CTest suites passed**.
+- Full desktop MSVC AddressSanitizer build: **12/12 suites passed**, no sanitizer
+  failures reported. This includes persistence, controller/history, worker, agent,
+  numerical search and QML startup/render checks.
+- The configured real Python 3.12 worker suite reports **24 passed, 0 failed, 0 skipped**.
+  It executes the existing worker's actual health operation as well as bounded failure
+  fixtures; no PyTorch/PhysicsNeMo model execution is claimed.
+- Isolated SQLite checks report **13 passed, 0 failed, 0 skipped**, including worker-
+  thread capture, immediate shutdown draining, restart recovery and rollback.
+- Isolated transport checks report **28 passed, 0 failed** with fake HTTP responses.
+- Comparison tests can export `offline-verified-session.json` when
+  `BREAKWATER_TEST_ARTIFACT_DIR` is configured. Its numbers are actual native baseline
+  and mixed-candidate results; the archive explicitly states no live model ran.
+
+Live milestone: **pending credentials**. `NVIDIA_API_KEY` was absent from the process,
+user and machine environments. No authenticated hosted request or live model rehearsal
+was performed. Protocol smoke, three canonical rehearsals and edited/custom-network
+live investigations remain required before claiming the live demonstration complete.
+See [DESKTOP_FOUNDATION.md](DESKTOP_FOUNDATION.md) for workflow, storage, worker setup,
+archive semantics and verification commands.
+
 ## Person B agent increment — November 7, 2026
 
 Implemented:
@@ -50,8 +99,8 @@ Unavailable/limited:
   Fake responses test software behavior, not live adaptive model performance.
 - Person A's native bounded search (`4eea5a7`) is merged and exposed through
   `search_interventions`; combined post-merge verification is recorded below.
-- History is in memory for the current agent session; persistence/replay, streaming,
-  HTTP 202 polling, robust optimization and detailed charts remain later work.
+- Streaming, HTTP 202 polling, robust optimization and animated replay remain later
+  work. The foundation above now provides durable evidence history and trajectory charts.
 - Quality, scientific ML and proofs remain separate and unavailable as described below.
 
 ## Implemented
@@ -110,8 +159,8 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 
 ## Planned, not implemented in this base
 
-- Durable history/replay, robust optimization and detailed charts.
-- Desktop-to-Python process adapter, transport reference, Torch differentiation,
+- Animated replay, robust optimization and additional chart types.
+- Transport reference, Torch differentiation,
   PhysicsNeMo model/training/inference, and ML readiness evidence.
 - Lean/Mathlib project and checked algorithm proofs.
 - Performance benchmarks, custom SIMD/GPU kernels, and sophisticated routing handles.

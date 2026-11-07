@@ -6,6 +6,7 @@
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSignalSpy>
+#include <QUuid>
 #include <QtTest>
 #include <algorithm>
 #include <cstring>
@@ -19,6 +20,7 @@ struct Response {
     int delayMs = 0;
     QNetworkReply::NetworkError error = QNetworkReply::NoError;
     QByteArray retryAfter;
+    bool notifyReadyRead = true;
 };
 
 class FakeReply final : public QNetworkReply {
@@ -35,7 +37,7 @@ public:
             if (isFinished()) return;
             delivered_ = true;
             if (response_.error != QNetworkReply::NoError) setError(response_.error, "private-transport-message");
-            if (!response_.bytes.isEmpty()) emit readyRead();
+            if (!response_.bytes.isEmpty() && response_.notifyReadyRead) emit readyRead();
             setFinished(true);
             emit finished();
         });
@@ -94,6 +96,106 @@ NemotronConfig configuration() { NemotronConfig c; c.apiKey = "test-secret-must-
 class NemotronClientTests final : public QObject {
     Q_OBJECT
 private slots:
+    void completionMetadataPrecedesThePublicResultAndContainsOnlySafeFields() {
+        FakeNetwork network; network.responses.append(Response{200, textCompletion()});
+        const auto config = configuration(); NemotronClient client(config, nullptr, &network);
+        QSignalSpy completed(&client, &ModelTransport::requestCompleted), success(&client, &ModelTransport::replyReady);
+        QStringList order;
+        connect(&client, &ModelTransport::requestCompleted, &client, [&](const QJsonObject&) { order.append("metadata"); });
+        connect(&client, &ModelTransport::replyReady, &client, [&](const QJsonObject&) { order.append("reply"); });
+        client.request(messages(), {}); QTRY_COMPARE(success.size(), 1); QCOMPARE(completed.size(), 1);
+        QCOMPARE(order, QStringList({"metadata", "reply"}));
+        const auto metadata = completed.front().front().toJsonObject();
+        QCOMPARE(metadata.size(), 8); QVERIFY(!QUuid(metadata["model_request_id"].toString()).isNull());
+        QCOMPARE(metadata["configured_model"].toString(), config.model); QCOMPARE(metadata["response_model"].toString(), config.model);
+        QCOMPARE(metadata["http_status"].toInt(), 200); QVERIFY(metadata["duration_ms"].toDouble() >= 0.0);
+        QCOMPARE(metadata["retry_count"].toInt(), 0); QCOMPARE(metadata["outcome"].toString(), "succeeded");
+        QVERIFY(metadata["error_code"].toString().isEmpty());
+        const auto serialized = QJsonDocument(metadata).toJson();
+        QVERIFY(!serialized.contains(config.apiKey.toUtf8())); QVERIFY(!serialized.contains("Authorization"));
+        QVERIFY(!serialized.contains("messages")); QVERIFY(!serialized.contains("reasoning")); QVERIFY(!serialized.contains("Ready."));
+    }
+
+    void failureMetadataIsRedactedAndPrecedesTheError() {
+        FakeNetwork network; network.responses.append(Response{401, "test-secret-must-not-leak private server reasoning"});
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy completed(&client, &ModelTransport::requestCompleted), failure(&client, &ModelTransport::requestFailed);
+        QStringList order;
+        connect(&client, &ModelTransport::requestCompleted, &client, [&](const QJsonObject&) { order.append("metadata"); });
+        connect(&client, &ModelTransport::requestFailed, &client, [&](const QString&, const QString&) { order.append("failure"); });
+        client.request(messages(), {}); QTRY_COMPARE(failure.size(), 1); QCOMPARE(completed.size(), 1);
+        QCOMPARE(order, QStringList({"metadata", "failure"}));
+        const auto metadata = completed.front().front().toJsonObject();
+        QCOMPARE(metadata["http_status"].toInt(), 401); QCOMPARE(metadata["outcome"].toString(), "failed");
+        QCOMPARE(metadata["error_code"].toString(), "authentication_failed"); QVERIFY(metadata["response_model"].toString().isEmpty());
+        const auto serialized = QJsonDocument(metadata).toJson();
+        QVERIFY(!serialized.contains("test-secret")); QVERIFY(!serialized.contains("private")); QVERIFY(!serialized.contains("reasoning"));
+    }
+
+    void metadataRejectsArbitraryOrCredentialModelText() {
+        FakeNetwork network;
+        auto response = QJsonDocument::fromJson(textCompletion()).object(); response["model"] = configuration().apiKey;
+        network.responses.append(Response{200, QJsonDocument(response).toJson()});
+        response["model"] = "private reasoning\nnot a model identifier";
+        network.responses.append(Response{200, QJsonDocument(response).toJson()});
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy completed(&client, &ModelTransport::requestCompleted), success(&client, &ModelTransport::replyReady);
+        client.request(messages(), {}); QTRY_COMPARE(success.size(), 1);
+        QVERIFY(client.lastResponseModel().isEmpty());
+        client.request(messages(), {}); QTRY_COMPARE(success.size(), 2); QCOMPARE(completed.size(), 2);
+        for (const auto& arguments : completed) {
+            const auto metadata = arguments.front().toJsonObject(); QVERIFY(metadata["response_model"].toString().isEmpty());
+            const auto bytes = QJsonDocument(metadata).toJson(); QVERIFY(!bytes.contains("test-secret")); QVERIFY(!bytes.contains("private"));
+        }
+        QVERIFY(client.lastResponseModel().isEmpty());
+        auto privateModelConfig = configuration(); privateModelConfig.model = privateModelConfig.apiKey;
+        NemotronClient privateModel(privateModelConfig, nullptr, &network);
+        QVERIFY(privateModel.configuredModelIdentifier().isEmpty());
+        QCOMPARE(client.configuredModelIdentifier(), configuration().model);
+    }
+
+    void metadataObserversMayRestartWithoutReceivingTheOldTerminalSignal() {
+        FakeNetwork network;
+        network.responses.append(Response{401, "private first failure"}); network.responses.append(Response{200, textCompletion()});
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy completed(&client, &ModelTransport::requestCompleted), success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed);
+        bool restarted = false;
+        connect(&client, &ModelTransport::requestCompleted, &client, [&](const QJsonObject&) {
+            if (!restarted) { restarted = true; client.request(messages(), {}); }
+        });
+        client.request(messages(), {}); QTRY_COMPARE(success.size(), 1);
+        QCOMPARE(completed.size(), 2); QCOMPARE(failure.size(), 0); QCOMPARE(network.requests.size(), 2);
+        QVERIFY(completed.at(0).front().toJsonObject()["model_request_id"] != completed.at(1).front().toJsonObject()["model_request_id"]);
+        QCOMPARE(completed.at(0).front().toJsonObject()["outcome"].toString(), "failed");
+        QCOMPARE(completed.at(1).front().toJsonObject()["outcome"].toString(), "succeeded");
+    }
+
+    void metadataObserversMayCancelOrDestroyBeforeThePublicResult() {
+        FakeNetwork network; network.responses.append(Response{200, textCompletion()});
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy completed(&client, &ModelTransport::requestCompleted), success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed);
+        connect(&client, &ModelTransport::requestCompleted, &client, [&](const QJsonObject&) { client.cancel(); });
+        client.request(messages(), {}); QTRY_COMPARE(completed.size(), 1); QTest::qWait(20);
+        QCOMPARE(success.size(), 0); QCOMPARE(failure.size(), 0);
+        network.responses.append(Response{200, textCompletion()});
+        QPointer<NemotronClient> disposable = new NemotronClient(configuration(), nullptr, &network);
+        QSignalSpy deletedCompletion(disposable, &ModelTransport::requestCompleted), deletedSuccess(disposable, &ModelTransport::replyReady);
+        connect(disposable, &ModelTransport::requestCompleted, &network, [&](const QJsonObject&) { delete disposable.data(); });
+        disposable->request(messages(), {}); QTRY_VERIFY(disposable.isNull());
+        QCOMPARE(deletedCompletion.size(), 1); QCOMPARE(deletedSuccess.size(), 0);
+    }
+
+    void oversizedFinishMetadataMayDestroyTheClientDuringFinalRead() {
+        FakeNetwork network;
+        network.responses.append(Response{200, QByteArray(2 * 1024 * 1024 + 1, 'x'), 0, QNetworkReply::NoError, {}, false});
+        QPointer<NemotronClient> disposable = new NemotronClient(configuration(), nullptr, &network);
+        QSignalSpy completed(disposable, &ModelTransport::requestCompleted), failed(disposable, &ModelTransport::requestFailed);
+        connect(disposable, &ModelTransport::requestCompleted, &network, [&](const QJsonObject&) { delete disposable.data(); });
+        disposable->request(messages(), {}); QTRY_VERIFY(disposable.isNull());
+        QCOMPARE(completed.size(), 1); QCOMPARE(failed.size(), 0);
+        QCOMPARE(completed.front().front().toJsonObject()["error_code"].toString(), "response_too_large");
+    }
+
     void serializesToolConversationAndUsesHttpsWithoutRedirects() {
         FakeNetwork network; network.responses.append(Response{200, textCompletion()});
         const auto config = configuration();
@@ -180,9 +282,11 @@ private slots:
         network.responses.append(Response{200, textCompletion()});
         auto config = configuration(); config.maxRetries = 1;
         NemotronClient client(config, nullptr, &network);
-        QSignalSpy started(&client, &ModelTransport::requestStarted), success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed);
+        QSignalSpy started(&client, &ModelTransport::requestStarted), success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed), completed(&client, &ModelTransport::requestCompleted);
         client.request(messages(), {}); QTRY_COMPARE(success.size(), 1); QCOMPARE(failure.size(), 0);
         QCOMPARE(started.size(), 1); QCOMPARE(network.requests.size(), 2); QCOMPARE(network.payloads.at(0), network.payloads.at(1));
+        QCOMPARE(completed.size(), 1); QCOMPARE(completed.front().front().toJsonObject()["retry_count"].toInt(), 1);
+        QCOMPARE(completed.front().front().toJsonObject()["http_status"].toInt(), 200);
     }
 
     void exhaustedRateLimitRetriesFail() {
@@ -205,7 +309,7 @@ private slots:
         FakeNetwork network; network.responses.append(Response{200, textCompletion(), 100});
         auto config = configuration(); config.timeoutMs = 10;
         NemotronClient client(config, nullptr, &network);
-        QSignalSpy failure(&client, &ModelTransport::requestFailed), success(&client, &ModelTransport::replyReady);
+        QSignalSpy failure(&client, &ModelTransport::requestFailed), success(&client, &ModelTransport::replyReady), completed(&client, &ModelTransport::requestCompleted);
         client.request(messages(), {}); QTRY_COMPARE(failure.size(), 1);
         QCOMPARE(failure.front().at(0).toString(), QString("timeout"));
         network.responses.append(Response{200, textCompletion(), 100}); client.request(messages(), {}); client.cancel();
@@ -213,15 +317,22 @@ private slots:
         QTest::qWait(150); QCOMPARE(success.size(), 0); QCOMPARE(failure.size(), 2);
         network.responses.append(Response{200, textCompletion()}); client.request(messages(), {});
         QTRY_COMPARE(success.size(), 1); // Client remains reusable after cleanup.
+        QCOMPARE(completed.size(), 3);
+        QCOMPARE(completed.at(0).front().toJsonObject()["error_code"].toString(), "timeout");
+        QCOMPARE(completed.at(1).front().toJsonObject()["outcome"].toString(), "cancelled");
+        QCOMPARE(completed.at(1).front().toJsonObject()["error_code"].toString(), "cancelled");
+        QVERIFY(completed.at(0).front().toJsonObject()["model_request_id"] != completed.at(1).front().toJsonObject()["model_request_id"]);
     }
 
     void cancellationWhileWaitingForRetryPreventsAnotherPost() {
         FakeNetwork network; network.responses.append(Response{503, {}, 0, QNetworkReply::NoError, "1"});
         auto config = configuration(); config.maxRetries = 1;
-        NemotronClient client(config, nullptr, &network); QSignalSpy failure(&client, &ModelTransport::requestFailed);
+        NemotronClient client(config, nullptr, &network); QSignalSpy failure(&client, &ModelTransport::requestFailed), completed(&client, &ModelTransport::requestCompleted);
         client.request(messages(), {}); QTest::qWait(50); client.cancel();
         QTRY_COMPARE(failure.size(), 1); QCOMPARE(failure.front().at(0).toString(), QString("cancelled"));
         QTest::qWait(1100); QCOMPARE(network.requests.size(), 1);
+        QCOMPARE(completed.size(), 1); QCOMPARE(completed.front().front().toJsonObject()["retry_count"].toInt(), 0);
+        QCOMPARE(completed.front().front().toJsonObject()["http_status"].toInt(), 503);
     }
 
     void rejectsOversizedResponseAndRedirect() {
@@ -235,9 +346,12 @@ private slots:
 
     void refusesMissingCredentialsAndInsecureConfiguration() {
         FakeNetwork network; auto config = configuration(); config.apiKey.clear();
-        NemotronClient missing(config, nullptr, &network); QSignalSpy missingFailure(&missing, &ModelTransport::requestFailed);
+        NemotronClient missing(config, nullptr, &network); QSignalSpy missingFailure(&missing, &ModelTransport::requestFailed), completed(&missing, &ModelTransport::requestCompleted);
         missing.request(messages(), {}); QCOMPARE(missingFailure.size(), 1);
         QCOMPARE(missingFailure.front().at(0).toString(), QString("credentials_missing"));
+        QCOMPARE(completed.size(), 1); QCOMPARE(completed.front().front().toJsonObject()["http_status"].toInt(), 0);
+        QCOMPARE(completed.front().front().toJsonObject()["retry_count"].toInt(), 0);
+        QCOMPARE(completed.front().front().toJsonObject()["error_code"].toString(), "credentials_missing");
         config = configuration(); config.endpoint = QUrl("http://localhost:8080/v1/chat/completions");
         NemotronClient insecure(config, nullptr, &network); QSignalSpy insecureFailure(&insecure, &ModelTransport::requestFailed);
         insecure.request(messages(), {}); QCOMPARE(insecureFailure.size(), 1);

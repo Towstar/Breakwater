@@ -7,10 +7,21 @@
 #include <QNetworkRequest>
 #include <QSet>
 #include <QThread>
+#include <QUuid>
 #include <algorithm>
 
 namespace breakwater::desktop::agent {
 namespace {
+QString modelIdentifier(const QString& value, const QString& secret = {}) {
+    if (value.isEmpty() || value.size() > 256 || (!secret.isEmpty() && value.contains(secret))) return {};
+    for (const auto character : value) {
+        const auto c = character.unicode();
+        if (!((c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z') || (c >= '0' && c <= '9') ||
+              c == '/' || c == '.' || c == '_' || c == '-' || c == ':')) return {};
+    }
+    return value;
+}
+
 bool retryable(QNetworkReply::NetworkError error) {
     return error == QNetworkReply::ConnectionRefusedError || error == QNetworkReply::RemoteHostClosedError ||
            error == QNetworkReply::TimeoutError || error == QNetworkReply::TemporaryNetworkFailureError ||
@@ -21,7 +32,7 @@ bool parseAssistant(const QByteArray& bytes, QJsonObject& assistant, QString& mo
     QJsonParseError error;
     const auto document = QJsonDocument::fromJson(bytes, &error);
     if (error.error != QJsonParseError::NoError || !document.isObject()) return false;
-    model = document.object().value("model").toString().left(256);
+    model = modelIdentifier(document.object().value("model").toString());
     const auto choices = document.object().value("choices").toArray();
     if (choices.size() != 1 || !choices.at(0).isObject()) return false;
     const auto choice = choices.at(0).toObject();
@@ -63,6 +74,8 @@ bool parseAssistant(const QByteArray& bytes, QJsonObject& assistant, QString& mo
 }
 } // namespace
 
+QString NemotronClient::lastResponseModel() const { return modelIdentifier(responseModel_, config_.apiKey); }
+
 NemotronConfig NemotronConfig::fromEnvironment() {
     NemotronConfig config;
     config.apiKey = qEnvironmentVariable("NVIDIA_API_KEY").trimmed();
@@ -101,27 +114,31 @@ NemotronClient::~NemotronClient() {
     releaseReply(true);
 }
 
+QString NemotronClient::configuredModelIdentifier() const { return modelIdentifier(config_.model, config_.apiKey); }
+
 void NemotronClient::request(const QJsonArray& messages, const QJsonArray& tools) {
-    if (active_) { emit requestFailed("request_busy", "A model request is already active."); return; }
-    if (config_.apiKey.isEmpty()) { emit requestFailed("credentials_missing", "NVIDIA_API_KEY is not configured."); return; }
+    if (active_) { rejectBusyRequest(); return; }
+    active_ = true;
+    retries_ = attempts_ = httpStatus_ = 0;
+    responseModel_.clear();
+    requestId_ = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    elapsed_.start();
+    const auto generation = ++requestGeneration_;
+    if (config_.apiKey.isEmpty()) { fail("credentials_missing", "NVIDIA_API_KEY is not configured."); return; }
     if (config_.apiKey.size() > 4096 || config_.apiKey.contains('\r') || config_.apiKey.contains('\n') || config_.model.trimmed().isEmpty() ||
         config_.model.size() > 256 || !config_.endpoint.isValid() || config_.endpoint.scheme() != "https" ||
         config_.endpoint.host().isEmpty() || !config_.endpoint.userInfo().isEmpty() ||
         config_.endpoint.hasFragment() || !manager_ || manager_->thread() != thread() || QThread::currentThread() != thread()) {
-        emit requestFailed("configuration_invalid", "The model configuration is invalid; HTTPS is required."); return;
+        fail("configuration_invalid", "The model configuration is invalid; HTTPS is required."); return;
     }
-    if (messages.isEmpty()) { emit requestFailed("request_invalid", "At least one model message is required."); return; }
+    if (messages.isEmpty()) { fail("request_invalid", "At least one model message is required."); return; }
     QJsonObject body{{"model", config_.model}, {"messages", messages}, {"stream", false},
                      {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.2}};
     if (!tools.isEmpty()) { body.insert("tools", tools); body.insert("tool_choice", "auto"); }
     payload_ = QJsonDocument(body).toJson(QJsonDocument::Compact);
     if (payload_.size() > maximumResponseBytes) {
-        payload_.clear(); emit requestFailed("request_too_large", "The model request exceeds the size limit."); return;
+        fail("request_too_large", "The model request exceeds the size limit."); return;
     }
-    active_ = true;
-    retries_ = 0;
-    responseModel_.clear();
-    const auto generation = ++requestGeneration_;
     const QPointer<NemotronClient> guard(this);
     emit requestStarted();
     // A direct requestStarted slot may cancel or destroy the session before the POST.
@@ -138,6 +155,7 @@ void NemotronClient::send() {
     request.setRawHeader("Authorization", QByteArray("Bearer ") + config_.apiKey.toUtf8());
     request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
     request.setTransferTimeout(config_.timeoutMs);
+    ++attempts_;
     reply_ = manager_->post(request, payload_);
     reply_->setReadBufferSize(maximumResponseBytes + 1);
     connect(reply_, &QIODevice::readyRead, this, &NemotronClient::consume);
@@ -164,13 +182,54 @@ void NemotronClient::releaseReply(bool abort) {
 
 void NemotronClient::fail(const QString& code, const QString& message) {
     if (!active_) return;
+    complete({}, code, message);
+}
+
+QJsonObject NemotronClient::metadata(const QString& outcome, const QString& code) const {
+    return {{"model_request_id", requestId_}, {"configured_model", modelIdentifier(config_.model, config_.apiKey)},
+        {"response_model", modelIdentifier(responseModel_, config_.apiKey)}, {"http_status", httpStatus_},
+        {"duration_ms", elapsed_.isValid() ? elapsed_.elapsed() : qint64{0}},
+        {"retry_count", std::max(0, attempts_ - 1)}, {"outcome", outcome}, {"error_code", code}};
+}
+
+void NemotronClient::rejectBusyRequest() {
+    const auto generation = requestGeneration_;
+    auto rejected = metadata("failed", "request_busy");
+    rejected["model_request_id"] = QUuid::createUuid().toString(QUuid::WithoutBraces);
+    rejected["response_model"] = QString{};
+    rejected["http_status"] = 0;
+    rejected["duration_ms"] = 0;
+    rejected["retry_count"] = 0;
+    const QPointer<NemotronClient> guard(this);
+    emit requestCompleted(rejected);
+    if (guard && requestGeneration_ == generation && active_)
+        emit requestFailed("request_busy", "A model request is already active.");
+}
+
+void NemotronClient::complete(const QJsonObject& assistant, const QString& code, const QString& message) {
+    if (!active_) return;
+    responseModel_ = modelIdentifier(responseModel_, config_.apiKey);
+    if (reply_) httpStatus_ = reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    if (httpStatus_ < 100 || httpStatus_ > 599) httpStatus_ = 0;
+    const auto outcome = code.isEmpty() ? QStringLiteral("succeeded") :
+        (code == "cancelled" ? QStringLiteral("cancelled") : QStringLiteral("failed"));
+    const auto completed = metadata(outcome, code);
     active_ = false;
     timeout_.stop();
     retry_.stop();
-    releaseReply(true);
+    releaseReply(!code.isEmpty());
     payload_.clear();
     response_.clear();
-    emit requestFailed(code, message);
+    const auto generation = requestGeneration_;
+    deliveringGeneration_ = generation;
+    const QPointer<NemotronClient> guard(this);
+    emit requestCompleted(completed);
+    if (!guard) return;
+    if (deliveringGeneration_ == generation) deliveringGeneration_ = 0;
+    // Metadata observers may synchronously cancel, start another request or destroy us.
+    if (requestGeneration_ != generation) return;
+    if (code.isEmpty()) emit replyReady(assistant);
+    else emit requestFailed(code, message);
 }
 
 void NemotronClient::scheduleRetry() {
@@ -188,10 +247,14 @@ void NemotronClient::scheduleRetry() {
 
 void NemotronClient::finish() {
     if (!active_ || !reply_) return;
+    const auto generation = requestGeneration_;
+    const auto finishedReply = reply_;
+    const QPointer<NemotronClient> guard(this);
     consume();
-    if (!active_ || !reply_) return;
+    if (!guard || !active_ || !reply_ || requestGeneration_ != generation || reply_ != finishedReply) return;
     timeout_.stop();
     const auto status = reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
+    httpStatus_ = status;
     const auto error = reply_->error();
     if ((status == 429 || status == 500 || status == 502 || status == 503 || status == 504 ||
          (status == 0 && retryable(error))) && retries_ < config_.maxRetries) {
@@ -206,15 +269,15 @@ void NemotronClient::finish() {
     }
     QJsonObject assistant;
     if (!parseAssistant(response_, assistant, responseModel_)) { fail("response_invalid", "The model returned an invalid or unusable response."); return; }
-    active_ = false;
-    releaseReply(false);
-    payload_.clear();
-    response_.clear();
-    emit replyReady(assistant);
+    complete(assistant, {}, {});
 }
 
 void NemotronClient::cancel() {
     if (active_) fail("cancelled", "The model request was cancelled.");
+    else if (deliveringGeneration_ != 0 && deliveringGeneration_ == requestGeneration_) {
+        ++requestGeneration_;
+        deliveringGeneration_ = 0;
+    }
 }
 
 } // namespace breakwater::desktop::agent

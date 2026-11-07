@@ -41,6 +41,7 @@ public:
     QJsonArray history;
     int requests = 0, cancellations = 0, generation = 0;
     bool silent = false;
+    bool metadataOnCancel = false;
     void request(const QJsonArray& messages, const QJsonArray&) override {
         history = messages; ++requests; emit requestStarted();
         if (silent) return;
@@ -48,7 +49,10 @@ public:
         const auto epoch = generation;
         QTimer::singleShot(0, this, [this, reply, epoch] { if (epoch == generation) emit replyReady(reply); });
     }
-    void cancel() override { ++generation; ++cancellations; }
+    void cancel() override {
+        ++generation; ++cancellations;
+        if (metadataOnCancel) emit requestCompleted(QJsonObject{{"request_id", "cancelled-test-request"}, {"outcome", "cancelled"}, {"error_code", "cancelled"}, {"http_status", 0}});
+    }
 };
 
 void adaptiveModel(FakeModel& model, bool skipValidation = false) {
@@ -85,6 +89,19 @@ void adaptiveModel(FakeModel& model, bool skipValidation = false) {
 class OrchestratorTests : public QObject {
     Q_OBJECT
 private slots:
+    void cancellationAndDeadlineRetainSanitizedRequestMetadata() {
+        for (const bool timeout : {false, true}) {
+            FakeModel model; model.silent = true; model.metadataOnCancel = true;
+            AgentOrchestrator session(&model);
+            session.start(std::make_shared<SimulationGateway>(canonical_scenario(), "metadata"), "Inspect.", {12, 3, timeout ? 5 : 1000});
+            if (!timeout) session.cancel();
+            QTRY_VERIFY(!session.running());
+            const auto events = session.events(); QVERIFY(events.size() >= 2);
+            QCOMPARE(events[events.size() - 2].toMap().value("type").toString(), "model_request_completed");
+            QCOMPARE(events.last().toMap().value("type").toString(), timeout ? "agent_failed" : "agent_cancelled");
+            QCOMPARE(events[events.size() - 2].toMap().value("request").toMap().value("error_code").toString(), "cancelled");
+        }
+    }
     void adaptiveRealToolCycleAndHumanApproval() {
         ProjectController project; project.loadExample("baseline");
         FakeModel model; adaptiveModel(model);
@@ -116,6 +133,34 @@ private slots:
         QCOMPARE(agent.recommendation()["approval_status"].toString(), "operator_applied");
         QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000);
         QVERIFY(project.summary().contains("PASS"));
+    }
+    void stagedRunDifferentFromRecommendationCannotBeApplied() {
+        ProjectController project; project.loadExample("baseline"); const auto original = project.networkHash();
+        FakeModel model;
+        model.respond = [step = 0, snapshot = QString{}, first = QString{}, second = QString{}](const QJsonArray& history) mutable -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
+            case 1: {
+                snapshot = resultFor(history, "state")["snapshot_id"].toString();
+                auto args = candidateArguments(snapshot, "first", controlJson(incident_controls("mixed")));
+                auto candidates = args["candidates"].toArray();
+                candidates.append(QJsonObject{{"candidate_id", "second"}, {"controls", controlJson(incident_controls("mixed"))}});
+                args["candidates"] = candidates;
+                return calls({call("candidates", "simulate_candidates", args)});
+            }
+            case 2: {
+                const auto runs = resultFor(history, "candidates")["runs"].toArray();
+                first = runs[0].toObject()["run_id"].toString(); second = runs[1].toObject()["run_id"].toString();
+                return calls({call("validate-first", "validate_run", {{"snapshot_id", snapshot}, {"run_id", first}}),
+                    call("validate-second", "validate_run", {{"snapshot_id", snapshot}, {"run_id", second}}),
+                    call("stage-second", "request_approval", {{"snapshot_id", snapshot}, {"run_id", second}})});
+            }
+            default: return conclusion(first);
+            }
+        };
+        AgentController agent(&project, &model); agent.investigate("Review the selected run.");
+        QTRY_VERIFY(!agent.running()); QVERIFY(agent.recommendation()["verified_feasible"].toBool());
+        QVERIFY(!agent.canApprove()); QVERIFY(!agent.approvePlan()); QCOMPARE(project.networkHash(), original);
     }
     void skippedValidationCannotBecomeARecommendation() {
         FakeModel model; adaptiveModel(model, true);

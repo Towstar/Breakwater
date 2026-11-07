@@ -3,6 +3,8 @@
 Person B's native Nemotron tools and investigation panel are documented in
 [docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md), including environment
 configuration, actual tool-call smoke commands, snapshot rules and approval staging.
+Automatic history, run comparison/charts, operator review and worker health are
+described in [docs/DESKTOP_FOUNDATION.md](docs/DESKTOP_FOUNDATION.md).
 
 C++20 / MSVC Windows base for an editable synthetic fluid-network workbench.
 The original handoff is preserved in [For Dev Agents.md](For%20Dev%20Agents.md).

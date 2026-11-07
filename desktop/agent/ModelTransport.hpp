@@ -15,6 +15,7 @@ public:
     virtual void cancel() = 0;
 signals:
     void requestStarted();
+    void requestCompleted(const QJsonObject& metadata);
     void replyReady(const QJsonObject& assistantMessage);
     void requestFailed(const QString& code, const QString& message);
 };
