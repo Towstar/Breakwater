@@ -118,3 +118,20 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 
 The UI labels unavailable science capabilities as planned. No live model execution, completed proof,
 validated chemical quality, measured speedup, or production control is claimed.
+
+## PR #2 integration review (2026-11-07)
+
+- Fixed a final-response reentrancy edge in `NemotronClient::finish`: consuming an
+  oversized body may synchronously trigger client deletion or a replacement request.
+  Lifetime, generation and reply-identity guards now protect the continuation. Both
+  paths have regression tests, including a reply that emits only `finished`.
+- Control IDs now have a separate 512-character parser/schema limit, so control names
+  derived from valid 256-character imported asset/route IDs work through simulation
+  and search. Snapshot/run/candidate ID limits remain 256. A regression round-trips
+  the imported project and executes the discovered controls through real tools.
+- Independently rebuilt the reviewed PR using MSVC 19.51.36260.0 / Qt 6.12.0:
+  desktop RelWithDebInfo **9/9 CTest suites passed**, and the full desktop ASan
+  configuration **9/9 passed**, with no reported sanitizer errors.
+- Captured and visually inspected the investigator panel. Missing-key smoke returned
+  the expected exit code 2 and explicit unavailable message; no live request was made.
+  Genuine hosted NVIDIA access/tool calling remains unverified.
