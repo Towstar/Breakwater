@@ -34,7 +34,8 @@ Quality is **not evaluated** in this base.
 
 Desktop runs have a UUID and are bound to a numerical revision. A topology/parameter
 edit discards the displayed run and approval; moving equipment preserves both. The
-current base keeps one displayed run. Historical run comparison is future work.
+manual forecast keeps one displayed run; the agent keeps up to 128 immutable runs
+per session and can compare their numerical summaries without changing the preview.
 
 ## Scientific worker protocol v1
 
@@ -46,4 +47,12 @@ One JSON object per line on stdin/stdout, maximum 1 MiB. Example request:
 
 Responses echo the protocol/request ID and contain `status`, plus `result` or `error`.
 Only `health` is implemented. Package detection is not an executed ML integration.
-The desktop-to-worker process adapter, model methods and Nemotron tools remain planned.
+The desktop-to-worker process adapter and scientific model methods remain planned.
+
+## Native agent tools v1
+
+The additive application-side tools, immutable run-store envelope and final
+recommendation are documented with examples in
+[AGENT_INTEGRATION.md](../docs/AGENT_INTEGRATION.md). Existing native engine types,
+control-ID conventions, project-v1 serialization and worker protocol are unchanged.
+Only the human-facing approval controller applies a staged simulated intervention.
