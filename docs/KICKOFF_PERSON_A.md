@@ -34,14 +34,14 @@ independent validation, bounded search and authoritative single-pipe finite-volu
 transport. Native Nemotron tools and the editor are integrated. See engine/SEARCH.md,
 engine/TRANSPORT.md and engine/PROGRESS.md for APIs and actual evidence.
 This workstream now includes A3 differentiable storage, A4's fixed-case PhysicsNeMo
-smoke and A5's recorded benchmarks through eca890d. B3 contracts and B4 native viewing
-are implemented downstream. Checked Lean proofs and worker science mapping remain pending.
+smoke, A5's recorded benchmarks and A6's checked exact-real algorithms through 7c99c68.
+B3 contracts and B4 native viewing are implemented downstream. Worker science mapping remains pending.
 Confirm the baseline on this machine rather than treating old results as your own.
 
-NEXT INCREMENT: A6 CHECKED ALGORITHMS AND AGREED WORKER MAPPING
-Continue pinned Lean/Mathlib finite-graph algorithm proofs as a separate tested PR:
-incidence/sparse equivalence, conservation, recurrence/affine equivalence and interval
-endpoint bounds, with an explicit C++ mapping and audited axioms. Do not repeat A3/A4/A5.
+NEXT INCREMENT: AGREED WORKER MAPPING AND PROOF MAINTENANCE
+A6 already supplies pinned Lean/Mathlib finite-graph proofs and audited assumptions.
+Preserve their explicit scope and C++ correspondence as algorithms change; do not
+repeat A3–A6 or claim compiled IEEE arithmetic, PDE, or ML qualification from them.
 
 Keep C++ authoritative for feasibility. Do not differentiate through clipping or claim
 gradients through discrete candidate search. Review docs/SCIENCE_CONTRACTS.md and

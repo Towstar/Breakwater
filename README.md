@@ -13,7 +13,9 @@ The original handoff is preserved in [For Dev Agents.md](For%20Dev%20Agents.md).
 The complete accepted roadmap is [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
 The next increments and parallel ownership are in
 [docs/CONTINUATION_PLAN.md](docs/CONTINUATION_PLAN.md).
-The base now includes native search, Nemotron tools and single-pipe transport.
+The base now includes native search, Nemotron tools, single-pipe transport,
+standalone differentiable storage and experimental PhysicsNeMo calculations,
+measured benchmarks, and checked Lean algorithm proofs.
 
 ## Open in Visual Studio
 
@@ -88,13 +90,13 @@ select MSVC `/Z7` through CMake, including checked builds. This avoids the PDB h
 The native engine uses fixed flow setpoints and volumes. Placement and pipe geometry
 do not imply pressure/head calculations. Quality checks are not part of base feasibility.
 
-## Scientific worker base
+## Science and proofs
 
-Python 3.12, standard library only:
+The worker protocol/health endpoint requires only the Python 3.12 standard library:
 
 ```powershell
 python science/worker.py
-python -m unittest discover -s science/tests -v
+python -m unittest discover -s science/tests -p test_worker.py -v
 ```
 
 Send a line such as:
@@ -103,11 +105,18 @@ Send a line such as:
 {"protocol_version":1,"request_id":"check","method":"health","payload":{}}
 ```
 
-The Python worker implements protocol/health only, connected through the asynchronous
-desktop adapter. Torch, PhysicsNeMo execution and Lean proofs remain planned. Native search and Nemotron orchestration
-are integrated, and native pipe transport is connected to the desktop. Person A's
-standalone science and benchmark source is integrated; scientific worker methods
-remain unwired. See [docs/STATUS.md](docs/STATUS.md) for evidence.
+The Python worker implements protocol/health only through the asynchronous desktop
+adapter; scientific worker methods remain unwired. Standalone calculations
+are implemented separately: [PyTorch rollout and gradient checks](science/README.md),
+[experimental PhysicsNeMo smoke](science/PHYSICSNEMO.md),
+[native benchmarks](engine/BENCHMARKS.md), and [Lean proofs](proofs/README.md).
+Install the documented pinned science environment before running the full Python
+test suite; it includes Torch and optional PhysicsNeMo tests.
+
+Native pipe transport is connected to the desktop, alongside investigation history,
+comparison and guarded operator review. See
+[docs/SCIENCE_VALIDATION.md](docs/SCIENCE_VALIDATION.md) for proof scope and numerical
+limits, and [docs/STATUS.md](docs/STATUS.md) for executed evidence.
 
 ## Optional project-local Qt setup
 
@@ -125,5 +134,6 @@ Do not switch branches underneath the other developer's session.
 
 The shared baseline is now committed. Continue with the [parallel workflow](docs/PARALLEL_WORK.md)
 and separate copy/paste kickoffs for [Person A](docs/KICKOFF_PERSON_A.md) and
-[Person B](docs/KICKOFF_PERSON_B.md). B continues scientific worker integration after contract review; A owns numerical
-method mapping and checked Lean work. The contracts and native pipe viewer are implemented.
+[Person B](docs/KICKOFF_PERSON_B.md). A3–A6 are merged through PR #6; B3 contracts
+and B4 native viewing are implemented in this workstream. Next is A's agreed scientific
+method mapping and B's desktop integration, with proof maintenance remaining A-owned.

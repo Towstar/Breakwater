@@ -1,5 +1,10 @@
 # BREAKWATER continuation plan
 
+**Status after PR #6:** A3, A4, A5 and A6 below are implemented and merged.
+This document retains their original execution sequence and acceptance criteria;
+use [STATUS.md](STATUS.md) for current evidence. B3/B4 are implemented in this workstream;
+the next integration is the agreed scientific worker mapping and adapter.
+
 Updated November 7, 2026. This is the execution order for the next increments, based
 on merged PRs [#1](https://github.com/Towstar/Breakwater/pull/1),
 [#2](https://github.com/Towstar/Breakwater/pull/2),
@@ -12,8 +17,8 @@ Desktop foundation follow-up: the subsequently approved desktop-first increment 
 implements automatic SQLite investigation history, comparison/charts, explicit plan
 review and the health-only Python adapter. See [DESKTOP_FOUNDATION.md](DESKTOP_FOUNDATION.md)
 and [STATUS.md](STATUS.md) for scope and executed checks. This completes the health
-portion of B5 and investigation-retention portion of B7 below. A's A3/A4/A5 source at
-`eca890d` is now merged into this workstream, and B3 publishes the selected-pipe/science
+portion of B5 and investigation-retention portion of B7 below. A's A3–A6 source through
+`7c99c68` is merged into this workstream, and B3 publishes the selected-pipe/science
 boundary plus independent physical-parameter persistence. The worker remains health-only;
 the native pipe viewer is now implemented. Scientific worker method adoption is next.
 Hosted Nemotron access is verified; clean operator-review rehearsals remain incomplete.
@@ -28,11 +33,12 @@ learned smoke does not supply arbitrary-route inference.
 - Working: C++20/MSVC storage engine, dense/sparse/affine forecasts, independent
   validation, bounded candidate search, editable Qt Quick 3D application, native
   Nemotron tools/run store, and explicit simulated operator approval.
-- Newly merged: authoritative single-pipe finite-volume scalar transport, native
-  example/CSV output and 18 transport case groups. It is not yet exposed in the UI.
-- Newly integrated A3/A4/A5: standalone differentiable storage, A-reported fixed-case
-  PhysicsNeMo execution and measured native benchmarks. Their worker methods are not wired.
-- Unfinished: desktop scientific methods beyond health, checked Lean proofs and generic
+- Integrated: authoritative single-pipe finite-volume scalar transport, native
+  example/CSV output and 18 transport case groups, now exposed by the B4 native viewer.
+- Integrated A3–A6: standalone differentiable storage, A-reported fixed-case
+  PhysicsNeMo execution, measured native benchmarks and checked exact-real proofs.
+  Scientific worker methods are not wired.
+- Unfinished: desktop scientific methods beyond health and generic
   pipe-quality integration/qualification. Native volume approval remains separate.
 - Live hosted Nemotron calling is verified with archived traces; bounded no-plan and
   unstaged advisory results mean the three clean review rehearsals remain incomplete.
@@ -44,10 +50,11 @@ it uses storage headroom and establishes neither global optimality nor sustainab
 
 ## Start these two increments next
 
-**Person A: scientific worker mapping and A6 checked Lean work.** Standalone A3/A4
-and A5 benchmark source are integrated. Review B3's units/array semantics before mapping
+**Person A: scientific worker mapping and proof maintenance.** Standalone A3/A4,
+A5 benchmarks and A6 proofs are integrated. Review B3's units/array semantics before mapping
 scientific methods into the worker, keeping native feasibility authoritative. Continue
-checked finite-graph algorithm proofs independently; no proof completion is claimed.
+checked finite-graph algorithm proofs as the corresponding algorithms evolve. Their
+exact-real scope does not certify compiled floating-point implementations or quality models.
 
 **Person B: B5 scientific worker integration.** B3 contracts/persistence and B4 native
 pipe viewing are implemented. Extend capability negotiation and adapters only for
@@ -70,9 +77,9 @@ Deliver each numbered increment as its own tested PR rather than one combined ch
 | B6: live planning evidence | B: existing smoke tools/docs | When environment credentials exist, execute protocol and full investigation smoke on canonical and renamed/custom networks; retain actual model-issued calls and computed run IDs. Missing access remains explicit and does not block other increments. | Available hosted access |
 | B7: durable evidence/release | B: serialization, desktop, delivery docs | Bounded versioned export/reopen of immutable runs and provenance with atomic writes; historical evidence requires fresh approval against current settings. Complete comparison views and reproducible setup/release evidence. | B4/B5 and relevant science methods |
 
-A5 and A6 can be independent later PRs. Do not parallelize edits inside one owner's
-subtree without assigning exclusive files. B6 can be verified whenever access becomes
-available; do not make successful live model behavior a claim before that run exists.
+A5 and A6 are delivered; future benchmark/proof changes remain separate reviewed increments.
+Do not parallelize edits inside one owner's subtree without assigning exclusive files.
+B6 has verified hosted access; clean operator-review rehearsals remain incomplete.
 
 ## B3 contract decisions to publish before integration
 

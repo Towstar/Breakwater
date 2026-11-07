@@ -66,8 +66,8 @@ are not delivered by Git. Each machine needs its own supported environment.
    sole integrator for `main`; do not push feature work directly to `main`.
 2. Search, native transport and B's Nemotron/tool increment are merged. Follow
    CONTINUATION_PLAN.md for the next work rather than repeating the original milestones.
-3. A3/A4/A5 source, B3 contracts and B4 native pipe viewing are integrated in the current
-   workstream. A continues checked algorithms and reviews the scientific wire mapping;
+3. A3–A6 source, B3 contracts and B4 native pipe viewing are integrated in the current
+   workstream. A maintains the proof mapping and reviews the scientific wire mapping;
    adopt the same committed contract before A adds worker science methods and B maps
    them into the desktop process adapter. The worker remains health-only until then.
 4. Merge complete increments through PRs, then update each person's own branch from

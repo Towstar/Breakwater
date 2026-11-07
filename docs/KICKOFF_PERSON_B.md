@@ -44,14 +44,15 @@ The app is C++20/MSVC x64, Qt Quick/QML and Qt Quick 3D 6.12, using Visual Studi
 The existing editor already supports primitive equipment, connections, parameters,
 save/load, undo/redo, background forecasts, timeline scrubbing and approval invalidation.
 Native Nemotron orchestration, real tools, bounded search, immutable agent runs and
-approval staging are integrated, including review fixes. Live hosted model calling is
-still unverified without credentials. Native single-pipe transport is also merged;
-its selected-pipe desktop integration and scientific methods beyond health remain pending.
+approval staging are integrated, including review fixes. Hosted model calling is
+verified; clean operator-review rehearsals remain incomplete. Native single-pipe
+transport and its selected-pipe desktop viewer are implemented. Scientific worker
+methods beyond health remain pending.
 
 Follow-up: the approved desktop-first increment implements investigation history,
 comparisons/charts, operator review and a health-only QProcess adapter; see
-docs/DESKTOP_FOUNDATION.md and the latest docs/STATUS.md. Scientific methods and the
-selected-pipe scientific inference remains pending. B3 contracts/persistence and B4
+docs/DESKTOP_FOUNDATION.md and the latest docs/STATUS.md. Scientific worker methods and
+generalized learned pipe inference remain pending. B3 contracts/persistence and B4
 native viewing are now implemented; follow the updated next increment below.
 
 Inspect the machine rather than assuming the original developer's SDKs are installed.
