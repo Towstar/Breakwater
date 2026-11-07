@@ -8,6 +8,14 @@ on merged PRs [#1](https://github.com/Towstar/Breakwater/pull/1),
 The [accepted implementation plan](IMPLEMENTATION_PLAN.md) remains the full scope;
 the original handoff is preserved. There is no fixed event deadline.
 
+Desktop foundation follow-up: the subsequently approved desktop-first increment now
+implements automatic SQLite investigation history, comparison/charts, explicit plan
+review and the health-only Python adapter. See [DESKTOP_FOUNDATION.md](DESKTOP_FOUNDATION.md)
+and [STATUS.md](STATUS.md) for scope and executed checks. This completes the health
+portion of B5 and investigation-retention portion of B7 below; selected-pipe contracts,
+the pipe viewer, scientific methods and their integration remain future work. Hosted
+Nemotron evidence remains pending local credentials.
+
 The next visible milestone is selecting a pipe in the editor, running authoritative
 tracer transport from a captured forecast, and inspecting its outlet trace and mass
 ledger. In parallel, establish trustworthy differentiable calculations before adding
@@ -20,8 +28,8 @@ learned predictions.
   Nemotron tools/run store, and explicit simulated operator approval.
 - Newly merged: authoritative single-pipe finite-volume scalar transport, native
   example/CSV output and 18 transport case groups. It is not yet exposed in the UI.
-- Unfinished: differentiable science, actual PhysicsNeMo execution, desktop Python
-  adapter, checked Lean proofs, measured benchmarks and durable investigation history.
+- Unfinished: differentiable science, actual PhysicsNeMo execution, desktop scientific
+  methods beyond health, checked Lean proofs, measured benchmarks and pipe-quality evidence.
 - Live hosted Nemotron calling remains unverified because credentials are unavailable.
   Fake-model tests execute real engine tools but do not establish live model behavior.
 

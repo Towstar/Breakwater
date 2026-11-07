@@ -29,7 +29,9 @@ the kickoff prompts now target unfinished increments.
 ## Person B desktop foundation — November 7, 2026
 
 PRs #1 and #2 were reviewed and merged with merge commits. The new foundation work
-starts from `main` commit `630e33c`; Person A's native/scientific files are unchanged.
+starts from `main` commit `630e33c` and merges the later changes through `bf8beb1`,
+preserving transport, client safeguards, long control IDs and Qt build ordering.
+This increment adds no edits to Person A's native/scientific files.
 
 Implemented:
 
@@ -54,16 +56,29 @@ Implemented:
 
 Executed evidence:
 
-- Current desktop/Ninja build: **12/12 CTest suites passed**.
-- Full desktop MSVC AddressSanitizer build: **12/12 suites passed**, no sanitizer
+- Current combined desktop/Ninja build: **14/14 CTest suites passed**.
+- Regenerated the root Visual Studio solution with 58 projects and all 155 existing
+  dependency edges preserved. Direct VS2022 solution build and **14/14 suites passed**.
+- Full combined desktop MSVC AddressSanitizer build: **14/14 suites passed**, no sanitizer
   failures reported. This includes persistence, controller/history, worker, agent,
   numerical search and QML startup/render checks.
 - The configured real Python 3.12 worker suite reports **24 passed, 0 failed, 0 skipped**.
   It executes the existing worker's actual health operation as well as bounded failure
   fixtures; no PyTorch/PhysicsNeMo model execution is claimed.
-- Isolated SQLite checks report **13 passed, 0 failed, 0 skipped**, including worker-
-  thread capture, immediate shutdown draining, restart recovery and rollback.
-- Isolated transport checks report **28 passed, 0 failed** with fake HTTP responses.
+- SQLite checks report **14 passed, 0 failed, 0 skipped**, including worker-thread
+  capture, immediate shutdown draining, restart recovery, rollback and long control IDs.
+- Combined transport-client checks report **30 passed, 0 failed** with fake HTTP responses.
+- Interactive checks at 1440×900 and 1100×700 exercised all four tabs, actual tank A/B
+  trajectories, control comparisons, historical provenance and disabled approval.
+  QML lint passed for the investigator and chart. Qt's pre-existing Shortcut warnings
+  remain; no QML runtime errors were observed.
+- The CMake-installed application passed render/import/health smoke with Windows-only
+  PATH and explicit Python. It loaded the deployed Qt SQL/SQLite plugins and the
+  installed worker, returning real Python 3.12.14 health with scientific execution
+  `not_implemented`. This checks the local install, not a fresh-machine VC runtime.
+- Restarted that installed application with its existing database and no import
+  argument, reopened the saved session through History, and recovered both actual
+  runs, trajectories, cost and headroom. Historical operator approval stayed disabled.
 - Comparison tests can export `offline-verified-session.json` when
   `BREAKWATER_TEST_ARTIFACT_DIR` is configured. Its numbers are actual native baseline
   and mixed-candidate results; the archive explicitly states no live model ran.

@@ -46,7 +46,12 @@ save/load, undo/redo, background forecasts, timeline scrubbing and approval inva
 Native Nemotron orchestration, real tools, bounded search, immutable agent runs and
 approval staging are integrated, including review fixes. Live hosted model calling is
 still unverified without credentials. Native single-pipe transport is also merged;
-its desktop integration and the scientific Python process adapter remain pending.
+its selected-pipe desktop integration and scientific methods beyond health remain pending.
+
+Follow-up: the approved desktop-first increment implements investigation history,
+comparisons/charts, operator review and a health-only QProcess adapter; see
+docs/DESKTOP_FOUNDATION.md and the latest docs/STATUS.md. Scientific methods and the
+selected-pipe viewer remain pending. The B3/B4 work below is the next separate scope.
 
 Inspect the machine rather than assuming the original developer's SDKs are installed.
 .tools/ and out/ are ignored and will be absent in a fresh clone. Follow README for

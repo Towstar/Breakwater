@@ -101,8 +101,8 @@ Send a line such as:
 {"protocol_version":1,"request_id":"check","method":"health","payload":{}}
 ```
 
-The Python worker implements protocol/health only. Torch, PhysicsNeMo, the native
-process adapter and Lean proofs remain planned. Native search and Nemotron orchestration
+The Python worker implements protocol/health only, connected through the asynchronous
+desktop adapter. Torch, PhysicsNeMo execution and Lean proofs remain planned. Native search and Nemotron orchestration
 are integrated; native pipe transport is available through its C++ API/example and is
 not yet connected to the desktop. See [docs/STATUS.md](docs/STATUS.md) for evidence.
 

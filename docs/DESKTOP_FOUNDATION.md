@@ -1,7 +1,8 @@
 # Desktop investigation foundation
 
 This increment implements the desktop-first milestone after PRs #1 and #2 were
-reviewed and merged into `main`. The engine/science/proof owners and existing
+reviewed and merged into `main`, then integrates the later transport/client/build
+commits through `bf8beb1` with their ancestry intact. The engine/science/proof owners and existing
 project-v1 and worker-v1 contracts are unchanged.
 
 ## History, comparison and operator review
@@ -102,6 +103,11 @@ its build directory. STATUS.md records the checks actually executed on this lapt
 
 For UI verification, `--import-session <file>` opens an archive as historical evidence;
 `--agent-panel` opens the investigator and `--worker-health` starts the health check.
+`--compact-ui` uses the supported 1100×700 layout. `--health-report <file>` atomically
+writes the normalized health result or a sanitized failure. `--screenshot <file>`
+captures a rendered frame and exits after pending import/health work completes.
+Run these options from a console pipeline that waits for the GUI process, or the
+interactive app; a hidden window may not produce a frame on Windows.
 Setting `BREAKWATER_TEST_ARTIFACT_DIR` for the comparison test optionally exports
 `offline-verified-session.json` to that directory. It contains actual native baseline
 and candidate evidence, clearly labeled as offline, with no claim of live NVIDIA execution.
