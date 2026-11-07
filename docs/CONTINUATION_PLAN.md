@@ -1,5 +1,10 @@
 # BREAKWATER continuation plan
 
+**Status after PR #6:** A3, A4, A5 and A6 below are implemented and merged.
+This document retains their original execution sequence and acceptance criteria;
+use [STATUS.md](STATUS.md) for current evidence. The next integration work is B3/B4
+and the agreed science-worker adapter, rather than restarting A3.
+
 Updated November 7, 2026. This is the execution order for the next increments, based
 on merged PRs [#1](https://github.com/Towstar/Breakwater/pull/1),
 [#2](https://github.com/Towstar/Breakwater/pull/2),
