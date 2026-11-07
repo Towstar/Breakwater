@@ -38,7 +38,7 @@ Actual executed checks:
    (exit 3221225781); initializing the developer runtime PATH resolved it. README
    explains running checked commands in the same initialized PowerShell session.
 6. Both final reports checked **44 positive-width controls**, **132 central-difference
-   perturbations**, and Torch gradcheck for every case with variable controls.
+   checks** (each evaluates both signs), and Torch gradcheck for every variable-control case.
 
 Measured errors in both final reports:
 
