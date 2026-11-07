@@ -11,7 +11,7 @@ packages nor publishing these schemas exposes a worker method. Person A must rev
 the units/array semantics and implement the agreed mapping before capability negotiation
 can advertise scientific execution.
 
-The B4 native selected-pipe viewer will call `breakwater::transport` directly, outside the UI
+The B4 native selected-pipe viewer calls `breakwater::transport` directly, outside the UI
 thread. It does not require Python. Native scalar transport is separate from tank-volume
 feasibility and does not establish industrial quality, pressure hydraulics, or network
 chemistry. A4's PhysicsNeMo model is a fixed-case experimental smoke, **not** an arbitrary

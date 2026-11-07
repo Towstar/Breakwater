@@ -13,6 +13,7 @@ qt_add_library(breakwater_agent STATIC
   history/SessionRepository.hpp history/SessionRepository.cpp
   history/HistoryController.hpp history/HistoryController.cpp
   history/SessionRecorder.hpp history/SessionRecorder.cpp
+  quality/PipeTransportController.hpp quality/PipeTransportController.cpp
   science/PythonWorkerClient.hpp science/PythonWorkerClient.cpp)
 target_include_directories(breakwater_agent PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base Qt6::Network Qt6::Concurrent Qt6::Sql)
@@ -25,7 +26,7 @@ target_link_libraries(breakwater PRIVATE breakwater_agent Qt6::QuickControls2 Qt
 get_filename_component(_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
 set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_prefix}/bin;%PATH%")
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
-  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml)
+  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
 # in a fresh parallel Visual Studio build. Qt creates that target at root deferral.
@@ -49,7 +50,7 @@ if(BUILD_TESTING)
   add_test(NAME desktop.pipe_parameters COMMAND breakwater_pipe_parameters_tests)
   set_tests_properties(desktop.pipe_parameters PROPERTIES TIMEOUT 30
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
-  foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker)
+  foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker pipe_transport)
     qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
     target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_agent Qt6::Test)
     target_compile_definitions(breakwater_${_suite}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")

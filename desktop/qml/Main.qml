@@ -10,6 +10,7 @@ ApplicationWindow {
     required property var investigator
     required property var history
     required property var scientificWorker
+    required property var pipeTransport
     readonly property bool compactUi: Qt.application.arguments.indexOf("--compact-ui") >= 0
     property bool showAgent: false
     width: compactUi ? 1100 : 1440
@@ -67,6 +68,7 @@ ApplicationWindow {
 
     FileDialog { id: openDialog; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.load(selectedFile) }
     FileDialog { id: saveDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.save(selectedFile) }
+    PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
 
     header: ToolBar {
         height: 64
@@ -279,6 +281,7 @@ ApplicationWindow {
                         Label { text: "PROPERTIES"; font.pixelSize: 11; font.letterSpacing: 2; color: "#9eb5c2" }
                         Label { Layout.fillWidth: true; text: controller.selected.label || "Select equipment or a pipe"; textFormat: Text.PlainText; font.pixelSize: 17; wrapMode: Text.WrapAnywhere }
                         Label { Layout.fillWidth: true; text: controller.selected.kind || ""; textFormat: Text.PlainText; color: "#60c6c9" }
+                        Button { objectName: "inspectPipeTransport"; Layout.fillWidth: true; visible: controller.selected.kind === "route"; enabled: app.pipeTransport.routeId.length > 0; text: "Inspect pipe transport"; onClicked: pipeTransportDialog.open() }
                         TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
                         Repeater {
                             model: {

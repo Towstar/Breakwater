@@ -5,6 +5,8 @@ Person B's native Nemotron tools and investigation panel are documented in
 configuration, actual tool-call smoke commands, snapshot rules and approval staging.
 Automatic history, run comparison/charts, operator review and worker health are
 described in [docs/DESKTOP_FOUNDATION.md](docs/DESKTOP_FOUNDATION.md).
+The native pipe viewer, physical inputs, concentration field and mass ledger are
+described in [docs/PIPE_TRANSPORT.md](docs/PIPE_TRANSPORT.md).
 
 C++20 / MSVC Windows base for an editable synthetic fluid-network workbench.
 The original handoff is preserved in [For Dev Agents.md](For%20Dev%20Agents.md).
@@ -103,8 +105,9 @@ Send a line such as:
 
 The Python worker implements protocol/health only, connected through the asynchronous
 desktop adapter. Torch, PhysicsNeMo execution and Lean proofs remain planned. Native search and Nemotron orchestration
-are integrated; native pipe transport is available through its C++ API/example and is
-not yet connected to the desktop. See [docs/STATUS.md](docs/STATUS.md) for evidence.
+are integrated, and native pipe transport is connected to the desktop. Person A's
+standalone science and benchmark source is integrated; scientific worker methods
+remain unwired. See [docs/STATUS.md](docs/STATUS.md) for evidence.
 
 ## Optional project-local Qt setup
 
@@ -122,5 +125,5 @@ Do not switch branches underneath the other developer's session.
 
 The shared baseline is now committed. Continue with the [parallel workflow](docs/PARALLEL_WORK.md)
 and separate copy/paste kickoffs for [Person A](docs/KICKOFF_PERSON_A.md) and
-[Person B](docs/KICKOFF_PERSON_B.md). A starts differentiable storage/gradient checks;
-B publishes science contracts and integrates the existing native pipe transport.
+[Person B](docs/KICKOFF_PERSON_B.md). B continues scientific worker integration after contract review; A owns numerical
+method mapping and checked Lean work. The contracts and native pipe viewer are implemented.

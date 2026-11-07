@@ -15,13 +15,13 @@ and [STATUS.md](STATUS.md) for scope and executed checks. This completes the hea
 portion of B5 and investigation-retention portion of B7 below. A's A3/A4/A5 source at
 `eca890d` is now merged into this workstream, and B3 publishes the selected-pipe/science
 boundary plus independent physical-parameter persistence. The worker remains health-only;
-scientific method adoption and the native pipe viewer are the next integration steps.
+the native pipe viewer is now implemented. Scientific worker method adoption is next.
 Hosted Nemotron access is verified; clean operator-review rehearsals remain incomplete.
 
-The next visible milestone is selecting a pipe in the editor, running authoritative
-tracer transport from a captured forecast, and inspecting its outlet trace and mass
-ledger. In parallel, establish trustworthy differentiable calculations before adding
-learned predictions.
+The desktop now selects a pipe and captured forecast, executes authoritative native
+tracer transport, and displays its outlet trace, field and mass ledger. The next boundary
+is the agreed scientific worker mapping and capability negotiation; the standalone
+learned smoke does not supply arbitrary-route inference.
 
 ## Starting point
 
@@ -44,14 +44,14 @@ it uses storage headroom and establishes neither global optimality nor sustainab
 
 ## Start these two increments next
 
-**Person A: A3, differentiable storage rollout.** Work in `science/`, retaining the
-existing native reference. Deliver CPU double-precision forward agreement and gradient
-checks before starting model training. A can implement standalone calculations while
-B publishes the wire contract; adopt that committed contract before adding methods.
+**Person A: scientific worker mapping and A6 checked Lean work.** Standalone A3/A4
+and A5 benchmark source are integrated. Review B3's units/array semantics before mapping
+scientific methods into the worker, keeping native feasibility authoritative. Continue
+checked finite-graph algorithm proofs independently; no proof completion is claimed.
 
-**Person B: B3, science contracts; then B4, native pipe viewer.** Publish the additive
-boundary first, then expose the already working C++ transport outside the UI thread.
-This does not depend on PyTorch or PhysicsNeMo being available.
+**Person B: B5 scientific worker integration.** B3 contracts/persistence and B4 native
+pipe viewing are implemented. Extend capability negotiation and adapters only for
+actual worker methods supplied by A, preserving health-v1 and unavailable states.
 
 Use the refreshed [A kickoff](KICKOFF_PERSON_A.md) and [B kickoff](KICKOFF_PERSON_B.md).
 Deliver each numbered increment as its own tested PR rather than one combined change.

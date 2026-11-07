@@ -5,6 +5,36 @@ transport reference merged through PRs #1–#4. The accepted plan and original h
 are preserved. Next work is ordered in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md);
 the kickoff prompts now target unfinished increments.
 
+## B4 native selected-pipe viewer — November 7, 2026
+
+- Select a route and captured manual/investigation run, edit physical pipe inputs,
+  and execute Person A's native scalar transport outside the UI thread. Flow resolves
+  captured controls, source curtailment and pump availability; layout supplies no geometry.
+- Added actual outlet traces, sampled time-distance fields, signed mass ledger, CFL,
+  diagnostic extrema/residuals and run/snapshot/route/parameter provenance. Bounded
+  previews retain native sample indices and endpoints; diagnostics cover the full run.
+- Quality edits, numerical changes, reset, route deletion and changed source identity
+  retire stale work. Layout moves preserve valid evidence. One native job may finish
+  after cancellation, but cannot publish late or overlap a new job. Quality operations
+  never apply controls or confer volume approval. Atomic JSON export is capped at 1 MiB.
+- Final C++ checks: **17/17 combined suites passed** in direct VS2022 normal and full
+  desktop MSVC ASan builds. The new pipe suite reports **10 passed, 0 failed/skipped**,
+  covering direct native field/ledger parity, captured flows, candidate overrides,
+  invalidation, lifetime/cancellation, bounds and atomic export. Independent scoped
+  review found no actionable issue. Final QML render checks passed in both builds.
+- Interactive native-only QA passed at 1440×900 and 1100×700: actual plots/ledger,
+  physical length 100→120 m invalidating/rerunning quality while preserving volume
+  approval, resizing and layout dragging preserving both forecast and native result.
+  Only pre-existing Shortcut warnings appeared. The user's open app was preserved.
+- UI export pickers opened, but computer-use tooling rejected filename input in owned
+  pickers; no UI file write or UI saved-project round trip was verified. The native
+  export, parameter persistence and cancellation paths passed automated checks. A GUI
+  in-flight cancel was too fast to exercise manually. No additional hosted calls ran.
+- The root solution now has 65 projects, 177 dependency references and no missing paths.
+  Usage and scientific limits are in `docs/PIPE_TRANSPORT.md`. Worker methods beyond
+  health remain reserved pending A's mapping; generic PhysicsNeMo route inference,
+  checked Lean proofs and clean live-model rehearsals are not claimed.
+
 ## Person A merge and B3 science boundary — November 7, 2026
 
 - Merged `codex/person-a-engine` at `eca890d` into this workstream with both parents

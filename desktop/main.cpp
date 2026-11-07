@@ -1,6 +1,7 @@
 #include "ProjectController.hpp"
 #include "agent/AgentController.hpp"
 #include "history/HistoryController.hpp"
+#include "quality/PipeTransportController.hpp"
 #include "science/PythonWorkerClient.hpp"
 #include <QGuiApplication>
 #include <QElapsedTimer>
@@ -25,6 +26,7 @@ int main(int argc, char** argv) {
     breakwater::desktop::history::HistoryController history(&repository);
     breakwater::desktop::agent::AgentController investigator(&controller);
     investigator.setHistory(&repository, &history);
+    breakwater::desktop::quality::PipeTransportController pipeTransport(&controller, &history);
     breakwater::desktop::science::PythonWorkerClient scientificWorker;
     const auto reportIndex = arguments.indexOf("--health-report");
     if (reportIndex >= 0 && reportIndex + 1 < arguments.size()) {
@@ -41,7 +43,8 @@ int main(int argc, char** argv) {
     }
     QQmlApplicationEngine engine;
     engine.setInitialProperties({{"controller", QVariant::fromValue(&controller)}, {"investigator", QVariant::fromValue(&investigator)},
-        {"history", QVariant::fromValue(&history)}, {"scientificWorker", QVariant::fromValue(&scientificWorker)}});
+        {"history", QVariant::fromValue(&history)}, {"scientificWorker", QVariant::fromValue(&scientificWorker)},
+        {"pipeTransport", QVariant::fromValue(&pipeTransport)}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
     const auto importIndex = arguments.indexOf("--import-session");
