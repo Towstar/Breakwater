@@ -3,6 +3,10 @@
 Person B's native Nemotron tools and investigation panel are documented in
 [docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md), including environment
 configuration, actual tool-call smoke commands, snapshot rules and approval staging.
+Automatic history, run comparison/charts, operator review and worker health are
+described in [docs/DESKTOP_FOUNDATION.md](docs/DESKTOP_FOUNDATION.md).
+The native pipe viewer, physical inputs, concentration field and mass ledger are
+described in [docs/PIPE_TRANSPORT.md](docs/PIPE_TRANSPORT.md).
 
 C++20 / MSVC Windows base for an editable synthetic fluid-network workbench.
 The original handoff is preserved in [For Dev Agents.md](For%20Dev%20Agents.md).
@@ -101,15 +105,16 @@ Send a line such as:
 {"protocol_version":1,"request_id":"check","method":"health","payload":{}}
 ```
 
-The Python worker still implements protocol/health only. Standalone calculations
+The Python worker implements protocol/health only through the asynchronous desktop
+adapter; scientific worker methods remain unwired. Standalone calculations
 are implemented separately: [PyTorch rollout and gradient checks](science/README.md),
 [experimental PhysicsNeMo smoke](science/PHYSICSNEMO.md),
 [native benchmarks](engine/BENCHMARKS.md), and [Lean proofs](proofs/README.md).
 Install the documented pinned science environment before running the full Python
 test suite; it includes Torch and optional PhysicsNeMo tests.
 
-The native process adapter and desktop science integration remain planned. Native
-pipe transport is available through its C++ API/example. See
+Native pipe transport is connected to the desktop, alongside investigation history,
+comparison and guarded operator review. See
 [docs/SCIENCE_VALIDATION.md](docs/SCIENCE_VALIDATION.md) for proof scope and numerical
 limits, and [docs/STATUS.md](docs/STATUS.md) for executed evidence.
 
@@ -129,6 +134,6 @@ Do not switch branches underneath the other developer's session.
 
 The shared baseline is now committed. Continue with the [parallel workflow](docs/PARALLEL_WORK.md)
 and separate copy/paste kickoffs for [Person A](docs/KICKOFF_PERSON_A.md) and
-[Person B](docs/KICKOFF_PERSON_B.md). A3–A6 are merged through PR #6; the current
-handoff is publishing science contracts and integrating the existing native pipe
-transport, then exposing the standalone science modules through that agreed boundary.
+[Person B](docs/KICKOFF_PERSON_B.md). A3–A6 are merged through PR #6; B3 contracts
+and B4 native viewing are implemented in this workstream. Next is A's agreed scientific
+method mapping and B's desktop integration, with proof maintenance remaining A-owned.

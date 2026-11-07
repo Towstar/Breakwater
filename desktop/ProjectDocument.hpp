@@ -1,5 +1,6 @@
 #pragma once
 #include "breakwater/engine.hpp"
+#include "quality/PipeParameters.hpp"
 #include <QJsonObject>
 #include <QMap>
 #include <QVector3D>
@@ -8,6 +9,7 @@ namespace breakwater::desktop {
 struct ProjectDocument {
     Network network;
     QMap<QString, QVector3D> positions;
+    QMap<QString, quality::PipeParameters> pipe_parameters;
     double camera_yaw = 35.0;
     double camera_pitch = -55.0;
     double camera_distance = 720.0;

@@ -1,0 +1,88 @@
+{
+  "protocol_version": 1,
+  "request_id": "33333333-3333-4333-8333-333333333333",
+  "status": "completed",
+  "result": {
+    "method": "pipe_transport",
+    "method_version": 1,
+    "identity": {
+      "snapshot_id": "11111111-1111-4111-8111-111111111111",
+      "volume_run_id": "22222222-2222-4222-8222-222222222222",
+      "numerical_revision": 7,
+      "physical_hash": "aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa",
+      "route_id": "west-transfer",
+      "parameter_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb"
+    },
+    "provenance": {
+      "implementation": "native_fvm",
+      "implementation_version": "example-only",
+      "dtype": "float64",
+      "device": "cpu",
+      "execution_status": "completed"
+    },
+    "quality_status": "synthetic_selected_pipe_not_qualified",
+    "time_h": [
+      0,
+      1
+    ],
+    "time_indices": [
+      0,
+      40
+    ],
+    "x_m": [
+      0.78125,
+      99.21875
+    ],
+    "cell_indices": [
+      0,
+      63
+    ],
+    "concentration_mg_l": [
+      [
+        0,
+        0
+      ],
+      [
+        0.1,
+        0
+      ]
+    ],
+    "outlet_mg_l": [
+      0,
+      0
+    ],
+    "inventory_mg": [
+      0,
+      1
+    ],
+    "cumulative_inlet_mg": [
+      0,
+      1.1
+    ],
+    "cumulative_outlet_mg": [
+      0,
+      0
+    ],
+    "cumulative_source_mg": [
+      0,
+      0
+    ],
+    "cumulative_decay_mg": [
+      0,
+      0.1
+    ],
+    "mass_balance_residual_mg": [
+      0,
+      0
+    ],
+    "diagnostics": {
+      "substeps": 100,
+      "max_cfl_number": 0.9,
+      "minimum_concentration_mg_l": 0,
+      "max_mass_balance_residual_mg": 0
+    },
+    "warnings": [
+      "Illustrative shape only: values and identities are placeholders, not a native run or quality qualification."
+    ]
+  }
+}

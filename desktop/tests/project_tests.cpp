@@ -9,6 +9,48 @@ using namespace breakwater::desktop;
 class ProjectTests : public QObject {
     Q_OBJECT
 private slots:
+    void pipeParametersPersistWithoutChangingVolumeEvidence() {
+        ProjectController controller; controller.loadExample("mixed"); controller.forecast();
+        QTRY_VERIFY_WITH_TIMEOUT(!controller.busy(), 10000);
+        QVERIFY(controller.canApprove());
+        const auto hash = controller.networkHash(), run = controller.runId();
+        const auto revision = controller.simulationRevision();
+        QVERIFY(!controller.document().contains("pipe_transport"));
+        auto parameters = controller.pipeParameters("bypass"); parameters["length_m"] = 250.0;
+        QVERIFY(controller.setPipeParameters("bypass", parameters));
+        QCOMPARE(controller.networkHash(), hash); QCOMPARE(controller.simulationRevision(), revision);
+        QCOMPARE(controller.runId(), run); QVERIFY(controller.canApprove());
+        QCOMPARE(controller.capturedRun().value("run_id").toString(), run);
+        QCOMPARE(controller.capturedRun().value("horizon_h").toDouble(), 3.0);
+        const auto stored = controller.document();
+        const auto restored = parse_project(stored);
+        QCOMPARE(restored.pipe_parameters.value("bypass").pipe.length_m, 250.0);
+        QCOMPARE(project_json(restored), stored);
+        controller.moveAsset("tank_a", 180, 100);
+        QCOMPARE(controller.pipeParameters("bypass"), parameters); QCOMPARE(controller.runId(), run);
+        controller.undo(); controller.undo();
+        QVERIFY(!controller.document().contains("pipe_transport")); QVERIFY(controller.canApprove());
+        QCOMPARE(controller.runId(), run);
+    }
+    void pipeParametersRejectInvalidEntriesAndFollowRouteDeletion() {
+        ProjectController controller;
+        const auto original = controller.document();
+        auto parameters = controller.pipeParameters("bypass");
+        QVERIFY(!controller.setPipeParameters("foreign-route", parameters)); QCOMPARE(controller.document(), original);
+        auto invalid = parameters; invalid["cells"] = 2.5;
+        QVERIFY(!controller.setPipeParameters("bypass", invalid)); QCOMPARE(controller.document(), original);
+        auto malformed = original;
+        malformed["pipe_transport"] = QJsonObject{{"version", 1}, {"routes", QJsonObject{{"foreign-route", parameters}}}};
+        QVERIFY(!controller.restore(malformed)); QCOMPARE(controller.document(), original);
+        malformed["pipe_transport"] = QJsonObject{{"version", 2}, {"routes", QJsonObject{}}};
+        QVERIFY(!controller.restore(malformed)); QCOMPARE(controller.document(), original);
+        QVERIFY(controller.setPipeParameters("bypass", parameters));
+        controller.select("bypass"); controller.deleteSelected();
+        QVERIFY(!controller.document().contains("pipe_transport"));
+        controller.undo();
+        QCOMPARE(controller.pipeParameters("bypass"), parameters);
+        QVERIFY(controller.document().contains("pipe_transport"));
+    }
     void sourceFixtureMatchesCanonical() {
         QFile fixture(QStringLiteral(BREAKWATER_SOURCE_DIR "/scenarios/pump_failure.json"));
         QVERIFY(fixture.open(QIODevice::ReadOnly));

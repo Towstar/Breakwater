@@ -8,9 +8,13 @@ ApplicationWindow {
     id: app
     required property var controller
     required property var investigator
+    required property var history
+    required property var scientificWorker
+    required property var pipeTransport
+    readonly property bool compactUi: Qt.application.arguments.indexOf("--compact-ui") >= 0
     property bool showAgent: false
-    width: 1440
-    height: 900
+    width: compactUi ? 1100 : 1440
+    height: compactUi ? 700 : 900
     minimumWidth: 1100
     minimumHeight: 700
     visible: true
@@ -64,6 +68,7 @@ ApplicationWindow {
 
     FileDialog { id: openDialog; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.load(selectedFile) }
     FileDialog { id: saveDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.save(selectedFile) }
+    PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
 
     header: ToolBar {
         height: 64
@@ -71,15 +76,15 @@ ApplicationWindow {
         RowLayout {
             anchors.fill: parent; anchors.margins: 12; spacing: 8
             Label { text: "BREAKWATER"; font.pixelSize: 21; font.bold: true; color: "#60d2d1"; Layout.rightMargin: 12 }
-            Button { text: "Reset"; onClicked: controller.reset() }
+            Button { Layout.preferredWidth: 72; text: "Reset"; onClicked: controller.reset() }
             Button { text: "Pump failure"; onClicked: controller.loadExample("baseline") }
             Button { text: "Bad reroute"; onClicked: controller.loadExample("bad") }
             Button { text: "Mixed plan"; onClicked: controller.loadExample("mixed") }
             Item { Layout.fillWidth: true }
-            Button { text: "Undo"; enabled: controller.canUndo; onClicked: controller.undo() }
-            Button { text: "Redo"; enabled: controller.canRedo; onClicked: controller.redo() }
-            Button { text: "Open"; onClicked: openDialog.open() }
-            Button { text: "Save"; onClicked: saveDialog.open() }
+            Button { Layout.preferredWidth: 64; text: "Undo"; enabled: controller.canUndo; onClicked: controller.undo() }
+            Button { Layout.preferredWidth: 64; text: "Redo"; enabled: controller.canRedo; onClicked: controller.redo() }
+            Button { Layout.preferredWidth: 64; text: "Open"; onClicked: openDialog.open() }
+            Button { Layout.preferredWidth: 64; text: "Save"; onClicked: saveDialog.open() }
             Button { text: controller.busy ? "Calculating..." : "Run forecast"; enabled: !controller.busy && controller.draftIssues.length === 0; highlighted: true; onClicked: controller.forecast() }
         }
     }
@@ -92,6 +97,12 @@ ApplicationWindow {
                 Layout.preferredWidth: 176; Layout.fillHeight: true; color: "#142330"
                 ColumnLayout {
                     anchors.fill: parent; anchors.margins: 12; spacing: 8
+                    ScrollView {
+                        id: equipmentScroll
+                        Layout.fillWidth: true; Layout.fillHeight: true
+                        contentWidth: availableWidth; clip: true
+                        ColumnLayout {
+                            width: equipmentScroll.availableWidth; spacing: 8
                     Label { text: "EQUIPMENT"; font.pixelSize: 11; font.letterSpacing: 2; color: "#9eb5c2" }
                     Label { text: "Drag into the scene\nor click to add."; font.pixelSize: 11; color: "#8ca5b4" }
                     Repeater {
@@ -99,10 +110,10 @@ ApplicationWindow {
                         delegate: Rectangle {
                             required property var modelData
                             Layout.fillWidth: true; implicitHeight: 34; radius: 4; color: paletteMouse.containsMouse ? "#315164" : "#223b4c"
-                            Label { anchors.centerIn: parent; text: modelData.label; font.pixelSize: 12 }
+                            Label { anchors.centerIn: parent; text: modelData.label; textFormat: Text.PlainText; font.pixelSize: 12 }
                             MouseArea {
                                 id: paletteMouse
-                                anchors.fill: parent; hoverEnabled: true
+                                anchors.fill: parent; hoverEnabled: true; preventStealing: true
                                 property point start
                                 onPressed: function(mouse) {
                                     start = Qt.point(mouse.x, mouse.y)
@@ -132,13 +143,16 @@ ApplicationWindow {
                     }
                     Label { text: "NETWORK"; font.pixelSize: 11; font.letterSpacing: 2; color: "#9eb5c2"; Layout.topMargin: 10 }
                     ListView {
-                        Layout.fillWidth: true; Layout.fillHeight: true; clip: true; spacing: 4
+                        Layout.fillWidth: true; Layout.preferredHeight: 160; clip: true; spacing: 4
                         model: controller.assets
                         delegate: ItemDelegate {
                             required property var modelData
                             width: ListView.view.width
                             text: modelData.label; highlighted: modelData.selected
+                            contentItem: Label { text: parent.text; textFormat: Text.PlainText; elide: Text.ElideRight; verticalAlignment: Text.AlignVCenter }
                             onClicked: app.clickAsset(modelData.id)
+                        }
+                    }
                         }
                     }
                     Button { Layout.fillWidth: true; text: "Nemotron investigator"; onClicked: app.showAgent = !app.showAgent }
@@ -186,7 +200,7 @@ ApplicationWindow {
                             return view.mapFrom3DScene(Qt.vector3d(modelData.x, 108, modelData.z))
                         }
                         x: point.x - width / 2; y: point.y; visible: point.z > 0
-                        text: modelData.label; font.pixelSize: 12; color: modelData.selected ? "#ffcf70" : "#d5e5eb"
+                        text: modelData.label; textFormat: Text.PlainText; font.pixelSize: 12; color: modelData.selected ? "#ffcf70" : "#d5e5eb"
                     }
                 }
                 MouseArea {
@@ -265,8 +279,9 @@ ApplicationWindow {
                     ColumnLayout {
                         width: parent.width; spacing: 10
                         Label { text: "PROPERTIES"; font.pixelSize: 11; font.letterSpacing: 2; color: "#9eb5c2" }
-                        Label { Layout.fillWidth: true; text: controller.selected.label || "Select equipment or a pipe"; font.pixelSize: 17; wrapMode: Text.WrapAnywhere }
-                        Label { Layout.fillWidth: true; text: controller.selected.kind || ""; color: "#60c6c9" }
+                        Label { Layout.fillWidth: true; text: controller.selected.label || "Select equipment or a pipe"; textFormat: Text.PlainText; font.pixelSize: 17; wrapMode: Text.WrapAnywhere }
+                        Label { Layout.fillWidth: true; text: controller.selected.kind || ""; textFormat: Text.PlainText; color: "#60c6c9" }
+                        Button { objectName: "inspectPipeTransport"; Layout.fillWidth: true; visible: controller.selected.kind === "route"; enabled: app.pipeTransport.routeId.length > 0; text: "Inspect pipe transport"; onClicked: pipeTransportDialog.open() }
                         TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
                         Repeater {
                             model: {
@@ -291,14 +306,14 @@ ApplicationWindow {
                         Button { Layout.fillWidth: true; visible: !!controller.selected.kind; text: "Delete selected"; onClicked: controller.deleteSelected() }
                         Rectangle { Layout.fillWidth: true; height: 1; color: "#304452" }
                         Label { text: controller.draftIssues.length ? "DRAFT NEEDS ATTENTION" : "NETWORK READY"; color: controller.draftIssues.length ? "#ffcf70" : "#60d2b1"; font.pixelSize: 11 }
-                        Repeater { model: controller.draftIssues; delegate: Label { required property string modelData; Layout.fillWidth: true; text: modelData; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#e1b879" } }
+                        Repeater { model: controller.draftIssues; delegate: Label { required property string modelData; Layout.fillWidth: true; text: modelData; textFormat: Text.PlainText; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#e1b879" } }
                     }
                 }
             }
         }
         Rectangle {
-            Layout.fillWidth: true; Layout.preferredHeight: app.showAgent ? 310 : 196; color: "#172735"
-            AgentPanel { anchors.fill: parent; anchors.margins: 14; visible: app.showAgent; investigator: app.investigator }
+            Layout.fillWidth: true; Layout.preferredHeight: app.showAgent ? Math.min(420, Math.round(app.height * 0.52)) : 196; color: "#172735"
+            AgentPanel { anchors.fill: parent; anchors.margins: 14; visible: app.showAgent; investigator: app.investigator; history: app.history; scientificWorker: app.scientificWorker }
             ColumnLayout {
                 visible: !app.showAgent
                 anchors.fill: parent; anchors.margins: 14; spacing: 5
@@ -309,12 +324,12 @@ ApplicationWindow {
                     Label { text: controller.runId.length > 0 ? "Run " + controller.runId.substring(0, 8) : "No executed forecast"; color: "#91aab9"; font.pixelSize: 11 }
                     Button { text: "Approve simulated preview"; enabled: controller.canApprove; onClicked: controller.approve() }
                 }
-                Label { Layout.fillWidth: true; Layout.fillHeight: true; text: controller.summary; wrapMode: Text.WordWrap; font.pixelSize: 13; color: "#d2e1e9"; elide: Text.ElideRight }
+                Label { Layout.fillWidth: true; Layout.fillHeight: true; text: controller.summary; textFormat: Text.PlainText; wrapMode: Text.WordWrap; font.pixelSize: 13; color: "#d2e1e9"; elide: Text.ElideRight }
                 RowLayout {
                     Layout.fillWidth: true
                     Repeater {
                         model: controller.assets
-                        delegate: Label { required property var modelData; visible: modelData.kind === "tank"; text: modelData.label + ": " + modelData.volume.toFixed(2) + " / " + modelData.capacity.toFixed(0) + " m³"; color: modelData.violated ? "#f58c8d" : "#a8d9df"; Layout.rightMargin: 16; font.pixelSize: 12 }
+                        delegate: Label { required property var modelData; visible: modelData.kind === "tank"; text: modelData.label + ": " + modelData.volume.toFixed(2) + " / " + modelData.capacity.toFixed(0) + " m³"; textFormat: Text.PlainText; color: modelData.violated ? "#f58c8d" : "#a8d9df"; Layout.rightMargin: 16; font.pixelSize: 12 }
                     }
                     Item { Layout.fillWidth: true }
                 }
@@ -331,6 +346,6 @@ ApplicationWindow {
         id: ghost; parent: app.contentItem; z: 1000; visible: false; width: 120; height: 34; radius: 5; color: "#357a88"
         property string kind: ""; property string label: ""
         Drag.source: ghost; Drag.keys: ["equipment"]; Drag.hotSpot.x: 60; Drag.hotSpot.y: 16
-        Label { anchors.centerIn: parent; text: ghost.label }
+        Label { anchors.centerIn: parent; text: ghost.label; textFormat: Text.PlainText }
     }
 }

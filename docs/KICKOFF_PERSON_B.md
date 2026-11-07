@@ -44,9 +44,16 @@ The app is C++20/MSVC x64, Qt Quick/QML and Qt Quick 3D 6.12, using Visual Studi
 The existing editor already supports primitive equipment, connections, parameters,
 save/load, undo/redo, background forecasts, timeline scrubbing and approval invalidation.
 Native Nemotron orchestration, real tools, bounded search, immutable agent runs and
-approval staging are integrated, including review fixes. Live hosted model calling is
-still unverified without credentials. Native single-pipe transport is also merged;
-its desktop integration and the scientific Python process adapter remain pending.
+approval staging are integrated, including review fixes. Hosted model calling is
+verified; clean operator-review rehearsals remain incomplete. Native single-pipe
+transport and its selected-pipe desktop viewer are implemented. Scientific worker
+methods beyond health remain pending.
+
+Follow-up: the approved desktop-first increment implements investigation history,
+comparisons/charts, operator review and a health-only QProcess adapter; see
+docs/DESKTOP_FOUNDATION.md and the latest docs/STATUS.md. Scientific worker methods and
+generalized learned pipe inference remain pending. B3 contracts/persistence and B4
+native viewing are now implemented; follow the updated next increment below.
 
 Inspect the machine rather than assuming the original developer's SDKs are installed.
 .tools/ and out/ are ignored and will be absent in a fresh clone. Follow README for
@@ -58,28 +65,26 @@ x64 / RelWithDebInfo and startup project breakwater. You own any committed regen
 of the root solution. If Qt setup is blocked, continue B3 contract/schema examples and
 adapter protocol test design, and record the concrete setup failure.
 
-NEXT INCREMENT: B3 SCIENCE CONTRACTS
-Publish an additive selected-pipe request/result contract and worker capability/method
-examples. Include route/run/snapshot identity, numerical and physical-parameter hashes,
-explicit units, cell-average array ordering, signed mass ledger, method/version and
-errors. Specify backward-compatible parameter persistence and invalidation semantics.
-Coordinate units and numerical semantics with A before adopting the committed contract.
+NEXT INCREMENT: B5 SCIENTIFIC WORKER INTEGRATION
+Review docs/SCIENCE_CONTRACTS.md and contracts/science/ with A. The proposed method
+examples/schemas and native route-parameter persistence are committed; scientific wire
+methods remain reserved. Coordinate units, provenance and ordering before A implements
+the worker mapping. The current desktop process adapter implements health only.
 
 Physical pipe length/area/dispersion/decay are independent of layout. Flow comes from
 the captured numerical run, including availability. Worker JSON lines are limited to
 1 MiB but native fields may contain four million values; define bounded display output
 and any size/hash-checked application-owned artifact references. Keep health v1 working.
 
-THEN B4: NATIVE PIPE VIEWER; B5: ASYNC WORKER ADAPTER
-Expose the existing C++ transport off-thread for a selected route and captured run.
-Show outlet/field preview, signed mass ledger and CFL with separate quality provenance.
-Preserve results on layout moves and reject stale/deleted-route completions. This UI
-does not wait for A's PyTorch/PhysicsNeMo work and does not change volume feasibility.
+PRESERVE B4 AND EXTEND B5
+The selected-pipe native viewer is implemented; read docs/PIPE_TRANSPORT.md. Keep its
+native parity, physical/layout separation, explicit provenance and stale-result guards.
+Do not replace it with A4's fixed-case PhysicsNeMo model or claim arbitrary-route inference.
 
-Implement the QProcess adapter as a separate increment: configurable interpreter,
-health/capability negotiation, strict framing and IDs, bounded buffers, separate stderr,
-timeouts/cancellation/restart. Test fake workers, then A's actual scientific methods
-when available. A owns science/ implementations and dependency pins; do not edit them.
+Extend the existing QProcess adapter only for actually implemented scientific methods:
+capability negotiation, exact matching identity, bounded output and separate diagnostics.
+Keep framing/IDs/timeouts/cancellation/restart guards. Test fake workers, then A's actual
+methods when available. A owns science/ implementations and dependency pins; do not edit them.
 
 Retain the integrated Nemotron limits: 12 tool calls, three refinement rounds and two
 minutes. Keep credentials in process configuration, out of QML, project files and logs.

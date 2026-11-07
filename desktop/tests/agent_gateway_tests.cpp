@@ -76,6 +76,8 @@ private slots:
         SimulationGateway gateway(main_pump_failure(canonical_scenario()), "physical");
         const auto run = runCase(gateway, "mixed");
         const auto id = run["run_id"].toString();
+        QVERIFY(!gateway.snapshot().value("network").toObject().isEmpty());
+        QVERIFY(gateway.runDetails(id).value("ok").toBool());
         QCOMPARE(errorCode(gateway.recommendation(id)), "inspection_required");
         inspect(gateway);
         QCOMPARE(errorCode(gateway.recommendation(id)), "validation_required");

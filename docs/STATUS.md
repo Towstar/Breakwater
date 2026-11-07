@@ -5,7 +5,23 @@ and Person A's A3–A6 science, benchmark and proof increments, merged through P
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
 
-## PR #6 integration — November 7, 2026
+## Latest-main reconciliation — November 7, 2026
+
+- Merged main `5c47d4f`, including Person A's latest `7c99c68` Lean increment, into the
+  pipe-viewer workstream. Resolved README/status and generated-solution conflicts while
+  preserving B3/B4, history/approval behavior and the full 65-project/177-dependency graph.
+  No engine/science/desktop/runtime-contract code changed in this reconciliation.
+- Rechecked the regenerated direct Visual Studio normal build: **17/17 CTest suites
+  passed**. The full desktop ASan **17/17** result below covers identical runtime source.
+- Scoped proof review found no blocker: five owned source hashes and the manifest match
+  committed evidence; the 15-theorem audit permits only `propext`, `Classical.choice`
+  and `Quot.sound`, and the negative-assumption probe is recorded as rejected.
+- The following PR #6 proof/science execution record is upstream evidence, not a fresh
+  run in this chat. Lean/Lake and the scientific packages are unavailable in this
+  process environment; no local proof/training replay is claimed. Proofs concern exact
+  real finite-network algorithms, not C++ floating point, PDEs, ML quality or optimality.
+
+## PR #6 integration — November 7, 2026 (upstream report)
 
 - Merged A3–A6 at `fe40c20` without conflicts. Native reference exporters and benchmark
   targets are included in the regenerated root Visual Studio solution.
@@ -36,6 +52,96 @@ in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now deliv
 - The health-only worker is unchanged. Desktop science contracts, process adapter
   and selected-pipe transport UI remain separate integration work.
 
+## B4 native selected-pipe viewer — November 7, 2026
+
+- Select a route and captured manual/investigation run, edit physical pipe inputs,
+  and execute Person A's native scalar transport outside the UI thread. Flow resolves
+  captured controls, source curtailment and pump availability; layout supplies no geometry.
+- Added actual outlet traces, sampled time-distance fields, signed mass ledger, CFL,
+  diagnostic extrema/residuals and run/snapshot/route/parameter provenance. Bounded
+  previews retain native sample indices and endpoints; diagnostics cover the full run.
+- Quality edits, numerical changes, reset, route deletion and changed source identity
+  retire stale work. Layout moves preserve valid evidence. One native job may finish
+  after cancellation, but cannot publish late or overlap a new job. Quality operations
+  never apply controls or confer volume approval. Atomic JSON export is capped at 1 MiB.
+- Final C++ checks: **17/17 combined suites passed** in direct VS2022 normal and full
+  desktop MSVC ASan builds. The new pipe suite reports **10 passed, 0 failed/skipped**,
+  covering direct native field/ledger parity, captured flows, candidate overrides,
+  invalidation, lifetime/cancellation, bounds and atomic export. Independent scoped
+  review found no actionable issue. Final QML render checks passed in both builds.
+- Interactive native-only QA passed at 1440×900 and 1100×700: actual plots/ledger,
+  physical length 100→120 m invalidating/rerunning quality while preserving volume
+  approval, resizing and layout dragging preserving both forecast and native result.
+  Only pre-existing Shortcut warnings appeared. The user's open app was preserved.
+- UI export pickers opened, but computer-use tooling rejected filename input in owned
+  pickers; no UI file write or UI saved-project round trip was verified. The native
+  export, parameter persistence and cancellation paths passed automated checks. A GUI
+  in-flight cancel was too fast to exercise manually. No additional hosted calls ran.
+- The root solution now has 65 projects, 177 dependency references and no missing paths.
+  Usage and scientific limits are in `docs/PIPE_TRANSPORT.md`. Worker methods beyond
+  health remain reserved pending A's mapping; generic PhysicsNeMo route inference
+  and clean live-model rehearsals are not claimed. A6's standalone proofs are included
+  by the latest-main reconciliation, with the formal scope stated above.
+
+## Person A merge and B3 science boundary — November 7, 2026
+
+- Merged `codex/person-a-engine` at `eca890d` into this workstream with both parents
+  preserved and no conflicts. Public numerical interfaces and worker health-v1 remain
+  unchanged. A's source adds standalone CPU-double rollout/gradient checks, the fixed-case
+  PhysicsNeMo smoke, native reference exporters and measured benchmark evidence.
+- Independent scoped reviews found no integration blocker. The merged baseline passed
+  **7/7 native suites** and **15/15 combined desktop ASan suites**, including the new
+  benchmark correctness check. No performance measurements were repeated here.
+- A's scientific training/parity results remain A-reported in `science/PROGRESS.md`.
+  This laptop's bundled interpreter has no Torch/PhysicsNeMo; only the two dependency-
+  free worker tests were rerun locally. The worker still implements health only.
+- B3 publishes explicit units, identity, array ordering, signed mass ledger, bounded
+  previews and safe reserved artifact rules. All three Draft 2020-12 schemas and all
+  seven illustrative examples passed `jsonschema` 4.25.1 validation. These are proposed
+  scientific methods for A's review/adoption, not advertised worker capabilities.
+- Added strict native pipe-parameter parsing/hashing and optional project-v1 route
+  profiles. Geometry is independent of layout; quality edits preserve otherwise eligible
+  volume runs/approval. Route deletion/undo, malformed profiles and old-project round trips
+  are covered. Projects without profiles keep their previous serialized shape.
+- B3 combined checks: **16/16 suites passed** in both the direct VS2022 normal build
+  and full desktop MSVC ASan build. Regenerated the root solution: 63 projects,
+  170 dependency references and no missing project paths. Native pipe UI integration
+  is the next B4 increment; A4's fixed-case model is not generic route inference.
+
+## Live Nemotron verification follow-up — November 7, 2026
+
+- A locally configured Windows user-environment key authenticated successfully. The
+  existing protocol smoke verified the exact configured model identity, a genuine
+  `get_network_state` call, native execution, matching result continuation and completion.
+- A production CLI investigation selected a native-validated 4,800-unit run and staged
+  it for operator review. No simulated controls were applied by verification tools.
+- The already-running desktop investigation exposed repeated calls after its candidate
+  quota was exhausted, followed by an invalid final response. Its evidence was retained
+  and approval stayed disabled. The orchestrator now supplies remaining budgets on each
+  request, removes exhausted candidate tools and offers no tools after the final call.
+  Backend limits and strict validation/final-output checks remain authoritative.
+- Three subsequent canonical production-controller sessions archived full trajectories
+  and request metadata: one returned `no_validated_plan`; one selected a validated
+  5,280-unit plan and staged it; one selected a validated 16,530-unit advisory plan
+  without staging. A fourth session on a seven-asset, three-tank network with renamed
+  IDs and a bypass redirected to a new buffer selected and staged a validated
+  5,280-unit plan. These are selected evaluated plans, not global optima.
+- All archived requests in those four sessions returned HTTP 200 with matching model
+  identity and zero retries. Archives exclude credential/header/reasoning fields.
+  A verification-only harness under ignored `.tools/live-check/` reused the actual
+  AgentController, history recorder, native tools and repository; it did not mock the
+  model or apply controls. It reloaded stored terminal evidence before JSON export.
+- New budget regressions and existing orchestration checks: **17 passed**; normal
+  history/controller checks also passed. Full desktop ASan: **14/14 suites passed**.
+  Direct Visual Studio `/m:1` build and **14/14 suites passed**. The attempted parallel
+  rebuild stalled and was cancelled before the serial verification; no parallel-build
+  success is claimed for this follow-up.
+  An updated normal desktop was built separately, preserving the user's open app.
+- Hosted access is now verified. Three clean canonical operator-review rehearsals
+  are **not complete**: bounded no-plan and unstaged advisory results remain explicit.
+  Planning quality is variable; the demonstration still needs rehearsal. Scientific
+  PyTorch/PhysicsNeMo execution remains unavailable.
+
 ## Person A transport integration — November 7, 2026
 
 - PR #4 merged the pure C++20 finite-volume scalar transport API, example/CSV export,
@@ -56,6 +162,71 @@ in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now deliv
   root `.slnx` MSVC 19.51 / Qt 6.12.0 build passed, followed by **11/11 combined CTest
   suites passed**. This is a new normal-build result; prior component ASan evidence
   above does not imply a new combined 11-suite sanitizer run.
+
+## Person B desktop foundation — November 7, 2026
+
+PRs #1 and #2 were reviewed and merged with merge commits. The new foundation work
+starts from `main` commit `630e33c` and merges the later changes through `bf8beb1`,
+preserving transport, client safeguards, long control IDs and Qt build ordering.
+This increment adds no edits to Person A's native/scientific files.
+
+Implemented:
+
+- Automatic SQLite investigation history with a dedicated worker-owned connection,
+  transactional complete checkpoints, out-of-order checkpoint rejection, interrupted
+  session recovery, atomic JSON export and validated historical-only import.
+- Saved immutable snapshots, complete native trajectories/reports, objectives, events,
+  sanitized model request metadata, recommendations and operator approval audit.
+- History browsing, baseline/candidate selection, cost/control/margin/violation
+  comparison, tank selection and actual trajectory charts including capacity boundaries
+  and unclipped violations. Selection does not change simulated operating controls.
+- Explicit staged-plan review showing IDs, native evidence and current→proposed
+  controls. Historical evidence or a different selected/staged/recommended run cannot
+  be applied; existing revision/reset/validation/double-application gates remain.
+- An asynchronous Python-worker health adapter for the existing NDJSON-v1 protocol,
+  with identity/schema checks, bounded output, timeout/cancel/crash handling, local
+  interpreter configuration and accurate unavailable/not-implemented states.
+- Sanitized request completion metadata before terminal events, including cancellation
+  and deadlines. Final checkpoint capture/serialization is queued off the UI thread.
+- The project-v1 and numerical engine interfaces remain unchanged. Imported evidence
+  is never inserted into an authoritative live model gateway.
+
+Executed evidence:
+
+- Current combined desktop/Ninja build: **14/14 CTest suites passed**.
+- Regenerated the root Visual Studio solution with 58 projects and all 155 existing
+  dependency edges preserved. Direct VS2022 solution build and **14/14 suites passed**.
+- Full combined desktop MSVC AddressSanitizer build: **14/14 suites passed**, no sanitizer
+  failures reported. This includes persistence, controller/history, worker, agent,
+  numerical search and QML startup/render checks.
+- The configured real Python 3.12 worker suite reports **24 passed, 0 failed, 0 skipped**.
+  It executes the existing worker's actual health operation as well as bounded failure
+  fixtures; no PyTorch/PhysicsNeMo model execution is claimed.
+- SQLite checks report **14 passed, 0 failed, 0 skipped**, including worker-thread
+  capture, immediate shutdown draining, restart recovery, rollback and long control IDs.
+- Combined transport-client checks report **30 passed, 0 failed** with fake HTTP responses.
+- Interactive checks at 1440×900 and 1100×700 exercised all four tabs, actual tank A/B
+  trajectories, control comparisons, historical provenance and disabled approval.
+  QML lint passed for the investigator and chart. Qt's pre-existing Shortcut warnings
+  remain; no QML runtime errors were observed.
+- The CMake-installed application passed render/import/health smoke with Windows-only
+  PATH and explicit Python. It loaded the deployed Qt SQL/SQLite plugins and the
+  installed worker, returning real Python 3.12.14 health with scientific execution
+  `not_implemented`. This checks the local install, not a fresh-machine VC runtime.
+- Restarted that installed application with its existing database and no import
+  argument, reopened the saved session through History, and recovered both actual
+  runs, trajectories, cost and headroom. Historical operator approval stayed disabled.
+- Comparison tests can export `offline-verified-session.json` when
+  `BREAKWATER_TEST_ARTIFACT_DIR` is configured. Its numbers are actual native baseline
+  and mixed-candidate results; the archive explicitly states no live model ran.
+
+At original foundation delivery, the live milestone was **pending credentials**.
+`NVIDIA_API_KEY` was absent from the process,
+user and machine environments. No authenticated hosted request or live model rehearsal
+was performed. Protocol smoke, three canonical rehearsals and edited/custom-network
+live investigations remain required before claiming the live demonstration complete.
+See [DESKTOP_FOUNDATION.md](DESKTOP_FOUNDATION.md) for workflow, storage, worker setup,
+archive semantics and verification commands.
 
 ## Person B agent increment — November 7, 2026
 
@@ -104,8 +275,8 @@ Unavailable/limited:
   Fake responses test software behavior, not live adaptive model performance.
 - Person A's native bounded search (`4eea5a7`) is merged and exposed through
   `search_interventions`; combined post-merge verification is recorded below.
-- History is in memory for the current agent session; persistence/replay, streaming,
-  HTTP 202 polling, robust optimization and detailed charts remain later work.
+- Streaming, HTTP 202 polling, robust optimization and animated replay remain later
+  work. The foundation above now provides durable evidence history and trajectory charts.
 - Scientific calculations and proofs are available as standalone components; desktop
   science integration and qualified quality predictions remain unavailable.
 
@@ -165,15 +336,15 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 
 ## Planned, not implemented in this base
 
-- Durable history/replay, robust optimization and detailed charts.
-- Desktop-to-Python process adapter and selected-pipe transport UI.
+- Animated replay, robust optimization and additional chart types.
+- Worker scientific methods beyond health and their desktop integration.
 - Qualified/generalized ML quality predictions and transport differentiation.
 - Custom SIMD/GPU kernels and sophisticated routing handles.
 
 The UI's unavailable science integrations remain planned. Actual standalone PhysicsNeMo
 execution, checked algorithm proofs and measured native timings are recorded above;
-live hosted Nemotron execution, validated chemical quality and production control
-remain unverified or outside scope.
+live hosted Nemotron execution is verified as recorded above. Validated chemical
+quality and production control remain outside scope.
 
 ## PR #2 integration review (2026-11-07)
 

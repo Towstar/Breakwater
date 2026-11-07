@@ -33,29 +33,27 @@ Main includes generic fixed-flow storage networks, dense/sparse/affine forecasts
 independent validation, bounded search and authoritative single-pipe finite-volume
 transport. Native Nemotron tools and the editor are integrated. See engine/SEARCH.md,
 engine/TRANSPORT.md and engine/PROGRESS.md for APIs and actual evidence.
-PyTorch, PhysicsNeMo execution, benchmarks and checked Lean proofs are still pending.
+This workstream now includes A3 differentiable storage, A4's fixed-case PhysicsNeMo
+smoke, A5's recorded benchmarks and A6's checked exact-real algorithms through 7c99c68.
+B3 contracts and B4 native viewing are implemented downstream. Worker science mapping remains pending.
 Confirm the baseline on this machine rather than treating old results as your own.
 
-NEXT INCREMENT: A3 DIFFERENTIABLE STORAGE ROLLOUT
-Implement a generic CPU torch.float64 storage rollout in science/, with pinned working
-Python 3.12 dependencies, an executable native-reference comparison and meaningful
-autograd/finite-difference checks. Preserve stable IDs, initial sample, exact horizon,
-unchanged unspecified controls and explicit invalid-control errors. Compare canonical
-and renamed/custom networks against actual native dense/sparse/affine results using
-the documented tolerance. Check interior gradients at several perturbation sizes;
-document objective units, numerical tolerances and nonsmooth boundary limitations.
+NEXT INCREMENT: AGREED WORKER MAPPING AND PROOF MAINTENANCE
+A6 already supplies pinned Lean/Mathlib finite-graph proofs and audited assumptions.
+Preserve their explicit scope and C++ correspondence as algorithms change; do not
+repeat A3–A6 or claim compiled IEEE arithmetic, PDE, or ML qualification from them.
 
 Keep C++ authoritative for feasibility. Do not differentiate through clipping or claim
-gradients through discrete candidate search. A standalone science PR can proceed while
-B publishes the additive worker contract; adopt that committed contract before exposing
-methods through NDJSON. Do not build B's process adapter or shared contract yourself.
-Commit and report this increment before starting PhysicsNeMo training.
+gradients through discrete candidate search. Review docs/SCIENCE_CONTRACTS.md and
+contracts/science/ with B before mapping A3 into worker methods. The private native
+fixture JSON is not the public project/wire format. Keep health-v1 compatible; advertise
+only executed implementations. Do not build B's process adapter or change shared contracts.
 
 NEXT INCREMENTS
-Follow CONTINUATION_PLAN.md: A4 genuine PhysicsNeMo model/residual/training/checkpoint/
-reference comparison; A5 measured 100/1,000/10,000-candidate benchmarks; A6 pinned Lean
-finite-graph algorithm proofs. Each is a separate tested PR. Use the existing native
-transport reference, consistent cell averages and a signed boundary-mass ledger.
+Follow CONTINUATION_PLAN.md for later science integration. Retain A3/A4/A5's executed
+evidence and limitations. A4 is fixed-case experimental evidence, not arbitrary-route
+quality inference. Each new increment is a separate tested PR. Use the existing native
+transport reference, consistent cell averages and signed boundary-mass ledger.
 Do not start a broad hydraulic engine or GPU rewrite.
 
 BOUNDARIES AND VALIDATION

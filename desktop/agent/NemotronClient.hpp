@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ModelTransport.hpp"
+#include <QElapsedTimer>
 #include <QPointer>
 #include <QTimer>
 #include <QUrl>
@@ -29,7 +30,8 @@ public:
     void request(const QJsonArray& messages, const QJsonArray& tools) override;
     void cancel() override;
     const NemotronConfig& config() const { return config_; }
-    QString lastResponseModel() const { return responseModel_; }
+    QString configuredModelIdentifier() const;
+    QString lastResponseModel() const;
 private:
     static constexpr qsizetype maximumResponseBytes = 2 * 1024 * 1024;
     NemotronConfig config_;
@@ -40,14 +42,22 @@ private:
     QByteArray payload_;
     QByteArray response_;
     QString responseModel_;
+    QString requestId_;
+    QElapsedTimer elapsed_;
+    int httpStatus_ = 0;
+    int attempts_ = 0;
     int retries_ = 0;
     quint64 requestGeneration_ = 0;
+    quint64 deliveringGeneration_ = 0;
     bool active_ = false;
     void send();
     void consume();
     void finish();
     void releaseReply(bool abort);
     void fail(const QString& code, const QString& message);
+    void complete(const QJsonObject& assistant, const QString& code, const QString& message);
+    QJsonObject metadata(const QString& outcome, const QString& code) const;
+    void rejectBusyRequest();
     void scheduleRetry();
 };
 

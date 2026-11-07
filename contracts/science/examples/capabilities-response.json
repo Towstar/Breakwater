@@ -1,0 +1,38 @@
+{
+  "protocol_version": 1,
+  "request_id": "33333333-3333-4333-8333-333333333333",
+  "status": "completed",
+  "result": {
+    "capability_version": 1,
+    "methods": [
+      {
+        "name": "health",
+        "method_version": 1,
+        "implemented": true,
+        "execution_verified": true
+      },
+      {
+        "name": "capabilities",
+        "method_version": 1,
+        "implemented": true,
+        "execution_verified": false
+      },
+      {
+        "name": "storage_rollout",
+        "method_version": 1,
+        "implemented": false,
+        "execution_verified": false
+      },
+      {
+        "name": "pipe_transport",
+        "method_version": 1,
+        "implemented": false,
+        "execution_verified": false
+      }
+    ],
+    "max_line_bytes": 1048576,
+    "max_preview_times": 256,
+    "max_preview_cells": 128,
+    "artifacts_supported": false
+  }
+}

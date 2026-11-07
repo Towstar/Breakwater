@@ -106,8 +106,9 @@ The client uses non-streaming asynchronous HTTPS, 30-second request timeouts, bo
 transient retries, a 2 MiB request/response limit and manual redirect rejection.
 Cancellation ignores late results; physical edits and reset invalidate sessions and
 approval using both hash and numerical revision. Moving equipment preserves them.
-Starting a new session replaces the previous in-memory session history; persistence
-across application restarts is not implemented.
+Starting a new session replaces the live gateway. The desktop foundation automatically
+archives completed evidence and reopens it as historical, non-actionable data; see
+[DESKTOP_FOUNDATION.md](DESKTOP_FOUNDATION.md).
 
 Activity includes session ID, monotonic sequence, UTC timestamp, elapsed time, tool
 name, arguments, status/duration, actual results and available run/validation IDs.

@@ -47,7 +47,10 @@ One JSON object per line on stdin/stdout, maximum 1 MiB. Example request:
 
 Responses echo the protocol/request ID and contain `status`, plus `result` or `error`.
 Only `health` is implemented. Package detection is not an executed ML integration.
-The desktop-to-worker process adapter and scientific model methods remain planned.
+The desktop has an asynchronous health adapter. Scientific method extensions are
+reserved, not implemented by the worker; see [science/README.md](science/README.md)
+and [SCIENCE_CONTRACTS.md](../docs/SCIENCE_CONTRACTS.md). Project-v1 may retain optional
+versioned per-route pipe parameters independently of layout and volume controls.
 
 ## Native agent tools v1
 
@@ -56,3 +59,12 @@ recommendation are documented with examples in
 [AGENT_INTEGRATION.md](../docs/AGENT_INTEGRATION.md). Existing native engine types,
 control-ID conventions, project-v1 serialization and worker protocol are unchanged.
 Only the human-facing approval controller applies a staged simulated intervention.
+
+## Session archive v1
+
+`archive_version: 1` is a separate history/evidence format; it does not change project v1.
+A checkpoint contains session identity/sequence/status/timestamps, operator objective,
+immutable network snapshot/hash/horizon, actual full run details and validation reports,
+structured events, sanitized model metadata, recommendation and approval audit records.
+Details, resource limits, historical-only import semantics and worker configuration are
+documented in [DESKTOP_FOUNDATION.md](../docs/DESKTOP_FOUNDATION.md).

@@ -1,6 +1,7 @@
 qt_standard_project_setup(REQUIRES 6.12)
 
-qt_add_library(breakwater_desktop_base STATIC ProjectDocument.cpp ProjectController.cpp ProjectDocument.hpp ProjectController.hpp)
+qt_add_library(breakwater_desktop_base STATIC ProjectDocument.cpp ProjectController.cpp ProjectDocument.hpp ProjectController.hpp
+  quality/PipeParameters.hpp quality/PipeParameters.cpp)
 target_include_directories(breakwater_desktop_base PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_desktop_base PUBLIC breakwater_engine Qt6::Quick Qt6::Concurrent)
 
@@ -8,9 +9,15 @@ qt_add_library(breakwater_agent STATIC
   agent/ModelTransport.hpp agent/NemotronClient.hpp agent/NemotronClient.cpp
   agent/SimulationGateway.hpp agent/SimulationGateway.cpp
   agent/AgentOrchestrator.hpp agent/AgentOrchestrator.cpp
-  agent/AgentController.hpp agent/AgentController.cpp)
+  agent/AgentController.hpp agent/AgentController.cpp
+  history/SessionRepository.hpp history/SessionRepository.cpp
+  history/HistoryController.hpp history/HistoryController.cpp
+  history/SessionRecorder.hpp history/SessionRecorder.cpp
+  quality/PipeTransportController.hpp quality/PipeTransportController.cpp
+  science/PythonWorkerClient.hpp science/PythonWorkerClient.cpp)
 target_include_directories(breakwater_agent PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base Qt6::Network Qt6::Concurrent)
+target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base Qt6::Network Qt6::Concurrent Qt6::Sql)
+target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_WORKER_PATH="${PROJECT_SOURCE_DIR}/science/worker.py")
 qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
 
@@ -19,7 +26,7 @@ target_link_libraries(breakwater PRIVATE breakwater_agent Qt6::QuickControls2 Qt
 get_filename_component(_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
 set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_prefix}/bin;%PATH%")
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
-  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml)
+  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
 # in a fresh parallel Visual Studio build. Qt creates that target at root deferral.
@@ -38,13 +45,29 @@ if(BUILD_TESTING)
   target_link_libraries(breakwater_desktop_tests PRIVATE breakwater_desktop_base Qt6::Test)
   target_compile_definitions(breakwater_desktop_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
   add_test(NAME desktop.project COMMAND breakwater_desktop_tests)
-  foreach(_suite nemotron_client agent_gateway agent_orchestrator)
+  qt_add_executable(breakwater_pipe_parameters_tests tests/pipe_parameters_tests.cpp)
+  target_link_libraries(breakwater_pipe_parameters_tests PRIVATE breakwater_desktop_base Qt6::Test)
+  add_test(NAME desktop.pipe_parameters COMMAND breakwater_pipe_parameters_tests)
+  set_tests_properties(desktop.pipe_parameters PROPERTIES TIMEOUT 30
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker pipe_transport)
     qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
     target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_agent Qt6::Test)
-    add_test(NAME desktop.${_suite} COMMAND breakwater_${_suite}_tests)
+    target_compile_definitions(breakwater_${_suite}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    add_test(NAME desktop.${_suite} COMMAND breakwater_${_suite}_tests -o "${CMAKE_CURRENT_BINARY_DIR}/${_suite}-results.txt,txt")
     set_tests_properties(desktop.${_suite} PROPERTIES TIMEOUT 60
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   endforeach()
+  if(DEFINED ENV{BREAKWATER_PYTHON} AND NOT DEFINED Python3_EXECUTABLE)
+    set(Python3_EXECUTABLE "$ENV{BREAKWATER_PYTHON}")
+  endif()
+  find_package(Python3 3.12 QUIET COMPONENTS Interpreter)
+  if(Python3_Interpreter_FOUND)
+    file(TO_CMAKE_PATH "${Python3_EXECUTABLE}" _breakwater_test_python)
+    target_compile_definitions(breakwater_python_worker_tests PRIVATE BREAKWATER_TEST_PYTHON="${_breakwater_test_python}")
+  else()
+    target_compile_definitions(breakwater_python_worker_tests PRIVATE BREAKWATER_TEST_PYTHON="")
+  endif()
   add_test(NAME desktop.qml_smoke COMMAND breakwater --smoke)
   set_tests_properties(desktop.qml_smoke PROPERTIES TIMEOUT 30)
   set_tests_properties(desktop.project desktop.qml_smoke PROPERTIES
@@ -52,5 +75,6 @@ if(BUILD_TESTING)
 endif()
 
 install(TARGETS breakwater RUNTIME DESTINATION bin)
+install(FILES "${PROJECT_SOURCE_DIR}/science/worker.py" DESTINATION share/breakwater/science)
 qt_generate_deploy_qml_app_script(TARGET breakwater OUTPUT_SCRIPT deploy_script NO_UNSUPPORTED_PLATFORM_ERROR)
 install(SCRIPT ${deploy_script})

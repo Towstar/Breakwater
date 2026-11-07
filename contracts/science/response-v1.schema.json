@@ -1,0 +1,100 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Towstar/Breakwater/main/contracts/science/response-v1.schema.json",
+  "title": "Reserved scientific worker responses v1; examples are not execution evidence",
+  "type": "object", "additionalProperties": false,
+  "required": ["protocol_version", "request_id", "status"],
+  "properties": {
+    "protocol_version": {"const": 1},
+    "request_id": {"type": ["string", "null"], "minLength": 1, "maxLength": 128},
+    "status": {"enum": ["completed", "error"]},
+    "error": {"$ref": "#/$defs/error"},
+    "result": {"oneOf": [{"$ref": "#/$defs/health"}, {"$ref": "#/$defs/capabilities"}, {"$ref": "#/$defs/storage_result"}, {"$ref": "#/$defs/pipe_result"}]}
+  },
+  "allOf": [
+    {"if": {"properties": {"status": {"const": "error"}}}, "then": {"required": ["error"], "not": {"required": ["result"]}}},
+    {"if": {"properties": {"status": {"const": "completed"}}}, "then": {"required": ["result"], "properties": {"request_id": {"type": "string"}}, "not": {"required": ["error"]}}}
+  ],
+  "$defs": {
+    "number_array": {"type": "array", "minItems": 2, "maxItems": 256, "items": {"type": "number"}},
+    "identifier": {"$ref": "request-v1.schema.json#/$defs/identifier"},
+    "identity": {"$ref": "request-v1.schema.json#/$defs/identity"},
+    "error": {
+      "type": "object", "additionalProperties": false, "required": ["code", "message"],
+      "properties": {"code": {"enum": ["not_implemented", "invalid_request", "unsupported_version", "unsupported_method", "invalid_network", "invalid_controls", "invalid_parameters", "identity_mismatch", "runtime_unavailable", "output_too_large", "artifact_unavailable", "work_limit", "numerical_failure", "cancelled"]}, "message": {"type": "string", "maxLength": 2000}}
+    },
+    "health": {
+      "type": "object", "additionalProperties": false,
+      "required": ["python_version", "methods", "torch_detected", "physicsnemo_detected", "scientific_execution"],
+      "properties": {"python_version": {"type": "string", "maxLength": 64}, "methods": {"const": ["health"]}, "torch_detected": {"type": "boolean"}, "physicsnemo_detected": {"type": "boolean"}, "scientific_execution": {"const": "not_implemented"}}
+    },
+    "capabilities": {
+      "type": "object", "additionalProperties": false,
+      "required": ["capability_version", "methods", "max_line_bytes", "max_preview_times", "max_preview_cells", "artifacts_supported"],
+      "properties": {
+        "capability_version": {"const": 1},
+        "methods": {"type": "array", "maxItems": 16, "items": {"type": "object", "additionalProperties": false, "required": ["name", "method_version", "implemented", "execution_verified"], "properties": {"name": {"enum": ["health", "capabilities", "storage_rollout", "pipe_transport"]}, "method_version": {"const": 1}, "implemented": {"type": "boolean"}, "execution_verified": {"type": "boolean"}}}},
+        "max_line_bytes": {"type": "integer", "minimum": 1, "maximum": 1048576},
+        "max_preview_times": {"type": "integer", "minimum": 2, "maximum": 256},
+        "max_preview_cells": {"type": "integer", "minimum": 2, "maximum": 128},
+        "artifacts_supported": {"type": "boolean"}
+      }
+    },
+    "artifact": {
+      "type": "object", "additionalProperties": false,
+      "required": ["relative_path", "size_bytes", "sha256", "artifact_schema"],
+      "properties": {
+        "relative_path": {"type": "string", "maxLength": 200, "pattern": "^[A-Za-z0-9_-]+(?:/[A-Za-z0-9_-]+)*\\.json$"},
+        "size_bytes": {"type": "integer", "minimum": 1, "maximum": 67108864},
+        "sha256": {"$ref": "request-v1.schema.json#/$defs/sha256"},
+        "artifact_schema": {"const": "breakwater.science.field.v1"}
+      }
+    },
+    "warnings": {"type": "array", "maxItems": 32, "items": {"type": "string", "maxLength": 1000}},
+    "provenance": {
+      "type": "object", "additionalProperties": false,
+      "required": ["implementation", "implementation_version", "dtype", "device", "execution_status"],
+      "properties": {"implementation": {"enum": ["native_fvm", "torch_storage_float64"]}, "implementation_version": {"type": "string", "minLength": 1, "maxLength": 128}, "dtype": {"const": "float64"}, "device": {"const": "cpu"}, "execution_status": {"const": "completed"}}
+    },
+    "storage_result": {
+      "type": "object", "additionalProperties": false,
+      "required": ["method", "method_version", "identity", "provenance", "time_h", "time_indices", "tank_ids", "volumes_m3", "cost", "warnings"],
+      "properties": {
+        "method": {"const": "storage_rollout"}, "method_version": {"const": 1}, "identity": {"$ref": "#/$defs/identity"},
+        "provenance": {"allOf": [{"$ref": "#/$defs/provenance"}, {"properties": {"implementation": {"const": "torch_storage_float64"}}}]},
+        "time_h": {"$ref": "#/$defs/number_array"},
+        "time_indices": {"type": "array", "minItems": 2, "maxItems": 256, "items": {"type": "integer", "minimum": 0, "maximum": 10000}},
+        "tank_ids": {"type": "array", "maxItems": 128, "items": {"$ref": "#/$defs/identifier"}},
+        "volumes_m3": {"type": "array", "maxItems": 128, "items": {"$ref": "#/$defs/number_array"}},
+        "cost": {"type": "number", "minimum": 0},
+        "derivatives": {"type": "object", "additionalProperties": false, "required": ["control_ids", "terminal_volume_jacobian_h", "cost_gradient"], "properties": {
+          "control_ids": {"type": "array", "maxItems": 384, "items": {"type": "string", "minLength": 1, "maxLength": 512}},
+          "terminal_volume_jacobian_h": {"type": "array", "maxItems": 128, "items": {"type": "array", "maxItems": 384, "items": {"type": "number"}}},
+          "cost_gradient": {"type": "array", "maxItems": 384, "items": {"type": "number"}}
+        }},
+        "artifact": {"$ref": "#/$defs/artifact"}, "warnings": {"$ref": "#/$defs/warnings"}
+      }
+    },
+    "pipe_result": {
+      "type": "object", "additionalProperties": false,
+      "required": ["method", "method_version", "identity", "provenance", "quality_status", "time_h", "time_indices", "x_m", "cell_indices", "concentration_mg_l", "outlet_mg_l", "inventory_mg", "cumulative_inlet_mg", "cumulative_outlet_mg", "cumulative_source_mg", "cumulative_decay_mg", "mass_balance_residual_mg", "diagnostics", "warnings"],
+      "properties": {
+        "method": {"const": "pipe_transport"}, "method_version": {"const": 1},
+        "identity": {"allOf": [{"$ref": "#/$defs/identity"}, {"required": ["route_id", "parameter_hash"]}]},
+        "provenance": {"allOf": [{"$ref": "#/$defs/provenance"}, {"properties": {"implementation": {"const": "native_fvm"}}}]},
+        "quality_status": {"const": "synthetic_selected_pipe_not_qualified"},
+        "time_h": {"$ref": "#/$defs/number_array"},
+        "time_indices": {"type": "array", "minItems": 2, "maxItems": 256, "items": {"type": "integer", "minimum": 0, "maximum": 10000}},
+        "x_m": {"type": "array", "minItems": 2, "maxItems": 128, "items": {"type": "number", "minimum": 0}},
+        "cell_indices": {"type": "array", "minItems": 2, "maxItems": 128, "items": {"type": "integer", "minimum": 0, "maximum": 4095}},
+        "concentration_mg_l": {"type": "array", "maxItems": 256, "items": {"type": "array", "maxItems": 128, "items": {"type": "number"}}},
+        "outlet_mg_l": {"$ref": "#/$defs/number_array"}, "inventory_mg": {"$ref": "#/$defs/number_array"},
+        "cumulative_inlet_mg": {"$ref": "#/$defs/number_array"}, "cumulative_outlet_mg": {"$ref": "#/$defs/number_array"},
+        "cumulative_source_mg": {"$ref": "#/$defs/number_array"}, "cumulative_decay_mg": {"$ref": "#/$defs/number_array"},
+        "mass_balance_residual_mg": {"$ref": "#/$defs/number_array"},
+        "diagnostics": {"type": "object", "additionalProperties": false, "required": ["substeps", "max_cfl_number", "minimum_concentration_mg_l", "max_mass_balance_residual_mg"], "properties": {"substeps": {"type": "integer", "minimum": 0, "maximum": 1000000}, "max_cfl_number": {"type": "number", "minimum": 0}, "minimum_concentration_mg_l": {"type": "number"}, "max_mass_balance_residual_mg": {"type": "number", "minimum": 0}}},
+        "artifact": {"$ref": "#/$defs/artifact"}, "warnings": {"$ref": "#/$defs/warnings"}
+      }
+    }
+  }
+}

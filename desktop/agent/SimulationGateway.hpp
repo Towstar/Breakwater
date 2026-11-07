@@ -27,6 +27,7 @@ public:
     std::vector<ControlValue> stagedControls() const;
     QJsonArray runs() const;
     QJsonObject runDetails(const QString& runId) const;
+    QJsonObject snapshot() const;
     static QJsonArray toolDefinitions();
 
 private:

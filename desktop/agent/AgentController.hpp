@@ -1,6 +1,9 @@
 #pragma once
 #include "AgentOrchestrator.hpp"
 #include "../ProjectController.hpp"
+#include <QPointer>
+
+namespace breakwater::desktop::history { class SessionRepository; class HistoryController; class SessionRecorder; }
 
 namespace breakwater::desktop::agent {
 class AgentController final : public QObject {
@@ -11,14 +14,20 @@ class AgentController final : public QObject {
     Q_PROPERTY(QVariantList runs READ runs NOTIFY changed)
     Q_PROPERTY(QVariantMap recommendation READ recommendation NOTIFY changed)
     Q_PROPERTY(bool canApprove READ canApprove NOTIFY changed)
+    Q_PROPERTY(QVariantMap review READ review NOTIFY changed)
+    Q_PROPERTY(QString storageStatus READ storageStatus NOTIFY changed)
 public:
     explicit AgentController(ProjectController* project, ModelTransport* transport = nullptr, QObject* parent = nullptr);
+    ~AgentController() override;
+    void setHistory(history::SessionRepository* repository, history::HistoryController* history);
     bool running() const { return session_->running(); }
     QString status() const { return session_->status(); }
     QVariantList events() const { return session_->events(); }
     QVariantList runs() const;
     QVariantMap recommendation() const { return recommendation_.isEmpty() ? session_->result().toVariantMap() : recommendation_.toVariantMap(); }
     bool canApprove() const;
+    QVariantMap review() const;
+    QString storageStatus() const { return storage_status_; }
     Q_INVOKABLE void investigate(const QString& objective);
     Q_INVOKABLE void cancel() { session_->cancel(); }
     Q_INVOKABLE bool approvePlan();
@@ -30,5 +39,8 @@ private:
     QJsonObject recommendation_;
     bool applying_ = false;
     quint64 captured_revision_ = 0;
+    QPointer<history::HistoryController> history_;
+    history::SessionRecorder* recorder_ = nullptr;
+    QString configured_model_, storage_status_ = "History not attached";
 };
 }

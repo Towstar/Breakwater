@@ -45,6 +45,7 @@ private:
     int tool_calls_ = 0, refinement_rounds_ = 0, request_rounds_ = 0;
     bool running_ = false, awaiting_model_ = false, executing_tool_ = false;
     bool network_seen_ = false, controls_seen_ = false;
+    bool recording_cancel_metadata_ = false;
     void requestModel();
     void receive(const QJsonObject& message);
     void nextTool();

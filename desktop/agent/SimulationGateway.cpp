@@ -200,6 +200,10 @@ QJsonObject SimulationGateway::runDetails(const QString& runId) const {
     return {{"ok", true}, {"run", summary(run)}, {"time_h", times}, {"tank_ids", tank_ids}, {"volumes_m3", trajectories}};
 }
 
+QJsonObject SimulationGateway::snapshot() const {
+    return {{"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h}, {"network", network_json(network_)}};
+}
+
 QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& args) {
     try {
         if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed; start a new investigation.");
