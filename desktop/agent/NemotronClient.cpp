@@ -188,8 +188,14 @@ void NemotronClient::scheduleRetry() {
 
 void NemotronClient::finish() {
     if (!active_ || !reply_) return;
+    const QPointer<NemotronClient> guard(this);
+    const auto generation = requestGeneration_;
+    const QPointer<QNetworkReply> completedReply = reply_;
     consume();
-    if (!active_ || !reply_) return;
+    // Consuming the final bytes can fail and synchronously notify a slot that
+    // destroys this client or starts a replacement request. The old completion
+    // must not inspect the replacement reply or stop its timeout.
+    if (!guard || generation != requestGeneration_ || !active_ || !reply_ || reply_ != completedReply) return;
     timeout_.stop();
     const auto status = reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     const auto error = reply_->error();

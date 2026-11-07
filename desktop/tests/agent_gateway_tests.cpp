@@ -1,4 +1,5 @@
 #include "agent/SimulationGateway.hpp"
+#include "ProjectDocument.hpp"
 #include <QJsonDocument>
 #include <QtTest>
 #include <cmath>
@@ -202,6 +203,68 @@ private slots:
         const auto forecast = smaller.execute("forecast_baseline", args(smaller))["run"].toObject();
         QVERIFY(validateCase(smaller, forecast)["ok"].toBool());
         QVERIFY(smaller.recommendation(forecast["run_id"].toString())["ok"].toBool());
+    }
+    void importedMaximumLengthIdsWorkThroughDiscoveredControls() {
+        const std::string tank_id(256, 't'), source_id(256, 's'), destination_id(256, 'd');
+        const std::string feed_id(256, 'f'), route_id(256, 'r');
+        breakwater::desktop::ProjectDocument document;
+        document.network.assets = {{tank_id, "Storage", AssetKind::tank, 200.0, 100.0},
+            {source_id, "Production", AssetKind::source, 0.0, 0.0, 10.0, 0.0, 10.0, 1.0},
+            {destination_id, "Treatment", AssetKind::treatment, 20.0}};
+        document.network.routes = {{feed_id, source_id, tank_id, 10.0, 10.0},
+            {route_id, tank_id, destination_id, 10.0, 5.0, true, true, 2.0}};
+        const auto imported = breakwater::desktop::parse_project(breakwater::desktop::project_json(document));
+        QVERIFY(inspect_network(imported.network).empty());
+        SimulationGateway gateway(imported.network, breakwater::desktop::physics_hash(imported));
+        inspect(gateway);
+        const auto catalog = gateway.execute("get_control_catalog", {})["controls"].toArray();
+        QString curtailment_id, flow_id;
+        for (const auto& value : catalog) {
+            const auto entry = value.toObject();
+            if (entry["asset_id"].toString() == QString::fromStdString(source_id)) curtailment_id = entry["control_id"].toString();
+            if (entry["asset_id"].toString() == QString::fromStdString(route_id)) flow_id = entry["control_id"].toString();
+        }
+        QCOMPARE(curtailment_id.size(), 271);
+        QCOMPARE(flow_id.size(), 267);
+        const QJsonArray discoveredControls{
+            QJsonObject{{"control_id", curtailment_id}, {"value", 3.0}},
+            QJsonObject{{"control_id", flow_id}, {"value", 6.0}}};
+        const auto simulated = gateway.execute("simulate_candidates", batch(gateway, "long-id-candidate", discoveredControls));
+        QVERIFY2(simulated["ok"].toBool(), QJsonDocument(simulated).toJson().constData());
+        const auto run = simulated["runs"].toArray().first().toObject();
+        QVERIFY(std::abs(run["tanks"].toArray().first().toObject()["final_m3"].toDouble() - 103.0) < 1e-8);
+        QVERIFY(validateCase(gateway, run)["ok"].toBool());
+        const auto searched = gateway.execute("search_interventions", args(gateway, {{"axes", QJsonArray{
+            axis(curtailment_id, {0, 3}), axis(flow_id, {5, 6})}}}));
+        QVERIFY2(searched["ok"].toBool(), QJsonDocument(searched).toJson().constData());
+        QCOMPARE(searched["diagnostics"].toObject()["candidates_evaluated"].toInt(), 4);
+        QCOMPARE(searched["runs"].toArray().size(), 4);
+        const auto best = searched["runs"].toArray().first().toObject();
+        QCOMPARE(best["cost"].toDouble(), 30.0);
+        QVERIFY(gateway.recommendation(best["run_id"].toString())["ok"].toBool());
+
+        // The enlarged control-ID envelope must not enlarge other identifier bounds.
+        QCOMPARE(errorCode(gateway.execute("simulate_candidates", batch(gateway, QString(257, 'c'), discoveredControls))), "invalid_arguments");
+        QCOMPARE(errorCode(gateway.execute("forecast_baseline", {{"snapshot_id", QString(257, 's')}})), "invalid_arguments");
+        QCOMPARE(errorCode(gateway.execute("validate_run", args(gateway, {{"run_id", QString(257, 'r')}}))), "invalid_arguments");
+        const QJsonArray tooLong{QJsonObject{{"control_id", QString(513, 'x')}, {"value", 0}}};
+        QCOMPARE(errorCode(gateway.execute("simulate_candidates", batch(gateway, "too-long-control", tooLong))), "invalid_arguments");
+        QCOMPARE(errorCode(gateway.execute("search_interventions", args(gateway, {{"axes", QJsonArray{axis(QString(513, 'x'), {0})}}}))), "invalid_arguments");
+        for (const auto& value : SimulationGateway::toolDefinitions()) {
+            const auto function = value.toObject()["function"].toObject();
+            const auto properties = function["parameters"].toObject()["properties"].toObject();
+            if (function["name"] == "simulate_candidates") {
+                const auto candidate = properties["candidates"].toObject()["items"].toObject()["properties"].toObject();
+                QCOMPARE(candidate["candidate_id"].toObject()["maxLength"].toInt(), 256);
+                const auto control = candidate["controls"].toObject()["items"].toObject()["properties"].toObject();
+                QCOMPARE(control["control_id"].toObject()["maxLength"].toInt(), 512);
+            }
+            if (function["name"] == "search_interventions") {
+                const auto search = properties["axes"].toObject()["items"].toObject()["properties"].toObject();
+                QCOMPARE(search["control_id"].toObject()["maxLength"].toInt(), 512);
+                QCOMPARE(properties["snapshot_id"].toObject()["maxLength"].toInt(), 256);
+            }
+        }
     }
     void runStoreAndBatchAreBounded() {
         SimulationGateway gateway(canonical_scenario(), "physical");
