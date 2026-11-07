@@ -240,4 +240,14 @@ void ProjectController::approve() {
     if (!canApprove()) return;
     approved_ = true; summary_ += "\nOperator approved this simulated control preview. No equipment commands are sent."; emit changed();
 }
+bool ProjectController::applyControlsForApproval(const std::vector<ControlValue>& controls, const QString& expectedHash) {
+    if (networkHash() != expectedHash) return false;
+    try {
+        const auto candidate = compile(project_.network, controls).network;
+        edit([&] { project_.network = candidate; });
+        summary_ = "Operator applied a validated simulated intervention. Computing the updated forecast.";
+        emit changed();
+        return true;
+    } catch (const std::exception&) { return false; }
+}
 }

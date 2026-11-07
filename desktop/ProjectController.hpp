@@ -39,12 +39,15 @@ public:
     bool canApprove() const;
     QString runId() const;
     QString networkHash() const { return physics_hash(project_); }
+    quint64 simulationRevision() const { return revision_; }
     double forecastFraction() const { return forecast_fraction_; }
     double forecastTimeH() const;
     QVariantMap camera() const;
     void setForecastFraction(double value);
     QJsonObject document() const { return project_json(project_); }
     bool restore(const QJsonObject& object);
+    // Called only by the human-facing approval controller after stored validation.
+    bool applyControlsForApproval(const std::vector<ControlValue>& controls, const QString& expectedHash);
 
     Q_INVOKABLE void select(const QString& id);
     Q_INVOKABLE void addAsset(const QString& kind, double x = 0.0, double z = 0.0);

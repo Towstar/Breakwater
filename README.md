@@ -1,5 +1,9 @@
 # BREAKWATER
 
+Person B's native Nemotron tools and investigation panel are documented in
+[docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md), including environment
+configuration, actual tool-call smoke commands, snapshot rules and approval staging.
+
 C++20 / MSVC Windows base for an editable synthetic fluid-network workbench.
 The original handoff is preserved in [For Dev Agents.md](For%20Dev%20Agents.md).
 The complete accepted roadmap is [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
@@ -48,6 +52,8 @@ without `-Headless` to restore desktop projects.
 `scripts/build.ps1` initializes the MSVC developer environment. Its `desktop` preset
 also accepts `-QtPrefix`. In restricted agent environments MSVC's PDB helper may need
 an unrestricted build process; this is separate from ordinary Visual Studio usage.
+If the local PDB helper reports compiler error C1902, use `-EmbeddedDebugInfo` to
+select MSVC `/Z7` through CMake, including checked builds. This avoids the PDB helper.
 
 ## Workbench controls
 
