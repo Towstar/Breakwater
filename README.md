@@ -93,7 +93,13 @@ and `py7zr==1.0.0`. Qt's installer is also supported. This does not change syste
 
 ## Two-person ownership
 
-Person A owns `engine/`, `science/`, `proofs/`, and `scenarios/`. Person B owns
+Person A is the project owner/user and PDE/simulation developer. Person A owns
+`engine/`, `science/`, `proofs/`, and `scenarios/`. Person B owns
 `desktop/`, `contracts/`, root setup/scripts, and integration documentation. Before
 concurrent implementation, make a common baseline commit and use separate worktrees.
 Do not switch branches underneath the other developer's session.
+
+The shared baseline is now committed. Continue with the [parallel workflow](docs/PARALLEL_WORK.md)
+and separate copy/paste kickoffs for [Person A](docs/KICKOFF_PERSON_A.md) and
+[Person B](docs/KICKOFF_PERSON_B.md). Person B can start the app/Nemotron work against
+the existing engine immediately.

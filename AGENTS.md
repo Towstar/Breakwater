@@ -5,6 +5,8 @@ The accepted desktop plan supersedes the older Python/web architecture. Preserve
 
 ## Ownership
 
+- Person A is the project owner/user: the PDE and simulation developer.
+- Person B is the other developer: desktop application, Nemotron and integration.
 - Person A: `engine/`, `science/`, `proofs/`, `scenarios/`, numerical tests and benchmarks.
 - Person B: `desktop/`, `contracts/`, root CMake/configuration, scripts, integration tests and delivery docs.
 - Shared public contracts belong to B; coordinate changes before concurrent implementation.
@@ -22,5 +24,7 @@ The accepted desktop plan supersedes the older Python/web architecture. Preserve
 - Use precise floating-point semantics. Benchmark optimized and checked builds separately.
 - Record implemented, planned and unavailable features in `docs/STATUS.md`.
 
-The current request is the **minimum starting base for both people**. The full plan remains
-the roadmap, not a claim that every milestone is implemented.
+The minimum starting base for both people is implemented. The full plan remains the
+roadmap, not a claim that every milestone is implemented. Parallel continuation starts
+with `docs/PARALLEL_WORK.md` and the appropriate `docs/KICKOFF_PERSON_A.md` or
+`docs/KICKOFF_PERSON_B.md`. Work one tested increment at a time.
