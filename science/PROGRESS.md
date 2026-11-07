@@ -73,3 +73,93 @@ Scope/next handoff:
   root solution for `breakwater_rollout_reference`. No existing engine API changed.
 - Next A increment is genuine PhysicsNeMo execution/reference evaluation (A4), followed
   by separately delivered measured benchmarks (A5) and checked algorithm proofs (A6).
+
+## A4 — executed PhysicsNeMo transport smoke (November 7, 2026)
+
+Implemented after A3 on the same requested `codex/person-a-engine` branch. Existing
+A3 commits remain intact. Incremental files are confined to `science/` and `engine/`;
+Person B's desktop, contracts, root solution/setup and shared docs remain untouched.
+
+Delivered and actually executed:
+
+- NVIDIA PhysicsNeMo 2.2.2 `FullyConnected` MLP, CPU float64, tanh, three 32-unit
+  hidden layers and 2,241 parameters. Explicit physical autograd residual for
+  advection/dispersion/decay; no optional Sym/PhysicsInformer execution is claimed.
+- A positive transient eigenmode with exact zero inlet and zero-gradient outlet,
+  analytically integrated cell-average initialization and signed tracer-mass ledger.
+- Four newly computed native references: 32/64/128 cells at CFL 0.9, then 128 at 0.45.
+  Native fields are evaluation-only; training uses IC samples and the PDE residual.
+- Boundary-enforcing ansatz, 256 training collocation points, 64 IC points, 512
+  disjoint held-out residual points, and eight-point quadrature for neural cell averages.
+- Versioned predeclared thresholds/config, bounded 1,800-step training, actual weight
+  updates, `.mdlus` save/load and strict double-precision inference equivalence.
+- Separate hash-locked complete PhysicsNeMo CPU environment, reproducible CLI, reports,
+  private native exporter and independent equation/averaging/checkpoint tests.
+
+Actual checks:
+
+1. Normal native build and **6/6 CTest programs passed**. MSVC AddressSanitizer build
+   and the same **6/6 passed**, with no reported sanitizer errors.
+2. Final full Python suite: **39 tests passed**, including 13 new A4 mathematical/
+   actual-PhysicsNeMo tests, 24 A3 rollout tests and two unchanged worker tests. No
+   optional PhysicsNeMo tests were skipped in this environment.
+3. Actual final normal smoke at `out/a4-smoke-verified/report.json`: all gates passed.
+   Repeated complete training/checkpoint/evaluation against the checked native exporter
+   at `out/a4-smoke-asan/report.json`: all gates passed, no reported sanitizer errors.
+4. A3 cross-language CLI after the larger environment sync still passes 12 cases ×
+   three native solvers and 132 finite-difference checks (44 varying controls).
+
+The preflight/config hash in both final A4 runs is
+`c49601f355d9bc326243f837ae7be341eb371ec1c67447e1e59e9d07c200395a`.
+It is unchanged from before the first training/evaluation attempt; thresholds were
+not relaxed. Seed 20261107, one CPU thread and 1,800 steps reduced loss from
+2.86528132106 to 0.00226199636 (last pre-update loss). Parameter update L2 was
+2.80302703103. Training took 11.34 s and 14.43 s in the two final runs, both below
+the declared 120-second training budget; these are run records, not benchmarks.
+
+| Native run | Field RMSE vs analytic averages (mg/L) |
+|---|---:|
+| 32 cells, CFL .9 | .00307767821 |
+| 64 cells, CFL .9 | .00157389028 |
+| 128 cells, CFL .9 | .000796376683 |
+| 128 cells, CFL .45 | .000792740456 |
+
+Observed spatial orders were .9675 and .9828. Time-refinement field RMSE was
+9.22442487e-6 mg/L. Native maximum mass residual across these runs was approximately
+3.61e-13 mg. The negative inlet diffusion exchange was retained; outlet and decay
+terms were positive and independent analytic ledger differences are recorded.
+
+| Learned-model gate | Measured in both final runs | Predeclared limit |
+|---|---:|---:|
+| Held-out neural/native cell-average RMSE | .00336886618 mg/L | .03 mg/L |
+| Held-out maximum field error | .0135691065 mg/L | .10 mg/L |
+| Held-out PDE residual RMS | .0438580470 mg/L/h | .05 mg/L/h |
+| Maximum outlet trace error | .0180117144 mg/L | .10 mg/L |
+| Maximum inventory relative error | .0100422003 | .05 |
+| Minimum sampled prediction | .00017309089 mg/L | >= -.005 mg/L |
+| Checkpoint inference maximum difference | 0 mg/L | 1e-10 mg/L |
+
+Environment: native Windows x64 / CPython 3.12.13, PhysicsNeMo 2.2.2, Torch 2.15.0+cpu,
+NumPy 2.5.4, uv 0.11.9; MSVC 19.51.36260.0 / CMake 4.3.1 / Ninja. Dependencies were
+actually resolved/installed and hash-checked. No WSL, container or CUDA execution was
+needed. Warp's imported CUDA probe reports the unavailable driver; CPU calculations run.
+
+Two setup problems were resolved without changing vendor code: ordinary extra-index
+resolution selected incompatible old dependencies, so the CPU backend-specific routing
+was used; the first training run reached checkpoint reload but the default user cache
+was denied, so the documented `LOCAL_CACHE` setting now uses an owned output directory.
+The test suite uses a temporary cache. Both final complete smoke runs succeeded.
+
+Limitations and B handoff:
+
+- This is a fixed-case experimental PINN smoke, not a qualified quality predictor or
+  cross-setting surrogate. Training does not condition on arbitrary flow/inlet/geometry.
+  No pressure hydraulics, network chemistry or transport differentiation is delivered.
+- Native volume feasibility and explicit simulated approval are unchanged. The worker
+  stays health-only pending B's published method/provenance/output contract and adapter.
+- No generated checkpoints, reference fields, cache or environments are tracked. The
+  reported checkpoint hashes identify artifacts, not byte-deterministic zip archives.
+- B may regenerate the root solution for `breakwater_physicsnemo_reference` during
+  integration. Public native interfaces and shared application schemas are unchanged.
+- Full setup, equations, thresholds, actual API and commands are in PHYSICSNEMO.md.
+  Next A increments are measured performance (A5) and checked Lean algorithms (A6).

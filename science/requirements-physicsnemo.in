@@ -1,0 +1,3 @@
+# A4 adds genuine PhysicsNeMo to the tested CPU environment; no CUDA extras.
+-r requirements.in
+nvidia-physicsnemo==2.2.2

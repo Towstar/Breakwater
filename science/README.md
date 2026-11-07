@@ -5,6 +5,10 @@ rollout for captured finite storage networks, with actual native-reference compa
 and continuous-control gradient checks. C++ remains the independent feasibility
 authority. The desktop, shared project schema and health-only worker are unchanged.
 
+A4 now adds a separate, actually executed PhysicsNeMo pipe smoke. Its larger pinned
+environment, training/evaluation commands and experimental scope are documented in
+[PHYSICSNEMO.md](PHYSICSNEMO.md). The A3 instructions below remain independently usable.
+
 ## Reproduce on Windows x64
 
 Use Python **3.12.13** and the hash-locked CPU environment. From the repository root:

@@ -91,3 +91,13 @@ This increment adds only a private native fixture-export executable and its targ
 under `engine/`; the existing public native interfaces and shared contracts are unchanged.
 See [science/PROGRESS.md](../science/PROGRESS.md) for actual normal/ASan reference
 comparisons, gradient errors, pinned environment, commands and limitations.
+
+## Increment 4 / A4: actual PhysicsNeMo reference comparison
+
+Added only a private native transport fixture exporter and its engine target. It
+computes the fixed-case transient eigenmode at three meshes plus a refined time step,
+including signed mass ledgers. The actual PhysicsNeMo training, checkpoint round-trip,
+normal/ASan reference comparisons and measured errors are recorded in
+[science/PROGRESS.md](../science/PROGRESS.md) and
+[science/PHYSICSNEMO.md](../science/PHYSICSNEMO.md). Native transport/public interfaces
+and the volume-feasibility path are unchanged.

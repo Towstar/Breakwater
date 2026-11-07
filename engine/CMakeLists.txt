@@ -16,6 +16,10 @@ target_link_libraries(breakwater_transport_example PRIVATE breakwater_engine)
 add_executable(breakwater_rollout_reference examples/rollout_reference.cpp)
 target_link_libraries(breakwater_rollout_reference PRIVATE breakwater_engine)
 
+# Private A4 science comparison data, produced by the authoritative transport solver.
+add_executable(breakwater_physicsnemo_reference examples/physicsnemo_transport_reference.cpp)
+target_link_libraries(breakwater_physicsnemo_reference PRIVATE breakwater_engine)
+
 if(BUILD_TESTING)
   add_executable(breakwater_engine_tests tests/engine_tests.cpp)
   target_link_libraries(breakwater_engine_tests PRIVATE breakwater_engine)
