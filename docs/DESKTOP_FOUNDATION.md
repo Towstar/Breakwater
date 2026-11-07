@@ -79,12 +79,12 @@ identifiers, HTTP status, elapsed milliseconds, retry count, outcome and error c
 Metadata precedes terminal session events, including cancellation/deadline failures.
 Credentials, authorization headers, raw response bodies and reasoning are excluded.
 
-The live milestone remains pending until `NVIDIA_API_KEY` is configured locally.
-Then run the existing protocol smoke, followed by the production investigation loop
-and the UI against the canonical and edited/custom networks. Save the actual session
+Configure `NVIDIA_API_KEY` locally, then run the existing protocol smoke, production
+investigation loop and UI against the canonical and edited/custom networks. Save the actual session
 archives and verify model identity, real tool/result continuation, native validation,
 and human-only application. Three clean canonical rehearsals and a custom-network
-follow-up are still required; deterministic tests do not count as live execution.
+follow-up are required; deterministic tests do not count as live execution. The latest
+STATUS.md records actual hosted verification and any remaining rehearsal gaps.
 
 ## Verification
 

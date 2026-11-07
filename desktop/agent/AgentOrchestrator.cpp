@@ -92,8 +92,27 @@ void AgentOrchestrator::requestModel() {
     if (!gateway_->isCurrent()) { invalidate(); return; }
     if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     if (++request_rounds_ > limits_.toolCalls + 1) { fail("request_limit", "Investigation reached its model-request limit."); return; }
+    const auto callsLeft = std::max(0, limits_.toolCalls - tool_calls_);
+    const auto refinementsLeft = std::max(0, limits_.refinementRounds - refinement_rounds_);
+    QJsonArray tools;
+    if (callsLeft > 0) for (const auto& definition : SimulationGateway::toolDefinitions()) {
+        const auto name = definition.toObject().value("function").toObject().value("name").toString();
+        if (refinementsLeft == 0 && (name == "simulate_candidates" || name == "search_interventions")) continue;
+        tools.append(definition);
+    }
+    auto messages = messages_;
+    auto system = messages.first().toObject();
+    system["content"] = QString::fromUtf8(instructions) + QString(
+        "\nCurrent remaining budget: %1 total tool calls, %2 candidate refinement calls, %3 ms. "
+        "Failed attempts also consume budget. Both simulate_candidates and search_interventions consume one refinement call. "
+        "Use only the tools currently offered, and reserve calls for independent validation and staging if needed. "
+        "When no candidate calls remain, use existing evidence; do not retry candidate tools. "
+        "When no tool calls remain, finish now with ONLY {\"selected_run_id\": <actual validated run ID or null>, "
+        "\"explanation\": <concise explanation>}. Never invent evidence or claim global infeasibility.")
+        .arg(callsLeft).arg(refinementsLeft).arg(std::max<qint64>(0, limits_.durationMs - elapsed_.elapsed()));
+    messages[0] = system;
     awaiting_model_ = true;
-    transport_->request(messages_, SimulationGateway::toolDefinitions());
+    transport_->request(messages, tools);
 }
 
 void AgentOrchestrator::receive(const QJsonObject& message) {

@@ -32,6 +32,12 @@ QJsonObject resultFor(const QJsonArray& history, const QString& id) {
     }
     return {};
 }
+QStringList toolNames(const QJsonArray& definitions) {
+    QStringList names;
+    for (const auto& definition : definitions)
+        names.append(definition.toObject()["function"].toObject()["name"].toString());
+    return names;
+}
 
 // This is an explicit test model. Every tool execution still uses the real engine.
 class FakeModel final : public ModelTransport {
@@ -39,11 +45,13 @@ public:
     using ModelTransport::ModelTransport;
     std::function<QJsonObject(const QJsonArray&)> respond;
     QJsonArray history;
+    QJsonArray tools;
+    QList<QJsonArray> toolsPerRequest;
     int requests = 0, cancellations = 0, generation = 0;
     bool silent = false;
     bool metadataOnCancel = false;
-    void request(const QJsonArray& messages, const QJsonArray&) override {
-        history = messages; ++requests; emit requestStarted();
+    void request(const QJsonArray& messages, const QJsonArray& definitions) override {
+        history = messages; tools = definitions; toolsPerRequest.append(definitions); ++requests; emit requestStarted();
         if (silent) return;
         const auto reply = respond(messages);
         const auto epoch = generation;
@@ -199,6 +207,92 @@ private slots:
         bool blocked = false;
         for (const auto& value : limited.events()) blocked |= value.toMap()["error"].toMap()["code"].toString() == "refinement_limit";
         QVERIFY(blocked);
+    }
+    void exhaustedRefinementKeepsEvidenceToolsAvailableAfterRejectedAttempt() {
+        FakeModel model;
+        QString snapshot, selected;
+        QStringList afterAttempt;
+        bool attemptRejected = false;
+        int step = 0;
+        model.respond = [&](const QJsonArray& history) -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history, "state")["snapshot_id"].toString();
+                // An invalid candidate attempt still consumes the bounded refinement quota.
+                return calls({call("attempt", "simulate_candidates", {{"snapshot_id", snapshot}, {"candidates", QJsonArray{}}})});
+            case 2:
+                attemptRejected = !resultFor(history, "attempt")["ok"].toBool(true);
+                afterAttempt = toolNames(model.tools);
+                return calls({call("baseline", "forecast_baseline", {{"snapshot_id", snapshot}})});
+            case 3:
+                selected = resultFor(history, "baseline")["run"].toObject()["run_id"].toString();
+                return calls({call("validate", "validate_run", {{"snapshot_id", snapshot}, {"run_id", selected}})});
+            case 4: return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", selected}})});
+            default: return conclusion(selected);
+            }
+        };
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "healthy-budget");
+        const auto original = gateway->snapshot();
+        AgentOrchestrator session(&model);
+        session.start(gateway, "Inspect and validate unchanged operation when appropriate.", {12, 1, 10000});
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(attemptRejected);
+        QVERIFY(!afterAttempt.contains("simulate_candidates"));
+        QVERIFY(!afterAttempt.contains("search_interventions"));
+        for (const auto& name : {"forecast_baseline", "validate_run", "compare_runs", "request_approval"})
+            QVERIFY2(afterAttempt.contains(name), name);
+        QVERIFY(session.result()["verified_feasible"].toBool());
+        QCOMPARE(session.result()["selected_run_id"].toString(), selected);
+        QCOMPARE(session.result()["approval_status"].toString(), "pending_operator");
+        QCOMPARE(gateway->runs().size(), 1);
+        QCOMPARE(gateway->snapshot(), original);
+    }
+    void exhaustedToolBudgetAllowsGroundedFinalCompletionWithoutMoreTools() {
+        FakeModel model;
+        QString snapshot, selected;
+        bool finalToolsEmpty = false;
+        int step = 0;
+        model.respond = [&](const QJsonArray& history) -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history, "state")["snapshot_id"].toString();
+                return calls({call("candidate", "simulate_candidates", candidateArguments(snapshot, "mixed", controlJson(incident_controls("mixed"))))});
+            case 2:
+                selected = resultFor(history, "candidate")["runs"].toArray().first().toObject()["run_id"].toString();
+                return calls({call("validate", "validate_run", {{"snapshot_id", snapshot}, {"run_id", selected}})});
+            case 3: return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", selected}})});
+            default:
+                finalToolsEmpty = model.tools.isEmpty();
+                return conclusion(selected);
+            }
+        };
+        const auto gateway = std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()), "incident-budget");
+        const auto original = gateway->snapshot();
+        AgentOrchestrator session(&model);
+        session.start(gateway, "Find a validated response and stage it for human review.", {5, 1, 10000});
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(finalToolsEmpty);
+        QCOMPARE(model.requests, 5);
+        QCOMPARE(model.toolsPerRequest.size(), 5);
+        QVERIFY(model.toolsPerRequest.last().isEmpty());
+        QStringList executed;
+        for (const auto& value : session.events()) {
+            const auto event = value.toMap();
+            if (event["type"] == "tool_completed") executed.append(event["tool_name"].toString());
+            QVERIFY(event["type"] != "tool_failed");
+        }
+        QCOMPARE(executed, (QStringList{"get_network_state", "get_control_catalog", "simulate_candidates", "validate_run", "request_approval"}));
+        QCOMPARE(session.result()["status"].toString(), "validated_recommendation");
+        QCOMPARE(session.result()["selected_run_id"].toString(), selected);
+        QCOMPARE(session.result()["verified_cost"].toDouble(), 12780.0);
+        QVERIFY(session.result()["verified_feasible"].toBool());
+        QVERIFY(!session.result()["validation_id"].toString().isEmpty());
+        QCOMPARE(session.result()["approval_status"].toString(), "pending_operator");
+        QCOMPARE(gateway->stagedPlan()["selected_run_id"].toString(), selected);
+        QCOMPARE(gateway->runs().size(), 1);
+        QCOMPARE(gateway->snapshot(), original);
     }
     void timeoutCancelAndLateResponseCannotLeakResults() {
         FakeModel model; model.silent = true;

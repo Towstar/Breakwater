@@ -5,6 +5,40 @@ transport reference merged through PRs #1–#4. The accepted plan and original h
 are preserved. Next work is ordered in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md);
 the kickoff prompts now target unfinished increments.
 
+## Live Nemotron verification follow-up — November 7, 2026
+
+- A locally configured Windows user-environment key authenticated successfully. The
+  existing protocol smoke verified the exact configured model identity, a genuine
+  `get_network_state` call, native execution, matching result continuation and completion.
+- A production CLI investigation selected a native-validated 4,800-unit run and staged
+  it for operator review. No simulated controls were applied by verification tools.
+- The already-running desktop investigation exposed repeated calls after its candidate
+  quota was exhausted, followed by an invalid final response. Its evidence was retained
+  and approval stayed disabled. The orchestrator now supplies remaining budgets on each
+  request, removes exhausted candidate tools and offers no tools after the final call.
+  Backend limits and strict validation/final-output checks remain authoritative.
+- Three subsequent canonical production-controller sessions archived full trajectories
+  and request metadata: one returned `no_validated_plan`; one selected a validated
+  5,280-unit plan and staged it; one selected a validated 16,530-unit advisory plan
+  without staging. A fourth session on a seven-asset, three-tank network with renamed
+  IDs and a bypass redirected to a new buffer selected and staged a validated
+  5,280-unit plan. These are selected evaluated plans, not global optima.
+- All archived requests in those four sessions returned HTTP 200 with matching model
+  identity and zero retries. Archives exclude credential/header/reasoning fields.
+  A verification-only harness under ignored `.tools/live-check/` reused the actual
+  AgentController, history recorder, native tools and repository; it did not mock the
+  model or apply controls. It reloaded stored terminal evidence before JSON export.
+- New budget regressions and existing orchestration checks: **17 passed**; normal
+  history/controller checks also passed. Full desktop ASan: **14/14 suites passed**.
+  Direct Visual Studio `/m:1` build and **14/14 suites passed**. The attempted parallel
+  rebuild stalled and was cancelled before the serial verification; no parallel-build
+  success is claimed for this follow-up.
+  An updated normal desktop was built separately, preserving the user's open app.
+- Hosted access is now verified. Three clean canonical operator-review rehearsals
+  are **not complete**: bounded no-plan and unstaged advisory results remain explicit.
+  Planning quality is variable; the demonstration still needs rehearsal. Scientific
+  PyTorch/PhysicsNeMo execution remains unavailable.
+
 ## Person A transport integration — November 7, 2026
 
 - PR #4 merged the pure C++20 finite-volume scalar transport API, example/CSV export,
@@ -83,7 +117,8 @@ Executed evidence:
   `BREAKWATER_TEST_ARTIFACT_DIR` is configured. Its numbers are actual native baseline
   and mixed-candidate results; the archive explicitly states no live model ran.
 
-Live milestone: **pending credentials**. `NVIDIA_API_KEY` was absent from the process,
+At original foundation delivery, the live milestone was **pending credentials**.
+`NVIDIA_API_KEY` was absent from the process,
 user and machine environments. No authenticated hosted request or live model rehearsal
 was performed. Protocol smoke, three canonical rehearsals and edited/custom-network
 live investigations remain required before claiming the live demonstration complete.
