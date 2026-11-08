@@ -277,7 +277,9 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
             return {{"ok", true}, {"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h},
                 {"network", network_json(network_)}, {"draft_issues", issues_json(issues)},
                 {"capabilities", QJsonObject{{"native_simulation", true}, {"independent_validation", true}, {"search_interventions", true}}},
-                {"model_limitations", QJsonArray{"Synthetic constant-flow network; geometry does not determine flow.", "Quality is not evaluated."}}};
+                {"model_limitations", QJsonArray{"Synthetic constant-flow network; geometry does not determine flow.",
+                    "Production-route flow is (inflow-curtailment)*source_share_bps/10000; an omitted share means 10000. Source-route setpoints are not controls. Shares are fixed configuration, not hydraulic inference.",
+                    "Quality is not evaluated."}}};
         }
         if (name == "get_control_catalog") {
             keys(args, {}, {});

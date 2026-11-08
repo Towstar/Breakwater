@@ -161,7 +161,7 @@ bool validate_storage_science_evidence(const QJsonObject& evidence, const QJsonO
         require(archive.value("snapshot").isObject()); const auto snapshot = archive.value("snapshot").toObject();
         require(snapshot.value("snapshot_id") == snapshotId && snapshot.value("physical_hash") == hash && number(snapshot.value("horizon_h")) == horizon &&
             integer(snapshot.value("numerical_revision"), 0, 9007199254740991LL) == revision);
-        const auto project = parse_project({{"version", resultVersion}, {"network", snapshot.value("network")}, {"layout", QJsonObject{}}});
+        const auto project = parse_project({{"version", resultVersion == 2 ? source_allocation_project_version : project_version}, {"network", snapshot.value("network")}, {"layout", QJsonObject{}}});
         require(resultVersion == (requires_source_allocations(project.network) ? 2 : 1));
         require(physics_hash(project) == hash);
         QJsonObject details;

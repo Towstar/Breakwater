@@ -94,6 +94,14 @@ bool rejects(const QJsonObject& result, const QJsonObject& archive) {
 class StorageScienceEvidenceTests final : public QObject {
     Q_OBJECT
 private slots:
+    void legacySolverEvidenceRemainsHistoricalAndUnknownSolverIsRejected() {
+        const auto native = capture(); auto result = evidence(native);
+        result["native_solver_version"] = "constant-flow-0.1.1";
+        const auto archive = storage_science_archive(native, result);
+        QString error; QVERIFY2(SessionRepository::validateArchive(archive, &error), qPrintable(error));
+        QVERIFY(validate_storage_science_evidence(result, archive)); QVERIFY(!archive.value("actionable").toBool(true));
+        result["native_solver_version"] = "constant-flow-unknown"; QVERIFY(rejects(result, archive));
+    }
     void agentOriginIsBoundedAndBindsDerivedCapture() {
         const auto native = capture(); const auto result = evidence(native, true);
         auto archive = storage_science_archive(native, result);

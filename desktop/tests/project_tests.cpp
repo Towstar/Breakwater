@@ -18,7 +18,7 @@ private slots:
         const auto parameters=c.pipeParameters(priorFeed);QVERIFY(c.setPipeParameters(priorFeed,parameters));
         const QVariantMap equal{{"tank_b",5000},{extra,5000}};
         QVERIFY(c.setSourceFeeds("source_b",equal,hash));QCOMPARE(c.sourceFeeds("source_b").size(),2);
-        QCOMPARE(c.document().value("version").toInt(),2);QCOMPARE(c.pipeParameters(priorFeed),parameters);
+        QCOMPARE(c.document().value("version").toInt(),3);QCOMPARE(c.pipeParameters(priorFeed),parameters);
         QCOMPARE(c.sourceFeeds("source_b").first().toMap().value("routeId").toString(),priorFeed);
         double flow=0;for(const auto& v:c.sourceFeeds("source_b")){QCOMPARE(v.toMap().value("flow").toDouble(),8.);flow+=v.toMap().value("flow").toDouble();}QCOMPARE(flow,16.);
         c.forecast();QTRY_VERIFY_WITH_TIMEOUT(!c.busy(),10000);QVERIFY(c.canApprove());
@@ -51,7 +51,7 @@ private slots:
         QCOMPARE(c.sourceFeeds("source_b").last().toMap().value("shareBps").toInt(),0);
         QVERIFY(c.draftIssues().isEmpty());const auto after=c.document();c.connectAssets("source_b",extra);QCOMPARE(c.document(),after);
         c.undo();QCOMPARE(c.document(),before);QCOMPARE(c.document().value("version").toInt(),1);
-        c.redo();QCOMPARE(c.document().value("version").toInt(),2);
+        c.redo();QCOMPARE(c.document().value("version").toInt(),3);
     }
     void sourceSplitSaveLoadPreservesLayoutIdsAndFormat() {
         QTemporaryDir dir;QVERIFY(dir.isValid());ProjectController c;c.addAsset("tank",-40,220);const auto extra=c.selectedId();
@@ -61,6 +61,8 @@ private slots:
         const auto url=QUrl::fromLocalFile(dir.filePath("split.json"));QVERIFY(c.save(url));ProjectController reopened;QVERIFY(reopened.load(url));QCOMPARE(reopened.document(),expected);
         if(!artifact.isEmpty())QVERIFY(c.save(QUrl::fromLocalFile(artifact+"/source-split-after.json")));
         auto downgraded=expected;downgraded["version"]=1;QVERIFY(!reopened.restore(downgraded));QCOMPARE(reopened.document(),expected);
+        // G1 reserves version 2 for telemetry envelopes; never reinterpret it.
+        downgraded["version"]=2;QVERIFY(!reopened.restore(downgraded));QCOMPARE(reopened.document(),expected);
         auto malformed=expected;auto net=malformed["network"].toObject();auto routes=net["routes"].toArray();auto route=routes.last().toObject();route["source_share_bps"]=true;routes[routes.size()-1]=route;net["routes"]=routes;malformed["network"]=net;
         QVERIFY(!reopened.restore(malformed));QCOMPARE(reopened.document(),expected);
     }

@@ -15,7 +15,9 @@ Engine functions are published in `engine/include/breakwater/engine.hpp`.
 - Routes: `source_id`, `target_id`, `capacity_m3h`, `setpoint_m3h`, `has_pump`,
   `available`, and `cost_per_m3`.
 - Source-route flow is source inflow minus curtailment; its stored setpoint is not
-  an independent control. A source feeds exactly one tank.
+  an independent control. Project v1 represents the legacy single-tank feed.
+  [Explicit percentage allocations](SOURCE_FEEDS.md) support multiple receiving
+  tanks in project v3. G1's reserved telemetry envelope remains project v2.
 - Layout coordinates are display units, separate from the physical model.
 - Drafts may have incomplete topology; execution calls native structural validation.
 

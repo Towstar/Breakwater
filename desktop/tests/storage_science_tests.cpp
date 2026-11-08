@@ -1,4 +1,5 @@
 #include "science/StorageScienceController.hpp"
+#include "science/StorageScienceEvidence.hpp"
 #include "storage_grid_cases.hpp"
 #include <QElapsedTimer>
 #include <QFileInfo>
@@ -84,6 +85,37 @@ QJsonObject controlledSensitivityResponse(const CapturedForecast& capture, const
 class StorageScienceTests final : public QObject {
     Q_OBJECT
 private slots:
+    void splitFeedsCompareWithRealWorkerAndRetireOnAllocationEdit() {
+        auto input = sensitivityProject();
+        input.network.routes.front().source_share_bps = 7500;
+        input.network.routes.push_back({"feed:east", "prod:α", "tank:β", 20, 0, false, true, 6, 2500});
+        ProjectController project; QVERIFY(captureProject(project, input, {1.13, 0.07}));
+        const auto captured = project.capturedForecast();
+        QVERIFY(std::abs(captured->result.volumes_m3[0].back()-101.9775) < 1e-9);
+        QVERIFY(std::abs(captured->result.volumes_m3[1].back()-103.6725) < 1e-9);
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        QSignalSpy done(&science, &StorageScienceController::completed), failed(&science, &StorageScienceController::failed);
+        science.run(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 70000); QVERIFY2(failed.isEmpty(), qPrintable(science.status()));
+        QVERIFY(science.result().value("within_tolerance").toBool()); QCOMPARE(science.result().value("result_version").toInt(), 2);
+        QVERIFY(science.selectControl(QStringLiteral("source:prod:α:curtail"), true));
+        science.runSensitivities(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 2, 70000);
+        const auto result = QJsonObject::fromVariantMap(science.result());
+        QVERIFY2(failed.isEmpty(), qPrintable(science.status())); QVERIFY(result.value("within_tolerance").toBool());
+        const auto derivatives = result.value("derivatives").toObject();
+        const auto matrix = derivatives.value("terminal_volume_jacobian_h").toArray();
+        QVERIFY(std::abs(matrix[0].toArray()[0].toDouble()+.8475)<1e-12);
+        QVERIFY(std::abs(matrix[1].toArray()[0].toDouble()+.2825)<1e-12);
+        QVERIFY(std::abs(derivatives.value("cost_gradient").toArray()[0].toDouble()-4.52)<1e-12);
+        const auto archive = storage_science_archive(*captured, result);
+        QString error; QVERIFY2(history::SessionRepository::validateArchive(archive, &error), qPrintable(error));
+        QVERIFY(validate_storage_science_evidence(result, archive)); QVERIFY(!archive.value("actionable").toBool(true));
+        project.moveAsset(QStringLiteral("tank:β"), 70, 80); QCOMPARE(project.capturedForecast(), captured);
+        QVERIFY(!science.result().isEmpty()); QVERIFY(project.canApprove());
+        QVERIFY(project.setSourceFeeds(QStringLiteral("prod:α"), {{QStringLiteral("tank:α"), 5000}, {QStringLiteral("tank:β"), 5000}}, project.networkHash()));
+        QVERIFY(science.result().isEmpty()); QVERIFY(!project.capturedForecast()); QVERIFY(!project.canApprove());
+        QCOMPARE(captured->network.routes.front().source_share_bps, std::uint32_t{7500});
+        QVERIFY(validate_storage_science_evidence(result, archive));
+    }
     void initTestCase() {
         if (!QFileInfo(python()).isFile()) QSKIP("Configure BREAKWATER_PYTHON for real CPU storage-science tests.");
         QProcess process; process.start(python(), {"-c", "import torch; assert torch.ones(1,dtype=torch.float64).device.type=='cpu'"});

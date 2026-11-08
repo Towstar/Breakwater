@@ -9,7 +9,8 @@ namespace breakwater {
 
 inline constexpr const char* solver_version = "constant-flow-0.2.0";
 inline constexpr int project_version = 1;
-inline constexpr int source_allocation_project_version = 2;
+// Version 2 is reserved by G1 for a sensor-bearing legacy-project envelope.
+inline constexpr int source_allocation_project_version = 3;
 inline constexpr std::uint32_t source_share_total = 10000;
 
 enum class AssetKind { tank, source, treatment, trucking };

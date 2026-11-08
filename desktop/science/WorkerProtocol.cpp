@@ -74,7 +74,7 @@ bool storagePayload(const QJsonObject& payload) {
         require(payload.value("preview").isObject()); const auto preview = payload.value("preview").toObject();
         keys(preview, {"max_times"}); (void)integer(preview.value("max_times"), 2, 256);
         require(payload.value("network").isObject());
-        const auto network = parse_project({{"version", methodVersion}, {"network", payload.value("network")}, {"layout", QJsonObject{}}}).network;
+        const auto network = parse_project({{"version", methodVersion == 2 ? source_allocation_project_version : project_version}, {"network", payload.value("network")}, {"layout", QJsonObject{}}}).network;
         require(network.assets.size() <= 128 && network.routes.size() <= 256);
         std::vector<ControlValue> controls; QSet<QString> identifiers;
         for (const auto& value : array(payload.value("controls"), derivatives ? 1 : 0, 384)) {

@@ -136,6 +136,16 @@ void compareNativeDerivatives(const QJsonObject& result, const QJsonObject& inpu
 class StorageWorkerTests final : public QObject {
     Q_OBJECT
 private slots:
+    void legacyWorkerCannotSilentlyRunAllocatedNetwork() {
+        Environment env("BREAKWATER_STORAGE_FIXTURE_MODE"); mode("valid");
+        auto p = payload(); auto project = example_project();
+        for (auto& route : project.network.routes) if (route.id == "feed_b") route.source_share_bps = 5000;
+        project.network.routes.push_back({"second-feed", "source_b", "tank_a", 16, 0, false, true, 0, 5000});
+        p["method_version"] = 2; p["network"] = network_json(project.network); QVERIFY(protocol::storagePayload(p));
+        PythonWorkerClient client(python(), fixture()); QSignalSpy failed(&client, &PythonWorkerClient::failed), ready(&client, &PythonWorkerClient::storageReady);
+        client.runStorage(p); QTRY_COMPARE_WITH_TIMEOUT(failed.size(), 1, 10000);
+        QCOMPARE(code(failed), "unsupported_version"); QCOMPARE(ready.size(), 0);
+    }
     void initTestCase() {
         if (python().isEmpty() || !QFileInfo(python()).isFile()) QSKIP("A configured Python interpreter is unavailable.");
     }
@@ -264,6 +274,7 @@ private slots:
             {"bad_capability_version", "worker_capabilities_invalid"}, {"duplicate_methods", "worker_capabilities_invalid"},
             {"bad_limits", "worker_capabilities_invalid"}, {"artifacts", "worker_capabilities_invalid"},
             {"preverified", "worker_capabilities_invalid"}, {"post_unverified", "worker_capabilities_invalid"},
+            {"post_version_drift", "worker_capabilities_invalid"},
             {"wrong_identity", "worker_storage_invalid"}, {"wrong_tank", "worker_storage_invalid"}, {"wrong_index", "worker_storage_invalid"},
             {"wrong_time", "worker_storage_invalid"}, {"null_sample", "worker_storage_invalid"}, {"wrong_shape", "worker_storage_invalid"},
             {"shortened_endpoint", "worker_storage_invalid"}, {"extended_endpoint", "worker_storage_invalid"},

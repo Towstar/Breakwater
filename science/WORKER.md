@@ -65,6 +65,23 @@ No generic PhysicsNeMo inference is advertised: A4 remains a separate fixed-case
 
 ## Mapping, controls and derivatives
 
+Storage method version 2 adds [explicit source-feed allocations](../contracts/SOURCE_FEEDS.md).
+The worker advertises its highest storage version (2), accepts legacy method 1,
+and echoes the requested method version. Method 1 rejects the new share field.
+Shares are integer hundredths of a percent totaling exactly 100%; branch flows
+and costs use the configured fraction of production after curtailment. Source
+curtailment derivatives affect every receiving tank and every positive-share
+branch capacity must admit the selected interior value. Zero-share branches do
+not create false derivative boundaries. Shares are not new control IDs.
+Project format version 3 and scientific method/result version 2 are independent;
+G1's reserved project-v2 telemetry envelope is unchanged.
+
+Run the independent split-flow check with a fresh output directory:
+
+```powershell
+science/.venv/Scripts/python.exe science/verify_source_feeds.py --native out/headless/engine/breakwater_source_feed_reference.exe --output out/source-feed-attempt-01
+```
+
 `worker_storage.py` validates the envelope payload, identity, project network and
 selected controls before loading Torch. It translates destination `capacity_m3h`
 into the private model's kind-dependent `capacity_m3` field; tank capacities remain

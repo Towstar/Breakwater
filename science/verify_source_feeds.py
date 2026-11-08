@@ -12,6 +12,7 @@ from datetime import datetime, timezone
 import hashlib
 from importlib.metadata import version
 import json
+import math
 from pathlib import Path
 import platform
 import subprocess
@@ -60,12 +61,28 @@ def validate_case(case):
     for method, result in case["solvers"].items():
         if result["time_h"] != TIMES or result["tank_ids"] != [f"tank_{i}" for i in range(len(initial))]:
             raise AssertionError("Native timestamps/order differ exactly")
-        if result["feasible"] is not True or abs(result["mass_residual_m3"]) > 1e-9:
+        residual = result["mass_residual_m3"]
+        if result["feasible"] is not True or not math.isfinite(residual) or not 0 <= residual <= 1e-9:
             raise AssertionError("Native feasibility/conservation failed")
         metrics[method] = dict(volume_max_error_m3=_compare(torch.tensor(result["volumes_m3"], dtype=torch.float64), volumes, FORWARD_ATOL, FORWARD_RTOL, method),
                                cost_error=_compare(torch.tensor(result["cost"], dtype=torch.float64), cost, FORWARD_ATOL, FORWARD_RTOL, method+" cost"),
                                mass_residual_m3=result["mass_residual_m3"])
     return network, volumes, metrics
+
+
+def validate_wire(payload, wire):
+    """Check exact identities/grid and provenance for every scientific response."""
+    tanks = [a["id"] for a in payload["network"]["assets"] if a["kind"] == "tank"]
+    if (wire["method"] != "storage_rollout" or wire["method_version"] != 2 or
+            wire["identity"] != payload["identity"] or wire["time_h"] != TIMES or
+            wire["time_indices"] != list(range(121)) or wire["tank_ids"] != tanks):
+        raise AssertionError("Worker changed exact version/identity/grid/ordering")
+    expected = {"implementation": "torch_storage_float64", "implementation_version": "torch-constant-flow-0.2.0+worker-v1",
+                "dtype": "float64", "device": "cpu", "execution_status": "completed"}
+    if wire["provenance"] != expected:
+        raise AssertionError("Worker used unexpected implementation")
+    if len(wire["volumes_m3"]) != len(tanks) or any(len(row) != 121 or not all(math.isfinite(v) for v in row) for row in wire["volumes_m3"]) or not math.isfinite(wire["cost"]):
+        raise AssertionError("Worker fields/cost have wrong shape or nonfinite values")
 
 
 def verify(native, output):
@@ -134,16 +151,14 @@ def verify(native, output):
             resp_validator.validate(response)
             if response["request_id"] != request["request_id"] or response["status"] != "completed":
                 raise AssertionError("Worker response identity/status failure")
+            if request["method"] == "storage_rollout":
+                validate_wire(request["payload"], response["result"])
             responses.append(response["result"])
         before, after = (_capabilities(responses[i])["storage_rollout"] for i in (0, -1))
         if before["execution_verified"] or not after["execution_verified"] or before["method_version"] != 2:
             raise AssertionError("Capabilities did not track actual split execution")
         for name, payload, expected, metrics, index, differences in records:
             wire = responses[index]
-            if wire["method_version"] != 2 or wire["identity"] != payload["identity"] or wire["time_h"] != TIMES or wire["time_indices"] != list(range(121)) or wire["tank_ids"] != [f"tank_{i}" for i in range(len(expected))]:
-                raise AssertionError("Worker changed exact version/identity/grid/ordering")
-            if wire["provenance"]["implementation_version"] != "torch-constant-flow-0.2.0+worker-v1":
-                raise AssertionError("Worker used unexpected implementation")
             metrics["worker"] = dict(volume_max_error_m3=_compare(torch.tensor(wire["volumes_m3"], dtype=torch.float64), expected, FORWARD_ATOL, FORWARD_RTOL, "Worker affine fields"),
                                      cost_error=_compare(torch.tensor(wire["cost"], dtype=torch.float64), CASES[name][4], FORWARD_ATOL, FORWARD_RTOL, "Worker analytical cost"))
             if differences:

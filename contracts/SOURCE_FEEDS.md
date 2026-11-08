@@ -23,13 +23,16 @@ Source curtailment cost is counted once; route costs use each branch's actual fl
 
 ## Project compatibility
 
-The reader supports project versions 1 and 2. Existing single-feed projects with
+The reader supports project versions 1 and 3. Existing single-feed projects with
 default shares keep their original version-1 serialization and physical hashes.
 Projects containing multiple source branches or non-default shares are written
-as version 2. A version-1 document may not contain `source_share_bps`. Version 2
+as version 3. A version-1 document may not contain `source_share_bps`. Version 3
 is required even for an invalid allocation draft, so older applications reject it
 instead of ignoring a share and simulating the full source flow on each branch.
 Stable IDs, layout, pipe parameters and undo/redo are preserved when shares change.
+G1 reserves version 2 for its sensor-bearing legacy-project envelope. That contract
+is unchanged; telemetry support for allocated projects needs a separate extension.
+Project versions and scientific method/result versions are independent.
 
 ## Scientific worker compatibility
 

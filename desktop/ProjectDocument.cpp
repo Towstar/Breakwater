@@ -87,7 +87,7 @@ ProjectDocument parse_project(const QJsonObject& root) {
         p.network.routes.push_back({text(o, "id"), text(o, "source_id"), text(o, "target_id"), number(o, "capacity_m3h"),
             number(o, "setpoint_m3h"), boolean(o, "has_pump", false), boolean(o, "available", true), number(o, "cost_per_m3")});
         if (o.contains("source_share_bps") && version != source_allocation_project_version)
-            throw std::invalid_argument("Source feed shares require project version 2.");
+            throw std::invalid_argument("Source feed shares require project version 3.");
         const auto share = number(o, "source_share_bps", source_share_total);
         if (share != std::floor(share) || share < 0 || share > source_share_total)
             throw std::invalid_argument("Source share must be an integer from 0 to 10000.");
