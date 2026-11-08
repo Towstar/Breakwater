@@ -92,6 +92,10 @@ productive states. Generated tests cover between-frame forecast age separately.
 report/log identities and the separate offline label hash. Actual reports retain
 all three raw input hashes, source method bytes, cutoff, event evidence and explicit
 limitations. Earlier failed reports are retained beside corrected results.
+Evidence paths are byte-preserved by `science/.gitattributes`; an initial repository
+byte check found automatic CRLF normalization and its corrected check is retained.
+Source SHA-256 identifies executed working-copy bytes; source Git blob identities
+also identify the normalized source across checkouts with different line endings.
 
 No new native/ASan, Lean, installed app/render, hosted model, optimizer, truck
 dispatch or production worker exchange is claimed. The accepted EOG interface gate
