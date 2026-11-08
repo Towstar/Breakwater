@@ -134,7 +134,12 @@ const char* parseAssistant(const QByteArray& bytes, QJsonObject& assistant, QStr
         cleanCalls.append(QJsonObject{{"id", id}, {"type", "function"},
             {"function", QJsonObject{{"name", name}, {"arguments", function.value("arguments")}}}});
     }
-    if (text.trimmed().isEmpty() && cleanCalls.isEmpty()) return "response_invalid_empty";
+    // An explicitly stopped empty final is public model output, not a valid
+    // recommendation. Let the caller's strict final validator handle it (the
+    // EOG loop permits one bounded JSON-format correction). Unknown termination
+    // and absent content must not enter that recovery path.
+    if (text.trimmed().isEmpty() && cleanCalls.isEmpty() &&
+        (reason != "stop" || content.isUndefined())) return "response_invalid_empty";
     if (!cleanCalls.isEmpty()) assistant.insert("tool_calls", cleanCalls);
     // Only the public assistant fields above survive. reasoning/reasoning_content are discarded.
     return nullptr;
