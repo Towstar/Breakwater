@@ -2,6 +2,12 @@
 
 ## Local real-provider connection — November 8, 2026
 
+- Combined source at `5c22cdb` passed **62/62 CTests normal (341.96 s)** and
+  **62/62 ASan (641.29 s)**, with no failed/skipped tests or sanitizer diagnostic.
+  Full CPU discovery ran **354 methods: 350 passed, four explicitly optional
+  PhysicsNeMo skips**, no failures/errors or unexpected skips. These checks
+  include real worker execution and independent validation, not hosted-model acceptance.
+
 - The joined Person B integration branch connects PR #40's actual worker/native
   library to the production desktop client. Focused provider/client/controller
   checks passed **72 Qt cases per mode**, zero skips, in normal and MSVC ASan.
@@ -19,7 +25,21 @@
   authority rejection after reopening history pass. The old #40 records stay dated.
   Installed startup and genuine hosted EOG rehearsals remain unverified.
 
-## Current local EOG desktop integration — November 8, 2026
+## Verified EOG desktop workflow — November 8, 2026
+
+- The read-only console PR #39 is merged at `de09f246`; all six hosted jobs
+  passed in run `42482993335`. Investigation/history PR #42 is separate.
+- Full combined checks at `9152dac` passed **56/56 CTests normal (342.14 s)**
+  and **56/56 ASan (676.61 s)**, with **909 recorded Qt cases per mode**, no
+  skips or sanitizer diagnostics. Full Visual Studio compilation and all
+  **18/18 EOG checks (56.40 s)** also passed. Hosted run `42481064546`
+  passed all six jobs. The subsequent merge of console main is source-identical.
+- Installed packaging and genuine hosted EOG rehearsals remain pending for this
+  workflow increment. The real provider and newer independent validator are
+  being verified in a separate Person B integration branch; they are not included
+  or claimed operational by PR #42.
+
+## Earlier local EOG desktop checkpoints — November 8, 2026
 
 - The unpublished integration includes the dataset console,
   causal captures, bounded process client, separate SQLite history, on-demand

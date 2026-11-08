@@ -2,6 +2,28 @@
 
 Recorded November 8, 2026, America/Chicago.
 
+## Joined provider verification checkpoint
+
+The current Person B integration includes Ethan's latest #34/#36/#38/#40/#41
+ancestry through exact `d30cd04205b6421b48ba4c9b06b0db810cd23088`.
+No A-owned numerical source is edited by B. Shared wire revision `72cadd1` stays
+unchanged. The later G2 synchronization changes no reviewed numerical/runtime
+blobs from the independently checked #41 revision.
+
+At `5c22cdb`, full joined native/desktop checks passed **62/62 normal (341.96 s)**
+and **62/62 ASan (641.29 s)** with no failures/skips or sanitizer diagnostic.
+Full scientific discovery ran **354 tests: 350 passed, four declared optional
+PhysicsNeMo skips**, with no unexpected EOG skips. All 15 CI policy tests pass.
+The subsequent workflow/main ancestry merge changes documentation only.
+
+Independent validation reconstructs costs/constraints without loading the native
+DLL. Exact no-DLL validation, one-ULP rejection, explicit advisory review and
+reopened-history authority rejection execute in the real provider tests. Installed
+startup and genuine hosted EOG rehearsal acceptance remain separate pending gates.
+Joint search remains unavailable. The unsafe offline inspection CLI is excluded
+from packaging; the production worker never invokes it. Earlier dated checkpoints
+below preserve their original capabilities and evidence.
+
 ## Shared adoption
 
 Both developers adopt **72cadd1de7eed6666a60faff1d296e29c8f026ee** as the EOG

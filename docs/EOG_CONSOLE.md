@@ -62,6 +62,14 @@ These are scoped console checks, not a fresh full combined application acceptanc
 G2's separate full checks and later hosted runs retain their exact revisions.
 Prebuilt Qt/Python dependencies are outside native ASan instrumentation coverage.
 
+Isolated console delivery verification on November 8, 2026, at `36f619d`:
+fresh normal build and 6/6 scoped CTests passed in 13.73 seconds (24 Qt cases,
+8 executable CLI methods, four D3D11/WARP renders; no skips). The 14 original
+source/fixture blobs match `1a6e686` and `03cf07c` exactly. CI policy checks passed
+15/15. The regenerated Visual Studio solution resolves all 104 project paths and
+373 dependency references; generation used embedded debug information, with no
+Visual Studio compile or new ASan run in this isolated delivery check.
+
 The hard-link regression needs native Windows filesystem capabilities. An
 AppContainer sandbox denies link creation; retain that setup failure and execute
 the check in a permitted native environment rather than silently skipping it.
@@ -80,4 +88,3 @@ source hashes and owns its private directory for the job lifetime. Ethan's
 numerical acceptance and Lucas's reciprocal adoption of exact `72cadd1` are
 recorded in PR #33. Production provider execution and complete desktop/model
 acceptance remain separate gates. Imported or reopened analysis stays historical.
-
