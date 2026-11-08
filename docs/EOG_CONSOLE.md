@@ -2,9 +2,11 @@
 
 This increment adds a dataset-driven workspace alongside the existing editable
 simulation workbench. It consumes only network.json, ops.json and telemetry.csv.
-Detection, shutdown predictions, joint response search and EOG Nemotron tools are
-not connected in this increment. Their reviewed interface is PR #33; numerical
-implementation belongs to Person A.
+The original read-only checkpoint is `1a6e686`. The next local increment adds
+capture/process/history and on-demand EOG tool orchestration, described in
+[EOG analysis](EOG_ANALYSIS.md). Production detection, shutdown prediction and
+joint response search require Person A's numerical provider; they remain
+unavailable when it is absent. The shared accepted interface is `72cadd1` in PR #33.
 
 ## Open a dataset
 
@@ -73,8 +75,9 @@ was verified separately; no answer key is an application input.
 
 ## Next integration boundary
 
-A causal capture producer is being added separately. It must retain raw bytes,
-freeze the cutoff, verify source hashes and own its private directory for the job
-lifetime. Production provider/client binding waits for Ethan's exact-contract
-numerical acceptance. Imported or reopened analysis remains historical evidence.
+A causal capture producer now freezes raw bytes at the selected cutoff, verifies
+source hashes and owns its private directory for the job lifetime. Ethan's
+numerical acceptance and Lucas's reciprocal adoption of exact `72cadd1` are
+recorded in PR #33. Production provider execution and complete desktop/model
+acceptance remain separate gates. Imported or reopened analysis stays historical.
 
