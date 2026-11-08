@@ -153,6 +153,11 @@ try {
                     if ($required -notin $registered.tests.name) { throw "Required telemetry contract check is missing: $required" }
                 }
             }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'contracts/eog/validate.py')) {
+                foreach ($required in @('desktop.eog_contracts', 'contracts.eog')) {
+                    if ($required -notin $registered.tests.name) { throw "Required EOG contract check is missing: $required" }
+                }
+            }
         }
         Invoke-CiStep 'ctest' 'ctest' @('--test-dir', $buildRoot, '--output-on-failure', '--no-tests=error', '--output-junit', (Join-Path $artifactRoot 'ctest-results.xml'))
         [xml]$junit = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'ctest-results.xml')

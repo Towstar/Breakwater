@@ -1,11 +1,16 @@
 """Offline EOG contracts; these tests do not execute a numerical provider."""
+import argparse
+import base64
 import copy
 from datetime import datetime, timezone
 import hashlib
 import importlib.util
 import json
+import os
 from pathlib import Path
 import tempfile
+import subprocess
+import sys
 import unittest
 from unittest.mock import patch
 
@@ -13,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 SPEC = importlib.util.spec_from_file_location("eog_validate", ROOT / "validate.py")
 v = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(v)
+NATIVE = None
 
 
 def read(name):
@@ -133,7 +139,10 @@ class ContractTests(unittest.TestCase):
             request = read("examples/detect-request.json")
             request[key] = replacement
             self.reject(request, code="binding_mismatch")
-        for directory in ("../capture", "\\\\server\\capture", "//server/capture", "C:/bad\x00dir"):
+        invalid_paths = ["../capture", "\\\\server\\capture", "//server/capture", "C:/bad\x00dir", "C:relative", "\\tmp\\capture"]
+        if os.name == "nt":
+            invalid_paths.append("/tmp/capture")
+        for directory in invalid_paths:
             request = read("examples/detect-request.json")
             request["capture_directory"] = directory
             self.reject(request, code="invalid_path")
@@ -456,6 +465,71 @@ class ContractTests(unittest.TestCase):
                 else:
                     self.reject(case["document"], context)
 
+    def test_native_comparator_executes_shared_cases_hashes_and_mutations(self):
+        if not NATIVE:
+            self.skipTest("Native comparator not supplied; desktop CI requires --native PATH.")
+        corpus = read("fixtures/validation-cases.json")
+        requests, expected = [], []
+        for case in corpus["cases"]:
+            requests.append({"kind": case["kind"], "document": case["document"],
+                             "context": corpus["contexts"].get(case.get("context_id"), {})})
+            expected.append((case["name"], {"valid": case["valid"]}))
+        vectors = read("fixtures/hash-vectors.json")
+        for item in vectors["dataset_vectors"]:
+            requests.append({"kind": "dataset_identity", "source_hashes": item["source_hashes"]})
+            expected.append(("dataset-vector", {"valid": True, "sha256": item["sha256"]}))
+        for item in vectors["capture_vectors"]:
+            requests.append({"kind": "capture_manifest", "document": item["manifest"]})
+            expected.append(("capture-vector", {"valid": True, "sha256": item["sha256"], "canonical_utf8": item["canonical_utf8"]}))
+        for item in vectors["plan_vectors"]:
+            requests.append({"kind": "plan_identity", "plan": item["plan"]})
+            expected.append(("plan-vector", {"valid": True, "sha256": item["sha256"], "canonical_utf8": item["canonical_utf8"]}))
+        for name, raw in (("duplicate-key", b'{"a":1,"a":2}'),
+                          ("escaped-duplicate", b'{"a":1,"\\u0061":2}'),
+                          ("nonfinite", b'{"value":1e9999}'),
+                          ("invalid-utf8", b'{"value":"\xff"}'),
+                          ("unpaired-surrogate", b'{"value":"\\ud800"}')):
+            requests.append({"kind": "analysis_response", "raw_base64": base64.b64encode(raw).decode()})
+            expected.append((name, {"valid": False}))
+        def leaves(value, prefix=()):
+            if isinstance(value, dict):
+                return [path for key, child in value.items() for path in leaves(child, prefix + (key,))]
+            if isinstance(value, list):
+                return [path for index, child in enumerate(value) for path in leaves(child, prefix + (index,))]
+            return [prefix]
+        for operation in ("detect", "evaluate-plan", "search-plans", "validate-plan"):
+            original = read("examples/" + operation + "-response.json")
+            request = read("examples/" + operation + "-request.json")
+            paths = leaves(original)
+            for path in paths[::max(1, len(paths)//20)][:20]:
+                changed = copy.deepcopy(original)
+                parent = changed
+                for key in path[:-1]:
+                    parent = parent[key]
+                parent[path[-1]] = []
+                context = {"request": request}
+                try:
+                    v.validate_document(changed, context=context)
+                    valid = True
+                except v.ContractError:
+                    valid = False
+                requests.append({"kind": "analysis_response", "document": changed, "context": context})
+                expected.append((operation + ":" + repr(path), {"valid": valid}))
+        completed = subprocess.run([NATIVE, "--contract-check"], input=b"".join(encoded(item) + b"\n" for item in requests),
+                                   capture_output=True, timeout=120, check=False)
+        self.assertEqual(completed.returncode, 0, completed.stderr.decode("utf-8", errors="replace"))
+        self.assertEqual(completed.stderr, b"", "Native checker must keep diagnostics out of the protocol.")
+        results = [json.loads(line) for line in completed.stdout.splitlines()]
+        self.assertEqual(len(results), len(expected))
+        for (name, fields), result in zip(expected, results):
+            with self.subTest(case=name):
+                for key, value in fields.items():
+                    self.assertEqual(result.get(key), value, result)
+
 
 if __name__ == "__main__":
-    unittest.main()
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--native", default=os.environ.get("BREAKWATER_EOG_NATIVE"))
+    args, remaining = parser.parse_known_args()
+    NATIVE = args.native
+    unittest.main(argv=[sys.argv[0], *remaining])

@@ -2908,6 +2908,106 @@
         }
       },
       "context_id": "assets"
+    },
+    {
+      "name": "drive-relative-capture-directory",
+      "valid": false,
+      "kind": "analysis_request",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_request",
+        "operation": "detect",
+        "capture_directory": "C:relative",
+        "capture_manifest": {
+          "eog_version": 1,
+          "kind": "capture_manifest",
+          "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+          "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+          "source_hashes": {
+            "network.json": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+            "ops.json": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+            "telemetry.csv": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe"
+          },
+          "captured_files": {
+            "network.json": {
+              "sha256": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+              "size_bytes": 128
+            },
+            "ops.json": {
+              "sha256": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+              "size_bytes": 128
+            },
+            "telemetry.csv": {
+              "sha256": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe",
+              "size_bytes": 128
+            }
+          },
+          "source_first_unix": 1000000000,
+          "source_now_unix": 1000003600,
+          "cutoff_unix": 1000003600,
+          "context": "snapshot_now",
+          "sample_period_s": 300,
+          "max_age_s": 300
+        },
+        "arguments": {
+          "system_ids": []
+        }
+      }
+    },
+    {
+      "name": "root-relative-capture-directory",
+      "valid": false,
+      "kind": "analysis_request",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_request",
+        "operation": "detect",
+        "capture_directory": "\\tmp\\capture",
+        "capture_manifest": {
+          "eog_version": 1,
+          "kind": "capture_manifest",
+          "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+          "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+          "source_hashes": {
+            "network.json": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+            "ops.json": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+            "telemetry.csv": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe"
+          },
+          "captured_files": {
+            "network.json": {
+              "sha256": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+              "size_bytes": 128
+            },
+            "ops.json": {
+              "sha256": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+              "size_bytes": 128
+            },
+            "telemetry.csv": {
+              "sha256": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe",
+              "size_bytes": 128
+            }
+          },
+          "source_first_unix": 1000000000,
+          "source_now_unix": 1000003600,
+          "cutoff_unix": 1000003600,
+          "context": "snapshot_now",
+          "sample_period_s": 300,
+          "max_age_s": 300
+        },
+        "arguments": {
+          "system_ids": []
+        }
+      }
     }
   ]
 }

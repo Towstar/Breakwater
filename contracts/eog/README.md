@@ -202,6 +202,14 @@ From repository root, using the already configured scientific interpreter:
 & $env:BREAKWATER_PYTHON -B contracts/eog/validate.py contracts/eog/examples/detect-request.json
 ```
 
+The Python-only command explicitly skips the native comparison. Desktop CTest
+registers `desktop.eog_contracts` and `contracts.eog`; the latter supplies
+`--native <breakwater_eog_contract_tests executable>` and requires actual native
+execution with no skips. The comparator implements schema and semantic checks in
+C++, embeds only the local schemas, and never starts Python. Shared cases, strict
+raw input, content-hash vectors and deterministic mutations are compared across
+the two implementations. Native/headless builds also compile the Qt-free DTO probe.
+
 For a bound response, pass a context JSON object of the form
 `{"request": <exact request object>}` using `--context <file>`.
 An optional `assets` context maps imported asset IDs to supported kinds for
