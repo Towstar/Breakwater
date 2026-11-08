@@ -70,3 +70,22 @@ claimed. Default-on adoption is conditional on the following executed checks.
 
 Publish exact source/evidence identities and send Lucas the worker/method change
 and remaining limitations. Search/simulation installed acceptance remains separate.
+
+## Generated-family refinement, before official or fresh-seed execution
+
+The initial 0.25 candidate passes all 41 existing detector methods and the
+32-configuration noisy healthy-day family. It fails 29 of the 64 short-cycle
+deficiency cases' four-hour latency bounds. The full 13-method candidate run
+otherwise passes after fixing two test-fixture mistakes (a running final sample
+mislabelled stopped and passing the policy to Archive rather than its View).
+Both original failures and the fixture-corrected failure log are retained.
+
+Freeze a **0.175** score threshold; retain the 1.5% allowance, 5% influence cap,
+six-hour window and all original acceptance bounds. At a noiseless 3% deficit
+this needs 12 running frames, versus 17 at 0.25, allowing the declared two-on/
+four-off family to accumulate evidence in about three hours. This is generated-
+family-informed refinement, not independent qualification. Before viewing the
+new result, also require the same outcomes on 64 fresh configurations at seed
+2026110806 and 64 fresh healthy noisy days at seed 2026110807. Only after those
+checks will the frozen candidate run on official data; its result remains a
+practice evaluation because prior labels were already available to this project.
