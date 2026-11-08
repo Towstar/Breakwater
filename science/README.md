@@ -7,6 +7,10 @@ authority. The desktop and shared project schema are unchanged. A8 now exposes
 capabilities and storage execution through the agreed scientific worker; see
 [WORKER.md](WORKER.md) for its protocol, actual checks and B deployment handoff.
 
+A9 adds [bounded transport qualification](TRANSPORT_QUALIFICATION.md): independent
+cell-average references, spatial/temporal refinement, signed ledgers, declared gates
+and retained coarse-front failure evidence. It does not change native volume approval.
+
 A4 now adds a separate, actually executed PhysicsNeMo pipe smoke. Its larger pinned
 environment, training/evaluation commands and experimental scope are documented in
 [PHYSICSNEMO.md](PHYSICSNEMO.md). The A3 instructions below remain independently usable.
