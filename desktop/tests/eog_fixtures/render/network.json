@@ -1,0 +1,66 @@
+{
+  "meta": {
+    "timezone": "UTC",
+    "units": {
+      "volume": "bbl",
+      "rate": "bpd",
+      "gas_rate": "mcfd",
+      "pressure": "psi"
+    }
+  },
+  "defaults": {
+    "tank_limits_pct": {
+      "warning": 83,
+      "shutdown": 94
+    }
+  },
+  "systems": [
+    {
+      "id": "CUSTOM-system",
+      "center": [
+        31,
+        -102
+      ],
+      "truck_yard": [
+        31,
+        -102
+      ],
+      "disposal_site": {
+        "id": "disposal-Z",
+        "lat": 31,
+        "lon": -102,
+        "pressure_psi": 1123
+      },
+      "facilities": [
+        {
+          "id": "facility-Z",
+          "lat": 31.2,
+          "lon": -102.1,
+          "wells": [
+            {
+              "id": "well-Z",
+              "baseline_water_bpd": 17,
+              "oil_bpd": 20,
+              "gas_mcfd": 30
+            }
+          ],
+          "tank": {
+            "id": "tank-Z",
+            "capacity_bbl": 725
+          },
+          "pump": {
+            "id": "pump-Z",
+            "max_flow_bpd": 40,
+            "start_level_pct": 71,
+            "stop_level_pct": 31
+          },
+          "pipeline": {
+            "id": "pipe-Z",
+            "max_bpd": 45,
+            "max_pressure_psi": 1600
+          }
+        }
+      ]
+    }
+  ]
+}

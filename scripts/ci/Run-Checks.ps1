@@ -110,6 +110,12 @@ function Copy-CiBuildEvidence {
         Get-ChildItem -LiteralPath $desktop -Filter 'science-*.json' -File | Copy-Item -Destination $artifactRoot
         $evidence = Join-Path $desktop 'test-artifacts'
         if (Test-Path -LiteralPath $evidence) { Copy-Item -LiteralPath $evidence -Destination (Join-Path $artifactRoot 'test-artifacts') -Recurse }
+        $charts = Join-Path $desktop 'eog-plan-chart-artifacts'
+        if (Test-Path -LiteralPath $charts) { Copy-Item -LiteralPath $charts -Destination (Join-Path $artifactRoot 'eog-plan-chart-artifacts') -Recurse }
+        $details = Join-Path $desktop 'eog-plan-details-artifacts'
+        if (Test-Path -LiteralPath $details) { Copy-Item -LiteralPath $details -Destination (Join-Path $artifactRoot 'eog-plan-details-artifacts') -Recurse }
+        $events = Join-Path $desktop 'eog-event-details-artifacts'
+        if (Test-Path -LiteralPath $events) { Copy-Item -LiteralPath $events -Destination (Join-Path $artifactRoot 'eog-event-details-artifacts') -Recurse }
     }
     foreach ($directory in @($buildRoot, $desktop)) {
         if (Test-Path -LiteralPath $directory) { Get-ChildItem -LiteralPath $directory -Filter '*.png' -File | Copy-Item -Destination $artifactRoot }
@@ -160,6 +166,20 @@ try {
                     if ($required -notin $registered.tests.name) { throw "Required G2 desktop check is missing: $required" }
                 }
             }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'desktop/eog/EogDataset.hpp')) {
+                foreach ($required in @('desktop.eog_dataset', 'desktop.eog_capture', 'desktop.eog_analysis_client', 'desktop.eog_history',
+                    'desktop.eog_investigator', 'desktop.eog_analysis_controller', 'desktop.eog_plan_chart', 'desktop.eog_plan_details', 'desktop.eog_event_details',
+                    'desktop.eog_analysis_normal', 'desktop.eog_analysis_compact',
+                    'desktop.eog_cli', 'desktop.eog_overview_normal',
+                    'desktop.eog_overview_compact', 'desktop.eog_facility_normal', 'desktop.eog_facility_compact')) {
+                    if ($required -notin $registered.tests.name) { throw "Required EOG console check is missing: $required" }
+                }
+            }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'contracts/eog/validate.py')) {
+                foreach ($required in @('desktop.eog_contracts', 'contracts.eog')) {
+                    if ($required -notin $registered.tests.name) { throw "Required EOG contract check is missing: $required" }
+                }
+            }
         }
         Invoke-CiStep 'ctest' 'ctest' @('--test-dir', $buildRoot, '--output-on-failure', '--no-tests=error', '--output-junit', (Join-Path $artifactRoot 'ctest-results.xml'))
         [xml]$junit = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'ctest-results.xml')
@@ -188,7 +208,7 @@ try {
         $archive = Join-Path $leanRoot 'lean-4.35.0-windows.zip'
         $expectedHash = '5fc033e93e1a7bc59c5ebf311103d2c9cd18d4b3eddda4ffa3414e8adb0ef79e'
         if (-not (Test-Path -LiteralPath $archive)) {
-            Invoke-WebRequest -Uri 'https://github.com/leanprover/lean4/releases/download/v4.35.0/lean-4.35.0-windows.zip' -OutFile $archive -TimeoutSec 600
+            Invoke-WebRequest -Uri 'https://github.com/leanprover/lean4/releases/download/v4.35.0/lean-4.35.0-windows.zip' -OutFile $archive -TimeoutSec 600 -MaximumRetryCount 2 -RetryIntervalSec 3
         }
         if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expectedHash) { throw 'The Lean archive does not match the committed official SHA256.' }
         $leanBin = Join-Path $leanRoot 'lean-4.35.0-windows/bin'

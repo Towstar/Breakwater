@@ -1,5 +1,19 @@
 # Person B: desktop, hypothetical sensors, telemetry and integration
 
+Current continuation, November 8, 2026: G0, accepted G1 (`f12a827`) and G2
+are delivered; G2 merged through PR #35. The telemetry follow-up PR #37 is merged
+at `7653444` after all six hosted jobs passed (38/38 desktop checks per mode).
+The EOG interface is mutually adopted at exact `72cadd1`; PR #33 publishes it.
+The read-only EOG console is separately published in PR #39, followed by the
+local capture/process/Nemotron/history/operator-view integration. See
+[STATUS.md](STATUS.md), [EOG_COORDINATION.md](EOG_COORDINATION.md) and
+[EOG_ANALYSIS.md](EOG_ANALYSIS.md) for current evidence and executable steps.
+Ethan's new PR #40 delivers detection and candidate evaluation for integration;
+joint search and independent validation remain unavailable in that revision.
+
+The November 7 baseline and G0/G1 starting instructions below are historical
+handoff context. Do not restart completed milestones or reopen their review gate.
+
 Updated November 7, 2026 (America/Chicago). The active assignments are in
 [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md) and
 [TELEMETRY_PLAN.md](TELEMETRY_PLAN.md). Older instructions to implement B5 or merge
