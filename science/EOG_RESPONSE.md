@@ -91,3 +91,16 @@ Supply exactly one request line on stdin; stdout is exactly one bound response
 line. No answer key or original source-folder path is passed to the worker.
 Optional native/contract science checks report explicit skips when startup paths
 are absent; qualification must provide them and record the actual skip count.
+
+Python's Windows DLL dependency search does not use the developer-shell PATH.
+For ASan ctypes/process qualification, copy the installed MSVC x64
+`clang_rt.asan_dynamic-x86_64.dll` from `VCToolsInstallDir/bin/Hostx64/x64` beside
+the checked EOG DLL in `out/asan/engine`. Retain its hash. The first unstaged
+attempt failed dependency loading; it remains evidence, not a sanitizer pass.
+The normal production DLL does not require the ASan runtime. Packaging remains B-owned.
+
+`qualify_eog_response.py` executes real detect/evaluate worker processes against
+causal test captures made only from the three allowed source files. It exits
+nonzero if a requested cut cannot complete. It does not read answer keys or serve
+as an independent numerical validator. Retain the initial duplicate-reference
+failure as well as corrected responses; successful transport alone is not accuracy.

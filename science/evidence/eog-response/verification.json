@@ -1,0 +1,169 @@
+{
+  "source_commit": "a41f1226fb2329ae14e5de5626ddc33488fc6294",
+  "native_source_commit": "fe0da88d3cc741489fd14a43604825051d95f88c",
+  "adopted_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "source_files": {
+    "engine/CMakeLists.txt": {
+      "executed_raw_sha256": "879d6cb3b91e9f6b39ad369a1f0b6f4b9cc1a8a330d984f26bbf9f12ae92bfb6",
+      "git_blob": "4c3178e54d770c993004cf017cd4c398c6848362"
+    },
+    "engine/include/breakwater/eog_response.h": {
+      "executed_raw_sha256": "8810d7e9c716a249aca0685c213a501dcb60b6197c5cd8c9a02178d2820575f3",
+      "git_blob": "a705915e10f23238d0ea80799146b68e13f8f206"
+    },
+    "engine/src/eog_response.cpp": {
+      "executed_raw_sha256": "48a39e4d3b17fb94fced54d3f926e5327197459fd95fff75fa0f5abef1ea9509",
+      "git_blob": "6b4cdd68f02e3a0c9e31cf785f03a171849443b3"
+    },
+    "engine/tests/eog_response_tests.cpp": {
+      "executed_raw_sha256": "e1dfdb071c437b3ac22ed42b2862147339409e5926eec7d4b738215d41d6dc71",
+      "git_blob": "da73aafc3b8c376c2b72f677a3f2e9d70382f3ee"
+    },
+    "science/eog_detection.py": {
+      "executed_raw_sha256": "624e7acbf5be7347f8f2382c91a143a162c61ecac33bf80a3f4a2a8441d29c9c",
+      "git_blob": "f3eba5d45fc45dbf292044ef22bcbf1f44438e80"
+    },
+    "science/eog_response.py": {
+      "executed_raw_sha256": "e2bec8d8db6b423bf56a5cdad5d205cfbf58bf6ab96a25a4b3562358de71b970",
+      "git_blob": "2e349af46eecd6a158737cbb72ffc8e5ff18ead2"
+    },
+    "science/eog_worker.py": {
+      "executed_raw_sha256": "7cb942a01fe749db227a84441c8aba4f5e2e1f523913f09a3a727f50cc7fe69c",
+      "git_blob": "b78fac7d9017dac87ceef05d3123b79c42dd2409"
+    },
+    "science/native_eog.py": {
+      "executed_raw_sha256": "afe01bc97e439ad1033cf729ec3ba2444c43d17dd9528594c4aa45b442353c0b",
+      "git_blob": "a077438acad29e66188fc83979f5921c3fa1414a"
+    },
+    "science/qualify_eog_response.py": {
+      "executed_raw_sha256": "734a37733948785f695ff4af459db72c1ee25c69358e9c3a768e9d6ff33a9b23",
+      "git_blob": "5fdb92bb2f2e836ea23ae1a82e8c3ea256c7c8ba"
+    },
+    "science/eog_inputs.py": {
+      "executed_raw_sha256": "19ef11e9f5ff52f4403f4e99e79fdfcc6f6edb2c831bf4ec52dce6b506dbcc48",
+      "git_blob": "78de6b18e9bed0e100124c2ddbc2a6246217aaf9"
+    },
+    "science/eog_model.py": {
+      "executed_raw_sha256": "ce6555bfc00838047a9dc82e8112c09295a5210b5f60e933b0470d414e03d0a0",
+      "git_blob": "30c8caf0f19b5d5ed809c712e41b757d08872f9a"
+    },
+    "science/eog_observations.py": {
+      "executed_raw_sha256": "d28898347681cde3d3a0bad55d21bcf0c34c84fb5ffc001484b78083a2d9997c",
+      "git_blob": "f6ba3bcbeecd44e65098dd8bdc0813b5a06c0b72"
+    },
+    "science/tests/test_eog_worker.py": {
+      "executed_raw_sha256": "e3f7dd17bd5767d58f29454c6e8a21f865e0cc04c1ff55e99a12af98c9ac2e54",
+      "git_blob": "a2f54c1d17bd7c3a8ed0131c27a07b0c4f5b7d6c"
+    },
+    "science/tests/test_eog_response.py": {
+      "executed_raw_sha256": "f8f1d1db68e04c958e837408e4981afacf24729fb8ecf289b55a001b3404e4aa",
+      "git_blob": "da2bdb120d1161c10953073fd14b27cbb8d21fa3"
+    },
+    "science/tests/test_native_eog.py": {
+      "executed_raw_sha256": "3af9cc699f00621b6df095003b966c83a8943c61eaa36d87bfa10d93fb97443a",
+      "git_blob": "ed2f71c11705f48980f023d08158a48ef630989d"
+    }
+  },
+  "contract_normalized_lf_sha256": {
+    "validate.py": "626deb9b5de0a722f3583adf8f1a28753880bb9d70cf75b78771dda1c7b2faec",
+    "common-v1.schema.json": "e4bc08c5ce5e6b608a64d94417740a74dc5e343df6e4349478697eb4f21cd6e7",
+    "analysis-request-v1.schema.json": "c9cf0408d5e6540900f55be2f27c91a90c48aff66316d8e76d89332b0b630eb2",
+    "analysis-response-v1.schema.json": "44c27baf998e8aced87befe3e80613fc0b9bb44c61abf1c075cb41b65ac76d20",
+    "capture-manifest-v1.schema.json": "77889d1e39ae260e8e58b7e116f21bc19d2f3ca4c281c433c8f97550d240aeae"
+  },
+  "native_library_sha256": {
+    "headless": "f10963854a09d0c5b924219a61cc4522bd6794f6282170e29d24a783655cf6b6",
+    "asan": "426165e3688a30245a9bda121eae3d2da6a86b9de8ce2d081ac619534e23ca72"
+  },
+  "environment": {
+    "python": "3.12.13 (main, May  4 2026, 21:19:41) [MSC v.1944 64 bit (AMD64)]",
+    "platform": "win32",
+    "jsonschema": "4.25.1",
+    "referencing": "0.37.0",
+    "compiler": "MSVC 19.51.36260.0 x64",
+    "cmake": "4.3.1",
+    "native_configuration": "RelWithDebInfo, /fp:precise, checked build separately /fsanitize=address"
+  },
+  "results": {
+    "native_headless_ctests": {
+      "passed": 11,
+      "total": 11,
+      "wall_s": 6.21
+    },
+    "native_asan_ctests": {
+      "passed": 11,
+      "total": 11,
+      "wall_s": 37.03
+    },
+    "native_response_checks_per_mode": 6766,
+    "independent_randomized_no_action_cases_per_mode": 600,
+    "independent_randomized_well_stop_cases_per_mode": 600,
+    "full_science_final": {
+      "passed": 330,
+      "total": 330,
+      "skips": 0,
+      "wall_s": 67.065
+    },
+    "asan_eog_python_at_fe0da88": {
+      "passed": 143,
+      "total": 143,
+      "skips": 0,
+      "wall_s": 9.699
+    },
+    "asan_worker_final": {
+      "passed": 14,
+      "total": 14,
+      "skips": 0,
+      "wall_s": 9.616
+    },
+    "official_causal_worker_processes": {
+      "detect_completed": 4,
+      "evaluate_completed": 4,
+      "current_failure_facilities_total": 9,
+      "independent_plan_validation": false
+    }
+  },
+  "retained_failures": [
+    "ASan DLL dependency load before runtime staging: 2 class errors, 2 failures; not execution success.",
+    "Initial four official-prefix detect responses unavailable due duplicate references; final source maps references uniquely."
+  ],
+  "limitations": [
+    "No independent production plan validator, joint search, evolving simulation, installed desktop or final UI qualification.",
+    "Official cuts are correlated practice prefixes; process completion does not qualify detection timeliness or plan accuracy.",
+    "Native DLL hashes identify local builds, not committed binaries or a portability claim."
+  ],
+  "evidence_sha256": {
+    "asan-build.log": "c7077e561f365fe7c9d7d7f22a5fdc23434a8e2c5e95258bf7006f40a3071b3f",
+    "asan-ctest.log": "0f07f3121da43f6de4a0c6643bdbadd086e0af0b304fa9ac605a95012abb5f21",
+    "asan-eog-python-staged-runtime.log": "62310667531580f62bc5b7b8dde07954c58e69b29155e54c10ebd35929a14399",
+    "asan-eog-python.log": "66d4af2a28ba9a66abb5f6360a3c0a273aefb03ac85e0d28a4944933ac7c2bea",
+    "asan-runtime.txt": "534f0b963e39bb96bf543efbafda264c1d2166b4b6242a794a9238ee6d744aef",
+    "asan-worker-final.log": "e1bcab81dabbfcd58b5c1a25166370019287c4969185b2091740217b080035fe",
+    "full-science-final.log": "6a8d50b5d1cf4d8abb94a906c368206ad2b1fbbeecbd7fd59ef204239276c25a",
+    "full-science.log": "fa33e5f3bcc15788bb1acc033e371e6a1fb66c2275f34264dc666d57cd1964e1",
+    "headless-ctest.log": "d9b6bd29a7d36a63fc05897978eb25f4d038f3d83a54f9910f89385c06608cbd",
+    "provider/1791460800/detect-request.json": "d54c06dc2c36a3af2d5629e5c09752518a28cd5669ad6239cb19c44e05546592",
+    "provider/1791460800/detect-response.json": "3ad51c8e4bd2ee293f1917cb1f9e10461a89ff1ad2316b9510ca543dac6b3975",
+    "provider/1791460800/evaluate_plan-request.json": "9349ace7acfff0527745b1405699b2e51d7fe5bfd301ec06f481cd2d88b09a9c",
+    "provider/1791460800/evaluate_plan-response.json": "88a1771aa7e153545a585ebd1db8d72923c135ea3f67b4a5a410bde3c47e7dae",
+    "provider/1791516600/detect-request.json": "fa2615635818ae842b11b01a1d4ed79aaa8f2425abc715e78aef4f77b0b89046",
+    "provider/1791516600/detect-response.json": "3df1e6e7a0563ee7d29b6265d3f3ab3ac76f72be5e6957f5ffd03cdc2d868577",
+    "provider/1791516600/evaluate_plan-request.json": "b688f25ae1d5ad154c60d70fb0de1904157434f1311d93dc9ccb946995bb94f8",
+    "provider/1791516600/evaluate_plan-response.json": "6a90c3d538842895d11a1a96d1a5ac4a2b04f39351da4f69d540222c9de0a707",
+    "provider/1791622800/detect-request.json": "9e9b5fd1621429c17de6fedef7c8110b02c185f308145db007241a31569f4322",
+    "provider/1791622800/detect-response.json": "a060727dedbc819040d86326a588b06a49c6aa7bc6c637fc19a9e660bec503fd",
+    "provider/1791622800/evaluate_plan-request.json": "3359757db08b35b7338c4f2a7bc42c56fdb4932bc0fc9c4cbe0f34925626339f",
+    "provider/1791622800/evaluate_plan-response.json": "031ea18c7db00f9e110c175eacc0c9afc1fa75e498134c02ff32c5cf70cf453d",
+    "provider/1791646200/detect-request.json": "e34b5154623713344320e16078e5c9628333fcbbe8654b9d92ab7707d8697c83",
+    "provider/1791646200/detect-response.json": "57f15ecbe42ea6ea1339fdcec2b6c7e425e157d2bba851068cf2a9a8a465ffd1",
+    "provider/1791646200/evaluate_plan-request.json": "56663d25f8cc32cfac365cb5dea91904410c246812174d727705190150daa04a",
+    "provider/1791646200/evaluate_plan-response.json": "5c7595bdb4283bc4b3400dbfcabecb698ff671b2f930f8c566b4c51581d471fb",
+    "provider/summary.json": "bc89b2fa7cc7c3174955306800f3440eae1f204f3d27d7dc68c9695a55e41188",
+    "provider-qualification-final.log": "cce953597d49c684b4424476eb54bbbf1b56f3d7838fb70c22fec5689c081fa4",
+    "provider-qualification-initial-failed.json": "5e5ada8b633fa367884497901b82ef82287f10a20183ecc9f120e5c0afb410ef",
+    "provider-qualification-initial-failed.log": "e15af27bd79b19c9b05a7cb6e2a392f05dd5bdf72b52e027e3a69044066d1816",
+    "provider-qualification.log": "e15af27bd79b19c9b05a7cb6e2a392f05dd5bdf72b52e027e3a69044066d1816",
+    "README.md": "4130f998e4d71455cb6278368568d3ae91f4a240f1aa4db2806f9cc06736a836",
+    "worker-evidence-reference-fix.log": "f40f0627c7354437d535152e3e86cc2709f26dcc5fc7491b2a0fc9ffa97b58f4"
+  }
+}

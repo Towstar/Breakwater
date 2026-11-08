@@ -1,0 +1,19 @@
+test_actual_native_noaction_and_forged_horizon (test_eog_worker.EogWorkerTests.test_actual_native_noaction_and_forged_horizon) ... ok
+test_actual_native_process_and_full_trip_contract (test_eog_worker.EogWorkerTests.test_actual_native_process_and_full_trip_contract) ... ok
+test_actual_one_shot_process_stdout_is_one_bound_line (test_eog_worker.EogWorkerTests.test_actual_one_shot_process_stdout_is_one_bound_line) ... ok
+test_actual_process_malformed_oversized_and_unterminated_requests (test_eog_worker.EogWorkerTests.test_actual_process_malformed_oversized_and_unterminated_requests) ... ok
+test_capture_hash_tamper_is_not_an_empty_healthy_result (test_eog_worker.EogWorkerTests.test_capture_hash_tamper_is_not_an_empty_healthy_result) ... ok
+test_change_between_verifier_and_loader_is_rejected (test_eog_worker.EogWorkerTests.test_change_between_verifier_and_loader_is_rejected) ... ok
+test_contract_pin_rejects_unreviewed_runtime (test_eog_worker.EogWorkerTests.test_contract_pin_rejects_unreviewed_runtime) ... ok
+test_historical_future_identity_does_not_change_analysis_evidence (test_eog_worker.EogWorkerTests.test_historical_future_identity_does_not_change_analysis_evidence) ... ok
+test_missing_native_capability_is_explicit (test_eog_worker.EogWorkerTests.test_missing_native_capability_is_explicit) ... ok
+test_oversized_result_becomes_explicit_unavailable (test_eog_worker.EogWorkerTests.test_oversized_result_becomes_explicit_unavailable) ... ok
+test_protected_causal_detection_and_exact_binding (test_eog_worker.EogWorkerTests.test_protected_causal_detection_and_exact_binding) ... ok
+test_repeated_private_evidence_maps_to_unique_public_references (test_eog_worker.EogWorkerTests.test_repeated_private_evidence_maps_to_unique_public_references) ... ok
+test_runtime_only_reads_fixed_inputs_and_trusted_schemas (test_eog_worker.EogWorkerTests.test_runtime_only_reads_fixed_inputs_and_trusted_schemas) ... ok
+test_unknown_system_and_unimplemented_operations_are_explicit (test_eog_worker.EogWorkerTests.test_unknown_system_and_unimplemented_operations_are_explicit) ... ok
+
+----------------------------------------------------------------------
+Ran 14 tests in 9.616s
+
+OK

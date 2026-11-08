@@ -27,7 +27,46 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: causal detector and real-input evidence
+## Active execution checkpoint: native response provider
+
+Current A branch/worktree is `codex/person-a-eog-response` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-response`, stacked on PR #38
+head 70f7c8e. Native source freeze is `fe0da88`; final provider/reference mapping
+and qualification harness are `a41f1226fb2329ae14e5de5626ddc33488fc6294`.
+Native/science implementation only; no B-owned contract/desktop/root edits.
+
+The Qt/Python-independent native DLL evaluates complete failed-pump responses in
+elapsed seconds, checking exact deadline/trip/travel/load/cost claims, shared fleet
+occupancy and full inventory. It retains automatic shut-in as an admissible costed
+option and never restarts wells after a late pickup. The separate one-shot science
+provider implements protected `detect` / `evaluate_plan` against adopted 72cadd1.
+It verifies captured bytes twice across the boundary, uses dataset time, and
+validates responses against the actual request. See `science/EOG_RESPONSE.md`.
+
+The real official-prefix exercise reproduced duplicate private evidence references
+that made public detect responses unavailable. Worker 0.1.1 maps references uniquely;
+the initial failed responses and explicit ASan DLL dependency-load failure are
+retained under `science/evidence/eog-response/`. MSVC ASan runtime must be staged
+beside the checked DLL for Python's restricted dependency search.
+
+Final evidence: **330/330** full CPU science tests, zero skips; normal and native
+ASan **11/11** CTests each; **6,766** native response assertions per mode including
+1,200 independent randomized no-action/well-stop oracles. The initial checked DLL
+passed 143 EOG Python methods; the final corrected worker passed 14/14 with that
+checked DLL. Four official causal prefixes completed all eight actual worker
+requests (four detect/four no-action evaluation), covering nine active failures.
+Computed plan costs are not independently validated or minimum-cost claims.
+Inspection rule timing is unchanged and remains unqualified.
+
+Next A work: separately coded numerical/resource validator and bounded joint search,
+then evolving simulation/replay and extended ledgers. Search/validation explicitly
+return unavailable in this revision. The initial provider requires the complete
+current failure set; subset contexts/prior commitments remain unavailable. Existing
+inspection timing/recovery gaps remain unqualified. Lucas owns application process,
+DTO/parser/model/history/UI/packaging integration, atomic desktop capture producer,
+CI runtime configuration and shared `docs/STATUS.md`; A owns the science provider.
+
+## Previous execution checkpoint: causal detector and real-input evidence
 
 Current A branch/worktree: `codex/person-a-eog-detection` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-detection`. Base is PR #36's
@@ -73,6 +112,14 @@ and the new small numerical increment, and owns desktop/process/model/history/UI
 and shared status. Whole-application/replay/extended simulation/UI gates stay open.
 
 ## Hosted integration check checkpoint
+
+The bounded Lean retry **128717105524 completed successfully** in run 42472091130.
+The original setup failure remains retained; do not repeat the earlier "live" state.
+PR #33 remains open at f4e4c0f; exact numerical interface adoption remains 72cadd1.
+PR #37 advanced to **59ff937e110467367f106ec88636ab095da89a4b**. Lucas documents
+a finite 360 s ASan stream CTest allowance after a 37/38 hosted desktop result,
+with unchanged operational deadlines/stress counts. A has not adopted/reviewed
+that source or claimed its new hosted run green. Recheck the current head/run.
 
 PR #33 exact integration head f4e4c0f run
 https://github.com/Towstar/Breakwater/actions/runs/42472091130 is not green.
