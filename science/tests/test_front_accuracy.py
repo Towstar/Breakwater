@@ -246,6 +246,11 @@ class ObservationTests(unittest.TestCase):
         r=norm([1.,-2.,2.]);self.assertEqual(r["maximum_mg_l"],2.)
         self.assertAlmostEqual(r["mean_l1_mg_l"],5/3);self.assertAlmostEqual(r["rms_mg_l"],math.sqrt(3))
 
+    def test_norms_preserve_tiny_values_without_auxiliary_underflow(self):
+        result=norm([1e-200,0.])
+        self.assertGreater(result["rms_mg_l"],0.)
+        self.assertAlmostEqual(result["rms_mg_l"]/(1e-200/math.sqrt(2)),1.,places=14)
+
     def test_reference_floor_marks_orders_unresolved(self):
         rows=[dict(regime="front_box",study="space",cells=n,cfl_safety=.02,id=str(n),
             worst_spatial_error=dict(mean_l1_mg_l=e),reference=dict(uncertainty_estimate_mg_l=1e-12))

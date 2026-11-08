@@ -35,8 +35,10 @@ INTEGRITY = dict(reference_crosscheck_maximum_mg_l=1e-10, reference_roundoff_mul
 def norm(values):
     values = np.asarray(values, dtype=np.float64)
     require(values.size > 0 and np.isfinite(values).all(), "Norm requires finite nonempty values")
-    return dict(mean_l1_mg_l=float(np.mean(np.abs(values))),
-                rms_mg_l=float(np.sqrt(np.mean(values*values))), maximum_mg_l=float(np.max(np.abs(values))))
+    scale = float(np.max(np.abs(values)))
+    relative = np.abs(values)/scale if scale else np.zeros_like(values)
+    return dict(mean_l1_mg_l=scale*float(np.mean(relative)),
+                rms_mg_l=scale*float(np.sqrt(np.mean(relative*relative))), maximum_mg_l=scale)
 
 
 def maximum_norm(rows):
