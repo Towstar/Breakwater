@@ -1,0 +1,30 @@
+**********************************************************************
+** Visual Studio 2026 Developer PowerShell v18.11.3
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+-- Configuring done (0.4s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Projects/Breakwater/.worktrees/person-a-engine/out/headless
+[1/2] Building CXX object engine\CMakeFiles\breakwater_transport_tests.dir\tests\transport_tests.cpp.obj
+[2/2] Linking CXX executable engine\breakwater_transport_tests.exe
+Test project C:/Projects/Breakwater/.worktrees/person-a-engine/out/headless
+    Start 1: engine.benchmark_correctness
+1/8 Test #1: engine.benchmark_correctness .......   Passed    0.09 sec
+    Start 2: engine.acceptance
+2/8 Test #2: engine.acceptance ..................   Passed    0.07 sec
+    Start 3: engine.search
+3/8 Test #3: engine.search ......................   Passed    0.04 sec
+    Start 4: engine.control_influence
+4/8 Test #4: engine.control_influence ...........   Passed    0.78 sec
+    Start 5: engine.search_example
+5/8 Test #5: engine.search_example ..............   Passed    0.03 sec
+    Start 6: engine.search_infeasible_example
+6/8 Test #6: engine.search_infeasible_example ...   Passed    0.03 sec
+    Start 7: engine.transport
+7/8 Test #7: engine.transport ...................   Passed    1.82 sec
+    Start 8: engine.transport_example
+8/8 Test #8: engine.transport_example ...........   Passed    0.03 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =   2.90 sec

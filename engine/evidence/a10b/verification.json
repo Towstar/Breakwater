@@ -1,0 +1,40 @@
+{
+  "source_base": "631f783787c2b889997aabda0a24c40dae3d9576",
+  "source_state": "Only transport_tests.cpp changed from the source base; source hashes identify the checked working files.",
+  "status": "passed",
+  "recorded_utc": "2026-11-08T02:45:39.6965972Z",
+  "compiler": "MSVC 19.51.36260.0 x64 C++20 precise floating point",
+  "normal_ctest_suites": 8,
+  "asan_ctest_suites": 8,
+  "normal_transport_cases": 25,
+  "asan_transport_cases": 25,
+  "skipped": 0,
+  "sanitizer_report_observed": false,
+  "source_and_build_hashes": [
+    {
+      "path": "engine/src/transport.cpp",
+      "sha256": "b56af9674f70cf692f260fc984783f7de11d6f75013a0586fbd747637f34824e"
+    },
+    {
+      "path": "engine/tests/transport_tests.cpp",
+      "sha256": "138e423307f124b04039bd9a453a52ae6679483ed7f085c2c9ed6ba60c220798"
+    },
+    {
+      "path": "out/headless/engine/breakwater_transport_tests.exe",
+      "sha256": "d67140b25600dde98462b1a0106865c5eb284a38cc6bf6477bef849c513a7d75"
+    },
+    {
+      "path": "out/asan/engine/breakwater_transport_tests.exe",
+      "sha256": "74840984816e875762955d00b9552d07d28b8da322f25eec7aa06b26e0ef18bf"
+    },
+    {
+      "path": "out/headless/CMakeFiles/4.3.1-msvc1/CMakeCXXCompiler.cmake",
+      "sha256": "1cc2263f7b33d92b02aa2a830b6f81b2f446d21969f9e893ec39e577787c4039"
+    },
+    {
+      "path": "out/asan/CMakeCache.txt",
+      "sha256": "fd570a7e3fc636914fda145c6dc448bb7126661287b5d1eb44aa22773ac36c2c"
+    }
+  ],
+  "scope": "Finite implementation regressions. No proof of compiled nonnegativity, scheduler/IEEE error bounds, or PDE accuracy."
+}
