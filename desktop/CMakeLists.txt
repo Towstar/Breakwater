@@ -75,11 +75,14 @@ if(BUILD_TESTING)
     execute_process(COMMAND "${Python3_EXECUTABLE}" -c "import importlib.util,sys; sys.exit(0 if importlib.util.find_spec('torch') else 1)"
       RESULT_VARIABLE _breakwater_torch_probe OUTPUT_QUIET ERROR_QUIET TIMEOUT 10)
     if(_breakwater_torch_probe EQUAL 0)
-      foreach(_science_size normal compact)
+      foreach(_science_size normal compact derivatives)
         set(_science_args --science-check --smoke --science-report "${CMAKE_CURRENT_BINARY_DIR}/science-${_science_size}.json"
           --history-db "${CMAKE_CURRENT_BINARY_DIR}/science-${_science_size}.sqlite")
         if(_science_size STREQUAL "compact")
           list(APPEND _science_args --compact-ui --science-example bad)
+        elseif(_science_size STREQUAL "derivatives")
+          list(APPEND _science_args --science-derivatives
+            --science-control source:source_a:curtail --science-control route:truck_route:flow)
         endif()
         add_test(NAME desktop.storage_science_${_science_size} COMMAND breakwater ${_science_args})
         set_tests_properties(desktop.storage_science_${_science_size} PROPERTIES TIMEOUT 120

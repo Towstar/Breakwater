@@ -31,6 +31,15 @@ int main(int argc, char** argv) {
     breakwater::desktop::science::PythonWorkerClient scientificWorker;
     breakwater::desktop::science::StorageScienceController storageScience(&controller, &scientificWorker);
     const bool scienceCheck = arguments.contains("--science-check");
+    const bool scienceDerivatives = scienceCheck && arguments.contains("--science-derivatives");
+    QStringList scienceControls;
+    bool scienceControlArgumentsValid = true;
+    for (qsizetype index = 0; index < arguments.size(); ++index) {
+        if (arguments[index] != "--science-control") continue;
+        if (index + 1 >= arguments.size() || arguments[index + 1].startsWith("--") || scienceControls.contains(arguments[index + 1]))
+            scienceControlArgumentsValid = false;
+        else scienceControls.append(arguments[++index]);
+    }
     const auto scienceReportIndex = arguments.indexOf("--science-report");
     bool scienceReportFailed = false;
     const auto writeScienceReport = [&](const QJsonObject& report) {
@@ -86,7 +95,18 @@ int main(int argc, char** argv) {
     bool scienceStarted = false;
     if (scienceCheck) {
         const auto tryScience = [&] {
-            if (!scienceStarted && storageScience.canRun()) { scienceStarted = true; storageScience.run(); }
+            if (scienceStarted || !storageScience.canRun()) return;
+            scienceStarted = true;
+            if (!scienceDerivatives) { storageScience.run(); return; }
+            bool valid = scienceControlArgumentsValid && !scienceControls.isEmpty();
+            for (const auto& id : scienceControls) valid = storageScience.selectControl(id, true) && valid;
+            if (!valid || !storageScience.canRunSensitivities()) {
+                writeScienceReport({{"status", "failed"}, {"error", QJsonObject{{"code", "invalid_controls"},
+                    {"message", "Select at least one supported interior captured control for sensitivities."}}}});
+                if (arguments.contains("--smoke") || arguments.contains("--screenshot")) app.exit(scienceReportFailed ? 7 : 6);
+                return;
+            }
+            storageScience.runSensitivities();
         };
         QObject::connect(&controller, &breakwater::desktop::ProjectController::changed, &app, tryScience);
         QObject::connect(&scientificWorker, &breakwater::desktop::science::PythonWorkerClient::changed, &app, tryScience, Qt::QueuedConnection);
@@ -109,7 +129,8 @@ int main(int argc, char** argv) {
             const bool pipeDialogVisible = engine.rootObjects().front()->property("pipeTransportVisible").toBool();
             const bool scienceVisible = engine.rootObjects().front()->property("storageScienceVisible").toBool();
             const bool sciencePending = scienceCheck && (!scienceStarted || storageScience.busy() ||
-                storageScience.result().isEmpty() || !scienceVisible);
+                storageScience.result().isEmpty() || !scienceVisible ||
+                (scienceDerivatives && storageScience.result().value("analysis_mode").toString() != "sensitivities"));
             const bool evidencePending = (importIndex >= 0 && (history.busy() || history.selectedSessionId().isEmpty())) ||
                 (pipeImportIndex >= 0 && (pipeTransport.busy() || !pipeTransport.viewingImportedEvidence() ||
                     !pipeDialogVisible));
