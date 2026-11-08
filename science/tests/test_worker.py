@@ -20,7 +20,7 @@ class WorkerTests(unittest.TestCase):
         self.assertEqual(results[0]["request_id"], "check")
         self.assertEqual(results[0]["result"]["methods"], ["health"])
         self.assertEqual(results[0]["result"]["scientific_execution"], "not_implemented")
-        self.assertEqual(results[1]["error"]["code"], "not_implemented")
+        self.assertEqual(results[1]["error"]["code"], "unsupported_method")
 
     def test_malformed_requests_do_not_break_next_request(self):
         results = self.run_worker(["bad-json", "[]", '{"protocol_version":2,"request_id":"old","method":"health"}',
