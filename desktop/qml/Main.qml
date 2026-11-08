@@ -186,39 +186,44 @@ ApplicationWindow {
     }
 
     EogDatasetPanel { id: eogPanel; eog: app.eog; anchors.fill: parent; visible: app.workspace === "eog" }
-    ColumnLayout {
+    RowLayout {
         visible: app.workspace === "workbench"
-        anchors.fill: parent; spacing: 0
-        RowLayout {
-            Layout.fillWidth: true; Layout.fillHeight: true; spacing: 1
+        anchors.fill: parent; spacing: 1
             Rectangle {
-                Layout.preferredWidth: 208; Layout.fillHeight: true; color: Theme.surface
+                Layout.preferredWidth: 208; Layout.minimumWidth: 208; Layout.maximumWidth: 208
+                Layout.fillHeight: true; color: Theme.surface
                 ColumnLayout {
-                    anchors.fill: parent; anchors.margins: 12; spacing: 8
-                    ScrollView {
-                        id: equipmentScroll
-                        Layout.fillWidth: true; Layout.fillHeight: true
-                        contentWidth: availableWidth; clip: true
-                        ColumnLayout {
-                            width: equipmentScroll.availableWidth; spacing: 8
-                    Label { text: "EQUIPMENT"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.4; font.bold: true; color: Theme.secondary }
-                    Label { text: "Drag into the scene\nor click to add."; font.pixelSize: Theme.smallSize; color: Theme.muted }
-                    Repeater {
+                    anchors.fill: parent; anchors.margins: 12; spacing: 6
+                    RowLayout {
+                        Layout.fillWidth: true; spacing: 6
+                        Label { text: "EQUIPMENT"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.2; font.bold: true; color: Theme.secondary }
+                        Label { Layout.fillWidth: true; text: "click / drag"; horizontalAlignment: Text.AlignRight; font.pixelSize: Theme.captionSize; color: Theme.muted }
+                    }
+                    GridLayout {
+                        objectName: "equipmentGrid"
+                        Layout.fillWidth: true; columns: 3; columnSpacing: 6; rowSpacing: 6
+                        Repeater {
                         model: [{kind:"tank", label:"Storage tank"}, {kind:"source",label:"Production source"}, {kind:"treatment",label:"Treatment"}, {kind:"trucking",label:"Tanker outlet"}, {kind:"pump",label:"Pump on route"}]
                         delegate: Rectangle {
                             required property var modelData
-                            Layout.fillWidth: true; implicitHeight: 38; radius: Theme.cornerRadius; color: paletteMouse.containsMouse ? Theme.hover : Theme.raised
+                            objectName: "equipmentTool_" + modelData.kind
+                            Layout.fillWidth: true; Layout.minimumWidth: 0; Layout.preferredWidth: 54; Layout.preferredHeight: 44
+                            implicitWidth: 54; implicitHeight: 44; radius: Theme.cornerRadius; color: paletteMouse.containsMouse ? Theme.hover : Theme.raised
                             border.color: activeFocus ? Theme.text : paletteMouse.containsMouse ? Theme.controlBorder : Theme.divider
                             border.width: 1
                             activeFocusOnTab: true
                             Accessible.role: Accessible.Button
                             Accessible.name: modelData.label
+                            Accessible.description: modelData.kind === "pump" ? "Attach to the selected route, or drag onto a route." : "Click or press Space or Return to add, or drag into the scene."
+                            ToolTip.visible: paletteMouse.containsMouse || activeFocus
+                            ToolTip.delay: activeFocus ? 0 : 450
+                            ToolTip.text: modelData.label
                             Keys.onSpacePressed: { if (modelData.kind === "pump") controller.attachPump(controller.selectedId); else controller.addAsset(modelData.kind, 0, 0) }
                             Keys.onReturnPressed: { if (modelData.kind === "pump") controller.attachPump(controller.selectedId); else controller.addAsset(modelData.kind, 0, 0) }
-                            RowLayout {
-                                anchors.fill: parent; anchors.leftMargin: 10; anchors.rightMargin: 8; spacing: 9
-                                Image { source: Theme.icon(({tank:"cylinder",source:"waves",treatment:"factory",trucking:"truck",pump:"gauge"})[modelData.kind]); sourceSize.width: 18; sourceSize.height: 18; Layout.preferredWidth: 18; Layout.preferredHeight: 18; fillMode: Image.PreserveAspectFit; Accessible.ignored: true }
-                                Label { Layout.fillWidth: true; text: modelData.label; textFormat: Text.PlainText; font.pixelSize: Theme.smallSize; color: Theme.text }
+                            Image {
+                                anchors.centerIn: parent; width: 22; height: 22
+                                source: Theme.icon(({tank:"cylinder",source:"waves",treatment:"factory",trucking:"truck",pump:"gauge"})[modelData.kind])
+                                sourceSize.width: 22; sourceSize.height: 22; fillMode: Image.PreserveAspectFit; Accessible.ignored: true
                             }
                             MouseArea {
                                 id: paletteMouse
@@ -245,26 +250,43 @@ ApplicationWindow {
                                 onCanceled: { ghost.Drag.active = false; ghost.visible = false }
                             }
                         }
+                        }
+                        ActionButton {
+                            objectName: "equipmentTool_connect"
+                            iconName: app.connectMode ? "x" : "link-2"
+                            Layout.fillWidth: true; Layout.minimumWidth: 0; Layout.preferredWidth: 54; Layout.preferredHeight: 44
+                            display: AbstractButton.IconOnly; icon.width: 22; icon.height: 22
+                            text: app.connectMode ? "Cancel connection" : "Connect equipment"
+                            tooltip: text; checked: app.connectMode
+                            onClicked: { app.connectMode = !app.connectMode; app.connectionSource = "" }
+                        }
                     }
-                    ActionButton {
-                        iconName: app.connectMode ? "x" : "link-2"
-                        Layout.fillWidth: true; text: app.connectMode ? "Cancel connection" : "Connect equipment"
-                        checked: app.connectMode
-                        onClicked: { app.connectMode = !app.connectMode; app.connectionSource = "" }
-                    }
-                    Label { text: "NETWORK"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.4; font.bold: true; color: Theme.secondary; Layout.topMargin: 10 }
+                    Label { text: "NETWORK"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.4; font.bold: true; color: Theme.secondary }
                     ListView {
-                        Layout.fillWidth: true; Layout.preferredHeight: 160; clip: true; spacing: 4
+                        id: networkAssetList
+                        objectName: "networkAssetList"
+                        Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 48
+                        clip: true; spacing: 4; boundsBehavior: Flickable.StopAtBounds
+                        flickableDirection: Flickable.VerticalFlick
                         model: controller.assets
                         delegate: ItemDelegate {
                             required property var modelData
-                            width: ListView.view.width
+                            width: ListView.view.width - networkScrollBar.width - 4
                             text: modelData.label; highlighted: modelData.selected
                             background: Rectangle { color: modelData.selected ? Theme.selected : parent.hovered ? Theme.hover : "transparent"; Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: 3; color: Theme.text; visible: modelData.selected } }
                             contentItem: Label { text: parent.text; textFormat: Text.PlainText; elide: Text.ElideRight; verticalAlignment: Text.AlignVCenter; color: Theme.text; font.pixelSize: Theme.smallSize }
                             onClicked: app.clickAsset(modelData.id)
                         }
-                    }
+                        ScrollBar.vertical: ScrollBar {
+                            id: networkScrollBar
+                            objectName: "networkScrollBar"
+                            policy: ScrollBar.AlwaysOn; active: true; interactive: true
+                            width: 12; padding: 2; minimumSize: 0.12
+                            background: Rectangle { color: Theme.background; border.color: Theme.divider; radius: 4 }
+                            contentItem: Rectangle {
+                                implicitWidth: 8; implicitHeight: 32; radius: 3
+                                color: networkScrollBar.pressed ? Theme.text : networkScrollBar.hovered ? Theme.secondary : Theme.controlBorder
+                            }
                         }
                     }
                     ActionButton { Layout.fillWidth: true; iconName: "workflow"; text: "Nemotron investigator"; checked: app.showAgent; onClicked: app.showAgent = !app.showAgent }
@@ -275,6 +297,10 @@ ApplicationWindow {
                 }
             }
 
+        ColumnLayout {
+            Layout.fillWidth: true; Layout.fillHeight: true; spacing: 0
+            RowLayout {
+                Layout.fillWidth: true; Layout.fillHeight: true; spacing: 1
             Item {
                 id: scenePanel
                 Layout.fillWidth: true; Layout.fillHeight: true
@@ -504,6 +530,7 @@ ApplicationWindow {
                     Label { text: controller.runId.length > 0 ? controller.forecastHorizonH.toFixed(3) + " h" : "No executed horizon"; color: Theme.secondary; font.pixelSize: Theme.smallSize }
                 }
             }
+        }
         }
     }
     Rectangle {
