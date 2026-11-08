@@ -1,0 +1,117 @@
+{
+  "integration_revision": "e67c096f81520ac488224e2268f17a3b6cea795b",
+  "main_revision": "2bd7bb9e13f1f6788a57c4c49e6d7570293ad0eb",
+  "g1_revision": "f12a82701641f1b4fd3af9ebba579b79f1db3db4",
+  "modes": {
+    "normal": {
+      "registered": [
+        "contracts.telemetry",
+        "desktop.agent_gateway",
+        "desktop.agent_orchestrator",
+        "desktop.agent_science",
+        "desktop.history_controller",
+        "desktop.nemotron_client",
+        "desktop.pipe_evidence_smoke",
+        "desktop.pipe_parameters",
+        "desktop.pipe_transport",
+        "desktop.pipe_transport_evidence",
+        "desktop.project",
+        "desktop.python_worker",
+        "desktop.qml_smoke",
+        "desktop.science_evidence",
+        "desktop.scientific_history_compact",
+        "desktop.scientific_history_normal",
+        "desktop.session_repository",
+        "desktop.source_feed_qml",
+        "desktop.storage_science",
+        "desktop.storage_science_compact",
+        "desktop.storage_science_derivatives",
+        "desktop.storage_science_normal",
+        "desktop.storage_worker",
+        "desktop.telemetry_contracts",
+        "engine.acceptance",
+        "engine.benchmark_correctness",
+        "engine.control_influence",
+        "engine.search",
+        "engine.search_example",
+        "engine.search_infeasible_example",
+        "engine.source_feeds",
+        "engine.transport",
+        "engine.transport_example"
+      ],
+      "new_targets_passed": [
+        "contracts.telemetry",
+        "desktop.telemetry_contracts"
+      ],
+      "passing_target_coverage": 33,
+      "logged_qt_passes": 580,
+      "skipped": 0,
+      "raw_sha256": {
+        "out/connection-repro/attempt-34-g1-normal-reconciliation/build.log": "92a2fffad6f5852ba148f25b0dad6a03bfc84becf203c0d02978525893310ec8",
+        "out/connection-repro/attempt-34-g1-normal-reconciliation/tests.log": "0b0e61ca59a52f94caca039b0b6d6d2e82b9f8b8c274bcfc89cd8e737a40d306",
+        "out/connection-repro/desktop-normal/desktop/telemetry_contracts-results.txt": "26c36161aa548d831c0ae7151971725c170f71972bcd4d2efe66c499d2fae23a"
+      },
+      "native_comparator_sha256": "acf2271f8a64dc6761979af67baa73e69a4793e3aacf3bbace6ae94ade4ed472"
+    },
+    "asan": {
+      "registered": [
+        "contracts.telemetry",
+        "desktop.agent_gateway",
+        "desktop.agent_orchestrator",
+        "desktop.agent_science",
+        "desktop.history_controller",
+        "desktop.nemotron_client",
+        "desktop.pipe_evidence_smoke",
+        "desktop.pipe_parameters",
+        "desktop.pipe_transport",
+        "desktop.pipe_transport_evidence",
+        "desktop.project",
+        "desktop.python_worker",
+        "desktop.qml_smoke",
+        "desktop.science_evidence",
+        "desktop.scientific_history_compact",
+        "desktop.scientific_history_normal",
+        "desktop.session_repository",
+        "desktop.source_feed_qml",
+        "desktop.storage_science",
+        "desktop.storage_science_compact",
+        "desktop.storage_science_derivatives",
+        "desktop.storage_science_normal",
+        "desktop.storage_worker",
+        "desktop.telemetry_contracts",
+        "engine.acceptance",
+        "engine.benchmark_correctness",
+        "engine.control_influence",
+        "engine.search",
+        "engine.search_example",
+        "engine.search_infeasible_example",
+        "engine.source_feeds",
+        "engine.transport",
+        "engine.transport_example"
+      ],
+      "new_targets_passed": [
+        "contracts.telemetry",
+        "desktop.telemetry_contracts"
+      ],
+      "passing_target_coverage": 33,
+      "logged_qt_passes": 580,
+      "skipped": 0,
+      "raw_sha256": {
+        "out/connection-repro/attempt-35-g1-asan-reconciliation/build.log": "61c2344dbe7c5e38988926e12847cb6759a47090f79fa8d74c3c267d348c3307",
+        "out/connection-repro/attempt-35-g1-asan-reconciliation/tests.log": "4e858a0311225df8f9c72bb337b329d698131124d1dfbad9710bdb00f2af7c7e",
+        "out/connection-repro/desktop-asan/desktop/telemetry_contracts-results.txt": "3ccf39521b7f49591e62223de3c90f739bc5f10e688c708a07e4396793f2742d"
+      },
+      "native_comparator_sha256": "ef71cb336dd9124da9b7c2175acd1291011cbff17976ce0e27448b5a00806e96"
+    }
+  },
+  "source_feed_runtime_scopes_unchanged_since_675e926": [
+    "engine",
+    "science/breakwater_science",
+    "science/worker.py",
+    "science/worker_storage.py",
+    "desktop/ProjectDocument.cpp",
+    "desktop/ProjectController.cpp",
+    "desktop/science",
+    "desktop/qml"
+  ]
+}

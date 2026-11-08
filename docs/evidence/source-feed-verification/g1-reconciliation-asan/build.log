@@ -1,0 +1,24 @@
+[0/1] Re-running CMake...
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR)
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR)
+-- Configuring done (22.5s)
+-- Generating done (2.7s)
+-- Build files have been written to: C:/Projects/Breakwater/.worktrees/feed-connection/out/connection-repro/desktop-asan
+[1/22] Automatic MOC and UIC for target breakwater_desktop_base
+[2/20] Running qmlimportscanner for breakwater_telemetry_contract_tests
+[3/20] Running qmlimportscanner for breakwater_telemetry_contract_check
+[4/20] Running AUTOMOC file extraction for target breakwater_desktop_base
+[5/19] Automatic MOC and UIC for target breakwater_telemetry
+[6/19] Running AUTOMOC file extraction for target breakwater_telemetry
+[7/19] Running moc --collect-json for target breakwater_telemetry
+[8/19] Building CXX object desktop\CMakeFiles\breakwater_telemetry.dir\breakwater_telemetry_autogen\mocs_compilation.cpp.obj
+[9/19] Building CXX object desktop\CMakeFiles\breakwater_telemetry.dir\telemetry\TelemetryContracts.cpp.obj
+[10/19] Linking CXX static library desktop\breakwater_telemetry.lib
+[11/19] Automatic MOC and UIC for target breakwater_telemetry_contract_check
+[12/19] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_check.dir\breakwater_telemetry_contract_check_autogen\mocs_compilation.cpp.obj
+[13/19] Automatic MOC and UIC for target breakwater_telemetry_contract_tests
+[14/19] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_tests.dir\breakwater_telemetry_contract_tests_autogen\mocs_compilation.cpp.obj
+[15/19] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_check.dir\tests\telemetry_contract_check.cpp.obj
+[16/19] Linking CXX executable desktop\breakwater_telemetry_contract_check.exe
+[17/19] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_tests.dir\tests\telemetry_contract_tests.cpp.obj
+[18/19] Linking CXX executable desktop\breakwater_telemetry_contract_tests.exe

@@ -1,0 +1,34 @@
+ninja: warning: premature end of file; recovering
+[0/1] Re-running CMake...
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR)
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR)
+-- Configuring done (22.5s)
+-- Generating done (2.6s)
+-- Build files have been written to: C:/Projects/Breakwater/.worktrees/feed-connection/out/connection-repro/desktop-normal
+ninja: warning: premature end of file; recovering
+[1/28] Running qmlimportscanner for breakwater_telemetry_contract_tests
+[2/28] Running qmlimportscanner for breakwater_telemetry_contract_check
+[3/28] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[4/28] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[5/28] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[6/28] Linking CXX static library engine\breakwater_engine.lib
+[7/28] Automatic MOC and UIC for target breakwater_desktop_base
+[8/28] Running AUTOMOC file extraction for target breakwater_desktop_base
+[9/27] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectDocument.cpp.obj
+[10/27] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\breakwater_desktop_base_autogen\mocs_compilation.cpp.obj
+[11/27] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectController.cpp.obj
+[12/27] Linking CXX static library desktop\breakwater_desktop_base.lib
+[13/27] Automatic MOC and UIC for target breakwater_telemetry
+[14/27] Running AUTOMOC file extraction for target breakwater_telemetry
+[15/27] Running moc --collect-json for target breakwater_telemetry
+[16/27] Building CXX object desktop\CMakeFiles\breakwater_telemetry.dir\breakwater_telemetry_autogen\mocs_compilation.cpp.obj
+[17/27] Building CXX object desktop\CMakeFiles\breakwater_telemetry.dir\telemetry\TelemetryContracts.cpp.obj
+[18/27] Linking CXX static library desktop\breakwater_telemetry.lib
+[19/27] Automatic MOC and UIC for target breakwater_telemetry_contract_check
+[20/27] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_check.dir\breakwater_telemetry_contract_check_autogen\mocs_compilation.cpp.obj
+[21/27] Automatic MOC and UIC for target breakwater_telemetry_contract_tests
+[22/27] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_tests.dir\breakwater_telemetry_contract_tests_autogen\mocs_compilation.cpp.obj
+[23/27] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_check.dir\tests\telemetry_contract_check.cpp.obj
+[24/27] Linking CXX executable desktop\breakwater_telemetry_contract_check.exe
+[25/27] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_tests.dir\tests\telemetry_contract_tests.cpp.obj
+[26/27] Linking CXX executable desktop\breakwater_telemetry_contract_tests.exe

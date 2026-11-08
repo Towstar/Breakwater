@@ -79,8 +79,8 @@ cost errors are zero. Analytical-gradient error is at most **2.22045e-16**, and 
 largest error over the three central-difference sizes is **5.68071e-9** under the
 existing `1e-6 + 1e-4*max(...)` gradient tolerance. Legacy comparison maximum volume
 error is **7.67387e-13 m³**. Installed worker maximum error is **4.54748e-13 m³**.
-Signed conservation and independent forged-result checks remain enabled; ledger
-residuals, full metrics and provenance are in the two numerical evidence JSON files.
+Conservation and independent forged-result checks remain enabled; maximum absolute
+storage residuals, full metrics and provenance are in the numerical evidence files.
 
 Tests reject malformed/incorrect integer totals, duplicate destinations, source
 pumps/unavailability, capacities exceeded by any branch, unsupported tank-route
@@ -138,6 +138,27 @@ locally tested feature for review, not a clean-machine or application-wide quali
 guarantee. Existing F1/F1b failed accuracy targets and original proof scope remain.
 
 ## Reproduction
+
+### Reconciliation after G1 merged
+
+PR #31 subsequently merged into main at `2bd7bb9`. The feature reconciled it in
+**e67c096f81520ac488224e2268f17a3b6cea795b**, preserving both status/evidence
+histories. G1's schemas, DTOs, validators, guidance and handoffs were retained.
+The source-feed runtime scopes are unchanged from `675e926`.
+
+The two additional telemetry targets passed in the reconciled normal and ASan
+builds: **2/2** in 5.53/63.84 s, including **164 Qt cases** and **19 Python/native
+contract methods**, with no skips or sanitizer finding. Registration now contains
+**33 targets** per build; all have passing coverage across the complete attempts,
+final affected reruns and these two reconciled targets. The final logged Qt total
+is **580** per build. A fresh unrestricted 33-target run was not repeated.
+[Reconciliation evidence](evidence/source-feed-verification/g1-reconciliation.json)
+records exact names, source-scope checks, logs and executable hashes.
+
+```powershell
+cmake --build out/connection-repro/desktop-normal --target breakwater_telemetry_contract_tests breakwater_telemetry_contract_check --parallel 4
+ctest --test-dir out/connection-repro/desktop-normal --output-on-failure -R '^(desktop.telemetry_contracts|contracts.telemetry)$'
+```
 
 Run from the isolated feature worktree. Use a fresh output directory for each
 verification attempt and retain failures.

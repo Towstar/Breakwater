@@ -8,6 +8,8 @@ Fresh isolated normal contract/project checks passed 3/3, including 164 Qt telem
 cases with no skips. [A's adoption record](../science/G1_CONTRACT_ADOPTION.md)
 keeps the interface acceptance distinct from future numerical mapping and G2.
 B can adopt that same revision independently of the source-feed fix and PR #30.
+PR #31 is now merged into main at `2bd7bb9`; the feature worktree reconciles that
+accepted G1 implementation without modifying its interfaces.
 
 ## Explicit source-feed allocations — verified for review
 
@@ -38,6 +40,11 @@ B can adopt that same revision independently of the source-feed fix and PR #30.
   running application and user installation were not replaced.
 - Failed attempts and raw local logs remain under `out/connection-repro/`; the
   continuation note there is intentionally excluded from version control.
+- After G1 reconciliation, **33 targets** are registered per build. The added
+  telemetry targets pass **2/2** normal/ASan with 164 Qt cases and 19 Python/native
+  contract methods, zero skips. All 33 have passing coverage across the retained
+  attempts/reruns; the final logged Qt total is 580 per mode. See the report's
+  reconciliation addendum; no unrestricted 33-target rerun is claimed.
 
 ## G1 telemetry interfaces and acceptance checks — November 8, 2026
 
