@@ -59,7 +59,7 @@ target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_DEVELOPMENT_BIN_D
 qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
 
-qt_add_executable(breakwater WIN32 main.cpp)
+qt_add_executable(breakwater WIN32 main.cpp verification/WorkbenchUiCheck.hpp verification/WorkbenchUiCheck.cpp)
 find_package(Qt6 6.12 REQUIRED COMPONENTS Svg)
 target_link_libraries(breakwater PRIVATE breakwater_agent breakwater_telemetry_runtime breakwater_eog_workflow Qt6::QuickControls2 Qt6::Quick3D)
 target_link_libraries(breakwater PRIVATE Qt6::Svg)
@@ -92,6 +92,16 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
 endif()
 
 if(BUILD_TESTING)
+  foreach(_ui_size normal compact)
+    set(_ui_args --workspace workbench --ui-overhaul-check)
+    if(_ui_size STREQUAL "compact")
+      list(APPEND _ui_args --compact-ui)
+    endif()
+    add_test(NAME desktop.ui_overhaul_${_ui_size} COMMAND breakwater ${_ui_args})
+    set_tests_properties(desktop.ui_overhaul_${_ui_size} PROPERTIES TIMEOUT 45
+      ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1"
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endforeach()
   qt_add_executable(breakwater_desktop_tests tests/project_tests.cpp)
   target_link_libraries(breakwater_desktop_tests PRIVATE breakwater_desktop_base Qt6::Test)
   target_compile_definitions(breakwater_desktop_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")

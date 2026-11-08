@@ -120,7 +120,16 @@ ApplicationWindow {
     }
     Shortcut { sequence: StandardKey.Undo; enabled: app.workspace === "workbench"; onActivated: controller.undo() }
     Shortcut { sequence: StandardKey.Redo; enabled: app.workspace === "workbench"; onActivated: controller.redo() }
-    Shortcut { sequence: "Escape"; onActivated: { app.connectMode = false; app.connectionSource = "" } }
+    Shortcut {
+        sequence: "Escape"
+        onActivated: {
+            if (actionNotice.visible && actionNotice.ownsFocus(app.activeFocusItem)) actionNotice.dismiss()
+            else {
+                app.connectMode = false; app.connectionSource = ""
+                if (actionNotice.visible) actionNotice.dismiss()
+            }
+        }
+    }
 
     FileDialog { id: openDialog; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.load(selectedFile) }
     FileDialog { id: saveDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.save(selectedFile) }
@@ -426,12 +435,22 @@ ApplicationWindow {
                                 Label { text: modelData.name; color: numericRow.rejection.message ? Theme.error : Theme.secondary; font.pixelSize: Theme.smallSize }
                                 TextField {
                                     objectName: "numericProperty_" + numericRow.modelData.key
+                                    property bool pendingUserCommit: false
                                     Layout.fillWidth: true
                                     text: String(controller.selected[numericRow.modelData.key] ?? "")
                                     inputMethodHints: Qt.ImhFormattedNumbersOnly
                                     Accessible.name: numericRow.modelData.name
                                     Accessible.description: numericRow.rejection.message || ""
-                                    onEditingFinished: app.commitNumericField(numericRow.modelData.key, text)
+                                    onTextEdited: pendingUserCommit = true
+                                    // Preserve native Return handling, but distinguish an
+                                    // explicit retry from focus leaving after that commit.
+                                    Keys.onReturnPressed: function(event) { pendingUserCommit = true; event.accepted = false }
+                                    Keys.onEnterPressed: function(event) { pendingUserCommit = true; event.accepted = false }
+                                    onEditingFinished: {
+                                        if (!pendingUserCommit) return
+                                        pendingUserCommit = false
+                                        app.commitNumericField(numericRow.modelData.key, text)
+                                    }
                                 }
                                 Label {
                                     objectName: "numericRejection_" + numericRow.modelData.key

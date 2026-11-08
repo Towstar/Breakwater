@@ -19,10 +19,12 @@
 #include <memory>
 
 namespace {
-constexpr auto cyan = "#5cdbd1";
-constexpr auto amber = "#e5bd72";
-constexpr auto capacityColor = "#8399a5";
-constexpr auto shutdownColor = "#ed8181";
+constexpr auto candidateColor = "#F3F3F3";
+constexpr auto baselineColor = "#A6AFB8";
+constexpr auto capacityColor = "#68727D";
+constexpr auto shutdownColor = "#EB8585";
+constexpr auto backgroundColor = "#15181B";
+constexpr auto axisColor = "#414950";
 
 QJsonArray numbers(std::initializer_list<double> values) {
     QJsonArray result;
@@ -42,25 +44,41 @@ struct Ink {
     QRect bounds;
     int maximumColumnPixels = 0;
 };
-// These assertions inspect actual rendered ink, not a second copy of the chart's
-// coordinate formulas. The Canvas crop excludes the legend's identical colors.
-Ink ink(const QImage& canvas, const char* color) {
-    const QColor target(QString::fromLatin1(color));
-    const QColor background("#0b1822");
+// Inspect the actual painted chart, not a duplicate of its coordinate formulas.
+// White/gray must not be classified by hue alone: a dark gray can lie on the
+// anti-alias blend from white to graphite. Trajectories require near-opaque cores
+// plus a tight channel residual; boundary guides additionally need a long row.
+bool matchesInk(QColor actual, QColor target, double minimumCoverage) {
+    const QColor background(QString::fromLatin1(backgroundColor));
     const double tr = target.red() - background.red(), tg = target.green() - background.green(),
         tb = target.blue() - background.blue(), norm = tr * tr + tg * tg + tb * tb;
+    const double ar = actual.red() - background.red(), ag = actual.green() - background.green(),
+        ab = actual.blue() - background.blue(), coverage = (ar * tr + ag * tg + ab * tb) / norm;
+    return actual.alpha() >= 220 && coverage >= minimumCoverage && coverage <= 1.02 &&
+        std::abs(ar - coverage * tr) <= 2.5 && std::abs(ag - coverage * tg) <= 2.5 &&
+        std::abs(ab - coverage * tb) <= 2.5;
+}
+int plotBottom(const QImage& canvas) {
+    // Discover the real horizontal time axis from rendered ink. Do not copy the
+    // QML's margins. This excludes gray tick-label antialiasing from series ink.
+    const QColor axis(QString::fromLatin1(axisColor));
+    int bottom = 0;
+    for (int y = 0; y < canvas.height(); ++y) {
+        int count = 0;
+        for (int x = canvas.width() * 15 / 100; x < canvas.width(); ++x)
+            if (matchesInk(canvas.pixelColor(x, y), axis, 0.35)) ++count;
+        if (count > canvas.width() / 2) bottom = y;
+    }
+    return bottom;
+}
+Ink ink(const QImage& canvas, const char* color) {
+    const QColor target(QString::fromLatin1(color));
+    const int bottom = plotBottom(canvas);
     Ink result;
-    // Ignore the left-hand tick labels/axis, and tolerate normal anti-aliasing
-    // against the Canvas background (one-pixel guides need not have opaque ink).
     for (int x = canvas.width() * 15 / 100; x < canvas.width(); ++x) {
         int column = 0;
-        for (int y = 0; y < canvas.height(); ++y) {
-            const auto actual = canvas.pixelColor(x, y);
-            const double ar = actual.red() - background.red(), ag = actual.green() - background.green(),
-                ab = actual.blue() - background.blue(), coverage = (ar * tr + ag * tg + ab * tb) / norm;
-            if (actual.alpha() < 220 || coverage < 0.35 || coverage > 1.05 ||
-                std::abs(ar - coverage * tr) > 10 || std::abs(ag - coverage * tg) > 10 ||
-                std::abs(ab - coverage * tb) > 10) continue;
+        for (int y = 0; y < bottom; ++y) {
+            if (!matchesInk(canvas.pixelColor(x, y), target, 0.90)) continue;
             ++result.pixels; ++column;
             result.bounds = result.bounds.united(QRect(x, y, 1, 1));
         }
@@ -69,10 +87,28 @@ Ink ink(const QImage& canvas, const char* color) {
     return result;
 }
 Ink guideInk(const QImage& canvas, const char* color) {
-    // The retained positive boundaries in these fixtures are above the bottom
-    // quarter. Excluding that quarter prevents the gray time axis from passing
-    // a missing-capacity-guide assertion.
-    return ink(canvas.copy(0, 0, canvas.width(), canvas.height() * 3 / 4), color);
+    // Positive boundaries in these fixtures are above the bottom quarter. The
+    // crop excludes the actual time axis. A half-width row plus a continuous
+    // quarter-width run rejects dashed-reference fringe pixels, even when their
+    // antialias shade resembles capacity gray. The fixtures' boundary runs stay
+    // long on either side of their few actual trajectory crossings.
+    const QColor target(QString::fromLatin1(color));
+    Ink result;
+    for (int y = 0; y < canvas.height() * 3 / 4; ++y) {
+        QList<int> row;
+        int run = 0, longest = 0;
+        for (int x = canvas.width() * 15 / 100; x < canvas.width(); ++x) {
+            if (matchesInk(canvas.pixelColor(x, y), target, 0.35)) {
+                row.append(x); longest = std::max(longest, ++run);
+            } else run = 0;
+        }
+        if (row.size() <= canvas.width() / 2 || longest <= canvas.width() / 4) continue;
+        for (const int x : row) {
+            ++result.pixels;
+            result.bounds = result.bounds.united(QRect(x, y, 1, 1));
+        }
+    }
+    return result;
 }
 
 class RenderedChart {
@@ -134,7 +170,7 @@ public:
 };
 
 bool retained(const QImage& image) {
-    return ink(image, cyan).pixels > 100 && ink(image, amber).pixels > 100 &&
+    return ink(image, candidateColor).pixels > 100 && ink(image, baselineColor).pixels > 100 &&
         guideInk(image, capacityColor).pixels > 100 && guideInk(image, shutdownColor).pixels > 100;
 }
 bool save(const QImage& image, const QString& name) {
@@ -174,7 +210,7 @@ private slots:
         QVERIFY2(chart.warnings.isEmpty(), qPrintable(chart.warnings.join('\n')));
         const auto name = QString::fromLatin1(QTest::currentDataTag());
         QVERIFY(save(image, name));
-        const auto candidateInk = ink(image, cyan), baselineInk = ink(image, amber), capacityInk = guideInk(image, capacityColor);
+        const auto candidateInk = ink(image, candidateColor), baselineInk = ink(image, baselineColor), capacityInk = guideInk(image, capacityColor);
         QVERIFY(candidateInk.bounds.width() > image.width() / 2);
         QVERIFY(baselineInk.bounds.width() > image.width() / 2);
         // Actual above-capacity and negative values remain visible on the correct
@@ -195,7 +231,7 @@ private slots:
         QVERIFY2(!image.isNull(), qPrintable(chart.error + chart.warnings.join('\n')));
         QVERIFY2(chart.warnings.isEmpty(), qPrintable(chart.warnings.join('\n')));
         QVERIFY(save(image, "duplicate-time-truck-step"));
-        const auto candidateInk = ink(image, cyan);
+        const auto candidateInk = ink(image, candidateColor);
         QVERIFY2(candidateInk.maximumColumnPixels > image.height() / 3,
             "A simultaneous before/after truck arrival must retain its vertical volume step.");
     }
@@ -208,7 +244,7 @@ private slots:
         QVERIFY2(!image.isNull(), qPrintable(chart.error)); QVERIFY(save(image, "compatible-overlay"));
         QVERIFY(chart.root->setProperty("compatible", false));
         image = chart.grab([](const QImage& pixels) {
-            return ink(pixels, amber).pixels == 0 && ink(pixels, cyan).pixels > 100 &&
+            return ink(pixels, baselineColor).pixels == 0 && ink(pixels, candidateColor).pixels > 100 &&
                 guideInk(pixels, capacityColor).pixels > 100 && guideInk(pixels, shutdownColor).pixels > 100;
         });
         QVERIFY2(!image.isNull(), qPrintable(chart.error + chart.warnings.join('\n')));
@@ -231,7 +267,7 @@ private slots:
         QVERIFY(chart.root->setProperty("candidate", QJsonObject{{"trajectories", QJsonArray{b, a}}}.toVariantMap()));
         QTRY_COMPARE(selector->property("currentText").toString(), QStringLiteral("FAC:original-B"));
         QCOMPARE(chart.root->property("facilityId").toString(), QStringLiteral("FAC:original-B"));
-        const auto image = chart.grab([](const QImage& pixels) { return ink(pixels, cyan).pixels > 100; });
+        const auto image = chart.grab([](const QImage& pixels) { return ink(pixels, candidateColor).pixels > 100; });
         QVERIFY2(!image.isNull(), qPrintable(chart.error + chart.warnings.join('\n')));
         QVERIFY2(chart.warnings.isEmpty(), qPrintable(chart.warnings.join('\n')));
         QVERIFY(save(image, "raw-facility-selection"));

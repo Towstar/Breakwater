@@ -22,6 +22,13 @@ Frame {
         noticeVisible = !!(feedback.title || feedback.message)
     }
     function dismiss() { noticeVisible = false; dismissed() }
+    function ownsFocus(item) {
+        while (item) {
+            if (item === card) return true
+            item = item.parent
+        }
+        return false
+    }
     function recoveryText() {
         const action = feedback.recovery_action
         if (action === "show_issues" || action === "view_issues") return "Review Network issues in the properties panel."
