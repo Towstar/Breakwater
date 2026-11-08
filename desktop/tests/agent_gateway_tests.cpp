@@ -44,6 +44,42 @@ QJsonArray canonicalSearchAxes() {
 class AgentGatewayTests : public QObject {
     Q_OBJECT
 private slots:
+    void exactRequestedHorizonRejectsTailOverflowInPlanningTools() {
+        const double flow = std::ldexp(1.0, 50), horizon = 0.9000000000000001;
+        Network network;
+        network.assets = {{"tank", "Tank", AssetKind::tank, 0.9 * flow, 0.0},
+            {"source", "Source", AssetKind::source, 0.0, 0.0, flow}};
+        network.routes = {{"feed", "source", "tank", flow, flow}};
+        SimulationGateway gateway(network, "exact-horizon-tail", horizon);
+        inspect(gateway);
+        const auto baseline = gateway.execute("forecast_baseline", args(gateway));
+        QVERIFY(baseline["ok"].toBool());
+        const auto run = baseline["run"].toObject();
+        QCOMPARE(run["solver_version"].toString(), QStringLiteral("constant-flow-0.1.1"));
+        const auto details = gateway.runDetails(run["run_id"].toString());
+        QCOMPARE(details["time_h"].toArray().last().toDouble(), horizon);
+        QCOMPARE(details["volumes_m3"].toArray().first().toArray().last().toDouble(), 0.9 * flow + 0.125);
+        const auto validation = validateCase(gateway, run);
+        QVERIFY(validation["ok"].toBool());
+        const auto report = validation["run"].toObject()["validation"].toObject();
+        QVERIFY(report.contains("feasible")); QVERIFY(!report["feasible"].toBool());
+        QVERIFY(!report["violations"].toArray().isEmpty());
+        QCOMPARE(errorCode(gateway.execute("request_approval", args(gateway, {{"run_id", run["run_id"]}}))), "infeasible_run");
+        const auto search = gateway.execute("search_interventions", args(gateway, {{"axes", QJsonArray{}}}));
+        QVERIFY(search["ok"].toBool());
+        QCOMPARE(search["search_status"].toString(), "no_feasible_plan_found");
+        QVERIFY(search["run_ids"].toArray().isEmpty());
+        QVERIFY(!gateway.stagedPlan()["ok"].toBool());
+    }
+    void overflowingCatalogPricesReturnErrorsWithoutStaging() {
+        auto network = canonical_scenario();
+        for (auto& asset : network.assets) if (asset.id == "trucking") asset.cost_per_m3 = std::numeric_limits<double>::max();
+        for (auto& route : network.routes) if (route.id == "truck_route") route.cost_per_m3 = std::numeric_limits<double>::max();
+        SimulationGateway gateway(network, "unrepresentable-unit-price");
+        QCOMPARE(errorCode(gateway.execute("get_control_catalog", {})), "engine_rejected");
+        QCOMPARE(errorCode(gateway.execute("forecast_baseline", args(gateway))), "engine_rejected");
+        QVERIFY(gateway.runs().isEmpty()); QVERIFY(!gateway.stagedPlan()["ok"].toBool());
+    }
     void publishedToolsMatchCurrentKickoff() {
         QStringList names;
         for (const auto& tool : SimulationGateway::toolDefinitions()) {

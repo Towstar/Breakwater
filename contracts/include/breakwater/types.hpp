@@ -6,7 +6,7 @@
 
 namespace breakwater {
 
-inline constexpr const char* solver_version = "constant-flow-0.1.0";
+inline constexpr const char* solver_version = "constant-flow-0.1.1";
 inline constexpr int project_version = 1;
 
 enum class AssetKind { tank, source, treatment, trucking };

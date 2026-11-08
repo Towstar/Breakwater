@@ -6,6 +6,8 @@
 #include <QSignalSpy>
 #include <QTimer>
 #include <QtTest>
+#include <cmath>
+#include <limits>
 
 using namespace breakwater;
 using namespace breakwater::desktop;
@@ -55,11 +57,16 @@ private slots:
         QTest::newRow("shortened-final-step") << QString("mixed") << 0.95 << 0.3;
         QTest::newRow("decimated-indices") << QString("mixed") << 3.0 << 0.002;
         QTest::newRow("one-ulp-endpoint") << QString("mixed") << 0.00023685942255445778 << 2.7423807173145508e-08;
+        QTest::newRow("one-ULP-terminal-interval") << QString("mixed") << std::nextafter(0.9, std::numeric_limits<double>::infinity()) << 0.1;
+        QTest::newRow("rounded-final-multiple-once") << QString("mixed") << 0.30000000000000004 << 0.1;
+        QTest::newRow("ratio-underflow") << QString("mixed") << std::numeric_limits<double>::denorm_min() << 1e308;
+        QTest::newRow("division-rounds-above-work-limit") << QString("mixed") << 0.0082 << 8.2e-7;
     }
     void realDesktopWorkerParity() {
         QFETCH(QString, example); QFETCH(double, horizon); QFETCH(double, step);
         ProjectController project; QVERIFY(forecast(project, example, {horizon, step}));
         const auto capture = project.capturedForecast(); const auto document = project.document(); const auto run = project.runId();
+        QCOMPARE(capture->result.time_h.front(), 0.0); QCOMPARE(capture->result.time_h.back(), horizon);
         const auto approval = project.canApprove();
         PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
         QSignalSpy done(&science, &StorageScienceController::completed), failed(&science, &StorageScienceController::failed);
@@ -73,12 +80,41 @@ private slots:
         QCOMPARE(result.value("native_cost").toDouble(), capture->result.cost);
         const auto preview = result.value("preview").toObject(); const auto indices = preview.value("time_indices").toArray();
         const auto times = preview.value("time_h").toArray();
+        QCOMPARE(times.first().toDouble(), 0.0); QCOMPARE(times.last().toDouble(), horizon);
         QCOMPARE(indices.last().toInteger(), static_cast<qint64>(capture->result.time_h.size() - 1));
         for (qsizetype i = 0; i < indices.size(); ++i) QCOMPARE(times[i].toDouble(), capture->result.time_h[static_cast<std::size_t>(indices[i].toInteger())]);
         QCOMPARE(project.document(), document); QCOMPARE(project.runId(), run); QCOMPARE(project.canApprove(), approval);
         QVERIFY(worker.readiness().value("storage_execution_verified").toBool());
         QVERIFY(science.chart().value("available").toBool()); QCOMPARE(science.tanks().size(), 2);
         const auto nativeSeries = science.chart().value("series").toList().first().toMap(); QVERIFY(nativeSeries.value("reference").toBool());
+    }
+    void exactRequestedEndpointRemainsInfeasibleDespiteScientificAgreement() {
+        const double flow = std::ldexp(1.0, 50), capacity = 0.9 * flow;
+        const double horizon = std::nextafter(0.9, std::numeric_limits<double>::infinity());
+        ProjectDocument input;
+        input.network.assets = {{"tank", "Tank", AssetKind::tank, capacity, 0.0},
+            {"source", "Source", AssetKind::source, 0.0, 0.0, flow}};
+        input.network.routes = {{"feed", "source", "tank", flow, flow}};
+        ProjectController project; QVERIFY(project.restore(project_json(input)));
+        const auto document = project.document();
+        project.forecastWithConfig({horizon, 0.1}); QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000);
+        const auto captured = project.capturedForecast(); QVERIFY(captured);
+        QCOMPARE(captured->result.time_h.size(), std::size_t{11}); QCOMPARE(captured->result.time_h.back(), horizon);
+        QCOMPARE(captured->result.volumes_m3[0].back(), horizon * flow);
+        QCOMPARE(captured->result.volumes_m3[0].back() - capacity, 0.125);
+        QVERIFY(!captured->validation.feasible); QVERIFY(!project.canApprove());
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        QSignalSpy done(&science, &StorageScienceController::completed), failed(&science, &StorageScienceController::failed);
+        science.run(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 70000);
+        QVERIFY(failed.isEmpty()); const auto result = QJsonObject::fromVariantMap(science.result());
+        QVERIFY(result.value("within_tolerance").toBool()); QVERIFY(!result.value("native_volume_feasible").toBool());
+        const auto preview = result.value("preview").toObject();
+        QCOMPARE(preview.value("time_h").toArray().last().toDouble(), horizon);
+        const auto nativeValues = preview.value("native_volumes_m3").toArray().first().toArray();
+        const auto workerValues = preview.value("worker_volumes_m3").toArray().first().toArray();
+        QCOMPARE(nativeValues.last().toDouble(), horizon * flow); QCOMPARE(workerValues.last().toDouble(), horizon * flow);
+        QCOMPARE(workerValues.last().toDouble() - capacity, 0.125);
+        QCOMPARE(project.document(), document); QCOMPARE(project.capturedForecast(), captured); QVERIFY(!project.canApprove());
     }
     void renamedCustomNetworkUsesItsCapturedIdsAndTopology() {
         ProjectController project;

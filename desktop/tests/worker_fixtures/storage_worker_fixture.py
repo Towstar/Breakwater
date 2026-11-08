@@ -78,10 +78,20 @@ def rollout(payload):
             cost += flow * target.get("cost_per_m3", 0.0)
         cost += flow * route["cost_per_m3"]
     horizon, step = payload["horizon_h"], payload["step_h"]
-    updates = math.ceil(horizon / step)
-    count = min(updates + 1, payload["preview"]["max_times"])
+    full_times = [0.0]
+    for ordinal in range(1, 10001):
+        value = ordinal * step
+        if value >= horizon:
+            full_times.append(horizon)
+            break
+        assert value > full_times[-1]
+        full_times.append(value)
+    else:
+        raise ValueError("Fixture request exceeds the bounded exact-horizon grid")
+    updates = len(full_times) - 1
+    count = min(len(full_times), payload["preview"]["max_times"])
     indices = [index * updates // (count - 1) for index in range(count)]
-    times = [min(index * step, horizon) for index in indices]
+    times = [full_times[index] for index in indices]
     return {"method": "storage_rollout", "method_version": 1, "identity": payload["identity"],
             "provenance": {"implementation": "torch_storage_float64", "implementation_version": "test-fixture-only",
                            "dtype": "float64", "device": "cpu", "execution_status": "completed"},
@@ -139,6 +149,20 @@ for raw in sys.stdin.buffer:
                 result["time_indices"][-1] -= 1
             elif MODE == "wrong_time":
                 result["time_h"][-1] -= 0.01
+            elif MODE == "shortened_endpoint":
+                result["time_h"][-1] = math.nextafter(request["payload"]["horizon_h"], -math.inf)
+            elif MODE == "extended_endpoint":
+                result["time_h"][-1] = math.nextafter(request["payload"]["horizon_h"], math.inf)
+            elif MODE == "missing_terminal_interval":
+                result["time_h"].pop()
+                result["time_indices"].pop()
+                for row in result["volumes_m3"]:
+                    row.pop()
+            elif MODE == "duplicate_endpoint":
+                result["time_h"].append(result["time_h"][-1])
+                result["time_indices"].append(result["time_indices"][-1])
+                for row in result["volumes_m3"]:
+                    row.append(row[-1])
             elif MODE == "null_sample":
                 result["volumes_m3"][0][0] = None
             elif MODE == "wrong_shape":
