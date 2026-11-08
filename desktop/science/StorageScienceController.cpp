@@ -1,4 +1,5 @@
 #include "StorageScienceController.hpp"
+#include "StorageScienceEvidence.hpp"
 #include <QDateTime>
 #include <QFutureWatcher>
 #include <QJsonArray>
@@ -201,6 +202,39 @@ StorageScienceController::~StorageScienceController() {
     if (wasWaiting && worker_) worker_->cancel();
 }
 QString StorageScienceController::status() const { return waiting_ && worker_ ? worker_->status() : status_; }
+void StorageScienceController::setHistoryRepository(history::SessionRepository* repository) {
+    if (repository_ == repository) return;
+    if (repository_) disconnect(repository_, nullptr, this, nullptr);
+    repository_ = repository; pending_history_ids_.clear();
+    history_failed_ = !repository; history_saved_result_id_.clear();
+    history_status_ = repository ? "Completed scientific evidence is saved automatically to History." : "Scientific history is unavailable.";
+    if (repository) {
+        connect(repository, &history::SessionRepository::sessionSaved, this, [this](const QString& id) {
+            if (!pending_history_ids_.remove(id)) return;
+            history_failed_ = false; history_saved_result_id_ = id;
+            history_status_ = historyPending() ? "Saving scientific evidence to History…" : "Scientific evidence saved to History.";
+            emit historyChanged();
+        });
+        connect(repository, &history::SessionRepository::checkpointFailed, this,
+            [this](const QString& id, const QString&, const QString& message) {
+            if (!pending_history_ids_.remove(id)) return;
+            history_failed_ = true;
+            history_status_ = "History storage error: " + message;
+            emit historyChanged();
+        });
+        connect(repository, &history::SessionRepository::failed, this, [this](const QString& code, const QString& message) {
+            if (historyPending() || !history_saved_result_id_.isEmpty() ||
+                (code != "storage_unavailable" && code != "storage_corrupt" &&
+                 code != "unsupported_database_version" && code != "storage_failed")) return;
+            history_failed_ = true; history_status_ = "History storage error: " + message;
+            emit historyChanged();
+        });
+        connect(repository, &QObject::destroyed, this, [this] {
+            pending_history_ids_.clear(); history_failed_ = true; history_status_ = "Scientific history is unavailable."; emit historyChanged();
+        });
+    }
+    emit historyChanged();
+}
 bool StorageScienceController::canRun() const {
     return project_ && worker_ && !busy() && !worker_->busy() && static_cast<bool>(project_->capturedForecast());
 }
@@ -322,7 +356,17 @@ void StorageScienceController::accept(const QJsonObject& response) {
                 "PyTorch executed. Returned samples agree with native within tolerance; approval remains separate." :
                 "PyTorch executed. Numerical disagreement found; approval remains separate.";
             const auto evidence = result_; const QPointer<StorageScienceController> guard(this);
+            if (repository_) {
+                pending_history_ids_.insert(evidence.value("result_id").toString());
+                history_failed_ = false; history_saved_result_id_.clear();
+                history_status_ = "Saving scientific evidence to History…";
+                // Retain the accepted immutable capture before any observer can
+                // edit/reset the project. Serialization and SQL stay off the UI.
+                repository_->enqueueCheckpoint([captured, evidence] { return storage_science_archive(*captured, evidence); },
+                    evidence.value("result_id").toString());
+            }
             emit changed();
+            if (guard) emit historyChanged();
             if (guard && epoch == generation_ && project_ && project_->capturedForecast() == captured && !result_.isEmpty()) emit completed(evidence);
             return;
         }

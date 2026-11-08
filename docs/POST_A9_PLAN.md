@@ -6,14 +6,14 @@ Updated November 7, 2026. This is the active continuation plan after merging
 [implementation plan](IMPLEMENTATION_PLAN.md) and original handoff remain intact.
 The work below is planned unless explicitly identified as delivered.
 
-**B review-workstream update:** PR #21 reconciles the audit-fix boundary with B5a/B5b;
-B5c selected captured-control sensitivities and the credential-source endpoint fix
-are implemented and tested in the following review increment. See
-[STATUS.md](STATUS.md) and [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for its fresh
-25-suite normal/ASan checks, installed execution and declared manual gaps. The
-6966707 verification below remains an upstream baseline report. The B-stack merge
-order below is still a main-integration task; durable scientific evidence remains
-separate from the derivative presentation.
+**Current integration update:** the B stack landed in order #13 → #18 → #19 → #21
+→ #23, preserving merge ancestry and the credential settings. A's new PR #24 then
+landed at main `106a756`, adding conditional FVM nonnegativity and its native tests.
+Scientific retention/restoration is implemented as a separate B increment after
+derivative presentation; see [STATUS.md](STATUS.md) for current executed checks and
+[DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for the historical viewing workflow.
+The 6966707 verification and original ordered plan below remain historical evidence;
+they do not replace the combined checks or close manual release/rehearsal gaps.
 
 ## Integrated baseline
 

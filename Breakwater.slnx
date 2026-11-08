@@ -22,6 +22,7 @@
       <BuildDependency Project="out/visual-studio/desktop/breakwater_pipe_transport_evidence_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_pipe_transport_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_python_worker_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_science_evidence_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_session_repository_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_storage_science_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_storage_worker_tests.vcxproj" />
@@ -150,6 +151,9 @@
       <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_automoc_json_extraction.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_automoc_json_extraction.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_science_evidence_tests_qmlimportscan.vcxproj">
       <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
     </Project>
     <Project Path="out/visual-studio/desktop/breakwater_session_repository_tests_qmlimportscan.vcxproj">
@@ -311,6 +315,13 @@
     <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_python_worker_tests_qmlimportscan.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_science_evidence_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_science_evidence_tests_qmlimportscan.vcxproj" />
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>

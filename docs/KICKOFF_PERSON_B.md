@@ -1,9 +1,10 @@
 # Person B: Nemotron, APIs, desktop and integration
 
 Updated November 7, 2026. Use [POST_A9_PLAN.md](POST_A9_PLAN.md) for the active
-integration baseline and ordered next changes. A's audit fixes and A9 are merged;
-the broader B audit and installed-app acceptance remain separate. PRs #13, #18 and
-#19 already contain reviewable B work: reconcile that stack before rebuilding B5a/b.
+integration baseline and ordered next changes. A's audit fixes, A9, A10a/A10b and
+the B stack are merged; broader release acceptance remains separate. PRs #13, #18,
+#19, #21 and #23 landed in that order; PR #24 then added A's conditional nonnegativity
+proofs and native regressions. Current merged main is `106a756`.
 Coordinate with [Person A's plan](KICKOFF_PERSON_A.md). The original sequence below
 is retained as context, not a claim of comprehensive audit/release completion.
 
@@ -12,9 +13,10 @@ captured-control sensitivities are implemented. Person A's PR #17 audit fixes,
 PR #20 transport qualification and current main's native key settings are integrated;
 see [AUDIT_REPORT.md](AUDIT_REPORT.md) and the latest [STATUS.md](STATUS.md) evidence
 before the retention/release steps. The original audit and staged roadmap remain intact.
-Manual release-workflow gaps and scientific retention remain open.
-Follow the reviewed B-stack merge order in POST_A9_PLAN before advancing main;
-then proceed to durable scientific evidence and the remaining manual rehearsals.
+Scientific retention/restoration is implemented in the next B increment, using
+immutable standalone local sessions and a historical-only viewer; see current STATUS
+for its executed checks before treating it as a release gate. Manual release workflows
+and clean operator-review rehearsals remain open. Do not rebuild the delivered B5 path.
 
 ## Role, baseline and ownership
 

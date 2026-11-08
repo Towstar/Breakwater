@@ -4,9 +4,52 @@ The Science tab executes the actual Python worker's CPU float64 PyTorch storage
 rollout for a retained native forecast. It compares returned samples at their original
 native indices, reports differences and preserves finite negative/over-capacity values.
 Native C++ remains the feasibility/approval authority. B5c adds explicitly selected
-continuous-control derivatives at unchanged captured values. Candidate/history science
-and automatic science retention remain separate. The native pipe viewer is independent
-of Python.
+continuous-control derivatives at unchanged captured values. Completed forward and
+sensitivity results are now retained automatically in local History, including results
+that disagree with native. Agent-candidate science remains separate. The native pipe
+viewer is independent of Python.
+
+## Automatic scientific history
+
+1. Run a native forecast, open Science, then compare with PyTorch or run selected
+   sensitivities. The local history status reports saving, success or a storage error.
+2. Open History and select the saved comparison or sensitivity session. Choose
+   **View scientific evidence** to inspect its tank charts, errors, derivatives,
+   captured values, versions, warnings and original identities.
+3. Restart the application and reopen the same session. **Export JSON** and
+   **Import JSON** use the existing versioned session workflow. **Return to current**
+   returns to the separate live capture; it does not restore controls or selections.
+
+Each completed result is an immutable completed session with a distinct result UUID.
+It retains the frozen network, full original native trajectory/configuration and
+reported native validation, plus the bounded worker preview (at most 256 original
+sample indices) and full selected-control derivative matrix. Omitted controls remain
+in the captured network. Worker previews are not represented as full worker rollouts.
+
+SQLite and session archive versions remain 1. Science sessions add
+`session_kind: "scientific"`, `scientific_evidence_version: 1` and a singleton
+`scientific_evidence` array. Each scientific result is capped at 1 MiB; full native
+data retains the existing session/network/sample/archive limits. The validator checks
+field/version allowlists, identities/hash/revision, exact original grid, captured
+controls/domain/order/units, preview/native binding, finite dimensions, provenance
+and recomputed comparison diagnostics before saving or importing. Existing investigation
+archives need no science fields. Project-v1 files and worker NDJSON are unchanged.
+
+Serialization, validation and transactional writes run on the existing repository
+thread, which drains accepted checkpoints on shutdown. A storage failure remains
+visible while native forecasting and completed scientific results stay usable.
+Reopening is historical and non-actionable. Imported JSON is internally checked
+evidence, not authenticated worker execution, fresh feasibility validation or approval.
+It never restores a live capture, launches a worker or authorizes a simulated plan.
+
+For a reproducible historical render of an exported science session:
+
+```powershell
+.\scripts\Start-Desktop.ps1 -Wait -AppArguments @('--import-session','C:\path\science.json','--open-scientific-history','--smoke')
+```
+
+The science-check smoke requires successful retention of its exact result ID. A
+storage failure returns exit 7 and does not produce a success screenshot.
 
 ## Local setup and launch
 
