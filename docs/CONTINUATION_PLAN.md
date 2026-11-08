@@ -7,8 +7,10 @@ B implementation/status below supplements that preserved plan.
 **Current B handoff:** B5a runtime/deployment, B5b forward comparison and B5c explicitly
 selected captured-control derivatives are implemented in this workstream. Follow
 [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for use and [STATUS.md](STATUS.md) for actual
-checks/limitations. Next are bounded scientific-evidence retention/restoration and the
-remaining manual/release rehearsals. Earlier plans below remain as history.
+checks/limitations. The B stack landed in order #13 → #18 → #19 → #21 → #23, followed
+by A's PR #24 (`106a756` main). Bounded scientific retention/restoration is implemented
+in the next increment; its current verification is recorded in STATUS. Remaining work
+is the manual/release rehearsals. Earlier plans below remain as history.
 
 
 PR #17's A-owned audit fixes are integrated before further features: exact requested

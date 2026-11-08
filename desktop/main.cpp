@@ -32,6 +32,7 @@ int main(int argc, char** argv) {
     breakwater::desktop::quality::PipeTransportController pipeTransport(&controller, &history);
     breakwater::desktop::science::PythonWorkerClient scientificWorker;
     breakwater::desktop::science::StorageScienceController storageScience(&controller, &scientificWorker);
+    storageScience.setHistoryRepository(&repository);
     const bool scienceCheck = arguments.contains("--science-check");
     const bool scienceDerivatives = scienceCheck && arguments.contains("--science-derivatives");
     QStringList scienceControls;
@@ -84,6 +85,13 @@ int main(int argc, char** argv) {
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
     const auto importIndex = arguments.indexOf("--import-session");
+    const bool scientificHistoryCheck = arguments.contains("--open-scientific-history");
+    if (scientificHistoryCheck) {
+        QObject::connect(&history, &breakwater::desktop::history::HistoryController::changed, &app, [&] {
+            if (history.historical() && !history.scientificResult().isEmpty() && !engine.rootObjects().isEmpty())
+                QMetaObject::invokeMethod(engine.rootObjects().front(), "openStorageScience");
+        });
+    }
     if (importIndex >= 0 && importIndex + 1 < arguments.size())
         QTimer::singleShot(0, &history, [&history, path = arguments[importIndex + 1]] { history.importSession(QUrl::fromLocalFile(path)); });
     const auto pipeImportIndex = arguments.indexOf("--import-pipe-evidence");
@@ -125,6 +133,11 @@ int main(int argc, char** argv) {
         QElapsedTimer smokeElapsed; smokeElapsed.start();
         QObject::connect(smokeTimer, &QTimer::timeout, &app, [&, smokeTimer, smokeElapsed] {
             if (scienceReportFailed) { app.exit(7); return; }
+            if (scienceCheck && storageScience.historyFailed() && !storageScience.historyPending()) {
+                writeScienceReport({{"status", "failed"}, {"error", QJsonObject{{"code", "history_storage_failed"},
+                    {"message", storageScience.historyStatus()}}}});
+                app.exit(7); return;
+            }
             if (engine.rootObjects().isEmpty()) { app.exit(2); return; }
             auto* window = qobject_cast<QQuickWindow*>(engine.rootObjects().front());
             const auto capture = window ? window->grabWindow() : QImage{};
@@ -132,14 +145,16 @@ int main(int argc, char** argv) {
             const bool pipeDialogVisible = engine.rootObjects().front()->property("pipeTransportVisible").toBool();
             const bool scienceVisible = engine.rootObjects().front()->property("storageScienceVisible").toBool();
             const bool sciencePending = scienceCheck && (!scienceStarted || storageScience.busy() ||
-                storageScience.result().isEmpty() || !scienceVisible ||
+                storageScience.historyPending() || storageScience.result().isEmpty() || !scienceVisible ||
+                storageScience.historySavedResultId() != storageScience.result().value("result_id").toString() ||
                 (scienceDerivatives && storageScience.result().value("analysis_mode").toString() != "sensitivities"));
             const bool evidencePending = (importIndex >= 0 && (history.busy() || history.selectedSessionId().isEmpty())) ||
+                (scientificHistoryCheck && (!history.historical() || history.scientificResult().isEmpty() || !scienceVisible)) ||
                 (pipeImportIndex >= 0 && (pipeTransport.busy() || !pipeTransport.viewingImportedEvidence() ||
                     !pipeDialogVisible));
             // An imported-evidence modal is the render target; scene labels behind
             // that modal are not a prerequisite for viewing its charts.
-            if (capture.isNull() || (pipeImportIndex < 0 && !scienceCheck && !labelsVisible) || evidencePending || sciencePending || scientificWorker.busy()) {
+            if (capture.isNull() || (pipeImportIndex < 0 && !scienceCheck && !scientificHistoryCheck && !labelsVisible) || evidencePending || sciencePending || scientificWorker.busy()) {
                 if (smokeElapsed.elapsed() >= (scienceCheck ? 90000 : 20000)) app.exit(capture.isNull() ? 3 : 5);
                 else if (window) window->requestUpdate();
                 return;

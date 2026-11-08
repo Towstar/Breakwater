@@ -21,7 +21,7 @@ public:
     void saveSession(const QJsonObject& archive);
     // The capture must use immutable data and thread-safe non-QObject accessors.
     // It runs on the history worker and is drained before repository destruction.
-    void enqueueCheckpoint(std::function<QJsonObject()> capture);
+    void enqueueCheckpoint(std::function<QJsonObject()> capture, QString checkpointId = {});
     void listSessions();
     void loadSession(const QString& sessionId);
     void exportSession(const QString& sessionId, const QUrl& destination);
@@ -35,6 +35,7 @@ signals:
     void sessionsListed(const QJsonArray& sessions);
     void sessionLoaded(const QJsonObject& archive);
     void sessionSaved(const QString& sessionId);
+    void checkpointFailed(const QString& checkpointId, const QString& code, const QString& message);
     void operationCompleted(const QString& operation, const QString& sessionId);
     void failed(const QString& code, const QString& message);
 
