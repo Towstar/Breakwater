@@ -84,6 +84,15 @@ known-control calendars in 32 varied scenarios and ten-stage replay/reset.
 Normal/checked complete payloads match exactly. This is scheduled commitment,
 not inventory/cost validation, stateful optimization or operating authority.
 
+Evidence CE: private committed evaluator/reference0.1.0, runtime2448fa0,
+`science/evidence/eog-committed-response/`: normal/ASan native14/14 with43new
+checks each; focused14/14 each; 400 exact generated comparisons (257available,
+143invalid),60legacy-v1 comparisons and two actual plant suffix comparisons.
+Accounts for occupied slots, pending full loads, prior well stops and future-only
+cost, with independent event/inventory/resource arithmetic. Raw post-event
+computational state remains caller-supplied; causal history compilation,
+stateful optimization and public/application integration are still open.
+
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
 | I01 | S Files; R What you get | Rule | B capture, A provider | Read only the three allowed names; deny answer-key access | E3 fixed-name capture verification/loading; negative forbidden-file read test | Scoped pass | Science worker consumes only three captured names; B desktop capture/access audit remains |
@@ -137,9 +146,10 @@ evidence. Imported-model causal seeded projection now also executes with exact
 normal/checked and file-roundtrip evidence. Bounded running inspection evidence
 improves actual practice delays and corrects the first historical miss; two
 ambiguous-recovery cuts and physical timeliness remain unqualified. Next:
-committed-pickup/occupied-slot evaluator context, commitment-aware planning and B-owned
-joined search/application/installed
-integration. B's merged provider reports close the earlier hosted prerequisite
+the private committed evaluator/reference now execute; authenticated history-to-state
+compilation, commitment-aware planning and B-owned joined search/application/installed
+integration remain. Ethan requested a stop after this increment and fresh desktop
+compile; do not automatically start the next phase. B's merged provider reports close the earlier hosted prerequisite
 and telemetry failures for its recorded source; final joined checks remain.
 Inspection latency/current uncertainty remain explicit A-owned qualification gaps.
 Each implemented increment updates the rows with actual
