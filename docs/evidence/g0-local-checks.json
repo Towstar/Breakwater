@@ -1,0 +1,124 @@
+{
+  "verification_version": 1,
+  "scope": "Actual local G0 helper executions; hosted workflow results are reported separately by GitHub checks. Dirty-source helper bytes are identified by SHA256. No hosted model request was made.",
+  "checks": [
+    {
+      "report": "out/ci/native-normal/verification.json",
+      "sha256": "d3ca28aebe56b429bf3bd02d360fe4ec775154aa43c56dece65cdfb561887415",
+      "source_commit": "7f2bb7f598f960b60a1d9cc7cb362a7ff233db7f",
+      "working_tree_dirty": true,
+      "helper_sha256": {
+        "scripts/ci/Run-Checks.ps1": "3040ce2b91e8f11a108cc6677a3ea41a720d0f9a1f162ac173b6b4aaa36a47da",
+        "scripts/ci/Initialize-Compiler.ps1": "e7738d95d0ec2c6a9681a78bf3431ecd0c33e335f96599d87712c05de5572f5b",
+        "scripts/ci/Run-PythonTests.py": "9aecf846db6d2034caa74582e4a1f2c4d1955b2abd28fe4e59a5e008c836791d",
+        "scripts/ci/requirements-win-py312.txt": "38246d9cf132dfc823744b1d63e16768e388c8db3b19037dafa20605a015ef3f",
+        ".github/workflows/windows-checks.yml": "db6ac04be4ff596dadd81b7fa617488150c92c2e15ffcc1ddb2491a4d8ee2fca"
+      },
+      "suite": "native",
+      "mode": "normal",
+      "ctest": {
+        "registered": 8,
+        "executed": 8,
+        "skipped": 0
+      },
+      "science": null,
+      "toolchain": {
+        "bootstrap_path_length_before": 7303,
+        "compiler": "14.44.35219.0",
+        "visual_studio": "17.14.36623.8",
+        "bootstrap_path_length": 439,
+        "compiler_path_length": 1975,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6-msvc6",
+        "ninja": "1.12.1"
+      }
+    },
+    {
+      "report": "out/ci/native-asan/verification.json",
+      "sha256": "ef629c415b55f17892da0ad077075a974cdd11f4f88842c7e51b38272622ba00",
+      "source_commit": "7f2bb7f598f960b60a1d9cc7cb362a7ff233db7f",
+      "working_tree_dirty": true,
+      "helper_sha256": {
+        "scripts/ci/Run-Checks.ps1": "3040ce2b91e8f11a108cc6677a3ea41a720d0f9a1f162ac173b6b4aaa36a47da",
+        "scripts/ci/Initialize-Compiler.ps1": "e7738d95d0ec2c6a9681a78bf3431ecd0c33e335f96599d87712c05de5572f5b",
+        "scripts/ci/Run-PythonTests.py": "9aecf846db6d2034caa74582e4a1f2c4d1955b2abd28fe4e59a5e008c836791d",
+        "scripts/ci/requirements-win-py312.txt": "38246d9cf132dfc823744b1d63e16768e388c8db3b19037dafa20605a015ef3f",
+        ".github/workflows/windows-checks.yml": "db6ac04be4ff596dadd81b7fa617488150c92c2e15ffcc1ddb2491a4d8ee2fca"
+      },
+      "suite": "native",
+      "mode": "asan",
+      "ctest": {
+        "registered": 8,
+        "executed": 8,
+        "skipped": 0
+      },
+      "science": null,
+      "toolchain": {
+        "bootstrap_path_length_before": 7303,
+        "compiler": "14.44.35219.0",
+        "visual_studio": "17.14.36623.8",
+        "bootstrap_path_length": 439,
+        "compiler_path_length": 1975,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6-msvc6",
+        "ninja": "1.12.1"
+      }
+    },
+    {
+      "report": "out/ci/science-normal/verification.json",
+      "sha256": "312adb4dc23db7123a799d7589c003c3f30766ab8d691ca6e0dbb4e5494ff2ed",
+      "source_commit": "7f2bb7f598f960b60a1d9cc7cb362a7ff233db7f",
+      "working_tree_dirty": true,
+      "helper_sha256": {
+        "scripts/ci/Run-Checks.ps1": "3040ce2b91e8f11a108cc6677a3ea41a720d0f9a1f162ac173b6b4aaa36a47da",
+        "scripts/ci/Initialize-Compiler.ps1": "e7738d95d0ec2c6a9681a78bf3431ecd0c33e335f96599d87712c05de5572f5b",
+        "scripts/ci/Run-PythonTests.py": "9aecf846db6d2034caa74582e4a1f2c4d1955b2abd28fe4e59a5e008c836791d",
+        "scripts/ci/requirements-win-py312.txt": "38246d9cf132dfc823744b1d63e16768e388c8db3b19037dafa20605a015ef3f",
+        ".github/workflows/windows-checks.yml": "db6ac04be4ff596dadd81b7fa617488150c92c2e15ffcc1ddb2491a4d8ee2fca"
+      },
+      "suite": "science",
+      "mode": "normal",
+      "ctest": null,
+      "science": {
+        "passed": true,
+        "tests_run": 186,
+        "tests_passed": 182,
+        "failures": 0,
+        "errors": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "skipped": [
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          }
+        ],
+        "unexpected_skips": []
+      },
+      "toolchain": {
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        }
+      }
+    }
+  ],
+  "workflow_result_regressions_passed": 12,
+  "retained_failure": "out/ci-attempts/native-normal-compiler-failed-20261108-0551",
+  "review": "Independent same-family scoped source/caller review; no actionable findings. Full transcript audit and cross-family review not claimed."
+}

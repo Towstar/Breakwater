@@ -1,6 +1,6 @@
 # Parallel work: Person A and Person B
 
-Person A is the project owner/user and owns PDEs, numerical simulation, scientific ML
+Person A owns PDEs, numerical simulation, scientific ML
 and proofs. Person B owns the desktop application, Nemotron orchestration and integration.
 
 Repository: https://github.com/Towstar/Breakwater
@@ -47,8 +47,8 @@ sensor/fault detectability and detector comparisons. B owns sensor placement/edi
 shared input/snapshot/event contracts, transport/lifecycle, telemetry storage/replay,
 incident/forecast integration, root launch wrappers, CI and release acceptance.
 
-A reviews B's G1 physical semantics, then can undertake F1 front accuracy while B
-handles G0/G1. Both adopt the same committed G1 contract before G2/G3. Only after a
+A's G1 guidance and F1 study are delivered in PR #28. A reviews B's exact G1 contract
+against science/OBSERVATION_SEMANTICS.md. Both adopt the same committed G1 contract before G2/G3. Only after a
 shared reviewed baseline should concurrent dependent implementations begin. A's D1
 RBM comparison is a separate evidence-based study, with no predetermined winner.
 
