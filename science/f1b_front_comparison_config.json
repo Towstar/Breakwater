@@ -1,0 +1,36 @@
+{
+  "study_version": 1,
+  "qualification_variant": "front_comparison",
+  "baseline_revision": "487d80dd54df7d7b6567dfed1170dea9a5e59cd7",
+  "baseline_config_sha256": "6d8d1ffdc8b6574241b2d006aeb697457a6e9f56cd83610164f7b76c6cc69d8a",
+  "baseline_solver_version": "fvm-upwind-euler-0.1.0",
+  "candidate_solver_version": "fvm-muscl-mc-ssprk2-experimental-0.1.0",
+  "baseline_arguments": ["--front-accuracy"],
+  "candidate_arguments": [],
+  "baseline_case_count": 22,
+  "candidate_case_count": 28,
+  "candidate_cfl_maximum": 0.5,
+  "stage_evaluations_per_step": 2,
+  "time_probes": [
+    {"regime": "front_smooth", "cells": 512, "cfl": [0.08, 0.04], "paired_cfl": 0.02},
+    {"regime": "front_box", "cells": 512, "cfl": [0.08, 0.04], "paired_cfl": 0.02},
+    {"regime": "scheduled_inlet", "cells": 512, "cfl": [0.4, 0.2], "paired_cfl": 0.1}
+  ],
+  "targets": {
+    "n512_worst_field_error_ratio_maximum": 0.5,
+    "paired_worst_field_regression_floor_multiplier": 10,
+    "extended_sampled_outlet_peak_error_maximum_mg_l": 0.1,
+    "extended_upward_crossing_counts": [[0.1, 1], [0.5, 2], [0.9, 1]],
+    "n512_first_bracket_endpoint_error_maximum_h": 0.025
+  },
+  "notes": [
+    "Predeclared synthetic experiment; targets are not application or operational accuracy budgets.",
+    "The 22 paired cases are exactly F1; six time probes change only CFL and private study identity.",
+    "First and last reconstructed slopes are zero; the outlet observable remains the last cell average proxy.",
+    "The candidate is pure nonnegative-flow advection with prescribed inlet; nonzero D, decay, source and closed boundaries are unsupported.",
+    "Candidate errors are coupled space/time. Time-step differences and observed orders are empirical sensitivity, not certified error bounds.",
+    "Only the baseline uses the upwind Poisson semidiscrete reference. Reference disagreement above 1e-10 mg/L is an integrity failure.",
+    "No clipping, tail renormalization, old-threshold changes, production promotion or extension of the 54-proposition Lean claim.",
+    "Exit 0: integrity passed and all study targets met; exit 1: completed with targets unmet; exit 2: execution, input or integrity failure."
+  ]
+}
