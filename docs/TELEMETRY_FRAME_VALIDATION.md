@@ -30,3 +30,21 @@ Local results, 2026-11-08: MSVC 19.44.35219.0, Qt 6.12.0, Python 3.12.13.
 Focused regressions cover ordinary, Unicode and escaped-key aliases, malformed UTF-8 and surrogate keys, the existing nesting boundary, cached hash mismatches, disabled/unknown sensors, wrong reading types and units. Invalid sensor batches place the bad record last and verify that no preceding measurement leaks into the trace. The existing actual publisher/replay/command lifecycle and full stream stress cases also pass. No AddressSanitizer diagnostic was reported.
 
 JUnit, build logs and Qt result files are retained locally under `out/frame-validation` and the two build trees. These ignored artifacts are not delivered as source. These measurements were collected while other local work was running, so they do not establish a stable throughput multiplier. The ASan stream run is close to its unchanged 180-second CTest cap; hosted runner variance still needs observation. No hosted CI or model-provider success is claimed by this local check.
+
+## Hosted follow-up and instrumented harness budget
+
+Hosted run `42475074847` passed five jobs, including the full normal desktop and
+actual process lifecycle checks. The ASan desktop run passed 37/38 CTests; the
+aggregate stream suite reached the fixed ledger stress case and exceeded its
+180.07-second wall budget. Its clean synthetic-merge tree
+`e12894009a9c2dd25d8ce57ae145ce4173ee65c9` equals tested source `ebc4aa9`.
+The original failure and downloaded Qt logs remain retained.
+
+Two independent same-family source reviews checked bounded ledger/reorder/trace
+iteration and found no unbounded loop or growing-history scan. The 31-case suite
+processes 33,024 readings plus 32,768 heartbeats and is functional stress coverage,
+not a latency assertion. Only this suite's ASan CTest allowance is now 360 seconds;
+normal remains 180. Protocol/command deadlines, stress counts and assertions stay
+unchanged. Registration is checked separately in both configurations. A new full
+hosted run must actually finish all 31 cases without skips before acceptance;
+the larger finite allowance itself does not establish a pass or throughput claim.
