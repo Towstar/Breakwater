@@ -101,12 +101,14 @@ class Experiment:
     point_limit: int = 262144
     event_limit: int = 1000000
     trip_limit: int = 16384
+    control_limit: int = 32768
 
     def __post_init__(self):
         _integer(self.duration_s, 1, 31 * 86400)
         _integer(self.start_unix, 0, MAX_UNIX - self.duration_s)
         _integer(self.seed, 0, 2**64 - 1)
         _integer(self.sample_limit, 1, MAX_SAMPLES)
+        _integer(self.control_limit, 1, 262144)
         for key, high in (("point_limit", 262144), ("event_limit", 1000000), ("trip_limit", 16384)):
             _integer(getattr(self, key), 1, high)
         for key, cls, maximum in (("initial", Initial, 256), ("failures", Failure, 16384), ("rate_changes", RateChange, 16384)):
@@ -245,7 +247,7 @@ class SyntheticStream:
             raise SyntheticError("invalid_parameter", "Synthetic stream needs the explicitly compiled scenario.")
         self._compiled = compiled
         self._native = NativePlant(library, compiled.native_input())
-        self._rows = []; self._elapsed = 0.0; self._next_sample = PERIOD_S
+        self._rows = []; self._commands = []; self._elapsed = 0.0; self._next_sample = PERIOD_S
         try: self._emit(self._native.snapshot(), 0)
         except BaseException: self._native.close(); raise
 
@@ -321,8 +323,11 @@ class SyntheticStream:
 
     def provenance(self):
         """Full host/offline receipt, containing future truth and seed."""
+        physical_actions = [dict(c) for c in self._commands if c["accepted"]]
+        run_fingerprint = hashlib.sha256((METHOD + "\n" + self._compiled.fingerprint + "\n" + _json(physical_actions) + "\n" + _json(self._elapsed)).encode()).hexdigest()
         return {"method": METHOD, "native_method": self._native.method, "model_fingerprint": self._compiled.model.fingerprint(),
             "scenario_fingerprint": self._compiled.fingerprint, "experiment": asdict(self._compiled.experiment),
+            "run_fingerprint": run_fingerprint, "controls": [dict(c) for c in self._commands],
             "limitations": ["Explicit synthetic initialization/forcing, not recorded or predicted real operation.",
                 "Seeded bounded perturbations are declared assumptions, not the official noise-generating process.",
                 "Pressure offsets are placeholders; no hydraulic or calibrated confidence claim.",
@@ -331,15 +336,26 @@ class SyntheticStream:
     def dispatch(self, facility_id, truck, trips):
         if type(facility_id) is not str or facility_id not in self._compiled.facility_indices:
             raise SyntheticError("unknown_facility", "Dispatch references an unknown imported facility.")
-        return self._native.dispatch(self._compiled.facility_indices[facility_id], truck, trips)
+        self._control_capacity()
+        result = self._native.dispatch(self._compiled.facility_indices[facility_id], truck, trips)
+        self._commands.append({"operation": "dispatch", "elapsed_s": self._elapsed, "facility_id": facility_id,
+                               "truck": truck, "trips": trips, **result})
+        return result
 
     def shut_in(self, well_id):
         if type(well_id) is not str or well_id not in self._compiled.well_indices:
             raise SyntheticError("unknown_well", "Shut-in references an unknown imported well.")
-        return self._native.shut_in(self._compiled.well_indices[well_id])
+        self._control_capacity()
+        result = self._native.shut_in(self._compiled.well_indices[well_id])
+        self._commands.append({"operation": "shut_in", "elapsed_s": self._elapsed, "well_id": well_id, **result})
+        return result
+
+    def _control_capacity(self):
+        if len(self._commands) >= self._compiled.experiment.control_limit:
+            raise SyntheticError("control_limit", "The accepted/rejected control journal is full; no further control is applied.")
 
     def reset(self):
-        self._native.reset(); self._rows.clear(); self._elapsed = 0.0; self._next_sample = PERIOD_S
+        self._native.reset(); self._rows.clear(); self._commands.clear(); self._elapsed = 0.0; self._next_sample = PERIOD_S
         self._emit(self._native.snapshot(), 0)
 
     def close(self): self._native.close()

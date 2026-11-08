@@ -188,5 +188,36 @@ class SyntheticExecutionTests(unittest.TestCase):
             with self.assertRaises(SyntheticError): stream.advance(100)
             self.assertEqual(stream.view().evidence_fingerprint(), preserved)
 
+    def test_control_journal_replays_fractional_actions_and_bounds_before_mutation(self):
+        network, ops = inputs(); field = network["systems"][0]["facilities"][0]; sid = network["systems"][0]["id"]
+        ops["expected_repair_hours"]["pump_failure"] = 120 / 3600
+        ops["systems"][sid]["facilities"][field["id"]] = {"response_min": 0.25, "cycle_min": 3}
+        m = compile_model(network, ops)
+        config = experiment(m, duration=600, failures=(Failure(m.facilities[0].id, 300.125),))
+        compiled = compile_experiment(m, config)
+        with SyntheticStream(self.library, compiled) as original:
+            original.advance(350); original.dispatch(m.facilities[0].id, 0, 1)
+            original.advance(375.25); original.shut_in(m.facilities[0].wells[0].id)
+            original.advance(450); original.advance(545); original.advance(600); receipt = original.provenance()
+            with SyntheticStream(self.library, compiled) as replay:
+                for command in receipt["controls"]:
+                    replay.advance(command["elapsed_s"])
+                    self.assertTrue(command["accepted"])
+                    if command["operation"] == "dispatch": replay.dispatch(command["facility_id"], command["truck"], command["trips"])
+                    else: replay.shut_in(command["well_id"])
+                replay.advance(600)
+                self.assertEqual({k: v for k, v in replay.truth().items() if k != "trace_count"},
+                                 {k: v for k, v in original.truth().items() if k != "trace_count"})
+                self.assertNotEqual(replay.truth()["trace_count"], original.truth()["trace_count"])
+                self.assertEqual(replay.view().evidence_fingerprint(), original.view().evidence_fingerprint())
+                self.assertEqual(replay.provenance()["run_fingerprint"], receipt["run_fingerprint"])
+            original.reset(); self.assertEqual(original.provenance()["controls"], [])
+        with SyntheticStream(self.library, compile_experiment(m, replace(config, control_limit=1))) as bounded:
+            bounded.advance(350); bounded.dispatch(m.facilities[0].id, 0, 1)
+            prior = bounded.truth()
+            with self.assertRaises(SyntheticError) as caught: bounded.shut_in(m.facilities[0].wells[0].id)
+            self.assertEqual(caught.exception.code, "control_limit")
+            self.assertEqual(bounded.truth(), prior)
+
 
 if __name__ == "__main__": unittest.main()
