@@ -1,0 +1,323 @@
+{
+  "scope": "Out-only native Qt probe linked to latest main/QML/controller objects; installed binary checks are separate.",
+  "results": [
+    {
+      "mode": "normal",
+      "exit_code": 0,
+      "result": {
+        "check": "actual_sidebar_panel_navigation",
+        "checks": [
+          "toggleInvestigator_actual_click_opens_checked",
+          "toggleInvestigator_same_underlying_button_closes",
+          "openSensorEditor_actual_click_opens_checked",
+          "openSensorEditor_same_underlying_button_closes",
+          "openTelemetry_actual_click_opens_checked",
+          "openTelemetry_same_underlying_button_closes",
+          "openPipeEvidence_actual_click_opens_checked",
+          "openPipeEvidence_same_underlying_button_closes",
+          "sensorPanelClose_actual_click_closes_and_clears_checked",
+          "telemetryPanelClose_actual_click_closes_and_clears_checked",
+          "pipeTransportClose_actual_click_closes_and_clears_checked",
+          "toggleInvestigator_exclusive_navigation",
+          "openSensorEditor_exclusive_navigation",
+          "openTelemetry_exclusive_navigation",
+          "openPipeEvidence_exclusive_navigation",
+          "all_panel_navigation_preserves_network_and_controls"
+        ],
+        "code": "ok",
+        "device_pixel_ratio": 1.75,
+        "elapsed_ms": 3827,
+        "hosted_requests": "not_requested",
+        "observed": [
+          {
+            "height": 760,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 960,
+            "x": 342,
+            "y": 70
+          },
+          {
+            "height": 720,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 920,
+            "x": 362,
+            "y": 90
+          },
+          {
+            "height": 740,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 1120,
+            "x": 262,
+            "y": 80
+          },
+          {
+            "height": 760,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 960,
+            "x": 342,
+            "y": 70
+          },
+          {
+            "height": 760,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 960,
+            "x": 342,
+            "y": 70
+          },
+          {
+            "height": 760,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 960,
+            "x": 342,
+            "y": 70
+          },
+          {
+            "height": 760,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 960,
+            "x": 342,
+            "y": 70
+          },
+          {
+            "height": 720,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 920,
+            "x": 362,
+            "y": 90
+          },
+          {
+            "height": 720,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 920,
+            "x": 362,
+            "y": 90
+          },
+          {
+            "height": 720,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 920,
+            "x": 362,
+            "y": 90
+          },
+          {
+            "height": 720,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 920,
+            "x": 362,
+            "y": 90
+          },
+          {
+            "height": 740,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 1120,
+            "x": 262,
+            "y": 80
+          },
+          {
+            "height": 740,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 1120,
+            "x": 262,
+            "y": 80
+          },
+          {
+            "height": 740,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 1120,
+            "x": 262,
+            "y": 80
+          },
+          {
+            "height": 740,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 1120,
+            "x": 262,
+            "y": 80
+          }
+        ],
+        "panel_index": 4,
+        "passed": true,
+        "phase": 6,
+        "scientific_operations": "not_requested",
+        "window_height": 900,
+        "window_width": 1440
+      },
+      "stderr_empty": true,
+      "output": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt1"
+    },
+    {
+      "mode": "compact",
+      "exit_code": 0,
+      "result": {
+        "check": "actual_sidebar_panel_navigation",
+        "checks": [
+          "toggleInvestigator_actual_click_opens_checked",
+          "toggleInvestigator_same_underlying_button_closes",
+          "openSensorEditor_actual_click_opens_checked",
+          "openSensorEditor_same_underlying_button_closes",
+          "openTelemetry_actual_click_opens_checked",
+          "openTelemetry_same_underlying_button_closes",
+          "openPipeEvidence_actual_click_opens_checked",
+          "openPipeEvidence_same_underlying_button_closes",
+          "sensorPanelClose_actual_click_closes_and_clears_checked",
+          "telemetryPanelClose_actual_click_closes_and_clears_checked",
+          "pipeTransportClose_actual_click_closes_and_clears_checked",
+          "toggleInvestigator_exclusive_navigation",
+          "openSensorEditor_exclusive_navigation",
+          "openTelemetry_exclusive_navigation",
+          "openPipeEvidence_exclusive_navigation",
+          "all_panel_navigation_preserves_network_and_controls"
+        ],
+        "code": "ok",
+        "device_pixel_ratio": 1.75,
+        "elapsed_ms": 3497,
+        "hosted_requests": "not_requested",
+        "observed": [
+          {
+            "height": 668,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 16
+          },
+          {
+            "height": 664,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 18
+          },
+          {
+            "height": 652,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 24
+          },
+          {
+            "height": 668,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 16
+          },
+          {
+            "height": 668,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 16
+          },
+          {
+            "height": 668,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 16
+          },
+          {
+            "height": 668,
+            "panel": "openSensorEditor",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 16
+          },
+          {
+            "height": 664,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 18
+          },
+          {
+            "height": 664,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 18
+          },
+          {
+            "height": 664,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 18
+          },
+          {
+            "height": 664,
+            "panel": "openTelemetry",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 18
+          },
+          {
+            "height": 652,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 24
+          },
+          {
+            "height": 652,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 24
+          },
+          {
+            "height": 652,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 24
+          },
+          {
+            "height": 652,
+            "panel": "openPipeEvidence",
+            "toggle_x": 104,
+            "width": 864,
+            "x": 220,
+            "y": 24
+          }
+        ],
+        "panel_index": 4,
+        "passed": true,
+        "phase": 6,
+        "scientific_operations": "not_requested",
+        "window_height": 700,
+        "window_width": 1100
+      },
+      "stderr_empty": true,
+      "output": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt1"
+    }
+  ]
+}

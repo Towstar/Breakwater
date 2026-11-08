@@ -16,7 +16,7 @@ struct NemotronConfig {
     QUrl endpoint = QUrl(QStringLiteral("https://integrate.api.nvidia.com/v1/chat/completions"));
     QString model = QStringLiteral("nvidia/nemotron-3.5-lightning-30b-a3b");
     QString credentialSource;
-    int timeoutMs = 30000;
+    int timeoutMs = 60000;
     int maxRetries = 2;
     // An explicit file is useful for isolated launches; otherwise discover the local .env.
     // Nonempty process variables take precedence. Endpoints follow the selected
@@ -34,6 +34,7 @@ public:
                             QObject* parent = nullptr, QNetworkAccessManager* manager = nullptr);
     ~NemotronClient() override;
     void request(const QJsonArray& messages, const QJsonArray& tools) override;
+    void requestFinalJson(const QJsonArray& messages) override;
     void cancel() override;
     // Configuration changes are allowed between requests only.
     bool reloadConfiguration();
@@ -58,6 +59,7 @@ private:
     quint64 requestGeneration_ = 0;
     quint64 deliveringGeneration_ = 0;
     bool active_ = false;
+    void requestImpl(const QJsonArray& messages, const QJsonArray& tools, bool jsonFinal);
     void send();
     void consume();
     void finish();

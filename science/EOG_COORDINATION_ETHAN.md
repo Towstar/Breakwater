@@ -27,6 +27,44 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
+## Active execution checkpoint: bounded joint search
+
+Current A branch/worktree: `codex/person-a-eog-search` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-search`. Runtime freeze **34fdf5d**,
+search **eog-joint-search-0.1.2**, worker **eog-worker-0.3.2**; exact public gate
+72cadd1/native method 0.1.1 stay unchanged. Source, actual process exchanges and
+retained failures are in `science/evidence/eog-search/`; supported family and
+limits are in `science/EOG_SEARCH.md`.
+
+Final full science: **377/377**, zero failures/skips. Native normal/ASan: **11/11**
+each, 6,768 assertions per mode; checked Python base 63/63, final affected
+search/worker 38/38. Seven known-value synthetic families pass. Four actual
+official-prefix searches and eight fresh native/no-DLL independent worker checks
+all agree exactly on selected cost/outcome/shutdowns/hash/full horizons over nine
+failures. Selected totals are 3106.4603465511495 / 1810 / 3021.9269698545995 / 1810,
+all explicitly best_found. No continuous/global/physical/held-out claim.
+
+Every candidate retains global current-failure coverage. Empty/all-system search
+works; proper known subsets are explicitly unavailable pending Lucas's existing
+#41 scope disposition. Default retention preserves available baseline/truck-only/
+well-only/mixed leaders; only the exact selected plan is independently recomputed.
+Inspection latency/onset uncertainty and evolving prior commitments remain open.
+
+Lucas must stage new `science/eog_search.py` alongside the eight provider modules,
+update worker-method identity/history handling and execute search in actual
+client/model/history/installed paths. The search response includes an independent
+validation ID in limitations; callers still invoke validate_plan to obtain the
+complete bound review record. Public schemas are not extended or weakened.
+Concrete request and current B status pointer:
+https://github.com/Towstar/Breakwater/pull/44#issuecomment-6722804883 .
+
+Next A work: stateful synthetic simulation core and long-run ledgers, keeping truth
+separate from causal observation streams and persistent truck commitments.
+Coordinate the additive shared simulation boundary with Lucas before application
+binding; recorded replay/counterfactual UI, detector qualification, retained
+workbench and final integrated/render/installed acceptance remain required.
+Goal mode remains active; Lucas remains main's integrator.
+
 ## Input preservation correction on latest main
 
 User's latest-first instruction is fulfilled: `origin/main` at `387b583` was

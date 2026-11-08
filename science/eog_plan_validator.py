@@ -18,6 +18,7 @@ import hashlib
 import json
 import math
 import operator
+import time
 
 METHOD = "eog-rational-validation-0.1.0"
 SUPPORTED_EVALUATOR = "eog-native-seconds-0.1.1"
@@ -32,12 +33,20 @@ class ValidationUnavailable(ValueError):
 
 class Arithmetic:
     """Exact rational primitive followed by one binary64 nearest/even conversion."""
-    def __init__(self, maximum=1_000_000):
+    def __init__(self, maximum=1_000_000, *, deadline=None, clock=time.perf_counter):
         self.count = 0
         self.maximum = maximum
+        self.deadline = deadline
+        self.clock = clock
+
+    def check_time(self):
+        if self.deadline is not None and self.clock() >= self.deadline:
+            raise ValidationUnavailable("validation_time_limit", "Independent validation reached its planning deadline.")
 
     def round(self, value, *, infinite=False):
         self.count += 1
+        if self.count % 64 == 1:
+            self.check_time()
         if self.count > self.maximum:
             raise ValidationUnavailable("validation_limit", "Independent arithmetic work bound exceeded.")
         try:
@@ -81,6 +90,30 @@ class Failure:
 class ValidationResult:
     record: dict
     audit: dict
+
+
+@dataclass(frozen=True, slots=True)
+class PreparedValidation:
+    model: object
+    view: object
+    failures: dict
+    source: tuple
+    channels: dict
+    model_fingerprint: str
+    evidence_fingerprint: str
+    preparation_primitives: int
+
+
+def prepare(model, view):
+    """Compile independent immutable-capture evidence once, without native state.
+
+    This private object is made inside the trusted provider, never accepted from
+    the wire. A search may reuse it for candidate validation at the same cutoff.
+    """
+    arithmetic = Arithmetic()
+    failures, source, channels = reconstruct(model, view, arithmetic)
+    return PreparedValidation(model, view, failures, source, channels, model.fingerprint(),
+                              view.evidence_fingerprint(), arithmetic.count)
 
 
 def _hash(value):
@@ -204,11 +237,19 @@ def reconstruct(model, view, arithmetic):
 def validate(model, view, plan, evaluator_method=SUPPORTED_EVALUATOR):
     """Recompute a prevalidated public candidate without evaluating it natively."""
     _unavailable(evaluator_method not in SUPPORTED_EVALUATORS, "unsupported_evaluator", "Independent validation supports the declared native seconds semantics only.")
-    arithmetic = Arithmetic()
+    return validate_prepared(prepare(model, view), plan, evaluator_method)
+
+
+def validate_prepared(prepared, plan, evaluator_method=SUPPORTED_EVALUATOR, *, deadline=None, clock=time.perf_counter):
+    """Check a candidate using previously independently reconstructed evidence."""
+    _unavailable(evaluator_method not in SUPPORTED_EVALUATORS, "unsupported_evaluator", "Independent validation supports the declared native seconds semantics only.")
+    model, view = prepared.model, prepared.view
+    failures, source, channels = prepared.failures, prepared.source, prepared.channels
+    arithmetic = Arithmetic(deadline=deadline, clock=clock)
+    arithmetic.check_time()
     _unavailable(len(plan["truck_jobs"]) > 256 or len(plan["well_shut_ins"]) > 256 or
                  sum(len(j["trips"]) for j in plan["truck_jobs"]) > 16384,
                  "validation_limit", "Independent plan action/trip work bound exceeded.")
-    failures, source, channels = reconstruct(model, view, arithmetic)
     violations = []
     def reject(code, asset=None, time=None, message="Independent validation rejected a candidate claim or action."):
         _unavailable(len(violations) >= 256, "validation_limit", "Independent violation output bound exceeded.")
@@ -239,6 +280,7 @@ def validate(model, view, plan, evaluator_method=SUPPORTED_EVALUATOR):
     calendars, arrivals, trip_count, jobs_seen = [], {fid: {} for fid in failures}, 0, set()
     labels = {}
     for job in plan["truck_jobs"]:
+        arithmetic.check_time()
         fid, sid, truck = (job[k] for k in ("facility_id", "system_id", "truck_id"))
         if fid not in failures or sid not in fleets or failures[fid].facility.system_id != sid:
             reject("truck_asset", fid); continue
@@ -273,6 +315,7 @@ def validate(model, view, plan, evaluator_method=SUPPORTED_EVALUATOR):
     # Different algorithm from native adjacent sorted slots: test every pair of
     # claimed jobs on the same opaque truck. A final cycle remains occupied.
     for i, a in enumerate(calendars):
+        arithmetic.check_time()
         for b in calendars[i + 1:]:
             if ((a["system_id"], a["truck_id"]) == (b["system_id"], b["truck_id"]) and
                     a["start_s"] < b["end_s"] and b["start_s"] < a["end_s"]):
@@ -280,6 +323,7 @@ def validate(model, view, plan, evaluator_method=SUPPORTED_EVALUATOR):
     audits, lost_total, minimum_margin, shutdowns = [], 0.0, None, []
     if not violations:
         for fid, failure in failures.items():
+            arithmetic.check_time()
             f = failure.facility
             well_rates = {}
             for w, q in zip(f.wells, failure.water_bpd):
@@ -365,14 +409,15 @@ def validate(model, view, plan, evaluator_method=SUPPORTED_EVALUATOR):
     valid = not violations
     truck_cost = arithmetic.mul(trip_count, model.cost_per_trip) if valid else None
     cost = {"truck_cost": truck_cost, "lost_revenue": lost_total, "total": arithmetic.add(truck_cost, lost_total)} if valid else None
-    record = {"validation_id": "validation-" + _hash((METHOD, evaluator_method, plan["plan_hash"], model.fingerprint(), view.evidence_fingerprint())),
+    arithmetic.check_time()
+    record = {"validation_id": "validation-" + _hash((METHOD, evaluator_method, plan["plan_hash"], prepared.model_fingerprint, prepared.evidence_fingerprint)),
               "plan_id": plan["plan_id"], "plan_hash": plan["plan_hash"], "evaluator_method": evaluator_method,
               "validator_method": METHOD, "independent": True, "feasible": valid, "coverage": "available" if valid else "unavailable",
               "outcome": ("automatic_shutdown" if shutdowns else "avoids_shutdown") if valid else "unavailable",
               "shutdowns": shutdowns if valid else [], "validated_horizons": plan["repair_deadlines"] if valid else [],
               "cost": cost, "violations": violations, "minimum_shutdown_margin_bbl": minimum_margin if valid else None,
               "evidence_ids": [item["evidence_id"] for item in evidence], "evidence": evidence}
-    audit = {"method": METHOD, "cutoff_unix": view.cutoff_unix, "arithmetic_primitives": arithmetic.count,
+    audit = {"method": METHOD, "cutoff_unix": view.cutoff_unix, "arithmetic_primitives": prepared.preparation_primitives + arithmetic.count,
              "facilities": audits, "calendars": calendars, "limitations": [
                  "Independent code checks the declared binary64 fixed-rate model and point-onset assumption; it is not a real-arithmetic or hydraulic proof.",
                  "Causal archive/model parsing is shared infrastructure; detection, response compilation and native evaluation are not called."]}

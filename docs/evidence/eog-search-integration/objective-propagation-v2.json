@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "hosted_calls": "not_requested",
+  "expected_objective": "Harness-only propagation check: retain Unicode Ω and explicit search_plans wording.",
+  "prepared_objective": "Harness-only propagation check: retain Unicode Ω and explicit search_plans wording.",
+  "supplied_parameter": "Harness-only propagation check: retain Unicode Ω and explicit search_plans wording.",
+  "script_sha256": "651556b3a8a76bac2e3336f1239265f8269a1f6984a25fbcc45e9cfb75a83e2e"
+}

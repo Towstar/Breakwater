@@ -6,11 +6,13 @@ Dialog {
     id: panel
     required property var controller
     parent: Overlay.overlay
-    title: "Hypothetical sensors"
-    modal: true
-    width: Math.min(960, parent ? parent.width - 32 : 960)
-    height: Math.min(760, parent ? parent.height - 32 : 760)
-    anchors.centerIn: parent
+    title: "Sensor editor"
+    modal: false
+    closePolicy: Popup.CloseOnEscape
+    width: Math.min(960, parent ? parent.width - 236 : 960)
+    height: Math.min(760, parent ? parent.height - 96 : 760)
+    x: 220 + Math.max(0, ((parent ? parent.width : 1196) - 236 - width) / 2)
+    y: 76 + Math.max(0, ((parent ? parent.height : 856) - 96 - height) / 2)
     standardButtons: Dialog.Close
     font.family: Theme.fontFamily
     font.pixelSize: Theme.bodySize
@@ -26,6 +28,16 @@ Dialog {
     palette.highlightedText: Theme.background
     palette.mid: Theme.controlBorder
     background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
+    header: Rectangle {
+        implicitHeight: 54
+        color: Theme.surface
+        Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider }
+        RowLayout {
+            anchors.fill: parent; anchors.leftMargin: 14; anchors.rightMargin: 12; spacing: 12
+            Label { Layout.fillWidth: true; text: panel.title; color: Theme.text; font.pixelSize: 18; font.weight: Font.DemiBold }
+            ActionButton { objectName: "sensorPanelClose"; iconName: "x"; text: "Close"; tooltip: "Close"; display: AbstractButton.IconOnly; Layout.preferredWidth: 36; onClicked: panel.close() }
+        }
+    }
     property bool creating: true
     property bool submitting: false
     property string problem: ""
@@ -141,35 +153,37 @@ Dialog {
         }
     } }
     contentItem: ColumnLayout {
-        spacing: 8
+        spacing: 12
         Label { Layout.fillWidth: true; text: "SYNTHETIC ONLY · Measurements stay separate from commands and native forecasts."; wrapMode: Text.WordWrap; color: Theme.secondary }
         RowLayout {
-            Layout.fillWidth: true; Layout.fillHeight: true
-            ColumnLayout {
-                Layout.preferredWidth: 220; Layout.fillHeight: true
-                ActionButton { text: "New sensor"; Layout.fillWidth: true; onClicked: panel.beginNew() }
-                ListView {
-                    Layout.fillWidth: true; Layout.fillHeight: true; clip: true; model: controller.sensorMarkers
-                    delegate: ItemDelegate {
-                        id: sensorRow
-                        required property var modelData
-                        width: ListView.view.width; highlighted: modelData.selected; text: modelData.label
-                        background: Rectangle { color: sensorRow.highlighted ? Theme.selected : sensorRow.hovered ? Theme.hover : "transparent"; border.color: sensorRow.activeFocus ? Theme.text : "transparent" }
-                        contentItem: Label { text: parent.text; textFormat: Text.PlainText; elide: Text.ElideRight; color: Theme.text; font.pixelSize: Theme.smallSize }
-                        onClicked: { panel.creating = false; panel.problem = ""; controller.selectSensor(modelData.id); panel.populate() }
-                    }
+            Layout.fillWidth: true; spacing: 8
+            ActionButton { text: "New sensor"; iconName: "gauge"; onClicked: panel.beginNew() }
+            ActionButton { text: "Delete sensor"; iconName: "trash-2"; enabled: !panel.creating && controller.selectedSensorId.length > 0
+                onClicked: { if (controller.deleteSensor(controller.selectedSensorId)) panel.beginNew(); else panel.problem = controller.summary } }
+            ComboBox {
+                Layout.fillWidth: true; Layout.minimumWidth: 140
+                model: controller.sensorMarkers; textRole: "label"; valueRole: "id"
+                displayText: currentIndex >= 0 ? currentText : (count ? "Select a saved sensor" : "No saved sensors")
+                Accessible.name: "Saved sensor"
+                currentIndex: {
+                    const rows = controller.sensorMarkers
+                    for (let i = 0; i < rows.length; ++i) if (rows[i].id === controller.selectedSensorId) return i
+                    return -1
                 }
-                ActionButton { text: "Delete sensor"; Layout.fillWidth: true; enabled: !panel.creating && controller.selectedSensorId.length > 0
-                    onClicked: { if (controller.deleteSensor(controller.selectedSensorId)) panel.beginNew(); else panel.problem = controller.summary } }
+                onActivated: { panel.creating = false; panel.problem = ""; controller.selectSensor(currentValue); panel.populate() }
             }
-            ScrollView {
+        }
+        Rectangle { Layout.fillWidth: true; height: 1; color: Theme.divider }
+        ScrollView {
                 id: formScroll; Layout.fillWidth: true; Layout.fillHeight: true; clip: true; contentWidth: availableWidth
+                ScrollBar.vertical.policy: ScrollBar.AsNeeded
                 ColumnLayout {
-                    width: formScroll.availableWidth; spacing: 8
+                    width: formScroll.availableWidth; spacing: 12
                     Label { text: panel.creating ? "PLACE A SENSOR" : "EDIT SENSOR"; color: Theme.secondary; font.pixelSize: Theme.smallSize; font.bold: true }
                     Label { Layout.fillWidth: true; text: panel.creating ? "A stable sensor ID is generated when placed." : "Sensor " + controller.selectedSensorId; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.secondary }
                     GridLayout {
-                        columns: 2; Layout.fillWidth: true; columnSpacing: 12
+                        id: identityGrid
+                        columns: formScroll.availableWidth < 600 ? 1 : 2; Layout.fillWidth: true; columnSpacing: 18; rowSpacing: 8
                         Label { text: "Quantity" }
                         ComboBox { id: quantityBox; Layout.fillWidth: true; model: panel.quantities; enabled: panel.creating }
                         Label { text: "Attachment kind"; visible: panel.genericAttachment }
@@ -186,12 +200,14 @@ Dialog {
                         TextField { id: channelField; Layout.fillWidth: true; placeholderText: "Generated from sensor ID when blank" }
                         Label { text: "Enabled" }
                         CheckBox { id: enabledBox }
+                        Label { Layout.columnSpan: identityGrid.columns; Layout.topMargin: 8; text: "SAMPLING AND QUALITY"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
                         Label { text: "Sampling period (s)" }
                         TextField { id: periodField; Layout.fillWidth: true; inputMethodHints: Qt.ImhFormattedNumbersOnly }
                         Label { text: "Maximum age (s)" }
                         TextField { id: ageField; Layout.fillWidth: true; inputMethodHints: Qt.ImhFormattedNumbersOnly }
                         Label { text: "Uncertainty bound (" + panel.canonicalUnit + ")" }
                         TextField { id: uncertaintyField; Layout.fillWidth: true; inputMethodHints: Qt.ImhFormattedNumbersOnly }
+                        Label { Layout.columnSpan: identityGrid.columns; Layout.topMargin: 8; text: "REDUNDANCY AND INSTRUMENT RANGE"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
                         Label { text: "Redundancy group" }
                         TextField { id: groupField; Layout.fillWidth: true; placeholderText: "Independent group when blank" }
                         Label { text: "Group role" }
@@ -203,7 +219,7 @@ Dialog {
                     }
                     Label { Layout.fillWidth: true; text: panel.quantity === "level" ? "Declare a level-volume table. Scene tank geometry supplies no physical calibration." : "Calibration metadata"; wrapMode: Text.WordWrap; color: Theme.secondary }
                     GridLayout {
-                        columns: 2; Layout.fillWidth: true
+                        columns: formScroll.availableWidth < 600 ? 1 : 2; Layout.fillWidth: true; columnSpacing: 18; rowSpacing: 8
                         Label { text: "Calibration ID" }
                         TextField { id: calibrationIdField; Layout.fillWidth: true }
                         Label { text: "Version" }
@@ -216,7 +232,7 @@ Dialog {
                     Label { visible: panel.quantity === "concentration"; Layout.fillWidth: true; wrapMode: Text.WordWrap
                         text: "Concentration requires declared pipe transport geometry. Point observations remain explicitly unavailable for mapping."; color: Theme.warning }
                     GridLayout {
-                        columns: 2; Layout.fillWidth: true
+                        columns: formScroll.availableWidth < 600 ? 1 : 2; Layout.fillWidth: true; columnSpacing: 18; rowSpacing: 8
                         Label { visible: panel.quantity === "concentration"; text: "Physical support" }
                         ComboBox { id: supportBox; visible: panel.quantity === "concentration"; Layout.fillWidth: true; model: ["cell_average", "interval_average", "point_unavailable"] }
                         Label { visible: panel.quantity === "concentration" && supportBox.currentText === "cell_average"; text: "Zero-based cell index" }
@@ -245,7 +261,6 @@ Dialog {
                         } catch (error) { panel.problem = String(error.message || error) } } }
                     }
                 }
-            }
         }
         ActionButton { highlighted: true; text: panel.creating ? "Place sensor" : "Save sensor configuration"; enabled: attachmentBox.count > 0; Layout.fillWidth: true; onClicked: panel.apply() }
         Label { Layout.fillWidth: true; visible: panel.problem.length > 0; text: panel.problem; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.warning }

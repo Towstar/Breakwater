@@ -17,6 +17,7 @@ if(TARGET breakwater_eog_response)
     "${PROJECT_SOURCE_DIR}/science/eog_observations.py"
     "${PROJECT_SOURCE_DIR}/science/eog_response.py"
     "${PROJECT_SOURCE_DIR}/science/eog_plan_validator.py"
+    "${PROJECT_SOURCE_DIR}/science/eog_search.py"
     "${PROJECT_SOURCE_DIR}/science/native_eog.py"
     DESTINATION share/breakwater/science)
   install(FILES

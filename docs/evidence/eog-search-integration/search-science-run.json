@@ -1,0 +1,17 @@
+{
+  "exit_code": 0,
+  "elapsed_seconds": 56.6587579,
+  "head": "fef231e919d85f42f63e9e15a9109228283b9f29",
+  "requested_science_revision": "6613b66",
+  "native_sha256": "63b3e8bf7d3d4c5d41b3b01915eba850ca34a51bc8128c640233bc9a19cf0366",
+  "science_source_diff_exit": 0,
+  "native_engine_diff_from_verified_ui_exit": 0,
+  "native_method": "eog-native-seconds-0.1.1",
+  "native_sha256_after": "63b3e8bf7d3d4c5d41b3b01915eba850ca34a51bc8128c640233bc9a19cf0366",
+  "native_source_hashes": {
+    "engine/src/eog_response.cpp": "d9a6b8b02df680ab18aa0a75da317d8ba640cde1498064a298bb666a9c2ac735",
+    "engine/include/breakwater/eog_response.h": "8810d7e9c716a249aca0685c213a501dcb60b6197c5cd8c9a02178d2820575f3",
+    "engine/src/eog_analytical.cpp": "1886923f6bdfa0bfbbcc8fc9dcb2e315fa1df1b17642d04e0e9461e3cbfbbe70",
+    "engine/include/breakwater/eog_analytical.hpp": "4e7adaf19210fe4aeac4cc8f73f136ef977be2783453f31f7ebad0712f9a8525"
+  }
+}

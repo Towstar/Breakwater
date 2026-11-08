@@ -1,0 +1,41 @@
+{
+  "distinct_archived_objectives": 1,
+  "attempts": [
+    {
+      "attempt": "canonical-01",
+      "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "matches_launch": true
+    },
+    {
+      "attempt": "canonical-02",
+      "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "matches_launch": true
+    },
+    {
+      "attempt": "canonical-03",
+      "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "matches_launch": true
+    },
+    {
+      "attempt": "canonical-04",
+      "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "matches_launch": true
+    },
+    {
+      "attempt": "canonical-05",
+      "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "matches_launch": true
+    },
+    {
+      "attempt": "canonical-06",
+      "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "matches_launch": true
+    },
+    {
+      "attempt": "canonical-07",
+      "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "matches_launch": true
+    }
+  ],
+  "correction": "The PowerShell Objective parameter was overwritten by the case-insensitive objective local variable. Earlier claims that the model ignored explicit supplied search objectives are unsupported."
+}

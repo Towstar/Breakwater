@@ -205,7 +205,8 @@ private:
             const auto row = QJsonObject::fromVariantMap(value.toMap());
             const auto type = row.value("type").toString();
             if (type == "final") final = row;
-            if (type == "failure" || type == "cancel") failure = true;
+            if (type == "cancel" || (type == "failure" &&
+                !EogInvestigator::isFinalFormatCorrectionCode(row.value("code").toString()))) failure = true;
             if (type == "tool_call") {
                 calls[row.value("call_id").toString()] = row.value("name").toString();
                 tool_order_.append(safeReference(row.value("name").toString()));

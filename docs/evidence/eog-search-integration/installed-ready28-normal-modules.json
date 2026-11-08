@@ -1,0 +1,130 @@
+{
+  "modules": [
+    {
+      "name": "breakwater.exe",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\breakwater.exe",
+      "sha256": "25b4f4bc73f183196af5c5d3a85edfe3dfa19a6b0242b8d8d7bfb8966ee4da68"
+    },
+    {
+      "name": "Qt6Core.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Core.dll",
+      "sha256": "39175459c4837c8cc0f709a637fb6eadb25d696785109c8393559ec876f02703"
+    },
+    {
+      "name": "Qt6Gui.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Gui.dll",
+      "sha256": "37c79b48b9cc2d9a03d21410c26fea683d236f9280f5c9aaab85d980759f2835"
+    },
+    {
+      "name": "Qt6Network.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Network.dll",
+      "sha256": "9825558f184c64f639c4b8663650cee0ae8ffe01c18d98ff76f006a02389965f"
+    },
+    {
+      "name": "Qt6OpenGL.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6OpenGL.dll",
+      "sha256": "1e88ff2d5c02e817839c8be4257162e677e7b8335dee9128185cb5888ceebc67"
+    },
+    {
+      "name": "Qt6Qml.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Qml.dll",
+      "sha256": "2572e315c36d8cea89a5becb910ddccdcf5d34e5421eef1e033187a99b68f84b"
+    },
+    {
+      "name": "Qt6QmlMeta.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QmlMeta.dll",
+      "sha256": "26110c74d4dacdf73c94326a554a9f866383487250cd058c0410b037eb205c17"
+    },
+    {
+      "name": "Qt6QmlModels.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QmlModels.dll",
+      "sha256": "fd3f5e540705b7625292df7f12556ab96eb0c53769083b31bf59ced50639683b"
+    },
+    {
+      "name": "Qt6QmlWorkerScript.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QmlWorkerScript.dll",
+      "sha256": "900ed9907ec695e8f8d0775ef7993dc40423b69513324d5bee434f2751755fe5"
+    },
+    {
+      "name": "Qt6Quick.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Quick.dll",
+      "sha256": "6d9b5639e8cad3b01083fc7c8c838b09d9f2d04a38cc4c339ddc3973123d5fa8"
+    },
+    {
+      "name": "Qt6Quick3D.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Quick3D.dll",
+      "sha256": "df831e9952e2e90ba74af94640f0f3248750b269d89d59b1cd09b41e38f963ee"
+    },
+    {
+      "name": "Qt6Quick3DRuntimeRender.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Quick3DRuntimeRender.dll",
+      "sha256": "626fb5697b6616281e7ead611672b8a5dd77403b297f92707a0d9bb9abec7ada"
+    },
+    {
+      "name": "Qt6Quick3DUtils.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Quick3DUtils.dll",
+      "sha256": "1c6b12a24ae4f49f9010c61213d33d35fa0d8a9fe0b172d18d37587e87e31cef"
+    },
+    {
+      "name": "Qt6QuickControls2.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickControls2.dll",
+      "sha256": "6dc2413eb7a8138ef821a9886c7b5799d9a570968b1ba31848774f991aa89060"
+    },
+    {
+      "name": "Qt6QuickControls2Basic.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickControls2Basic.dll",
+      "sha256": "04cab4012313cbe5f02f4d665078c939f1d702072494ae0542b01654cbb06356"
+    },
+    {
+      "name": "Qt6QuickControls2BasicStyleImpl.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickControls2BasicStyleImpl.dll",
+      "sha256": "15f74454beddaf91b8ca1fd50e9d83cc3f236bbac1e4f3e338bdbf49897e6714"
+    },
+    {
+      "name": "Qt6QuickControls2Impl.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickControls2Impl.dll",
+      "sha256": "8d1281b8047295c0793902b68d5940ca7779b60bdc4e03281088a81e9cf66d05"
+    },
+    {
+      "name": "Qt6QuickDialogs2.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickDialogs2.dll",
+      "sha256": "4ba12047b409ee219533bbb6f0c554f03ea017de3e68458f432279ba002b6123"
+    },
+    {
+      "name": "Qt6QuickDialogs2QuickImpl.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickDialogs2QuickImpl.dll",
+      "sha256": "e5d1195ce35bd0926ca8b1993f2896adc8207f3f87271792f9368d8dc27ff3fe"
+    },
+    {
+      "name": "Qt6QuickDialogs2Utils.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickDialogs2Utils.dll",
+      "sha256": "acd4495b2d2517848254c6f7079736bc1c0d18b0f4ab8980871e197978f88ef0"
+    },
+    {
+      "name": "Qt6QuickLayouts.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickLayouts.dll",
+      "sha256": "f1defece7e4acd24582cb4216ffb3edc8bd81b650e2e3ef42b7cdf3148389302"
+    },
+    {
+      "name": "Qt6QuickTemplates2.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6QuickTemplates2.dll",
+      "sha256": "94c70cf4d6a15720a2e2e2b41b4c99f85a3d0b6a758bdb12b18128fe3c26f4bc"
+    },
+    {
+      "name": "Qt6ShaderTools.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6ShaderTools.dll",
+      "sha256": "b06a91ed773d1af8fecf54f8b98683a38b73fbfec776c714e080143aded64c90"
+    },
+    {
+      "name": "Qt6Sql.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Sql.dll",
+      "sha256": "1d847a23da0f3dc568e3fb8a98fbb210ba122a3b7f3db51b5cc69a2edfae74a6"
+    },
+    {
+      "name": "Qt6Svg.dll",
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\Breakwater-Demo-Ready\\bin\\Qt6Svg.dll",
+      "sha256": "cce84059f1857ff1859db7c4fe10334e603d9ca81eb4d5f0a22ca0ac515b340c"
+    }
+  ],
+  "first_enumeration_error": ""
+}

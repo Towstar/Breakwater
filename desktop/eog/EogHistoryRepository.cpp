@@ -290,6 +290,9 @@ QJsonObject restoredRequest(QJsonObject request) {
 }
 void checkAnalysis(const QJsonObject& archivedRequest, const QJsonObject& response, const QJsonObject& meta,
                    const CaptureEvidence& captured) {
+    // Keep the complete bound response, including any declared search family or
+    // explicit evaluator/validator identities. The unchanged v1 envelope does
+    // not identify the worker implementation; metadata must not invent one.
     const auto request = restoredRequest(archivedRequest);
     validate_document(request, "analysis_request");
     require(request.value("capture_manifest") == captured.manifest, "Analysis replaces the session's immutable capture.");

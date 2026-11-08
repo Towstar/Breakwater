@@ -1,0 +1,1 @@
+{"code":"validated_json_only_completion","exit_code":0,"model_metadata":{"duration_ms":5887,"http_status":200,"model_identity":"nvidia/nemotron-3.5-lightning-30b-a3b","retry_count":0},"passed":true,"request_count":1,"scope":"Hosted JSON-only protocol; no EOG numerical result or control authority."}

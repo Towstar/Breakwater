@@ -19,14 +19,31 @@ Dialog {
     readonly property var outletScale: bounds(preview.outlet_mg_l || [], false)
     readonly property var fieldScale: bounds(preview.concentration_mg_l || [], true)
     parent: Overlay.overlay
-    width: Math.min(preferredDialogWidth, parent.width - 32)
-    height: Math.min(preferredDialogHeight, parent.height - 48)
-    x: Math.round((parent.width - width) / 2)
-    y: Math.round((parent.height - height) / 2)
-    modal: true
+    width: Math.min(preferredDialogWidth, parent.width - 236)
+    height: Math.min(preferredDialogHeight, parent.height - 96)
+    x: 220 + Math.round((parent.width - 236 - width) / 2)
+    y: 76 + Math.max(0, Math.round((parent.height - 96 - height) / 2))
+    modal: false
     title: "Experimental pipe transport"
     closePolicy: Popup.CloseOnEscape
     onOpened: transportTabs.currentIndex = 0
+    padding: 14
+    background: Rectangle { color: Theme.background; border.color: Theme.controlBorder; radius: 7 }
+    header: Rectangle {
+        implicitHeight: 54
+        color: Theme.surface
+        RowLayout {
+            anchors.fill: parent; anchors.leftMargin: 16; anchors.rightMargin: 12; spacing: 12
+            Label { Layout.fillWidth: true; text: dialog.title; textFormat: Text.PlainText; color: Theme.text; font.pixelSize: 17; font.weight: Font.DemiBold }
+            ActionButton {
+                objectName: "pipeTransportClose"
+                iconName: "x"; display: AbstractButton.IconOnly; text: "Close"
+                tooltip: "Close pipe transport"; accessibleName: "Close pipe transport"
+                onClicked: dialog.close()
+            }
+        }
+        Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider }
+    }
 
     function number(value) {
         if (value === undefined || value === null || !Number.isFinite(Number(value))) return "—"
@@ -58,10 +75,17 @@ Dialog {
     onPreviewChanged: { outletPlot.requestPaint(); fieldPlot.requestPaint() }
 
     contentItem: ColumnLayout {
-        spacing: 7
+        spacing: 10
+        Rectangle {
+            Layout.fillWidth: true
+            implicitHeight: contextControls.implicitHeight + 20
+            color: Theme.surface; border.color: Theme.divider; radius: Theme.cornerRadius
+            ColumnLayout {
+                id: contextControls
+                anchors.fill: parent; anchors.margins: 10; spacing: 8
         RowLayout {
             Layout.fillWidth: true; spacing: 8
-            PlainLabel { Layout.fillWidth: true; text: (dialog.viewingImported ? "Recorded route: " + dialog.resultData.route_id : "Current route: " + (dialog.pipeTransport.routeId || "Select a pipe in the scene")); wrapMode: Text.WrapAnywhere; maximumLineCount: 2; elide: Text.ElideRight; font.pixelSize: Theme.captionSize }
+            PlainLabel { Layout.fillWidth: true; text: (dialog.viewingImported ? "Recorded route: " + dialog.resultData.route_id : "Current route: " + (dialog.pipeTransport.routeId || "Select a pipe in the scene")); wrapMode: Text.WrapAnywhere; maximumLineCount: 2; elide: Text.ElideRight; font.pixelSize: Theme.smallSize }
             PlainLabel { text: "NATIVE SCALAR REFERENCE · EXPERIMENTAL"; color: Theme.warning; font.pixelSize: Theme.captionSize }
         }
         PlainLabel {
@@ -72,11 +96,11 @@ Dialog {
         }
         RowLayout {
             Layout.fillWidth: true; spacing: 8; visible: !dialog.viewingImported
-            PlainLabel { text: "Current run"; color: Theme.secondary }
+            PlainLabel { Layout.preferredWidth: 76; text: "Current run"; color: Theme.secondary; font.pixelSize: Theme.smallSize }
             ComboBox {
                 id: runSelector
                 objectName: "pipeTransportRunSelector"
-                Layout.fillWidth: true
+                Layout.fillWidth: true; Layout.minimumWidth: 0
                 model: dialog.pipeTransport.runs; textRole: "label"; valueRole: "run_id"
                 enabled: count > 0 && !dialog.pipeTransport.busy && !dialog.viewingImported
                 currentIndex: {
@@ -95,7 +119,6 @@ Dialog {
                     contentItem: PlainLabel { text: runOption.modelData.label + (runOption.modelData.historical ? " · historical" : " · current"); elide: Text.ElideRight }
                 }
             }
-            ActionButton { iconName: "play"; objectName: "runPipeTransport"; text: "Run native transport"; highlighted: true; enabled: dialog.pipeTransport.canRun && !dialog.pipeTransport.busy && !dialog.viewingImported; onClicked: { transportTabs.currentIndex = 0; dialog.pipeTransport.run() } }
         }
         RowLayout {
             Layout.fillWidth: true; spacing: 8
@@ -103,19 +126,27 @@ Dialog {
             ActionButton { iconName: "rotate-ccw"; objectName: "showCurrentPipeResult"; text: "Current calculation"; visible: dialog.viewingImported; enabled: !dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.showCurrentResult() }
             ActionButton { iconName: "arrow-up-from-line"; objectName: "exportPipeEvidence"; text: "Export JSON"; enabled: dialog.hasResult && !dialog.pipeTransport.busy; onClicked: exportDialog.open() }
             Item { Layout.fillWidth: true }
+            Rectangle { Layout.preferredWidth: 1; Layout.preferredHeight: 24; color: Theme.divider; Layout.leftMargin: 2; Layout.rightMargin: 2 }
+            ActionButton { iconName: "play"; objectName: "runPipeTransport"; text: "Run native transport"; visible: !dialog.viewingImported; highlighted: true; enabled: dialog.pipeTransport.canRun && !dialog.pipeTransport.busy && !dialog.viewingImported; onClicked: { transportTabs.currentIndex = 0; dialog.pipeTransport.run() } }
             ActionButton { iconName: "square"; objectName: "cancelPipeTransport"; text: "Cancel"; enabled: dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.cancel() }
         }
-        PlainLabel { Layout.fillWidth: true; text: dialog.pipeTransport.status; wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight; color: Theme.text }
+        PlainLabel { Layout.fillWidth: true; text: dialog.pipeTransport.status; wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight; color: Theme.secondary; font.pixelSize: Theme.smallSize }
+            }
+        }
         TabBar {
             id: transportTabs
             objectName: "pipeTransportTabs"
-            Layout.preferredWidth: 540
-            TabButton { text: "Native results" }
-            TabButton { text: dialog.viewingImported ? "Recorded parameters" : "Physical parameters" }
-            TabButton { text: "Provenance" }
+            Layout.fillWidth: true
+            background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+            TabButton { text: "Native results"; font.pixelSize: Theme.smallSize; implicitHeight: 36 }
+            TabButton { text: dialog.viewingImported ? "Recorded parameters" : "Physical parameters"; font.pixelSize: Theme.smallSize; implicitHeight: 36 }
+            TabButton { text: "Provenance"; font.pixelSize: Theme.smallSize; implicitHeight: 36 }
         }
-        StackLayout {
+        Rectangle {
             Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 0
+            color: Theme.background; border.color: Theme.divider; radius: Theme.cornerRadius
+        StackLayout {
+            anchors.fill: parent; anchors.margins: 12
             currentIndex: transportTabs.currentIndex
             ScrollView {
                 id: resultScroll; contentWidth: availableWidth; clip: true
@@ -129,7 +160,7 @@ Dialog {
                             SectionLabel { text: "OUTLET CONCENTRATION · mg/L" }
                             Rectangle {
                                 Layout.fillWidth: true; Layout.preferredHeight: Math.max(145, Math.min(230, dialog.height * 0.30))
-                                color: Theme.surface; radius: 4
+                                color: Theme.surface; radius: 4; border.color: Theme.divider
                                 Canvas {
                                     id: outletPlot
                                     objectName: "pipeOutletPlot"
@@ -156,7 +187,7 @@ Dialog {
                                         if (!(end > start) || right <= left) return
                                         const x = function(t) { return left + (Number(t) - start) / (end - start) * (right - left) }
                                         const y = function(v) { return bottom - (Number(v) / magnitude - low) / (high - low) * (bottom - top) }
-                                        ctx.font = "10px sans-serif"; ctx.lineWidth = 1; ctx.textAlign = "right"; ctx.textBaseline = "middle"
+                                        ctx.font = "12px sans-serif"; ctx.lineWidth = 1; ctx.textAlign = "right"; ctx.textBaseline = "middle"
                                         for (let i = 0; i <= 2; ++i) {
                                             const value = (low + (high - low) * i / 2) * magnitude, py = bottom - i / 2 * (bottom - top)
                                             ctx.strokeStyle = Theme.divider; ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke()
@@ -179,7 +210,7 @@ Dialog {
                             SectionLabel { text: "SAMPLED TIME–DISTANCE FIELD · mg/L" }
                             Rectangle {
                                 Layout.fillWidth: true; Layout.preferredHeight: Math.max(145, Math.min(230, dialog.height * 0.30))
-                                color: Theme.surface; radius: 4
+                                color: Theme.surface; radius: 4; border.color: Theme.divider
                                 Canvas {
                                     id: fieldPlot
                                     objectName: "pipeFieldPlot"
@@ -214,7 +245,7 @@ Dialog {
                                                 ctx.fillRect(x0, y0, x1 - x0 + 0.5, y1 - y0 + 0.5)
                                             }
                                         }
-                                        ctx.font = "10px sans-serif"; ctx.fillStyle = Theme.secondary; ctx.textAlign = "right"; ctx.textBaseline = "middle"
+                                        ctx.font = "12px sans-serif"; ctx.fillStyle = Theme.secondary; ctx.textAlign = "right"; ctx.textBaseline = "middle"
                                         ctx.fillText(dialog.number(firstT) + " h", left - 6, top + 2); ctx.fillText(dialog.number(lastT) + " h", left - 6, bottom - 2)
                                         ctx.textBaseline = "top"; ctx.textAlign = "left"; ctx.fillText(dialog.number(firstX) + " m", left, bottom + 9)
                                         ctx.textAlign = "right"; ctx.fillText(dialog.number(lastX) + " m", right, bottom + 9)
@@ -305,11 +336,13 @@ Dialog {
                 }
             }
         }
+        }
     }
     footer: Item {
-        implicitHeight: 44
+        implicitHeight: 48
+        Rectangle { anchors.fill: parent; color: Theme.surface; Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top; height: 1; color: Theme.divider } }
         RowLayout {
-            anchors.fill: parent; anchors.margins: 6; anchors.rightMargin: 30
+            anchors.fill: parent; anchors.margins: 6; anchors.leftMargin: 14; anchors.rightMargin: 34; spacing: 12
             PlainLabel { Layout.fillWidth: true; text: "Drag the corner to resize · no simulated controls are changed"; font.pixelSize: Theme.captionSize; color: Theme.muted }
             ActionButton { iconName: "x"; text: "Close"; onClicked: dialog.close() }
         }
@@ -325,8 +358,8 @@ Dialog {
             onPositionChanged: function(mouse) {
                 if (!pressed) return
                 const point = mapToItem(null, mouse.x, mouse.y)
-                dialog.preferredDialogWidth = Math.max(700, Math.min(dialog.parent.width - 32, startWidth + (point.x - startPoint.x) * 2))
-                dialog.preferredDialogHeight = Math.max(440, Math.min(dialog.parent.height - 48, startHeight + (point.y - startPoint.y) * 2))
+                dialog.preferredDialogWidth = Math.max(700, Math.min(dialog.parent.width - 236, startWidth + (point.x - startPoint.x) * 2))
+                dialog.preferredDialogHeight = Math.max(440, Math.min(dialog.parent.height - 96, startHeight + (point.y - startPoint.y) * 2))
             }
             PlainLabel { anchors.centerIn: parent; text: "↘"; color: Theme.muted; font.pixelSize: 18 }
         }

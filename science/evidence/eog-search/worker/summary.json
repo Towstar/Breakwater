@@ -1,0 +1,192 @@
+{
+  "qualification": "bounded_joint_search_real_process_and_known_cases",
+  "search_method": "eog-joint-search-0.1.2",
+  "evaluator_method": "eog-native-seconds-0.1.1",
+  "adopted_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "native_library_sha256": "8541bfc05cc16be2a8dbb8d1d6ec4ead2af8f45da00d20beec019786ee49ec77",
+  "cuts": [
+    {
+      "cutoff_unix": 1791460800,
+      "search_status": "completed",
+      "baseline_matches_frozen": true,
+      "selected_matches_fresh_native_exactly": true,
+      "selected_matches_no_dll_validation_exactly": true,
+      "baseline_total": 12120.031267547434,
+      "selected_cost": {
+        "truck_cost": 1810.0,
+        "lost_revenue": 1296.4603465511495,
+        "total": 3106.4603465511495
+      },
+      "selected_outcome": "automatic_shutdown",
+      "selected_plan_hash": "0c05c8b10268814f6eeca53ec7359cf7045ac0e21c4d07ee473d3c7629f60545",
+      "validated_facilities": 3,
+      "search": {
+        "scope": "bounded_search",
+        "optimality": "best_found",
+        "space_description": "eog-joint-search-0.1.2 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "action_time_resolution_s": null,
+        "evaluated_candidates": 3000,
+        "candidate_limit": 3000,
+        "time_limit_s": 15,
+        "elapsed_s": 1.4635355999926105,
+        "complete": false
+      },
+      "search_wall_s": 5.913840599998366,
+      "fresh_native_wall_s": 4.152210999978706,
+      "independent_wall_s": 4.117056999995839,
+      "passed": true
+    },
+    {
+      "cutoff_unix": 1791516600,
+      "search_status": "completed",
+      "baseline_matches_frozen": true,
+      "selected_matches_fresh_native_exactly": true,
+      "selected_matches_no_dll_validation_exactly": true,
+      "baseline_total": 7549.081166047441,
+      "selected_cost": {
+        "truck_cost": 1810.0,
+        "lost_revenue": 0.0,
+        "total": 1810.0
+      },
+      "selected_outcome": "avoids_shutdown",
+      "selected_plan_hash": "16322b9ba078f5359c7bb3e1cd8c35b067991adc83ac154e36dca6466b57a7eb",
+      "validated_facilities": 1,
+      "search": {
+        "scope": "bounded_search",
+        "optimality": "best_found",
+        "space_description": "eog-joint-search-0.1.2 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "action_time_resolution_s": null,
+        "evaluated_candidates": 247,
+        "candidate_limit": 3000,
+        "time_limit_s": 15,
+        "elapsed_s": 0.28853999997954816,
+        "complete": false
+      },
+      "search_wall_s": 5.0082104000030085,
+      "fresh_native_wall_s": 5.101940399967134,
+      "independent_wall_s": 5.003790799994022,
+      "passed": true
+    },
+    {
+      "cutoff_unix": 1791622800,
+      "search_status": "completed",
+      "baseline_matches_frozen": true,
+      "selected_matches_fresh_native_exactly": true,
+      "selected_matches_no_dll_validation_exactly": true,
+      "baseline_total": 11900.563692064303,
+      "selected_cost": {
+        "truck_cost": 1810.0,
+        "lost_revenue": 1211.9269698545995,
+        "total": 3021.9269698545995
+      },
+      "selected_outcome": "automatic_shutdown",
+      "selected_plan_hash": "17a008963aa8fbd9e4e30c1b329d918525183f47e2d73b04d75ffb0eb60f7e65",
+      "validated_facilities": 3,
+      "search": {
+        "scope": "bounded_search",
+        "optimality": "best_found",
+        "space_description": "eog-joint-search-0.1.2 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "action_time_resolution_s": null,
+        "evaluated_candidates": 3000,
+        "candidate_limit": 3000,
+        "time_limit_s": 15,
+        "elapsed_s": 1.4707156000076793,
+        "complete": false
+      },
+      "search_wall_s": 7.561939900042489,
+      "fresh_native_wall_s": 5.60702830000082,
+      "independent_wall_s": 5.524775099998806,
+      "passed": true
+    },
+    {
+      "cutoff_unix": 1791646200,
+      "search_status": "completed",
+      "baseline_matches_frozen": true,
+      "selected_matches_fresh_native_exactly": true,
+      "selected_matches_no_dll_validation_exactly": true,
+      "baseline_total": 9970.447076341012,
+      "selected_cost": {
+        "truck_cost": 1810.0,
+        "lost_revenue": 0.0,
+        "total": 1810.0
+      },
+      "selected_outcome": "avoids_shutdown",
+      "selected_plan_hash": "186c4242a009b6f56954897d87495c735adbc6c67ef34584904320918c66c89b",
+      "validated_facilities": 2,
+      "search": {
+        "scope": "bounded_search",
+        "optimality": "best_found",
+        "space_description": "eog-joint-search-0.1.2 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "action_time_resolution_s": null,
+        "evaluated_candidates": 3000,
+        "candidate_limit": 3000,
+        "time_limit_s": 15,
+        "elapsed_s": 1.5120852999971248,
+        "complete": false
+      },
+      "search_wall_s": 8.325253200018778,
+      "fresh_native_wall_s": 5.37210929999128,
+      "independent_wall_s": 4.931446500006132,
+      "passed": true
+    }
+  ],
+  "limitations": [
+    "Correlated official practice prefixes, not held-out data or calibrated onset/inspection qualification.",
+    "Declared finite candidate family; no continuous/global optimality inferred from native feasibility or independent validation.",
+    "Worker wall times include startup, capture verification, loading and snapshot preparation; reported planning time excludes those setup steps.",
+    "Only selected plans are independently recomputed; other retained native alternatives are not independently certified.",
+    "Known test bounds are analytical arguments for the stated synthetic fixtures, not physical validation or universal proofs."
+  ],
+  "known_cases": [
+    {
+      "case": "one-truck",
+      "expected_cost_or_infimum": 3,
+      "selected_total": 3.0,
+      "evaluated_candidates": 87,
+      "passed": true
+    },
+    {
+      "case": "shared-fleet",
+      "expected_cost_or_infimum": 13,
+      "selected_total": 13.0,
+      "evaluated_candidates": 562,
+      "passed": true
+    },
+    {
+      "case": "sequential-yard",
+      "expected_cost_or_infimum": 2,
+      "selected_total": 2.0,
+      "evaluated_candidates": 3000,
+      "passed": true
+    },
+    {
+      "case": "mixed",
+      "expected_cost_or_infimum": 2,
+      "selected_total": 2.0,
+      "evaluated_candidates": 125,
+      "passed": true
+    },
+    {
+      "case": "nine-economic-loads",
+      "expected_cost_or_infimum": 55,
+      "selected_total": 55.0,
+      "evaluated_candidates": 3000,
+      "passed": true
+    },
+    {
+      "case": "well-only",
+      "expected_cost_or_infimum": 24,
+      "selected_total": 24.0,
+      "evaluated_candidates": 23,
+      "passed": true
+    },
+    {
+      "case": "late-pickup",
+      "expected_cost_or_infimum": 2.8,
+      "selected_total": 2.8000000000000016,
+      "evaluated_candidates": 89,
+      "passed": true
+    }
+  ],
+  "passed": true
+}

@@ -1,0 +1,146 @@
+{
+  "eog_version": 1,
+  "kind": "analysis_response",
+  "request_id": "selected-native-1791646200",
+  "operation": "evaluate_plan",
+  "method_version": 1,
+  "dataset_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+  "capture_id": "29169bcbbeac283f7989c14310aca572b608a31d26cc50d9ac786ac9672fe78a",
+  "cutoff_unix": 1791646200,
+  "status": "completed",
+  "result": {
+    "evaluation": {
+      "plan": {
+        "context": "historical_cursor",
+        "start_unix": 1791646200,
+        "repair_deadlines": [
+          {
+            "facility_id": "S5_FACILITY_B",
+            "repair_elapsed_s": 18000.0
+          },
+          {
+            "facility_id": "S5_FACILITY_C",
+            "repair_elapsed_s": 16200.0
+          }
+        ],
+        "truck_jobs": [
+          {
+            "job_id": "job-616fe46f406102f336031ea048ed8e8f",
+            "truck_id": "truck-bb9adc03f35308bf-1",
+            "system_id": "S5",
+            "facility_id": "S5_FACILITY_B",
+            "called_elapsed_s": 3600.0,
+            "response_min": 90.0,
+            "cycle_min": 235.0,
+            "available_again_elapsed_s": 23100.0,
+            "trips": [
+              {
+                "arrival_elapsed_s": 9000.0,
+                "volume_bbl": 150.0,
+                "cost": 905.0
+              }
+            ]
+          },
+          {
+            "job_id": "job-2cf8606c3e91558ea12efe90a72692c8",
+            "truck_id": "truck-bb9adc03f35308bf-2",
+            "system_id": "S5",
+            "facility_id": "S5_FACILITY_C",
+            "called_elapsed_s": 0.0,
+            "response_min": 100.0,
+            "cycle_min": 250.0,
+            "available_again_elapsed_s": 21000.0,
+            "trips": [
+              {
+                "arrival_elapsed_s": 6000.0,
+                "volume_bbl": 150.0,
+                "cost": 905.0
+              }
+            ]
+          }
+        ],
+        "well_shut_ins": [],
+        "inspection_assets": [],
+        "plan_id": "plan-dd6c03a01b3864eabaf43b4bc43a1e98",
+        "plan_hash": "186c4242a009b6f56954897d87495c735adbc6c67ef34584904320918c66c89b"
+      },
+      "feasible": true,
+      "coverage": "available",
+      "outcome": "avoids_shutdown",
+      "shutdowns": [],
+      "trajectories": [
+        {
+          "facility_id": "S5_FACILITY_B",
+          "tank_id": "S5_TANK_B",
+          "capacity_bbl": 750.0,
+          "shutdown_volume_bbl": 690.0,
+          "elapsed_s": [
+            0.0,
+            9000.0,
+            9000.0,
+            18000.0
+          ],
+          "volumes_bbl": [
+            447.15,
+            624.4104166666666,
+            474.4104166666666,
+            651.6708333333333
+          ]
+        },
+        {
+          "facility_id": "S5_FACILITY_C",
+          "tank_id": "S5_TANK_C",
+          "capacity_bbl": 600.0,
+          "shutdown_volume_bbl": 552.0,
+          "elapsed_s": [
+            0.0,
+            6000.0,
+            6000.0,
+            16200.0
+          ],
+          "volumes_bbl": [
+            440.88,
+            531.0119444444445,
+            381.01194444444445,
+            534.23625
+          ]
+        }
+      ],
+      "cost": {
+        "truck_cost": 1810.0,
+        "lost_revenue": 0.0,
+        "total": 1810.0
+      },
+      "fleet_occupancy": [
+        {
+          "truck_id": "truck-bb9adc03f35308bf-1",
+          "job_id": "job-616fe46f406102f336031ea048ed8e8f",
+          "start_elapsed_s": 3600.0,
+          "end_elapsed_s": 23100.0
+        },
+        {
+          "truck_id": "truck-bb9adc03f35308bf-2",
+          "job_id": "job-2cf8606c3e91558ea12efe90a72692c8",
+          "start_elapsed_s": 0.0,
+          "end_elapsed_s": 21000.0
+        }
+      ],
+      "violations": [],
+      "assumptions": [
+        "Synthetic fixed-rate failed-pump forecast ends at each causal expected repair deadline.",
+        "All current pump failures share each system's whole snapshot fleet; prior scenario commitments are not modeled.",
+        "The facility inflow meter is authoritative for total future inflow. Per-well contributions are allocated in proportion to current measured well water; this explicit reconciliation retains the raw captured evidence.",
+        "Automatic shutdown never restarts wells before repair, including after a later pickup.",
+        "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+        "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+      ],
+      "limitations": [
+        "Method eog-response-0.1.0; native eog-native-seconds-0.1.1.",
+        "Fixed-rate response evaluation is not hydraulic simulation, independent validation, search or a calibrated uncertainty estimate.",
+        "All current failures must be declared; subset response contexts and evolving prior fleet commitments are not yet supported."
+      ]
+    },
+    "analysis_id": "analysis-95425026046105d69d48de2d6934677651892f26163f461604bd4400da217aea"
+  },
+  "diagnostics": []
+}

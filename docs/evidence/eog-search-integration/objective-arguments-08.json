@@ -1,0 +1,6 @@
+{
+  "requested_parameter": "Investigate the current pump failures across the whole captured network. Use search_plans to compare no-action, truck, well and mixed responses. Independently validate the exact provider-selected retained plan, then finish with concise grounded JSON advice and the search limitations.",
+  "effective_objective": "Investigate the current pump failures across the whole captured network. Use search_plans to compare no-action, truck, well and mixed responses. Independently validate the exact provider-selected retained plan, then finish with concise grounded JSON advice and the search limitations.",
+  "actual_process_objective": "Investigate the current pump failures across the whole captured network. Use search_plans to compare no-action, truck, well and mixed responses. Independently validate the exact provider-selected retained plan, then finish with concise grounded JSON advice and the search limitations.",
+  "objective_flag": "--objective"
+}

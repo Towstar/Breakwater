@@ -11,6 +11,9 @@
 namespace breakwater::desktop::eog {
 // One captured request per fresh process. A verified exchange is not numerical
 // qualification. The executable/path/arguments overrides are also the fixture seam.
+// Version-1 responses do not expose a worker implementation identity or health
+// operation. Sanitized metadata "method" names the requested operation only;
+// neither a file name nor method_version attests which implementation ran.
 class EogAnalysisClient final : public QObject {
     Q_OBJECT
     Q_PROPERTY(bool busy READ busy NOTIFY changed)

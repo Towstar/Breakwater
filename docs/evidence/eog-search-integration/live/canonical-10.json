@@ -1,0 +1,617 @@
+{
+  "format": "breakwater-sanitized-live-search-rehearsal-v1",
+  "attempt": "canonical-10",
+  "runtime_source_commit": "a23fb7061e666cf76c6f3a15ad2390b5134504c6",
+  "checkout_commit_at_launch": "e8210a4e4f5eebc78fc43b18fed25542a619c2b2",
+  "runtime_checkout_distinction": "The installed binary was compiled at a23fb70; e8210a4 was a subsequent QML-only polish checkout, not the runtime under rehearsal.",
+  "cutoff_unix": 1791460800,
+  "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+  "session_id": "427b4639-5bef-43d3-a642-ceb9b418f859",
+  "objective": "Investigate the current pump failures across the whole captured network. Use search_plans to compare no-action, truck, well and mixed responses. Independently validate the exact provider-selected retained plan, then finish with concise grounded JSON advice and the search limitations.",
+  "objective_binding": {
+    "requested_prepared_argv_sqlite_archive_equal": true,
+    "harness_fix_applied_from": "canonical-08"
+  },
+  "status": "passed",
+  "strong_live_search_pass": true,
+  "elapsed_s": 221.9803213,
+  "cli": {
+    "archive_written": true,
+    "capture_id": "06f7c1f05c8f487f866fa42d7cc6f6a1f6b3e77c975e8ba4d0b36f5c1f902e30",
+    "code": "verified_rehearsal",
+    "dataset_identity": "dbac10215001f7cfcee641073c33aeeaa8cee27805757012296dd2dc1f295539",
+    "executed_tools": 9,
+    "exit_code": 0,
+    "grounded_review_eligible_final": true,
+    "live_enabled": true,
+    "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "model_issued_tool_calls": 10,
+    "model_requests": 11,
+    "numeric_completed": 8,
+    "numeric_exchanges": 9,
+    "selected_plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+    "session_id": "427b4639-5bef-43d3-a642-ceb9b418f859",
+    "status": "passed",
+    "successful_model_replies": 11,
+    "summary": "Archived hosted tool use and an exact independently validated advisory plan. No controls were applied.",
+    "tool_order": [
+      "detect",
+      "read_topology",
+      "search_plans",
+      "search_plans",
+      "validate_plan",
+      "evaluate_plan",
+      "validate_plan",
+      "validate_plan",
+      "validate_plan",
+      "validate_plan"
+    ],
+    "unavailable_exchanges": 1,
+    "unavailable_operations": [
+      "search_plans"
+    ],
+    "unsuccessful_exchanges": 1,
+    "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2"
+  },
+  "model_requests": [
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 2600,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 7607,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 13382,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 1888,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 7346,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 17747,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 12933,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 32468,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 17798,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 36705,
+      "retry_count": 0
+    },
+    {
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "http_status": 200,
+      "duration_ms": 29092,
+      "retry_count": 0
+    }
+  ],
+  "model_request_duration_sum_ms": 179566,
+  "numerical_client_duration_sum_ms": 38138,
+  "tool_order": [
+    "detect",
+    "read_topology",
+    "search_plans",
+    "search_plans",
+    "validate_plan",
+    "evaluate_plan",
+    "validate_plan",
+    "validate_plan",
+    "validate_plan",
+    "validate_plan"
+  ],
+  "analyses": [
+    {
+      "request_id": "3a9fd162-1f74-4371-86f3-e8eee4dfbfe3",
+      "operation": "detect",
+      "status": "completed",
+      "diagnostic_codes": []
+    },
+    {
+      "request_id": "fcc62150-9a13-4921-ab58-f619584db92c",
+      "operation": "search_plans",
+      "status": "unavailable",
+      "diagnostic_codes": [
+        "system_scope_unavailable"
+      ]
+    },
+    {
+      "request_id": "04f179f5-fd1f-4681-a906-f417dbc6df0a",
+      "operation": "search_plans",
+      "status": "completed",
+      "diagnostic_codes": []
+    },
+    {
+      "request_id": "53c787ce-5157-43fa-86a7-b719241cd972",
+      "operation": "validate_plan",
+      "status": "completed",
+      "diagnostic_codes": []
+    },
+    {
+      "request_id": "b36f1f46-e227-4263-9d72-c2824254aa99",
+      "operation": "evaluate_plan",
+      "status": "completed",
+      "diagnostic_codes": []
+    },
+    {
+      "request_id": "f72d0592-7187-448f-97f4-f74309f3b3e3",
+      "operation": "validate_plan",
+      "status": "completed",
+      "diagnostic_codes": []
+    },
+    {
+      "request_id": "8368474e-d050-4218-ab2b-02039ba8677f",
+      "operation": "validate_plan",
+      "status": "completed",
+      "diagnostic_codes": []
+    },
+    {
+      "request_id": "8ad0696f-84d8-4ed9-ac62-15ae6ef7ab3d",
+      "operation": "validate_plan",
+      "status": "completed",
+      "diagnostic_codes": []
+    },
+    {
+      "request_id": "3a447fa6-eaca-4ff0-b460-970c8c7fc6df",
+      "operation": "validate_plan",
+      "status": "completed",
+      "diagnostic_codes": []
+    }
+  ],
+  "search_evidence": [
+    {
+      "request_id": "04f179f5-fd1f-4681-a906-f417dbc6df0a",
+      "selected_plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+      "search": {
+        "action_time_resolution_s": null,
+        "candidate_limit": 100,
+        "complete": false,
+        "elapsed_s": 0.034485800002585165,
+        "evaluated_candidates": 100,
+        "optimality": "best_found",
+        "scope": "bounded_search",
+        "space_description": "eog-joint-search-0.1.2 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "time_limit_s": 30
+      },
+      "retained_evaluations": 8,
+      "matching_successful_tool_result": "call-aeddf526-aca1-4fd4-9924-125d25c3cf17",
+      "baseline_cost": {
+        "lost_revenue": 12120.031267547434,
+        "total": 12120.031267547434,
+        "truck_cost": 0
+      },
+      "selected_cost": {
+        "lost_revenue": 3266.971701661354,
+        "total": 4171.971701661354,
+        "truck_cost": 905
+      },
+      "matching_separate_validation": [
+        {
+          "request_id": "53c787ce-5157-43fa-86a7-b719241cd972",
+          "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+          "evaluator_method": "eog-native-seconds-0.1.1",
+          "validator_method": "eog-rational-validation-0.1.0"
+        },
+        {
+          "request_id": "8368474e-d050-4218-ab2b-02039ba8677f",
+          "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+          "evaluator_method": "eog-native-seconds-0.1.1",
+          "validator_method": "eog-rational-validation-0.1.0"
+        },
+        {
+          "request_id": "8ad0696f-84d8-4ed9-ac62-15ae6ef7ab3d",
+          "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+          "evaluator_method": "eog-native-seconds-0.1.1",
+          "validator_method": "eog-rational-validation-0.1.0"
+        },
+        {
+          "request_id": "3a447fa6-eaca-4ff0-b460-970c8c7fc6df",
+          "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+          "evaluator_method": "eog-native-seconds-0.1.1",
+          "validator_method": "eog-rational-validation-0.1.0"
+        }
+      ],
+      "plan_hash": "0f2b27de0ac28a35d68eecf5ebb0422e5ca3a448fc7ffbf41a21659927980430",
+      "truck_jobs": 1,
+      "trips": 1,
+      "well_shut_ins": 3,
+      "repair_facilities": 3,
+      "matches_detected_failure_set": true,
+      "outcome": "avoids_shutdown",
+      "declared_limits": [
+        "Method eog-joint-search-0.1.2; finite policy family only, not global optimization over continuous actions.",
+        "Planning time excludes protected loading and the two causal snapshot preparations; it includes candidate evaluation and selected-plan validation.",
+        "All current failures are modeled together; no historical dispatch is assumed and evolving prior commitments are unsupported.",
+        "Already-shut or native-baseline zero-loss facilities receive no cost-increasing controls; other facilities remain in the complete cost/forecast context.",
+        "Control seeds target the input shutdown inventory or one/four representable inventory steps below it; evaluation always uses the original input threshold, without feasibility tolerance or clipping.",
+        "Full baseline/selected traces are retained; at most 8 evaluations are returned.",
+        "Available no-action/truck-only/well-only/mixed family leaders are retained when the result budget permits; small count/byte budgets may omit comparisons.",
+        "Only the selected plan is independently recomputed in this search; other retained native evaluations require their own validate_plan request.",
+        "Inspection timing and physical onset uncertainty remain unqualified.",
+        "Termination: candidate_limit.",
+        "26 candidate evaluations were numerically unavailable, not demonstrated infeasible.",
+        "Selected plan independently recomputed by eog-rational-validation-0.1.0; record validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2. Use validate_plan for the complete bound record; this is not operating approval."
+      ],
+      "nonzero_action_count": true,
+      "improves_retained_positive_baseline": true
+    }
+  ],
+  "retained_search_comparisons": [
+    {
+      "plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+      "plan_hash": "0f2b27de0ac28a35d68eecf5ebb0422e5ca3a448fc7ffbf41a21659927980430",
+      "cost": {
+        "lost_revenue": 3266.971701661354,
+        "total": 4171.971701661354,
+        "truck_cost": 905
+      },
+      "outcome": "avoids_shutdown",
+      "coverage": "available",
+      "feasible": true,
+      "truck_jobs": 1,
+      "trips": 1,
+      "well_shut_ins": 3
+    },
+    {
+      "plan_id": "plan-3f87efb7af2eca9e2b801e55b8cfe250",
+      "plan_hash": "5c3f70517064b4afa3cacaaf1b63800ed37893eb5ebc05b18adcd74371cf40d3",
+      "cost": {
+        "lost_revenue": 3266.971701661354,
+        "total": 4171.971701661354,
+        "truck_cost": 905
+      },
+      "outcome": "avoids_shutdown",
+      "coverage": "available",
+      "feasible": true,
+      "truck_jobs": 1,
+      "trips": 1,
+      "well_shut_ins": 3
+    },
+    {
+      "plan_id": "plan-4fd3b18fa1345ff9386d0f9805c41cba",
+      "plan_hash": "b70814d1d36237700d354a6563a7b9c4f4c5a3d56b1d1cd0eeaf5fac62014607",
+      "cost": {
+        "lost_revenue": 3266.9717016613536,
+        "total": 4171.971701661354,
+        "truck_cost": 905
+      },
+      "outcome": "avoids_shutdown",
+      "coverage": "available",
+      "feasible": true,
+      "truck_jobs": 1,
+      "trips": 1,
+      "well_shut_ins": 3
+    },
+    {
+      "plan_id": "plan-51be21f48eb4a21f5c13bade855076d9",
+      "plan_hash": "dcf42596e410884c4d5bc72c8658d177376d5825fab9658327621e4399ed5943",
+      "cost": {
+        "lost_revenue": 3266.9717016613545,
+        "total": 4171.971701661354,
+        "truck_cost": 905
+      },
+      "outcome": "avoids_shutdown",
+      "coverage": "available",
+      "feasible": true,
+      "truck_jobs": 1,
+      "trips": 1,
+      "well_shut_ins": 3
+    },
+    {
+      "plan_id": "plan-c508caec4780d47e2bf12e565e7a945a",
+      "plan_hash": "438ab6e940b4f0b8d0a17da3b9bd7c6dde7486d7b26de6608e396d08f51a0a2c",
+      "cost": {
+        "lost_revenue": 3266.971701661355,
+        "total": 4171.971701661355,
+        "truck_cost": 905
+      },
+      "outcome": "avoids_shutdown",
+      "coverage": "available",
+      "feasible": true,
+      "truck_jobs": 1,
+      "trips": 1,
+      "well_shut_ins": 3
+    },
+    {
+      "plan_id": "plan-be8f4bb8f86dd9f38a266656347dab1e",
+      "plan_hash": "bba95477d2c7a92f6b469b7e72364bf6ad158ad308eddbfe5aa9dfa58b36225a",
+      "cost": {
+        "lost_revenue": 6566.078435513853,
+        "total": 6566.078435513853,
+        "truck_cost": 0
+      },
+      "outcome": "automatic_shutdown",
+      "coverage": "available",
+      "feasible": true,
+      "truck_jobs": 0,
+      "trips": 0,
+      "well_shut_ins": 4
+    },
+    {
+      "plan_id": "plan-bbe6105191ad31ae00be1d378a7a7dd3",
+      "plan_hash": "27c468f5bdd655a25652aedae490c097c0293232b1da9ffff656ca5ccf3beb22",
+      "cost": {
+        "lost_revenue": 6669.8769677257305,
+        "total": 7574.8769677257305,
+        "truck_cost": 905
+      },
+      "outcome": "automatic_shutdown",
+      "coverage": "available",
+      "feasible": true,
+      "truck_jobs": 1,
+      "trips": 1,
+      "well_shut_ins": 0
+    },
+    {
+      "plan_id": "plan-9ba4e8ba530d784563c96217d261bd59",
+      "plan_hash": "2816d51e7d624385472b361324c19c3c35604b0f86c9640e56c26367a9e25b3a",
+      "cost": {
+        "lost_revenue": 12120.031267547434,
+        "total": 12120.031267547434,
+        "truck_cost": 0
+      },
+      "outcome": "automatic_shutdown",
+      "coverage": "available",
+      "feasible": true,
+      "truck_jobs": 0,
+      "trips": 0,
+      "well_shut_ins": 0
+    }
+  ],
+  "selected_candidate": {
+    "candidate_origin": "actual model-issued completed search response",
+    "exact_plan": {
+      "context": "historical_cursor",
+      "inspection_assets": [],
+      "plan_hash": "0f2b27de0ac28a35d68eecf5ebb0422e5ca3a448fc7ffbf41a21659927980430",
+      "plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+      "repair_deadlines": [
+        {
+          "facility_id": "S2_FACILITY_A",
+          "repair_elapsed_s": 14400
+        },
+        {
+          "facility_id": "S2_FACILITY_B",
+          "repair_elapsed_s": 10800
+        },
+        {
+          "facility_id": "S2_FACILITY_C",
+          "repair_elapsed_s": 12600
+        }
+      ],
+      "start_unix": 1791460800,
+      "truck_jobs": [
+        {
+          "available_again_elapsed_s": 20400,
+          "called_elapsed_s": 0,
+          "cycle_min": 255,
+          "facility_id": "S2_FACILITY_A",
+          "job_id": "job-a6de095b85ce10b18b8abb1d0c63ced9",
+          "response_min": 85,
+          "system_id": "S2",
+          "trips": [
+            {
+              "arrival_elapsed_s": 5100,
+              "cost": 905,
+              "volume_bbl": 150
+            }
+          ],
+          "truck_id": "truck-33d2c23bc0711b65-1"
+        }
+      ],
+      "well_shut_ins": [
+        {
+          "end_elapsed_s": 10800,
+          "facility_id": "S2_FACILITY_B",
+          "start_elapsed_s": 0,
+          "well_id": "S2_WELL_B2"
+        },
+        {
+          "end_elapsed_s": 10800,
+          "facility_id": "S2_FACILITY_B",
+          "start_elapsed_s": 7008.652988733748,
+          "well_id": "S2_WELL_B3"
+        },
+        {
+          "end_elapsed_s": 12600,
+          "facility_id": "S2_FACILITY_C",
+          "start_elapsed_s": 2774.195268243903,
+          "well_id": "S2_WELL_C1"
+        }
+      ]
+    },
+    "cost": {
+      "lost_revenue": 3266.971701661354,
+      "total": 4171.971701661354,
+      "truck_cost": 905
+    },
+    "outcome": "avoids_shutdown",
+    "coverage": "available",
+    "feasible": true,
+    "assumptions": [
+      "Synthetic fixed-rate failed-pump forecast ends at each causal expected repair deadline.",
+      "All current pump failures share each system's whole snapshot fleet; prior scenario commitments are not modeled.",
+      "The facility inflow meter is authoritative for total future inflow. Per-well contributions are allocated in proportion to current measured well water; this explicit reconciliation retains the raw captured evidence.",
+      "Automatic shutdown never restarts wells before repair, including after a later pickup.",
+      "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+      "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+    ],
+    "limitations": [
+      "Method eog-response-0.1.0; native eog-native-seconds-0.1.1.",
+      "Fixed-rate response evaluation is not hydraulic simulation, independent validation, search or a calibrated uncertainty estimate.",
+      "All current failures must be declared; subset response contexts and evolving prior fleet commitments are not yet supported."
+    ]
+  },
+  "public_model_final": {
+    "summary": "Investigation of the captured EOG dataset identified three ongoing pump_failure events: S2_PUMP_A (onset 1791453600), S2_PUMP_B (onset 1791450000), and S2_PUMP_C (onset 1791451800). All other pump assets are either healthy, degradation, or resolved. A joint search over the full policy family produced a selected plan (plan-2a4e845f62701d88af46643368bf6628) that avoids shutdown by deploying one truck trip to S2_FACILITY_A, shutting in selected wells (S2_WELL_B2, S2_WELL_B3, S2_WELL_C1) within their respective repair deadlines, and keeping all other assets at baseline. The plan was independently validated (validation_id validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2) with total cost $4,171.97 (lost revenue $3,266.97 + truck cost $905) and feasible outcome avoids_shutdown. Limitations: detection onset estimates use the first evidence‑threshold breach, not a physical fault label; repair elapsed seconds are computed from the captured onset unix and expected 6‑hour repair horizon; stale evidence beyond the cutoff is retained but not used for horizon calculations; the evaluator model is fixed‑rate and not a hydraulic simulation. No dispatch or control actions can be applied.",
+    "selected_plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+    "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+    "event_ids": [
+      "eog-5d9e30a93e43e04747956d0d7be4e7b1",
+      "eog-3d104b0bcd4c2055c14c8f553acfdafb",
+      "eog-4fb5db7ec613100e13c51a28642b0f3c"
+    ]
+  },
+  "public_model_final_scope": "This is the validated structured public final. References are grounded in retained evidence; the free-form summary is model advice, not independent qualification of every prose assertion.",
+  "json_final_correction_codes": [],
+  "empty_final_recovery_demonstrated": false,
+  "source_inputs_unchanged": true,
+  "source_hashes": {
+    "network.json": "e8959b8633e76345e25f583aa3a4c46a3de1dde8ca25f95d96f3d10e2fce5c9f",
+    "ops.json": "644884bd3081a3af17065d03cb266c6467f27e1d3f935cb9e4aa48a4e02a9ed0",
+    "telemetry.csv": "e747ff3b81dfa4c9d4b03a6fc6e7b09f944db674a29a5cbd847d6d5f6df051f5"
+  },
+  "installed_modules": [
+    {
+      "file": "eog_worker.py",
+      "sha256": "3f0e3c71f3faa9f1738b3ce1ac5df908b43fa65b94d62d0a73d814bf52f048f8",
+      "source_git_blob": "5ee9eb73d67f4ede004f2cd89ead402d7a2ff191"
+    },
+    {
+      "file": "eog_detection.py",
+      "sha256": "5df9cff0f9a7487715861256997e42c96a42f04b3e4bd89cfc9c228d7e423db7",
+      "source_git_blob": "f3eba5d45fc45dbf292044ef22bcbf1f44438e80"
+    },
+    {
+      "file": "eog_inputs.py",
+      "sha256": "946d4fdfba0a71326c074ae0b8f5bf6588fa6a65e2706c674b111f7656c68746",
+      "source_git_blob": "78de6b18e9bed0e100124c2ddbc2a6246217aaf9"
+    },
+    {
+      "file": "eog_model.py",
+      "sha256": "30bc8b95c4560e04edf8dc637b99d9179f9c5d778db631f919b1418b79422fd4",
+      "source_git_blob": "30c8caf0f19b5d5ed809c712e41b757d08872f9a"
+    },
+    {
+      "file": "eog_observations.py",
+      "sha256": "f9ae4ff5acfcdf779675fbc3d8dae1a4c8b1c46ed44e1c07d66c9e62d4cf24cb",
+      "source_git_blob": "f6ba3bcbeecd44e65098dd8bdc0813b5a06c0b72"
+    },
+    {
+      "file": "eog_response.py",
+      "sha256": "e2bec8d8db6b423bf56a5cdad5d205cfbf58bf6ab96a25a4b3562358de71b970",
+      "source_git_blob": "2e349af46eecd6a158737cbb72ffc8e5ff18ead2"
+    },
+    {
+      "file": "eog_plan_validator.py",
+      "sha256": "1a20019c2142c87e41adc896ad8ed24850bc4476f009abff099e95848812dfc3",
+      "source_git_blob": "a285abf2fec9f42b6986220d69acdb3436436111"
+    },
+    {
+      "file": "eog_search.py",
+      "sha256": "09fa12c0634aa8cafcb27a6107d6c275cea848aae968f189ebfb876c0bdb22ed",
+      "source_git_blob": "019fe10b3d73b3ce9ec8f01c6178eb62af1d64dc"
+    },
+    {
+      "file": "native_eog.py",
+      "sha256": "afe01bc97e439ad1033cf729ec3ba2444c43d17dd9528594c4aa45b442353c0b",
+      "source_git_blob": "a077438acad29e66188fc83979f5921c3fa1414a"
+    }
+  ],
+  "installed_runtime": [
+    {
+      "file": "bin/breakwater_eog_live_check.exe",
+      "sha256": "5ff3da50d7af81ea75ba8f64267a015294c536630c1e261c9eaa4edf8ae136d4"
+    },
+    {
+      "file": "bin/breakwater_eog_response.dll",
+      "sha256": "63b3e8bf7d3d4c5d41b3b01915eba850ca34a51bc8128c640233bc9a19cf0366"
+    },
+    {
+      "file": "bin/Qt6Core.dll",
+      "sha256": "39175459c4837c8cc0f709a637fb6eadb25d696785109c8393559ec876f02703"
+    },
+    {
+      "file": "bin/Qt6Network.dll",
+      "sha256": "9825558f184c64f639c4b8663650cee0ae8ffe01c18d98ff76f006a02389965f"
+    },
+    {
+      "file": "bin/Qt6Sql.dll",
+      "sha256": "1d847a23da0f3dc568e3fb8a98fbb210ba122a3b7f3db51b5cc69a2edfae74a6"
+    },
+    {
+      "file": "plugins/sqldrivers/qsqlite.dll",
+      "sha256": "021b009884dac1e64ed6dc3a3a817ef36a1b93ca37607ef6722a1f16b15ba852"
+    },
+    {
+      "file": "share/breakwater/contracts/eog/validate.py",
+      "sha256": "626deb9b5de0a722f3583adf8f1a28753880bb9d70cf75b78771dda1c7b2faec"
+    },
+    {
+      "file": "share/breakwater/contracts/eog/common-v1.schema.json",
+      "sha256": "e4bc08c5ce5e6b608a64d94417740a74dc5e343df6e4349478697eb4f21cd6e7"
+    },
+    {
+      "file": "share/breakwater/contracts/eog/analysis-request-v1.schema.json",
+      "sha256": "c9cf0408d5e6540900f55be2f27c91a90c48aff66316d8e76d89332b0b630eb2"
+    },
+    {
+      "file": "share/breakwater/contracts/eog/analysis-response-v1.schema.json",
+      "sha256": "44c27baf998e8aced87befe3e80613fc0b9bb44c61abf1c075cb41b65ac76d20"
+    },
+    {
+      "file": "share/breakwater/contracts/eog/capture-manifest-v1.schema.json",
+      "sha256": "77889d1e39ae260e8e58b7e116f21bc19d2f3ca4c281c433c8f97550d240aeae"
+    }
+  ],
+  "compiled_main_executable_sha256": "52b0084c3aa99c4e9c39eb696de46e31f6d56d0ff62fd7df708764ec697e2d81",
+  "compiled_live_executable_sha256": "5ff3da50d7af81ea75ba8f64267a015294c536630c1e261c9eaa4edf8ae136d4",
+  "actual_native_abi": {
+    "native_method": "eog-native-seconds-0.1.1",
+    "native_dll_sha256": "63b3e8bf7d3d4c5d41b3b01915eba850ca34a51bc8128c640233bc9a19cf0366",
+    "evidence": "Actual installed a23fb70 bundle NativeEvaluator ABI/layout/method query; no hosted request."
+  },
+  "full_archive": {
+    "size_bytes": 1762362,
+    "sha256": "b8e655ec14f3152cea58f042022d1c845e66408312240514796b9f2a8a7b23cd"
+  },
+  "objective_harness_correction_record": {
+    "size_bytes": 4001,
+    "sha256": "3198af55c45b60235e20d0bb5cb55082dc1f2f0312fbcefb2d4fd6229d232be0"
+  },
+  "scope_limits": [
+    "One completed installed live-search rehearsal, not three repeated passes or a hosted reliability study.",
+    "No model-issued JSON-format correction occurred in this run; the new stopped-empty recovery has offline tests, not full-loop hosted recovery proof.",
+    "Search terminated at100candidate limit with best_found/incomplete and26numerically unavailable candidates; no global optimum claim.",
+    "Available independent numerical validation is not operational approval or physical/hydraulic qualification. No controls were applied.",
+    "Historical attempts01–07 used their recorded default objective due to a corrected launcher overwrite; unsupported prompt-ignoring interpretations are retracted.",
+    "Attempt09 historical finish_reason remains UNKNOWN.",
+    "Worker implementation identity is pinned by actual installed source/runtime SHA, not an absent public wire version field.",
+    "This projection omits credentials, authorization headers, raw hidden reasoning and absolute private capture paths; it is not a history-import archive."
+  ]
+}

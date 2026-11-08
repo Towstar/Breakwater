@@ -301,14 +301,22 @@ private slots:
         QVERIFY(!controller.busy()); QCOMPARE(done.size(), 2); QCOMPARE(controller.selectedEvaluation(), unchanged);
         QVERIFY(controller.status().contains("invalid claims"));
         controller.searchPlans(); QTRY_VERIFY_WITH_TIMEOUT(done.size() == 3 || !failures.isEmpty(), 30000);
-        QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 3); QCOMPARE(controller.lastOperation().value("status").toString(), "unavailable");
-        QVERIFY(!controller.canReview());
+        QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 3); QCOMPARE(controller.lastOperation().value("status").toString(), "completed");
+        const auto search = done[2].at(0).toJsonObject(), searched = search.value("result").toObject();
+        const auto evaluations = searched.value("evaluations").toArray(); QVERIFY(!evaluations.isEmpty());
+        const auto selectedId = searched.value("selected_plan_id").toString(); QVERIFY(!selectedId.isEmpty());
+        QCOMPARE(controller.selectedPlanId(), selectedId); QVERIFY(!controller.baselinePlanId().isEmpty());
+        QCOMPARE(searched.value("search").toObject().value("candidate_limit"), QJsonValue(256));
+        QCOMPARE(searched.value("search").toObject().value("time_limit_s"), QJsonValue(15));
+        QVERIFY(searched.value("search").toObject().value("space_description").toString().contains("eog-joint-search-0.1.2"));
+        QVERIFY(evaluations.size() <= 8); QVERIFY(!searched.value("limitations").toArray().isEmpty());
+        // Search's private selected-plan check does not publish a complete
+        // validation record or enable desktop advisory review by itself.
+        QVERIFY(controller.selectedValidation().isEmpty()); QVERIFY(!controller.canReview());
         controller.validateSelected("eog-response-0.1.0"); QTRY_VERIFY_WITH_TIMEOUT(done.size() == 4 || !failures.isEmpty(), 30000);
         QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 4); QCOMPARE(controller.lastOperation().value("status").toString(), "unavailable");
         QVERIFY(controller.selectedValidation().isEmpty()); QVERIFY(!controller.canReview());
-        const auto search = done[2].at(0).toJsonObject(), unknown = done[3].at(0).toJsonObject();
-        QCOMPARE(search.value("status"), QJsonValue("unavailable")); QVERIFY(search.value("result").isNull());
-        QCOMPARE(search.value("diagnostics").toArray().first().toObject().value("code"), QJsonValue("operation_unavailable"));
+        const auto unknown = done[3].at(0).toJsonObject();
         QCOMPARE(unknown.value("status"), QJsonValue("unavailable")); QVERIFY(unknown.value("result").isNull());
         QCOMPARE(unknown.value("diagnostics").toArray().first().toObject().value("code"), QJsonValue("unsupported_evaluator"));
         controller.recordReview("Unavailable independent validation cannot authorize this advice.");
@@ -334,6 +342,8 @@ private slots:
         QVERIFY(storageFailures.isEmpty()); QCOMPARE(loaded.size(), 1); QVERIFY(controller.historical()); QVERIFY(!controller.canReview());
         const auto archive = loaded.first().first().toJsonObject(); const auto analyses = archive.value("analyses").toArray();
         QCOMPARE(analyses.size(), 5); QVERIFY(archive.value("historical").toBool()); QVERIFY(!archive.value("actionable").toBool());
+        QCOMPARE(analyses[2].toObject().value("response").toObject(), search);
+        QCOMPARE(controller.selectedPlanId(), selectedId);
         const auto records = archive.value("operator_records").toArray(); QCOMPARE(records.size(), 1);
         QCOMPARE(records.first().toObject().value("kind"), QJsonValue("operator_review"));
         QCOMPARE(records.first().toObject().value("analysis_request_id").toString(), validationRequest);

@@ -1,0 +1,123 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/ui-vs
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/ui-vs
+      Start 12: desktop.ui_overhaul_normal
+ 1/25 Test #12: desktop.ui_overhaul_normal ........   Passed    3.76 sec
+      Start 13: desktop.ui_overhaul_compact
+ 2/25 Test #13: desktop.ui_overhaul_compact .......   Passed    3.71 sec
+      Start 16: desktop.nemotron_client
+ 3/25 Test #16: desktop.nemotron_client ...........   Passed    2.28 sec
+      Start 18: desktop.agent_orchestrator
+ 4/25 Test #18: desktop.agent_orchestrator ........   Passed    7.10 sec
+      Start 37: desktop.eog_contracts
+ 5/25 Test #37: desktop.eog_contracts .............   Passed    0.17 sec
+      Start 38: contracts.eog
+ 6/25 Test #38: contracts.eog .....................   Passed    2.05 sec
+      Start 46: desktop.eog_dataset
+ 7/25 Test #46: desktop.eog_dataset ...............   Passed    2.33 sec
+      Start 47: desktop.eog_capture
+ 8/25 Test #47: desktop.eog_capture ...............   Passed    1.17 sec
+      Start 48: desktop.eog_analysis_client
+ 9/25 Test #48: desktop.eog_analysis_client .......   Passed   21.66 sec
+      Start 49: desktop.eog_history
+10/25 Test #49: desktop.eog_history ...............   Passed   13.72 sec
+      Start 50: desktop.eog_investigator
+11/25 Test #50: desktop.eog_investigator ..........   Passed    3.70 sec
+      Start 51: desktop.eog_analysis_controller
+12/25 Test #51: desktop.eog_analysis_controller ...   Passed   25.37 sec
+      Start 52: desktop.eog_provider
+13/25 Test #52: desktop.eog_provider ..............   Passed   12.95 sec
+      Start 53: desktop.eog_demo_input
+14/25 Test #53: desktop.eog_demo_input ............   Passed    2.07 sec
+      Start 54: desktop.eog_live_cli
+15/25 Test #54: desktop.eog_live_cli ..............***Failed    2.38 sec
+test_database_sidecar_names_cannot_be_used_as_archives (__main__.EogLiveCliTests.test_database_sidecar_names_cannot_be_used_as_archives) ... ok
+test_invalid_existing_and_in_source_archives_are_rejected (__main__.EogLiveCliTests.test_invalid_existing_and_in_source_archives_are_rejected) ... ok
+test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive (__main__.EogLiveCliTests.test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive) ... ok
+test_native_executable_and_inputs_are_required_without_skips (__main__.EogLiveCliTests.test_native_executable_and_inputs_are_required_without_skips) ... ok
+test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) ... 
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv') ... ERROR
+test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives (__main__.EogLiveCliTests.test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives) ... ok
+test_source_database_paths_and_archive_database_collision_are_rejected (__main__.EogLiveCliTests.test_source_database_paths_and_archive_database_collision_are_rejected) ... ok
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\data\\network.json' -> 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\network.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\data\\ops.json' -> 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\ops.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\data\\telemetry.csv' -> 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\telemetry.csv.sqlite'
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.099s
+
+FAILED (errors=3)
+
+      Start 55: desktop.eog_cli
+16/25 Test #55: desktop.eog_cli ...................***Failed    5.82 sec
+test_conflicting_workbench_operations_are_rejected (__main__.EogCliTests.test_conflicting_workbench_operations_are_rejected) ... ok
+test_facility_and_report_need_a_dataset (__main__.EogCliTests.test_facility_and_report_need_a_dataset) ... ok
+test_inputs_cannot_be_report_screenshot_or_database (__main__.EogCliTests.test_inputs_cannot_be_report_screenshot_or_database) ... ok
+test_legacy_report_writers_are_rejected (__main__.EogCliTests.test_legacy_report_writers_are_rejected) ... ok
+test_reports_cannot_overwrite_database_journals (__main__.EogCliTests.test_reports_cannot_overwrite_database_journals) ... ok
+test_reports_screenshot_and_database_are_distinct (__main__.EogCliTests.test_reports_screenshot_and_database_are_distinct) ... ok
+test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input) ... ERROR
+test_unknown_workspace_and_facility_are_rejected (__main__.EogCliTests.test_unknown_workspace_and_facility_are_rejected) ... ok
+
+======================================================================
+ERROR: test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\desktop\tests\eog_cli_tests.py", line 79, in test_screenshot_replaces_hardlink_without_mutating_input
+    os.link(self.dataset / "network.json", screenshot)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\tmpryrvmxhr\\data\\network.json' -> 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\tmpryrvmxhr\\capture.png'
+
+----------------------------------------------------------------------
+Ran 8 tests in 5.567s
+
+FAILED (errors=1)
+
+      Start 56: desktop.eog_plan_chart
+17/25 Test #56: desktop.eog_plan_chart ............   Passed    5.60 sec
+      Start 57: desktop.eog_plan_details
+18/25 Test #57: desktop.eog_plan_details ..........   Passed    6.94 sec
+      Start 58: desktop.eog_event_details
+19/25 Test #58: desktop.eog_event_details .........   Passed    5.14 sec
+      Start 59: desktop.eog_analysis_normal
+20/25 Test #59: desktop.eog_analysis_normal .......   Passed    3.09 sec
+      Start 60: desktop.eog_overview_normal
+21/25 Test #60: desktop.eog_overview_normal .......   Passed    2.22 sec
+      Start 61: desktop.eog_facility_normal
+22/25 Test #61: desktop.eog_facility_normal .......   Passed    2.35 sec
+      Start 62: desktop.eog_analysis_compact
+23/25 Test #62: desktop.eog_analysis_compact ......   Passed    1.87 sec
+      Start 63: desktop.eog_overview_compact
+24/25 Test #63: desktop.eog_overview_compact ......   Passed    2.12 sec
+      Start 64: desktop.eog_facility_compact
+25/25 Test #64: desktop.eog_facility_compact ......   Passed    1.87 sec
+
+92% tests passed, 2 tests failed out of 25
+
+Total Test time (real) = 141.55 sec
+
+The following tests FAILED:
+	 54 - desktop.eog_live_cli (Failed)
+	 55 - desktop.eog_cli (Failed)
+Errors while running CTest

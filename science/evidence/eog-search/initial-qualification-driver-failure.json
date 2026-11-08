@@ -1,0 +1,8 @@
+{
+  "stage": "first offline qualification driver",
+  "error": "KeyError: fleet_intervals",
+  "cause": "Driver used the wrong public fleet_occupancy key after actual search and fresh native evaluation completed.",
+  "correction_commit": "4a1e808",
+  "final_corrected_runtime_commit": "34fdf5d",
+  "meaning": "Artifact comparison bug, not a native or independent physics disagreement. Final all-four run is retained separately."
+}

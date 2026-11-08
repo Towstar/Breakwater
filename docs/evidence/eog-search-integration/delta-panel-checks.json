@@ -1,0 +1,247 @@
+{
+  "evidence_version": 1,
+  "source_revision": "e8210a4e4f5eebc78fc43b18fed25542a619c2b2",
+  "source_followups": [
+    "bd3e3be1bd86c7ff597a949463ff2d18f8908d60",
+    "a23fb7061e666cf76c6f3a15ad2390b5134504c6"
+  ],
+  "historical_manifests": [
+    {
+      "file": "manifest.json",
+      "sha256": "76c1350897391c7d9d2f72d426c70926f67d29b3d0632c00d20665238443a5d0"
+    },
+    {
+      "file": "release-checks.json",
+      "sha256": "09d76c64027b34c28ceb16218167aa3da320b20b3644411026459c30fadabce3"
+    },
+    {
+      "file": "finalization-checks.json",
+      "sha256": "e0dc3c51f1362b4d309989956f7a627bfce7e2e899dd2dde5d6b6dce1375c348"
+    },
+    {
+      "file": "final-release-checks.json",
+      "sha256": "68d8ea507926db1133d686516c1d5ac2f2155045993cc58aeb9e3e98bd8089d2"
+    }
+  ],
+  "completed": [
+    {
+      "source": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+      "scope": "Full ASan",
+      "passed": 64,
+      "total": 64,
+      "elapsed_s": 996.96,
+      "root_verified_exit_code": 0,
+      "file": "full-asan-a5.log",
+      "junit": "full-asan-a5.xml"
+    },
+    {
+      "source": "a23fb7061e666cf76c6f3a15ad2390b5134504c6",
+      "scope": "Stopped-final focused normal",
+      "passed": 7,
+      "total": 7,
+      "elapsed_s": 49.28,
+      "file": "stopped-final-normal-a23.log",
+      "junit": "stopped-final-normal-a23.xml"
+    },
+    {
+      "source": "a23fb7061e666cf76c6f3a15ad2390b5134504c6",
+      "scope": "Stopped-final focused ASan",
+      "passed": 7,
+      "total": 7,
+      "elapsed_s": 100.2,
+      "root_verified_exit_code": 0,
+      "file": "stopped-final-asan-a23.log",
+      "junit": "stopped-final-asan-a23.xml"
+    },
+    {
+      "source": "e8210a4e4f5eebc78fc43b18fed25542a619c2b2",
+      "scope": "Panel polish normal",
+      "passed": 25,
+      "total": 25,
+      "elapsed_s": 226.14,
+      "file": "panel-polish-normal-e821.log",
+      "junit": "panel-polish-normal-e821.xml"
+    },
+    {
+      "source": "e8210a4e4f5eebc78fc43b18fed25542a619c2b2",
+      "scope": "Panel polish first Visual Studio",
+      "passed": 24,
+      "failed": 1,
+      "total": 25,
+      "elapsed_s": 106.32,
+      "failure": "desktop.ui_overhaul_compact:actual_drag_did_not_move at DPR1.75 after3gates",
+      "file": "panel-polish-vs-e821-failed.log",
+      "junit": "panel-polish-vs-e821-failed.xml"
+    }
+  ],
+  "panel_probe": {
+    "source": "e8210a4e4f5eebc78fc43b18fed25542a619c2b2",
+    "scope": "Actual Qt own-window mouse events against compiled production Main/QML/resources/controllers; out-only helper entrypoint, not installed binary or human OS session",
+    "passed": true,
+    "gates_per_size": 16,
+    "total_gates": 32,
+    "modes": [
+      {
+        "mode": "normal",
+        "width": 1440,
+        "height": 900,
+        "dpr": 1.75,
+        "elapsed_ms": 3827,
+        "exit_code": 0
+      },
+      {
+        "mode": "compact",
+        "width": 1100,
+        "height": 700,
+        "dpr": 1.75,
+        "elapsed_ms": 3497,
+        "exit_code": 0
+      }
+    ],
+    "network_and_controls_preserved": true,
+    "hosted_requests": "not_requested",
+    "scientific_operations": "not_requested",
+    "result": "panel-probe-e821-results.json",
+    "compilation": "panel-probe-e821-compile.json",
+    "source_file": "panel-probe-e821.cpp",
+    "screenshots": 6,
+    "images_modified": false,
+    "drag_qualification": false
+  },
+  "finalization_boundary": "Only present empty/null/whitespace public content with explicitfinish_reason=stop can reach strict caller validation; missingcontent and null/missing/unknownreason or other malformed/truncated/private transport failures remain rejected. One existing bounded correction; same grounding,240000ms,12tools,3refinements,13requests. No historical09finish_reason inference.",
+  "pending": [
+    "Panel-polishASan25run still active; no completed result copied.",
+    "Panel-polishVS first24/25failure retained; follow-up diagnosis/rerun not qualified by this record.",
+    "Genuinehostedattempt10 projection owned by separate rehearsal lane; no strictsearch+final pass claimed here.",
+    "Installed binary acceptance is separate from the out-only panelprobe."
+  ],
+  "scope": "Append-only delta qualification and exact rendered-panel evidence. Earlier four manifests and raw copies remain unchanged. Sanitizer results concern owned native code, not instrumentation of Python/Torch/prebuiltQt. No raw protected capture, credentials or invented numerical fixture truth.",
+  "files": [
+    {
+      "file": "full-asan-a5.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\demo-final-asan-full.log",
+      "sha256": "69e5c9713279a3ccdf58d65f07679a643ebb962308ca97d34642cfa68b0ecb91",
+      "bytes": 8261
+    },
+    {
+      "file": "full-asan-a5.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-asan\\demo-final-full.xml",
+      "sha256": "5da712be154a04a2af2e078faeade692e81fd90db8147b31355ff2f27e6a629e",
+      "bytes": 26203
+    },
+    {
+      "file": "panel-monitoring-compact-e821.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt1\\2-panel-open.png",
+      "sha256": "5c2d24a147e90d7f72cb5e10f1259a1373212334f4bed319834ae22f58b49755",
+      "bytes": 268621
+    },
+    {
+      "file": "panel-monitoring-normal-e821.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt1\\2-panel-open.png",
+      "sha256": "ba8d3c4f33a0427b5203a681b0f98ce0f42eb375c074da980fc90ee59de9336e",
+      "bytes": 375646
+    },
+    {
+      "file": "panel-pipe-compact-e821.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt1\\3-panel-open.png",
+      "sha256": "84b15dbf81a7adca805ddb22c87af87b38099dfdee6923c386e7be764a1c5eac",
+      "bytes": 252286
+    },
+    {
+      "file": "panel-pipe-normal-e821.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt1\\3-panel-open.png",
+      "sha256": "608d12d422573b3fdca2e6f6c86f006a3dab84d996787e413ff85256b8f32e81",
+      "bytes": 318115
+    },
+    {
+      "file": "panel-polish-normal-e821.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\panel-polish-normal-tests.log",
+      "sha256": "63af1266689d0808d69679f83d39e5f8637cd5b77491068b24f5587df691af56",
+      "bytes": 3551
+    },
+    {
+      "file": "panel-polish-normal-e821.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\panel-polish.xml",
+      "sha256": "63cd2e9e1b8c1474c34ea5768d051e4488ff66e317e10afb470cc4d7db993a05",
+      "bytes": 6961
+    },
+    {
+      "file": "panel-polish-vs-e821-failed.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\panel-polish-vs-tests.log",
+      "sha256": "b5354897b0030fcb16d43b598e432aff197bb42dd51122b6a8cc92e151806358",
+      "bytes": 3662
+    },
+    {
+      "file": "panel-polish-vs-e821-failed.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\ui-vs\\panel-polish-vs.xml",
+      "sha256": "80bcd7a78bf19a0f04e19b34963968d7d93a479fe776454d7c7aaa5c37d2fcd5",
+      "bytes": 9532
+    },
+    {
+      "file": "panel-probe-e821-compact.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt1\\stdout.json",
+      "sha256": "079e4bbf25960da44d73643137d7f7d714daac1b37615c77c262290a0f1fde8b",
+      "bytes": 2294
+    },
+    {
+      "file": "panel-probe-e821-compile.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compile-provenance.json",
+      "sha256": "16449f566aaa90842001288f036916015a2a7a400d02353bca0cea95c7b81237",
+      "bytes": 16845
+    },
+    {
+      "file": "panel-probe-e821-normal.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt1\\stdout.json",
+      "sha256": "92c3d742223246d68a6101ed3a7514c24fa5263d8779653ed0d25cf62dded090",
+      "bytes": 2299
+    },
+    {
+      "file": "panel-probe-e821-results.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\attempt1-results.json",
+      "sha256": "99d2c4cfeebd0a7c4e148db6b705aa9284d9854239c93b68d44ea67cad3164fc",
+      "bytes": 9425
+    },
+    {
+      "file": "panel-probe-e821.cpp",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\PanelCheck.cpp",
+      "sha256": "d8a7d4bffc467962d057b6a7b8c7e91bb40bd051cc5ca3ead7781fc0ea3894c8",
+      "bytes": 7202
+    },
+    {
+      "file": "panel-sensor-compact-e821.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt1\\1-panel-open.png",
+      "sha256": "ad541b82610638f02e4a649d249380189509ae694f6fc560b650807d856e1b47",
+      "bytes": 220612
+    },
+    {
+      "file": "panel-sensor-normal-e821.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt1\\1-panel-open.png",
+      "sha256": "efa62d4fbf2e597c333c1219e95c96689901c8293335e8b233e38a4788869389",
+      "bytes": 320455
+    },
+    {
+      "file": "stopped-final-asan-a23.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\stopped-final-asan-tests.log",
+      "sha256": "a034492bb544a609e6c85fa256593437146021d94d70f42da00a37cb873f6fc9",
+      "bytes": 1127
+    },
+    {
+      "file": "stopped-final-asan-a23.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-asan\\stopped-final.xml",
+      "sha256": "4b6d00ff76fdf07afe2acaa0375479f357db1297acb471190ceb053ec43ca6f2",
+      "bytes": 2521
+    },
+    {
+      "file": "stopped-final-normal-a23.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\stopped-final-normal-tests.log",
+      "sha256": "740fdd2d771b4f2052581ee05cff87a390fd7e162db8fef4d355a71eda653611",
+      "bytes": 1127
+    },
+    {
+      "file": "stopped-final-normal-a23.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\stopped-final.xml",
+      "sha256": "0dbb742080051b4710e9644a7575edfe51bc36ef3d5fb754b674a6c609ee3945",
+      "bytes": 2519
+    }
+  ]
+}

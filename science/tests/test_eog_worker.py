@@ -18,16 +18,22 @@ import eog_worker as worker
 from eog_test_fixtures import frame, inputs, model
 from eog_response import compile_context
 from eog_detection import detect
+from eog_model import compile_model
 from eog_test_fixtures import view
 from test_eog_response import proposal
 
 SCIENCE = Path(__file__).resolve().parents[1]
 
 
-def capture(folder, contract, *, historical=False):
+def capture(folder, contract, *, historical=False, multiple_systems=False):
     network, ops = inputs()
-    m = model()
-    rows = frame(m, 0, status=0) + frame(m, 300, status=2)
+    if multiple_systems:
+        other_network, other_ops = inputs(prefix="other/system/\u03b2")
+        network["systems"].extend(other_network["systems"])
+        ops["systems"].update(other_ops["systems"])
+    m = compile_model(network, ops)
+    rows = sorted((s for i in range(len(m.facilities)) for s in frame(m, 0, index=i, status=0) + frame(m, 300, index=i, status=2)),
+                  key=lambda s: (s.unix, s.asset_id, s.metric))
     content = {"network.json": json.dumps(network, ensure_ascii=False).encode(),
                "ops.json": json.dumps(ops, ensure_ascii=False).encode()}
     text = "timestamp,ts_unix,asset_id,metric,value\n" + "".join(
@@ -151,13 +157,58 @@ class EogWorkerTests(unittest.TestCase):
         for field in ("events", "evidence", "coverage", "assumptions", "limitations"):
             self.assertEqual(a["result"][field], b["result"][field])
 
-    def test_unknown_system_and_unimplemented_operations_are_explicit(self):
+    def test_unknown_system_and_missing_search_native_are_explicit(self):
         self.request["arguments"]["system_ids"] = ["unknown"]
         self.assertEqual(self.call()["status"], "invalid_input")
         self.request["operation"] = "search_plans"
         self.request["arguments"] = {"system_ids": [], "candidate_limit": 100, "time_limit_s": 5}
         result = self.call()
         self.assertEqual(result["status"], "unavailable"); self.assertIsNone(result["result"])
+        self.assertEqual(result["diagnostics"][0]["code"], "native_unavailable")
+
+    def test_actual_joint_search_process_and_independent_selected_record(self):
+        if not self.native:
+            self.skipTest("Set BREAKWATER_EOG_NATIVE for actual joint-search process qualification.")
+        request = copy.deepcopy(self.request); request["operation"] = "search_plans"
+        request["arguments"] = {"system_ids": [], "candidate_limit": 300, "time_limit_s": 5}
+        run = self.process(worker.encode_response(request), native=True)
+        self.assertEqual(run.returncode, 0, run.stderr)
+        result = self.contract.decode_document(run.stdout)
+        self.contract.validate_document(result, context={"request": request})
+        self.assertEqual(result["status"], "completed", result["diagnostics"])
+        selected = next(e for e in result["result"]["evaluations"] if e["plan"]["plan_id"] == result["result"]["selected_plan_id"])
+        self.assertEqual(selected["cost"]["total"], 905)
+        self.assertLessEqual(result["result"]["search"]["evaluated_candidates"], 300)
+        self.assertTrue(any("independently recomputed" in s for s in result["result"]["limitations"]))
+        request["request_id"] += ":validate"; request["operation"] = "validate_plan"
+        request["arguments"] = {"plan": selected["plan"], "evaluator_method": "eog-native-seconds-0.1.1"}
+        checked = self.call(request)
+        self.assertEqual(checked["status"], "completed", checked["diagnostics"])
+        self.assertEqual(checked["result"]["validation"]["cost"], selected["cost"])
+        self.assertEqual(checked["result"]["validation"]["plan_hash"], selected["plan"]["plan_hash"])
+
+    def test_search_system_scope_never_silently_drops_other_failures(self):
+        request, captured_model, _ = capture(self.folder, self.contract, multiple_systems=True)
+        request["operation"] = "search_plans"
+        systems = [s.id for s in captured_model.systems]
+        self.assertEqual(len(systems), 2)
+        for selected, code in (([systems[0]], "system_scope_unavailable"), (["unknown"], "unknown_system"),
+                               ([], "native_unavailable"), (systems, "native_unavailable")):
+            request["arguments"] = {"system_ids": selected, "candidate_limit": 100, "time_limit_s": 5}
+            response = self.call(request)
+            self.assertEqual(response["diagnostics"][0]["code"], code)
+            self.assertIsNone(response["result"])
+
+    def test_search_tiny_budget_returns_no_selection_not_empty_healthy_data(self):
+        if not self.native:
+            self.skipTest("Set BREAKWATER_EOG_NATIVE for actual bounded-search qualification.")
+        request = copy.deepcopy(self.request); request["operation"] = "search_plans"
+        request["arguments"] = {"system_ids": [], "candidate_limit": 1, "time_limit_s": 1e-300}
+        result = self.call(request, self.native)
+        self.assertEqual(result["status"], "completed", result["diagnostics"])
+        self.assertIsNone(result["result"]["selected_plan_id"])
+        self.assertFalse(result["result"]["search"]["complete"])
+        self.assertEqual(result["result"]["search"]["optimality"], "unavailable")
 
     def test_missing_native_capability_is_explicit(self):
         result = self.call(self.evaluate_request())

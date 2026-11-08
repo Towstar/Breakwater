@@ -1,0 +1,32 @@
+{
+  "probe": "late first pickup needs scale-aware pre-arrival curtailment",
+  "source_commit": "0018a33d201e7404a6c0aef7e9037bf1721e3b63",
+  "analytical_infimum": 2.8,
+  "computed_best_cost": 102.0,
+  "native_outcome": "automatic_shutdown",
+  "search": {
+    "scope": "bounded_search",
+    "optimality": "best_found",
+    "space_description": "eog-joint-search-0.1.0 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+    "action_time_resolution_s": null,
+    "evaluated_candidates": 37,
+    "candidate_limit": 1500,
+    "time_limit_s": 5,
+    "elapsed_s": 0.007601300021633506,
+    "complete": false
+  },
+  "audit_counts": {
+    "evaluated": 37,
+    "admissible": 33,
+    "invalid": 0,
+    "numerical_unavailable": 4,
+    "output_unavailable": 0,
+    "visited_states": 4,
+    "queued_peak": 3,
+    "dropped_states": 0,
+    "plan_action_limit": 0
+  },
+  "limitations": [
+    "This exposes incomplete candidate generation, not incorrect native feasibility. The existing result declares best_found, not global optimality."
+  ]
+}

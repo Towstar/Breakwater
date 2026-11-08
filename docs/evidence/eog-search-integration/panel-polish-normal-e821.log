@@ -1,0 +1,56 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/desk-normal
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/desk-normal
+      Start 12: desktop.ui_overhaul_normal
+ 1/25 Test #12: desktop.ui_overhaul_normal ...............   Passed    3.27 sec
+      Start 13: desktop.ui_overhaul_compact
+ 2/25 Test #13: desktop.ui_overhaul_compact ..............   Passed    3.17 sec
+      Start 22: desktop.pipe_transport
+ 3/25 Test #22: desktop.pipe_transport ...................   Passed    2.43 sec
+      Start 25: desktop.storage_science
+ 4/25 Test #25: desktop.storage_science ..................   Passed  103.33 sec
+      Start 26: desktop.science_evidence
+ 5/25 Test #26: desktop.science_evidence .................   Passed   18.86 sec
+      Start 28: desktop.sensor_editor
+ 6/25 Test #28: desktop.sensor_editor ....................   Passed    0.73 sec
+      Start 30: desktop.telemetry_lifecycle
+ 7/25 Test #30: desktop.telemetry_lifecycle ..............   Passed   25.48 sec
+      Start 31: desktop.sensor_editor_normal_smoke
+ 8/25 Test #31: desktop.sensor_editor_normal_smoke .......   Passed    1.50 sec
+      Start 32: desktop.telemetry_replay_normal_smoke
+ 9/25 Test #32: desktop.telemetry_replay_normal_smoke ....   Passed    1.58 sec
+      Start 33: desktop.sensor_editor_compact_smoke
+10/25 Test #33: desktop.sensor_editor_compact_smoke ......   Passed    1.39 sec
+      Start 34: desktop.telemetry_replay_compact_smoke
+11/25 Test #34: desktop.telemetry_replay_compact_smoke ...   Passed    1.52 sec
+      Start 39: desktop.storage_science_normal
+12/25 Test #39: desktop.storage_science_normal ...........   Passed    6.48 sec
+      Start 40: desktop.storage_science_compact
+13/25 Test #40: desktop.storage_science_compact ..........   Passed    5.06 sec
+      Start 41: desktop.storage_science_derivatives
+14/25 Test #41: desktop.storage_science_derivatives ......   Passed    5.70 sec
+      Start 43: desktop.scientific_history_normal
+15/25 Test #43: desktop.scientific_history_normal ........   Passed    1.28 sec
+      Start 44: desktop.scientific_history_compact
+16/25 Test #44: desktop.scientific_history_compact .......   Passed    1.27 sec
+      Start 45: desktop.pipe_evidence_smoke
+17/25 Test #45: desktop.pipe_evidence_smoke ..............   Passed    1.28 sec
+      Start 48: desktop.eog_analysis_client
+18/25 Test #48: desktop.eog_analysis_client ..............   Passed   14.40 sec
+      Start 51: desktop.eog_analysis_controller
+19/25 Test #51: desktop.eog_analysis_controller ..........   Passed   17.18 sec
+      Start 59: desktop.eog_analysis_normal
+20/25 Test #59: desktop.eog_analysis_normal ..............   Passed    1.67 sec
+      Start 60: desktop.eog_overview_normal
+21/25 Test #60: desktop.eog_overview_normal ..............   Passed    1.73 sec
+      Start 61: desktop.eog_facility_normal
+22/25 Test #61: desktop.eog_facility_normal ..............   Passed    1.69 sec
+      Start 62: desktop.eog_analysis_compact
+23/25 Test #62: desktop.eog_analysis_compact .............   Passed    1.69 sec
+      Start 63: desktop.eog_overview_compact
+24/25 Test #63: desktop.eog_overview_compact .............   Passed    1.70 sec
+      Start 64: desktop.eog_facility_compact
+25/25 Test #64: desktop.eog_facility_compact .............   Passed    1.71 sec
+
+100% tests passed, 0 tests failed out of 25
+
+Total Test time (real) = 226.14 sec

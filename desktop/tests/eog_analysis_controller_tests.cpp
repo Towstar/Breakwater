@@ -56,12 +56,21 @@ QJsonObject resultFor(const QJsonArray& messages, const QString& callId) {
 class FakeModelTransport final : public agent::ModelTransport {
 public:
     using ModelTransport::ModelTransport;
-    int requests = 0, cancellations = 0, generation = 0;
-    QJsonArray messages, definitions;
+    int requests = 0, finalRequests = 0, cancellations = 0, generation = 0;
+    bool deferFinalResponse = false;
+    QJsonArray messages, definitions, finalMessages;
     std::function<QJsonObject(const QJsonArray&)> respond = [](const QJsonArray&) { return final(); };
+    std::function<QJsonObject(const QJsonArray&)> respondFinal;
     void request(const QJsonArray& history, const QJsonArray& tools) override {
         messages = history; definitions = tools; ++requests; emit requestStarted();
-        const auto reply = respond(history); const auto epoch = generation;
+        completeReply(respond(history));
+    }
+    void requestFinalJson(const QJsonArray& history) override {
+        messages = finalMessages = history; definitions = {}; ++requests; ++finalRequests; emit requestStarted();
+        if (!deferFinalResponse) completeReply(respondFinal ? respondFinal(history) : respond(history));
+    }
+    void completeReply(const QJsonObject& reply) {
+        const auto epoch = generation;
         QTimer::singleShot(0, this, [this, epoch, reply] {
             if (generation != epoch) return;
             emit requestCompleted({{"model_identity", "protocol-only-model"}, {"http_status", 200},
@@ -559,6 +568,61 @@ private slots:
         QVERIFY(!h.analysis.historical()); QVERIFY(h.analysis.sessionId() != oldSession);
         QCOMPARE(h.analysis.events().first().toMap().value("updated_unix").toDouble(), h.dataset.firstUnix());
     }
+    void oversizedProtocolSearchKeepsModelReferencesAndExactHistoricalEvidence() {
+        // Enlarge schema-valid protocol limitations, not numerical results. The
+        // same bounded-output path also handles large retained action schedules.
+        QTemporaryDir fixture; QVERIFY(fixture.isValid()); auto source = bytes(worker_);
+        // Windows checkouts may use CRLF. Normalize only this generated worker
+        // script before inserting the oversized protocol response fixture.
+        source.replace("\r\n", "\n");
+        const QByteArray needle = R"("limitations": ["Exercise desktop contracts and retention only."])";
+        QVERIFY(source.contains(needle));
+        source.replace(needle, R"("limitations": [("Protocol-only large-response bound " + str(i) + " " + "x" * 2048)[:2048] for i in range(64)])");
+        const QByteArray branch = "    elif operation == \"search_plans\":\n";
+        QVERIFY(source.contains(branch));
+        source.replace(branch, branch + "        response[\"diagnostics\"] = [{\"code\": \"protocol_only_preview\", \"message\": \"\\u754c\" * 2048} for i in range(64)]\n");
+        const auto scripted = fixture.filePath("large_protocol_fixture.py"); QVERIFY(write(scripted, source));
+        Harness h(fixtures_, scripted); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        QSignalSpy completed(&h.client, &EogAnalysisClient::completed), loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        adaptive(h.model); h.analysis.investigate("Keep exact plan references when retained evidence exceeds the model message budget.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests >= 6 && !h.analysis.busy(), 30000);
+        QVERIFY2(h.analysis.status().contains("Nemotron completed"), qPrintable(h.analysis.status()));
+        QJsonObject original;
+        for (const auto& row : completed) if (row.first().toJsonObject().value("operation") == "search_plans") original = row.first().toJsonObject();
+        QVERIFY(!original.isEmpty()); QVERIFY(QJsonDocument(original).toJson(QJsonDocument::Compact).size() > 256 * 1024);
+        const auto wire = original.value("result").toObject();
+        const auto modelMessage = resultFor(h.model.messages, "search"); QVERIFY(modelMessage.value("ok").toBool());
+        QVERIFY(QJsonDocument(modelMessage).toJson(QJsonDocument::Compact).size() <= 256 * 1024);
+        const auto preview = modelMessage.value("result").toObject().value("result").toObject();
+        QCOMPARE(original.value("diagnostics").toArray().size(), 64);
+        const auto projectedResponse = modelMessage.value("result").toObject();
+        QCOMPARE(projectedResponse.value("diagnostics").toArray().size(), 4);
+        QCOMPARE(projectedResponse.value("full_diagnostic_count"), QJsonValue(64));
+        QVERIFY(!preview.value("presentation").toString().isEmpty());
+        QCOMPARE(preview.value("selected_plan_id"), wire.value("selected_plan_id"));
+        QCOMPARE(preview.value("search"), wire.value("search"));
+        const auto selected = QJsonObject::fromVariantMap(h.analysis.selectedEvaluation());
+        QJsonObject summary;
+        for (const auto& value : preview.value("evaluations").toArray()) {
+            const auto row = value.toObject();
+            if (row.value("plan").toObject().value("plan_id") == wire.value("selected_plan_id")) summary = row;
+        }
+        QVERIFY(!summary.isEmpty());
+        for (const auto* key : {"cost", "coverage", "outcome", "feasible"}) QCOMPARE(summary.value(key), selected.value(key));
+        QCOMPARE(summary.value("plan").toObject().value("plan_hash"), selected.value("plan").toObject().value("plan_hash"));
+        QVERIFY(summary.value("complete_evidence_retained_locally").toBool());
+        QVERIFY(!summary.value("plan").toObject().contains("truck_jobs"));
+        QCOMPARE(selected.value("limitations").toArray().size(), 64);
+        QCOMPARE(selected.value("limitations").toArray().first().toString().size(), 2048);
+        QVERIFY(h.analysis.canReview()); QVERIFY(drain(h.history)); QVERIFY(h.historyFailures.isEmpty());
+        h.history.loadSession(h.analysis.sessionId()); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        bool retained = false;
+        for (const auto& value : loaded.first().first().toJsonObject().value("analyses").toArray()) {
+            const auto response = value.toObject().value("response").toObject();
+            if (response.value("operation") == "search_plans") { QCOMPARE(response, original); retained = true; }
+        }
+        QVERIFY(retained); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+    }
     void modelChosenToolsContinueWithGroundedExactReferences() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
         adaptive(h.model, false, false, {}, true);
@@ -586,6 +650,133 @@ private slots:
         QVERIFY(drain(h.history)); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
         QVERIFY(h.analysis.canReview()); h.analysis.recordReview("Protocol-only grounded-model exercise.");
         QTRY_COMPARE_WITH_TIMEOUT(h.operatorRecords.size(), 1, 15000);
+    }
+    void correctedFinalKeepsExactGroundingAndHistoricalRestrictions_data() {
+        QTest::addColumn<bool>("grounded");
+        QTest::newRow("retained-plan-and-validation") << true;
+        QTest::newRow("invented-validation-still-rejected") << false;
+    }
+    void correctedFinalKeepsExactGroundingAndHistoricalRestrictions() {
+        QFETCH(bool, grounded);
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        // An adaptive protocol fixture exercises production orchestration and
+        // actual SQLite, not numerical accuracy or a hosted-model claim.
+        adaptive(h.model); const auto adaptiveReply = h.model.respond;
+        const auto canary = QStringLiteral("rejected-final-payload-must-not-be-retained"); QJsonObject corrected;
+        h.model.respond = [adaptiveReply, &corrected, canary](const QJsonArray& messages) mutable {
+            auto reply = adaptiveReply(messages);
+            if (reply.value("tool_calls").toArray().isEmpty()) {
+                corrected = reply; reply["content"] = "invalid JSON " + canary;
+            }
+            return reply;
+        };
+        h.model.deferFinalResponse = true;
+        h.analysis.investigate("Inspect captured evidence and retain only an exact independently validated plan.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.finalRequests == 1 && h.analysis.busy(), 30000);
+        QVERIFY(!corrected.isEmpty()); QVERIFY(!h.analysis.canReview()); QVERIFY(!h.analysis.selectedValidation().isEmpty());
+        QVERIFY2(h.analysis.status().contains("correcting the final JSON format"), qPrintable(h.analysis.status()));
+        QCOMPARE(h.model.definitions.size(), 0);
+        QVERIFY(!QJsonDocument(h.model.finalMessages).toJson().contains(canary.toUtf8()));
+        const auto session = h.analysis.sessionId(); QVERIFY(!session.isEmpty());
+        QSignalSpy exported(&h.history, &EogHistoryRepository::archiveExported);
+        const auto retryArchive = h.directory.filePath("correction-pending.eog-session.json");
+        h.analysis.exportHistory(session, QUrl::fromLocalFile(retryArchive));
+        QTRY_VERIFY_WITH_TIMEOUT(exported.size() == 1 || !h.historyFailures.isEmpty(), 15000);
+        QVERIFY2(exported.size() == 1, qPrintable(failureText(h.historyFailures)));
+        const auto pending = QJsonDocument::fromJson(bytes(retryArchive)).object();
+        QCOMPARE(pending.value("status"), QJsonValue("running"));
+        QCOMPARE(pending.value("analyses").toArray().size(), 3);
+        int corrections = 0;
+        for (const auto& value : pending.value("agent_events").toArray()) {
+            const auto event = value.toObject().value("event").toObject(); QVERIFY(event.value("type") != "final");
+            if (event.value("type") == "failure") {
+                QCOMPARE(event.value("code"), QJsonValue("final_format_rejected_json_document")); ++corrections;
+            }
+        }
+        QCOMPARE(corrections, 1); QVERIFY(!bytes(retryArchive).contains(canary.toUtf8()));
+        if (!grounded) {
+            auto body = parse(corrected.value("content").toString()); body["validation_id"] = "invented-validation";
+            corrected["content"] = QString::fromUtf8(QJsonDocument(body).toJson(QJsonDocument::Compact));
+        }
+        h.model.completeReply(corrected);
+        QTRY_VERIFY_WITH_TIMEOUT(!h.analysis.busy(), 15000);
+        QCOMPARE(h.model.finalRequests, 1); QCOMPARE(h.model.requests, 7); QCOMPARE(h.providerCalls(), 3);
+        QCOMPARE(h.analysis.canReview(), grounded);
+        QVERIFY2(h.analysis.status().contains(grounded ? "Nemotron completed" : "completion rejected"), qPrintable(h.analysis.status()));
+        const auto completeArchive = h.directory.filePath("corrected-final.eog-session.json");
+        h.analysis.exportHistory(session, QUrl::fromLocalFile(completeArchive));
+        QTRY_VERIFY_WITH_TIMEOUT(exported.size() == 2 || !h.historyFailures.isEmpty(), 15000);
+        QVERIFY2(exported.size() == 2, qPrintable(failureText(h.historyFailures)));
+        const auto archivedBytes = bytes(completeArchive), traceBytes = QJsonDocument(QJsonArray::fromVariantList(h.analysis.trace())).toJson();
+        QVERIFY(!archivedBytes.contains(canary.toUtf8())); QVERIFY(!traceBytes.contains(canary.toUtf8()));
+        QVERIFY(!h.analysis.status().contains(canary)); QVERIFY(!h.analysis.summary().contains(canary));
+        const auto archive = QJsonDocument::fromJson(archivedBytes).object();
+        QCOMPARE(archive.value("status"), QJsonValue(grounded ? "completed" : "failed"));
+        QCOMPARE(archive.value("analyses").toArray(), pending.value("analyses").toArray());
+        const auto retained = archive.value("agent_events").toArray(); bool correctionSeen = false, terminalSeen = false;
+        QStringList order;
+        for (const auto& value : retained) {
+            const auto event = value.toObject().value("event").toObject();
+            if (event.value("type") == "tool_call") order.append(event.value("name").toString());
+            if (event.value("code") == "final_format_rejected_json_document") correctionSeen = true;
+            if (event.value("type") == "final" || event.value("code") == "ungrounded_final") {
+                QVERIFY(correctionSeen); QVERIFY(!terminalSeen); terminalSeen = true;
+                QCOMPARE(event.value("type"), QJsonValue(grounded ? "final" : "failure"));
+            }
+        }
+        QVERIFY(terminalSeen);
+        QCOMPARE(order, (QStringList{"read_observations", "read_topology", "detect", "search_plans", "validate_plan"}));
+        QSignalSpy imported(&h.history, &EogHistoryRepository::archiveImported);
+        h.analysis.importHistory(QUrl::fromLocalFile(completeArchive));
+        QTRY_VERIFY_WITH_TIMEOUT(imported.size() == 1 || !h.historyFailures.isEmpty(), 15000);
+        QVERIFY2(imported.size() == 1, qPrintable(failureText(h.historyFailures)));
+        QTRY_VERIFY_WITH_TIMEOUT(h.analysis.historical(), 15000);
+        QVERIFY(!h.analysis.canReview()); h.analysis.recordReview("Historical evidence cannot restore current eligibility.");
+        QVERIFY(drain(h.history)); QCOMPARE(h.operatorRecords.size(), 0);
+        QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+    }
+    void repeatedInvalidFinalStoresOnlyLiteralRejectionReasons_data() {
+        QTest::addColumn<QJsonObject>("reply"); QTest::addColumn<QString>("reason");
+        const auto content = [](const QJsonObject& body) {
+            return QJsonObject{{"role", "assistant"}, {"content", QString::fromUtf8(QJsonDocument(body).toJson(QJsonDocument::Compact))}};
+        };
+        const auto body = parse(final().value("content").toString());
+        const auto changed = [&](const char* key, const QJsonValue& value) { auto next = body; next[key] = value; return content(next); };
+        QTest::newRow("content-type") << QJsonObject{{"role", "assistant"}, {"content", QJsonValue::Null}} << QStringLiteral("content_type");
+        QTest::newRow("json-document") << QJsonObject{{"role", "assistant"}, {"content", "private-final-canary"}} << QStringLiteral("json_document");
+        QTest::newRow("field-set") << changed("private-final-canary", true) << QStringLiteral("field_set");
+        QTest::newRow("summary") << changed("summary", "<think>private-final-canary</think>") << QStringLiteral("summary");
+        QTest::newRow("plan-reference") << changed("selected_plan_id", "") << QStringLiteral("selected_plan_reference");
+        QTest::newRow("validation-reference") << changed("validation_id", 5) << QStringLiteral("validation_reference");
+        QTest::newRow("event-ids") << changed("event_ids", "private-final-canary") << QStringLiteral("event_ids");
+        QTest::newRow("event-reference") << changed("event_ids", QJsonArray{QJsonValue::Null}) << QStringLiteral("event_reference");
+        QTest::newRow("duplicate-event-ids") << changed("event_ids", QJsonArray{"private-final-canary", "private-final-canary"}) << QStringLiteral("duplicate_event_ids");
+        QTest::newRow("forbidden-correction-tool") << tool("private-final-canary", "read_topology") << QStringLiteral("tool_calls");
+    }
+    void repeatedInvalidFinalStoresOnlyLiteralRejectionReasons() {
+        QFETCH(QJsonObject, reply); QFETCH(QString, reason);
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        h.model.respond = [](const QJsonArray&) { return QJsonObject{{"role", "assistant"}, {"content", "private-final-canary"}}; };
+        h.model.respondFinal = [reply](const QJsonArray&) { return reply; };
+        h.analysis.investigate("Decline safely when a bounded final cannot be formatted.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.finalRequests == 1 && !h.analysis.busy(), 15000);
+        QCOMPARE(h.model.requests, 2); QCOMPARE(h.providerCalls(), 0); QVERIFY(!h.analysis.canReview());
+        const auto terminalCode = "invalid_final_" + reason;
+        QVERIFY2(h.analysis.status().contains(terminalCode), qPrintable(h.analysis.status()));
+        QVERIFY(!QJsonDocument(h.model.finalMessages).toJson().contains("private-final-canary"));
+        QSignalSpy loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        h.history.loadSession(h.analysis.sessionId()); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        const auto archive = loaded.first().first().toJsonObject(); QCOMPARE(archive.value("status"), QJsonValue("failed"));
+        QStringList codes;
+        for (const auto& value : archive.value("agent_events").toArray()) {
+            const auto event = value.toObject().value("event").toObject(); QVERIFY(event.value("type") != "final");
+            if (event.value("type") == "failure") codes.append(event.value("code").toString());
+        }
+        QCOMPARE(codes, (QStringList{"final_format_rejected_json_document", terminalCode}));
+        QVERIFY(!QJsonDocument(archive).toJson().contains("private-final-canary"));
+        QVERIFY(!QJsonDocument(QJsonArray::fromVariantList(h.analysis.trace())).toJson().contains("private-final-canary"));
+        QVERIFY(h.analysis.summary().isEmpty()); h.analysis.recordReview(); QVERIFY(drain(h.history)); QCOMPARE(h.operatorRecords.size(), 0);
+        QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
     }
     void reopenedModelSessionRestoresItsFinalChoiceAndSummary() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);

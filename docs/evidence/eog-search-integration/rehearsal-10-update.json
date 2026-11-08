@@ -1,0 +1,77 @@
+{
+  "evidence_version": 1,
+  "scope": "Additive completed genuine-hosted rehearsal; previous local-test/panel checkpoint and its then-pending claims remain unchanged.",
+  "runtime_source_commit": "a23fb7061e666cf76c6f3a15ad2390b5134504c6",
+  "checkout_commit_at_launch": "e8210a4e4f5eebc78fc43b18fed25542a619c2b2",
+  "historical_manifests": [
+    {
+      "file": "manifest.json",
+      "sha256": "76c1350897391c7d9d2f72d426c70926f67d29b3d0632c00d20665238443a5d0"
+    },
+    {
+      "file": "release-checks.json",
+      "sha256": "09d76c64027b34c28ceb16218167aa3da320b20b3644411026459c30fadabce3"
+    },
+    {
+      "file": "finalization-checks.json",
+      "sha256": "e0dc3c51f1362b4d309989956f7a627bfce7e2e899dd2dde5d6b6dce1375c348"
+    },
+    {
+      "file": "final-release-checks.json",
+      "sha256": "68d8ea507926db1133d686516c1d5ac2f2155045993cc58aeb9e3e98bd8089d2"
+    },
+    {
+      "file": "delta-panel-checks.json",
+      "sha256": "1abde0e84b261184c0bb144523aae0148fec97f6dada797d95baea7e29b4c14a"
+    }
+  ],
+  "attempt": "canonical-10",
+  "strong_live_search_passes": 1,
+  "elapsed_s": 221.9803213,
+  "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+  "hosted_requests": 11,
+  "successful_model_replies": 11,
+  "model_issued_tool_calls": 10,
+  "successful_tool_executions": 9,
+  "numeric_completed": 8,
+  "numeric_exchanges": 9,
+  "unavailable_exchanges": 1,
+  "grounded_review_eligible_final": true,
+  "archive_written": true,
+  "exit_code": 0,
+  "json_format_correction_used": false,
+  "controls_applied": false,
+  "objective_guard": {
+    "requested_prepared_argv_sqlite_archive_equal": true,
+    "harness_fix_applied_from": "canonical-08"
+  },
+  "scope_limits": [
+    "One complete search rehearsal, not three; no new renamed/topology-edited search rehearsal qualified here.",
+    "Runtime a23fb70; e821 checkout was later QML-only polish, not the binary under hosted rehearsal.",
+    "No JSON correction used; no causal claim that the formatting change caused this success.",
+    "Public sanitized projection/ledger only; complete protected archive stays local.",
+    "Panel ASan/VS follow-up remain separate gates."
+  ],
+  "files": [
+    {
+      "file": "live/attempt-ledger-01-through-10.json",
+      "sha256": "860c4c9da857b37f307f073dbc229058b3e40b45b143f3728014d51f943a54c8",
+      "bytes": 31282
+    },
+    {
+      "file": "live/canonical-10.json",
+      "sha256": "4a514d77381fd1824d3ff18d28b0f0c0eb6de1277e7ccff3c0b64c01db6df03a",
+      "bytes": 24975
+    },
+    {
+      "file": "live/README.md",
+      "sha256": "7a3af2f019fd728e773ddead9dba8ee225d91fdc47bce42a50f185b62c75c4ce",
+      "bytes": 5066
+    },
+    {
+      "file": "live/manifest.json",
+      "sha256": "823ebee6201569fbd4cd1b0877a7aefd32ca68350ffa80a01fd1e7d1d8fad7dc",
+      "bytes": 821
+    }
+  ]
+}
