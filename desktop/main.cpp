@@ -1,4 +1,5 @@
 #include "ProjectController.hpp"
+#include "verification/WorkbenchUiCheck.hpp"
 #include "agent/AgentController.hpp"
 #include "agent/CredentialSettings.hpp"
 #include "history/HistoryController.hpp"
@@ -22,6 +23,8 @@
 #include <QQuickStyle>
 #include <QQuickWindow>
 #include <QTimer>
+#include <QTemporaryDir>
+#include <memory>
 
 namespace {
 QString resolvedLocalPath(const QString& path) {
@@ -42,6 +45,7 @@ int main(int argc, char** argv) {
     QCoreApplication::setApplicationName("BREAKWATER");
     QCoreApplication::setOrganizationName("Breakwater");
     const auto arguments = app.arguments();
+    const bool uiOverhaulCheck = arguments.contains("--ui-overhaul-check");
     QString startupProject, startupObjective, rehearsalArchive, startupHistory, startupTelemetryReplay;
     QString startupWorkspace, startupEogDataset, startupEogFacility, eogReport;
     const auto singleValue = [&](const QString& name, QString& destination) {
@@ -76,7 +80,14 @@ int main(int argc, char** argv) {
         qCritical("Invalid startup options. --investigate requires one explicit --objective; rehearsal export also requires --history-db. Do not combine live investigation with smoke/import/science modes.");
         return 8;
     }
-    bool workbenchOperation = !startupProject.isEmpty() || startupInvestigation || !startupTelemetryReplay.isEmpty();
+    if (uiOverhaulCheck) {
+        if (arguments.count("--ui-overhaul-check") != 1 || startupWorkspace == "eog") return 8;
+        for (const auto* flag : {"--project", "--investigate", "--history-db", "--science-check", "--smoke", "--screenshot",
+                 "--import-session", "--import-pipe-evidence", "--open-scientific-history", "--telemetry-replay", "--sensor-editor-check",
+                 "--eog-dataset", "--eog-facility", "--eog-report", "--eog-analysis-panel", "--worker-health", "--agent-panel"})
+            if (arguments.contains(QLatin1String(flag))) return 8;
+    }
+    bool workbenchOperation = uiOverhaulCheck || !startupProject.isEmpty() || startupInvestigation || !startupTelemetryReplay.isEmpty();
     for (const auto& flag : {"--science-check", "--import-session", "--import-pipe-evidence",
              "--open-scientific-history", "--sensor-editor-check", "--agent-panel", "--worker-health"})
         workbenchOperation |= arguments.contains(flag);
@@ -169,7 +180,13 @@ int main(int argc, char** argv) {
         return 8;
     }
     const auto historyIndex = arguments.indexOf("--history-db");
-    const auto historyPath = historyIndex >= 0 && historyIndex + 1 < arguments.size() ? arguments[historyIndex + 1] : QString{};
+    std::unique_ptr<QTemporaryDir> uiCheckStorage;
+    if (uiOverhaulCheck) {
+        uiCheckStorage = std::make_unique<QTemporaryDir>();
+        if (!uiCheckStorage->isValid()) return 8;
+    }
+    const auto historyPath = uiCheckStorage ? uiCheckStorage->filePath("ui-check.sqlite")
+        : historyIndex >= 0 && historyIndex + 1 < arguments.size() ? arguments[historyIndex + 1] : QString{};
     breakwater::desktop::history::SessionRepository repository(historyPath);
     bool historyReady = false;
     QObject::connect(&repository, &breakwater::desktop::history::SessionRepository::ready, &app, [&] { historyReady = true; });
@@ -245,6 +262,11 @@ int main(int argc, char** argv) {
         {"eog", QVariant::fromValue(&eog)}, {"eogAnalysis", QVariant::fromValue(&eogAnalysis)}, {"initialWorkspace", startupWorkspace}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
+    if (uiOverhaulCheck) {
+        auto* window = engine.rootObjects().isEmpty() ? nullptr : qobject_cast<QQuickWindow*>(engine.rootObjects().front());
+        if (!window) return 8;
+        breakwater::desktop::startWorkbenchUiCheck(window, &controller, &app);
+    }
     if (eogAnalysisPanel && !engine.rootObjects().isEmpty())
         QMetaObject::invokeMethod(engine.rootObjects().front(), "openEogAnalysis");
     const auto workbenchBeforeEog = controller.editorDocument();

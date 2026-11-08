@@ -22,7 +22,7 @@ Rectangle {
     readonly property real fitDistance: Math.max(420, (sceneBounds.radius || 220) * 2.2)
     readonly property real distance: fitDistance * zoomFactor
     property int visibleSceneLabels: 0
-    color: "#101d28"; radius: 6; clip: true; border.color: "#365261"
+    color: "#11171c"; radius: 6; clip: true; border.color: "#41494f"
     implicitHeight: 320
     objectName: "eogNetworkView"
 
@@ -88,7 +88,7 @@ Rectangle {
     View3D {
         id: view; anchors.fill: parent
         environment: SceneEnvironment {
-            backgroundMode: SceneEnvironment.Color; clearColor: "#101d28"
+            backgroundMode: SceneEnvironment.Color; clearColor: "#11171c"
             antialiasingMode: SceneEnvironment.MSAA; antialiasingQuality: SceneEnvironment.Medium
         }
         Node {
@@ -98,13 +98,13 @@ Rectangle {
             PerspectiveCamera { id: eogCamera; z: network.distance; clipNear: 1; clipFar: Math.max(8000, network.fitDistance * 8) }
         }
         camera: eogCamera
-        DirectionalLight { eulerRotation: Qt.vector3d(-50, -30, 0); brightness: 1.3; ambientColor: "#8295a5" }
+        DirectionalLight { eulerRotation: Qt.vector3d(-50, -30, 0); brightness: 1.3; ambientColor: "#9099a1" }
         Model {
             source: "#Rectangle"
             position: Qt.vector3d(network.sceneBounds.center_x || 0, -1, network.sceneBounds.center_z || 0)
             eulerRotation.x: -90
             scale: Qt.vector3d(Math.max(12, (network.sceneBounds.width || 600) / 80), Math.max(8, (network.sceneBounds.depth || 400) / 80), 1)
-            materials: PrincipledMaterial { baseColor: "#1c3040"; roughness: 1 }
+            materials: PrincipledMaterial { baseColor: "#263139"; roughness: 1 }
         }
         Repeater3D {
             model: network.sceneRoutes
@@ -116,18 +116,40 @@ Rectangle {
                 readonly property bool truckAccess: modelData.route_kind === "truck_access"
                 readonly property real length: Math.sqrt(dx * dx + dz * dz)
                 readonly property quaternion direction: length > 0.001 ? Qt.quaternion(Math.SQRT1_2, Math.SQRT1_2 * dz / length, 0, -Math.SQRT1_2 * dx / length) : Qt.quaternion(1, 0, 0, 0)
-                Model {
-                    visible: route.length > 0.001; objectName: "eog-asset:" + route.modelData.target
-                    source: "#Cylinder"; pickable: true
+                IndustrialPipe {
+                    visible: route.length > 0.001 && !route.truckAccess
+                    pickName: "eog-asset:" + route.modelData.target
+                    span: route.length; tint: "#90a8b0"
                     position: Qt.vector3d((route.modelData.sx + route.modelData.tx) / 2, 12, (route.modelData.sz + route.modelData.tz) / 2)
-                    rotation: route.direction; scale: Qt.vector3d(route.truckAccess ? 0.035 : 0.055, route.length / 100, route.truckAccess ? 0.035 : 0.055)
-                    materials: PrincipledMaterial { baseColor: route.truckAccess ? "#a58ab9" : "#568995"; roughness: 0.8 }
+                    rotation: route.direction
                 }
                 Model {
-                    visible: route.length > 0.001; source: "#Cone"
+                    visible: route.length > 0.001 && route.truckAccess
+                    objectName: "eog-asset:" + route.modelData.target
+                    source: "#Cube"; pickable: true
+                    position: Qt.vector3d((route.modelData.sx + route.modelData.tx) / 2, 0.5, (route.modelData.sz + route.modelData.tz) / 2)
+                    eulerRotation.y: Math.atan2(-route.dz, route.dx) * 180 / Math.PI
+                    scale: Qt.vector3d(route.length / 100, 0.008, 0.075)
+                    materials: PrincipledMaterial { baseColor: "#45414b"; roughness: 1 }
+                }
+                Repeater3D {
+                    model: route.truckAccess && route.length > 20 ? [0.2, 0.4, 0.6, 0.8] : []
+                    delegate: Model {
+                        required property var modelData
+                        source: "#Cube"; pickable: false
+                        position: Qt.vector3d(route.modelData.sx + route.dx * modelData, 1.1, route.modelData.sz + route.dz * modelData)
+                        eulerRotation.y: Math.atan2(-route.dz, route.dx) * 180 / Math.PI
+                        scale: Qt.vector3d(Math.min(10, route.length * 0.08) / 100, 0.006, 0.012)
+                        materials: PrincipledMaterial { baseColor: "#b7aeba"; roughness: 1 }
+                    }
+                }
+                Model {
+                    // Static topology direction; acquisition supplies no live
+                    // flow for these schematic links, so nothing is animated.
+                    visible: route.length > 0.001 && !route.truckAccess; source: "#Cone"; pickable: false
                     position: Qt.vector3d(route.modelData.sx + route.dx * 0.65, 12, route.modelData.sz + route.dz * 0.65)
                     rotation: route.direction; scale: Qt.vector3d(0.13, 0.20, 0.13)
-                    materials: PrincipledMaterial { baseColor: route.truckAccess ? "#c8acdc" : "#8fc0c5"; roughness: 0.8 }
+                    materials: PrincipledMaterial { baseColor: "#b5c9d1"; roughness: 0.65 }
                 }
             }
         }
@@ -143,34 +165,26 @@ Rectangle {
                 // remain unmodified in details, charts and warning colour.
                 readonly property real displayFill: isFinite(fraction) ? Math.max(0, Math.min(1, fraction)) : 0
                 readonly property bool abnormal: isFinite(fraction) && (fraction < 0 || fraction > 1)
-                readonly property color tint: modelData.selected ? "#ffcf70" : kind === "well" ? "#cfa66e" : kind === "tank" ? "#90a7b7" : kind === "pump" ? "#7fbba5" : kind === "disposal" ? "#7295c4" : kind === "truck_yard" ? "#bd9cce" : kind === "facility" ? "#6cb8bd" : "#74a9b6"
                 position: Qt.vector3d(modelData.x, 0, modelData.z)
                 visible: network.visibleNode(modelData)
-                Model {
-                    objectName: "eog-asset:" + equipment.modelData.id
-                    source: equipment.tank || equipment.kind === "disposal" ? "#Cylinder" : equipment.kind === "well" ? "#Cone" : "#Cube"
-                    position: Qt.vector3d(0, equipment.tank ? 36 : 24, 0)
-                    scale: equipment.tank ? Qt.vector3d(0.55, 0.72, 0.55) : equipment.kind === "pipeline" ? Qt.vector3d(0.85, 0.14, 0.20) : equipment.kind === "facility" ? Qt.vector3d(0.65, 0.48, 0.50) : equipment.kind === "truck_yard" ? Qt.vector3d(0.60, 0.25, 0.48) : Qt.vector3d(0.40, 0.48, 0.40)
-                    pickable: true
-                    materials: PrincipledMaterial { baseColor: equipment.abnormal ? "#ee9d70" : equipment.tint; roughness: 0.8 }
-                }
-                Model {
-                    visible: equipment.tank && equipment.displayFill > 0; objectName: "eog-asset:" + equipment.modelData.id
-                    source: "#Cylinder"; pickable: true
-                    position: Qt.vector3d(0, 36 * equipment.displayFill, 0)
-                    scale: Qt.vector3d(0.558, 0.72 * equipment.displayFill, 0.558)
-                    materials: PrincipledMaterial { baseColor: equipment.abnormal ? "#ee9d70" : "#36bec8"; roughness: 0.6 }
-                }
-                Model {
-                    source: "#Cylinder"; position: Qt.vector3d(0, 1, 0)
-                    scale: Qt.vector3d(equipment.modelData.selected ? 0.75 : 0.62, 0.025, equipment.modelData.selected ? 0.75 : 0.62)
-                    materials: PrincipledMaterial { baseColor: equipment.modelData.selected ? "#ffc96b" : "#344c5d"; roughness: 1 }
+                IndustrialEquipment {
+                    kind: equipment.kind
+                    pickName: "eog-asset:" + equipment.modelData.id
+                    selected: equipment.modelData.selected
+                    abnormal: equipment.abnormal
+                    fillFraction: equipment.fraction
                 }
             }
         }
     }
     component SceneLabel: Label {
+            id: sceneLabel
             required property var modelData
+            // Offset only the presentation label: imported positions and picks
+            // still use the original world-space equipment coordinates.
+            readonly property point screenOffset: !network.overview ? Qt.point(0, 0)
+                : modelData.kind === "disposal" ? Qt.point(-56, -22)
+                : modelData.kind === "truck_yard" ? Qt.point(56, 18) : Qt.point(0, 0)
             readonly property vector3d projectedPoint: {
                 if (!network.projectionReady) return Qt.vector3d(0, 0, -1)
                 const watchRotation = rig.eulerRotation, watchDistance = eogCamera.z
@@ -179,10 +193,24 @@ Rectangle {
             }
             objectName: "eogLabel:" + modelData.id
             visible: network.projectionReady && network.visibleNode(modelData) && projectedPoint.z > 0
-            x: projectedPoint.x - width / 2; y: projectedPoint.y; width: Math.min(180, implicitWidth)
+            x: Math.max(8, Math.min(Math.max(8, network.width - width - 8), projectedPoint.x - width / 2 + screenOffset.x))
+            y: Math.max(8, Math.min(Math.max(8, network.height - height - 8), projectedPoint.y + screenOffset.y))
+            width: Math.min(180, implicitWidth)
+            readonly property point leaderStart: Qt.point(projectedPoint.x - x, projectedPoint.y - y)
+            readonly property point leaderEnd: Qt.point(Math.max(0, Math.min(width, leaderStart.x)), Math.max(0, Math.min(height, leaderStart.y)))
+            Rectangle {
+                // A noninteractive screen-space leader keeps a separated label
+                // visibly associated with its unchanged projected equipment.
+                visible: network.overview && (sceneLabel.modelData.kind === "disposal" || sceneLabel.modelData.kind === "truck_yard") && width > 1
+                x: sceneLabel.leaderStart.x; y: sceneLabel.leaderStart.y
+                width: Math.hypot(sceneLabel.leaderEnd.x - sceneLabel.leaderStart.x, sceneLabel.leaderEnd.y - sceneLabel.leaderStart.y)
+                height: 1; color: "#68727D"; opacity: 0.75; z: -1
+                transformOrigin: Item.Left
+                rotation: Math.atan2(sceneLabel.leaderEnd.y - sceneLabel.leaderStart.y, sceneLabel.leaderEnd.x - sceneLabel.leaderStart.x) * 180 / Math.PI
+            }
             text: modelData.label || modelData.id
             textFormat: Text.PlainText; elide: Text.ElideMiddle; horizontalAlignment: Text.AlignHCenter
-            color: modelData.selected ? "#ffcf70" : "#dceaf0"; font.pixelSize: 10
+            color: modelData.selected ? "#edf1f3" : "#c8d1d8"; font.pixelSize: 12
     }
     Repeater {
         id: nodeLabels
@@ -217,8 +245,8 @@ Rectangle {
     }
     Label {
         anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 10; width: Math.max(0, parent.width - 20)
-        text: network.overview ? "Blue: water route · purple: truck access · travel times from ops.json"
-                               : "Schematic equipment layout · raw observations remain unchanged"
+        text: network.overview ? "Pipe: water connection · dashed: truck access · travel times from ops.json"
+                               : "Schematic equipment and topology · raw observations remain unchanged"
         horizontalAlignment: Text.AlignRight; wrapMode: Text.Wrap; color: "#94aebb"; font.pixelSize: 10
     }
 }

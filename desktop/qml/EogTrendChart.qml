@@ -32,8 +32,8 @@ Item {
         onHeightChanged: chart.invalidatePlot()
         onPaint: {
             const ctx = getContext("2d")
-            ctx.reset(); ctx.fillStyle = "#101d28"; ctx.fillRect(0, 0, width, height)
-            ctx.fillStyle = "#a9c0cc"; ctx.font = "11px sans-serif"
+            ctx.reset(); ctx.fillStyle = "#15181B"; ctx.fillRect(0, 0, width, height)
+            ctx.fillStyle = "#BBC2C9"; ctx.font = "12px sans-serif"
             const points = []
             for (let i = 0; i < chart.samples.length; ++i) {
                 const s = chart.samples[i]
@@ -66,14 +66,16 @@ Item {
                 const real = normalized * valueScale
                 return isFinite(real) ? chart.axisLabel(real) : normalized.toPrecision(3) + "×" + valueScale.toExponential(1)
             }
-            ctx.strokeStyle = "#385363"; ctx.beginPath()
+            ctx.strokeStyle = "#414950"; ctx.beginPath()
             ctx.moveTo(left, top); ctx.lineTo(left, bottom); ctx.lineTo(right, bottom); ctx.stroke()
             ctx.fillText(axisText(axisHigh), 5, top + 4); ctx.fillText(axisText(axisLow), 5, bottom)
+            ctx.font = "13px sans-serif"
             ctx.fillText(chart.unit + (chart.discrete ? " · status observations" : " · recorded observations"), left, 15)
+            ctx.font = "12px sans-serif"
             ctx.fillText(chart.utcLabel(minT) + " UTC", left, height - 8)
             if (right - left > 250) ctx.fillText(chart.utcLabel(maxT) + " UTC", right - 130, height - 8)
             const guideColor = function(kind) {
-                return kind === "shutdown" ? "#f29a7b" : kind === "warning" ? "#e8c779" : "#a3b4cb"
+                return kind === "shutdown" ? "#EB8585" : kind === "warning" ? "#E4B55B" : "#68727D"
             }
             for (const guide of guideLines) {
                 guide.y = y(guide.value)
@@ -82,7 +84,7 @@ Item {
             }
             ctx.setLineDash([])
             let previous = null
-            ctx.strokeStyle = "#5dd0cf"; ctx.fillStyle = "#5dd0cf"
+            ctx.strokeStyle = "#F3F3F3"; ctx.fillStyle = "#F3F3F3"
             for (const p of points) {
                 // break_before comes from source gaps, never decimation spacing.
                 if (!chart.discrete && previous && !p.gap) {
@@ -96,20 +98,20 @@ Item {
             guideLines.sort(function(a, b) { return a.y - b.y })
             let lastBaseline = top - 2
             for (const guide of guideLines) {
-                guide.baseline = Math.max(top + 11, lastBaseline + 13, guide.y - 4)
+                guide.baseline = Math.max(top + 13, lastBaseline + 15, guide.y - 4)
                 lastBaseline = guide.baseline
             }
             lastBaseline = bottom + 10
             for (let i = guideLines.length - 1; i >= 0; --i) {
                 const guide = guideLines[i]
-                guide.baseline = Math.min(guide.baseline, bottom - 3, lastBaseline - 13)
+                guide.baseline = Math.min(guide.baseline, bottom - 3, lastBaseline - 15)
                 lastBaseline = guide.baseline
             }
-            ctx.font = "10px sans-serif"
+            ctx.font = "12px sans-serif"
             for (const guide of guideLines) {
                 const text = guide.label + " " + Number(guide.value.toPrecision(4)) + chart.unit
                 const textWidth = ctx.measureText(text).width
-                ctx.fillStyle = "#101d28"; ctx.fillRect(right - textWidth - 8, guide.baseline - 10, textWidth + 8, 13)
+                ctx.fillStyle = "#15181B"; ctx.fillRect(right - textWidth - 8, guide.baseline - 13, textWidth + 8, 16)
                 ctx.strokeStyle = guideColor(guide.kind)
                 if (Math.abs(guide.baseline - 4 - guide.y) > 7) {
                     ctx.beginPath(); ctx.moveTo(right, guide.y); ctx.lineTo(right, guide.baseline - 4); ctx.stroke()
