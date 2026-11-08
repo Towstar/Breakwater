@@ -11,3 +11,4 @@
 /evidence/eog-simulation/** -text whitespace=-blank-at-eol,-blank-at-eof linguist-generated
 /evidence/eog-synthetic-observations/** -text whitespace=-blank-at-eol,-blank-at-eof linguist-generated
 /evidence/eog-inspection/** -text whitespace=-blank-at-eol,-blank-at-eof linguist-generated
+/evidence/eog-search-robustness/** -text whitespace=-blank-at-eol,-blank-at-eof linguist-generated
