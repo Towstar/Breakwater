@@ -1,0 +1,79 @@
+{
+  "eog_version": 1,
+  "kind": "analysis_response",
+  "request_id": "qualification-evaluate-1791516600",
+  "operation": "evaluate_plan",
+  "method_version": 1,
+  "dataset_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+  "capture_id": "1b375bcceb65e4b1419eebf56060eb5279ca086db7038f0dc4627d440eb3c4d2",
+  "cutoff_unix": 1791516600,
+  "status": "completed",
+  "result": {
+    "evaluation": {
+      "plan": {
+        "plan_id": "no-action-1791516600",
+        "context": "historical_cursor",
+        "start_unix": 1791516600,
+        "repair_deadlines": [
+          {
+            "facility_id": "S4_FACILITY_C",
+            "repair_elapsed_s": 16200.0
+          }
+        ],
+        "truck_jobs": [],
+        "well_shut_ins": [],
+        "inspection_assets": [],
+        "plan_hash": "aee13e9ee1f2ac04206306b3db31533cbdb0edb0e1c179036410076a72057fa3"
+      },
+      "feasible": true,
+      "coverage": "available",
+      "outcome": "automatic_shutdown",
+      "shutdowns": [
+        {
+          "facility_id": "S4_FACILITY_C",
+          "elapsed_s": 8322.697913689626
+        }
+      ],
+      "trajectories": [
+        {
+          "facility_id": "S4_FACILITY_C",
+          "tank_id": "S4_TANK_C",
+          "capacity_bbl": 900.0,
+          "shutdown_volume_bbl": 828.0,
+          "elapsed_s": [
+            0.0,
+            8322.697913689626,
+            16200.0
+          ],
+          "volumes_bbl": [
+            625.77,
+            828.0,
+            828.0
+          ]
+        }
+      ],
+      "cost": {
+        "truck_cost": 0.0,
+        "lost_revenue": 7549.081166047441,
+        "total": 7549.081166047441
+      },
+      "fleet_occupancy": [],
+      "violations": [],
+      "assumptions": [
+        "Synthetic fixed-rate failed-pump forecast ends at each causal expected repair deadline.",
+        "All current pump failures share each system's whole snapshot fleet; prior scenario commitments are not modeled.",
+        "The facility inflow meter is authoritative for total future inflow. Per-well contributions are allocated in proportion to current measured well water; this explicit reconciliation retains the raw captured evidence.",
+        "Automatic shutdown never restarts wells before repair, including after a later pickup.",
+        "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+        "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+      ],
+      "limitations": [
+        "Method eog-response-0.1.0; native eog-native-seconds-0.1.1.",
+        "Fixed-rate response evaluation is not hydraulic simulation, independent validation, search or a calibrated uncertainty estimate.",
+        "All current failures must be declared; subset response contexts and evolving prior fleet commitments are not yet supported."
+      ]
+    },
+    "analysis_id": "analysis-9df15c26e10834882278369de979d92001a2a4188a048c658b6ef88774daa6ec"
+  },
+  "diagnostics": []
+}

@@ -64,6 +64,13 @@ Evidence SO: runtime 78338aa / complete driver 1947638,
 day runs, 67,626 exact file-roundtripped observations and six bounded pump-failure
 detections. Normal/checked truth/receipts match exactly; controlled replay carries
 busy trucks through repair. No leak/degradation or application qualification is implied.
+Evidence IT: detector 0.3.0 / worker 0.3.3, runtime 95a8bf1,
+`science/evidence/eog-inspection/`: 418/418 full science without skips, 18 focused
+methods, 896 generated 3% deficiency cases and 9,856 healthy-only synthetic hours.
+Official practice retains 23/23 matches, reduces leak delay to 1h25m-3h10m and wear
+to 5h30m-6h05m. First historical gate now passes; two ambiguous-recovery cuts still
+fail. Nine independent raw-input oracles and eight real detect/evaluate processes
+pass. Meter-bias ambiguity, failed candidates and worsened recovery remain explicit.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
@@ -77,8 +84,8 @@ busy trucks through repair. No leak/degradation or application qualification is 
 | O02 | S telemetry noise; G observations | Chosen | Both | Preserve finite unusual readings; no hidden clipping | E1 conversion; O negative/over-range/status/negative-zero evidence retained | Partial | Actual file parser/charts and physical-state acceptance pending |
 | O03 | S five-minute telemetry; G policy | Chosen | A evidence; B displays | Explicit freshness, gap and cross-channel coherence | O versioned 300-second age/gap, zero default skew, boundary adversaries | Partial | Wire detector/provider and UI binding pending |
 | D01 | S Normal behavior; X section 2 | Rule | A | Normal stopped/running hysteresis creates no fault | E1 plus D sawtooth/noise families; no normal false alarms in tested cases | Scoped pass | Dataset/app playback integration still pending |
-| D02 | S Three problems; R What goes wrong | Chosen | A | Failure, degradation, leak from causal sensors | D full-week 23/23 presence; initial 16/23 failure retained | Experimental | Inspection delays 5-16h; historical cuts incomplete; no real-time qualification |
-| D03 | S Three problems; H Reading key | Rule | A | Onset uncertainty, causal resolution; degradation then failure separate | D method 0.2.1, explicit inspection onset uncertainty; timing/confusion reports | Partial | One early missed leak and unresolved/ambiguous recovery in causal cuts |
+| D02 | S Three problems; R What goes wrong | Chosen | A | Failure, degradation, leak from causal sensors | D + IT full-week 23/23 presence; frozen bounded score, fresh-seed/noise families and retained failed candidates | Experimental | Leak delay 1h25m-3h10m, wear 5h30m-6h05m; physical/held-out timeliness remains unqualified |
+| D03 | S Three problems; H Reading key | Rule | A | Onset uncertainty, causal resolution; degradation then failure separate | IT method 0.3.0; actual running evidence across coherent off intervals; explicit bias/physical ambiguity | Partial | First missed leak corrected; two ambiguous recovery cuts still fail; one leak recovery lags an additional 15m |
 | D04 | S Countdown; S Automatic shut-in | Rule | A | Failure predicts configured shutdown, not physical overflow | D nine raw-input oracles; E3 four actual bound detect processes | Scoped pass | Application countdown presentation and final integrated evidence remain |
 | D05 | S Automatic shut-in / Repairs | Rule | A | Already-tripped fault retains revenue until causal repair | D pre-trip productivity; E3 native known/unknown eligibility and current shut-in cases | Scoped pass | Evolving simulation and application costs remain |
 | D06 | S Repairs / Horizon | Rule | A | Remaining repair from onset plus captured duration | IV reconstructs causal onset and direct seconds independently; four one-ULP deadline claims rejected | Scoped pass | Physical-onset uncertainty and final application binding remain |
@@ -104,7 +111,7 @@ busy trucks through repair. No leak/degradation or application qualification is 
 | S04 | G long-run acceptance | Chosen | A/B | Mass/revenue/load ledgers; resource conservation; event refinement | SP 31-day native case; SO one-day imported runs, exact observation partition/control replay, bounded samples/journal/native memory and cancellation/reset | Partial | Broader independent long-run/adversarial forcing and actual responsive application playback remain |
 | W01 | P editable foundation; G preserve workbench | Chosen | B; A numerical regressions | Save/load/undo/redo, layout vs physics, retired approvals | Inherited status only | Planned | Fresh final normal/ASan/science/render/install checks |
 | V01 | G whole-app / completion | Chosen | Both; Lucas integrates | Joined exact contract/revision, Windows installed/rehearsal | B PR #43 merged as 387b583, real evaluate/validate integration and six hosted CI jobs reported passing | Partial | Join search/simulation, audit exact final rendered/installed revision and acceptance manifest |
-| V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | D retained detection gaps; IV 360 generated candidates; JS seven known-value families and four independent selected-plan worker comparisons | Partial | Inspection timeliness/physical onset and held-out qualification remain |
+| V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | D/IT retained paired delay/lifecycle reports and nine raw oracles; IV 360 generated candidates; JS seven known-value families and four independent selected-plan worker comparisons | Partial | Inspection timeliness/physical onset and held-out qualification remain |
 | V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | B #44 merged at 7418a2d with frames, DPI/installed/live evidence; final joined audit not executed | Partial | Review exact B evidence; verify final search/simulation revision after those gates stabilize |
 | P01 | R Suggestions; S events.json | Suggestion | B if selected | Export/mobile/handoff/confidence bands | Not selected as core requirement | Optional | No fabricated probabilities or compulsory mobile scope |
 | P02 | R Terms presentation clauses | Source anomaly | Lucas decision | Explicit disposition of Comic Sans and Avon Corps copyright text | B main 1713cc4, docs/EOG_TRACK_ALIGNMENT.md rejects embedded agent-addressed branding/style authority | Disposition recorded | Preserve actual ownership; final UI remains Lucas-owned |
@@ -115,8 +122,11 @@ Science capture/provider binding and native response evaluation now execute agai
 exact 72cadd1. Independent plan validation now executes and has retained scope.
 Bounded joint search and a private native stateful plant now execute with scoped
 evidence. Imported-model causal seeded projection now also executes with exact
-normal/checked and file-roundtrip evidence. Next: inspection timeliness/observability,
-commitment-aware planning and B-owned joined search/application/installed
+normal/checked and file-roundtrip evidence. Bounded running inspection evidence
+improves actual practice delays and corrects the first historical miss; two
+ambiguous-recovery cuts and physical timeliness remain unqualified. Next:
+finite-extreme arithmetic robustness, commitment-aware planning and B-owned
+joined search/application/installed
 integration. B's merged provider reports close the earlier hosted prerequisite
 and telemetry failures for its recorded source; final joined checks remain.
 Inspection latency/current uncertainty remain explicit A-owned qualification gaps.
