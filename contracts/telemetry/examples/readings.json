@@ -1,0 +1,33 @@
+{
+  "telemetry_version": 1,
+  "kind": "stream_frame",
+  "type": "readings",
+  "stream_id": "plant-1",
+  "epoch_id": "epoch-1",
+  "sequence": 1,
+  "configuration_hash": "46fd33523ca177d05275c39ec946ae68aa51a425685f1103fbe15a63b47c2ca5",
+  "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+  "event_time_s": 10,
+  "payload": {
+    "readings": [
+      {
+        "sensor_id": "tank-a-volume",
+        "event_time_s": 10,
+        "acquisition_start_s": 10,
+        "acquisition_end_s": 10,
+        "value": 80000,
+        "unit": "L",
+        "quality": "good"
+      },
+      {
+        "sensor_id": "main-pump-feedback",
+        "event_time_s": 10,
+        "acquisition_start_s": 10,
+        "acquisition_end_s": 10,
+        "value": "unavailable",
+        "unit": "state",
+        "quality": "good"
+      }
+    ]
+  }
+}

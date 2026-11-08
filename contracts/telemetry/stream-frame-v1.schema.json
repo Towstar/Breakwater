@@ -1,0 +1,446 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Towstar/Breakwater/main/contracts/telemetry/stream-frame-v1.schema.json",
+  "oneOf": [
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "telemetry_version",
+        "kind",
+        "type",
+        "stream_id",
+        "epoch_id",
+        "sequence",
+        "configuration_hash",
+        "physical_hash",
+        "event_time_s",
+        "payload"
+      ],
+      "properties": {
+        "telemetry_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "stream_frame"
+        },
+        "type": {
+          "const": "start"
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "epoch_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "configuration_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "physical_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "event_time_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "mode",
+            "clock_rate",
+            "paused"
+          ],
+          "properties": {
+            "mode": {
+              "enum": [
+                "synthetic_live",
+                "replay"
+              ]
+            },
+            "clock_rate": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            "paused": {
+              "type": "boolean"
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "telemetry_version",
+        "kind",
+        "type",
+        "stream_id",
+        "epoch_id",
+        "sequence",
+        "configuration_hash",
+        "physical_hash",
+        "event_time_s",
+        "payload"
+      ],
+      "properties": {
+        "telemetry_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "stream_frame"
+        },
+        "type": {
+          "const": "readings"
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "epoch_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "configuration_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "physical_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "event_time_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "readings"
+          ],
+          "properties": {
+            "readings": {
+              "type": "array",
+              "items": {
+                "$ref": "common-v1.schema.json#/$defs/reading"
+              },
+              "minItems": 1,
+              "maxItems": 256
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "telemetry_version",
+        "kind",
+        "type",
+        "stream_id",
+        "epoch_id",
+        "sequence",
+        "configuration_hash",
+        "physical_hash",
+        "event_time_s",
+        "payload"
+      ],
+      "properties": {
+        "telemetry_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "stream_frame"
+        },
+        "type": {
+          "const": "heartbeat"
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "epoch_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "configuration_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "physical_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "event_time_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "paused",
+            "clock_rate"
+          ],
+          "properties": {
+            "paused": {
+              "type": "boolean"
+            },
+            "clock_rate": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "telemetry_version",
+        "kind",
+        "type",
+        "stream_id",
+        "epoch_id",
+        "sequence",
+        "configuration_hash",
+        "physical_hash",
+        "event_time_s",
+        "payload"
+      ],
+      "properties": {
+        "telemetry_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "stream_frame"
+        },
+        "type": {
+          "const": "ack"
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "epoch_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "configuration_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "physical_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "event_time_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "request_id",
+            "operation",
+            "effective_event_time_s",
+            "paused",
+            "clock_rate"
+          ],
+          "properties": {
+            "request_id": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+            },
+            "operation": {
+              "enum": [
+                "pause",
+                "resume",
+                "set_rate",
+                "restart",
+                "stop"
+              ]
+            },
+            "effective_event_time_s": {
+              "type": "number",
+              "minimum": 0
+            },
+            "paused": {
+              "type": "boolean"
+            },
+            "clock_rate": {
+              "type": "number",
+              "exclusiveMinimum": 0
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "telemetry_version",
+        "kind",
+        "type",
+        "stream_id",
+        "epoch_id",
+        "sequence",
+        "configuration_hash",
+        "physical_hash",
+        "event_time_s",
+        "payload"
+      ],
+      "properties": {
+        "telemetry_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "stream_frame"
+        },
+        "type": {
+          "const": "error"
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "epoch_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "configuration_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "physical_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "event_time_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "code",
+            "message"
+          ],
+          "properties": {
+            "code": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+            },
+            "message": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            }
+          }
+        }
+      }
+    },
+    {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "telemetry_version",
+        "kind",
+        "type",
+        "stream_id",
+        "epoch_id",
+        "sequence",
+        "configuration_hash",
+        "physical_hash",
+        "event_time_s",
+        "payload"
+      ],
+      "properties": {
+        "telemetry_version": {
+          "const": 1
+        },
+        "kind": {
+          "const": "stream_frame"
+        },
+        "type": {
+          "const": "end"
+        },
+        "stream_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "epoch_id": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+        },
+        "sequence": {
+          "type": "integer",
+          "minimum": 0,
+          "maximum": 9007199254740991
+        },
+        "configuration_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "physical_hash": {
+          "type": "string",
+          "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+        },
+        "event_time_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "payload": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": [
+            "reason"
+          ],
+          "properties": {
+            "reason": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 2000
+            }
+          }
+        }
+      }
+    }
+  ]
+}

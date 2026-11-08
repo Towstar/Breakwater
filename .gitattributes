@@ -4,3 +4,12 @@ docs/COMBINED_VERIFICATION.md -text
 docs/STATUS.md -text whitespace=cr-at-eol
 science/evidence/pr26-reconciliation/** -text whitespace=-blank-at-eol,-blank-at-eof
 docs/PR26_RECONCILIATION.md -text whitespace=cr-at-eol
+
+# Preserve the tested G1 source/fixture bytes and their recorded hashes on checkout.
+# CRLF is valid here; other trailing whitespace checks remain enabled.
+contracts/include/breakwater/telemetry.hpp -text whitespace=cr-at-eol
+contracts/telemetry/** -text whitespace=cr-at-eol
+desktop/telemetry/** -text whitespace=cr-at-eol
+desktop/tests/telemetry_contract*.cpp -text whitespace=cr-at-eol
+docs/G1_REVIEW.md -text whitespace=cr-at-eol
+docs/evidence/g1-contract-verification.json -text whitespace=cr-at-eol

@@ -1,0 +1,9 @@
+{
+  "telemetry_version": 1,
+  "kind": "stream_command",
+  "request_id": "pause-1",
+  "stream_id": "plant-1",
+  "epoch_id": "epoch-1",
+  "operation": "pause",
+  "payload": {}
+}

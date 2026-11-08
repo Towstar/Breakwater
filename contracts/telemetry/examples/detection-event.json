@@ -1,0 +1,37 @@
+{
+  "telemetry_version": 1,
+  "kind": "detection_event",
+  "event_id": "event-1",
+  "revision": 1,
+  "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+  "configuration_hash": "46fd33523ca177d05275c39ec946ae68aa51a425685f1103fbe15a63b47c2ca5",
+  "stream_id": "plant-1",
+  "epoch_id": "epoch-1",
+  "snapshot_id": "capture-1",
+  "detector_id": "feedback-rule",
+  "detector_version": "example-v1",
+  "threshold_version": "example-v1",
+  "status": "active",
+  "severity": "critical",
+  "onset_event_time_s": 10,
+  "updated_event_time_s": 10,
+  "cleared_event_time_s": null,
+  "acknowledgement": null,
+  "sensor_ids": [
+    "main-pump-feedback"
+  ],
+  "asset_ids": [
+    "tank_a"
+  ],
+  "evidence": [
+    {
+      "metric": "delivery-m3h",
+      "value": 0,
+      "unit": "m3/h",
+      "threshold": 44
+    }
+  ],
+  "diagnosis": "unresolved",
+  "explanation": "Illustrative contract fixture; not an executed detector result.",
+  "actionable": false
+}

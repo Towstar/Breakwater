@@ -1,0 +1,294 @@
+{
+  "telemetry_version": 1,
+  "kind": "sensor_configuration",
+  "configuration_id": "all-quantities",
+  "revision": 1,
+  "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+  "policy": {
+    "max_skew_s": 1.0,
+    "reorder_window_s": 2.0,
+    "future_allowance_s": 0.25,
+    "heartbeat_period_s": 1.0,
+    "source_timeout_s": 5.0
+  },
+  "sensors": [
+    {
+      "sensor_id": "tank-a-volume",
+      "label": "tank-a-volume",
+      "quantity": "inventory",
+      "unit": "m3",
+      "source_id": "synthetic-publisher",
+      "channel_id": "tank-a-volume",
+      "attachment": {
+        "kind": "asset",
+        "id": "tank_a"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "tank-a-volume",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    },
+    {
+      "sensor_id": "main-pump-feedback",
+      "label": "main-pump-feedback",
+      "quantity": "pump_state",
+      "unit": "state",
+      "source_id": "synthetic-publisher",
+      "channel_id": "main-pump-feedback",
+      "attachment": {
+        "kind": "route",
+        "id": "main_pump"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "main-pump-feedback",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    },
+    {
+      "sensor_id": "tank-a-level",
+      "label": "tank-a-level",
+      "quantity": "level",
+      "unit": "m",
+      "source_id": "synthetic-publisher",
+      "channel_id": "tank-a-level",
+      "attachment": {
+        "kind": "asset",
+        "id": "tank_a"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "tank-a-level",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "tank-a-knots",
+        "version": 1,
+        "kind": "level_volume_piecewise_linear",
+        "error_bound": 0.2,
+        "knots": [
+          {
+            "level_m": 0,
+            "volume_m3": 0
+          },
+          {
+            "level_m": 1,
+            "volume_m3": 30
+          },
+          {
+            "level_m": 2,
+            "volume_m3": 80
+          }
+        ]
+      }
+    },
+    {
+      "sensor_id": "bypass-tracer",
+      "label": "bypass-tracer",
+      "quantity": "concentration",
+      "unit": "mg/L",
+      "source_id": "synthetic-publisher",
+      "channel_id": "bypass-tracer",
+      "attachment": {
+        "kind": "route",
+        "id": "bypass"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "bypass-tracer",
+      "role": "primary",
+      "physical_support": {
+        "kind": "interval_average",
+        "acquisition_window_s": 0,
+        "delay_s": 0,
+        "start_m": 0.125,
+        "end_m": 0.625
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      },
+      "pipe_parameter_hash": "a1a343c61057cc3b6bed4271e86b7ad7b55dd39c44008a76bf80a290e6302849"
+    },
+    {
+      "sensor_id": "source-a-meter",
+      "label": "source-a-meter",
+      "quantity": "source_flow",
+      "unit": "m3/h",
+      "source_id": "synthetic-publisher",
+      "channel_id": "source-a-meter",
+      "attachment": {
+        "kind": "asset",
+        "id": "source_a"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "source-a-meter",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    },
+    {
+      "sensor_id": "bypass-meter",
+      "label": "bypass-meter",
+      "quantity": "route_flow",
+      "unit": "m3/h",
+      "source_id": "synthetic-publisher",
+      "channel_id": "bypass-meter",
+      "attachment": {
+        "kind": "route",
+        "id": "bypass"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "bypass-meter",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    },
+    {
+      "sensor_id": "tank-a-pressure",
+      "label": "tank-a-pressure",
+      "quantity": "pressure",
+      "unit": "kPa",
+      "source_id": "synthetic-publisher",
+      "channel_id": "tank-a-pressure",
+      "attachment": {
+        "kind": "asset",
+        "id": "tank_a"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "tank-a-pressure",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    },
+    {
+      "sensor_id": "tank-a-temperature",
+      "label": "tank-a-temperature",
+      "quantity": "temperature",
+      "unit": "degC",
+      "source_id": "synthetic-publisher",
+      "channel_id": "tank-a-temperature",
+      "attachment": {
+        "kind": "asset",
+        "id": "tank_a"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "tank-a-temperature",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    },
+    {
+      "sensor_id": "tank-a-custom",
+      "label": "tank-a-custom",
+      "quantity": "custom_numeric",
+      "unit": "custom-units",
+      "source_id": "synthetic-publisher",
+      "channel_id": "tank-a-custom",
+      "attachment": {
+        "kind": "asset",
+        "id": "tank_a"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "tank-a-custom",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    }
+  ]
+}

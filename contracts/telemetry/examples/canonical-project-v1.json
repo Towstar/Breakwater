@@ -1,0 +1,142 @@
+{
+  "version": 1,
+  "synthetic": true,
+  "network": {
+    "assets": [
+      {
+        "capacity_m3": 120,
+        "id": "tank_a",
+        "initial_m3": 80,
+        "kind": "tank",
+        "label": "Tank A"
+      },
+      {
+        "capacity_m3": 130,
+        "id": "tank_b",
+        "initial_m3": 114,
+        "kind": "tank",
+        "label": "Tank B"
+      },
+      {
+        "cost_per_m3": 250,
+        "curtailment_m3h": 0,
+        "curtailment_max_m3h": 15,
+        "id": "source_a",
+        "inflow_m3h": 52,
+        "kind": "source",
+        "label": "Production A"
+      },
+      {
+        "cost_per_m3": 250,
+        "curtailment_m3h": 0,
+        "curtailment_max_m3h": 0,
+        "id": "source_b",
+        "inflow_m3h": 16,
+        "kind": "source",
+        "label": "Production B"
+      },
+      {
+        "capacity_m3h": 60,
+        "cost_per_m3": 0,
+        "id": "treatment",
+        "kind": "treatment",
+        "label": "Treatment"
+      },
+      {
+        "capacity_m3h": 22,
+        "cost_per_m3": 80,
+        "id": "trucking",
+        "kind": "trucking",
+        "label": "Emergency trucking"
+      }
+    ],
+    "routes": [
+      {
+        "available": true,
+        "capacity_m3h": 52,
+        "cost_per_m3": 0,
+        "has_pump": false,
+        "id": "feed_a",
+        "setpoint_m3h": 52,
+        "source_id": "source_a",
+        "target_id": "tank_a"
+      },
+      {
+        "available": true,
+        "capacity_m3h": 16,
+        "cost_per_m3": 0,
+        "has_pump": false,
+        "id": "feed_b",
+        "setpoint_m3h": 16,
+        "source_id": "source_b",
+        "target_id": "tank_b"
+      },
+      {
+        "available": false,
+        "capacity_m3h": 55,
+        "cost_per_m3": 0,
+        "has_pump": true,
+        "id": "main_pump",
+        "setpoint_m3h": 0,
+        "source_id": "tank_a",
+        "target_id": "treatment"
+      },
+      {
+        "available": true,
+        "capacity_m3h": 35,
+        "cost_per_m3": 0,
+        "has_pump": true,
+        "id": "backup_pump",
+        "setpoint_m3h": 16,
+        "source_id": "tank_b",
+        "target_id": "treatment"
+      },
+      {
+        "available": true,
+        "capacity_m3h": 25,
+        "cost_per_m3": 0,
+        "has_pump": false,
+        "id": "bypass",
+        "setpoint_m3h": 0,
+        "source_id": "tank_a",
+        "target_id": "tank_b"
+      },
+      {
+        "available": true,
+        "capacity_m3h": 22,
+        "cost_per_m3": 0,
+        "has_pump": false,
+        "id": "truck_route",
+        "setpoint_m3h": 0,
+        "source_id": "tank_a",
+        "target_id": "trucking"
+      }
+    ]
+  },
+  "layout": {
+    "positions": {},
+    "camera": {
+      "yaw": 35,
+      "pitch": -55,
+      "distance": 720
+    }
+  },
+  "pipe_transport": {
+    "version": 1,
+    "routes": {
+      "bypass": {
+        "length_m": 1,
+        "area_m2": 0.2,
+        "dispersion_m2_h": 0,
+        "decay_per_h": 0,
+        "cells": 4,
+        "initial_mg_l": 0,
+        "inlet_mg_l": 1,
+        "source_mg_l_h": 0,
+        "output_step_h": 0.025,
+        "cfl_safety": 0.9,
+        "boundary": "dirichlet_inlet"
+      }
+    }
+  }
+}

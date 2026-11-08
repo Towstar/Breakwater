@@ -1,0 +1,62 @@
+{
+  "source_commit": "9941859b202d804b024d788b1238d94166b33309",
+  "scope": "Review inputs only; G1 does not execute numerical mappings or detectors.",
+  "examples": [
+    {
+      "name": "inventory-conversion",
+      "original_value": 80000,
+      "original_unit": "L",
+      "canonical_value": 80,
+      "canonical_unit": "m3"
+    },
+    {
+      "name": "level-interpolation",
+      "level_m": 1.4,
+      "knots": [
+        [
+          0,
+          0
+        ],
+        [
+          1,
+          30
+        ],
+        [
+          2,
+          80
+        ]
+      ],
+      "expected_volume_m3": 50,
+      "expected_error_bound_m3": 0.7
+    },
+    {
+      "name": "concentration-interval",
+      "cells_mg_l": [
+        0,
+        2,
+        4,
+        6
+      ],
+      "cell_width_m": 0.25,
+      "interval_m": [
+        0.125,
+        0.625
+      ],
+      "expected_average_mg_l": 2
+    },
+    {
+      "name": "balance-residual",
+      "interval_h": 0.1,
+      "inventory_m3": [
+        80,
+        80.5
+      ],
+      "flow_m3h": [
+        42,
+        42
+      ],
+      "expected_residual_m3": 0.5,
+      "measurement_only_bound_m3": 0.5
+    }
+  ]
+}

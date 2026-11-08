@@ -1,0 +1,246 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Towstar/Breakwater/main/contracts/telemetry/observed-snapshot-v1.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "telemetry_version",
+    "kind",
+    "snapshot_id",
+    "physical_hash",
+    "numerical_revision",
+    "configuration_hash",
+    "stream_id",
+    "epoch_id",
+    "mode",
+    "captured_event_time_s",
+    "expires_event_time_s",
+    "samples",
+    "commands",
+    "derived_state",
+    "coverage",
+    "assumptions",
+    "availability",
+    "actionable"
+  ],
+  "properties": {
+    "telemetry_version": {
+      "const": 1
+    },
+    "kind": {
+      "const": "observed_snapshot"
+    },
+    "snapshot_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+    },
+    "physical_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "numerical_revision": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 9007199254740991
+    },
+    "configuration_hash": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{64}(?![\\s\\S])"
+    },
+    "stream_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+    },
+    "epoch_id": {
+      "type": "string",
+      "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+    },
+    "mode": {
+      "enum": [
+        "synthetic_live",
+        "replay",
+        "historical"
+      ]
+    },
+    "captured_event_time_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "expires_event_time_s": {
+      "type": "number",
+      "minimum": 0
+    },
+    "samples": {
+      "type": "array",
+      "items": {
+        "$ref": "common-v1.schema.json#/$defs/sample"
+      },
+      "minItems": 0,
+      "maxItems": 256
+    },
+    "commands": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "control_id",
+          "value",
+          "unit"
+        ],
+        "properties": {
+          "control_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 512
+          },
+          "value": {
+            "type": "number"
+          },
+          "unit": {
+            "const": "m3/h"
+          }
+        }
+      },
+      "minItems": 0,
+      "maxItems": 512
+    },
+    "derived_state": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "quantity",
+          "attachment_id",
+          "value",
+          "unit",
+          "origin",
+          "source_sensor_ids"
+        ],
+        "properties": {
+          "quantity": {
+            "enum": [
+              "inventory",
+              "level",
+              "source_flow",
+              "route_flow",
+              "pump_state",
+              "concentration",
+              "pressure",
+              "temperature",
+              "custom_numeric"
+            ]
+          },
+          "attachment_id": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 256
+          },
+          "value": {
+            "oneOf": [
+              {
+                "type": "number"
+              },
+              {
+                "enum": [
+                  "commanded_off",
+                  "running",
+                  "delivery_loss",
+                  "unavailable",
+                  "unknown"
+                ]
+              }
+            ]
+          },
+          "unit": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 32
+          },
+          "origin": {
+            "enum": [
+              "measured",
+              "converted",
+              "inferred",
+              "assumed"
+            ]
+          },
+          "source_sensor_ids": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+            },
+            "minItems": 0,
+            "maxItems": 256,
+            "uniqueItems": true
+          }
+        }
+      },
+      "minItems": 0,
+      "maxItems": 512
+    },
+    "coverage": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "required_sensor_ids",
+        "missing_sensor_ids",
+        "conflicting_sensor_ids"
+      ],
+      "properties": {
+        "required_sensor_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        },
+        "missing_sensor_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        },
+        "conflicting_sensor_ids": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+          },
+          "minItems": 0,
+          "maxItems": 256,
+          "uniqueItems": true
+        }
+      }
+    },
+    "assumptions": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "minLength": 1,
+        "maxLength": 2000
+      },
+      "minItems": 0,
+      "maxItems": 64
+    },
+    "availability": {
+      "enum": [
+        "available",
+        "degraded",
+        "unavailable"
+      ]
+    },
+    "actionable": {
+      "const": false
+    }
+  }
+}
