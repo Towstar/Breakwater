@@ -17,8 +17,14 @@ PhysicsNeMo/PyTorch runtime, including three known positive coefficients,
 zero-decay behavior, malformed observations and rejection of a mismatched test.
 The first zero-decay optimizer tolerance failure is retained in
 `science/evidence/transport-calibration/`; tighter convergence tolerances passed.
-Desktop compilation, installed rendering and the opt-in actual C++/worker/apply
-test are separate checks to be recorded on the combined submission build.
+Combined runtime source `6c0c2a2152dfe854619524529beb9193bc5da959` compiled and
+installed on Ethan's Windows machine. The actual C++/worker/apply pipe suite
+passed **16/16**, including real PhysicsNeMo execution and forecast/approval
+invalidation; project regression passed **13/13**, both without skips. Full
+science discovery passed **459/459** at the pre-split test source `25aa614`;
+the final discovery layout has 456 default tests plus three explicit real-runtime
+qualification tests, which separately passed. Source-qualified evidence and
+installed screenshot results belong to `science/evidence/submission-checkpoint/`.
 
 This is experimental parameter inference under the stated synthetic first-order
 model, not a general neural PDE surrogate or a qualified chemistry model. Flow,
