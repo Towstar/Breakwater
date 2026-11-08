@@ -3,12 +3,67 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QTemporaryDir>
+#include <QDir>
+#include <limits>
 #include <QtTest>
 
 using namespace breakwater::desktop;
 class ProjectTests : public QObject {
     Q_OBJECT
 private slots:
+    void sourceSplitIsAtomicVersionedAndInvalidatesEvidence() {
+        ProjectController c;c.addAsset("tank",-40,220);const auto extra=c.selectedId();
+        const auto hash=c.networkHash();
+        const auto priorFeed=c.sourceFeeds("source_b").first().toMap().value("routeId").toString();
+        const auto parameters=c.pipeParameters(priorFeed);QVERIFY(c.setPipeParameters(priorFeed,parameters));
+        const QVariantMap equal{{"tank_b",5000},{extra,5000}};
+        QVERIFY(c.setSourceFeeds("source_b",equal,hash));QCOMPARE(c.sourceFeeds("source_b").size(),2);
+        QCOMPARE(c.document().value("version").toInt(),2);QCOMPARE(c.pipeParameters(priorFeed),parameters);
+        QCOMPARE(c.sourceFeeds("source_b").first().toMap().value("routeId").toString(),priorFeed);
+        double flow=0;for(const auto& v:c.sourceFeeds("source_b")){QCOMPARE(v.toMap().value("flow").toDouble(),8.);flow+=v.toMap().value("flow").toDouble();}QCOMPARE(flow,16.);
+        c.forecast();QTRY_VERIFY_WITH_TIMEOUT(!c.busy(),10000);QVERIFY(c.canApprove());
+        const auto capture=c.capturedForecast();QVERIFY(capture);QVERIFY(std::abs(capture->result.volumes_m3[0].back()-104.)<1e-9);
+        QVERIFY(std::abs(capture->result.volumes_m3[1].back()-90.)<1e-9);QVERIFY(std::abs(capture->result.volumes_m3[2].back()-24.)<1e-9);
+        const auto run=c.runId();const auto revision=c.simulationRevision();
+        QVERIFY(c.setSourceFeeds("source_b",equal,c.networkHash()));QCOMPARE(c.runId(),run);QCOMPARE(c.simulationRevision(),revision);
+        c.select("source_b");(void)c.sourceFeeds("source_b");QCOMPARE(c.runId(),run);
+        c.moveAsset(extra,-20,240);QCOMPARE(c.networkHash(),capture->physical_hash);
+        QVERIFY(c.setSourceFeeds("source_b",{{"tank_b",7500},{extra,2500}},c.networkHash()));QVERIFY(c.runId().isEmpty());QVERIFY(!c.canApprove());
+        // Captured immutable controls and original native arrays survive editor changes.
+        QCOMPARE(capture->network.routes.size(),std::size_t{7});QVERIFY(std::abs(capture->result.volumes_m3[1].back()-90.)<1e-9);
+        const auto after=c.document();QVERIFY(!c.setSourceFeeds("source_b",equal,hash));QCOMPARE(c.document(),after);
+        c.undo();QCOMPARE(c.sourceFeeds("source_b").first().toMap().value("shareBps").toInt(),5000);QVERIFY(c.runId().isEmpty());
+        c.redo();QCOMPARE(c.sourceFeeds("source_b").first().toMap().value("shareBps").toInt(),7500);
+    }
+    void invalidSourceAllocationsDoNotModifyTheProject() {
+        ProjectController c;c.addAsset("tank");const auto extra=c.selectedId();const auto before=c.document();const auto hash=c.networkHash();
+        for(const auto& invalid:QVariantList{true,-1,10001,5000.5,QString("5000"),std::numeric_limits<double>::infinity()}) {
+            QVERIFY(!c.setSourceFeeds("source_b",{{"tank_b",5000},{extra,invalid}},hash));QCOMPARE(c.document(),before);
+        }
+        for(const auto& shares:std::vector<QVariantMap>{{{"tank_b",5000},{extra,4999}},{{"tank_b",5000},{extra,5001}},{{extra,10000}},{{"foreign",10000}},{{"source_a",10000}}}) {
+            QVERIFY(!c.setSourceFeeds("source_b",shares,hash));QCOMPARE(c.document(),before);
+        }
+        QVERIFY(!c.setSourceFeeds("tank_a",{{"tank_b",10000}},hash));QCOMPARE(c.document(),before);
+    }
+    void newSourceFeedCanBeConfiguredWithoutDeletingExistingPipes() {
+        ProjectController c;c.addAsset("tank");const auto extra=c.selectedId();const auto before=c.document();
+        c.connectAssets("source_b",extra);QCOMPARE(c.sourceFeeds("source_b").size(),2);
+        QCOMPARE(c.sourceFeeds("source_b").last().toMap().value("shareBps").toInt(),0);
+        QVERIFY(c.draftIssues().isEmpty());const auto after=c.document();c.connectAssets("source_b",extra);QCOMPARE(c.document(),after);
+        c.undo();QCOMPARE(c.document(),before);QCOMPARE(c.document().value("version").toInt(),1);
+        c.redo();QCOMPARE(c.document().value("version").toInt(),2);
+    }
+    void sourceSplitSaveLoadPreservesLayoutIdsAndFormat() {
+        QTemporaryDir dir;QVERIFY(dir.isValid());ProjectController c;c.addAsset("tank",-40,220);const auto extra=c.selectedId();
+        const auto artifact=qEnvironmentVariable("BREAKWATER_TEST_ARTIFACT_DIR");
+        if(!artifact.isEmpty()){QDir().mkpath(artifact);QVERIFY(c.save(QUrl::fromLocalFile(artifact+"/source-split-before.json")));}
+        QVERIFY(c.setSourceFeeds("source_b",{{"tank_b",5000},{extra,5000}},c.networkHash()));const auto expected=c.document();
+        const auto url=QUrl::fromLocalFile(dir.filePath("split.json"));QVERIFY(c.save(url));ProjectController reopened;QVERIFY(reopened.load(url));QCOMPARE(reopened.document(),expected);
+        if(!artifact.isEmpty())QVERIFY(c.save(QUrl::fromLocalFile(artifact+"/source-split-after.json")));
+        auto downgraded=expected;downgraded["version"]=1;QVERIFY(!reopened.restore(downgraded));QCOMPARE(reopened.document(),expected);
+        auto malformed=expected;auto net=malformed["network"].toObject();auto routes=net["routes"].toArray();auto route=routes.last().toObject();route["source_share_bps"]=true;routes[routes.size()-1]=route;net["routes"]=routes;malformed["network"]=net;
+        QVERIFY(!reopened.restore(malformed));QCOMPARE(reopened.document(),expected);
+    }
     void pipeParametersPersistWithoutChangingVolumeEvidence() {
         ProjectController controller; controller.loadExample("mixed"); controller.forecast();
         QTRY_VERIFY_WITH_TIMEOUT(!controller.busy(), 10000);
@@ -65,7 +120,7 @@ private slots:
         auto draft = p; draft.network.routes.erase(draft.network.routes.begin());
         const auto reopened = parse_project(project_json(draft));
         QVERIFY(!breakwater::inspect_network(reopened.network).empty());
-        auto invalid = project_json(p); invalid["version"] = 2;
+        auto invalid = project_json(p); invalid["version"] = 999;
         QVERIFY_THROWS_EXCEPTION(std::invalid_argument, parse_project(invalid));
     }
     void editingAndUndo() {

@@ -64,7 +64,8 @@ std::vector<double> requestedTimes(double horizon, double step) {
 bool storagePayload(const QJsonObject& payload) {
     try {
         keys(payload, {"method_version", "identity", "network", "controls", "horizon_h", "step_h", "derivatives", "preview"});
-        require(integer(payload.value("method_version"), 1, 1) == 1 && payload.value("identity").isObject());
+        const auto methodVersion = integer(payload.value("method_version"), 1, 2);
+        require(payload.value("identity").isObject());
         identity(payload.value("identity").toObject());
         const auto horizon = number(payload.value("horizon_h")), step = number(payload.value("step_h"));
         (void)requestedTimes(horizon, step);
@@ -73,7 +74,7 @@ bool storagePayload(const QJsonObject& payload) {
         require(payload.value("preview").isObject()); const auto preview = payload.value("preview").toObject();
         keys(preview, {"max_times"}); (void)integer(preview.value("max_times"), 2, 256);
         require(payload.value("network").isObject());
-        const auto network = parse_project({{"version", 1}, {"network", payload.value("network")}, {"layout", QJsonObject{}}}).network;
+        const auto network = parse_project({{"version", methodVersion}, {"network", payload.value("network")}, {"layout", QJsonObject{}}}).network;
         require(network.assets.size() <= 128 && network.routes.size() <= 256);
         std::vector<ControlValue> controls; QSet<QString> identifiers;
         for (const auto& value : array(payload.value("controls"), derivatives ? 1 : 0, 384)) {
@@ -94,8 +95,8 @@ bool storagePayload(const QJsonObject& payload) {
                     return value.id == descriptor->asset_id && value.kind == AssetKind::source;
                 });
                 if (source != network.assets.end()) {
-                    const auto feed = std::find_if(network.routes.begin(), network.routes.end(), [&](const Route& value) { return value.source_id == source->id; });
-                    require(feed != network.routes.end() && source->inflow_m3h - control.value < feed->capacity_m3h);
+                    for (const auto& feed : network.routes) if (feed.source_id == source->id && feed.source_share_bps > 0)
+                        require((source->inflow_m3h - control.value) * (static_cast<double>(feed.source_share_bps)/source_share_total) < feed.capacity_m3h);
                 }
             }
         }
@@ -124,7 +125,7 @@ bool capabilities(const QJsonObject& result) {
             keys(method, {"name", "method_version", "implemented", "execution_verified"});
             const auto name = method.value("name").toString();
             require(supported.contains(name) && !methods.contains(name)); methods.insert(name);
-            (void)integer(method.value("method_version"), 1, 1);
+            (void)integer(method.value("method_version"), 1, name == "storage_rollout" ? 2 : 1);
             require(method.value("implemented").isBool() && method.value("execution_verified").isBool());
             const bool implemented = method.value("implemented").toBool(), verified = method.value("execution_verified").toBool();
             require(!verified || implemented);
@@ -142,7 +143,8 @@ bool storage(const QJsonObject& result, const QJsonObject& payload) {
         QSet<QString> fields{"method", "method_version", "identity", "provenance", "time_h", "time_indices", "tank_ids", "volumes_m3", "cost", "warnings"};
         if (derivatives) fields.insert("derivatives");
         keys(result, fields);
-        require(result.value("method").toString() == "storage_rollout"); (void)integer(result.value("method_version"), 1, 1);
+        require(result.value("method").toString() == "storage_rollout");
+        require(integer(result.value("method_version"), 1, 2) == integer(payload.value("method_version"), 1, 2));
         require(result.value("identity").isObject() && result.value("identity") == payload.value("identity"));
         require(result.value("provenance").isObject()); const auto provenance = result.value("provenance").toObject();
         keys(provenance, {"implementation", "implementation_version", "dtype", "device", "execution_status"});

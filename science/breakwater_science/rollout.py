@@ -16,7 +16,7 @@ import torch
 
 from storage_grid import storage_sample_times
 
-METHOD_VERSION = "torch-constant-flow-0.1.2"
+METHOD_VERSION = "torch-constant-flow-0.2.0"
 MAX_SAMPLES = 10_001
 
 
@@ -37,6 +37,13 @@ def _nonnegative(data: Mapping, name: str) -> float:
     if value < 0.0:
         raise ValueError(f"{name} must be nonnegative")
     return value
+
+
+def _source_share(data: Mapping) -> int:
+    value = _number(data.get("source_share_bps", 10000), "source_share_bps")
+    if value != math.floor(value) or not 0 <= value <= 10000:
+        raise ValueError("Source share must be an integer between 0 and 10000")
+    return int(value)
 
 
 def _id(data: Mapping, name: str) -> str:
@@ -75,6 +82,7 @@ class _Route:
     has_pump: bool
     available: bool
     cost: float
+    source_share_bps: int
 
 
 @dataclass(frozen=True)
@@ -126,7 +134,7 @@ class StorageModel:
             _id(r, "id"), _id(r, "source_id"), _id(r, "target_id"),
             _nonnegative(r, "capacity_m3h"), _nonnegative(r, "setpoint_m3h"),
             _boolean(r, "has_pump", False), _boolean(r, "available", True),
-            _nonnegative(r, "cost_per_m3")) for r in routes)
+            _nonnegative(r, "cost_per_m3"), _source_share(r)) for r in routes)
         ids = [a.id for a in self._assets] + [r.id for r in self._routes]
         if len(set(ids)) != len(ids):
             raise ValueError("asset and route IDs must be globally unique")
@@ -144,6 +152,8 @@ class StorageModel:
         if not self.tank_ids:
             raise ValueError("At least one storage tank is required")
         outgoing = {a.id: 0 for a in self._assets if a.kind == "source"}
+        shares = {key: 0 for key in outgoing}
+        source_targets = set()
         for r in self._routes:
             s, d = self._by_id.get(r.source_id), self._by_id.get(r.target_id)
             if s is None or d is None:
@@ -157,15 +167,21 @@ class StorageModel:
                 raise ValueError(f"Nonfinite combined route/destination control price: {r.id}")
             if s.kind == "source":
                 outgoing[s.id] += 1
+                shares[s.id] += r.source_share_bps
+                if (s.id,d.id) in source_targets:
+                    raise ValueError("Production feeds need distinct receiving tanks")
+                source_targets.add((s.id,d.id))
                 if r.has_pump or not r.available:
                     raise ValueError(f"Invalid source route: {r.id}")
+            elif r.source_share_bps != 10000:
+                raise ValueError("Feed shares apply only to production-source routes")
             if not r.available and (not r.has_pump or r.setpoint != 0):
                 raise ValueError(f"Unavailable pump must request zero flow: {r.id}")
-            q = s.inflow - s.curtailment if s.kind == "source" else r.setpoint
+            q = (s.inflow - s.curtailment)*(r.source_share_bps/10000) if s.kind == "source" else r.setpoint
             if q > r.capacity + 1e-9:
                 raise ValueError(f"Flow exceeds route capacity: {r.id}")
-        if any(count != 1 for count in outgoing.values()):
-            raise ValueError("Each source must feed exactly one tank")
+        if any(outgoing[key] == 0 or shares[key] != 10000 for key in outgoing):
+            raise ValueError("Each source needs feed shares totaling exactly 100 percent")
         controls = [ControlDescriptor(f"source:{a.id}:curtail", a.curtailment, 0.0,
                                       a.curtailment_max)
                     for a in self._assets if a.kind == "source"]
@@ -238,7 +254,7 @@ class StorageModel:
         for r in self._routes:
             s, d = self._by_id[r.source_id], self._by_id[r.target_id]
             if s.kind == "source":
-                q = s.inflow - values[self._control_index[f"source:{s.id}:curtail"]]
+                q = (s.inflow - values[self._control_index[f"source:{s.id}:curtail"]])*(r.source_share_bps/10000)
             else:
                 q = values[self._control_index[f"route:{r.id}:flow"]]
             if float(q.detach()) > r.capacity + 1e-9:

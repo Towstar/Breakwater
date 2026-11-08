@@ -202,12 +202,23 @@ void PythonWorkerClient::acceptFrame(const QByteArray& line) {
         if (prior != after || !storage.value("implemented").toBool() || !storage.value("execution_verified").toBool()) {
             fail("worker_capabilities_invalid", "The worker did not verify storage execution in this job process."); return;
         }
+        for (const auto& value : capabilities_.value("methods").toArray()) {
+            auto expected = value.toObject(); const auto name = expected.value("name").toString();
+            if (name == "storage_rollout") expected["execution_verified"] = true;
+            bool found = false;
+            for (const auto& currentMethod : result.value("methods").toArray())
+                if (currentMethod.toObject() == expected) { found = true; break; }
+            if (!found) { fail("worker_capabilities_invalid", "The worker changed method versions or support during execution."); return; }
+        }
         capabilities_ = result; stage_ = Stage::Done; return;
     }
     if (storage.value("execution_verified").toBool()) { fail("worker_capabilities_invalid", "The fresh worker reported an unexpected execution state."); return; }
     capabilities_ = result;
     if (job_ == Job::Capabilities) { pending_response_ = response; stage_ = Stage::Done; return; }
     if (!storage.value("implemented").toBool()) { fail("runtime_unavailable", "Storage rollout modules are not deployed with this worker."); return; }
+    if (storage.value("method_version").toInt() < storage_payload_.value("method_version").toInt()) {
+        fail("unsupported_version", "This worker does not support production-feed splits. Select an updated scientific runtime."); return;
+    }
     if (storage_payload_.value("preview").toObject().value("max_times").toInt() > result.value("max_preview_times").toInt()) {
         fail("worker_capabilities_invalid", "The worker cannot supply the requested preview budget."); return;
     }

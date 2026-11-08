@@ -1,5 +1,24 @@
 # Implementation status
 
+## Explicit source-feed allocations — local implementation checkpoint
+
+- Branch `codex/source-feed-connection` adds fixed percentage allocations from a
+  production source to multiple distinct tanks. The editor requires an explicit
+  total of 100%; curtailment scales every branch. Existing single-feed projects
+  retain their format and behavior; split projects and storage-worker requests use
+  version 2. See [the allocation contract](../contracts/SOURCE_FEEDS.md).
+- This is an **in-progress local checkpoint**, not a delivered application update.
+  The normal MSVC/Qt build succeeds. Full pinned Python discovery passes 206 tests
+  with no skips. Nine native CTests and the desktop project suite pass (10/10).
+  Four fixed split cases pass independent affine expectations, all three native
+  solvers, standalone Torch and 24 same-process real-worker requests, including
+  selected gradients and three central-difference sizes. Two verifier-harness
+  failures are retained separately from the successful attempt.
+  Complete desktop/worker tests, sanitizer verification and interactive acceptance
+  remain outstanding. No installed or existing user application has been replaced.
+- Failed attempts and raw local logs remain under `out/connection-repro/`; the
+  continuation note there is intentionally excluded from version control.
+
 ## Captured-run Nemotron sensitivities and live operator-reviewed evidence
 
 - Local source checkpoint `ca84c0c` adds stored-run scientific tools and guarded

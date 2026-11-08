@@ -60,7 +60,7 @@ class ValidationTests(unittest.TestCase):
             loader.assert_not_called()
 
     def test_payload_and_identity_are_strict_and_opaque(self):
-        for key, value, code in (("method_version", 2, "unsupported_version"),
+        for key, value, code in (("method_version", 3, "unsupported_version"),
                                  ("method_version", True, "invalid_request"),
                                  ("derivatives", 1, "invalid_request"),
                                  ("undocumented", 1, "invalid_request")):

@@ -124,7 +124,7 @@ void checkArchive(const QJsonObject& archive) {
     require(horizon > 0.0 && horizon <= 24.0, "Snapshot horizon must be within (0, 24] hours.");
     require(snapshot.value("network").isObject(), "The snapshot needs an actual network.");
     ProjectDocument project;
-    try { project = parse_project({{"version", project_version}, {"network", snapshot.value("network")}, {"layout", QJsonObject{}}}); }
+    try { project = parse_project({{"version", source_allocation_project_version}, {"network", snapshot.value("network")}, {"layout", QJsonObject{}}}); }
     catch (const std::exception&) { reject("invalid_archive", "The captured network is malformed or exceeds the project limits."); }
     require(physics_hash(project) == hash, "The physical hash does not match the captured network.");
     require(archive.value("model").isObject(), "Model metadata must be an object.");

@@ -4,6 +4,7 @@
 
 #include <algorithm>
 #include <cmath>
+#include <set>
 #include <limits>
 #include <stdexcept>
 #include <unordered_map>
@@ -21,14 +22,28 @@ const Asset* find_asset(const Network& n, const std::string& id) {
     return it == n.assets.end() ? nullptr : &*it;
 }
 double flow(const Network& n, const Route& r) {
-    const auto* source = find_asset(n, r.source_id);
-    return source && source->kind == AssetKind::source ? source->inflow_m3h - source->curtailment_m3h : r.setpoint_m3h;
+    return route_flow_m3h(n, r);
 }
 void check_config(SimulationConfig c) {
     detail::check_storage_config(c);
 }
 }
 
+double route_flow_m3h(const Network& n, const Route& r) {
+    const auto* source = find_asset(n, r.source_id);
+    return source && source->kind == AssetKind::source ?
+        (source->inflow_m3h - source->curtailment_m3h) *
+            (static_cast<double>(r.source_share_bps) / source_share_total) : r.setpoint_m3h;
+}
+bool requires_source_allocations(const Network& n) {
+    std::unordered_map<std::string, std::size_t> outgoing;
+    for (const auto& r : n.routes) {
+        if (r.source_share_bps != source_share_total) return true;
+        const auto* source = find_asset(n, r.source_id);
+        if (source && source->kind == AssetKind::source && ++outgoing[source->id] > 1) return true;
+    }
+    return false;
+}
 std::string kind_name(AssetKind kind) {
     switch (kind) {
     case AssetKind::tank: return "tank";
@@ -55,6 +70,8 @@ std::vector<Issue> inspect_network(const Network& n) {
     }
     std::unordered_set<std::string> ids;
     std::unordered_map<std::string, std::size_t> source_routes;
+    std::unordered_map<std::string, std::uint64_t> source_shares;
+    std::set<std::pair<std::string, std::string>> source_targets;
     std::size_t tanks = 0;
     for (const auto& a : n.assets) {
         if (a.id.empty() || !ids.insert(a.id).second) add("duplicate_id", a.id, "Asset IDs must be nonempty and unique.");
@@ -82,7 +99,14 @@ std::vector<Issue> inspect_network(const Network& n) {
         if (!supported || r.source_id == r.target_id) add("connection_type", r.id, "Unsupported connection direction or self-loop.");
         if (s->kind == AssetKind::source) {
             ++source_routes[s->id];
+            source_shares[s->id] += r.source_share_bps;
+            if (r.source_share_bps > source_share_total)
+                add("source_share", r.id, "Production feed share must be between 0 and 100 percent.");
+            if (!source_targets.emplace(r.source_id, r.target_id).second)
+                add("source_connection", r.id, "Each production feed needs a distinct receiving tank.");
             if (r.has_pump || !r.available) add("source_route", r.id, "Source inflow routes cannot contain a pump or be unavailable.");
+        } else if (r.source_share_bps != source_share_total) {
+            add("source_share", r.id, "Feed allocations apply only to production-source routes.");
         }
         if (!std::isfinite(r.capacity_m3h) || !std::isfinite(r.setpoint_m3h) || !std::isfinite(r.cost_per_m3) ||
             r.capacity_m3h < 0.0 || r.setpoint_m3h < 0.0 || r.cost_per_m3 < 0.0)
@@ -95,7 +119,8 @@ std::vector<Issue> inspect_network(const Network& n) {
         if (!r.available && (!r.has_pump || r.setpoint_m3h != 0.0)) add("unavailable_route", r.id, "Unavailable pumps must have zero requested flow.");
     }
     for (const auto& a : n.assets)
-        if (a.kind == AssetKind::source && source_routes[a.id] != 1) add("source_connection", a.id, "Each source must feed exactly one tank.");
+        if (a.kind == AssetKind::source && (source_routes[a.id] == 0 || source_shares[a.id] != source_share_total))
+            add("source_connection", a.id, "Connect each production source to tanks with feed shares totaling exactly 100 percent.");
     return issues;
 }
 

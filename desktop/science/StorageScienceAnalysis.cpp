@@ -13,7 +13,7 @@ QJsonObject identity(const CapturedForecast& run) {
         {"numerical_revision", static_cast<qint64>(run.revision)}};
 }
 QJsonObject payload(const CapturedForecast& run, bool sensitivities, const QJsonArray& controls) {
-    return {{"method_version", 1}, {"identity", identity(run)}, {"network", network_json(run.network)},
+    return {{"method_version", requires_source_allocations(run.network) ? 2 : 1}, {"identity", identity(run)}, {"network", network_json(run.network)},
         {"controls", controls}, {"horizon_h", run.config.horizon_h}, {"step_h", run.config.step_h},
         {"derivatives", sensitivities}, {"preview", QJsonObject{{"max_times", 256}}}};
 }
@@ -41,8 +41,9 @@ QString ineligibleReason(const Network& network, const ControlDescriptor& contro
         const auto feed = std::find_if(network.routes.begin(), network.routes.end(),
             [&](const Route& value) { return value.source_id == asset->id; });
         if (feed == network.routes.end()) return QStringLiteral("Captured source feed is unavailable.");
-        if (asset->inflow_m3h - control.value >= feed->capacity_m3h)
-            return QStringLiteral("Captured source flow is on the feed-capacity boundary.");
+        for (const auto& branch : network.routes) if (branch.source_id == asset->id && branch.source_share_bps > 0)
+            if ((asset->inflow_m3h - control.value) * (static_cast<double>(branch.source_share_bps)/source_share_total) >= branch.capacity_m3h)
+                return QStringLiteral("Captured source flow is on a feed-capacity boundary.");
     }
     return {};
 }
@@ -95,7 +96,7 @@ QJsonObject compare(const std::shared_ptr<const CapturedForecast>& run, const QJ
     const auto worker = response.value("result").toObject();
     require(response.value("status").toString() == "completed" && worker.value("identity").toObject() == identity(*run),
         "Scientific response does not bind to this captured native forecast.");
-    require(worker.value("method").toString() == "storage_rollout" && worker.value("method_version").toDouble() == 1.0 &&
+    require(worker.value("method").toString() == "storage_rollout" && worker.value("method_version").toDouble() == (requires_source_allocations(run->network) ? 2.0 : 1.0) &&
         !worker.contains("artifact"), "Scientific response contains unsupported analysis output.");
     const auto selected = sensitivities ? selectedMetadata(*run, controls) : QJsonArray{};
     require(sensitivities || (controls.isEmpty() && !worker.contains("derivatives")),
@@ -149,7 +150,7 @@ QJsonObject compare(const std::shared_ptr<const CapturedForecast>& run, const QJ
     double absoluteCost = 0.0;
     const auto costScaled = scaledError(native.cost, workerCost, absoluteCost);
     agrees = agrees && costScaled <= 1.0;
-    QJsonObject evidence{{"result_version", 1}, {"result_id", QUuid::createUuid().toString(QUuid::WithoutBraces)},
+    QJsonObject evidence{{"result_version", requires_source_allocations(run->network) ? 2 : 1}, {"result_id", QUuid::createUuid().toString(QUuid::WithoutBraces)},
         {"created_at", QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs)}, {"method", "storage_rollout"},
         {"run_id", run->id}, {"snapshot_id", run->id}, {"physical_hash", run->physical_hash},
         {"numerical_revision", static_cast<qint64>(run->revision)}, {"horizon_h", run->config.horizon_h}, {"step_h", run->config.step_h},

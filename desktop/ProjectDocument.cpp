@@ -37,17 +37,21 @@ QJsonObject network_json(const Network& n) {
         } else { o["capacity_m3h"] = a.capacity_m3; o["cost_per_m3"] = a.cost_per_m3; }
         assets.append(o);
     }
-    for (const auto& r : n.routes) routes.append(QJsonObject{
+    for (const auto& r : n.routes) {
+        QJsonObject object{
         {"id", q(r.id)}, {"source_id", q(r.source_id)}, {"target_id", q(r.target_id)},
         {"capacity_m3h", r.capacity_m3h}, {"setpoint_m3h", r.setpoint_m3h},
-        {"has_pump", r.has_pump}, {"available", r.available}, {"cost_per_m3", r.cost_per_m3}});
+        {"has_pump", r.has_pump}, {"available", r.available}, {"cost_per_m3", r.cost_per_m3}};
+        if (r.source_share_bps != source_share_total) object["source_share_bps"] = static_cast<qint64>(r.source_share_bps);
+        routes.append(object);
+    }
     return {{"assets", assets}, {"routes", routes}};
 }
 QJsonObject project_json(const ProjectDocument& p) {
     QJsonObject positions;
     for (auto it = p.positions.cbegin(); it != p.positions.cend(); ++it)
         positions[it.key()] = QJsonObject{{"x", it.value().x()}, {"z", it.value().z()}};
-    QJsonObject result{{"version", project_version}, {"synthetic", true}, {"network", network_json(p.network)},
+    QJsonObject result{{"version", requires_source_allocations(p.network) ? source_allocation_project_version : project_version}, {"synthetic", true}, {"network", network_json(p.network)},
         {"layout", QJsonObject{{"positions", positions}, {"camera", QJsonObject{{"yaw", p.camera_yaw}, {"pitch", p.camera_pitch}, {"distance", p.camera_distance}, {"x", p.camera_x}, {"z", p.camera_z}}}}}};
     if (!p.pipe_parameters.isEmpty()) {
         QJsonObject routes;
@@ -57,7 +61,9 @@ QJsonObject project_json(const ProjectDocument& p) {
     return result;
 }
 ProjectDocument parse_project(const QJsonObject& root) {
-    if (number(root, "version", -1.0) != project_version || !root.value("network").isObject()) throw std::invalid_argument("Unsupported or missing project version/network.");
+    const auto version = number(root, "version", -1.0);
+    if ((version != project_version && version != source_allocation_project_version) || !root.value("network").isObject())
+        throw std::invalid_argument("Unsupported or missing project version/network.");
     const auto n = root.value("network").toObject();
     if (!n.value("assets").isArray() || !n.value("routes").isArray()) throw std::invalid_argument("Network needs asset and route arrays.");
     const auto assets = n.value("assets").toArray(), routes = n.value("routes").toArray();
@@ -80,6 +86,12 @@ ProjectDocument parse_project(const QJsonObject& root) {
         const auto o = value.toObject();
         p.network.routes.push_back({text(o, "id"), text(o, "source_id"), text(o, "target_id"), number(o, "capacity_m3h"),
             number(o, "setpoint_m3h"), boolean(o, "has_pump", false), boolean(o, "available", true), number(o, "cost_per_m3")});
+        if (o.contains("source_share_bps") && version != source_allocation_project_version)
+            throw std::invalid_argument("Source feed shares require project version 2.");
+        const auto share = number(o, "source_share_bps", source_share_total);
+        if (share != std::floor(share) || share < 0 || share > source_share_total)
+            throw std::invalid_argument("Source share must be an integer from 0 to 10000.");
+        p.network.routes.back().source_share_bps = static_cast<std::uint32_t>(share);
     }
     // Structural drafts are allowed, but IDs must be usable for stable scene references.
     QSet<QString> ids;

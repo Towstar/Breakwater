@@ -40,7 +40,7 @@ public:
         route_maximum.reserve(p_.routes.size());
         for (const auto& route : p_.routes)
             route_maximum.push_back(route.source_slot == absent ? route.setpoint :
-                p_.sources[route.source_slot].production - p_.sources[route.source_slot].curtailment);
+                (p_.sources[route.source_slot].production - p_.sources[route.source_slot].curtailment) * route.source_fraction);
         std::vector<double> curtailment_maximum;
         for (const auto& source : p_.sources) curtailment_maximum.push_back(source.curtailment);
 
@@ -52,21 +52,26 @@ public:
             std::size_t route_index = binding.slot;
             if (binding.kind == ControlKind::curtailment) {
                 const auto& source = p_.sources[binding.slot];
-                route_index = source.feed_route;
-                coefficient = -1.0;
                 column.cost = source.cost;
                 curtailment_maximum[binding.slot] = std::max(source.curtailment, binding.descriptor.maximum);
                 // Production bounds every source-feed flow, including subtraction
                 // rounding. It is deliberately broader than the selected interval.
-                route_maximum[route_index] = source.production;
+                for (const auto feed_index : source.feed_routes) {
+                    const auto& feed = p_.routes[feed_index];
+                    const double share_coefficient = -feed.source_fraction;
+                    column.rates.push_back({feed.target_tank, share_coefficient}); ++column.rate_count;
+                    column.cost += share_coefficient * feed.route_cost;
+                    route_maximum[feed_index] = source.production * feed.source_fraction;
+                }
+                continue;
             } else {
                 route_maximum[route_index] = std::max(route_maximum[route_index], binding.descriptor.maximum);
             }
             const auto& route = p_.routes[route_index];
             if (route.source_tank != absent)
-                column.rates[column.rate_count++] = {route.source_tank, -coefficient};
+                { column.rates.push_back({route.source_tank, -coefficient}); ++column.rate_count; }
             if (route.target_tank != absent)
-                column.rates[column.rate_count++] = {route.target_tank, coefficient};
+                { column.rates.push_back({route.target_tank, coefficient}); ++column.rate_count; }
             else column.destination = {route.destination_slot, coefficient};
             column.cost += coefficient * route.route_cost;
             if (route.destination_slot != absent) column.cost += coefficient * route.destination_cost;
@@ -134,7 +139,7 @@ private:
     struct Change { std::size_t index = absent; double coefficient = 0.0; };
     struct Column {
         double baseline = 0.0, cost = 0.0;
-        std::array<Change, 2> rates{};
+        std::vector<Change> rates;
         std::size_t rate_count = 0;
         Change destination;
     };
@@ -217,7 +222,7 @@ inline Screen ControlInfluence::screen(const Values& values, double horizon,
     for (std::size_t r = 0; r < p_.routes.size(); ++r) {
         const auto& route = p_.routes[r];
         const double q = route.source_slot == absent ? w.setpoints[r] :
-            p_.sources[route.source_slot].production - w.curtailments[route.source_slot];
+            (p_.sources[route.source_slot].production - w.curtailments[route.source_slot]) * route.source_fraction;
         hourly_cost += q * route.route_cost;
         if (route.destination_slot != absent) hourly_cost += q * route.destination_cost;
     }

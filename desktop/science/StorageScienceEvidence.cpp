@@ -121,7 +121,8 @@ bool validate_storage_science_evidence(const QJsonObject& evidence, const QJsonO
             "native_cost", "worker_cost", "cost_difference", "cost_absolute_error", "cost_scaled_error", "within_tolerance",
             "comparison_scope", "absolute_tolerance", "relative_tolerance", "native_volume_feasible", "tanks", "tank_errors",
             "provenance", "warnings", "preview"}, {"derivatives"});
-        require(integer(evidence.value("result_version"), 1, 1) == 1 && evidence.value("method") == "storage_rollout");
+        const auto resultVersion = integer(evidence.value("result_version"), 1, 2);
+        require(evidence.value("method") == "storage_rollout");
         const auto resultId = text(evidence.value("result_id")); require(!QUuid::fromString(resultId).isNull());
         const auto created = text(evidence.value("created_at"), 40);
         require(created.endsWith('Z') && QDateTime::fromString(created, Qt::ISODateWithMs).isValid());
@@ -151,7 +152,8 @@ bool validate_storage_science_evidence(const QJsonObject& evidence, const QJsonO
         }
         const auto revision = integer(evidence.value("numerical_revision"), 0, 9007199254740991LL);
         const auto horizon = number(evidence.value("horizon_h")), step = number(evidence.value("step_h"));
-        require(evidence.value("native_solver_version") == QString::fromLatin1(solver_version));
+        require(evidence.value("native_solver_version") == QString::fromLatin1(solver_version) ||
+            (resultVersion == 1 && evidence.value("native_solver_version") == "constant-flow-0.1.1"));
         require(evidence.value("comparison_scope") == "Returned worker preview samples versus their original native indices; not a feasibility verdict" &&
             number(evidence.value("absolute_tolerance")) == 1e-9 && number(evidence.value("relative_tolerance")) == 1e-10);
         const auto mode = evidence.value("analysis_mode").toString(); const bool derivatives = mode == "sensitivities";
@@ -159,7 +161,8 @@ bool validate_storage_science_evidence(const QJsonObject& evidence, const QJsonO
         require(archive.value("snapshot").isObject()); const auto snapshot = archive.value("snapshot").toObject();
         require(snapshot.value("snapshot_id") == snapshotId && snapshot.value("physical_hash") == hash && number(snapshot.value("horizon_h")) == horizon &&
             integer(snapshot.value("numerical_revision"), 0, 9007199254740991LL) == revision);
-        const auto project = parse_project({{"version", project_version}, {"network", snapshot.value("network")}, {"layout", QJsonObject{}}});
+        const auto project = parse_project({{"version", resultVersion}, {"network", snapshot.value("network")}, {"layout", QJsonObject{}}});
+        require(resultVersion == (requires_source_allocations(project.network) ? 2 : 1));
         require(physics_hash(project) == hash);
         QJsonObject details;
         for (const auto& candidate : array(archive.value("runs"), 1, 1)) {
@@ -199,9 +202,9 @@ bool validate_storage_science_evidence(const QJsonObject& evidence, const QJsonO
         keys(preview, {"time_h", "time_indices", "native_volumes_m3", "worker_volumes_m3", "source_frames"});
         require(integer(preview.value("source_frames"), 2, 10001) == fullTimes.size());
         const QJsonObject identity{{"snapshot_id", snapshotId}, {"volume_run_id", runId}, {"physical_hash", hash}, {"numerical_revision", revision}};
-        const QJsonObject payload{{"method_version", 1}, {"identity", identity}, {"network", snapshot.value("network")},
+        const QJsonObject payload{{"method_version", resultVersion}, {"identity", identity}, {"network", snapshot.value("network")},
             {"controls", controls}, {"horizon_h", horizon}, {"step_h", step}, {"derivatives", derivatives}, {"preview", QJsonObject{{"max_times", 256}}}};
-        QJsonObject response{{"method", "storage_rollout"}, {"method_version", 1}, {"identity", identity}, {"provenance", evidence.value("provenance")},
+        QJsonObject response{{"method", "storage_rollout"}, {"method_version", resultVersion}, {"identity", identity}, {"provenance", evidence.value("provenance")},
             {"time_h", preview.value("time_h")}, {"time_indices", preview.value("time_indices")}, {"tank_ids", tankIds},
             {"volumes_m3", preview.value("worker_volumes_m3")}, {"cost", evidence.value("worker_cost")}, {"warnings", evidence.value("warnings")}};
         if (derivatives) response["derivatives"] = evidence.value("derivatives");
