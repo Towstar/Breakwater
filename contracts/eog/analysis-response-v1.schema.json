@@ -1,0 +1,292 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eog_version",
+    "request_id",
+    "operation",
+    "method_version",
+    "dataset_identity",
+    "capture_id",
+    "cutoff_unix",
+    "kind",
+    "status",
+    "diagnostics",
+    "result"
+  ],
+  "properties": {
+    "eog_version": {
+      "const": 1
+    },
+    "request_id": {
+      "$ref": "common-v1.schema.json#/$defs/id"
+    },
+    "operation": {
+      "enum": [
+        "detect",
+        "evaluate_plan",
+        "search_plans",
+        "validate_plan"
+      ]
+    },
+    "method_version": {
+      "const": 1
+    },
+    "dataset_identity": {
+      "$ref": "common-v1.schema.json#/$defs/hash"
+    },
+    "capture_id": {
+      "$ref": "common-v1.schema.json#/$defs/hash"
+    },
+    "cutoff_unix": {
+      "$ref": "common-v1.schema.json#/$defs/time"
+    },
+    "kind": {
+      "const": "analysis_response"
+    },
+    "status": {
+      "enum": [
+        "completed",
+        "unavailable",
+        "invalid_input",
+        "cancelled",
+        "failed"
+      ]
+    },
+    "diagnostics": {
+      "type": "array",
+      "maxItems": 64,
+      "items": {
+        "$ref": "common-v1.schema.json#/$defs/diagnostic"
+      }
+    },
+    "result": {}
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "status": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "type": "object"
+          }
+        }
+      },
+      "else": {
+        "properties": {
+          "result": {
+            "type": "null"
+          },
+          "diagnostics": {
+            "minItems": 1
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "detect"
+          },
+          "status": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "analysis_id",
+              "events",
+              "evidence",
+              "assumptions",
+              "coverage",
+              "limitations"
+            ],
+            "properties": {
+              "analysis_id": {
+                "$ref": "common-v1.schema.json#/$defs/id"
+              },
+              "events": {
+                "type": "array",
+                "maxItems": 4096,
+                "items": {
+                  "$ref": "common-v1.schema.json#/$defs/event"
+                }
+              },
+              "evidence": {
+                "type": "array",
+                "maxItems": 32768,
+                "items": {
+                  "$ref": "common-v1.schema.json#/$defs/evidence"
+                }
+              },
+              "assumptions": {
+                "type": "array",
+                "maxItems": 64,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                }
+              },
+              "coverage": {
+                "enum": [
+                  "available",
+                  "partial",
+                  "unavailable"
+                ]
+              },
+              "limitations": {
+                "type": "array",
+                "maxItems": 64,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "evaluate_plan"
+          },
+          "status": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "analysis_id",
+              "evaluation"
+            ],
+            "properties": {
+              "analysis_id": {
+                "$ref": "common-v1.schema.json#/$defs/id"
+              },
+              "evaluation": {
+                "$ref": "common-v1.schema.json#/$defs/evaluation"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "search_plans"
+          },
+          "status": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "analysis_id",
+              "evaluations",
+              "selected_plan_id",
+              "search",
+              "limitations"
+            ],
+            "properties": {
+              "analysis_id": {
+                "$ref": "common-v1.schema.json#/$defs/id"
+              },
+              "evaluations": {
+                "type": "array",
+                "maxItems": 64,
+                "items": {
+                  "$ref": "common-v1.schema.json#/$defs/evaluation"
+                }
+              },
+              "selected_plan_id": {
+                "anyOf": [
+                  {
+                    "$ref": "common-v1.schema.json#/$defs/id"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "search": {
+                "$ref": "common-v1.schema.json#/$defs/search"
+              },
+              "limitations": {
+                "type": "array",
+                "maxItems": 64,
+                "items": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 2048
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "validate_plan"
+          },
+          "status": {
+            "const": "completed"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "result": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "analysis_id",
+              "validation"
+            ],
+            "properties": {
+              "analysis_id": {
+                "$ref": "common-v1.schema.json#/$defs/id"
+              },
+              "validation": {
+                "$ref": "common-v1.schema.json#/$defs/validation"
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Towstar/Breakwater/main/contracts/eog/analysis-response-v1.schema.json"
+}
