@@ -66,6 +66,124 @@ class TransportMathematicsTests(unittest.TestCase):
         residual = pde_residual(exact_concentration, points)
         self.assertClose(residual, torch.zeros_like(residual), atol=2e-12)
 
+    def test_constant_fields_have_zero_coordinate_derivatives(self):
+        points = coordinates([[.2, .3], [.7, .9]])
+        for value in (0.0, 1.0, -.4):
+            for decay in (0.0, .1):
+                with self.subTest(value=value, decay=decay):
+                    case = Case(decay_per_h=decay)
+                    residual = pde_residual(
+                        lambda xt: torch.full_like(xt[:, :1], value), points, case)
+                    self.assertClose(residual, [[decay*value], [decay*value]])
+
+    def test_linear_fields_include_first_derivatives_and_zero_curvature(self):
+        points = coordinates([[.2, .3], [.7, .9]])
+        # Independently differentiate a*x+b*t+d, including fields independent
+        # of one coordinate. Diffusion contributes zero for every affine field.
+        for a, b, d in ((1.0, 1.0, 0.0), (1.0, 0.0, 0.0),
+                        (0.0, 1.0, 0.0), (2.5, -.4, 1.2)):
+            with self.subTest(a=a, b=b, d=d):
+                residual = pde_residual(
+                    lambda xt: a*xt[:, :1] + b*xt[:, 1:2] + d, points)
+                velocity = 2*.1*(3*math.pi/4)
+                expected = [[b + velocity*a + .1*(a*x+b*t+d)]
+                            for x, t in points.tolist()]
+                self.assertClose(residual, expected)
+
+    def test_coordinate_independent_parameter_retains_decay_gradient(self):
+        points = coordinates([[.2, .3], [.7, .9]])
+        for decay in (0.0, .37):
+            with self.subTest(decay=decay):
+                amplitude = torch.nn.Parameter(torch.tensor(1.3, dtype=torch.float64))
+                residual = pde_residual(
+                    lambda xt: amplitude.expand(xt.shape[0], 1), points,
+                    Case(decay_per_h=decay))
+                self.assertClose(residual, [[decay*1.3], [decay*1.3]])
+                gradient, = torch.autograd.grad(residual.square().mean(), amplitude)
+                self.assertClose(gradient, 2*decay*decay*1.3)
+
+    def test_parameterized_affine_field_has_analytic_parameter_gradients(self):
+        points = coordinates([[.2, .3], [.7, .9], [1.2, .5]])
+        a, b, d = 1.4, -.6, .8
+        velocity = 2*.25*(3*math.pi/8)
+        for decay in (0.0, .37):
+            with self.subTest(decay=decay):
+                parameters = torch.tensor([a, b, d], dtype=torch.float64, requires_grad=True)
+
+                def field(xt):
+                    return parameters[0]*xt[:, :1] + parameters[1]*xt[:, 1:2] + parameters[2]
+
+                residual = pde_residual(field, points,
+                    Case(length_m=2.0, dispersion_m2_h=.25, decay_per_h=decay))
+                expected = [b + velocity*a + decay*(a*x+b*t+d)
+                            for x, t in points.tolist()]
+                self.assertClose(residual, [[value] for value in expected])
+                gradient, = torch.autograd.grad(residual.square().mean(), parameters)
+                # For each point: dR/da=v+k*x, dR/db=1+k*t, dR/dd=k.
+                expected_gradient = [0.0, 0.0, 0.0]
+                for (x, t), value in zip(points.tolist(), expected):
+                    for column, derivative in enumerate((velocity+decay*x, 1+decay*t, decay)):
+                        expected_gradient[column] += 2*value*derivative/len(expected)
+                self.assertClose(gradient, expected_gradient)
+
+    def test_residual_does_not_swallow_field_errors(self):
+        def failing_field(xt):
+            raise RuntimeError("deliberate field failure")
+
+        with self.assertRaisesRegex(RuntimeError, "deliberate field failure"):
+            pde_residual(failing_field, coordinates([[.2, .3]]))
+
+    def test_zero_parameter_value_does_not_remove_derivative_dependency(self):
+        points = coordinates([[.2, .3], [.8, .7]])
+        theta = torch.tensor(0.0, dtype=torch.float64, requires_grad=True)
+        residual = pde_residual(lambda xt: theta*xt[:, :1].square(), points,
+                                Case(decay_per_h=0.0))
+        self.assertClose(residual, [[0.0], [0.0]])
+        # At theta=0 the residual vanishes, but dR/dtheta does not. A squared
+        # loss would hide a detached zero because its legitimate gradient is zero.
+        gradient, = torch.autograd.grad(residual.mean(), theta)
+        velocity = 2*.1*(3*math.pi/4)
+        self.assertClose(gradient, 2*velocity*(.2+.8)/2 - 2*.1)
+        self.assertGreater(abs(float(gradient)), 1e-6)
+
+    def test_residual_does_not_swallow_derivative_errors(self):
+        class FailingDerivative(torch.autograd.Function):
+            @staticmethod
+            def forward(ctx, values):
+                return values.clone()
+
+            @staticmethod
+            def backward(ctx, upstream):
+                raise RuntimeError("deliberate derivative failure")
+
+        with self.assertRaisesRegex(RuntimeError, "deliberate derivative failure"):
+            pde_residual(lambda xt: FailingDerivative.apply(xt[:, :1]),
+                         coordinates([[.2, .3]]))
+
+    def test_residual_enables_derivatives_inside_no_grad_and_retains_parameters(self):
+        points = coordinates([[.2, .3], [.8, .7]])
+        amplitude = torch.tensor(1.3, dtype=torch.float64, requires_grad=True)
+
+        def field(xt):
+            return amplitude*(xt[:, :1].square() + xt[:, 1:2].square() + 1)
+
+        # An outer inference/no-backward utility must not erase the derivatives
+        # defining the PDE. Parameter differentiation remains usable afterwards.
+        with torch.no_grad():
+            residual = pde_residual(field, points)
+        velocity = 2*.1*(3*math.pi/4)
+        base = [2*t + velocity*2*x - .1*2 + .1*(x*x+t*t+1)
+                for x, t in points.tolist()]
+        self.assertClose(residual, [[1.3*value] for value in base])
+        self.assertClose(residual, pde_residual(field, points))
+        gradient, = torch.autograd.grad(residual.square().mean(), amplitude)
+        self.assertClose(gradient, 2*1.3*sum(value*value for value in base)/len(base))
+
+    def test_residual_rejects_inference_mode_explicitly(self):
+        with torch.inference_mode(), self.assertRaisesRegex(RuntimeError, "inference mode"):
+            pde_residual(lambda xt: xt[:, :1].square() + xt[:, 1:2],
+                         coordinates([[.2, .3]]))
+
     def test_residual_on_polynomial_has_correct_signs_and_physical_units(self):
         # Independent derivatives rule out a vacuous implementation returning zero.
         case = Case(length_m=2.0, area_m2=.3, dispersion_m2_h=.2,
@@ -233,6 +351,56 @@ class ActualPhysicsNeMoTests(unittest.TestCase):
             loaded.eval()
             actual = predict(loaded, points).detach()
             torch.testing.assert_close(actual, expected, atol=0, rtol=0)
+
+    def test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss(self):
+        with torch.random.fork_rng(devices=[]):
+            torch.manual_seed(20261107)
+            model = make_model()
+        points = coordinates([[.12, .08], [.31, .26], [.59, .57], [.88, .91]])
+
+        def residual_loss():
+            return pde_residual(lambda xt: predict(model, xt), points).square().mean()
+
+        # No initial-data loss is present: it cannot mask a detached PDE residual.
+        optimizer = torch.optim.SGD(model.parameters(), lr=1e-4)
+        optimizer.zero_grad(set_to_none=True)
+        loss = residual_loss()
+        self.assertTrue(bool(torch.isfinite(loss)))
+        self.assertGreater(loss.item(), 1e-8)
+        loss.backward()
+        parameters = list(model.parameters())
+        for parameter in parameters:
+            self.assertIsNotNone(parameter.grad)
+            self.assertTrue(bool(torch.isfinite(parameter.grad).all()))
+        parameter = max(parameters, key=lambda p: p.grad.detach().abs().max().item())
+        index = int(parameter.grad.detach().abs().argmax())
+        analytic = parameter.grad.detach().reshape(-1)[index].clone()
+        self.assertGreater(analytic.abs().item(), 1e-6)
+
+        # Perturb an actual model parameter and reevaluate the full residual;
+        # coordinate autograd remains enabled during both finite-difference calls.
+        value = parameter.detach().reshape(-1)[index].item()
+        epsilon = 1e-6 * max(1.0, abs(value))
+        try:
+            with torch.no_grad():
+                parameter.reshape(-1)[index] = value + epsilon
+            plus = residual_loss().detach().item()
+            with torch.no_grad():
+                parameter.reshape(-1)[index] = value - epsilon
+            minus = residual_loss().detach().item()
+        finally:
+            with torch.no_grad():
+                parameter.reshape(-1)[index] = value
+        finite_difference = torch.tensor((plus-minus)/(2*epsilon), dtype=torch.float64)
+        torch.testing.assert_close(analytic, finite_difference, atol=2e-8, rtol=5e-5)
+
+        before = torch.cat([p.detach().reshape(-1).clone() for p in parameters])
+        optimizer.step()
+        after = torch.cat([p.detach().reshape(-1) for p in parameters])
+        self.assertTrue(bool(torch.any(before != after)))
+        improved = residual_loss().detach()
+        self.assertTrue(bool(torch.isfinite(improved)))
+        self.assertLess(improved.item(), loss.detach().item())
 
     def test_predicted_cell_averages_match_independent_32_point_quadrature(self):
         with torch.random.fork_rng(devices=[]):

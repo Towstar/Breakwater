@@ -107,8 +107,8 @@ def verify(native: Path):
     if completed.returncode or completed.stderr:
         raise RuntimeError(f"Actual native exporter failed with exit {completed.returncode}")
     document = json.loads(completed.stdout)
-    if document.get("fixture_version") != 1 or len(document.get("cases", [])) != 12:
-        raise ValueError("Expected the current 12-case executed native fixture document")
+    if document.get("fixture_version") != 1 or len(document.get("cases", [])) != 18:
+        raise ValueError("Expected the current 18-case executed native fixture document")
     request_validator, response_validator = _validators()
     requests = [_request("capabilities:before", {"capability_version": 1}, "capabilities")]
     records = []
@@ -161,11 +161,16 @@ def verify(native: Path):
         if set(references) != {"dense_reference", "sparse", "affine"}:
             raise AssertionError("Exporter omitted an actual native solver")
         full = model.rollout({item["id"]: item["value"] for item in case["overrides"]}, **case["config"])
+        if (full.time_h[0].item() != 0.0 or full.time_h[-1].item() != case["config"]["horizon_h"] or
+                wire["time_h"][0] != 0.0 or wire["time_h"][-1] != case["config"]["horizon_h"]):
+            raise AssertionError("Native/scientific comparison lost the exact requested endpoints")
         if len(indices) > 17 or indices != sorted(set(indices)) or indices[0] != 0 or indices[-1] != full.time_h.numel() - 1:
             raise AssertionError("Preview lost original indices or interval endpoints")
         _compare(torch.tensor(wire["time_h"], dtype=torch.float64), full.time_h[indices], 0, 0, "wire sample times")
         errors = {}
         for method, reference in references.items():
+            if reference["time_h"] != full.time_h.tolist():
+                raise AssertionError("Native and scientific full timestamp identities differ")
             _compare(full.volumes_m3, reference["volumes_m3"], FORWARD_ATOL, FORWARD_RTOL, "standalone/native full rollout")
             expected = [[series[i] for i in indices] for series in reference["volumes_m3"]]
             errors[method] = {
@@ -173,6 +178,15 @@ def verify(native: Path):
                                       FORWARD_ATOL, FORWARD_RTOL, "worker/native retained samples"),
                 "cost_units": _compare(torch.tensor(wire["cost"], dtype=torch.float64), reference["cost"],
                                        FORWARD_ATOL, FORWARD_RTOL, "worker/native cost")}
+        if case["name"] == "grid_requested_capacity_overflow":
+            expected_endpoint = case["config"]["horizon_h"] * (2.0 ** 50)
+            if (wire["volumes_m3"][0][-1] != expected_endpoint or
+                    full.volumes_m3[0, -1].item() != expected_endpoint or
+                    any(ref["volumes_m3"][0][-1] != expected_endpoint or ref["feasible"]
+                        for ref in references.values())):
+                raise AssertionError("High-flow requested endpoint mismatch/false native feasibility")
+        elif case["name"].startswith("grid_") and any(not ref["feasible"] for ref in references.values()):
+            raise AssertionError("Stationary grid regression was incorrectly rejected")
         gradient_wire = responses[gradient_index]["derivatives"]
         control_ids = [control.id for control in selected]
         if gradient_wire["control_ids"] != control_ids:
@@ -209,7 +223,10 @@ def verify(native: Path):
                      "forward_errors": errors, "requested_control_ids": control_ids,
                      "ad_jacobian_error_h": ad_jacobian_error, "ad_cost_gradient_error": ad_cost_error,
                      "central_difference_checks": checks, "provenance": wire["provenance"]})
-    sources = [SCIENCE / name for name in ("worker.py", "worker_storage.py", "verify_worker.py", "breakwater_science/rollout.py")]
+    sources = [SCIENCE / name for name in ("worker.py", "worker_storage.py", "storage_grid.py",
+                                          "verify_worker.py", "breakwater_science/rollout.py")]
+    sources.extend(ROOT / name for name in ("engine/src/storage_grid.hpp", "engine/src/engine.cpp",
+                                            "engine/examples/rollout_reference.cpp"))
     sources.extend(sorted((ROOT / "contracts/science").glob("*.schema.json")))
     sources.extend(path for path in (SCIENCE / "requirements-worker-tests.in", SCIENCE / "requirements-worker-tests-win-py312.txt") if path.is_file())
     return {"status": "passed", "started_utc": started, "finished_utc": datetime.now(timezone.utc).isoformat(),

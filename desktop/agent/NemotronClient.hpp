@@ -15,9 +15,13 @@ struct NemotronConfig {
     QString apiKey;
     QUrl endpoint = QUrl(QStringLiteral("https://integrate.api.nvidia.com/v1/chat/completions"));
     QString model = QStringLiteral("nvidia/nemotron-3.5-lightning-30b-a3b");
+    QString credentialSource;
     int timeoutMs = 30000;
     int maxRetries = 2;
-    static NemotronConfig fromEnvironment();
+    // An explicit file is useful for isolated launches; otherwise discover the local .env.
+    // Nonempty process variables take precedence. File values stay local to this config.
+    static NemotronConfig fromEnvironment(const QString& envFilePath = {});
+    static QString userEnvironmentFile();
 };
 
 class NemotronClient final : public ModelTransport {
@@ -29,6 +33,8 @@ public:
     ~NemotronClient() override;
     void request(const QJsonArray& messages, const QJsonArray& tools) override;
     void cancel() override;
+    // Configuration changes are allowed between requests only.
+    bool reloadConfiguration();
     const NemotronConfig& config() const { return config_; }
     QString configuredModelIdentifier() const;
     QString lastResponseModel() const;

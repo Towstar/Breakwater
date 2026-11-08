@@ -12,6 +12,8 @@ using namespace breakwater::desktop::agent;
 
 int main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
+    QCoreApplication::setApplicationName("BREAKWATER");
+    QCoreApplication::setOrganizationName("Breakwater");
     QTextStream output(stdout);
     const auto config = NemotronConfig::fromEnvironment();
     if (config.apiKey.isEmpty()) {

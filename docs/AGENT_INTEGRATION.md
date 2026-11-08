@@ -6,8 +6,46 @@ remain Person A's write ownership.
 
 ## Configuration and launch
 
-Configure `NVIDIA_API_KEY` in the launching process environment using your local
-credential workflow. Do not put it in project JSON, QML, source, logs, or chat.
+Copy the tracked `.env.example` to `.env` in the checkout root and fill in
+`NVIDIA_API_KEY` locally. `.env` is ignored by Git; `.env.example` contains no key.
+The desktop application and protocol/investigation smoke executable read `.env`
+automatically. The desktop reloads configuration before each investigation.
+
+Installed users do not need source code, scripts or a shell: open **Nemotron
+investigator → Set API key**, paste the key and choose **Save key**. The masked
+entry is cleared when the dialog closes; the saved key is never populated into
+QML. **API key settings** can replace or remove it between investigations. Saving
+does not validate model access or make an API request. The next investigation uses
+the saved setting unless a launch configuration takes precedence.
+
+The app saves an atomic `.env` in Qt's per-user `AppConfigLocation` for organization
+`Breakwater` / application `BREAKWATER` (normally
+`%LOCALAPPDATA%\Breakwater\BREAKWATER\.env` on Windows). This app-managed file
+contains only the key and stays outside the installation and source checkout.
+It is a local plaintext settings file, not an encrypted credential vault. The
+desktop and smoke executable share this application identity. Removing the saved
+key does not remove a key supplied separately by a launch configuration.
+
+Lookup checks the working directory and its nearest Git checkout root, then the
+executable directory and its nearest checkout root. This supports launches from
+the root, Visual Studio and nested build folders. For an installed application,
+place `.env` beside the executable or launch it from the directory containing it.
+The real `.env` is never bundled or installed by CMake. The key-free `.env.example`
+is included beside the installed executable for portable/manual configuration.
+
+Precedence, per setting: nonempty process variable → nonempty launch/checkout
+`.env` value → saved per-user `.env` value → built-in default. The dialog reports
+whether the saved key or a launch configuration is active. File
+values remain in the native Nemotron configuration; they are not added to the
+process environment or inherited by the scientific worker. The reader accepts
+the three settings below, blank lines, `#` comments, optional `export`, and optional
+single/double quotes. Inline comments follow whitespace (or a closing quote).
+Values are literal: shell commands, variable interpolation, escape expansion and
+multiline values are unsupported. Missing/unreadable/oversized files or malformed
+quoted settings supply no file values; missing credentials remain explicit.
+
+Keep the real key in local `.env`, per-user settings or the process environment. Do not put it in
+project JSON, QML, source, logs, or chat.
 `NVIDIA_BASE_URL` accepts an HTTPS `/v1` base or a full `/chat/completions` URL.
 `NEMOTRON_MODEL` defaults to `nvidia/nemotron-3.5-lightning-30b-a3b`. The default
 endpoint is `https://integrate.api.nvidia.com/v1/chat/completions`.

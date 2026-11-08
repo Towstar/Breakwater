@@ -14,7 +14,9 @@ from numbers import Real
 
 import torch
 
-METHOD_VERSION = "torch-constant-flow-0.1.0"
+from storage_grid import storage_sample_times
+
+METHOD_VERSION = "torch-constant-flow-0.1.2"
 MAX_SAMPLES = 10_001
 
 
@@ -151,6 +153,8 @@ class StorageModel:
                 (s.kind == "tank" and d.kind in ("tank", "treatment", "trucking"))
             ):
                 raise ValueError(f"Unsupported connection: {r.id}")
+            if s.kind == "tank" and d.kind != "tank" and not math.isfinite(r.cost + d.cost):
+                raise ValueError(f"Nonfinite combined route/destination control price: {r.id}")
             if s.kind == "source":
                 outgoing[s.id] += 1
                 if r.has_pump or not r.available:
@@ -225,12 +229,7 @@ class StorageModel:
             raise ValueError("Nonfinite or out-of-bounds control")
         horizon = _number(horizon_h, "horizon_h")
         step = _number(step_h, "step_h")
-        if not 0 < horizon <= 24 or step <= 0 or horizon / step > 10000:
-            raise ValueError("Forecast needs 0 < horizon <= 24 h and 1..10000 positive steps")
-        count = math.ceil(horizon / step)
-        times = [min(k * step, horizon) for k in range(count + 1)]
-        if any(b <= a for a, b in zip(times, times[1:])):
-            raise ValueError("Forecast sample times must be strictly increasing")
+        times = storage_sample_times(horizon, step)
         flows = []
         cost_per_h = values[:0].sum()  # differentiable zero without summing large controls
         for a in self._assets:
