@@ -108,6 +108,12 @@ if(BUILD_TESTING)
     set_tests_properties(desktop.${_suite} PROPERTIES TIMEOUT 180
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   endforeach()
+  # This aggregate functional suite processes 33,024 readings and 32,768
+  # heartbeats. Local ASan took 174.72 s; hosted execution exceeded 180 s.
+  # Its harness budget is separate from the unchanged stream/command deadlines.
+  if(BREAKWATER_ENABLE_ASAN)
+    set_tests_properties(desktop.telemetry_stream PROPERTIES TIMEOUT 360)
+  endif()
   set(_g2_evidence_dir "${CMAKE_CURRENT_BINARY_DIR}/test-artifacts/g2")
   target_link_libraries(breakwater_sensor_editor_tests PRIVATE breakwater_agent)
   set_tests_properties(desktop.telemetry_lifecycle PROPERTIES FIXTURES_SETUP g2_recording

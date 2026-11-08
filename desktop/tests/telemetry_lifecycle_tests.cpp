@@ -215,6 +215,31 @@ private slots:
         QTRY_COMPARE(controller.status(), "replay_prefix_finished");
         QVERIFY(!controller.snapshot().value("ended").toBool()); QVERIFY(controller.tracePreview().isEmpty());
     }
+    void cachedRegistryStillRejectsInvalidLiveFrames_data() {
+        QTest::addColumn<QString>("fixtureMode"); QTest::addColumn<QString>("expectedCode");
+        QTest::newRow("configuration-binding") << "wrong_configuration" << "frame_invalid";
+        QTest::newRow("physical-binding") << "wrong_physical" << "frame_invalid";
+        QTest::newRow("unknown-sensor") << "unknown_sensor" << "stream_fault";
+        QTest::newRow("disabled-sensor") << "disabled_sensor" << "stream_fault";
+        QTest::newRow("reading-type") << "wrong_reading_type" << "stream_fault";
+        QTest::newRow("reading-unit") << "wrong_reading_unit" << "stream_fault";
+    }
+    void cachedRegistryStillRejectsInvalidLiveFrames() {
+        QFETCH(QString, fixtureMode); QFETCH(QString, expectedCode);
+        auto config = configuration();
+        if (fixtureMode == "disabled_sensor") {
+            auto sensors = config.value("sensors").toArray();
+            auto disabled = sensors.last().toObject(); disabled["enabled"] = false;
+            sensors[sensors.size() - 1] = disabled; config["sensors"] = sensors;
+        }
+        TelemetryController controller;
+        controller.configure(config, context()); QTRY_COMPARE(controller.status(), "ready");
+        controller.startProcess(python(), {fixture(), fixtureMode});
+        QTRY_COMPARE_WITH_TIMEOUT(controller.status(), "fault", 10000);
+        QVERIFY2(controller.error().contains(expectedCode), qPrintable(controller.error()));
+        QVERIFY(!controller.active());
+        QVERIFY2(controller.tracePreview().isEmpty(), "An invalid batch cannot publish a partial measurement update.");
+    }
     void processFaults_data() {
         QTest::addColumn<QString>("fixtureMode"); QTest::addColumn<QString>("errorCode");
         QTest::newRow("missing start") << "silent" << "request_timeout";

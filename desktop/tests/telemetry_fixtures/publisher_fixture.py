@@ -12,6 +12,10 @@ with open(os.environ["BREAKWATER_TELEMETRY_CONFIGURATION_FILE"], encoding="utf-8
     configuration = json.load(stream)
 configuration_hash = os.environ["BREAKWATER_TELEMETRY_CONFIGURATION_HASH"]
 physical_hash = os.environ["BREAKWATER_TELEMETRY_PHYSICAL_HASH"]
+if mode == "wrong_configuration":
+    configuration_hash = "0" * 64 if configuration_hash != "0" * 64 else "1" * 64
+if mode == "wrong_physical":
+    physical_hash = "0" * 64 if physical_hash != "0" * 64 else "1" * 64
 stream_id = "fixture-stream"
 epoch_id = "epoch-" + uuid.uuid4().hex
 sequence = 0
@@ -71,6 +75,12 @@ for sensor in configuration["sensors"]:
     readings.append(dict(sensor_id=sensor["sensor_id"], event_time_s=event,
                          acquisition_start_s=event, acquisition_end_s=event,
                          value=value, unit=sensor["unit"], quality="good"))
+if mode == "unknown_sensor":
+    readings[-1]["sensor_id"] = "unregistered-fixture-sensor"
+elif mode == "wrong_reading_type":
+    readings[-1]["value"] = 1.0 if configuration["sensors"][-1]["quantity"] == "pump_state" else "running"
+elif mode == "wrong_reading_unit":
+    readings[-1]["unit"] = "incompatible_unit"
 emit("readings", dict(readings=readings))
 if mode == "heartbeat_clock":
     emit("heartbeat", dict(paused=True, clock_rate=1.0))
