@@ -14,7 +14,7 @@ Pane {
     readonly property bool historicalCursor: eog.loaded && eog.cursorUnix < eog.nowUnix
     objectName: "eogDatasetPanel"
     padding: 10
-    background: Rectangle { color: "#0b1822" }
+    background: Rectangle { color: Theme.background }
     function utc(seconds) {
         if (!eog.loaded) return "—"
         const date = new Date(seconds * 1000)
@@ -67,7 +67,7 @@ Pane {
         height: Math.min(540, parent ? parent.height - 32 : 540)
         padding: 16
         modal: true; closePolicy: Popup.CloseOnEscape | Popup.CloseOnPressOutside
-        background: Rectangle { color: "#172b39"; border.color: "#365261"; radius: 5 }
+        background: Rectangle { color: Theme.raised; border.color: Theme.divider; radius: 5 }
         contentItem: ScrollView {
             id: detailsScroll
             clip: true; contentWidth: availableWidth
@@ -75,25 +75,25 @@ Pane {
                 width: detailsScroll.availableWidth; spacing: 12
                 RowLayout {
                     Layout.fillWidth: true
-                    Label { Layout.fillWidth: true; text: "DATASET & OPERATING INPUTS"; color: "#65cfcc"; font.bold: true }
-                    Button { text: "Close"; onClicked: details.close() }
+                    Label { Layout.fillWidth: true; text: "DATASET & OPERATING INPUTS"; color: Theme.text; font.bold: true }
+                    ActionButton { iconName: "x"; text: "Close"; onClicked: details.close() }
                 }
                 Label {
                     Layout.fillWidth: true
                     text: panel.eog.status
-                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: "#b6ced9"
+                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: Theme.secondary
                 }
                 Label {
                     Layout.fillWidth: true
-                    text: "Read-only observations. Event detection, shutdown countdowns and truck/well response plans are unavailable until the numerical provider is connected. The current network view and trends are recorded evidence."
-                    wrapMode: Text.Wrap; color: "#e5c78d"
+                    text: "Read-only recorded observations. Run event detection and response analysis explicitly in Investigate / history when a numerical provider is available. Loading a dataset does not run an investigation or apply controls."
+                    wrapMode: Text.Wrap; color: Theme.warning
                 }
                 Label {
                     Layout.fillWidth: true
                     text: panel.eog.sourceFolder + "\nDataset " + panel.eog.datasetIdentity
                         + "\nOnly network.json, ops.json and telemetry.csv are loaded."
                         + "\nDataset window: " + panel.utc(panel.eog.firstUnix) + " — " + panel.utc(panel.eog.nowUnix)
-                    textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.pixelSize: 12; color: "#91aebb"
+                    textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.pixelSize: Theme.smallSize; color: Theme.muted
                 }
                 Label {
                     Layout.fillWidth: true; visible: panel.eog.loaded
@@ -105,19 +105,19 @@ Pane {
                             + panel.number(ops.cycle_min, 0) + " min · pump repair: " + panel.number(ops.repair_hours, 2) + " h"
                             + "\nOil: $" + panel.number(ops.oil_per_bbl, 2) + "/bbl · gas: $" + panel.number(ops.gas_per_mcf, 2) + "/mcf."
                     }
-                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: "#b8ced7"
+                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: Theme.secondary
                 }
                 Label {
                     Layout.fillWidth: true
                     text: "Five-minute sampling. Source gaps stay visible without zero filling. Pump feedback: 0 stopped, 1 running, 2 fault; a normal stop is not a detected failure. Layout geometry supplies no flow or travel-time calculation."
-                    wrapMode: Text.Wrap; color: "#92aebb"; font.pixelSize: 12
+                    wrapMode: Text.Wrap; color: Theme.muted; font.pixelSize: Theme.smallSize
                 }
                 Repeater {
                     model: panel.eog.warnings
                     delegate: Label {
                         required property string modelData
                         Layout.fillWidth: true; text: modelData; textFormat: Text.PlainText
-                        wrapMode: Text.Wrap; color: "#e3bf85"
+                        wrapMode: Text.Wrap; color: Theme.warning
                     }
                 }
             }
@@ -136,25 +136,25 @@ Pane {
                     Label {
                         Layout.fillWidth: true
                         text: panel.eog.loaded ? "Recorded network" : "Open an EOG dataset to begin"
-                        font.pixelSize: 18; font.bold: true; color: "#e0edf2"; elide: Text.ElideRight
+                        font.pixelSize: 18; font.bold: true; color: Theme.text; elide: Text.ElideRight
                     }
-                    Button { objectName: "eogOpenFolder"; text: "Open dataset"; onClicked: folder.open() }
-                    Button { text: "Cancel"; visible: panel.eog.busy; onClicked: panel.eog.cancel() }
+                    ActionButton { iconName: "folder-open"; objectName: "eogOpenFolder"; text: "Open dataset"; onClicked: folder.open() }
+                    ActionButton { iconName: "square"; text: "Cancel"; visible: panel.eog.busy; onClicked: panel.eog.cancel() }
                     BusyIndicator { running: panel.eog.busy; visible: running; Layout.preferredWidth: 26; Layout.preferredHeight: 26 }
-                    Button { objectName: "eogDatasetDetails"; text: "Dataset details"; onClicked: details.open() }
+                    ActionButton { iconName: "clipboard-check"; objectName: "eogDatasetDetails"; text: "Dataset details"; onClicked: details.open() }
                 }
                 Label {
                     Layout.fillWidth: true
                     text: panel.eog.busy || !panel.eog.loaded ? panel.eog.status
                         : "Read-only · dataset " + panel.eog.datasetIdentity.substring(0, 12)
-                            + " · detection & response planning unavailable"
+                            + " · choose a cutoff, then investigate explicitly"
                             + (panel.eog.warnings.length > 0 ? " · coverage warnings in details" : "")
-                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: "#e5c78d"; font.pixelSize: 11
+                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: Theme.warning; font.pixelSize: Theme.captionSize
                 }
                 Label {
                     Layout.fillWidth: true; visible: text.length > 0
                     text: panel.eog.error
-                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: "#f4b47d"
+                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: Theme.error
                 }
                 GridLayout {
                     Layout.fillWidth: true; visible: panel.eog.loaded
@@ -162,7 +162,7 @@ Pane {
                     columnSpacing: 10; rowSpacing: 4
                     ColumnLayout {
                         Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 2
-                        Label { text: "System"; font.pixelSize: 11; color: "#9eb5c2" }
+                        Label { text: "System"; font.pixelSize: Theme.captionSize; color: Theme.secondary }
                         DatasetChoice {
                             model: panel.eog.systems
                             currentIndex: panel.indexFor(panel.eog.systems, panel.eog.systemId)
@@ -171,7 +171,7 @@ Pane {
                     }
                     ColumnLayout {
                         Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 2
-                        Label { text: "Facility"; font.pixelSize: 11; color: "#9eb5c2" }
+                        Label { text: "Facility"; font.pixelSize: Theme.captionSize; color: Theme.secondary }
                         DatasetChoice {
                             model: panel.eog.facilities
                             currentIndex: panel.indexFor(panel.eog.facilities, panel.eog.facilityId)
@@ -180,7 +180,7 @@ Pane {
                     }
                     ColumnLayout {
                         Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 2
-                        Label { text: "Equipment"; font.pixelSize: 11; color: "#9eb5c2" }
+                        Label { text: "Equipment"; font.pixelSize: Theme.captionSize; color: Theme.secondary }
                         DatasetChoice {
                             model: panel.eog.assets
                             currentIndex: panel.indexFor(panel.eog.assets, panel.eog.assetId)
@@ -189,7 +189,7 @@ Pane {
                     }
                     ColumnLayout {
                         Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 2
-                        Label { text: "Measurement"; font.pixelSize: 11; color: "#9eb5c2" }
+                        Label { text: "Measurement"; font.pixelSize: Theme.captionSize; color: Theme.secondary }
                         DatasetChoice {
                             model: panel.eog.metrics
                             currentIndex: panel.indexFor(panel.eog.metrics, panel.eog.metric)
@@ -199,13 +199,13 @@ Pane {
                 }
                 RowLayout {
                     Layout.fillWidth: true; visible: panel.eog.loaded; spacing: 8
-                    Button { objectName: "eogOverview"; text: "All systems"; enabled: panel.eog.sceneMode !== "overview"; onClicked: panel.eog.showOverview() }
-                    Button { objectName: "eogFacility"; text: "Facility"; enabled: panel.eog.sceneMode !== "facility"; onClicked: panel.eog.showFacility(panel.eog.facilityId) }
+                    ActionButton { iconName: "network"; objectName: "eogOverview"; text: "All systems"; enabled: panel.eog.sceneMode !== "overview"; onClicked: panel.eog.showOverview() }
+                    ActionButton { iconName: "factory"; objectName: "eogFacility"; text: "Facility"; enabled: panel.eog.sceneMode !== "facility"; onClicked: panel.eog.showFacility(panel.eog.facilityId) }
                     Label {
                         Layout.preferredWidth: panel.width < 1000 ? 170 : 235
                         text: (panel.historicalCursor ? "Historical: " : "Cutoff: ") + panel.utc(panel.eog.cursorUnix)
-                        color: panel.historicalCursor ? "#e5c78d" : "#65d1ce"
-                        wrapMode: Text.Wrap; font.pixelSize: 11
+                        color: panel.historicalCursor ? Theme.warning : Theme.text
+                        wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize
                     }
                     Slider {
                         Layout.fillWidth: true; Layout.minimumWidth: 80
@@ -215,7 +215,7 @@ Pane {
                         onMoved: panel.eog.setCursorUnix(value)
                         Accessible.name: "Recorded observation cutoff"
                     }
-                    Button { text: "Now"; enabled: panel.historicalCursor; onClicked: panel.eog.setCursorUnix(panel.eog.nowUnix) }
+                    ActionButton { iconName: "history"; text: "Now"; enabled: panel.historicalCursor; onClicked: panel.eog.setCursorUnix(panel.eog.nowUnix) }
                 }
             }
             GridLayout {
@@ -237,7 +237,7 @@ Pane {
                     Label {
                         Layout.fillWidth: true
                         text: panel.eog.assetId + " · " + panel.eog.metric
-                        textFormat: Text.PlainText; color: "#b6ced9"; font.pixelSize: 12
+                        textFormat: Text.PlainText; color: Theme.secondary; font.pixelSize: Theme.smallSize
                         elide: Text.ElideMiddle
                     }
                     EogTrendChart {
@@ -249,19 +249,19 @@ Pane {
                     }
                     Rectangle {
                         Layout.fillWidth: true; implicitHeight: measurementText.implicitHeight + 18
-                        radius: 5; color: "#1a303f"; border.color: "#375361"
+                        radius: 5; color: Theme.raised; border.color: Theme.divider
                         Label {
                             id: measurementText
                             anchors.fill: parent; anchors.margins: 9
                             text: panel.measurementDescription()
-                            textFormat: Text.PlainText; wrapMode: Text.Wrap; font.pixelSize: 12
-                            color: panel.eog.selectedValues.stale ? "#e5c78d" : "#dceaf0"
+                            textFormat: Text.PlainText; wrapMode: Text.Wrap; font.pixelSize: Theme.smallSize
+                            color: panel.eog.selectedValues.stale ? Theme.warning : Theme.text
                         }
                     }
                     Label {
                         Layout.fillWidth: true
                         text: "Observed through cutoff · gaps preserved · original units"
-                        wrapMode: Text.Wrap; color: "#92aebb"; font.pixelSize: 10
+                        wrapMode: Text.Wrap; color: Theme.muted; font.pixelSize: Theme.captionSize
                     }
                 }
             }

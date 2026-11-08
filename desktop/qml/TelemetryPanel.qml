@@ -13,6 +13,20 @@ Dialog {
     modal: false
     title: "Synthetic monitoring and replay"
     standardButtons: Dialog.Close
+    font.family: Theme.fontFamily
+    font.pixelSize: Theme.bodySize
+    padding: 14
+    palette.window: Theme.surface
+    palette.base: Theme.raised
+    palette.button: Theme.raised
+    palette.buttonText: Theme.text
+    palette.text: Theme.text
+    palette.windowText: Theme.text
+    palette.placeholderText: Theme.muted
+    palette.highlight: Theme.text
+    palette.highlightedText: Theme.background
+    palette.mid: Theme.controlBorder
+    background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
     property string notice: ""
     property string selectedSensorId: ""
     readonly property int renderedNumericSamples: traceChart.visible ? traceChart.numericSampleCount : 0
@@ -71,27 +85,27 @@ Dialog {
                 Layout.fillWidth: true
                 text: "Hypothetical sensors only. Measurements stay separate from design controls. Detection and observation-based forecasts are not connected in this increment."
                 wrapMode: Text.Wrap
-                color: "#a9c0cb"
+                color: Theme.secondary
             }
             Flow {
                 Layout.fillWidth: true
                 spacing: 6
-                Button { text: "Manual"; onClicked: panel.telemetry.manual() }
-                Button {
+                ActionButton { text: "Manual"; onClicked: panel.telemetry.manual() }
+                ActionButton {
                     text: "Start synthetic input"
                     enabled: panel.telemetry.publisherConfigured && panel.telemetry.configurationHash.length > 0
                     onClicked: { panel.notice = ""; panel.telemetry.startConfiguredPublisher() }
                 }
-                Button { text: "Open replay"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: replayDialog.open() }
-                Button { text: "Historical view"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: historicalDialog.open() }
-                Button { text: "Save recording"; enabled: panel.telemetry.tracePreview.length > 0; onClicked: saveDialog.open() }
+                ActionButton { text: "Open replay"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: replayDialog.open() }
+                ActionButton { text: "Historical view"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: historicalDialog.open() }
+                ActionButton { text: "Save recording"; enabled: panel.telemetry.tracePreview.length > 0; onClicked: saveDialog.open() }
             }
             Label {
                 Layout.fillWidth: true
                 visible: !panel.telemetry.publisherConfigured
                 text: "No local plant publisher is configured. A publisher may be supplied separately; recorded synthetic fixtures can be replayed now."
                 wrapMode: Text.Wrap
-                color: "#e9bf79"
+                color: Theme.warning
             }
             Label {
                 Layout.fillWidth: true
@@ -103,20 +117,20 @@ Dialog {
                 Layout.fillWidth: true
                 visible: panel.telemetry.mode === "replay" || panel.telemetry.mode === "historical"
                 text: "Event-time replay; original arrival jitter and receiver freshness classifications are not reconstructed."
-                color: "#e9bf79"
+                color: Theme.warning
                 wrapMode: Text.Wrap
             }
             Label {
                 Layout.fillWidth: true
                 visible: panel.telemetry.snapshot.replay_prefix === true
                 text: "This recording is a retained prefix without an end frame. It is historical evidence, not a complete stream epoch."
-                color: "#e9bf79"
+                color: Theme.warning
                 wrapMode: Text.Wrap
             }
             Flow {
                 Layout.fillWidth: true
                 spacing: 6
-                Button { text: panel.telemetry.paused ? "Resume" : "Pause"; enabled: panel.telemetry.active; onClicked: panel.telemetry.paused ? panel.telemetry.resume() : panel.telemetry.pause() }
+                ActionButton { text: panel.telemetry.paused ? "Resume" : "Pause"; enabled: panel.telemetry.active; onClicked: panel.telemetry.paused ? panel.telemetry.resume() : panel.telemetry.pause() }
                 ComboBox {
                     id: speed
                     model: ["0.25×", "0.5×", "1×", "2×", "4×"]
@@ -124,21 +138,21 @@ Dialog {
                     enabled: panel.telemetry.active
                     onActivated: panel.telemetry.setRate([0.25, 0.5, 1, 2, 4][currentIndex])
                 }
-                Button {
+                ActionButton {
                     text: "Restart epoch"
                     enabled: panel.telemetry.mode === "replay" || panel.telemetry.mode === "historical" || panel.telemetry.active
                     onClicked: panel.telemetry.restart()
                     ToolTip.visible: hovered
                     ToolTip.text: "Starts a new epoch and resets recent evidence. Save a recording first to retain the current epoch."
                 }
-                Button { text: "Stop"; enabled: panel.telemetry.active; onClicked: panel.telemetry.stop() }
+                ActionButton { text: "Stop"; enabled: panel.telemetry.active; onClicked: panel.telemetry.stop() }
             }
             Label {
                 Layout.fillWidth: true
                 text: panel.telemetry.error.length > 0 ? panel.telemetry.error : panel.notice
                 visible: text.length > 0
                 textFormat: Text.PlainText
-                color: "#f1bd85"
+                color: Theme.warning
                 wrapMode: Text.Wrap
             }
             ComboBox {
@@ -181,13 +195,13 @@ Dialog {
                     + ". Late: " + (panel.telemetry.counters.late_frames || 0) + ". Future: " + (panel.telemetry.counters.future_frames || 0)
                     + ". Duplicates: " + (panel.telemetry.counters.duplicate_frames || 0) + "."
                 wrapMode: Text.Wrap
-                color: "#a9c0cb"
+                color: Theme.secondary
             }
             Label {
                 Layout.fillWidth: true
                 text: "Finite negative and out-of-range measurements are retained. Replay and historical evidence cannot authorize operating changes. No observation mapper or physical fault diagnosis is supplied here."
                 wrapMode: Text.Wrap
-                color: "#a9c0cb"
+                color: Theme.secondary
             }
         }
     }

@@ -8,7 +8,7 @@ Rectangle {
     objectName: "trajectoryChart"
     required property var chart
     function isReference(series) { return series.reference === true || series.label === "Baseline" }
-    color: "#0e202d"; radius: 4
+    color: Theme.surface; radius: 4
     onChartChanged: plot.requestPaint()
     ColumnLayout {
         anchors.fill: parent; anchors.margins: 6; spacing: 0
@@ -19,12 +19,12 @@ Rectangle {
                 delegate: Label {
                     required property var modelData
                     text: modelData.label + (chartRoot.isReference(modelData) ? " · dashed" : " · solid")
-                    textFormat: Text.PlainText; font.pixelSize: 10
-                    color: chartRoot.isReference(modelData) ? "#b8c9d6" : "#5ed8d0"
+                    textFormat: Text.PlainText; font.pixelSize: Theme.captionSize
+                    color: chartRoot.isReference(modelData) ? Theme.plotReference : Theme.plotCandidate
                 }
             }
             Item { Layout.fillWidth: true }
-            Label { text: "Stored volume · m³"; textFormat: Text.PlainText; font.pixelSize: 10; color: "#8ca5b4" }
+            Label { text: "Stored volume · m³"; textFormat: Text.PlainText; font.pixelSize: Theme.captionSize; color: Theme.muted }
         }
         Canvas {
             id: plot
@@ -55,25 +55,25 @@ Rectangle {
                 const left = 47, right = width - 12, top = 13, bottom = height - 24
                 const x = function(t) { return left + Number(t) / horizon * (right - left) }
                 const y = function(v) { return bottom - (Number(v) / magnitude - normalizedLow) / (normalizedHigh - normalizedLow) * (bottom - top) }
-                ctx.font = "10px sans-serif"; ctx.lineWidth = 1; ctx.setLineDash([])
+                ctx.font = "11px Segoe UI"; ctx.lineWidth = 1; ctx.setLineDash([])
                 ctx.textAlign = "right"; ctx.textBaseline = "middle"
                 for (let i = 0; i <= 2; ++i) {
                     const value = (normalizedLow + (normalizedHigh - normalizedLow) * i / 2) * magnitude, py = bottom - i / 2 * (bottom - top)
-                    ctx.strokeStyle = "#2b4353"; ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke()
-                    ctx.fillStyle = "#91aab9"; ctx.fillText(Number(value).toFixed(1), left - 7, py)
+                    ctx.strokeStyle = Theme.divider; ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke()
+                    ctx.fillStyle = Theme.muted; ctx.fillText(Number(value).toFixed(1), left - 7, py)
                 }
                 if (low < 0 && high > 0) {
-                    ctx.strokeStyle = "#526c7c"; ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(left, y(0)); ctx.lineTo(right, y(0)); ctx.stroke()
+                    ctx.strokeStyle = Theme.controlBorder; ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(left, y(0)); ctx.lineTo(right, y(0)); ctx.stroke()
                 }
                 const capacityY = y(data.capacity_m3)
-                ctx.strokeStyle = "#e3b86c"; ctx.lineWidth = 1.2; ctx.setLineDash([6, 4])
+                ctx.strokeStyle = Theme.warning; ctx.lineWidth = 1.2; ctx.setLineDash([6, 4])
                 ctx.beginPath(); ctx.moveTo(left, capacityY); ctx.lineTo(right, capacityY); ctx.stroke()
-                ctx.fillStyle = "#e3b86c"; ctx.textAlign = "right"; ctx.textBaseline = "bottom"
+                ctx.fillStyle = Theme.warning; ctx.textAlign = "right"; ctx.textBaseline = "bottom"
                 ctx.fillText("Capacity " + Number(data.capacity_m3).toFixed(1) + " m³", right, capacityY - 3)
                 const series = data.series || []
                 for (let j = 0; j < series.length; ++j) {
                     const line = series[j], points = line.points || []
-                    ctx.strokeStyle = chartRoot.isReference(line) ? "#b8c9d6" : "#5ed8d0"
+                    ctx.strokeStyle = chartRoot.isReference(line) ? Theme.plotReference : Theme.plotCandidate
                     ctx.lineWidth = 2; ctx.setLineDash(chartRoot.isReference(line) ? [3, 4] : [])
                     ctx.beginPath()
                     for (let k = 0; k < points.length; ++k) {
@@ -82,7 +82,7 @@ Rectangle {
                     }
                     ctx.stroke()
                 }
-                ctx.setLineDash([]); ctx.fillStyle = "#91aab9"; ctx.textBaseline = "top"
+                ctx.setLineDash([]); ctx.fillStyle = Theme.muted; ctx.textBaseline = "top"
                 ctx.textAlign = "left"; ctx.fillText("0 h", left, bottom + 7)
                 ctx.textAlign = "right"; ctx.fillText(horizon.toFixed(2) + " h", right, bottom + 7)
             }
@@ -93,6 +93,6 @@ Rectangle {
         visible: !chartRoot.chart.available
         text: "Select a stored run and tank to inspect its trajectory."
         textFormat: Text.PlainText; wrapMode: Text.WordWrap; horizontalAlignment: Text.AlignHCenter
-        color: "#8ca5b4"; font.pixelSize: 12
+        color: Theme.muted; font.pixelSize: Theme.smallSize
     }
 }

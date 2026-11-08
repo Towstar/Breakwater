@@ -60,14 +60,24 @@ qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
 
 qt_add_executable(breakwater WIN32 main.cpp)
+find_package(Qt6 6.12 REQUIRED COMPONENTS Svg)
 target_link_libraries(breakwater PRIVATE breakwater_agent breakwater_telemetry_runtime breakwater_eog_workflow Qt6::QuickControls2 Qt6::Quick3D)
+target_link_libraries(breakwater PRIVATE Qt6::Svg)
 get_filename_component(_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
 set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_prefix}/bin;%PATH%")
+set_source_files_properties(qml/Theme.qml PROPERTIES QT_QML_SINGLETON_TYPE TRUE)
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
   QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml qml/StorageSciencePanel.qml
     qml/SensorPanel.qml qml/TelemetryPanel.qml qml/SensorTraceChart.qml
     qml/EogDatasetPanel.qml qml/EogNetworkView.qml qml/EogTrendChart.qml
-    qml/EogAnalysisPanel.qml qml/EogPlanChart.qml qml/EogPlanDetails.qml qml/EogEventDetails.qml)
+    qml/EogAnalysisPanel.qml qml/EogPlanChart.qml qml/EogPlanDetails.qml qml/EogEventDetails.qml
+    qml/Theme.qml qml/ActionButton.qml qml/ActionFeedbackCard.qml
+    qml/IndustrialEquipment.qml qml/IndustrialPipe.qml)
+file(GLOB _breakwater_action_icons CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/*.svg")
+qt_add_resources(breakwater breakwater_visual_assets PREFIX /breakwater/assets
+  BASE "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+  FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/breakwater-logo.svg" ${_breakwater_action_icons})
+install(FILES assets/LUCIDE-LICENSE.txt assets/ASSET_SOURCES.md DESTINATION share/breakwater/licenses)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
 # in a fresh parallel Visual Studio build. Qt creates that target at root deferral.

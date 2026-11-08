@@ -157,7 +157,7 @@ private slots:
         RenderedDetails details(evaluation, checked); QVERIFY2(details.error.isEmpty(), qPrintable(details.error));
         auto* margin = details.root->findChild<QQuickItem*>("validationMargin"); QVERIFY(margin);
         QVERIFY(margin->property("text").toString().contains("-12.5 bbl"));
-        QCOMPARE(margin->property("color").value<QColor>(), QColor("#ed8181"));
+        QCOMPARE(margin->property("color").value<QColor>(), QColor("#EB8585"));
         auto frame = details.show(margin); QVERIFY(details.visibleInk(margin, frame)); QVERIFY(save(frame, "negative-validation-margin"));
         checked["minimum_shutdown_margin_bbl"] = QJsonValue::Null;
         QVERIFY(details.root->setProperty("validation", checked.toVariantMap()));
