@@ -77,6 +77,12 @@ seven finite-extreme regressions with actual normal/ASan DLLs, seven known-value
 cases and twelve real search/evaluate/independent processes. Exact selected
 costs/plan hashes remain identical on four practice cuts; impossible inventory
 and unrepresentable candidate costs remain rejected/unavailable respectively.
+Evidence KC: private commitments 0.1.0, runtime 621c28d,
+`science/evidence/eog-commitments/`: 439/439 full science, no skips; 14 focused
+methods normal/ASan; actual persistent native fleet agrees with independent
+known-control calendars in 32 varied scenarios and ten-stage replay/reset.
+Normal/checked complete payloads match exactly. This is scheduled commitment,
+not inventory/cost validation, stateful optimization or operating authority.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
@@ -99,7 +105,7 @@ and unrepresentable candidate costs remain rejected/unavailable respectively.
 | T01 | S Plans / Trucks; X section 4 | Rule | A | Full loads, response/cycle, cost and sufficient inventory | E3/IV native full loads and independent 360 generated candidate checks, ordinary official no-action recomputation | Scoped pass | Joint search and integrated application remain |
 | T02 | S Plans / Trucks | Rule | A | Arrival strictly before repair; late pickup cannot undo trip | CR 72cadd1 clock; IV independently checks repair ties, one-ULP ordering, late pickups | Scoped pass | Supported binary64 model only; evolving scenario/order refinements remain |
 | T03 | S Shared trucks | Rule | A | Shared fleet, final return occupancy, sequential yard jobs | E3 native slots; IV separately coded pairwise resource checks and joint-facility cases | Scoped pass | Joint search and evolving prior commitments remain |
-| T04 | S Shared trucks; H reference actions | Rule | A/B | Now shares entire fleet; evolving simulation carries commitments | JS snapshot context and SP native persistent final-return calendars across repairs/repeated/concurrent failures | Partial | Stateful planner/observation/application mapping pending; snapshot search must not reset active jobs |
+| T04 | S Shared trucks; H reference actions | Rule | A/B | Now shares entire fleet; evolving simulation carries commitments | JS snapshot context, SP persistent native calendars and KC causal accepted-control/independent return reconstruction across repairs | Partial | Committed-pickup/occupied-slot evaluator context, stateful planner and application mapping pending; snapshot search must not reset active jobs |
 | C01 | S Plans / Shut-in | Rule | A | Immediate/delayed per-well action lasts through repair | E3/IV per-well economics, delayed stops, automatic union and retained itemized audits | Scoped pass | Joint continuous-action search and application integration remain |
 | C02 | S Doing nothing | Rule | A/B semantics | Do-nothing can be cheapest valid outcome despite shutdown | Accepted 72cadd1 semantics; E3 actual native no-action worker costs | Scoped pass | Costed automatic outcome is supported; minimum-cost search remains |
 | C03 | R The decision; S Plans | Rule | A | Compare baseline, truck, well, mixed at same snapshot/horizon | JS real joint search with baseline and available family leaders retained by default; seven known-value fixtures and four official-prefix selections | Scoped pass | Finite family best_found; final client/history/installed comparison remains |
@@ -131,7 +137,7 @@ evidence. Imported-model causal seeded projection now also executes with exact
 normal/checked and file-roundtrip evidence. Bounded running inspection evidence
 improves actual practice delays and corrects the first historical miss; two
 ambiguous-recovery cuts and physical timeliness remain unqualified. Next:
-causal operator-commitment reconstruction, commitment-aware planning and B-owned
+committed-pickup/occupied-slot evaluator context, commitment-aware planning and B-owned
 joined search/application/installed
 integration. B's merged provider reports close the earlier hosted prerequisite
 and telemetry failures for its recorded source; final joined checks remain.

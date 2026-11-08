@@ -27,7 +27,43 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: search arithmetic robustness
+## Active execution checkpoint: causal known truck commitments
+
+Current branch/worktree: `codex/person-a-eog-commitments`,
+`C:\Projects\Breakwater\.worktrees\person-a-eog-commitments`, stacked on #51.
+Frozen runtime **621c28de7e67af89ab6474f558763da3523a17b5**. New private
+commitment method **0.1.0**; existing observation/noise and native plant methods
+remain **0.1.0**. Public EOG stays exact **72cadd1**; no worker operation/wire or
+native algorithm is changed. Details: `science/EOG_COMMITMENTS.md`.
+
+`SyntheticStream.control_history()` emits immutable accepted facts only, excluding
+seed, future schedules, full scenario identity and rejected diagnostics. Pure
+`reconstruct(Model, View, History)` independently rebuilds pickups/final-return
+reservations, with exact model/catalog/cutoff binding and fractional clocks. No
+native/file/label access, repair-based release or silently free unknown fleet.
+Scheduled pickups do not establish actual removal, cost, feasibility or authority.
+The caller must authenticate a complete live prefix; reopened numerical evidence
+cannot grant operating authority. Verified strictly older prefixes survive later
+cancellation, while unsupported current history remains unavailable.
+
+Actual full science **439/439**, no skips/failures; focused **14/14** normal and
+ASan. Thirty-two varied scenarios compare 64 accepted dispatches / 128 snapshots /
+256 truck states, and two real systems keep equal truck ordinals independent.
+Ten-stage actual normal/checked runs produce 12 byte-identical complete payloads,
+including controls, observations, reconstructed/native calendars and host receipt.
+Initial normal-off fixture and real historical-cancellation failures are retained.
+Evidence: `science/evidence/eog-commitments/` with pinned source/binary/payloads.
+
+B staging needs `eog_commitments.py` and changed `eog_synthetic.py` plus existing
+plant bridge/runtime. The shared additive simulation boundary remains unadopted;
+it must separate fractional decision clock from integer observation cutoff and
+authenticate live accepted history. Do not send the full host receipt to models.
+The existing plant CI target/env request on #49 remains needed; no B-owned path
+was edited. Next A step is occupied-slot/committed-pickup evaluator context and
+independent validation, then stateful planning. Application replay/what-if/mode
+controls and final installed/model/workbench/UI checks remain in the full goal.
+
+## Published checkpoint: search arithmetic robustness
 
 Current worktree/branch:
 `C:\Projects\Breakwater\.worktrees\person-a-eog-search-robustness`,

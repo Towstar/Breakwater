@@ -1,0 +1,92 @@
+{
+  "qualification": "offline_actual_native_commitment_comparison",
+  "checks": [
+    {
+      "case": "initial",
+      "elapsed_s": 0.0,
+      "controls": 0,
+      "scheduled_pickups": 0,
+      "busy_trucks": 0,
+      "passed": true
+    },
+    {
+      "case": "first-dispatch",
+      "elapsed_s": 350.125,
+      "controls": 1,
+      "scheduled_pickups": 1,
+      "busy_trucks": 1,
+      "passed": true
+    },
+    {
+      "case": "well-command",
+      "elapsed_s": 375.25,
+      "controls": 2,
+      "scheduled_pickups": 1,
+      "busy_trucks": 1,
+      "passed": true
+    },
+    {
+      "case": "after-first-repair",
+      "elapsed_s": 450.0,
+      "controls": 2,
+      "scheduled_pickups": 1,
+      "busy_trucks": 1,
+      "passed": true
+    },
+    {
+      "case": "before-return",
+      "elapsed_s": 545.1249999999999,
+      "controls": 2,
+      "scheduled_pickups": 1,
+      "busy_trucks": 1,
+      "passed": true
+    },
+    {
+      "case": "sequential-job",
+      "elapsed_s": 545.125,
+      "controls": 3,
+      "scheduled_pickups": 2,
+      "busy_trucks": 1,
+      "passed": true
+    },
+    {
+      "case": "after-second-repair",
+      "elapsed_s": 650.0,
+      "controls": 3,
+      "scheduled_pickups": 2,
+      "busy_trucks": 1,
+      "passed": true
+    },
+    {
+      "case": "final-return",
+      "elapsed_s": 740.125,
+      "controls": 3,
+      "scheduled_pickups": 2,
+      "busy_trucks": 0,
+      "passed": true
+    },
+    {
+      "case": "completed",
+      "elapsed_s": 900.0,
+      "controls": 3,
+      "scheduled_pickups": 2,
+      "busy_trucks": 0,
+      "passed": true
+    },
+    {
+      "case": "reset",
+      "elapsed_s": 0.0,
+      "controls": 0,
+      "scheduled_pickups": 0,
+      "busy_trucks": 0,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "native_library_sha256": "65fca33af257438fb3df044a938175270e0f5eaebc736342c4c8fda6d80deab3",
+  "limitations": [
+    "Synthetic known controls only; history caller authenticity is not established by these types.",
+    "Ledger output is scheduled resource commitment, not independent inventory/cost validation or operating approval.",
+    "No stateful optimization, public simulation wire, installed/model/UI acceptance or physical qualification."
+  ]
+}
