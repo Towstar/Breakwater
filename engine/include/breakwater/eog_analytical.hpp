@@ -7,7 +7,7 @@
 
 // Engine-owned analytical types, not the shared EOG capture/worker contract.
 // No file loading, detection, diagnosis, optimization or independent validation.
-namespace breakwater::eog {
+namespace breakwater::eog::analytical {
 
 inline constexpr const char* analytical_version = "eog-analytical-0.1.0";
 inline constexpr std::size_t max_facilities = 128;
@@ -137,4 +137,4 @@ struct Assessment {
 // Automatic shut-in is a legitimate do-nothing outcome, not an invalid action.
 Assessment assess_failure_fixture(const FailureFixture& fixture, const Response& response = {});
 
-} // namespace breakwater::eog
+} // namespace breakwater::eog::analytical

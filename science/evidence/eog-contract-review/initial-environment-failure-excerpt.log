@@ -1,0 +1,35 @@
+test_actual_capture_checks_only_three_files (test_contracts.ContractTests.test_actual_capture_checks_only_three_files) ... ERROR
+test_actual_capture_malformed_duplicate_and_bad_clock (test_contracts.ContractTests.test_actual_capture_malformed_duplicate_and_bad_clock) ...
+  test_actual_capture_malformed_duplicate_and_bad_clock (test_contracts.ContractTests.test_actual_capture_malformed_duplicate_and_bad_clock) (case='duplicate') ... ERROR
+  test_actual_capture_malformed_duplicate_and_bad_clock (test_contracts.ContractTests.test_actual_capture_malformed_duplicate_and_bad_clock) (case='timestamp') ... ERROR
+  test_actual_capture_malformed_duplicate_and_bad_clock (test_contracts.ContractTests.test_actual_capture_malformed_duplicate_and_bad_clock) (case='nonfinite') ... ERROR
+test_actual_capture_tamper_and_future_rows (test_contracts.ContractTests.test_actual_capture_tamper_and_future_rows) ... ERROR
+test_all_examples (test_contracts.ContractTests.test_all_examples) ...
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='capture-manifest.json') ... ERROR
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='detect-request.json') ... ERROR
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='detect-response.json') ... ERROR
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='evaluate-plan-request.json') ... ERROR
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='evaluate-plan-response.json') ... ERROR
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='renamed-detect-response.json') ... ERROR
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='search-plans-request.json') ... ERROR
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='search-plans-response.json') ... ERROR
+  test_all_examples (test_contracts.ContractTests.test_all_examples) (example='shared-fleet-infeasible-response.json') ... ERROR
+[... repeated missing-jsonschema tracebacks omitted; complete original retained in out/eog-contract-e8dab471-tests.log ...]
+======================================================================
+ERROR: test_validation_references_are_causal_and_resolved (test_contracts.ContractTests.test_validation_references_are_causal_and_resolved)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\eog-contract-review\contracts\eog\tests\test_contracts.py", line 101, in test_validation_references_are_causal_and_resolved
+    self.reject(response, code="unknown_evidence")
+  File "C:\Projects\Breakwater\.worktrees\eog-contract-review\contracts\eog\tests\test_contracts.py", line 42, in reject
+    v.validate_document(document, context=context)
+  File "C:\Projects\Breakwater\.worktrees\eog-contract-review\contracts\eog\validate.py", line 340, in validate_document
+    _shape(document, kind)
+  File "C:\Projects\Breakwater\.worktrees\eog-contract-review\contracts\eog\validate.py", line 111, in _shape
+    from jsonschema import Draft202012Validator
+ModuleNotFoundError: No module named 'jsonschema'
+
+----------------------------------------------------------------------
+Ran 37 tests in 0.765s
+
+FAILED (errors=88)

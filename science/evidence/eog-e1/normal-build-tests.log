@@ -3,36 +3,36 @@
 ** Copyright (c) 2026 Microsoft Corporation
 **********************************************************************
 -- Configuring done (0.7s)
--- Generating done (0.3s)
+-- Generating done (0.4s)
 -- Build files have been written to: C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless
 [1/6] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_example.dir\examples\eog_analytical_example.cpp.obj
 [2/6] Building CXX object engine\CMakeFiles\breakwater_eog_analytical.dir\src\eog_analytical.cpp.obj
 [3/6] Linking CXX static library engine\breakwater_eog_analytical.lib
-[4/6] Linking CXX executable engine\breakwater_eog_analytical_example.exe
-[5/6] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_tests.dir\tests\eog_analytical_tests.cpp.obj
+[4/6] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_tests.dir\tests\eog_analytical_tests.cpp.obj
+[5/6] Linking CXX executable engine\breakwater_eog_analytical_example.exe
 [6/6] Linking CXX executable engine\breakwater_eog_analytical_tests.exe
 Test project C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless
       Start  1: engine.eog_analytical
- 1/10 Test  #1: engine.eog_analytical ..............   Passed    0.33 sec
+ 1/10 Test  #1: engine.eog_analytical ..............   Passed    0.36 sec
       Start  2: engine.eog_analytical_example
  2/10 Test  #2: engine.eog_analytical_example ......   Passed    0.17 sec
       Start  3: engine.benchmark_correctness
- 3/10 Test  #3: engine.benchmark_correctness .......   Passed    0.14 sec
+ 3/10 Test  #3: engine.benchmark_correctness .......   Passed    0.16 sec
       Start  4: engine.acceptance
- 4/10 Test  #4: engine.acceptance ..................   Passed    0.13 sec
+ 4/10 Test  #4: engine.acceptance ..................   Passed    0.14 sec
       Start  5: engine.search
  5/10 Test  #5: engine.search ......................   Passed    0.08 sec
       Start  6: engine.control_influence
- 6/10 Test  #6: engine.control_influence ...........   Passed    1.32 sec
+ 6/10 Test  #6: engine.control_influence ...........   Passed    1.97 sec
       Start  7: engine.search_example
- 7/10 Test  #7: engine.search_example ..............   Passed    0.05 sec
+ 7/10 Test  #7: engine.search_example ..............   Passed    0.06 sec
       Start  8: engine.search_infeasible_example
- 8/10 Test  #8: engine.search_infeasible_example ...   Passed    0.06 sec
+ 8/10 Test  #8: engine.search_infeasible_example ...   Passed    0.05 sec
       Start  9: engine.transport
- 9/10 Test  #9: engine.transport ...................   Passed    2.28 sec
+ 9/10 Test  #9: engine.transport ...................   Passed    2.17 sec
       Start 10: engine.transport_example
-10/10 Test #10: engine.transport_example ...........   Passed    0.06 sec
+10/10 Test #10: engine.transport_example ...........   Passed    0.04 sec
 
 100% tests passed, 0 tests failed out of 10
 
-Total Test time (real) =   4.68 sec
+Total Test time (real) =   5.28 sec

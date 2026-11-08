@@ -3,7 +3,7 @@
 #include <iostream>
 
 int main() {
-    using namespace breakwater::eog;
+    using namespace breakwater::eog::analytical;
     // The public opening illustration, expressed as a standalone numerical fixture.
     const FailureFixture fixture{{60.0, 3.0}, 150.0, 905.0, {{"demo-system", 2}},
         {{"demo-facility", "demo-system", 800.0, 50.0, 92.0, 6.0, 75.0, 230.0, false,

@@ -11,7 +11,10 @@ validator, capture reader, worker protocol, desktop integration or a full EOG so
 - G1 head already accepted: `f12a82701641f1b4fd3af9ebba579b79f1db3db4`.
   G1 is not the EOG analysis contract.
 - **Adopted EOG contract commit: none.** Published main has no `contracts/eog/`;
-  no EOG contract PR was open at the initial remote check.
+  no EOG contract PR was open at the initial remote check. Lucas subsequently
+  published draft PR #33 at `e8dab4711a47ec8012fd206bb86d6c753d38254e`.
+  The exact-revision review is in `science/EOG_CONTRACT_REVIEW.md`; acceptance
+  remains pending the recorded findings.
 - PR #32 remains draft at `2beb0cba463918184d74544f1516a278ff14e9ad`.
   Its project-v3 allocation changes overlap G2 in project serialization,
   controller, agent/history/science mapping and desktop CMake/tests. It needs
@@ -51,6 +54,8 @@ There is no file access in this library. Tests/example construct inputs directly
 They load no practice answer keys, future telemetry, credentials or model data.
 The inputs explicitly assume already-known failures and prospective well rates;
 the library does not infer those assumptions from telemetry.
+Its types live in `breakwater::eog::analytical` so they can coexist with Lucas's
+public DTOs in `breakwater::eog` without name collisions.
 
 ## Units and analytical assumptions
 

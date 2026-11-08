@@ -8,7 +8,7 @@
 #include <stdexcept>
 #include <utility>
 
-namespace breakwater::eog {
+namespace breakwater::eog::analytical {
 namespace {
 double finite(double value) {
     if (!std::isfinite(value)) throw std::invalid_argument("EOG analytical nonfinite value or arithmetic overflow.");
@@ -281,4 +281,4 @@ Assessment assess_failure_fixture(const FailureFixture& fixture, const Response&
     return result;
 }
 
-} // namespace breakwater::eog
+} // namespace breakwater::eog::analytical

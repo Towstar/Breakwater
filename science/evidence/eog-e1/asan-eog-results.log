@@ -2,7 +2,7 @@
 1/10 Test: engine.eog_analytical
 Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/asan/engine/breakwater_eog_analytical_tests.exe"
 Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/asan/engine
-"engine.eog_analytical" start time: Nov 08 03:42 Central Standard Time
+"engine.eog_analytical" start time: Nov 08 03:53 Central Standard Time
 Output:
 ----------------------------------------------------------
 PASS barrel and daily units
@@ -52,7 +52,7 @@ PASS random scheduled responses satisfy separate integral ledgers
 Test time =   0.79 sec
 ----------------------------------------------------------
 Test Passed.
-"engine.eog_analytical" end time: Nov 08 03:43 Central Standard Time
+"engine.eog_analytical" end time: Nov 08 03:53 Central Standard Time
 "engine.eog_analytical" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -60,7 +60,7 @@ Test Passed.
 2/10 Test: engine.eog_analytical_example
 Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/asan/engine/breakwater_eog_analytical_example.exe"
 Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/asan/engine
-"engine.eog_analytical_example" start time: Nov 08 03:43 Central Standard Time
+"engine.eog_analytical_example" start time: Nov 08 03:53 Central Standard Time
 Output:
 ----------------------------------------------------------
 method=eog-analytical-0.1.0 (private E1 fixture; no detection/search/worker)
@@ -68,9 +68,9 @@ no-action: shutdown_after_h=4.480000 cost=5016.000000
 one-truck: arrival_h=1.250000 free_h=5.083333 final_bbl=700.000000 cost=905.000000
 well-2-off-at-2h: final_bbl=733.333333 cost=2000.000000
 <end of output>
-Test time =   0.27 sec
+Test time =   0.24 sec
 ----------------------------------------------------------
 Test Passed.
-"engine.eog_analytical_example" end time: Nov 08 03:43 Central Standard Time
+"engine.eog_analytical_example" end time: Nov 08 03:53 Central Standard Time
 "engine.eog_analytical_example" time elapsed: 00:00:00
 ----------------------------------------------------------

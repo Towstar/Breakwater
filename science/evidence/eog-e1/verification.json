@@ -1,7 +1,7 @@
 {
   "evidence_version": 1,
   "prepared_date": "2026-11-08",
-  "generated_utc": "2026-11-08T09:44:53.1117584Z",
+  "generated_utc": "2026-11-08T09:55:27.7300671Z",
   "track": "Person A E0/E1 independent analytical fixtures",
   "branch": "codex/person-a-eog-analysis",
   "base_main": "2bd7bb9e13f1f6788a57c4c49e6d7570293ad0eb",
@@ -16,23 +16,23 @@
     },
     {
       "path": "engine/include/breakwater/eog_analytical.hpp",
-      "sha256": "ab376b2b8336423bbe85b03d2b300e46cfd4e6d295160d05b1244855795e4be9",
-      "git_blob_sha1": "2eace56820d9adeaf9a7f37ad5fe61ecbbe2ce30"
+      "sha256": "4e7adaf19210fe4aeac4cc8f73f136ef977be2783453f31f7ebad0712f9a8525",
+      "git_blob_sha1": "7c7eccdfbae1c79b15e27ff1aa2e7694790d56da"
     },
     {
       "path": "engine/src/eog_analytical.cpp",
-      "sha256": "043f1c33c26b6d56893d94adfd2d48c215394b3bb0dfe4fab8fa19628ca23579",
-      "git_blob_sha1": "91a5fe4a7bf95fd533d1ec0613ef81a3a94ac091"
+      "sha256": "1886923f6bdfa0bfbbcc8fc9dcb2e315fa1df1b17642d04e0e9461e3cbfbbe70",
+      "git_blob_sha1": "0a24493a42e068205150bf6e56355561fd881245"
     },
     {
       "path": "engine/tests/eog_analytical_tests.cpp",
-      "sha256": "74b87e11f9d26020bf9dd1dd63305dcbe40306e217838b5829bcf451cba2146f",
-      "git_blob_sha1": "81bd19c30b883958b565acec319a2657449a4d7c"
+      "sha256": "6c931427b08697744fcc3786b6013da4a68a338c0cf3e04bb105818b9c96ef88",
+      "git_blob_sha1": "7a233d42b49758dfc5aa31e9c871ccc58da101d1"
     },
     {
       "path": "engine/examples/eog_analytical_example.cpp",
-      "sha256": "6616cc272d29362c4db3451766eceb5bd81e0405aae6efed762128d4ff79b860",
-      "git_blob_sha1": "d1c91aa1e9302ddf39da1527224eba9a813cf30e"
+      "sha256": "6e159d55f9682dbc9a31c4a52b9536c7748e4713f9023a18964d1e3fb8e7d86a",
+      "git_blob_sha1": "1419a5ea5a7db0defd9697744347327beba22dc6"
     }
   ],
   "method_version": "eog-analytical-0.1.0",
@@ -48,7 +48,7 @@
     "exit_code": 0,
     "ctest_passed": 10,
     "ctest_total": 10,
-    "seconds": 4.68,
+    "seconds": 5.28,
     "eog_cases_passed": 42,
     "eog_cases_total": 42,
     "log": "normal-build-tests.log",
@@ -58,7 +58,7 @@
     "exit_code": 0,
     "ctest_passed": 10,
     "ctest_total": 10,
-    "seconds": 50.74,
+    "seconds": 50.46,
     "eog_cases_passed": 42,
     "eog_cases_total": 42,
     "diagnostics_in_executed_logs": 0,
@@ -91,5 +91,8 @@
     "Threshold-first tie policy proposed for joint review.",
     "Late pickups after automatic shut-in explicitly unsupported.",
     "Native ASan does not establish instrumentation of external toolchain/runtime dependencies."
-  ]
+  ],
+  "prior_numerical_evidence_commit": "b65bd11c70bd7c2fcf4f022f183fcbb18e838847",
+  "reviewed_unadopted_eog_contract": "e8dab4711a47ec8012fd206bb86d6c753d38254e",
+  "joint_header_compile": "MSVC C++20 /permissive- /W4 /WX /Zs passed; see ../eog-contract-review/"
 }

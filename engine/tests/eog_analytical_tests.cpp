@@ -8,7 +8,7 @@
 #include <random>
 #include <stdexcept>
 
-using namespace breakwater::eog;
+using namespace breakwater::eog::analytical;
 namespace {
 void require(bool test, const std::string& message) {
     if (!test) throw std::runtime_error(message);

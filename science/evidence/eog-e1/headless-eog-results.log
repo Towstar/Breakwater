@@ -2,7 +2,7 @@
 1/10 Test: engine.eog_analytical
 Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless/engine/breakwater_eog_analytical_tests.exe"
 Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless/engine
-"engine.eog_analytical" start time: Nov 08 03:42 Central Standard Time
+"engine.eog_analytical" start time: Nov 08 03:53 Central Standard Time
 Output:
 ----------------------------------------------------------
 PASS barrel and daily units
@@ -49,10 +49,10 @@ PASS analytical random no-action crossing and revenue oracle
 PASS random scheduled responses satisfy separate integral ledgers
 42/42 EOG analytical cases passed
 <end of output>
-Test time =   0.33 sec
+Test time =   0.36 sec
 ----------------------------------------------------------
 Test Passed.
-"engine.eog_analytical" end time: Nov 08 03:42 Central Standard Time
+"engine.eog_analytical" end time: Nov 08 03:53 Central Standard Time
 "engine.eog_analytical" time elapsed: 00:00:00
 ----------------------------------------------------------
 
@@ -60,7 +60,7 @@ Test Passed.
 2/10 Test: engine.eog_analytical_example
 Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless/engine/breakwater_eog_analytical_example.exe"
 Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless/engine
-"engine.eog_analytical_example" start time: Nov 08 03:42 Central Standard Time
+"engine.eog_analytical_example" start time: Nov 08 03:53 Central Standard Time
 Output:
 ----------------------------------------------------------
 method=eog-analytical-0.1.0 (private E1 fixture; no detection/search/worker)
@@ -71,6 +71,6 @@ well-2-off-at-2h: final_bbl=733.333333 cost=2000.000000
 Test time =   0.17 sec
 ----------------------------------------------------------
 Test Passed.
-"engine.eog_analytical_example" end time: Nov 08 03:42 Central Standard Time
+"engine.eog_analytical_example" end time: Nov 08 03:53 Central Standard Time
 "engine.eog_analytical_example" time elapsed: 00:00:00
 ----------------------------------------------------------
