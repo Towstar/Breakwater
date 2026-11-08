@@ -1,5 +1,21 @@
 # Implementation status
 
+## Final A10a integration check — November 7, 2026
+
+- Merged latest main `5545417` (PR #22, underlying `9b95ff9`) into the B5c
+  branch with both parents preserved and no conflicts. This adds the discrete
+  finite-volume mass-balance proofs, audit/documentation and three native regression
+  cases; solver algorithms, public contracts and the tested desktop source are unchanged.
+- Rebuilt and reran the changed `engine.transport` suite in normal VS2022 and
+  MSVC ASan builds: **21/21 cases passed in each**, including signed open-boundary
+  exchange, closed internal-face cancellation and variable-step old-state decay.
+  Evidence: `out/b5c-a10-normal-tests.log`, `out/b5c-a10-asan-tests.log`.
+  Independent scoped review found no consequential issue. The new 37-theorem Lean
+  run remains Person A's archived evidence; no fresh local Lean execution is claimed.
+- The preceding complete 25-suite normal/ASan, installed worker and live hosted
+  checks below remain the desktop/runtime gate. These integration changes are
+  published on PR #23; the B PR stack is still awaiting its ordered main integration.
+
 ## B5c selected-control sensitivities and current-main reconciliation — November 7, 2026
 
 - Integrated runtime main `6966707` and subsequent documentation/solution refresh
