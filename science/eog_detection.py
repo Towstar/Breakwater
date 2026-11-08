@@ -359,10 +359,16 @@ class _InspectionSum:
         self.rules, self.maximum_gap = rules, maximum_gap
         self.frames, self.previous = [], None
         self.before_support = None
+        self.recovery = ()
 
     def reset(self):
         self.frames, self.previous = [], None
         self.before_support = None
+        self.recovery = ()
+
+    def retain_recovery(self):
+        first = self.recovery[0][0]
+        self.frames = [item for item in self.frames if item[0] >= first]
 
     def observe(self, timestamp, frame, fraction):
         if not self.rules.inspection_cumulative:
@@ -372,9 +378,11 @@ class _InspectionSum:
         self.previous = timestamp
         self.frames = [item for item in self.frames if timestamp - item[0] <= self.rules.inspection_window_s]
         self.frames.append((timestamp, frame, fraction))
-        score, support, running, last_zero = 0.0, [], 0, None
+        score, support, running, last_zero, healthy = 0.0, [], 0, None, []
+        self.recovery = ()
         for stamp, readings, residual in self.frames:
             if residual is not None:
+                healthy = (healthy + [(stamp, readings)])[-self.rules.inspection_samples:] if residual <= self.rules.inspection_drift_fraction else []
                 score = max(0.0, math.fsum((score, min(residual, self.rules.inspection_influence_fraction)
                                           - self.rules.inspection_drift_fraction)))
                 if score == 0:
@@ -385,6 +393,9 @@ class _InspectionSum:
             if score > 0:
                 support.append((stamp, readings))
         self.before_support = last_zero
+        if (fraction is not None and len(healthy) == self.rules.inspection_samples and
+                healthy[-1][0] - healthy[0][0] >= (self.rules.inspection_samples - 1) * 300):
+            self.recovery = tuple((stamp, readings) for stamp, readings, _ in self.frames if stamp >= healthy[0][0])
         if (fraction is not None and score > self.rules.inspection_score_threshold and
                 running >= self.rules.inspection_samples and
                 support[-1][0] - support[0][0] >= (self.rules.inspection_samples - 1) * 300):
@@ -477,14 +488,19 @@ def _inspection_events(f, view, rules, category):
             pending_bad = []
             if current is not None:
                 current = replace(current, updated_unix=timestamp, evidence=_retain(initial_evidence, frame))
-            if current is not None and confirmed(pending_good):
-                current = replace(current, state="resolved", end_unix=pending_good[0][0], updated_unix=timestamp,
-                                  evidence=current.evidence + tuple(s for _, readings in pending_good for s in readings),
+            recovery = cumulative.recovery if cumulative_episode else ()
+            if current is not None and (confirmed(pending_good) or recovery):
+                recovery = recovery or tuple(pending_good)
+                current = replace(current, state="resolved", end_unix=recovery[0][0], updated_unix=timestamp,
+                                  evidence=_retain(current.evidence, tuple(s for _, readings in recovery for s in readings)),
                                   limitations=current.limitations + ("Recovery is sustained observed flow agreement; it is not an externally confirmed repair endpoint.",))
                 events.append(current)
                 current = None
+                if cumulative_episode and cumulative.recovery:
+                    cumulative.retain_recovery()
+                else:
+                    cumulative.reset()
                 initial_evidence, cumulative_episode = (), False
-                cumulative.reset()
                 cumulative_support = ()
             previous_good = timestamp
         if current is None and cumulative_support:
@@ -499,7 +515,7 @@ def _inspection_events(f, view, rules, category):
     latest_stamps = [r.sample.unix for r in cohort.readings if r.sample is not None]
     recent = (cohort.state == "available" and len(set(latest_stamps)) == 1 and
               last_interpretable == latest_stamps[0])
-    enough = confirmed(pending_bad) or confirmed(pending_good) or bool(cumulative_support)
+    enough = confirmed(pending_bad) or confirmed(pending_good) or bool(cumulative_support) or bool(cumulative.recovery)
     state = "available" if recent and enough else "ambiguous" if cohort.state == "available" else "unavailable"
     reason = ("Sustained running-flow evidence available." if state == "available" else
               "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair.")

@@ -116,6 +116,20 @@ class CumulativeInspectionTests(unittest.TestCase):
             self.assertEqual(detect(m, a), detect(m, b))
             self.assertEqual(detect(m, a), detect(m, view(m, rows, 9300)))
 
+    def test_short_cycle_recovery_uses_four_running_samples_not_stopped_frames(self):
+        m = model()
+        rows = frame(m, 0) + sum((frame(m, t, received=2619) for t in range(300, 6300, 300)), [])
+        # Healthy running frames at 6300, 6600, 8100, 8400. Every intervening
+        # stopped frame is observed, but only those four running frames count.
+        rows += sum((frame(m, t, status=int(t % 1800 in (900, 1200))) for t in range(6300, 8400, 300)), [])
+        event, = self.episodes(m, rows)
+        self.assertEqual(event.state, "ongoing")
+        rows += frame(m, 8400)
+        event, = self.episodes(m, rows)
+        self.assertEqual((event.state, event.end_unix, event.updated_unix), ("resolved", 6300, 8400))
+        self.assertTrue(any(s.metric == "status" and s.value == 0 and 6300 < s.unix < 8400 for s in event.evidence))
+        self.assertEqual(next(c.state for c in detect(m, view(m, rows)).coverage if c.category == "pipeline_leak"), "available")
+
     def test_original_evidence_is_bounded_and_raw_values_remain_exact(self):
         m = model()
         rows = frame(m, 0) + sum((frame(m, t, received=2619) for t in range(300, 60000, 300)), [])
