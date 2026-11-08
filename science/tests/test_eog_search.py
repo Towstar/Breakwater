@@ -137,6 +137,17 @@ class SearchNativeTests(unittest.TestCase):
         self.assertEqual(chosen["cost"]["total"], 55)
         self.assertEqual(sum(len(j["trips"]) for j in chosen["plan"]["truck_jobs"]), 9)
 
+    def test_default_retention_preserves_available_response_family_comparisons(self):
+        m, v = fixture(water=(1, 1), revenue=(0.1, 10), response=2, capacity=20, trip_cost=1)
+        found = self.run_search(m, v)
+        families = {eog_search._family(e) for e in found.result["evaluations"]}
+        self.assertEqual(families, {(False, False), (False, True), (True, False), (True, True)})
+        self.assertEqual(self.selected(found)["cost"]["total"], 2)
+        limited = self.run_search(m, v, rules=Rules(retained_evaluations=2))
+        self.assertLessEqual(len(limited.result["evaluations"]), 2)
+        self.assertTrue(any(not e["plan"]["truck_jobs"] and not e["plan"]["well_shut_ins"] for e in limited.result["evaluations"]))
+        self.assertEqual(self.selected(limited)["cost"]["total"], 2)
+
     def test_late_first_pickup_requires_real_prearrival_curtailment(self):
         # Without curtailment the tank trips at 5 s, before the first load at8.
         # Avoiding that needs the cheap well stopped by2, costing at least1.8;

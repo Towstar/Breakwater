@@ -17,7 +17,7 @@ import time
 from eog_plan_validator import ValidationUnavailable, prepare, validate_prepared
 from eog_response import ResponseUnavailable, compile_context, evaluate
 
-METHOD = "eog-joint-search-0.1.1"
+METHOD = "eog-joint-search-0.1.2"
 
 
 class _PlanningDeadline(Exception):
@@ -324,6 +324,25 @@ def _rank(evaluation):
             sum(len(j["trips"]) for j in p["truck_jobs"]), p["plan_hash"])
 
 
+def _family(evaluation):
+    plan = evaluation["plan"]
+    return (bool(plan["truck_jobs"]), bool(plan["well_shut_ins"]))
+
+
+def _retain(evaluations, baseline_hash, maximum):
+    ordered = sorted(evaluations.values(), key=_rank)
+    # The baseline and overall best take precedence under unusually small
+    # retention budgets; defaults also retain each available response family.
+    keep = [baseline_hash, ordered[0]["plan"]["plan_hash"]]
+    families = {}
+    for item in ordered:
+        families.setdefault(_family(item), item["plan"]["plan_hash"])
+    keep.extend(families.values())
+    keep.extend(item["plan"]["plan_hash"] for item in ordered)
+    selected = set(list(dict.fromkeys(keep))[:maximum])
+    return {key: value for key, value in evaluations.items() if key in selected}
+
+
 def search(model, view, native, *, identity, clock_context, candidate_limit=10000,
            time_limit_s=90.0, rules=Rules(), clock=time.perf_counter):
     if type(candidate_limit) is not int or not 1 <= candidate_limit <= 10000:
@@ -390,12 +409,7 @@ def search(model, view, native, *, identity, clock_context, candidate_limit=1000
                 unretained_best = min(unretained_best, evaluated["cost"]["total"])
                 continue
             retained[plan["plan_hash"]] = evaluated
-            best = sorted(retained.values(), key=_rank)
-            keep = {e["plan"]["plan_hash"] for e in best[:rules.retained_evaluations]}
-            keep.add(baseline_hash)
-            if len(keep) > rules.retained_evaluations:
-                keep.remove(next(e["plan"]["plan_hash"] for e in reversed(best) if e["plan"]["plan_hash"] != baseline_hash))
-            retained = {key: value for key, value in retained.items() if key in keep}
+            retained = _retain(retained, baseline_hash, rules.retained_evaluations)
             if evaluated["cost"]["total"] == 0:
                 reason = "nonnegative_cost_bound"; break
         if reason == "nonnegative_cost_bound": break
@@ -449,6 +463,7 @@ def search(model, view, native, *, identity, clock_context, candidate_limit=1000
         "Already-shut or native-baseline zero-loss facilities receive no cost-increasing controls; other facilities remain in the complete cost/forecast context.",
         "Control seeds target the input shutdown inventory or one/four representable inventory steps below it; evaluation always uses the original input threshold, without feasibility tolerance or clipping.",
         "Full baseline/selected traces are retained; at most " + str(rules.retained_evaluations) + " evaluations are returned.",
+        "Available no-action/truck-only/well-only/mixed family leaders are retained when the result budget permits; small count/byte budgets may omit comparisons.",
         "Only the selected plan is independently recomputed in this search; other retained native evaluations require their own validate_plan request.",
         "Inspection timing and physical onset uncertainty remain unqualified."]
     if reason: limitations.append("Termination: " + reason + ".")

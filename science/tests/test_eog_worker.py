@@ -18,16 +18,22 @@ import eog_worker as worker
 from eog_test_fixtures import frame, inputs, model
 from eog_response import compile_context
 from eog_detection import detect
+from eog_model import compile_model
 from eog_test_fixtures import view
 from test_eog_response import proposal
 
 SCIENCE = Path(__file__).resolve().parents[1]
 
 
-def capture(folder, contract, *, historical=False):
+def capture(folder, contract, *, historical=False, multiple_systems=False):
     network, ops = inputs()
-    m = model()
-    rows = frame(m, 0, status=0) + frame(m, 300, status=2)
+    if multiple_systems:
+        other_network, other_ops = inputs(prefix="other/system/\u03b2")
+        network["systems"].extend(other_network["systems"])
+        ops["systems"].update(other_ops["systems"])
+    m = compile_model(network, ops)
+    rows = sorted((s for i in range(len(m.facilities)) for s in frame(m, 0, index=i, status=0) + frame(m, 300, index=i, status=2)),
+                  key=lambda s: (s.unix, s.asset_id, s.metric))
     content = {"network.json": json.dumps(network, ensure_ascii=False).encode(),
                "ops.json": json.dumps(ops, ensure_ascii=False).encode()}
     text = "timestamp,ts_unix,asset_id,metric,value\n" + "".join(
@@ -180,6 +186,18 @@ class EogWorkerTests(unittest.TestCase):
         self.assertEqual(checked["status"], "completed", checked["diagnostics"])
         self.assertEqual(checked["result"]["validation"]["cost"], selected["cost"])
         self.assertEqual(checked["result"]["validation"]["plan_hash"], selected["plan"]["plan_hash"])
+
+    def test_search_system_scope_never_silently_drops_other_failures(self):
+        request, captured_model, _ = capture(self.folder, self.contract, multiple_systems=True)
+        request["operation"] = "search_plans"
+        systems = [s.id for s in captured_model.systems]
+        self.assertEqual(len(systems), 2)
+        for selected, code in (([systems[0]], "system_scope_unavailable"), (["unknown"], "unknown_system"),
+                               ([], "native_unavailable"), (systems, "native_unavailable")):
+            request["arguments"] = {"system_ids": selected, "candidate_limit": 100, "time_limit_s": 5}
+            response = self.call(request)
+            self.assertEqual(response["diagnostics"][0]["code"], code)
+            self.assertIsNone(response["result"])
 
     def test_search_tiny_budget_returns_no_selection_not_empty_healthy_data(self):
         if not self.native:
