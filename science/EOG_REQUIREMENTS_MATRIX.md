@@ -27,10 +27,14 @@ Evidence CR: `science/evidence/eog-contract-review-72cadd1/`, numerically accept
 exact contract `72cadd1de7eed6666a60faff1d296e29c8f026ee`; normal/ASan 2/2 CTests
 with 70 Qt + 48 Python cases per mode. Earlier review evidence remains retained.
 These scoped results do not qualify an integrated provider/application build.
-Lucas's reciprocal exact adoption and main integration remain pending.
+Lucas reciprocally adopted exact 72cadd1 at f4e4c0f (`docs/EOG_COORDINATION.md`).
+The shared interface gate is satisfied; production binding/installation remain open.
 Evidence O: `science/evidence/eog-observations/`, exact private observation module
 and test hashes; final capture-gap follow-up passed 36 focused / 222 full-science
 cases without skips. Earlier 33/219 evidence and the reproduced failure are retained.
+Evidence D: `science/evidence/eog-detection/` and `science/EOG_DETECTION_RESULTS.md`:
+113 EOG / 299 full-science tests, nine independent raw-input countdown/repair/exposure
+checks, full-week presence 23/23, retained baseline and historical-cut failures.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
@@ -43,12 +47,12 @@ cases without skips. Earlier 33/219 evidence and the reproduced failure are reta
 | O01 | S network/telemetry; R Terms | Rule | A | bbl, bpd/24, mcfd revenue, psi, percent | E1 arithmetic and CR Decimal oracles | Scoped pass | Preserve units through actual wire/UI |
 | O02 | S telemetry noise; G observations | Chosen | Both | Preserve finite unusual readings; no hidden clipping | E1 conversion; O negative/over-range/status/negative-zero evidence retained | Partial | Actual file parser/charts and physical-state acceptance pending |
 | O03 | S five-minute telemetry; G policy | Chosen | A evidence; B displays | Explicit freshness, gap and cross-channel coherence | O versioned 300-second age/gap, zero default skew, boundary adversaries | Partial | Wire detector/provider and UI binding pending |
-| D01 | S Normal behavior; X section 2 | Rule | A | Normal stopped/running hysteresis creates no fault | E1 hysteresis fixtures | Partial | Causal detector on sawtooth histories pending |
-| D02 | S Three problems; R What goes wrong | Chosen | A | Failure, degradation, leak from causal sensors | None for production detector | Planned | Define/evaluate versioned rules and abstentions |
-| D03 | S Three problems; H Reading key | Rule | A | Onset uncertainty, causal resolution; degradation then failure separate | CR event shape only | Planned | Lifecycle implementation and delay/confusion metrics pending |
-| D04 | S Countdown; S Automatic shut-in | Rule | A | Failure predicts configured shutdown, not physical overflow | E1 constant-inflow countdown | Partial | Bind actual causal state and inspection nulls |
-| D05 | S Automatic shut-in / Repairs | Rule | A | Already-tripped fault retains revenue until causal repair | E1 already-shut fixture | Partial | Recover exposure from pre-trip evidence; never future endpoints |
-| D06 | S Repairs / Horizon | Rule | A | Remaining repair from onset plus captured duration | E1 remaining-duration fixture | Partial | Review deadline checks/assumptions in contract |
+| D01 | S Normal behavior; X section 2 | Rule | A | Normal stopped/running hysteresis creates no fault | E1 plus D sawtooth/noise families; no normal false alarms in tested cases | Scoped pass | Dataset/app playback integration still pending |
+| D02 | S Three problems; R What goes wrong | Chosen | A | Failure, degradation, leak from causal sensors | D full-week 23/23 presence; initial 16/23 failure retained | Experimental | Inspection delays 5-16h; historical cuts incomplete; no real-time qualification |
+| D03 | S Three problems; H Reading key | Rule | A | Onset uncertainty, causal resolution; degradation then failure separate | D method 0.2.1, explicit inspection onset uncertainty; timing/confusion reports | Partial | One early missed leak and unresolved/ambiguous recovery in causal cuts |
+| D04 | S Countdown; S Automatic shut-in | Rule | A | Failure predicts configured shutdown, not physical overflow | E1; D 60 generated oracles plus nine independent raw-input checks | Scoped pass | Production capture/wire binding and UI interpretation pending |
+| D05 | S Automatic shut-in / Repairs | Rule | A | Already-tripped fault retains revenue until causal repair | D observed pre-trip productivity; absent state never becomes zero exposure | Scoped pass | Provider/desktop/economic-plan integration pending |
+| D06 | S Repairs / Horizon | Rule | A | Remaining repair from onset plus captured duration | D nine raw-input checks; unknown/expired horizons unavailable | Scoped pass | Candidate horizon claims still require E3/E4 checks |
 | D07 | S Pressure formulas | Rule | A/B interpretation | Treat pressure offsets as placeholders, no hydraulic claim | Source review only | Documented | Preserve this limitation in tools/UI |
 | T01 | S Plans / Trucks; X section 4 | Rule | A | Full loads, response/cycle, cost and sufficient inventory | E1 analytical scheduled cases | Scoped pass | Production mapping and independent validator pending |
 | T02 | S Plans / Trucks | Rule | A | Arrival strictly before repair; late pickup cannot undo trip | E1 deadline/tie and one-ULP cases | Scoped pass | Exact wire transition timing blocked by CR R3 |
@@ -74,11 +78,12 @@ cases without skips. Earlier 33/219 evidence and the reproduced failure are reta
 | V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | No official-data qualification | Planned | Generated unfamiliar cases first; labels never production input |
 | V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | No final UI evidence | Planned | Verify actual rendered frames, compact/keyboard use |
 | P01 | R Suggestions; S events.json | Suggestion | B if selected | Export/mobile/handoff/confidence bands | Not selected as core requirement | Optional | No fabricated probabilities or compulsory mobile scope |
-| P02 | R Terms presentation clauses | Source anomaly | Lucas decision | Explicit disposition of Comic Sans and Avon Corps copyright text | Source reviewed at pinned revision | Pending decision | Do not invent ownership/affiliation; task authorization governs |
+| P02 | R Terms presentation clauses | Source anomaly | Lucas decision | Explicit disposition of Comic Sans and Avon Corps copyright text | B main 1713cc4, docs/EOG_TRACK_ALIGNMENT.md rejects embedded agent-addressed branding/style authority | Disposition recorded | Preserve actual ownership; final UI remains Lucas-owned |
 
 ## Next useful work
 
-Record Lucas's reciprocal adoption/integration of exact 72cadd1; continue the pure
-causal observation/detection model and generated unfamiliar fixtures before joining
-the provider/client. Each implemented increment updates the rows with actual
+Bind the verified capture/provider to the shared exact 72cadd1 interface; deliver
+deterministic response evaluation, then joint search and independent validation.
+Inspection latency/current uncertainty remain explicit A-owned qualification gaps.
+Each implemented increment updates the rows with actual
 source hashes, commands and scope. Lucas aggregates this into shared status.

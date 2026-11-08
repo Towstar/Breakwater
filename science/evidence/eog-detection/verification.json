@@ -1,0 +1,51 @@
+{
+  "evidence_version": 1,
+  "generated_utc": "2026-11-08T11:15:15Z",
+  "track": "Person A causal EOG input/state/detection and isolated offline evaluation",
+  "branch": "codex/person-a-eog-detection",
+  "feature_parent": "de001c497d9ddca6f466ee34f9362bbbb69f051e",
+  "merged_main": "1713cc48017363fdcc21d0aabaa7a6944f9a5c4f",
+  "shared_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "lucas_reciprocal_adoption": "f4e4c0f5ccfb81076ecf43e3330c76c1b1da1aca",
+  "official_requirements_and_inputs": "135ba4c8348357457420a1111df80ec1906bcbdb",
+  "source_checkpoints": {
+    "initial_rules_before_official_execution": "37d8e77aa7e21433e0c83dcc5bc47cec80c1f329",
+    "emission_provenance_and_offline_evaluator_before_label_scoring": "aa735776773b2de4594db47188819896f6c031b1",
+    "refined_rules_before_official_rerun": "2ba9b06f13b243f997e4108d7a48edbb607e439d",
+    "final_runtime_source": "78f1afe335c8a91f8b586086b4ac66fdb1a765ac"
+  },
+  "methods": {"model": "eog-model-0.1.0", "observation": "eog-observations-0.1.1", "detection": "eog-detection-0.2.1"},
+  "python": "3.12.13; EOG-focused execution disables site packages with -S",
+  "focused": {"run": 113, "passed": 113, "failed": 0, "skipped": 0, "seconds": 1.784, "exit_code": 0, "log": "final-focused.log"},
+  "full_science": {"run": 299, "passed": 299, "failed": 0, "skipped": 0, "seconds": 49.436, "exit_code": 0, "log": "full-science-tests.log", "existing_actual_cpu_physicsnemo_tests": 4},
+  "official_input_execution": {"rows": 393120, "systems": 5, "facilities": 15, "channels": 195, "exit_code": 0, "report": "final-official-full-week.json"},
+  "initial_label_gate": {"passed": false, "exit_code": 2, "failure_matches": "13/13", "leak_matches": "3/5", "degradation_matches": "0/5", "report": "official-label-evaluation.json"},
+  "final_full_week_presence_gate": {"passed": true, "exit_code": 0, "failure_matches": "13/13", "leak_matches": "5/5", "degradation_matches": "5/5", "unmatched_alarms": 0, "early_matched_alarms": 0, "report": "final-official-label-evaluation.json"},
+  "timeliness": {"failure_delay_seconds": [0, 0], "leak_delay_seconds": [18900, 48300], "degradation_delay_seconds": [40200, 57600], "maximum_inspection_resolution_error_seconds": 21600, "qualified": false},
+  "causal_cut_gates": [
+    {"cutoff_unix": 1791460800, "passed": false, "exit_code": 2, "reason": "One then-ongoing leak not yet detected", "report": "cut-1-evaluation.json"},
+    {"cutoff_unix": 1791516600, "passed": false, "exit_code": 2, "reason": "One repaired inspection condition remains unresolved/unobservable", "report": "cut-2-evaluation.json"},
+    {"cutoff_unix": 1791622800, "passed": false, "exit_code": 2, "reason": "One repaired inspection condition remains unresolved/unobservable", "report": "cut-3-evaluation.json"},
+    {"cutoff_unix": 1791646200, "passed": true, "exit_code": 0, "report": "cut-4-evaluation.json"}
+  ],
+  "independent_raw_input_oracles": {"run": 9, "passed": 9, "exit_code": 0, "report": "independent-cutoff-oracles.json", "scope": "Current fault coverage, countdown, configured repair remaining, pre-trip hourly exposure; not an intervention-plan validator"},
+  "generated_cases": {"countdown_seed": 2026110802, "countdown_cases": 60, "noise_family_seed": 2026110803, "noise_configurations": 30, "noise_regimes_per_configuration": 3, "physical_deficiency_range": [0.075, 0.20], "meter_multiplier_range": [0.975, 1.025]},
+  "retained_failures": ["adversaries-before-fix.log", "state-extremes-before-fix.log", "v2-family-focused.log", "official-label-evaluation.json", "cut-1-evaluation.json", "cut-2-evaluation.json", "cut-3-evaluation.json"],
+  "identities": "identities.json records exact runtime/test/verifier blobs and hashes, retained artifact hashes and separate offline-label hash",
+  "commands": [
+    "python -S -m unittest discover -s science/tests -p 'test_eog*.py' -v",
+    "python -m unittest discover -s science/tests -v",
+    "python -S science/inspect_eog.py --dataset-folder <three-allowed-input-folder> --report <report>",
+    "python -S science/inspect_eog.py --dataset-folder <same-full-week-folder> --cutoff-unix <declared-cutoff> --report <cut-report>",
+    "python -S science/evaluate_eog_detection.py --detection-report <frozen-report> --offline-labels <separate-offline-label-file> --report <evaluation-report>",
+    "python -S science/verify_eog_cutoffs.py --dataset-folder <three-allowed-input-folder> --detection-reports <four-cut-reports> --report <oracle-report>"
+  ],
+  "limitations": [
+    "A full-week event-presence pass does not qualify timely/current inspection detection. Three of four correlated causal cut gates fail.",
+    "Practice-informed refinement; the same week's full/cut/mock times are correlated, not independent held-out qualification. No judging folder was present at the reviewed upstream revision.",
+    "The input reader, detector and model path never load answer keys; only the separate offline evaluator does. Raw answer keys are not committed.",
+    "No production protected-capture/process binding, native response evaluation, optimization, independent plan validation, application simulation or final UI acceptance.",
+    "No new native/ASan, Lean, installed app/render, live hosted model or optimized benchmark execution in this increment.",
+    "Retained CUDA warning means existing scientific checks ran on CPU; it is not a claim that the machine has no GPU."
+  ]
+}

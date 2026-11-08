@@ -1,0 +1,2009 @@
+{
+  "report_version": 1,
+  "status": "completed",
+  "mode": "offline_fixed_input_detection",
+  "generated_utc": "2026-11-08T11:10:34.753911+00:00",
+  "source_first_unix": 1791158400,
+  "source_last_unix": 1791762900,
+  "actual_cutoff_unix": 1791460800,
+  "raw_input_set_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+  "file_hashes": {
+    "network.json": "e8959b8633e76345e25f583aa3a4c46a3de1dde8ca25f95d96f3d10e2fce5c9f",
+    "ops.json": "644884bd3081a3af17065d03cb266c6467f27e1d3f935cb9e4aa48a4e02a9ed0",
+    "telemetry.csv": "4e5ffc0669ba3bc4fadfe50c0fcf2668bf6a380ca9d8a80a541f76a891dc013a"
+  },
+  "input_rows": 393120,
+  "system_count": 5,
+  "facility_count": 15,
+  "catalog_channels": 195,
+  "load_seconds": 2.3551138000329956,
+  "total_seconds": 2.616260799986776,
+  "detection": {
+    "method": "eog-detection-0.2.1",
+    "cutoff_unix": 1791460800,
+    "model_fingerprint": "aa434a0c887e37f091e805fc4111e819efb1f71c49606cd56fc467b49219aac5",
+    "evidence_fingerprint": "49fc81a8061210a68974b534de116d191688d0ecf535f89a4d803ec9d1e7ca6b",
+    "rules_fingerprint": "1b9a22b60b18d629d2e40c2428d06b19cd962d62bf1c954f6e9e080f8bdfbdff",
+    "events": [
+      {
+        "id": "eog-38c7c5e0a1c8ea6fadd6f77eb8e53cc6",
+        "system_id": "S3",
+        "facility_id": "S3_FACILITY_B",
+        "asset_id": "S3_PIPELINE_B",
+        "category": "pipeline_leak",
+        "state": "resolved",
+        "first_evidence_unix": 1791206700,
+        "detected_unix": 1791207600,
+        "onset_unix": 1791206700,
+        "onset_bounds": null,
+        "updated_unix": 1791281700,
+        "end_unix": 1791280800,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "field_inspection",
+        "evidence": [
+          {
+            "unix": 1791206700,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2115.5
+          },
+          {
+            "unix": 1791206700,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2245.0
+          },
+          {
+            "unix": 1791206700,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791207000,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2138.4
+          },
+          {
+            "unix": 1791207000,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2250.7
+          },
+          {
+            "unix": 1791207000,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791207300,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2155.5
+          },
+          {
+            "unix": 1791207300,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2255.6
+          },
+          {
+            "unix": 1791207300,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791207600,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2122.9
+          },
+          {
+            "unix": 1791207600,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2261.8
+          },
+          {
+            "unix": 1791207600,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791281700,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2253.0
+          },
+          {
+            "unix": 1791281700,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2218.5
+          },
+          {
+            "unix": 1791281700,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791280800,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791280800,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2249.1
+          },
+          {
+            "unix": 1791280800,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2236.2
+          },
+          {
+            "unix": 1791281100,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791281100,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2258.4
+          },
+          {
+            "unix": 1791281100,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2244.0
+          },
+          {
+            "unix": 1791281400,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791281400,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2258.9
+          },
+          {
+            "unix": 1791281400,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2247.5
+          },
+          {
+            "unix": 1791281700,
+            "asset_id": "S3_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791281700,
+            "asset_id": "S3_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2218.5
+          },
+          {
+            "unix": 1791281700,
+            "asset_id": "S3_PIPELINE_B",
+            "metric": "receive_flow_bpd",
+            "value": 2253.0
+          }
+        ],
+        "assumptions": [
+          "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset."
+        ],
+        "limitations": [
+          "Inspection onset estimates the evidence threshold crossing; physical onset uncertainty is not bounded by a nominal below-threshold reading.",
+          "Recovery is sustained observed flow agreement; it is not an externally confirmed repair endpoint."
+        ]
+      },
+      {
+        "id": "eog-ca8ffcab66e0d82cdd40689d7ac0e0dc",
+        "system_id": "S5",
+        "facility_id": "S5_FACILITY_A",
+        "asset_id": "S5_PUMP_A",
+        "category": "pump_degradation",
+        "state": "resolved",
+        "first_evidence_unix": 1791240900,
+        "detected_unix": 1791241800,
+        "onset_unix": 1791240900,
+        "onset_bounds": null,
+        "updated_unix": 1791319200,
+        "end_unix": 1791318300,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "field_inspection",
+        "evidence": [
+          {
+            "unix": 1791240900,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2695.0
+          },
+          {
+            "unix": 1791240900,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791241200,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2697.2
+          },
+          {
+            "unix": 1791241200,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791241500,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2718.0
+          },
+          {
+            "unix": 1791241500,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791241800,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2699.8
+          },
+          {
+            "unix": 1791241800,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791319200,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2835.3
+          },
+          {
+            "unix": 1791319200,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791318300,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791318300,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2851.1
+          },
+          {
+            "unix": 1791318600,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791318600,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2866.9
+          },
+          {
+            "unix": 1791318900,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791318900,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2845.1
+          },
+          {
+            "unix": 1791319200,
+            "asset_id": "S5_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791319200,
+            "asset_id": "S5_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2835.3
+          }
+        ],
+        "assumptions": [
+          "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset."
+        ],
+        "limitations": [
+          "Inspection onset estimates the evidence threshold crossing; physical onset uncertainty is not bounded by a nominal below-threshold reading.",
+          "Recovery is sustained observed flow agreement; it is not an externally confirmed repair endpoint."
+        ]
+      },
+      {
+        "id": "eog-c3c6666d20db30139eb4aa58969a4880",
+        "system_id": "S4",
+        "facility_id": "S4_FACILITY_A",
+        "asset_id": "S4_PIPELINE_A",
+        "category": "pipeline_leak",
+        "state": "resolved",
+        "first_evidence_unix": 1791283500,
+        "detected_unix": 1791284400,
+        "onset_unix": 1791283500,
+        "onset_bounds": null,
+        "updated_unix": 1791353700,
+        "end_unix": 1791352800,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "field_inspection",
+        "evidence": [
+          {
+            "unix": 1791283500,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2551.6
+          },
+          {
+            "unix": 1791283500,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2725.6
+          },
+          {
+            "unix": 1791283500,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791283800,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2568.8
+          },
+          {
+            "unix": 1791283800,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2697.1
+          },
+          {
+            "unix": 1791283800,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791284100,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2579.4
+          },
+          {
+            "unix": 1791284100,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2701.1
+          },
+          {
+            "unix": 1791284100,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791284400,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2578.3
+          },
+          {
+            "unix": 1791284400,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2721.0
+          },
+          {
+            "unix": 1791284400,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791353700,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2731.2
+          },
+          {
+            "unix": 1791353700,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2708.9
+          },
+          {
+            "unix": 1791353700,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791352800,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791352800,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2697.2
+          },
+          {
+            "unix": 1791352800,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2710.6
+          },
+          {
+            "unix": 1791353100,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791353100,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2707.9
+          },
+          {
+            "unix": 1791353100,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2726.0
+          },
+          {
+            "unix": 1791353400,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791353400,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2708.9
+          },
+          {
+            "unix": 1791353400,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2720.1
+          },
+          {
+            "unix": 1791353700,
+            "asset_id": "S4_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791353700,
+            "asset_id": "S4_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2708.9
+          },
+          {
+            "unix": 1791353700,
+            "asset_id": "S4_PIPELINE_A",
+            "metric": "receive_flow_bpd",
+            "value": 2731.2
+          }
+        ],
+        "assumptions": [
+          "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset."
+        ],
+        "limitations": [
+          "Inspection onset estimates the evidence threshold crossing; physical onset uncertainty is not bounded by a nominal below-threshold reading.",
+          "Recovery is sustained observed flow agreement; it is not an externally confirmed repair endpoint."
+        ]
+      },
+      {
+        "id": "eog-af6234dec5f21d9e6e1da05d84d550c4",
+        "system_id": "S2",
+        "facility_id": "S2_FACILITY_A",
+        "asset_id": "S2_PUMP_A",
+        "category": "pump_degradation",
+        "state": "resolved",
+        "first_evidence_unix": 1791287100,
+        "detected_unix": 1791288000,
+        "onset_unix": 1791287100,
+        "onset_bounds": null,
+        "updated_unix": 1791317700,
+        "end_unix": 1791316800,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "field_inspection",
+        "evidence": [
+          {
+            "unix": 1791287100,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3088.2
+          },
+          {
+            "unix": 1791287100,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791287400,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3095.2
+          },
+          {
+            "unix": 1791287400,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791287700,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3092.3
+          },
+          {
+            "unix": 1791287700,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791288000,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3121.2
+          },
+          {
+            "unix": 1791288000,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791317700,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3325.5
+          },
+          {
+            "unix": 1791317700,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791316800,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791316800,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3299.0
+          },
+          {
+            "unix": 1791317100,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791317100,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3310.3
+          },
+          {
+            "unix": 1791317400,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791317400,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3302.4
+          },
+          {
+            "unix": 1791317700,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791317700,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3325.5
+          }
+        ],
+        "assumptions": [
+          "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset."
+        ],
+        "limitations": [
+          "Inspection onset estimates the evidence threshold crossing; physical onset uncertainty is not bounded by a nominal below-threshold reading.",
+          "Recovery is sustained observed flow agreement; it is not an externally confirmed repair endpoint."
+        ]
+      },
+      {
+        "id": "eog-0dec6b8f7dfb401fc8fdaec6cf8e2de3",
+        "system_id": "S1",
+        "facility_id": "S1_FACILITY_C",
+        "asset_id": "S1_PUMP_C",
+        "category": "pump_degradation",
+        "state": "resolved",
+        "first_evidence_unix": 1791337800,
+        "detected_unix": 1791338700,
+        "onset_unix": 1791337800,
+        "onset_bounds": null,
+        "updated_unix": 1791441300,
+        "end_unix": 1791440400,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "field_inspection",
+        "evidence": [
+          {
+            "unix": 1791337800,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2575.2
+          },
+          {
+            "unix": 1791337800,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791338100,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2546.9
+          },
+          {
+            "unix": 1791338100,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791338400,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2547.8
+          },
+          {
+            "unix": 1791338400,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2535.7
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791441300,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2669.0
+          },
+          {
+            "unix": 1791441300,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791440400,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791440400,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2689.4
+          },
+          {
+            "unix": 1791440700,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791440700,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2688.5
+          },
+          {
+            "unix": 1791441000,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791441000,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2703.8
+          },
+          {
+            "unix": 1791441300,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791441300,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2669.0
+          }
+        ],
+        "assumptions": [
+          "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset."
+        ],
+        "limitations": [
+          "Inspection onset estimates the evidence threshold crossing; physical onset uncertainty is not bounded by a nominal below-threshold reading.",
+          "Recovery is sustained observed flow agreement; it is not an externally confirmed repair endpoint."
+        ]
+      },
+      {
+        "id": "eog-851d6c9f2579290a71af5a362dda0bef",
+        "system_id": "S1",
+        "facility_id": "S1_FACILITY_B",
+        "asset_id": "S1_PUMP_B",
+        "category": "pump_failure",
+        "state": "resolved",
+        "first_evidence_unix": 1791339000,
+        "detected_unix": 1791339000,
+        "onset_unix": 1791339000,
+        "onset_bounds": [
+          1791338700,
+          1791339000
+        ],
+        "updated_unix": 1791360600,
+        "end_unix": 1791360600,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "compare_responses",
+        "evidence": [
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_FACILITY_B",
+            "metric": "inflow_bpd",
+            "value": 2003.1
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 3011.5
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_TANK_B",
+            "metric": "level_pct",
+            "value": 35.2
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_WELL_B1",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_WELL_B1",
+            "metric": "water_bpd",
+            "value": 1002.4
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_WELL_B2",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_WELL_B2",
+            "metric": "water_bpd",
+            "value": 600.8
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_WELL_B3",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791338700,
+            "asset_id": "S1_WELL_B3",
+            "metric": "water_bpd",
+            "value": 399.9
+          },
+          {
+            "unix": 1791339000,
+            "asset_id": "S1_PUMP_B",
+            "metric": "status",
+            "value": 2.0
+          },
+          {
+            "unix": 1791360600,
+            "asset_id": "S1_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 3028.0
+          },
+          {
+            "unix": 1791360600,
+            "asset_id": "S1_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          }
+        ],
+        "assumptions": [
+          "Resolution is first coherent observed delivery/normal-off recovery, not a scheduled repair label."
+        ],
+        "limitations": []
+      },
+      {
+        "id": "eog-de082ef5adf5650c9f7b1c97f14bcdad",
+        "system_id": "S3",
+        "facility_id": "S3_FACILITY_A",
+        "asset_id": "S3_PUMP_A",
+        "category": "pump_degradation",
+        "state": "ongoing",
+        "first_evidence_unix": 1791402900,
+        "detected_unix": 1791403800,
+        "onset_unix": 1791402900,
+        "onset_bounds": null,
+        "updated_unix": 1791460800,
+        "end_unix": null,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "field_inspection",
+        "evidence": [
+          {
+            "unix": 1791402900,
+            "asset_id": "S3_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2871.2
+          },
+          {
+            "unix": 1791402900,
+            "asset_id": "S3_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791403200,
+            "asset_id": "S3_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2856.6
+          },
+          {
+            "unix": 1791403200,
+            "asset_id": "S3_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791403500,
+            "asset_id": "S3_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2833.9
+          },
+          {
+            "unix": 1791403500,
+            "asset_id": "S3_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791403800,
+            "asset_id": "S3_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2827.6
+          },
+          {
+            "unix": 1791403800,
+            "asset_id": "S3_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S3_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 2675.6
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S3_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          }
+        ],
+        "assumptions": [
+          "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset."
+        ],
+        "limitations": [
+          "Inspection onset estimates the evidence threshold crossing; physical onset uncertainty is not bounded by a nominal below-threshold reading."
+        ]
+      },
+      {
+        "id": "eog-26852123694b687ba04770a0769269c3",
+        "system_id": "S1",
+        "facility_id": "S1_FACILITY_C",
+        "asset_id": "S1_PUMP_C",
+        "category": "pump_failure",
+        "state": "resolved",
+        "first_evidence_unix": 1791418800,
+        "detected_unix": 1791418800,
+        "onset_unix": 1791418800,
+        "onset_bounds": [
+          1791418500,
+          1791418800
+        ],
+        "updated_unix": 1791440400,
+        "end_unix": 1791440400,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "compare_responses",
+        "evidence": [
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_FACILITY_C",
+            "metric": "inflow_bpd",
+            "value": 1783.8
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2321.3
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_TANK_C",
+            "metric": "level_pct",
+            "value": 50.34
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_WELL_C1",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_WELL_C1",
+            "metric": "water_bpd",
+            "value": 448.9
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_WELL_C2",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_WELL_C2",
+            "metric": "water_bpd",
+            "value": 689.9
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_WELL_C3",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791418500,
+            "asset_id": "S1_WELL_C3",
+            "metric": "water_bpd",
+            "value": 644.9
+          },
+          {
+            "unix": 1791418800,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 2.0
+          },
+          {
+            "unix": 1791440400,
+            "asset_id": "S1_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2689.4
+          },
+          {
+            "unix": 1791440400,
+            "asset_id": "S1_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          }
+        ],
+        "assumptions": [
+          "Resolution is first coherent observed delivery/normal-off recovery, not a scheduled repair label."
+        ],
+        "limitations": []
+      },
+      {
+        "id": "eog-6d8ef21406b0ea30b95a356d12180f19",
+        "system_id": "S4",
+        "facility_id": "S4_FACILITY_C",
+        "asset_id": "S4_PUMP_C",
+        "category": "pump_degradation",
+        "state": "ongoing",
+        "first_evidence_unix": 1791437700,
+        "detected_unix": 1791438600,
+        "onset_unix": 1791437700,
+        "onset_bounds": null,
+        "updated_unix": 1791460800,
+        "end_unix": null,
+        "coverage": "available",
+        "countdown_hours": null,
+        "countdown_state": "not_applicable",
+        "repair_remaining_hours": null,
+        "hourly_revenue_exposure": null,
+        "observed_volume_bbl": null,
+        "forecast_volume_at_cutoff_bbl": null,
+        "assumed_inflow_bpd": null,
+        "recommended_action": "field_inspection",
+        "evidence": [
+          {
+            "unix": 1791437700,
+            "asset_id": "S4_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2950.8
+          },
+          {
+            "unix": 1791437700,
+            "asset_id": "S4_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791438000,
+            "asset_id": "S4_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2985.0
+          },
+          {
+            "unix": 1791438000,
+            "asset_id": "S4_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791438300,
+            "asset_id": "S4_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2974.2
+          },
+          {
+            "unix": 1791438300,
+            "asset_id": "S4_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791438600,
+            "asset_id": "S4_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2969.4
+          },
+          {
+            "unix": 1791438600,
+            "asset_id": "S4_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S4_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2874.2
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S4_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          }
+        ],
+        "assumptions": [
+          "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset."
+        ],
+        "limitations": [
+          "Inspection onset estimates the evidence threshold crossing; physical onset uncertainty is not bounded by a nominal below-threshold reading."
+        ]
+      },
+      {
+        "id": "eog-0090c3b38d01c3a24eed31f7dace1199",
+        "system_id": "S2",
+        "facility_id": "S2_FACILITY_B",
+        "asset_id": "S2_PUMP_B",
+        "category": "pump_failure",
+        "state": "ongoing",
+        "first_evidence_unix": 1791450000,
+        "detected_unix": 1791450000,
+        "onset_unix": 1791450000,
+        "onset_bounds": [
+          1791449700,
+          1791450000
+        ],
+        "updated_unix": 1791460800,
+        "end_unix": null,
+        "coverage": "available",
+        "countdown_hours": 1.4249623304871932,
+        "countdown_state": "available",
+        "repair_remaining_hours": 3.0,
+        "hourly_revenue_exposure": 2450.0,
+        "observed_volume_bbl": 549.43,
+        "forecast_volume_at_cutoff_bbl": 549.43,
+        "assumed_inflow_bpd": 1592.8,
+        "recommended_action": "compare_responses",
+        "evidence": [
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_FACILITY_B",
+            "metric": "inflow_bpd",
+            "value": 1599.8
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 2406.1
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_PUMP_B",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_TANK_B",
+            "metric": "level_pct",
+            "value": 50.48
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_WELL_B1",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_WELL_B1",
+            "metric": "water_bpd",
+            "value": 398.6
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_WELL_B2",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_WELL_B2",
+            "metric": "water_bpd",
+            "value": 648.8
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_WELL_B3",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791449700,
+            "asset_id": "S2_WELL_B3",
+            "metric": "water_bpd",
+            "value": 552.4
+          },
+          {
+            "unix": 1791450000,
+            "asset_id": "S2_PUMP_B",
+            "metric": "status",
+            "value": 2.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_FACILITY_B",
+            "metric": "inflow_bpd",
+            "value": 1592.8
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_PUMP_B",
+            "metric": "flow_bpd",
+            "value": 0.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_PUMP_B",
+            "metric": "status",
+            "value": 2.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_TANK_B",
+            "metric": "level_pct",
+            "value": 78.49
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_B1",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_B1",
+            "metric": "water_bpd",
+            "value": 402.9
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_B2",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_B2",
+            "metric": "water_bpd",
+            "value": 644.9
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_B3",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_B3",
+            "metric": "water_bpd",
+            "value": 544.9
+          }
+        ],
+        "assumptions": [
+          "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+          "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+        ],
+        "limitations": []
+      },
+      {
+        "id": "eog-8fec73919287fb6f3cbf811554c0b96e",
+        "system_id": "S2",
+        "facility_id": "S2_FACILITY_C",
+        "asset_id": "S2_PUMP_C",
+        "category": "pump_failure",
+        "state": "ongoing",
+        "first_evidence_unix": 1791451800,
+        "detected_unix": 1791451800,
+        "onset_unix": 1791451800,
+        "onset_bounds": [
+          1791451500,
+          1791451800
+        ],
+        "updated_unix": 1791460800,
+        "end_unix": null,
+        "coverage": "available",
+        "countdown_hours": 2.3256774193548386,
+        "countdown_state": "available",
+        "repair_remaining_hours": 3.5,
+        "hourly_revenue_exposure": 2393.75,
+        "observed_volume_bbl": 416.82,
+        "forecast_volume_at_cutoff_bbl": 416.82,
+        "assumed_inflow_bpd": 1395.0,
+        "recommended_action": "compare_responses",
+        "evidence": [
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_FACILITY_C",
+            "metric": "inflow_bpd",
+            "value": 1400.0
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 2078.1
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_PUMP_C",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_TANK_C",
+            "metric": "level_pct",
+            "value": 45.47
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_WELL_C1",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_WELL_C1",
+            "metric": "water_bpd",
+            "value": 595.5
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_WELL_C2",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_WELL_C2",
+            "metric": "water_bpd",
+            "value": 453.8
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_WELL_C3",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791451500,
+            "asset_id": "S2_WELL_C3",
+            "metric": "water_bpd",
+            "value": 350.7
+          },
+          {
+            "unix": 1791451800,
+            "asset_id": "S2_PUMP_C",
+            "metric": "status",
+            "value": 2.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_FACILITY_C",
+            "metric": "inflow_bpd",
+            "value": 1395.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_PUMP_C",
+            "metric": "flow_bpd",
+            "value": 0.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_PUMP_C",
+            "metric": "status",
+            "value": 2.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_TANK_C",
+            "metric": "level_pct",
+            "value": 69.47
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_C1",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_C1",
+            "metric": "water_bpd",
+            "value": 600.2
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_C2",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_C2",
+            "metric": "water_bpd",
+            "value": 446.2
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_C3",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_C3",
+            "metric": "water_bpd",
+            "value": 348.6
+          }
+        ],
+        "assumptions": [
+          "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+          "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+        ],
+        "limitations": []
+      },
+      {
+        "id": "eog-55aec505c782781fd6b6e1a5ed17157c",
+        "system_id": "S2",
+        "facility_id": "S2_FACILITY_A",
+        "asset_id": "S2_PUMP_A",
+        "category": "pump_failure",
+        "state": "ongoing",
+        "first_evidence_unix": 1791453600,
+        "detected_unix": 1791453600,
+        "onset_unix": 1791453600,
+        "onset_bounds": [
+          1791453300,
+          1791453600
+        ],
+        "updated_unix": 1791460800,
+        "end_unix": null,
+        "coverage": "available",
+        "countdown_hours": 2.6136332464682477,
+        "countdown_state": "available",
+        "repair_remaining_hours": 4.0,
+        "hourly_revenue_exposure": 3931.25,
+        "observed_volume_bbl": 681.8000000000001,
+        "forecast_volume_at_cutoff_bbl": 681.8000000000001,
+        "assumed_inflow_bpd": 2187.3,
+        "recommended_action": "compare_responses",
+        "evidence": [
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_FACILITY_A",
+            "metric": "inflow_bpd",
+            "value": 2197.9
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 3260.5
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_TANK_A",
+            "metric": "level_pct",
+            "value": 50.35
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_WELL_A1",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_WELL_A1",
+            "metric": "water_bpd",
+            "value": 1106.9
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_WELL_A2",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_WELL_A2",
+            "metric": "water_bpd",
+            "value": 647.2
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_WELL_A3",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791453300,
+            "asset_id": "S2_WELL_A3",
+            "metric": "water_bpd",
+            "value": 443.8
+          },
+          {
+            "unix": 1791453600,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 2.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_FACILITY_A",
+            "metric": "inflow_bpd",
+            "value": 2187.3
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_PUMP_A",
+            "metric": "flow_bpd",
+            "value": 0.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_PUMP_A",
+            "metric": "status",
+            "value": 2.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_TANK_A",
+            "metric": "level_pct",
+            "value": 68.18
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_A1",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_A1",
+            "metric": "water_bpd",
+            "value": 1091.5
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_A2",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_A2",
+            "metric": "water_bpd",
+            "value": 643.3
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_A3",
+            "metric": "status",
+            "value": 1.0
+          },
+          {
+            "unix": 1791460800,
+            "asset_id": "S2_WELL_A3",
+            "metric": "water_bpd",
+            "value": 452.5
+          }
+        ],
+        "assumptions": [
+          "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+          "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+        ],
+        "limitations": []
+      }
+    ],
+    "coverage": [
+      {
+        "facility_id": "S1_FACILITY_A",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S1_FACILITY_A",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S1_FACILITY_A",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S1_FACILITY_B",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S1_FACILITY_B",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S1_FACILITY_B",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S1_FACILITY_C",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S1_FACILITY_C",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S1_FACILITY_C",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S2_FACILITY_A",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S2_FACILITY_A",
+        "category": "pipeline_leak",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S2_FACILITY_A",
+        "category": "pump_degradation",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S2_FACILITY_B",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S2_FACILITY_B",
+        "category": "pipeline_leak",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S2_FACILITY_B",
+        "category": "pump_degradation",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S2_FACILITY_C",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S2_FACILITY_C",
+        "category": "pipeline_leak",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S2_FACILITY_C",
+        "category": "pump_degradation",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S3_FACILITY_A",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S3_FACILITY_A",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S3_FACILITY_A",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S3_FACILITY_B",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S3_FACILITY_B",
+        "category": "pipeline_leak",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S3_FACILITY_B",
+        "category": "pump_degradation",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S4_FACILITY_A",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S4_FACILITY_A",
+        "category": "pipeline_leak",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S4_FACILITY_A",
+        "category": "pump_degradation",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S4_FACILITY_B",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S4_FACILITY_B",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S4_FACILITY_B",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S4_FACILITY_C",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S4_FACILITY_C",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S4_FACILITY_C",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S4_FACILITY_D",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S4_FACILITY_D",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S4_FACILITY_D",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S5_FACILITY_A",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S5_FACILITY_A",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S5_FACILITY_A",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S5_FACILITY_B",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S5_FACILITY_B",
+        "category": "pipeline_leak",
+        "state": "ambiguous",
+        "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+      },
+      {
+        "facility_id": "S5_FACILITY_B",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S5_FACILITY_C",
+        "category": "pump_failure",
+        "state": "available",
+        "reason": "Current coherent failure-state channels."
+      },
+      {
+        "facility_id": "S5_FACILITY_C",
+        "category": "pipeline_leak",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      },
+      {
+        "facility_id": "S5_FACILITY_C",
+        "category": "pump_degradation",
+        "state": "available",
+        "reason": "Sustained running-flow evidence available."
+      }
+    ]
+  },
+  "ongoing_alert_ids": [
+    "eog-0090c3b38d01c3a24eed31f7dace1199",
+    "eog-8fec73919287fb6f3cbf811554c0b96e",
+    "eog-55aec505c782781fd6b6e1a5ed17157c",
+    "eog-6d8ef21406b0ea30b95a356d12180f19",
+    "eog-de082ef5adf5650c9f7b1c97f14bcdad"
+  ],
+  "source_hashes": {
+    "eog_model.py": "30bc8b95c4560e04edf8dc637b99d9179f9c5d778db631f919b1418b79422fd4",
+    "eog_inputs.py": "946d4fdfba0a71326c074ae0b8f5bf6588fa6a65e2706c674b111f7656c68746",
+    "eog_observations.py": "d28898347681cde3d3a0bad55d21bcf0c34c84fb5ffc001484b78083a2d9997c",
+    "eog_detection.py": "d25c66db77173880f23a5d9dfeb81259f241b5836299922131e46ba602d21776",
+    "inspect_eog.py": "4a8892cd2d2cb15bd99e1f6c009a90fd5d3004f70bb262d42a4d5700dae6acc7"
+  },
+  "limitations": [
+    "Declared causal heuristics; no calibrated confidence or learned fault model.",
+    "No production capture verifier/process binding or application integration is executed.",
+    "No answer key is loaded, and this report makes no accuracy/optimality claim.",
+    "Recorded observations and simulated assumptions remain distinct."
+  ]
+}

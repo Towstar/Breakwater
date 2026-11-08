@@ -1,0 +1,194 @@
+{
+  "evaluation_version": 1,
+  "mode": "offline_label_evaluation_only",
+  "cutoff_unix": 1791762900,
+  "gate": "all labeled events matched, no unmatched/early alarms, matched lifecycle correct",
+  "gate_passed": false,
+  "by_category": {
+    "pipeline_leak": {
+      "truth": 5,
+      "predicted": 3,
+      "matched": 3,
+      "false_positive": 0,
+      "missed": 2,
+      "precision": 1.0,
+      "recall": 0.6
+    },
+    "pump_degradation": {
+      "truth": 5,
+      "predicted": 0,
+      "matched": 0,
+      "false_positive": 0,
+      "missed": 5,
+      "precision": null,
+      "recall": 0.0
+    },
+    "pump_failure": {
+      "truth": 13,
+      "predicted": 13,
+      "matched": 13,
+      "false_positive": 0,
+      "missed": 0,
+      "precision": 1.0,
+      "recall": 1.0
+    }
+  },
+  "pairs": [
+    {
+      "reference_id": "EVENT_1",
+      "event_id": "eog-94577e4a535b6326078f7d5dcb88a021",
+      "category": "pipeline_leak",
+      "onset_error_seconds": 76800,
+      "detection_delay_seconds": 77700,
+      "resolution_error_seconds": 7200
+    },
+    {
+      "reference_id": "EVENT_4",
+      "event_id": "eog-2fdce645c5c45b6b3d9490c7bacc8428",
+      "category": "pipeline_leak",
+      "onset_error_seconds": 87300,
+      "detection_delay_seconds": 88200,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_6",
+      "event_id": "eog-da356e7d443b439d7aab2dea6c4e6db4",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_9",
+      "event_id": "eog-5a7a3669ab1f330b4f8c8323ff310269",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_11",
+      "event_id": "eog-98630dc2cdf0408205ebc516e93f6abf",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_12",
+      "event_id": "eog-d9b38a6e6ce3f50608e6a0105e239ce7",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_13",
+      "event_id": "eog-19a0ef9f3175e4f2c120672dd557314d",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_14",
+      "event_id": "eog-37b3afb19b6066e8bb880f02377c23ff",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_15",
+      "event_id": "eog-e352ba657e55122a65b3cb91bffb58ec",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_17",
+      "event_id": "eog-bd56848b9b3e61620f197fdc0d3790fa",
+      "category": "pipeline_leak",
+      "onset_error_seconds": 60900,
+      "detection_delay_seconds": 61800,
+      "resolution_error_seconds": 12600
+    },
+    {
+      "reference_id": "EVENT_18",
+      "event_id": "eog-511715ace69a42099c84a6899b372c2c",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_19",
+      "event_id": "eog-682ab639e3afea59b4071ad5ba67ed4d",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_20",
+      "event_id": "eog-97bad8b51708623bb7246fa7e485bb4e",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_21",
+      "event_id": "eog-1bf7d7ca6605f42d3ce4e124594fccea",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_22",
+      "event_id": "eog-722bae7aa8207022be76271d2412525a",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    },
+    {
+      "reference_id": "EVENT_23",
+      "event_id": "eog-7cc55023ab50913cb3e407270df73138",
+      "category": "pump_failure",
+      "onset_error_seconds": 0,
+      "detection_delay_seconds": 0,
+      "resolution_error_seconds": 0
+    }
+  ],
+  "false_positive_event_ids": [],
+  "missed_reference_ids": [
+    "EVENT_2",
+    "EVENT_3",
+    "EVENT_5",
+    "EVENT_7",
+    "EVENT_8",
+    "EVENT_10",
+    "EVENT_16"
+  ],
+  "early_matched_alarm_ids": [],
+  "lifecycle_confusion": [
+    {
+      "truth": "resolved",
+      "predicted": "resolved",
+      "count": 16
+    }
+  ],
+  "limitations": [
+    "Practice labels only; correlated cuts are not independent held-out qualification.",
+    "Matching is exact ID/category plus causal interval overlap, not physical onset certification.",
+    "No countdown/cost/feasibility/optimality or installed application gate is established.",
+    "This evaluator never invokes production detection or passes labels into it."
+  ],
+  "input_sha256": {
+    "detection_report": "b672b9bf5ac7560414b0b22ab2c9eef08a4ad178672f10feb88f4d3aa65650d2",
+    "offline_labels": "24872a1b427e7c0556f398cb2ad705d2264772cd20e774ab745e990d99e2710d"
+  }
+}
