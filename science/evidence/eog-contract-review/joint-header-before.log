@@ -1,0 +1,7 @@
+eog-contract-header-probe.cpp
+C:\Projects\Breakwater\.worktrees\eog-contract-review\contracts\include\breakwater/eog.hpp(60): error C2011: 'breakwater::eog::TruckJob': 'struct' type redefinition
+engine/include\breakwater/eog_analytical.hpp(88): note: see declaration of 'breakwater::eog::TruckJob'
+C:\Projects\Breakwater\.worktrees\eog-contract-review\contracts\include\breakwater/eog.hpp(67): error C2011: 'breakwater::eog::WellShutIn': 'struct' type redefinition
+engine/include\breakwater/eog_analytical.hpp(83): note: see declaration of 'breakwater::eog::WellShutIn'
+C:\Projects\Breakwater\.worktrees\eog-contract-review\contracts\include\breakwater/eog.hpp(85): error C2011: 'breakwater::eog::Violation': 'struct' type redefinition
+engine/include\breakwater/eog_analytical.hpp(96): note: see declaration of 'breakwater::eog::Violation'

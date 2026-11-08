@@ -1,0 +1,9 @@
+Test project C:/Projects/Breakwater/.worktrees/eog-goal-review-72cadd1/out/asan
+    Start 25: desktop.eog_contracts
+1/2 Test #25: desktop.eog_contracts ............   Passed    3.60 sec
+    Start 26: contracts.eog
+2/2 Test #26: contracts.eog ....................   Passed    6.53 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =  10.16 sec

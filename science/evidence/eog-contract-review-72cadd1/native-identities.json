@@ -1,0 +1,45 @@
+{
+  "generated_utc": "2026-11-08T10:26:22.7495694Z",
+  "binaries": [
+    {
+      "configuration": "desktop",
+      "sha256": "0ae927e05320b824859741d73ac2827d230105057cf2e69cf515a2bec125ce9d"
+    },
+    {
+      "configuration": "asan",
+      "sha256": "8c4884034f50f547edfe5cd0416f21e61f1d3d4bacefd1a2da6f2295b8c8fbc0"
+    }
+  ],
+  "native_sources": [
+    {
+      "path": "desktop/eog/EogContracts.cpp",
+      "git_blob_sha1": "a7dfb8c36b75cc5d692b89c2b922e5a1977ce111",
+      "sha256": "a0e8e29e7b992426af38925e1d1699c10d38a2b66ebe94787f3c64cb17ab05d6"
+    },
+    {
+      "path": "desktop/eog/EogContracts.hpp",
+      "git_blob_sha1": "479eaa3e3d8cd59162c71a24dfea0323850dadd8",
+      "sha256": "3a64fbab904d91a27064e0232148298890595ebbcdd02c5eb72b7b1b4312ef30"
+    },
+    {
+      "path": "desktop/tests/eog_contract_tests.cpp",
+      "git_blob_sha1": "9163feafa98d593acd7897875d0da327952dc1b8",
+      "sha256": "e8706b6514037d3b7bda5f9c2e52ed494fb9ecb6880591740ca45a9e34803424"
+    },
+    {
+      "path": "desktop/CMakeLists.txt",
+      "git_blob_sha1": "a746361c32d4cc70068bbbcecf2c84262d879503",
+      "sha256": "f3cdd7b0979b47186ac3d67e1bb34588f9fb66d11d08f172f7b00e75ae193198"
+    },
+    {
+      "path": "CMakeLists.txt",
+      "git_blob_sha1": "a52faee8faeac3be7e05e9cd164e239433df0c5b",
+      "sha256": "deee2e104e5e2d4023e76493e0bdf7ec9ac38894c2ea73d85c6f009991318585"
+    },
+    {
+      "path": "CMakePresets.json",
+      "git_blob_sha1": "4387bcb2a86386683916c0826b119a95e932e915",
+      "sha256": "e98a384982177d7a72f5bd505028181b91feadc21626acbf9e5c79591faa57da"
+    }
+  ]
+}

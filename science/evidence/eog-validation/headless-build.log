@@ -1,0 +1,50 @@
+**********************************************************************
+** Visual Studio 2026 Developer PowerShell v18.11.3
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+-- The CXX compiler identification is MSVC 19.51.36260.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (3.1s)
+-- Generating done (0.3s)
+-- Build files have been written to: C:/Projects/Breakwater/.worktrees/person-a-eog-validation/out/headless
+[1/37] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+[2/37] Building CXX object engine\CMakeFiles\breakwater_physicsnemo_reference.dir\examples\physicsnemo_transport_reference.cpp.obj
+[3/37] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[4/37] Building CXX object engine\CMakeFiles\breakwater_cli.dir\src\main.cpp.obj
+[5/37] Building CXX object engine\CMakeFiles\breakwater_transport_example.dir\examples\transport_example.cpp.obj
+[6/37] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_example.dir\examples\eog_analytical_example.cpp.obj
+[7/37] Building CXX object engine\CMakeFiles\breakwater_eog_response.dir\src\eog_response.cpp.obj
+[8/37] Building CXX object engine\CMakeFiles\breakwater_eog_response_tests.dir\tests\eog_response_tests.cpp.obj
+[9/37] Building CXX object engine\CMakeFiles\breakwater_search_example.dir\examples\search_example.cpp.obj
+[10/37] Building CXX object engine\CMakeFiles\breakwater_eog_analytical.dir\src\eog_analytical.cpp.obj
+[11/37] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[12/37] Linking CXX static library engine\breakwater_eog_analytical.lib
+[13/37] Building CXX object engine\CMakeFiles\breakwater_transport_qualification_reference.dir\examples\transport_qualification_reference.cpp.obj
+[14/37] Building CXX object engine\CMakeFiles\breakwater_rollout_reference.dir\examples\rollout_reference.cpp.obj
+[15/37] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[16/37] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_tests.dir\tests\eog_analytical_tests.cpp.obj
+[17/37] Linking CXX static library engine\breakwater_engine.lib
+[18/37] Linking CXX shared library engine\breakwater_eog_response.dll
+[19/37] Building CXX object engine\CMakeFiles\breakwater_engine_tests.dir\tests\engine_tests.cpp.obj
+[20/37] Building CXX object engine\CMakeFiles\breakwater_search_tests.dir\tests\search_tests.cpp.obj
+[21/37] Linking CXX executable engine\breakwater_eog_analytical_example.exe
+[22/37] Linking CXX executable engine\breakwater_eog_analytical_tests.exe
+[23/37] Linking CXX executable engine\breakwater_cli.exe
+[24/37] Linking CXX executable engine\breakwater_rollout_reference.exe
+[25/37] Linking CXX executable engine\breakwater_transport_example.exe
+[26/37] Linking CXX executable engine\breakwater_search_example.exe
+[27/37] Linking CXX executable engine\breakwater_eog_response_tests.exe
+[28/37] Linking CXX executable engine\breakwater_transport_qualification_reference.exe
+[29/37] Linking CXX executable engine\breakwater_physicsnemo_reference.exe
+[30/37] Linking CXX executable engine\breakwater_engine_tests.exe
+[31/37] Linking CXX executable engine\breakwater_search_tests.exe
+[32/37] Building CXX object engine\CMakeFiles\breakwater_control_influence_tests.dir\tests\control_influence_tests.cpp.obj
+[33/37] Building CXX object engine\CMakeFiles\breakwater_benchmark.dir\benchmarks\benchmark.cpp.obj
+[34/37] Building CXX object engine\CMakeFiles\breakwater_transport_tests.dir\tests\transport_tests.cpp.obj
+[35/37] Linking CXX executable engine\breakwater_control_influence_tests.exe
+[36/37] Linking CXX executable engine\breakwater_benchmark.exe
+[37/37] Linking CXX executable engine\breakwater_transport_tests.exe

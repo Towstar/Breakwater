@@ -1,0 +1,18 @@
+{
+  "native_method": "eog-native-seconds-0.1.0",
+  "native_cost": {
+    "truck_cost": 0.0,
+    "lost_revenue": 0.0,
+    "total": 0.0
+  },
+  "independent_cost_before_guard": {
+    "truck_cost": 0.0,
+    "lost_revenue": 0.0,
+    "total": 0.0
+  },
+  "exact_rational_loss_is_positive": true,
+  "exact_loss_rounds_to_binary64": 0.0,
+  "repair_hours": 1e-300,
+  "oil_per_bbl": 1e-300,
+  "source_checkpoint": "20489a6"
+}

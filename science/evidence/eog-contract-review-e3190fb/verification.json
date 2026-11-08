@@ -1,0 +1,25 @@
+{
+  "evidence_version": 1,
+  "generated_utc": "2026-11-08T10:15:48Z",
+  "track": "Person A exact EOG contract re-review",
+  "execution_base": "c194bd59a20a1f50008236a54f72bc6f3e975884",
+  "reviewed_contract_commit": "e3190fbfa73d5321adb8e1180a783a881001a919",
+  "review_checkout_clean": true,
+  "adopted_eog_contract_commit": null,
+  "upstream_requirements_commit": "135ba4c8348357457420a1111df80ec1906bcbdb",
+  "python": "3.12.13 / MSC v.1944 64 bit AMD64",
+  "jsonschema": "4.25.1",
+  "referencing": "0.37.0",
+  "commands": [
+    "python -m unittest discover -s <exact-contract-checkout>/contracts/eog/tests -v",
+    "python science/review_eog_contract.py --checkout <exact-contract-checkout> --revision e3190fbfa73d5321adb8e1180a783a881001a919 --report science/evidence/eog-contract-review-e3190fb/probes.json"
+  ],
+  "contract_suite": {"run": 40, "passed": 40, "failed": 0, "skipped": 0, "seconds": 0.888, "exit_code": 0, "log": "contract-tests.log"},
+  "probes": {"exit_code": 0, "report": "probes.json", "source_identities": "probes.json/source_files", "meaning": "Exit zero establishes fixture Decimal agreement, not closure of adoption findings."},
+  "dispositions": {"R1_required_forecast_coverage": "open_reproduced", "R2_snapshot_endpoint": "fixed_verified", "R3_fractional_events": "open_reproduced", "outcome_and_repair_semantics": "pending"},
+  "limitations": [
+    "Interchange completeness and numerical review only; no provider integration or contract adoption.",
+    "No new native, MSVC ASan, desktop/render/install, hosted model, full-week qualification or proof execution.",
+    "Review probes create only their own synthetic captured files; no answer-key access."
+  ]
+}

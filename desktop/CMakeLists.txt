@@ -259,12 +259,40 @@ if(WIN32)
 endif()
 target_compile_definitions(breakwater_eog PRIVATE
   BREAKWATER_EOG_WORKER_PATH="${PROJECT_SOURCE_DIR}/science/eog_worker.py"
+  BREAKWATER_EOG_CONTRACTS_PATH="${PROJECT_SOURCE_DIR}/contracts/eog"
+  BREAKWATER_EOG_NATIVE_LIBRARY_PATH="$<TARGET_FILE:breakwater_eog_response>"
+  BREAKWATER_EOG_NATIVE_LIBRARY_NAME="$<TARGET_FILE_NAME:breakwater_eog_response>"
   BREAKWATER_DEVELOPMENT_BIN_DIR="$<TARGET_FILE_DIR:breakwater>")
+add_dependencies(breakwater breakwater_eog_response)
+# Python's restricted Windows DLL search needs the checked runtime beside the
+# provider DLL. The native target belongs to engine/, so stage it through a
+# dependency rather than attaching a cross-directory TARGET POST_BUILD command.
+if(MSVC AND BREAKWATER_ENABLE_ASAN)
+  get_filename_component(_eog_compiler_bin "${CMAKE_CXX_COMPILER}" DIRECTORY)
+  get_filename_component(BREAKWATER_EOG_ASAN_RUNTIME
+    "${_eog_compiler_bin}/clang_rt.asan_dynamic-x86_64.dll" ABSOLUTE)
+  if(NOT EXISTS "${BREAKWATER_EOG_ASAN_RUNTIME}")
+    message(FATAL_ERROR "The matching compiler's EOG AddressSanitizer runtime is unavailable: ${BREAKWATER_EOG_ASAN_RUNTIME}")
+  endif()
+  add_custom_target(breakwater_eog_provider_runtime
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+      "${BREAKWATER_EOG_ASAN_RUNTIME}"
+      "$<TARGET_FILE_DIR:breakwater_eog_response>/clang_rt.asan_dynamic-x86_64.dll"
+    VERBATIM)
+  add_dependencies(breakwater_eog_provider_runtime breakwater_eog_response)
+  add_dependencies(breakwater breakwater_eog_provider_runtime)
+endif()
 qt_add_library(breakwater_eog_workflow STATIC
   eog/EogInvestigator.hpp eog/EogInvestigator.cpp
   eog/EogAnalysisController.hpp eog/EogAnalysisController.cpp)
 target_include_directories(breakwater_eog_workflow PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_eog_workflow PUBLIC breakwater_eog breakwater_agent)
+qt_add_executable(breakwater_eog_live_check eog/live_check.cpp)
+target_link_libraries(breakwater_eog_live_check PRIVATE breakwater_eog_workflow)
+add_dependencies(breakwater_eog_live_check breakwater_eog_response)
+if(TARGET breakwater_eog_provider_runtime)
+  add_dependencies(breakwater_eog_live_check breakwater_eog_provider_runtime)
+endif()
 if(BUILD_TESTING)
   qt_add_executable(breakwater_eog_dataset_tests tests/eog_dataset_tests.cpp)
   target_link_libraries(breakwater_eog_dataset_tests PRIVATE breakwater_eog Qt6::Test)
@@ -296,7 +324,30 @@ if(BUILD_TESTING)
     set_tests_properties(desktop.eog_${_eog_workflow_suite} PROPERTIES TIMEOUT 240
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   endforeach()
+  qt_add_executable(breakwater_eog_provider_tests tests/eog_provider_integration_tests.cpp)
+  target_link_libraries(breakwater_eog_provider_tests PRIVATE breakwater_eog_workflow Qt6::Test)
+  target_compile_definitions(breakwater_eog_provider_tests PRIVATE
+    BREAKWATER_TEST_PYTHON="${_breakwater_test_python}"
+    BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}"
+    BREAKWATER_EOG_WORKER_PATH="${PROJECT_SOURCE_DIR}/science/eog_worker.py"
+    BREAKWATER_TEST_EOG_NATIVE_LIBRARY="$<TARGET_FILE:breakwater_eog_response>")
+  add_dependencies(breakwater_eog_provider_tests breakwater_eog_response)
+  if(TARGET breakwater_eog_provider_runtime)
+    add_dependencies(breakwater_eog_provider_tests breakwater_eog_provider_runtime)
+  endif()
+  add_test(NAME desktop.eog_provider COMMAND breakwater_eog_provider_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/eog_provider-results.txt,txt")
+  set_tests_properties(desktop.eog_provider PROPERTIES TIMEOUT 180
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   if(Python3_Interpreter_FOUND)
+    add_test(NAME desktop.eog_demo_input COMMAND "${Python3_EXECUTABLE}" -B
+      "${PROJECT_SOURCE_DIR}/scripts/tests/test_eog_demo.py")
+    set_tests_properties(desktop.eog_demo_input PROPERTIES TIMEOUT 120)
+    add_test(NAME desktop.eog_live_cli COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_live_cli_tests.py" "$<TARGET_FILE:breakwater_eog_live_check>"
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")
+    set_tests_properties(desktop.eog_live_cli PROPERTIES TIMEOUT 120
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
     add_test(NAME desktop.eog_cli COMMAND "${Python3_EXECUTABLE}" -B
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_cli_tests.py" "$<TARGET_FILE:breakwater>"
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")
@@ -341,3 +392,4 @@ if(BUILD_TESTING)
     endforeach()
   endforeach()
 endif()
+include(eog/InstallProvider.cmake)

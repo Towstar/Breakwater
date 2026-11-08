@@ -1,0 +1,46 @@
+{
+  "reviewed_revision": "e8dab4711a47ec8012fd206bb86d6c753d38254e",
+  "production_input_access": false,
+  "answer_key_access": false,
+  "probes": [
+    {
+      "name": "completed-feasible-result-without-required-tank-trajectory",
+      "expected": "reject incomplete result, or explicitly mark coverage unavailable",
+      "observed": {
+        "accepted": true
+      }
+    },
+    {
+      "name": "completed-feasible-result-with-zero-forecast-horizon",
+      "expected": "reject incomplete result, or explicitly mark coverage unavailable",
+      "observed": {
+        "accepted": true
+      }
+    },
+    {
+      "name": "fractional-counterfactual-event-time",
+      "expected": "some exact relative/fractional event-time representation before numerical adoption",
+      "observed": {
+        "accepted": false,
+        "code": "invalid_shape"
+      }
+    },
+    {
+      "name": "snapshot-now-clock-differs-from-last-source-row",
+      "expected": "reject source-window mismatch",
+      "observed": {
+        "accepted": true,
+        "declared_now_unix": 600,
+        "verified_csv_last_unix": 300
+      }
+    }
+  ],
+  "independent_decimal_arithmetic": {
+    "truck_before_bbl": "850.0",
+    "truck_after_bbl": "700.0",
+    "truck_final_bbl": "850.0",
+    "well_final_bbl": "915.0",
+    "well_cost": "425.0",
+    "expected_values_match": true
+  }
+}

@@ -1,0 +1,233 @@
+# Ethan's numerical review of EOG contract PR #33
+
+## Current numerical acceptance: 72cadd1
+
+**Ethan numerically accepts exact contract commit
+`72cadd1de7eed6666a60faff1d296e29c8f026ee`.** This supersedes the adoption-pending
+dispositions below. Lucas must record the same adopted commit and integrate it;
+this review does not merge his work or certify an unimplemented provider.
+
+Independent current-head execution on November 8, 2026:
+
+- Normal native/Python CTest **2/2**, Qt **70/70**, Python **48/48**, no skips.
+- Separate MSVC AddressSanitizer native/Python CTest **2/2**, Qt **70/70**, Python
+  **48/48**, no skips; no sanitizer diagnostic found in executed logs.
+- Eleven review probes and the independent fixture arithmetic passed their
+  expected dispositions. Missing/empty/short and one-ULP-short forecasts reject;
+  two-facility coverage and independent validated horizons are bound completely.
+- Fractional binary64 elapsed crossings survive without integer rounding.
+  A cheapest retained do-nothing automatic shutdown is admissible/selectable.
+  Assessed invalid actions can have null costs and explicit incomplete coverage;
+  unknown horizons are unavailable, rather than an invented numerical verdict.
+- Threshold first at intervention/repair ties, combined simultaneous full-load
+  inventory, strict pre-repair arrival and half-open final-return occupancy agree
+  with E1's proposed model. The threshold/repair equality fixture has zero remaining
+  automatic revenue loss. These are declared supported semantics, not universal
+  industrial physical guarantees.
+- Repair claims are checked by the future provider against causal onset and
+  captured operations, not trusted as alternative economic horizons. Full actual
+  affected-facility selection also belongs to that provider; schemas cannot infer
+  all ongoing failures from a caller's plan.
+
+Toolchain: MSVC 19.51.36260.0 x64, Qt 6.12.0, Python 3.12.13, jsonschema 4.25.1,
+referencing 0.37.0. Targeted normal/ASan builds used `/fp:precise`, embedded debug
+information, and only the EOG contract test target. The review checkout stayed
+clean. Prebuilt Qt/Python are outside established sanitizer instrumentation coverage.
+
+Reproduction in an MSVC-initialized shell, with Qt and scientific Python configured:
+
+```powershell
+cmake --preset desktop -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded -DCMAKE_PREFIX_PATH=<Qt-prefix>
+cmake --build --preset desktop --target breakwater_eog_contract_tests -j 2
+ctest --test-dir out/desktop -R '^(desktop.eog_contracts|contracts.eog)$' --output-on-failure
+cmake --preset asan -DBREAKWATER_BUILD_DESKTOP=ON -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded -DCMAKE_PREFIX_PATH=<Qt-prefix>
+cmake --build --preset asan --target breakwater_eog_contract_tests -j 2
+ctest --test-dir out/asan -R '^(desktop.eog_contracts|contracts.eog)$' --output-on-failure
+python science/review_eog_contract.py --checkout <exact-contract-checkout> --revision 72cadd1de7eed6666a60faff1d296e29c8f026ee --report out/72cadd1-probes.json
+```
+
+Source/binary hashes, actual logs and limits are retained in
+`science/evidence/eog-contract-review-72cadd1/`. The initial Python-only invocation
+explicitly skipped native comparison; the later CTests executed it in both builds.
+No new full application/render/install, hosted model, official dataset evaluation,
+proof or production numerical-validation result is claimed.
+
+Integration caution: E1's private elapsed hours are not the wire clock. Production
+must retain supplied binary64 elapsed seconds and exact action breakpoints, rather
+than round-trip a seconds action through hours and silently move it by an ULP.
+Future counterfactual records and integer recorded observation cutoffs stay distinct.
+
+## Historical re-review: e3190fb
+
+On November 8, 2026, Goal-mode continuation independently reviewed exact head
+`e3190fbfa73d5321adb8e1180a783a881001a919` in a new detached worktree. The historical
+review below remains evidence for `e8dab471` only.
+
+- All **40/40** current Python contract tests passed on Python 3.12.13.
+- **R2 verified fixed:** the correctly hashed two-row snapshot with a false final
+  clock is rejected with `invalid_time`.
+- **R1 remains open:** empty required trajectories and a cutoff-only trajectory
+  are both accepted as completed, feasible results bound to the exact request.
+- **R3 remains open:** the fractional-time probe is rejected with `invalid_shape`;
+  there is still no separate exact counterfactual transition representation.
+- Independent Decimal fixture arithmetic still gives truck inventories 850/700/850
+  bbl and delayed-well final inventory 915 bbl / $425 loss.
+- The two changed files harden endpoint verification, BOM parsing and retained
+  search selection; they do not settle the historical outcome/repair questions.
+
+**Disposition: numerical adoption remains pending.** Lucas should supply complete
+facility/horizon coverage checks and an exact fractional transition representation,
+and document `feasible` for admissible automatic shutdown, invalid-cost availability,
+threshold/repair ordering and provider checks of causal repair deadlines. No public
+contract or desktop source was edited by Ethan.
+
+Reproduce from an exact clean contract checkout:
+
+```powershell
+python -m unittest discover -s <contract-checkout>/contracts/eog/tests -v
+python science/review_eog_contract.py --checkout <contract-checkout> --revision e3190fbfa73d5321adb8e1180a783a881001a919 --report out/e3190fb-probes.json
+```
+
+`science/evidence/eog-contract-review-e3190fb/` retains the actual log, source-bound
+probe report and verification metadata. These are interchange/review checks, not
+executed detector, optimizer, independent plan-validation or application evidence.
+
+## Historical initial review
+
+Reviewed exact revision: `e8dab4711a47ec8012fd206bb86d6c753d38254e`.
+Date: November 8, 2026, America/Chicago.
+
+**Disposition: numerical adoption pending.** No shared wire revision has been
+adopted and no provider has been bound to this draft. The following two
+reproduced completeness/clock findings should be closed before integration;
+the fractional-time and outcome semantics below also need an explicit decision.
+Lucas owns all requested contract changes. No B-owned source was edited here.
+
+## Reproduced findings
+
+### R1 — P1: completed evaluations can omit the required forecast
+
+`contracts/eog/validate.py:303` validates each trajectory that happens to be
+present, without requiring coverage of the plan's repaired facilities or their
+remaining horizons. Starting with the valid bound evaluate-plan example:
+
+- Replace `evaluation.trajectories` with `[]`: validation accepts a completed,
+  feasible result against the exact request.
+- Keep the trajectory but retain only its cutoff sample: validation again accepts
+  the completed, feasible result, although two hours of forecast are missing.
+
+This is an interchange-completeness issue, not a request to calculate physics in
+the contract validator. A process client cannot distinguish a successful full
+forecast from an incomplete one using the current binding/status alone.
+
+Requested change: define required modeled-facility/repair coverage and enforce it
+for completed supported evaluations, including final horizon coverage. If some
+facilities or requested combinations are unsupported, return explicit unavailable
+coverage/status rather than a completed feasible empty/short result. Add shared
+valid/invalid corpus cases for empty, missing-facility and shortened trajectories.
+The independent numerical validator must still recompute the physics separately.
+
+### R2 — P1: snapshot-now can disagree with the actual captured CSV end
+
+`contracts/eog/validate.py:470` checks the actual first timestamp but does not bind
+the actual last timestamp to `source_now_unix` for an untruncated snapshot-now
+capture. A synthetic two-row CSV ends at Unix 300; set both declared source-now
+and cutoff to 600, and recompute every raw-file hash, dataset identity and capture
+identity correctly. `verify_capture` accepts and returns `last_unix: 300` while
+the accepted manifest says dataset now is 600.
+
+The contract already defines dataset now from the last CSV timestamp. This mismatch
+changes freshness and remaining-repair arithmetic even when all bytes/hashes match.
+
+Requested change: require the verified last row to equal declared source-now for
+snapshot-now/untruncated captures; retain explicit gap/cursor behavior for genuinely
+truncated historical captures. Add both rejecting and valid snapshot tests. The
+probe uses only tiny self-created allowed files, not an official answer key.
+
+### R3 — P2: exact counterfactual crossing times need a representation
+
+`common-v1.schema.json:580` permits only integer Unix seconds in trajectories, as
+does violation timing. A continuous crossing such as `1/7 h = 514.285714... s`
+cannot be represented exactly on that grid. The probe confirms that an otherwise
+ordered trajectory containing fractional seconds is rejected as `invalid_shape`.
+An ongoing event's floating-point `countdown_hours` does not identify each
+counterfactual candidate's future shutdown transition.
+
+Requested decision: add a relative floating-point elapsed-time/crossing field for
+counterfactual results (keeping recorded timestamps exact integer seconds), or
+explicitly define display sampling and provide a separate exact numerical event
+record. Do not round candidate actions or crossing decisions to make them fit.
+Declare integer-second action-search resolution if that is the intended bounded
+space. Threshold-first comparison remains an internal exact-time decision.
+
+## Semantics to settle in an example before adoption
+
+- Define whether `feasible` means admissible actions/outcomes or avoidance of all
+  automatic trips. The challenge permits choosing a do-nothing automatic shut-in
+  when its lost revenue is cheapest. Search currently requires a selected plan to
+  have `feasible: true`. Include a valid selected do-nothing example with automatic
+  shutdown time and revenue loss; distinguish outcome from invalid truck/well
+  actions. Otherwise clients can accidentally exclude the cheapest allowed choice.
+- Define unavailable cost behavior for unsupported/invalid actions. Mandatory
+  numeric cost fields must never be filled with zero merely because the provider
+  cannot compute them. An explicit non-completed response is suitable if no
+  completed numerical assessment exists; a completed infeasible counterfactual
+  needs a declared cost interpretation and coverage.
+- Confirm threshold versus **repair** ordering in addition to the already stated
+  threshold/arrival tie. E1 proposes threshold first, reporting a trip exactly at
+  repair with zero remaining automatic revenue loss. This is not a claimed rule
+  inferred from the official data.
+- Treat proposed `repair_deadlines` as checked claims against causal onset and
+  captured `expected_repair_hours`, just as proposed trip loads/prices/timing must
+  be checked against captured operations. Candidate-supplied later repairs must
+  not change the economic comparison horizon.
+
+## Numerically consistent parts
+
+The reviewed draft correctly separates observed state from commands; preserves
+bbl, bpd, psi, percent and mcf/day; targets shutdown below overflow; uses explicit
+five-minute data-clock freshness; forbids future evidence; distinguishes leak and
+degradation inspection from pump-failure planning; and retains onset uncertainty.
+Full-load arrivals, response/cycle rules, final-return occupancy, shared fleets,
+delayed well revenue, exact candidate hashes and separate validator provenance
+agree with the handoff's intended numerical boundary. A different method ID alone
+does not demonstrate independent computation, as the draft correctly explains.
+
+Independent Decimal calculations confirm the three supplied analytical fixtures:
+850 bbl before the example truck, 700 afterward, 850 at repair, $100 trip cost;
+915 bbl and $425 for the delayed well case; and two overlapping uses exceeding a
+one-truck fleet. This verifies those arithmetic examples, not an executed provider.
+
+## Executed evidence and reproduction
+
+In a detached checkout at the reviewed hash:
+
+```powershell
+& <review-python> -B -m unittest discover -s contracts/eog/tests -v
+```
+
+All **37/37 tests passed** with Python 3.12.13 and the existing hash-pinned
+`science/requirements-worker-tests-win-py312.txt` dependencies. The first attempt
+used a base interpreter without jsonschema; its failure is retained separately.
+An offline cache attempt also lacked that package; installation then used the
+existing hash-verified lock into an ignored isolated environment. No manifest or
+dependency version was changed.
+
+From Ethan's EOG numerical worktree:
+
+```powershell
+& <review-python> -B science/review_eog_contract.py `
+  --checkout <detached-e8dab471-checkout> `
+  --revision e8dab4711a47ec8012fd206bb86d6c753d38254e `
+  --report out/eog-contract-probes.json
+```
+
+`science/evidence/eog-contract-review/e8dab471-probes.json` retains the exact
+observations. The script's successful exit means the independent arithmetic
+matches; it does **not** mean the reported review findings passed acceptance.
+
+A joint C++20 `/permissive- /W4 /WX /Zs` header probe initially found a collision
+between Ethan's new private types and Lucas's DTO names. Ethan fixed his own types
+by moving them to `breakwater::eog::analytical`. The before/final probe logs and
+final numerical rerun evidence are retained. This does not change Lucas's DTOs or
+approve their JSON mapping. Provider integration remains a subsequent increment.

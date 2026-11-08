@@ -1,0 +1,18 @@
+{
+  "evidence_version": 1,
+  "generated_utc": "2026-11-08T10:26:23Z",
+  "track": "Person A exact EOG numerical contract acceptance",
+  "execution_base": "94060df",
+  "reviewed_and_numerically_accepted_commit": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "review_checkout_clean": true,
+  "lucas_reciprocal_adoption_and_main_integration": "pending",
+  "upstream_requirements_commit": "135ba4c8348357457420a1111df80ec1906bcbdb",
+  "toolchain": {"msvc": "19.51.36260.0 x64", "qt": "6.12.0", "python": "3.12.13", "jsonschema": "4.25.1", "referencing": "0.37.0", "configuration": "RelWithDebInfo /fp:precise /Z7; separate MSVC ASan"},
+  "normal": {"ctest_run": 2, "passed": 2, "seconds": 2.37, "qt_passed": 70, "python_passed": 48, "skipped": 0, "exit_code": 0},
+  "asan": {"ctest_run": 2, "passed": 2, "seconds": 10.16, "qt_passed": 70, "python_passed": 48, "skipped": 0, "exit_code": 0, "sanitizer_diagnostics_in_executed_logs": 0},
+  "initial_python_only": {"run": 48, "passed": 47, "skipped": 1, "seconds": 1.706, "reason": "Native comparator intentionally unavailable in initial Python-only invocation; later actual normal/ASan comparison had zero skips."},
+  "review_probes": {"count": 11, "all_expected_dispositions_observed": true, "arithmetic_checks": "all true", "report": "probes.json", "exit_code": 0},
+  "identities": {"contract_sources": "probes.json/source_files", "native_sources_and_binaries": "native-identities.json"},
+  "reproduction": "See the current numerical acceptance section of science/EOG_CONTRACT_REVIEW.md for the actual configure, targeted build, CTest and independent probe commands.",
+  "limitations": ["Numerical meaning and interchange acceptance only; provider/client integration awaits Lucas's exact adoption record.", "No full application/render/install, hosted model, official-data evaluation or proof execution.", "Prebuilt Qt and Python are outside established ASan instrumentation coverage.", "Schema checks do not establish that independent numerical validation executed or select the actual complete active-facility set."]
+}

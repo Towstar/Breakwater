@@ -1,0 +1,35 @@
+{
+  "reviewed_revision": "e8dab4711a47ec8012fd206bb86d6c753d38254e",
+  "disposition": "numerical_adoption_pending",
+  "contract_checkout_unchanged": true,
+  "python": "3.12.13",
+  "dependency_lock": "science/requirements-worker-tests-win-py312.txt",
+  "dependency_install": "uv pip install --require-hashes into ignored out/eog-contract-venv; no manifest edits",
+  "initial_environment_attempt": {
+    "exit_code": 1,
+    "tests_discovered": 37,
+    "errors": 88,
+    "reason": "base interpreter missing jsonschema",
+    "excerpt": "initial-environment-failure-excerpt.log"
+  },
+  "offline_install_attempt": "failed: jsonschema absent from the selected cache; hash-verified online install then succeeded",
+  "contract_tests": {
+    "exit_code": 0,
+    "passed": 37,
+    "total": 37,
+    "seconds": 1.832,
+    "log": "contract-tests.log"
+  },
+  "joint_header_probe": {
+    "flags": "/std:c++20 /permissive- /W4 /WX /Zs",
+    "initial_exit_code": 2,
+    "initial_issue": "A-owned analytical type names collided with B DTOs",
+    "resolution": "A types moved to breakwater::eog::analytical",
+    "final_exit_code": 0,
+    "before_log": "joint-header-before.log",
+    "final_log": "joint-header-final.log"
+  },
+  "independent_probes": "e8dab471-probes.json",
+  "source_script": "science/review_eog_contract.py",
+  "source_script_sha256": "a5e088027b54efcac0e5442ed96baaf47f6cc99cdc41afc57394092efc2d03a0"
+}

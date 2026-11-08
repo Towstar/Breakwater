@@ -1,0 +1,42 @@
+test_actual_capture_checks_only_three_files (test_contracts.ContractTests.test_actual_capture_checks_only_three_files) ... ok
+test_actual_capture_malformed_duplicate_and_bad_clock (test_contracts.ContractTests.test_actual_capture_malformed_duplicate_and_bad_clock) ... ok
+test_actual_capture_tamper_and_future_rows (test_contracts.ContractTests.test_actual_capture_tamper_and_future_rows) ... ok
+test_all_examples (test_contracts.ContractTests.test_all_examples) ... ok
+test_ambiguous_or_missing_coverage_never_claims_countdown (test_contracts.ContractTests.test_ambiguous_or_missing_coverage_never_claims_countdown) ... ok
+test_binary64_identity_projection_is_formatter_independent (test_contracts.ContractTests.test_binary64_identity_projection_is_formatter_independent) ... ok
+test_capture_identity_includes_clock_and_context (test_contracts.ContractTests.test_capture_identity_includes_clock_and_context) ... ok
+test_causal_onset_update_end_and_evidence (test_contracts.ContractTests.test_causal_onset_update_end_and_evidence) ... ok
+test_duplicate_ids_and_evidence_references (test_contracts.ContractTests.test_duplicate_ids_and_evidence_references) ... ok
+test_evaluation_cost_occupancy_and_feasibility_consistency (test_contracts.ContractTests.test_evaluation_cost_occupancy_and_feasibility_consistency) ... ok
+test_finite_negative_and_out_of_range_values_remain_evidence (test_contracts.ContractTests.test_finite_negative_and_out_of_range_values_remain_evidence) ... ok
+test_hash_vectors (test_contracts.ContractTests.test_hash_vectors) ... ok
+test_healthy_available_result_still_needs_source_evidence (test_contracts.ContractTests.test_healthy_available_result_still_needs_source_evidence) ... ok
+test_input_order_does_not_change_dataset_identity (test_contracts.ContractTests.test_input_order_does_not_change_dataset_identity) ... ok
+test_invalid_versions_unknown_fields_and_bool_integers (test_contracts.ContractTests.test_invalid_versions_unknown_fields_and_bool_integers) ... ok
+test_json_parser_errors_and_limits (test_contracts.ContractTests.test_json_parser_errors_and_limits) ... ok
+test_leak_and_degradation_have_no_countdown (test_contracts.ContractTests.test_leak_and_degradation_have_no_countdown) ... ok
+test_manifest_hash_and_size_mismatch (test_contracts.ContractTests.test_manifest_hash_and_size_mismatch) ... ok
+test_metric_unit_attachment_and_status (test_contracts.ContractTests.test_metric_unit_attachment_and_status) ... ok
+test_no_extra_files_or_answer_keys (test_contracts.ContractTests.test_no_extra_files_or_answer_keys) ... ok
+test_operation_responses_bind_exact_requests (test_contracts.ContractTests.test_operation_responses_bind_exact_requests) ... ok
+test_overflowing_negative_trajectories_are_retained (test_contracts.ContractTests.test_overflowing_negative_trajectories_are_retained) ... ok
+test_plan_hash_retires_numerical_edits (test_contracts.ContractTests.test_plan_hash_retires_numerical_edits) ... ok
+test_request_binding_and_absolute_local_directory (test_contracts.ContractTests.test_request_binding_and_absolute_local_directory) ... ok
+test_response_request_binding (test_contracts.ContractTests.test_response_request_binding) ... ok
+test_schema_references_never_require_network (test_contracts.ContractTests.test_schema_references_never_require_network) ... ok
+test_search_bounds_selection_and_optimality (test_contracts.ContractTests.test_search_bounds_selection_and_optimality) ... ok
+test_shared_corpus (test_contracts.ContractTests.test_shared_corpus) ... ok
+test_snapshot_cutoff_and_historical_cursor (test_contracts.ContractTests.test_snapshot_cutoff_and_historical_cursor) ... ok
+test_stale_missing_and_nonfinite_evidence (test_contracts.ContractTests.test_stale_missing_and_nonfinite_evidence) ... ok
+test_stale_plan_and_evaluation_substitution (test_contracts.ContractTests.test_stale_plan_and_evaluation_substitution) ... ok
+test_trajectory_shape_and_discrete_steps (test_contracts.ContractTests.test_trajectory_shape_and_discrete_steps) ... ok
+test_unavailable_errors_are_not_successful_empty_results (test_contracts.ContractTests.test_unavailable_errors_are_not_successful_empty_results) ... ok
+test_unchanged_copies_match_original_hashes (test_contracts.ContractTests.test_unchanged_copies_match_original_hashes) ... ok
+test_unicode_reference_limit_and_renamed_inputs (test_contracts.ContractTests.test_unicode_reference_limit_and_renamed_inputs) ... ok
+test_validation_binds_plan_hash_and_distinct_implementation (test_contracts.ContractTests.test_validation_binds_plan_hash_and_distinct_implementation) ... ok
+test_validation_references_are_causal_and_resolved (test_contracts.ContractTests.test_validation_references_are_causal_and_resolved) ... ok
+
+----------------------------------------------------------------------
+Ran 37 tests in 1.832s
+
+OK

@@ -1,5 +1,30 @@
 # Implementation status
 
+## Local real-provider connection — November 8, 2026
+
+- Combined source at `5c22cdb` passed **62/62 CTests normal (341.96 s)** and
+  **62/62 ASan (641.29 s)**, with no failed/skipped tests or sanitizer diagnostic.
+  Full CPU discovery ran **354 methods: 350 passed, four explicitly optional
+  PhysicsNeMo skips**, no failures/errors or unexpected skips. These checks
+  include real worker execution and independent validation, not hosted-model acceptance.
+
+- The joined Person B integration branch connects PR #40's actual worker/native
+  library to the production desktop client. Focused provider/client/controller
+  checks passed **72 Qt cases per mode**, zero skips, in normal and MSVC ASan.
+  The real-provider suite includes renamed IDs, historical capture, untouched input
+  hashes, trusted default startup paths and unavailable validation refusing review.
+- Full CPU science discovery ran 330 methods: 326 passed, four declared optional
+  PhysicsNeMo skips, zero failures/errors or unexpected EOG skips. CI now builds
+  and configures the real native/contract prerequisites before discovery; fresh
+  hosted execution of that CI integration remains pending.
+- PR #41 is adopted locally at exact `d30cd04`, advancing the native method to
+  `eog-native-seconds-0.1.1` and adding independently reconstructed validation.
+  Joined focused checks pass **4/4 CTests** in normal (29.44 s) and ASan (42.02 s),
+  **73 Qt cases plus seven offline CLI methods per mode**, zero skips. Actual
+  no-DLL validation, exact cost/plan binding, explicit advisory review and renewed
+  authority rejection after reopening history pass. The old #40 records stay dated.
+  Installed startup and genuine hosted EOG rehearsals remain unverified.
+
 ## Verified EOG desktop workflow — November 8, 2026
 
 - The read-only console PR #39 is merged at `de09f246`; all six hosted jobs

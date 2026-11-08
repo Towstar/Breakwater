@@ -1,0 +1,76 @@
+1/10 Testing: engine.eog_analytical
+1/10 Test: engine.eog_analytical
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless/engine/breakwater_eog_analytical_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless/engine
+"engine.eog_analytical" start time: Nov 08 03:53 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS barrel and daily units
+PASS finite raw unusual values are not clipped
+PASS normal stopped state and hysteretic cycle
+PASS fault feedback and unknown restart
+PASS analytical countdown uses shutdown threshold
+PASS remaining repair is based on assumed onset
+PASS observation fixture uses an explicit historical clock and policy
+PASS missing stale future and incoherent evidence abstains
+PASS no-crossing and reached are distinct from unavailable
+PASS opening no-action trip and loss
+PASS opening full-load truck and return
+PASS truck removal keeps both sides of the jump
+PASS repeat trip arrivals and return
+PASS truck too late cannot restart shut wells
+PASS threshold wins exact truck tie
+PASS full fixed load cannot exceed inventory
+PASS simultaneous full loads are checked together
+PASS every load must precede repair strictly
+PASS last repeat arrival also respects repair
+PASS immediate well shut-in cost
+PASS delayed well shut-in cost
+PASS each well has its own start and revenue
+PASS mixed response costs are itemized
+PASS automatic loss does not double count deliberate loss
+PASS threshold wins a simultaneous well shut-in
+PASS threshold at repair reports trip with zero loss
+PASS already shut-in exposure remains until repair
+PASS above-threshold finite inventory is preserved
+PASS preexisting unproductive wells add no exposure
+PASS two failures cannot double book shared truck
+PASS three failures compete for two trucks
+PASS return occupancy prevents early reassignment
+PASS sequential jobs restart from yard
+PASS one ULP overlapping return is rejected
+PASS fleet identity is local to each system
+PASS response order does not change simultaneous result
+PASS unknown IDs are explicit violations
+PASS duplicate shut-ins and invalid action times
+PASS bounded work and malformed fixtures
+PASS nonfinite observations and arithmetic overflow
+PASS analytical random no-action crossing and revenue oracle
+PASS random scheduled responses satisfy separate integral ledgers
+42/42 EOG analytical cases passed
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_analytical" end time: Nov 08 03:53 Central Standard Time
+"engine.eog_analytical" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/10 Testing: engine.eog_analytical_example
+2/10 Test: engine.eog_analytical_example
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless/engine/breakwater_eog_analytical_example.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/headless/engine
+"engine.eog_analytical_example" start time: Nov 08 03:53 Central Standard Time
+Output:
+----------------------------------------------------------
+method=eog-analytical-0.1.0 (private E1 fixture; no detection/search/worker)
+no-action: shutdown_after_h=4.480000 cost=5016.000000
+one-truck: arrival_h=1.250000 free_h=5.083333 final_bbl=700.000000 cost=905.000000
+well-2-off-at-2h: final_bbl=733.333333 cost=2000.000000
+<end of output>
+Test time =   0.17 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_analytical_example" end time: Nov 08 03:53 Central Standard Time
+"engine.eog_analytical_example" time elapsed: 00:00:00
+----------------------------------------------------------

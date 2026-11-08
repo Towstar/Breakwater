@@ -1,0 +1,116 @@
+{
+  "verification_version": 1,
+  "scope": "raw-input current fault/countdown/repair/exposure only",
+  "file_hashes": {
+    "network.json": "e8959b8633e76345e25f583aa3a4c46a3de1dde8ca25f95d96f3d10e2fce5c9f",
+    "ops.json": "644884bd3081a3af17065d03cb266c6467f27e1d3f935cb9e4aa48a4e02a9ed0",
+    "telemetry.csv": "4e5ffc0669ba3bc4fadfe50c0fcf2668bf6a380ca9d8a80a541f76a891dc013a"
+  },
+  "checks": [
+    {
+      "cutoff_unix": 1791460800,
+      "facility_id": "S2_FACILITY_A",
+      "passed": true,
+      "expected_countdown_h": 2.6136332464682477,
+      "actual_countdown_h": 2.6136332464682477,
+      "expected_remaining_h": 4.0,
+      "actual_remaining_h": 4.0,
+      "expected_exposure_per_h": 3931.25,
+      "actual_exposure_per_h": 3931.25
+    },
+    {
+      "cutoff_unix": 1791460800,
+      "facility_id": "S2_FACILITY_B",
+      "passed": true,
+      "expected_countdown_h": 1.4249623304871928,
+      "actual_countdown_h": 1.4249623304871932,
+      "expected_remaining_h": 3.0,
+      "actual_remaining_h": 3.0,
+      "expected_exposure_per_h": 2450.0,
+      "actual_exposure_per_h": 2450.0
+    },
+    {
+      "cutoff_unix": 1791460800,
+      "facility_id": "S2_FACILITY_C",
+      "passed": true,
+      "expected_countdown_h": 2.3256774193548386,
+      "actual_countdown_h": 2.3256774193548386,
+      "expected_remaining_h": 3.5,
+      "actual_remaining_h": 3.5,
+      "expected_exposure_per_h": 2393.75,
+      "actual_exposure_per_h": 2393.75
+    },
+    {
+      "cutoff_unix": 1791516600,
+      "facility_id": "S4_FACILITY_C",
+      "passed": true,
+      "expected_countdown_h": 2.311860531580451,
+      "actual_countdown_h": 2.3118605315804515,
+      "expected_remaining_h": 4.5,
+      "actual_remaining_h": 4.5,
+      "expected_exposure_per_h": 3450.0,
+      "actual_exposure_per_h": 3450.0
+    },
+    {
+      "cutoff_unix": 1791622800,
+      "facility_id": "S4_FACILITY_A",
+      "passed": true,
+      "expected_countdown_h": 2.962719029871501,
+      "actual_countdown_h": 2.962719029871502,
+      "expected_remaining_h": 5.0,
+      "actual_remaining_h": 5.0,
+      "expected_exposure_per_h": 3075.0,
+      "actual_exposure_per_h": 3075.0
+    },
+    {
+      "cutoff_unix": 1791622800,
+      "facility_id": "S4_FACILITY_C",
+      "passed": true,
+      "expected_countdown_h": 3.2477963525835865,
+      "actual_countdown_h": 3.247796352583586,
+      "expected_remaining_h": 4.0,
+      "actual_remaining_h": 4.0,
+      "expected_exposure_per_h": 3450.0,
+      "actual_exposure_per_h": 3450.0
+    },
+    {
+      "cutoff_unix": 1791622800,
+      "facility_id": "S4_FACILITY_D",
+      "passed": true,
+      "expected_countdown_h": 3.4989062961868167,
+      "actual_countdown_h": 3.4989062961868167,
+      "expected_remaining_h": 4.5,
+      "actual_remaining_h": 4.5,
+      "expected_exposure_per_h": 3037.5,
+      "actual_exposure_per_h": 3037.5
+    },
+    {
+      "cutoff_unix": 1791646200,
+      "facility_id": "S5_FACILITY_B",
+      "passed": true,
+      "expected_countdown_h": 3.425045542692602,
+      "actual_countdown_h": 3.425045542692602,
+      "expected_remaining_h": 5.0,
+      "actual_remaining_h": 5.0,
+      "expected_exposure_per_h": 2750.0,
+      "actual_exposure_per_h": 2750.0
+    },
+    {
+      "cutoff_unix": 1791646200,
+      "facility_id": "S5_FACILITY_C",
+      "passed": true,
+      "expected_countdown_h": 2.0547653902457808,
+      "actual_countdown_h": 2.0547653902457816,
+      "expected_remaining_h": 4.5,
+      "actual_remaining_h": 4.5,
+      "expected_exposure_per_h": 2306.25,
+      "actual_exposure_per_h": 2306.25
+    }
+  ],
+  "passed": true,
+  "limitations": [
+    "Exact complete-frame cutoffs and known pre-fault productive states only.",
+    "Not an intervention-plan validator or a model of recorded future noise.",
+    "No answer-key access; no code imported from detector/model/input modules."
+  ]
+}
