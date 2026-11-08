@@ -1,5 +1,12 @@
 # Implementation status
 
+## PR #19 current-main reconciliation — November 7, 2026
+
+- Combined B5b's forward-only desktop storage path with merged #13/#18 and current
+  native key settings. The entry point and AgentPanel receive both science and
+  credential controllers; the installed worker retains its grid helper and package.
+- Regenerated the combined VS2022 solution. Final ordered-stack runtime checks remain
+  pending; no selected-control derivatives or scientific history are added here.
 ## PR #18 current-main reconciliation — November 7, 2026
 
 - Integrated the merged historical-evidence baseline while preserving native key
@@ -8,26 +15,55 @@
 - Regenerated the combined VS2022 solution. Runtime and installer verification of
   the final ordered stack remains the integration gate; earlier reports below
   retain their original scope and do not establish a fresh combined run.
-## B5a: project-local scientific runtime and deployment — November 7, 2026
+## B5a/B5b local runtime and desktop storage integration — November 7, 2026
 
-- Merged the latest audit-first Person B handoff at `6fb8c29`; baseline direct-root
-  VS2022 and full desktop MSVC ASan checks each passed 20/20 suites.
-- Added `scripts/Setup-ScientificWorker.ps1`: checksum-verified local uv 0.11.9,
-  isolated CPython 3.12.13 AMD64, existing hash locks for Torch 2.15.0+cpu,
-  NumPy 2.5.4 and schema-test dependencies. Actual CPU float64 result 11.0 and
-  an idempotent rerun passed. Tools/environment/cache remain under ignored `.tools`.
-- `Start-Desktop.ps1` configures child-only Python/Qt and optional hosted credentials.
-  `Generate-VisualStudio.ps1 -PythonExecutable` pins the test interpreter. PowerShell 7
-  checks passed; PowerShell 5 execution was blocked by its unchanged local policy.
-- CMake now deploys worker_storage.py and the Python package beside worker.py.
-  A relocated installation's worker executed health/capabilities/storage/capabilities
-  with original scientific sources unavailable; module origins pointed to deployed
-  files. Actual local execution also passed 32 Python tests and 290 worker/native
-  verification requests. Scientific source and dependency locks were unchanged.
-- This increment supplies runtime preparation and module deployment. The typed
-  desktop forward-analysis client/UI, source-fallback restriction and their final
-  combined checks are the following B5b increment. No derivative UI, scientific
-  history, new hosted calls or operating-control application is claimed here.
+
+- Merged the audit-first handoff at `6fb8c29` and froze `10cb8f7` for
+  [AUDIT_PERSON_B.md](AUDIT_PERSON_B.md). Direct root MSBuild and normal/full-desktop
+  MSVC ASan each passed 20/20 baseline suites. No P0/P1 blocker was found in scope.
+  [AUDIT_REPORT.md](AUDIT_REPORT.md) leaves the missing comprehensive A audit explicit.
+- Installed/checksummed local uv 0.11.9, CPython 3.12.13 AMD64, Torch 2.15.0+cpu,
+  NumPy 2.5.4 and test-only schema dependencies from the existing locks. An actual CPU
+  float64 product returned 11.0; an idempotent setup rerun passed. Existing Python,
+  global PATH/registry/user settings, A-owned source and locks were preserved.
+- Fresh scientific execution: **32 worker/mapper/protocol tests passed**, zero failures/
+  skips. Native verification passed **290 NDJSON requests**, 12 cases, three solvers,
+  44 interior controls and 132 finite-difference checks; maximum volume difference
+  `7.67386154621e-13 m3`. No PhysicsNeMo or Lean replay is claimed.
+- The copied installed app ran with Windows-only PATH while the original science
+  directory was temporarily unavailable. Actual health/capabilities/storage/verification,
+  deployed module origins, native comparison and desktop rendering passed; both costs
+  were 12,780. Source was restored unchanged. Its deployed-qsqlite database passed
+  read-only integrity checking. Missing mapper/Torch fail explicitly while health stays
+  valid. Missing installed worker.py yields worker_unavailable, with no source fallback,
+  while the visible native desktop still renders. Combined health/science flags preserve
+  health evidence; report-write failure returns exit 7 without producing a report.
+- The client adds bounded same-process capabilities/storage/capabilities and clean-exit
+  publication while preserving legacy health. Retiring processes cannot overlap new
+  jobs. Typed validation, byte limits, fixed errors and credential redaction remain.
+  Native forecasts now retain original configuration and immutable reference arrays;
+  science binds the complete capture/generation and original indices, including the
+  inherited one-ULP endpoint. Numerical edits, reset/deletion/new forecasts and cancel
+  retire results; layout/camera/selection and independent pipe edits preserve them.
+  Publication rechecks synchronous observer changes. Science grants no approval.
+- Final direct-root VS2022 normal and full desktop MSVC AddressSanitizer checks:
+  **24/24 suites passed** (150.05 s / 189.00 s). Worker tests: **42 passed, 0 failed/
+  skipped**; controller tests: **14 passed, 0 failed/skipped**. After the final context
+  badge adjustment, three affected QML/real Science render checks passed again in both
+  builds. QML lint passed. Solution: 72 projects/201 dependencies, no missing paths.
+- Actual 1440x900/1100x700 checks verified real comparisons, both tanks, provenance,
+  capacity boundaries, capability reset, layout preservation, numerical/reset invalidation
+  and current-native labeling with a selected historical investigation. On the bad
+  network Tank B reaches 132 m3 over its 130 m3 boundary; native validation/approval
+  remain failed/disabled despite agreement. The original user app was preserved.
+- Manual gaps: GUI in-flight cancellation raced completion; filename-entry tooling
+  prevented native dialog save/reopen completion. Backend cancel/persistence/export
+  checks passed; those GUI gaps remain explicit. PowerShell 7 launch/configuration tests
+  passed; PowerShell 5 execution was blocked by its unchanged policy. Qt translation
+  catalogs were unavailable; the English UI rendered. Fresh-machine VC runtime is untested.
+- Setup/use: [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md). B5c gradients UI, candidate/history
+  science, automatic retention and clean hosted rehearsals remain separate. No new
+  hosted calls or operating-control application ran in this increment.
 
 ## PR #13 current-main reconciliation — November 7, 2026
 

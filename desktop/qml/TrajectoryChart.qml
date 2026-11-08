@@ -7,6 +7,7 @@ Rectangle {
     id: chartRoot
     objectName: "trajectoryChart"
     required property var chart
+    function isReference(series) { return series.reference === true || series.label === "Baseline" }
     color: "#0e202d"; radius: 4
     onChartChanged: plot.requestPaint()
     ColumnLayout {
@@ -17,9 +18,9 @@ Rectangle {
                 model: chartRoot.chart.series || []
                 delegate: Label {
                     required property var modelData
-                    text: modelData.label + (modelData.label === "Baseline" ? " · dashed" : " · solid")
+                    text: modelData.label + (chartRoot.isReference(modelData) ? " · dashed" : " · solid")
                     textFormat: Text.PlainText; font.pixelSize: 10
-                    color: modelData.label === "Baseline" ? "#b8c9d6" : "#5ed8d0"
+                    color: chartRoot.isReference(modelData) ? "#b8c9d6" : "#5ed8d0"
                 }
             }
             Item { Layout.fillWidth: true }
@@ -38,15 +39,26 @@ Rectangle {
                 ctx.clearRect(0, 0, width, height)
                 const data = chartRoot.chart
                 if (!data.available || width < 90 || height < 35) return
-                const low = Number(data.y_min), high = Number(data.y_max), horizon = Number(data.horizon_h)
+                let low = Number(data.y_min), high = Number(data.y_max)
+                const horizon = Number(data.horizon_h)
+                if (!Number.isFinite(low) || !Number.isFinite(high)) {
+                    // Recover a display range if finite samples overflowed a padded bound.
+                    low = 0; high = Number(data.capacity_m3)
+                    for (const line of data.series || []) for (const point of line.points || []) {
+                        const value = Number(point.volume_m3)
+                        if (Number.isFinite(value)) { low = Math.min(low, value); high = Math.max(high, value) }
+                    }
+                }
                 if (!(high > low) || !(horizon > 0)) return
+                const magnitude = Math.max(Math.abs(low), Math.abs(high), 1e-300)
+                const normalizedLow = low / magnitude, normalizedHigh = high / magnitude
                 const left = 47, right = width - 12, top = 13, bottom = height - 24
                 const x = function(t) { return left + Number(t) / horizon * (right - left) }
-                const y = function(v) { return bottom - (Number(v) - low) / (high - low) * (bottom - top) }
+                const y = function(v) { return bottom - (Number(v) / magnitude - normalizedLow) / (normalizedHigh - normalizedLow) * (bottom - top) }
                 ctx.font = "10px sans-serif"; ctx.lineWidth = 1; ctx.setLineDash([])
                 ctx.textAlign = "right"; ctx.textBaseline = "middle"
                 for (let i = 0; i <= 2; ++i) {
-                    const value = low + (high - low) * i / 2, py = y(value)
+                    const value = (normalizedLow + (normalizedHigh - normalizedLow) * i / 2) * magnitude, py = bottom - i / 2 * (bottom - top)
                     ctx.strokeStyle = "#2b4353"; ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke()
                     ctx.fillStyle = "#91aab9"; ctx.fillText(Number(value).toFixed(1), left - 7, py)
                 }
@@ -61,8 +73,8 @@ Rectangle {
                 const series = data.series || []
                 for (let j = 0; j < series.length; ++j) {
                     const line = series[j], points = line.points || []
-                    ctx.strokeStyle = line.label === "Baseline" ? "#b8c9d6" : "#5ed8d0"
-                    ctx.lineWidth = 2; ctx.setLineDash(line.label === "Baseline" ? [3, 4] : [])
+                    ctx.strokeStyle = chartRoot.isReference(line) ? "#b8c9d6" : "#5ed8d0"
+                    ctx.lineWidth = 2; ctx.setLineDash(chartRoot.isReference(line) ? [3, 4] : [])
                     ctx.beginPath()
                     for (let k = 0; k < points.length; ++k) {
                         if (k === 0) ctx.moveTo(x(points[k].time_h), y(points[k].volume_m3))

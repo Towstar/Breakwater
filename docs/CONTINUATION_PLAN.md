@@ -5,7 +5,13 @@ transport qualification are merged. Use [POST_A9_PLAN.md](POST_A9_PLAN.md) for t
 fresh integration checks, remaining B-stack review and ordered next increments.
 The execution sequence below is retained as historical context.
 
-**Current handoff after PR #14:** A3–A8 are merged, including `capabilities` and
+**Current B handoff:** B5a local runtime/deployment and B5b forward-only desktop storage
+comparison are implemented in this workstream. Follow [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md)
+for setup/use and [STATUS.md](STATUS.md) for evidence and limitations. Next is B5c
+explicit selected-interior derivatives, using the controls/column semantics below.
+Automatic retention and release rehearsals remain. The earlier B5 plan is retained.
+
+**Earlier handoff after PR #14:** A3–A8 are merged, including `capabilities` and
 `storage_rollout` in the repo worker. The earlier execution sequence/checkpoints below
 are retained as history; do not restart A's worker mapping. B's next increment is
 deployment and desktop-adapter integration. See [STATUS.md](STATUS.md) and
@@ -123,16 +129,17 @@ review and the health-only Python adapter. See [DESKTOP_FOUNDATION.md](DESKTOP_F
 and [STATUS.md](STATUS.md) for scope and executed checks. This completes the health
 portion of B5 and investigation-retention portion of B7 below. A's A3–A6 source through
 `7c99c68` is merged into this workstream, and B3 publishes the selected-pipe/science
-boundary plus independent physical-parameter persistence. The worker remains health-only;
-the native pipe viewer is now implemented. Scientific worker method adoption is next.
+boundary plus independent physical-parameter persistence. A8 subsequently added worker
+capabilities/storage; B5a/B5b now deploy and integrate forward storage comparison.
+The native pipe viewer is implemented. Selected-control derivative UI follows as B5c.
 Hosted Nemotron access is verified; clean operator-review rehearsals remain incomplete.
 The B7 native-evidence subincrement now reopens bounded transport exports as historical,
 read-only evidence in the existing charts. Automatic quality-result retention is still
 separate unfinished work; investigation sessions already have SQLite history.
 
 The desktop now selects a pipe and captured forecast, executes authoritative native
-tracer transport, and displays its outlet trace, field and mass ledger. The next boundary
-is the agreed scientific worker mapping and capability negotiation; the standalone
+tracer transport, and displays its outlet trace, field and mass ledger. The desktop
+also includes deployed scientific storage comparison; the standalone
 learned smoke does not supply arbitrary-route inference.
 
 ## Starting point
@@ -144,8 +151,8 @@ learned smoke does not supply arbitrary-route inference.
   example/CSV output and 18 transport case groups, now exposed by the B4 native viewer.
 - Integrated A3–A6: standalone differentiable storage, A-reported fixed-case
   PhysicsNeMo execution, measured native benchmarks and checked exact-real proofs.
-  Scientific worker methods are not wired.
-- Unfinished: desktop scientific methods beyond health and generic
+  A8 worker methods and B5 forward storage comparison are now integrated.
+- Unfinished: desktop selected-control derivatives, scientific retention and generic
   pipe-quality integration/qualification. Native volume approval remains separate.
 - Live hosted Nemotron calling is verified with archived traces; bounded no-plan and
   unstaged advisory results mean the three clean review rehearsals remain incomplete.

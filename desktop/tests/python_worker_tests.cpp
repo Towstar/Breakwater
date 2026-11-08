@@ -50,7 +50,7 @@ private slots:
         QVERIFY(QFileInfo(python()).isFile()); QVERIFY(QFileInfo(realWorker()).isFile());
         PythonWorkerClient client(python(), realWorker());
         QSignalSpy ready(&client, &PythonWorkerClient::healthReady), failed(&client, &PythonWorkerClient::failed);
-        client.checkHealth(); QVERIFY(client.busy()); client.checkHealth(); // No second concurrent request.
+        client.checkHealth(); QCOMPARE(client.operation(), "health"); QVERIFY(client.busy()); client.checkHealth(); // No second concurrent request.
         QTRY_COMPARE_WITH_TIMEOUT(ready.size(), 1, 10000);
         QCOMPARE(failed.size(), 0); QVERIFY(!client.busy());
         const auto first = ready.front().front().toJsonObject();
