@@ -16,7 +16,7 @@ import tempfile
 import time
 
 from eog_detection import METHOD, detect, ongoing_alerts
-from eog_inputs import InputError, load_inputs
+from eog_inputs import FILES, InputError, load_inputs
 from eog_model import ModelError
 from eog_observations import ObservationError
 
@@ -48,12 +48,33 @@ def execute(folder, cutoff=None):
     return report
 
 
+def report_destination(folder, report):
+    """Resolve aliases before either successful or failed reports can be written."""
+    destination = report.resolve()
+    for name in FILES:
+        source = (folder / name).resolve()
+        if destination == source:
+            raise ValueError("Report destination must not replace an EOG input file.")
+        try:
+            if destination.samefile(source):
+                raise ValueError("Report destination must not alias an EOG input file.")
+        except FileNotFoundError:
+            pass
+    return destination
+
+
 def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--dataset-folder", type=Path, required=True)
     parser.add_argument("--cutoff-unix", type=int)
     parser.add_argument("--report", type=Path, required=True)
     args = parser.parse_args()
+    # This must be outside the analysis-error handler: an invalid destination
+    # cannot receive even a failure report. Use the resolved path for the write.
+    try:
+        destination = report_destination(args.dataset_folder, args.report)
+    except (OSError, RuntimeError, ValueError) as error:
+        parser.error(str(error))
     try:
         report = execute(args.dataset_folder, args.cutoff_unix)
         encoded = json.dumps(report, ensure_ascii=False, allow_nan=False, indent=2).encode("utf-8") + b"\n"
@@ -65,12 +86,12 @@ def main():
                   "diagnostic": {"code": error.code, "message": str(error)}}
         encoded = json.dumps(report, ensure_ascii=False, allow_nan=False, indent=2).encode("utf-8") + b"\n"
         status = 1
-    args.report.parent.mkdir(parents=True, exist_ok=True)
-    with tempfile.NamedTemporaryFile(dir=args.report.parent, prefix="eog-", suffix=".tmp", delete=False) as handle:
+    destination.parent.mkdir(parents=True, exist_ok=True)
+    with tempfile.NamedTemporaryFile(dir=destination.parent, prefix="eog-", suffix=".tmp", delete=False) as handle:
         temporary = Path(handle.name)
         handle.write(encoded)
     try:
-        temporary.replace(args.report)
+        temporary.replace(destination)
     finally:
         temporary.unlink(missing_ok=True)
     print(json.dumps({"status": report["status"], "report": str(args.report),

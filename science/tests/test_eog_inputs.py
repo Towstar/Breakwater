@@ -3,6 +3,7 @@ from datetime import datetime, timezone
 import hashlib
 import io
 import json
+import os
 from pathlib import Path
 import subprocess
 import sys
@@ -161,6 +162,49 @@ class EogInputTests(unittest.TestCase):
                 if cutoff != 301:
                     self.assertEqual(data["actual_cutoff_unix"], cutoff)
                     self.assertTrue(all(s["unix"] <= cutoff for e in data["detection"]["events"] for s in e["evidence"]))
+
+    def assert_report_preserves_inputs(self, folder, report, *, cwd=None):
+        before = {name: (folder / name).read_bytes() for name in eog_inputs.FILES}
+        script = Path(__file__).resolve().parents[1] / "inspect_eog.py"
+        completed = subprocess.run(
+            [sys.executable, "-S", str(script), "--dataset-folder", str(folder), "--report", str(report)],
+            cwd=cwd, capture_output=True, text=True, timeout=15)
+        self.assertEqual(completed.returncode, 2, completed.stderr)
+        self.assertIn("Report destination must not", completed.stderr)
+        self.assertEqual(completed.stdout, "")
+        self.assertEqual(before, {name: (folder / name).read_bytes() for name in eog_inputs.FILES})
+        self.assertEqual(list(folder.glob("eog-*.tmp")), [])
+
+    def test_report_collision_preserves_all_sources_for_success_and_failure(self):
+        for invalid_input in (False, True):
+            for name in eog_inputs.FILES:
+                with self.subTest(invalid_input=invalid_input, name=name), tempfile.TemporaryDirectory() as directory:
+                    folder = Path(directory)
+                    write_fixture(folder)
+                    if invalid_input:
+                        (folder / "network.json").write_bytes(b"{")
+                    self.assert_report_preserves_inputs(folder, folder / name)
+
+    def test_relative_report_alias_is_resolved_before_analysis(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder = Path(directory)
+            write_fixture(folder)
+            (folder / "child").mkdir()
+            for name in eog_inputs.FILES:
+                with self.subTest(name=name):
+                    self.assert_report_preserves_inputs(folder, Path("child") / ".." / name, cwd=folder)
+
+    def test_hard_link_report_alias_preserves_both_directory_entries(self):
+        with tempfile.TemporaryDirectory() as directory:
+            folder = Path(directory)
+            write_fixture(folder)
+            for name in eog_inputs.FILES:
+                alias = folder / (name + ".report")
+                os.link(folder / name, alias)
+                before = alias.read_bytes()
+                self.assert_report_preserves_inputs(folder, alias)
+                self.assertEqual(alias.read_bytes(), before)
+                self.assertTrue(alias.samefile(folder / name))
 
 
 if __name__ == "__main__":
