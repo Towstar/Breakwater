@@ -28,11 +28,12 @@ Dialog {
     palette.highlightedText: Theme.background
     palette.mid: Theme.controlBorder
     background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
-    header: ToolBar {
-        implicitHeight: 52; padding: 8
-        background: Rectangle { color: Theme.surface; Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider } }
-        contentItem: RowLayout {
-            spacing: 12
+    header: Rectangle {
+        implicitHeight: 54
+        color: Theme.surface
+        Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider }
+        RowLayout {
+            anchors.fill: parent; anchors.leftMargin: 14; anchors.rightMargin: 12; spacing: 12
             Label { Layout.fillWidth: true; text: panel.title; color: Theme.text; font.pixelSize: 18; font.weight: Font.DemiBold }
             ActionButton { objectName: "sensorPanelClose"; iconName: "x"; text: "Close"; tooltip: "Close"; display: AbstractButton.IconOnly; Layout.preferredWidth: 36; onClicked: panel.close() }
         }
