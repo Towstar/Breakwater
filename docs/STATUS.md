@@ -24,8 +24,9 @@
   and distinguishes three setup failures that made no model calls.
 - These hosted sessions use worker 0.2.1/native 0.1.1 and demonstrate validated
   zero-cost incident advice. Search was unavailable in that frozen runtime.
-  Ethan's new PR #45 report guard and #46 bounded joint search are separate
-  integration increments; this checkpoint does not claim their desktop acceptance.
+  Ethan's PR #45 report guard is merged at `c1622b9` after six successful hosted
+  jobs and 14/14 actual input-preservation methods. PR #46 bounded joint search is
+  a separate integration increment; this checkpoint does not claim its desktop acceptance.
 - Four optional PhysicsNeMo tests remain explicitly skipped in the installed CPU
   environment. OS computer-helper input was denied; native Qt-event interaction
   checks and renders passed, but no manual OS/accessibility compliance is claimed.
