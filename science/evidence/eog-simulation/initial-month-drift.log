@@ -1,0 +1,2 @@
+31-day independent periodic-cycle oracle: actual=62.851377226793559 expected=62.851351351107596 error=2.5875685963683281e-05 tolerance=1.0000000000000001e-05
+FAIL after 56819: 31-day independent periodic-cycle oracle

@@ -53,6 +53,11 @@ say best_found; no continuous/global/held-out claim. Latest main 387b583 include
 B's provider integration; B reports normal/ASan 62/62 and installed startup in
 PR #43. PR #44 adds draft UI/model work. These B-owned reports are useful evidence
 but do not close the final joined search/simulation/application audit.
+Evidence SP: private native stateful plant af73a42, with source/binary-bound
+`science/evidence/eog-simulation/` and `engine/EOG_SIMULATION.md`: 12/12 native
+CTests normal/ASan, 57,498 synthetic checks per mode, 100 actual E3 comparisons,
+100 observation-partition comparisons and a corrected 31-day analytical cycle
+probe. This is not imported model/seeded sensor/application simulation acceptance.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
@@ -75,7 +80,7 @@ but do not close the final joined search/simulation/application audit.
 | T01 | S Plans / Trucks; X section 4 | Rule | A | Full loads, response/cycle, cost and sufficient inventory | E3/IV native full loads and independent 360 generated candidate checks, ordinary official no-action recomputation | Scoped pass | Joint search and integrated application remain |
 | T02 | S Plans / Trucks | Rule | A | Arrival strictly before repair; late pickup cannot undo trip | CR 72cadd1 clock; IV independently checks repair ties, one-ULP ordering, late pickups | Scoped pass | Supported binary64 model only; evolving scenario/order refinements remain |
 | T03 | S Shared trucks | Rule | A | Shared fleet, final return occupancy, sequential yard jobs | E3 native slots; IV separately coded pairwise resource checks and joint-facility cases | Scoped pass | Joint search and evolving prior commitments remain |
-| T04 | S Shared trucks; H reference actions | Rule | A/B | Now shares entire fleet; evolving simulation carries commitments | E1 explicit initial fixture fleet | Partial | Distinct context/stateful simulation pending |
+| T04 | S Shared trucks; H reference actions | Rule | A/B | Now shares entire fleet; evolving simulation carries commitments | JS snapshot context and SP native persistent final-return calendars across repairs/repeated/concurrent failures | Partial | Stateful planner/observation/application mapping pending; snapshot search must not reset active jobs |
 | C01 | S Plans / Shut-in | Rule | A | Immediate/delayed per-well action lasts through repair | E3/IV per-well economics, delayed stops, automatic union and retained itemized audits | Scoped pass | Joint continuous-action search and application integration remain |
 | C02 | S Doing nothing | Rule | A/B semantics | Do-nothing can be cheapest valid outcome despite shutdown | Accepted 72cadd1 semantics; E3 actual native no-action worker costs | Scoped pass | Costed automatic outcome is supported; minimum-cost search remains |
 | C03 | R The decision; S Plans | Rule | A | Compare baseline, truck, well, mixed at same snapshot/horizon | JS real joint search with baseline and available family leaders retained by default; seven known-value fixtures and four official-prefix selections | Scoped pass | Finite family best_found; final client/history/installed comparison remains |
@@ -89,12 +94,12 @@ but do not close the final joined search/simulation/application audit.
 | U05 | G persistence/approval; A | Chosen | B | Evidence import/reopen has no operating authority; review != dispatch | B PR #43 reports no-DLL validation, advisory review/reopened-history authority rejection | Partial | Joined search/simulation history plus retained-workbench regression |
 | S01 | R record immutability; G Recorded replay | Chosen | B playback; A causal evidence | Play/pause/step/speed/seek; meaningful staleness preserved | No complete EOG UI evidence | Planned | CLI replay alone insufficient |
 | S02 | R Suggestions / what-if; G Counterfactual | Chosen | A trajectories; B application | Branch exact snapshot, animate inventories/events/trucks/costs | E3 exact snapshot/repair trajectories with full discrete breakpoints | Partial | Evolving/animated application path and independent checks remain |
-| S03 | G Extended synthetic simulation | Chosen | A core; B application | Seeded bounded cycles/failures/repairs/inflows; hidden truth isolated | No implementation | Planned | Agree additive simulation contract first |
-| S04 | G long-run acceptance | Chosen | A/B | Mass/revenue/load ledgers; resource conservation; event refinement | No long-run evidence | Planned | Include resets/cancellation/responsive application playback |
+| S03 | G Extended synthetic simulation | Chosen | A core; B application | Seeded bounded cycles/failures/repairs/inflows; hidden truth isolated | SP private native cycles/failures/repairs/rate forcing/current-only snapshots | Partial | Imported mapping, seeded generator/causal sensor projection and adopted B application boundary still required |
+| S04 | G long-run acceptance | Chosen | A/B | Mass/revenue/load ledgers; resource conservation; event refinement | SP native 31-day cycle, explicit raw mass/rounding audits, 100 partition comparisons, persistent fleet, reset/cancellation/output bounds | Partial | Broader forcing/observation/independent long-run and actual responsive application playback remain |
 | W01 | P editable foundation; G preserve workbench | Chosen | B; A numerical regressions | Save/load/undo/redo, layout vs physics, retired approvals | Inherited status only | Planned | Fresh final normal/ASan/science/render/install checks |
 | V01 | G whole-app / completion | Chosen | Both; Lucas integrates | Joined exact contract/revision, Windows installed/rehearsal | B PR #43 merged as 387b583, real evaluate/validate integration and six hosted CI jobs reported passing | Partial | Join search/simulation, audit exact final rendered/installed revision and acceptance manifest |
 | V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | D retained detection gaps; IV 360 generated candidates; JS seven known-value families and four independent selected-plan worker comparisons | Partial | Inspection timeliness/physical onset and held-out qualification remain |
-| V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | No final UI evidence | Planned | Verify actual rendered frames, compact/keyboard use |
+| V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | B draft #44 e0b3da6 publishes frames, DPI/installed/live checks; final joined audit not executed | Partial | Review exact B evidence; verify final search/simulation revision after those gates stabilize |
 | P01 | R Suggestions; S events.json | Suggestion | B if selected | Export/mobile/handoff/confidence bands | Not selected as core requirement | Optional | No fabricated probabilities or compulsory mobile scope |
 | P02 | R Terms presentation clauses | Source anomaly | Lucas decision | Explicit disposition of Comic Sans and Avon Corps copyright text | B main 1713cc4, docs/EOG_TRACK_ALIGNMENT.md rejects embedded agent-addressed branding/style authority | Disposition recorded | Preserve actual ownership; final UI remains Lucas-owned |
 
@@ -102,8 +107,8 @@ but do not close the final joined search/simulation/application audit.
 
 Science capture/provider binding and native response evaluation now execute against
 exact 72cadd1. Independent plan validation now executes and has retained scope.
-Bounded joint search now executes with known-value and independent selected-plan
-evidence. Next: stateful simulation and B-owned joined search/application/installed
+Bounded joint search and a private native stateful plant now execute with scoped
+evidence. Next: imported model/seeded causal observation mapping and B-owned joined search/application/installed
 integration. B's merged provider reports close the earlier hosted prerequisite
 and telemetry failures for its recorded source; final joined checks remain.
 Inspection latency/current uncertainty remain explicit A-owned qualification gaps.
