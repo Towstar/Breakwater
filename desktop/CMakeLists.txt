@@ -49,12 +49,13 @@ qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
 
 qt_add_executable(breakwater WIN32 main.cpp)
-target_link_libraries(breakwater PRIVATE breakwater_agent breakwater_telemetry_runtime Qt6::QuickControls2 Qt6::Quick3D)
+target_link_libraries(breakwater PRIVATE breakwater_agent breakwater_telemetry_runtime breakwater_eog Qt6::QuickControls2 Qt6::Quick3D)
 get_filename_component(_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
 set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_prefix}/bin;%PATH%")
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
   QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml qml/StorageSciencePanel.qml
-    qml/SensorPanel.qml qml/TelemetryPanel.qml qml/SensorTraceChart.qml)
+    qml/SensorPanel.qml qml/TelemetryPanel.qml qml/SensorTraceChart.qml
+    qml/EogDatasetPanel.qml qml/EogNetworkView.qml qml/EogTrendChart.qml)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
 # in a fresh parallel Visual Studio build. Qt creates that target at root deferral.
@@ -226,4 +227,28 @@ if(BUILD_TESTING)
     -o "${CMAKE_CURRENT_BINARY_DIR}/eog_dataset-results.txt,txt")
   set_tests_properties(desktop.eog_dataset PROPERTIES TIMEOUT 180
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  if(Python3_Interpreter_FOUND)
+    add_test(NAME desktop.eog_cli COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_cli_tests.py" "$<TARGET_FILE:breakwater>"
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")
+    set_tests_properties(desktop.eog_cli PROPERTIES TIMEOUT 180
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endif()
+  foreach(_eog_size normal compact)
+    foreach(_eog_scene overview facility)
+      set(_eog_render_args --workspace eog --eog-dataset "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render"
+        --smoke --eog-report "${CMAKE_CURRENT_BINARY_DIR}/eog-${_eog_scene}-${_eog_size}.json"
+        --screenshot "${CMAKE_CURRENT_BINARY_DIR}/eog-${_eog_scene}-${_eog_size}.png"
+        --history-db "${CMAKE_CURRENT_BINARY_DIR}/eog-${_eog_scene}-${_eog_size}.sqlite")
+      if(_eog_size STREQUAL "compact")
+        list(APPEND _eog_render_args --compact-ui)
+      endif()
+      if(_eog_scene STREQUAL "facility")
+        list(APPEND _eog_render_args --eog-facility facility-Z)
+      endif()
+      add_test(NAME desktop.eog_${_eog_scene}_${_eog_size} COMMAND breakwater ${_eog_render_args})
+      set_tests_properties(desktop.eog_${_eog_scene}_${_eog_size} PROPERTIES TIMEOUT 45
+        ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    endforeach()
+  endforeach()
 endif()

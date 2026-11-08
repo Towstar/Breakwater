@@ -8,7 +8,13 @@
 
 namespace breakwater::desktop::eog {
 struct Sample { qint64 timestamp = 0; double value = 0; };
-struct Series { QString asset_id, metric, unit; QVector<Sample> samples; };
+struct Series {
+    QString asset_id, metric, unit;
+    QVector<Sample> samples;
+    // Index of the first sample after each missing interval. Built off the UI
+    // thread so decimation can distinguish gaps from merely omitted points.
+    QVector<qsizetype> gap_start_indices;
+};
 struct Asset { QString id, kind, system_id, facility_id; QJsonObject definition; };
 struct Facility {
     QString id, system_id, tank_id, pump_id, pipeline_id;

@@ -9,6 +9,7 @@
 #include <QTemporaryDir>
 #include <QTextStream>
 #include <QtTest>
+#include <cmath>
 #include <stdexcept>
 
 using namespace breakwater::desktop::eog;
@@ -135,6 +136,150 @@ private slots:
         QSignalSpy failed(&controller, &EogDatasetController::failed);
         controller.loadFolder(QUrl::fromLocalFile(bad.path())); QTRY_COMPARE_WITH_TIMEOUT(failed.size(), 1, 10000);
         QCOMPARE(controller.datasetIdentity(), identity); QVERIFY(!controller.error().isEmpty());
+    }
+    void staleStateRetainsRawEvidenceAndSeparatesPumpMeaning() {
+        QTemporaryDir directory; fixture(directory.path(), "tank-Z", 3);
+        auto text = telemetry("tank-Z", 3);
+        for (const auto& line : text.split('\n')) if (line.contains("\"pump-Z\",status,") && !line.endsWith(",status,0"))
+            text.replace(line + '\n', "");
+        QVERIFY(write(directory.filePath("telemetry.csv"), text));
+        EogDatasetController controller; QSignalSpy complete(&controller, &EogDatasetController::completed);
+        controller.loadFolder(QUrl::fromLocalFile(directory.path())); QTRY_COMPARE_WITH_TIMEOUT(complete.size(), 1, 10000);
+        controller.selectAsset("pump-Z");
+        auto observed = controller.selectedValues();
+        QVERIFY(observed.value("has_sample").toBool()); QVERIFY(!observed.value("available").toBool());
+        QVERIFY(!observed.value("missing").toBool()); QCOMPARE(observed.value("value").toDouble(), 0.0);
+        QCOMPARE(observed.value("status_label").toString(), "stopped");
+        QCOMPARE(observed.value("freshness_label").toString(), "stale");
+        QCOMPARE(observed.value("event_unix").toLongLong(), firstTime); QCOMPARE(observed.value("age_s").toLongLong(), 600);
+        controller.setCursorUnix(firstTime + 300); QVERIFY(controller.selectedValues().value("available").toBool());
+        controller.setCursorUnix(firstTime + 301); QVERIFY(!controller.selectedValues().value("available").toBool());
+        QCOMPARE(controller.selectedValues().value("status_label").toString(), "stopped");
+        controller.selectAsset("disposal-Z"); observed = controller.selectedValues();
+        QVERIFY(!observed.value("has_sample").toBool()); QVERIFY(observed.value("missing").toBool());
+        QCOMPARE(observed.value("freshness_label").toString(), "missing"); QVERIFY(!observed.contains("value"));
+    }
+    void tankGuidesUseCustomDefaultsAndNeverChangeRawEvidence() {
+        QTemporaryDir directory; const auto tankId = QString::fromUtf8("tank,renamed-Δ"); fixture(directory.path(), tankId);
+        auto document = network(tankId);
+        document["defaults"] = QJsonObject{{"tank_limits_pct", QJsonObject{{"warning", 61.5}, {"shutdown", 87.25}}}};
+        QVERIFY(write(directory.filePath("network.json"), QJsonDocument(document).toJson()));
+        EogDatasetController controller; QVERIFY(controller.selectedThresholds().isEmpty());
+        QSignalSpy complete(&controller, &EogDatasetController::completed);
+        controller.loadFolder(QUrl::fromLocalFile(directory.path())); QTRY_COMPARE_WITH_TIMEOUT(complete.size(), 1, 10000);
+        QCOMPARE(controller.assetId(), tankId); const auto before = controller.selectedValues();
+        const auto identity = controller.datasetIdentity(); const auto guides = controller.selectedThresholds();
+        QCOMPARE(guides.size(), 3); QCOMPARE(controller.property("selectedThresholds").toList(), guides);
+        QCOMPARE(guides[0].toMap().value("kind").toString(), "warning");
+        QCOMPARE(guides[0].toMap().value("value").toDouble(), 61.5);
+        QCOMPARE(guides[1].toMap().value("kind").toString(), "shutdown");
+        QCOMPARE(guides[1].toMap().value("value").toDouble(), 87.25);
+        QCOMPARE(guides[2].toMap().value("kind").toString(), "capacity");
+        QCOMPARE(guides[2].toMap().value("value").toDouble(), 100.0);
+        for (const auto& guide : guides) {
+            QCOMPARE(guide.toMap().value("unit").toString(), "%");
+            QVERIFY(!guide.toMap().value("label").toString().isEmpty());
+        }
+        QCOMPARE(controller.selectedValues(), before); QCOMPARE(controller.datasetIdentity(), identity);
+        QCOMPARE(before.value("value").toDouble(), 104.0);
+        controller.setCursorUnix(firstTime); QCOMPARE(controller.selectedValues().value("value").toDouble(), -2.0);
+        QCOMPARE(controller.selectedThresholds(), guides);
+        controller.selectAsset("pump-Z"); QVERIFY(controller.selectedThresholds().isEmpty());
+        controller.selectMetric("flow_bpd"); QVERIFY(controller.selectedThresholds().isEmpty());
+        controller.selectAsset("well-Z"); QVERIFY(controller.selectedThresholds().isEmpty());
+        controller.selectAsset("disposal-Z"); QVERIFY(controller.selectedThresholds().isEmpty());
+        controller.selectAsset(tankId); QCOMPARE(controller.selectedThresholds(), guides);
+    }
+    void overviewUsesAllInputSystemsAndKeepsTravelTimesAuthoritative() {
+        QTemporaryDir directory; fixture(directory.path());
+        auto n = network(); auto systems = n.value("systems").toArray(); auto second = systems.first().toObject();
+        second["id"] = "other:system"; second["truck_yard"] = QJsonArray{31.5, -102.2};
+        auto disposal = second.value("disposal_site").toObject(); disposal["id"] = "other:disposal";
+        disposal["lat"] = 31.7; second["disposal_site"] = disposal;
+        auto facility = second.value("facilities").toArray().first().toObject(); facility["id"] = "other:facility";
+        facility["lat"] = 31.6;
+        auto wells = facility.value("wells").toArray(); auto well = wells.first().toObject(); well["id"] = "other:well";
+        facility["wells"] = QJsonArray{well};
+        for (const auto& kind : {QStringLiteral("tank"), QStringLiteral("pump"), QStringLiteral("pipeline")}) {
+            auto asset = facility.value(kind).toObject(); asset["id"] = "other:" + kind; facility[kind] = asset;
+        }
+        second["facilities"] = QJsonArray{facility}; systems.append(second); n["systems"] = systems;
+        auto ops = operations(); auto operatingSystems = ops.value("systems").toObject();
+        operatingSystems["other:system"] = QJsonObject{{"emergency_fleet_size", 1},
+            {"facilities", QJsonObject{{"other:facility", QJsonObject{{"response_min", 17}, {"cycle_min", 28}}}}}};
+        ops["systems"] = operatingSystems;
+        QVERIFY(write(directory.filePath("network.json"), QJsonDocument(n).toJson()));
+        QVERIFY(write(directory.filePath("ops.json"), QJsonDocument(ops).toJson()));
+        EogDatasetController controller; QSignalSpy complete(&controller, &EogDatasetController::completed);
+        controller.loadFolder(QUrl::fromLocalFile(directory.path())); QTRY_COMPARE_WITH_TIMEOUT(complete.size(), 1, 10000);
+        const auto identity = controller.datasetIdentity(); const auto originalNetwork = controller.capturedDataset()->network;
+        QCOMPARE(controller.sceneMode(), "overview"); QCOMPARE(controller.sceneNodes().size(), 6);
+        QCOMPARE(controller.sceneRoutes().size(), 4); QMap<QString, QVariantMap> nodes;
+        for (const auto& entry : controller.sceneNodes()) {
+            const auto row = entry.toMap(); nodes.insert(row.value("id").toString(), row);
+            QVERIFY(std::isfinite(row.value("x").toDouble())); QVERIFY(std::isfinite(row.value("z").toDouble()));
+            QVERIFY(row.value("display_only").toBool());
+        }
+        bool checkedTravel = false;
+        for (const auto& entry : controller.sceneRoutes()) {
+            const auto row = entry.toMap(); QVERIFY(nodes.contains(row.value("source").toString()));
+            QVERIFY(nodes.contains(row.value("target").toString())); QVERIFY(!row.value("flow_available").toBool());
+            if (row.value("route_kind") == "truck_access" && row.value("facility_id") == "other:facility") {
+                QCOMPARE(row.value("response_min").toDouble(), 17.0); checkedTravel = true;
+            }
+        }
+        QVERIFY(checkedTravel); QVERIFY(controller.sceneBounds().value("radius").toDouble() > 0);
+        controller.pickSceneNode("other:disposal"); QCOMPARE(controller.sceneMode(), "overview");
+        QCOMPARE(controller.systemId(), "other:system"); QCOMPARE(controller.facilityId(), "other:facility");
+        QCOMPARE(controller.assetId(), "other:disposal");
+        controller.pickSceneNode("other:facility"); QCOMPARE(controller.sceneMode(), "facility");
+        QCOMPARE(controller.systemId(), "other:system"); QCOMPARE(controller.facilityId(), "other:facility");
+        QCOMPARE(controller.assetId(), "other:tank"); QCOMPARE(controller.sceneNodes(), controller.assets());
+        controller.showOverview(); QCOMPARE(controller.sceneMode(), "overview");
+        const auto selected = controller.assetId();
+        for (const auto& row : nodes) if (row.value("kind") == "truck_yard") controller.pickSceneNode(row.value("id").toString());
+        QCOMPARE(controller.assetId(), selected);
+        controller.selectSystem("CUSTOM-system"); QCOMPARE(controller.sceneMode(), "overview");
+        controller.showFacility("facility-Z"); QCOMPARE(controller.sceneMode(), "facility");
+        QCOMPARE(controller.datasetIdentity(), identity); QCOMPARE(controller.capturedDataset()->network, originalNetwork);
+    }
+    void decimationPreservesExtremaAndOnlyBreaksAtRealGaps() {
+        QTemporaryDir directory; fixture(directory.path(), "tank-Z", 12000);
+        auto text = telemetry("tank-Z", 12000);
+        const auto tankLine = [](int interval, const QByteArray& value) {
+            const auto timestamp = firstTime + interval * 300;
+            return QDateTime::fromSecsSinceEpoch(timestamp, Qt::UTC).toString(Qt::ISODate).toUtf8() + ',' +
+                QByteArray::number(timestamp) + ",\"tank-Z\",level_pct," + value + '\n';
+        };
+        text.replace(tankLine(5001, "104"), tankLine(5001, "1500"));
+        text.replace(tankLine(8001, "104"), tankLine(8001, "-25"));
+        QVERIFY(write(directory.filePath("telemetry.csv"), text));
+        EogDatasetController continuous; QSignalSpy complete(&continuous, &EogDatasetController::completed);
+        continuous.loadFolder(QUrl::fromLocalFile(directory.path())); QTRY_COMPARE_WITH_TIMEOUT(complete.size(), 1, 15000);
+        const auto points = continuous.selectedSeries(); QVERIFY(points.size() <= 8192); QVERIFY(points.size() < 12000);
+        QCOMPARE(points.first().toMap().value("event_time_s").toLongLong(), firstTime);
+        QCOMPARE(points.last().toMap().value("event_time_s").toLongLong(), firstTime + 11999 * 300);
+        bool peak = false, trough = false, decimated = false;
+        for (const auto& entry : points) {
+            const auto point = entry.toMap(); QVERIFY(!point.value("break_before").toBool());
+            peak |= point.value("value").toDouble() == 1500; trough |= point.value("value").toDouble() == -25;
+            decimated |= point.value("omitted_samples_before").toInt() > 0;
+        }
+        QVERIFY(peak); QVERIFY(trough); QVERIFY(decimated);
+        text.replace(tankLine(6002, "104"), ""); QVERIFY(write(directory.filePath("telemetry.csv"), text));
+        EogDatasetController gapped; QSignalSpy gapComplete(&gapped, &EogDatasetController::completed);
+        gapped.loadFolder(QUrl::fromLocalFile(directory.path())); QTRY_COMPARE_WITH_TIMEOUT(gapComplete.size(), 1, 15000);
+        const auto gapPoints = gapped.selectedSeries(); QVERIFY(gapPoints.size() <= 8192); int breaks = 0;
+        qint64 previousTime = 0;
+        for (const auto& entry : gapPoints) {
+            const auto point = entry.toMap(); const auto time = point.value("event_time_s").toLongLong();
+            QVERIFY(time > previousTime); previousTime = time;
+            if (point.value("break_before").toBool()) { ++breaks; QVERIFY(time > firstTime + 6002 * 300); }
+        }
+        QCOMPARE(breaks, 1);
+        gapped.setCursorUnix(firstTime + 5000 * 300);
+        for (const auto& entry : gapped.selectedSeries()) QVERIFY(entry.toMap().value("event_time_s").toLongLong() <= firstTime + 5000 * 300);
+        const auto cutoff = gapped.cursorUnix(); gapped.setCursorUnix(gapped.nowUnix() + 1); QCOMPARE(gapped.cursorUnix(), cutoff);
     }
     void cancellationAndNewerLoadWinWithoutUiBlocking() {
         QTemporaryDir large, small; fixture(large.path(), "tank-Z", 10000); fixture(small.path(), "new-tank");

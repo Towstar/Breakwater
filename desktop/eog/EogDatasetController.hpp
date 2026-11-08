@@ -23,8 +23,13 @@ class EogDatasetController final : public QObject {
     Q_PROPERTY(QVariantList assets READ assets NOTIFY changed)
     Q_PROPERTY(QVariantList nodes READ assets NOTIFY changed)
     Q_PROPERTY(QVariantList routes READ routes NOTIFY changed)
+    Q_PROPERTY(QString sceneMode READ sceneMode NOTIFY changed)
+    Q_PROPERTY(QVariantList sceneNodes READ sceneNodes NOTIFY changed)
+    Q_PROPERTY(QVariantList sceneRoutes READ sceneRoutes NOTIFY changed)
+    Q_PROPERTY(QVariantMap sceneBounds READ sceneBounds NOTIFY changed)
     Q_PROPERTY(QVariantList metrics READ metrics NOTIFY changed)
     Q_PROPERTY(QVariantList selectedSeries READ selectedSeries NOTIFY changed)
+    Q_PROPERTY(QVariantList selectedThresholds READ selectedThresholds NOTIFY changed)
     Q_PROPERTY(QVariantMap selectedValues READ selectedValues NOTIFY changed)
     Q_PROPERTY(QVariantMap opsSummary READ opsSummary NOTIFY changed)
     Q_PROPERTY(QStringList warnings READ warnings NOTIFY changed)
@@ -50,8 +55,13 @@ public:
     QVariantList facilities() const;
     QVariantList assets() const;
     QVariantList routes() const;
+    QString sceneMode() const { return scene_mode_; }
+    QVariantList sceneNodes() const;
+    QVariantList sceneRoutes() const;
+    QVariantMap sceneBounds() const;
     QVariantList metrics() const;
     QVariantList selectedSeries() const;
+    QVariantList selectedThresholds() const;
     QVariantMap selectedValues() const;
     QVariantMap opsSummary() const;
     QStringList warnings() const { return dataset_ ? dataset_->warnings : QStringList{}; }
@@ -69,7 +79,11 @@ public:
     Q_INVOKABLE void selectAsset(const QString& id);
     Q_INVOKABLE void selectMetric(const QString& metric);
     Q_INVOKABLE void setCursorUnix(double timestamp);
+    Q_INVOKABLE void showOverview();
+    Q_INVOKABLE void showFacility(const QString& id);
+    Q_INVOKABLE void pickSceneNode(const QString& id);
 signals:
+    void cancelled();
     void changed();
     void completed();
     void failed(const QString& message);
@@ -80,7 +94,10 @@ private:
     bool busy_ = false;
     QString error_, status_ = "Choose an EOG dataset folder (three input files only).";
     QString system_id_, facility_id_, asset_id_, metric_;
+    QString scene_mode_ = "overview";
     qint64 cursor_ = 0;
     QVariantMap observation(const QString& asset, const QString& metric) const;
+    QVariantList overviewNodes() const;
+    QVariantList overviewRoutes() const;
 };
 } // namespace breakwater::desktop::eog

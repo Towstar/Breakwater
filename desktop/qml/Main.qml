@@ -14,6 +14,14 @@ ApplicationWindow {
     required property var pipeTransport
     required property var storageScience
     required property var telemetry
+    required property var eog
+    required property string initialWorkspace
+    property string workspace: initialWorkspace
+    readonly property bool eogSceneReady: workspace === "eog" && eogPanel.datasetSceneReady
+    readonly property int eogVisibleLabels: workspace === "eog" ? eogPanel.visibleSceneLabels : 0
+    readonly property bool eogTrendReady: workspace === "eog" && eogPanel.datasetTrendReady
+    readonly property int eogTrendSamples: workspace === "eog" ? eogPanel.renderedTrendSamples : 0
+    readonly property int eogTrendGuides: workspace === "eog" ? eogPanel.renderedTrendGuides : 0
     readonly property bool sensorEditorVisible: sensorDialog.visible
     readonly property bool telemetryVisible: telemetryDialog.visible
     readonly property int telemetryTraceSamples: telemetryDialog.renderedNumericSamples
@@ -26,7 +34,7 @@ ApplicationWindow {
     minimumWidth: 1100
     minimumHeight: 700
     visible: true
-    title: "BREAKWATER | Synthetic fluid network workbench"
+    title: workspace === "eog" ? "BREAKWATER | EOG operator console" : "BREAKWATER | Synthetic fluid network workbench"
     color: "#101a24"
     palette.window: "#101a24"
     palette.base: "#172735"
@@ -74,8 +82,8 @@ ApplicationWindow {
         target: app.controller
         function onCameraChanged() { app.yaw = app.controller.camera.yaw; app.pitch = app.controller.camera.pitch; app.distance = app.controller.camera.distance; cameraRig.x = app.controller.camera.x; cameraRig.z = app.controller.camera.z }
     }
-    Shortcut { sequence: StandardKey.Undo; onActivated: controller.undo() }
-    Shortcut { sequence: StandardKey.Redo; onActivated: controller.redo() }
+    Shortcut { sequence: StandardKey.Undo; enabled: app.workspace === "workbench"; onActivated: controller.undo() }
+    Shortcut { sequence: StandardKey.Redo; enabled: app.workspace === "workbench"; onActivated: controller.redo() }
     Shortcut { sequence: "Escape"; onActivated: { app.connectMode = false; app.connectionSource = "" } }
 
     FileDialog { id: openDialog; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.load(selectedFile) }
@@ -88,8 +96,10 @@ ApplicationWindow {
         height: 64
         background: Rectangle { color: "#172735" }
         RowLayout {
+            visible: app.workspace === "workbench"
             anchors.fill: parent; anchors.margins: 12; spacing: 8
             Label { text: "BREAKWATER"; font.pixelSize: 21; font.bold: true; color: "#60d2d1"; Layout.rightMargin: 12 }
+            Button { text: "EOG console"; onClicked: { pipeTransportDialog.close(); sensorDialog.close(); telemetryDialog.close(); app.workspace = "eog" } }
             Button { Layout.preferredWidth: 72; text: "Reset"; onClicked: controller.reset() }
             Button { text: "Pump failure"; onClicked: controller.loadExample("baseline") }
             Button { text: "Bad reroute"; onClicked: controller.loadExample("bad") }
@@ -101,9 +111,20 @@ ApplicationWindow {
             Button { Layout.preferredWidth: 64; text: "Save"; onClicked: saveDialog.open() }
             Button { text: controller.busy ? "Calculating..." : "Run forecast"; enabled: !controller.busy && controller.draftIssues.length === 0; highlighted: true; onClicked: controller.forecast() }
         }
+        RowLayout {
+            visible: app.workspace === "eog"
+            anchors.fill: parent; anchors.margins: 12; spacing: 12
+            Label { text: "BREAKWATER"; font.pixelSize: 21; font.bold: true; color: "#60d2d1" }
+            Label { text: "EOG operator console"; color: "#c3d7e3" }
+            Item { Layout.fillWidth: true }
+            Label { text: "Recorded observations / advisory analysis"; color: "#9eb5c2"; Layout.maximumWidth: 280; elide: Text.ElideRight }
+            Button { objectName: "switchToWorkbench"; text: "Simulation workbench"; onClicked: app.workspace = "workbench" }
+        }
     }
 
+    EogDatasetPanel { id: eogPanel; eog: app.eog; anchors.fill: parent; visible: app.workspace === "eog" }
     ColumnLayout {
+        visible: app.workspace === "workbench"
         anchors.fill: parent; spacing: 0
         RowLayout {
             Layout.fillWidth: true; Layout.fillHeight: true; spacing: 1

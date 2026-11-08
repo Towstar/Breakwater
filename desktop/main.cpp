@@ -7,6 +7,7 @@
 #include "science/PythonWorkerClient.hpp"
 #include "science/StorageScienceController.hpp"
 #include "telemetry/TelemetryController.hpp"
+#include "eog/EogDatasetController.hpp"
 #include <QGuiApplication>
 #include <QDir>
 #include <QElapsedTimer>
@@ -20,12 +21,27 @@
 #include <QQuickWindow>
 #include <QTimer>
 
+namespace {
+QString resolvedLocalPath(const QString& path) {
+    const QFileInfo info(path);
+    return info.exists() ? info.canonicalFilePath() : info.absoluteFilePath();
+}
+bool eogOutputSafe(const breakwater::desktop::eog::EogDatasetController& eog, const QString& output) {
+    if (!eog.loaded()) return true;
+    for (const auto* name : {"network.json", "ops.json", "telemetry.csv"})
+        if (resolvedLocalPath(output).compare(resolvedLocalPath(QDir(eog.sourceFolder()).filePath(name)), Qt::CaseInsensitive) == 0)
+            return false;
+    return true;
+}
+}
+
 int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
     QCoreApplication::setApplicationName("BREAKWATER");
     QCoreApplication::setOrganizationName("Breakwater");
     const auto arguments = app.arguments();
     QString startupProject, startupObjective, rehearsalArchive, startupHistory, startupTelemetryReplay;
+    QString startupWorkspace, startupEogDataset, startupEogFacility, eogReport;
     const auto singleValue = [&](const QString& name, QString& destination) {
         if (!arguments.contains(name)) return true;
         const auto index = arguments.indexOf(name);
@@ -35,6 +51,13 @@ int main(int argc, char** argv) {
         return true;
     };
     const bool startupInvestigation = arguments.contains("--investigate");
+    if (!singleValue("--workspace", startupWorkspace) ||
+        !singleValue("--eog-dataset", startupEogDataset) ||
+        !singleValue("--eog-facility", startupEogFacility) ||
+        !singleValue("--eog-report", eogReport) ||
+        (!startupWorkspace.isEmpty() && startupWorkspace != "eog" && startupWorkspace != "workbench")) {
+        qCritical("Use --workspace eog|workbench and single local EOG dataset/report arguments."); return 8;
+    }
     if (!singleValue("--project", startupProject) || !singleValue("--objective", startupObjective) ||
         !singleValue("--telemetry-replay", startupTelemetryReplay) ||
         !singleValue("--rehearsal-archive", rehearsalArchive) ||
@@ -51,6 +74,50 @@ int main(int argc, char** argv) {
         qCritical("Invalid startup options. --investigate requires one explicit --objective; rehearsal export also requires --history-db. Do not combine live investigation with smoke/import/science modes.");
         return 8;
     }
+    bool workbenchOperation = !startupProject.isEmpty() || startupInvestigation || !startupTelemetryReplay.isEmpty();
+    for (const auto& flag : {"--science-check", "--import-session", "--import-pipe-evidence",
+             "--open-scientific-history", "--sensor-editor-check", "--agent-panel", "--worker-health"})
+        workbenchOperation |= arguments.contains(flag);
+    if ((!startupEogDataset.isEmpty() && (workbenchOperation || startupWorkspace == "workbench")) ||
+        (startupWorkspace == "eog" && workbenchOperation) ||
+        ((!startupEogFacility.isEmpty() || !eogReport.isEmpty()) && startupEogDataset.isEmpty()) ||
+        (!eogReport.isEmpty() && !arguments.contains("--smoke") && !arguments.contains("--screenshot"))) {
+        qCritical("EOG input cannot be combined with workbench operations; an EOG render report requires a dataset and smoke/screenshot mode."); return 8;
+    }
+    if (startupWorkspace.isEmpty()) startupWorkspace = workbenchOperation ||
+        (startupEogDataset.isEmpty() && (arguments.contains("--smoke") || arguments.contains("--screenshot")))
+        ? "workbench" : "eog";
+    if (!startupEogDataset.isEmpty()) {
+        const QFileInfo directory(startupEogDataset);
+        if (!directory.isDir()) { qCritical("The EOG dataset must be a local directory."); return 8; }
+        startupEogDataset = directory.canonicalFilePath();
+        QString screenshot, eogHistory;
+        if (!singleValue("--screenshot", screenshot) || !singleValue("--history-db", eogHistory) ||
+            arguments.contains("--health-report") || arguments.contains("--science-report")) {
+            qCritical("EOG startup accepts its own report only; legacy worker reports belong to workbench mode."); return 8;
+        }
+        const QStringList outputs{eogReport, screenshot, eogHistory};
+        QStringList resolvedOutputs;
+        for (const auto& output : outputs) {
+            if (output.isEmpty()) continue;
+            const auto resolved = resolvedLocalPath(output);
+            if (resolvedOutputs.contains(resolved.toCaseFolded())) {
+                qCritical("EOG report, screenshot and history outputs must be distinct."); return 8;
+            }
+            resolvedOutputs.append(resolved.toCaseFolded());
+            for (const auto* name : {"network.json", "ops.json", "telemetry.csv"})
+                if (resolved.compare(resolvedLocalPath(QDir(startupEogDataset).filePath(name)), Qt::CaseInsensitive) == 0) {
+                    qCritical("EOG outputs must be separate from the three immutable input files."); return 8;
+                }
+        }
+        if (!eogHistory.isEmpty()) for (const auto& output : {eogReport, screenshot}) {
+            if (output.isEmpty()) continue;
+            for (const auto* suffix : {"-wal", "-shm", "-journal"})
+                if (resolvedLocalPath(output).compare(resolvedLocalPath(eogHistory + suffix), Qt::CaseInsensitive) == 0) {
+                    qCritical("EOG reports must be separate from history journals."); return 8;
+                }
+        }
+    }
     if (!rehearsalArchive.isEmpty()) {
         const auto archive = QFileInfo(rehearsalArchive);
         const auto database = QFileInfo(startupHistory).absoluteFilePath();
@@ -65,6 +132,7 @@ int main(int argc, char** argv) {
     }
     QQuickStyle::setStyle("Basic");
     breakwater::desktop::ProjectController controller;
+    breakwater::desktop::eog::EogDatasetController eog;
     if (!startupProject.isEmpty()) {
         const QFileInfo projectFile(startupProject);
         if (!projectFile.isFile() || projectFile.size() > 2 * 1024 * 1024 ||
@@ -121,6 +189,11 @@ int main(int argc, char** argv) {
     bool scienceReportFailed = false;
     const auto writeScienceReport = [&](const QJsonObject& report) {
         if (scienceReportIndex < 0 || scienceReportIndex + 1 >= arguments.size()) return;
+        if (!eogOutputSafe(eog, arguments[scienceReportIndex + 1])) {
+            scienceReportFailed = true; qWarning("Scientific reports cannot replace loaded EOG input files.");
+            if (scienceCheck && (arguments.contains("--smoke") || arguments.contains("--screenshot"))) app.exit(7);
+            return;
+        }
         QSaveFile file(arguments[scienceReportIndex + 1]);
         const auto bytes = QJsonDocument(report).toJson(QJsonDocument::Indented);
         if (bytes.size() > 4 * 1024 * 1024 || !file.open(QIODevice::WriteOnly) || file.write(bytes) != bytes.size() || !file.commit()) {
@@ -137,7 +210,8 @@ int main(int argc, char** argv) {
         });
     const auto reportIndex = arguments.indexOf("--health-report");
     if (reportIndex >= 0 && reportIndex + 1 < arguments.size()) {
-        const auto writeReport = [path = arguments[reportIndex + 1]](const QJsonObject& report) {
+        const auto writeReport = [path = arguments[reportIndex + 1], &eog](const QJsonObject& report) {
+            if (!eogOutputSafe(eog, path)) { qWarning("Worker reports cannot replace loaded EOG input files."); return; }
             QSaveFile file(path);
             if (file.open(QIODevice::WriteOnly)) {
                 const auto bytes = QJsonDocument(report).toJson(QJsonDocument::Indented);
@@ -155,9 +229,32 @@ int main(int argc, char** argv) {
     engine.setInitialProperties({{"controller", QVariant::fromValue(&controller)}, {"investigator", QVariant::fromValue(&investigator)},
         {"history", QVariant::fromValue(&history)}, {"scientificWorker", QVariant::fromValue(&scientificWorker)},
         {"pipeTransport", QVariant::fromValue(&pipeTransport)}, {"storageScience", QVariant::fromValue(&storageScience)},
-        {"credentials", QVariant::fromValue(&credentials)}, {"telemetry", QVariant::fromValue(&telemetry)}});
+        {"credentials", QVariant::fromValue(&credentials)}, {"telemetry", QVariant::fromValue(&telemetry)},
+        {"eog", QVariant::fromValue(&eog)}, {"initialWorkspace", startupWorkspace}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
+    const auto workbenchBeforeEog = controller.editorDocument();
+    bool startupEogPending = !startupEogDataset.isEmpty();
+    if (!startupEogDataset.isEmpty()) {
+        QObject::connect(&eog, &breakwater::desktop::eog::EogDatasetController::completed, &app, [&] {
+            if (!startupEogPending) return;
+            startupEogPending = false;
+            if (startupEogFacility.isEmpty()) return;
+            if (!eog.capturedDataset()->facilities.contains(startupEogFacility)) {
+                qCritical("The requested EOG facility is not in this dataset."); app.exit(8); return;
+            }
+            eog.showFacility(startupEogFacility);
+        });
+        QObject::connect(&eog, &breakwater::desktop::eog::EogDatasetController::failed, &app,
+            [&](const QString&) {
+                if (!startupEogPending) return;
+                startupEogPending = false;
+                qCritical("The startup EOG input was rejected; source observations were not replaced."); app.exit(10);
+            });
+        QObject::connect(&eog, &breakwater::desktop::eog::EogDatasetController::cancelled, &app,
+            [&] { startupEogPending = false; });
+        QTimer::singleShot(0, &eog, [&] { eog.loadFolder(QUrl::fromLocalFile(startupEogDataset)); });
+    }
     if (sensorEditorCheck || !startupTelemetryReplay.isEmpty()) {
         QTimer::singleShot(0, &app, [&] {
             if (engine.rootObjects().isEmpty()) return;
@@ -257,6 +354,13 @@ int main(int argc, char** argv) {
             auto* window = qobject_cast<QQuickWindow*>(engine.rootObjects().front());
             const auto capture = window ? window->grabWindow() : QImage{};
             const bool labelsVisible = engine.rootObjects().front()->property("visibleAssetLabels").toInt() > 0;
+            const bool eogMode = engine.rootObjects().front()->property("workspace").toString() == "eog";
+            const bool eogPending = eogMode && !startupEogDataset.isEmpty() &&
+                (eog.busy() || !eog.loaded() || !engine.rootObjects().front()->property("eogSceneReady").toBool() ||
+                    engine.rootObjects().front()->property("eogVisibleLabels").toInt() < 1 ||
+                    !engine.rootObjects().front()->property("eogTrendReady").toBool() ||
+                    engine.rootObjects().front()->property("eogTrendSamples").toInt() < 1 ||
+                    (eog.metric() == "level_pct" && engine.rootObjects().front()->property("eogTrendGuides").toInt() != 3));
             const bool pipeDialogVisible = engine.rootObjects().front()->property("pipeTransportVisible").toBool();
             const bool scienceVisible = engine.rootObjects().front()->property("storageScienceVisible").toBool();
             const bool sensorPending = sensorEditorCheck && (!engine.rootObjects().front()->property("sensorEditorVisible").toBool()
@@ -275,7 +379,7 @@ int main(int argc, char** argv) {
                     !pipeDialogVisible));
             // An imported-evidence modal is the render target; scene labels behind
             // that modal are not a prerequisite for viewing its charts.
-            if (capture.isNull() || (pipeImportIndex < 0 && !scienceCheck && !scientificHistoryCheck && !labelsVisible) || evidencePending || sciencePending || sensorPending || telemetryPending || scientificWorker.busy()) {
+            if (capture.isNull() || (!eogMode && pipeImportIndex < 0 && !scienceCheck && !scientificHistoryCheck && !labelsVisible) || eogPending || evidencePending || sciencePending || sensorPending || telemetryPending || scientificWorker.busy()) {
                 if (smokeElapsed.elapsed() >= (scienceCheck ? 90000 : 20000)) app.exit(capture.isNull() ? 3 : 5);
                 else if (window) window->requestUpdate();
                 return;
@@ -283,7 +387,35 @@ int main(int argc, char** argv) {
             smokeTimer->stop();
             if (scienceCheck && !storageScience.result().value("within_tolerance").toBool()) { app.exit(6); return; }
             const auto index = arguments.indexOf("--screenshot");
-            if (index >= 0 && index + 1 < arguments.size() && !capture.save(arguments[index + 1])) { app.exit(4); return; }
+            if (index >= 0 && index + 1 < arguments.size()) {
+                const auto path = arguments[index + 1];
+                QSaveFile screenshot(path);
+                const auto format = QFileInfo(path).suffix().toLatin1();
+                // Atomic replacement also preserves a source file if an output
+                // pathname happens to be another hard link to its contents.
+                if (!eogOutputSafe(eog, path) || !screenshot.open(QIODevice::WriteOnly) ||
+                    !capture.save(&screenshot, format.constData()) || !screenshot.commit()) { app.exit(4); return; }
+            }
+            if (eogMode && !eogReport.isEmpty()) {
+                const bool unchanged = controller.editorDocument() == workbenchBeforeEog;
+                const auto data = eog.capturedDataset();
+                const QJsonObject report{{"evidence_version", 1}, {"workspace", "eog"},
+                    {"dataset_identity", eog.datasetIdentity()}, {"source_hashes", data ? data->source_hashes : QJsonObject{}},
+                    {"cutoff_unix", eog.cursorUnix()}, {"scene_mode", eog.sceneMode()},
+                    {"scene_nodes", eog.sceneNodes().size()}, {"scene_routes", eog.sceneRoutes().size()},
+                    {"visible_labels", engine.rootObjects().front()->property("eogVisibleLabels").toInt()},
+                    {"trend_ready", engine.rootObjects().front()->property("eogTrendReady").toBool()},
+                    {"trend_samples", engine.rootObjects().front()->property("eogTrendSamples").toInt()},
+                    {"trend_guides", engine.rootObjects().front()->property("eogTrendGuides").toInt()},
+                    {"rendered_frame_ready", engine.rootObjects().front()->property("eogSceneReady").toBool()},
+                    {"workbench_unchanged", unchanged}, {"analysis_status", "unavailable"},
+                    {"hosted_model_requests", "not_run"}};
+                QSaveFile file(eogReport);
+                const auto bytes = QJsonDocument(report).toJson(QJsonDocument::Indented);
+                if (!unchanged || !eogOutputSafe(eog, eogReport) || !file.open(QIODevice::WriteOnly) || file.write(bytes) != bytes.size() || !file.commit()) {
+                    qCritical("Cannot retain complete EOG render evidence."); app.exit(7); return;
+                }
+            }
             app.exit(0);
         });
         smokeTimer->start(100);

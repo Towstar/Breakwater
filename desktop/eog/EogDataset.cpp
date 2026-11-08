@@ -222,9 +222,12 @@ std::shared_ptr<const Dataset> load_dataset(const QString& input, const std::sha
             invalid("Invalid typed pump/well status.");
         if (!data->series.contains(key)) {
             if (data->series.size() >= maximum_series) invalid("Dataset series limit exceeded.");
-            data->series.insert(key, {fields[2], fields[3], unit, {}});
+            data->series.insert(key, {fields[2], fields[3], unit, {}, {}});
         }
-        data->series[key].samples.append({timestamp, numeric});
+        auto& series = data->series[key];
+        if (!series.samples.isEmpty() && timestamp - series.samples.last().timestamp > 300)
+            series.gap_start_indices.append(series.samples.size());
+        series.samples.append({timestamp, numeric});
         if (++data->row_count > maximum_rows) invalid("Dataset row limit exceeded.");
         if (data->row_count == 1) data->first_unix = timestamp;
         data->now_unix = timestamp; previous = timestamp;

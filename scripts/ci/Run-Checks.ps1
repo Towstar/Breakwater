@@ -160,6 +160,12 @@ try {
                     if ($required -notin $registered.tests.name) { throw "Required G2 desktop check is missing: $required" }
                 }
             }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'desktop/eog/EogDataset.hpp')) {
+                foreach ($required in @('desktop.eog_dataset', 'desktop.eog_cli', 'desktop.eog_overview_normal',
+                    'desktop.eog_overview_compact', 'desktop.eog_facility_normal', 'desktop.eog_facility_compact')) {
+                    if ($required -notin $registered.tests.name) { throw "Required EOG console check is missing: $required" }
+                }
+            }
         }
         Invoke-CiStep 'ctest' 'ctest' @('--test-dir', $buildRoot, '--output-on-failure', '--no-tests=error', '--output-junit', (Join-Path $artifactRoot 'ctest-results.xml'))
         [xml]$junit = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'ctest-results.xml')
