@@ -29,7 +29,7 @@ identity is not a historical capture's original source dataset identity. A produ
 caller must first execute the accepted capture verifier; an optional private reader
 cutoff is a caller claim, not authentication.
 
-## Frozen initial evidence rules
+## Frozen initial evidence rules (v0.1; retained failed practice gate)
 
 The following rules are declared **before first execution on the official full-week
 recording in this increment**. Later evidence must identify changes explicitly.
@@ -54,6 +54,39 @@ Very low deliveries at/below the zero band, missing/ambiguous observations and
 unrepresentable arithmetic remain unavailable. Four samples imply at least a
 15-minute inspection confirmation delay; earliest gradual physical wear/leak onset
 is not established by the threshold-crossing timestamp.
+
+## v0.2 deficiency family, declared before its official-data rerun
+
+The v0.1 labeled baseline matched 13/13 failures, 3/5 leaks and 0/5 degradation
+events, with no unmatched alarms. It failed the declared presence gate. Raw-meter
+inspection (without loading labels into the detector) showed running-flow minima
+of about 85-90% on the deficient series, so a 15% loss rule could never trigger;
+the two weaker pipeline discrepancies only crossed 10% for isolated readings.
+Those failures are retained and are not reclassified as qualified execution.
+
+Method `eog-detection-0.2.0` uses a generic **5% sustained deficiency threshold** for
+both nominal pump delivery and relative pipeline loss, retaining the 15 bpd leak
+floor, four/900-second confirmation, contradiction guards and exact gap rules.
+Each supporting frame must exceed half the full discrepancy threshold, and the
+four-frame mean normalized discrepancy must exceed the full threshold. A single
+outlier cannot pass. The first generated-family attempt with four individually
+full-threshold frames failed its declared emission-delay gate under meter noise;
+that failure is retained. The mean plus per-frame-support rule addresses it without
+weakening the predeclared generated-family outcomes. Sustained recovery requires
+four frames at/below the half threshold, providing explicit hysteresis.
+This is a practice-informed engineering refinement, not independent held-out
+qualification or a calibrated noise confidence interval. No per-ID thresholds,
+labels, future endpoints or label-specific durations enter runtime code.
+
+Before rerunning official data, the new generated family fixes seed 2026110803,
+30 unfamiliar ID/configurations with pump rates 1,000-8,000 bpd, independent
+meter perturbations of +/-2.5%, healthy operation or a 7.5-20% deficiency, and at
+least four consecutive running samples after onset. Required outcomes: no healthy
+alarms, correct isolated deficiency category and emission within 900 seconds of
+the supported onset. Exact 5% boundaries and one-ULP neighbors are also tested.
+This family does not establish sub-5% detection, arbitrary noise/offset robustness,
+short-cycle diagnosis, or industrial physical validity. Off-cycle conditions remain
+explicitly unobservable; a normal stop cannot itself create or resolve an alert.
 
 ## Time, provenance and economics
 

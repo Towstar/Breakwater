@@ -13,7 +13,7 @@ import math
 from eog_model import Facility, Model, ModelError
 from eog_observations import ObservationError, Sample, View
 
-METHOD = "eog-detection-0.1.0"
+METHOD = "eog-detection-0.2.0"
 
 
 @dataclass(frozen=True, slots=True)
@@ -21,9 +21,9 @@ class Rules:
     inspection_samples: int = 4
     zero_flow_bpd: float = 5.0
     zero_flow_fraction: float = 0.02
-    leak_fraction: float = 0.10
+    leak_fraction: float = 0.05
     leak_absolute_bpd: float = 15.0
-    degradation_fraction: float = 0.15
+    degradation_fraction: float = 0.05
     level_tolerance_pct: float = 0.5
     inflow_balance_fraction: float = 0.05
     inflow_balance_bpd: float = 20.0
@@ -343,6 +343,21 @@ def _inspection_events(f, view, rules, category):
                 sequence[-1][0] - sequence[0][0] >= (rules.inspection_samples - 1) * 300)
 
     maximum_gap = min(300, view.policy.max_gap_s)
+    def strength(frame):
+        flow = frame[1].value
+        if category == "pipeline_leak":
+            threshold = max(rules.leak_absolute_bpd, flow * rules.leak_fraction)
+            difference = flow - frame[2].value
+        else:
+            threshold = f.pump_flow_bpd * rules.degradation_fraction
+            difference = f.pump_flow_bpd - flow
+        if threshold <= 0:
+            return None
+        result = difference / threshold
+        return result if math.isfinite(result) else None
+
+    def sustained(sequence):
+        return confirmed(sequence) and math.fsum(strength(frame) for _, frame in sequence) / len(sequence) > 1
     for timestamp, status in data[status_key].items():
         frame = _frame(view, data, timestamp)
         if (frame is None or status.value != 1 or frame[1].value <= zero or
@@ -355,9 +370,15 @@ def _inspection_events(f, view, rules, category):
             if received < 0 or received > flow + max(rules.leak_absolute_bpd, flow * rules.leak_fraction):
                 pending_bad, pending_good = [], []
                 continue
-            bad = flow - received > max(rules.leak_absolute_bpd, flow * rules.leak_fraction)
-        else:
-            bad = (f.pump_flow_bpd - flow) / f.pump_flow_bpd > rules.degradation_fraction
+        normalized = strength(frame)
+        if normalized is None:
+            pending_bad, pending_good = [], []
+            continue
+        # Every supporting frame exceeds half the full threshold; its four-frame
+        # mean must exceed the full threshold. An isolated large outlier cannot
+        # substitute for persistent evidence, and one modest noisy dip need not
+        # discard a sustained observed loss.
+        bad = normalized > 0.5
         last_interpretable = timestamp
         if bad:
             if pending_bad and timestamp - pending_bad[-1][0] > maximum_gap:
@@ -365,7 +386,7 @@ def _inspection_events(f, view, rules, category):
             pending_bad.append((timestamp, frame))
             pending_bad = pending_bad[-rules.inspection_samples:]
             pending_good = []
-            if current is None and confirmed(pending_bad):
+            if current is None and sustained(pending_bad):
                 evidence = tuple(sample for _, frame_samples in pending_bad for sample in frame_samples)
                 current = _event(f, category, pending_bad[0][0], previous_good, evidence)
                 current = replace(current, detected_unix=timestamp, updated_unix=timestamp, assumptions=(

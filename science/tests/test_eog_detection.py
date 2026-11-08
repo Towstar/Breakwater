@@ -256,7 +256,43 @@ class EogDetectionTests(unittest.TestCase):
             with self.subTest(received=received):
                 rows = frame(m, 0)
                 rows += sum((frame(m, t, received=received) for t in range(300, 1500, 300)), [])
-                self.assertEqual(bool(self.active(detect(m, view(m, rows)), "pipeline_leak")), expected)
+                self.assertEqual(bool(self.active(detect(m, view(m, rows), Rules(leak_fraction=0.10)), "pipeline_leak")), expected)
+
+    def test_default_five_percent_inspection_boundaries(self):
+        m = model()
+        for value, expected in ((2565, False), (math.nextafter(2565, -math.inf), True),
+                                (math.nextafter(2565, math.inf), False)):
+            with self.subTest(value=value):
+                leak_rows = frame(m, 0) + sum((frame(m, t, received=value) for t in range(300, 1500, 300)), [])
+                grade_rows = frame(m, 0) + sum((frame(m, t, flow=value) for t in range(300, 1500, 300)), [])
+                self.assertEqual(bool(self.active(detect(m, view(m, leak_rows)), "pipeline_leak")), expected)
+                self.assertEqual(bool(self.active(detect(m, view(m, grade_rows)), "pump_degradation")), expected)
+
+    def test_predeclared_bounded_noise_and_unfamiliar_deficiency_family(self):
+        # Predeclared v0.2 family, before its first official-data evaluation:
+        # 30 unseen-ID/config cases, independent +/-2.5% multiplicative meters,
+        # healthy or 7.5-20% physical deficiency, at least 4 running samples.
+        rng = random.Random(2026110803)
+        for index in range(30):
+            n, o = inputs(prefix=f"unfamiliar-meter-family-{index}")
+            nominal = rng.uniform(1000, 8000)
+            n["systems"][0]["facilities"][0]["pump"]["max_flow_bpd"] = nominal
+            n["systems"][0]["facilities"][0]["pipeline"]["max_bpd"] = nominal * 1.2
+            m = compile_model(n, o)
+            loss = rng.uniform(0.075, 0.20)
+            for category in (None, "pipeline_leak", "pump_degradation"):
+                rows = []
+                for t in range(0, 4800, 300):
+                    true_pump = nominal * (1 - loss if category == "pump_degradation" and t >= 1200 else 1)
+                    true_receipt = true_pump * (1 - loss if category == "pipeline_leak" and t >= 1200 else 1)
+                    rows += frame(m, t, flow=true_pump * rng.uniform(0.975, 1.025),
+                                  received=true_receipt * rng.uniform(0.975, 1.025))
+                events = detect(m, view(m, rows)).events
+                if category is None:
+                    self.assertEqual(events, ())
+                else:
+                    self.assertEqual({event.category for event in events}, {category})
+                    self.assertTrue(all(event.detected_unix - 1200 <= 900 for event in events))
 
     def test_pressure_is_optional_evidence_not_invented_hydraulics(self):
         m = model()
