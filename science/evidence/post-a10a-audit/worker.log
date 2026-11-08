@@ -1,0 +1,3 @@
+PASS | 18 actual native cases | 3 solvers | 302 real NDJSON requests
+interior_controls=44; central_difference_checks=132; maximum_volume_error_m3=7.67386154621e-13
+Offline schema checks passed. Fixture identities are not approval evidence; native C++ decides feasibility.

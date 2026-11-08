@@ -1,0 +1,91 @@
+{
+  "audited_commit": "55454173987c5a75d1bb502bb5bde4910051e2d7",
+  "status": "passed_for_A10b",
+  "source_and_report_hashes": [
+    {
+      "path": "engine/src/engine.cpp",
+      "sha256": "3349a7f4faf13d7305c8c8d981fc6235a9e77c9f46a00b467631b3f7b222e630"
+    },
+    {
+      "path": "engine/src/storage_grid.hpp",
+      "sha256": "9ac5c6da30941515cf9aac553aa57c6ee012c4533a168df73d4ea55e929160bf"
+    },
+    {
+      "path": "engine/src/search.cpp",
+      "sha256": "3ffcac8829682ba8048f55ad4e1f9419b0b1705064967b41ecd13a5fb8de4cbe"
+    },
+    {
+      "path": "engine/src/transport.cpp",
+      "sha256": "b56af9674f70cf692f260fc984783f7de11d6f75013a0586fbd747637f34824e"
+    },
+    {
+      "path": "engine/tests/transport_tests.cpp",
+      "sha256": "5fe5db334780de24a80c7e11957262b241bcfc867311a4013e7863b5eeabd53e"
+    },
+    {
+      "path": "science/storage_grid.py",
+      "sha256": "ebb2434413201021a5e4f4bb48c73040370d3eb37dcba4b502a93a665765ed51"
+    },
+    {
+      "path": "science/worker.py",
+      "sha256": "49e94ef172847867aaa391387df959e2322caeb9d5e32de83b73a295ddbadbc0"
+    },
+    {
+      "path": "science/worker_storage.py",
+      "sha256": "d0abbfb14fc4448d1569706eb3b4ff533eaaee01fab742f672dd84d748e9c044"
+    },
+    {
+      "path": "science/breakwater_science/transport_pinn.py",
+      "sha256": "76e3b4c5c9b44d72d423474ff0c6641795d71ca6c1e47c176aa83a029e05daeb"
+    },
+    {
+      "path": "science/a9_transport_config.json",
+      "sha256": "180b003f6534898bf244d4c5a09f44eba05dc4c4d6ab902ed84ce41edd9e7beb"
+    },
+    {
+      "path": "science/a9_transport_refined_config.json",
+      "sha256": "9f590848092c2681b73ed1f9f6713b1c2f7ec5889626503c05900607829b1a13"
+    },
+    {
+      "path": "proofs/Breakwater/Transport.lean",
+      "sha256": "97f1204a45a056dae5bbadf83bc2757fef00fca92a0af16c354a829fb8089806"
+    },
+    {
+      "path": "proofs/Breakwater/Audit.lean",
+      "sha256": "09ca47aa45f3e807850484822ddb1f1293d261f3cb1e24bcdd54e53f379395c3"
+    },
+    {
+      "path": "proofs/verify.ps1",
+      "sha256": "caf1f8a7715acb7a2329de76ce30bab7c329850175a91830df64a053606138b8"
+    },
+    {
+      "path": "proofs/lean-toolchain",
+      "sha256": "ca5f1f601d34c49079e38d7e7041eb0f2a9c227fbc1df0f404820069a052330c"
+    },
+    {
+      "path": "proofs/lakefile.toml",
+      "sha256": "11b17951fc295d0b652053be68ad483be99f7fef4aaab6580a90fee50376c446"
+    },
+    {
+      "path": "proofs/lake-manifest.json",
+      "sha256": "bbd82dd6989564554676df56ac852325ae93006cb0ebcc4655cfcc375831cf97"
+    },
+    {
+      "path": "out/post-a10a-audit/rollout.json",
+      "sha256": "7341d0af9de9d9ddec8bae4c6521566101fbd23a36bee4e8afd32b9214aa4f0a"
+    },
+    {
+      "path": "out/post-a10a-audit/worker.json",
+      "sha256": "c12647fe04c6cc018fdad65df430bfce4f67320f9c9e5aedade3cd6340525567"
+    },
+    {
+      "path": "engine/src/control_influence.hpp",
+      "sha256": "d6bb116549de2b486bf799804b34604981285bf8ed8fb8e7860f83cad82e59b9"
+    },
+    {
+      "path": "engine/src/search_kernel.hpp",
+      "sha256": "6e412090a68c385cd0872009b4509dabff0e4d63034778101c429fad14c5b11f"
+    }
+  ],
+  "limitations": "No fresh full desktop, installed-app, hosted model, training smoke, benchmark or A9 qualification execution. B capture/configuration and shared-status findings remain open; front study deferred."
+}

@@ -250,8 +250,101 @@ int main() {
             auto p = pipe(2, 2, 1); p.dispersion_m2_h = 1;
             auto options = config(0.5, 0.5); options.cfl_safety = 1;
             const auto result = solve(p, {1, 0}, options); check_result(p, options, result);
-            require(result.diagnostics.substeps >= 2, "Used unstable interior-only diffusion bound at inlet");
+            require(result.diagnostics.substeps == 2, "Expected safe dt=1/3 then dt=1/6 at inlet");
             require(result.diagnostics.minimum_concentration_mg_l >= -1e-12, "First-cell diffusion became negative");
+            // The unsafe single dt=1/2 step would give [-1/2,1/2]. The
+            // scheduler's two steps instead give [0,1/3], then [1/18,5/18].
+            near(result.concentration_mg_l.back()[0], 1.0 / 18.0, 1e-14);
+            near(result.concentration_mg_l.back()[1], 5.0 / 18.0, 1e-14);
+        }},
+        {"open equality bound has nonnegative minimum-mesh and interior impulse responses", [] {
+            // dx=1, dt=1/8, v=D=1, k=4: a=b=1/8, r=1/2,
+            // so the sufficient OPEN budget is exactly one. Independent rational
+            // impulse responses distinguish the half-cell inlet and outlet rows.
+            const std::vector<std::vector<std::vector<double>>> matrices{
+                {{0, 0.125}, {0.25, 0.25}},
+                {{0, 0.125, 0, 0}, {0.25, 0.125, 0.125, 0},
+                 {0, 0.25, 0.125, 0.125}, {0, 0, 0.25, 0.25}}};
+            for (const auto& expected : matrices) {
+                const auto cells = expected.size();
+                auto p = pipe(cells, static_cast<double>(cells), 1);
+                p.dispersion_m2_h = 1; p.decay_per_h = 4;
+                auto options = config(0.125, 0.125); options.cfl_safety = 1;
+                for (std::size_t impulse = 0; impulse < cells; ++impulse) {
+                    std::vector<double> initial(cells, 0); initial[impulse] = 1;
+                    const auto result = solve(p, initial, options, {{0, 1}});
+                    check_result(p, options, result);
+                    require(result.diagnostics.substeps == 1, "Equality step unexpectedly subdivided");
+                    near(result.diagnostics.max_cfl_number, 1, 0);
+                    for (std::size_t row = 0; row < cells; ++row) {
+                        near(result.concentration_mg_l.back()[row], expected[row][impulse], 0);
+                        require(result.concentration_mg_l.back()[row] >= 0, "Negative open impulse response");
+                    }
+                }
+            }
+            auto p = pipe(2, 2, 1); p.dispersion_m2_h = 1; p.decay_per_h = 4;
+            auto options = config(0.125, 0.125); options.cfl_safety = 1;
+            const auto forced = solve(p, {2, 4}, options, {{0, 1}}, {{0, 3}}, {1, 2});
+            check_result(p, options, forced);
+            near(forced.concentration_mg_l.back()[0], 1.75, 0);
+            near(forced.concentration_mg_l.back()[1], 1.75, 0);
+        }},
+        {"closed equality bound has nonnegative minimum-mesh and interior impulse responses", [] {
+            // dx=1, dt=1/4, D=1, k=2: b=1/4, r=1/2. The CLOSED
+            // budget is one; interior diagonal entries are zero at equality.
+            const std::vector<std::vector<std::vector<double>>> matrices{
+                {{0.25, 0.25}, {0.25, 0.25}},
+                {{0.25, 0.25, 0, 0}, {0.25, 0, 0.25, 0},
+                 {0, 0.25, 0, 0.25}, {0, 0, 0.25, 0.25}}};
+            for (const auto& expected : matrices) {
+                const auto cells = expected.size();
+                auto p = pipe(cells, static_cast<double>(cells), 1);
+                p.dispersion_m2_h = 1; p.decay_per_h = 2;
+                auto options = config(0.25, 0.25, TransportBoundary::closed_no_flux);
+                options.cfl_safety = 1;
+                for (std::size_t impulse = 0; impulse < cells; ++impulse) {
+                    std::vector<double> initial(cells, 0); initial[impulse] = 1;
+                    const auto result = solve(p, initial, options, {{0, 0}}, {});
+                    check_result(p, options, result);
+                    require(result.diagnostics.substeps == 1, "Equality step unexpectedly subdivided");
+                    near(result.diagnostics.max_cfl_number, 1, 0);
+                    for (std::size_t row = 0; row < cells; ++row) {
+                        near(result.concentration_mg_l.back()[row], expected[row][impulse], 0);
+                        require(result.concentration_mg_l.back()[row] >= 0, "Negative closed impulse response");
+                    }
+                }
+            }
+        }},
+        {"zero data zero coefficients and pure decay equality permit zero concentration", [] {
+            for (const auto boundary : {TransportBoundary::dirichlet_inlet, TransportBoundary::closed_no_flux}) {
+                auto p = pipe(2, 2, 1); auto options = config(0.5, 0.5, boundary);
+                options.cfl_safety = 1;
+                const auto zero = solve(p, {0, 0}, options); check_result(p, options, zero);
+                for (const double c : zero.concentration_mg_l.back()) near(c, 0, 0);
+                p.decay_per_h = 2;
+                const auto decayed = solve(p, {1, 3}, options); check_result(p, options, decayed);
+                require(decayed.diagnostics.substeps == 1, "Pure decay equality step subdivided");
+                for (const double c : decayed.concentration_mg_l.back()) near(c, 0, 0);
+                const auto sourced = solve(p, {1, 3}, options, {{0, 0}}, {{0, 0}}, {2, 0});
+                check_result(p, options, sourced);
+                near(sourced.concentration_mg_l.back()[0], 1, 0);
+                near(sourced.concentration_mg_l.back()[1], 0, 0);
+            }
+        }},
+        {"open unequal event steps use each velocity and nonnegative inlet average", [] {
+            const auto p = pipe(2, 2, 1); auto options = config(0.75, 0.75);
+            options.cfl_safety = 1;
+            const auto result = solve(p, {1, 0}, options, {{0, 1}, {0.25, 0.5}},
+                {{0, 0}, {0.25, 2}, {0.75, 0}}, {0, 1});
+            check_result(p, options, result);
+            require(result.diagnostics.substeps == 2, "Expected dt=1/4 then dt=1/2");
+            // Both interval inlet averages are one. First step yields [1,1/2];
+            // second yields [1,9/8]. This checks actual old fields and forcing.
+            near(result.concentration_mg_l.back()[0], 1, 0);
+            near(result.concentration_mg_l.back()[1], 1.125, 0);
+            near(result.cumulative_source_mg.back(), 750, 0);
+            near(result.cumulative_inlet_mg.back(), 500, 0);
+            near(result.cumulative_outlet_mg.back(), 125, 0);
         }},
         {"flow changes and stops are resolved between output samples", [] {
             const auto p = pipe(2, 2, 1); auto options = config(0.5, 0.5); options.cfl_safety = 1;

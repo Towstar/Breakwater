@@ -7,7 +7,7 @@ $proofRoot = $PSScriptRoot
 $projectRoot = Split-Path -Parent $proofRoot
 $outputDirectory = Join-Path $projectRoot 'out/a6-proofs'
 # This explicit count guards the advertised list in Breakwater/Audit.lean.
-$expectedAlgorithmTheorems = 37
+$expectedAlgorithmTheorems = 54
 
 if ($LeanBin) {
     if (-not (Test-Path -LiteralPath (Join-Path $LeanBin 'lake.exe'))) {
@@ -112,7 +112,7 @@ run_cmd Breakwater.auditAlgorithmTheorems #[``A6RejectedProbe]
         warning_as_error = $true
         unapproved_assumption_probe_rejected = $true
         source_hashes = $records
-        scope = 'Exact-real finite-graph storage/control-influence and discrete FVM mass balance; not IEEE floating-point, compiled memory safety, PDE accuracy, positivity, scheduling, or hydraulics.'
+        scope = 'Exact-real finite-graph storage/control-influence, discrete FVM mass balance and conditional native-law nonnegativity; not IEEE floating-point or compiled nonnegativity, compiled memory safety, PDE accuracy, scheduling, or hydraulics.'
     }
     [System.IO.File]::WriteAllText((Join-Path $outputDirectory 'verification.json'),
         ($record | ConvertTo-Json -Depth 8) + "`n")
