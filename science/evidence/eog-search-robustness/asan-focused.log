@@ -1,0 +1,12 @@
+test_genuinely_unrepresentable_candidate_cost_stays_unavailable (test_eog_search_robustness.SearchExtremeNativeTests.test_genuinely_unrepresentable_candidate_cost_stays_unavailable) ... ok
+test_oversized_finite_loads_do_not_discard_a_valid_independently_checked_baseline (test_eog_search_robustness.SearchExtremeNativeTests.test_oversized_finite_loads_do_not_discard_a_valid_independently_checked_baseline) ... ok
+test_real_worker_search_and_no_dll_validation_accept_finite_extreme_truck_setting (test_eog_search_robustness.SearchExtremeNativeTests.test_real_worker_search_and_no_dll_validation_accept_finite_extreme_truck_setting) ... ok
+test_subnormal_load_size_keeps_a_real_finite_selected_plan (test_eog_search_robustness.SearchExtremeNativeTests.test_subnormal_load_size_keeps_a_real_finite_selected_plan) ... ok
+test_prefix_seed_generation_keeps_finite_control_times (test_eog_search_robustness.SearchSeedRobustnessTests.test_prefix_seed_generation_keeps_finite_control_times) ... ok
+test_schedule_estimate_does_not_convert_an_overflowed_product_to_fraction (test_eog_search_robustness.SearchSeedRobustnessTests.test_schedule_estimate_does_not_convert_an_overflowed_product_to_fraction) ... ok
+test_trip_priorities_do_not_overflow_before_native_inventory_checks (test_eog_search_robustness.SearchSeedRobustnessTests.test_trip_priorities_do_not_overflow_before_native_inventory_checks) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 4.777s
+
+OK

@@ -71,6 +71,12 @@ Official practice retains 23/23 matches, reduces leak delay to 1h25m-3h10m and w
 to 5h30m-6h05m. First historical gate now passes; two ambiguous-recovery cuts still
 fail. Nine independent raw-input oracles and eight real detect/evaluate processes
 pass. Meter-bias ambiguity, failed candidates and worsened recovery remain explicit.
+Evidence SR: search 0.1.3 / worker 0.3.4, runtime 343d7e9,
+`science/evidence/eog-search-robustness/`: 425/425 full science without skips,
+seven finite-extreme regressions with actual normal/ASan DLLs, seven known-value
+cases and twelve real search/evaluate/independent processes. Exact selected
+costs/plan hashes remain identical on four practice cuts; impossible inventory
+and unrepresentable candidate costs remain rejected/unavailable respectively.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
@@ -98,7 +104,7 @@ pass. Meter-bias ambiguity, failed candidates and worsened recovery remain expli
 | C02 | S Doing nothing | Rule | A/B semantics | Do-nothing can be cheapest valid outcome despite shutdown | Accepted 72cadd1 semantics; E3 actual native no-action worker costs | Scoped pass | Costed automatic outcome is supported; minimum-cost search remains |
 | C03 | R The decision; S Plans | Rule | A | Compare baseline, truck, well, mixed at same snapshot/horizon | JS real joint search with baseline and available family leaders retained by default; seven known-value fixtures and four official-prefix selections | Scoped pass | Finite family best_found; final client/history/installed comparison remains |
 | C04 | S Plans; G independent checks | Chosen | A | Recompute exact plan physics/cost/calendar independently | IV independent causal reconstruction, Fraction-rounded arithmetic, pairwise calendars, exact candidate/price binding; 360 generated cases and nine official-prefix failures | Scoped pass | Shared parser/model assumptions remain; not a proof or optimum; final integrated scope open |
-| C05 | G bounds; S Plans | Chosen | A | Bounded search, explicit best-found/enumerated scope | JS count/frontier/output/cooperative-time bounds, no unchecked selection on validation timeout, explicit complete versus unavailable | Scoped pass | Not continuous/global optimization; loading/preparation excluded from planning clock, outer process cancellation remains B-owned |
+| C05 | G bounds; S Plans | Chosen | A | Bounded search, explicit best-found/enumerated scope | JS/SR count/frontier/output/cooperative-time bounds, rational finite-extreme seed products, no unchecked selection on validation timeout, explicit complete versus unavailable | Scoped pass | Not continuous/global optimization; loading/preparation excluded from planning clock, outer process cancellation remains B-owned |
 | C06 | G coverage; CR R1/R3 | Chosen | B boundary; A recomputes | Full facility/repair horizon, exact fractional events | CR completeness; E3/IV independent full failure/horizon derivation and bound public records | Scoped pass | Joined application stale/coverage acceptance remains |
 | U01 | S Alerts view | Chosen | A ranking; B UI | All systems: failures by countdown, then revenue; inspections follow | D pure urgency tests and E3 all-system detect output | Partial | B alert-view ranking/render qualification remains |
 | U02 | R Suggestions / network, trends; G UI | Chosen | B | Dataset-driven 3D and channels; readable gaps/extrema/units | B #44 merged as 7418a2d, actual dataset/render/DPI and installed evidence published | Partial | A's final joined search/simulation presentation audit remains |
@@ -125,7 +131,7 @@ evidence. Imported-model causal seeded projection now also executes with exact
 normal/checked and file-roundtrip evidence. Bounded running inspection evidence
 improves actual practice delays and corrects the first historical miss; two
 ambiguous-recovery cuts and physical timeliness remain unqualified. Next:
-finite-extreme arithmetic robustness, commitment-aware planning and B-owned
+causal operator-commitment reconstruction, commitment-aware planning and B-owned
 joined search/application/installed
 integration. B's merged provider reports close the earlier hosted prerequisite
 and telemetry failures for its recorded source; final joined checks remain.
