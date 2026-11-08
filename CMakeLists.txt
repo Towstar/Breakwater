@@ -7,7 +7,7 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 if(CMAKE_GENERATOR MATCHES "^Visual Studio" AND
    NOT "${CMAKE_VS_GLOBALS}" MATCHES "(^|;)TLogLocation=")
   list(APPEND CMAKE_VS_GLOBALS
-    "TLogLocation=${CMAKE_BINARY_DIR}/.t/$(ProjectGuid)/$(Platform)/$(Configuration)/")
+    "TLogLocation=$(MSBuildProjectDirectory)/.t/$(ProjectGuid)/$(Platform)/$(Configuration)/")
 endif()
 
 set(CMAKE_CXX_STANDARD 20)

@@ -69,6 +69,7 @@ public:
     Q_INVOKABLE void detect();
     Q_INVOKABLE void searchPlans();
     Q_INVOKABLE void evaluatePlan(const QString& json);
+    Q_INVOKABLE QString newPlanDraftJson() const;
     Q_INVOKABLE void evaluateNoAction();
     Q_INVOKABLE void validateSelected(const QString& evaluatorMethod);
     Q_INVOKABLE void investigate(const QString& objective);
@@ -115,6 +116,7 @@ private:
     void toolRequested(const QString& execution, const QString& name, const QJsonObject& arguments);
     QJsonObject readTool(const QString& name, const QJsonObject& arguments) const;
     QJsonObject request(const QString& operation, const QJsonObject& arguments) const;
+    QJsonObject bindPlanProposal(QJsonObject proposal) const;
     QJsonObject validationFor(const QString& plan) const;
     QJsonArray toolDefinitions() const;
     void completeTool(const QJsonObject& outcome);

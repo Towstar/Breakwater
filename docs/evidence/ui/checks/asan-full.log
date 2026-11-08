@@ -1,0 +1,134 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-provider-review/out/provider-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-provider-review/out/provider-asan
+      Start  1: engine.eog_response
+ 1/64 Test  #1: engine.eog_response ......................   Passed    0.16 sec
+      Start  2: engine.eog_analytical
+ 2/64 Test  #2: engine.eog_analytical ....................   Passed    0.18 sec
+      Start  3: engine.eog_analytical_example
+ 3/64 Test  #3: engine.eog_analytical_example ............   Passed    0.07 sec
+      Start  4: engine.benchmark_correctness
+ 4/64 Test  #4: engine.benchmark_correctness .............   Passed    1.06 sec
+      Start  5: engine.acceptance
+ 5/64 Test  #5: engine.acceptance ........................   Passed    0.80 sec
+      Start  6: engine.search
+ 6/64 Test  #6: engine.search ............................   Passed    0.17 sec
+      Start  7: engine.control_influence
+ 7/64 Test  #7: engine.control_influence .................   Passed   17.45 sec
+      Start  8: engine.search_example
+ 8/64 Test  #8: engine.search_example ....................   Passed    0.10 sec
+      Start  9: engine.search_infeasible_example
+ 9/64 Test  #9: engine.search_infeasible_example .........   Passed    0.05 sec
+      Start 10: engine.transport
+10/64 Test #10: engine.transport .........................   Passed   15.97 sec
+      Start 11: engine.transport_example
+11/64 Test #11: engine.transport_example .................   Passed    0.05 sec
+      Start 12: desktop.ui_overhaul_normal
+12/64 Test #12: desktop.ui_overhaul_normal ...............   Passed   15.01 sec
+      Start 13: desktop.ui_overhaul_compact
+13/64 Test #13: desktop.ui_overhaul_compact ..............   Passed   15.23 sec
+      Start 14: desktop.project
+14/64 Test #14: desktop.project ..........................   Passed    1.57 sec
+      Start 15: desktop.pipe_parameters
+15/64 Test #15: desktop.pipe_parameters ..................   Passed    0.11 sec
+      Start 16: desktop.nemotron_client
+16/64 Test #16: desktop.nemotron_client ..................   Passed    2.30 sec
+      Start 17: desktop.agent_gateway
+17/64 Test #17: desktop.agent_gateway ....................   Passed    1.06 sec
+      Start 18: desktop.agent_orchestrator
+18/64 Test #18: desktop.agent_orchestrator ...............   Passed   14.26 sec
+      Start 19: desktop.session_repository
+19/64 Test #19: desktop.session_repository ...............   Passed    2.80 sec
+      Start 20: desktop.history_controller
+20/64 Test #20: desktop.history_controller ...............   Passed    2.16 sec
+      Start 21: desktop.python_worker
+21/64 Test #21: desktop.python_worker ....................   Passed    3.92 sec
+      Start 22: desktop.pipe_transport
+22/64 Test #22: desktop.pipe_transport ...................   Passed    5.56 sec
+      Start 23: desktop.pipe_transport_evidence
+23/64 Test #23: desktop.pipe_transport_evidence ..........   Passed    0.77 sec
+      Start 24: desktop.storage_worker
+24/64 Test #24: desktop.storage_worker ...................   Passed  134.64 sec
+      Start 25: desktop.storage_science
+25/64 Test #25: desktop.storage_science ..................   Passed   85.42 sec
+      Start 26: desktop.science_evidence
+26/64 Test #26: desktop.science_evidence .................   Passed   15.64 sec
+      Start 27: desktop.agent_science
+27/64 Test #27: desktop.agent_science ....................   Passed   10.66 sec
+      Start 28: desktop.sensor_editor
+28/64 Test #28: desktop.sensor_editor ....................   Passed    4.25 sec
+      Start 29: desktop.telemetry_stream
+29/64 Test #29: desktop.telemetry_stream .................   Passed  163.70 sec
+      Start 30: desktop.telemetry_lifecycle
+30/64 Test #30: desktop.telemetry_lifecycle ..............   Passed   27.02 sec
+      Start 31: desktop.sensor_editor_normal_smoke
+31/64 Test #31: desktop.sensor_editor_normal_smoke .......   Passed    6.27 sec
+      Start 32: desktop.telemetry_replay_normal_smoke
+32/64 Test #32: desktop.telemetry_replay_normal_smoke ....   Passed    7.85 sec
+      Start 33: desktop.sensor_editor_compact_smoke
+33/64 Test #33: desktop.sensor_editor_compact_smoke ......   Passed    6.43 sec
+      Start 34: desktop.telemetry_replay_compact_smoke
+34/64 Test #34: desktop.telemetry_replay_compact_smoke ...   Passed    6.70 sec
+      Start 35: desktop.telemetry_contracts
+35/64 Test #35: desktop.telemetry_contracts ..............   Passed   16.29 sec
+      Start 36: contracts.telemetry
+36/64 Test #36: contracts.telemetry ......................   Passed    5.24 sec
+      Start 37: desktop.eog_contracts
+37/64 Test #37: desktop.eog_contracts ....................   Passed    1.39 sec
+      Start 38: contracts.eog
+38/64 Test #38: contracts.eog ............................   Passed    2.55 sec
+      Start 39: desktop.storage_science_normal
+39/64 Test #39: desktop.storage_science_normal ...........   Passed   10.55 sec
+      Start 40: desktop.storage_science_compact
+40/64 Test #40: desktop.storage_science_compact ..........   Passed   10.68 sec
+      Start 41: desktop.storage_science_derivatives
+41/64 Test #41: desktop.storage_science_derivatives ......   Passed   11.40 sec
+      Start 42: desktop.qml_smoke
+42/64 Test #42: desktop.qml_smoke ........................   Passed    6.02 sec
+      Start 43: desktop.scientific_history_normal
+43/64 Test #43: desktop.scientific_history_normal ........   Passed    6.57 sec
+      Start 44: desktop.scientific_history_compact
+44/64 Test #44: desktop.scientific_history_compact .......   Passed    6.79 sec
+      Start 45: desktop.pipe_evidence_smoke
+45/64 Test #45: desktop.pipe_evidence_smoke ..............   Passed    6.14 sec
+      Start 46: desktop.eog_dataset
+46/64 Test #46: desktop.eog_dataset ......................   Passed   18.99 sec
+      Start 47: desktop.eog_capture
+47/64 Test #47: desktop.eog_capture ......................   Passed    0.71 sec
+      Start 48: desktop.eog_analysis_client
+48/64 Test #48: desktop.eog_analysis_client ..............   Passed   16.31 sec
+      Start 49: desktop.eog_history
+49/64 Test #49: desktop.eog_history ......................   Passed   30.70 sec
+      Start 50: desktop.eog_investigator
+50/64 Test #50: desktop.eog_investigator .................   Passed    2.49 sec
+      Start 51: desktop.eog_analysis_controller
+51/64 Test #51: desktop.eog_analysis_controller ..........   Passed   19.38 sec
+      Start 52: desktop.eog_provider
+52/64 Test #52: desktop.eog_provider .....................   Passed   12.50 sec
+      Start 53: desktop.eog_demo_input
+53/64 Test #53: desktop.eog_demo_input ...................   Passed    1.39 sec
+      Start 54: desktop.eog_live_cli
+54/64 Test #54: desktop.eog_live_cli .....................   Passed    2.69 sec
+      Start 55: desktop.eog_cli
+55/64 Test #55: desktop.eog_cli ..........................   Passed   15.80 sec
+      Start 56: desktop.eog_plan_chart
+56/64 Test #56: desktop.eog_plan_chart ...................   Passed  101.59 sec
+      Start 57: desktop.eog_plan_details
+57/64 Test #57: desktop.eog_plan_details .................   Passed   10.05 sec
+      Start 58: desktop.eog_event_details
+58/64 Test #58: desktop.eog_event_details ................   Passed    8.46 sec
+      Start 59: desktop.eog_analysis_normal
+59/64 Test #59: desktop.eog_analysis_normal ..............   Passed    7.39 sec
+      Start 60: desktop.eog_overview_normal
+60/64 Test #60: desktop.eog_overview_normal ..............   Passed    6.60 sec
+      Start 61: desktop.eog_facility_normal
+61/64 Test #61: desktop.eog_facility_normal ..............   Passed    6.47 sec
+      Start 62: desktop.eog_analysis_compact
+62/64 Test #62: desktop.eog_analysis_compact .............   Passed    6.59 sec
+      Start 63: desktop.eog_overview_compact
+63/64 Test #63: desktop.eog_overview_compact .............   Passed    6.55 sec
+      Start 64: desktop.eog_facility_compact
+64/64 Test #64: desktop.eog_facility_compact .............   Passed    6.47 sec
+
+100% tests passed, 0 tests failed out of 64
+
+Total Test time (real) = 934.32 sec

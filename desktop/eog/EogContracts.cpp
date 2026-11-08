@@ -6,6 +6,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QMap>
+#include <QPair>
 #include <QRegularExpression>
 #include <QSet>
 #include <algorithm>
@@ -55,6 +56,46 @@ const QMap<QString, QJsonObject>& schemas() {
     return documents;
 }
 
+QPair<QString, QJsonObject> schemaReference(const QString& reference, const QString& source) {
+    const auto split = reference.split('#');
+    require(split.size() <= 2 && !reference.contains("://"), "Only local EOG schema references are permitted.");
+    const auto file = split[0].isEmpty() ? source : split[0];
+    require(schemas().contains(file), "Unknown EOG schema reference.");
+    QJsonValue target = schemas().value(file);
+    if (split.size() == 2 && !split[1].isEmpty()) {
+        require(split[1].startsWith('/'), "Invalid local EOG JSON pointer.");
+        for (const auto& token : split[1].mid(1).split('/')) {
+            const auto key = QString(token).replace("~1", "/").replace("~0", "~");
+            require(target.isObject() && o(target).contains(key), "Unresolved EOG schema pointer.");
+            target = o(target).value(key);
+        }
+    }
+    require(target.isObject(), "EOG schema target is not an object.");
+    return {file, o(target)};
+}
+QJsonValue inlineSchema(const QJsonValue& value, const QString& source, int depth = 0) {
+    require(depth <= 128, "EOG schema recursion exceeds its bound.");
+    if (value.isArray()) {
+        QJsonArray result; for (const auto& item : a(value)) result.append(inlineSchema(item, source, depth + 1));
+        return result;
+    }
+    if (!value.isObject()) return value;
+    auto object = o(value);
+    if (object.contains("$ref")) {
+        const auto reference = schemaReference(t(object.value("$ref")), source);
+        const auto expanded = inlineSchema(reference.second, reference.first, depth + 1);
+        object.remove("$ref");
+        if (object.isEmpty()) return expanded;
+        // Reference siblings are conjunctive; merging keys could weaken bounds.
+        return QJsonObject{{"allOf", QJsonArray{expanded, inlineSchema(object, source, depth + 1)}}};
+    }
+    QJsonObject result;
+    for (auto it = object.begin(); it != object.end(); ++it)
+        if (it.key() != "$schema" && it.key() != "$id" && it.key() != "$defs")
+            result[it.key()] = inlineSchema(it.value(), source, depth + 1);
+    return result;
+}
+
 // Deliberately bounded subset used by these committed schemas. Unknown keywords
 // fail closed, so adding a validation keyword requires native support and tests.
 bool matches(const QJsonValue& value, const QJsonObject& schema, const QString& source, int depth = 0) {
@@ -66,22 +107,8 @@ bool matches(const QJsonValue& value, const QJsonObject& schema, const QString& 
     for (auto it = schema.begin(); it != schema.end(); ++it)
         require(supported.contains(it.key()), "Unsupported EOG schema keyword.");
     if (schema.contains("$ref")) {
-        const auto reference = t(schema.value("$ref"));
-        const auto split = reference.split('#');
-        require(split.size() <= 2 && !reference.contains("://"), "Only local EOG schema references are permitted.");
-        const auto file = split[0].isEmpty() ? source : split[0];
-        require(schemas().contains(file), "Unknown EOG schema reference.");
-        QJsonValue target = schemas().value(file);
-        if (split.size() == 2 && !split[1].isEmpty()) {
-            require(split[1].startsWith('/'), "Invalid local EOG JSON pointer.");
-            for (const auto& token : split[1].mid(1).split('/')) {
-                const auto key = QString(token).replace("~1", "/").replace("~0", "~");
-                require(target.isObject() && o(target).contains(key), "Unresolved EOG schema pointer.");
-                target = o(target).value(key);
-            }
-        }
-        require(target.isObject(), "EOG schema target is not an object.");
-        if (!matches(value, o(target), file, depth + 1)) return false;
+        const auto reference = schemaReference(t(schema.value("$ref")), source);
+        if (!matches(value, reference.second, reference.first, depth + 1)) return false;
     }
     if (schema.contains("const") && value != schema.value("const")) return false;
     if (schema.contains("enum") && !a(schema.value("enum")).contains(value)) return false;
@@ -400,6 +427,19 @@ QString capture_identity(const QJsonObject& value) {
 QString plan_identity(const QJsonObject& value) {
     auto projected = value; projected.remove("plan_hash");
     return digest(QByteArray("breakwater-eog-plan-v1\n") + semantic_bytes(projected));
+}
+QJsonObject agent_plan_schema() {
+    const auto plan = schemas().value("common-v1.schema.json").value("$defs").toObject().value("plan").toObject();
+    auto result = inlineSchema(plan, "common-v1.schema.json").toObject();
+    QJsonArray required;
+    const QSet<QString> envelope{"plan_id", "plan_hash", "context", "start_unix"};
+    for (const auto& field : result.value("required").toArray())
+        if (!envelope.contains(field.toString())) required.append(field);
+    result["required"] = required;
+    auto properties = result.value("properties").toObject();
+    for (const auto& field : envelope) properties.remove(field);
+    result["properties"] = properties;
+    return result;
 }
 void validate_document(const QJsonObject& document, const QString& requestedKind, const QJsonObject& context) {
     inspect(document); inspect(context);
