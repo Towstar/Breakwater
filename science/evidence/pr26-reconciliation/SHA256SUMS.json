@@ -1,6 +1,6 @@
 {
-  "docs/PR26_RECONCILIATION.md": "b656a6da58fa86fdb6e44c1f376577dd9bcfbbcc524afae12c98bf45bf10572d",
-  "docs/STATUS.md": "067125643bf1035d0e2f9754f12178fa5080399315d236b4d12330a125470f09",
+  "docs/PR26_RECONCILIATION.md": "26f131dd4a980d7c22718e5acfdcb5addec60da1a6062abdfc3dc56368f72390",
+  "docs/STATUS.md": "930086c4223b95b802279de43fad648725e9636acd23d07d77183fb24a14ba09",
   "science/evidence/pr26-reconciliation/asan/agent_gateway-results.txt": "1ebab25b6908f537de516e349952de9709720f90de9faf16d699c2869cfb21ab",
   "science/evidence/pr26-reconciliation/asan/agent_orchestrator-results.txt": "c449feb7a89cdc2ba3f03a8a1064a265323ae4e3e453f7a28f24ba6aabe8e8ab",
   "science/evidence/pr26-reconciliation/asan/build.log": "c25ebb61c5197967f8f012a7df1c7219efb53c48aee4a8de31658c4e0e4a7749",
@@ -149,5 +149,6 @@
   "science/evidence/pr26-reconciliation/science/worker.json": "b25842afb5300a5347cd71aa771fb12b5fa1e0e1274d6e0df808f9fff20646e7",
   "science/evidence/pr26-reconciliation/science/worker.log": "a10254319446a381bba836dd3c19319359fd379179df26df472678b1bbd58fa0",
   "science/evidence/pr26-reconciliation/summary.json": "1b435fae66dce719424a94ff5c6e28b6a77113b5c709ce0cba635286fb67f72a",
-  "science/evidence/pr26-reconciliation/toolchain.json": "3b008423947b533a6906425e71d513a27cbf6a93edec2c8544e36928f93f9e1b"
+  "science/evidence/pr26-reconciliation/toolchain.json": "3b008423947b533a6906425e71d513a27cbf6a93edec2c8544e36928f93f9e1b",
+  "science/evidence/pr26-reconciliation/plans/snapshot-provenance.json": "70bdcf49f432e236fb1832b11cede819e987b6345a78eff6ccff7a0cbad12adf"
 }

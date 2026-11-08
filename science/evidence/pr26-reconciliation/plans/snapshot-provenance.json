@@ -1,0 +1,34 @@
+{
+  "imported_utc": "2026-11-08T04:40:24.632120+00:00",
+  "source_worktree": "C:\\Projects\\Breakwater\\.worktrees\\hypothetical-telemetry-plan",
+  "source_head": "e057fa44ed8c7c3127466d72d816a68228e9b033",
+  "source_state": "Uncommitted shared planning documents snapshotted read-only at user request; source worktree preserved.",
+  "verification_parent": "5b93ebbd1a0961c500f089fb9f6a7690df8436e8",
+  "verified_runtime_source": "f50431088806927abaa823858ab5377276223972",
+  "source_sha256": {
+    "README.md": "f1e678c8d098ec5b16fec9a496b30a6d617d8361d0fbd92ceac20adaac3159e8",
+    "docs/CONTINUATION_PLAN.md": "988b0fd426f2ba7a820bdb5b1a7393ec9343c99f446d9ef89d151b7a86003284",
+    "docs/IMPLEMENTATION_PLAN.md": "edbc63069e6f18234d8291df038085239d3217b39e1e5e911cf93e9713e8f566",
+    "docs/KICKOFF_PERSON_A.md": "fdeb6ef4c1f7313baede17b8037598de18b36ca75ae4170c397f5b8910e8cb46",
+    "docs/KICKOFF_PERSON_B.md": "5d6a67cbc92df0184007b68caeb057c35578ee3fcddcf3083df42e61767a4351",
+    "docs/PARALLEL_WORK.md": "2e86f28b49e177c2450dec0514dacbe508696718c566e905e152da0f31540bbf",
+    "docs/POST_A9_PLAN.md": "ad1c69764d09a5b12d977bffb5c72353be8309e77635488d48adf8a32183fa79",
+    "docs/STATUS.md": "8f1ad6e2142fe80a1aa3e3cb86aa28cbc341dd403f6af8c06afb3d4765d9dedd",
+    "docs/TELEMETRY_PLAN.md": "c9a2adee8974168bc0f7f0862b1fc1e15c42c8317c974ff536009b9c0e8981dd"
+  },
+  "published_lf_content_sha256": {
+    "README.md": "18568797d261765d6adbf2d1f3c336b7aed41bd9f296c3f7cc3674e120461810",
+    "docs/CONTINUATION_PLAN.md": "7f35516fc2fb84eb3d4ec7acec222014de7f15e61ac5ee30ed327ff4224f8c19",
+    "docs/IMPLEMENTATION_PLAN.md": "b14e5dd07ecf57b3cddeeba76a8eec18adc0f245ca33636157800258c8dc3b6f",
+    "docs/KICKOFF_PERSON_A.md": "96d38f5b647fa12b5ba15caaffaebca9d646bb390db8bffd34e744b85f50a48c",
+    "docs/KICKOFF_PERSON_B.md": "681ef0e311f1fa05ad5af0b332cc2f751e9ddc6d44749467d5521df4fa92e0cf",
+    "docs/PARALLEL_WORK.md": "5b6bfc3c53bb59c883583ac6a8f4ce3ef9cb861dee62cfb3c056a42b0b0a878f",
+    "docs/POST_A9_PLAN.md": "dd716d0694af455a384b3e79ef26f25b5b879770615723ed38445b66bc619f73",
+    "docs/STATUS.md": "930086c4223b95b802279de43fad648725e9636acd23d07d77183fb24a14ba09",
+    "docs/TELEMETRY_PLAN.md": "b4e10bd53a77ace4ea64f78cfab78418995d2ae2fa5fdeac828c69de24fe2cb8"
+  },
+  "relative_links": "passed",
+  "runtime_sources_unchanged": true,
+  "source_worktree_preserved": true,
+  "local_plan_included": false
+}

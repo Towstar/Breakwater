@@ -1,201 +1,170 @@
-# Person B: Nemotron, APIs, desktop and integration
+# Person B: desktop, hypothetical sensors, telemetry and integration
 
-Updated November 7, 2026. Use [POST_A9_PLAN.md](POST_A9_PLAN.md) for the active
-integration baseline and ordered next changes. A's audit fixes, A9, A10a/A10b and
-the B stack are merged; broader release acceptance remains separate. PRs #13, #18,
-#19, #21 and #23 landed in that order; PR #24 then added A's conditional nonnegativity
-proofs and native regressions. Current merged main is `106a756`.
-Coordinate with [Person A's plan](KICKOFF_PERSON_A.md). The original sequence below
-is retained as context, not a claim of comprehensive audit/release completion.
+Updated November 7, 2026 (America/Chicago). The active assignments are in
+[CONTINUATION_PLAN.md](CONTINUATION_PLAN.md) and
+[TELEMETRY_PLAN.md](TELEMETRY_PLAN.md). Older instructions to implement B5 or merge
+the #13/#18/#19 stack are historical; those features are already delivered.
 
-Current workstream update: B5a/B5b deployment/forward comparison and B5c selected
-captured-control sensitivities are implemented. Person A's PR #17 audit fixes,
-PR #20 transport qualification and current main's native key settings are integrated;
-see [AUDIT_REPORT.md](AUDIT_REPORT.md) and the latest [STATUS.md](STATUS.md) evidence
-before the retention/release steps. The original audit and staged roadmap remain intact.
-Scientific retention/restoration is implemented in the next B increment, using
-immutable standalone local sessions and a historical-only viewer; see current STATUS
-for its executed checks before treating it as a release gate. Manual release workflows
-and clean operator-review rehearsals remain open. Do not rebuild the delivered B5 path.
+## Current baseline and ownership
 
-## Role, baseline and ownership
+Remote main was e057fa44ed8c7c3127466d72d816a68228e9b033 at planning. It includes
+deployed storage comparison, selected-control sensitivities, immutable scientific
+history, A10b and existing native transport/Nemotron/simulated review. Historical
+counts and archived proof/training results do not establish fresh combined acceptance.
 
-You own the native C++20/MSVC/Qt Quick application, NVIDIA HTTPS client, Nemotron
-tools, public contracts, packaging and integration. API work means the existing
-native tool/NDJSON boundaries; retain the accepted Windows architecture.
+You write desktop/, contracts/, root CMake/config/scripts/solution, README and shared
+docs/. A owns engine/, science/, proofs/, scenarios/ and their tests/build/locks.
+Review any source, but request A-owned changes with a minimal reproduction.
+Publish shared contracts as a separate reviewed commit; both workstreams adopt that
+commit before dependent mapping/transport code.
 
-At preparation, main was 794c7cd. A3–A8 are merged: the repo worker implements
-health, capabilities and storage_rollout. The desktop client still calls health
-only, and its installer copies only worker.py. Native pipe transport/viewing,
-investigation history, planning tools and simulated approval already exist.
+Use a separate clone/worktree and named codex/ branch after inspecting status.
+Preserve other sessions' uncommitted work and branches; no resets or force pushes.
+B is the sole main integrator. Do not implement new features directly on main.
 
-Recorded baseline evidence is 18 combined CTest suites, 69 Python tests, 21 audited
-Lean theorems, and a 66-project/180-dependency solution. Reproduce relevant checks
-on your machine and record actual counts; these records are not a new audit.
+## Read first
 
-| You may edit | Request changes from A |
-|---|---|
-| desktop/, contracts/, root CMake/presets, scripts/, Breakwater.slnx, README and shared docs/ | engine/, science/, proofs/, scenarios/, their tests, local build files and dependency locks |
+- AGENTS.md, For Dev Agents.md Part A, IMPLEMENTATION_PLAN.md and STATUS.md.
+- Active CONTINUATION_PLAN.md, TELEMETRY_PLAN.md and PARALLEL_WORK.md.
+- Current audit dispositions and Person A's kickoff.
+- DESKTOP_SCIENCE.md, PIPE_TRANSPORT.md, DESKTOP_FOUNDATION.md, AGENT_INTEGRATION.md
+  and existing project/science/history contracts.
 
-Read any subsystem for review. Make fixes within your ownership. Publish necessary
-additive contract changes with examples, then obtain A's adoption before implementation.
+Keep the numerical engine independent and approval simulated-only. Sensor/stream/
+detector functionality in the new plan is not yet implemented or verified.
 
-Use a separate clone/worktree and codex/person-b-desktop or a named codex/ subbranch
-from latest origin/main. Inspect status first; preserve existing work. Do not switch
-another session's branch, reset its work, force-push, or put feature work directly on
-main. B integrates small reviewed PRs. Preserve complete ancestry and original plans.
+## G0: current integration and baseline acceptance
 
-Read first: [AGENTS](../AGENTS.md), [original handoff, Part A](../For%20Dev%20Agents.md),
-[accepted plan](IMPLEMENTATION_PLAN.md), [status](STATUS.md),
-[parallel ownership](PARALLEL_WORK.md), [science contract](SCIENCE_CONTRACTS.md),
-[schemas](../contracts/science/README.md), [A8 worker](../science/WORKER.md),
-[desktop foundation](DESKTOP_FOUNDATION.md) and [pipe viewer](PIPE_TRANSPORT.md).
+PR #26 now reconciles main `e057fa4` through `f504310` and preserves sensitivities,
+scientific history and the additional exact-grid/lifecycle regressions. See
+[PR26_RECONCILIATION.md](PR26_RECONCILIATION.md) for fresh 28/28 normal and ASan
+CTests, 127 Python tests without skips and installed sensitivity/history checks.
+Review and merge the existing PR after inspecting current remote status; do not
+restart its reconciliation, change its branch or overwrite that worktree. Manual
+workflow, clean-machine and release-rehearsal gaps remain explicit.
 
-## 1. Audit the entire foundation with A before new features
+Main already has the core rounded-multiple/exact-endpoint policy independently.
+Retain useful additional regressions/evidence while preserving current sensitivities,
+scientific history and credential binding. Validate the actual resulting revision;
+older 24-suite and newer 28-suite reports apply only to their recorded revisions.
 
-Freeze the reviewed commit and create a requirements-to-implementation/evidence matrix.
-Distinguish working source, installed functionality, recorded upstream evidence,
-unverified behavior and planned features. Review A's boundary conclusions while A
-reviews your scientific mappings.
+Refresh current summaries without rewriting historical evidence. Establish automated
+Windows PR checks: native correctness first, desktop/science/Lean in separate supported
+jobs with pinned setup. Expose unavailable dependencies/skips rather than passing
+an unexecuted integration. Exercise existing operator workflow/manual acceptance gaps
+and preserve deterministic/manual use when model credentials are unavailable.
 
-| Area | Required review and evidence |
-|---|---|
-| Editor/project | Stable IDs, topology edits, route attachments, drafts, save/load, undo/redo, atomic writes, physical settings, layout versus numerical revisions |
-| State/approval | Immutable snapshots/runs, effective controls, validation before staging, user-only application, reset/deletion/cancellation, late completion and historical-import rejection |
-| Worker | Legacy health, version/method negotiation, selected controls, request IDs, identity, dimensions, exact horizon, original indices, byte/work limits and missing runtimes |
-| Pipe viewer | Captured flow including failed pumps/curtailment, explicit geometry, signed ledger, cell averages, stale binding and volume/quality separation |
-| Persistence | SQLite thread/lifetime behavior, immutable records, corruption/size failures, export/import and historical-only restoration |
-| Nemotron | Real numerical tools, 12 calls/three refinement rounds/two minutes, fixed constraints/horizon, fabricated IDs, skipped validation, malformed calls, timeout/no-plan behavior and credential redaction |
-| Delivery/docs | Qt/QML/Sql/qsqlite, scientific modules, Python pins, source-path fallback leakage, actual dialogs and current versus historical claims |
+## G1: publish the shared sensor/telemetry contract
 
-Rebuild the root solution directly and run normal plus full-desktop ASan tests.
-Configure an actual Python interpreter so worker tests run; record skips as unavailable.
-Coordinate A's fresh numerical/science/Lean checks instead of attributing old evidence
-to this audit. Manually check save/export/reopen dialogs, in-flight cancellation,
-restart, 1440×900 and 1100×700 layouts, and a renamed/custom network.
+With A reviewing physical semantics, define additive versioned schemas/types/examples:
 
-Use x64 Visual Studio Developer PowerShell with installed MSVC, CMake/Ninja and Qt:
+- Sensor definitions: stable ID, type/unit, source/channel, asset/route attachment,
+  physical measurement location, independent layout anchor, calibration, uncertainty,
+  expected update rate, age limits and primary/redundant policy.
+- Reading/batch: stream/epoch/sequence, event versus receive time, finite values,
+  canonical/original units, quality, bounded sizes/rates and explicit errors.
+- Observed snapshot: measurement/configuration identity, coherent time/skew, quality,
+  commands versus measured values, derived state, assumptions and provenance.
+- Detection event: evidence/threshold versions, onset/update/clear/acknowledgement,
+  severity, affected sensors/assets and unresolved diagnosis.
+- Compatibility: old sensor-free projects/archives remain readable; define the
+  extension/version policy explicitly rather than changing old v1 semantics.
 
-~~~powershell
-$qtPrefix = 'C:\path\to\Qt\6.12.0\msvc2022_64'
-$env:BREAKWATER_PYTHON = 'C:\path\to\science\.venv\Scripts\python.exe'
-.\scripts\Generate-VisualStudio.ps1 -QtPrefix $qtPrefix -EmbeddedDebugInfo
-MSBuild.exe Breakwater.slnx /p:Configuration=RelWithDebInfo /p:Platform=x64 /m:1
-ctest --test-dir out/visual-studio -C RelWithDebInfo --output-on-failure
-cmake -S . -B out/audit-desktop-asan -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBREAKWATER_BUILD_DESKTOP=ON -DBREAKWATER_ENABLE_ASAN=ON -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded "-DCMAKE_PREFIX_PATH=$qtPrefix" "-DPython3_EXECUTABLE=$env:BREAKWATER_PYTHON"
-cmake --build out/audit-desktop-asan --parallel 2
-ctest --test-dir out/audit-desktop-asan --output-on-failure
-~~~
+Use the proposed concepts in TELEMETRY_PLAN.md; its example is not an existing schema.
+Define identity, freshness and retirement policy before parallel implementation.
 
-Check each exit status. VS2026 is the default; explicitly select the supported VS2022
-generator when needed. .tools/ and out/ are local/ignored, not supplied by cloning.
-Record setup failures; do not assume another developer's paths/packages. Sanitizer
-timings are not benchmarks.
+## G2: sensor editor, synthetic streaming and replay
 
-Write docs/AUDIT_PERSON_B.md, then aggregate A's science/AUDIT_PERSON_A.md into
-docs/AUDIT_REPORT.md. Each finding needs severity, owner, file/evidence reference,
-reproduction, impact, proposed fix and acceptance test. Record versions, commands,
-commit, failures/skips and requirement gaps. Passing tests alone does not close
-review. Resolve P0/P1 correctness, approval, persistence and deployment blockers before
-dependent features; explicitly triage lower-priority findings.
+Sensors are hypothetical. Provide clearly identified Manual, Synthetic live, Replay
+and Historical modes. No physical system, industrial protocol, hardware procurement
+or remote listener is needed for the initial acceptance.
 
-## 2. Fix findings and reconcile existing work
+- Place/select/configure/move/delete sensors attached to assets/routes. Save/load and
+  undo/redo preserve IDs/mappings. Marker layout is independent of physical location.
+- Support typed volume/level, flow, pump-status and compatible pipe concentration.
+  Pressure/temperature/custom channels are initially display/history/alarm-only.
+- Integrate A's seeded publisher through bounded local NDJSON and the same typed
+  ingestion used by replay/tests. B owns root launch wrappers and process lifecycle;
+  A owns generator physics/scientific fixtures.
+- Keep observed values separate from commands/design. Define duplicate, reordered,
+  delayed/future and restarted input handling. Show timestamps, age, quality and
+  unavailable/stale/inconsistent states. Preserve finite out-of-model-range evidence.
+- Keep input/recording/parsing off the UI thread and bound buffers/traces/storage.
+  Provide pause/resume, replay speed/epochs, backpressure counters and error handling.
 
-Deliver owner-specific fixes in small PRs. At preparation,
-[PR #13](https://github.com/Towstar/Breakwater/pull/13) was open: historical native-pipe
-evidence reopening plus a B5 plan, not production science-client integration. Recheck
-its current head/status against main/A8 and integrate after relevant checks pass.
-Preserve historical/unverified labels and rejection of approval restoration, including
-matching IDs/hashes. It does not supply automatic scientific-result retention.
+Gate: canonical/custom placed sensors, save/load and repeatable replay from actual
+emitted messages. No direct writes from hidden plant truth into the forecast state.
 
-Refresh STATUS, continuation instructions and kickoffs from the findings. Preserve
-IMPLEMENTATION_PLAN.md and For Dev Agents.md as the full roadmap/handoff.
+## G3: incidents, frozen observed state and forecasts
 
-## 3. B5a: deploy the scientific worker
+Integrate A's residual/rule quantities and coverage limits:
 
-Install worker_storage.py and the required breakwater_science package beside
-worker.py; configure a compatible Python environment using A's pinned dependencies.
-Keep SDKs, environments, credentials, caches and checkpoints out of Git. Test an
-installed/staged application from a new location with the source checkout unavailable,
-so a development fallback cannot hide missing modules. Execute actual storage requests.
+- Event lifecycle with persistence/hysteresis, evidence plots and unresolved-cause
+  display. Acknowledgement does not clear the physical condition.
+- Capture coherent observed state at a bounded cadence or incident/manual trigger.
+  Retain sample IDs, event times, quality, calibration/sensor config and assumptions.
+- Keep telemetry identity distinct from network hash/revision. New accepted state,
+  sensor mapping changes, stream changes and expiry retire dependent live eligibility;
+  incoming packets do not mutate an existing run or flood undo/job queues.
+- Native forecasts/candidates use the captured original horizon/grid. Preserve
+  measured delivery versus intended intervention and declared constant-rate assumptions.
+- Optional bounded Nemotron investigations consume captured evidence, not true fault
+  labels or a new request per packet. Native validation and freshness guards precede
+  explicit human application to the synthetic plant only.
+- Archive bounded incident/snapshot evidence. Historical/replayed imports cannot
+  restore live approval or write controls.
 
-**Exit gate:** installed health/capabilities/storage work. Missing Python/Torch produces
-an explicit unavailable state while native simulation stays usable. A worker.py-only
-deployment still preserves legacy health truthfully.
+Gate: noisy healthy operation, pump delivery loss, persistent loss/drift, sensor faults,
+missing coverage and recovery; responsive cancellation, no stale publication and
+honest detection versus diagnosis. Model access is not required to exercise detectors.
 
-## 4. B5b: typed asynchronous capabilities and forward analysis
+## G4: release acceptance and follow-on features
 
-Extend desktop/science/ with a bounded session lifecycle. Use the same worker process
-for capabilities → storage_rollout → capabilities: execution verification is process-local.
-Allow the first calculation before execution_verified becomes true. Code/package
-availability is not scientific execution or qualification.
-After the final response, close stdin and require a clean process exit before publishing
-the scientific result; a response followed by a crash must fail the job.
+Complete three clean canonical review/approval/reset rehearsals and a custom-network
+follow-up, retaining actual model tool/run/validation evidence and no-plan attempts.
+Close save/open/export, compact layout and in-flight cancellation gaps. Verify a
+relocated installation without checkout sources and clean Windows setup, including
+synthetic publisher/replay and unavailable worker/model paths.
 
-Test fake-worker faults, then A's real worker: malformed/oversized output, unsupported
-versions, wrong IDs, bad shapes/nonfinite values, stream limits, crashes, deadlines,
-cancel/restart and late completions. Enforce identity/control bindings independently
-of JSON Schema. Artifacts remain unsupported under current capabilities.
+Then deliver separately:
 
-Start with a forward-only UI comparison using an immutable native run and effective
-controls. Keep its original horizon/time grid; **never infer step_h from a decimated
-display preview**. Preserve time indices and tank IDs. Show native/PyTorch values,
-differences, units, versions and warnings without granting feasibility, staging plans
-or applying controls.
+- E1: Science for a selected immutable investigation candidate without applying
+  controls; reuse the deployed forward/selected-derivative worker and exact capture.
+- E2: automatic native pipe-result History, bounded evidence and detached reopening;
+  preserve existing JSON import/export and visible storage errors.
+- D1 support: A compares RBM/statistical/physical baselines. Publish a distinct
+  advisory detector-result contract only before a separately selected runtime method.
+- R1: UI for independently validated constant-inflow/availability/horizon scenario
+  comparisons, worst margin/failure time and cost; no global robustness claim.
+- M1: distinct conditioned learned-quality contract only after A's reference/error/
+  held-out-domain gates. The fixed-case PhysicsNeMo smoke is already delivered.
 
-Audit the current captured-run metadata: add the original requested simulation config
-and actual native grid/reference arrays where absent. Coordinate representable-grid
-and rounding conventions with A before strict comparisons. Investigate the reported
-one-ULP short-endpoint case and A8's rejection of duplicate-time grids. Do not
-silently repair samples, shorten the requested horizon or infer config from a last point.
+A can perform F1 while G0/G1 proceed, then G2/G3 and D1 while you complete application
+and release work. Preserve this split rather than implementing A's numerical logic.
 
-**Exit gate:** actual development and installed requests agree with native references
-on canonical and renamed/custom networks; UI stays responsive. Numerical edits, reset,
-run changes, deletion and cancellation retire stale results. Layout-only movement
-preserves eligible results.
+## Verification and handoff
 
-## 5. B5c: selected-control derivatives
+Run relevant real/fault-fixture input, identity, clock, malformed/oversized,
+cancellation, persistence, stale-result and approval tests. Integration checks include
+normal and full-desktop MSVC ASan builds, current QML/compact renders and actual
+installed runtime behavior. Coordinate A's numerical checks and record inherited
+versus freshly executed science/Lean evidence. Do not claim skipped model or tests ran.
 
-Add gradients separately after the forward path works. The request controls list
-supplies both overrides and derivative columns in that exact order; omitted controls
-remain captured constants. Selected fixed/boundary controls fail explicitly. Explain
-this domain and show terminal Jacobians in hours and cost gradients in synthetic units
-per m3/h. Never silently perturb inputs or drop requested derivatives.
+Deliver one tested increment per PR, with commit/paths, interface changes, exact
+commands/counts/skips, limits and a runnable synthetic example. Update shared STATUS
+and solutions when appropriate; preserve credentials, pins and original handoff.
 
-Changed analysis settings require a corresponding native captured run/identity; do
-not reuse an unrelated run ID. Check response identity, ordering, dimensions and horizon.
-Scientific results remain advisory and cannot restore or bypass native approval.
-
-## 6. Evidence, Nemotron rehearsals and release
-
-Persist bounded, versioned scientific evidence with captured identity/controls, units,
-versions and warnings. Reopened results are historical and non-actionable. A fresh
-editable incident requires explicit creation, native validation and fresh approval.
-
-Complete actual save/export/reopen and cancellation workflows, then the outstanding
-three canonical operator-review rehearsals and a custom-network rehearsal. Use existing
-hosted smokes with configured credentials; never request keys in chat or expose them
-in QML/logs. Retain failed/no-plan attempts and actual model-issued tool/run evidence.
-A valid plan need not match a prescribed cost; finite search is not global optimality.
-
-**Release gate:** reproducible installed Windows build, current normal/ASan/science/Lean
-evidence, declared limitations and a working operator workflow. Keep the fixed-case
-PhysicsNeMo smoke separate from arbitrary-route inference and authoritative native FVM.
-
-## Delivery and copy/paste starting instruction
-
-A can qualify transport in parallel with B5 without changing this contract. Request
-numerical fixes from A with reproductions; B owns shared contracts and integration.
-Each PR reports commit, paths, interface changes, actual tests, limitations and a runnable
-example. Regenerate solutions when targets change; merge reviewed PRs, update STATUS
-and merge main into shared branches without force pushes.
+## Copyable starting instruction
 
 ~~~text
-Continue BREAKWATER as Person B using docs/KICKOFF_PERSON_B.md. First inspect the
-current branch/status and docs/POST_A9_PLAN.md. Review the B audit dispositions and
-the existing #13 -> #18 -> #19 stack against current main before new features.
-Preserve dotenv/credential setup, A-owned files, legacy health and native approval
-authority. Rerun the installed-runtime and exact-grid/cost-boundary gates after
-integration. B5c derivatives and scientific evidence follow the verified forward
-path. Report actual checks and remaining blockers; retain inherited evidence labels.
+Continue BREAKWATER as Person B using docs/KICKOFF_PERSON_B.md.
+Inspect status, current remote/main and the active integration worktree before G0;
+review and merge the verified PR #26 without overwriting its worktree/evidence.
+Read the active continuation and hypothetical-telemetry plans. B5 comparison,
+selected sensitivities and scientific history are delivered; do not repeat them.
+After the integrated gate, publish G1 sensor/reading/snapshot/event contracts with A's
+physical review. Both adopt that committed baseline before G2 editor/ingestion/replay.
+Use hypothetical sensors and synthetic live data only. Follow G3 detection/forecast
+and G4 acceptance, then E1/E2 in small PRs. Keep A-owned files and original handoff
+untouched. Report actual checks, unavailable paths and inherited evidence separately.
 ~~~

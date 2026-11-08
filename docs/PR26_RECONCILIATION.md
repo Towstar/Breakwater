@@ -126,6 +126,25 @@ copied into the export, child environment or evidence. Installed file hashes,
 application commands/reports, SQLite/history checks, module origins and automated
 screenshots are in [installed evidence](../science/evidence/pr26-reconciliation/installed/summary.json).
 
+## Shared roadmap and A/B handoffs included after verification
+
+The user's follow-up requested the updated shared plans and Person A/B handoffs.
+The public drafts in the separate `hypothetical-telemetry-plan` worktree were
+snapshotted without modifying that worktree and included here: README, continuation,
+implementation, parallel-work and post-A9 plans, both kickoffs and the new
+[telemetry plan](TELEMETRY_PLAN.md). STATUS retains both the planned extension and
+the completed verification; the kickoffs now reference this reconciled baseline.
+[Snapshot origins/hashes](../science/evidence/pr26-reconciliation/plans/snapshot-provenance.json) are retained beside the evidence.
+
+The roadmap covers configurable sensor placement and physical mappings, synthetic
+live monitoring/replay, observation-based forecasts, quality/freshness, detection,
+uncertainty and a separately scoped RBM/baseline comparison. These remain planned;
+no telemetry, detector or new physics implementation is claimed. Both workstreams
+adopt B's reviewed shared contract before dependent implementation. The separate
+local-only continuation plan remains excluded. Only documentation and evidence
+metadata changed after the recorded numerical/desktop runs; relative links, current
+handoff consistency and unchanged runtime sources were checked.
+
 ## Reproduction and preserved scope
 
 Exact top-level commands used from the isolated worktree (scripts are retained in

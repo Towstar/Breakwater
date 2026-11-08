@@ -1,5 +1,28 @@
 # Implementation status
 
+## Planned continuation: hypothetical sensors and detection — November 7, 2026
+
+- The user requested configurable **hypothetical sensors** and synthetic live
+  telemetry in addition to the remaining science/application work. The accepted
+  roadmap is now in CONTINUATION_PLAN.md and TELEMETRY_PLAN.md, with current
+  Person A/B kickoffs and ownership/dependency gates.
+- Planned: placed/typed sensors, synthetic publisher, common local ingestion/replay,
+  coherent observed snapshots, quality/freshness, physical residuals, incident
+  lifecycle and observation-driven forecasts with simulated approval guards.
+  Pressure/temperature/custom channels are initially observation/alarm-only.
+- Planned evaluation: rules and physical residuals, statistical shift monitoring,
+  and a bounded RBM comparison on held-out synthetic scenarios. No detector is
+  demonstrated optimal; no learned result authorizes control.
+- Retained next work: PR #26 review/merge/current-baseline checks, Windows CI,
+  manual/clean-machine/operator acceptance, front/outlet/threshold accuracy,
+  candidate-aware Science, automatic pipe history, scenario robustness and later
+  conditioned PhysicsNeMo. A10a/A10b, deployed storage science, derivatives and
+  scientific history below remain delivered rather than new assignments.
+- Sensor ingestion/detection, a physical-system adapter and an RBM implementation
+  are **not implemented or verified** by this documentation increment. No runtime,
+  sanitizer, model, training or proof execution is claimed here. Existing evidence
+  below retains its original source revision and scope.
+
 ## PR #26 reconciliation with current main — November 7, 2026
 
 - [Reconciliation report](PR26_RECONCILIATION.md): merged `e057fa4` through

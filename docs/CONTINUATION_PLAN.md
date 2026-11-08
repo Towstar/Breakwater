@@ -1,5 +1,83 @@
 # BREAKWATER continuation plan
 
+## Active next steps: hypothetical sensors and synthetic live telemetry
+
+Updated November 7, 2026 (America/Chicago). This section supersedes the next-task
+instructions in the historical plans below. The original handoff and earlier
+evidence remain preserved.
+
+Planning baseline: remote main at e057fa44ed8c7c3127466d72d816a68228e9b033,
+including PR #25. Native forecasts/search/validation, editable desktop, Nemotron
+tools, selected-pipe transport, deployed PyTorch comparison, selected-control
+sensitivities and immutable scientific history are delivered. A10a/A10b are
+delivered, with an archived 54-proposition exact-real audit. Do not restart those
+milestones or attribute their historical evidence to a new run.
+
+PR #26 now merges that main through `f504310` and records fresh combined checks in
+[PR26_RECONCILIATION.md](PR26_RECONCILIATION.md): 28/28 normal and MSVC ASan CTests,
+127 Python tests without skips, real-worker parity and local/relocated installed
+sensitivity/history acceptance. Review and merge the existing PR; do not restart its
+reconciliation or overwrite its worktree. Existing manual-dialog/cancellation,
+clean-machine and release-rehearsal gates remain open. Historical evidence retains
+its original source revision; future changes require relevant fresh checks.
+
+The next product increment introduces **hypothetical sensors and synthetic live
+telemetry**. There is no physical plant to connect. A deterministic simulated plant
+publishes time-stamped measurements through a common typed input; replay uses that
+same path. Label Synthetic live, Replay and Historical evidence explicitly. Real
+hardware adapters and industrial actuation are outside this increment.
+
+The detailed scope, measurement types, locations, clocks, detection architecture,
+RBM experiment and acceptance matrix are in [TELEMETRY_PLAN.md](TELEMETRY_PLAN.md).
+Everything newly proposed there is planned, not implemented or qualified.
+
+### Ordered delivery and two-person split
+
+| Increment | Person A: simulation/science | Person B: desktop/integration | Dependency / exit gate |
+|---|---|---|---|
+| G0: reconcile and stabilize | Review numerical meaning; supply existing exact-grid/constraint oracles. | Review/merge verified PR #26, current docs and existing operator-workflow gaps. Add Windows PR checks: native first, desktop/science/Lean as separate supported jobs with pinned setup. | Current reviewed main, actual checks and explicit skips. No tracked GitHub Actions workflow was present at the planning baseline. |
+| G1: sensor/telemetry contract | Define observation operators, level-volume calibration, measured-versus-commanded semantics, coverage, uncertainty and state mapping. | Publish additive sensor/reading/snapshot/event contracts, examples, limits, compatibility/version policy and ownership. | Both adopt the same committed contract before dependent implementation. |
+| F1: front/outlet/threshold accuracy | Predeclare peak/mean field, outlet and arrival/threshold timing errors; separate spatial/temporal effects and reference uncertainty. | Incorporate A's declared scope and limitations in presentation/status. | Can run alongside G0/G1 without interface edits. Retain coarse failure and approximately 0.40191 mg/L front maximum-error limitation until new evidence supersedes it. |
+| G2: hypothetical sensors and streaming | Deliver seeded synthetic plant/sensor generator, independent fault truth and numerical observation fixtures. | Implement placed/configurable sensors, local NDJSON lifecycle, quality/freshness, charts, bounded recording and replay. | Canonical/custom networks, deterministic replay and explicit missing/bad-data states; no hardware needed. |
+| G3: detect and forecast | Deliver integrated balance/prediction residuals, uncertainty and sensor-coverage matrix, rules and statistical baselines. | Implement alarm lifecycle, frozen observed snapshots, background forecasts, bounded investigation triggers and freshness-aware simulated review. | Sensor/plant faults detected from emitted readings; no oracle leakage, stale approval, silently changed controls or unsupported physics. |
+| G4: release/operator acceptance | Review scientific meaning and relevant numerical parity. | Close manual save/open/export, compact layout and in-flight cancellation gaps; verify relocated installation and clean Windows setup; rehearse canonical/custom workflows. | Three clean canonical investigations plus custom follow-up with actual runs/native validation, explicit simulated approval and reset. Retain no-plan attempts. |
+| D1: bounded learned-detector comparison | Compare an RBM with residual/rule and EWMA/CUSUM baselines on held-out synthetic runs; evaluate unknown faults, healthy transients, delay and false alarms. | Review requirements; publish a separate advisory result contract before any chosen runtime integration. | G2/G3 evaluation harness; no predetermined winner or mandatory learned detector. |
+| E1: candidate-aware Science | Supply parity/derivative oracles only if existing methods need extension. | Select an immutable investigation candidate for forward comparison/sensitivities without applying its controls. | Existing deployed worker reused; exact candidate snapshot/configuration/grid and derivative-domain checks. |
+| E2: automatic native pipe history | Review physical/result provenance. | Retain bounded pipe results automatically in existing History, with detached historical reopening and storage-failure handling. | Existing manual export/import remains readable; no approval restoration. |
+| R1: robustness screening | Evaluate selected candidates across declared constant-inflow, availability and horizon scenarios; report cost, worst margins and first failure. | Display assumptions, scenario coverage and comparisons using independently validated results. | Finite scenario study, not global robustness or sustainability. Time-varying recovery/control schedules need a separate numerical increment. |
+| M1: conditioned PhysicsNeMo | Define parameter/forcing families, held-out cases, error gates and out-of-domain behavior after the relevant reference-accuracy gate. | Publish a distinct learned-result contract before broader route inference. | Existing fixed-case smoke remains experimental; no arbitrary-route inference claim. |
+
+G4 is required before a release claim and is repeated for the telemetry extension;
+existing manual acceptance gaps should be exercised during G0 as well. E1/E2 are
+separate small increments after G3/G4, rather than requirements for the first sensor
+vertical slice. D1 is a bounded evaluation, not a prerequisite for deterministic
+detection. F1 and A's G1 review provide useful independent work while B integrates.
+
+### Immediate assignments
+
+- **Person A:** review the proposed G1 physical mappings and coverage, then start F1
+  while B establishes the common contract. After G1, deliver G2's synthetic generator
+  and observation mapping, then G3 residuals/uncertainty and the detector evaluation
+  harness. Maintain existing proof assumptions; A10a/A10b are already delivered.
+- **Person B:** first coordinate G0 with the active integration worktree. Publish G1
+  with A's review, then implement G2 sensor editing/ingestion/replay and G3 event/
+  forecast integration. Complete G4, followed by E1/E2 as separate PRs.
+- **Both:** use separate worktrees, preserve ownership and change shared interfaces
+  only through B's committed contract. Fix newly demonstrated correctness/identity/
+  approval blockers before dependent features. Work one tested increment at a time.
+
+Detection combines sensor integrity, direct alarms, physical residuals and optional
+statistical/learned methods. PDE/solver correctness is not a fault detector by itself.
+An RBM is a legitimate candidate; no BREAKWATER comparison establishes it as optimal
+or inferior. Report detection separately from diagnosis and preserve unresolved causes.
+All observations, costs and actions in this milestone remain synthetic.
+
+## Historical continuation plans
+
+The dated sections below preserve prior planning and evidence. Their "next" tasks,
+open-PR lists and health-only descriptions are historical, not current assignments.
+Use the active section above and STATUS for the current baseline.
+
 **Post-A9 context:** [POST_A9_PLAN.md](POST_A9_PLAN.md) records the newly pulled
 main baseline, upstream verification and remaining B-stack merge order. The current
 B implementation/status below supplements that preserved plan.

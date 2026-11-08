@@ -1,5 +1,12 @@
 # BREAKWATER: integration record and next changes after A9
 
+**Historical plan:** the active assignments now live in
+[CONTINUATION_PLAN.md](CONTINUATION_PLAN.md) and
+[TELEMETRY_PLAN.md](TELEMETRY_PLAN.md), with updated Person A/B kickoffs.
+The B stack, scientific retention and A10b described as future below are delivered.
+Preserve this document's dated evidence; its old open-PR lists and next-task order
+are not current implementation instructions.
+
 Updated November 7, 2026. This is the active continuation plan after merging
 [PR #17](https://github.com/Towstar/Breakwater/pull/17) and
 [PR #20](https://github.com/Towstar/Breakwater/pull/20). The full
