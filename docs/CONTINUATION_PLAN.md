@@ -6,6 +6,12 @@ for setup/use and [STATUS.md](STATUS.md) for evidence and limitations. Next is B
 explicit selected-interior derivatives, using the controls/column semantics below.
 Automatic retention and release rehearsals remain. The earlier B5 plan is retained.
 
+PR #17's A-owned audit fixes are integrated before further features: exact requested
+horizons, finite independent costs and analytical residual edge cases. B packages the
+new grid helper and checks the corrected exact-endpoint grid independently. Follow
+[AUDIT_REPORT.md](AUDIT_REPORT.md) and the latest STATUS evidence; the earlier inherited
+short-endpoint compatibility convention below is historical and superseded.
+
 **Earlier handoff after PR #14:** A3–A8 are merged, including `capabilities` and
 `storage_rollout` in the repo worker. The earlier execution sequence/checkpoints below
 are retained as history; do not restart A's worker mapping. B's next increment is

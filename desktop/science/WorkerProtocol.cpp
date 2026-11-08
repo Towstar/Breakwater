@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include <vector>
 
 namespace breakwater::desktop::science::protocol {
 namespace {
@@ -43,6 +44,21 @@ QJsonArray array(const QJsonValue& value, qsizetype minimum, qsizetype maximum) 
 void numbers(const QJsonValue& value, qsizetype count) {
     for (const auto& item : array(value, count, count)) (void)number(item);
 }
+std::vector<double> requestedTimes(double horizon, double step) {
+    // Independently enforce the adopted wire policy. Rounded division is not a
+    // work count: it can omit a terminal ULP, invent a duplicate, or underflow.
+    constexpr std::size_t maximumUpdates = 10000;
+    require(std::isfinite(horizon) && std::isfinite(step) && horizon > 0.0 && horizon <= 24.0 && step > 0.0);
+    require(horizon <= static_cast<double>(maximumUpdates) * step);
+    std::vector<double> times{0.0};
+    for (std::size_t index = 1; index <= maximumUpdates; ++index) {
+        const auto time = static_cast<double>(index) * step;
+        if (time >= horizon) { times.push_back(horizon); return times; }
+        require(time > times.back());
+        times.push_back(time);
+    }
+    throw std::invalid_argument("Invalid scientific protocol data.");
+}
 } // namespace
 
 bool forwardPayload(const QJsonObject& payload) {
@@ -51,10 +67,7 @@ bool forwardPayload(const QJsonObject& payload) {
         require(integer(payload.value("method_version"), 1, 1) == 1 && payload.value("identity").isObject());
         identity(payload.value("identity").toObject());
         const auto horizon = number(payload.value("horizon_h")), step = number(payload.value("step_h"));
-        const auto ratio = horizon / step;
-        require(horizon > 0.0 && horizon <= 24.0 && step > 0.0 && std::isfinite(ratio) && ratio > 0.0 && ratio <= 10000.0);
-        const auto updates = std::ceil(ratio);
-        require(updates <= 1.0 || (updates - 1.0) * step < horizon);
+        (void)requestedTimes(horizon, step);
         require(payload.value("derivatives").isBool() && !payload.value("derivatives").toBool());
         require(payload.value("preview").isObject()); const auto preview = payload.value("preview").toObject();
         keys(preview, {"max_times"}); (void)integer(preview.value("max_times"), 2, 256);
@@ -119,15 +132,17 @@ bool storage(const QJsonObject& result, const QJsonObject& payload) {
         const auto maximum = payload.value("preview").toObject().value("max_times").toInt();
         const auto times = array(result.value("time_h"), 2, maximum), indices = array(result.value("time_indices"), times.size(), times.size());
         const auto horizon = payload.value("horizon_h").toDouble(), step = payload.value("step_h").toDouble();
-        const auto lastIndex = static_cast<qint64>(std::ceil(horizon / step));
+        const auto expectedTimes = requestedTimes(horizon, step);
+        const auto lastIndex = static_cast<qint64>(expectedTimes.size() - 1);
         qint64 previousIndex = -1; double previousTime = -1.0;
         for (qsizetype i = 0; i < times.size(); ++i) {
             const auto index = integer(indices[i], 0, lastIndex);
             const auto time = number(times[i]);
-            require(index > previousIndex && time > previousTime && time == std::min(static_cast<double>(index) * step, horizon));
+            require(index > previousIndex && time > previousTime && time == expectedTimes[static_cast<std::size_t>(index)]);
             previousIndex = index; previousTime = time;
         }
-        require(indices.first().toInteger() == 0 && indices.last().toInteger() == lastIndex);
+        require(indices.first().toInteger() == 0 && indices.last().toInteger() == lastIndex &&
+            times.first().toDouble() == 0.0 && times.last().toDouble() == horizon);
         QJsonArray tankIds;
         for (const auto& value : payload.value("network").toObject().value("assets").toArray())
             if (value.toObject().value("kind").toString() == "tank") tankIds.append(value.toObject().value("id"));

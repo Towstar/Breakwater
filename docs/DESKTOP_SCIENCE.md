@@ -71,13 +71,15 @@ to exit. Child-provided error text and model credentials do not enter evidence.
 
 The captured native run retains its original requested configuration and immutable full
 reference arrays. The worker's bounded preview is never used to infer a new step. The
-existing indexed grid `min(k * step, horizon)` can end one ULP below the requested
-horizon; both the original requested horizon and the actual native grid are preserved.
-Duplicate/unrepresentable worker grids fail explicitly rather than being repaired.
+grid retains every rounded `k * step` strictly before the requested horizon, then
+appends that exact horizon once. This includes a one-ULP terminal interval when
+needed. The desktop independently checks that grid and its original indices instead
+of deriving its length with `ceil(horizon / step)`. More than 10,000 updates or an
+unrepresentable grid fails explicitly. The original request is never shortened.
 
 ## Installed and automated checks
 
-CMake installs `worker.py`, `worker_storage.py` and the Python package beside one
+CMake installs `worker.py`, `worker_storage.py`, `storage_grid.py` and the Python package beside one
 another. Development source fallback is limited to the canonical development binary
 directory. A copied installed app must use its deployed files and external configured
 runtime; an absent mapper or Torch produces an unavailable state.

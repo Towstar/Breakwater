@@ -1,5 +1,53 @@
 # Implementation status
 
+## Person A audit-fix integration before B5c — November 7, 2026
+
+- Checked GitHub and merged PR #17 head `367dcf1` into B5b `9f8f550`, preserving both
+  parents without conflicts. The A-owned source matches that head; B changes only
+  contracts, desktop integration/tests and shared handoff/evidence documentation.
+- Aggregated [A's audit](../science/AUDIT_PERSON_A.md) in [AUDIT_REPORT.md](AUDIT_REPORT.md).
+  Its P1 shortened-horizon counterexample supersedes the earlier bounded B audit's
+  no-P0/P1 conclusion. A's exact-horizon, finite-cost, residual and documentation fixes
+  are included. Scientific worker methods remain advisory; native validation and
+  explicit simulated operator approval remain separate.
+- The desktop independently reconstructs rounded interior multiples and the exact
+  requested endpoint instead of deriving work/indices with rounded division. Added
+  exact-tail, duplicate, underflow, work-boundary and malformed-endpoint checks;
+  actual desktop/worker tests retain a 0.125 m3 capacity violation and deny approval.
+  Planning-tool regression checks reject its validation/staging/search recommendation.
+- Deployed the newly required `storage_grid.py`. Native solver provenance advances
+  to `constant-flow-0.1.1`; current wire provenance is
+  `torch-constant-flow-0.1.2+worker-v1`. Project/protocol/method versions stay 1.
+  Historical records do not become newly validated or actionable after this update.
+- Fresh direct-root VS2022 normal and full desktop MSVC ASan builds passed;
+  **24/24 CTest suites passed in each** (171.37 s / 247.48 s). Normal compilation
+  reported five warnings in Qt headers/A's benchmark and zero errors. The unchanged
+  solution has 72 projects/201 dependency references; all paths resolve.
+- Fresh full Python discovery: **94 run, 90 passed, four optional PhysicsNeMo tests
+  skipped**, 46.145 s. The 19 analytical residual/mathematics tests executed; genuine
+  PhysicsNeMo neural training/gradients, Lean and performance measurements remain
+  attributed upstream evidence, not new local executions.
+- Fresh actual-worker/native verification passed **302 NDJSON requests**, 18 fixtures,
+  three solvers, 44 interior controls and 132 finite-difference checks. Exact grids and
+  offline schemas passed; maximum volume difference `7.67386154621e-13 m3`.
+  An initial probe ran before the new exporter finished building and rejected its old
+  12-case document; the completed-build run above used the actual updated executable.
+- With original science sources temporarily unavailable and Windows-only PATH, the
+  relocated installed worker passed six real requests, exact ULP-tail timestamps,
+  the 0.125 m3 overflow and deployed module-origin checks. Removing its grid helper
+  produced `runtime_unavailable` while legacy health remained completed. The installed
+  desktop then completed native/PyTorch comparison (both costs 12,780), health, visible
+  rendering and screenshot export. Source was restored unchanged. Its deployed-qsqlite
+  database passed read-only integrity checks. The initial local probe's version assertion
+  omitted the documented `+worker-v1` suffix; corrected fixture expectations passed.
+- Evidence: `out/b-audit-*-build.log`, `out/b-audit-*-tests.log`,
+  `out/b-audit-python-tests.log`, `out/b-audit-worker-verification.json`,
+  `out/b-audit-installed-worker.json`, `out/b-audit-installed-science.json`, and
+  `out/b-audit-source-hidden.log`. Independent scoped source/caller review found no
+  consequential regression. Existing manual dialog/cancel/release gaps remain open.
+- Next implementation: B5c explicit selected-control derivatives. Automatic scientific
+  retention and clean hosted rehearsals remain later work. No controls were applied.
+
 ## B5a/B5b local runtime and desktop storage integration — November 7, 2026
 
 - Merged the audit-first handoff at `6fb8c29` and froze `10cb8f7` for
