@@ -70,7 +70,5 @@ snapshot-based. Extended EOG simulation/replay application acceptance and a fina
 combined full desktop/ASan/hosted qualification remain outstanding. This checkpoint
 is not completion of every criterion in the durable HackUTD goal.
 
-For Devpost, use [the science equations and enforcement notes](DEVPOST_SCIENCE_MATH.md).
-They include a copy-ready paragraph, the actual ODE/PDE/inverse problem, numerical
-checks, shared-fleet economics and the distinction between deployed features,
-private simulation cores and standalone proof/PINN studies.
+User-facing Devpost prose and the requested science/enforcement handout are kept
+outside tracked files, in ignored local output. The Devpost service was not edited.
