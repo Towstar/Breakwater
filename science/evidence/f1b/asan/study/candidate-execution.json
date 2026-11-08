@@ -1,0 +1,11 @@
+{
+  "command": [
+    "C:\\Projects\\Breakwater\\.worktrees\\person-a-front-comparator\\out\\f1b\\asan\\engine\\breakwater_front_comparison_reference.exe"
+  ],
+  "exit": 0,
+  "elapsed_s": 82.32531910005491,
+  "executable_sha256": "01b0a914e4f1207566f08354b94b1a062aa5c655779d66a934233008b80727ad",
+  "data_sha256": "91119de26f4baddda20a8a394788c33263220eacb9aa9597caf8afa3a94f4caf",
+  "data_bytes": 32610818,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

@@ -1,0 +1,16 @@
+{
+  "python": "3.12.13",
+  "executable": "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Scripts\\python.exe",
+  "versions": {
+    "numpy": "2.5.4",
+    "torch": "2.15.0+cpu",
+    "nvidia-physicsnemo": "2.2.2",
+    "jsonschema": "4.25.1"
+  },
+  "origins": {
+    "numpy": "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Lib\\site-packages\\numpy\\__init__.py",
+    "torch": "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Lib\\site-packages\\torch\\__init__.py",
+    "physicsnemo": "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Lib\\site-packages\\physicsnemo\\__init__.py",
+    "jsonschema": "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Lib\\site-packages\\jsonschema\\__init__.py"
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "variant": "normal",
+  "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+  "arguments": [
+    "science/compare_front_accuracy.py",
+    "--native",
+    "out/f1b/normal/engine/breakwater_front_comparison_reference.exe",
+    "--baseline-native",
+    "out/f1b/normal/engine/breakwater_transport_qualification_reference.exe",
+    "--config",
+    "science/f1b_front_comparison_config.json",
+    "--output",
+    "out/f1b/attempt-11-normal-final/study"
+  ],
+  "exit": 1,
+  "started_utc": "2026-11-08T06:07:19.8953317Z",
+  "finished_utc": "2026-11-08T06:08:59.7843095Z",
+  "elapsed_s": 99.8923178,
+  "source_revision": "0cfbabd656b83103d53282a1388343808741681d"
+}

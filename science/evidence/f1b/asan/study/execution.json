@@ -1,0 +1,20 @@
+{
+  "variant": "asan",
+  "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+  "arguments": [
+    "science/compare_front_accuracy.py",
+    "--native",
+    "out/f1b/asan/engine/breakwater_front_comparison_reference.exe",
+    "--baseline-native",
+    "out/f1b/asan/engine/breakwater_transport_qualification_reference.exe",
+    "--config",
+    "science/f1b_front_comparison_config.json",
+    "--output",
+    "out/f1b/attempt-12-asan-final/study"
+  ],
+  "exit": 1,
+  "started_utc": "2026-11-08T06:07:19.9395775Z",
+  "finished_utc": "2026-11-08T06:10:13.7949860Z",
+  "elapsed_s": 173.8569051,
+  "source_revision": "0cfbabd656b83103d53282a1388343808741681d"
+}

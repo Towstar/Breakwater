@@ -3,3 +3,7 @@
 /OBSERVATION_SEMANTICS.md -text whitespace=cr-at-eol
 /FRONT_ACCURACY.md -text whitespace=cr-at-eol
 /evidence/f1/** -text whitespace=-blank-at-eol,-blank-at-eof
+/f1b_front_comparison_config.json -text whitespace=cr-at-eol
+/FRONT_COMPARISON_DECLARATION.md -text whitespace=cr-at-eol
+/FRONT_ACCURACY_COMPARISON.md -text whitespace=cr-at-eol
+/evidence/f1b/** -text whitespace=-blank-at-eol,-blank-at-eof

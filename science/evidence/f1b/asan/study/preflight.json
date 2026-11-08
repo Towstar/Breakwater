@@ -1,0 +1,115 @@
+{
+  "status": "failed",
+  "accuracy_status": "not_established",
+  "production_qualification": "not_established",
+  "started_utc": "2026-11-08T06:07:25.743212+00:00",
+  "python": "3.12.13",
+  "numpy": "2.5.4",
+  "interpreter": "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Scripts\\python.exe",
+  "command": [
+    "science/compare_front_accuracy.py",
+    "--native",
+    "out/f1b/asan/engine/breakwater_front_comparison_reference.exe",
+    "--baseline-native",
+    "out/f1b/asan/engine/breakwater_transport_qualification_reference.exe",
+    "--config",
+    "science/f1b_front_comparison_config.json",
+    "--output",
+    "out/f1b/attempt-12-asan-final/study"
+  ],
+  "config_sha256": "d9251fa7d8af46ba0d3ff1c6daa11e3aaa6cb8c0c47e7e4d85764f65407671a0",
+  "config": {
+    "study_version": 1,
+    "qualification_variant": "front_comparison",
+    "baseline_revision": "487d80dd54df7d7b6567dfed1170dea9a5e59cd7",
+    "baseline_config_sha256": "6d8d1ffdc8b6574241b2d006aeb697457a6e9f56cd83610164f7b76c6cc69d8a",
+    "baseline_solver_version": "fvm-upwind-euler-0.1.0",
+    "candidate_solver_version": "fvm-muscl-mc-ssprk2-experimental-0.1.0",
+    "baseline_arguments": [
+      "--front-accuracy"
+    ],
+    "candidate_arguments": [],
+    "baseline_case_count": 22,
+    "candidate_case_count": 28,
+    "candidate_cfl_maximum": 0.5,
+    "stage_evaluations_per_step": 2,
+    "time_probes": [
+      {
+        "regime": "front_smooth",
+        "cells": 512,
+        "cfl": [
+          0.08,
+          0.04
+        ],
+        "paired_cfl": 0.02
+      },
+      {
+        "regime": "front_box",
+        "cells": 512,
+        "cfl": [
+          0.08,
+          0.04
+        ],
+        "paired_cfl": 0.02
+      },
+      {
+        "regime": "scheduled_inlet",
+        "cells": 512,
+        "cfl": [
+          0.4,
+          0.2
+        ],
+        "paired_cfl": 0.1
+      }
+    ],
+    "targets": {
+      "n512_worst_field_error_ratio_maximum": 0.5,
+      "paired_worst_field_regression_floor_multiplier": 10,
+      "extended_sampled_outlet_peak_error_maximum_mg_l": 0.1,
+      "extended_upward_crossing_counts": [
+        [
+          0.1,
+          1
+        ],
+        [
+          0.5,
+          2
+        ],
+        [
+          0.9,
+          1
+        ]
+      ],
+      "n512_first_bracket_endpoint_error_maximum_h": 0.025
+    },
+    "notes": [
+      "Predeclared synthetic experiment; targets are not application or operational accuracy budgets.",
+      "The 22 paired cases are exactly F1; six time probes change only CFL and private study identity.",
+      "First and last reconstructed slopes are zero; the outlet observable remains the last cell average proxy.",
+      "The candidate is pure nonnegative-flow advection with prescribed inlet; nonzero D, decay, source and closed boundaries are unsupported.",
+      "Candidate errors are coupled space/time. Time-step differences and observed orders are empirical sensitivity, not certified error bounds.",
+      "Only the baseline uses the upwind Poisson semidiscrete reference. Reference disagreement above 1e-10 mg/L is an integrity failure.",
+      "No clipping, tail renormalization, old-threshold changes, production promotion or extension of the 54-proposition Lean claim.",
+      "Exit 0: integrity passed and all study targets met; exit 1: completed with targets unmet; exit 2: execution, input or integrity failure."
+    ]
+  },
+  "source_hashes": {
+    "science/compare_front_accuracy.py": "7977b15ea4aa3cf9c5f6109e696804208f8061ebd39eb304c6008eb10129e23d",
+    "science/FRONT_COMPARISON_DECLARATION.md": "71903e729fd82d82ebc165aae412855e013ba42e0a460eeff58747ac912bed89",
+    "science/f1_front_accuracy_config.json": "6d8d1ffdc8b6574241b2d006aeb697457a6e9f56cd83610164f7b76c6cc69d8a",
+    "science/qualify_front_accuracy.py": "80232d167403eea700825c0ccbb2134aa67fba703ce08bf4b3f8385e4356f23c",
+    "science/breakwater_science/front_reference.py": "ce7e84f7577c728f930c78f411d5de849324f56a3dd50b83d41cddde25944450",
+    "science/breakwater_science/transport_reference.py": "8bfaa83ce71579e2f1c943170da8cca8307ad74852df0b0b68253de3ee09f197",
+    "engine/experimental/front_advection.hpp": "52dd00df268f59d43d3156a1e6ab00581f90f9789b6dddb3db31bb72d3908b57",
+    "engine/experimental/front_advection.cpp": "37395fa973e244a6cc12003b8a89196ba13b983cb28308b519b9212e7f4a162d",
+    "engine/examples/front_comparison_reference.cpp": "68dd1fc7c41680d8b60e783119e26aecdc7ab190402de8beee86cc67ceaf2e7e",
+    "engine/examples/transport_qualification_reference.cpp": "1bc97b0b367bc0d7b5103d63ae38f0618146012e87ea6e5a7331202176a99d54",
+    "engine/src/transport.cpp": "627125aeb1e67e289c78b0aeb00bab50c61461d3012a187de06d8376b567c21c",
+    "engine/include/breakwater/transport.hpp": "06819cc1c8d8e0ca2693a35ed1e5a9403fa6f34e372ff4c9dbe4d933648c67f2",
+    "engine/CMakeLists.txt": "7a9104017114fbef124fc38f65d1d24329777401c5886e8cdebda2067d9f9671",
+    "science/tests/test_front_comparison.py": "72ad3cbe28b54ad3b3b359ac27c7c165d33d12add3180e39ac01c3380457992f",
+    "engine/tests/front_experiment_tests.cpp": "917cbb9ebac16ba707549b0d0cc658cf16139f9b16dafdadb3025daeeca0d259"
+  },
+  "candidate_executable_sha256": "01b0a914e4f1207566f08354b94b1a062aa5c655779d66a934233008b80727ad",
+  "baseline_executable_sha256": "ad82ebb977f2a9e4f469db45d09ee1c9e236e664c66cf7fa453a871b8e4a19b9"
+}

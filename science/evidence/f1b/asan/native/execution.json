@@ -1,0 +1,27 @@
+{
+  "variant": "asan",
+  "started_utc": "2026-11-08T05:59:33.9992800Z",
+  "finished_utc": "2026-11-08T06:02:27.1454083Z",
+  "configure_exit": 0,
+  "build_exit": 0,
+  "ctest_exit": 0,
+  "elapsed_s": 173.1507749,
+  "configure_arguments": [
+    "-S",
+    ".",
+    "-B",
+    "out/f1b/asan",
+    "-G",
+    "Ninja",
+    "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+    "-DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded",
+    "-DBUILD_TESTING=ON",
+    "-DBREAKWATER_BUILD_DESKTOP=OFF",
+    "-DBREAKWATER_ENABLE_ASAN=ON",
+    "-DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO=/debug /INCREMENTAL:NO"
+  ],
+  "cmake": "cmake version 4.3.1-msvc1",
+  "ninja": "1.13.2",
+  "vctools": "14.51.36231",
+  "windows_sdk": "10.0.26100.0\\"
+}

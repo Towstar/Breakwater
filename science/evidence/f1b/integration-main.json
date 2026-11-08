@@ -1,0 +1,18 @@
+{
+  "checked_utc": "2026-11-08T06:14:44.2182367Z",
+  "baseline_revision": "487d80dd54df7d7b6567dfed1170dea9a5e59cd7",
+  "tested_code_revision": "0cfbabd656b83103d53282a1388343808741681d",
+  "remote_main": "7f2bb7f598f960b60a1d9cc7cb362a7ff233db7f",
+  "command": [
+    "git",
+    "merge-tree",
+    "--write-tree",
+    "HEAD",
+    "origin/main"
+  ],
+  "merge_tree": "d1e657d7d9b3a852faa13db7995b9aa466b7c220",
+  "clean": true,
+  "engine_science_proofs_contracts_root_cmake_changes_from_tested_code": [],
+  "person_b_changes_from_main": [],
+  "note": "Non-checkout merge simulation before the evidence-only commit. Concurrent PR #27 touches no tested headless or Python source."
+}

@@ -1,0 +1,12 @@
+{
+  "command": [
+    "C:\\Projects\\Breakwater\\.worktrees\\person-a-front-comparator\\out\\f1b\\asan\\engine\\breakwater_transport_qualification_reference.exe",
+    "--front-accuracy"
+  ],
+  "exit": 0,
+  "elapsed_s": 42.57462500000838,
+  "executable_sha256": "ad82ebb977f2a9e4f469db45d09ee1c9e236e664c66cf7fa453a871b8e4a19b9",
+  "data_sha256": "14a086a64342931ea95a6c1d53f67d63e679c34720dc1d82cedb0aada5981477",
+  "data_bytes": 21648088,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+}

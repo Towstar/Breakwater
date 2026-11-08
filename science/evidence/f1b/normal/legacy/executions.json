@@ -1,0 +1,40 @@
+[
+  {
+    "name": "refined",
+    "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "arguments": [
+      "science/qualify_transport.py",
+      "--native",
+      "out/f1b/normal/engine/breakwater_transport_qualification_reference.exe",
+      "--config",
+      "science/a9_transport_refined_config.json",
+      "--output",
+      "out/f1b/attempt-07-normal-legacy/a9-refined"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 14.7454489,
+    "baseline_sha256": "933f388297e119f9426b46757a0e4b27bd5891a8b4f5c06baf47e8bc42802ef5",
+    "new_sha256": "933f388297e119f9426b46757a0e4b27bd5891a8b4f5c06baf47e8bc42802ef5",
+    "byte_identical": true
+  },
+  {
+    "name": "coarse",
+    "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "arguments": [
+      "science/qualify_transport.py",
+      "--native",
+      "out/f1b/normal/engine/breakwater_transport_qualification_reference.exe",
+      "--config",
+      "science/a9_transport_config.json",
+      "--output",
+      "out/f1b/attempt-07-normal-legacy/a9-coarse"
+    ],
+    "exit": 1,
+    "expected_exit": 1,
+    "elapsed_s": 12.23348,
+    "baseline_sha256": "70002d1c014b48179e6e9ea89acf7ab69024cf955aff1ca698e616a0d9c8d272",
+    "new_sha256": "70002d1c014b48179e6e9ea89acf7ab69024cf955aff1ca698e616a0d9c8d272",
+    "byte_identical": true
+  }
+]

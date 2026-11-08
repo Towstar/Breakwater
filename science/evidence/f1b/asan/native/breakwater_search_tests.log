@@ -1,0 +1,23 @@
+PASS canonical explicit batch rejects bad plans and returns real mixed reference
+PASS small canonical grid agrees with exhaustive independent reference oracle
+PASS curtailment ranking includes savings on nonzero-cost source feed route
+PASS renamed colon IDs and unspecified settings remain intact
+PASS shared treatment and trucking limits screen aggregate arrivals
+PASS capacity equality and validator tolerance are respected
+PASS no axes evaluate one unchanged candidate and infeasible search is explicit
+PASS valid decimal and subnormal grids do not become false no-plan results
+PASS one-ULP final overflow never receives a recommendation
+PASS forecast work-limit errors precede candidate screening
+PASS equal cost results retain input order
+PASS exactly 10000 candidates accepted and larger requests rejected
+PASS grid product limit and four-control limit are enforced
+PASS unknown duplicate nonfinite out-of-bounds and unavailable controls rejected
+PASS source control cannot exceed its connected feed capacity
+PASS malformed requests and options are rejected before evaluation
+PASS candidate batches and concurrent searches do not mutate snapshots
+PASS overflow in an auxiliary screening scale defers to reference validation
+PASS nonfinite arithmetic is counted and never recommended
+PASS hourly-product and horizon-total cost overflow retain finite repaired candidates
+PASS aggregate-hourly cost overflow and source-product overflow cannot hide zero-cost plans
+PASS nonrepresentable catalog unit prices fail explicitly before search
+22/22 search cases passed

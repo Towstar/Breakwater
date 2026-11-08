@@ -1,5 +1,28 @@
 # Person A science evidence
 
+
+## F1b experimental advection comparison — November 8, 2026
+
+[Comparison report](FRONT_ACCURACY_COMPARISON.md) completes the private MC/SSPRK2
+experiment against frozen PR #28/F1. Each build executes 22 baseline and 28 candidate
+cases; normal/ASan raw fields are byte-identical. **58/63 synthetic targets pass**:
+all six field-improvement and 44 non-regression gates pass, but the extended inlet
+peaks at .834466 mg/L and still misses .9 mg/L; box .1/.9 brackets exceed .025 h.
+The box maximum field error increases to .512500 mg/L. Accuracy remains unqualified.
+
+Fresh native checks pass 9/9 normally and under MSVC ASan (21 new native checks),
+with zero sanitizer reports. Final pinned Python discovery passes 225/225 without
+skips (39 new checks); PhysicsNeMo is available. Refined A9 remains 45 cases/580 gates passed
+and the original coarse scheduled-inlet failure remains. All 80 original F1
+checksum entries are preserved, including the six original time-contamination failures.
+
+B handoff: private experiment only; production solver, interfaces, pins and original
+54-proposition proof mapping are unchanged. Retain missed events and maximum-error
+limits in presentation. A separately declared boundary/interior-smearing experiment
+is justified before any promotion; application budgets and B integration remain gates.
+The report records the failed reference-check regression, correction and all attempts.
+Earlier milestone entries below preserve their original scope.
+
 ## G1 numerical guidance and F1 characterization — November 7, 2026
 
 [G1 observation semantics](OBSERVATION_SEMANTICS.md) supplies worked calibration,

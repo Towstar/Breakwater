@@ -1,0 +1,11 @@
+{
+  "verified_code_commit": "0cfbabd656b83103d53282a1388343808741681d",
+  "frozen_f1_entries_verified": 80,
+  "retained_attempt_files_verified": 132,
+  "compiled_native_sources_match_current": true,
+  "code_source_hashes_match_both_final_study_preflights": true,
+  "unexpected_sanitizer_reports": 0,
+  "local_continuation_plan_tracked": false,
+  "ownership": "engine/science only",
+  "note": "Evidence-only changes follow the verified code commit; source, executable and raw-data identities are retained."
+}
