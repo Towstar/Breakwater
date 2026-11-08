@@ -1,4 +1,3 @@
-import importlib.util
 import math
 from pathlib import Path
 import sys
@@ -35,32 +34,6 @@ class CalibrationInputTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             initial, rows = validate(sample(11.0))
             reference(initial, rows)
-
-
-@unittest.skipUnless(importlib.util.find_spec("physicsnemo"), "PhysicsNeMo not installed")
-class RealPhysicsNeMoCalibrationTests(unittest.TestCase):
-    def test_known_decay_recovery(self):
-        for decay, initial in ((0.2, 1.0), (0.7, 10.0), (2.0, 0.1)):
-            with self.subTest(decay=decay):
-                outcome = fit(sample(decay, initial))
-                self.assertEqual(outcome["status"], "ok")
-                self.assertLess(abs(outcome["decay_per_h"] - decay), 1e-6)
-                self.assertEqual(outcome["observations"], 4)
-                self.assertGreater(outcome["optimizer_evaluations"], 0)
-                self.assertEqual(outcome["physicsnemo_version"], "2.2.2")
-
-    def test_mismatched_observations_rejected(self):
-        payload = sample()
-        payload["observations"][0][1] = 0.4
-        self.assertEqual(fit(payload)["status"], "rejected")
-
-    def test_zero_decay_and_reproducible_binding(self):
-        first = fit(sample(0.0))
-        second = fit(sample(0.0))
-        self.assertEqual(first["status"], "ok")
-        self.assertLess(first["decay_per_h"], 1e-6)
-        self.assertEqual(first["input_sha256"], second["input_sha256"])
-        self.assertEqual(first["decay_per_h"], second["decay_per_h"])
 
 
 if __name__ == "__main__":

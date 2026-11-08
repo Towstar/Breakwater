@@ -49,7 +49,12 @@ Focused science verification:
 
 ```powershell
 & $env:BREAKWATER_PYTHON -B -m unittest discover -s science/tests -p test_transport_calibration.py -v
+& $env:BREAKWATER_PYTHON -B science/qualify_transport_calibration.py -v
 ```
+
+The first command runs three stdlib input/reference tests. The explicit second
+command runs three real PhysicsNeMo runtime qualification tests; a missing
+runtime fails this command rather than adding an unexpected skip to CPU CI.
 
 Actual application-boundary test, once the combined desktop test target is built:
 
