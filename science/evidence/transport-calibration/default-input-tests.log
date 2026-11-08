@@ -1,0 +1,8 @@
+test_independent_reference (test_transport_calibration.CalibrationInputTests.test_independent_reference) ... ok
+test_malformed_inputs (test_transport_calibration.CalibrationInputTests.test_malformed_inputs) ... ok
+test_unsupported_rate_rejected (test_transport_calibration.CalibrationInputTests.test_unsupported_rate_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.001s
+
+OK
