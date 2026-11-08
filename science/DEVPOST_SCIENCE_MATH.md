@@ -20,6 +20,38 @@ scientific support. The numerical solver and independent checks remain
 authoritative; Nemotron investigates and proposes experiments rather than
 dispatching equipment. All data, costs and controls are synthetic.
 
+## How each model is enforced
+
+The software enforces its declared equations, units, operational rules and
+acceptance checks. It cannot enforce that a physical facility actually obeys an
+assumed constant-flow, first-order or one-dimensional model. Synthetic tests and
+small residuals do not establish empirical physical accuracy.
+
+| Topic | Enforcement in the program | Independent check and practical limit |
+| --- | --- | --- |
+| Storage conservation ODE | Validate topology, finite inputs, units and control bounds; subtract each internal flow from its source and add it to its destination; evolve constant-rate intervals in double precision. Invalid predicted volumes are retained, not clipped. | ID-based reference recomputes rates, trajectory, capacity limits and conservation separately from compiled sparse arrays. Dense/sparse/affine comparisons and analytical fixtures check implementations. Fixed flow is a modeling assumption, not pressure hydraulics. |
+| EOG hysteresis and discrete events | Explicit pump on/off/failed state, configured start/stop/shutdown thresholds and repair times; advance between event roots; apply full truck-load jumps only with sufficient inventory. Threshold crossings precede pickups at exact ties. | Known-value, simultaneous-event, one-ULP-neighbor and stateful replay cases exercise the event rules. Numerical inability to represent a supported event returns unavailable; no hidden clipping or time rounding creates feasibility. |
+| Shutdown countdown | Bind the forecast to a causal captured state, active well rates, configured threshold and remaining repair horizon. Solve the continuous crossing within each supported constant-rate segment; already tripped is immediate. | Independently recompute crossing time and retained trajectory. Stale, missing or contradictory observations make unsupported results unavailable. This enforces consistency with the available data and stated rate assumption, not knowledge of the true future. |
+| Trucking, shut-ins and economics | Validate well/facility IDs, full loads, pickup inventory, strict pickup-before-repair deadlines and nonoverlapping shared-truck occupancy through return. Carry existing reservations/pending pickups forward. Charge lost production over the union of voluntary/automatic shut-in time and exclude sunk costs from future evaluation. | Independent evaluator checks exact retained plan resources, timelines, loss durations, costs and volume balance; analytical optima and generated/adversarial cases check errors. Search budgets and incomplete coverage are exposed; a search score alone cannot certify feasibility or global optimality. |
+| Transport PDE and finite volumes | Validate geometry, concentration/source/decay/dispersion units and bounds, positive-flow schedules and boundary compatibility. Use a shared flux at each cell face and an advection–diffusion–reaction timestep bound. Budget cells, frames and updates; reject materially negative/nonfinite outcomes instead of clipping. | Expose the complete tracer mass ledger and residual; compare against independent analytic/reference cases and refinements. Conservation is necessary but does not prove that the chosen scalar PDE describes actual chemistry or mixing. |
+| PhysicsNeMo decay inference | Require known positive initial concentration, 3–64 valid observations with increasing known times and adequate spread; use a bounded coefficient, CPU float64 optimization, a 45-second job limit and cancellation. The estimate binds to route/parameters/network/revision and requires an explicit apply action. | A separate scalar least-squares coefficient and raw concentration RMSE gate the fitted result. Changed inputs prevent stale application; explicit application clears prior forecast/approval eligibility before a new native calculation. The software cannot verify that an entered experiment was truly closed, well mixed, source-free or measured correctly. Passing the fit gate is not physical certification or a calibrated uncertainty bound. |
+| Automatic differentiation | Differentiate the implemented smooth storage rollout for explicitly supplied continuous controls; validate finite Jacobian/gradient dimensions and bind outputs to the captured numerical context. | Compare forward values with native results and derivatives with finite differences. This checks derivatives of that model; it does not differentiate discrete trucks, event switches or approval logic. |
+| Lean proofs and separate PINN studies | Lean checks algorithm theorems and their explicit hypotheses with a pinned toolchain and assumption audit. The standalone PINN minimizes a transport PDE/initial-data loss with declared boundary handling. | Proofs cover mathematical update identities and conditional invariants, not every C++ floating-point operation, memory safety or the application. PINN residual/reference studies are numerical evidence, not a proof of generalization or a deployed replacement for native validation. |
+
+The application uses precise double-precision semantics; checked mathematical
+proofs over real-valued algorithms do not automatically prove the compiled binary.
+Native regression tests and AddressSanitizer runs are additional, separate
+evidence. No model or optimizer result can dispatch equipment or bypass explicit
+human review of simulated controls.
+
+Combined submission evidence reported by the integrator: the actual desktop pipe
+suite passed **16/16 with no skips**, including real C++ → PhysicsNeMo worker →
+explicit apply → forecast invalidation, and project tests passed **13/13 with no
+skips**. Full science discovery passed **459 tests** at the pre-split test source;
+the final discovery layout has 456 default tests plus three separately invoked
+real PhysicsNeMo qualification tests. Keep those source/test-layout distinctions
+when quoting totals; they are not a new physical validation study.
+
 ## 1. Network storage: conservation-law ODEs
 
 For tank `i`, with volume `V_i` in m³, time in hours and flows in m³/h:
