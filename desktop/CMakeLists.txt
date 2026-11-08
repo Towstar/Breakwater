@@ -340,6 +340,9 @@ if(BUILD_TESTING)
   set_tests_properties(desktop.eog_provider PROPERTIES TIMEOUT 180
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   if(Python3_Interpreter_FOUND)
+    add_test(NAME desktop.eog_demo_input COMMAND "${Python3_EXECUTABLE}" -B
+      "${PROJECT_SOURCE_DIR}/scripts/tests/test_eog_demo.py")
+    set_tests_properties(desktop.eog_demo_input PROPERTIES TIMEOUT 120)
     add_test(NAME desktop.eog_live_cli COMMAND "${Python3_EXECUTABLE}" -B
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_live_cli_tests.py" "$<TARGET_FILE:breakwater_eog_live_check>"
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")

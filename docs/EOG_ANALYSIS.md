@@ -94,6 +94,23 @@ an exported archive alone does not pass the rehearsal. Offline CLI tests never
 enable `--live` and use private temporary databases, including actual hardlink
 input-protection checks. No credentials or raw model reasoning are printed.
 
+For the edited-network rehearsal, `scripts/prepare-eog-demo.py` produces a new
+three-file dataset plus provenance from an existing practice dataset. It removes
+one whole facility, updates its operations/observations consistently and renames
+all retained IDs, including Unicode identifiers. Retained measurement bytes,
+timestamps, units and economics are preserved. The output must be new and outside
+the source, with an existing parent directory:
+
+```powershell
+& $env:BREAKWATER_PYTHON -B scripts/prepare-eog-demo.py `
+  --dataset C:/path/to/canonical/data --output C:/path/to/evidence/renamed-network
+```
+
+This is a derived practice variation for adaptation testing, not independent
+held-out accuracy evidence. The transformer reads only the three fixed input
+names, never labels or answer keys. Eleven offline regressions cover raw CSV
+preservation, references, source changes, bounds and failed/raced publication.
+
 ## Operator flow
 
 1. Open the three-file dataset in the EOG console and choose the analysis cutoff.

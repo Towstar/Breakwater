@@ -205,7 +205,7 @@ try {
                 }
             }
             if (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py')) {
-                foreach ($required in @('desktop.eog_provider', 'desktop.eog_live_cli')) {
+                foreach ($required in @('desktop.eog_provider', 'desktop.eog_live_cli', 'desktop.eog_demo_input')) {
                     if ($required -notin $registered.tests.name) { throw "Required real EOG integration check is missing: $required" }
                 }
             }
