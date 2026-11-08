@@ -1,7 +1,10 @@
 #include "WorkbenchUiCheck.hpp"
 #include "../ProjectController.hpp"
 #include <QCoreApplication>
+#include <QDir>
 #include <QElapsedTimer>
+#include <QFile>
+#include <QFileInfo>
 #include <QImage>
 #include <QJsonArray>
 #include <QJsonDocument>
@@ -15,7 +18,10 @@
 #include <QQuickItem>
 #include <QQuickWindow>
 #include <QTextStream>
+#include <QTemporaryDir>
 #include <QTimer>
+#include <filesystem>
+#include <memory>
 #include <stdexcept>
 
 namespace breakwater::desktop {
@@ -26,6 +32,7 @@ class Check final : public QObject {
     int phase_ = 0, changes_ = 0; bool done_ = false; QJsonArray checks_; QJsonObject observed_;
     QString hash_, run_, feedback_; quint64 revision_ = 0;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
+    std::unique_ptr<QTemporaryDir> artifacts_;
     QVariant eval(const QString& source) {
         QQmlExpression expression(QQmlEngine::contextForObject(window_), window_, source);
         const auto value = expression.evaluate();
@@ -34,6 +41,13 @@ class Check final : public QObject {
     }
     void require(bool value, const char* code) { if (!value) throw std::runtime_error(code); }
     void passed(const char* name) { checks_.append(QString::fromLatin1(name)); }
+    void snapshot(const QString& name) {
+        if (!artifacts_) return;
+        const auto image = window_->grabWindow(); require(!image.isNull(), "evidence_capture_failed");
+        QFile file(QDir(artifacts_->path()).filePath(name));
+        require(file.open(QIODevice::WriteOnly | QIODevice::NewOnly), "evidence_file_creation_failed");
+        require(image.save(&file, "PNG") && file.flush(), "evidence_png_write_failed");
+    }
     QQuickItem* find(QQuickItem* root, const QString& value, bool byText = false) {
         if (!root) return nullptr;
         if ((byText ? root->property("text").toString() : root->objectName()) == value) return root;
@@ -83,11 +97,12 @@ class Check final : public QObject {
     void finish(bool ok, const QString& code) {
         if (done_) return;
         done_ = true; timer_.stop();
-        const QJsonObject result{{"check", "ui_overhaul"}, {"passed", ok}, {"code", code},
+        QJsonObject result{{"check", "ui_overhaul"}, {"passed", ok}, {"code", code},
             {"checks", checks_}, {"phase", phase_}, {"observed", observed_},
             {"device_pixel_ratio", window_ ? window_->devicePixelRatio() : 0.0},
             {"window_width", window_ ? window_->width() : 0}, {"window_height", window_ ? window_->height() : 0},
             {"elapsed_ms", elapsed_.elapsed()}, {"hosted_model_requests", "not_requested"}};
+        if (artifacts_ && artifacts_->isValid()) result["artifact_directory"] = artifacts_->path();
         QTextStream stream(stdout); stream << QJsonDocument(result).toJson(QJsonDocument::Compact) << '\n'; stream.flush();
         app_->exit(ok ? 0 : 8);
     }
@@ -106,6 +121,19 @@ class Check final : public QObject {
                 require(!item("Undo", true)->isEnabled() && item("Run forecast", true)->isEnabled()
                     && !item("Approve simulated preview", true)->isEnabled(), "initial_action_gates_wrong");
                 passed("native_assets_accessibility_action_gates");
+                const auto parent = qEnvironmentVariable("BREAKWATER_UI_EVIDENCE_DIR");
+                if (!parent.isEmpty()) {
+                    const QFileInfo directory(parent);
+#ifdef Q_OS_WIN
+                    const auto absolute = std::filesystem::path(parent.toStdWString()).is_absolute();
+#else
+                    const auto absolute = QDir::isAbsolutePath(parent);
+#endif
+                    require(absolute && directory.isDir() && !directory.canonicalFilePath().isEmpty(), "evidence_parent_invalid");
+                    artifacts_ = std::make_unique<QTemporaryDir>(QDir(directory.canonicalFilePath()).filePath("breakwater-ui-XXXXXX"));
+                    require(artifacts_->isValid(), "evidence_directory_creation_failed"); artifacts_->setAutoRemove(false);
+                }
+                snapshot("01-workbench-ready.png");
                 SimulationConfig config; config.horizon_h = 1.25; controller_->forecastWithConfig(config); break;
             }
             case 1:
@@ -141,6 +169,7 @@ class Check final : public QObject {
             case 8:
                 require(controller_->actionFeedback().value("id").toString().toULongLong() == feedback_.toULongLong() + 1, "repeat_rejection_not_exactly_once");
                 require(item("actionFeedbackCard")->isVisible(), "repeat_notice_not_visible");
+                preserved(); snapshot("02-repeated-invalid-before-dismiss.png");
                 feedback_ = controller_->actionFeedback().value("id").toString();
                 click(item("dismissActionFeedback")); break;
             case 9:
@@ -178,6 +207,7 @@ class Check final : public QObject {
                 require(!item("numericRejection_capacity")->isVisible() && controller_->runId().isEmpty()
                     && !controller_->canApprove() && controller_->networkHash() != hash_, "valid_retry_not_retired");
                 require(!item("Approve simulated preview", true)->isEnabled(), "stale_approval_button_enabled");
+                snapshot("03-numerical-edit-retired-run.png");
                 passed("valid_retry_clears_inline_retires_run_approval");
                 changes_ = 0; revision_ = controller_->simulationRevision();
                 click(item("numericProperty_capacity")); key(Qt::Key_A, Qt::ControlModifier);
