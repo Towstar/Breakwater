@@ -30,8 +30,8 @@ double rate(double bpd) {
 
 struct Simulator::Impl {
     struct State {
-        double anchor_s{}, anchor_bbl{}, produced{}, pumped{}, lost{}, trucked{};
-        double q{}, p{}, loss_rate{};
+        double anchor_s{}, anchor_bbl{}, ledger_s{}, produced{}, pumped{}, trucked{}, boundary_rounding{};
+        double q{}, p{};
         bool running{}, failed{}, automatic{};
         double repair_at{};
     };
@@ -42,6 +42,7 @@ struct Simulator::Impl {
     struct Scheduled { double at{}; std::size_t index{}; bool repair{}; };
     struct Pickup { double at{}; std::size_t facility{}, job{}; };
     struct Job { std::size_t facility{}, truck{}; double returned{}; bool return_recorded{}; };
+    struct Crossing { double at{infinity}, target{}; Kind kind{}; };
     Scenario original;
     std::vector<State> states;
     std::vector<WellState> wells;
@@ -134,7 +135,7 @@ struct Simulator::Impl {
 
     WellState make_well(double water, double oil, double gas) const {
         WellState w; w.water = rate(water); w.oil = rate(oil); w.gas = rate(gas);
-        w.revenue = checked(product(w.oil, original.oil_per_bbl) + product(w.gas, original.gas_per_mcf));
+        w.revenue = rate(checked(product(oil, original.oil_per_bbl) + product(gas, original.gas_per_mcf)));
         return w;
     }
     bool producing(std::size_t wi) const {
@@ -145,28 +146,27 @@ struct Simulator::Impl {
     }
     void close(std::size_t fi) {
         auto& s = states[fi];
-        const double dt = now - s.anchor_s;
-        s.anchor_bbl = volume(fi, now);
+        const double dt = now - s.ledger_s;
         s.produced = checked(s.produced + product(s.q, dt));
         s.pumped = checked(s.pumped + product(s.p, dt));
-        s.lost = checked(s.lost + product(s.loss_rate, dt));
-        s.anchor_s = now;
-        const auto& f = original.facilities[fi];
-        for (std::size_t wi = f.first_well; wi < f.first_well + f.well_count; ++wi) {
-            auto& w = wells[wi];
-            if (w.losing) w.loss = checked(w.loss + product(w.revenue, now - w.loss_anchor_s));
-            w.loss_anchor_s = now;
-        }
+        s.ledger_s = now;
+    }
+    double well_loss(std::size_t wi) const {
+        const auto& w = wells[wi];
+        return checked(w.loss + (w.losing ? product(w.revenue, now - w.loss_anchor_s) : 0));
     }
     void rephase(std::size_t fi) {
         auto& s = states[fi]; const auto& f = original.facilities[fi];
-        double q = 0, loss = 0;
+        double q = 0;
         for (std::size_t wi = f.first_well; wi < f.first_well + f.well_count; ++wi) {
-            auto& w = wells[wi]; w.losing = original.wells[wi].initially_productive && !producing(wi);
+            auto& w = wells[wi];
+            const bool losing = original.wells[wi].initially_productive && !producing(wi);
+            if (losing != w.losing) { w.loss = well_loss(wi); w.loss_anchor_s = now; w.losing = losing; }
             if (producing(wi)) q = checked(q + w.water);
-            if (w.losing) loss = checked(loss + w.revenue);
         }
-        s.q = q; s.p = s.failed || !s.running ? 0 : rate(f.pump_bpd); s.loss_rate = loss;
+        const double p = s.failed || !s.running ? 0 : rate(f.pump_bpd);
+        if (q != s.q || p != s.p) { s.anchor_bbl = volume(fi, now); s.anchor_s = now; }
+        s.q = q; s.p = p;
     }
     void fail(Status new_status, const char* message) { status = new_status; diagnostic = message; }
     void point(std::size_t fi, Kind kind) {
@@ -179,29 +179,36 @@ struct Simulator::Impl {
     double root(std::size_t fi, double target, bool rising) const {
         const auto& s = states[fi]; const double slope = s.q - s.p;
         if (rising ? slope <= 0 : slope >= 0) return infinity;
-        const double value = volume(fi, now);
-        if (rising ? value >= target : value <= target) return now;
-        double at = s.anchor_s + (target - s.anchor_bbl) / slope;
+        const double at = s.anchor_s + (target - s.anchor_bbl) / slope;
         if (!std::isfinite(at)) return infinity;
-        if (at <= now) at = std::nextafter(now, infinity);
-        for (int step = 0; step < 8; ++step) {
-            const double level = volume(fi, at);
-            if (rising ? level >= target : level <= target) return at;
-            at = std::nextafter(at, infinity);
-        }
-        throw std::runtime_error("Synthetic threshold crossing cannot be represented unambiguously.");
+        if (!(at > now)) throw std::runtime_error("Synthetic crossing time cannot advance.");
+        return at;
     }
-    double next_crossing(std::size_t fi) const {
+    Crossing next_crossing(std::size_t fi) const {
         const auto& s = states[fi]; const auto& f = original.facilities[fi];
-        if (s.failed) return s.automatic ? infinity : root(fi, f.shutdown_bbl, true);
-        if (!s.running) return root(fi, f.start_bbl, true);
-        return s.q < s.p ? root(fi, f.stop_bbl, false) : root(fi, f.capacity_bbl, true);
+        if (s.failed) return s.automatic ? Crossing{} : Crossing{root(fi, f.shutdown_bbl, true), f.shutdown_bbl, Kind::automatic_shut_in};
+        if (!s.running) return {root(fi, f.start_bbl, true), f.start_bbl, Kind::pump_start};
+        return s.q < s.p ? Crossing{root(fi, f.stop_bbl, false), f.stop_bbl, Kind::pump_stop}
+                         : Crossing{root(fi, f.capacity_bbl, true), f.capacity_bbl, Kind::sample};
     }
 
-    void process() {
+    void process(const std::vector<Crossing>& crossings = {}) {
         // Continuous crossings precede repair/forcing/pickup at an exact tie.
         for (std::size_t fi = 0; fi < states.size() && status == Status::running; ++fi) {
             auto& s = states[fi]; const auto& f = original.facilities[fi]; const double v = volume(fi, now);
+            if (fi < crossings.size() && crossings[fi].at == now) {
+                // This is an algebraic event root, as in the E3 response model,
+                // not a projection of invalid observations/controls. Record the
+                // timestamp-rounding discrepancy explicitly in the mass audit.
+                const auto& crossing = crossings[fi]; close(fi);
+                s.boundary_rounding = checked(s.boundary_rounding + crossing.target - volume(fi, now));
+                s.anchor_bbl = crossing.target; s.anchor_s = now;
+                if (crossing.kind == Kind::automatic_shut_in) s.automatic = true;
+                else if (crossing.kind == Kind::pump_start) s.running = true;
+                else if (crossing.kind == Kind::pump_stop) s.running = false;
+                else { point(fi, Kind::sample); fail(Status::unavailable, "Healthy inflow exceeds pumping at physical capacity; no clipping."); break; }
+                transition(fi, crossing.kind); continue;
+            }
             if (v < 0 || v > f.capacity_bbl) {
                 point(fi, Kind::sample); fail(Status::unavailable, "Synthetic inventory leaves physical bounds; raw value retained without clipping."); break;
             }
@@ -225,12 +232,13 @@ struct Simulator::Impl {
                 // Failed pumps resume the normal controller. Threshold-first
                 // automatic shutdown applies to a failed pump; a repaired pump
                 // drains a high tank while the wells immediately resume (SPEC).
-                s.running = s.anchor_bbl >= f.start_bbl;
+                const double repaired_volume = volume(fi, now);
+                s.running = repaired_volume >= f.start_bbl || (s.running && repaired_volume > f.stop_bbl);
                 transition(fi, Kind::repair);
             } else {
-                s.failed = true; s.running = false; s.repair_at = event.at + incident.repair_s;
+                s.failed = true; s.repair_at = event.at + incident.repair_s;
                 transition(fi, Kind::failure);
-                if (s.anchor_bbl >= f.shutdown_bbl) { s.automatic = true; transition(fi, Kind::automatic_shut_in); }
+                if (volume(fi, now) >= f.shutdown_bbl) { s.automatic = true; transition(fi, Kind::automatic_shut_in); }
             }
         }
         while (forcing_next < forcing.size() && forcing[forcing_next].elapsed_s == now && status == Status::running) {
@@ -240,7 +248,7 @@ struct Simulator::Impl {
                 point(fi, Kind::rate_change); continue; // no numerical phase reset for zero-effect forcing
             }
             close(fi);
-            const double prior_loss = wells[r.well].loss;
+            const double prior_loss = well_loss(r.well);
             const bool voluntary = wells[r.well].voluntary;
             wells[r.well] = replacement;
             wells[r.well].loss = prior_loss; wells[r.well].loss_anchor_s = now; wells[r.well].voluntary = voluntary;
@@ -255,7 +263,7 @@ struct Simulator::Impl {
             if (!states[fi].failed || !(now < states[fi].repair_at) || volume(fi, now) < removed) {
                 fail(Status::invalid_action, "A pickup is not a full available load strictly before repair."); break;
             }
-            close(fi); auto& s = states[fi]; s.anchor_bbl = checked(s.anchor_bbl - removed);
+            close(fi); auto& s = states[fi]; s.anchor_bbl = checked(volume(fi, now) - removed); s.anchor_s = now;
             s.trucked = checked(s.trucked + removed);
             truck_cost = checked(truck_cost + product(static_cast<double>(due[fi]), original.cost_per_trip));
             full_loads += due[fi]; transition(fi, Kind::after_pickup);
@@ -271,6 +279,7 @@ struct Simulator::Impl {
         require(std::isfinite(until) && until >= now && until <= original.duration_s, "Invalid synthetic advance clock.");
         if (status != Status::running) return status == Status::completed && until == now;
         try {
+            if (cancelled && cancelled()) { fail(Status::cancelled, "Synthetic run cancelled before completion."); return false; }
             while (now < until && status == Status::running) {
                 if (cancelled && cancelled()) { fail(Status::cancelled, "Synthetic run cancelled before completion."); break; }
                 if (++event_count > original.event_limit) { fail(Status::limit, "Synthetic event-work bound reached."); break; }
@@ -279,9 +288,12 @@ struct Simulator::Impl {
                 if (forcing_next < forcing.size()) next = std::min(next, forcing[forcing_next].elapsed_s);
                 for (const auto& p : pickups) next = std::min(next, p.at);
                 for (const auto& j : jobs) if (!j.return_recorded) next = std::min(next, j.returned);
-                for (std::size_t fi = 0; fi < states.size(); ++fi) next = std::min(next, next_crossing(fi));
+                std::vector<Crossing> crossings;
+                for (std::size_t fi = 0; fi < states.size(); ++fi) {
+                    crossings.push_back(next_crossing(fi)); next = std::min(next, crossings.back().at);
+                }
                 if (!(next > now)) throw std::runtime_error("Synthetic event clock did not advance.");
-                now = next; process();
+                now = next; process(crossings);
             }
             if (status == Status::running) {
                 for (std::size_t fi = 0; fi < states.size() && status == Status::running; ++fi) point(fi, Kind::sample);
@@ -345,18 +357,21 @@ struct Simulator::Impl {
         double lost = 0;
         try {
         for (std::size_t fi = 0; fi < states.size(); ++fi) {
-            const auto& s = states[fi]; const double dt = now - s.anchor_s;
+            const auto& s = states[fi]; const double dt = now - s.ledger_s;
             FacilityView f; f.volume_bbl = volume(fi, now); f.inflow_bpd = product(s.q, 86400.0); f.pump_flow_bpd = product(s.p, 86400.0);
             f.pump_status = s.failed ? 2 : s.running ? 1 : 0; f.automatic_shut_in = s.automatic;
             f.produced_bbl = checked(s.produced + product(s.q, dt)); f.pumped_bbl = checked(s.pumped + product(s.p, dt));
-            f.trucked_bbl = s.trucked; f.lost_revenue = checked(s.lost + product(s.loss_rate, dt));
+            f.trucked_bbl = s.trucked;
+            const auto& config = original.facilities[fi];
+            for (std::size_t wi = config.first_well; wi < config.first_well + config.well_count; ++wi) f.lost_revenue = checked(f.lost_revenue + well_loss(wi));
             f.balance_residual_bbl = checked(original.facilities[fi].initial_bbl + f.produced_bbl - f.pumped_bbl - f.trucked_bbl - f.volume_bbl);
+            f.event_boundary_rounding_bbl = s.boundary_rounding;
             lost = checked(lost + f.lost_revenue); out.facilities.push_back(f);
         }
         for (std::size_t wi = 0; wi < wells.size(); ++wi) {
             const auto& w = wells[wi]; const bool active = producing(wi);
             out.wells.push_back({active, active ? product(w.water, 86400) : 0, active ? product(w.oil, 86400) : 0,
-                active ? product(w.gas, 86400) : 0, checked(w.loss + (w.losing ? product(w.revenue, now - w.loss_anchor_s) : 0))});
+                active ? product(w.gas, 86400) : 0, well_loss(wi)});
         }
         for (std::size_t si = 0; si < free_at.size(); ++si) for (std::size_t ti = 0; ti < free_at[si].size(); ++ti)
             out.trucks.push_back({si, ti, free_at[si][ti] > now, free_at[si][ti]});

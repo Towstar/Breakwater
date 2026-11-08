@@ -1,7 +1,9 @@
 #include "breakwater/eog_simulation.hpp"
+#include "breakwater/eog_response.h"
 #include <algorithm>
 #include <cmath>
 #include <iostream>
+#include <iomanip>
 #include <limits>
 #include <random>
 #include <stdexcept>
@@ -11,7 +13,11 @@ using namespace breakwater::eog::synthetic;
 namespace {
 std::size_t checks{};
 void check(bool value, const char* message) { ++checks; if (!value) throw std::runtime_error(message); }
-void near(double value, double expected, double tolerance, const char* message) { check(std::abs(value - expected) <= tolerance, message); }
+void near(double value, double expected, double tolerance, const char* message) {
+    if (std::abs(value - expected) > tolerance) std::cerr << std::setprecision(17) << message << ": actual=" << value
+        << " expected=" << expected << " error=" << value - expected << " tolerance=" << tolerance << '\n';
+    check(std::abs(value - expected) <= tolerance, message);
+}
 Scenario base(double duration = 180, double initial = 50) {
     Scenario s; s.duration_s = duration; s.oil_per_bbl = 1; s.gas_per_mcf = 0;
     s.truck_capacity_bbl = 20; s.cost_per_trip = 3; s.fleet_sizes = {1};
@@ -143,6 +149,10 @@ void month_scale_independent_cycle_oracle() {
     const double remainder = std::fmod(s.duration_s - (70 - 31.25) / q, down + up);
     const double expected = remainder < down ? 70 - (p - q) * remainder : 30 + q * (remainder - down);
     const auto a = sim.snapshot();
+    std::cout << std::setprecision(17) << "31-day cycle: final_bbl=" << a.facilities[0].volume_bbl
+              << " oracle_bbl=" << expected << " error_bbl=" << a.facilities[0].volume_bbl - expected
+              << " mass_residual_bbl=" << a.facilities[0].balance_residual_bbl
+              << " event_boundary_rounding_bbl=" << a.facilities[0].event_boundary_rounding_bbl << '\n';
     near(a.facilities[0].volume_bbl, expected, 1e-5, "31-day independent periodic-cycle oracle");
     near(a.facilities[0].produced_bbl, q * s.duration_s, 1e-6, "31-day independent production integral");
     near(a.facilities[0].balance_residual_bbl, 0, 1e-6, "31-day mass residual");
@@ -151,12 +161,76 @@ void month_scale_independent_cycle_oracle() {
     check(sim.snapshot().facilities[0].volume_bbl == a.facilities[0].volume_bbl && sim.snapshot().facilities[0].produced_bbl == a.facilities[0].produced_bbl,
           "31-day exact reset repeatability");
 }
+
+void actual_e3_cross_checks() {
+    std::mt19937_64 random(0x5e0fc057);
+    for (int trial = 0; trial < 100; ++trial) {
+        auto s = base(20, 40 + static_cast<double>(random() % 40));
+        s.wells = {{86400, static_cast<double>(1 + random() % 8) * 21600, 0, true},
+                   {86400, static_cast<double>(1 + random() % 8) * 21600, 0, true}};
+        s.facilities[0].well_count = 2; s.facilities[0].cycle_min = 5.0 / 60; s.truck_capacity_bbl = 10;
+        s.failures = {{0, 0, 20}};
+        const std::size_t trips = random() % 4;
+        const bool stop = (random() % 2) != 0;
+        const double stop_at = (random() % 2) ? 0 : 7;
+        Simulator sim(s);
+        if (trips) check(sim.dispatch(0, 0, trips).accepted, "cross-check dispatch");
+        if (stop) { check(sim.advance(stop_at), "cross-check stop clock"); check(sim.shut_in(0).accepted, "cross-check stop"); }
+        check(sim.advance(20), "cross-check native plant completion");
+        bweog_fleet fleet{1};
+        bweog_well wells[2] = {{s.wells[0].water_bpd, s.wells[0].oil_bpd, 0, 1},
+                              {s.wells[1].water_bpd, s.wells[1].oil_bpd, 0, 1}};
+        bweog_facility facility{0, 0, 2, 0, 100, s.facilities[0].initial_bbl, 90, 20, 2.0 / 60, 5.0 / 60};
+        bweog_snapshot context{BWEOG_ABI_VERSION, sizeof(bweog_snapshot), 1, 0, 10, 3, &fleet, &facility, wells, 1, 1, 2};
+        bweog_horizon horizon{0, 20}; bweog_stop well_stop{0, 0, stop_at, 20};
+        std::vector<bweog_trip> arrivals;
+        for (std::size_t k = 0; k < trips; ++k) arrivals.push_back({2 + 5 * static_cast<double>(k), 10, 3});
+        bweog_job job{0, 0, 0, 0, static_cast<std::uint32_t>(trips), 0, 2.0 / 60, 5.0 / 60,
+                      trips ? arrivals.back().arrival_s + 5 : 0};
+        bweog_plan plan{BWEOG_ABI_VERSION, sizeof(bweog_plan), &horizon, stop ? &well_stop : nullptr,
+                       trips ? &job : nullptr, arrivals.data(), 1, stop ? 1u : 0u, trips ? 1u : 0u, static_cast<std::uint32_t>(trips)};
+        bweog_result* raw{}; check(bweog_evaluate(&context, &plan, &raw) == 0, "actual E3 numerical evaluation");
+        std::unique_ptr<bweog_result, decltype(&bweog_destroy)> retained(raw, &bweog_destroy);
+        bweog_result_view evaluated{}; check(bweog_get_result(raw, &evaluated) == 0 && evaluated.status == BWEOG_AVAILABLE,
+                                             "actual E3 result is supported/admissible");
+        const auto a = sim.snapshot();
+        check(a.total_cost == evaluated.total_cost && a.lost_revenue == evaluated.lost_revenue && a.truck_cost == evaluated.truck_cost,
+              "independent E3/synthetic exact cost agreement");
+        check(a.facilities[0].volume_bbl == evaluated.facilities[0].final_bbl && a.facilities[0].trucked_bbl == evaluated.facilities[0].trucked_bbl,
+              "independent E3/synthetic exact final/full-load agreement");
+    }
+}
+
+void continuity_and_immutable_inputs() {
+    auto s = base(20, 80); s.failures = {{0, 0, 20}};
+    s.wells.push_back({0, 8640000, 0, true}); s.facilities[0].well_count = 2;
+    Simulator baseline(s), commanded(s);
+    check(commanded.advance(1.1) && commanded.shut_in(1).accepted, "zero-water economic control accepted");
+    check(commanded.advance(20) && baseline.advance(20), "zero-water comparison completed");
+    check(first(commanded, Kind::automatic_shut_in) == first(baseline, Kind::automatic_shut_in), "zero-water control preserves physical affine anchor");
+    check(commanded.snapshot().facilities[0].volume_bbl == baseline.snapshot().facilities[0].volume_bbl,
+          "zero-water control changes economics, not inventory");
+    near(*commanded.snapshot().lost_revenue, 1910, 1e-10, "zero-water oil exposure is not erased");
+    auto memory = base(2, 50); memory.facilities[0].initially_running = true; memory.failures = {{0, 0, 1}};
+    Simulator repaired(memory); check(repaired.advance(1), "mid-band repair");
+    check(repaired.snapshot().facilities[0].pump_status == 1, "repair retains normal hysteresis memory within band");
+    auto adjacent = base(20, 80); adjacent.failures = {{0, 0, 10}, {0, 10, 10}};
+    Simulator repeated(adjacent); check(repeated.advance(20), "touching incidents supported");
+    check(count(repeated, Kind::failure) == 2 && count(repeated, Kind::repair) == 2 && repeated.snapshot().lost_revenue == 20,
+          "repair/failure tie has no fictitious healthy duration");
+    auto mutable_input = base(20); Simulator isolated(mutable_input);
+    mutable_input.failures.push_back({0, 0, 10}); mutable_input.wells[0].water_bpd = 1e100;
+    auto detached = isolated.snapshot(); detached.facilities[0].volume_bbl = -100;
+    check(isolated.advance(20) && isolated.snapshot().total_cost == 0, "copied configuration/snapshots cannot mutate plant truth");
+    Simulator cancelled(base()); check(!cancelled.advance(0, [] { return true; }) && cancelled.snapshot().status == Status::cancelled,
+                                     "cancel at current clock is honored");
+}
 }
 int main() {
     try {
         healthy_and_failure(); discrete_ties_and_repeat_loads(); persistent_fleet_and_repeated_failures();
-        well_union_and_rate_forcing(); refinement_and_long_run(); bounds_reset_and_rejections(); month_scale_independent_cycle_oracle();
-        std::cout << checks << " synthetic-event checks passed (100 long-run observation-partition comparisons)\n";
+        well_union_and_rate_forcing(); refinement_and_long_run(); bounds_reset_and_rejections(); month_scale_independent_cycle_oracle(); actual_e3_cross_checks(); continuity_and_immutable_inputs();
+        std::cout << checks << " synthetic-event checks passed (100 long-run partition and 100 actual E3 comparisons)\n";
         return 0;
     } catch (const std::exception& error) { std::cerr << "FAIL after " << checks << ": " << error.what() << '\n'; return 1; }
 }

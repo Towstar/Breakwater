@@ -55,6 +55,9 @@ struct FacilityView {
     int pump_status{};
     bool automatic_shut_in{};
     double produced_bbl{}, pumped_bbl{}, trucked_bbl{}, lost_revenue{}, balance_residual_bbl{};
+    // Signed change from materialized affine volume to the algebraically known
+    // event boundary, caused by rounded event timestamps. Never a physical flow.
+    double event_boundary_rounding_bbl{};
 };
 struct WellView {
     bool producing{};

@@ -50,7 +50,7 @@ target_link_libraries(breakwater_eog_simulation PUBLIC breakwater_options)
 
 if(BUILD_TESTING)
   add_executable(breakwater_eog_simulation_tests tests/eog_simulation_tests.cpp)
-  target_link_libraries(breakwater_eog_simulation_tests PRIVATE breakwater_eog_simulation)
+  target_link_libraries(breakwater_eog_simulation_tests PRIVATE breakwater_eog_simulation breakwater_eog_response)
   add_test(NAME engine.eog_simulation COMMAND breakwater_eog_simulation_tests)
   add_executable(breakwater_eog_response_tests tests/eog_response_tests.cpp)
   target_link_libraries(breakwater_eog_response_tests PRIVATE breakwater_eog_response breakwater_options)
