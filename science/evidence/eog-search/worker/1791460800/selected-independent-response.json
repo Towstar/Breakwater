@@ -1,0 +1,2157 @@
+{
+  "eog_version": 1,
+  "kind": "analysis_response",
+  "request_id": "selected-independent-1791460800",
+  "operation": "validate_plan",
+  "method_version": 1,
+  "dataset_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+  "capture_id": "143b7d0a449ec51be11371adc32cdd08a27b91ab7f84197a69be27e85969286c",
+  "cutoff_unix": 1791460800,
+  "status": "completed",
+  "result": {
+    "validation": {
+      "validation_id": "validation-3fe99de9cdd3fa9c6fd635e95a2ec0aeb33a9040d840bf5f86069b40024deae3",
+      "plan_id": "plan-c82cb77c0a08e79743943d2dac6fdfc1",
+      "plan_hash": "0c05c8b10268814f6eeca53ec7359cf7045ac0e21c4d07ee473d3c7629f60545",
+      "evaluator_method": "eog-native-seconds-0.1.1",
+      "validator_method": "eog-rational-validation-0.1.0",
+      "independent": true,
+      "feasible": true,
+      "coverage": "available",
+      "outcome": "automatic_shutdown",
+      "shutdowns": [
+        {
+          "facility_id": "S2_FACILITY_C",
+          "elapsed_s": 12600.0
+        }
+      ],
+      "validated_horizons": [
+        {
+          "facility_id": "S2_FACILITY_A",
+          "repair_elapsed_s": 14400.0
+        },
+        {
+          "facility_id": "S2_FACILITY_B",
+          "repair_elapsed_s": 10800.0
+        },
+        {
+          "facility_id": "S2_FACILITY_C",
+          "repair_elapsed_s": 12600.0
+        }
+      ],
+      "cost": {
+        "truck_cost": 1810.0,
+        "lost_revenue": 1296.4603465511495,
+        "total": 3106.4603465511495
+      },
+      "violations": [],
+      "minimum_shutdown_margin_bbl": 0.0,
+      "evidence_ids": [
+        "iv-15ee05a8b4cb07997a0a62682fd1035b46534b7af898bdd16cb37b46d67b26b7",
+        "iv-c75d6c34212cb9a559953723134caff7d3fced0c1620cbbdfa1c7658066ce8d0",
+        "iv-1312dde360c0cc167cd19f54a6a13db9869d0bd83246d2f8f1091d618a4acc66",
+        "iv-0e884ee4c9cb2c3ce93f3a5320121129bfc917feeb7721166a1be7e03208338b",
+        "iv-8cb5c3850463fa917d4621f3b86e505597fca9b9b6ec4b362084f87afc3e845c",
+        "iv-11ea62e241b62e42871709cec7beefcb2c776d14e93d0d20f88be7a2397f35d5",
+        "iv-0a19115428e1ac12370b3060df3af4c9419551dd016d073ca9217768397e7180",
+        "iv-48326d87853735204bb054619a6cc84d8fc348c3158d1c922f64d6209e472d59",
+        "iv-6b23e5185f585d96aa364e2e0860a5b820c6a6e3493ccd7dd7371fa90359e9c0",
+        "iv-1b15dccbdafc378c262b6febba73fcc5555e07d263d45908c94669e0892f5526",
+        "iv-e64dfd27f0bfa90f684c9e8521129d8dfdecc28fc4c2b92d0f910a7378ea0f46",
+        "iv-7f5c5a9adaa250f6852fc2ffdda09d4a9e094a22ee25395eb7b1e87846ff0210",
+        "iv-4aae2ab0d84f9fdcb456c8ebf29dfa6cbde42a61d07a361a151ac8d46415f92b",
+        "iv-f4be4ea7ea5efcac00112cdeacfeb37b92f716a6c4e6e6d7a7b9b4c00b997947",
+        "iv-b7c3dc0fd2153c700ba474b46926ae5032bb56da5c918020bb608d72888b74ef",
+        "iv-092a3344d0ea886f1efa86414ce2da089f008af477df306676b7e5de5843a468",
+        "iv-d3a2ab2a70cf4143b7161f9cf40c4bf2c3c03250341d17bda4c80f7d8b3d46e7",
+        "iv-603209c584ffbd37a2a4e9b94327e7494de6eb814a1cf71fe40e486423765e33",
+        "iv-0d76b26843f9ced382a778c05857336daf16cbcef752b4b9e8f71df69cd5cc54",
+        "iv-9b36529097e008ad3f0748e525dc1372943bccd6030a9e0d429e2d63b3a8d552",
+        "iv-d466e673e4733e68f44120ed32d71918a795206f0fd078acbc5754a2c534b62d",
+        "iv-f4033387bbb4f682e4dc67ceb84df7fae537afce1e6114fcf87d9b7525824e65",
+        "iv-f00e2bd547f6e708f51c5e1e8abe1e187cb98a1ed408a0d59cc9e1d96044ab51",
+        "iv-e5cf2c165bd9641c8d6693030e7cd86edd8f0a532c01fc1fa881b43ed412b898",
+        "iv-ebb13f30b5aaf9baafbe1a34103b95e6c7f4ebc61dfb11bd08deef643dfea450",
+        "iv-40783b986e13e25fe8221fdc25b20b34ba487f1b71696970b29b02ae979d7929",
+        "iv-fd23cf452e16c83a1666532062a8b7ef068a79dd8268ae84d559fbec818caabc",
+        "iv-d017ae9e1cff0fbc881e80f4c907dfdfbe860d4d868f997a034acbf25348afa1",
+        "iv-c1e4f05953e4548fd913a760425216d3383a150cf571b341fece9a0f35b9a2af",
+        "iv-407a18a40a1e7ab29a36f82a177baec4bc0d3b1d1a7a401ee9ce4def0acbefbc",
+        "iv-fdc6ba82af3ad7a00b0816650de34080e1a0175d8b43d20a81415603244dcf7e",
+        "iv-6ae4fbae99f684ffa3bfa465b892b9c6e75aba4fb6a236610e76d29cd990e2a7",
+        "iv-60ad5fee3a8d7e5d3ee66f3c8c736dd0b5b4418dd973839668ec05cc07c1e3ea",
+        "iv-78f23f4f3a161b6ee12abf5051fc5e1b4ab49d9e8b46352bcb05d1bf95f315f3",
+        "iv-8ee325be306a5613fdd76d0993b73ef80828f816b98ea9ab3a21cbbe4af1bc56",
+        "iv-fb0b8e6abbd2f624a2119a94aa297b14b3ecb88d0f875fa7cd4031c81996af81",
+        "iv-044bbec14c9edba4a624d9f6f97b0e12dd7e426636e91c5666e7d5875d8cf7bc",
+        "iv-1e2256387f9ebbee723fc0ff442dd26613b09dcdac35d72d12f5edf69b6994f6",
+        "iv-d25e249191c9efc616ecf8ab06d7c91360ec8f504b0afb41dee035e223a67d9e",
+        "iv-75066f8732d435c3bad832eaa1ff0661b9955cc2f0fb71ab578f1ff020724da6",
+        "iv-b361d1ee5e395a26874d6c369addaa1629a85de70577221083c29a76d8361397",
+        "iv-cd382a59fdd4bab8f870aca5d68acd81072e961721b249489c3d7dc7c1ef0ac6",
+        "iv-b30578e79d85067e8bd7252cb9d954b8df793b4cd059a71a08dd5af6d0fae464",
+        "iv-f9b1fdf16b3883b09542c72394ff6f681d1396aa872de8c1a6353e6ea9cb98f3",
+        "iv-26d5aa8814bd1f6504f2c25833610056759a60b4c075246c79ab695d875c5d4d",
+        "iv-4800e89c3b948b5396a966621bb547238a46361a766fc96aba8c3210642ffbee",
+        "iv-07441ec302d92f96e4fac706e96d31e2c7e17c00369be87fa8afadb356d12586",
+        "iv-5e854aa37a9dde1ac91779280281038d6423047b5cd5a71e4c786a26d8ccf644",
+        "iv-946a9a53b36c1b812588801a824fe41ffcab60fa05040635c882862b3757885b",
+        "iv-f0ff2df4263d7cc351272993a27a7fc199ba90b9ae30697c875b1b663bb46c33",
+        "iv-f2731b69d88572189eceb866a320b948b27258f0614b7c1029285dd326429874",
+        "iv-d5f104c96add6c176e327309b3a9c343a155e489b7777a8fa573e0d9bf9bfdf3",
+        "iv-18e08dbf362fb01d84425ac05b7404bfe747f83f69fd9366a53543ef66aa0604",
+        "iv-719d0a80cd2deb3820997f60187f496c288bfb1551cf3cc44da143847dea5250",
+        "iv-ec451d6a9273ecb20261e71727566ec7c1d6dd97641d9bbcdd396b639b80d550",
+        "iv-495be85fc65a76e2569cefc1b46e25c99f44cb258c01b3857e184d2a87058e82",
+        "iv-bf06ed03b982755d42388c9e0ade94b7088399b4d7679a893cf230d8f738908f",
+        "iv-a8f3cc5062a80f94827272265b08a316111d713c9df035649cb76688c8d8b57d",
+        "iv-c9c57ecf3ff5f93824d9001e070a3e764f862850679c4acf5a103b223b46b891",
+        "iv-05618666409e072220bdb14b71fd6388e40bb45e5cedeb45e54d2fe2a5e59bb6",
+        "iv-024c70b61debbe0ec0f2de72c661842130a54b6e4cbdeb63aff1d99b4532591c",
+        "iv-fe10f62a528b1a1eb6c7024bb5a3e55f5f72d078be298a523e4dc1ebb25eb24d",
+        "iv-e9f261582d4fddafda274f60f7053f059d0fa121e38b6b5469074ff056571afe",
+        "iv-040b80a305309b90c06882229017ba021c6afecefecf43faac6c6b8f1cd35763",
+        "iv-f60290e162f95194f2880ed809289af483c7ef67c44c4c78b8cfa21b977bdaf6",
+        "iv-a5261d150c8c5fa923b2cfe33503f7f914dd7d11635c8e1f8c9409dd430ea0ac",
+        "iv-0a60b96e998ebe653e5b9c2af763c109fc1c39a8d7af7d3b1c2d377f894fb003",
+        "iv-dce379f830e32cf2e5aa6e42c844a797a287d782bffb2be5053f0acfe15a2336",
+        "iv-7ef0d34f98c693bced818fe7678f8ff243e9b9b42790ef33f87b4e844b47a0dc",
+        "iv-b707e486fe97e038589caa0dcb30e8e25647bb989d1be9348c6ed6b9b307c981",
+        "iv-fb505068d22b17af6a36b396bb4c9901cb1a2700937f0da6dc7faeeacaca9a39",
+        "iv-dcd7839db2d86e86e3b8f18dff2c53917af78982e9d9f5cf0b4904f365354e18",
+        "iv-5d08b393fc51412ba25a488c147b6d4be50ce607e543a6199f41e9ced90c165f",
+        "iv-9e70e80cd771d7b9e8e8bae9f13888b59ead038c2faffc90c3078c4665a7179d",
+        "iv-ccd4ddfbb2ae781e063dc69f9295eaf18552bb02f611dcf0bd3304d0de8b45a5",
+        "iv-fcfee71265228f2b9e41af6a1bee1a2d0dae9a2790eed538da75499c5fe81d94",
+        "iv-17a64cb4ec355a97d64ab726824639abed02bef7682df9420dedbaf4a99338c7",
+        "iv-c57d1c51ad81794d9c1552c567ed3b3926f574556af2cf149748cbc147ea4e17",
+        "iv-7caaf76df613628f3e2f74ddd91f8d18f2fe37e2ab106ac6870ff6fde46aac1c",
+        "iv-5f4fe2dcbff11d9e0227e3227ca814af8593464efb7856b1f3dbab606584133d",
+        "iv-dc8c363f49e1b50781c856c5a0e9a1ed0db8106803980b00c10233b1842e813d",
+        "iv-e44748686f1af9d54971630152a568a8861b884a18eba6babf61870424f373db",
+        "iv-edeaa6fd6948bf19157ee1a96835d41c3d4081c94ccc133b729b9ec460d6bb2f",
+        "iv-164bd1b057fac8adedc39b240e297c1725f6a5a52632e0a25292dc476d678225",
+        "iv-b00e8fcf85a85cc047caa7e8bcf76f3db5a9d9bb2fe26b20604105c660955e46",
+        "iv-6486f14d3286ee5a060a7aafc9a6e27104fa6538719ece44a7e7ba30fe4aabe8",
+        "iv-ac960b63cea05d5de31bc551437ded6d3af7be34983120d0e5ded3f15317c1e7",
+        "iv-e3d043d862d5e9fc675c4f5019775ffdb533d3a9c8e0116e2cf8e89b4d4c2b52",
+        "iv-3864850e8f491c77743e51e797878b1d1d709361b1c7a1b95f53f0619eba796c",
+        "iv-8d5e43647a3250fad741603067c2874119cc2c0ce2a8c2e1926cdfe8a8bb0e27",
+        "iv-01721d25f237c6e32888a237238839e8c2a131786aa7b4c73fe30109e8bc9020",
+        "iv-fe8a589fc393db912fee852d71aec570a8c42adae34d8c4b2d14c3249aa5dc5e",
+        "iv-6e02d0468724f19c00fb06ac606d5d3b06b0e3b6044c82359b32ec46520b52b8",
+        "iv-c2bc37558595d945aa5ff50e9dd01d516d4cecebf54e279dc831694582950357",
+        "iv-262baca3408408323eec1808345d994f80a858a2c903d8a6700d4b5a5bb259be",
+        "iv-6a1893d5b916fd28880a3b304be65e24f33952bdfd16f7d7340945174bb07f4d",
+        "iv-57e6fe27b4dc36b7f047752dfb2f4ab764960050ca9d2510f7bf789a8f122042",
+        "iv-c904239f53e1336a82952b9d2c099dcd8fcc1aefe28fb496d13aaf74bcd3c79e",
+        "iv-cf669efe741b017287f7f92aff61c9dba82d364a245d2dad7b467444a4b5d13b",
+        "iv-25aff4c03344d682504bc36f2eb7b214a994270397873329b2135545a0a07749",
+        "iv-d23cc7f98bf925a9f5c1789449c0a5b342d3959fc210e48263e3fc26d28acace",
+        "iv-ec074d0ef6882902785789fcd517a881ede32481effec5f338538d3c1c51a934",
+        "iv-6f3cd7dc18798a662c703a147ef5e26b7696c426990feea77c9457acc4261758",
+        "iv-3d822e41cc428b16ebdeb9803a6d2093d511cb46bbdd819d0e474ee36cf4e39a",
+        "iv-10fc00e4bf82ebbfb21107dc88c733740a07643099e90d0b0c172a6bcda7fc20",
+        "iv-b4e844b9e05107006228d1c460fffd6f27177f7bf7a9da8f439f5e7c918be589",
+        "iv-d5d6253681d9657250f2b247f2d3ce66a5adcea75505eb418757d86571da52ec",
+        "iv-1d50ff4f981d33590648846e4f47f6600d2bf98c85c011aec7314fa88f29332f",
+        "iv-b3598b51767b0bdc9f67bf3f28e368bff04dde3204fc29c485375488ea3a885c",
+        "iv-6344fb6001a87b8c52f2d87f37f24999f1e33a77c710e7f79de28ea82b81c1c0",
+        "iv-388fcc070716a1d7ec63642774ed060027d97946d5a29c9d81596bf8ce666b0a",
+        "iv-d78679d97fc3ab401ff08a6531092ffe3b7b0da6596bfe9bf3cb77acb6f36a16",
+        "iv-b36e43c66e15769300ead575cc8d0eef28670a2e146787f974be1bc0665e59a6",
+        "iv-7f43a88da005a03c3b9d7ecaae2f34fba2c4c42557697c0bd9ff636e309ece4a",
+        "iv-c89829d260f3a25f999f50f83155b2c96b29a4cf7fc8c2324a2966cd70300989",
+        "iv-2b0fff5f4ab1fb61ccfbdca2a85c76a58d28268d8fcddc1700de02c0db18ea1f",
+        "iv-7a4d382312b61452eb6716aa75d8abbddee81538f99bcf6ce79bdc2806f1afc1",
+        "iv-09dc25bd7982d920e5905d8d04a59d548e2f49e9c1bea0f5c7835b6c13434e9b",
+        "iv-40a0dd4074f35778888ecb012a667f41fe1817cb5665f2f5f2746fe1ad1cdb8c",
+        "iv-ba98a19f97faa15e032e6029374e3f43e61e8a64f8dee3132348b1df5a768cc3",
+        "iv-4497d518b5c776fb70d1f7f238681d350f5b2716f396dd4306553f798d82d3a9",
+        "iv-84afe71dbb1bbd122fa7d45e460e5b77214d643feccb1a153a3f77b24a7c0813",
+        "iv-7483eb4a46b4078af8b44e28f624b7430f8e3a2798d7ee70bcce1db17f909f7f",
+        "iv-4c48b95c667a331ea6b6f08b490dc9f5541cbb6567cd6977087747ce654b9ab1",
+        "iv-84211208a243e4b645408d11111ad6c5f4c145bd69a16d3d69b190649c3f66dc",
+        "iv-bd6214946d7949b5ff66a7886de5f6cc8061837ce46e359693bcc0f53e69d9cc",
+        "iv-8ac209fd3aff9bfee9636440bb52aa792b0c279d113d6b1317c3eaf57fcf6e4d",
+        "iv-1c0b4305189ab83f4361cd557051be5d426c4408149b5fc1b198e70032922db2",
+        "iv-dab93bf7d59b750c0f0b79ac2a0ad146167f9552bce699736f0e03f9d216307e",
+        "iv-e333bc304d38692cc7a18e993c3bd7dadda2c3f0eb26ea45ba066e457802bbb9",
+        "iv-399e65fc6e498e441180209166a44a6b871178b4cfe92c0e6adac3c944f808c2",
+        "iv-5351a9fc4f754f494606f9caa69679dcb9552136591c91f6c31566efd6f6717e",
+        "iv-6941eb05cd63e8732a71f4637cfba7ad21c117e7e0bd4b193f3b20167257d128",
+        "iv-4b44e4d5409b289827cc4875a0e441f0bc784d84ef873c784efe38713632ab99",
+        "iv-0d362ffe9cd2fe3d1a13a137e106a02fd7e9d87c0e728c192a481ab88e321d75",
+        "iv-fe74ba47accf8bb7620abd6922b69cc669956655945245e5a2311473a5e7afba",
+        "iv-989cecb935f716b89512bb80a7e8a9b388390d19af62986df2b80a3e984ee8a4",
+        "iv-9f3f320e849f9ef74b5fe59fd3b21fa0f0bca47590f334f0b5618063a1d685d5",
+        "iv-f13a6afc844ee1eb4d814504ae8f762355996a3b81c31e398d3f281ce8b37e0e",
+        "iv-b4a877f8e72006827e93e846e2c1bed7905fb9d5984fe41165917abb366b221b",
+        "iv-49471d9daeb7a910497440b50265ed6e7451fe211610e295b08a60555b504e60",
+        "iv-8be4b24608ed437f0a033290c2d17d555b2bff8684615132e780f20452e6affc",
+        "iv-5907fd2ce91c53368510f8fe8c5a05320f2144d4e975563a44b639d262a1934a",
+        "iv-75420b9d6bc08da15b96122d58d0f26485aa8eebd48ad88a4b2829fcc7408258",
+        "iv-b3b84be1597872dde5280b1bd1f64b45658171f70597b05b14dc5213274d3739",
+        "iv-04df32c7ded508b13de9a5e9651f0ab5c647eb3a8ae731b2a9ce0be980edf9ce",
+        "iv-ec446381e2aa5735ed35d71f2fff49b26848b509eb84f1d680d7d3f39039bb4f",
+        "iv-e2a61fb61164427c0a4c100d985841b305010b14cabae0d36d0c9d20ac6b4a01",
+        "iv-3192adc3034abe9a5a54917e725c888d3fc500fb27a0eb07a3635ac63249504f",
+        "iv-1f6ed7981ab37b87f8a34967195bd680ba3b400322bbb717252a7dba0ecb2be7",
+        "iv-df28c4bb434a3970ee6ea2c7c59fad77ce53f0c2170c5c23f59c20aea4ade639",
+        "iv-b4abffc2102f1ae1794884bee572cdbdf6e01e70fcbecbbda2402e2873433244",
+        "iv-8359a1b3103f367ee088fd78fe4f812b910e1838d14dff27dcdfe43137f399bb",
+        "iv-b0d5d3338f69ca68a23d6a40ec135715b4d494bae7904786f875ea69a6c94fad",
+        "iv-40cdc100d2f2a52c5df73e50a1c7b5a94d5ba2696291b454ed7e3954822890db",
+        "iv-ca6128772ff1882817b7bc54fd92848d6809199ac521a2b2c8143fa8d91c1476",
+        "iv-293bf9f9d750768d3a5a7e47bd00873c867327d2e84ce04613db54a9bb854eba",
+        "iv-77f58bdcfeac0e4bdc91b2c4bf8e65ac692ffbdcf7c66c00890e9eea70c60fba",
+        "iv-faf793d3f1fc2f3ec38c1d6df92a7aa3d01590fe7156f8bba132f08dafd4e7e4",
+        "iv-f34d18f5a44b9fbf2f51660a0136a3566dbc2748af617693081207e394ba9ea6",
+        "iv-158b1ebe77225eac0c8dd82cbd771a104720908de5efac742b42e387036d0cfb",
+        "iv-93c36b2bb29e964432c7f53506ac67450978aa2a6c424a2a51c4cf427e05e6ad",
+        "iv-81c39f7e40b0624b34b6ef7ee5f8f5d3a4493f16c28a2227819c1661d5eef926",
+        "iv-cc4ea7a3b2bc8b8f48eff499c20a7796f1c8e08c92594ce05b472aac0fddb054",
+        "iv-6b0f16fbfc2c8a92acbaa77df09626387de34f282b93584abdc6703752b2d5f4",
+        "iv-1c24530995c490327e51ffafb8cc1babf6f45d0213cec252e85f7f961f1402ee",
+        "iv-ae03705c6441fcd3cf208e887459fcf591990b205692eaca8cf965127262efd7",
+        "iv-4cea55e1f2da48cee672e65d8bb7d00e88b8e3ab53e13f3c2b793b92caad39b4",
+        "iv-f691a815b304888934eddd29d09e74a87f9b9ef115ab5e20f4dd817216fad690",
+        "iv-bbb5275e78a82777b384d224636dec2995c6bd50365ccaffe2cb0199b687b00a",
+        "iv-2d6750ca6e3c5632a4789cf43e66003973839c5b7f767eac124c3902b82f3ba7",
+        "iv-ed75efaba04ba9f1e3f6f9a22d871b2e3c7dde5c143f32527f62437520b9319e",
+        "iv-3738b018591ea0ac16f383a7b062735014e92ea9e7da8ea2b15b218a3f18ed3e",
+        "iv-6284f1739a531e79fa0431f0e04b21b56d6be27a2189e24f27590c78d998ca75",
+        "iv-a0a1b58cecd88cc4322e7e28e71e2d294bae445b55248d8eebc9aa50d20a2318",
+        "iv-465494fc5ba178a9ec5bd716ba48c3595757514f45634bbdce5b361ea6c6f371",
+        "iv-c307b86e8419acef912666c9804137ab4eb2e4177117848af67f4b1c2f8f9f8b",
+        "iv-29c38849e77270f6212466f5d9989aa472fd2c6e4206d51492a52d5718d9e891",
+        "iv-5dc418194451538b4409c04d166cfac6c8e8b51b136d4f4cfcb509b6c112984e",
+        "iv-a5b255aac8e01b4c974a15b877208b4dff66320a5d53105f123d2e545cd11907",
+        "iv-3ae42f195149ef7aa1560fd1182e9a7f93b1f5f8f1719f3f270141e46129ba6e",
+        "iv-9beab43db039b3d4bfa23ab9b8ae831d955e3019875f72eb68164fac686fcc74",
+        "iv-173f511d42006e80ca5af2f05c363c4c89cfb16df868331009d994f2df825d60",
+        "iv-649922f876f70b73e13ef31b035ccf4ca9f82db7cbe9c3670b132ab74301ff6c",
+        "iv-5059877d98ac238e51a3071a928e9454ad7c31a9bce464d0d78600bbfe6d2dd0",
+        "iv-36cb49761ff66f8cf68513d813d8341982eba94c3d860216c13120ebf829c22b",
+        "iv-a153e8717ab727b8bc1e61254d944f37061560a727520c9960d18f96209716c8",
+        "iv-4f7684f513ad0b63da3f7e6665fe63435c77deb3f995d66311649473acd10bb9",
+        "iv-af5bd6e9a87b375e67886a94b5f7636531d77a89639203fbda15dc6bd85b73e2",
+        "iv-d7c94434f3678dc5184c368288e9088660a11d9e5a161b88cdcd3bfe945613b3",
+        "iv-21612cc5cf8fee3ff9dea4d359d952e6f7a3a8bbeb8db28e0f3fac7304a976f5",
+        "iv-e995a11919fbf4092875e55765b6c09f9964171e435e5ca5a0cddb772db47023",
+        "iv-f6d349d390ba9c2f0972a409a1fa9aefd3e55d96877de15b5df3acae2469550f",
+        "iv-3181ea6479849d8313f2061cf7ae0892a5759e240be025f587f0566590a67c1f",
+        "iv-a4a2615f6d0cbfa94519afe389196a5c62f84100de43f82666963591f478a885",
+        "iv-efca3b6d57cd60dcad3712324501a1f402a0d4c7742f94d4684b002364642aec",
+        "iv-124f321b96046d71dd67a9ca3094de48e43b6a847d444576a660edf022e304fc",
+        "iv-0cf9d14ac778323923c930337fc9d7756eb3bf50d6e6238bc4180b1596a97e09",
+        "iv-8304c0d5a8615c9543305c43df972d85be26c2dcbbe7a8c079b67b827787d665",
+        "iv-7bb534b7b20590858267fe186e0ddffaae765f44991625f788dc02944d5ed43e",
+        "iv-b06f80279ad57a280727cc3326518e0c6f43681e18331255127a7f081955d685",
+        "iv-9d50bb0de764a27bad3fc235c1beb0438692eca9d29d208fe4eef1cf190e5a78",
+        "iv-63091c7d780c5dbd65918e17165973486b6d49e59d312cc52cf33f9881ce80cf",
+        "iv-f013cb59eaf12c5ab81fc3dbdc89477d4b9afde62bc1b9fa58d14d2d9d79925a",
+        "iv-3a0f2bc97ca6bde5569852567a96ad601c6815821491a6ec42c1522994cd3b83",
+        "iv-951ab2bccc35201d9978091474944d14f236b9599df761efc1bf23d449acef82",
+        "iv-77dbd465929154955ec7035c6b3eb0401bac7c035880c4625318c9785e431c28",
+        "iv-ca64efcc4fe754724c847f072a5d7a6d2df057664ac033d4211cb0d46f6a5a26",
+        "iv-a077b55ef03a583d07054709f09a5d440d1f3e386a4d47aa08318ddf8126dde5",
+        "iv-ece5061fe65043e6cdaee70eb695bb35d3030c06e8c1fb0ce588944f649310aa"
+      ],
+      "evidence": [
+        {
+          "evidence_id": "iv-15ee05a8b4cb07997a0a62682fd1035b46534b7af898bdd16cb37b46d67b26b7",
+          "asset_id": "S1_PUMP_A",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-c75d6c34212cb9a559953723134caff7d3fced0c1620cbbdfa1c7658066ce8d0",
+          "asset_id": "S1_PUMP_A",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 3593.4,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-1312dde360c0cc167cd19f54a6a13db9869d0bd83246d2f8f1091d618a4acc66",
+          "asset_id": "S1_TANK_A",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 68.21,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-0e884ee4c9cb2c3ce93f3a5320121129bfc917feeb7721166a1be7e03208338b",
+          "asset_id": "S1_FACILITY_A",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2400.1,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-8cb5c3850463fa917d4621f3b86e505597fca9b9b6ec4b362084f87afc3e845c",
+          "asset_id": "S1_WELL_A1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-11ea62e241b62e42871709cec7beefcb2c776d14e93d0d20f88be7a2397f35d5",
+          "asset_id": "S1_WELL_A1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1001.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-0a19115428e1ac12370b3060df3af4c9419551dd016d073ca9217768397e7180",
+          "asset_id": "S1_WELL_A2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-48326d87853735204bb054619a6cc84d8fc348c3158d1c922f64d6209e472d59",
+          "asset_id": "S1_WELL_A2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 798.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-6b23e5185f585d96aa364e2e0860a5b820c6a6e3493ccd7dd7371fa90359e9c0",
+          "asset_id": "S1_WELL_A3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-1b15dccbdafc378c262b6febba73fcc5555e07d263d45908c94669e0892f5526",
+          "asset_id": "S1_WELL_A3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 600.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-e64dfd27f0bfa90f684c9e8521129d8dfdecc28fc4c2b92d0f910a7378ea0f46",
+          "asset_id": "S1_PUMP_B",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-7f5c5a9adaa250f6852fc2ffdda09d4a9e094a22ee25395eb7b1e87846ff0210",
+          "asset_id": "S1_PUMP_B",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2962.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-4aae2ab0d84f9fdcb456c8ebf29dfa6cbde42a61d07a361a151ac8d46415f92b",
+          "asset_id": "S1_TANK_B",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 40.75,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f4be4ea7ea5efcac00112cdeacfeb37b92f716a6c4e6e6d7a7b9b4c00b997947",
+          "asset_id": "S1_FACILITY_B",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2013.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-b7c3dc0fd2153c700ba474b46926ae5032bb56da5c918020bb608d72888b74ef",
+          "asset_id": "S1_WELL_B1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-092a3344d0ea886f1efa86414ce2da089f008af477df306676b7e5de5843a468",
+          "asset_id": "S1_WELL_B1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1008.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-d3a2ab2a70cf4143b7161f9cf40c4bf2c3c03250341d17bda4c80f7d8b3d46e7",
+          "asset_id": "S1_WELL_B2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-603209c584ffbd37a2a4e9b94327e7494de6eb814a1cf71fe40e486423765e33",
+          "asset_id": "S1_WELL_B2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 604.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-0d76b26843f9ced382a778c05857336daf16cbcef752b4b9e8f71df69cd5cc54",
+          "asset_id": "S1_WELL_B3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-9b36529097e008ad3f0748e525dc1372943bccd6030a9e0d429e2d63b3a8d552",
+          "asset_id": "S1_WELL_B3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 400.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-d466e673e4733e68f44120ed32d71918a795206f0fd078acbc5754a2c534b62d",
+          "asset_id": "S1_PUMP_C",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f4033387bbb4f682e4dc67ceb84df7fae537afce1e6114fcf87d9b7525824e65",
+          "asset_id": "S1_PUMP_C",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2695.7,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f00e2bd547f6e708f51c5e1e8abe1e187cb98a1ed408a0d59cc9e1d96044ab51",
+          "asset_id": "S1_TANK_C",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 65.49,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-e5cf2c165bd9641c8d6693030e7cd86edd8f0a532c01fc1fa881b43ed412b898",
+          "asset_id": "S1_FACILITY_C",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1799.1,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-ebb13f30b5aaf9baafbe1a34103b95e6c7f4ebc61dfb11bd08deef643dfea450",
+          "asset_id": "S1_WELL_C1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-40783b986e13e25fe8221fdc25b20b34ba487f1b71696970b29b02ae979d7929",
+          "asset_id": "S1_WELL_C1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 445.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-fd23cf452e16c83a1666532062a8b7ef068a79dd8268ae84d559fbec818caabc",
+          "asset_id": "S1_WELL_C2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-d017ae9e1cff0fbc881e80f4c907dfdfbe860d4d868f997a034acbf25348afa1",
+          "asset_id": "S1_WELL_C2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 707.3,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-c1e4f05953e4548fd913a760425216d3383a150cf571b341fece9a0f35b9a2af",
+          "asset_id": "S1_WELL_C3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-407a18a40a1e7ab29a36f82a177baec4bc0d3b1d1a7a401ee9ce4def0acbefbc",
+          "asset_id": "S1_WELL_C3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 646.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-fdc6ba82af3ad7a00b0816650de34080e1a0175d8b43d20a81415603244dcf7e",
+          "asset_id": "S2_PUMP_A",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 2.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-6ae4fbae99f684ffa3bfa465b892b9c6e75aba4fb6a236610e76d29cd990e2a7",
+          "asset_id": "S2_PUMP_A",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 0.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-60ad5fee3a8d7e5d3ee66f3c8c736dd0b5b4418dd973839668ec05cc07c1e3ea",
+          "asset_id": "S2_TANK_A",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 68.18,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-78f23f4f3a161b6ee12abf5051fc5e1b4ab49d9e8b46352bcb05d1bf95f315f3",
+          "asset_id": "S2_FACILITY_A",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2187.3,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-8ee325be306a5613fdd76d0993b73ef80828f816b98ea9ab3a21cbbe4af1bc56",
+          "asset_id": "S2_WELL_A1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-fb0b8e6abbd2f624a2119a94aa297b14b3ecb88d0f875fa7cd4031c81996af81",
+          "asset_id": "S2_WELL_A1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1091.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-044bbec14c9edba4a624d9f6f97b0e12dd7e426636e91c5666e7d5875d8cf7bc",
+          "asset_id": "S2_WELL_A2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-1e2256387f9ebbee723fc0ff442dd26613b09dcdac35d72d12f5edf69b6994f6",
+          "asset_id": "S2_WELL_A2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 643.3,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-d25e249191c9efc616ecf8ab06d7c91360ec8f504b0afb41dee035e223a67d9e",
+          "asset_id": "S2_WELL_A3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-75066f8732d435c3bad832eaa1ff0661b9955cc2f0fb71ab578f1ff020724da6",
+          "asset_id": "S2_WELL_A3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 452.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-b361d1ee5e395a26874d6c369addaa1629a85de70577221083c29a76d8361397",
+          "asset_id": "S2_PUMP_A",
+          "metric": "status",
+          "timestamp_unix": 1791453300,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-cd382a59fdd4bab8f870aca5d68acd81072e961721b249489c3d7dc7c1ef0ac6",
+          "asset_id": "S2_PUMP_A",
+          "metric": "status",
+          "timestamp_unix": 1791453600,
+          "value": 2.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-b30578e79d85067e8bd7252cb9d954b8df793b4cd059a71a08dd5af6d0fae464",
+          "asset_id": "S2_PUMP_A",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791453300,
+          "value": 3260.5,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-f9b1fdf16b3883b09542c72394ff6f681d1396aa872de8c1a6353e6ea9cb98f3",
+          "asset_id": "S2_PUMP_A",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791453600,
+          "value": 0.0,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-26d5aa8814bd1f6504f2c25833610056759a60b4c075246c79ab695d875c5d4d",
+          "asset_id": "S2_TANK_A",
+          "metric": "level_pct",
+          "timestamp_unix": 1791453300,
+          "value": 50.35,
+          "unit": "%",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-4800e89c3b948b5396a966621bb547238a46361a766fc96aba8c3210642ffbee",
+          "asset_id": "S2_TANK_A",
+          "metric": "level_pct",
+          "timestamp_unix": 1791453600,
+          "value": 49.92,
+          "unit": "%",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-07441ec302d92f96e4fac706e96d31e2c7e17c00369be87fa8afadb356d12586",
+          "asset_id": "S2_FACILITY_A",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791453300,
+          "value": 2197.9,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-5e854aa37a9dde1ac91779280281038d6423047b5cd5a71e4c786a26d8ccf644",
+          "asset_id": "S2_FACILITY_A",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791453600,
+          "value": 2197.9,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-946a9a53b36c1b812588801a824fe41ffcab60fa05040635c882862b3757885b",
+          "asset_id": "S2_WELL_A1",
+          "metric": "status",
+          "timestamp_unix": 1791453300,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-f0ff2df4263d7cc351272993a27a7fc199ba90b9ae30697c875b1b663bb46c33",
+          "asset_id": "S2_WELL_A1",
+          "metric": "status",
+          "timestamp_unix": 1791453600,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-f2731b69d88572189eceb866a320b948b27258f0614b7c1029285dd326429874",
+          "asset_id": "S2_WELL_A1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791453300,
+          "value": 1106.9,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-d5f104c96add6c176e327309b3a9c343a155e489b7777a8fa573e0d9bf9bfdf3",
+          "asset_id": "S2_WELL_A1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791453600,
+          "value": 1100.7,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-18e08dbf362fb01d84425ac05b7404bfe747f83f69fd9366a53543ef66aa0604",
+          "asset_id": "S2_WELL_A2",
+          "metric": "status",
+          "timestamp_unix": 1791453300,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-719d0a80cd2deb3820997f60187f496c288bfb1551cf3cc44da143847dea5250",
+          "asset_id": "S2_WELL_A2",
+          "metric": "status",
+          "timestamp_unix": 1791453600,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-ec451d6a9273ecb20261e71727566ec7c1d6dd97641d9bbcdd396b639b80d550",
+          "asset_id": "S2_WELL_A2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791453300,
+          "value": 647.2,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-495be85fc65a76e2569cefc1b46e25c99f44cb258c01b3857e184d2a87058e82",
+          "asset_id": "S2_WELL_A2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791453600,
+          "value": 651.7,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-bf06ed03b982755d42388c9e0ade94b7088399b4d7679a893cf230d8f738908f",
+          "asset_id": "S2_WELL_A3",
+          "metric": "status",
+          "timestamp_unix": 1791453300,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-a8f3cc5062a80f94827272265b08a316111d713c9df035649cb76688c8d8b57d",
+          "asset_id": "S2_WELL_A3",
+          "metric": "status",
+          "timestamp_unix": 1791453600,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-c9c57ecf3ff5f93824d9001e070a3e764f862850679c4acf5a103b223b46b891",
+          "asset_id": "S2_WELL_A3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791453300,
+          "value": 443.8,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-05618666409e072220bdb14b71fd6388e40bb45e5cedeb45e54d2fe2a5e59bb6",
+          "asset_id": "S2_WELL_A3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791453600,
+          "value": 445.5,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-024c70b61debbe0ec0f2de72c661842130a54b6e4cbdeb63aff1d99b4532591c",
+          "asset_id": "S2_PUMP_B",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 2.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-fe10f62a528b1a1eb6c7024bb5a3e55f5f72d078be298a523e4dc1ebb25eb24d",
+          "asset_id": "S2_PUMP_B",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 0.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-e9f261582d4fddafda274f60f7053f059d0fa121e38b6b5469074ff056571afe",
+          "asset_id": "S2_TANK_B",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 78.49,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-040b80a305309b90c06882229017ba021c6afecefecf43faac6c6b8f1cd35763",
+          "asset_id": "S2_FACILITY_B",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1592.8,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f60290e162f95194f2880ed809289af483c7ef67c44c4c78b8cfa21b977bdaf6",
+          "asset_id": "S2_WELL_B1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-a5261d150c8c5fa923b2cfe33503f7f914dd7d11635c8e1f8c9409dd430ea0ac",
+          "asset_id": "S2_WELL_B1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 402.9,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-0a60b96e998ebe653e5b9c2af763c109fc1c39a8d7af7d3b1c2d377f894fb003",
+          "asset_id": "S2_WELL_B2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-dce379f830e32cf2e5aa6e42c844a797a287d782bffb2be5053f0acfe15a2336",
+          "asset_id": "S2_WELL_B2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 644.9,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-7ef0d34f98c693bced818fe7678f8ff243e9b9b42790ef33f87b4e844b47a0dc",
+          "asset_id": "S2_WELL_B3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-b707e486fe97e038589caa0dcb30e8e25647bb989d1be9348c6ed6b9b307c981",
+          "asset_id": "S2_WELL_B3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 544.9,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-fb505068d22b17af6a36b396bb4c9901cb1a2700937f0da6dc7faeeacaca9a39",
+          "asset_id": "S2_PUMP_B",
+          "metric": "status",
+          "timestamp_unix": 1791449700,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-dcd7839db2d86e86e3b8f18dff2c53917af78982e9d9f5cf0b4904f365354e18",
+          "asset_id": "S2_PUMP_B",
+          "metric": "status",
+          "timestamp_unix": 1791450000,
+          "value": 2.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-5d08b393fc51412ba25a488c147b6d4be50ce607e543a6199f41e9ced90c165f",
+          "asset_id": "S2_PUMP_B",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791449700,
+          "value": 2406.1,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-9e70e80cd771d7b9e8e8bae9f13888b59ead038c2faffc90c3078c4665a7179d",
+          "asset_id": "S2_PUMP_B",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791450000,
+          "value": 0.0,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-ccd4ddfbb2ae781e063dc69f9295eaf18552bb02f611dcf0bd3304d0de8b45a5",
+          "asset_id": "S2_TANK_B",
+          "metric": "level_pct",
+          "timestamp_unix": 1791449700,
+          "value": 50.48,
+          "unit": "%",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-fcfee71265228f2b9e41af6a1bee1a2d0dae9a2790eed538da75499c5fe81d94",
+          "asset_id": "S2_TANK_B",
+          "metric": "level_pct",
+          "timestamp_unix": 1791450000,
+          "value": 50.01,
+          "unit": "%",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-17a64cb4ec355a97d64ab726824639abed02bef7682df9420dedbaf4a99338c7",
+          "asset_id": "S2_FACILITY_B",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791449700,
+          "value": 1599.8,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-c57d1c51ad81794d9c1552c567ed3b3926f574556af2cf149748cbc147ea4e17",
+          "asset_id": "S2_FACILITY_B",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791450000,
+          "value": 1583.6,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-7caaf76df613628f3e2f74ddd91f8d18f2fe37e2ab106ac6870ff6fde46aac1c",
+          "asset_id": "S2_WELL_B1",
+          "metric": "status",
+          "timestamp_unix": 1791449700,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-5f4fe2dcbff11d9e0227e3227ca814af8593464efb7856b1f3dbab606584133d",
+          "asset_id": "S2_WELL_B1",
+          "metric": "status",
+          "timestamp_unix": 1791450000,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-dc8c363f49e1b50781c856c5a0e9a1ed0db8106803980b00c10233b1842e813d",
+          "asset_id": "S2_WELL_B1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791449700,
+          "value": 398.6,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-e44748686f1af9d54971630152a568a8861b884a18eba6babf61870424f373db",
+          "asset_id": "S2_WELL_B1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791450000,
+          "value": 396.5,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-edeaa6fd6948bf19157ee1a96835d41c3d4081c94ccc133b729b9ec460d6bb2f",
+          "asset_id": "S2_WELL_B2",
+          "metric": "status",
+          "timestamp_unix": 1791449700,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-164bd1b057fac8adedc39b240e297c1725f6a5a52632e0a25292dc476d678225",
+          "asset_id": "S2_WELL_B2",
+          "metric": "status",
+          "timestamp_unix": 1791450000,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-b00e8fcf85a85cc047caa7e8bcf76f3db5a9d9bb2fe26b20604105c660955e46",
+          "asset_id": "S2_WELL_B2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791449700,
+          "value": 648.8,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-6486f14d3286ee5a060a7aafc9a6e27104fa6538719ece44a7e7ba30fe4aabe8",
+          "asset_id": "S2_WELL_B2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791450000,
+          "value": 643.0,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-ac960b63cea05d5de31bc551437ded6d3af7be34983120d0e5ded3f15317c1e7",
+          "asset_id": "S2_WELL_B3",
+          "metric": "status",
+          "timestamp_unix": 1791449700,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-e3d043d862d5e9fc675c4f5019775ffdb533d3a9c8e0116e2cf8e89b4d4c2b52",
+          "asset_id": "S2_WELL_B3",
+          "metric": "status",
+          "timestamp_unix": 1791450000,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-3864850e8f491c77743e51e797878b1d1d709361b1c7a1b95f53f0619eba796c",
+          "asset_id": "S2_WELL_B3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791449700,
+          "value": 552.4,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-8d5e43647a3250fad741603067c2874119cc2c0ce2a8c2e1926cdfe8a8bb0e27",
+          "asset_id": "S2_WELL_B3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791450000,
+          "value": 544.0,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-01721d25f237c6e32888a237238839e8c2a131786aa7b4c73fe30109e8bc9020",
+          "asset_id": "S2_PUMP_C",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 2.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-fe8a589fc393db912fee852d71aec570a8c42adae34d8c4b2d14c3249aa5dc5e",
+          "asset_id": "S2_PUMP_C",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 0.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-6e02d0468724f19c00fb06ac606d5d3b06b0e3b6044c82359b32ec46520b52b8",
+          "asset_id": "S2_TANK_C",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 69.47,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-c2bc37558595d945aa5ff50e9dd01d516d4cecebf54e279dc831694582950357",
+          "asset_id": "S2_FACILITY_C",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1395.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-262baca3408408323eec1808345d994f80a858a2c903d8a6700d4b5a5bb259be",
+          "asset_id": "S2_WELL_C1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-6a1893d5b916fd28880a3b304be65e24f33952bdfd16f7d7340945174bb07f4d",
+          "asset_id": "S2_WELL_C1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 600.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-57e6fe27b4dc36b7f047752dfb2f4ab764960050ca9d2510f7bf789a8f122042",
+          "asset_id": "S2_WELL_C2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-c904239f53e1336a82952b9d2c099dcd8fcc1aefe28fb496d13aaf74bcd3c79e",
+          "asset_id": "S2_WELL_C2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 446.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-cf669efe741b017287f7f92aff61c9dba82d364a245d2dad7b467444a4b5d13b",
+          "asset_id": "S2_WELL_C3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-25aff4c03344d682504bc36f2eb7b214a994270397873329b2135545a0a07749",
+          "asset_id": "S2_WELL_C3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 348.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-d23cc7f98bf925a9f5c1789449c0a5b342d3959fc210e48263e3fc26d28acace",
+          "asset_id": "S2_PUMP_C",
+          "metric": "status",
+          "timestamp_unix": 1791451500,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-ec074d0ef6882902785789fcd517a881ede32481effec5f338538d3c1c51a934",
+          "asset_id": "S2_PUMP_C",
+          "metric": "status",
+          "timestamp_unix": 1791451800,
+          "value": 2.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-6f3cd7dc18798a662c703a147ef5e26b7696c426990feea77c9457acc4261758",
+          "asset_id": "S2_PUMP_C",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791451500,
+          "value": 2078.1,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-3d822e41cc428b16ebdeb9803a6d2093d511cb46bbdd819d0e474ee36cf4e39a",
+          "asset_id": "S2_PUMP_C",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791451800,
+          "value": 0.0,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-10fc00e4bf82ebbfb21107dc88c733740a07643099e90d0b0c172a6bcda7fc20",
+          "asset_id": "S2_TANK_C",
+          "metric": "level_pct",
+          "timestamp_unix": 1791451500,
+          "value": 45.47,
+          "unit": "%",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-b4e844b9e05107006228d1c460fffd6f27177f7bf7a9da8f439f5e7c918be589",
+          "asset_id": "S2_TANK_C",
+          "metric": "level_pct",
+          "timestamp_unix": 1791451800,
+          "value": 45.09,
+          "unit": "%",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-d5d6253681d9657250f2b247f2d3ce66a5adcea75505eb418757d86571da52ec",
+          "asset_id": "S2_FACILITY_C",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791451500,
+          "value": 1400.0,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-1d50ff4f981d33590648846e4f47f6600d2bf98c85c011aec7314fa88f29332f",
+          "asset_id": "S2_FACILITY_C",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791451800,
+          "value": 1399.1,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-b3598b51767b0bdc9f67bf3f28e368bff04dde3204fc29c485375488ea3a885c",
+          "asset_id": "S2_WELL_C1",
+          "metric": "status",
+          "timestamp_unix": 1791451500,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-6344fb6001a87b8c52f2d87f37f24999f1e33a77c710e7f79de28ea82b81c1c0",
+          "asset_id": "S2_WELL_C1",
+          "metric": "status",
+          "timestamp_unix": 1791451800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-388fcc070716a1d7ec63642774ed060027d97946d5a29c9d81596bf8ce666b0a",
+          "asset_id": "S2_WELL_C1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791451500,
+          "value": 595.5,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-d78679d97fc3ab401ff08a6531092ffe3b7b0da6596bfe9bf3cb77acb6f36a16",
+          "asset_id": "S2_WELL_C1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791451800,
+          "value": 597.1,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-b36e43c66e15769300ead575cc8d0eef28670a2e146787f974be1bc0665e59a6",
+          "asset_id": "S2_WELL_C2",
+          "metric": "status",
+          "timestamp_unix": 1791451500,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-7f43a88da005a03c3b9d7ecaae2f34fba2c4c42557697c0bd9ff636e309ece4a",
+          "asset_id": "S2_WELL_C2",
+          "metric": "status",
+          "timestamp_unix": 1791451800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-c89829d260f3a25f999f50f83155b2c96b29a4cf7fc8c2324a2966cd70300989",
+          "asset_id": "S2_WELL_C2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791451500,
+          "value": 453.8,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-2b0fff5f4ab1fb61ccfbdca2a85c76a58d28268d8fcddc1700de02c0db18ea1f",
+          "asset_id": "S2_WELL_C2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791451800,
+          "value": 450.4,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-7a4d382312b61452eb6716aa75d8abbddee81538f99bcf6ce79bdc2806f1afc1",
+          "asset_id": "S2_WELL_C3",
+          "metric": "status",
+          "timestamp_unix": 1791451500,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-09dc25bd7982d920e5905d8d04a59d548e2f49e9c1bea0f5c7835b6c13434e9b",
+          "asset_id": "S2_WELL_C3",
+          "metric": "status",
+          "timestamp_unix": 1791451800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-40a0dd4074f35778888ecb012a667f41fe1817cb5665f2f5f2746fe1ad1cdb8c",
+          "asset_id": "S2_WELL_C3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791451500,
+          "value": 350.7,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-ba98a19f97faa15e032e6029374e3f43e61e8a64f8dee3132348b1df5a768cc3",
+          "asset_id": "S2_WELL_C3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791451800,
+          "value": 351.6,
+          "unit": "bpd",
+          "quality": "stale"
+        },
+        {
+          "evidence_id": "iv-4497d518b5c776fb70d1f7f238681d350f5b2716f396dd4306553f798d82d3a9",
+          "asset_id": "S3_PUMP_A",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-84afe71dbb1bbd122fa7d45e460e5b77214d643feccb1a153a3f77b24a7c0813",
+          "asset_id": "S3_PUMP_A",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2675.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-7483eb4a46b4078af8b44e28f624b7430f8e3a2798d7ee70bcce1db17f909f7f",
+          "asset_id": "S3_TANK_A",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 68.21,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-4c48b95c667a331ea6b6f08b490dc9f5541cbb6567cd6977087747ce654b9ab1",
+          "asset_id": "S3_FACILITY_A",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1996.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-84211208a243e4b645408d11111ad6c5f4c145bd69a16d3d69b190649c3f66dc",
+          "asset_id": "S3_WELL_A1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-bd6214946d7949b5ff66a7886de5f6cc8061837ce46e359693bcc0f53e69d9cc",
+          "asset_id": "S3_WELL_A1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 845.7,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-8ac209fd3aff9bfee9636440bb52aa792b0c279d113d6b1317c3eaf57fcf6e4d",
+          "asset_id": "S3_WELL_A2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-1c0b4305189ab83f4361cd557051be5d426c4408149b5fc1b198e70032922db2",
+          "asset_id": "S3_WELL_A2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 647.7,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-dab93bf7d59b750c0f0b79ac2a0ad146167f9552bce699736f0e03f9d216307e",
+          "asset_id": "S3_WELL_A3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-e333bc304d38692cc7a18e993c3bd7dadda2c3f0eb26ea45ba066e457802bbb9",
+          "asset_id": "S3_WELL_A3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 502.8,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-399e65fc6e498e441180209166a44a6b871178b4cfe92c0e6adac3c944f808c2",
+          "asset_id": "S3_PUMP_B",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 0.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-5351a9fc4f754f494606f9caa69679dcb9552136591c91f6c31566efd6f6717e",
+          "asset_id": "S3_PUMP_B",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 0.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-6941eb05cd63e8732a71f4637cfba7ad21c117e7e0bd4b193f3b20167257d128",
+          "asset_id": "S3_TANK_B",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 34.15,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-4b44e4d5409b289827cc4875a0e441f0bc784d84ef873c784efe38713632ab99",
+          "asset_id": "S3_FACILITY_B",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1494.1,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-0d362ffe9cd2fe3d1a13a137e106a02fd7e9d87c0e728c192a481ab88e321d75",
+          "asset_id": "S3_WELL_B1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-fe74ba47accf8bb7620abd6922b69cc669956655945245e5a2311473a5e7afba",
+          "asset_id": "S3_WELL_B1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 744.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-989cecb935f716b89512bb80a7e8a9b388390d19af62986df2b80a3e984ee8a4",
+          "asset_id": "S3_WELL_B2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-9f3f320e849f9ef74b5fe59fd3b21fa0f0bca47590f334f0b5618063a1d685d5",
+          "asset_id": "S3_WELL_B2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 447.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f13a6afc844ee1eb4d814504ae8f762355996a3b81c31e398d3f281ce8b37e0e",
+          "asset_id": "S3_WELL_B3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-b4a877f8e72006827e93e846e2c1bed7905fb9d5984fe41165917abb366b221b",
+          "asset_id": "S3_WELL_B3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 302.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-49471d9daeb7a910497440b50265ed6e7451fe211610e295b08a60555b504e60",
+          "asset_id": "S4_PUMP_A",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 0.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-8be4b24608ed437f0a033290c2d17d555b2bff8684615132e780f20452e6affc",
+          "asset_id": "S4_PUMP_A",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 0.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-5907fd2ce91c53368510f8fe8c5a05320f2144d4e975563a44b639d262a1934a",
+          "asset_id": "S4_TANK_A",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 54.96,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-75420b9d6bc08da15b96122d58d0f26485aa8eebd48ad88a4b2829fcc7408258",
+          "asset_id": "S4_FACILITY_A",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1794.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-b3b84be1597872dde5280b1bd1f64b45658171f70597b05b14dc5213274d3739",
+          "asset_id": "S4_WELL_A1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-04df32c7ded508b13de9a5e9651f0ab5c647eb3a8ae731b2a9ce0be980edf9ce",
+          "asset_id": "S4_WELL_A1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 448.3,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-ec446381e2aa5735ed35d71f2fff49b26848b509eb84f1d680d7d3f39039bb4f",
+          "asset_id": "S4_WELL_A2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-e2a61fb61164427c0a4c100d985841b305010b14cabae0d36d0c9d20ac6b4a01",
+          "asset_id": "S4_WELL_A2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 715.4,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-3192adc3034abe9a5a54917e725c888d3fc500fb27a0eb07a3635ac63249504f",
+          "asset_id": "S4_WELL_A3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-1f6ed7981ab37b87f8a34967195bd680ba3b400322bbb717252a7dba0ecb2be7",
+          "asset_id": "S4_WELL_A3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 630.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-df28c4bb434a3970ee6ea2c7c59fad77ce53f0c2170c5c23f59c20aea4ade639",
+          "asset_id": "S4_PUMP_B",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-b4abffc2102f1ae1794884bee572cdbdf6e01e70fcbecbbda2402e2873433244",
+          "asset_id": "S4_PUMP_B",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2280.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-8359a1b3103f367ee088fd78fe4f812b910e1838d14dff27dcdfe43137f399bb",
+          "asset_id": "S4_TANK_B",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 55.27,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-b0d5d3338f69ca68a23d6a40ec135715b4d494bae7904786f875ea69a6c94fad",
+          "asset_id": "S4_FACILITY_B",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1505.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-40cdc100d2f2a52c5df73e50a1c7b5a94d5ba2696291b454ed7e3954822890db",
+          "asset_id": "S4_WELL_B1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-ca6128772ff1882817b7bc54fd92848d6809199ac521a2b2c8143fa8d91c1476",
+          "asset_id": "S4_WELL_B1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 654.4,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-293bf9f9d750768d3a5a7e47bd00873c867327d2e84ce04613db54a9bb854eba",
+          "asset_id": "S4_WELL_B2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-77f58bdcfeac0e4bdc91b2c4bf8e65ac692ffbdcf7c66c00890e9eea70c60fba",
+          "asset_id": "S4_WELL_B2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 498.8,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-faf793d3f1fc2f3ec38c1d6df92a7aa3d01590fe7156f8bba132f08dafd4e7e4",
+          "asset_id": "S4_WELL_B3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f34d18f5a44b9fbf2f51660a0136a3566dbc2748af617693081207e394ba9ea6",
+          "asset_id": "S4_WELL_B3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 352.0,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-158b1ebe77225eac0c8dd82cbd771a104720908de5efac742b42e387036d0cfb",
+          "asset_id": "S4_PUMP_C",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-93c36b2bb29e964432c7f53506ac67450978aa2a6c424a2a51c4cf427e05e6ad",
+          "asset_id": "S4_PUMP_C",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2874.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-81c39f7e40b0624b34b6ef7ee5f8f5d3a4493f16c28a2227819c1661d5eef926",
+          "asset_id": "S4_TANK_C",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 46.15,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-cc4ea7a3b2bc8b8f48eff499c20a7796f1c8e08c92594ce05b472aac0fddb054",
+          "asset_id": "S4_FACILITY_C",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2107.9,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-6b0f16fbfc2c8a92acbaa77df09626387de34f282b93584abdc6703752b2d5f4",
+          "asset_id": "S4_WELL_C1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-1c24530995c490327e51ffafb8cc1babf6f45d0213cec252e85f7f961f1402ee",
+          "asset_id": "S4_WELL_C1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1053.4,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-ae03705c6441fcd3cf208e887459fcf591990b205692eaca8cf965127262efd7",
+          "asset_id": "S4_WELL_C2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-4cea55e1f2da48cee672e65d8bb7d00e88b8e3ab53e13f3c2b793b92caad39b4",
+          "asset_id": "S4_WELL_C2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 635.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f691a815b304888934eddd29d09e74a87f9b9ef115ab5e20f4dd817216fad690",
+          "asset_id": "S4_WELL_C3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-bbb5275e78a82777b384d224636dec2995c6bd50365ccaffe2cb0199b687b00a",
+          "asset_id": "S4_WELL_C3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 419.3,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-2d6750ca6e3c5632a4789cf43e66003973839c5b7f767eac124c3902b82f3ba7",
+          "asset_id": "S4_PUMP_D",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-ed75efaba04ba9f1e3f6f9a22d871b2e3c7dde5c143f32527f62437520b9319e",
+          "asset_id": "S4_PUMP_D",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2552.3,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-3738b018591ea0ac16f383a7b062735014e92ea9e7da8ea2b15b218a3f18ed3e",
+          "asset_id": "S4_TANK_D",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 66.23,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-6284f1739a531e79fa0431f0e04b21b56d6be27a2189e24f27590c78d998ca75",
+          "asset_id": "S4_FACILITY_D",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1698.8,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-a0a1b58cecd88cc4322e7e28e71e2d294bae445b55248d8eebc9aa50d20a2318",
+          "asset_id": "S4_WELL_D1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-465494fc5ba178a9ec5bd716ba48c3595757514f45634bbdce5b361ea6c6f371",
+          "asset_id": "S4_WELL_D1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 448.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-c307b86e8419acef912666c9804137ab4eb2e4177117848af67f4b1c2f8f9f8b",
+          "asset_id": "S4_WELL_D2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-29c38849e77270f6212466f5d9989aa472fd2c6e4206d51492a52d5718d9e891",
+          "asset_id": "S4_WELL_D2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 650.2,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-5dc418194451538b4409c04d166cfac6c8e8b51b136d4f4cfcb509b6c112984e",
+          "asset_id": "S4_WELL_D3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-a5b255aac8e01b4c974a15b877208b4dff66320a5d53105f123d2e545cd11907",
+          "asset_id": "S4_WELL_D3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 600.1,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-3ae42f195149ef7aa1560fd1182e9a7f93b1f5f8f1719f3f270141e46129ba6e",
+          "asset_id": "S5_PUMP_A",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-9beab43db039b3d4bfa23ab9b8ae831d955e3019875f72eb68164fac686fcc74",
+          "asset_id": "S5_PUMP_A",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2846.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-173f511d42006e80ca5af2f05c363c4c89cfb16df868331009d994f2df825d60",
+          "asset_id": "S5_TANK_A",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 67.5,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-649922f876f70b73e13ef31b035ccf4ca9f82db7cbe9c3670b132ab74301ff6c",
+          "asset_id": "S5_FACILITY_A",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1894.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-5059877d98ac238e51a3071a928e9454ad7c31a9bce464d0d78600bbfe6d2dd0",
+          "asset_id": "S5_WELL_A1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-36cb49761ff66f8cf68513d813d8341982eba94c3d860216c13120ebf829c22b",
+          "asset_id": "S5_WELL_A1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 800.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-a153e8717ab727b8bc1e61254d944f37061560a727520c9960d18f96209716c8",
+          "asset_id": "S5_WELL_A2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-4f7684f513ad0b63da3f7e6665fe63435c77deb3f995d66311649473acd10bb9",
+          "asset_id": "S5_WELL_A2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 616.5,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-af5bd6e9a87b375e67886a94b5f7636531d77a89639203fbda15dc6bd85b73e2",
+          "asset_id": "S5_WELL_A3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-d7c94434f3678dc5184c368288e9088660a11d9e5a161b88cdcd3bfe945613b3",
+          "asset_id": "S5_WELL_A3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 477.4,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-21612cc5cf8fee3ff9dea4d359d952e6f7a3a8bbeb8db28e0f3fac7304a976f5",
+          "asset_id": "S5_PUMP_B",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-e995a11919fbf4092875e55765b6c09f9964171e435e5ca5a0cddb772db47023",
+          "asset_id": "S5_PUMP_B",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 2548.7,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f6d349d390ba9c2f0972a409a1fa9aefd3e55d96877de15b5df3acae2469550f",
+          "asset_id": "S5_TANK_B",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 42.98,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-3181ea6479849d8313f2061cf7ae0892a5759e240be025f587f0566590a67c1f",
+          "asset_id": "S5_FACILITY_B",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1705.7,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-a4a2615f6d0cbfa94519afe389196a5c62f84100de43f82666963591f478a885",
+          "asset_id": "S5_WELL_B1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-efca3b6d57cd60dcad3712324501a1f402a0d4c7742f94d4684b002364642aec",
+          "asset_id": "S5_WELL_B1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 853.9,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-124f321b96046d71dd67a9ca3094de48e43b6a847d444576a660edf022e304fc",
+          "asset_id": "S5_WELL_B2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-0cf9d14ac778323923c930337fc9d7756eb3bf50d6e6238bc4180b1596a97e09",
+          "asset_id": "S5_WELL_B2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 505.3,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-8304c0d5a8615c9543305c43df972d85be26c2dcbbe7a8c079b67b827787d665",
+          "asset_id": "S5_WELL_B3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-7bb534b7b20590858267fe186e0ddffaae765f44991625f788dc02944d5ed43e",
+          "asset_id": "S5_WELL_B3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 346.6,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-b06f80279ad57a280727cc3326518e0c6f43681e18331255127a7f081955d685",
+          "asset_id": "S5_PUMP_C",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-9d50bb0de764a27bad3fc235c1beb0438692eca9d29d208fe4eef1cf190e5a78",
+          "asset_id": "S5_PUMP_C",
+          "metric": "flow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1959.9,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-63091c7d780c5dbd65918e17165973486b6d49e59d312cc52cf33f9881ce80cf",
+          "asset_id": "S5_TANK_C",
+          "metric": "level_pct",
+          "timestamp_unix": 1791460800,
+          "value": 41.88,
+          "unit": "%",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-f013cb59eaf12c5ab81fc3dbdc89477d4b9afde62bc1b9fa58d14d2d9d79925a",
+          "asset_id": "S5_FACILITY_C",
+          "metric": "inflow_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 1303.1,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-3a0f2bc97ca6bde5569852567a96ad601c6815821491a6ec42c1522994cd3b83",
+          "asset_id": "S5_WELL_C1",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-951ab2bccc35201d9978091474944d14f236b9599df761efc1bf23d449acef82",
+          "asset_id": "S5_WELL_C1",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 324.7,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-77dbd465929154955ec7035c6b3eb0401bac7c035880c4625318c9785e431c28",
+          "asset_id": "S5_WELL_C2",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-ca64efcc4fe754724c847f072a5d7a6d2df057664ac033d4211cb0d46f6a5a26",
+          "asset_id": "S5_WELL_C2",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 521.8,
+          "unit": "bpd",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-a077b55ef03a583d07054709f09a5d440d1f3e386a4d47aa08318ddf8126dde5",
+          "asset_id": "S5_WELL_C3",
+          "metric": "status",
+          "timestamp_unix": 1791460800,
+          "value": 1.0,
+          "unit": "state",
+          "quality": "good"
+        },
+        {
+          "evidence_id": "iv-ece5061fe65043e6cdaee70eb695bb35d3030c06e8c1fb0ce588944f649310aa",
+          "asset_id": "S5_WELL_C3",
+          "metric": "water_bpd",
+          "timestamp_unix": 1791460800,
+          "value": 456.7,
+          "unit": "bpd",
+          "quality": "good"
+        }
+      ]
+    },
+    "analysis_id": "analysis-039ece21308577988af104c076c5b17fcd3c526e7b8f755f8536157159e8544a"
+  },
+  "diagnostics": []
+}

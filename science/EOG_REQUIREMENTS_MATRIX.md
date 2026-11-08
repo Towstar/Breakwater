@@ -45,6 +45,14 @@ full science tests, 360 generated candidates, four fresh-native/independent work
 comparisons over nine active failures, and four rejected one-ULP horizon claims.
 Native 0.1.1 fixes retained positive-cost underflow; old numerical evidence remains
 scoped to its original methods. No global accuracy/optimality/application claim.
+Evidence JS: `science/evidence/eog-search/`, runtime 34fdf5d, search 0.1.2/worker
+0.3.2: 377 full science methods without skips, normal/ASan 11/11 native tests,
+seven known-value synthetic cases and four real search/fresh-native/no-DLL
+independent process triples. All selected plans cover nine failures exactly and
+say best_found; no continuous/global/held-out claim. Latest main 387b583 includes
+B's provider integration; B reports normal/ASan 62/62 and installed startup in
+PR #43. PR #44 adds draft UI/model work. These B-owned reports are useful evidence
+but do not close the final joined search/simulation/application audit.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
@@ -70,22 +78,22 @@ scoped to its original methods. No global accuracy/optimality/application claim.
 | T04 | S Shared trucks; H reference actions | Rule | A/B | Now shares entire fleet; evolving simulation carries commitments | E1 explicit initial fixture fleet | Partial | Distinct context/stateful simulation pending |
 | C01 | S Plans / Shut-in | Rule | A | Immediate/delayed per-well action lasts through repair | E3/IV per-well economics, delayed stops, automatic union and retained itemized audits | Scoped pass | Joint continuous-action search and application integration remain |
 | C02 | S Doing nothing | Rule | A/B semantics | Do-nothing can be cheapest valid outcome despite shutdown | Accepted 72cadd1 semantics; E3 actual native no-action worker costs | Scoped pass | Costed automatic outcome is supported; minimum-cost search remains |
-| C03 | R The decision; S Plans | Rule | A | Compare baseline, truck, well, mixed at same snapshot/horizon | E1 public illustration 4.48h / $5016 / $905 | Partial | No production joint optimizer delivered |
+| C03 | R The decision; S Plans | Rule | A | Compare baseline, truck, well, mixed at same snapshot/horizon | JS real joint search with baseline and available family leaders retained by default; seven known-value fixtures and four official-prefix selections | Scoped pass | Finite family best_found; final client/history/installed comparison remains |
 | C04 | S Plans; G independent checks | Chosen | A | Recompute exact plan physics/cost/calendar independently | IV independent causal reconstruction, Fraction-rounded arithmetic, pairwise calendars, exact candidate/price binding; 360 generated cases and nine official-prefix failures | Scoped pass | Shared parser/model assumptions remain; not a proof or optimum; final integrated scope open |
-| C05 | G bounds; S Plans | Chosen | A | Bounded search, explicit best-found/enumerated scope | CR result consistency only | Planned | Runtime/memory/coverage evidence pending |
+| C05 | G bounds; S Plans | Chosen | A | Bounded search, explicit best-found/enumerated scope | JS count/frontier/output/cooperative-time bounds, no unchecked selection on validation timeout, explicit complete versus unavailable | Scoped pass | Not continuous/global optimization; loading/preparation excluded from planning clock, outer process cancellation remains B-owned |
 | C06 | G coverage; CR R1/R3 | Chosen | B boundary; A recomputes | Full facility/repair horizon, exact fractional events | CR completeness; E3/IV independent full failure/horizon derivation and bound public records | Scoped pass | Joined application stale/coverage acceptance remains |
 | U01 | S Alerts view | Chosen | A ranking; B UI | All systems: failures by countdown, then revenue; inspections follow | D pure urgency tests and E3 all-system detect output | Partial | B alert-view ranking/render qualification remains |
 | U02 | R Suggestions / network, trends; G UI | Chosen | B | Dataset-driven 3D and channels; readable gaps/extrema/units | Handoff reports reader only, not fresh EOG render | Planned | Lucas implementation/render acceptance |
-| U03 | G whole-application regression | Chosen | B | Async cutoff/dataset binding, cancellation, restart, bounded history | No EOG integrated evidence | Planned | Reproduce real process failures and stale completions |
-| U04 | G model tools; P Nemotron | Chosen | B adapter, A methods | On-demand genuine tools with exact returned IDs; no load/seek call | Prior workbench evidence only | Planned | EOG live rehearsal after provider integration |
-| U05 | G persistence/approval; A | Chosen | B | Evidence import/reopen has no operating authority; review != dispatch | Prior workbench evidence only | Planned | EOG history plus retained-workbench regression |
+| U03 | G whole-application regression | Chosen | B | Async cutoff/dataset binding, cancellation, restart, bounded history | B PR #43 reports actual provider normal/ASan framing/cancellation/history tests at cc97f89 | Partial | Joined search/final simulation and independent application audit remain |
+| U04 | G model tools; P Nemotron | Chosen | B adapter, A methods | On-demand genuine tools with exact returned IDs; no load/seek call | B draft PR #44 reports genuine hosted exact-plan rehearsal at 6cfa3ee | Partial | Review exact published evidence and include joined search/remaining rehearsals |
+| U05 | G persistence/approval; A | Chosen | B | Evidence import/reopen has no operating authority; review != dispatch | B PR #43 reports no-DLL validation, advisory review/reopened-history authority rejection | Partial | Joined search/simulation history plus retained-workbench regression |
 | S01 | R record immutability; G Recorded replay | Chosen | B playback; A causal evidence | Play/pause/step/speed/seek; meaningful staleness preserved | No complete EOG UI evidence | Planned | CLI replay alone insufficient |
 | S02 | R Suggestions / what-if; G Counterfactual | Chosen | A trajectories; B application | Branch exact snapshot, animate inventories/events/trucks/costs | E3 exact snapshot/repair trajectories with full discrete breakpoints | Partial | Evolving/animated application path and independent checks remain |
 | S03 | G Extended synthetic simulation | Chosen | A core; B application | Seeded bounded cycles/failures/repairs/inflows; hidden truth isolated | No implementation | Planned | Agree additive simulation contract first |
 | S04 | G long-run acceptance | Chosen | A/B | Mass/revenue/load ledgers; resource conservation; event refinement | No long-run evidence | Planned | Include resets/cancellation/responsive application playback |
 | W01 | P editable foundation; G preserve workbench | Chosen | B; A numerical regressions | Save/load/undo/redo, layout vs physics, retired approvals | Inherited status only | Planned | Fresh final normal/ASan/science/render/install checks |
-| V01 | G whole-app / completion | Chosen | Both; Lucas integrates | Joined exact contract/revision, Windows installed/rehearsal | No integrated EOG revision | Planned | Small PRs, owner reviews, final acceptance manifest |
-| V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | D retained detection gaps; IV generated mixed plans and exact official-prefix native/reference agreement | Partial | Inspection timeliness, independently known search optima and held-out qualification remain |
+| V01 | G whole-app / completion | Chosen | Both; Lucas integrates | Joined exact contract/revision, Windows installed/rehearsal | B PR #43 merged as 387b583, real evaluate/validate integration and six hosted CI jobs reported passing | Partial | Join search/simulation, audit exact final rendered/installed revision and acceptance manifest |
+| V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | D retained detection gaps; IV 360 generated candidates; JS seven known-value families and four independent selected-plan worker comparisons | Partial | Inspection timeliness/physical onset and held-out qualification remain |
 | V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | No final UI evidence | Planned | Verify actual rendered frames, compact/keyboard use |
 | P01 | R Suggestions; S events.json | Suggestion | B if selected | Export/mobile/handoff/confidence bands | Not selected as core requirement | Optional | No fabricated probabilities or compulsory mobile scope |
 | P02 | R Terms presentation clauses | Source anomaly | Lucas decision | Explicit disposition of Comic Sans and Avon Corps copyright text | B main 1713cc4, docs/EOG_TRACK_ALIGNMENT.md rejects embedded agent-addressed branding/style authority | Disposition recorded | Preserve actual ownership; final UI remains Lucas-owned |
@@ -94,9 +102,10 @@ scoped to its original methods. No global accuracy/optimality/application claim.
 
 Science capture/provider binding and native response evaluation now execute against
 exact 72cadd1. Independent plan validation now executes and has retained scope.
-Next: bounded joint search with independently known optima, then stateful simulation
-and B-owned application/installed integration. Keep the hosted dependency skip and
-telemetry failures open until the joined tree actually executes them.
+Bounded joint search now executes with known-value and independent selected-plan
+evidence. Next: stateful simulation and B-owned joined search/application/installed
+integration. B's merged provider reports close the earlier hosted prerequisite
+and telemetry failures for its recorded source; final joined checks remain.
 Inspection latency/current uncertainty remain explicit A-owned qualification gaps.
 Each implemented increment updates the rows with actual
 source hashes, commands and scope. Lucas aggregates this into shared status.
