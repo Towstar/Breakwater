@@ -25,14 +25,15 @@ class CumulativeInspectionTests(unittest.TestCase):
         for category in ("pipeline_leak", "pump_degradation"):
             with self.subTest(category=category):
                 rows = frame(m, 0)
-                score = Fraction(0)
+                score = 0.0
                 first = None
                 for t in range(300, 9000, 300):
                     flow = 2619 if category == "pump_degradation" else 2700
                     received = flow if category == "pump_degradation" else 2619
                     rows += frame(m, t, flow=flow, received=received)
-                    score = max(Fraction(0), score + min(Fraction(3, 100), Fraction(5, 100)) - Fraction(15, 1000))
-                    if first is None and score > Fraction(7, 40):
+                    increment = float(Fraction.from_float(.03) - Fraction.from_float(.015))
+                    score = max(0.0, float(Fraction.from_float(score) + Fraction.from_float(increment)))
+                    if first is None and score > .15:
                         first = t
                 event, = self.episodes(m, rows)
                 self.assertEqual((event.category, event.first_evidence_unix, event.onset_unix, event.detected_unix),
@@ -83,10 +84,10 @@ class CumulativeInspectionTests(unittest.TestCase):
     def test_six_hour_expiry_prevents_cross_cycle_old_score(self):
         m = model()
         rows = []
-        # Ten deficient running samples on each side of more than six hours off;
+        # Eight deficient running samples on each side of more than six hours off;
         # individually insufficient, with every intervening acquisition present.
         for t in range(0, 30000, 300):
-            running = t < 3000 or 25200 <= t < 28200
+            running = t < 2400 or 25200 <= t < 27600
             rows += frame(m, t, status=int(running), received=2619 if running else 0)
         self.assertEqual(self.episodes(m, rows), [])
 
@@ -128,8 +129,10 @@ class CumulativeInspectionTests(unittest.TestCase):
         m = model()
         # A 3% physical pipeline loss with accurate meters and healthy transport
         # with a -3% receiving-meter bias produce the exact same visible sequence.
-        physical_loss = frame(m, 0) + sum((frame(m, t, received=2619) for t in range(300, 9300, 300)), [])
-        biased_meter = list(physical_loss)
+        physical_loss, biased_meter = frame(m, 0), frame(m, 0)
+        for t in range(300, 9300, 300):
+            physical_loss += frame(m, t, received=2700 * (1 - .03))
+            biased_meter += frame(m, t, received=2700 * .97)
         self.assertEqual(detect(m, view(m, physical_loss)), detect(m, view(m, biased_meter)))
         self.assertTrue(self.episodes(m, physical_loss))
 
@@ -149,6 +152,9 @@ class CumulativeInspectionTests(unittest.TestCase):
 
     def test_fresh_seed_small_loss_and_short_cycle_family(self):
         self.small_loss_family(2026110806, 64)
+
+    def test_second_fresh_seed_small_loss_and_short_cycle_family(self):
+        self.small_loss_family(2026110808, 128)
 
     def small_loss_family(self, seed, count):
         rng = random.Random(seed)
@@ -174,6 +180,8 @@ class CumulativeInspectionTests(unittest.TestCase):
                             self.assertEqual(events, [])
                         else:
                             self.assertEqual({e.category for e in events}, {category})
+                            self.assertEqual(len(events), 1)
+                            self.assertGreaterEqual(events[0].detected_unix, onset)
                             self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
 
     def test_predeclared_healthy_noisy_day_family(self):
@@ -181,6 +189,9 @@ class CumulativeInspectionTests(unittest.TestCase):
 
     def test_fresh_seed_healthy_noisy_day_family(self):
         self.healthy_family(2026110807, 64)
+
+    def test_second_fresh_seed_healthy_noisy_day_family(self):
+        self.healthy_family(2026110809, 128)
 
     def healthy_family(self, seed, count):
         rng = random.Random(seed)
