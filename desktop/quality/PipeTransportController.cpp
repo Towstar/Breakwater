@@ -273,7 +273,7 @@ void PipeTransportController::applyCalibration() {
     if (!canApplyCalibration()) return;
     auto parameters = project_->pipeParameters(route_);
     parameters["decay_per_h"] = calibration_result_.value("decay_per_h").toDouble();
-    if (project_->setPipeParameters(route_, parameters)) {
+    if (project_->setPipeParameters(route_, parameters, true)) {
         calibration_status_ = "Decay applied to this pipe. Run a new native forecast and transport calculation.";
         calibration_result_.clear(); calibration_binding_.clear();
     } else calibration_status_ = "The parameter update was rejected.";
