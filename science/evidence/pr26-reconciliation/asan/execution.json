@@ -1,0 +1,25 @@
+{
+  "started_utc": "2026-11-08T04:25:18.8583284Z",
+  "finished_utc": "2026-11-08T04:35:33.1869312Z",
+  "variant": "asan",
+  "registered_tests": 28,
+  "qmllint_exit": 0,
+  "ctest_exit": 0,
+  "configure_arguments": [
+    "-S",
+    ".",
+    "-B",
+    "out/reconcile-asan",
+    "-G",
+    "Ninja",
+    "-DCMAKE_BUILD_TYPE=RelWithDebInfo",
+    "-DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded",
+    "-DBUILD_TESTING=ON",
+    "-DBREAKWATER_BUILD_DESKTOP=ON",
+    "-DCMAKE_PREFIX_PATH=C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64",
+    "-DPython3_EXECUTABLE=C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "-DBREAKWATER_ENABLE_ASAN=ON",
+    "-DCMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO=/debug /INCREMENTAL:NO"
+  ],
+  "elapsed_s": 614.3321554
+}

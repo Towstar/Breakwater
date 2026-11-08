@@ -1,0 +1,165 @@
+[1/160] Running qmlimportscanner for breakwater
+[2/160] Populating .qmlls.build.ini file at C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/.qt/.qmlls.build.ini
+[3/160] Generating qt.conf part for breakwater
+[4/160] Copying breakwater qml sources into build dir
+[5/160] Copying breakwater qml resources into build dir
+[6/160] Generating qt.conf file
+[7/160] Running qmlimportscanner for breakwater_desktop_tests
+[8/160] Running qmlimportscanner for breakwater_pipe_parameters_tests
+[9/160] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+[10/160] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[11/160] Running qmlimportscanner for breakwater_nemotron_client_tests
+[12/160] Running qmlimportscanner for breakwater_agent_gateway_tests
+[13/160] Running qmlimportscanner for breakwater_agent_orchestrator_tests
+[14/160] Running qmlimportscanner for breakwater_session_repository_tests
+[15/160] Running qmlimportscanner for breakwater_history_controller_tests
+[16/160] Running qmlimportscanner for breakwater_python_worker_tests
+[17/160] Running qmlimportscanner for breakwater_pipe_transport_tests
+[18/160] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[19/160] Running qmlimportscanner for breakwater_pipe_transport_evidence_tests
+[20/160] Running qmlimportscanner for breakwater_storage_worker_tests
+[21/160] Running qmlimportscanner for breakwater_storage_science_tests
+[22/160] Running qmlimportscanner for breakwater_science_evidence_tests
+[23/160] Running qmlimportscanner for breakwater_nemotron_smoke
+[24/160] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[25/160] Linking CXX static library engine\breakwater_engine.lib
+[26/160] Building CXX object engine\CMakeFiles\breakwater_cli.dir\src\main.cpp.obj
+[27/160] Automatic MOC and UIC for target breakwater_desktop_base
+[28/160] Building CXX object engine\CMakeFiles\breakwater_transport_example.dir\examples\transport_example.cpp.obj
+[29/160] Building CXX object engine\CMakeFiles\breakwater_search_example.dir\examples\search_example.cpp.obj
+[30/160] Building CXX object engine\CMakeFiles\breakwater_physicsnemo_reference.dir\examples\physicsnemo_transport_reference.cpp.obj
+[31/160] Running AUTOMOC file extraction for target breakwater_desktop_base
+[32/160] Running moc --collect-json for target breakwater_desktop_base
+[33/160] Building CXX object engine\CMakeFiles\breakwater_rollout_reference.dir\examples\rollout_reference.cpp.obj
+[34/160] Building CXX object engine\CMakeFiles\breakwater_transport_qualification_reference.dir\examples\transport_qualification_reference.cpp.obj
+[35/160] Building CXX object engine\CMakeFiles\breakwater_engine_tests.dir\tests\engine_tests.cpp.obj
+[36/160] Building CXX object engine\CMakeFiles\breakwater_search_tests.dir\tests\search_tests.cpp.obj
+[37/160] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\breakwater_desktop_base_autogen\mocs_compilation.cpp.obj
+[38/160] Building CXX object engine\CMakeFiles\breakwater_benchmark.dir\benchmarks\benchmark.cpp.obj
+[39/160] Linking CXX executable engine\breakwater_cli.exe
+[40/160] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectDocument.cpp.obj
+[41/160] Linking CXX executable engine\breakwater_search_example.exe
+[42/160] Linking CXX executable engine\breakwater_transport_example.exe
+[43/160] Building CXX object engine\CMakeFiles\breakwater_control_influence_tests.dir\tests\control_influence_tests.cpp.obj
+[44/160] Linking CXX executable engine\breakwater_rollout_reference.exe
+[45/160] Linking CXX executable engine\breakwater_physicsnemo_reference.exe
+[46/160] Linking CXX executable engine\breakwater_transport_qualification_reference.exe
+[47/160] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\quality\PipeParameters.cpp.obj
+[48/160] Linking CXX executable engine\breakwater_benchmark.exe
+[49/160] Linking CXX executable engine\breakwater_engine_tests.exe
+[50/160] Linking CXX executable engine\breakwater_search_tests.exe
+[51/160] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectController.cpp.obj
+[52/160] Linking CXX executable engine\breakwater_control_influence_tests.exe
+[53/160] Building CXX object engine\CMakeFiles\breakwater_transport_tests.dir\tests\transport_tests.cpp.obj
+[54/160] Linking CXX static library desktop\breakwater_desktop_base.lib
+[55/160] Linking CXX executable engine\breakwater_transport_tests.exe
+[56/160] Automatic MOC and UIC for target breakwater_desktop_tests
+[57/160] Automatic MOC and UIC for target breakwater_pipe_parameters_tests
+[58/160] Building CXX object desktop\CMakeFiles\breakwater_desktop_tests.dir\breakwater_desktop_tests_autogen\mocs_compilation.cpp.obj
+[59/160] Building CXX object desktop\CMakeFiles\breakwater_pipe_parameters_tests.dir\breakwater_pipe_parameters_tests_autogen\mocs_compilation.cpp.obj
+[60/160] Automatic MOC and UIC for target breakwater_agent
+[61/160] Running AUTOMOC file extraction for target breakwater_agent
+[62/160] Running moc --collect-json for target breakwater_agent
+[63/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\CredentialSettings.cpp.obj
+[64/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\NemotronClient.cpp.obj
+[65/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\breakwater_agent_autogen\mocs_compilation.cpp.obj
+[66/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\SimulationGateway.cpp.obj
+[67/160] Building CXX object desktop\CMakeFiles\breakwater_pipe_parameters_tests.dir\tests\pipe_parameters_tests.cpp.obj
+[68/160] Building CXX object desktop\CMakeFiles\breakwater_desktop_tests.dir\tests\project_tests.cpp.obj
+[69/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\AgentOrchestrator.cpp.obj
+[70/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\AgentController.cpp.obj
+[71/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\history\SessionRecorder.cpp.obj
+[72/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\history\HistoryController.cpp.obj
+[73/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\history\SessionRepository.cpp.obj
+[74/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\quality\PipeTransportController.cpp.obj
+[75/160] Linking CXX executable desktop\breakwater_desktop_tests.exe
+[76/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\quality\PipeTransportEvidence.cpp.obj
+[77/160] Linking CXX executable desktop\breakwater_pipe_parameters_tests.exe
+[78/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\science\PythonWorkerClient.cpp.obj
+[79/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\science\WorkerProtocol.cpp.obj
+[80/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\science\StorageScienceEvidence.cpp.obj
+[81/160] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\science\StorageScienceController.cpp.obj
+[82/160] Linking CXX static library desktop\breakwater_agent.lib
+[83/160] Automatic MOC and UIC for target breakwater
+[84/160] Automatic MOC and UIC for target breakwater_nemotron_smoke
+[85/160] Running AUTOMOC file extraction for target breakwater
+[86/160] Running rcc for resource qmake_Breakwater
+[87/160] Running moc --collect-json for target breakwater
+[88/160] Generating .rcc/qmlcache/breakwater_qmlcache_loader.cpp
+[89/160] Running rcc for resource breakwater_raw_qml_0
+[90/160] Automatic QML type registration for target breakwater
+[91/160] Running rcc for resource breakwater_raw_qml_0_extra_qmldirs
+[92/160] Automatic MOC and UIC for target breakwater_nemotron_client_tests
+[93/160] Automatic MOC and UIC for target breakwater_agent_gateway_tests
+[94/160] Generating .rcc/qmlcache/breakwater_qml_Equipment_qml.cpp, .rcc/qmlcache/breakwater_qml_Equipment_qml.cpp.aotstats
+[95/160] Generating .rcc/qmlcache/breakwater_qml_Main_qml.cpp, .rcc/qmlcache/breakwater_qml_Main_qml.cpp.aotstats
+[96/160] Automatic MOC and UIC for target breakwater_agent_orchestrator_tests
+[97/160] Automatic MOC and UIC for target breakwater_session_repository_tests
+[98/160] Generating .rcc/qmlcache/breakwater_qml_PipeRoute_qml.cpp, .rcc/qmlcache/breakwater_qml_PipeRoute_qml.cpp.aotstats
+[99/160] Generating .rcc/qmlcache/breakwater_qml_TrajectoryChart_qml.cpp, .rcc/qmlcache/breakwater_qml_TrajectoryChart_qml.cpp.aotstats
+[100/160] Generating .rcc/qmlcache/breakwater_qml_StorageSciencePanel_qml.cpp, .rcc/qmlcache/breakwater_qml_StorageSciencePanel_qml.cpp.aotstats
+[101/160] Generating .rcc/qmlcache/breakwater_qml_PipeTransportPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_PipeTransportPanel_qml.cpp.aotstats
+[102/160] Generating .rcc/qmlcache/breakwater_qml_AgentPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_AgentPanel_qml.cpp.aotstats
+[103/160] Automatic MOC and UIC for target breakwater_history_controller_tests
+[104/160] Automatic MOC and UIC for target breakwater_python_worker_tests
+[105/160] Automatic MOC and UIC for target breakwater_pipe_transport_tests
+[106/160] Automatic MOC and UIC for target breakwater_pipe_transport_evidence_tests
+[107/160] Automatic MOC and UIC for target breakwater_storage_science_tests
+[108/160] Building CXX object desktop\CMakeFiles\breakwater.dir\breakwater_autogen\mocs_compilation.cpp.obj
+[109/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_qmake_Breakwater.cpp.obj
+[110/160] Automatic MOC and UIC for target breakwater_storage_worker_tests
+[111/160] Automatic MOC and UIC for target breakwater_science_evidence_tests
+[112/160] Building CXX object desktop\CMakeFiles\breakwater.dir\breakwater_qmltyperegistrations.cpp.obj
+[113/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qmlcache_loader.cpp.obj
+[114/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_Equipment_qml.cpp.obj
+[115/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_Main_qml.cpp.obj
+[116/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_PipeRoute_qml.cpp.obj
+[117/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_breakwater_raw_qml_0.cpp.obj
+[118/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_breakwater_raw_qml_0_extra_qmldirs.cpp.obj
+[119/160] Building CXX object desktop\CMakeFiles\breakwater_nemotron_smoke.dir\breakwater_nemotron_smoke_autogen\mocs_compilation.cpp.obj
+[120/160] Building CXX object desktop\CMakeFiles\breakwater.dir\main.cpp.obj
+[121/160] Building CXX object desktop\CMakeFiles\breakwater_nemotron_client_tests.dir\breakwater_nemotron_client_tests_autogen\mocs_compilation.cpp.obj
+[122/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_AgentPanel_qml.cpp.obj
+C:\Projects\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Projects\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Projects\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Projects\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[123/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_TrajectoryChart_qml.cpp.obj
+[124/160] Building CXX object desktop\CMakeFiles\breakwater_agent_gateway_tests.dir\breakwater_agent_gateway_tests_autogen\mocs_compilation.cpp.obj
+[125/160] Building CXX object desktop\CMakeFiles\breakwater_agent_orchestrator_tests.dir\breakwater_agent_orchestrator_tests_autogen\mocs_compilation.cpp.obj
+[126/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_PipeTransportPanel_qml.cpp.obj
+[127/160] Building CXX object desktop\CMakeFiles\breakwater_session_repository_tests.dir\breakwater_session_repository_tests_autogen\mocs_compilation.cpp.obj
+[128/160] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_StorageSciencePanel_qml.cpp.obj
+[129/160] Building CXX object desktop\CMakeFiles\breakwater_history_controller_tests.dir\breakwater_history_controller_tests_autogen\mocs_compilation.cpp.obj
+[130/160] Building CXX object desktop\CMakeFiles\breakwater_nemotron_smoke.dir\agent\live_smoke.cpp.obj
+[131/160] Building CXX object desktop\CMakeFiles\breakwater_python_worker_tests.dir\breakwater_python_worker_tests_autogen\mocs_compilation.cpp.obj
+[132/160] Building CXX object desktop\CMakeFiles\breakwater_nemotron_client_tests.dir\tests\nemotron_client_tests.cpp.obj
+[133/160] Building CXX object desktop\CMakeFiles\breakwater_pipe_transport_tests.dir\breakwater_pipe_transport_tests_autogen\mocs_compilation.cpp.obj
+[134/160] Building CXX object desktop\CMakeFiles\breakwater_agent_orchestrator_tests.dir\tests\agent_orchestrator_tests.cpp.obj
+[135/160] Building CXX object desktop\CMakeFiles\breakwater_agent_gateway_tests.dir\tests\agent_gateway_tests.cpp.obj
+[136/160] Building CXX object desktop\CMakeFiles\breakwater_pipe_transport_evidence_tests.dir\breakwater_pipe_transport_evidence_tests_autogen\mocs_compilation.cpp.obj
+[137/160] Building CXX object desktop\CMakeFiles\breakwater_python_worker_tests.dir\tests\python_worker_tests.cpp.obj
+[138/160] Building CXX object desktop\CMakeFiles\breakwater_storage_worker_tests.dir\breakwater_storage_worker_tests_autogen\mocs_compilation.cpp.obj
+[139/160] Building CXX object desktop\CMakeFiles\breakwater_session_repository_tests.dir\tests\session_repository_tests.cpp.obj
+[140/160] Building CXX object desktop\CMakeFiles\breakwater_storage_science_tests.dir\breakwater_storage_science_tests_autogen\mocs_compilation.cpp.obj
+[141/160] Building CXX object desktop\CMakeFiles\breakwater_science_evidence_tests.dir\breakwater_science_evidence_tests_autogen\mocs_compilation.cpp.obj
+[142/160] Building CXX object desktop\CMakeFiles\breakwater_history_controller_tests.dir\tests\history_controller_tests.cpp.obj
+[143/160] Linking CXX executable desktop\breakwater_nemotron_smoke.exe
+[144/160] Linking CXX executable desktop\breakwater.exe
+[145/160] Linking CXX executable desktop\breakwater_nemotron_client_tests.exe
+[146/160] Linking CXX executable desktop\breakwater_agent_gateway_tests.exe
+[147/160] Linking CXX executable desktop\breakwater_agent_orchestrator_tests.exe
+[148/160] Linking CXX executable desktop\breakwater_session_repository_tests.exe
+[149/160] Linking CXX executable desktop\breakwater_history_controller_tests.exe
+[150/160] Building CXX object desktop\CMakeFiles\breakwater_pipe_transport_tests.dir\tests\pipe_transport_tests.cpp.obj
+[151/160] Linking CXX executable desktop\breakwater_python_worker_tests.exe
+[152/160] Linking CXX executable desktop\breakwater_pipe_transport_tests.exe
+[153/160] Building CXX object desktop\CMakeFiles\breakwater_pipe_transport_evidence_tests.dir\tests\pipe_transport_evidence_tests.cpp.obj
+[154/160] Linking CXX executable desktop\breakwater_pipe_transport_evidence_tests.exe
+[155/160] Building CXX object desktop\CMakeFiles\breakwater_storage_science_tests.dir\tests\storage_science_tests.cpp.obj
+[156/160] Building CXX object desktop\CMakeFiles\breakwater_science_evidence_tests.dir\tests\storage_science_evidence_tests.cpp.obj
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_science_evidence_tests.cpp(175): warning C4996: 'QTest::useVerifyThrowsException': Don't use QVERIFY_EXCEPTION_THROWN(expr, type) anymore, use QVERIFY_THROWS_EXCEPTION(type, expr...) instead
+[157/160] Building CXX object desktop\CMakeFiles\breakwater_storage_worker_tests.dir\tests\storage_worker_tests.cpp.obj
+[158/160] Linking CXX executable desktop\breakwater_storage_science_tests.exe
+[159/160] Linking CXX executable desktop\breakwater_science_evidence_tests.exe
+[160/160] Linking CXX executable desktop\breakwater_storage_worker_tests.exe

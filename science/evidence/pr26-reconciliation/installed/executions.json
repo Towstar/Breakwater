@@ -1,0 +1,266 @@
+[
+  {
+    "name": "local-sensitivities",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-sensitivities.sqlite",
+      "--smoke",
+      "--science-derivatives",
+      "--science-control",
+      "source:source_a:curtail",
+      "--science-control",
+      "route:bypass:flow",
+      "--screenshot",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-live.png",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-sensitivities.json"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 5.42559280002024
+  },
+  {
+    "name": "local-history-normal",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-history-normal.sqlite",
+      "--smoke",
+      "--import-session",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-persisted-session.json",
+      "--open-scientific-history",
+      "--screenshot",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-history-normal.png"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 2.326876099978108
+  },
+  {
+    "name": "local-history-compact",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-history-compact.sqlite",
+      "--smoke",
+      "--import-session",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-persisted-session.json",
+      "--open-scientific-history",
+      "--screenshot",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-history-compact.png",
+      "--compact-ui"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 2.457791599968914
+  },
+  {
+    "name": "local-missing-worker.py",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-worker.py.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-worker.py.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 2.1769865000387654
+  },
+  {
+    "name": "local-missing-worker_storage.py",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-worker_storage.py.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-worker_storage.py.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 2.236074800021015
+  },
+  {
+    "name": "local-missing-storage_grid.py",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-storage_grid.py.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-storage_grid.py.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 2.3347090000170283
+  },
+  {
+    "name": "local-missing-interpreter",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-interpreter.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-interpreter.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 2.001330400002189
+  },
+  {
+    "name": "local-missing-torch",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-torch.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\local-missing-torch.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 2.400591199984774
+  },
+  {
+    "name": "relocated-sensitivities",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-relocated\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-sensitivities.sqlite",
+      "--smoke",
+      "--science-derivatives",
+      "--science-control",
+      "source:source_a:curtail",
+      "--science-control",
+      "route:bypass:flow",
+      "--screenshot",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-live.png",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-sensitivities.json"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 7.895344800024759
+  },
+  {
+    "name": "relocated-history-normal",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-relocated\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-history-normal.sqlite",
+      "--smoke",
+      "--import-session",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-persisted-session.json",
+      "--open-scientific-history",
+      "--screenshot",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-history-normal.png"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 2.3120307000353932
+  },
+  {
+    "name": "relocated-history-compact",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-relocated\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-history-compact.sqlite",
+      "--smoke",
+      "--import-session",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-persisted-session.json",
+      "--open-scientific-history",
+      "--screenshot",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-history-compact.png",
+      "--compact-ui"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 2.2930466000107117
+  },
+  {
+    "name": "relocated-missing-worker.py",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-relocated\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-worker.py.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-worker.py.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 2.027509999985341
+  },
+  {
+    "name": "relocated-missing-worker_storage.py",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-relocated\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-worker_storage.py.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-worker_storage.py.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 2.2437624000012875
+  },
+  {
+    "name": "relocated-missing-storage_grid.py",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-relocated\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-storage_grid.py.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-storage_grid.py.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 2.101494400005322
+  },
+  {
+    "name": "relocated-missing-interpreter",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-relocated\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-interpreter.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-interpreter.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 1.87539800000377
+  },
+  {
+    "name": "relocated-missing-torch",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-relocated\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-torch.sqlite",
+      "--smoke",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-06-installed\\relocated-missing-torch.json"
+    ],
+    "exit": 6,
+    "expected_exit": 6,
+    "elapsed_s": 1.9563764000195079
+  }
+]

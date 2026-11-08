@@ -1,0 +1,67 @@
+{
+  "status": "passed",
+  "app_executions": 16,
+  "real_worker_requests": 6,
+  "source_export_unavailable": true,
+  "both_origins_installed": true,
+  "history": [
+    {
+      "installation": "local",
+      "result_id": "c53d92f1-ffd0-493a-84da-a4dbf4d05eb9",
+      "session_count": 1,
+      "integrity": "ok",
+      "full_native_samples": 121,
+      "derivatives": {
+        "control_ids": [
+          "source:source_a:curtail",
+          "route:bypass:flow"
+        ],
+        "cost_gradient": [
+          750,
+          0
+        ],
+        "terminal_volume_jacobian_h": [
+          [
+            -3,
+            -3
+          ],
+          [
+            0,
+            3
+          ]
+        ]
+      },
+      "reopened_exact": true,
+      "historical_actionable": false
+    },
+    {
+      "installation": "relocated",
+      "result_id": "38fe00f6-3edc-4f1a-a2a8-aa88acb6f38e",
+      "session_count": 1,
+      "integrity": "ok",
+      "full_native_samples": 121,
+      "derivatives": {
+        "control_ids": [
+          "source:source_a:curtail",
+          "route:bypass:flow"
+        ],
+        "cost_gradient": [
+          750,
+          0
+        ],
+        "terminal_volume_jacobian_h": [
+          [
+            -3,
+            -3
+          ],
+          [
+            0,
+            3
+          ]
+        ]
+      },
+      "reopened_exact": true,
+      "historical_actionable": false
+    }
+  ]
+}

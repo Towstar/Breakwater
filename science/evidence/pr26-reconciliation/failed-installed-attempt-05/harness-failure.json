@@ -1,0 +1,1 @@
+{"status":"harness_failed_after_two_successful_app_executions","exception":"KeyError: historical","cause":"Probe incorrectly expected a stored historical flag; SessionRepository applies historical marking on loading, preserving immutable canonical archive bytes.","product_change_required":false}

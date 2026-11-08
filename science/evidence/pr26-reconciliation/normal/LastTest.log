@@ -1,0 +1,560 @@
+Start testing: Nov 07 22:22 Central Standard Time
+----------------------------------------------------------
+1/28 Testing: engine.benchmark_correctness
+1/28 Test: engine.benchmark_correctness
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine/breakwater_benchmark.exe" "--verify-only" "--count" "100"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine
+"engine.benchmark_correctness" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+canonical_incident candidates=100 verified=100 feasible=5 screen_passes=5 influence_passes=5 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+custom_24_tanks candidates=100 verified=100 feasible=23 screen_passes=23 influence_passes=23 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+{"benchmark_version":2,"status":"passed","method":"correctness_only","configuration":"RelWithDebInfo","checked_build":false,"cpp_standard":2020,"compiler":"MSVC 195136260","logical_processors_reported":16,"processor_identifier":"AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD","steady_clock":true,"warmup_batches":2,"repeats":7,"calibration_target_ms":10,"maximum_iterations_per_sample":1024,"phase_order":"rotated per repetition","quantile":"p90 nearest rank; stddev population","notes":"Kernel setup excluded except explicitly timed influence_precompute. Dense/sparse have identical samples, writes and full-buffer checksum consumption. Affine avoids trajectories. Paired route-walk/influence screens consume identical numeric outputs; potential influence rows preserve canonical cost order. Retained validation is five runs, not the full batch. Overlapping phases do not sum to total search. No global optimum or universal speedup claim.","results":[{"workload":"canonical_incident","public_evaluator":"route_walk","candidates":100,"distinct_candidates":100,"candidate_fnv1a64":"74d91098d3821317","assets":6,"routes":6,"tanks":2,"internal_edges":1,"samples":121,"horizon_h":3,"step_h":0.025,"prepared_numeric_bytes":5632,"trajectory_workspace_bytes":2936,"preparation_once_ms":1.6592,"influence_preparation_once_ms":0.0058999999999999999,"max_forward_error_m3":9.3791641120333225e-13,"all_candidates_reference_checked":true,"reference_feasible_candidates":5,"screen_passes":5,"influence_screen_passes":5,"influence_fallbacks":1,"max_influence_rate_error_m3h":7.1054273576010019e-15,"max_influence_destination_error_m3h":8.8817841970012523e-16,"max_influence_cost_error":0,"reference_checks_in_search":5,"reference_rejections_in_search":0,"recommendations":5,"best_evaluated_cost":9713.8502623906716,"best_candidate_index":53,"phases":[]},{"workload":"custom_24_tanks","public_evaluator":"route_walk","candidates":100,"distinct_candidates":100,"candidate_fnv1a64":"858a8c52690e4e80","assets":28,"routes":66,"tanks":24,"internal_edges":60,"samples":121,"horizon_h":3,"step_h":0.025,"prepared_numeric_bytes":194112,"trajectory_workspace_bytes":24584,"preparation_once_ms":20.363900000000001,"influence_preparation_once_ms":0.0141,"max_forward_error_m3":8.2422957348171622e-13,"all_candidates_reference_checked":true,"reference_feasible_candidates":23,"screen_passes":23,"influence_screen_passes":23,"influence_fallbacks":1,"max_influence_rate_error_m3h":1.7763568394002505e-15,"max_influence_destination_error_m3h":8.8817841970012523e-16,"max_influence_cost_error":6.2527760746888816e-13,"reference_checks_in_search":5,"reference_rejections_in_search":0,"recommendations":5,"best_evaluated_cost":243.66435799319726,"best_candidate_index":21,"phases":[]}]}
+<end of output>
+Test time =   0.27 sec
+----------------------------------------------------------
+Test Passed.
+"engine.benchmark_correctness" end time: Nov 07 22:22 Central Standard Time
+"engine.benchmark_correctness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/28 Testing: engine.acceptance
+2/28 Test: engine.acceptance
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine/breakwater_engine_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine
+"engine.acceptance" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS healthy preview accumulates explicitly
+PASS baseline exact limit time and unclipped prediction
+PASS isolated downstream failure
+PASS mixed plan cost and inventory
+PASS capacity equality is permitted
+PASS generic renamed network and shared throughput
+PASS negative inventories remain visible
+PASS unknown nonfinite duplicate and unavailable controls rejected
+PASS draft and malformed topology rejected
+PASS independent validator catches corrupted trajectories and cost
+PASS nonfinite derived catalog prices are explicit invalid network parameters
+PASS independent cost overflow rejects finite infinite and NaN result costs
+PASS simulated cost overflow remains visible and fails independent validation
+PASS finite huge and zero costs validate independently of cached pricing
+PASS decimal horizon edge cases preserve interior samples and the exact endpoint
+PASS subnormal and neighboring horizons remain strictly covered
+PASS one-ULP shortened and extended results never satisfy requested-horizon validation
+PASS requested-horizon overflow cannot be hidden by one-ULP-short sampling
+PASS actual interval count enforces the 10000-update boundary
+PASS random graph dense sparse affine agreement and internal conservation
+PASS candidate snapshots are independent under concurrency
+PASS bounded configuration and workspace validation
+22/22 cases passed
+<end of output>
+Test time =   0.20 sec
+----------------------------------------------------------
+Test Passed.
+"engine.acceptance" end time: Nov 07 22:22 Central Standard Time
+"engine.acceptance" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/28 Testing: engine.search
+3/28 Test: engine.search
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine/breakwater_search_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine
+"engine.search" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS canonical explicit batch rejects bad plans and returns real mixed reference
+PASS small canonical grid agrees with exhaustive independent reference oracle
+PASS curtailment ranking includes savings on nonzero-cost source feed route
+PASS renamed colon IDs and unspecified settings remain intact
+PASS shared treatment and trucking limits screen aggregate arrivals
+PASS capacity equality and validator tolerance are respected
+PASS no axes evaluate one unchanged candidate and infeasible search is explicit
+PASS valid decimal and subnormal grids do not become false no-plan results
+PASS one-ULP final overflow never receives a recommendation
+PASS forecast work-limit errors precede candidate screening
+PASS equal cost results retain input order
+PASS exactly 10000 candidates accepted and larger requests rejected
+PASS grid product limit and four-control limit are enforced
+PASS unknown duplicate nonfinite out-of-bounds and unavailable controls rejected
+PASS source control cannot exceed its connected feed capacity
+PASS malformed requests and options are rejected before evaluation
+PASS candidate batches and concurrent searches do not mutate snapshots
+PASS overflow in an auxiliary screening scale defers to reference validation
+PASS nonfinite arithmetic is counted and never recommended
+PASS hourly-product and horizon-total cost overflow retain finite repaired candidates
+PASS aggregate-hourly cost overflow and source-product overflow cannot hide zero-cost plans
+PASS nonrepresentable catalog unit prices fail explicitly before search
+22/22 search cases passed
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search" end time: Nov 07 22:22 Central Standard Time
+"engine.search" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/28 Testing: engine.control_influence
+4/28 Test: engine.control_influence
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine/breakwater_control_influence_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine
+"engine.control_influence" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS large public batch and Cartesian search retain exhaustive reference rankings
+PASS precomputed rates and destination sums match route traversal across actual network shapes
+PASS nonzero source feed cost and partial defaults agree at the numeric screen
+PASS near-boundary predictions exercise the route-walk fallback
+PASS canonical and custom batch rankings agree with exhaustive native oracle
+PASS partial overrides keep other route and source settings fixed
+PASS close reference costs and ties preserve exact ranking across the result cutoff
+PASS shared destination equality and near-boundary rows match independent validation
+PASS storage equality and narrowed horizon preserve the reference feasibility decision
+PASS nonfinite baseline cost does not hide a finite overridden candidate
+PASS automatic influence dispatch rejects cost overflow but preserves finite repairs
+PASS reciprocal huge flows and zeroed overrides do not lose finite cancellation
+PASS changed costs topology and availability are rebuilt for each captured network
+PASS invalid controls still fail before the optimized screen
+PASS no selected controls still evaluates one immutable candidate
+15/15 control-influence cases passed
+<end of output>
+Test time =   1.37 sec
+----------------------------------------------------------
+Test Passed.
+"engine.control_influence" end time: Nov 07 22:22 Central Standard Time
+"engine.control_influence" time elapsed: 00:00:01
+----------------------------------------------------------
+
+5/28 Testing: engine.search_example
+5/28 Test: engine.search_example
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine/breakwater_search_example.exe"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine
+"engine.search_example" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=432 screen_survivors=39 constraint_rejections=393 numerical_rejections=0 reference_checks=5 reference_rejections=0
+candidate=352 reference_validated=true cost=4800 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=356 reference_validated=true cost=5280 synthetic_units minimum_headroom=10 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=22 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=110 m3
+  tank_b final=117 m3
+candidate=349 reference_validated=true cost=7350 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=15 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=281 reference_validated=true cost=8550 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=15 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=116 m3
+  tank_b final=102 m3
+candidate=353 reference_validated=true cost=8550 synthetic_units minimum_headroom=13 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=101 m3
+  tank_b final=117 m3
+Best among evaluated candidates. Quality/stress robustness not evaluated.
+<end of output>
+Test time =   0.17 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search_example" end time: Nov 07 22:22 Central Standard Time
+"engine.search_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/28 Testing: engine.search_infeasible_example
+6/28 Test: engine.search_infeasible_example
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine/breakwater_search_example.exe" "--infeasible"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine
+"engine.search_infeasible_example" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=2 screen_survivors=0 constraint_rejections=2 numerical_rejections=0 reference_checks=0 reference_rejections=0
+NO_FEASIBLE_PLAN_FOUND among evaluated candidates; not a global infeasibility proof.
+<end of output>
+Test time =   0.06 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search_infeasible_example" end time: Nov 07 22:22 Central Standard Time
+"engine.search_infeasible_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/28 Testing: engine.transport
+7/28 Test: engine.transport
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine/breakwater_transport_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine
+"engine.transport" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS large finite concentration and mass do not overflow auxiliary norms
+PASS finite physical mass survives a concentration-sum overflow
+PASS disabled processes preserve a nonuniform field and exact output horizon
+PASS pure decay agrees with analytic solution and converges in time
+PASS one open Euler step balances signed faces source and old-state decay
+PASS one closed Euler step cancels internal faces with source and decay
+PASS variable event steps telescope the old-inventory source and decay ledger
+PASS constant field survives positive advection and diffusion
+PASS CFL one pure upwind advection shifts by one cell
+PASS closed diffusion cosine cell averages converge under mesh refinement
+PASS zero-flow Dirichlet diffusion records signed inlet mass loss
+PASS inlet half-cell diffusion CFL preserves first-cell positivity
+PASS open equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS closed equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS zero data zero coefficients and pure decay equality permit zero concentration
+PASS open unequal event steps use each velocity and nonnegative inlet average
+PASS flow changes and stops are resolved between output samples
+PASS piecewise linear inlet uses interval-average forcing
+PASS source and reaction ledger uses concentration-to-mass conversion
+PASS input profiles and concurrent transport calls remain independent
+PASS invalid pipe geometry and integration options are rejected
+PASS invalid initial and source profiles are rejected
+PASS invalid schedules and closed-pipe nonzero flow are rejected
+PASS output memory substep and cell-update budgets are enforced
+PASS nonfinite derived arithmetic and non-advancing time fail explicitly
+25/25 transport cases passed
+<end of output>
+Test time =   2.06 sec
+----------------------------------------------------------
+Test Passed.
+"engine.transport" end time: Nov 07 22:22 Central Standard Time
+"engine.transport" time elapsed: 00:00:02
+----------------------------------------------------------
+
+8/28 Testing: engine.transport_example
+8/28 Test: engine.transport_example
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine/breakwater_transport_example.exe"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/engine
+"engine.transport_example" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | fvm-upwind-euler-0.1.0 | single-pipe tracer reference
+cells=64 frames=41 substeps=136 maximum_cfl=0.9
+final_inventory_mg=1994.10774493 signed_inlet_exchange_mg=4533.10789803 outlet_exchange_mg=4276.15496538 decayed_mg=262.845187721
+maximum_mass_residual_mg=1.36887055523e-12 minimum_concentration_mg_l=0.189932938338 final_outlet_cell_mg_l=0.275066562435
+Scalar transport proxy; network-wide chemistry and learned model validation are separate work.
+<end of output>
+Test time =   0.13 sec
+----------------------------------------------------------
+Test Passed.
+"engine.transport_example" end time: Nov 07 22:22 Central Standard Time
+"engine.transport_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/28 Testing: desktop.project
+9/28 Test: desktop.project
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_desktop_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.project" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.59 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.project" end time: Nov 07 22:22 Central Standard Time
+"desktop.project" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/28 Testing: desktop.pipe_parameters
+10/28 Test: desktop.pipe_parameters
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_pipe_parameters_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.pipe_parameters" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.pipe_parameters" end time: Nov 07 22:22 Central Standard Time
+"desktop.pipe_parameters" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/28 Testing: desktop.nemotron_client
+11/28 Test: desktop.nemotron_client
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_nemotron_client_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/nemotron_client-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.nemotron_client" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   2.25 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.nemotron_client" end time: Nov 07 22:22 Central Standard Time
+"desktop.nemotron_client" time elapsed: 00:00:02
+----------------------------------------------------------
+
+12/28 Testing: desktop.agent_gateway
+12/28 Test: desktop.agent_gateway
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_agent_gateway_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/agent_gateway-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.agent_gateway" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.20 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.agent_gateway" end time: Nov 07 22:22 Central Standard Time
+"desktop.agent_gateway" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/28 Testing: desktop.agent_orchestrator
+13/28 Test: desktop.agent_orchestrator
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_agent_orchestrator_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/agent_orchestrator-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.agent_orchestrator" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.64 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.agent_orchestrator" end time: Nov 07 22:22 Central Standard Time
+"desktop.agent_orchestrator" time elapsed: 00:00:01
+----------------------------------------------------------
+
+14/28 Testing: desktop.session_repository
+14/28 Test: desktop.session_repository
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_session_repository_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/session_repository-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.session_repository" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.52 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.session_repository" end time: Nov 07 22:22 Central Standard Time
+"desktop.session_repository" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/28 Testing: desktop.history_controller
+15/28 Test: desktop.history_controller
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_history_controller_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/history_controller-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.history_controller" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.19 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.history_controller" end time: Nov 07 22:22 Central Standard Time
+"desktop.history_controller" time elapsed: 00:00:01
+----------------------------------------------------------
+
+16/28 Testing: desktop.python_worker
+16/28 Test: desktop.python_worker
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_python_worker_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/python_worker-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.python_worker" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   5.30 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.python_worker" end time: Nov 07 22:22 Central Standard Time
+"desktop.python_worker" time elapsed: 00:00:05
+----------------------------------------------------------
+
+17/28 Testing: desktop.pipe_transport
+17/28 Test: desktop.pipe_transport
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_pipe_transport_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/pipe_transport-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.pipe_transport" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   2.79 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.pipe_transport" end time: Nov 07 22:22 Central Standard Time
+"desktop.pipe_transport" time elapsed: 00:00:02
+----------------------------------------------------------
+
+18/28 Testing: desktop.pipe_transport_evidence
+18/28 Test: desktop.pipe_transport_evidence
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_pipe_transport_evidence_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/pipe_transport_evidence-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.pipe_transport_evidence" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.16 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.pipe_transport_evidence" end time: Nov 07 22:22 Central Standard Time
+"desktop.pipe_transport_evidence" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/28 Testing: desktop.storage_worker
+19/28 Test: desktop.storage_worker
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_storage_worker_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/storage_worker-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.storage_worker" start time: Nov 07 22:22 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time = 124.71 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_worker" end time: Nov 07 22:24 Central Standard Time
+"desktop.storage_worker" time elapsed: 00:02:04
+----------------------------------------------------------
+
+20/28 Testing: desktop.storage_science
+20/28 Test: desktop.storage_science
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_storage_science_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/storage_science-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.storage_science" start time: Nov 07 22:24 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time = 171.10 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_science" end time: Nov 07 22:27 Central Standard Time
+"desktop.storage_science" time elapsed: 00:02:51
+----------------------------------------------------------
+
+21/28 Testing: desktop.science_evidence
+21/28 Test: desktop.science_evidence
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater_science_evidence_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/science_evidence-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.science_evidence" start time: Nov 07 22:27 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  33.58 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.science_evidence" end time: Nov 07 22:28 Central Standard Time
+"desktop.science_evidence" time elapsed: 00:00:33
+----------------------------------------------------------
+
+22/28 Testing: desktop.storage_science_normal
+22/28 Test: desktop.storage_science_normal
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater.exe" "--science-check" "--smoke" "--science-report" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/science-normal.json" "--history-db" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/science-normal.sqlite"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.storage_science_normal" start time: Nov 07 22:28 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  10.50 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_science_normal" end time: Nov 07 22:28 Central Standard Time
+"desktop.storage_science_normal" time elapsed: 00:00:10
+----------------------------------------------------------
+
+23/28 Testing: desktop.storage_science_compact
+23/28 Test: desktop.storage_science_compact
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater.exe" "--science-check" "--smoke" "--science-report" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/science-compact.json" "--history-db" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/science-compact.sqlite" "--compact-ui" "--science-example" "bad"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.storage_science_compact" start time: Nov 07 22:28 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   7.31 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_science_compact" end time: Nov 07 22:28 Central Standard Time
+"desktop.storage_science_compact" time elapsed: 00:00:07
+----------------------------------------------------------
+
+24/28 Testing: desktop.storage_science_derivatives
+24/28 Test: desktop.storage_science_derivatives
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater.exe" "--science-check" "--smoke" "--science-report" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/science-derivatives.json" "--history-db" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/science-derivatives.sqlite" "--science-derivatives" "--science-control" "source:source_a:curtail" "--science-control" "route:bypass:flow"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.storage_science_derivatives" start time: Nov 07 22:28 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  10.37 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_science_derivatives" end time: Nov 07 22:28 Central Standard Time
+"desktop.storage_science_derivatives" time elapsed: 00:00:10
+----------------------------------------------------------
+
+25/28 Testing: desktop.qml_smoke
+25/28 Test: desktop.qml_smoke
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater.exe" "--smoke"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.qml_smoke" start time: Nov 07 22:28 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   2.51 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.qml_smoke" end time: Nov 07 22:28 Central Standard Time
+"desktop.qml_smoke" time elapsed: 00:00:02
+----------------------------------------------------------
+
+26/28 Testing: desktop.scientific_history_normal
+26/28 Test: desktop.scientific_history_normal
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater.exe" "--import-session" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/test-artifacts/scientific-history.json" "--open-scientific-history" "--history-db" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/test-artifacts/science-history-normal.sqlite" "--smoke"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.scientific_history_normal" start time: Nov 07 22:28 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.91 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.scientific_history_normal" end time: Nov 07 22:28 Central Standard Time
+"desktop.scientific_history_normal" time elapsed: 00:00:03
+----------------------------------------------------------
+
+27/28 Testing: desktop.scientific_history_compact
+27/28 Test: desktop.scientific_history_compact
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater.exe" "--import-session" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/test-artifacts/scientific-history.json" "--open-scientific-history" "--history-db" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/test-artifacts/science-history-compact.sqlite" "--smoke" "--compact-ui"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.scientific_history_compact" start time: Nov 07 22:28 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.59 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.scientific_history_compact" end time: Nov 07 22:29 Central Standard Time
+"desktop.scientific_history_compact" time elapsed: 00:00:03
+----------------------------------------------------------
+
+28/28 Testing: desktop.pipe_evidence_smoke
+28/28 Test: desktop.pipe_evidence_smoke
+Command: "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/breakwater.exe" "--import-pipe-evidence" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/test-artifacts/native-transport-evidence.json" "--history-db" "C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop/test-artifacts/pipe-render.sqlite" "--smoke"
+Directory: C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-normal/desktop
+"desktop.pipe_evidence_smoke" start time: Nov 07 22:29 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.33 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.pipe_evidence_smoke" end time: Nov 07 22:29 Central Standard Time
+"desktop.pipe_evidence_smoke" time elapsed: 00:00:03
+----------------------------------------------------------
+
+End testing: Nov 07 22:29 Central Standard Time

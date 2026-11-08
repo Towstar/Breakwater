@@ -1,0 +1,7 @@
+{
+    "error": {
+        "code": "worker_start_failed",
+        "message": "The configured Python interpreter could not start."
+    },
+    "status": "failed"
+}

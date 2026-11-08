@@ -2,12 +2,26 @@
 
 ## PR #26 reconciliation with current main — November 7, 2026
 
-- Integrating `e057fa4` into the verified branch, retaining selected-control
-  sensitivities, automatic scientific-history retention and immutable historical
-  reopening. Exact-grid and lifecycle regressions are combined with the new suites.
-- Affected normal/MSVC ASan, real-worker, history, rendering and installed checks
-  are in progress; earlier frozen-baseline evidence below keeps its original scope.
-- The local continuation plan remains untracked and excluded from the PR.
+- [Reconciliation report](PR26_RECONCILIATION.md): merged `e057fa4` through
+  `f504310`, preserving selected-control sensitivities, automatic scientific-history
+  retention and immutable historical reopening. Application/contracts match main;
+  exact-grid, disagreement, 50-cycle and post-exchange retirement regressions remain.
+- Fresh complete normal/MSVC ASan builds each passed **28/28 CTests** (390.19 s /
+  439.93 s), including live selected sensitivities and scientific-history rendering.
+  Each build: worker **121**, controller **43**, science evidence **42**, zero
+  failures/skips; QML lint passed and no sanitizer report was found. Prebuilt
+  Qt/Python/Torch remain outside established ASan instrumentation coverage.
+- Full Python: **127/127**, no skips, PhysicsNeMo available. Native/PyTorch/worker:
+  **18 fixtures / 302 requests / 132 central differences**, unchanged tolerances.
+- Corrected installed acceptance: **16 app executions** across local/relocated
+  copies; actual selected derivatives, exact retained 121-sample native arrays,
+  historical reopening without Python, installed module origins, explicit missing
+  dependencies and SQLite integrity passed. An initial probe incorrectly expected
+  historical marking in stored canonical data; the failed harness attempt is retained.
+- No new interactive UI pass is claimed. Earlier native-dialog/cancellation gaps,
+  coarse qualification failure and front-accuracy limitation remain explicit in the
+  frozen combined report. No repeated PDE qualification/training/Lean run is claimed.
+  The local continuation plan remains untracked and excluded from the PR.
 
 ## Combined verification — November 7, 2026
 

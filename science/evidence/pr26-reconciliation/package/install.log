@@ -1,0 +1,182 @@
+-- Install configuration: "RelWithDebInfo"
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/bin/breakwater.exe
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/bin/.env.example
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/share/breakwater/science/worker.py
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/share/breakwater/science/worker_storage.py
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/share/breakwater/science/storage_grid.py
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/share/breakwater/science/breakwater_science
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/share/breakwater/science/breakwater_science/rollout.py
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/share/breakwater/science/breakwater_science/transport_pinn.py
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/share/breakwater/science/breakwater_science/transport_reference.py
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/share/breakwater/science/breakwater_science/__init__.py
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/qtquick2plugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQml/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQml/qmlplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQml/Models/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQml/Models/modelsplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQml/WorkerScript/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQml/WorkerScript/workerscriptplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/qtquickcontrols2plugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Fusion/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Fusion/qtquickcontrols2fusionstyleplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Imagine/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Imagine/qtquickcontrols2imaginestyleplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Material/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Material/qtquickcontrols2materialstyleplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Universal/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Universal/qtquickcontrols2universalstyleplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/FluentWinUI3/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/FluentWinUI3/qtquickcontrols2fluentwinui3styleplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Windows/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Windows/qtquickcontrols2windowsstyleplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Basic/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Basic/qtquickcontrols2basicstyleplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Templates/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Templates/qtquicktemplates2plugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/impl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/impl/qtquickcontrols2implplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Fusion/impl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Fusion/impl/qtquickcontrols2fusionstyleimplplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Window/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Window/quickwindowplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Imagine/impl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Imagine/impl/qtquickcontrols2imaginestyleimplplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Material/impl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Material/impl/qtquickcontrols2materialstyleimplplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Universal/impl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Universal/impl/qtquickcontrols2universalstyleimplplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/FluentWinUI3/impl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/FluentWinUI3/impl/qtquickcontrols2fluentwinui3styleimplplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Effects/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Effects/effectsplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Layouts/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Layouts/qquicklayoutsplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Shapes/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Shapes/qmlshapesplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/NativeStyle/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/NativeStyle/qtquicknativestyleplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Windows/impl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Windows/impl/qtquickcontrols2windowsstyleimplplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Basic/impl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Controls/Basic/impl/qtquickcontrols2basicstyleimplplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Dialogs/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Dialogs/qtquickdialogsplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Dialogs/quickimpl/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick/Dialogs/quickimpl/qtquickdialogs2quickimplplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/Qt/labs/folderlistmodel/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/Qt/labs/folderlistmodel/qmlfolderlistmodelplugin.dll
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick3D/qmldir
+-- Installing: C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-install-local/qml/QtQuick3D/qquick3dplugin.dll
+-- Writing C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/bin/qt.conf
+-- Running Qt deploy tool for C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-source/out/package/desktop/breakwater.exe in working directory 'C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local'
+'C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin/windeployqt.exe' 'C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-source/out/package/desktop/breakwater.exe' '--dir' '.' '--libdir' 'bin' '--plugindir' 'plugins' '--qml-deploy-dir' 'qml' '--translationdir' 'translations' '--force' '--qtpaths' 'C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin/qtpaths6.exe' 'qml/QtQuick/qtquick2plugin.dll' 'qml/QtQml/qmlplugin.dll' 'qml/QtQml/Models/modelsplugin.dll' 'qml/QtQml/WorkerScript/workerscriptplugin.dll' 'qml/QtQuick/Controls/qtquickcontrols2plugin.dll' 'qml/QtQuick/Controls/Fusion/qtquickcontrols2fusionstyleplugin.dll' 'qml/QtQuick/Controls/Imagine/qtquickcontrols2imaginestyleplugin.dll' 'qml/QtQuick/Controls/Material/qtquickcontrols2materialstyleplugin.dll' 'qml/QtQuick/Controls/Universal/qtquickcontrols2universalstyleplugin.dll' 'qml/QtQuick/Controls/FluentWinUI3/qtquickcontrols2fluentwinui3styleplugin.dll' 'qml/QtQuick/Controls/Windows/qtquickcontrols2windowsstyleplugin.dll' 'qml/QtQuick/Controls/Basic/qtquickcontrols2basicstyleplugin.dll' 'qml/QtQuick/Templates/qtquicktemplates2plugin.dll' 'qml/QtQuick/Controls/impl/qtquickcontrols2implplugin.dll' 'qml/QtQuick/Controls/Fusion/impl/qtquickcontrols2fusionstyleimplplugin.dll' 'qml/QtQuick/Window/quickwindowplugin.dll' 'qml/QtQuick/Controls/Imagine/impl/qtquickcontrols2imaginestyleimplplugin.dll' 'qml/QtQuick/Controls/Material/impl/qtquickcontrols2materialstyleimplplugin.dll' 'qml/QtQuick/Controls/Universal/impl/qtquickcontrols2universalstyleimplplugin.dll' 'qml/QtQuick/Controls/FluentWinUI3/impl/qtquickcontrols2fluentwinui3styleimplplugin.dll' 'qml/QtQuick/Effects/effectsplugin.dll' 'qml/QtQuick/Layouts/qquicklayoutsplugin.dll' 'qml/QtQuick/Shapes/qmlshapesplugin.dll' 'qml/QtQuick/NativeStyle/qtquicknativestyleplugin.dll' 'qml/QtQuick/Controls/Windows/impl/qtquickcontrols2windowsstyleimplplugin.dll' 'qml/QtQuick/Controls/Basic/impl/qtquickcontrols2basicstyleimplplugin.dll' 'qml/QtQuick/Dialogs/qtquickdialogsplugin.dll' 'qml/QtQuick/Dialogs/quickimpl/qtquickdialogs2quickimplplugin.dll' 'qml/Qt/labs/folderlistmodel/qmlfolderlistmodelplugin.dll' 'qml/QtQuick3D/qquick3dplugin.dll'
+C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-source\out\package\desktop\breakwater.exe 64 bit, release executable [QML]
+Adding in plugin type generic for module: Qt6Gui
+Adding in plugin type iconengines for module: Qt6Gui
+Adding Qt6Svg for qsvgicon.dll from plugin type: iconengines
+Adding in plugin type imageformats for module: Qt6Gui
+Adding in plugin type networkinformation for module: Qt6Network
+Adding in plugin type platforms for module: Qt6Gui
+Adding in plugin type qmltooling for module: Qt6Qml
+Adding in plugin type sqldrivers for module: Qt6Sql
+Adding in plugin type tls for module: Qt6Network
+Skipping plugin qopensslbackend.dll. Use -force-openssl or specify -openssl-root if you want to use it.
+Performing additional pass of finding Qt plugins due to updated Qt module list: Qt6Core Qt6Gui Qt6LabsFolderListModel Qt6Network Qt6OpenGL Qt6Qml Qt6QmlMeta Qt6QmlModels Qt6QmlWorkerScript Qt6Quick Qt6Quick3D Qt6Quick3DRuntimeRender Qt6Quick3DUtils Qt6QuickControls2 Qt6QuickControls2Basic Qt6QuickControls2BasicStyleImpl Qt6QuickControls2FluentWinUI3 Qt6QuickControls2FluentWinUI3StyleImpl Qt6QuickControls2Fusion Qt6QuickControls2FusionStyleImpl Qt6QuickControls2Imagine Qt6QuickControls2ImagineStyleImpl Qt6QuickControls2Impl Qt6QuickControls2Material Qt6QuickControls2MaterialStyleImpl Qt6QuickControls2Universal Qt6QuickControls2UniversalStyleImpl Qt6QuickControls2Windows Qt6QuickControls2WindowsStyleImpl Qt6QuickDialogs2 Qt6QuickDialogs2QuickImpl Qt6QuickDialogs2Utils Qt6QuickEffects Qt6QuickLayouts Qt6QuickNativeStyle Qt6QuickShapes Qt6QuickTemplates2 Qt6ShaderTools Qt6Sql Qt6Svg
+Adding in plugin type generic for module: Qt6Gui
+Adding in plugin type iconengines for module: Qt6Gui
+Adding in plugin type imageformats for module: Qt6Gui
+Adding in plugin type networkinformation for module: Qt6Network
+Adding in plugin type platforms for module: Qt6Gui
+Adding in plugin type qmltooling for module: Qt6Qml
+Adding in plugin type sqldrivers for module: Qt6Sql
+Adding in plugin type tls for module: Qt6Network
+Skipping plugin qopensslbackend.dll. Use -force-openssl or specify -openssl-root if you want to use it.
+Direct dependencies: Qt6Core Qt6Gui Qt6LabsFolderListModel Qt6Network Qt6OpenGL Qt6Qml Qt6QmlMeta Qt6QmlModels Qt6QmlWorkerScript Qt6Quick Qt6Quick3D Qt6Quick3DRuntimeRender Qt6Quick3DUtils Qt6QuickControls2 Qt6QuickControls2Basic Qt6QuickControls2BasicStyleImpl Qt6QuickControls2FluentWinUI3 Qt6QuickControls2FluentWinUI3StyleImpl Qt6QuickControls2Fusion Qt6QuickControls2FusionStyleImpl Qt6QuickControls2Imagine Qt6QuickControls2ImagineStyleImpl Qt6QuickControls2Impl Qt6QuickControls2Material Qt6QuickControls2MaterialStyleImpl Qt6QuickControls2Universal Qt6QuickControls2UniversalStyleImpl Qt6QuickControls2Windows Qt6QuickControls2WindowsStyleImpl Qt6QuickDialogs2 Qt6QuickDialogs2QuickImpl Qt6QuickDialogs2Utils Qt6QuickEffects Qt6QuickLayouts Qt6QuickNativeStyle Qt6QuickShapes Qt6QuickTemplates2 Qt6ShaderTools Qt6Sql
+All dependencies   : Qt6Core Qt6Gui Qt6LabsFolderListModel Qt6Network Qt6OpenGL Qt6Qml Qt6QmlMeta Qt6QmlModels Qt6QmlWorkerScript Qt6Quick Qt6Quick3D Qt6Quick3DRuntimeRender Qt6Quick3DUtils Qt6QuickControls2 Qt6QuickControls2Basic Qt6QuickControls2BasicStyleImpl Qt6QuickControls2FluentWinUI3 Qt6QuickControls2FluentWinUI3StyleImpl Qt6QuickControls2Fusion Qt6QuickControls2FusionStyleImpl Qt6QuickControls2Imagine Qt6QuickControls2ImagineStyleImpl Qt6QuickControls2Impl Qt6QuickControls2Material Qt6QuickControls2MaterialStyleImpl Qt6QuickControls2Universal Qt6QuickControls2UniversalStyleImpl Qt6QuickControls2Windows Qt6QuickControls2WindowsStyleImpl Qt6QuickDialogs2 Qt6QuickDialogs2QuickImpl Qt6QuickDialogs2Utils Qt6QuickEffects Qt6QuickLayouts Qt6QuickNativeStyle Qt6QuickShapes Qt6QuickTemplates2 Qt6ShaderTools Qt6Sql
+To be deployed     : Qt6Core Qt6Gui Qt6LabsFolderListModel Qt6Network Qt6OpenGL Qt6Qml Qt6QmlMeta Qt6QmlModels Qt6QmlWorkerScript Qt6Quick Qt6Quick3D Qt6Quick3DRuntimeRender Qt6Quick3DUtils Qt6QuickControls2 Qt6QuickControls2Basic Qt6QuickControls2BasicStyleImpl Qt6QuickControls2FluentWinUI3 Qt6QuickControls2FluentWinUI3StyleImpl Qt6QuickControls2Fusion Qt6QuickControls2FusionStyleImpl Qt6QuickControls2Imagine Qt6QuickControls2ImagineStyleImpl Qt6QuickControls2Impl Qt6QuickControls2Material Qt6QuickControls2MaterialStyleImpl Qt6QuickControls2Universal Qt6QuickControls2UniversalStyleImpl Qt6QuickControls2Windows Qt6QuickControls2WindowsStyleImpl Qt6QuickDialogs2 Qt6QuickDialogs2QuickImpl Qt6QuickDialogs2Utils Qt6QuickEffects Qt6QuickLayouts Qt6QuickNativeStyle Qt6QuickShapes Qt6QuickTemplates2 Qt6ShaderTools Qt6Sql Qt6Svg
+Skipping system library C:/WINDOWS/system32/icuuc.dll
+Updating Qt6Core.dll.
+Updating Qt6Gui.dll.
+Updating Qt6LabsFolderListModel.dll.
+Updating Qt6Network.dll.
+Updating Qt6OpenGL.dll.
+Updating Qt6Qml.dll.
+Updating Qt6QmlMeta.dll.
+Updating Qt6QmlModels.dll.
+Updating Qt6QmlWorkerScript.dll.
+Updating Qt6Quick.dll.
+Updating Qt6Quick3D.dll.
+Updating Qt6Quick3DRuntimeRender.dll.
+Updating Qt6Quick3DUtils.dll.
+Updating Qt6QuickControls2.dll.
+Updating Qt6QuickControls2Basic.dll.
+Updating Qt6QuickControls2BasicStyleImpl.dll.
+Updating Qt6QuickControls2FluentWinUI3.dll.
+Updating Qt6QuickControls2FluentWinUI3StyleImpl.dll.
+Updating Qt6QuickControls2Fusion.dll.
+Updating Qt6QuickControls2FusionStyleImpl.dll.
+Updating Qt6QuickControls2Imagine.dll.
+Updating Qt6QuickControls2ImagineStyleImpl.dll.
+Updating Qt6QuickControls2Impl.dll.
+Updating Qt6QuickControls2Material.dll.
+Updating Qt6QuickControls2MaterialStyleImpl.dll.
+Updating Qt6QuickControls2Universal.dll.
+Updating Qt6QuickControls2UniversalStyleImpl.dll.
+Updating Qt6QuickControls2Windows.dll.
+Updating Qt6QuickControls2WindowsStyleImpl.dll.
+Updating Qt6QuickDialogs2.dll.
+Updating Qt6QuickDialogs2QuickImpl.dll.
+Updating Qt6QuickDialogs2Utils.dll.
+Updating Qt6QuickEffects.dll.
+Updating Qt6QuickLayouts.dll.
+Updating Qt6QuickNativeStyle.dll.
+Updating Qt6QuickShapes.dll.
+Updating Qt6QuickTemplates2.dll.
+Updating Qt6ShaderTools.dll.
+Updating Qt6Sql.dll.
+Updating Qt6Svg.dll.
+Updating d3dcompiler_47.dll.
+Updating dxcompiler.dll.
+Updating dxil.dll.
+Updating vc_redist.x64.exe.
+Creating directory C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/plugins/generic.
+Updating qtuiotouchplugin.dll.
+Creating directory C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/plugins/iconengines.
+Updating qsvgicon.dll.
+Creating directory C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/plugins/imageformats.
+Updating qgif.dll.
+Updating qico.dll.
+Updating qjpeg.dll.
+Updating qsvg.dll.
+Creating directory C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/plugins/networkinformation.
+Updating qnetworklistmanager.dll.
+Creating directory C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/plugins/platforms.
+Updating qwindows.dll.
+Creating directory C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/plugins/qmltooling.
+Updating qmldbg_debugger.dll.
+Updating qmldbg_inspector.dll.
+Updating qmldbg_local.dll.
+Updating qmldbg_messages.dll.
+Updating qmldbg_native.dll.
+Updating qmldbg_nativedebugger.dll.
+Updating qmldbg_preview.dll.
+Updating qmldbg_profiler.dll.
+Updating qmldbg_quick3dprofiler.dll.
+Updating qmldbg_quickeventreplay.dll.
+Updating qmldbg_quickprofiler.dll.
+Updating qmldbg_server.dll.
+Updating qmldbg_tcp.dll.
+Creating directory C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/plugins/sqldrivers.
+Updating qsqlibase.dll.
+Updating qsqlite.dll.
+Updating qsqlmimer.dll.
+Updating qsqloci.dll.
+Updating qsqlodbc.dll.
+Updating qsqlpsql.dll.
+Creating directory C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-install-local/plugins/tls.
+Updating qcertonlybackend.dll.
+Updating qschannelbackend.dll.
+Warning: Translations will not be deployed due to the following error.
+Cannot open C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/translations/catalogs.json

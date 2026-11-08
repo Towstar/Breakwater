@@ -1,0 +1,61 @@
+Test project C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-asan
+      Start  1: engine.benchmark_correctness
+ 1/28 Test  #1: engine.benchmark_correctness ..........   Passed    1.38 sec
+      Start  2: engine.acceptance
+ 2/28 Test  #2: engine.acceptance .....................   Passed    1.10 sec
+      Start  3: engine.search
+ 3/28 Test  #3: engine.search .........................   Passed    0.32 sec
+      Start  4: engine.control_influence
+ 4/28 Test  #4: engine.control_influence ..............   Passed   24.37 sec
+      Start  5: engine.search_example
+ 5/28 Test  #5: engine.search_example .................   Passed    0.22 sec
+      Start  6: engine.search_infeasible_example
+ 6/28 Test  #6: engine.search_infeasible_example ......   Passed    0.08 sec
+      Start  7: engine.transport
+ 7/28 Test  #7: engine.transport ......................   Passed   30.72 sec
+      Start  8: engine.transport_example
+ 8/28 Test  #8: engine.transport_example ..............   Passed    0.23 sec
+      Start  9: desktop.project
+ 9/28 Test  #9: desktop.project .......................   Passed    1.70 sec
+      Start 10: desktop.pipe_parameters
+10/28 Test #10: desktop.pipe_parameters ...............   Passed    0.26 sec
+      Start 11: desktop.nemotron_client
+11/28 Test #11: desktop.nemotron_client ...............   Passed    3.00 sec
+      Start 12: desktop.agent_gateway
+12/28 Test #12: desktop.agent_gateway .................   Passed    1.90 sec
+      Start 13: desktop.agent_orchestrator
+13/28 Test #13: desktop.agent_orchestrator ............   Passed    5.60 sec
+      Start 14: desktop.session_repository
+14/28 Test #14: desktop.session_repository ............   Passed    9.65 sec
+      Start 15: desktop.history_controller
+15/28 Test #15: desktop.history_controller ............   Passed    4.85 sec
+      Start 16: desktop.python_worker
+16/28 Test #16: desktop.python_worker .................   Passed    6.10 sec
+      Start 17: desktop.pipe_transport
+17/28 Test #17: desktop.pipe_transport ................   Passed    7.43 sec
+      Start 18: desktop.pipe_transport_evidence
+18/28 Test #18: desktop.pipe_transport_evidence .......   Passed    1.39 sec
+      Start 19: desktop.storage_worker
+19/28 Test #19: desktop.storage_worker ................   Passed  145.71 sec
+      Start 20: desktop.storage_science
+20/28 Test #20: desktop.storage_science ...............   Passed   95.85 sec
+      Start 21: desktop.science_evidence
+21/28 Test #21: desktop.science_evidence ..............   Passed   24.55 sec
+      Start 22: desktop.storage_science_normal
+22/28 Test #22: desktop.storage_science_normal ........   Passed   15.56 sec
+      Start 23: desktop.storage_science_compact
+23/28 Test #23: desktop.storage_science_compact .......   Passed   11.29 sec
+      Start 24: desktop.storage_science_derivatives
+24/28 Test #24: desktop.storage_science_derivatives ...   Passed   11.80 sec
+      Start 25: desktop.qml_smoke
+25/28 Test #25: desktop.qml_smoke .....................   Passed    9.21 sec
+      Start 26: desktop.scientific_history_normal
+26/28 Test #26: desktop.scientific_history_normal .....   Passed    8.34 sec
+      Start 27: desktop.scientific_history_compact
+27/28 Test #27: desktop.scientific_history_compact ....   Passed    8.76 sec
+      Start 28: desktop.pipe_evidence_smoke
+28/28 Test #28: desktop.pipe_evidence_smoke ...........   Passed    8.44 sec
+
+100% tests passed, 0 tests failed out of 28
+
+Total Test time (real) = 439.93 sec
