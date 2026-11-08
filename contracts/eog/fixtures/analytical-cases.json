@@ -1,0 +1,39 @@
+{
+  "status": "interface fixtures pending Ethan numerical review; not production execution evidence",
+  "cases": [
+    {
+      "name": "truck-only",
+      "initial_volume_bbl": 800,
+      "capacity_bbl": 1000,
+      "shutdown_volume_bbl": 920,
+      "inflow_bpd": 2400,
+      "remaining_repair_hours": 2,
+      "trip_after_hours": 0.5,
+      "trip_volume_bbl": 150,
+      "trip_cost": 100,
+      "expected_no_action_countdown_hours": 1.2,
+      "expected_volume_before_trip_bbl": 850,
+      "expected_volume_after_trip_bbl": 700,
+      "expected_final_volume_bbl": 850,
+      "expected_total_cost": 100
+    },
+    {
+      "name": "late-well-only",
+      "initial_volume_bbl": 800,
+      "inflow_bpd": 2400,
+      "remaining_repair_hours": 2,
+      "shut_well_after_minutes": 18,
+      "shut_well_water_bpd": 1200,
+      "shut_well_revenue_per_hour": 250,
+      "expected_final_volume_bbl": 915,
+      "expected_total_cost": 425
+    },
+    {
+      "name": "shared-fleet-conflict",
+      "fleet_size": 1,
+      "overlapping_jobs_same_truck": 2,
+      "expected_feasible": false,
+      "expected_violation": "fleet_conflict"
+    }
+  ]
+}

@@ -22,6 +22,17 @@ qt_add_library(breakwater_telemetry_runtime STATIC
 target_include_directories(breakwater_telemetry_runtime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_telemetry_runtime PUBLIC breakwater_telemetry Qt6::Core)
 
+qt_add_library(breakwater_eog_contracts STATIC eog/EogContracts.hpp eog/EogContracts.cpp)
+target_include_directories(breakwater_eog_contracts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_eog_contracts PUBLIC breakwater_telemetry)
+qt_add_resources(breakwater_eog_contracts eog_contract_schemas
+  PREFIX /breakwater/eog/contracts BASE "${PROJECT_SOURCE_DIR}/contracts/eog"
+  FILES
+    "${PROJECT_SOURCE_DIR}/contracts/eog/common-v1.schema.json"
+    "${PROJECT_SOURCE_DIR}/contracts/eog/capture-manifest-v1.schema.json"
+    "${PROJECT_SOURCE_DIR}/contracts/eog/analysis-request-v1.schema.json"
+    "${PROJECT_SOURCE_DIR}/contracts/eog/analysis-response-v1.schema.json")
+
 qt_add_library(breakwater_agent STATIC
   agent/ModelTransport.hpp agent/NemotronClient.hpp agent/NemotronClient.cpp
   agent/CredentialSettings.hpp agent/CredentialSettings.cpp
@@ -142,6 +153,20 @@ if(BUILD_TESTING)
       "${PROJECT_SOURCE_DIR}/contracts/telemetry/tests/test_contracts.py"
       --native "$<TARGET_FILE:breakwater_telemetry_contract_check>")
     set_tests_properties(contracts.telemetry PROPERTIES TIMEOUT 120
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endif()
+  qt_add_executable(breakwater_eog_contract_tests tests/eog_contract_tests.cpp)
+  target_link_libraries(breakwater_eog_contract_tests PRIVATE breakwater_eog_contracts Qt6::Test)
+  target_compile_definitions(breakwater_eog_contract_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+  add_test(NAME desktop.eog_contracts COMMAND breakwater_eog_contract_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/eog_contracts-results.txt,txt")
+  set_tests_properties(desktop.eog_contracts PROPERTIES TIMEOUT 60
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  if(Python3_Interpreter_FOUND)
+    add_test(NAME contracts.eog COMMAND "${Python3_EXECUTABLE}" -B
+      "${PROJECT_SOURCE_DIR}/contracts/eog/tests/test_contracts.py"
+      --native "$<TARGET_FILE:breakwater_eog_contract_tests>")
+    set_tests_properties(contracts.eog PROPERTIES TIMEOUT 120
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   endif()
   if(Python3_Interpreter_FOUND)

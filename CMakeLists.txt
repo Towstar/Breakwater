@@ -24,6 +24,12 @@ else()
 endif()
 
 include(CTest)
+if(BUILD_TESTING)
+  # Compiled by headless/native jobs too; this header must never require Qt.
+  add_library(breakwater_eog_dto_compile OBJECT contracts/eog/tests/dto_compile.cpp)
+  target_include_directories(breakwater_eog_dto_compile PRIVATE contracts/include)
+  target_link_libraries(breakwater_eog_dto_compile PRIVATE breakwater_options)
+endif()
 add_subdirectory(engine)
 if(BREAKWATER_BUILD_DESKTOP)
   find_package(Qt6 6.12 REQUIRED COMPONENTS Quick QuickControls2 Quick3D Network Concurrent Sql Test)
