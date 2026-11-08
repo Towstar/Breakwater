@@ -46,10 +46,14 @@ quality, indefinite sustainability, reserves and global optimality are not estab
 ## Evaluation path
 
 The implementation compiles an immutable baseline once, resolves control IDs/topology,
-and prepares bounded candidate-value rows. The allocation-free screening loop reuses
-rate, flow-magnitude and destination-throughput buffers. It evaluates constant-rate affine
-endpoints rather than generating every trajectory. Cost accumulation matches the reference
-compiler's source-then-route order, including feed-route savings from curtailment.
+and prepares bounded candidate-value rows. At 32 or more routes and 2,048 or more
+candidates it prepares sparse selected-control influence columns; smaller workloads
+retain the original route walk. Both allocation-free screening loops reuse numeric
+buffers and evaluate constant-rate affine endpoints rather than every trajectory.
+Potential survivors retain the reference compiler's source-then-route cost order,
+including feed-route savings from curtailment. The prepared map, floating-point
+fallback, checked equivalence and performance policy are documented in
+[CONTROL_INFLUENCE.md](CONTROL_INFLUENCE.md).
 
 Borderline floating-point bounds proceed to reference validation. Overflow of an auxiliary
 roundoff scale also defers the affected bound to the reference engine. Actual nonfinite

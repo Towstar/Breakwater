@@ -25,6 +25,7 @@
       <BuildDependency Project="out/visual-studio/desktop/breakwater_session_repository_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_benchmark.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_cli.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_control_influence_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_engine_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_physicsnemo_reference.vcxproj" />
@@ -316,6 +317,10 @@
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>
   <Project Path="out/visual-studio/engine/breakwater_cli.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_control_influence_tests.vcxproj">
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>

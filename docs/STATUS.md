@@ -2,6 +2,14 @@
 
 ## B7 native evidence reopen — November 7, 2026
 
+- Reconciled current main `a707b32`, including A's `f469df8` control-influence
+  optimization, without conflicts after the B7 implementation. The native worker and
+  public desktop/science contracts are unchanged. Scoped independent kernel and proof
+  reviews found no blocker. A's recorded proof/source hashes match its committed
+  evidence (21 audited theorems); Lean and performance benchmarks were not rerun here.
+- The formal control-column equivalence concerns exact-real folds, not floating-point
+  guards, complete feasibility/ranking behavior, memory safety, speed or optimality.
+  Native differential/oracle checks run as part of the combined suite below.
 - Native transport JSON exports can be reopened after restart through the sidebar's
   Pipe transport viewer, without a selected route or current forecast. Charts, signed
   mass ledger, recorded parameters and provenance reuse the existing native display.
@@ -19,7 +27,7 @@
   produces an actual native export through the controller, then reopens it in the app.
   This check requires successful import and the visible evidence modal, independent of
   scene labels behind that modal. Usage is in [PIPE_TRANSPORT.md](PIPE_TRANSPORT.md).
-- Final direct VS2022 normal and full desktop MSVC ASan checks: **19/19 CTest suites
+- Final direct VS2022 normal and full desktop MSVC ASan checks: **20/20 CTest suites
   passed** in each build. The controller suite reports **14 passed, 0 failed/skipped**;
   structural evidence validation reports **13 passed, 0 failed/skipped**. Coverage
   includes actual native export/reopen after object restart, signed inlet exchange,
@@ -34,7 +42,7 @@
   CLI successfully reopened an actual export and rendered screenshots in both builds.
 - A separately crafted finite-extreme fixture (`±1e308`, not solver evidence) rendered
   successfully without clipping or arithmetic overflow. The root solution retains
-  67 projects and 184 dependency references with no missing paths. Independent scoped
+  68 projects and 187 dependency references with no missing paths. Independent scoped
   code review found no remaining actionable issue after the CLI/render fixes.
 - Final QML lint passed. A malformed file returned a failing CLI smoke exit and no
   screenshot. The updated normal build used by the existing local launcher also passed
@@ -44,7 +52,7 @@
   clean live-model rehearsals or qualify learned predictions. No new hosted calls ran.
 
 Scope: shared base, native search, Person B's agent/run store, single-pipe transport,
-and Person A's A3–A6 science, benchmark and proof increments, merged through PR #6.
+Person A's A3–A6 science/benchmark/proof increments, and A7's control-influence optimization.
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
 

@@ -68,7 +68,7 @@ try {
     $auditText = ($auditOutput | ForEach-Object { "$_" }) -join "`n"
     [System.IO.File]::WriteAllText((Join-Path $outputDirectory 'axiom-audit.log'), $auditText + "`n")
     $auditOutput | ForEach-Object { Write-Output "$_" }
-    if ($auditExit -ne 0 -or $auditText -notmatch 'A6 assumption audit passed for 15 algorithm theorems') {
+    if ($auditExit -ne 0 -or $auditText -notmatch 'BREAKWATER assumption audit passed for 21 algorithm theorems') {
         throw "Transitive assumption audit failed. Evidence: $outputDirectory"
     }
     # Exercise the same audit function with a deliberately unapproved assumption.
@@ -105,7 +105,7 @@ run_cmd Breakwater.auditAlgorithmTheorems #[``A6RejectedProbe]
         lake_version = "$lakeVersion"
         mathlib_revision = $mathlib[0].rev
         manifest_sha256 = (Get-FileHash -LiteralPath (Join-Path $proofRoot 'lake-manifest.json') -Algorithm SHA256).Hash.ToLowerInvariant()
-        audited_algorithm_theorems = 15
+        audited_algorithm_theorems = 21
         permitted_foundational_axioms = @('propext', 'Classical.choice', 'Quot.sound')
         warning_as_error = $true
         unapproved_assumption_probe_rejected = $true

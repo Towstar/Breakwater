@@ -1,15 +1,20 @@
 param(
     [switch]$SkipBuild,
+    [switch]$Influence,
+    [ValidateSet(0, 100, 1000, 2048, 10000)][int]$Count = 0,
     [ValidateRange(3, 31)][int]$Repeats = 7,
     [ValidateRange(1, 10)][int]$Warmups = 2
 )
 
 $ErrorActionPreference = 'Stop'
 $projectRoot = Split-Path -Parent (Split-Path -Parent $PSScriptRoot)
-$buildDirectory = Join-Path $projectRoot 'out/a5-release'
-$outputDirectory = Join-Path $projectRoot 'out/a5-benchmarks'
-$resultsPath = Join-Path $outputDirectory 'results.json'
-$environmentPath = Join-Path $outputDirectory 'environment.json'
+$increment = if ($Influence) { 'a7' } else { 'a5' }
+$incrementLabel = $increment.ToUpperInvariant()
+$buildDirectory = Join-Path $projectRoot "out/$increment-release"
+$outputDirectory = Join-Path $projectRoot "out/$increment-benchmarks"
+$resultSuffix = if ($Count -gt 0) { "-$Count" } else { '' }
+$resultsPath = Join-Path $outputDirectory "results$resultSuffix.json"
+$environmentPath = Join-Path $outputDirectory "environment$resultSuffix.json"
 $executablePath = Join-Path $buildDirectory 'engine/breakwater_benchmark.exe'
 $locatorPath = "${env:ProgramFiles(x86)}\Microsoft Visual Studio\Installer\vswhere.exe"
 
@@ -32,14 +37,14 @@ try {
             -DCMAKE_BUILD_TYPE=Release -DBREAKWATER_BUILD_DESKTOP=OFF `
             -DBUILD_TESTING=ON -DBREAKWATER_ENABLE_ASAN=OFF `
             -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
-        if ($LASTEXITCODE -ne 0) { throw 'A5 Release configuration failed.' }
+        if ($LASTEXITCODE -ne 0) { throw "$incrementLabel Release configuration failed." }
         & cmake --build $buildDirectory
-        if ($LASTEXITCODE -ne 0) { throw 'A5 Release build failed.' }
+        if ($LASTEXITCODE -ne 0) { throw "$incrementLabel Release build failed." }
     }
 
     $cachePath = Join-Path $buildDirectory 'CMakeCache.txt'
     if (-not (Test-Path -LiteralPath $executablePath) -or -not (Test-Path -LiteralPath $cachePath)) {
-        throw 'The A5 Release build is missing. Run again without -SkipBuild.'
+        throw "The $incrementLabel Release build is missing. Run again without -SkipBuild."
     }
     $cache = Get-Content -LiteralPath $cachePath
     if (-not ($cache -match '^CMAKE_BUILD_TYPE:STRING=Release$') -or
@@ -49,7 +54,7 @@ try {
 
     # Even -SkipBuild verifies the reused build before collecting measurements.
     & ctest --test-dir $buildDirectory --output-on-failure
-    if ($LASTEXITCODE -ne 0) { throw 'A5 Release correctness checks failed.' }
+    if ($LASTEXITCODE -ne 0) { throw "$incrementLabel Release correctness checks failed." }
     New-Item -ItemType Directory -Path $outputDirectory -Force | Out-Null
 
     $sourceCommit = & git rev-parse HEAD
@@ -81,6 +86,8 @@ try {
         'engine/benchmarks/run.ps1',
         'engine/src/forecast_kernels.hpp',
         'engine/src/search_kernel.hpp',
+        'engine/src/control_influence.hpp',
+        'engine/src/search_evaluation.hpp',
         'engine/src/engine.cpp',
         'engine/src/search.cpp',
         'engine/src/scenario.cpp',
@@ -131,11 +138,12 @@ try {
             desktop = $false
             repeats = $Repeats
             warmups = $Warmups
-            candidates = @(100, 1000, 10000)
+            candidates = @(if ($Count -gt 0) { $Count } else { 100, 1000, 10000 })
             workloads = @('canonical_incident', 'custom_24_tanks')
             horizon_h = 3.0
             sample_step_h = 0.025
             skip_build = [bool]$SkipBuild
+            influence_comparison = [bool]$Influence
         }
         cmake_cache_evidence = @($cache | Where-Object {
             $_ -match '^(CMAKE_BUILD_TYPE|CMAKE_CXX_COMPILER|CMAKE_CXX_FLAGS|CMAKE_CXX_FLAGS_RELEASE|BREAKWATER_ENABLE_ASAN|BREAKWATER_BUILD_DESKTOP|BUILD_TESTING):'
@@ -145,8 +153,10 @@ try {
     [System.IO.File]::WriteAllText($environmentPath, ($environmentRecord | ConvertTo-Json -Depth 8) + [Environment]::NewLine, $utf8)
 
     try {
-        & $executablePath --repeats $Repeats --warmups $Warmups --output $resultsPath
-        if ($LASTEXITCODE -ne 0) { throw "A5 benchmark failed with exit code $LASTEXITCODE." }
+        $benchmarkArguments = @('--repeats', $Repeats, '--warmups', $Warmups, '--output', $resultsPath)
+        if ($Count -gt 0) { $benchmarkArguments += @('--count', $Count) }
+        & $executablePath @benchmarkArguments
+        if ($LASTEXITCODE -ne 0) { throw "$incrementLabel benchmark failed with exit code $LASTEXITCODE." }
         if (-not (Test-Path -LiteralPath $resultsPath)) { throw 'Benchmark did not write its result artifact.' }
         $environmentRecord.status = 'completed'
     } catch {

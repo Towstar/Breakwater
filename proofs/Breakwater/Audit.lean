@@ -1,6 +1,7 @@
 module
 
 public import Breakwater.Network
+public import Breakwater.ControlInfluence
 meta import Lean.Util.CollectAxioms
 meta import Lean.Meta.InferType
 
@@ -21,6 +22,12 @@ meta import Lean.Meta.InferType
 #print axioms Breakwater.network_rollout_affine
 #print axioms Breakwater.network_rollout_total_balance
 #print axioms Breakwater.network_interval_bounds
+#print axioms Breakwater.ControlInfluence.weightedFold_eq_sum
+#print axioms Breakwater.ControlInfluence.weighted_candidate_decomposition
+#print axioms Breakwater.ControlInfluence.precomputed_eq_direct
+#print axioms Breakwater.ControlInfluence.precomputed_zero_delta
+#print axioms Breakwater.ControlInfluence.precomputed_network_rate
+#print axioms Breakwater.ControlInfluence.precomputed_network_trajectory
 
 /-- The advertised results are checked transitively, not just scanned for placeholders. -/
 public meta def Breakwater.auditedAlgorithms : Array Lean.Name := #[
@@ -38,7 +45,13 @@ public meta def Breakwater.auditedAlgorithms : Array Lean.Name := #[
   ``Breakwater.Affine.trajectory_zero_horizon_bounds,
   ``Breakwater.network_rollout_affine,
   ``Breakwater.network_rollout_total_balance,
-  ``Breakwater.network_interval_bounds
+  ``Breakwater.network_interval_bounds,
+  ``Breakwater.ControlInfluence.weightedFold_eq_sum,
+  ``Breakwater.ControlInfluence.weighted_candidate_decomposition,
+  ``Breakwater.ControlInfluence.precomputed_eq_direct,
+  ``Breakwater.ControlInfluence.precomputed_zero_delta,
+  ``Breakwater.ControlInfluence.precomputed_network_rate,
+  ``Breakwater.ControlInfluence.precomputed_network_trajectory
 ]
 
 -- These are the standard foundations of the pinned classical-real Mathlib development.
@@ -57,6 +70,6 @@ public meta def Breakwater.auditAlgorithmTheorems
     for dependency in dependencies do
       unless allowed.contains dependency do
         throwError "Unapproved transitive assumption in {decl}: {dependency}"
-  Lean.logInfo m!"A6 assumption audit passed for {declarations.size} algorithm theorems"
+  Lean.logInfo m!"BREAKWATER assumption audit passed for {declarations.size} algorithm theorems"
 
 run_cmd Breakwater.auditAlgorithmTheorems Breakwater.auditedAlgorithms

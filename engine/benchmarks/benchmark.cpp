@@ -1,8 +1,10 @@
-// A5: measured production kernels and full search, with independent correctness gates.
+// Measured production kernels and full search, with independent correctness gates.
 #include "workloads.hpp"
 #include "timing.hpp"
 #include "../src/forecast_kernels.hpp"
 #include "../src/search_kernel.hpp"
+#include "../src/control_influence.hpp"
+#include "../src/search_evaluation.hpp"
 
 #include <bit>
 #include <cstdint>
@@ -128,6 +130,18 @@ std::string fingerprint(const std::vector<CandidateControls>& candidates) {
 
 struct Retained {CompiledNetwork network;SimulationResult run;};
 
+template<class Workspace>
+double screen_checksum(const Workspace& workspace,double cost,detail::Screen screen) {
+    // Identical observable outputs for both screen implementations. These reads are
+    // included in the paired timers, unlike the historical cost-only affine phase.
+    double checksum=cost+static_cast<int>(screen);
+    for(std::size_t i=0;i<workspace.rates.size();++i)
+        checksum+=workspace.rates[i]*static_cast<double>(1+i%7);
+    for(std::size_t i=0;i<workspace.destination_totals.size();++i)
+        checksum+=workspace.destination_totals[i]*static_cast<double>(2+i%5);
+    return checksum;
+}
+
 void workload_report(std::ostream& json,const bench::Workload& workload,std::size_t count,
                      std::size_t repeats,std::size_t warmups,bool verify_only) {
     const SimulationConfig config{3.0,.025};
@@ -156,10 +170,15 @@ void workload_report(std::ostream& json,const bench::Workload& workload,std::siz
         set.values.push_back(values);
     }
     detail::Workspace screen_workspace(prepared);
+    const auto influence_start=bench::Clock::now();
+    const detail::ControlInfluence influence(prepared,set);
+    detail::InfluenceWorkspace influence_workspace(influence);
+    const double influence_preparation_ms=
+        std::chrono::duration<double,std::milli>(bench::Clock::now()-influence_start).count();
     TrajectoryWorkspace trajectory(data,config);
     std::vector<std::pair<double,std::size_t>> feasible;
-    std::size_t screen_passes=0;
-    double max_trajectory_error=0;
+    std::size_t screen_passes=0,influence_screen_passes=0;
+    double max_trajectory_error=0,max_influence_rate_error=0,max_influence_destination_error=0,max_influence_cost_error=0;
     // Correctness is outside all measured phases; every candidate is reference-checked.
     for(std::size_t row=0;row<count;++row) {
         const auto compiled=compile(workload.network,candidate_rows[row].overrides);
@@ -185,11 +204,37 @@ void workload_report(std::ostream& json,const bench::Workload& workload,std::siz
         if(screen==detail::Screen::numerical_failure || !close(cost,reference.cost))throw std::logic_error("Screen arithmetic mismatch");
         if(screen==detail::Screen::potential)++screen_passes;
         if(validation.feasible && screen!=detail::Screen::potential)throw std::logic_error("Screen discarded a reference-feasible plan");
+        double influence_cost=0;
+        const auto influence_screen=influence.screen(set.values[row],config.horizon_h,influence_workspace,influence_cost);
+        if(influence_screen==detail::Screen::numerical_failure || !close(influence_cost,reference.cost))
+            throw std::logic_error("Influence screen cost/reference mismatch");
+        max_influence_cost_error=std::max(max_influence_cost_error,std::abs(influence_cost-cost));
+        if(influence_screen==detail::Screen::potential)++influence_screen_passes;
+        if(validation.feasible && influence_screen!=detail::Screen::potential)
+            throw std::logic_error("Influence screen discarded a reference-feasible plan");
+        if(influence_workspace.rates.size()!=screen_workspace.rates.size() ||
+           influence_workspace.destination_totals.size()!=screen_workspace.destination_totals.size())
+            throw std::logic_error("Influence output dimensions changed");
+        for(std::size_t i=0;i<screen_workspace.rates.size();++i) {
+            if(!close(influence_workspace.rates[i],screen_workspace.rates[i]))
+                throw std::logic_error("Influence rate/route-walk mismatch");
+            max_influence_rate_error=std::max(max_influence_rate_error,
+                std::abs(influence_workspace.rates[i]-screen_workspace.rates[i]));
+        }
+        for(std::size_t i=0;i<screen_workspace.destination_totals.size();++i) {
+            if(!close(influence_workspace.destination_totals[i],screen_workspace.destination_totals[i]))
+                throw std::logic_error("Influence destination/route-walk mismatch");
+            max_influence_destination_error=std::max(max_influence_destination_error,
+                std::abs(influence_workspace.destination_totals[i]-screen_workspace.destination_totals[i]));
+        }
     }
     std::sort(feasible.begin(),feasible.end());
     if(feasible.empty() || feasible.size()==count)throw std::logic_error("Workload must exercise feasible and infeasible candidates");
+    const auto influence_fallbacks=influence_workspace.fallback_count;
+    const bool public_uses_influence=detail::use_control_influence(workload.network.routes.size(),count);
     const auto search=evaluate_candidates(workload.network,candidate_rows,options);
-    if(search.diagnostics.candidates_evaluated!=count || search.diagnostics.screen_passes!=screen_passes ||
+    const auto public_screen_passes=public_uses_influence?influence_screen_passes:screen_passes;
+    if(search.diagnostics.candidates_evaluated!=count || search.diagnostics.screen_passes!=public_screen_passes ||
        search.recommendations.size()!=std::min<std::size_t>(5,feasible.size()))throw std::logic_error("Public search counts mismatch");
     std::vector<Retained> retained;
     for(std::size_t i=0;i<search.recommendations.size();++i) {
@@ -197,6 +242,18 @@ void workload_report(std::ostream& json,const bench::Workload& workload,std::siz
         if(recommendation.candidate_index!=feasible[i].second || !close(recommendation.run.cost,feasible[i].first) ||
            !recommendation.validation.feasible)throw std::logic_error("Independent full-batch ranking mismatch");
         retained.push_back({compile(workload.network,recommendation.overrides),recommendation.run});
+    }
+    const auto route_walk_search=detail::evaluate_candidates_route_walk(workload.network,candidate_rows,options);
+    if(route_walk_search.diagnostics.candidates_evaluated!=count ||
+       route_walk_search.diagnostics.screen_passes!=screen_passes ||
+       route_walk_search.recommendations.size()!=search.recommendations.size())
+        throw std::logic_error("Route-walk search counts mismatch");
+    for(std::size_t i=0;i<search.recommendations.size();++i) {
+        const auto& previous=route_walk_search.recommendations[i];
+        const auto& current=search.recommendations[i];
+        if(previous.candidate_index!=current.candidate_index || previous.run.cost!=current.run.cost ||
+           !previous.validation.feasible)
+            throw std::logic_error("Route-walk/influence recommendation ranking mismatch");
     }
 
     std::vector<Phase> phases;
@@ -208,10 +265,41 @@ void workload_report(std::ostream& json,const bench::Workload& workload,std::siz
         "same preallocation as dense; no allocation instrumentation",count,1,[&]{
             for(std::size_t row=0;row<count;++row){trajectory.rollout(data,row,false);consume(trajectory.trajectory);}
         },{}});
-    phases.push_back({"affine_screen_kernel","actual production endpoint/storage/shared-destination/cost screen; no sampled trajectories or final validation",
+    phases.push_back({"affine_screen_kernel","retained previous production route-walk endpoint/storage/shared-destination/cost screen; historical cost-only consumption; no sampled trajectories or final validation",
         "prepared production topology/candidate buffers/workspace; no allocation instrumentation",count,1,[&]{
             double checksum=0;
             for(std::size_t row=0;row<count;++row){double cost=0;const auto s=detail::screen_candidate(prepared,set,set.values[row],config.horizon_h,screen_workspace,cost);checksum+=cost+static_cast<int>(s);}
+            consume(std::span(&checksum,1));
+        },{}});
+    phases.push_back({"influence_precompute","construct control-influence map and reusable workspace once, consume numeric preparation checksum; allocation/destruction and checksum included",
+        "map/workspace allocations included; common Prepared and candidate input preparation excluded",1,1,[&]{
+            const detail::ControlInfluence local(prepared,set);
+            detail::InfluenceWorkspace local_workspace(local);
+            const double prepared_checksum=static_cast<double>(local.precomputation_checksum());
+            consume(std::span(&prepared_checksum,1));
+            double checksum=screen_checksum(local_workspace,0.0,detail::Screen::potential);
+            for(const auto* values:{&local_workspace.curtailments,&local_workspace.setpoints,&local_workspace.flow_magnitudes})
+                for(const double value:*values)checksum+=value;
+            consume(std::span(&checksum,1));
+        },{}});
+    phases.push_back({"route_walk_screen_kernel","previous route-walk endpoint/storage/shared-destination/cost screen with full numeric-output consumption; same rows and outputs as influence_screen_kernel",
+        "prepared topology/candidate buffers/reusable workspace; no allocations in candidate loop",count,1,[&]{
+            double checksum=0;
+            for(std::size_t row=0;row<count;++row) {
+                double cost=0;
+                const auto screen=detail::screen_candidate(prepared,set,set.values[row],config.horizon_h,screen_workspace,cost);
+                checksum+=screen_checksum(screen_workspace,cost,screen);
+            }
+            consume(std::span(&checksum,1));
+        },{}});
+    phases.push_back({"influence_screen_kernel","precomputed control-influence endpoint/storage/shared-destination screen and cost estimate; potential rows recompute original-order canonical cost; same rows and full numeric-output consumption as route_walk_screen_kernel",
+        "map, candidate buffers and workspace preallocated; map preparation excluded",count,1,[&]{
+            double checksum=0;
+            for(std::size_t row=0;row<count;++row) {
+                double cost=0;
+                const auto screen=influence.screen(set.values[row],config.horizon_h,influence_workspace,cost);
+                checksum+=screen_checksum(influence_workspace,cost,screen);
+            }
             consume(std::span(&checksum,1));
         },{}});
     phases.push_back({"reference_validate_retained","independent validate() on retained dense runs; excludes compile/simulate",
@@ -220,10 +308,18 @@ void workload_report(std::ostream& json,const bench::Workload& workload,std::siz
             for(const auto& row:retained){const auto report=validate(row.network,row.run,config);if(!report.feasible)throw std::logic_error("Retained validation changed");checksum+=report.minimum_headroom_m3+report.max_conservation_residual_m3;}
             consume(std::span(&checksum,1));
         },{}});
-    phases.push_back({"public_search_total","evaluate_candidates(): preparation, bounds, screen, ranking, retained compile/dense simulation/validation and result materialization",
+    phases.push_back({"public_search_total","evaluate_candidates() automatic workload dispatch: preparation, bounds, selected screen, ranking, retained compile/dense simulation/validation and result materialization; selected evaluator recorded per case",
         "all public API allocations and destruction included",count,1,[&]{
             const auto result=evaluate_candidates(workload.network,candidate_rows,options);
             if(result.diagnostics.candidates_evaluated!=count || result.recommendations.size()!=retained.size())throw std::logic_error("Timed search changed counts");
+            double checksum=0;for(const auto& row:result.recommendations)checksum+=row.run.cost+static_cast<double>(row.candidate_index);
+            consume(std::span(&checksum,1));
+        },{}});
+    phases.push_back({"route_walk_search_total","previous evaluator through shared production search: preparation, bounds, route-walk screen, ranking, retained compile/dense simulation/validation and result materialization",
+        "same public-style API allocations and destruction as public_search_total",count,1,[&]{
+            const auto result=detail::evaluate_candidates_route_walk(workload.network,candidate_rows,options);
+            if(result.diagnostics.candidates_evaluated!=count || result.recommendations.size()!=retained.size())
+                throw std::logic_error("Timed route-walk search changed counts");
             double checksum=0;for(const auto& row:result.recommendations)checksum+=row.run.cost+static_cast<double>(row.candidate_index);
             consume(std::span(&checksum,1));
         },{}});
@@ -239,16 +335,26 @@ void workload_report(std::ostream& json,const bench::Workload& workload,std::siz
             }
     }
     std::cerr<<workload.name<<" candidates="<<count<<" verified="<<count<<" feasible="<<feasible.size()
-             <<" screen_passes="<<screen_passes<<" reference_checks="<<search.diagnostics.reference_checks<<'\n';
+             <<" screen_passes="<<screen_passes<<" influence_passes="<<influence_screen_passes
+             <<" public_evaluator="<<(public_uses_influence?"precomputed_control_influence":"route_walk")
+             <<" influence_fallbacks="<<influence_fallbacks<<" reference_checks="<<search.diagnostics.reference_checks<<'\n';
     json<<"{\"workload\":";bench::json_string(json,workload.name);
+    json<<",\"public_evaluator\":";
+    bench::json_string(json,public_uses_influence?"precomputed_control_influence":"route_walk");
     json<<",\"candidates\":"<<count<<",\"distinct_candidates\":"<<unique.size()<<",\"candidate_fnv1a64\":";
     bench::json_string(json,fingerprint(candidate_rows));
     json<<",\"assets\":"<<workload.network.assets.size()<<",\"routes\":"<<workload.network.routes.size()
         <<",\"tanks\":"<<data.tanks<<",\"internal_edges\":"<<data.edge_count<<",\"samples\":"<<trajectory.time.size()
         <<",\"horizon_h\":3,\"step_h\":0.025,\"prepared_numeric_bytes\":"<<data.bytes()
         <<",\"trajectory_workspace_bytes\":"<<trajectory.bytes()<<",\"preparation_once_ms\":"<<preparation_ms
+        <<",\"influence_preparation_once_ms\":"<<influence_preparation_ms
         <<",\"max_forward_error_m3\":"<<max_trajectory_error<<",\"all_candidates_reference_checked\":true"
         <<",\"reference_feasible_candidates\":"<<feasible.size()<<",\"screen_passes\":"<<screen_passes
+        <<",\"influence_screen_passes\":"<<influence_screen_passes
+        <<",\"influence_fallbacks\":"<<influence_fallbacks
+        <<",\"max_influence_rate_error_m3h\":"<<max_influence_rate_error
+        <<",\"max_influence_destination_error_m3h\":"<<max_influence_destination_error
+        <<",\"max_influence_cost_error\":"<<max_influence_cost_error
         <<",\"reference_checks_in_search\":"<<search.diagnostics.reference_checks
         <<",\"reference_rejections_in_search\":"<<search.diagnostics.reference_rejections
         <<",\"recommendations\":"<<retained.size()<<",\"best_evaluated_cost\":"<<feasible.front().first
@@ -280,16 +386,16 @@ int main(int argc,char** argv) {
                 else {std::size_t consumed_chars=0;const auto n=std::stoull(value,&consumed_chars);if(consumed_chars!=value.size())throw std::invalid_argument("Expected unsigned integer");
                     if(arg=="--count")counts={static_cast<std::size_t>(n)};
                     else if(arg=="--repeats")repeats=static_cast<std::size_t>(n);else warmups=static_cast<std::size_t>(n);}
-            } else throw std::invalid_argument("Usage: breakwater_benchmark [--count 100|1000|10000] [--repeats 3..31] [--warmups 1..10] [--verify-only] [--output file.json]");
+            } else throw std::invalid_argument("Usage: breakwater_benchmark [--count 100|1000|2048|10000] [--repeats 3..31] [--warmups 1..10] [--verify-only] [--output file.json]");
         }
         if(repeats<3 || repeats>31 || warmups<1 || warmups>10)throw std::invalid_argument("Invalid repeat/warmup bounds");
-        for(const auto n:counts)if(n!=100 && n!=1000 && n!=10000)throw std::invalid_argument("Candidate count must be 100,1000,10000");
+        for(const auto n:counts)if(n!=100 && n!=1000 && n!=2048 && n!=10000)throw std::invalid_argument("Candidate count must be 100,1000,2048,10000");
         if(BREAKWATER_BENCH_CHECKED && !verify_only)throw std::invalid_argument("Checked build: use --verify-only; sanitizer timings are not performance evidence");
 #ifndef NDEBUG
         if(!verify_only)throw std::invalid_argument("Performance measurement requires an optimized non-Debug build");
 #endif
         std::ostringstream json;json.imbue(std::locale::classic());json<<std::setprecision(17);
-        json<<"{\"benchmark_version\":1,\"status\":\"passed\",\"method\":";
+        json<<"{\"benchmark_version\":2,\"status\":\"passed\",\"method\":";
         bench::json_string(json,verify_only?"correctness_only":"optimized_serial_precise_fp");
         json<<",\"configuration\":";bench::json_string(json,BREAKWATER_BENCH_CONFIGURATION);
         json<<",\"checked_build\":"<<(BREAKWATER_BENCH_CHECKED?"true":"false")<<",\"cpp_standard\":2020,\"compiler\":";
@@ -303,7 +409,7 @@ int main(int argc,char** argv) {
         json<<",\"steady_clock\":"<<(bench::Clock::is_steady?"true":"false")<<",\"warmup_batches\":"<<warmups
             <<",\"repeats\":"<<repeats<<",\"calibration_target_ms\":10,\"maximum_iterations_per_sample\":1024"
             <<",\"phase_order\":\"rotated per repetition\",\"quantile\":\"p90 nearest rank; stddev population\""
-            <<",\"notes\":\"Kernel setup excluded. Dense/sparse have identical samples, writes and full-buffer checksum consumption. Affine avoids trajectories. Retained validation is five runs, not the full batch. Overlapping phases do not sum to total search. No global optimum or universal speedup claim.\",\"results\":[";
+            <<",\"notes\":\"Kernel setup excluded except explicitly timed influence_precompute. Dense/sparse have identical samples, writes and full-buffer checksum consumption. Affine avoids trajectories. Paired route-walk/influence screens consume identical numeric outputs; potential influence rows preserve canonical cost order. Retained validation is five runs, not the full batch. Overlapping phases do not sum to total search. No global optimum or universal speedup claim.\",\"results\":[";
         bool first=true;
         for(const auto& workload:bench::workloads())for(const auto count:counts){if(!first)json<<',';first=false;workload_report(json,workload,count,repeats,warmups,verify_only);}
         json<<"]}\n";

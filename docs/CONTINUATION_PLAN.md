@@ -4,6 +4,8 @@
 This document retains their original execution sequence and acceptance criteria;
 use [STATUS.md](STATUS.md) for current evidence. B3/B4 are implemented in this workstream;
 the next integration is the agreed scientific worker mapping and adapter.
+The subsequent A7 control-influence optimization is also integrated through main
+`a707b32`; it does not add scientific worker methods or alter the next ownership boundary.
 
 Updated November 7, 2026. This is the execution order for the next increments, based
 on merged PRs [#1](https://github.com/Towstar/Breakwater/pull/1),
