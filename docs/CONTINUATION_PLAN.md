@@ -1,15 +1,15 @@
 # BREAKWATER continuation plan
 
-**Current continuation after PRs #17 and #20:** the Person A audit fixes and A9
-transport qualification are merged. Use [POST_A9_PLAN.md](POST_A9_PLAN.md) for the
-fresh integration checks, remaining B-stack review and ordered next increments.
-The execution sequence below is retained as historical context.
+**Post-A9 context:** [POST_A9_PLAN.md](POST_A9_PLAN.md) records the newly pulled
+main baseline, upstream verification and remaining B-stack merge order. The current
+B implementation/status below supplements that preserved plan.
 
-**Current B handoff:** B5a local runtime/deployment and B5b forward-only desktop storage
-comparison are implemented in this workstream. Follow [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md)
-for setup/use and [STATUS.md](STATUS.md) for evidence and limitations. Next is B5c
-explicit selected-interior derivatives, using the controls/column semantics below.
-Automatic retention and release rehearsals remain. The earlier B5 plan is retained.
+**Current B handoff:** B5a runtime/deployment, B5b forward comparison and B5c explicitly
+selected captured-control derivatives are implemented in this workstream. Follow
+[DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for use and [STATUS.md](STATUS.md) for actual
+checks/limitations. Next are bounded scientific-evidence retention/restoration and the
+remaining manual/release rehearsals. Earlier plans below remain as history.
+
 
 PR #17's A-owned audit fixes are integrated before further features: exact requested
 horizons, finite independent costs and analytical residual edge cases. B packages the
@@ -137,7 +137,7 @@ portion of B5 and investigation-retention portion of B7 below. A's A3–A6 sourc
 `7c99c68` is merged into this workstream, and B3 publishes the selected-pipe/science
 boundary plus independent physical-parameter persistence. A8 subsequently added worker
 capabilities/storage; B5a/B5b now deploy and integrate forward storage comparison.
-The native pipe viewer is implemented. Selected-control derivative UI follows as B5c.
+The native pipe viewer and B5c selected-control derivative UI are implemented.
 Hosted Nemotron access is verified; clean operator-review rehearsals remain incomplete.
 The B7 native-evidence subincrement now reopens bounded transport exports as historical,
 read-only evidence in the existing charts. Automatic quality-result retention is still
@@ -158,7 +158,7 @@ learned smoke does not supply arbitrary-route inference.
 - Integrated A3–A6: standalone differentiable storage, A-reported fixed-case
   PhysicsNeMo execution, measured native benchmarks and checked exact-real proofs.
   A8 worker methods and B5 forward storage comparison are now integrated.
-- Unfinished: desktop selected-control derivatives, scientific retention and generic
+- Unfinished: scientific retention, candidate/history science and generic
   pipe-quality integration/qualification. Native volume approval remains separate.
 - Live hosted Nemotron calling is verified with archived traces; bounded no-plan and
   unstaged advisory results mean the three clean review rehearsals remain incomplete.

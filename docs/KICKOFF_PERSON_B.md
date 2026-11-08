@@ -7,11 +7,14 @@ the broader B audit and installed-app acceptance remain separate. PRs #13, #18 a
 Coordinate with [Person A's plan](KICKOFF_PERSON_A.md). The original sequence below
 is retained as context, not a claim of comprehensive audit/release completion.
 
-Current workstream update: B5a/B5b runtime deployment and forward desktop comparison
-are implemented. Person A's audit/fixes through PR #17 (`367dcf1`) are integrated;
+Current workstream update: B5a/B5b deployment/forward comparison and B5c selected
+captured-control sensitivities are implemented. Person A's PR #17 audit fixes,
+PR #20 transport qualification and current main's native key settings are integrated;
 see [AUDIT_REPORT.md](AUDIT_REPORT.md) and the latest [STATUS.md](STATUS.md) evidence
-before starting B5c. The original audit and staged roadmap below remain intact.
+before the retention/release steps. The original audit and staged roadmap remain intact.
 Manual release-workflow gaps and scientific retention remain open.
+Follow the reviewed B-stack merge order in POST_A9_PLAN before advancing main;
+then proceed to durable scientific evidence and the remaining manual rehearsals.
 
 ## Role, baseline and ownership
 

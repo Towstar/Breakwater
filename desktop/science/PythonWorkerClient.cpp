@@ -89,7 +89,7 @@ void PythonWorkerClient::begin(Job job, const QJsonObject& payload) {
     if (QThread::currentThread() != thread()) { fail("worker_thread_invalid", "Worker jobs must be requested on their owning thread."); return; }
     if (python_executable_.trimmed().isEmpty()) { fail("python_unavailable", "BREAKWATER_PYTHON is not configured; scientific execution is unavailable."); return; }
     if (!QFileInfo(worker_path_).isFile()) { fail("worker_unavailable", "The configured scientific worker file is unavailable."); return; }
-    if (job == Job::Storage && !protocol::forwardPayload(payload)) { fail("worker_request_invalid", "A valid captured forward-only storage request is required."); return; }
+    if (job == Job::Storage && !protocol::storagePayload(payload)) { fail("worker_request_invalid", "A valid captured storage request is required; derivatives need an explicit interior selection."); return; }
     status_ = job == Job::Health ? "Checking scientific worker health..." : "Negotiating scientific worker capabilities...";
     deadline_.start(timeout_ms_ ? timeout_ms_ : (job == Job::Health ? 10000 : 60000));
     const auto generation = generation_; const QPointer<PythonWorkerClient> guard(this);

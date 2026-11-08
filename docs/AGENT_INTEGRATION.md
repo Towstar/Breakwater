@@ -33,9 +33,13 @@ place `.env` beside the executable or launch it from the directory containing it
 The real `.env` is never bundled or installed by CMake. The key-free `.env.example`
 is included beside the installed executable for portable/manual configuration.
 
-Precedence, per setting: nonempty process variable → nonempty launch/checkout
-`.env` value → saved per-user `.env` value → built-in default. The dialog reports
-whether the saved key or a launch configuration is active. File
+Key/model precedence: nonempty process variable → nonempty launch/checkout
+`.env` value → saved per-user `.env` value → built-in default. The endpoint stays
+bound to the selected key's source: an inherited process key uses the official
+NVIDIA endpoint; a file key uses that same file's endpoint or the official default.
+An explicit process `NVIDIA_BASE_URL` can override either. An automatically discovered
+project file containing only an endpoint cannot redirect a process/saved-user key.
+The dialog reports whether the saved key or a launch configuration is active. File
 values remain in the native Nemotron configuration; they are not added to the
 process environment or inherited by the scientific worker. The reader accepts
 the three settings below, blank lines, `#` comments, optional `export`, and optional
@@ -176,5 +180,7 @@ Vendor references used for the transport:
 [hosted API](https://docs.api.nvidia.com/nim/reference/nvidia-nemotron-3-5-lightning-30b-a3b-infer),
 [model tool-calling guide](https://docs.nvidia.com/nim/large-language-models/2.0.10/get-started/advanced/get-started-nemotron-3.5-lightning.html),
 [NIM tool-message format](https://docs.nvidia.com/nemo/guardrails/v0.24.1/guardrails-python-sdk/nemoguardrails/guardrails/model_engine).
-Self-hosted parser flags are not sent to the hosted API. Hosted behavior, model access
-and non-streaming reasoning fields remain live-smoke checks until credentials exist.
+Self-hosted parser flags are not sent to the hosted API. Actual hosted model identity,
+tool execution and matching result continuation have passed the live smoke recorded
+in [STATUS.md](STATUS.md). Clean production operator-review rehearsals remain pending;
+raw model reasoning is never retained.

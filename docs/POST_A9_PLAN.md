@@ -6,6 +6,15 @@ Updated November 7, 2026. This is the active continuation plan after merging
 [implementation plan](IMPLEMENTATION_PLAN.md) and original handoff remain intact.
 The work below is planned unless explicitly identified as delivered.
 
+**B review-workstream update:** PR #21 reconciles the audit-fix boundary with B5a/B5b;
+B5c selected captured-control sensitivities and the credential-source endpoint fix
+are implemented and tested in the following review increment. See
+[STATUS.md](STATUS.md) and [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for its fresh
+25-suite normal/ASan checks, installed execution and declared manual gaps. The
+6966707 verification below remains an upstream baseline report. The B-stack merge
+order below is still a main-integration task; durable scientific evidence remains
+separate from the derivative presentation.
+
 ## Integrated baseline
 
 - PR #17 merged at `0d78ffa1b35a6f4dc14aa770a10e9bee645da4b7`:

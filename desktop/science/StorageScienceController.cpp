@@ -14,10 +14,10 @@ QJsonObject identity(const CapturedForecast& run) {
     return {{"snapshot_id", run.id}, {"volume_run_id", run.id}, {"physical_hash", run.physical_hash},
         {"numerical_revision", static_cast<qint64>(run.revision)}};
 }
-QJsonObject payload(const CapturedForecast& run) {
+QJsonObject payload(const CapturedForecast& run, bool sensitivities, const QJsonArray& controls) {
     return {{"method_version", 1}, {"identity", identity(run)}, {"network", network_json(run.network)},
-        {"controls", QJsonArray{}}, {"horizon_h", run.config.horizon_h}, {"step_h", run.config.step_h},
-        {"derivatives", false}, {"preview", QJsonObject{{"max_times", 256}}}};
+        {"controls", controls}, {"horizon_h", run.config.horizon_h}, {"step_h", run.config.step_h},
+        {"derivatives", sensitivities}, {"preview", QJsonObject{{"max_times", 256}}}};
 }
 void require(bool condition, const char* message) {
     if (!condition) throw std::invalid_argument(message);
@@ -31,12 +31,77 @@ double scaledError(double first, double second, double& absolute) {
     require(std::isfinite(absolute), "Scientific comparison exceeded the finite diagnostic range.");
     return absolute / (1e-9 + 1e-10 * std::max(std::abs(first), std::abs(second)));
 }
-QJsonObject compare(const std::shared_ptr<const CapturedForecast>& run, const QJsonObject& response) {
+QString ineligibleReason(const Network& network, const ControlDescriptor& control) {
+    if (!std::isfinite(control.value) || !std::isfinite(control.minimum) || !std::isfinite(control.maximum))
+        return QStringLiteral("Captured control bounds/value are not finite.");
+    if (control.maximum <= control.minimum) return QStringLiteral("Fixed or unavailable control.");
+    if (control.value <= control.minimum || control.value >= control.maximum)
+        return QStringLiteral("Captured value lies on a control bound.");
+    const auto asset = std::find_if(network.assets.begin(), network.assets.end(),
+        [&](const Asset& value) { return value.id == control.asset_id; });
+    if (asset != network.assets.end() && asset->kind == AssetKind::source) {
+        const auto feed = std::find_if(network.routes.begin(), network.routes.end(),
+            [&](const Route& value) { return value.source_id == asset->id; });
+        if (feed == network.routes.end()) return QStringLiteral("Captured source feed is unavailable.");
+        if (asset->inflow_m3h - control.value >= feed->capacity_m3h)
+            return QStringLiteral("Captured source flow is on the feed-capacity boundary.");
+    }
+    return {};
+}
+QJsonArray selectedMetadata(const CapturedForecast& run, const QJsonArray& controls) {
+    require(!controls.isEmpty() && controls.size() <= 384, "Select at least one captured interior control for sensitivities.");
+    const auto catalog = control_catalog(run.network);
+    QJsonArray selected;
+    std::ptrdiff_t previous = -1;
+    for (const auto& value : controls) {
+        require(value.isObject(), "Scientific sensitivity selection is invalid.");
+        const auto item = value.toObject();
+        require(item.size() == 2 && item.value("control_id").isString() && item.contains("value"),
+            "Scientific sensitivity selection is invalid.");
+        const auto id = item.value("control_id").toString();
+        const auto control = std::find_if(catalog.begin(), catalog.end(),
+            [&](const ControlDescriptor& descriptor) { return QString::fromStdString(descriptor.id) == id; });
+        require(control != catalog.end(), "Scientific sensitivity selection names an unknown captured control.");
+        const auto index = std::distance(catalog.begin(), control);
+        require(index > previous && finiteNumber(item.value("value")) == control->value && ineligibleReason(run.network, *control).isEmpty(),
+            "Scientific sensitivity selection must retain unchanged interior captured values in catalog order.");
+        previous = index;
+        selected.append(QJsonObject{{"control_id", id}, {"captured_value", control->value}, {"unit", QString::fromStdString(control->unit)}});
+    }
+    return selected;
+}
+QJsonObject checkedDerivatives(const QJsonObject& worker, const QJsonArray& selected, qsizetype tankCount) {
+    require(worker.value("derivatives").isObject(), "Scientific sensitivity output is missing its derivatives.");
+    const auto derivative = worker.value("derivatives").toObject();
+    require(derivative.size() == 3 && derivative.contains("control_ids") && derivative.contains("terminal_volume_jacobian_h") &&
+        derivative.contains("cost_gradient"), "Scientific sensitivity output contains unsupported derivative fields.");
+    QJsonArray expectedIds;
+    for (const auto& value : selected) expectedIds.append(value.toObject().value("control_id"));
+    require(derivative.value("control_ids").isArray() && derivative.value("control_ids").toArray() == expectedIds,
+        "Scientific derivative columns do not match the selected captured controls.");
+    require(derivative.value("terminal_volume_jacobian_h").isArray() && derivative.value("cost_gradient").isArray(),
+        "Scientific derivative dimensions are invalid.");
+    const auto matrix = derivative.value("terminal_volume_jacobian_h").toArray(), gradient = derivative.value("cost_gradient").toArray();
+    require(matrix.size() == tankCount && gradient.size() == selected.size(), "Scientific derivative dimensions are invalid.");
+    for (const auto& value : matrix) {
+        require(value.isArray(), "Scientific derivative dimensions are invalid.");
+        const auto row = value.toArray();
+        require(row.size() == selected.size(), "Scientific derivative dimensions are invalid.");
+        for (const auto& coefficient : row) (void)finiteNumber(coefficient);
+    }
+    for (const auto& coefficient : gradient) (void)finiteNumber(coefficient);
+    return derivative;
+}
+QJsonObject compare(const std::shared_ptr<const CapturedForecast>& run, const QJsonObject& response,
+                    bool sensitivities, const QJsonArray& controls) {
     const auto worker = response.value("result").toObject();
     require(response.value("status").toString() == "completed" && worker.value("identity").toObject() == identity(*run),
         "Scientific response does not bind to this captured native forecast.");
     require(worker.value("method").toString() == "storage_rollout" && worker.value("method_version").toDouble() == 1.0 &&
-        !worker.contains("derivatives") && !worker.contains("artifact"), "Scientific response contains unsupported analysis output.");
+        !worker.contains("artifact"), "Scientific response contains unsupported analysis output.");
+    const auto selected = sensitivities ? selectedMetadata(*run, controls) : QJsonArray{};
+    require(sensitivities || (controls.isEmpty() && !worker.contains("derivatives")),
+        "Forward scientific output contains unrequested sensitivity data.");
     const auto times = worker.value("time_h").toArray(), indices = worker.value("time_indices").toArray();
     const auto ids = worker.value("tank_ids").toArray(), volumes = worker.value("volumes_m3").toArray();
     const auto& native = run->result;
@@ -45,6 +110,7 @@ QJsonObject compare(const std::shared_ptr<const CapturedForecast>& run, const QJ
         "Scientific preview dimensions disagree with the native reference.");
     require(indices.first().toInteger(-1) == 0 && indices.last().toInteger(-1) == static_cast<qint64>(native.time_h.size() - 1),
         "Scientific preview does not retain the captured native endpoints.");
+    const auto derivative = sensitivities ? checkedDerivatives(worker, selected, ids.size()) : QJsonObject{};
     qint64 previous = -1;
     for (qsizetype sample = 0; sample < times.size(); ++sample) {
         const auto rawIndex = finiteNumber(indices[sample]);
@@ -85,10 +151,12 @@ QJsonObject compare(const std::shared_ptr<const CapturedForecast>& run, const QJ
     double absoluteCost = 0.0;
     const auto costScaled = scaledError(native.cost, workerCost, absoluteCost);
     agrees = agrees && costScaled <= 1.0;
-    return {{"result_version", 1}, {"result_id", QUuid::createUuid().toString(QUuid::WithoutBraces)},
+    QJsonObject evidence{{"result_version", 1}, {"result_id", QUuid::createUuid().toString(QUuid::WithoutBraces)},
         {"created_at", QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs)}, {"method", "storage_rollout"},
         {"run_id", run->id}, {"snapshot_id", run->id}, {"physical_hash", run->physical_hash},
         {"numerical_revision", static_cast<qint64>(run->revision)}, {"horizon_h", run->config.horizon_h}, {"step_h", run->config.step_h},
+        {"analysis_mode", sensitivities ? "sensitivities" : "forward"}, {"selected_controls", selected},
+        {"native_solver_version", QString::fromLatin1(breakwater::solver_version)},
         {"native_cost", native.cost}, {"worker_cost", workerCost}, {"cost_difference", workerCost - native.cost},
         {"cost_absolute_error", absoluteCost}, {"cost_scaled_error", costScaled}, {"within_tolerance", agrees},
         {"comparison_scope", "Returned worker preview samples versus their original native indices; not a feasibility verdict"},
@@ -96,6 +164,8 @@ QJsonObject compare(const std::shared_ptr<const CapturedForecast>& run, const QJ
         {"tanks", descriptors}, {"tank_errors", errors}, {"provenance", worker.value("provenance")}, {"warnings", worker.value("warnings")},
         {"preview", QJsonObject{{"time_h", times}, {"time_indices", indices}, {"native_volumes_m3", nativePreview},
             {"worker_volumes_m3", volumes}, {"source_frames", static_cast<qint64>(native.time_h.size())}}}};
+    if (sensitivities) evidence["derivatives"] = derivative;
+    return evidence;
 }
 }
 
@@ -104,7 +174,9 @@ StorageScienceController::StorageScienceController(ProjectController* project, P
     if (project_) {
         connect(project_, &ProjectController::changed, this, &StorageScienceController::refresh);
         connect(project_, &QObject::destroyed, this, [this] {
-            retire("The native project was closed; scientific evidence was retired."); emit changed();
+            const QPointer<StorageScienceController> guard(this);
+            rebuildCatalog(nullptr);
+            retire("The native project was closed; scientific evidence was retired."); if (guard) emit changed();
         });
     }
     if (worker_) {
@@ -121,6 +193,7 @@ StorageScienceController::StorageScienceController(ProjectController* project, P
             retire("The scientific worker was closed."); emit changed();
         });
     }
+    refresh();
 }
 StorageScienceController::~StorageScienceController() {
     const auto wasWaiting = waiting_; waiting_ = false;
@@ -131,30 +204,101 @@ QString StorageScienceController::status() const { return waiting_ && worker_ ? 
 bool StorageScienceController::canRun() const {
     return project_ && worker_ && !busy() && !worker_->busy() && static_cast<bool>(project_->capturedForecast());
 }
+QVariantList StorageScienceController::controls() const {
+    QVariantList rows;
+    for (const auto& control : catalog_) {
+        const auto id = QString::fromStdString(control.id);
+        QString label = QString::fromStdString(control.asset_id) + QStringLiteral(" · route flow");
+        if (catalog_capture_) {
+            const auto& assets = catalog_capture_->network.assets;
+            const auto asset = std::find_if(assets.begin(), assets.end(), [&](const Asset& item) { return item.id == control.asset_id; });
+            if (asset != assets.end()) label = QString::fromStdString(asset->label) + QStringLiteral(" · production curtailment");
+        }
+        const auto reason = ineligible_reasons_.value(id);
+        rows.append(QVariantMap{{"control_id", id}, {"label", label}, {"captured_value", control.value},
+            {"unit", QString::fromStdString(control.unit)}, {"minimum", control.minimum}, {"maximum", control.maximum},
+            {"eligible", reason.isEmpty()}, {"reason", reason}, {"selected", selected_controls_.contains(id)}});
+    }
+    return rows;
+}
+QStringList StorageScienceController::selectedControlIds() const {
+    QStringList ids;
+    for (const auto& control : catalog_) {
+        const auto id = QString::fromStdString(control.id);
+        if (selected_controls_.contains(id)) ids.append(id);
+    }
+    return ids;
+}
+bool StorageScienceController::canRunSensitivities() const {
+    if (!canRun() || selected_controls_.isEmpty() || catalog_capture_ != project_->capturedForecast()) return false;
+    for (const auto& id : selected_controls_) if (!ineligible_reasons_.contains(id) || !ineligible_reasons_.value(id).isEmpty()) return false;
+    return true;
+}
+QJsonArray StorageScienceController::selectedControls() const {
+    QJsonArray controls;
+    for (const auto& control : catalog_) {
+        const auto id = QString::fromStdString(control.id);
+        if (selected_controls_.contains(id)) controls.append(QJsonObject{{"control_id", id}, {"value", control.value}});
+    }
+    return controls;
+}
+void StorageScienceController::rebuildCatalog(const std::shared_ptr<const CapturedForecast>& capture) {
+    catalog_capture_ = capture; catalog_.clear(); ineligible_reasons_.clear(); selected_controls_.clear();
+    if (!capture) return;
+    try {
+        catalog_ = control_catalog(capture->network);
+        for (const auto& control : catalog_) ineligible_reasons_.insert(QString::fromStdString(control.id), ineligibleReason(capture->network, control));
+    } catch (const std::exception&) {
+        catalog_.clear(); ineligible_reasons_.clear(); status_ = "The captured native control catalog is unavailable.";
+    }
+}
+bool StorageScienceController::selectControl(const QString& id, bool selected) {
+    if (!ineligible_reasons_.contains(id)) return false;
+    if (selected && !ineligible_reasons_.value(id).isEmpty()) {
+        status_ = ineligible_reasons_.value(id); emit changed(); return false;
+    }
+    if (selected_controls_.contains(id) == selected) return true;
+    if (selected) selected_controls_.insert(id); else selected_controls_.remove(id);
+    const QPointer<StorageScienceController> guard(this);
+    if (sensitivities_ && captured_) retire("Sensitivity selection changed; run a fresh calculation at the captured values.");
+    if (guard) emit changed();
+    return true;
+}
 void StorageScienceController::refresh() {
-    if (captured_ && (!project_ || project_->capturedForecast() != captured_))
+    const auto current = project_ ? project_->capturedForecast() : nullptr;
+    if (current != catalog_capture_) rebuildCatalog(current);
+    const QPointer<StorageScienceController> guard(this);
+    if (captured_ && current != captured_)
         retire("The captured native run changed; run a fresh PyTorch comparison.");
-    emit changed();
+    if (guard) emit changed();
 }
 void StorageScienceController::retire(const QString& message) {
-    ++generation_; result_ = {}; tank_.clear(); captured_.reset(); status_ = message;
+    ++generation_; result_ = {}; tank_.clear(); captured_.reset(); job_controls_ = {}; status_ = message;
     const auto wasWaiting = waiting_; waiting_ = false;
     if (wasWaiting && worker_) worker_->cancel();
 }
 void StorageScienceController::run() {
-    if (!canRun()) return;
+    begin(false);
+}
+void StorageScienceController::runSensitivities() {
+    begin(true);
+}
+void StorageScienceController::begin(bool sensitivities) {
+    if (sensitivities ? !canRunSensitivities() : !canRun()) return;
     captured_ = project_->capturedForecast();
+    sensitivities_ = sensitivities; job_controls_ = sensitivities ? selectedControls() : QJsonArray{};
     ++generation_; waiting_ = true; result_ = {}; tank_.clear();
-    status_ = "Starting the captured native/PyTorch comparison…";
-    const auto request = payload(*captured_);
+    status_ = sensitivities ? "Calculating selected sensitivities at unchanged captured values…" : "Starting the captured native/PyTorch comparison…";
+    const auto request = payload(*captured_, sensitivities_, job_controls_);
     const QPointer<StorageScienceController> guard(this);
     worker_->runStorage(request);
     if (guard) emit changed();
 }
 void StorageScienceController::cancel() {
     if (!busy()) return;
+    const QPointer<StorageScienceController> guard(this);
     retire(comparing_ ? "Cancelled. The bounded comparison is finishing." : "Scientific comparison cancelled.");
-    emit changed();
+    if (guard) emit changed();
 }
 void StorageScienceController::accept(const QJsonObject& response) {
     if (!waiting_ || !captured_) return;
@@ -162,6 +306,7 @@ void StorageScienceController::accept(const QJsonObject& response) {
     waiting_ = false; comparing_ = true;
     status_ = "Comparing returned samples with the retained native trajectory…";
     const auto captured = captured_; const auto epoch = generation_;
+    const auto selected = job_controls_; const auto sensitivities = sensitivities_;
     auto* watcher = new QFutureWatcher<QJsonObject>(this);
     connect(watcher, &QFutureWatcher<QJsonObject>::finished, this, [this, watcher, captured, epoch] {
         const auto outcome = watcher->result(); watcher->deleteLater(); comparing_ = false;
@@ -184,8 +329,8 @@ void StorageScienceController::accept(const QJsonObject& response) {
         if (status_ == "Cancelled. The bounded comparison is finishing.") status_ = "Scientific comparison cancelled.";
         emit changed();
     });
-    watcher->setFuture(QtConcurrent::run([captured, response] {
-        try { return compare(captured, response); }
+    watcher->setFuture(QtConcurrent::run([captured, response, sensitivities, selected] {
+        try { return compare(captured, response, sensitivities, selected); }
         catch (const std::exception& error) { return QJsonObject{{"error", QString::fromUtf8(error.what())}}; }
         catch (...) { return QJsonObject{{"error", "The scientific comparison could not be completed."}}; }
     }));
@@ -195,6 +340,25 @@ void StorageScienceController::selectTank(const QString& id) {
     for (const auto& value : result_.value("tanks").toArray()) if (value.toObject().value("id").toString() == id) {
         if (tank_ != id) { tank_ = id; emit changed(); } return;
     }
+}
+QVariantList StorageScienceController::sensitivityRows() const {
+    if (result_.value("analysis_mode").toString() != "sensitivities") return {};
+    const auto tanks = result_.value("tanks").toArray();
+    qsizetype tank = -1;
+    for (qsizetype i = 0; i < tanks.size(); ++i) if (tanks[i].toObject().value("id").toString() == tank_) tank = i;
+    if (tank < 0) return {};
+    const auto selected = result_.value("selected_controls").toArray();
+    const auto derivative = result_.value("derivatives").toObject();
+    const auto matrix = derivative.value("terminal_volume_jacobian_h").toArray();
+    const auto gradient = derivative.value("cost_gradient").toArray();
+    const auto row = matrix[tank].toArray();
+    QVariantList rows;
+    for (qsizetype i = 0; i < selected.size(); ++i) {
+        auto item = selected[i].toObject().toVariantMap();
+        item["terminal_volume_jacobian_h"] = row[i].toDouble(); item["cost_gradient"] = gradient[i].toDouble();
+        rows.append(item);
+    }
+    return rows;
 }
 QVariantMap StorageScienceController::chart() const {
     const auto descriptors = result_.value("tanks").toArray();

@@ -19,8 +19,10 @@ struct NemotronConfig {
     int timeoutMs = 30000;
     int maxRetries = 2;
     // An explicit file is useful for isolated launches; otherwise discover the local .env.
-    // Nonempty process variables take precedence. File values stay local to this config.
-    static NemotronConfig fromEnvironment(const QString& envFilePath = {});
+    // Nonempty process variables take precedence. Endpoints follow the selected
+    // credential source unless explicitly overridden by the process environment.
+    // An explicit local path excludes user settings unless a saved path is supplied.
+    static NemotronConfig fromEnvironment(const QString& envFilePath = {}, const QString& savedEnvFilePath = {});
     static QString userEnvironmentFile();
 };
 

@@ -151,6 +151,72 @@ private slots:
         QVERIFY(NemotronConfig::fromEnvironment(path).apiKey == "file-fixture");
     }
 
+    void endpointFollowsCredentialSource_data() {
+        QTest::addColumn<QByteArray>("localKey");
+        QTest::addColumn<QByteArray>("savedKey");
+        QTest::addColumn<QByteArray>("processKey");
+        QTest::addColumn<QByteArray>("localEndpoint");
+        QTest::addColumn<QByteArray>("savedEndpoint");
+        QTest::addColumn<QByteArray>("processEndpoint");
+        QTest::addColumn<QString>("expectedSource");
+        QTest::addColumn<QByteArray>("expectedKey");
+        QTest::addColumn<QString>("expectedEndpoint");
+        const QByteArray localKey = "local-fixture-key", savedKey = "saved-fixture-key", processKey = "process-fixture-key";
+        const QByteArray localEndpoint = "https://project.invalid/v1", savedEndpoint = "https://saved.invalid/v1";
+        const QByteArray processEndpoint = "https://process.invalid/v1";
+        const auto nvidia = NemotronConfig{}.endpoint.toString();
+        QTest::newRow("project-endpoint-only-cannot-redirect-process-key")
+            << QByteArray{} << savedKey << processKey << localEndpoint << savedEndpoint << QByteArray{}
+            << QString("environment") << processKey << nvidia;
+        QTest::newRow("project-key-and-endpoint-cannot-redirect-overriding-process-key")
+            << localKey << savedKey << processKey << localEndpoint << savedEndpoint << QByteArray{}
+            << QString("environment") << processKey << nvidia;
+        QTest::newRow("project-endpoint-only-cannot-redirect-saved-key")
+            << QByteArray{} << savedKey << QByteArray{} << localEndpoint << QByteArray{} << QByteArray{}
+            << QString("user_file") << savedKey << nvidia;
+        QTest::newRow("saved-key-keeps-its-own-endpoint")
+            << QByteArray{} << savedKey << QByteArray{} << localEndpoint << savedEndpoint << QByteArray{}
+            << QString("user_file") << savedKey << QString("https://saved.invalid/v1/chat/completions");
+        QTest::newRow("project-key-and-endpoint-pair-is-supported")
+            << localKey << savedKey << QByteArray{} << localEndpoint << savedEndpoint << QByteArray{}
+            << QString("local_file") << localKey << QString("https://project.invalid/v1/chat/completions");
+        QTest::newRow("project-key-without-endpoint-cannot-inherit-saved-endpoint")
+            << localKey << savedKey << QByteArray{} << QByteArray{} << savedEndpoint << QByteArray{}
+            << QString("local_file") << localKey << nvidia;
+        QTest::newRow("explicit-process-endpoint-with-process-key")
+            << QByteArray{} << savedKey << processKey << localEndpoint << savedEndpoint << processEndpoint
+            << QString("environment") << processKey << QString("https://process.invalid/v1/chat/completions");
+        QTest::newRow("explicit-process-endpoint-with-local-key")
+            << localKey << savedKey << QByteArray{} << localEndpoint << savedEndpoint << processEndpoint
+            << QString("local_file") << localKey << QString("https://process.invalid/v1/chat/completions");
+        QTest::newRow("explicit-process-endpoint-with-saved-key")
+            << QByteArray{} << savedKey << QByteArray{} << localEndpoint << savedEndpoint << processEndpoint
+            << QString("user_file") << savedKey << QString("https://process.invalid/v1/chat/completions");
+    }
+
+    void endpointFollowsCredentialSource() {
+        QFETCH(QByteArray, localKey); QFETCH(QByteArray, savedKey); QFETCH(QByteArray, processKey);
+        QFETCH(QByteArray, localEndpoint); QFETCH(QByteArray, savedEndpoint); QFETCH(QByteArray, processEndpoint);
+        QFETCH(QString, expectedSource); QFETCH(QByteArray, expectedKey); QFETCH(QString, expectedEndpoint);
+        ScopedConfiguration environment;
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        const auto localPath = directory.filePath("project.env"), savedPath = directory.filePath("saved-user.env");
+        QVERIFY(writeSettings(localPath, "NVIDIA_API_KEY=" + localKey + "\nNVIDIA_BASE_URL=" + localEndpoint + "\n"));
+        QVERIFY(writeSettings(savedPath, "NVIDIA_API_KEY=" + savedKey + "\nNVIDIA_BASE_URL=" + savedEndpoint + "\n"));
+        qputenv("NVIDIA_API_KEY", processKey); qputenv("NVIDIA_BASE_URL", processEndpoint);
+        const auto config = NemotronConfig::fromEnvironment(localPath, savedPath);
+        QCOMPARE(config.credentialSource, expectedSource);
+        QVERIFY(config.apiKey.toUtf8() == expectedKey);
+        QCOMPARE(config.endpoint, QUrl(expectedEndpoint));
+        FakeNetwork network; network.responses.append(Response{200, textCompletion()});
+        NemotronClient client(config, nullptr, &network);
+        QSignalSpy success(&client, &ModelTransport::replyReady);
+        client.request(messages(), {}); QTRY_COMPARE(success.size(), 1);
+        QCOMPARE(network.requests.size(), 1);
+        QCOMPARE(network.requests.front().url(), QUrl(expectedEndpoint));
+        QVERIFY(network.requests.front().rawHeader("Authorization") == "Bearer " + expectedKey);
+    }
+
     void discoversCheckoutFileFromNestedBuildDirectoryAndRespectsWorktreeBoundary() {
         QTemporaryDir directory; QVERIFY(directory.isValid());
         ScopedConfiguration environment;

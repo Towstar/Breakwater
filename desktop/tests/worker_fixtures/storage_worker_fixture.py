@@ -92,12 +92,39 @@ def rollout(payload):
     count = min(len(full_times), payload["preview"]["max_times"])
     indices = [index * updates // (count - 1) for index in range(count)]
     times = [full_times[index] for index in indices]
-    return {"method": "storage_rollout", "method_version": 1, "identity": payload["identity"],
+    result = {"method": "storage_rollout", "method_version": 1, "identity": payload["identity"],
             "provenance": {"implementation": "torch_storage_float64", "implementation_version": "test-fixture-only",
                            "dtype": "float64", "device": "cpu", "execution_status": "completed"},
             "time_h": times, "time_indices": indices, "tank_ids": [item["id"] for item in tanks],
             "volumes_m3": [[item.get("initial_m3", 0.0) + rates[item["id"]] * value for value in times] for item in tanks],
             "cost": cost * horizon, "warnings": ["Controlled test fixture; no scientific execution claimed."]}
+    if payload["derivatives"]:
+        columns, gradient = [], []
+        for control_id in selected:
+            column = {item["id"]: 0.0 for item in tanks}
+            unit_cost = 0.0
+            for source in assets:
+                if source["kind"] == "source" and control_id == "source:" + source["id"] + ":curtail":
+                    unit_cost += source.get("cost_per_m3", 0.0)
+                    for route in payload["network"]["routes"]:
+                        if route["source_id"] == source["id"]:
+                            column[route["target_id"]] -= 1.0
+                            unit_cost -= route["cost_per_m3"]
+            for route in payload["network"]["routes"]:
+                source, target = by_id[route["source_id"]], by_id[route["target_id"]]
+                if source["kind"] == "tank" and control_id == "route:" + route["id"] + ":flow":
+                    column[source["id"]] -= 1.0
+                    if target["kind"] == "tank":
+                        column[target["id"]] += 1.0
+                    else:
+                        unit_cost += target.get("cost_per_m3", 0.0)
+                    unit_cost += route["cost_per_m3"]
+            columns.append([column[item["id"]] * horizon for item in tanks])
+            gradient.append(unit_cost * horizon)
+        result["derivatives"] = {"control_ids": list(selected),
+            "terminal_volume_jacobian_h": [[column[tank] for column in columns] for tank in range(len(tanks))],
+            "cost_gradient": gradient}
+    return result
 
 
 def emit(response):
@@ -179,6 +206,30 @@ for raw in sys.stdin.buffer:
                 result["warnings"] = ["\U0001f30a" * 1000]
             elif MODE == "oversized_warning":
                 result["warnings"] = ["\U0001f30a" * 1001]
+            elif MODE == "missing_derivatives":
+                result.pop("derivatives", None)
+            elif MODE == "derivative_id_order":
+                result["derivatives"]["control_ids"].reverse()
+            elif MODE == "derivative_id_foreign":
+                result["derivatives"]["control_ids"][0] = "invented:control"
+            elif MODE == "derivative_id_extra":
+                result["derivatives"]["control_ids"].append("extra:control")
+            elif MODE == "derivative_rows":
+                result["derivatives"]["terminal_volume_jacobian_h"].pop()
+            elif MODE == "derivative_columns":
+                result["derivatives"]["terminal_volume_jacobian_h"][0].pop()
+            elif MODE == "derivative_null":
+                result["derivatives"]["terminal_volume_jacobian_h"][0][0] = None
+            elif MODE == "derivative_infinity":
+                result["derivatives"]["terminal_volume_jacobian_h"][0][0] = 1e309
+            elif MODE == "gradient_columns":
+                result["derivatives"]["cost_gradient"].pop()
+            elif MODE == "gradient_string":
+                result["derivatives"]["cost_gradient"][0] = "1.0"
+            elif MODE == "gradient_null":
+                result["derivatives"]["cost_gradient"][0] = None
+            elif MODE == "derivative_extra":
+                result["derivatives"]["qualified"] = True
             response["result"] = result
             verified = True
     if MODE == "wrong_id":

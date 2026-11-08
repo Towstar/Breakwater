@@ -21,6 +21,11 @@ ScrollView {
         return magnitude > 1e7 || (magnitude > 0 && magnitude < 0.001) ? n.toExponential(5) : n.toFixed(4)
     }
     function detected(value) { return value === undefined ? "Not checked" : value ? "Detected" : "Not detected" }
+    function selectedColumn(id) {
+        const ids = storageScience.selectedControlIds
+        for (let i = 0; i < ids.length; ++i) if (ids[i] === id) return i + 1
+        return 0
+    }
     function comparisonChart() {
         const data = storageScience.chart || ({})
         const rows = data.series || [], series = []
@@ -121,6 +126,118 @@ ScrollView {
         Repeater {
             model: panel.resultData.warnings || []
             delegate: PlainLabel { required property var modelData; Layout.fillWidth: true; text: String(modelData); wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#ffcf70" }
+        }
+        SectionLabel { text: "SELECTED-CONTROL SENSITIVITIES · CAPTURED VALUES"; Layout.topMargin: 8 }
+        PlainLabel {
+            Layout.fillWidth: true; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#9eb5c2"
+            text: "Select interior captured controls to calculate terminal-volume and cost derivatives. Values and bounds are read only. Unselected controls remain captured constants; no input is shifted into the derivative domain."
+        }
+        PlainLabel {
+            Layout.fillWidth: true; visible: !panel.storageScience.controls.length; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#9eb5c2"
+            text: "Capture a native forecast to inspect its control values and derivative eligibility."
+        }
+        ListView {
+            id: controlsList
+            objectName: "storageSensitivityControls"
+            Layout.fillWidth: true; Layout.preferredHeight: Math.min(320, Math.max(110, contentHeight))
+            visible: count > 0
+            model: panel.storageScience.controls
+            clip: true; reuseItems: true; spacing: 6
+            boundsBehavior: Flickable.StopAtBounds
+            ScrollBar.vertical: ScrollBar {}
+            delegate: Rectangle {
+                id: controlRow
+                required property var modelData
+                width: controlsList.width - 14; height: controlContent.implicitHeight + 16
+                color: "#1d3241"; radius: 4
+                RowLayout {
+                    id: controlContent
+                    anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top; anchors.margins: 8
+                    spacing: 10
+                    CheckBox {
+                        objectName: "selectSensitivityControl_" + controlRow.modelData.control_id
+                        Accessible.name: "Select sensitivity control " + controlRow.modelData.control_id
+                        Layout.alignment: Qt.AlignTop
+                        checked: panel.selectedColumn(controlRow.modelData.control_id) > 0
+                        enabled: controlRow.modelData.eligible && !panel.busy
+                        onClicked: panel.storageScience.selectControl(controlRow.modelData.control_id, checked)
+                    }
+                    ColumnLayout {
+                        Layout.fillWidth: true; spacing: 3
+                        PlainLabel {
+                            Layout.fillWidth: true; wrapMode: Text.WrapAnywhere; font.bold: true
+                            text: controlRow.modelData.label + (panel.selectedColumn(controlRow.modelData.control_id) ? " · selected column " + panel.selectedColumn(controlRow.modelData.control_id) : "")
+                        }
+                        PlainLabel { Layout.fillWidth: true; text: controlRow.modelData.control_id; wrapMode: Text.WrapAnywhere; font.pixelSize: 11; color: "#aebfca" }
+                        PlainLabel {
+                            Layout.fillWidth: true; wrapMode: Text.WordWrap; font.pixelSize: 11
+                            text: "Captured: " + panel.number(controlRow.modelData.captured_value) + " " + controlRow.modelData.unit + " · Bounds: [" + panel.number(controlRow.modelData.minimum) + ", " + panel.number(controlRow.modelData.maximum) + "] " + controlRow.modelData.unit
+                        }
+                        PlainLabel {
+                            Layout.fillWidth: true; wrapMode: Text.WordWrap; font.pixelSize: 11
+                            color: controlRow.modelData.eligible ? "#9eb5c2" : "#ffcf70"
+                            text: controlRow.modelData.reason || (controlRow.modelData.eligible ? "Eligible interior captured value." : "Unavailable for derivatives at this captured value.")
+                        }
+                    }
+                }
+            }
+        }
+        RowLayout {
+            Layout.fillWidth: true; spacing: 10
+            Button {
+                objectName: "runStorageSensitivities"
+                text: "Run selected sensitivities"
+                enabled: panel.storageScience.canRunSensitivities && !panel.busy
+                onClicked: panel.storageScience.runSensitivities()
+            }
+            PlainLabel {
+                objectName: "storageSensitivitySelection"
+                Layout.fillWidth: true; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#9eb5c2"
+                text: panel.storageScience.selectedControlIds.length + " selected · columns follow the captured catalog order. The forward comparison uses captured controls independently of this selection."
+            }
+        }
+        SectionLabel {
+            Layout.fillWidth: true; wrapMode: Text.WrapAnywhere
+            visible: panel.storageScience.sensitivityRows.length > 0
+            text: "TERMINAL SENSITIVITIES · " + panel.storageScience.selectedTankId
+        }
+        PlainLabel {
+            Layout.fillWidth: true; visible: panel.storageScience.sensitivityRows.length > 0
+            wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#9eb5c2"
+            text: "Showing the selected tank's terminal-volume Jacobian and the cost gradient, in result column order. Select another tank above to inspect its derivatives."
+        }
+        ListView {
+            id: sensitivityList
+            objectName: "storageSensitivityResults"
+            Layout.fillWidth: true; Layout.preferredHeight: Math.min(300, Math.max(100, contentHeight))
+            visible: count > 0
+            model: panel.storageScience.sensitivityRows
+            clip: true; reuseItems: true; spacing: 6
+            boundsBehavior: Flickable.StopAtBounds
+            ScrollBar.vertical: ScrollBar {}
+            delegate: Rectangle {
+                id: sensitivityRow
+                required property var modelData
+                required property int index
+                width: sensitivityList.width - 14; height: sensitivityContent.implicitHeight + 16
+                color: "#1d3241"; radius: 4
+                ColumnLayout {
+                    id: sensitivityContent
+                    anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top; anchors.margins: 8
+                    spacing: 5
+                    PlainLabel { Layout.fillWidth: true; text: "Column " + (sensitivityRow.index + 1) + " · " + sensitivityRow.modelData.control_id; wrapMode: Text.WrapAnywhere; font.bold: true }
+                    GridLayout {
+                        Layout.fillWidth: true; columns: panel.width < 820 ? 1 : 3; columnSpacing: 18; rowSpacing: 5
+                        PlainLabel { Layout.fillWidth: true; text: "Captured: " + panel.number(sensitivityRow.modelData.captured_value) + " " + sensitivityRow.modelData.unit; wrapMode: Text.WordWrap; font.pixelSize: 11 }
+                        PlainLabel { Layout.fillWidth: true; text: "Terminal-volume Jacobian: " + panel.number(sensitivityRow.modelData.terminal_volume_jacobian_h) + " h"; wrapMode: Text.WordWrap; font.pixelSize: 11 }
+                        PlainLabel { Layout.fillWidth: true; text: "Cost gradient: " + panel.number(sensitivityRow.modelData.cost_gradient) + " synthetic units / (m³/h)"; wrapMode: Text.WordWrap; font.pixelSize: 11 }
+                    }
+                }
+            }
+        }
+        PlainLabel {
+            Layout.fillWidth: true; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#ffcf70"
+            text: "Derivatives apply only to the explicitly selected interior captured controls. They do not differentiate through bounds, candidate rejection, discrete search or operator approval, and never change operating controls."
         }
         SectionLabel { text: "LATEST WORKER PROBE / SESSION"; Layout.topMargin: 6 }
         PlainLabel { Layout.fillWidth: true; text: panel.scientificWorker.status; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#9eb5c2" }

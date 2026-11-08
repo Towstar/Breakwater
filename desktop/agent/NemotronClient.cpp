@@ -141,10 +141,12 @@ bool parseAssistant(const QByteArray& bytes, QJsonObject& assistant, QString& mo
 
 QString NemotronClient::lastResponseModel() const { return modelIdentifier(responseModel_, config_.apiKey); }
 
-NemotronConfig NemotronConfig::fromEnvironment(const QString& envFilePath) {
+NemotronConfig NemotronConfig::fromEnvironment(const QString& envFilePath, const QString& savedEnvFilePath) {
     const auto local = localEnvironmentValues(envFilePath.isEmpty() ? localEnvironmentFile() : envFilePath);
     // An explicit path isolates tests/custom launches from saved user settings.
-    const auto saved = envFilePath.isEmpty() ? localEnvironmentValues(userEnvironmentFile()) : QHash<QString, QString>{};
+    const auto savedPath = savedEnvFilePath.isEmpty()
+        ? (envFilePath.isEmpty() ? userEnvironmentFile() : QString{}) : savedEnvFilePath;
+    const auto saved = localEnvironmentValues(savedPath);
     const auto setting = [&local, &saved](const char* name) {
         const auto process = qEnvironmentVariable(name).trimmed();
         const auto file = local.value(QString::fromLatin1(name)).trimmed();
@@ -156,7 +158,15 @@ NemotronConfig NemotronConfig::fromEnvironment(const QString& envFilePath) {
     if (!qEnvironmentVariable("NVIDIA_API_KEY").trimmed().isEmpty()) config.credentialSource = "environment";
     else if (!local.value("NVIDIA_API_KEY").trimmed().isEmpty()) config.credentialSource = "local_file";
     else if (!config.apiKey.isEmpty()) config.credentialSource = "user_file";
-    const auto endpoint = setting("NVIDIA_BASE_URL");
+    auto endpoint = qEnvironmentVariable("NVIDIA_BASE_URL").trimmed();
+    if (endpoint.isEmpty()) {
+        // An automatically discovered file must never redirect a credential
+        // inherited from the process or saved for the user. Custom endpoints
+        // are allowed with their own file's key, or an explicit process override.
+        if (config.credentialSource == "local_file") endpoint = local.value("NVIDIA_BASE_URL").trimmed();
+        else if (config.credentialSource == "user_file") endpoint = saved.value("NVIDIA_BASE_URL").trimmed();
+        else if (config.apiKey.isEmpty()) endpoint = setting("NVIDIA_BASE_URL");
+    }
     if (!endpoint.isEmpty()) {
         config.endpoint = QUrl(endpoint);
         auto path = config.endpoint.path();
