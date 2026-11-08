@@ -1,8 +1,11 @@
 # Person A: PDE, simulation and scientific validation
 
 Updated November 7, 2026. Person A is the project owner/user and PDE/simulation
-developer. Start with the scientific audit below, then fixes and transport
-qualification. The audit is **planned**, not a claim of completed review.
+developer. The audit, its four reported fixes and A9 transport qualification are
+now merged through PRs #17 and #20. Start with [POST_A9_PLAN.md](POST_A9_PLAN.md)
+and the [audit dispositions](../science/AUDIT_PERSON_A.md); do not repeat A8/A9.
+The original audit sequence below is retained as context. The broader desktop
+audit and remaining integration acceptance are separate work.
 
 ## Baseline, ownership and setup
 
@@ -158,8 +161,9 @@ environments, checkpoints and credentials. B regenerates the solution and shared
 
 ```text
 Continue BREAKWATER as Person A using docs/KICKOFF_PERSON_A.md.
-Start with the scientific audit on current main, coordinate coverage with Person B,
-and deliver science/AUDIT_PERSON_A.md before new features. Preserve A3-A8 and the
-ownership/contracts. Fix audited blockers in small A-owned PRs, then implement the
-agreed A9 qualification gaps. Do not modify B's files or claim unexecuted checks.
+Read docs/POST_A9_PLAN.md and the completed audit/A9 evidence first. Inspect status
+and update your separate worktree from current main without discarding work.
+The proposed next A increment is A10a discrete FVM mass-balance proofs; the front
+accuracy study is separate. Preserve ownership/contracts and keep Person B's files
+untouched. Deliver one explicitly requested increment per PR with actual evidence.
 ```

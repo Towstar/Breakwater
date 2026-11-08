@@ -1,5 +1,9 @@
 # BREAKWATER continuation plan
 
+**Post-A9 context:** [POST_A9_PLAN.md](POST_A9_PLAN.md) records the newly pulled
+main baseline, upstream verification and remaining B-stack merge order. The current
+B implementation/status below supplements that preserved plan.
+
 **Current B handoff:** B5a runtime/deployment, B5b forward comparison and B5c explicitly
 selected captured-control derivatives are implemented in this workstream. Follow
 [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for use and [STATUS.md](STATUS.md) for actual
