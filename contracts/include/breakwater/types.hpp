@@ -1,13 +1,16 @@
 #pragma once
 
 #include <optional>
+#include <cstdint>
 #include <string>
 #include <vector>
 
 namespace breakwater {
 
-inline constexpr const char* solver_version = "constant-flow-0.1.1";
+inline constexpr const char* solver_version = "constant-flow-0.2.0";
 inline constexpr int project_version = 1;
+inline constexpr int source_allocation_project_version = 2;
+inline constexpr std::uint32_t source_share_total = 10000;
 
 enum class AssetKind { tank, source, treatment, trucking };
 
@@ -32,6 +35,10 @@ struct Route {
     bool has_pump = false;
     bool available = true;
     double cost_per_m3 = 0.0;
+    // Production-feed allocation, in hundredths of one percent. Source routes
+    // must sum to 10000; tank-origin routes keep 10000. Fractions are fixed
+    // configuration, independent of commanded curtailment/route-flow controls.
+    std::uint32_t source_share_bps = source_share_total;
 };
 
 struct Network { std::vector<Asset> assets; std::vector<Route> routes; };

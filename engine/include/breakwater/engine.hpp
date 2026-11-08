@@ -4,6 +4,11 @@
 
 namespace breakwater {
 
+// Effective source-feed flow is (production - curtailment) * share/10000.
+// Other routes use their existing setpoints. These helpers do not clip drafts.
+double route_flow_m3h(const Network& network, const Route& route);
+bool requires_source_allocations(const Network& network);
+
 struct InternalEdge { std::size_t source; std::size_t target; double flow_m3h; };
 struct CompiledNetwork {
     Network network; // Resolved immutable copy for this candidate.
