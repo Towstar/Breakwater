@@ -1,5 +1,27 @@
 # Implementation status
 
+## PR #14 pull/review and next B5 plan — November 7, 2026
+
+- Pulled main `794c7cd`, including PR #14's `d4cae03` worker mapping. Reconciled the
+  status-document conflict, preserving B7 evidence and labeling the upstream reports.
+  No desktop runtime, engine or public schema implementation changed in this merge.
+- Scoped independent protocol/mapping/integration reviews found no new consequential
+  blocker. The repo worker now implements capabilities and CPU storage execution;
+  the desktop still exposes health only and installation still copies only `worker.py`.
+- Local checks against the new worker: **20/20 combined normal CTest suites passed**,
+  the targeted MSVC ASan desktop-worker suite passed, and **11 standard-library Python
+  checks passed** (two legacy-worker plus nine framing/availability checks). A new full
+  ASan build/run, the 69-test scientific suite, 290-request native/Torch verification
+  and Lean execution were not repeated in this review.
+- The available bundled Python is 3.12.14 without Torch/PhysicsNeMo, and no process/user
+  `BREAKWATER_PYTHON` is configured. Actual PyTorch execution therefore remains an
+  acceptance gate for the next increment, not a result claimed by this pull.
+- [The next B5 task](CONTINUATION_PLAN.md#next-person-b-task-b5-desktop-storage-cross-check)
+  deploys the real runtime/modules and executes a forward-only cross-check of a current
+  retained native forecast. It explicitly handles process-local verification, per-frame
+  output bounds, retained grids, stale results and approval separation. Selected-control
+  derivatives follow after this path passes; no production B5 implementation is included.
+
 ## B7 native evidence reopen — November 7, 2026
 
 - Reconciled current main `a707b32`, including A's `f469df8` control-influence
@@ -50,15 +72,45 @@
 - Final QML lint passed. A malformed file returned a failing CLI smoke exit and no
   screenshot. The updated normal build used by the existing local launcher also passed
   actual native-evidence reopen/render smoke; the original open app was preserved.
-- Scientific worker methods still await A's agreed mapping; health is unchanged. This
+- At this B7 checkpoint, scientific worker mapping was pending; PR #14 above now
+  supplies it while the desktop remains health-only. This
   B7 subincrement does not automatically store native quality results in SQLite, complete
   clean live-model rehearsals or qualify learned predictions. No new hosted calls ran.
 
 Scope: shared base, native search, durable desktop investigations, science contracts,
-native selected-pipe viewing, and Person A's A3–A7 science/benchmark/proof increments.
-PRs #7, #8, #10 and #11 are merged; their complete histories are retained.
+native selected-pipe viewing, and Person A's A3–A8 science/benchmark/proof increments.
+PRs #7, #8, #10, #11 and #14 are merged; their complete histories are retained.
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
+
+## A8 scientific-worker integration — November 7, 2026 (upstream report)
+
+- PR #14 merged at `5c773f7` without conflicts. The repo worker implements
+  `capabilities` and CPU float64 `storage_rollout`, with selected-interior-control
+  derivatives and bounded indexed previews. Legacy health remains compatible.
+- Native C++ retains feasibility/approval authority. Worker identity is echoed
+  provenance, not authentication of a native run. Python `pipe_transport` remains
+  explicitly unimplemented; the native viewer continues to use authoritative FVM.
+- The desktop adapter still uses health only, and the installer still copies only
+  `worker.py`. B's next step is deploying the mapper/package/runtime and extending
+  capability negotiation/result handling. A copied worker alone keeps health and
+  capabilities working and reports storage unavailable.
+- Fresh merged-main direct `Breakwater.slnx` MSVC x64 RelWithDebInfo build passed,
+  followed by **18/18 combined CTest suites** (17.26 s). The strict desktop worker
+  suite passed 24 cases with zero failures/skips against the merged worker. The
+  regenerated solution retains 66 projects/180 dependencies with no missing paths.
+- The complete merged-source Python suite passed **69/69 tests** (64.571 s) using
+  the pinned CPython 3.12.13 science environment. Pinned `lake build` completed
+  1,061 jobs; all **21 theorem audits** and the expected rejection of an unapproved
+  assumption passed. No new sanitizer run is implied by these normal-build checks.
+- Re-ran worker/native verification against the just-built Visual Studio exporter:
+  **290 real NDJSON requests**, 12 actual native fixtures, three solvers, 44 interior
+  controls and 132 finite-difference comparisons passed with offline schema checks.
+  Maximum volume difference remained `7.67386154621e-13 m3`.
+- Local logs: `out/pr14-visual-studio-build.log`, `out/pr14-ctest.log`,
+  `out/pr14-python-tests.log`, `out/pr14-lean-verify.log` and
+  `out/pr14-worker-verification.json`. The versioned component report and complete
+  scope are linked from [science/WORKER.md](../science/WORKER.md).
 
 ## A7 and desktop-stack integration — November 7, 2026 (upstream report)
 
@@ -86,7 +138,7 @@ in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now deliv
   Local logs: `out/stack-visual-studio-build.log`, `out/stack-ctest.log` and
   `out/stack-asan.log`. The proof-source hashes remain identical to the fresh
   21-theorem verification above; the B stack changes no Lean sources or pins.
-- Current next science increment: implement the agreed `capabilities` and
+- At this checkpoint, the next science increment was implementing `capabilities` and
   `storage_rollout` methods in Person A's `science/` workstream, preserving legacy
   health and the published contract. Native volume approval remains authoritative;
   fixed-case PhysicsNeMo evidence does not supply arbitrary-route inference.
@@ -424,7 +476,8 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 ## Planned, not implemented in this base
 
 - Animated replay, robust optimization and additional chart types.
-- Worker scientific methods beyond health and their desktop integration.
+- Deployment and desktop integration of the implemented scientific worker methods;
+  Python pipe transport remains reserved/unimplemented.
 - Qualified/generalized ML quality predictions and transport differentiation.
 - Custom SIMD/GPU kernels and sophisticated routing handles.
 

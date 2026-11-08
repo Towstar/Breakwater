@@ -92,7 +92,7 @@ do not imply pressure/head calculations. Quality checks are not part of base fea
 
 ## Science and proofs
 
-The worker protocol/health endpoint requires only the Python 3.12 standard library:
+Worker health and capability negotiation require only the Python 3.12 standard library:
 
 ```powershell
 python science/worker.py
@@ -105,9 +105,12 @@ Send a line such as:
 {"protocol_version":1,"request_id":"check","method":"health","payload":{}}
 ```
 
-The Python worker implements protocol/health only through the asynchronous desktop
-adapter; scientific worker methods remain unwired. Standalone calculations
-are implemented separately: [PyTorch rollout and gradient checks](science/README.md),
+The repo worker now implements `capabilities` and `storage_rollout`, including
+selected-control derivatives, through the agreed science contract. See
+[science/WORKER.md](science/WORKER.md) for requests, limits and executed checks.
+The asynchronous desktop adapter still uses legacy health only. B must deploy the
+mapper/package and extend that adapter before exposing scientific operations in the UI.
+Standalone calculations also include [PyTorch rollout and gradient checks](science/README.md),
 [experimental PhysicsNeMo smoke](science/PHYSICSNEMO.md),
 [native benchmarks](engine/BENCHMARKS.md), and [Lean proofs](proofs/README.md).
 Install the documented pinned science environment before running the full Python
@@ -135,6 +138,6 @@ Do not switch branches underneath the other developer's session.
 
 The shared baseline is now committed. Continue with the [parallel workflow](docs/PARALLEL_WORK.md)
 and separate copy/paste kickoffs for [Person A](docs/KICKOFF_PERSON_A.md) and
-[Person B](docs/KICKOFF_PERSON_B.md). A3–A6 are merged through PR #6; B3 contracts
-and B4 native viewing are implemented in this workstream. Next is A's agreed scientific
-method mapping and B's desktop integration, with proof maintenance remaining A-owned.
+[Person B](docs/KICKOFF_PERSON_B.md). A3–A8, B3 contracts and B4 native viewing are
+merged. Next is B's deployment and desktop integration of the implemented scientific
+worker methods, with proof maintenance remaining A-owned.

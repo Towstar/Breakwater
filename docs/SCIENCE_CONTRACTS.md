@@ -1,15 +1,15 @@
 # B3: selected-pipe and scientific boundaries
 
-This additive boundary connects the desktop to the native selected-pipe transport and
-defines proposed future worker methods. Existing project-v1 files, health requests,
+This additive boundary connects the desktop to native selected-pipe transport and
+defines the versioned scientific worker methods. Existing project-v1 files, health requests,
 volume simulations and approval rules remain readable and authoritative.
 
-The Python worker currently implements **health only**. Standalone Person A code now
-contains a CPU float64 storage rollout and an actually executed fixed-case PhysicsNeMo
-smoke; those private fixtures are not the application's wire format. Neither installing
-packages nor publishing these schemas exposes a worker method. Person A must review
-the units/array semantics and implement the agreed mapping before capability negotiation
-can advertise scientific execution.
+The repo worker implements **health, capabilities and storage_rollout** through A8's
+adopted project/wire mapping. Standalone private fixtures remain distinct from that
+format. The desktop adapter still uses legacy health only; its scientific-method
+negotiation and deployment of the mapper/package/runtime remain B's next increment.
+Installing packages does not establish execution verification. See
+[science/WORKER.md](../science/WORKER.md) for the implementation and actual evidence.
 
 The B4 native selected-pipe viewer calls `breakwater::transport` directly, outside the UI
 thread. It does not require Python. Native scalar transport is separate from tank-volume
@@ -155,20 +155,27 @@ in either stream or an artifact. Error responses use `status: error` and a bound
 `{code,message}` object; malformed framing can have null request identity. A well-formed
 request error must retain the exact request ID.
 
-Reserved methods in [the schemas](../contracts/science/README.md):
+Methods in [the schemas](../contracts/science/README.md):
 
 | Method | Scope and implementation status |
 |---|---|
 | `health` | Existing v1 exchange, unchanged; package discovery is not science execution |
-| `capabilities` | Proposed versioned method availability/limits; not implemented by current worker |
-| `storage_rollout` | Proposed CPU float64 storage/derivatives mapping to A3; not wired |
-| `pipe_transport` | Proposed selected-pipe result envelope; only native-FVM provenance in v1; not a Python method yet |
+| `capabilities` | Implemented deployment/limit record and process-local execution verification |
+| `storage_rollout` | Implemented CPU float64 project-network mapping, previews and selected-control derivatives |
+| `pipe_transport` | Reserved selected-pipe envelope with native-FVM provenance; Python method returns `not_implemented` |
 
-The current worker returns `not_implemented` for all three reserved methods, rather
-than advertising a passing stub. The future capability record separates `implemented`
-from `execution_verified`; a detected package cannot set either scientific flag.
+The capability record separates deployed `implemented` support from
+`execution_verified`; package discovery cannot establish scientific execution.
+Storage verification becomes true only after a successful checked, size-bounded
+result in that process. A `worker.py`-only installation preserves health/capabilities
+and reports storage unavailable until its mapper is deployed.
 Actual execution records method/implementation versions, dtype, device, identity and
 warnings. Unsupported runtime, parameters, outputs and work budgets fail explicitly.
+
+Storage derivative columns match the explicit request `controls` list in input order;
+omitted controls remain captured constants. Selected fixed/boundary controls, including
+the source-feed capacity boundary, fail explicitly for derivative requests. No selected
+controls yields empty derivative columns. This does not differentiate rejection or approval.
 
 Native transport supports at most 4096 cells, 10001 frames, four million field values,
 one million substeps and 50 million cell updates. These native limits do **not** fit

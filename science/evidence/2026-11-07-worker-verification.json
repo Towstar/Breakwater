@@ -1,0 +1,1747 @@
+{
+  "status": "passed",
+  "started_utc": "2026-11-08T00:01:37.292702+00:00",
+  "finished_utc": "2026-11-08T00:01:43.733665+00:00",
+  "python_version": "3.12.13",
+  "torch_version": "2.15.0+cpu",
+  "device": "cpu",
+  "dtype": "float64",
+  "jsonschema_version": "4.25.1",
+  "referencing_version": "0.37.0",
+  "native_executable_sha256": "3358d436594617c2583fc6857cd91fbbd1f5d1b268bff748892348442a5f6b4f",
+  "native_solver_version": "constant-flow-0.1.0",
+  "schema_validation": "Draft 2020-12, offline pinned repository schemas",
+  "request_count": 290,
+  "maximum_response_line_bytes": 1684,
+  "response_line_limit_bytes": 1048576,
+  "capabilities_before": {
+    "capability_version": 1,
+    "methods": [
+      {
+        "name": "health",
+        "method_version": 1,
+        "implemented": true,
+        "execution_verified": true
+      },
+      {
+        "name": "capabilities",
+        "method_version": 1,
+        "implemented": true,
+        "execution_verified": true
+      },
+      {
+        "name": "storage_rollout",
+        "method_version": 1,
+        "implemented": true,
+        "execution_verified": false
+      },
+      {
+        "name": "pipe_transport",
+        "method_version": 1,
+        "implemented": false,
+        "execution_verified": false
+      }
+    ],
+    "max_line_bytes": 1048576,
+    "max_preview_times": 256,
+    "max_preview_cells": 128,
+    "artifacts_supported": false
+  },
+  "capabilities_after": {
+    "capability_version": 1,
+    "methods": [
+      {
+        "name": "health",
+        "method_version": 1,
+        "implemented": true,
+        "execution_verified": true
+      },
+      {
+        "name": "capabilities",
+        "method_version": 1,
+        "implemented": true,
+        "execution_verified": true
+      },
+      {
+        "name": "storage_rollout",
+        "method_version": 1,
+        "implemented": true,
+        "execution_verified": true
+      },
+      {
+        "name": "pipe_transport",
+        "method_version": 1,
+        "implemented": false,
+        "execution_verified": false
+      }
+    ],
+    "max_line_bytes": 1048576,
+    "max_preview_times": 256,
+    "max_preview_cells": 128,
+    "artifacts_supported": false
+  },
+  "forward_tolerance": {
+    "absolute": 1e-09,
+    "relative": 1e-10
+  },
+  "gradient_tolerance": {
+    "absolute": 1e-06,
+    "relative": 0.0001
+  },
+  "source_hashes": [
+    {
+      "path": "science/worker.py",
+      "sha256": "3055ccee46726cd0d67b892a83ef7f11db925b0bd0d5831a4c578104a9bb54c8"
+    },
+    {
+      "path": "science/worker_storage.py",
+      "sha256": "b15f53c1d0cef299b46c34c2fa2ec827a02609f813463aec1b0ad1cea0ce06ba"
+    },
+    {
+      "path": "science/verify_worker.py",
+      "sha256": "d7bcad13014998f6a8af588aea2dbfa9a360d08ee5812a9de66ccd8dc8c6c498"
+    },
+    {
+      "path": "science/breakwater_science/rollout.py",
+      "sha256": "c85ba93e254a95b7014577fa170c25e2e622e0edc9c041f81c04f8d46cd55f3b"
+    },
+    {
+      "path": "contracts/science/pipe-parameters-v1.schema.json",
+      "sha256": "70c92f92eb24be9c754c030ff6435cfe77eb07a6051054d8c24f788fbe99da74"
+    },
+    {
+      "path": "contracts/science/request-v1.schema.json",
+      "sha256": "48c3487b59d303b77b6f187ca61565345bd19c03a4c76d96922fcdbdc1c6bbe0"
+    },
+    {
+      "path": "contracts/science/response-v1.schema.json",
+      "sha256": "5d6e75a38a5c71ec8ce0ea9a79b75313358d3a9a2eb2d5fd13a2d96097c140c5"
+    },
+    {
+      "path": "science/requirements-worker-tests.in",
+      "sha256": "7570430b61291f68aabd1f2df634ec17dd89f636e1491629126585ffc00cf3ac"
+    },
+    {
+      "path": "science/requirements-worker-tests-win-py312.txt",
+      "sha256": "56869e806972dc759766c4fbab1003595c7600d404d80fdc19a0eae234b86ba5"
+    }
+  ],
+  "cases": [
+    {
+      "name": "healthy",
+      "tank_ids": [
+        "tank_a",
+        "tank_b"
+      ],
+      "preview_indices": [
+        0,
+        7,
+        15,
+        22,
+        30,
+        37,
+        45,
+        52,
+        60,
+        67,
+        75,
+        82,
+        90,
+        97,
+        105,
+        112,
+        120
+      ],
+      "native_samples": 121,
+      "native_feasible": true,
+      "final_m3": [
+        104.00000000000034,
+        114.0
+      ],
+      "cost_units": 0.0,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 3.410605131648481e-13,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:source_a:curtail",
+        "route:main_pump:flow",
+        "route:backup_pump:flow",
+        "route:bypass:flow",
+        "route:truck_route:flow"
+      ],
+      "ad_jacobian_error_h": 3.552713678800501e-15,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 3.4219738154206425e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 2.985416358569637e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 2.9417601687953265e-09,
+          "cost_gradient_error": 1.940247784659732e-08
+        },
+        {
+          "control_id": "route:main_pump:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0275,
+          "terminal_jacobian_error_h": 1.871702792755059e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:main_pump:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0027500000000000003,
+          "terminal_jacobian_error_h": 1.4868151154701081e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:main_pump:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.000275,
+          "terminal_jacobian_error_h": 1.443161146141847e-09,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0175,
+          "terminal_jacobian_error_h": 6.203926261605375e-12,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00175,
+          "terminal_jacobian_error_h": 1.8384849198582742e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00017500000000000003,
+          "terminal_jacobian_error_h": 1.4019185812230717e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0125,
+          "terminal_jacobian_error_h": 3.7061909097246826e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00125,
+          "terminal_jacobian_error_h": 3.269633452873677e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.000125,
+          "terminal_jacobian_error_h": 3.2259777071885765e-09,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.011,
+          "terminal_jacobian_error_h": 4.704014955336788e-11,
+          "cost_gradient_error": 5.289280124998186e-11
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0011,
+          "terminal_jacobian_error_h": 2.427626988321663e-10,
+          "cost_gradient_error": 7.143796665332047e-10
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00011,
+          "terminal_jacobian_error_h": 1.7710322097741482e-10,
+          "cost_gradient_error": 5.900119504076429e-09
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "baseline",
+      "tank_ids": [
+        "tank_a",
+        "tank_b"
+      ],
+      "preview_indices": [
+        0,
+        7,
+        15,
+        22,
+        30,
+        37,
+        45,
+        52,
+        60,
+        67,
+        75,
+        82,
+        90,
+        97,
+        105,
+        112,
+        120
+      ],
+      "native_samples": 121,
+      "native_feasible": false,
+      "final_m3": [
+        235.99999999999923,
+        114.0
+      ],
+      "cost_units": 0.0,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 7.673861546209082e-13,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:source_a:curtail",
+        "route:backup_pump:flow",
+        "route:bypass:flow",
+        "route:truck_route:flow"
+      ],
+      "ad_jacobian_error_h": 3.552713678800501e-15,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 2.3798740755864856e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 1.9432855324907905e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 1.8996311190733195e-09,
+          "cost_gradient_error": 1.940247784659732e-08
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0175,
+          "terminal_jacobian_error_h": 6.203926261605375e-12,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00175,
+          "terminal_jacobian_error_h": 1.8384849198582742e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00017500000000000003,
+          "terminal_jacobian_error_h": 1.4019185812230717e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0125,
+          "terminal_jacobian_error_h": 3.7061909097246826e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00125,
+          "terminal_jacobian_error_h": 3.269633452873677e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.000125,
+          "terminal_jacobian_error_h": 3.2259777071885765e-09,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.011,
+          "terminal_jacobian_error_h": 3.218358912704389e-11,
+          "cost_gradient_error": 5.289280124998186e-11
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0011,
+          "terminal_jacobian_error_h": 1.4587087093786977e-10,
+          "cost_gradient_error": 7.143796665332047e-10
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00011,
+          "terminal_jacobian_error_h": 1.3398095966010715e-09,
+          "cost_gradient_error": 5.900119504076429e-09
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "bad",
+      "tank_ids": [
+        "tank_a",
+        "tank_b"
+      ],
+      "preview_indices": [
+        0,
+        7,
+        15,
+        22,
+        30,
+        37,
+        45,
+        52,
+        60,
+        67,
+        75,
+        82,
+        90,
+        97,
+        105,
+        112,
+        120
+      ],
+      "native_samples": 121,
+      "native_feasible": false,
+      "final_m3": [
+        80.0,
+        132.00000000000068
+      ],
+      "cost_units": 9030.0,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 6.821210263296962e-13,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:source_a:curtail",
+        "route:backup_pump:flow",
+        "route:bypass:flow",
+        "route:truck_route:flow"
+      ],
+      "ad_jacobian_error_h": 3.552713678800501e-15,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 2.3798740755864856e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 1.9432855324907905e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 1.8996311190733195e-09,
+          "cost_gradient_error": 1.940247784659732e-08
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0175,
+          "terminal_jacobian_error_h": 6.203926261605375e-12,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00175,
+          "terminal_jacobian_error_h": 1.8384849198582742e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00017500000000000003,
+          "terminal_jacobian_error_h": 1.4019185812230717e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0125,
+          "terminal_jacobian_error_h": 3.7061909097246826e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00125,
+          "terminal_jacobian_error_h": 3.269633452873677e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.000125,
+          "terminal_jacobian_error_h": 3.2259777071885765e-09,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.011,
+          "terminal_jacobian_error_h": 3.218358912704389e-11,
+          "cost_gradient_error": 5.289280124998186e-11
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0011,
+          "terminal_jacobian_error_h": 1.4587087093786977e-10,
+          "cost_gradient_error": 7.143796665332047e-10
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00011,
+          "terminal_jacobian_error_h": 1.3398095966010715e-09,
+          "cost_gradient_error": 5.900119504076429e-09
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "mixed",
+      "tank_ids": [
+        "tank_a",
+        "tank_b"
+      ],
+      "preview_indices": [
+        0,
+        7,
+        15,
+        22,
+        30,
+        37,
+        45,
+        52,
+        60,
+        67,
+        75,
+        82,
+        90,
+        97,
+        105,
+        112,
+        120
+      ],
+      "native_samples": 121,
+      "native_feasible": true,
+      "final_m3": [
+        80.0,
+        117.00000000000068
+      ],
+      "cost_units": 12780.0,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 6.821210263296962e-13,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:source_a:curtail",
+        "route:backup_pump:flow",
+        "route:bypass:flow",
+        "route:truck_route:flow"
+      ],
+      "ad_jacobian_error_h": 3.552713678800501e-15,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 2.3798740755864856e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 1.9432855324907905e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source_a:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 1.8996311190733195e-09,
+          "cost_gradient_error": 1.940247784659732e-08
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0175,
+          "terminal_jacobian_error_h": 6.203926261605375e-12,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00175,
+          "terminal_jacobian_error_h": 1.8384849198582742e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:backup_pump:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00017500000000000003,
+          "terminal_jacobian_error_h": 1.4019185812230717e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0125,
+          "terminal_jacobian_error_h": 3.7061909097246826e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00125,
+          "terminal_jacobian_error_h": 3.269633452873677e-10,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:bypass:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.000125,
+          "terminal_jacobian_error_h": 3.2259777071885765e-09,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.011,
+          "terminal_jacobian_error_h": 3.218358912704389e-11,
+          "cost_gradient_error": 5.289280124998186e-11
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0011,
+          "terminal_jacobian_error_h": 1.4587087093786977e-10,
+          "cost_gradient_error": 7.143796665332047e-10
+        },
+        {
+          "control_id": "route:truck_route:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00011,
+          "terminal_jacobian_error_h": 1.3398095966010715e-09,
+          "cost_gradient_error": 5.900119504076429e-09
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "renamed_costed_interior",
+      "tank_ids": [
+        "asset:\"\\\n0",
+        "asset:\"\\\n1"
+      ],
+      "preview_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "native_samples": 8,
+      "native_feasible": true,
+      "final_m3": [
+        107.30000000000001,
+        117.89999999999996
+      ],
+      "cost_units": 4289.35,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 4.263256414560601e-14,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:asset:\"\\\n2:curtail",
+        "route:route:\"\\\t3:flow",
+        "route:route:\"\\\t4:flow",
+        "route:route:\"\\\t5:flow"
+      ],
+      "ad_jacobian_error_h": 0.0,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:asset:\"\\\n2:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 4.2432724001173483e-13,
+          "cost_gradient_error": 2.8990143619012088e-12
+        },
+        {
+          "control_id": "source:asset:\"\\\n2:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 5.259792601464142e-12,
+          "cost_gradient_error": 2.8990143619012088e-12
+        },
+        {
+          "control_id": "source:asset:\"\\\n2:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 2.231594908863599e-10,
+          "cost_gradient_error": 3.0287310437415726e-09
+        },
+        {
+          "control_id": "route:route:\"\\\t3:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0175,
+          "terminal_jacobian_error_h": 9.28812582401406e-13,
+          "cost_gradient_error": 1.9749091251242135e-11
+        },
+        {
+          "control_id": "route:route:\"\\\t3:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00175,
+          "terminal_jacobian_error_h": 9.627632024944432e-12,
+          "cost_gradient_error": 6.236566818529354e-12
+        },
+        {
+          "control_id": "route:route:\"\\\t3:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00017500000000000003,
+          "terminal_jacobian_error_h": 1.1519429854445207e-10,
+          "cost_gradient_error": 7.733305107393562e-10
+        },
+        {
+          "control_id": "route:route:\"\\\t4:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0125,
+          "terminal_jacobian_error_h": 1.1823875212257917e-12,
+          "cost_gradient_error": 2.1827872842550278e-11
+        },
+        {
+          "control_id": "route:route:\"\\\t4:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00125,
+          "terminal_jacobian_error_h": 3.3650859876388495e-12,
+          "cost_gradient_error": 5.820766091346741e-11
+        },
+        {
+          "control_id": "route:route:\"\\\t4:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.000125,
+          "terminal_jacobian_error_h": 4.210964910100756e-11,
+          "cost_gradient_error": 7.8580342233181e-10
+        },
+        {
+          "control_id": "route:route:\"\\\t5:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.011,
+          "terminal_jacobian_error_h": 1.1688428003253648e-12,
+          "cost_gradient_error": 2.1501023184100632e-11
+        },
+        {
+          "control_id": "route:route:\"\\\t5:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0011,
+          "terminal_jacobian_error_h": 7.228440068729469e-12,
+          "cost_gradient_error": 5.986180440231692e-10
+        },
+        {
+          "control_id": "route:route:\"\\\t5:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.00011,
+          "terminal_jacobian_error_h": 7.674483271102872e-11,
+          "cost_gradient_error": 2.295223566761706e-09
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "branching_shared",
+      "tank_ids": [
+        "west",
+        "buffer",
+        "south"
+      ],
+      "preview_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12
+      ],
+      "native_samples": 13,
+      "native_feasible": true,
+      "final_m3": [
+        105.39999999999993,
+        116.19999999999995,
+        102.70000000000005
+      ],
+      "cost_units": 687.1500000000001,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 8.526512829121202e-14,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:production:curtail",
+        "source:secondary:curtail",
+        "route:west_buffer:flow",
+        "route:west_south:flow",
+        "route:buffer_south:flow",
+        "route:south_treat:flow",
+        "route:buffer_treat:flow",
+        "route:west_truck:flow",
+        "route:buffer_truck:flow"
+      ],
+      "ad_jacobian_error_h": 0.0,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:production:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.004,
+          "terminal_jacobian_error_h": 2.589040093425865e-12,
+          "cost_gradient_error": 2.1387336346379016e-12
+        },
+        {
+          "control_id": "source:production:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0004,
+          "terminal_jacobian_error_h": 3.9892533720831125e-11,
+          "cost_gradient_error": 2.5365665123899817e-10
+        },
+        {
+          "control_id": "source:production:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 4e-05,
+          "terminal_jacobian_error_h": 2.885824912368662e-10,
+          "cost_gradient_error": 5.989946316731221e-10
+        },
+        {
+          "control_id": "source:secondary:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.0015,
+          "terminal_jacobian_error_h": 3.353006761130928e-11,
+          "cost_gradient_error": 6.487699266699565e-11
+        },
+        {
+          "control_id": "source:secondary:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00015000000000000001,
+          "terminal_jacobian_error_h": 1.3774359430840377e-10,
+          "cost_gradient_error": 1.0913048242855439e-11
+        },
+        {
+          "control_id": "source:secondary:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 1.5000000000000002e-05,
+          "terminal_jacobian_error_h": 4.4483696726160815e-09,
+          "cost_gradient_error": 1.1357770723918748e-08
+        },
+        {
+          "control_id": "route:west_buffer:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 5.759837051755312e-13,
+          "cost_gradient_error": 1.297539853339913e-11
+        },
+        {
+          "control_id": "route:west_buffer:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 7.068257090736552e-11,
+          "cost_gradient_error": 2.1826984664130578e-12
+        },
+        {
+          "control_id": "route:west_buffer:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 1.8511281396627055e-10,
+          "cost_gradient_error": 7.600948759289849e-10
+        },
+        {
+          "control_id": "route:west_south:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.006,
+          "terminal_jacobian_error_h": 7.918110611626616e-12,
+          "cost_gradient_error": 3.2738256550146616e-12
+        },
+        {
+          "control_id": "route:west_south:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0006000000000000001,
+          "terminal_jacobian_error_h": 7.477130026245504e-12,
+          "cost_gradient_error": 3.2738256550146616e-12
+        },
+        {
+          "control_id": "route:west_south:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 6.000000000000001e-05,
+          "terminal_jacobian_error_h": 4.2196068861244385e-10,
+          "cost_gradient_error": 1.5190981805801584e-09
+        },
+        {
+          "control_id": "route:buffer_south:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.01,
+          "terminal_jacobian_error_h": 5.786482404346316e-12,
+          "cost_gradient_error": 5.9117155615240335e-12
+        },
+        {
+          "control_id": "route:buffer_south:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.001,
+          "terminal_jacobian_error_h": 1.857625164802812e-11,
+          "cost_gradient_error": 1.191438059322536e-10
+        },
+        {
+          "control_id": "route:buffer_south:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.0001,
+          "terminal_jacobian_error_h": 1.3774315021919392e-10,
+          "cost_gradient_error": 5.4569682106375694e-12
+        },
+        {
+          "control_id": "route:south_treat:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.01,
+          "terminal_jacobian_error_h": 2.029487689014786e-12,
+          "cost_gradient_error": 1.0457412713549274e-11
+        },
+        {
+          "control_id": "route:south_treat:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.001,
+          "terminal_jacobian_error_h": 4.3653969328261155e-12,
+          "cost_gradient_error": 9.186074123590515e-11
+        },
+        {
+          "control_id": "route:south_treat:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.0001,
+          "terminal_jacobian_error_h": 1.3774315021919392e-10,
+          "cost_gradient_error": 1.1150422807304494e-09
+        },
+        {
+          "control_id": "route:buffer_treat:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 3.7125857943465235e-13,
+          "cost_gradient_error": 4.4853010194856324e-12
+        },
+        {
+          "control_id": "route:buffer_treat:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 7.068257090736552e-11,
+          "cost_gradient_error": 1.964295393008797e-11
+        },
+        {
+          "control_id": "route:buffer_treat:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 1.8511281396627055e-10,
+          "cost_gradient_error": 7.775540211696352e-10
+        },
+        {
+          "control_id": "route:west_truck:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.005,
+          "terminal_jacobian_error_h": 5.582201367815287e-12,
+          "cost_gradient_error": 3.0745184176339535e-11
+        },
+        {
+          "control_id": "route:west_truck:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0005,
+          "terminal_jacobian_error_h": 1.857625164802812e-11,
+          "cost_gradient_error": 1.4443202189795556e-10
+        },
+        {
+          "control_id": "route:west_truck:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 5e-05,
+          "terminal_jacobian_error_h": 1.3774315021919392e-10,
+          "cost_gradient_error": 2.190795100887044e-09
+        },
+        {
+          "control_id": "route:buffer_truck:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.005,
+          "terminal_jacobian_error_h": 9.845457782375888e-12,
+          "cost_gradient_error": 2.638245177877252e-11
+        },
+        {
+          "control_id": "route:buffer_truck:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0005,
+          "terminal_jacobian_error_h": 1.3774315021919392e-10,
+          "cost_gradient_error": 1.4006928950038855e-10
+        },
+        {
+          "control_id": "route:buffer_truck:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 5e-05,
+          "terminal_jacobian_error_h": 1.3774315021919392e-10,
+          "cost_gradient_error": 2.361041140375164e-09
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "one_tank_no_internal",
+      "tank_ids": [
+        "only"
+      ],
+      "preview_indices": [
+        0,
+        2,
+        5,
+        8,
+        10,
+        13,
+        16,
+        18,
+        21,
+        24,
+        26,
+        29,
+        32,
+        34,
+        37,
+        40,
+        43
+      ],
+      "native_samples": 44,
+      "native_feasible": true,
+      "final_m3": [
+        3.749999999999992
+      ],
+      "cost_units": 27.75,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 7.993605777301127e-15,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:source:curtail",
+        "route:out:flow"
+      ],
+      "ad_jacobian_error_h": 8.881784197001252e-16,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:source:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.001,
+          "terminal_jacobian_error_h": 5.577760475716786e-13,
+          "cost_gradient_error": 4.547473508864641e-13
+        },
+        {
+          "control_id": "source:source:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0001,
+          "terminal_jacobian_error_h": 4.18580725636275e-11,
+          "cost_gradient_error": 2.7966962079517543e-11
+        },
+        {
+          "control_id": "source:source:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 1e-05,
+          "terminal_jacobian_error_h": 8.190137457120272e-10,
+          "cost_gradient_error": 2.5624835586768313e-10
+        },
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.002,
+          "terminal_jacobian_error_h": 7.7982065249671e-13,
+          "cost_gradient_error": 6.039613253960852e-13
+        },
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0002,
+          "terminal_jacobian_error_h": 3.963762651437719e-11,
+          "cost_gradient_error": 1.7479351299698465e-11
+        },
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 2e-05,
+          "terminal_jacobian_error_h": 2.475575300309174e-11,
+          "cost_gradient_error": 1.0629808144813069e-10
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "zero_controls",
+      "tank_ids": [
+        "isolated"
+      ],
+      "preview_indices": [
+        0,
+        1
+      ],
+      "native_samples": 2,
+      "native_feasible": true,
+      "final_m3": [
+        6.0
+      ],
+      "cost_units": 0.0,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [],
+      "ad_jacobian_error_h": 0.0,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "capacity_equality",
+      "tank_ids": [
+        "full"
+      ],
+      "preview_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "native_samples": 8,
+      "native_feasible": true,
+      "final_m3": [
+        10.0
+      ],
+      "cost_units": 0.0,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 8.881784197001252e-16,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:source:curtail"
+      ],
+      "ad_jacobian_error_h": 0.0,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:source:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.001,
+          "terminal_jacobian_error_h": 2.2026824808563106e-13,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0001,
+          "terminal_jacobian_error_h": 1.354294454358751e-11,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "source:source:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 1e-05,
+          "terminal_jacobian_error_h": 1.3102408047416247e-11,
+          "cost_gradient_error": 0.0
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "unclipped_negative",
+      "tank_ids": [
+        "drains"
+      ],
+      "preview_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8
+      ],
+      "native_samples": 9,
+      "native_feasible": false,
+      "final_m3": [
+        -5.0
+      ],
+      "cost_units": 0.0,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "route:out:flow"
+      ],
+      "ad_jacobian_error_h": 0.0,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.001,
+          "terminal_jacobian_error_h": 2.1938006966593093e-13,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0001,
+          "terminal_jacobian_error_h": 7.7982065249671e-13,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 1e-05,
+          "terminal_jacobian_error_h": 8.550937735662956e-12,
+          "cost_gradient_error": 0.0
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "stored_tolerance",
+      "tank_ids": [
+        "tank"
+      ],
+      "preview_indices": [
+        0,
+        1,
+        2,
+        3,
+        4
+      ],
+      "native_samples": 5,
+      "native_feasible": true,
+      "final_m3": [
+        3.999999999500001
+      ],
+      "cost_units": 0.0,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 8.881784197001252e-16,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "route:out:flow"
+      ],
+      "ad_jacobian_error_h": 0.0,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.001,
+          "terminal_jacobian_error_h": 7.780442956573097e-13,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0001,
+          "terminal_jacobian_error_h": 6.771472271793755e-12,
+          "cost_gradient_error": 0.0
+        },
+        {
+          "control_id": "route:out:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 1e-05,
+          "terminal_jacobian_error_h": 3.78578279836006e-11,
+          "cost_gradient_error": 0.0
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    },
+    {
+      "name": "shared_destination_overload",
+      "tank_ids": [
+        "west",
+        "buffer",
+        "south"
+      ],
+      "preview_indices": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7
+      ],
+      "native_samples": 8,
+      "native_feasible": false,
+      "final_m3": [
+        103.59999999999998,
+        105.4,
+        102.7
+      ],
+      "cost_units": 207.675,
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 2.842170943040401e-14,
+          "cost_units": 0.0
+        }
+      },
+      "requested_control_ids": [
+        "source:production:curtail",
+        "source:secondary:curtail",
+        "route:west_buffer:flow",
+        "route:west_south:flow",
+        "route:buffer_south:flow",
+        "route:south_treat:flow",
+        "route:buffer_treat:flow",
+        "route:west_truck:flow",
+        "route:buffer_truck:flow"
+      ],
+      "ad_jacobian_error_h": 0.0,
+      "ad_cost_gradient_error": 0.0,
+      "central_difference_checks": [
+        {
+          "control_id": "source:production:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.004,
+          "terminal_jacobian_error_h": 1.4551693183761927e-12,
+          "cost_gradient_error": 3.0810909379397344e-12
+        },
+        {
+          "control_id": "source:production:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0004,
+          "terminal_jacobian_error_h": 5.183553586363132e-11,
+          "cost_gradient_error": 6.086775528046928e-11
+        },
+        {
+          "control_id": "source:production:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 4e-05,
+          "terminal_jacobian_error_h": 5.698892469041539e-10,
+          "cost_gradient_error": 2.7403146418691904e-10
+        },
+        {
+          "control_id": "source:secondary:curtail",
+          "relative_step": 0.001,
+          "step_m3h": 0.0015,
+          "terminal_jacobian_error_h": 8.018807839960118e-12,
+          "cost_gradient_error": 1.530997550958091e-11
+        },
+        {
+          "control_id": "source:secondary:curtail",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00015000000000000001,
+          "terminal_jacobian_error_h": 1.4550582960737302e-12,
+          "cost_gradient_error": 1.8584023209200495e-10
+        },
+        {
+          "control_id": "source:secondary:curtail",
+          "relative_step": 1e-05,
+          "step_m3h": 1.5000000000000002e-05,
+          "terminal_jacobian_error_h": 8.511962246160465e-10,
+          "cost_gradient_error": 1.8911427979162454e-09
+        },
+        {
+          "control_id": "route:west_buffer:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 2.334354931576854e-12,
+          "cost_gradient_error": 3.0619395907649505e-12
+        },
+        {
+          "control_id": "route:west_buffer:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 2.040290159044389e-11,
+          "cost_gradient_error": 3.862316022562595e-11
+        },
+        {
+          "control_id": "route:west_buffer:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 2.856721526001138e-10,
+          "cost_gradient_error": 3.7968367339047404e-10
+        },
+        {
+          "control_id": "route:west_south:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.006,
+          "terminal_jacobian_error_h": 9.133804823591163e-13,
+          "cost_gradient_error": 1.0913492332065289e-12
+        },
+        {
+          "control_id": "route:west_south:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0006000000000000001,
+          "terminal_jacobian_error_h": 2.5139890169612045e-11,
+          "cost_gradient_error": 1.0912382109040664e-12
+        },
+        {
+          "control_id": "route:west_south:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 6.000000000000001e-05,
+          "terminal_jacobian_error_h": 5.698892469041539e-10,
+          "cost_gradient_error": 1.9056933808769827e-10
+        },
+        {
+          "control_id": "route:buffer_south:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.01,
+          "terminal_jacobian_error_h": 3.4083846855992306e-14,
+          "cost_gradient_error": 1.0231815394945443e-12
+        },
+        {
+          "control_id": "route:buffer_south:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.001,
+          "terminal_jacobian_error_h": 1.2755685396825811e-11,
+          "cost_gradient_error": 3.0240698833949864e-11
+        },
+        {
+          "control_id": "route:buffer_south:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.0001,
+          "terminal_jacobian_error_h": 2.827619249856639e-10,
+          "cost_gradient_error": 2.8603608370758593e-10
+        },
+        {
+          "control_id": "route:south_treat:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.01,
+          "terminal_jacobian_error_h": 3.4083846855992306e-14,
+          "cost_gradient_error": 1.5916157281026244e-12
+        },
+        {
+          "control_id": "route:south_treat:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.001,
+          "terminal_jacobian_error_h": 1.2755685396825811e-11,
+          "cost_gradient_error": 7.275957614183426e-12
+        },
+        {
+          "control_id": "route:south_treat:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 0.0001,
+          "terminal_jacobian_error_h": 2.827619249856639e-10,
+          "cost_gradient_error": 7.275957614183426e-12
+        },
+        {
+          "control_id": "route:buffer_treat:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.0075,
+          "terminal_jacobian_error_h": 2.334354931576854e-12,
+          "cost_gradient_error": 1.0311751452718454e-12
+        },
+        {
+          "control_id": "route:buffer_treat:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.00075,
+          "terminal_jacobian_error_h": 2.040290159044389e-11,
+          "cost_gradient_error": 6.547651310029323e-12
+        },
+        {
+          "control_id": "route:buffer_treat:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 7.500000000000001e-05,
+          "terminal_jacobian_error_h": 2.8276203600796634e-10,
+          "cost_gradient_error": 6.547651310029323e-12
+        },
+        {
+          "control_id": "route:west_truck:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.005,
+          "terminal_jacobian_error_h": 3.4083846855992306e-14,
+          "cost_gradient_error": 6.458833468059311e-12
+        },
+        {
+          "control_id": "route:west_truck:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0005,
+          "terminal_jacobian_error_h": 1.2755685396825811e-11,
+          "cost_gradient_error": 2.7647217848425498e-11
+        },
+        {
+          "control_id": "route:west_truck:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 5e-05,
+          "terminal_jacobian_error_h": 2.827619249856639e-10,
+          "cost_gradient_error": 2.7647217848425498e-11
+        },
+        {
+          "control_id": "route:buffer_truck:flow",
+          "relative_step": 0.001,
+          "step_m3h": 0.005,
+          "terminal_jacobian_error_h": 3.4083846855992306e-14,
+          "cost_gradient_error": 5.002220859751105e-12
+        },
+        {
+          "control_id": "route:buffer_truck:flow",
+          "relative_step": 0.0001,
+          "step_m3h": 0.0005,
+          "terminal_jacobian_error_h": 1.2755685396825811e-11,
+          "cost_gradient_error": 2.773958840407431e-11
+        },
+        {
+          "control_id": "route:buffer_truck:flow",
+          "relative_step": 1e-05,
+          "step_m3h": 5e-05,
+          "terminal_jacobian_error_h": 2.827619249856639e-10,
+          "cost_gradient_error": 5.975380190648139e-10
+        }
+      ],
+      "provenance": {
+        "implementation": "torch_storage_float64",
+        "implementation_version": "torch-constant-flow-0.1.0+worker-v1",
+        "dtype": "float64",
+        "device": "cpu",
+        "execution_status": "completed"
+      }
+    }
+  ],
+  "scope": "Actual native fixtures and worker execution; interior selected continuous controls only. Native C++ remains feasibility authority.",
+  "identity_scope": "Verification-only opaque fixture IDs and input fingerprints; not application run-store records or the Qt physical-hash algorithm."
+}
