@@ -1,4 +1,5 @@
 import copy
+from dataclasses import replace
 from datetime import datetime, timezone
 import hashlib
 import io
@@ -16,6 +17,7 @@ sys.path.insert(0, str(Path(__file__).resolve().parent))
 import eog_worker as worker
 from eog_test_fixtures import frame, inputs, model
 from eog_response import compile_context
+from eog_detection import detect
 from eog_test_fixtures import view
 from test_eog_response import proposal
 
@@ -113,6 +115,18 @@ class EogWorkerTests(unittest.TestCase):
             stream.write(b"\n")
         result = self.call()
         self.assertEqual(result["status"], "invalid_input"); self.assertIsNone(result["result"])
+
+    def test_repeated_private_evidence_maps_to_unique_public_references(self):
+        v = view(self.model, self.rows)
+        detection = detect(self.model, v)
+        event = detection.events[0]
+        repeated = replace(event, evidence=event.evidence + event.evidence)
+        with patch.object(worker, "detect", return_value=replace(detection, events=(repeated,))):
+            result = self.call()
+        self.assertEqual(result["status"], "completed", result["diagnostics"])
+        mapped = result["result"]["events"][0]
+        self.assertEqual(len(mapped["evidence_ids"]), len(set(mapped["evidence_ids"])))
+        self.assertEqual(len(mapped["evidence_ids"]), len(event.evidence))
 
     def test_change_between_verifier_and_loader_is_rejected(self):
         original = worker.load_inputs

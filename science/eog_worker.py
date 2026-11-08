@@ -20,7 +20,7 @@ from eog_observations import ObservationError
 from eog_response import ResponseUnavailable, compile_context, evaluate
 from native_eog import NativeError, NativeEvaluator
 
-METHOD = "eog-worker-0.1.0"
+METHOD = "eog-worker-0.1.1"
 ADOPTED_CONTRACT = "72cadd1de7eed6666a60faff1d296e29c8f026ee"
 CONTRACT_HASHES = {
     "validate.py": "626deb9b5de0a722f3583adf8f1a28753880bb9d70cf75b78771dda1c7b2faec",
@@ -101,7 +101,7 @@ def _detection_result(model, view, selected):
             "onset_bounds": None if event.onset_bounds is None else
                 {"earliest_unix": event.onset_bounds[0], "latest_unix": event.onset_bounds[1]},
             "updated_unix": event.updated_unix, "end_unix": event.end_unix,
-            "evidence_ids": [evidence(sample) for sample in event.evidence],
+            "evidence_ids": list(dict.fromkeys(evidence(sample) for sample in event.evidence)),
             "countdown_hours": event.countdown_hours if event.coverage == "available" and event.state == "ongoing" else None,
             "lost_revenue_per_hour": event.hourly_revenue_exposure, "coverage": event.coverage,
             "threshold_version": detection.method + ":" + detection.rules_fingerprint[:16],
