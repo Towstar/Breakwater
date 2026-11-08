@@ -1,0 +1,73 @@
+test_all_system_urgency_uses_countdown_then_exposure (test_eog_detection.EogDetectionTests.test_all_system_urgency_uses_countdown_then_exposure) ... ok
+test_already_shut_in_does_not_erase_revenue (test_eog_detection.EogDetectionTests.test_already_shut_in_does_not_erase_revenue) ... ok
+test_degradation_followed_by_failure_stays_separate_and_masked (test_eog_detection.EogDetectionTests.test_degradation_followed_by_failure_stays_separate_and_masked) ... ok
+test_detector_does_not_open_files_or_read_labels (test_eog_detection.EogDetectionTests.test_detector_does_not_open_files_or_read_labels) ... ok
+test_exact_leak_threshold_and_one_ulp_neighbors (test_eog_detection.EogDetectionTests.test_exact_leak_threshold_and_one_ulp_neighbors) ... ok
+test_excessive_running_flow_cannot_resolve_a_fault (test_eog_detection.EogDetectionTests.test_excessive_running_flow_cannot_resolve_a_fault) ... ERROR
+test_expired_configured_repair_does_not_resolve_persistent_fault (test_eog_detection.EogDetectionTests.test_expired_configured_repair_does_not_resolve_persistent_fault) ... ok
+test_fault_feedback_with_positive_delivery_is_ambiguous (test_eog_detection.EogDetectionTests.test_fault_feedback_with_positive_delivery_is_ambiguous) ... ok
+test_finite_invalid_volume_is_retained_not_clipped (test_eog_detection.EogDetectionTests.test_finite_invalid_volume_is_retained_not_clipped) ... ok
+test_future_values_cannot_change_any_current_event (test_eog_detection.EogDetectionTests.test_future_values_cannot_change_any_current_event) ... ok
+test_generated_countdown_oracle_and_prefix_invariance (test_eog_detection.EogDetectionTests.test_generated_countdown_oracle_and_prefix_invariance) ... ok
+test_historical_gap_forecast_uses_real_sample_age (test_eog_detection.EogDetectionTests.test_historical_gap_forecast_uses_real_sample_age) ... ok
+test_known_failure_countdown_and_revenue (test_eog_detection.EogDetectionTests.test_known_failure_countdown_and_revenue) ... ok
+test_leak_and_degradation_can_coexist (test_eog_detection.EogDetectionTests.test_leak_and_degradation_can_coexist) ... ok
+test_left_censored_already_shut_in_never_invents_zero_exposure (test_eog_detection.EogDetectionTests.test_left_censored_already_shut_in_never_invents_zero_exposure) ... ok
+test_left_censored_fault_keeps_horizon_unknown (test_eog_detection.EogDetectionTests.test_left_censored_fault_keeps_horizon_unknown) ... ok
+test_normal_sawtooth_and_off_states_do_not_create_events (test_eog_detection.EogDetectionTests.test_normal_sawtooth_and_off_states_do_not_create_events) ... ok
+test_off_period_does_not_resolve_leak (test_eog_detection.EogDetectionTests.test_off_period_does_not_resolve_leak) ... ok
+test_one_bad_frame_does_not_create_inspection_event (test_eog_detection.EogDetectionTests.test_one_bad_frame_does_not_create_inspection_event) ... ok
+test_onset_bound_retains_the_actual_preceding_normal_pump_evidence (test_eog_detection.EogDetectionTests.test_onset_bound_retains_the_actual_preceding_normal_pump_evidence) ... FAIL
+test_predicted_crossing_between_samples_is_not_observed_trip (test_eog_detection.EogDetectionTests.test_predicted_crossing_between_samples_is_not_observed_trip) ... ok
+test_preexisting_inactive_well_has_no_opportunity_cost (test_eog_detection.EogDetectionTests.test_preexisting_inactive_well_has_no_opportunity_cost) ... ok
+test_pressure_is_optional_evidence_not_invented_hydraulics (test_eog_detection.EogDetectionTests.test_pressure_is_optional_evidence_not_invented_hydraulics) ... ok
+test_rapid_samples_cannot_fake_sustained_five_minute_evidence (test_eog_detection.EogDetectionTests.test_rapid_samples_cannot_fake_sustained_five_minute_evidence) ... FAIL
+test_repeated_failures_get_distinct_stable_episodes (test_eog_detection.EogDetectionTests.test_repeated_failures_get_distinct_stable_episodes) ... ok
+test_resolution_requires_observed_recovery_not_future_label (test_eog_detection.EogDetectionTests.test_resolution_requires_observed_recovery_not_future_label) ... ok
+test_retained_inspection_evidence_is_bounded_and_current (test_eog_detection.EogDetectionTests.test_retained_inspection_evidence_is_bounded_and_current) ... ok
+test_rules_and_event_budget_are_explicit (test_eog_detection.EogDetectionTests.test_rules_and_event_budget_are_explicit) ... ok
+test_sampling_gap_breaks_confirmation_not_lifecycle (test_eog_detection.EogDetectionTests.test_sampling_gap_breaks_confirmation_not_lifecycle) ... ok
+test_stale_or_missing_evidence_does_not_clear_fault (test_eog_detection.EogDetectionTests.test_stale_or_missing_evidence_does_not_clear_fault) ... ok
+test_sustained_leak_has_inspection_and_no_countdown (test_eog_detection.EogDetectionTests.test_sustained_leak_has_inspection_and_no_countdown) ... ok
+test_sustained_observed_recovery_closes_inspection_episode (test_eog_detection.EogDetectionTests.test_sustained_observed_recovery_closes_inspection_episode) ... ok
+test_unbalanced_well_inflow_abstains (test_eog_detection.EogDetectionTests.test_unbalanced_well_inflow_abstains) ... ok
+test_unfamiliar_changed_network_uses_actual_capacity_economics_and_ids (test_eog_detection.EogDetectionTests.test_unfamiliar_changed_network_uses_actual_capacity_economics_and_ids) ... ok
+test_unknown_status_never_means_healthy (test_eog_detection.EogDetectionTests.test_unknown_status_never_means_healthy) ... ok
+test_wrong_units_or_status_domains_are_rejected (test_eog_detection.EogDetectionTests.test_wrong_units_or_status_domains_are_rejected) ... ok
+test_zero_inflow_producing_state_has_no_future_crossing (test_eog_detection.EogDetectionTests.test_zero_inflow_producing_state_has_no_future_crossing) ... ok
+
+======================================================================
+ERROR: test_excessive_running_flow_cannot_resolve_a_fault (test_eog_detection.EogDetectionTests.test_excessive_running_flow_cannot_resolve_a_fault)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-detection\science\tests\test_eog_detection.py", line 223, in test_excessive_running_flow_cannot_resolve_a_fault
+    event, = self.active(detect(m, view(m, rows)))
+    ^^^^^^
+ValueError: not enough values to unpack (expected 1, got 0)
+
+======================================================================
+FAIL: test_onset_bound_retains_the_actual_preceding_normal_pump_evidence (test_eog_detection.EogDetectionTests.test_onset_bound_retains_the_actual_preceding_normal_pump_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-detection\science\tests\test_eog_detection.py", line 230, in test_onset_bound_retains_the_actual_preceding_normal_pump_evidence
+    self.assertTrue(any(s.unix == 0 and s.asset_id == pump and s.metric == "status" and s.value == 0
+AssertionError: False is not true
+
+======================================================================
+FAIL: test_rapid_samples_cannot_fake_sustained_five_minute_evidence (test_eog_detection.EogDetectionTests.test_rapid_samples_cannot_fake_sustained_five_minute_evidence)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-detection\science\tests\test_eog_detection.py", line 217, in test_rapid_samples_cannot_fake_sustained_five_minute_evidence
+    self.assertEqual(result.events, ())
+AssertionError: Tuples differ: (Event(id='eog-965ced0b6ff87a46324f23f403f[1786 chars],)),) != ()
+
+First tuple contains 1 additional elements.
+First extra element 0:
+Event(id='eog-965ced0b6ff87a46324f23f403fdfe77', system_id='renamed/\u03b1/system', facility_id='renamed/\u03b1/facility:0', asset_id='renamed/\u03b1/facility:0/pipe', category='pipeline_leak', state='ongoing', first_evidence_unix=0, onset_unix=None, onset_bounds=None, updated_unix=3, end_unix=None, coverage='available', countdown_hours=None, countdown_state='not_applicable', repair_remaining_hours=None, hourly_revenue_exposure=None, observed_volume_bbl=None, forecast_volume_at_cutoff_bbl=None, assumed_inflow_bpd=None, recommended_action='field_inspection', evidence=(Sample(unix=0, asset_id='renamed/\u03b1/facility:0/pump', metric='status', value=1.0), Sample(unix=0, asset_id='renamed/\u03b1/facility:0/pump', metric='flow_bpd', value=2700.0), Sample(unix=0, asset_id='renamed/\u03b1/facility:0/pipe', metric='receive_flow_bpd', value=1800.0), Sample(unix=1, asset_id='renamed/\u03b1/facility:0/pump', metric='status', value=1.0), Sample(unix=1, asset_id='renamed/\u03b1/facility:0/pump', metric='flow_bpd', value=2700.0), Sample(unix=1, asset_id='renamed/\u03b1/facility:0/pipe', metric='receive_flow_bpd', value=1800.0), Sample(unix=2, asset_id='renamed/\u03b1/facility:0/pump', metric='status', value=1.0), Sample(unix=2, asset_id='renamed/\u03b1/facility:0/pump', metric='flow_bpd', value=2700.0), Sample(unix=2, asset_id='renamed/\u03b1/facility:0/pipe', metric='receive_flow_bpd', value=1800.0), Sample(unix=3, asset_id='renamed/\u03b1/facility:0/pump', metric='status', value=1.0), Sample(unix=3, asset_id='renamed/\u03b1/facility:0/pump', metric='flow_bpd', value=2700.0), Sample(unix=3, asset_id='renamed/\u03b1/facility:0/pipe', metric='receive_flow_bpd', value=1800.0)), assumptions=('Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset.',), limitations=('Left-censored onset: no preceding interpretable non-event evidence.',))
+
+Diff is 3259 characters long. Set self.maxDiff to None to see it.
+
+----------------------------------------------------------------------
+Ran 37 tests in 0.327s
+
+FAILED (failures=2, errors=1)

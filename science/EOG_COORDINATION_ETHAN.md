@@ -15,6 +15,8 @@ and performs the UI overhaul last.
   `C:\Projects\Breakwater\.worktrees\person-a-eog-analysis`.
 - A increment: https://github.com/Towstar/Breakwater/pull/34
 - Current causal observation increment: https://github.com/Towstar/Breakwater/pull/36
+- Current detection worktree: `C:\Projects\Breakwater\.worktrees\person-a-eog-detection`
+  on `codex/person-a-eog-detection`; PR https://github.com/Towstar/Breakwater/pull/38 .
 - Contract coordination: https://github.com/Towstar/Breakwater/pull/33
 - Numerical handoff: `science/EOG_E1_HANDOFF.md`.
 - Numerical contract review: `science/EOG_CONTRACT_REVIEW.md`.
@@ -25,7 +27,73 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: pure causal observation increment
+## Active execution checkpoint: causal detector and real-input evidence
+
+Current A branch/worktree: `codex/person-a-eog-detection` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-detection`. Base is PR #36's
+`de001c4`, with merged G2 main `1713cc4` incorporated by normal merge `4cb16bb`.
+Current detector source is `78f1afe` after rule freezes at 37d8e77 / 2ba9b06.
+Only A-owned science files are authored; incoming desktop/root changes are the
+already-merged G2 baseline, not an ownership transfer.
+Publication head: `391290bb7ff14d245551ad469600a980e1b2d051` before this recovery
+pointer update. A34/A36 were updated with G2 main and the child merged their
+published ancestry, so PR #38's diff stays exclusively within science/.
+
+Implemented strict fixed-file loading, immutable EOG configuration, causal event
+lifecycles/countdowns/exposure, an offline CLI, and a separately invoked offline
+label evaluator. No public contracts/desktop files are authored. Public wire
+binding, intervention evaluation/search/independent plan validation and application
+simulation remain subsequent work.
+
+**Shared interface gate is now satisfied:** both adopt exact
+`72cadd1de7eed6666a60faff1d296e29c8f026ee`. Lucas records this at f4e4c0f in
+`docs/EOG_COORDINATION.md`; verified wire/numerical files are unchanged. A's
+acknowledgement: https://github.com/Towstar/Breakwater/pull/33#issuecomment-6720661497 .
+Use that exact interface; do not reopen historical R1/R2/R3 absent new evidence.
+
+Actual evidence: **113/113** stdlib EOG methods; **299/299** full science tests;
+393,120 official rows/195 channels loaded; independent raw-input oracle **9/9**
+current-failure countdown/repair/exposure cases. Full-week event presence matches
+all 23 labels with no unmatched/early alarms. **Timeliness remains unqualified:**
+inspection emission takes 5-16 hours, and three of four correlated historical
+presence/lifecycle cuts fail. Missing leak/uncertain recovery cases, initial v0.1
+misses and generated-adversary failures remain retained. Do not report these as
+full EOG accuracy, timely inspection or installed application acceptance.
+
+Details: `science/EOG_DETECTION.md`, `science/EOG_DETECTION_RESULTS.md` and
+`science/evidence/eog-detection/`. Raw labels are outside the runtime input folder
+and are read only by the separately invoked evaluator. Inspection physical-onset
+bounds are unavailable; threshold-time estimates are not confidence intervals.
+
+Next: inspect Lucas's latest integration state and requests; bind protected captures
+to the accepted provider protocol, implement response evaluation in elapsed seconds,
+then joint search/independent validation. Continue inspection latency/uncertainty
+qualification without hidden-label/endpoint leakage. Lucas integrates PR #34/#36
+and the new small numerical increment, and owns desktop/process/model/history/UI
+and shared status. Whole-application/replay/extended simulation/UI gates stay open.
+
+## Hosted integration check checkpoint
+
+PR #33 exact integration head f4e4c0f run
+https://github.com/Towstar/Breakwater/actions/runs/42472091130 is not green.
+Original Lean job 128709714117 failed at root CI line 196 downloading Lean from
+GitHub's error page, before proofs ran. A requested one bounded retry through the
+job connector; latest Lean job **128717105524 is live in build/audit** at the last
+inspection. Poll this specific run/job; do not restart because a first job-list
+lookup temporarily returned empty. No proof pass has been claimed.
+
+Original desktop ASan job 128709714451 timed out telemetry stream at 180.06 seconds,
+failed lifecycle at 58.17 seconds and skipped its two dependent replay smokes.
+EOG native/Python comparisons passed in that same job. The latest visible desktop
+ASan job 128717106747 also has a failure conclusion. B owns its root/desktop fix;
+PR #37 is a separate stream-validation optimization, not yet silently adopted.
+Detailed request: https://github.com/Towstar/Breakwater/pull/33#issuecomment-6720915421 .
+Native normal/ASan, desktop normal and CPU science jobs have passing conclusions
+for the inspected integration run; this does not make its failed matrix a pass.
+PR #38 head a157fb6 had Windows run **42475771332 in progress** at inspection.
+Recheck current heads/runs instead of treating this checkpoint as live state.
+
+## Historical observation increment checkpoint
 
 Current A branch: `codex/person-a-eog-observations`, worktree
 `C:\Projects\Breakwater\.worktrees\person-a-eog-observations`, based on the
@@ -113,7 +181,7 @@ was fast-forwarded into that branch before this delivery.
 
 | Request / source | Owner | Disposition / next action |
 |---|---|---|
-| Review current EOG boundary, PR #33 | Ethan | Numerically accepted exact 72cadd1; Lucas reciprocal adoption/integration pending |
+| Review current EOG boundary, PR #33 | Ethan | Closed: both adopt exact 72cadd1; Lucas records it at f4e4c0f, A acknowledged on PR #33 |
 | Complete forecast coverage / cutoff-only result rejection, PR #33 review R1 | Lucas, Ethan verifies | Closed at 72cadd1: empty/short/missing-facility and one-ULP-short probes reject |
 | Actual CSV end must agree with untruncated snapshot-now, PR #33 review R2 | Lucas, Ethan verifies | Fixed at e3190fb; independently reverified at 72cadd1 |
 | Fractional counterfactual events, do-nothing feasibility, cost availability, repair ordering/deadlines | Joint, Lucas publishes | Closed for exact 72cadd1 representation and declared semantics; provider still must execute/check them |
