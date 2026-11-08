@@ -11,10 +11,13 @@
   PhysicsNeMo skips, zero failures/errors or unexpected EOG skips. CI now builds
   and configures the real native/contract prerequisites before discovery; fresh
   hosted execution of that CI integration remains pending.
-- Installed startup and genuine hosted EOG rehearsals remain unverified. PR #41
-  has since published independent validation and a native positive-cost underflow
-  correction, advancing the native method to 0.1.1. It is under separate review
-  before adoption; the ordinary-case #40 checks do not close that numerical finding.
+- PR #41 is adopted locally at exact `d30cd04`, advancing the native method to
+  `eog-native-seconds-0.1.1` and adding independently reconstructed validation.
+  Joined focused checks pass **4/4 CTests** in normal (29.44 s) and ASan (42.02 s),
+  **73 Qt cases plus seven offline CLI methods per mode**, zero skips. Actual
+  no-DLL validation, exact cost/plan binding, explicit advisory review and renewed
+  authority rejection after reopening history pass. The old #40 records stay dated.
+  Installed startup and genuine hosted EOG rehearsals remain unverified.
 
 ## Current local EOG desktop integration — November 8, 2026
 

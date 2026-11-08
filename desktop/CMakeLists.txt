@@ -287,6 +287,12 @@ qt_add_library(breakwater_eog_workflow STATIC
   eog/EogAnalysisController.hpp eog/EogAnalysisController.cpp)
 target_include_directories(breakwater_eog_workflow PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_eog_workflow PUBLIC breakwater_eog breakwater_agent)
+qt_add_executable(breakwater_eog_live_check eog/live_check.cpp)
+target_link_libraries(breakwater_eog_live_check PRIVATE breakwater_eog_workflow)
+add_dependencies(breakwater_eog_live_check breakwater_eog_response)
+if(TARGET breakwater_eog_provider_runtime)
+  add_dependencies(breakwater_eog_live_check breakwater_eog_provider_runtime)
+endif()
 if(BUILD_TESTING)
   qt_add_executable(breakwater_eog_dataset_tests tests/eog_dataset_tests.cpp)
   target_link_libraries(breakwater_eog_dataset_tests PRIVATE breakwater_eog Qt6::Test)
@@ -334,6 +340,11 @@ if(BUILD_TESTING)
   set_tests_properties(desktop.eog_provider PROPERTIES TIMEOUT 180
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   if(Python3_Interpreter_FOUND)
+    add_test(NAME desktop.eog_live_cli COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_live_cli_tests.py" "$<TARGET_FILE:breakwater_eog_live_check>"
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")
+    set_tests_properties(desktop.eog_live_cli PROPERTIES TIMEOUT 120
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
     add_test(NAME desktop.eog_cli COMMAND "${Python3_EXECUTABLE}" -B
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_cli_tests.py" "$<TARGET_FILE:breakwater>"
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")

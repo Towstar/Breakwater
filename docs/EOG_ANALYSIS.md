@@ -6,7 +6,8 @@ analysis, model explanation and operator review remain distinct evidence.
 
 ## Local provider configuration
 
-PR #40 supplies the real version-1 provider for detection and candidate evaluation.
+PR #40 and PR #41 supply the real version-1 provider for detection, candidate
+evaluation and separately computed independent validation.
 Use the existing pinned Python environment, with its frozen schema dependencies:
 
 ```powershell
@@ -14,7 +15,7 @@ $env:BREAKWATER_PYTHON = 'C:\path\to\Breakwater\.tools\science-cpu\Scripts\pytho
 $env:BREAKWATER_EOG_WORKER = 'C:\path\to\Breakwater\science\eog_worker.py'
 $env:BREAKWATER_EOG_CONTRACTS = 'C:\path\to\Breakwater\contracts\eog'
 $env:BREAKWATER_EOG_NATIVE = 'C:\path\to\Breakwater\out\provider-normal\engine\breakwater_eog_response.dll'
-$env:BREAKWATER_EOG_EVALUATOR_METHOD = 'eog-response-0.1.0'
+$env:BREAKWATER_EOG_EVALUATOR_METHOD = 'eog-native-seconds-0.1.1'
 & $env:BREAKWATER_PYTHON -m pip install --require-hashes -r .\science\requirements-eog.in
 ```
 
@@ -37,11 +38,14 @@ directory. Explicit local configuration takes precedence. Existence means config
 not executed or numerically qualified. A successful bound process exchange
 establishes execution only. Missing methods/evidence remain explicitly unavailable.
 
-This provider revision returns unavailable for joint search and independent
-validation. Its evaluated candidate cannot acquire review eligibility or be called
-a validated minimum-cost recommendation. Detection retains the documented timing,
-onset and coverage limitations. These are real methods with bounded supported
-scope, separate from the protocol-only fixtures below.
+Joint search remains unavailable. The independent validator reconstructs candidate
+costs and constraints from causal observations without loading the native DLL or
+consuming its results. Parsing and fixed-rate/point-onset assumptions remain shared;
+this is implementation independence, not a real-number proof or physical validation.
+Only an exact successful validation can enable advisory review. A minimum among
+retained candidates is not a global optimum. Detection retains the documented
+timing, onset and coverage limitations. These are real methods with bounded
+supported scope, separate from the protocol-only fixtures below.
 
 The test workers in `desktop/tests/eog_fixtures/` are protocol fixtures. They must
 not be configured as the application's production provider or described as a
@@ -54,13 +58,41 @@ cmake --build out/provider-normal --parallel 1
 cmake --install out/provider-normal --prefix C:/path/to/new/breakwater-install
 ```
 
-The install contains the production worker's seven modules, five adopted contract
-files and native library. Supply the pinned external Python environment when
+The install contains the production worker's eight modules, five adopted contract
+files, native library and verification runner. Supply the pinned external Python environment when
 launching; Python/Torch are not silently bundled. The offline inspection and
 qualification CLIs are excluded. A checked MSVC build stages and installs the ASan
 runtime from its actual compiler directory; a normal build needs no ASan runtime.
 Installed-prefix startup and actual process execution remain acceptance checks,
 not consequences inferred from a successful install command.
+
+## Rehearsal runner
+
+`breakwater_eog_live_check` uses the same production desktop controller, worker,
+Nemotron transport and durable history. It never applies controls. Without
+`--live`, it performs readiness checks and exits 3 with zero model requests.
+With the existing local model credentials configured, run:
+
+```powershell
+.\out\provider-normal\desktop\breakwater_eog_live_check.exe --live `
+  --dataset C:/path/to/canonical/data `
+  --archive C:/path/to/evidence/canonical-1.eog-session.json `
+  --db C:/path/to/evidence/eog-rehearsals.sqlite
+```
+
+The archive must be new and outside the dataset; use a different archive name for
+each session. Optional `--cutoff` selects an exact historical Unix timestamp.
+Optional `--objective` supplies operator intent without prescribing tool order.
+The fixed production limits still apply, including the 12-tool/three-refinement
+budget. The runner's outer deadline includes startup and evidence export.
+
+Exit 0 requires actual hosted model identity, model-issued/executed tools, a
+grounded final plan with successful independent exact-plan validation, current
+review eligibility and a successful full archive export. Incomplete capabilities,
+failed or cancelled investigations retain available evidence with nonzero status;
+an exported archive alone does not pass the rehearsal. Offline CLI tests never
+enable `--live` and use private temporary databases, including actual hardlink
+input-protection checks. No credentials or raw model reasoning are printed.
 
 ## Operator flow
 
@@ -179,7 +211,9 @@ Use native Windows execution for fixture hard links; a sandbox access denial is 
 setup failure, not a skip or numerical result. The ASan build instruments project
 code, including the chart/details harnesses; prebuilt Qt/Python are outside that
 instrumentation claim. Final combined sandbox/EOG, packaging and genuine
-production-provider/hosted EOG acceptance remain pending. PR #40 supplies real
-detection/evaluation for the next integration increment; search and independent
-validation remain unavailable. Existing workbench rehearsals do not count as EOG
+production-provider/hosted EOG acceptance remain pending. PR #40 and PR #41 supply
+real detection, evaluation and independent validation; the joined focused checks
+pass 4/4 CTests in normal (29.44 s) and ASan (42.02 s), with 73 Qt cases and seven
+offline Python CLI methods per mode, zero skips or sanitizer diagnostics. Joint
+search remains unavailable. Existing workbench rehearsals do not count as EOG
 rehearsals, and presentation/protocol fixtures do not qualify numerical methods.

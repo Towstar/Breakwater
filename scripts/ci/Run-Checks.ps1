@@ -205,7 +205,9 @@ try {
                 }
             }
             if (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py')) {
-                if ('desktop.eog_provider' -notin $registered.tests.name) { throw 'Required real desktop-to-EOG-provider check is missing.' }
+                foreach ($required in @('desktop.eog_provider', 'desktop.eog_live_cli')) {
+                    if ($required -notin $registered.tests.name) { throw "Required real EOG integration check is missing: $required" }
+                }
             }
         }
         Invoke-CiStep 'ctest' 'ctest' @('--test-dir', $buildRoot, '--output-on-failure', '--no-tests=error', '--output-junit', (Join-Path $artifactRoot 'ctest-results.xml'))

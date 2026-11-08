@@ -17,6 +17,8 @@
 #include <QTimeZone>
 #include <QtTest>
 #include <array>
+#include <cmath>
+#include <limits>
 #include <memory>
 #include <stdexcept>
 #include <utility>
@@ -236,7 +238,43 @@ private slots:
         QVERIFY(qAbs(evaluation.value("cost").toObject().value("total").toDouble() - 5016.0) < 1e-6);
         QCOMPARE(inputs.currentHashes(), inputs.hashes);
     }
-    void unavailableSearchAndValidationCannotAuthorizeReviewAndRemainInHistory() {
+    void actualIndependentValidationNeedsNoNativeLibraryAndRejectsForgedHorizon() {
+        Inputs inputs(QStringLiteral("independent/\u03b1")); const auto capture = inputs.capture();
+        // No --native-library argument: this process must independently rebuild
+        // the candidate from captured observations, not call the evaluator DLL.
+        EogAnalysisClient client(python(), worker(), {"--contracts-root", contracts()});
+        QSignalSpy done(&client, &EogAnalysisClient::completed), failures(&client, &EogAnalysisClient::failed);
+        auto plan = noAction(inputs);
+        const auto input = request(capture, "validate_plan", {{"plan", plan}, {"evaluator_method", "eog-native-seconds-0.1.1"}}, "real/no-native-validation");
+        QVERIFY(client.start(input, capture));
+        QTRY_VERIFY_WITH_TIMEOUT(done.size() == 1 || !failures.isEmpty(), 30000);
+        QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 1);
+        const auto response = done.first().at(0).toJsonObject();
+        QCOMPARE(response.value("status"), QJsonValue("completed"));
+        const auto result = response.value("result").toObject(), validation = result.value("validation").toObject();
+        QVERIFY(validation.value("independent").toBool()); QVERIFY(validation.value("feasible").toBool());
+        QCOMPARE(validation.value("plan_id"), plan.value("plan_id")); QCOMPARE(validation.value("plan_hash"), plan.value("plan_hash"));
+        QCOMPARE(validation.value("evaluator_method"), QJsonValue("eog-native-seconds-0.1.1"));
+        QCOMPARE(validation.value("validator_method"), QJsonValue("eog-rational-validation-0.1.0"));
+        QCOMPARE(validation.value("validated_horizons"), plan.value("repair_deadlines"));
+        QCOMPARE(validation.value("cost").toObject(), (QJsonObject{{"truck_cost", 0}, {"lost_revenue", 5016}, {"total", 5016}}));
+        auto deadlines = plan.value("repair_deadlines").toArray(); auto deadline = deadlines.first().toObject();
+        deadline["repair_elapsed_s"] = std::nextafter(21600.0, std::numeric_limits<double>::infinity());
+        deadlines[0] = deadline; plan["repair_deadlines"] = deadlines; plan["plan_hash"] = plan_identity(plan);
+        const auto forged = request(capture, "validate_plan", {{"plan", plan}, {"evaluator_method", "eog-native-seconds-0.1.1"}}, "real/no-native-validation");
+        QVERIFY(client.start(forged, capture));
+        QTRY_VERIFY_WITH_TIMEOUT(done.size() == 2 || !failures.isEmpty(), 30000);
+        QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 2);
+        const auto rejected = done.last().at(0).toJsonObject();
+        QCOMPARE(rejected.value("status"), QJsonValue("completed"));
+        const auto invalid = rejected.value("result").toObject().value("validation").toObject();
+        QVERIFY(!invalid.value("feasible").toBool()); QVERIFY(invalid.value("cost").isNull());
+        QCOMPARE(invalid.value("plan_hash"), plan.value("plan_hash")); QVERIFY(invalid.value("validated_horizons").toArray().isEmpty());
+        QCOMPARE(invalid.value("violations").toArray().first().toObject().value("code"), QJsonValue("repair_horizon"));
+        QVERIFY(rejected.value("result").toObject().value("analysis_id") != result.value("analysis_id"));
+        QCOMPARE(inputs.currentHashes(), inputs.hashes);
+    }
+    void onlyIndependentValidationEnablesAdvisoryReviewAndHistoryRemainsNonactionable() {
         Inputs inputs; QTemporaryDir storage; QVERIFY(storage.isValid());
         EogDatasetController dataset; EogAnalysisClient client(python(), worker(), providerArguments());
         EogHistoryRepository history(storage.filePath("provider.sqlite")); UnusedModel model;
@@ -257,24 +295,48 @@ private slots:
         controller.validateSelected("eog-response-0.1.0"); QTRY_VERIFY_WITH_TIMEOUT(done.size() == 4 || !failures.isEmpty(), 30000);
         QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 4); QCOMPARE(controller.lastOperation().value("status").toString(), "unavailable");
         QVERIFY(controller.selectedValidation().isEmpty()); QVERIFY(!controller.canReview());
-        for (int i : {2, 3}) {
-            const auto response = done[i].at(0).toJsonObject();
-            QCOMPARE(response.value("status"), QJsonValue("unavailable")); QVERIFY(response.value("result").isNull());
-            QCOMPARE(response.value("diagnostics").toArray().first().toObject().value("code"), QJsonValue("operation_unavailable"));
-        }
+        const auto search = done[2].at(0).toJsonObject(), unknown = done[3].at(0).toJsonObject();
+        QCOMPARE(search.value("status"), QJsonValue("unavailable")); QVERIFY(search.value("result").isNull());
+        QCOMPARE(search.value("diagnostics").toArray().first().toObject().value("code"), QJsonValue("operation_unavailable"));
+        QCOMPARE(unknown.value("status"), QJsonValue("unavailable")); QVERIFY(unknown.value("result").isNull());
+        QCOMPARE(unknown.value("diagnostics").toArray().first().toObject().value("code"), QJsonValue("unsupported_evaluator"));
         controller.recordReview("Unavailable independent validation cannot authorize this advice.");
-        QCOMPARE(operatorRecords.size(), 0); const auto session = controller.sessionId(); QVERIFY(!session.isEmpty());
+        QCOMPARE(operatorRecords.size(), 0);
+        controller.validateSelected("eog-native-seconds-0.1.1");
+        QTRY_VERIFY_WITH_TIMEOUT(done.size() == 5 || !failures.isEmpty(), 30000); QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 5);
+        const auto validatedResponse = done.last().at(0).toJsonObject();
+        QCOMPARE(validatedResponse.value("status"), QJsonValue("completed"));
+        const auto validated = validatedResponse.value("result").toObject().value("validation").toObject();
+        const auto evaluated = controller.selectedEvaluation(), exactPlan = evaluated.value("plan").toMap();
+        QCOMPARE(validated.value("plan_id").toString(), exactPlan.value("plan_id").toString());
+        QCOMPARE(validated.value("plan_hash").toString(), exactPlan.value("plan_hash").toString());
+        QCOMPARE(validated.value("cost").toObject(), QJsonObject::fromVariantMap(evaluated.value("cost").toMap()));
+        QCOMPARE(validated.value("validated_horizons"), QJsonValue::fromVariant(exactPlan.value("repair_deadlines")));
+        QVERIFY(validated.value("independent").toBool()); QVERIFY(controller.canReview());
+        const auto session = controller.sessionId(); QVERIFY(!session.isEmpty());
+        const auto validationRequest = validatedResponse.value("request_id").toString();
+        controller.recordReview("Explicit advisory review of the independently recomputed exact plan.");
+        QTRY_VERIFY_WITH_TIMEOUT(operatorRecords.size() == 1 || !storageFailures.isEmpty(), 15000);
+        QVERIFY(storageFailures.isEmpty()); QCOMPARE(operatorRecords.size(), 1);
         controller.finishSession(); controller.openHistory(session);
         QTRY_VERIFY_WITH_TIMEOUT(loaded.size() == 1 || !storageFailures.isEmpty(), 15000);
         QVERIFY(storageFailures.isEmpty()); QCOMPARE(loaded.size(), 1); QVERIFY(controller.historical()); QVERIFY(!controller.canReview());
         const auto archive = loaded.first().first().toJsonObject(); const auto analyses = archive.value("analyses").toArray();
-        QCOMPARE(analyses.size(), 4); QVERIFY(archive.value("historical").toBool()); QVERIFY(!archive.value("actionable").toBool());
-        QVERIFY(archive.value("operator_records").toArray().isEmpty());
+        QCOMPARE(analyses.size(), 5); QVERIFY(archive.value("historical").toBool()); QVERIFY(!archive.value("actionable").toBool());
+        const auto records = archive.value("operator_records").toArray(); QCOMPARE(records.size(), 1);
+        QCOMPARE(records.first().toObject().value("kind"), QJsonValue("operator_review"));
+        QCOMPARE(records.first().toObject().value("analysis_request_id").toString(), validationRequest);
         for (const auto& value : analyses) {
             const auto row = value.toObject(), input = row.value("request").toObject(), response = row.value("response").toObject();
             QCOMPARE(response.value("request_id"), input.value("request_id"));
             QCOMPARE(response.value("capture_id"), archive.value("capture_manifest").toObject().value("capture_id"));
         }
+        controller.recordReview("Historical evidence cannot renew review authority.");
+        QCOMPARE(operatorRecords.size(), 1); QVERIFY(!controller.canReview());
+        history.recordOperatorReview(session, validationRequest, "A direct repository call must also fail closed.");
+        QTRY_COMPARE_WITH_TIMEOUT(storageFailures.size(), 1, 15000);
+        QVERIFY(storageFailures.first().at(3).toString().contains("Imported, reopened or retired"));
+        QCOMPARE(operatorRecords.size(), 1);
         QCOMPARE(model.requests, 0); QCOMPARE(inputs.currentHashes(), inputs.hashes);
     }
 };
