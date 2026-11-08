@@ -9,6 +9,7 @@ Dialog {
     property string expectedHash: ""
     property real availableFlow: 0
     property int totalBps: 0
+    property bool validInputs: false
     property string errorText: ""
     readonly property bool stale: controller.networkHash !== expectedHash
     parent: Overlay.overlay
@@ -23,8 +24,14 @@ Dialog {
     ListModel { id: shares }
     function updateTotal() {
         let total = 0
-        for (let i=0; i<shares.count; ++i) total += shares.get(i).shareBps
+        let valid = shares.count > 0
+        for (let i=0; i<shares.count; ++i) {
+            total += shares.get(i).shareBps
+            const row = shareRepeater.itemAt(i)
+            if (!row || !row.validShare) valid = false
+        }
         totalBps = total
+        validInputs = valid
     }
     function begin(source, target) {
         controller.select(source)
@@ -70,6 +77,7 @@ Dialog {
                 width: parent.width
                 spacing: 8
                 Repeater {
+                    id: shareRepeater
                     model: shares
                     delegate: RowLayout {
                         id: row
@@ -77,17 +85,27 @@ Dialog {
                         required property string targetId
                         required property string label
                         required property int shareBps
+                        readonly property bool validShare: shareInput.acceptableInput && shareInput.text.trim().length>0
+                        onValidShareChanged: dialog.updateTotal()
+                        onShareBpsChanged: if (shareInput && !shareInput.activeFocus) shareInput.text = (shareBps/100).toFixed(2)
                         Layout.fillWidth: true
                         Label { Layout.fillWidth: true; text: row.label; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere }
-                        SpinBox {
+                        TextField {
+                            id: shareInput
                             objectName: "sourceShare_" + row.targetId
                             Accessible.name: row.label + " feed percentage"
-                            from: 0; to: 10000; stepSize: 1; editable: true; live: true
-                            value: row.shareBps
-                            validator: DoubleValidator { bottom: 0; top: 100; decimals: 2; notation: DoubleValidator.StandardNotation }
-                            textFromValue: function(value,locale) { return Number(value/100).toLocaleString(locale,"f",2) }
-                            valueFromText: function(text,locale) { return Math.round(Number.fromLocaleString(locale,text)*100) }
-                            onValueModified: { shares.setProperty(row.index,"shareBps",value); dialog.updateTotal() }
+                            Layout.preferredWidth: 100
+                            selectByMouse: true
+                            horizontalAlignment: Text.AlignRight
+                            inputMethodHints: Qt.ImhFormattedNumbersOnly
+                            validator: DoubleValidator { locale: "C"; bottom: 0; top: 100; decimals: 2; notation: DoubleValidator.StandardNotation }
+                            Component.onCompleted: { text = (row.shareBps/100).toFixed(2); dialog.updateTotal() }
+                            onTextEdited: {
+                                if (acceptableInput && text.trim().length>0)
+                                    shares.setProperty(row.index,"shareBps",Math.round(Number(text)*100))
+                                dialog.updateTotal()
+                            }
+                            onEditingFinished: if (acceptableInput) text = (row.shareBps/100).toFixed(2)
                         }
                         Label { text: "%" }
                         Label { Layout.preferredWidth: 95; text: (dialog.availableFlow*row.shareBps/10000).toFixed(3) + " m³/h" }
@@ -96,6 +114,7 @@ Dialog {
             }
         }
         Label { text: "Total: " + (dialog.totalBps/100).toFixed(2) + "%"; color: dialog.totalBps===10000 ? "#60d2b1" : "#ffcf70"; font.bold: true }
+        Label { Layout.fillWidth: true; visible: !dialog.validInputs; text: "Enter percentages from 0 to 100 with at most two decimal places."; wrapMode: Text.WordWrap; color: "#ffcf70" }
         Label { Layout.fillWidth: true; text: "These are configured flow shares, not a pressure/valve simulation. Changing them retires the forecast and approval."; wrapMode: Text.WordWrap; color: "#a7bbc7" }
         Label { Layout.fillWidth: true; visible: dialog.stale || dialog.errorText.length>0; text: dialog.stale ? "The network changed. Cancel and reopen the split editor." : dialog.errorText; wrapMode: Text.WordWrap; color: "#ffcf70" }
     }
@@ -103,13 +122,14 @@ Dialog {
         Item { Layout.fillWidth: true }
         Button { text: "Cancel"; onClicked: dialog.close() }
         Button {
+            objectName: "applySourceSplit"
             text: "Apply split"; highlighted: true
-            enabled: dialog.totalBps===10000 && !dialog.stale
+            enabled: dialog.totalBps===10000 && dialog.validInputs && !dialog.stale
             onClicked: {
                 const allocations = {}
                 for (let i=0; i<shares.count; ++i) allocations[shares.get(i).targetId] = shares.get(i).shareBps
-                if (controller.setSourceFeeds(dialog.sourceId,allocations,dialog.expectedHash)) dialog.close()
-                else dialog.errorText = controller.summary
+                if (dialog.controller.setSourceFeeds(dialog.sourceId,allocations,dialog.expectedHash)) dialog.close()
+                else dialog.errorText = dialog.controller.summary
             }
         }
     }

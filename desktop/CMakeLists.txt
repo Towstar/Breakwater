@@ -51,6 +51,13 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
 endif()
 
 if(BUILD_TESTING)
+  qt_add_executable(breakwater_source_feed_qml_tests tests/source_feed_qml_tests.cpp)
+  target_link_libraries(breakwater_source_feed_qml_tests PRIVATE breakwater_agent Qt6::QuickControls2 Qt6::Quick3D Qt6::Test)
+  target_compile_definitions(breakwater_source_feed_qml_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+  add_test(NAME desktop.source_feed_qml COMMAND breakwater_source_feed_qml_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/source_feed_qml-results.txt,txt")
+  set_tests_properties(desktop.source_feed_qml PROPERTIES TIMEOUT 30
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   qt_add_executable(breakwater_desktop_tests tests/project_tests.cpp)
   target_link_libraries(breakwater_desktop_tests PRIVATE breakwater_desktop_base Qt6::Test)
   target_compile_definitions(breakwater_desktop_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")

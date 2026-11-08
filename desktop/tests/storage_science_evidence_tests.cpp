@@ -96,8 +96,12 @@ class StorageScienceEvidenceTests final : public QObject {
 private slots:
     void legacySolverEvidenceRemainsHistoricalAndUnknownSolverIsRejected() {
         const auto native = capture(); auto result = evidence(native);
+        auto archive = storage_science_archive(native, result);
+        // Model a retained old archive, not a new capture forged with old provenance.
         result["native_solver_version"] = "constant-flow-0.1.1";
-        const auto archive = storage_science_archive(native, result);
+        archive["scientific_evidence"] = QJsonArray{result};
+        auto runs = archive.value("runs").toArray(); auto details = runs[0].toObject(); auto run = details.value("run").toObject();
+        run["solver_version"] = "constant-flow-0.1.1"; details["run"] = run; runs[0] = details; archive["runs"] = runs;
         QString error; QVERIFY2(SessionRepository::validateArchive(archive, &error), qPrintable(error));
         QVERIFY(validate_storage_science_evidence(result, archive)); QVERIFY(!archive.value("actionable").toBool(true));
         result["native_solver_version"] = "constant-flow-unknown"; QVERIFY(rejects(result, archive));

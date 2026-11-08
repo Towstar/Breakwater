@@ -103,7 +103,7 @@ ApplicationWindow {
     FileDialog { id: openDialog; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.load(selectedFile) }
     FileDialog { id: saveDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.save(selectedFile) }
     PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
-    SourceFeedDialog { id: sourceFeedDialog; controller: app.controller }
+    SourceFeedDialog { id: sourceFeedDialog; objectName: "sourceFeedEditor"; controller: app.controller }
 
     header: ToolBar {
         height: 64
