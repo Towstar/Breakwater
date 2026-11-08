@@ -20,9 +20,28 @@ and performs the UI overhaul last.
 - Sources/evidence: `science/evidence/eog-e1/` and
   `science/evidence/eog-contract-review/`.
 
-No goal was activated merely to author these instructions. The user invokes the
-prompt to start the durable execution. Do not mistake this document for an already
-executed detector, optimizer, simulation UI or integrated acceptance report.
+The preparation commit did not activate a goal. Ethan explicitly invoked this file
+on November 8; Goal mode is now active. This is not an executed detector, optimizer,
+simulation UI or integrated acceptance report.
+
+## Active execution checkpoint: exact-contract re-review
+
+- A execution base: `c194bd59a20a1f50008236a54f72bc6f3e975884`, clean at startup.
+- Remote main rechecked: `2bd7bb9e13f1f6788a57c4c49e6d7570293ad0eb`.
+- Upstream official main rechecked unchanged at `135ba4c8348357457420a1111df80ec1906bcbdb`;
+  README, SPEC, examples and history guide reviewed. No published judging folder.
+- Exact PR #33 `e3190fbfa73d5321adb8e1180a783a881001a919`: **40/40** contract
+  tests passed in a clean isolated detached checkout; R2 endpoint fix verified.
+  R1 empty/short forecast and R3 fractional-event representation remain open.
+- Numerical adoption remains **none**. Outcome/repair/cost semantics need Lucas's
+  explicit examples/decision. No provider or desktop binding was added.
+- New requirements matrix: `science/EOG_REQUIREMENTS_MATRIX.md`; scoped evidence
+  and command details: `science/evidence/eog-contract-review-e3190fb/`.
+- Startup coordination posted on PR #33:
+  https://github.com/Towstar/Breakwater/pull/33#issuecomment-6720226295 .
+- Next independent increment: pure causal observation/detection core and generated
+  fixtures, without consuming an unadopted wire representation. Lucas owns the
+  contract fixes, reciprocal coordination note, application path and shared status.
 
 ## Current preparation snapshot
 
@@ -40,10 +59,10 @@ executed detector, optimizer, simulation UI or integrated acceptance report.
 
 | Request / source | Owner | Disposition / next action |
 |---|---|---|
-| Review current EOG boundary, PR #33 | Ethan | Review latest exact head and compare fixes; record acceptance only after evidence |
-| Complete forecast coverage / cutoff-only result rejection, PR #33 review R1 | Lucas, Ethan verifies | Reproduced on `e8dab471`; recheck current implementation before claiming still open |
-| Actual CSV end must agree with untruncated snapshot-now, PR #33 review R2 | Lucas, Ethan verifies | Reproduced on `e8dab471`; recheck current implementation |
-| Fractional counterfactual events, do-nothing feasibility, cost availability, repair ordering/deadlines | Joint, Lucas publishes | Explicit semantics/examples required; recheck current draft |
+| Review current EOG boundary, PR #33 | Ethan | Re-reviewed exact e3190fb; 40/40 passed; adoption pending the remaining findings |
+| Complete forecast coverage / cutoff-only result rejection, PR #33 review R1 | Lucas, Ethan verifies | Reproduced again on e3190fb; still accepts both incomplete results |
+| Actual CSV end must agree with untruncated snapshot-now, PR #33 review R2 | Lucas, Ethan verifies | Fixed at e3190fb; independent false-endpoint probe rejects with invalid_time |
+| Fractional counterfactual events, do-nothing feasibility, cost availability, repair ordering/deadlines | Joint, Lucas publishes | e3190fb fractional event rejected with invalid_shape; explicit semantics/examples still required |
 | Causal provider, independent validator and joint search | Ethan | Planned after exact contract adoption; existing E1 functions are private analytical models |
 | Recorded replay and longer scenario simulation | Ethan numerical core; Lucas application | New user requirement in goal prompt; coordinate versioned inputs/results before UI binding |
 | UI overhaul | Lucas; Ethan audits numerical presentation | Last product priority after correctness, simulation and integrated workflows |

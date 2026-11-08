@@ -22,6 +22,9 @@ def review(root: Path, revision: str) -> dict:
     ).strip()
     if observed != revision:
         raise ValueError("Review checkout differs from the requested exact revision")
+    subprocess.run(["git", "-C", str(root), "diff", "--exit-code", revision, "--",
+                    "contracts/eog", "contracts/include/breakwater/eog.hpp"],
+                   check=True, capture_output=True)
     contract = root / "contracts" / "eog"
     spec = importlib.util.spec_from_file_location("reviewed_eog_contract", contract / "validate.py")
     validator = importlib.util.module_from_spec(spec)
@@ -118,7 +121,16 @@ def review(root: Path, revision: str) -> dict:
             fleet_case["expected_feasible"] is False
         ),
     }
-    return {"reviewed_revision": revision, "production_input_access": False,
+    tracked = subprocess.check_output(
+        ["git", "-C", str(root), "ls-tree", "-r", revision, "--",
+         "contracts/eog", "contracts/include/breakwater/eog.hpp"], text=True)
+    identities = []
+    for line in tracked.splitlines():
+        metadata, path = line.split("\t", 1)
+        identities.append({"path": path, "git_blob_sha1": metadata.split()[2],
+                           "sha256": hashlib.sha256((root / path).read_bytes()).hexdigest()})
+    return {"reviewed_revision": revision, "source_files": identities,
+            "production_input_access": False,
             "answer_key_access": False, "probes": probes, "independent_decimal_arithmetic": arithmetic}
 
 

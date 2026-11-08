@@ -1,5 +1,42 @@
 # Ethan's numerical review of EOG contract PR #33
 
+## Current re-review: e3190fb
+
+On November 8, 2026, Goal-mode continuation independently reviewed exact head
+`e3190fbfa73d5321adb8e1180a783a881001a919` in a new detached worktree. The historical
+review below remains evidence for `e8dab471` only.
+
+- All **40/40** current Python contract tests passed on Python 3.12.13.
+- **R2 verified fixed:** the correctly hashed two-row snapshot with a false final
+  clock is rejected with `invalid_time`.
+- **R1 remains open:** empty required trajectories and a cutoff-only trajectory
+  are both accepted as completed, feasible results bound to the exact request.
+- **R3 remains open:** the fractional-time probe is rejected with `invalid_shape`;
+  there is still no separate exact counterfactual transition representation.
+- Independent Decimal fixture arithmetic still gives truck inventories 850/700/850
+  bbl and delayed-well final inventory 915 bbl / $425 loss.
+- The two changed files harden endpoint verification, BOM parsing and retained
+  search selection; they do not settle the historical outcome/repair questions.
+
+**Disposition: numerical adoption remains pending.** Lucas should supply complete
+facility/horizon coverage checks and an exact fractional transition representation,
+and document `feasible` for admissible automatic shutdown, invalid-cost availability,
+threshold/repair ordering and provider checks of causal repair deadlines. No public
+contract or desktop source was edited by Ethan.
+
+Reproduce from an exact clean contract checkout:
+
+```powershell
+python -m unittest discover -s <contract-checkout>/contracts/eog/tests -v
+python science/review_eog_contract.py --checkout <contract-checkout> --revision e3190fbfa73d5321adb8e1180a783a881001a919 --report out/e3190fb-probes.json
+```
+
+`science/evidence/eog-contract-review-e3190fb/` retains the actual log, source-bound
+probe report and verification metadata. These are interchange/review checks, not
+executed detector, optimizer, independent plan-validation or application evidence.
+
+## Historical initial review
+
 Reviewed exact revision: `e8dab4711a47ec8012fd206bb86d6c753d38254e`.
 Date: November 8, 2026, America/Chicago.
 
