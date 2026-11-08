@@ -1,0 +1,5 @@
+# Bootstrap only: no numerical/model runtime dependencies.
+# Qt installer versions match the SDK installer exercised on the development host.
+requests==2.34.2
+py7zr==1.1.4
+PyYAML==6.0.3

@@ -1,5 +1,38 @@
 # Implementation status
 
+## G0/G1 baseline after PR #27 and PR #28
+
+- Main `7f2bb7f` includes verified PR #27 and preserves Person A's merged PR #28
+  (`487d80d`). Person B owns the application/contracts and integration workstream;
+  Person A owns numerical/scientific/proof implementations.
+- Person A's [observation semantics](../science/OBSERVATION_SEMANTICS.md), introduced
+  at `9941859`, supply G1 calibration, measurement-support, uncertainty, coverage
+  and failed-delivery requirements. They are guidance for shared contract review,
+  not adoption of a published G1 interface or a working sensor runtime.
+- Person A completed the [22-case F1 study](../science/FRONT_ACCURACY.md). Its
+  reported 186 Python/8 normal and ASan native passes are upstream evidence at the
+  revisions named there, not a fresh run of this combined application revision.
+  Application accuracy remains unqualified: the extended-inlet native outlet proxy
+  peaks at 0.610814 mg/L versus 0.950556 mg/L at reference output times and misses
+  the 0.9 mg/L crossing. The box-front maximum field error is approximately
+  0.493526 mg/L; the earlier 0.40191 mg/L limitation remains valid for its original case.
+- Current increments: credential-free Windows checks, then shared telemetry
+  interfaces and acceptance fixtures on a separate branch. New CI executions and
+  contract checks will be recorded separately from historical reports below.
+- G0 implements the [Windows checks workflow](WINDOWS_CHECKS.md): normal/ASan
+  native jobs gate separate desktop, CPU science and pinned Lean audit jobs.
+  Exact action pins, read-only permissions, D3D11/WARP rendering, checked local
+  dependencies and failure artifacts are included. Hosted execution status belongs
+  to GitHub's checks for the exact PR head; adding a workflow is not a hosted pass.
+- The new local runner passed **8/8 native suites in each normal/ASan mode**,
+  **12 workflow/result-policy regressions**, and full Python discovery:
+  **186 run, 182 passed, four declared optional PhysicsNeMo skips**. Source/helper
+  identities and local evidence are in [the G0 manifest](evidence/g0-local-checks.json).
+  The first local attempt failed in Visual Studio initialization with an oversized
+  inherited PATH; its evidence remains in `out/ci-attempts/`. The corrected bounded
+  process-local compiler bootstrap passed without changing user/system PATH.
+  Independent same-family source review found no actionable G0 defect.
+
 ## Captured-run Nemotron sensitivities and live operator-reviewed evidence
 
 - Local source checkpoint `ca84c0c` adds stored-run scientific tools and guarded
@@ -98,8 +131,8 @@
 - Planned evaluation: rules and physical residuals, statistical shift monitoring,
   and a bounded RBM comparison on held-out synthetic scenarios. No detector is
   demonstrated optimal; no learned result authorizes control.
-- Retained next work: PR #26 review/merge/current-baseline checks, Windows CI,
-  manual/clean-machine/operator acceptance, front/outlet/threshold accuracy,
+- Retained next work: current-baseline Windows CI and G1 contract review,
+  manual/clean-machine/operator acceptance, follow-up on F1 accuracy limitations,
   candidate-aware Science, automatic pipe history, scenario robustness and later
   conditioned PhysicsNeMo. A10a/A10b, deployed storage science, derivatives and
   scientific history below remain delivered rather than new assignments.

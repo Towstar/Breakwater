@@ -1,7 +1,7 @@
 # Person A: simulation, synthetic sensors and fault-detection evidence
 
-Updated November 7, 2026 (America/Chicago). Person A is the project owner and
-PDE/simulation developer. Use the active section of
+Updated November 7, 2026 (America/Chicago). Person A owns the numerical/scientific
+workstream. Use the active section of
 [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md) and
 [TELEMETRY_PLAN.md](TELEMETRY_PLAN.md), not the superseded A8/A9/A10 kickoff tasks.
 
@@ -12,8 +12,9 @@ their archived 54-proposition audit, native storage/search/transport, PyTorch wo
 deployed comparison, selected sensitivities and scientific history are delivered.
 PR #26 reconciles that main through `f504310`; its fresh 28-suite normal/ASan,
 127-test Python and installed sensitivity/history results are recorded in
-[PR26_RECONCILIATION.md](PR26_RECONCILIATION.md). Review the existing PR and current
-status; those passes are not fresh evidence for later numerical changes.
+[PR26_RECONCILIATION.md](PR26_RECONCILIATION.md). PR #26 is merged. Current main
+`7f2bb7f` also includes B's PR #27 and A's PR #28; earlier passes retain their
+recorded revisions and are not fresh evidence for later numerical changes.
 
 You write engine/, science/, proofs/ and scenarios/, including their tests, local
 build files and locks. B owns desktop/, contracts/, root build/scripts/solution,
@@ -38,24 +39,24 @@ Preserve original handoff/scenario constants and failure evidence. All sensor da
 operating costs and applied controls remain synthetic. There is no physical plant
 or hardware acceptance requirement for this milestone.
 
-## Immediate work: G1 physical review and F1 accuracy
+## Immediate work: review and adopt the shared G1 contract
 
-1. Review G1 measurement semantics with B: typed attachment, level-volume calibration,
+1. The numerical requirements are delivered in
+   [OBSERVATION_SEMANTICS.md](../science/OBSERVATION_SEMANTICS.md) at `9941859`.
+   Review B's exact G1 contract against these typed attachments, level-volume calibration,
    route position and concentration observation operator, measured versus commanded
    values, sensor uncertainty, primary/redundant policy and missing-data behavior.
    B publishes the shared contract before either workstream implements its mapping.
-2. While B handles integration/contracts, deliver F1 front/outlet/threshold accuracy
-   as a separate A-owned increment. Predeclare mean/maximum field error, outlet error,
-   arrival/threshold timing, supported ranges and reference uncertainty. Separate
-   space/time effects where practical. Retain the original coarse failure and the
-   existing approximately 0.40191 mg/L maximum cell-average front-error limitation.
-3. Decide whether a discretization change is justified from that study. Do not
+2. F1's 22-case study is delivered in
+   [FRONT_ACCURACY.md](../science/FRONT_ACCURACY.md), including measured outlet/front
+   limitations and the missed 0.9 mg/L crossing. Do not restart it as an unimplemented
+   task or interpret a completed study as qualified application accuracy.
+3. Any follow-up discretization change needs a separately scoped decision. Do not
    conflate mass balance/nonnegativity with peak accuracy, alter tolerances to pass,
    or start a new solver/proof family merely to enlarge scope.
 
-Record F1 under A-owned paths, for example science/FRONT_ACCURACY.md with explicit
-source/configuration hashes, actual commands, failures and an independently checked
-reference. B incorporates the result into shared status/presentation.
+Keep F1's original source/configuration hashes, commands, failures and reference
+evidence intact. After G1 adoption, proceed to the A-owned G2 mapping/publisher.
 
 ## G2: observation mapping and hypothetical plant/sensor generator
 
@@ -136,8 +137,9 @@ Continue BREAKWATER as Person A using docs/KICKOFF_PERSON_A.md.
 Inspect status and read the active continuation plan, telemetry plan and ownership.
 Preserve all existing work and start from current reviewed main in a separate worktree.
 A10a/A10b and deployed storage science/history are already delivered.
-First review G1 sensor/observation semantics for B's committed contract; undertake
-F1 front/outlet/threshold accuracy while B handles integration and contracts.
+G1 numerical guidance and the F1 accuracy study are delivered in PR28.
+Review B's committed G1 contract against OBSERVATION_SEMANTICS.md and adopt the
+same exact commit before implementing G2 mapping or the synthetic publisher.
 Keep hypothetical sensor data synthetic. Follow G2/G3 only after the shared contract
 gate, and keep D1's RBM comparison a separate evidence-based increment.
 Deliver one tested A-owned increment per PR; report B-owned issues with reproductions.

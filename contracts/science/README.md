@@ -2,8 +2,9 @@
 
 These are additive method contracts. A8's repo worker implements `health`,
 `capabilities` and CPU float64 `storage_rollout`; Python `pipe_transport` remains
-explicitly `not_implemented`. The desktop adapter still uses health only, and
-deployment of the scientific mapper/package/runtime remains B work. See
+explicitly `not_implemented`. The deployed desktop adapter executes real storage
+comparison and selected-control sensitivities, including stored-run analysis for
+Nemotron, and saves completed results in immutable History. See
 [worker implementation and evidence](../../science/WORKER.md).
 
 - [Pipe parameters](pipe-parameters-v1.schema.json) describe the strict serialized

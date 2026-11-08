@@ -27,6 +27,13 @@ reviewed/applied sessions plus a renamed changed-topology follow-up are recorded
 [STATUS.md](STATUS.md) and [DEMO_REHEARSAL.md](DEMO_REHEARSAL.md). This does not close
 all G4 release work or the manual selection/general forward portion of E1.
 
+Current baseline is main `7f2bb7f`: PR #27 is merged and Person A's PR #28 is
+preserved. [A's G1 observation requirements](../science/OBSERVATION_SEMANTICS.md)
+are available for contract review; the [F1 study](../science/FRONT_ACCURACY.md) is
+completed with material front/outlet/threshold limitations, not qualified accuracy.
+Do not repeat F1 as an unstarted assignment. B proceeds with Windows checks and G1;
+both adopt the same reviewed contract commit before G2 implementation.
+
 The next product increment introduces **hypothetical sensors and synthetic live
 telemetry**. There is no physical plant to connect. A deterministic simulated plant
 publishes time-stamped measurements through a common typed input; replay uses that
@@ -43,7 +50,7 @@ Everything newly proposed there is planned, not implemented or qualified.
 |---|---|---|---|
 | G0: reconcile and stabilize | Review numerical meaning; supply existing exact-grid/constraint oracles. | PR #26 is integrated; inspect later updates, validate the current revision and address operator-workflow gaps. Add Windows PR checks: native first, desktop/science/Lean as separate supported jobs with pinned setup. | Current reviewed main, actual checks and explicit skips. No tracked GitHub Actions workflow was present at the planning baseline. |
 | G1: sensor/telemetry contract | Define observation operators, level-volume calibration, measured-versus-commanded semantics, coverage, uncertainty and state mapping. | Publish additive sensor/reading/snapshot/event contracts, examples, limits, compatibility/version policy and ownership. | Both adopt the same committed contract before dependent implementation. |
-| F1: front/outlet/threshold accuracy | Predeclare peak/mean field, outlet and arrival/threshold timing errors; separate spatial/temporal effects and reference uncertainty. | Incorporate A's declared scope and limitations in presentation/status. | Can run alongside G0/G1 without interface edits. Retain coarse failure and approximately 0.40191 mg/L front maximum-error limitation until new evidence supersedes it. |
+| F1: front/outlet/threshold accuracy | PR #28 delivers the 22-case study; any solver follow-up is separately scoped. | Incorporate A's measured scope and limitations in presentation/status. | Completed study, not qualified accuracy. Retain the outlet peak/threshold miss, front errors and original coarse failure documented in science/FRONT_ACCURACY.md. |
 | G2: hypothetical sensors and streaming | Deliver seeded synthetic plant/sensor generator, independent fault truth and numerical observation fixtures. | Implement placed/configurable sensors, local NDJSON lifecycle, quality/freshness, charts, bounded recording and replay. | Canonical/custom networks, deterministic replay and explicit missing/bad-data states; no hardware needed. |
 | G3: detect and forecast | Deliver integrated balance/prediction residuals, uncertainty and sensor-coverage matrix, rules and statistical baselines. | Implement alarm lifecycle, frozen observed snapshots, background forecasts, bounded investigation triggers and freshness-aware simulated review. | Sensor/plant faults detected from emitted readings; no oracle leakage, stale approval, silently changed controls or unsupported physics. |
 | G4: release/operator acceptance | Review scientific meaning and relevant numerical parity. | Close manual save/open/export, compact layout and in-flight cancellation gaps; verify relocated installation and clean Windows setup; rehearse canonical/custom workflows. | Three clean canonical investigations plus custom follow-up with actual runs/native validation, explicit simulated approval and reset. Retain no-plan attempts. |
@@ -57,12 +64,13 @@ G4 is required before a release claim and is repeated for the telemetry extensio
 existing manual acceptance gaps should be exercised during G0 as well. E1/E2 are
 separate small increments after G3/G4, rather than requirements for the first sensor
 vertical slice. D1 is a bounded evaluation, not a prerequisite for deterministic
-detection. F1 and A's G1 review provide useful independent work while B integrates.
+detection. F1 evidence is delivered; A's review of B's exact G1 contract remains a
+dependency before either workstream implements G2.
 
 ### Immediate assignments
 
-- **Person A:** review the proposed G1 physical mappings and coverage, then start F1
-  while B establishes the common contract. After G1, deliver G2's synthetic generator
+- **Person A:** review B's exact G1 contract against the delivered observation
+  guidance and retain F1's accuracy limitations. After adoption, deliver G2's synthetic generator
   and observation mapping, then G3 residuals/uncertainty and the detector evaluation
   harness. Maintain existing proof assumptions; A10a/A10b are already delivered.
 - **Person B:** first coordinate G0 with the active integration worktree. Publish G1

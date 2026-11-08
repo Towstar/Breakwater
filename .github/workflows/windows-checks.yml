@@ -1,0 +1,164 @@
+name: Windows checks
+
+'on':
+  pull_request:
+  push:
+    branches: [main]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: windows-checks-${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+defaults:
+  run:
+    shell: pwsh
+
+env:
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONNOUSERSITE: '1'
+  NVIDIA_API_KEY: ''
+
+jobs:
+  native:
+    name: Native (${{ matrix.mode }})
+    runs-on: windows-2022
+    timeout-minutes: 30
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, asan]
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.13'
+      - name: Configure, build and test native code
+        run: ./scripts/ci/Run-Checks.ps1 -Suite native -Mode '${{ matrix.mode }}'
+      - name: Retain native evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: windows-native-${{ matrix.mode }}
+          path: out/ci/native-${{ matrix.mode }}/
+          if-no-files-found: error
+          retention-days: 14
+
+  desktop:
+    name: Desktop (${{ matrix.mode }})
+    needs: native
+    runs-on: windows-2022
+    timeout-minutes: 60
+    strategy:
+      fail-fast: false
+      matrix:
+        mode: [normal, asan]
+    env:
+      QSG_RHI_BACKEND: d3d11
+      QSG_RHI_PREFER_SOFTWARE_RENDERER: '1'
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.13'
+      - name: Restore verified Qt SDK cache
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .tools/Qt
+            .tools/qt-downloads
+          key: windows-2022-qt-${{ hashFiles('scripts/install-qt.py', 'scripts/ci/requirements-win-py312.txt') }}
+      - name: Restore pinned scientific downloads
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .tools/uv
+            .tools/uv-python
+            .tools/uv-python-cache
+            .tools/uv-cache
+          key: windows-2022-cpu-${{ hashFiles('scripts/Setup-ScientificWorker.ps1', 'science/requirements-win-cpu-py312.txt', 'science/requirements-worker-tests-win-py312.txt') }}
+      - name: Configure, build and test desktop
+        run: ./scripts/ci/Run-Checks.ps1 -Suite desktop -Mode '${{ matrix.mode }}'
+      - name: Retain desktop evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: windows-desktop-${{ matrix.mode }}
+          path: |
+            out/ci/desktop-${{ matrix.mode }}/
+            .tools/science-setup/*.log
+            .tools/science-setup/runtime.json
+          if-no-files-found: error
+          retention-days: 14
+
+  science:
+    name: Python science (CPU)
+    needs: native
+    runs-on: windows-2022
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1 # v6
+        with:
+          python-version: '3.12.13'
+      - name: Restore pinned scientific downloads
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .tools/uv
+            .tools/uv-python
+            .tools/uv-python-cache
+            .tools/uv-cache
+          key: windows-2022-cpu-${{ hashFiles('scripts/Setup-ScientificWorker.ps1', 'science/requirements-win-cpu-py312.txt', 'science/requirements-worker-tests-win-py312.txt') }}
+      - name: Run actual CPU science discovery
+        run: ./scripts/ci/Run-Checks.ps1 -Suite science
+      - name: Retain science evidence and explicit skips
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: windows-science-cpu
+          path: |
+            out/ci/science-normal/
+            .tools/science-setup/*.log
+            .tools/science-setup/runtime.json
+          if-no-files-found: error
+          retention-days: 14
+
+  lean:
+    name: Lean assumption audit
+    needs: native
+    runs-on: windows-2022
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Restore pinned Lean and Mathlib downloads
+        uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .tools/lean
+            .tools/mathlib-cache
+            proofs/.lake/packages
+          key: windows-2022-lean-${{ hashFiles('proofs/lean-toolchain', 'proofs/lake-manifest.json', 'scripts/ci/Run-Checks.ps1') }}
+      - name: Build proofs and run positive/negative audits
+        run: ./scripts/ci/Run-Checks.ps1 -Suite lean
+      - name: Retain proof evidence
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: windows-lean
+          path: |
+            out/ci/lean-normal/
+            out/a6-proofs/
+          if-no-files-found: error
+          retention-days: 14
