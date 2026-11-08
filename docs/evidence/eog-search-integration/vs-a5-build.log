@@ -1,0 +1,217 @@
+MSBuild version 17.14.23+b0019275e for .NET Framework
+
+  Checking File Globs
+  breakwater_eog_contracts_resources_1.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater_eog_contracts_resources_1.dir\RelWithDebInfo\breakwater_eog_contracts_resources_1.lib
+  breakwater_eog_dto_compile.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\breakwater_eog_dto_compile.dir\RelWithDebInfo\breakwater_eog_dto_compile.lib
+  breakwater_engine.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_engine.lib
+  1>Automatic MOC and UIC for target breakwater_project_document
+  Running AUTOMOC file extraction for target breakwater_project_document
+  breakwater_project_document.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_project_document.lib
+  1>Automatic MOC and UIC for target breakwater_telemetry
+  Running AUTOMOC file extraction for target breakwater_telemetry
+  breakwater_telemetry.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_telemetry.lib
+  1>Automatic MOC and UIC for target breakwater_desktop_base
+  Running AUTOMOC file extraction for target breakwater_desktop_base
+  breakwater_desktop_base.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_desktop_base.lib
+  1>Automatic MOC and UIC for target breakwater_agent
+  Running AUTOMOC file extraction for target breakwater_agent
+  Copying breakwater qml sources into build dir
+  Running qmlimportscanner for breakwater
+  Generating qt.conf part for breakwater
+  Generating qt.conf file
+  Running moc --collect-json for target breakwater_agent
+  AgentController.cpp
+  AgentOrchestrator.cpp
+  CredentialSettings.cpp
+  NemotronClient.cpp
+  SessionRecorder.cpp
+  mocs_compilation_RelWithDebInfo.cpp
+  Generating Code...
+  breakwater_agent.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_agent.lib
+  breakwater_eog_response.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_eog_response.dll
+  1>Automatic MOC and UIC for target breakwater_eog_contracts
+  Running AUTOMOC file extraction for target breakwater_eog_contracts
+  breakwater_eog_contracts.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_contracts.lib
+  1>Automatic MOC and UIC for target breakwater_eog
+  Running AUTOMOC file extraction for target breakwater_eog
+  breakwater_eog.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog.lib
+  1>Automatic MOC and UIC for target breakwater_eog_workflow
+  Running AUTOMOC file extraction for target breakwater_eog_workflow
+  Running moc --collect-json for target breakwater_eog_workflow
+  EogAnalysisController.cpp
+  EogInvestigator.cpp
+  mocs_compilation_RelWithDebInfo.cpp
+  Generating Code...
+  breakwater_eog_workflow.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_workflow.lib
+  1>Automatic MOC and UIC for target breakwater_telemetry_runtime
+  Running AUTOMOC file extraction for target breakwater_telemetry_runtime
+  breakwater_telemetry_runtime.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_telemetry_runtime.lib
+  1>Automatic MOC and UIC for target breakwater
+  Running AUTOMOC file extraction for target breakwater
+  Automatic QML type registration for target breakwater
+  Running rcc for resource breakwater_raw_qml_0
+  Generating .rcc/qmlcache/breakwater_qml_Main_qml.cpp, .rcc/qmlcache/breakwater_qml_Main_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_Equipment_qml.cpp, .rcc/qmlcache/breakwater_qml_Equipment_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_PipeRoute_qml.cpp, .rcc/qmlcache/breakwater_qml_PipeRoute_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_AgentPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_AgentPanel_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_TrajectoryChart_qml.cpp, .rcc/qmlcache/breakwater_qml_TrajectoryChart_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_PipeTransportPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_PipeTransportPanel_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_StorageSciencePanel_qml.cpp, .rcc/qmlcache/breakwater_qml_StorageSciencePanel_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_SensorPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_SensorPanel_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_TelemetryPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_TelemetryPanel_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_SensorTraceChart_qml.cpp, .rcc/qmlcache/breakwater_qml_SensorTraceChart_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_EogDatasetPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_EogDatasetPanel_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_EogNetworkView_qml.cpp, .rcc/qmlcache/breakwater_qml_EogNetworkView_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_EogTrendChart_qml.cpp, .rcc/qmlcache/breakwater_qml_EogTrendChart_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_EogAnalysisPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_EogAnalysisPanel_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_EogPlanChart_qml.cpp, .rcc/qmlcache/breakwater_qml_EogPlanChart_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_EogPlanDetails_qml.cpp, .rcc/qmlcache/breakwater_qml_EogPlanDetails_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_EogEventDetails_qml.cpp, .rcc/qmlcache/breakwater_qml_EogEventDetails_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_Theme_qml.cpp, .rcc/qmlcache/breakwater_qml_Theme_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_ActionButton_qml.cpp, .rcc/qmlcache/breakwater_qml_ActionButton_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_ActionFeedbackCard_qml.cpp, .rcc/qmlcache/breakwater_qml_ActionFeedbackCard_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_IndustrialEquipment_qml.cpp, .rcc/qmlcache/breakwater_qml_IndustrialEquipment_qml.cpp.aotstats
+  Generating .rcc/qmlcache/breakwater_qml_IndustrialPipe_qml.cpp, .rcc/qmlcache/breakwater_qml_IndustrialPipe_qml.cpp.aotstats
+  main.cpp
+  WorkbenchUiCheck.cpp
+  qrc_breakwater_raw_qml_0.cpp
+  breakwater_qml_ActionButton_qml.cpp
+  breakwater_qml_ActionFeedbackCard_qml.cpp
+  breakwater_qml_AgentPanel_qml.cpp
+  breakwater_qml_EogAnalysisPanel_qml.cpp
+  breakwater_qml_EogDatasetPanel_qml.cpp
+  breakwater_qml_EogEventDetails_qml.cpp
+  breakwater_qml_EogNetworkView_qml.cpp
+  breakwater_qml_EogPlanChart_qml.cpp
+  breakwater_qml_EogPlanDetails_qml.cpp
+  breakwater_qml_EogTrendChart_qml.cpp
+  breakwater_qml_Equipment_qml.cpp
+  breakwater_qml_IndustrialEquipment_qml.cpp
+  breakwater_qml_IndustrialPipe_qml.cpp
+  breakwater_qml_Main_qml.cpp
+  breakwater_qml_PipeRoute_qml.cpp
+  breakwater_qml_PipeTransportPanel_qml.cpp
+  breakwater_qml_SensorPanel_qml.cpp
+  Generating Code...
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112,1): warning C4702: unreachable code [C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\breakwater.vcxproj]
+  Compiling...
+  breakwater_qml_SensorTraceChart_qml.cpp
+  breakwater_qml_StorageSciencePanel_qml.cpp
+  breakwater_qml_TelemetryPanel_qml.cpp
+  breakwater_qml_Theme_qml.cpp
+  breakwater_qml_TrajectoryChart_qml.cpp
+  Generating Code...
+  breakwater_qmltyperegistrations.cpp
+     Creating library C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/ui-vs/desktop/RelWithDebInfo/breakwater.lib and object C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/ui-vs/desktop/RelWithDebInfo/breakwater.exp
+  breakwater.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater.exe
+  Automatic MOC and UIC for target breakwater_agent_gateway_tests
+  breakwater_agent_gateway_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_agent_gateway_tests.exe
+  Automatic MOC and UIC for target breakwater_agent_orchestrator_tests
+  agent_orchestrator_tests.cpp
+  breakwater_agent_orchestrator_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_agent_orchestrator_tests.exe
+  Automatic MOC and UIC for target breakwater_agent_science_tests
+  breakwater_agent_science_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_agent_science_tests.exe
+  breakwater_benchmark.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_benchmark.exe
+  breakwater_cli.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_cli.exe
+  breakwater_control_influence_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_control_influence_tests.exe
+  Automatic MOC and UIC for target breakwater_desktop_tests
+  breakwater_desktop_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_desktop_tests.exe
+  breakwater_engine_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_engine_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_analysis_client_tests
+  breakwater_eog_analysis_client_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_analysis_client_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_analysis_controller_tests
+  eog_analysis_controller_tests.cpp
+  breakwater_eog_analysis_controller_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_analysis_controller_tests.exe
+  breakwater_eog_analytical.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_eog_analytical.lib
+  breakwater_eog_analytical_example.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_eog_analytical_example.exe
+  breakwater_eog_analytical_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_eog_analytical_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_capture_tests
+  breakwater_eog_capture_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_capture_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_contract_tests
+  breakwater_eog_contract_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_contract_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_dataset_tests
+  breakwater_eog_dataset_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_dataset_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_event_details_tests
+  breakwater_eog_event_details_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_event_details_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_history_tests
+  breakwater_eog_history_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_history_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_investigator_tests
+  eog_investigator_tests.cpp
+  breakwater_eog_investigator_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_investigator_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_live_check
+  live_check.cpp
+  breakwater_eog_live_check.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_live_check.exe
+  Automatic MOC and UIC for target breakwater_eog_plan_chart_tests
+  breakwater_eog_plan_chart_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_plan_chart_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_plan_details_tests
+  breakwater_eog_plan_details_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_plan_details_tests.exe
+  Automatic MOC and UIC for target breakwater_eog_provider_tests
+  eog_provider_integration_tests.cpp
+  breakwater_eog_provider_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_eog_provider_tests.exe
+  breakwater_eog_response_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_eog_response_tests.exe
+  Automatic MOC and UIC for target breakwater_history_controller_tests
+  history_controller_tests.cpp
+  breakwater_history_controller_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_history_controller_tests.exe
+  Automatic MOC and UIC for target breakwater_nemotron_client_tests
+  nemotron_client_tests.cpp
+  breakwater_nemotron_client_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_nemotron_client_tests.exe
+  Automatic MOC and UIC for target breakwater_nemotron_smoke
+  live_smoke.cpp
+  breakwater_nemotron_smoke.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_nemotron_smoke.exe
+  breakwater_physicsnemo_reference.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_physicsnemo_reference.exe
+  Automatic MOC and UIC for target breakwater_pipe_parameters_tests
+  breakwater_pipe_parameters_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_pipe_parameters_tests.exe
+  Automatic MOC and UIC for target breakwater_pipe_transport_evidence_tests
+  breakwater_pipe_transport_evidence_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_pipe_transport_evidence_tests.exe
+  Automatic MOC and UIC for target breakwater_pipe_transport_tests
+  breakwater_pipe_transport_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_pipe_transport_tests.exe
+  Automatic MOC and UIC for target breakwater_python_worker_tests
+  breakwater_python_worker_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_python_worker_tests.exe
+  breakwater_rollout_reference.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_rollout_reference.exe
+  Automatic MOC and UIC for target breakwater_science_evidence_tests
+  breakwater_science_evidence_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_science_evidence_tests.exe
+  breakwater_search_example.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_search_example.exe
+  breakwater_search_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_search_tests.exe
+  Automatic MOC and UIC for target breakwater_sensor_editor_tests
+  sensor_editor_tests.cpp
+  breakwater_sensor_editor_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_sensor_editor_tests.exe
+  Automatic MOC and UIC for target breakwater_session_repository_tests
+  breakwater_session_repository_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_session_repository_tests.exe
+  Automatic MOC and UIC for target breakwater_storage_science_tests
+  breakwater_storage_science_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_storage_science_tests.exe
+  Automatic MOC and UIC for target breakwater_storage_worker_tests
+  breakwater_storage_worker_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_storage_worker_tests.exe
+  Automatic MOC and UIC for target breakwater_telemetry_contract_check
+  breakwater_telemetry_contract_check.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_telemetry_contract_check.exe
+  Automatic MOC and UIC for target breakwater_telemetry_contract_tests
+  breakwater_telemetry_contract_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_telemetry_contract_tests.exe
+  Automatic MOC and UIC for target breakwater_telemetry_lifecycle_tests
+  breakwater_telemetry_lifecycle_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_telemetry_lifecycle_tests.exe
+  Automatic MOC and UIC for target breakwater_telemetry_stream_tests
+  breakwater_telemetry_stream_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\desktop\RelWithDebInfo\breakwater_telemetry_stream_tests.exe
+  breakwater_transport_example.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_transport_example.exe
+  breakwater_transport_qualification_reference.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_transport_qualification_reference.exe
+  breakwater_transport_tests.vcxproj -> C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\out\ui-vs\engine\RelWithDebInfo\breakwater_transport_tests.exe

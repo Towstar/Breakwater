@@ -31,6 +31,8 @@ bool compatiblePlans(const QJsonObject& a, const QJsonObject& b) {
 QJsonObject modelResponse(QJsonObject response) {
     // Full evidence is retained locally. The model receives plans, costs and
     // constraints, with bounded trajectory endpoints rather than every point.
+    // Reserve room for the surrounding tool-result envelope.
+    constexpr qsizetype modelResponseBudget = 255 * 1024;
     auto result = response.value("result").toObject();
     const auto compact = [](QJsonObject evaluation) {
         QJsonArray trajectories;
@@ -69,9 +71,45 @@ QJsonObject modelResponse(QJsonObject response) {
         result["evidence"] = retained; result["retained_evidence_count"] = all.size();
     }
     response["result"] = result;
-    if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > 256 * 1024)
+    if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > modelResponseBudget &&
+        (result.contains("evaluation") || result.contains("evaluations"))) {
+        // Presentation-only fallback. Exact plans/trajectories remain in the
+        // registry/history; validate_plan resolves the retained ID, never this
+        // intentionally incomplete schedule preview.
+        const auto summary = [](const QJsonObject& value) {
+            const auto plan = value.value("plan").toObject();
+            const auto jobs = plan.value("truck_jobs").toArray(); qint64 trips = 0;
+            for (const auto& job : jobs) trips += job.toObject().value("trips").toArray().size();
+            QJsonObject identity;
+            for (const auto* key : {"plan_id", "plan_hash", "context", "start_unix"}) identity[key] = plan.value(key);
+            QJsonObject output{{"plan", identity}, {"truck_job_count", jobs.size()}, {"truck_trip_count", trips},
+                {"well_shut_in_count", plan.value("well_shut_ins").toArray().size()},
+                {"repair_deadline_count", plan.value("repair_deadlines").toArray().size()},
+                {"complete_evidence_retained_locally", true}};
+            for (const auto* key : {"feasible", "coverage", "outcome", "cost"}) output[key] = value.value(key);
+            output["violation_count"] = value.value("violations").toArray().size();
+            output["shutdown_count"] = value.value("shutdowns").toArray().size();
+            return output;
+        };
+        QJsonObject brief{{"analysis_id", result.value("analysis_id")},
+            {"presentation", "Bounded summary only; full actions, horizons, constraints and trajectories remain in local evidence. Use validate_plan with the retained plan_id."}};
+        if (result.contains("evaluation")) brief["evaluation"] = summary(result.value("evaluation").toObject());
+        if (result.contains("evaluations")) {
+            QJsonArray values; for (const auto& value : result.value("evaluations").toArray()) values.append(summary(value.toObject()));
+            brief["evaluations"] = values; brief["retained_evaluation_count"] = result.value("retained_evaluation_count");
+        }
+        for (const auto* key : {"selected_plan_id", "search"}) if (result.contains(key)) brief[key] = result.value(key);
+        QJsonArray limits; const auto allLimits = result.value("limitations").toArray();
+        for (const auto& value : allLimits) { if (limits.size() == 8) break; limits.append(value.toString().left(1024)); }
+        brief["limitations_preview"] = limits; brief["full_limitation_count"] = allLimits.size();
+        response["result"] = brief;
+        const auto allDiagnostics = response.value("diagnostics").toArray(); QJsonArray diagnostics;
+        for (const auto& value : allDiagnostics) { if (diagnostics.size() == 4) break; diagnostics.append(value); }
+        response["diagnostics"] = diagnostics; response["full_diagnostic_count"] = allDiagnostics.size();
+    }
+    if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > modelResponseBudget)
         return {{"request_id", response.value("request_id")}, {"operation", response.value("operation")},
-            {"status", response.value("status")}, {"detail", "Numerical evidence exceeds model output budget; retained in local history."}};
+            {"status", response.value("status")}, {"detail", "Numerical evidence exceeds model output budget; retained locally. History persistence is reported separately."}};
     return response;
 }
 }
@@ -133,12 +171,21 @@ EogAnalysisController::EogAnalysisController(EogDatasetController* dataset, EogA
     connect(&investigator_, &EogInvestigator::toolRequested, this, &EogAnalysisController::toolRequested);
     connect(&investigator_, &EogInvestigator::cancellationRequested, client_, &EogAnalysisClient::cancel);
     connect(&investigator_, &EogInvestigator::finished, this, &EogAnalysisController::finalResult);
+    connect(&investigator_, &EogInvestigator::finalCorrectionRequested, this, [this](const QString& reason) {
+        if (retiring_) return;
+        // The investigator supplies a fixed validation-stage literal, never
+        // rejected model text. This is a bounded formatting retry, not a sealed
+        // failure or permission to bypass the eventual grounding checks.
+        status_ = "Nemotron is correcting the final JSON format. Numerical evidence remains available.";
+        recordEvent({{"type", "failure"}, {"code", "final_format_rejected_" + reason}});
+    });
     connect(&investigator_, &EogInvestigator::failed, this, [this](const QString& code, const QString&) {
         if (retiring_) return;
+        const auto recordedCode = code == "invalid_final" ? "invalid_final_" + investigator_.finalRejectionReason() : code;
         review_disabled_ = true;
         client_->cancel(); pending_request_ = {}; pending_execution_.clear();
-        status_ = "Nemotron investigation incomplete (" + code + "). Numerical evidence remains available.";
-        if (!session_id_.isEmpty() && !sealed_) { recordEvent({{"type", "failure"}, {"code", code}}); history_->finishSession(session_id_, "failed"); sealed_ = true; }
+        status_ = "Nemotron investigation incomplete (" + recordedCode + "). Numerical evidence remains available.";
+        if (!session_id_.isEmpty() && !sealed_) { recordEvent({{"type", "failure"}, {"code", recordedCode}}); history_->finishSession(session_id_, "failed"); sealed_ = true; }
         emit changed();
     });
     connect(&investigator_, &EogInvestigator::requestMetadata, this, [this](QJsonObject metadata) {
@@ -492,7 +539,7 @@ QJsonArray EogAnalysisController::toolDefinitions() const {
         tool("detect", "Execute the numerical causal detector for requested systems; an empty list means all systems. Response plans require the complete ongoing pump_failure facility set, not resolved or inspection events.", {{"system_ids", systems}}, {"system_ids"}),
         tool("evaluate_plan", "Evaluate explicit controls and captured-policy repair horizons for every ongoing pump_failure facility using the complete nested schema. Omit plan_id, plan_hash, context and start_unix entirely, not null, to bind the current capture; do not calculate a hash. Supply all four required arrays. Empty truck_jobs and well_shut_ins are a structural no-action baseline. Repair elapsed seconds equal captured repair hours * 3600 minus (cutoff - causal onset), not elapsed-since-onset or rounded countdown. No numerical actions or horizons are supplied automatically; no controls are applied.",
             {{"plan", agent_plan_schema()}}, {"plan"}),
-        tool("search_plans", "Execute bounded joint numerical search. Compare retained admissible costs including no action; disclose scope and limitations.",
+        tool("search_plans", "Execute bounded joint numerical search across the captured network. Use [] for all systems; the packaged provider returns system_scope_unavailable for a proper subset. Compare retained admissible costs including no action; disclose scope and limitations.",
             {{"system_ids", systems}, {"candidate_limit", integer(1, 10000)}, {"time_limit_s", QJsonObject{{"type", "number"}, {"exclusiveMinimum", 0}, {"maximum", 60}}}},
             {"system_ids", "candidate_limit", "time_limit_s"}),
         tool("validate_plan", "Execute the independent validator on a retained exact plan. Use the actual plan_id returned by a completed evaluation and copy context.evaluator_method exactly; never guess either. Rejected proposals create no retained plan. eog-response-* is a wrapper version, not the numerical evaluator implementation.",

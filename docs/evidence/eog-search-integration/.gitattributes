@@ -1,0 +1,5 @@
+# Preserve exact retained verification bytes and their recorded hashes.
+* -text whitespace=cr-at-eol,-blank-at-eof
+# Captured tool output is immutable, including its original trailing spaces.
+*.log -whitespace
+*.xml -whitespace

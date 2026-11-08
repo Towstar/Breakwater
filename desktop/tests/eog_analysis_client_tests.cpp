@@ -99,6 +99,25 @@ private slots:
         QCOMPARE(metadata.value("method").toString(), "detect"); QCOMPARE(metadata.value("retry_count").toInt(), 0);
         QVERIFY(!QJsonDocument(metadata).toJson().contains(lease->directory().toUtf8()));
     }
+    void injectedSearchExchangeDoesNotInventImplementationIdentity() {
+        // This real process is deliberately a protocol fixture, not search.
+        // Wire method_version and the operation name cannot identify its code.
+        const auto lease = capture(); auto input = request(lease, "protocol-only-search");
+        input["operation"] = "search_plans";
+        input["arguments"] = QJsonObject{{"system_ids", QJsonArray{}}, {"candidate_limit", 17}, {"time_limit_s", 1}};
+        EogAnalysisClient client(python(), worker_, {"unavailable"});
+        QSignalSpy done(&client, &EogAnalysisClient::completed), failed(&client, &EogAnalysisClient::failed);
+        QVERIFY(client.start(input, lease, 15000)); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 15000);
+        QVERIFY(failed.isEmpty()); QVERIFY(!client.executionVerified());
+        const auto response = done.first().at(0).toJsonObject(), metadata = done.first().at(1).toJsonObject();
+        QCOMPARE(response.value("method_version"), QJsonValue(1));
+        QCOMPARE(response.value("status"), QJsonValue("unavailable"));
+        QCOMPARE(metadata.value("method"), QJsonValue("search_plans"));
+        QCOMPARE(metadata.keys(), (QStringList{"duration_ms", "method", "process_exit_code", "retry_count", "status"}));
+        for (const auto* field : {"worker_identity", "worker_method", "search_method", "implementation_version"})
+            QVERIFY(!metadata.contains(QLatin1String(field)));
+        QVERIFY(!QJsonDocument(metadata).toJson().contains(lease->directory().toUtf8()));
+    }
     void failures_data() {
         QTest::addColumn<QString>("mode"); QTest::addColumn<QString>("code");
         const QList<QPair<QString, QString>> cases{

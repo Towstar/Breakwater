@@ -28,6 +28,19 @@ Dialog {
     padding: 18
     background: Rectangle { color: Theme.surface; border.color: Theme.divider; radius: Theme.cornerRadius }
     standardButtons: Dialog.Close
+    component DialogHeading: Rectangle {
+        id: heading
+        required property var owner
+        property string closeName: ""
+        implicitHeight: 54
+        color: Theme.raised
+        RowLayout {
+            anchors.fill: parent; anchors.leftMargin: 18; anchors.rightMargin: 12
+            Label { Layout.fillWidth: true; text: heading.owner.title; elide: Text.ElideRight; color: Theme.text; font.pixelSize: 16; font.bold: true }
+            ActionButton { objectName: heading.closeName; iconName: "x"; text: "Close"; display: AbstractButton.IconOnly; tooltip: "Close"; onClicked: heading.owner.close() }
+        }
+    }
+    header: DialogHeading { owner: panel; closeName: "eogAnalysisClose" }
     function pretty(value) { return JSON.stringify(value, null, 2) }
     function money(value) { return typeof value === "number" && isFinite(value) ? "$" + value.toFixed(2) : "unavailable" }
     function utc(value) { return typeof value === "number" ? new Date(value * 1000).toISOString() : "unavailable" }
@@ -38,6 +51,8 @@ Dialog {
         if (row.type === "tool_result") return (row.ok === true ? "Tool completed · " : row.ok === false ? "Tool failed · " : "Tool result · ") + String(row.name || "unnamed tool")
         if (row.type === "final") return "Final explanation recorded"
         if (row.type === "cancel") return "Investigation cancelled"
+        if (row.type === "failure" && String(row.code || "").indexOf("final_format_rejected_") === 0)
+            return "Final format correction requested"
         if (row.type === "failure") return "Investigation incomplete"
         return "Recorded event · " + String(row.type || "unavailable")
     }
@@ -85,6 +100,7 @@ Dialog {
     }
     Dialog {
         id: editor; parent: Overlay.overlay; anchors.centerIn: parent; modal: true; title: "Evaluate an explicit counterfactual plan"
+        header: DialogHeading { owner: editor; closeName: "eogPlanEditorClose" }
         width: Math.min(800, parent ? parent.width - 40 : 800); height: Math.min(650, parent ? parent.height - 40 : 650)
         standardButtons: Dialog.Cancel
         contentItem: ColumnLayout {
@@ -95,6 +111,7 @@ Dialog {
     }
     Dialog {
         id: review; parent: Overlay.overlay; anchors.centerIn: parent; modal: true; title: "Record advisory review"
+        header: DialogHeading { owner: review; closeName: "eogReviewClose" }
         width: Math.min(800, parent ? parent.width - 40 : 800); height: Math.min(660, parent ? parent.height - 40 : 660)
         standardButtons: Dialog.Cancel
         contentItem: ColumnLayout {

@@ -14,7 +14,7 @@ ColumnLayout {
     readonly property bool scienceVisible: tabs.currentIndex === 3
     readonly property var reviewData: investigator.review || ({})
     readonly property var comparisonData: history.comparison || ({})
-    spacing: 6
+    spacing: 8
     function showScience() { tabs.currentIndex = 3 }
     function number(value, digits) {
         return value !== undefined && value !== null && Number.isFinite(Number(value))
@@ -38,6 +38,23 @@ ColumnLayout {
     }
     component PlainLabel: Label { textFormat: Text.PlainText; color: Theme.text; font.pixelSize: Theme.bodySize }
     component SectionLabel: PlainLabel { color: Theme.secondary; font.pixelSize: Theme.captionSize; font.letterSpacing: 1 }
+    component DialogHeading: Rectangle {
+        id: headingBar
+        required property string heading
+        signal closeRequested()
+        implicitHeight: 48; color: Theme.surface
+        Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider }
+        RowLayout {
+            anchors.fill: parent; anchors.margins: 6; anchors.leftMargin: 14; anchors.rightMargin: 8; spacing: 12
+            PlainLabel { Layout.fillWidth: true; text: headingBar.heading; font.weight: Font.DemiBold; elide: Text.ElideRight }
+            ActionButton {
+                iconName: "x"; text: "Close"; display: AbstractButton.IconOnly
+                Layout.preferredWidth: 32; Layout.preferredHeight: 32
+                tooltip: "Close " + headingBar.heading; accessibleName: tooltip
+                onClicked: headingBar.closeRequested()
+            }
+        }
+    }
     Connections {
         target: panel.history
         function onChanged() {
@@ -49,6 +66,7 @@ ColumnLayout {
         id: keyDialog
         objectName: "nemotronKeyDialog"
         title: "NVIDIA API key"
+        header: DialogHeading { heading: keyDialog.title; onCloseRequested: keyDialog.close() }
         modal: true
         anchors.centerIn: Overlay.overlay
         width: Math.min(460, panel.width - 28)
@@ -90,11 +108,15 @@ ColumnLayout {
     }
 
     RowLayout {
-        Layout.fillWidth: true
-        PlainLabel {
-            Layout.fillWidth: true; wrapMode: Text.WordWrap
-            text: panel.credentials.status
-            color: panel.credentials.configured ? Theme.secondary : Theme.warning
+        Layout.fillWidth: true; spacing: 12
+        ColumnLayout {
+            Layout.fillWidth: true; spacing: 3
+            SectionLabel { text: "NEMOTRON INVESTIGATOR"; font.bold: true }
+            PlainLabel {
+                Layout.fillWidth: true; elide: Text.ElideRight; font.pixelSize: Theme.captionSize
+                text: panel.credentials.status
+                color: panel.credentials.configured ? Theme.secondary : Theme.warning
+            }
         }
         ActionButton {
             iconName: "key-round"
@@ -105,30 +127,40 @@ ColumnLayout {
         }
     }
 
-    RowLayout {
-        Layout.fillWidth: true; spacing: 8
+    GridLayout {
+        Layout.fillWidth: true; columns: panel.width < 1100 ? 1 : 2; columnSpacing: 12; rowSpacing: 8
         TextField {
-            id: objective; Layout.fillWidth: true
+            id: objective; objectName: "investigationObjective"; Layout.fillWidth: true; Layout.minimumWidth: 0
             text: "Our main transfer pump failed. Find a validated response for the next three hours at low modeled cost."
             placeholderText: "Operator objective"; maximumLength: 4000; enabled: !panel.investigator.running
+            Accessible.name: "Operator objective"
             onAccepted: { if (investigateButton.enabled) investigateButton.clicked() }
         }
-        ActionButton { iconName: "workflow";
-            id: investigateButton; text: "Investigate"; highlighted: true
-            enabled: !panel.investigator.running && objective.text.trim().length > 0
-            onClicked: { panel.history.showLive(); tabs.currentIndex = 0; panel.investigator.investigate(objective.text) }
+        RowLayout {
+            Layout.fillWidth: panel.width < 1100; spacing: 8
+            ActionButton { iconName: "workflow";
+                id: investigateButton; text: "Investigate"; highlighted: true
+                enabled: !panel.investigator.running && objective.text.trim().length > 0
+                onClicked: { panel.history.showLive(); tabs.currentIndex = 0; panel.investigator.investigate(objective.text) }
+            }
+            ActionButton { iconName: "square"; text: "Cancel"; enabled: panel.investigator.running; onClicked: panel.investigator.cancel() }
+            ActionButton { iconName: "clipboard-check"; text: "Review staged plan"; enabled: !!panel.reviewData.run_id || panel.investigator.canApprove; onClicked: reviewDialog.open() }
+            Item { Layout.fillWidth: true; visible: panel.width < 1100 }
         }
-        ActionButton { iconName: "square"; text: "Cancel"; enabled: panel.investigator.running; onClicked: panel.investigator.cancel() }
-        ActionButton { iconName: "clipboard-check"; text: "Review staged plan"; enabled: !!panel.reviewData.run_id || panel.investigator.canApprove; onClicked: reviewDialog.open() }
     }
-    PlainLabel {
-        Layout.fillWidth: true; elide: Text.ElideRight; color: Theme.text
-        text: tabs.currentIndex === 2 || (tabs.currentIndex === 3 && panel.history.historical) ? panel.history.status : tabs.currentIndex === 3 ? panel.storageScience.status : panel.investigator.status
+    Frame {
+        Layout.fillWidth: true; padding: 7
+        background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+        contentItem: PlainLabel {
+            elide: Text.ElideRight; color: Theme.secondary; font.pixelSize: Theme.smallSize
+            text: tabs.currentIndex === 2 || (tabs.currentIndex === 3 && panel.history.historical) ? panel.history.status : tabs.currentIndex === 3 ? panel.storageScience.status : panel.investigator.status
+        }
     }
     RowLayout {
-        Layout.fillWidth: true
+        Layout.fillWidth: true; spacing: 12
         TabBar {
             id: tabs; objectName: "agentTabs"; Layout.preferredWidth: 510; Layout.maximumWidth: panel.width * 0.6
+            spacing: 4
             TabButton { text: "Investigation"; onClicked: panel.history.showLive() }
             TabButton { text: "Comparison" }
             TabButton { text: "History"; onClicked: panel.history.refresh() }
@@ -142,37 +174,50 @@ ColumnLayout {
         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 0
         currentIndex: tabs.currentIndex
         RowLayout {
-            spacing: 16
-            ColumnLayout {
-                Layout.fillWidth: true; Layout.fillHeight: true; spacing: 4
-                SectionLabel { text: "RECOMMENDATION / STORED EVIDENCE" }
-                ScrollView {
-                    Layout.fillWidth: true; Layout.fillHeight: true; contentWidth: availableWidth
-                    TextArea {
-                        readOnly: true; selectByMouse: true; wrapMode: TextEdit.Wrap; textFormat: TextEdit.PlainText; font.pixelSize: Theme.smallSize
-                        text: {
-                            const r = panel.investigator.recommendation
-                            if (!r || !r.status) return "Start an investigation on the current network. Numerical tools execute the C++ engine; recommendations require stored validation evidence.\n\nSimulated controls change only after you review and apply a validated plan.\n\n" + panel.investigator.storageStatus
-                            let summary = (r.explanation || "") + "\n\nRun: " + (r.selected_run_id || "none")
-                            if (r.ok) summary += "\nCost: " + panel.number(r.cost) + " synthetic units · Horizon: " + panel.number(r.horizon_h) + " h\nValidation: " + (r.validation_id || "none")
-                            return summary + "\nApproval: " + (r.approval_status || "unavailable") + "\n\nSynthetic model. Quality is not evaluated.\n" + panel.investigator.storageStatus
+            spacing: 12
+            Frame {
+                Layout.fillWidth: true; Layout.preferredWidth: panel.width * 0.58; Layout.fillHeight: true; padding: 10
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                contentItem: ColumnLayout {
+                    spacing: 8
+                    SectionLabel { text: "RECOMMENDATION / STORED EVIDENCE" }
+                    ScrollView {
+                        Layout.fillWidth: true; Layout.fillHeight: true; contentWidth: availableWidth
+                        TextArea {
+                            readOnly: true; selectByMouse: true; wrapMode: TextEdit.Wrap; textFormat: TextEdit.PlainText; font.pixelSize: Theme.smallSize
+                            padding: 0; color: Theme.text; background: null
+                            text: {
+                                const r = panel.investigator.recommendation
+                                if (!r || !r.status) return "Start an investigation on the current network. Numerical tools execute the C++ engine; recommendations require stored validation evidence.\n\nSimulated controls change only after you review and apply a validated plan.\n\n" + panel.investigator.storageStatus
+                                let summary = (r.explanation || "") + "\n\nRun: " + (r.selected_run_id || "none")
+                                if (r.ok) summary += "\nCost: " + panel.number(r.cost) + " synthetic units · Horizon: " + panel.number(r.horizon_h) + " h\nValidation: " + (r.validation_id || "none")
+                                return summary + "\nApproval: " + (r.approval_status || "unavailable") + "\n\nSynthetic model. Quality is not evaluated.\n" + panel.investigator.storageStatus
+                            }
                         }
                     }
                 }
             }
-            ColumnLayout {
-                Layout.preferredWidth: Math.min(370, panel.width * 0.36); Layout.fillHeight: true; spacing: 4
-                SectionLabel { text: "ACTIVITY · ACTUAL TOOL EXECUTIONS" }
-                ListView {
-                    id: activityList; Layout.fillWidth: true; Layout.fillHeight: true; clip: true; spacing: 5
-                    model: panel.investigator.events; onCountChanged: positionViewAtEnd(); ScrollBar.vertical: ScrollBar {}
-                    delegate: PlainLabel {
-                        required property var modelData
-                        width: activityList.width - 12; wrapMode: Text.WordWrap; font.pixelSize: Theme.captionSize
-                        text: modelData.sequence + "  " + modelData.type + (modelData.tool_name ? " · " + modelData.tool_name : "") + (modelData.run_id ? "\nRun " + panel.shortId(modelData.run_id) : "") + (modelData.error ? "\n" + modelData.error.message : "")
-                        color: modelData.type === "tool_failed" || modelData.type === "agent_failed" ? Theme.error : Theme.secondary
+            Frame {
+                Layout.fillWidth: true; Layout.preferredWidth: panel.width * 0.42; Layout.fillHeight: true; padding: 10
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                contentItem: ColumnLayout {
+                    spacing: 8
+                    SectionLabel { text: "ACTIVITY · ACTUAL TOOL EXECUTIONS" }
+                    ListView {
+                        id: activityList; Layout.fillWidth: true; Layout.fillHeight: true; clip: true; spacing: 6
+                        model: panel.investigator.events; onCountChanged: positionViewAtEnd(); ScrollBar.vertical: ScrollBar {}
+                        delegate: Frame {
+                            required property var modelData
+                            width: activityList.width - 12; padding: 8
+                            background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
+                            contentItem: PlainLabel {
+                                wrapMode: Text.WordWrap; font.pixelSize: Theme.captionSize
+                                text: modelData.sequence + "  " + modelData.type + (modelData.tool_name ? " · " + modelData.tool_name : "") + (modelData.run_id ? "\nRun " + panel.shortId(modelData.run_id) : "") + (modelData.error ? "\n" + modelData.error.message : "")
+                                color: modelData.type === "tool_failed" || modelData.type === "agent_failed" ? Theme.error : Theme.secondary
+                            }
+                        }
+                        PlainLabel { anchors.left: parent.left; anchors.top: parent.top; width: parent.width - 12; wrapMode: Text.WordWrap; visible: activityList.count === 0; text: "No tool executions yet."; color: Theme.muted; font.pixelSize: Theme.smallSize }
                     }
-                    PlainLabel { anchors.centerIn: parent; width: parent.width - 20; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap; visible: activityList.count === 0; text: "No tool executions yet."; color: Theme.muted }
                 }
             }
         }
@@ -293,6 +338,7 @@ ColumnLayout {
         x: Math.round((parent.width - width) / 2); y: Math.round((parent.height - height) / 2)
         width: Math.min(760, parent.width - 48); height: Math.min(610, parent.height - 60)
         modal: true; title: "Review staged simulated plan"; closePolicy: Popup.CloseOnEscape
+        header: DialogHeading { heading: reviewDialog.title; onCloseRequested: reviewDialog.close() }
         contentItem: ScrollView {
             id: reviewScroll; contentWidth: availableWidth
             ColumnLayout {
@@ -327,6 +373,7 @@ ColumnLayout {
         x: Math.round((parent.width - width) / 2); y: Math.round((parent.height - height) / 2)
         width: Math.min(720, parent.width - 48); height: Math.min(430, parent.height - 80)
         modal: true; title: "Baseline → candidate control changes"; standardButtons: Dialog.Close
+        header: DialogHeading { heading: changesDialog.title; onCloseRequested: changesDialog.close() }
         contentItem: ScrollView {
             id: changesScroll; contentWidth: availableWidth
             ColumnLayout {

@@ -1,0 +1,292 @@
+{
+  "evidence_version": 1,
+  "source_revision": "28d873c0a328d5fbd956fdf3b1c75cdf49b7ccf9",
+  "historical_manifests": [
+    {
+      "file": "manifest.json",
+      "sha256": "76c1350897391c7d9d2f72d426c70926f67d29b3d0632c00d20665238443a5d0"
+    },
+    {
+      "file": "release-checks.json",
+      "sha256": "09d76c64027b34c28ceb16218167aa3da320b20b3644411026459c30fadabce3"
+    },
+    {
+      "file": "finalization-checks.json",
+      "sha256": "e0dc3c51f1362b4d309989956f7a627bfce7e2e899dd2dde5d6b6dce1375c348"
+    },
+    {
+      "file": "final-release-checks.json",
+      "sha256": "68d8ea507926db1133d686516c1d5ac2f2155045993cc58aeb9e3e98bd8089d2"
+    },
+    {
+      "file": "delta-panel-checks.json",
+      "sha256": "1abde0e84b261184c0bb144523aae0148fec97f6dada797d95baea7e29b4c14a"
+    },
+    {
+      "file": "rehearsal-10-update.json",
+      "sha256": "682718b00dfc6e320272d8394dbb5e5e8538660bdf93634b2d04aa6dbed84885"
+    }
+  ],
+  "completed": [
+    {
+      "source_revision": "e8210a4e4f5eebc78fc43b18fed25542a619c2b2",
+      "scope": "Panel-polish ASan",
+      "passed": 25,
+      "total": 25,
+      "elapsed_s": 376.43,
+      "root_verified_exit_code": 0,
+      "log": "panel-polish-asan-e821.log",
+      "junit": "panel-polish-asan-e821.xml"
+    },
+    {
+      "source_revision": "28d873c0a328d5fbd956fdf3b1c75cdf49b7ccf9",
+      "scope": "Popup-header focused normal",
+      "passed": 9,
+      "total": 9,
+      "elapsed_s": 41.35,
+      "root_verified_exit_code": 0,
+      "log": "popup-header-normal-28.log",
+      "junit": "popup-header-normal-28.xml"
+    },
+    {
+      "source_revision": "28d873c0a328d5fbd956fdf3b1c75cdf49b7ccf9",
+      "scope": "Popup-header focused ASan",
+      "passed": 9,
+      "total": 9,
+      "elapsed_s": 89.46,
+      "root_verified_exit_code": 0,
+      "log": "popup-header-asan-28.log",
+      "junit": "popup-header-asan-28.xml"
+    },
+    {
+      "source_revision": "28d873c0a328d5fbd956fdf3b1c75cdf49b7ccf9",
+      "scope": "Popup-header focused Visual Studio",
+      "passed": 9,
+      "total": 9,
+      "elapsed_s": 43.68,
+      "root_verified_exit_code": 0,
+      "log": "popup-header-vs-28.log",
+      "junit": "popup-header-vs-28.xml"
+    }
+  ],
+  "panel_probe": {
+    "scope": "Fresh out-only native Qt probe linked to current compiled production Main/QML/controller objects; not the installed executable",
+    "source_revision": "28d873c0a328d5fbd956fdf3b1c75cdf49b7ccf9",
+    "passed": true,
+    "gates_per_size": 16,
+    "total_gates": 32,
+    "dpr": 1.75,
+    "normal_ms": 3719,
+    "compact_ms": 3503,
+    "exit_codes": [
+      0,
+      0
+    ],
+    "toolbar_clearance_minimum_y": 76,
+    "title_inset_px": [
+      14,
+      16
+    ],
+    "compact_popup": {
+      "x": 220,
+      "y": 76,
+      "width": 864,
+      "height": 604
+    },
+    "hosted_operations": "not_requested",
+    "scientific_operations": "not_requested",
+    "result": "panel-probe-28-results.json",
+    "compilation": "panel-probe-28-compile.json",
+    "six_images_copied_unchanged": true
+  },
+  "installed_bundle": {
+    "scope": "Actual relocated Ready bundle, own-window Qt UI check; distinct from out-only panel probe",
+    "modes": [
+      {
+        "mode": "normal",
+        "passed": 9,
+        "elapsed_ms": 2724,
+        "dpr": 1.75,
+        "exit_code": 0,
+        "modules": 25,
+        "executable_sha256": "25b4f4bc73f183196af5c5d3a85edfe3dfa19a6b0242b8d8d7bfb8966ee4da68"
+      },
+      {
+        "mode": "compact",
+        "passed": 9,
+        "elapsed_ms": 2509,
+        "dpr": 1.75,
+        "exit_code": 0,
+        "modules": 25,
+        "executable_sha256": "25b4f4bc73f183196af5c5d3a85edfe3dfa19a6b0242b8d8d7bfb8966ee4da68"
+      }
+    ],
+    "module_hashes_rechecked": 25,
+    "report": "installed-ready28-results.json",
+    "manual_os_session_qualified": false,
+    "hosted_or_scientific_operations": "not_requested"
+  },
+  "prior_vs_failure": {
+    "source": "e8210a4e4f5eebc78fc43b18fed25542a619c2b2",
+    "preserved_in": "delta-panel-checks.json",
+    "passed": 24,
+    "total": 25,
+    "code": "actual_drag_did_not_move",
+    "later_current_both_ui_sizes_pass": true,
+    "root_cause": "Not established; overlapping activation from computer capture is possible interference, not proven"
+  },
+  "live_search": {
+    "record": "rehearsal-10-update.json",
+    "runtime_source": "a23fb7061e666cf76c6f3a15ad2390b5134504c6",
+    "strong_passes": 1,
+    "full_archive_published": false,
+    "three_rehearsals_or_renamed_case_complete": false
+  },
+  "scope": "Final additive runtime/panel completion at the stated revisions. Prior failures and manifests remain unchanged. Focused28checks do not become a new whole64suite claim. Six fresh screenshots retained without rewriting olde821frames. Installed module paths are runtime provenance, not archive import paths.",
+  "files": [
+    {
+      "file": "installed-ready28-compact-modules.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\compact.modules.json",
+      "sha256": "ee7fa4d285abd16ca4211279255b17979a3026507d1e02e8c084fd76ac0b31a4",
+      "bytes": 7647
+    },
+    {
+      "file": "installed-ready28-compact.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\compact.stdout.json",
+      "sha256": "eff2ba339a0b1d5c6e32732a1014d22e5edf205abc89a2d0581daacfaec4e093",
+      "bytes": 2534
+    },
+    {
+      "file": "installed-ready28-normal-modules.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\normal.modules.json",
+      "sha256": "ee7fa4d285abd16ca4211279255b17979a3026507d1e02e8c084fd76ac0b31a4",
+      "bytes": 7647
+    },
+    {
+      "file": "installed-ready28-normal.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\normal.stdout.json",
+      "sha256": "2667a09e8533510ef4218270cdf07961dd1a97e63dddc237822b2d11326dcd35",
+      "bytes": 2534
+    },
+    {
+      "file": "installed-ready28-results.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\installed-ui-results.json",
+      "sha256": "8e669cd846413207e528cb01069a3de17800543be0065311d0f0586757d13e28",
+      "bytes": 25282
+    },
+    {
+      "file": "panel-monitoring-compact-28.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt2\\2-panel-open.png",
+      "sha256": "5275ce747550723e6d699fe574eede34db85afdc0fb83b0bed6723ff7bdfddb0",
+      "bytes": 289926
+    },
+    {
+      "file": "panel-monitoring-normal-28.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt2\\2-panel-open.png",
+      "sha256": "3231675c88ba2525b18b2fb5b3e4d0ff5458a6d0d8a401219aae0bde8b88b09d",
+      "bytes": 375567
+    },
+    {
+      "file": "panel-pipe-compact-28.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt2\\3-panel-open.png",
+      "sha256": "a5a70bfb70cf9cf27d0dfb86f31b3cb457002a2ef39365d551e23c292dff8abc",
+      "bytes": 272205
+    },
+    {
+      "file": "panel-pipe-normal-28.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt2\\3-panel-open.png",
+      "sha256": "4011d87b1314264e8fb8a86832e30f8fb7fe135617982c612a7854f48f62e454",
+      "bytes": 328034
+    },
+    {
+      "file": "panel-polish-asan-e821.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\panel-polish-asan-tests.log",
+      "sha256": "c6d9d4886b2affd08cfed053d658bf1e89dd7a279ac03e50c7c7324d2f193479",
+      "bytes": 3551
+    },
+    {
+      "file": "panel-polish-asan-e821.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-asan\\panel-polish.xml",
+      "sha256": "ad2ceb0d1c21a1e24896725324957455277cfe76b10f9a0bdfe2b2c431cc7d64",
+      "bytes": 6959
+    },
+    {
+      "file": "panel-probe-28-compact.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt2\\stdout.json",
+      "sha256": "12e78f7eb746a2badafd506a8fa8a5d44ef1bb200f516b0af4667653b553ad6d",
+      "bytes": 2774
+    },
+    {
+      "file": "panel-probe-28-compile.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compile-provenance-attempt2.json",
+      "sha256": "7cdfeb5d80b449a6de5d825c8e48cda529fb8d88023a90f07a7ddc6d16e4ced7",
+      "bytes": 16845
+    },
+    {
+      "file": "panel-probe-28-normal.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt2\\stdout.json",
+      "sha256": "bc92dccb01a6daeb95511326c02603889439eae2ce61ff42a60cf421744f852a",
+      "bytes": 2789
+    },
+    {
+      "file": "panel-probe-28-results.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\attempt2-results.json",
+      "sha256": "bc280dc2ba2570e0e57a6ec539fb567422233483242421c7fff0360e53dd530d",
+      "bytes": 11295
+    },
+    {
+      "file": "panel-probe-28.cpp",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\PanelCheck.cpp",
+      "sha256": "baea7c1cdd8bb1cf48181dab41f4a66db28bee1736b20ec294d861a9b09e7ba5",
+      "bytes": 7956
+    },
+    {
+      "file": "panel-sensor-compact-28.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\compact-attempt2\\1-panel-open.png",
+      "sha256": "bd59e5f8e52e71fdd8796c4b39ec27a6ca25d81dd945bfb7b6ceaed18d96f8ba",
+      "bytes": 232482
+    },
+    {
+      "file": "panel-sensor-normal-28.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\panel-interaction-check\\normal-attempt2\\1-panel-open.png",
+      "sha256": "5475ba1ca254557d1e1c998701c8563ce0e8607eb2ca24c7de57e00690221dc6",
+      "bytes": 333432
+    },
+    {
+      "file": "popup-header-asan-28.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\popup-header-asan-tests.log",
+      "sha256": "eb9a180b375d59dd03bbc8a48177baf4c6b738c1a2e00b14af4b42821bf1f663",
+      "bytes": 1476
+    },
+    {
+      "file": "popup-header-asan-28.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-asan\\popup-header.xml",
+      "sha256": "a20f6a0b1710d0f2697eea2bba97d1fbad57d79ae85f2a056d67a3ffd49fdd12",
+      "bytes": 4098
+    },
+    {
+      "file": "popup-header-normal-28.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\popup-header-normal-tests.log",
+      "sha256": "6a92097264c6a72d53bf5769755f29a1a0d99a88574a64ce2552b0c8a0b740ec",
+      "bytes": 1476
+    },
+    {
+      "file": "popup-header-normal-28.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\popup-header.xml",
+      "sha256": "13f640d46a93a230717eb0148f2824d9d67e766a96129cf1b8cc9df4a92109a7",
+      "bytes": 4098
+    },
+    {
+      "file": "popup-header-vs-28.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\popup-header-vs-tests.log",
+      "sha256": "e94f5407ecdc8653efed984e20e9b21405c221a6cb9bc94ea3e2eeba90c4deb6",
+      "bytes": 1464
+    },
+    {
+      "file": "popup-header-vs-28.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\ui-vs\\popup-header-vs.xml",
+      "sha256": "de35dead1e9c6c311d957406ebc289612684fb7c21188cbfb92198610e1c2997",
+      "bytes": 4101
+    }
+  ]
+}

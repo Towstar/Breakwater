@@ -12,6 +12,8 @@ public:
     explicit ModelTransport(QObject* parent = nullptr) : QObject(parent) {}
     ~ModelTransport() override = default;
     virtual void request(const QJsonArray& messages, const QJsonArray& tools) = 0;
+    // Existing transports/fixtures retain their ordinary no-tools behavior.
+    virtual void requestFinalJson(const QJsonArray& messages) { request(messages, {}); }
     virtual void cancel() = 0;
 signals:
     void requestStarted();

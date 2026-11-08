@@ -1,0 +1,187 @@
+{
+  "evidence_version": 1,
+  "runtime_source_revision": "b9d82443bdf90e9d828a0dee096973d9f3093e69",
+  "manifest_checkout": "05f906f987ea6096012a992014a48a743cc7ba16",
+  "test_only_followup": {
+    "revision": "05f906f987ea6096012a992014a48a743cc7ba16",
+    "changed_file": "desktop/tests/eog_analysis_controller_tests.cpp",
+    "change": "Normalize only the generated protocol-worker source from CRLF to LF before byte insertion; production runtime and input bytes unchanged.",
+    "source_sha256": "c713e354f6ce14da27294cbcd2d8aed849c6ef56528b7900f9c953bdeae91385",
+    "runtime_revision_test_sha256": "2b302cdf2292080461ef0aa6c206fbe6ec6a490473d90e8083014df31748150c",
+    "executed_followup_status": "No compiled or GitHub rerun result claimed in this record"
+  },
+  "historical_manifests": [
+    {
+      "file": "manifest.json",
+      "sha256": "76c1350897391c7d9d2f72d426c70926f67d29b3d0632c00d20665238443a5d0"
+    },
+    {
+      "file": "release-checks.json",
+      "sha256": "09d76c64027b34c28ceb16218167aa3da320b20b3644411026459c30fadabce3"
+    }
+  ],
+  "completed": [
+    {
+      "source_revision": "b9d82443bdf90e9d828a0dee096973d9f3093e69",
+      "scope": "Critical normal CTest",
+      "passed": 7,
+      "total": 7,
+      "elapsed_s": 58.63,
+      "file": "finalization-normal-b9.log"
+    },
+    {
+      "source_revision": "b9d82443bdf90e9d828a0dee096973d9f3093e69",
+      "scope": "Critical ASan CTest",
+      "passed": 7,
+      "total": 7,
+      "elapsed_s": 136.93,
+      "file": "finalization-asan-b9.log"
+    }
+  ],
+  "historical_ci_failure": {
+    "associated_pr_head": "4aea2f2a3f36c276a530c342c44a2b79884db728",
+    "actual_runner_checkout": "6c67052e77c3bd7b5da1891da842b26d57bc239a",
+    "github_run_id": "42493697968",
+    "desktop_normal_passed": 63,
+    "desktop_normal_total": 64,
+    "elapsed_s": 536.26,
+    "controller_passed": 30,
+    "controller_failed": 1,
+    "failure": "oversizedProtocolSearchKeepsModelReferencesAndExactHistoricalEvidence: source.contains(branch) returned FALSE",
+    "diagnosis": "LF-only branch needle misses Windows CRLF bytes in the generated protocol-worker script",
+    "production_data_change": false
+  },
+  "finalization": {
+    "duration_ms": 180000,
+    "maximum_tool_calls": 12,
+    "maximum_candidate_refinements": 3,
+    "maximum_model_requests": 13,
+    "maximum_format_corrections": 1,
+    "correction_mode": "Separate JSON-only request after a strict final-format rejection; no tools or tool_choice; response_format json_object; temperature 0",
+    "schema_and_grounding_checks_unchanged": true,
+    "raw_rejected_final_retained": false,
+    "cli_recoverable_code_count": 10,
+    "public_analysis_or_history_format_changed": false
+  },
+  "pending": [
+    "Full b9 normal/ASan64-test runs still running at this evidence checkpoint; no completed result claimed.",
+    "Live07 on b9 still running. Attempts01-06 have no complete strict search-plus-final functional pass; partial gates are distinct.",
+    "Windows CI rerun of test-only05f906f not qualified by these retained local logs."
+  ],
+  "official_sources": [
+    "https://docs.nvidia.com/nemo-helix/v0.7/documentation/evaluate-models/metrics/agentic-metrics/",
+    "https://docs.nvidia.com/nim/large-language-models/2.0.10/get-started/advanced/get-started-nemotron-3.5-lightning.html",
+    "https://docs.api.nvidia.com/nim/reference/nvidia-nemotron-3-5-lightning-30b-a3b-infer"
+  ],
+  "scope": "Exact local critical-test logs and downloaded historical CI failure artifacts, plus a bounded in-memory CRLF reproduction. Runtime source hashes checked across the normal/ASan trees and current test-only follow-up. No hosted transcript, protected capture or credentials are retained here.",
+  "runtime_source_files": [
+    {
+      "file": "desktop/agent/ModelTransport.hpp",
+      "sha256": "368b39dd1678d4f0a69773790026217c4833a8dbc9f2cb894a01dc3d8a23ef1d",
+      "bytes": 843,
+      "normal_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\desktop\\agent\\ModelTransport.hpp",
+      "asan_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\desktop\\agent\\ModelTransport.hpp",
+      "current_test_followup_identical": true
+    },
+    {
+      "file": "desktop/agent/NemotronClient.hpp",
+      "sha256": "196c66174dcf84edf30c0319f4fb7ac9e46cc3463c31f07134401994567ec68e",
+      "bytes": 2854,
+      "normal_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\desktop\\agent\\NemotronClient.hpp",
+      "asan_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\desktop\\agent\\NemotronClient.hpp",
+      "current_test_followup_identical": true
+    },
+    {
+      "file": "desktop/agent/NemotronClient.cpp",
+      "sha256": "97d628fbe71776a20d0de74ca1e5a7f88abc415e8cf81824bf134b01249fb4e7",
+      "bytes": 20150,
+      "normal_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\desktop\\agent\\NemotronClient.cpp",
+      "asan_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\desktop\\agent\\NemotronClient.cpp",
+      "current_test_followup_identical": true
+    },
+    {
+      "file": "desktop/eog/EogInvestigator.hpp",
+      "sha256": "858fb898a8e9e3914ba05d555cdff1bb2bd099a4b713a826ea980ff96cd3347f",
+      "bytes": 3891,
+      "normal_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\desktop\\eog\\EogInvestigator.hpp",
+      "asan_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\desktop\\eog\\EogInvestigator.hpp",
+      "current_test_followup_identical": true
+    },
+    {
+      "file": "desktop/eog/EogInvestigator.cpp",
+      "sha256": "612a9fb634605e43825cd107c8395cfe54d5a1174094ab0efff4d83d0dbae377",
+      "bytes": 32289,
+      "normal_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\desktop\\eog\\EogInvestigator.cpp",
+      "asan_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\desktop\\eog\\EogInvestigator.cpp",
+      "current_test_followup_identical": true
+    },
+    {
+      "file": "desktop/eog/EogAnalysisController.cpp",
+      "sha256": "23602199b1b44f9955f83cb5073fdad78bec2a887280082da890c2f502846d0d",
+      "bytes": 50919,
+      "normal_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\desktop\\eog\\EogAnalysisController.cpp",
+      "asan_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\desktop\\eog\\EogAnalysisController.cpp",
+      "current_test_followup_identical": true
+    },
+    {
+      "file": "desktop/eog/live_check.cpp",
+      "sha256": "24bf7e59e9f79d8a35ca6a1ef72dfb5013490d3fffd12e0e3ec0f873dfba40b1",
+      "bytes": 20121,
+      "normal_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\desktop\\eog\\live_check.cpp",
+      "asan_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\desktop\\eog\\live_check.cpp",
+      "current_test_followup_identical": true
+    },
+    {
+      "file": "desktop/qml/EogAnalysisPanel.qml",
+      "sha256": "18c30714edf4b0d794806afceb761426021b1c502735eb9e4aad0f4760d02119",
+      "bytes": 25285,
+      "normal_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\desktop\\qml\\EogAnalysisPanel.qml",
+      "asan_source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\desktop\\qml\\EogAnalysisPanel.qml",
+      "current_test_followup_identical": true
+    }
+  ],
+  "files": [
+    {
+      "file": "finalization-normal-b9.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\search-finalization-normal-focused.log",
+      "sha256": "c0377f3bd1c5531524cd4053c3ec999553430d7df3051ff4983a39bf0774e5d4",
+      "bytes": 1134
+    },
+    {
+      "file": "finalization-asan-b9.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\search-finalization-asan-focused.log",
+      "sha256": "6b894a7665c48d0fb1f6c012118e763fcafc34c31fada271555a0f854aa442d7",
+      "bytes": 1134
+    },
+    {
+      "file": "ci-4aea-controller-results.txt",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\ci48-normal-4aea\\out\\ci\\desktop-normal\\eog_analysis_controller-results.txt",
+      "sha256": "70b288815b879ffb63dbc6bb2b30bb8d56f3136f395e80ebb4db963109b9dbbf",
+      "bytes": 3326
+    },
+    {
+      "file": "ci-4aea-ctest.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\ci48-normal-4aea\\out\\ci\\desktop-normal\\ctest.log",
+      "sha256": "33adb1a47dff9bd0e412bcc218ab549fc0c5200020b40270476deba5f916331a",
+      "bytes": 8272
+    },
+    {
+      "file": "ci-4aea-verification.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\ci48-normal-4aea\\out\\ci\\desktop-normal\\verification.json",
+      "sha256": "e6e463fd6fb8b65c08b111a84d176e3d025a85053d16a2240cbbe9f44e095c42",
+      "bytes": 3380
+    },
+    {
+      "file": "ci-4aea-job-finish.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\ci48-normal-4aea\\out\\ci\\desktop-normal\\job-finish.json",
+      "sha256": "69a468a44a8036c0c1829059398d138708cbb82460b7c6b4ed404ad0f12a70da",
+      "bytes": 840
+    },
+    {
+      "file": "ci-4aea-crlf-reproduction.json",
+      "source": "In-memory reproduction executed while creating this evidence record",
+      "sha256": "4a8e4fa6f9dd2f52441c8c68de1ac414b854322143e7daec9c4127ebb1da63e2",
+      "bytes": 704
+    }
+  ]
+}

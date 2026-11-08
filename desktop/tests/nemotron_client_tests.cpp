@@ -117,6 +117,44 @@ NemotronConfig configuration() { NemotronConfig c; c.apiKey = "test-secret-must-
 class NemotronClientTests final : public QObject {
     Q_OBJECT
 private slots:
+    void finalJsonFallbackKeepsExistingTransportsCompatible() {
+        class ExistingTransport final : public ModelTransport {
+        public:
+            QJsonArray receivedMessages, receivedTools; int requests = 0;
+            void request(const QJsonArray& history, const QJsonArray& tools) override {
+                receivedMessages = history; receivedTools = tools; ++requests;
+            }
+            void cancel() override {}
+        } transport;
+        ModelTransport* base = &transport;
+        base->requestFinalJson(messages());
+        QCOMPARE(transport.requests, 1); QCOMPARE(transport.receivedMessages, messages());
+        QVERIFY(transport.receivedTools.isEmpty());
+    }
+
+    void finalJsonRequestIsSeparateAndDoesNotChangeOrdinaryToolRequests() {
+        FakeNetwork network;
+        network.responses.append(Response{200, textCompletion()});
+        network.responses.append(Response{200, completion(QJsonObject{{"role", "assistant"}, {"content", "{}"}})});
+        network.responses.append(Response{200, textCompletion()});
+        const auto config = configuration(); NemotronClient client(config, nullptr, &network);
+        QSignalSpy success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed);
+        const QJsonArray tools{QJsonObject{{"type", "function"}, {"function", QJsonObject{{"name", "protocol_only"},
+            {"parameters", QJsonObject{{"type", "object"}}}}}}};
+        const QJsonObject ordinary{{"model", config.model}, {"messages", messages()}, {"stream", false},
+            {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.2}, {"tools", tools}, {"tool_choice", "auto"}};
+        client.request(messages(), tools); QTRY_COMPARE(success.size(), 1);
+        QCOMPARE(QJsonDocument::fromJson(network.payloads[0]).object(), ordinary);
+        client.requestFinalJson(messages()); QTRY_COMPARE(success.size(), 2);
+        const auto finalBody = QJsonDocument::fromJson(network.payloads[1]).object();
+        QCOMPARE(finalBody, (QJsonObject{{"model", config.model}, {"messages", messages()}, {"stream", false},
+            {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.0},
+            {"response_format", QJsonObject{{"type", "json_object"}}}}));
+        QVERIFY(!finalBody.contains("tools")); QVERIFY(!finalBody.contains("tool_choice"));
+        client.request(messages(), tools); QTRY_COMPARE(success.size(), 3);
+        QCOMPARE(network.payloads[2], network.payloads[0]); QVERIFY(failure.isEmpty());
+    }
+
     void readsLiteralDotEnvWithoutExportingSecrets() {
         ScopedConfiguration environment;
         QTemporaryDir directory; QVERIFY(directory.isValid());
@@ -437,26 +475,73 @@ private slots:
         QCOMPARE(success.front().front().toJsonObject()["tool_calls"].toArray().at(0).toObject(), malformed);
     }
 
-    void rejectsMalformedResponses_data() {
-        QTest::addColumn<QByteArray>("body");
-        QTest::newRow("invalid-json") << QByteArray("{not json");
-        QTest::newRow("empty-choices") << QByteArray("{\"choices\":[]}");
-        QTest::newRow("empty-message") << completion(QJsonObject{{"role", "assistant"}, {"content", QJsonValue::Null}});
-        QTest::newRow("wrong-role") << completion(QJsonObject{{"role", "user"}, {"content", "wrong"}});
-        QTest::newRow("duplicate-call-id") << completion(QJsonObject{{"role", "assistant"}, {"content", QJsonValue::Null},
-            {"tool_calls", QJsonArray{call("duplicate"), call("duplicate")}}}, "tool_calls");
-        auto wrongArguments = call("bad"); auto function = wrongArguments["function"].toObject(); function["arguments"] = QJsonObject{};
-        wrongArguments["function"] = function;
-        QTest::newRow("non-string-arguments") << completion(QJsonObject{{"role", "assistant"}, {"tool_calls", QJsonArray{wrongArguments}}}, "tool_calls");
-        QTest::newRow("unparsed-reasoning") << completion(QJsonObject{{"role", "assistant"}, {"content", "<think>private</think>answer"}});
-        QTest::newRow("truncated-generation") << completion(QJsonObject{{"role", "assistant"}, {"content", "incomplete"}}, "length");
+    void explicitStoppedEmptyFinalReachesTheCallersStrictValidator_data() {
+        QTest::addColumn<QJsonValue>("content");
+        QTest::newRow("null") << QJsonValue(QJsonValue::Null);
+        QTest::newRow("empty") << QJsonValue(QString{});
+        QTest::newRow("whitespace") << QJsonValue(QString(" \t\r\n"));
     }
-    void rejectsMalformedResponses() {
-        QFETCH(QByteArray, body); FakeNetwork network; network.responses.append(Response{200, body});
+    void explicitStoppedEmptyFinalReachesTheCallersStrictValidator() {
+        QFETCH(QJsonValue, content);
+        const auto response = completion(QJsonObject{{"role", "assistant"}, {"content", content},
+            {"reasoning", "PRIVATE_STOPPED_EMPTY_CANARY"}, {"reasoning_content", "PRIVATE_STOPPED_EMPTY_CANARY"}});
+        FakeNetwork network; network.responses.append(Response{200, response}); network.responses.append(Response{200, response});
         NemotronClient client(configuration(), nullptr, &network);
         QSignalSpy success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed);
+        QSignalSpy metadata(&client, &ModelTransport::requestCompleted);
+        client.request(messages(), {}); QTRY_COMPARE(success.size(), 1);
+        // The transport preserves the empty public final even in JSON mode;
+        // final validity and the single correction cap belong to its caller.
+        client.requestFinalJson(messages()); QTRY_COMPARE(success.size(), 2);
+        for (const auto& row : success) {
+            QCOMPARE(row[0].toJsonObject(), (QJsonObject{{"role", "assistant"}, {"content", content}}));
+            QVERIFY(!QJsonDocument(row[0].toJsonObject()).toJson().contains("PRIVATE_STOPPED_EMPTY_CANARY"));
+        }
+        QCOMPARE(metadata.size(), 2); QCOMPARE(network.requests.size(), 2); QVERIFY(failure.isEmpty());
+        for (const auto& row : metadata)
+            QVERIFY(!QJsonDocument(row[0].toJsonObject()).toJson().contains("PRIVATE_STOPPED_EMPTY_CANARY"));
+        QVERIFY(!QJsonDocument::fromJson(network.payloads[1]).object().contains("tools"));
+    }
+    void rejectsMalformedResponses_data() {
+        QTest::addColumn<QByteArray>("body");
+        QTest::addColumn<QString>("code");
+        QTest::newRow("invalid-json") << QByteArray("{not json PRIVATE_DIAGNOSTIC_CANARY") << QString("response_invalid_json");
+        QTest::newRow("non-object-envelope") << QByteArray("[]") << QString("response_invalid_envelope");
+        QTest::newRow("empty-choices") << QByteArray("{\"choices\":[]}") << QString("response_invalid_choices");
+        QTest::newRow("non-object-message") << QByteArray("{\"choices\":[{\"message\":[]}]}") << QString("response_invalid_message");
+        const QJsonObject emptyMessage{{"role", "assistant"}, {"content", QJsonValue::Null}};
+        const auto emptyWithoutReason = QJsonObject{{"message", emptyMessage}};
+        auto emptyNullReason = emptyWithoutReason; emptyNullReason["finish_reason"] = QJsonValue::Null;
+        QTest::newRow("empty-missing-finish-reason") << QJsonDocument(QJsonObject{{"choices", QJsonArray{emptyWithoutReason}}}).toJson() << QString("response_invalid_empty");
+        QTest::newRow("empty-null-finish-reason") << QJsonDocument(QJsonObject{{"choices", QJsonArray{emptyNullReason}}}).toJson() << QString("response_invalid_empty");
+        QTest::newRow("empty-tool-finish") << completion(emptyMessage, "tool_calls") << QString("response_invalid_tools");
+        QTest::newRow("empty-unknown-finish") << completion(emptyMessage, "PRIVATE_DIAGNOSTIC_CANARY") << QString("response_invalid_finish_reason");
+        QTest::newRow("empty-truncated") << completion(emptyMessage, "length") << QString("response_truncated");
+        QTest::newRow("stopped-missing-content") << completion(QJsonObject{{"role", "assistant"}}) << QString("response_invalid_empty");
+        QTest::newRow("wrong-role") << completion(QJsonObject{{"role", "user"}, {"content", "PRIVATE_DIAGNOSTIC_CANARY"}}) << QString("response_invalid_role");
+        QTest::newRow("non-string-content") << completion(QJsonObject{{"role", "assistant"}, {"content", QJsonObject{{"private", "PRIVATE_DIAGNOSTIC_CANARY"}}}}) << QString("response_invalid_content");
+        QTest::newRow("duplicate-call-id") << completion(QJsonObject{{"role", "assistant"}, {"content", QJsonValue::Null},
+            {"tool_calls", QJsonArray{call("duplicate"), call("duplicate")}}}, "tool_calls") << QString("response_invalid_tools");
+        QTest::newRow("non-array-tools") << completion(QJsonObject{{"role", "assistant"}, {"content", "PRIVATE_DIAGNOSTIC_CANARY"},
+            {"tool_calls", "PRIVATE_DIAGNOSTIC_CANARY"}}) << QString("response_invalid_tools");
+        QTest::newRow("tool-finish-without-tools") << completion(QJsonObject{{"role", "assistant"}, {"content", "PRIVATE_DIAGNOSTIC_CANARY"}}, "tool_calls") << QString("response_invalid_tools");
+        auto wrongArguments = call("bad"); auto function = wrongArguments["function"].toObject(); function["arguments"] = QJsonObject{};
+        wrongArguments["function"] = function;
+        QTest::newRow("non-string-arguments") << completion(QJsonObject{{"role", "assistant"}, {"tool_calls", QJsonArray{wrongArguments}}}, "tool_calls") << QString("response_invalid_tools");
+        QTest::newRow("unparsed-reasoning") << completion(QJsonObject{{"role", "assistant"}, {"content", "<think>PRIVATE_DIAGNOSTIC_CANARY</think>answer"}}) << QString("response_invalid_private_reasoning");
+        QTest::newRow("unknown-finish-reason") << completion(QJsonObject{{"role", "assistant"}, {"content", "PRIVATE_DIAGNOSTIC_CANARY"}}, "PRIVATE_DIAGNOSTIC_CANARY") << QString("response_invalid_finish_reason");
+        QTest::newRow("truncated-generation") << completion(QJsonObject{{"role", "assistant"}, {"content", "PRIVATE_DIAGNOSTIC_CANARY"}}, "length") << QString("response_truncated");
+    }
+    void rejectsMalformedResponses() {
+        QFETCH(QByteArray, body); QFETCH(QString, code); FakeNetwork network; network.responses.append(Response{200, body});
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed), completed(&client, &ModelTransport::requestCompleted);
         client.request(messages(), {}); QTRY_COMPARE(failure.size(), 1); QCOMPARE(success.size(), 0);
-        QCOMPARE(failure.front().at(0).toString(), QString("response_invalid"));
+        QCOMPARE(failure.front().at(0).toString(), code); QCOMPARE(completed.size(), 1);
+        const auto metadata = completed.first().first().toJsonObject(); QCOMPARE(metadata.value("error_code"), QJsonValue(code));
+        const auto exposed = QJsonDocument(metadata).toJson() + failure.first().at(1).toString().toUtf8();
+        QVERIFY(!exposed.contains("PRIVATE_DIAGNOSTIC_CANARY")); QVERIFY(!exposed.contains(configuration().apiKey.toUtf8()));
+        QVERIFY(!exposed.contains("Authorization")); QVERIFY(!exposed.contains("reasoning_content"));
     }
 
     void authenticationFailuresAreNotRetriedOrLeaked_data() {

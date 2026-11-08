@@ -4,6 +4,14 @@ Lucas / Person B owns this native presentation increment. It follows the supplie
 `BREAKWATER_UI_OVERHAUL_SPEC.md` and the later authorization for richer 3D geometry.
 The simulation workbench and recorded-data EOG console remain separate.
 
+The later `28d873c` polish adds the equipment icon grid, visible full-height Network
+scrollbar, active tool-button outlines and repeat-click closing, inset popup title/X
+headers, and responsive sensor, monitoring, transport and investigator layouts.
+Its probes, source-specific normal/ASan/VS checks and unchanged-control evidence
+are retained in [the search/UI integration record](EOG_SEARCH_INTEGRATION.md).
+Earlier checks below retain their original revisions and do not substitute for
+the later panel qualification.
+
 ## Architecture, assets and 3D
 
 - Qt Quick Controls Basic + Qt Quick 3D; no web runtime or renderer replacement.

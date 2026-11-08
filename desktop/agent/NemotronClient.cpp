@@ -93,49 +93,56 @@ bool retryable(QNetworkReply::NetworkError error) {
            error == QNetworkReply::NetworkSessionFailedError;
 }
 
-bool parseAssistant(const QByteArray& bytes, QJsonObject& assistant, QString& model) {
+const char* parseAssistant(const QByteArray& bytes, QJsonObject& assistant, QString& model) {
     QJsonParseError error;
     const auto document = QJsonDocument::fromJson(bytes, &error);
-    if (error.error != QJsonParseError::NoError || !document.isObject()) return false;
+    if (error.error != QJsonParseError::NoError) return "response_invalid_json";
+    if (!document.isObject()) return "response_invalid_envelope";
     model = modelIdentifier(document.object().value("model").toString());
     const auto choices = document.object().value("choices").toArray();
-    if (choices.size() != 1 || !choices.at(0).isObject()) return false;
+    if (choices.size() != 1 || !choices.at(0).isObject()) return "response_invalid_choices";
     const auto choice = choices.at(0).toObject();
     const auto reason = choice.value("finish_reason");
-    if (!reason.isUndefined() && !reason.isNull() && reason.toString() != "stop" && reason.toString() != "tool_calls") return false;
-    if (!choice.value("message").isObject()) return false;
+    if (reason == "length") return "response_truncated";
+    if (!reason.isUndefined() && !reason.isNull() && reason.toString() != "stop" && reason.toString() != "tool_calls") return "response_invalid_finish_reason";
+    if (!choice.value("message").isObject()) return "response_invalid_message";
     const auto message = choice.value("message").toObject();
-    if (message.value("role").toString() != "assistant") return false;
+    if (message.value("role").toString() != "assistant") return "response_invalid_role";
     const auto content = message.value("content");
-    if (!content.isUndefined() && !content.isNull() && !content.isString()) return false;
+    if (!content.isUndefined() && !content.isNull() && !content.isString()) return "response_invalid_content";
     const auto text = content.toString();
     // A misconfigured reasoning parser must not leak private reasoning through visible content.
-    if (text.contains("<think>", Qt::CaseInsensitive) || text.contains("</think>", Qt::CaseInsensitive)) return false;
+    if (text.contains("<think>", Qt::CaseInsensitive) || text.contains("</think>", Qt::CaseInsensitive)) return "response_invalid_private_reasoning";
     assistant = QJsonObject{{"role", "assistant"}, {"content", content.isString() ? content : QJsonValue(QJsonValue::Null)}};
     const auto toolValue = message.value("tool_calls");
-    if (!toolValue.isUndefined() && !toolValue.isNull() && !toolValue.isArray()) return false;
+    if (!toolValue.isUndefined() && !toolValue.isNull() && !toolValue.isArray()) return "response_invalid_tools";
     const auto calls = toolValue.toArray();
-    if (calls.size() > 32) return false;
-    if (reason.toString() == "tool_calls" && calls.isEmpty()) return false;
+    if (calls.size() > 32) return "response_invalid_tools";
+    if (reason.toString() == "tool_calls" && calls.isEmpty()) return "response_invalid_tools";
     QJsonArray cleanCalls;
     QSet<QString> ids;
     for (const auto& value : calls) {
-        if (!value.isObject()) return false;
+        if (!value.isObject()) return "response_invalid_tools";
         const auto call = value.toObject();
         const auto id = call.value("id").toString();
         const auto function = call.value("function").toObject();
         const auto name = function.value("name").toString();
         if (id.isEmpty() || id.size() > 256 || ids.contains(id) || call.value("type").toString() != "function" ||
             name.isEmpty() || name.size() > 128 || !function.value("arguments").isString() ||
-            function.value("arguments").toString().size() > 65536) return false;
+            function.value("arguments").toString().size() > 65536) return "response_invalid_tools";
         ids.insert(id);
         cleanCalls.append(QJsonObject{{"id", id}, {"type", "function"},
             {"function", QJsonObject{{"name", name}, {"arguments", function.value("arguments")}}}});
     }
-    if (text.trimmed().isEmpty() && cleanCalls.isEmpty()) return false;
+    // An explicitly stopped empty final is public model output, not a valid
+    // recommendation. Let the caller's strict final validator handle it (the
+    // EOG loop permits one bounded JSON-format correction). Unknown termination
+    // and absent content must not enter that recovery path.
+    if (text.trimmed().isEmpty() && cleanCalls.isEmpty() &&
+        (reason != "stop" || content.isUndefined())) return "response_invalid_empty";
     if (!cleanCalls.isEmpty()) assistant.insert("tool_calls", cleanCalls);
     // Only the public assistant fields above survive. reasoning/reasoning_content are discarded.
-    return true;
+    return nullptr;
 }
 } // namespace
 
@@ -215,6 +222,14 @@ NemotronClient::~NemotronClient() {
 QString NemotronClient::configuredModelIdentifier() const { return modelIdentifier(config_.model, config_.apiKey); }
 
 void NemotronClient::request(const QJsonArray& messages, const QJsonArray& tools) {
+    requestImpl(messages, tools, false);
+}
+
+void NemotronClient::requestFinalJson(const QJsonArray& messages) {
+    requestImpl(messages, {}, true);
+}
+
+void NemotronClient::requestImpl(const QJsonArray& messages, const QJsonArray& tools, bool jsonFinal) {
     if (active_) { rejectBusyRequest(); return; }
     active_ = true;
     retries_ = attempts_ = httpStatus_ = 0;
@@ -231,8 +246,11 @@ void NemotronClient::request(const QJsonArray& messages, const QJsonArray& tools
     }
     if (messages.isEmpty()) { fail("request_invalid", "At least one model message is required."); return; }
     QJsonObject body{{"model", config_.model}, {"messages", messages}, {"stream", false},
-                     {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.2}};
-    if (!tools.isEmpty()) { body.insert("tools", tools); body.insert("tool_choice", "auto"); }
+                     {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", jsonFinal ? 0.0 : 0.2}};
+    // JSON-only output is requested separately from tool calling; no combined
+    // tools/response_format behavior is assumed for the hosted endpoint.
+    if (jsonFinal) body.insert("response_format", QJsonObject{{"type", "json_object"}});
+    else if (!tools.isEmpty()) { body.insert("tools", tools); body.insert("tool_choice", "auto"); }
     payload_ = QJsonDocument(body).toJson(QJsonDocument::Compact);
     if (payload_.size() > maximumResponseBytes) {
         fail("request_too_large", "The model request exceeds the size limit."); return;
@@ -369,7 +387,11 @@ void NemotronClient::finish() {
              status == 404 ? "The configured model endpoint is unavailable." : "The model service request failed."); return;
     }
     QJsonObject assistant;
-    if (!parseAssistant(response_, assistant, responseModel_)) { fail("response_invalid", "The model returned an invalid or unusable response."); return; }
+    // Only literal classifications leave the parser. No response body, unknown
+    // finish reason, supplied identifier or private reasoning enters diagnostics.
+    if (const auto* code = parseAssistant(response_, assistant, responseModel_)) {
+        fail(QString::fromLatin1(code), "The model returned an invalid or unusable response."); return;
+    }
     complete(assistant, {}, {});
 }
 

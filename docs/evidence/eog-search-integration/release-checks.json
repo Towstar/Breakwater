@@ -1,0 +1,143 @@
+{
+  "evidence_version": 1,
+  "base_manifest": {
+    "file": "manifest.json",
+    "sha256": "76c1350897391c7d9d2f72d426c70926f67d29b3d0632c00d20665238443a5d0",
+    "retained_artifacts": 9
+  },
+  "completed": [
+    {
+      "source_revision": "fef231e919d85f42f63e9e15a9109228283b9f29",
+      "scope": "full normal CTest",
+      "passed": 64,
+      "total": 64,
+      "elapsed_s": 418.66,
+      "file": "full-normal-fef.log",
+      "junit": "full-normal-fef.xml"
+    },
+    {
+      "source_revision": "fef231e919d85f42f63e9e15a9109228283b9f29",
+      "scope": "Visual Studio EOG/UI CTest",
+      "passed": 23,
+      "total": 23,
+      "elapsed_s": 87.22,
+      "file": "full-vs-fef.log"
+    },
+    {
+      "source_revision": "fd170cfad46ef4a19c09e863c3f98da22dc672f0",
+      "scope": "operator-goal focused normal CTest",
+      "passed": 2,
+      "total": 2,
+      "elapsed_s": 21.09,
+      "file": "operator-goal-normal-fd170.log"
+    },
+    {
+      "source_revision": "fd170cfad46ef4a19c09e863c3f98da22dc672f0",
+      "scope": "operator-goal focused Visual Studio CTest",
+      "passed": 2,
+      "total": 2,
+      "elapsed_s": 21.03,
+      "file": "operator-goal-vs-fd170.log"
+    },
+    {
+      "source_revision": "fd170cfad46ef4a19c09e863c3f98da22dc672f0",
+      "scope": "relocated installed Qt UI",
+      "modes": [
+        "normal",
+        "compact"
+      ],
+      "gates_passed_per_mode": 9,
+      "report": "installed-ui-fd170-results.json",
+      "hosted_model_or_science_requested": false
+    },
+    {
+      "source_revision": "fef231e919d85f42f63e9e15a9109228283b9f29",
+      "scope": "full ASan CTest",
+      "passed": 64,
+      "total": 64,
+      "elapsed_s": 933.33,
+      "file": "full-asan-fef.log",
+      "junit": "full-asan-fef.xml"
+    }
+  ],
+  "pending": [
+    "fd170 operator-goal ASan follow-up: running; terminal result not retained yet.",
+    "Live05 functional qualification: running; attempts01-04 have no complete functional search-plus-final pass."
+  ],
+  "operator_goal_boundary": "The user investigation objective is followed within fixed tool/safety/causality/evidence rules. Context, asset labels and tool outputs remain data; no instruction authorizes file access, dispatch, physical control or guard bypass. No causal claim about previous live failures.",
+  "scope": "Additive completed release checks produced by the integration owner, retained unchanged. Module/executable paths and hashes are installation/build provenance. Installed UI checks request no hosted model or scientific operation, and do not establish the pending live-search gate. Terminal full-fef normal/ASan JUnit each records64cases without skipped/failure nodes; later prompt/live results are separate pending gates.",
+  "files": [
+    {
+      "file": "full-normal-fef.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\search-final-normal-tests.log",
+      "sha256": "98c965f66af9af4411e3cc418ae04bdaf8e9d1f664526d2bdc7e12da3196f1a7",
+      "bytes": 8261
+    },
+    {
+      "file": "full-vs-fef.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\search-final-vs-tests.log",
+      "sha256": "f89cfd47a8b8ff99e1e9790935b35420c8a4c846a192d092264f0ffd54ecff82",
+      "bytes": 2992
+    },
+    {
+      "file": "operator-goal-normal-fd170.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\search-operator-goal-normal-tests.log",
+      "sha256": "469469bab9dde1bbabb37f4764158b3bf454a7647f9d3cd920e2ce05fb42b38e",
+      "bytes": 579
+    },
+    {
+      "file": "operator-goal-vs-fd170.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\search-operator-goal-vs-tests.log",
+      "sha256": "9406c7b7fc81f7f3af628aa26ddbb6ea177aa0884b86bc1e54269c46ba0c3a2c",
+      "bytes": 567
+    },
+    {
+      "file": "installed-ui-fd170-results.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-fd170\\installed-ui-results.json",
+      "sha256": "7a6f6c0fe8d3ab76831c733aabca0b7f89755a4eab51788cd4bd1e9240cdc216",
+      "bytes": 22116
+    },
+    {
+      "file": "installed-ui-fd170-normal.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-fd170\\normal.stdout.json",
+      "sha256": "68ebc8a04230a43a41fe4d6c6e88341ded2aa712db74860932bfbe97762925db",
+      "bytes": 1487
+    },
+    {
+      "file": "installed-ui-fd170-compact.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-fd170\\compact.stdout.json",
+      "sha256": "e5bbfc0efc2bc23f92e8f65ef5549d94310369d99bf13c9cc186ce80f8f82a2e",
+      "bytes": 1487
+    },
+    {
+      "file": "installed-ui-fd170-normal-modules.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-fd170\\normal.modules.json",
+      "sha256": "1e73b5add76ebb079dd8bb891a86e2cbf14bf7440088cacf25d87376016bd451",
+      "bytes": 7647
+    },
+    {
+      "file": "installed-ui-fd170-compact-modules.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-fd170\\compact.modules.json",
+      "sha256": "1e73b5add76ebb079dd8bb891a86e2cbf14bf7440088cacf25d87376016bd451",
+      "bytes": 7647
+    },
+    {
+      "file": "full-asan-fef.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\search-final-asan-tests.log",
+      "sha256": "f4bc7f1a88cbad44d291394490f013cc8cf0e6f89941cd1bb72bfc9bb40686ba",
+      "bytes": 8261
+    },
+    {
+      "file": "full-asan-fef.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-asan\\search-final.xml",
+      "sha256": "1b9a0653e6902efc8900887047f71dd07afc01d30efb5733ceddd746edd0ae87",
+      "bytes": 26208
+    },
+    {
+      "file": "full-normal-fef.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\search-final.xml",
+      "sha256": "5de70885ed3e4e672528bc396b69cf26902d157ea23d8910e27fd291345e95df",
+      "bytes": 26215
+    }
+  ]
+}

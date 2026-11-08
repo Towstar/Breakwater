@@ -1,0 +1,21 @@
+{
+  "source_revision": "28d873c0a328d5fbd956fdf3b1c75cdf49b7ccf9",
+  "executable_sha256": "25b4f4bc73f183196af5c5d3a85edfe3dfa19a6b0242b8d8d7bfb8966ee4da68",
+  "scope": "Actual installed agent-dock-open render; no hosted model or scientific operation requested. Grid keyboard/tooltip/scroll interaction is not part of the existing nine-gate helper.",
+  "renders": [
+    {
+      "mode": "normal",
+      "exit_code": 0,
+      "screenshot": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\drawer-open-normal.png",
+      "png_sha256": "bcb177bebcf5fa025be40a42264d55c0b0ebba1fc731f7f09a0c1202f9ffa4d2",
+      "stderr_empty": true
+    },
+    {
+      "mode": "compact",
+      "exit_code": 0,
+      "screenshot": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\drawer-open-compact.png",
+      "png_sha256": "2215411da6468622a6b0596bbd72a5c4d37e5bed05cf1ccb61ad4283213d5d6e",
+      "stderr_empty": true
+    }
+  ]
+}

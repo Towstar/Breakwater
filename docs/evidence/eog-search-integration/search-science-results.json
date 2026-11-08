@@ -1,0 +1,28 @@
+{
+  "passed": true,
+  "tests_run": 377,
+  "tests_passed": 373,
+  "failures": 0,
+  "errors": 0,
+  "expected_failures": 0,
+  "unexpected_successes": 0,
+  "skipped": [
+    {
+      "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz",
+      "reason": "PhysicsNeMo is optional in the A3-only environment"
+    },
+    {
+      "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip",
+      "reason": "PhysicsNeMo is optional in the A3-only environment"
+    },
+    {
+      "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature",
+      "reason": "PhysicsNeMo is optional in the A3-only environment"
+    },
+    {
+      "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss",
+      "reason": "PhysicsNeMo is optional in the A3-only environment"
+    }
+  ],
+  "unexpected_skips": []
+}

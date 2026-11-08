@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="9"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="89"
+	timestamp="2026-11-08T10:55:50"
+	>
+	<testcase name="desktop.ui_overhaul_normal" classname="desktop.ui_overhaul_normal" time="9.19075" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2507,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_vis...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_compact" classname="desktop.ui_overhaul_compact" time="8.78711" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2401,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_vis...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.pipe_transport" classname="desktop.pipe_transport" time="3.72722" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_lifecycle" classname="desktop.telemetry_lifecycle" time="27.7279" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor_normal_smoke" classname="desktop.sensor_editor_normal_smoke" time="7.3246" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_replay_normal_smoke" classname="desktop.telemetry_replay_normal_smoke" time="9.74171" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor_compact_smoke" classname="desktop.sensor_editor_compact_smoke" time="7.16809" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_replay_compact_smoke" classname="desktop.telemetry_replay_compact_smoke" time="7.96303" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_evidence_smoke" classname="desktop.pipe_evidence_smoke" time="7.80127" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

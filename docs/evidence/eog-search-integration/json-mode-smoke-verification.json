@@ -1,0 +1,29 @@
+{
+  "exit_code": 0,
+  "result": {
+    "code": "validated_json_only_completion",
+    "exit_code": 0,
+    "model_metadata": {
+      "duration_ms": 5887,
+      "http_status": 200,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "retry_count": 0
+    },
+    "passed": true,
+    "request_count": 1,
+    "scope": "Hosted JSON-only protocol; no EOG numerical result or control authority."
+  },
+  "stderr_empty": true,
+  "executable_sha256": "99589ce93bd7bb7a1493dfbcadc2a0a07b3973685ea6088d81a2af2da71fdbb4",
+  "compile_provenance": "compile-provenance.json",
+  "normal_production_configuration_loading": true,
+  "root_credentials_unchanged": true,
+  "logical_requests_authorized": 1,
+  "validated_final_object": {
+    "summary": "JSON-only protocol smoke",
+    "validation_id": null,
+    "event_ids": [],
+    "selected_plan_id": null
+  },
+  "validation_provenance": "Exact parsed-object equality and duplicate-root-key rejection in compiled smoke.cpp established this public fixed object; no raw API body retained."
+}

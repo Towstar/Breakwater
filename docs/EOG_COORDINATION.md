@@ -2,6 +2,11 @@
 
 Recorded November 8, 2026, America/Chicago.
 
+Current integration and exact source-qualified checks are in [STATUS](STATUS.md)
+and [EOG_SEARCH_INTEGRATION](EOG_SEARCH_INTEGRATION.md). The provider sections below
+are preserved dated checkpoints; their pending/search-unavailable statements do
+not describe the later PR #48 runtime.
+
 ## Joined provider verification checkpoint
 
 The current Person B integration includes Ethan's latest #34/#36/#38/#40/#41

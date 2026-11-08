@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="25"
+	failures="2"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="141"
+	timestamp="2026-11-08T10:36:11"
+	>
+	<testcase name="desktop.ui_overhaul_normal" classname="desktop.ui_overhaul_normal" time="3.76265" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2407,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_vis...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_compact" classname="desktop.ui_overhaul_compact" time="3.70897" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2394,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_vis...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.nemotron_client" classname="desktop.nemotron_client" time="2.27864" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.agent_orchestrator" classname="desktop.agent_orchestrator" time="7.1036" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_contracts" classname="desktop.eog_contracts" time="0.168997" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="contracts.eog" classname="contracts.eog" time="2.05323" status="run">
+		<properties/>
+		<system-out>................................................
+----------------------------------------------------------------------
+Ran 48 tests in 1.528s
+
+OK
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_dataset" classname="desktop.eog_dataset" time="2.32994" status="run">
+		<properties/>
+		<system-out>Official input check NOT RUN: BREAKWATER_EOG_OFFICIAL_ROOT not supplied.
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_capture" classname="desktop.eog_capture" time="1.16669" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_client" classname="desktop.eog_analysis_client" time="21.6629" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_history" classname="desktop.eog_history" time="13.7178" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_investigator" classname="desktop.eog_investigator" time="3.70093" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_controller" classname="desktop.eog_analysis_controller" time="25.365" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_provider" classname="desktop.eog_provider" time="12.9452" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_demo_input" classname="desktop.eog_demo_input" time="2.073" status="run">
+		<properties/>
+		<system-out>test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes (__main__.EogDemoTests.test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes) ... ok
+test_destination_appearing_at_publication_is_not_overwritten_or_merged (__main__.EogDemoTests.test_destination_appearing_at_publication_is_not_overwritten_or_merged) ... ok
+test_deterministic_topology_rename_preserves_values_economics_and_all_references (__main__.EogDemoTests.test_deterministic_topology_rename_preserves_values_economics_and_all_references) ... ok
+test_every_system_disposal_and_retained_facility_operations_key_is_renamed (__main__.EogDemoTests.test_every_system_disposal_and_retained_facility_operations_key_is_renamed) ... ok
+test_external_source_change_before_publication_is_detected (__main__.EogDemoTests.test_external_source_change_before_publication_is_detected) ... ok
+test_negative_overflow_and_stale_acquisition_field_text_and_line_endings_are_exact (__main__.EogDemoTests.test_negative_overflow_and_stale_acquisition_field_text_and_line_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_live_cli" classname="desktop.eog_live_cli" time="2.37669" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>test_database_sidecar_names_cannot_be_used_as_archives (__main__.EogLiveCliTests.test_database_sidecar_names_cannot_be_used_as_archives) ... ok
+test_invalid_existing_and_in_source_archives_are_rejected (__main__.EogLiveCliTests.test_invalid_existing_and_in_source_archives_are_rejected) ... ok
+test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive (__main__.EogLiveCliTests.test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive) ... ok
+test_native_executable_and_inputs_are_required_without_skips (__main__.EogLiveCliTests.test_native_executable_and_inputs_are_required_without_skips) ... ok
+test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) ... 
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv') ... ERROR
+test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives (__main__.EogLiveCliTests.test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives) ... ok
+test_source_database_paths_and_archive_database_collision_are_rejected (__main__.EogLiveCliTests.test_source_database_paths_and_archive_database_collision_are_rejected) ... ok
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\data\\network.json' -&gt; 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\network.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\data\\ops.json' -&gt; 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\ops.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\data\\telemetry.csv' -&gt; 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\breakwater-eog-live-cli-bec5kd8a\\telemetry.csv.sqlite'
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.099s
+
+FAILED (errors=3)
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_cli" classname="desktop.eog_cli" time="5.81765" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>test_conflicting_workbench_operations_are_rejected (__main__.EogCliTests.test_conflicting_workbench_operations_are_rejected) ... ok
+test_facility_and_report_need_a_dataset (__main__.EogCliTests.test_facility_and_report_need_a_dataset) ... ok
+test_inputs_cannot_be_report_screenshot_or_database (__main__.EogCliTests.test_inputs_cannot_be_report_screenshot_or_database) ... ok
+test_legacy_report_writers_are_rejected (__main__.EogCliTests.test_legacy_report_writers_are_rejected) ... ok
+test_reports_cannot_overwrite_database_journals (__main__.EogCliTests.test_reports_cannot_overwrite_database_journals) ... ok
+test_reports_screenshot_and_database_are_distinct (__main__.EogCliTests.test_reports_screenshot_and_database_are_distinct) ... ok
+test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input) ... ERROR
+test_unknown_workspace_and_facility_are_rejected (__main__.EogCliTests.test_unknown_workspace_and_facility_are_rejected) ... ok
+
+======================================================================
+ERROR: test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-eog-validation-review\desktop\tests\eog_cli_tests.py", line 79, in test_screenshot_replaces_hardlink_without_mutating_input
+    os.link(self.dataset / "network.json", screenshot)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\tmpryrvmxhr\\data\\network.json' -&gt; 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{c15fb23a-84b6-4cd2-bccb-ca2dc1aba06e}\\Temp\\tmpryrvmxhr\\capture.png'
+
+----------------------------------------------------------------------
+Ran 8 tests in 5.567s
+
+FAILED (errors=1)
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_plan_chart" classname="desktop.eog_plan_chart" time="5.60313" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_plan_details" classname="desktop.eog_plan_details" time="6.93824" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_event_details" classname="desktop.eog_event_details" time="5.13562" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_normal" classname="desktop.eog_analysis_normal" time="3.08978" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_normal" classname="desktop.eog_overview_normal" time="2.2232" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_normal" classname="desktop.eog_facility_normal" time="2.34983" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_compact" classname="desktop.eog_analysis_compact" time="1.86917" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_compact" classname="desktop.eog_overview_compact" time="2.11958" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_compact" classname="desktop.eog_facility_compact" time="1.87272" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

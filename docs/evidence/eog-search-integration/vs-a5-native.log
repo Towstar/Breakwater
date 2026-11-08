@@ -1,0 +1,56 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/ui-vs
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/ui-vs
+      Start 12: desktop.ui_overhaul_normal
+ 1/25 Test #12: desktop.ui_overhaul_normal ........   Passed    3.36 sec
+      Start 13: desktop.ui_overhaul_compact
+ 2/25 Test #13: desktop.ui_overhaul_compact .......   Passed    3.46 sec
+      Start 16: desktop.nemotron_client
+ 3/25 Test #16: desktop.nemotron_client ...........   Passed    2.41 sec
+      Start 18: desktop.agent_orchestrator
+ 4/25 Test #18: desktop.agent_orchestrator ........   Passed    6.60 sec
+      Start 37: desktop.eog_contracts
+ 5/25 Test #37: desktop.eog_contracts .............   Passed    0.12 sec
+      Start 38: contracts.eog
+ 6/25 Test #38: contracts.eog .....................   Passed    1.24 sec
+      Start 46: desktop.eog_dataset
+ 7/25 Test #46: desktop.eog_dataset ...............   Passed    1.78 sec
+      Start 47: desktop.eog_capture
+ 8/25 Test #47: desktop.eog_capture ...............   Passed    0.45 sec
+      Start 48: desktop.eog_analysis_client
+ 9/25 Test #48: desktop.eog_analysis_client .......   Passed   14.27 sec
+      Start 49: desktop.eog_history
+10/25 Test #49: desktop.eog_history ...............   Passed   10.36 sec
+      Start 50: desktop.eog_investigator
+11/25 Test #50: desktop.eog_investigator ..........   Passed    3.41 sec
+      Start 51: desktop.eog_analysis_controller
+12/25 Test #51: desktop.eog_analysis_controller ...   Passed   20.99 sec
+      Start 52: desktop.eog_provider
+13/25 Test #52: desktop.eog_provider ..............   Passed    9.85 sec
+      Start 53: desktop.eog_demo_input
+14/25 Test #53: desktop.eog_demo_input ............   Passed    1.85 sec
+      Start 54: desktop.eog_live_cli
+15/25 Test #54: desktop.eog_live_cli ..............   Passed    2.44 sec
+      Start 55: desktop.eog_cli
+16/25 Test #55: desktop.eog_cli ...................   Passed    6.40 sec
+      Start 56: desktop.eog_plan_chart
+17/25 Test #56: desktop.eog_plan_chart ............   Passed    4.14 sec
+      Start 57: desktop.eog_plan_details
+18/25 Test #57: desktop.eog_plan_details ..........   Passed    5.73 sec
+      Start 58: desktop.eog_event_details
+19/25 Test #58: desktop.eog_event_details .........   Passed    4.19 sec
+      Start 59: desktop.eog_analysis_normal
+20/25 Test #59: desktop.eog_analysis_normal .......   Passed    1.96 sec
+      Start 60: desktop.eog_overview_normal
+21/25 Test #60: desktop.eog_overview_normal .......   Passed    1.95 sec
+      Start 61: desktop.eog_facility_normal
+22/25 Test #61: desktop.eog_facility_normal .......   Passed    2.31 sec
+      Start 62: desktop.eog_analysis_compact
+23/25 Test #62: desktop.eog_analysis_compact ......   Passed    1.66 sec
+      Start 63: desktop.eog_overview_compact
+24/25 Test #63: desktop.eog_overview_compact ......   Passed    1.54 sec
+      Start 64: desktop.eog_facility_compact
+25/25 Test #64: desktop.eog_facility_compact ......   Passed    1.57 sec
+
+100% tests passed, 0 tests failed out of 25
+
+Total Test time (real) = 114.09 sec

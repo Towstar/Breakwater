@@ -1,0 +1,23 @@
+{
+  "format": "breakwater-published-live-evidence-manifest-v1",
+  "runtime_source_commit": "a23fb7061e666cf76c6f3a15ad2390b5134504c6",
+  "strong_live_search_passes": 1,
+  "files": {
+    "attempt-ledger-01-through-10.json": {
+      "size_bytes": 31282,
+      "sha256": "860c4c9da857b37f307f073dbc229058b3e40b45b143f3728014d51f943a54c8"
+    },
+    "canonical-10.json": {
+      "size_bytes": 24975,
+      "sha256": "4a514d77381fd1824d3ff18d28b0f0c0eb6de1277e7ccff3c0b64c01db6df03a"
+    },
+    "README.md": {
+      "size_bytes": 5066,
+      "sha256": "7a3af2f019fd728e773ddead9dba8ee225d91fdc47bce42a50f185b62c75c4ce"
+    }
+  },
+  "private_full_archive_published": false,
+  "json_correction_used_in_attempt10": false,
+  "attempt09_historical_finish_reason": "UNKNOWN",
+  "prior_objective_harness_correction_included": true
+}
