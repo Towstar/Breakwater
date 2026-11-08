@@ -26,8 +26,17 @@
       "violations": [],
       "minimum_shutdown_margin_bbl": 70,
       "evidence_ids": [],
-      "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04",
-      "evidence": []
+      "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e",
+      "evidence": [],
+      "coverage": "available",
+      "outcome": "avoids_shutdown",
+      "shutdowns": [],
+      "validated_horizons": [
+        {
+          "facility_id": "field:A",
+          "repair_elapsed_s": 7200
+        }
+      ]
     }
   }
 }

@@ -1,0 +1,168 @@
+{
+  "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+  "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+  "cutoff_unix": 1000003600,
+  "eog_version": 1,
+  "request_id": "request-1",
+  "method_version": 1,
+  "kind": "analysis_response",
+  "operation": "search_plans",
+  "status": "completed",
+  "diagnostics": [],
+  "result": {
+    "analysis_id": "analysis-1",
+    "evaluations": [
+      {
+        "plan": {
+          "plan_id": "plan-1",
+          "context": "snapshot_now",
+          "start_unix": 1000003600,
+          "repair_deadlines": [
+            {
+              "facility_id": "field:A",
+              "repair_elapsed_s": 7200
+            }
+          ],
+          "truck_jobs": [
+            {
+              "job_id": "job-1",
+              "truck_id": "truck-1",
+              "system_id": "system-1",
+              "facility_id": "field:A",
+              "response_min": 30,
+              "cycle_min": 60,
+              "trips": [
+                {
+                  "volume_bbl": 150,
+                  "cost": 100,
+                  "arrival_elapsed_s": 1800
+                }
+              ],
+              "called_elapsed_s": 0,
+              "available_again_elapsed_s": 5400
+            }
+          ],
+          "well_shut_ins": [],
+          "inspection_assets": [],
+          "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+        },
+        "feasible": true,
+        "trajectories": [
+          {
+            "facility_id": "field:A",
+            "tank_id": "tank:A",
+            "capacity_bbl": 1000,
+            "shutdown_volume_bbl": 920,
+            "volumes_bbl": [
+              800,
+              850,
+              700,
+              850
+            ],
+            "elapsed_s": [
+              0,
+              1800,
+              1800,
+              7200
+            ]
+          }
+        ],
+        "cost": {
+          "truck_cost": 100,
+          "lost_revenue": 0,
+          "total": 100
+        },
+        "fleet_occupancy": [
+          {
+            "truck_id": "truck-1",
+            "job_id": "job-1",
+            "start_elapsed_s": 0,
+            "end_elapsed_s": 5400
+          }
+        ],
+        "violations": [],
+        "assumptions": [
+          "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+        ],
+        "limitations": [
+          "Synthetic interface fixture, not an EOG detection or optimization result."
+        ],
+        "coverage": "available",
+        "outcome": "avoids_shutdown",
+        "shutdowns": []
+      },
+      {
+        "plan": {
+          "plan_id": "do-nothing",
+          "context": "snapshot_now",
+          "start_unix": 1000003600,
+          "repair_deadlines": [
+            {
+              "facility_id": "field:A",
+              "repair_elapsed_s": 7200
+            }
+          ],
+          "truck_jobs": [],
+          "well_shut_ins": [],
+          "inspection_assets": [],
+          "plan_hash": "8b7b1c6aa71a1b0a7fa1179ab2e75922d667fc08892b6af9ec2cd6ceff2b2088"
+        },
+        "feasible": true,
+        "trajectories": [
+          {
+            "facility_id": "field:A",
+            "tank_id": "tank:A",
+            "capacity_bbl": 1000,
+            "shutdown_volume_bbl": 920,
+            "volumes_bbl": [
+              800,
+              920,
+              920
+            ],
+            "elapsed_s": [
+              0,
+              4320,
+              7200
+            ]
+          }
+        ],
+        "cost": {
+          "truck_cost": 0,
+          "lost_revenue": 80,
+          "total": 80
+        },
+        "fleet_occupancy": [],
+        "violations": [],
+        "assumptions": [
+          "100 bbl/hour inflow, 100 dollars/hour exposure; shutdown at 1.2 hours; repair at two hours."
+        ],
+        "limitations": [
+          "Synthetic interface fixture, not an EOG detection or optimization result."
+        ],
+        "coverage": "available",
+        "outcome": "automatic_shutdown",
+        "shutdowns": [
+          {
+            "facility_id": "field:A",
+            "elapsed_s": 4320
+          }
+        ]
+      }
+    ],
+    "selected_plan_id": "do-nothing",
+    "search": {
+      "scope": "bounded_search",
+      "optimality": "best_found",
+      "evaluated_candidates": 2,
+      "candidate_limit": 10000,
+      "time_limit_s": 90,
+      "elapsed_s": 0.1,
+      "complete": false,
+      "action_time_resolution_s": null,
+      "space_description": "Bounded comparison of the explicitly retained synthetic candidates; no global optimality claim."
+    },
+    "limitations": [
+      "No global optimality claim."
+    ]
+  }
+}

@@ -56,16 +56,16 @@ struct Event {
     std::vector<std::string> evidence_ids, limitations;
     std::optional<double> countdown_hours, lost_revenue_per_hour;
 };
-struct Trip { UnixTime arrival_unix = 0; double volume_bbl = 0, cost = 0; };
+struct Trip { double arrival_elapsed_s = 0; double volume_bbl = 0, cost = 0; };
 struct TruckJob {
     std::string job_id, truck_id;
     AssetId system_id, facility_id;
-    UnixTime called_unix = 0, available_again_unix = 0;
+    double called_elapsed_s = 0, available_again_elapsed_s = 0;
     double response_min = 0, cycle_min = 0;
     std::vector<Trip> trips;
 };
-struct WellShutIn { AssetId well_id, facility_id; UnixTime start_unix = 0, end_unix = 0; };
-struct RepairDeadline { AssetId facility_id; UnixTime repair_unix = 0; };
+struct WellShutIn { AssetId well_id, facility_id; double start_elapsed_s = 0, end_elapsed_s = 0; };
+struct RepairDeadline { AssetId facility_id; double repair_elapsed_s = 0; };
 struct Plan {
     std::string plan_id, plan_hash, context;
     UnixTime start_unix = 0;
@@ -78,26 +78,30 @@ struct Cost { double truck_cost = 0, lost_revenue = 0, total = 0; };
 struct Trajectory {
     AssetId facility_id, tank_id;
     double capacity_bbl = 0, shutdown_volume_bbl = 0;
-    std::vector<UnixTime> times_unix; // duplicate pairs retain before/after jumps
+    std::vector<double> elapsed_s; // duplicate pairs retain before/after jumps
     std::vector<double> volumes_bbl; // preserve finite negative/overflow predictions
 };
-struct Occupancy { std::string truck_id, job_id; UnixTime start_unix = 0, end_unix = 0; };
+struct Occupancy { std::string truck_id, job_id; double start_elapsed_s = 0, end_elapsed_s = 0; };
 struct Violation {
     std::string code, message;
     std::optional<AssetId> asset_id;
-    std::optional<UnixTime> time_unix;
+    std::optional<double> elapsed_s;
 };
+struct Shutdown { AssetId facility_id; double elapsed_s = 0; };
 struct Evaluation {
     Plan plan;
     bool feasible = false;
+    std::string coverage, outcome;
+    std::vector<Shutdown> shutdowns;
     std::vector<Trajectory> trajectories;
-    Cost cost;
+    std::optional<Cost> cost;
     std::vector<Occupancy> fleet_occupancy;
     std::vector<Violation> violations;
     std::vector<std::string> assumptions, limitations;
 };
 struct Search {
-    std::string scope, optimality;
+    std::string scope, optimality, space_description;
+    std::optional<double> action_time_resolution_s;
     std::uint32_t evaluated_candidates = 0, candidate_limit = 0;
     double time_limit_s = 0, elapsed_s = 0;
     bool complete = false;
@@ -105,7 +109,10 @@ struct Search {
 struct Validation {
     std::string validation_id, plan_id, plan_hash, evaluator_method, validator_method;
     bool independent = true, feasible = false;
-    Cost cost;
+    std::string coverage, outcome;
+    std::vector<Shutdown> shutdowns;
+    std::vector<RepairDeadline> validated_horizons;
+    std::optional<Cost> cost;
     std::vector<Violation> violations;
     std::optional<double> minimum_shutdown_margin_bbl;
     std::vector<std::string> evidence_ids;

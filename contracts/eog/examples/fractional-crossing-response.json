@@ -1,0 +1,72 @@
+{
+  "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+  "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+  "cutoff_unix": 1000003600,
+  "eog_version": 1,
+  "request_id": "request-1",
+  "method_version": 1,
+  "kind": "analysis_response",
+  "operation": "evaluate_plan",
+  "status": "completed",
+  "diagnostics": [],
+  "result": {
+    "analysis_id": "analysis-1",
+    "evaluation": {
+      "plan": {
+        "plan_id": "fractional-crossing",
+        "context": "snapshot_now",
+        "start_unix": 1000003600,
+        "repair_deadlines": [
+          {
+            "facility_id": "field:A",
+            "repair_elapsed_s": 7200
+          }
+        ],
+        "truck_jobs": [],
+        "well_shut_ins": [],
+        "inspection_assets": [],
+        "plan_hash": "6ba56b3922d9c72d1c2fd455d2c105c6cb297aa31209111f85c6322ef70afc16"
+      },
+      "feasible": true,
+      "trajectories": [
+        {
+          "facility_id": "field:A",
+          "tank_id": "tank:A",
+          "capacity_bbl": 1000,
+          "shutdown_volume_bbl": 920,
+          "volumes_bbl": [
+            900,
+            920,
+            920
+          ],
+          "elapsed_s": [
+            0,
+            514.2857142857142,
+            7200
+          ]
+        }
+      ],
+      "cost": {
+        "truck_cost": 0,
+        "lost_revenue": 0,
+        "total": 0
+      },
+      "fleet_occupancy": [],
+      "violations": [],
+      "assumptions": [
+        "Synthetic crossing at 1/7 hour with zero revenue exposure; binary64 elapsed time is retained without integer rounding."
+      ],
+      "limitations": [
+        "Synthetic interface fixture, not an EOG detection or optimization result."
+      ],
+      "coverage": "available",
+      "outcome": "automatic_shutdown",
+      "shutdowns": [
+        {
+          "facility_id": "field:A",
+          "elapsed_s": 514.2857142857142
+        }
+      ]
+    }
+  }
+}

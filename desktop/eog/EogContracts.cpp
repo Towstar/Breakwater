@@ -210,15 +210,15 @@ void plan(const QJsonObject& value, double cutoff, const QJsonObject& captured =
     unique(a(value.value("well_shut_ins")), "well_id");
     for (const auto& item : a(value.value("well_shut_ins"))) {
         const auto shut = o(item);
-        require(cutoff <= n(shut.value("start_unix")) && n(shut.value("start_unix")) <= n(shut.value("end_unix")), "Invalid well shut-in interval.");
+        require(0 <= n(shut.value("start_elapsed_s")) && n(shut.value("start_elapsed_s")) <= n(shut.value("end_elapsed_s")), "Invalid well shut-in interval.");
     }
     for (const auto& item : a(value.value("truck_jobs"))) {
         const auto job = o(item); const auto trips = a(job.value("trips"));
-        const auto first = n(o(trips.first()).value("arrival_unix")), last = n(o(trips.last()).value("arrival_unix"));
-        require(cutoff <= n(job.value("called_unix")) && n(job.value("called_unix")) <= first && first <= last &&
-            last <= n(job.value("available_again_unix")), "Invalid truck job interval.");
+        const auto first = n(o(trips.first()).value("arrival_elapsed_s")), last = n(o(trips.last()).value("arrival_elapsed_s"));
+        require(0 <= n(job.value("called_elapsed_s")) && n(job.value("called_elapsed_s")) <= first && first <= last &&
+            last <= n(job.value("available_again_elapsed_s")), "Invalid truck job interval.");
         for (qsizetype i = 1; i < trips.size(); ++i)
-            require(n(o(trips[i-1]).value("arrival_unix")) < n(o(trips[i]).value("arrival_unix")), "Reversed truck trips.");
+            require(n(o(trips[i-1]).value("arrival_elapsed_s")) < n(o(trips[i]).value("arrival_elapsed_s")), "Reversed truck trips.");
     }
 }
 QSet<QString> evidence(const QJsonArray& values, double cutoff, const QJsonObject& context) {
@@ -279,21 +279,83 @@ void events(const QJsonArray& values, const QSet<QString>& known, double cutoff)
         if (event.value("coverage") != "available") require(event.value("countdown_hours").isNull(), "Unavailable event claims a countdown.");
     }
 }
-void feasible(const QJsonObject& value) {
-    require(value.value("feasible").toBool() == a(value.value("violations")).isEmpty(), "Feasibility and violations disagree.");
+QMap<QString, double> horizons(const QJsonArray& values) {
+    unique(values, "facility_id"); QMap<QString, double> result;
+    for (const auto& value : values) {
+        const auto item = o(value); result.insert(t(item.value("facility_id")), n(item.value("repair_elapsed_s")));
+    }
+    return result;
+}
+void assessment(const QJsonObject& value) {
+    if (!value.value("cost").isNull()) cost(o(value.value("cost")));
+    const bool admissible = value.value("feasible").toBool();
+    if (admissible) {
+        require(value.value("coverage") == "available" && !value.value("cost").isNull() &&
+            value.value("outcome") != "unavailable", "Admissible actions lack complete coverage/cost/outcome.");
+        require(a(value.value("violations")).isEmpty(), "Admissible actions list violations.");
+    } else require(!a(value.value("violations")).isEmpty(), "Assessed invalid actions lack violations.");
+    if (value.value("coverage") != "available")
+        require(value.value("outcome") == "unavailable" && value.value("cost").isNull(),
+            "Incomplete assessment cannot claim a complete outcome or invented cost.");
+    unique(a(value.value("shutdowns")), "facility_id");
+    if (value.value("outcome") == "avoids_shutdown")
+        require(a(value.value("shutdowns")).isEmpty(), "Avoidance lists an automatic shutdown.");
+    if (value.value("outcome") == "automatic_shutdown")
+        require(!a(value.value("shutdowns")).isEmpty(), "Automatic shutdown lacks its crossing.");
+}
+void shutdowns(const QJsonObject& value, const QMap<QString, double>& modeled) {
+    for (const auto& item : a(value.value("shutdowns"))) {
+        const auto shutdown = o(item); const auto id = t(shutdown.value("facility_id"));
+        require(modeled.contains(id) && n(shutdown.value("elapsed_s")) <= modeled.value(id),
+            "Shutdown lies outside modeled facility/repair horizon.");
+    }
 }
 void evaluation(const QJsonObject& value, double cutoff, const QJsonObject& captured) {
-    plan(o(value.value("plan")), cutoff, captured); cost(o(value.value("cost")));
+    plan(o(value.value("plan")), cutoff, captured); assessment(value);
+    const auto required = horizons(a(o(value.value("plan")).value("repair_deadlines")));
     const auto trajectories = a(value.value("trajectories")), occupancy = a(value.value("fleet_occupancy"));
-    unique(trajectories, "tank_id"); unique(occupancy, "job_id");
+    unique(trajectories, "tank_id"); unique(trajectories, "facility_id"); unique(occupancy, "job_id");
+    if (value.value("coverage") == "available")
+        require(!required.isEmpty() && trajectories.size() == required.size(), "Incomplete modeled facility coverage.");
     for (const auto& item : trajectories) {
-        const auto trajectory = o(item); const auto times = a(trajectory.value("times_unix"));
-        require(times.size() == a(trajectory.value("volumes_bbl")).size() && n(times.first()) == cutoff, "Invalid EOG trajectory shape.");
+        const auto trajectory = o(item); const auto times = a(trajectory.value("elapsed_s"));
+        const auto facility = t(trajectory.value("facility_id"));
+        require(required.contains(facility), "Trajectory references an undeclared repair facility.");
+        require(times.size() == a(trajectory.value("volumes_bbl")).size() && n(times.first()) == 0, "Invalid EOG trajectory shape.");
+        const auto horizon = required.value(facility);
+        require(n(times.last()) <= horizon && (value.value("coverage") != "available" || n(times.last()) == horizon),
+            "Forecast omits its exact repair endpoint.");
         for (qsizetype i = 1; i < times.size(); ++i) {
             require(n(times[i-1]) <= n(times[i]), "Reversed EOG trajectory time.");
             if (times[i-1] == times[i]) require(i == 1 || n(times[i-2]) < n(times[i]), "More than two samples at a step.");
         }
         require(n(trajectory.value("shutdown_volume_bbl")) <= n(trajectory.value("capacity_bbl")), "Invalid shutdown inventory.");
+    }
+    shutdowns(value, required);
+    if (value.value("feasible").toBool()) {
+        QMap<QString, QMap<double, qsizetype>> points;
+        for (const auto& item : trajectories) {
+            const auto trajectory = o(item); auto& counts = points[t(trajectory.value("facility_id"))];
+            for (const auto& time : a(trajectory.value("elapsed_s"))) ++counts[n(time)];
+        }
+        const auto proposed = o(value.value("plan"));
+        for (const auto& item : a(proposed.value("truck_jobs"))) {
+            const auto job = o(item); const auto facility = t(job.value("facility_id"));
+            require(points.contains(facility), "Truck job lacks modeled facility.");
+            for (const auto& trip : a(job.value("trips")))
+                require(points.value(facility).value(n(o(trip).value("arrival_elapsed_s"))) == 2,
+                    "Truck-arrival time lacks its exact combined before/after pair.");
+        }
+        for (const auto& item : a(proposed.value("well_shut_ins"))) {
+            const auto action = o(item); const auto facility = t(action.value("facility_id"));
+            require(points.contains(facility) && points.value(facility).contains(n(action.value("start_elapsed_s"))) &&
+                points.value(facility).contains(n(action.value("end_elapsed_s"))), "Well-action breakpoint is absent.");
+        }
+        for (const auto& item : a(value.value("shutdowns"))) {
+            const auto shutdown = o(item);
+            require(points.value(t(shutdown.value("facility_id"))).contains(n(shutdown.value("elapsed_s"))),
+                "Automatic shutdown crossing is absent from trajectory.");
+        }
     }
     QMap<QString, QJsonObject> jobs;
     for (const auto& item : a(o(value.value("plan")).value("truck_jobs"))) jobs.insert(t(o(item).value("job_id")), o(item));
@@ -301,10 +363,9 @@ void evaluation(const QJsonObject& value, double cutoff, const QJsonObject& capt
     for (const auto& item : occupancy) {
         const auto occupied = o(item); const auto id = t(occupied.value("job_id"));
         require(jobs.contains(id), "Unknown EOG occupancy job."); const auto job = jobs.value(id);
-        require(occupied.value("truck_id") == job.value("truck_id") && occupied.value("start_unix") == job.value("called_unix") &&
-            occupied.value("end_unix") == job.value("available_again_unix"), "Fleet occupancy differs from job.");
+        require(occupied.value("truck_id") == job.value("truck_id") && occupied.value("start_elapsed_s") == job.value("called_elapsed_s") &&
+            occupied.value("end_elapsed_s") == job.value("available_again_elapsed_s"), "Fleet occupancy differs from half-open job interval.");
     }
-    feasible(value);
 }
 } // namespace
 
@@ -409,10 +470,17 @@ void validate_document(const QJsonObject& document, const QString& requestedKind
     } else if (operation == "validate_plan") {
         const auto validation = o(result.value("validation"));
         references(a(validation.value("evidence_ids")), evidence(a(validation.value("evidence")), cutoff, context));
-        cost(o(validation.value("cost"))); feasible(validation);
+        assessment(validation);
+        const auto verified = horizons(a(validation.value("validated_horizons")));
+        require(validation.value("coverage") != "available" || !verified.isEmpty(), "Available validation has no modeled horizons.");
+        shutdowns(validation, verified);
         require(validation.value("validator_method") != validation.value("evaluator_method"), "Self-validation is not independent.");
         if (!request.isEmpty()) {
             const auto args = o(request.value("arguments")), proposed = o(args.value("plan"));
+            const auto required = horizons(a(proposed.value("repair_deadlines")));
+            for (auto it = verified.begin(); it != verified.end(); ++it)
+                require(required.contains(it.key()) && required.value(it.key()) == it.value(), "Validation changed a repair horizon.");
+            require(validation.value("coverage") != "available" || verified == required, "Validation omits a requested repair horizon.");
             require(validation.value("plan_id") == proposed.value("plan_id") && validation.value("plan_hash") == proposed.value("plan_hash") &&
                 validation.value("evaluator_method") == args.value("evaluator_method"), "Validation references another plan.");
         }

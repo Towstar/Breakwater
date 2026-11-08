@@ -19,11 +19,11 @@
         "repair_deadlines": [
           {
             "facility_id": "field:A",
-            "repair_unix": 1000010800
+            "repair_elapsed_s": 7200
           },
           {
             "facility_id": "field:B",
-            "repair_unix": 1000010800
+            "repair_elapsed_s": 7200
           }
         ],
         "truck_jobs": [
@@ -32,39 +32,39 @@
             "truck_id": "truck-1",
             "system_id": "system-1",
             "facility_id": "field:A",
-            "called_unix": 1000003600,
             "response_min": 30,
             "cycle_min": 60,
             "trips": [
               {
-                "arrival_unix": 1000005400,
                 "volume_bbl": 150,
-                "cost": 100
+                "cost": 100,
+                "arrival_elapsed_s": 1800
               }
             ],
-            "available_again_unix": 1000009000
+            "called_elapsed_s": 0,
+            "available_again_elapsed_s": 5400
           },
           {
             "job_id": "job-2",
             "truck_id": "truck-1",
             "system_id": "system-1",
             "facility_id": "field:B",
-            "called_unix": 1000003600,
             "response_min": 30,
             "cycle_min": 60,
             "trips": [
               {
-                "arrival_unix": 1000005400,
                 "volume_bbl": 150,
-                "cost": 100
+                "cost": 100,
+                "arrival_elapsed_s": 1800
               }
             ],
-            "available_again_unix": 1000009000
+            "called_elapsed_s": 0,
+            "available_again_elapsed_s": 5400
           }
         ],
         "well_shut_ins": [],
         "inspection_assets": [],
-        "plan_hash": "9db6d06034017cc2d8fa1c97ad48ed0e5e9c44f0920801bf915ba92a864e217d"
+        "plan_hash": "660789a88a45f2a076d98355ec1e1538ff20fdb2646a1ae9ba77e1447977efc1"
       },
       "feasible": false,
       "trajectories": [
@@ -73,17 +73,17 @@
           "tank_id": "tank:A",
           "capacity_bbl": 1000,
           "shutdown_volume_bbl": 920,
-          "times_unix": [
-            1000003600,
-            1000005400,
-            1000005400,
-            1000010800
-          ],
           "volumes_bbl": [
             800,
             850,
             700,
             850
+          ],
+          "elapsed_s": [
+            0,
+            1800,
+            1800,
+            7200
           ]
         },
         {
@@ -91,37 +91,33 @@
           "tank_id": "tank:B",
           "capacity_bbl": 1000,
           "shutdown_volume_bbl": 920,
-          "times_unix": [
-            1000003600,
-            1000005400,
-            1000005400,
-            1000010800
-          ],
           "volumes_bbl": [
             800,
             850,
             700,
             850
+          ],
+          "elapsed_s": [
+            0,
+            1800,
+            1800,
+            7200
           ]
         }
       ],
-      "cost": {
-        "truck_cost": 200,
-        "lost_revenue": 0,
-        "total": 200
-      },
+      "cost": null,
       "fleet_occupancy": [
         {
           "truck_id": "truck-1",
           "job_id": "job-1",
-          "start_unix": 1000003600,
-          "end_unix": 1000009000
+          "start_elapsed_s": 0,
+          "end_elapsed_s": 5400
         },
         {
           "truck_id": "truck-1",
           "job_id": "job-2",
-          "start_unix": 1000003600,
-          "end_unix": 1000009000
+          "start_elapsed_s": 0,
+          "end_elapsed_s": 5400
         }
       ],
       "violations": [
@@ -129,7 +125,7 @@
           "code": "fleet_conflict",
           "message": "The same truck is assigned to two overlapping facility jobs.",
           "asset_id": "field:B",
-          "time_unix": 1000003600
+          "elapsed_s": 0
         }
       ],
       "assumptions": [
@@ -137,7 +133,10 @@
       ],
       "limitations": [
         "Synthetic interface fixture, not an EOG detection or optimization result."
-      ]
+      ],
+      "coverage": "partial",
+      "outcome": "unavailable",
+      "shutdowns": []
     }
   }
 }

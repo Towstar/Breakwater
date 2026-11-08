@@ -47,7 +47,7 @@
       "repair_deadlines": [
         {
           "facility_id": "field:A",
-          "repair_unix": 1000010800
+          "repair_elapsed_s": 7200
         }
       ],
       "truck_jobs": [
@@ -56,22 +56,22 @@
           "truck_id": "truck-1",
           "system_id": "system-1",
           "facility_id": "field:A",
-          "called_unix": 1000003600,
           "response_min": 30,
           "cycle_min": 60,
           "trips": [
             {
-              "arrival_unix": 1000005400,
               "volume_bbl": 150,
-              "cost": 100
+              "cost": 100,
+              "arrival_elapsed_s": 1800
             }
           ],
-          "available_again_unix": 1000009000
+          "called_elapsed_s": 0,
+          "available_again_elapsed_s": 5400
         }
       ],
       "well_shut_ins": [],
       "inspection_assets": [],
-      "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+      "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
     }
   }
 }

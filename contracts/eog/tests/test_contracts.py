@@ -164,7 +164,7 @@ class ContractTests(unittest.TestCase):
     def test_unicode_reference_limit_and_renamed_inputs(self):
         value = read("examples/renamed-detect-response.json")
         v.validate_document(value)
-        value["result"]["events"][0]["asset_id"] = "🚰" * 128
+        value["result"]["events"][0]["asset_id"] = "\U0001f6b0" * 128
         v.validate_document(value)
         value["result"]["events"][0]["asset_id"] += "x"
         self.reject(value, code="invalid_id")
@@ -283,11 +283,11 @@ class ContractTests(unittest.TestCase):
         value = read("examples/evaluate-plan-response.json")
         trajectory = value["result"]["evaluation"]["trajectories"][0]
         v.validate_document(value)
-        trajectory["times_unix"] = [value["cutoff_unix"]] * 3
-        trajectory["volumes_bbl"] = [800, 650, 500]
+        trajectory["elapsed_s"] = [0, 1800, 1800, 1800, 7200]
+        trajectory["volumes_bbl"] = [800, 850, 700, 600, 850]
         self.reject(value, code="trajectory_shape")
-        trajectory["times_unix"] = [value["cutoff_unix"]] * 2
-        trajectory["volumes_bbl"] = [800, 650]
+        trajectory["elapsed_s"] = [0, 1800, 1800, 7200]
+        trajectory["volumes_bbl"] = [800, 850, 700, 850]
         v.validate_document(value)
         trajectory["volumes_bbl"].append(1)
         self.reject(value, code="trajectory_shape")
@@ -297,7 +297,7 @@ class ContractTests(unittest.TestCase):
         evaluation = value["result"]["evaluation"]
         evaluation["trajectories"][0]["volumes_bbl"] = [800, 1001, -1, 850]
         evaluation["feasible"] = False
-        evaluation["violations"] = [{"code": "inventory_violation", "message": "Out of range.", "asset_id": "tank:A", "time_unix": 1000005400}]
+        evaluation["violations"] = [{"code": "inventory_violation", "message": "Out of range.", "asset_id": "tank:A", "elapsed_s": 1800}]
         v.validate_document(value)
 
     def test_evaluation_cost_occupancy_and_feasibility_consistency(self):
@@ -305,7 +305,7 @@ class ContractTests(unittest.TestCase):
         value["result"]["evaluation"]["cost"]["total"] += 1
         self.reject(value, code="cost_mismatch")
         value = read("examples/evaluate-plan-response.json")
-        value["result"]["evaluation"]["fleet_occupancy"][0]["end_unix"] += 1
+        value["result"]["evaluation"]["fleet_occupancy"][0]["end_elapsed_s"] += 1
         self.reject(value, code="occupancy_mismatch")
         value = read("examples/evaluate-plan-response.json")
         value["result"]["evaluation"]["feasible"] = False
@@ -454,6 +454,94 @@ class ContractTests(unittest.TestCase):
                 rehash_manifest(manifest)
                 with self.assertRaises(v.ContractError):
                     v.verify_capture(folder, manifest)
+
+    def test_available_forecasts_require_all_facilities_and_exact_repair_endpoints(self):
+        for change in ("empty", "short", "missing"):
+            value = read("examples/evaluate-plan-response.json")
+            evaluation = value["result"]["evaluation"]
+            if change == "empty":
+                evaluation["trajectories"] = []
+            elif change == "short":
+                evaluation["trajectories"][0].update(elapsed_s=[0], volumes_bbl=[800])
+            else:
+                evaluation["plan"]["repair_deadlines"].append({"facility_id": "field:B", "repair_elapsed_s": 7200})
+                rehash_plan(evaluation["plan"])
+            self.reject(value)
+        value = read("examples/evaluate-plan-response.json")
+        value["result"]["evaluation"]["trajectories"][0]["elapsed_s"][-1] = 7200.25
+        self.reject(value, code="forecast_horizon")
+
+    def test_available_validation_covers_exact_requested_horizons(self):
+        request = read("examples/validate-plan-request.json")
+        value = read("examples/validate-plan-response.json")
+        value["result"]["validation"]["validated_horizons"] = []
+        self.reject(value, {"request": request}, "forecast_coverage")
+        value = read("examples/validate-plan-response.json")
+        value["result"]["validation"]["validated_horizons"][0]["repair_elapsed_s"] += 0.25
+        self.reject(value, {"request": request}, "forecast_horizon")
+
+    def test_complete_forecast_retains_action_and_shutdown_breakpoints(self):
+        value = read("examples/evaluate-plan-response.json")
+        trajectory = value["result"]["evaluation"]["trajectories"][0]
+        trajectory.update(elapsed_s=[0, 7200], volumes_bbl=[800, 850])
+        self.reject(value, code="missing_breakpoint")
+        trajectory.update(elapsed_s=[0, 1800, 7200], volumes_bbl=[800, 700, 850])
+        self.reject(value, code="missing_breakpoint")
+        value = read("examples/well-only-evaluation-response.json")
+        value["result"]["evaluation"]["trajectories"][0].update(elapsed_s=[0, 7200], volumes_bbl=[800, 915])
+        self.reject(value, code="missing_breakpoint")
+        value = read("examples/do-nothing-evaluation-response.json")
+        value["result"]["evaluation"]["trajectories"][0].update(elapsed_s=[0, 7200], volumes_bbl=[800, 920])
+        self.reject(value, code="missing_breakpoint")
+
+    def test_fractional_counterfactual_clocks_preserve_binary64_without_integer_rounding(self):
+        value = read("examples/fractional-crossing-response.json")
+        crossing = (1.0 / 7.0) * 3600.0
+        self.assertNotEqual(crossing, round(crossing))
+        self.assertEqual(value["result"]["evaluation"]["shutdowns"][0]["elapsed_s"], crossing)
+        self.assertEqual(value["result"]["evaluation"]["trajectories"][0]["elapsed_s"][1], crossing)
+        v.validate_document(value)
+        request = read("examples/evaluate-plan-request.json")
+        job = request["arguments"]["plan"]["truck_jobs"][0]
+        job["trips"][0]["arrival_elapsed_s"] = crossing
+        rehash_plan(request["arguments"]["plan"])
+        v.validate_document(request)
+
+    def test_do_nothing_automatic_shutdown_is_admissible_and_search_selectable(self):
+        response = read("examples/do-nothing-selected-search-response.json")
+        v.validate_document(response, context={"request": read("examples/search-plans-request.json")})
+        chosen = next(item for item in response["result"]["evaluations"]
+                      if item["plan"]["plan_id"] == response["result"]["selected_plan_id"])
+        self.assertTrue(chosen["feasible"])
+        self.assertEqual(chosen["outcome"], "automatic_shutdown")
+        self.assertEqual(chosen["cost"]["lost_revenue"], 80)
+        self.assertEqual(chosen["shutdowns"][0]["elapsed_s"], 4320)
+        chosen["shutdowns"] = []
+        self.reject(response, code="missing_shutdown")
+
+    def test_incomplete_assessment_cannot_be_feasible_or_invent_zero_cost(self):
+        value = read("examples/shared-fleet-infeasible-response.json")
+        v.validate_document(value)
+        evaluation = value["result"]["evaluation"]
+        self.assertIsNone(evaluation["cost"])
+        evaluation["cost"] = {"truck_cost": 0, "lost_revenue": 0, "total": 0}
+        self.reject(value, code="unavailable_cost")
+        evaluation["cost"] = None
+        evaluation["feasible"] = True
+        self.reject(value, code="incomplete_assessment")
+        unknown = read("examples/unknown-horizon-response.json")
+        self.assertEqual(unknown["status"], "unavailable")
+        self.assertIsNone(unknown["result"])
+        v.validate_document(unknown)
+
+    def test_search_declares_action_time_resolution(self):
+        value = read("examples/search-plans-response.json")
+        self.assertIsNone(value["result"]["search"]["action_time_resolution_s"])
+        v.validate_document(value)
+        value["result"]["search"]["action_time_resolution_s"] = 0.25
+        v.validate_document(value)
+        value["result"]["search"]["action_time_resolution_s"] = 0
+        self.reject(value)
 
     def test_shared_corpus(self):
         corpus = read("fixtures/validation-cases.json")

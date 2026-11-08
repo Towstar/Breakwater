@@ -44,8 +44,11 @@ Standalone shape validation does not establish that binding.
 
 Statuses are `completed`, `unavailable`, `invalid_input`, `cancelled` or `failed`.
 Every non-completed response has null result and at least one bounded diagnostic.
-A completed infeasible evaluation is a useful numerical result, not a transport
-failure. Missing provider capabilities never become successful empty/healthy data.
+A completed infeasible evaluation is an assessed invalid supplied action, not a
+transport failure. Unknown repair horizons, unsupported modeling combinations or
+insufficient evidence return top-level unavailable with null result and diagnostics;
+they must not be misrepresented as demonstrated infeasibility. Missing provider
+capabilities never become successful empty/healthy data.
 
 ## Allowed files, capture and clock
 
@@ -73,7 +76,9 @@ cutoff equals source-now, the untruncated CSV hash must also equal its source ha
 - Older references can remain stale historical evidence. Missing values are null;
   finite negative or out-of-range recorded values remain evidence.
 - All evidence timestamps and inferred event updates/ends are at or before cutoff.
-  Counterfactual trajectory times may extend into the future.
+  Recorded source/event timestamps and plan start remain exact integer Unix seconds.
+  Counterfactual actions, trajectories, shutdown crossings and violations use finite
+  binary64 elapsed seconds relative to plan start, without integer rounding.
 
 The capture producer must detect source changes while copying, construct the final
 manifest from completed files, and publish atomically. `verify_capture` checks only
@@ -99,6 +104,54 @@ The byte budget can bind before an array limit. A provider must report a bounded
 failure/unavailable diagnostic if it cannot return a complete required result.
 It must not silently truncate the selected plan's required evidence or trajectories.
 Host cancellation/deadline enforcement belongs to the process adapter.
+
+## Counterfactual clock, coverage and outcomes
+
+These are failed-pump response operations. A plan declares at least one repaired
+facility; inspection-only advice belongs to detect. Plan start is the captured
+integer cutoff. Future fields are relative binary64 seconds:
+
+- Trips: arrival_elapsed_s.
+- Truck jobs: called_elapsed_s / available_again_elapsed_s.
+- Well shut-ins and fleet occupancy: start_elapsed_s / end_elapsed_s.
+- Repair claims: repair_elapsed_s.
+- Trajectories: elapsed_s arrays; shutdowns and violations: elapsed_s.
+
+This retains computed fractional crossings such as 1/7 hour = approximately
+514.285714 seconds. It is binary64 arithmetic, not exact rational arithmetic.
+Do not round actions, crossings or feasibility decisions to fit a display grid.
+A UI may derive wall-clock labels, but must retain elapsed values for validation.
+
+Every evaluation declares coverage (available/partial/unavailable) and outcome
+(avoids_shutdown/automatic_shutdown/unavailable). Feasible means the supplied
+actions/outcome are admissible; it does not mean all automatic shut-ins were avoided.
+A do-nothing automatic shut-in is feasible and search-selectable when its lost
+revenue is cheapest. Shutdown records identify each facility and its elapsed crossing.
+
+A feasible evaluation requires available coverage, a computable non-null cost,
+an available outcome, no violations and exact trajectory coverage of every declared
+repair facility. Each trace starts at elapsed zero and includes that facility's
+exact repair endpoint. Empty, short, extra-facility or missing-facility forecasts
+cannot pass as a complete available result. Double timestamp pairs retain jumps.
+Every declared truck arrival in an admissible plan needs the exact before/after
+pair at that facility; simultaneous loads share one combined pair. Well-action
+breakpoints and automatic shutdown crossings must also be retained. Endpoint-only
+or decimated traces cannot silently erase interventions from a complete result.
+
+An actually assessed invalid action can return completed feasible=false, violations,
+partial/unavailable coverage, unavailable outcome and null cost. Partial assessment
+must not fill absent cost with zero. Unknown horizons/evidence instead use top-level
+unavailable; no numerical verdict is claimed.
+
+Validation records carry the same assessment fields plus validated_horizons.
+Bound available validation must cover the exact requested facility/horizon set.
+A different or missing horizon cannot validate the original candidate. Proposal
+repair claims remain subject to causal onset and captured operations verification.
+
+Search results declare action_time_resolution_s: null means no fixed time quantum;
+a positive value discloses the chosen bounded action grid. space_description states
+the actual bounded candidate space. Neither null nor complete finite enumeration
+claims global optimization over every possible continuous action.
 
 ## Content identity
 
@@ -157,9 +210,16 @@ These fixtures encode the following initial semantics for Ethan's review:
   final trip are authoritative from captured operations.
 - A truck cannot serve overlapping jobs; a subsequent job starts from the yard.
   Concurrent failures share a system's whole available fleet at snapshot-now.
-- A trip must arrive strictly before repair ends. At a threshold/arrival tie,
-  reaching shutdown is evaluated before the arrival. Once shut-in has occurred,
-  a late trip cannot undo it or restart wells before repair.
+- A trip must arrive strictly before repair ends. Threshold crossing is evaluated
+  first at arrival/intervention/repair ties. A crossing exactly at repair is recorded
+  with zero remaining automatic revenue loss; a truck arriving at repair is invalid.
+  Once shut-in has occurred, a late trip cannot undo it or restart wells before repair.
+- Simultaneous truck loads are checked against their combined full inventory demand.
+  Occupancy is half-open [call, last arrival + cycle); the next job may start exactly
+  when the preceding truck returns to the yard.
+- Candidate repair deadlines are claims. The provider independently checks causal
+  onset plus expected_repair_hours from captured ops; extending a candidate deadline
+  cannot change the economic comparison horizon. An unknown horizon is unavailable.
 - Delayed individual well shut-ins and the no-action automatic shut-in option
   retain their revenue losses through the applicable repair endpoint.
 - Snapshot-now and historical-cursor contexts remain distinct from offline
@@ -182,7 +242,8 @@ independent code ran**. Runtime integration must execute Ethan's independent
 method against the exact candidate, bind its result and retain actual evidence.
 
 Search reports `best_found` unless complete enumeration of a declared search
-space justifies `proven_within_space`. This does not establish global optimality
+space justifies `proven_within_space`. The selected plan has minimum declared
+total cost among retained admissible candidates, including do-nothing; ties are allowed. This does not establish global optimality
 outside that declared space. The provider checks the full shared system fleet.
 
 Raw finite negative/overflowing trajectory values remain visible. Duplicate
@@ -225,7 +286,9 @@ Public functions:
 
 `fixtures/validation-cases.json` is the shared Python/Qt comparator corpus.
 Examples cover all four operations, unavailable execution, renamed Unicode IDs,
-an analytical truck plan, delayed well-only plan and an infeasible fleet conflict.
+an analytical truck plan, delayed well-only plan an infeasible fleet conflict, selected do-nothing, fractional crossings and
+threshold/repair ties. The shared corpus rejects incomplete facility/horizon
+coverage. `REVIEW_CHANGES.md` records the draft response to Ethan's review.
 `fixtures/analytical-cases.json` records the independent synthetic arithmetic.
 None is copied from answer keys or claims a working EOG numerical provider.
 

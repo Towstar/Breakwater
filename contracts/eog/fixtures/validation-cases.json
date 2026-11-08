@@ -97,7 +97,7 @@
             "repair_deadlines": [
               {
                 "facility_id": "field:A",
-                "repair_unix": 1000010800
+                "repair_elapsed_s": 7200
               }
             ],
             "truck_jobs": [
@@ -106,22 +106,22 @@
                 "truck_id": "truck-1",
                 "system_id": "system-1",
                 "facility_id": "field:A",
-                "called_unix": 1000003600,
                 "response_min": 30,
                 "cycle_min": 60,
                 "trips": [
                   {
-                    "arrival_unix": 1000005400,
                     "volume_bbl": 150,
-                    "cost": 100
+                    "cost": 100,
+                    "arrival_elapsed_s": 1800
                   }
                 ],
-                "available_again_unix": 1000009000
+                "called_elapsed_s": 0,
+                "available_again_elapsed_s": 5400
               }
             ],
             "well_shut_ins": [],
             "inspection_assets": [],
-            "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
           }
         }
       }
@@ -225,7 +225,7 @@
             "repair_deadlines": [
               {
                 "facility_id": "field:A",
-                "repair_unix": 1000010800
+                "repair_elapsed_s": 7200
               }
             ],
             "truck_jobs": [
@@ -234,22 +234,22 @@
                 "truck_id": "truck-1",
                 "system_id": "system-1",
                 "facility_id": "field:A",
-                "called_unix": 1000003600,
                 "response_min": 30,
                 "cycle_min": 60,
                 "trips": [
                   {
-                    "arrival_unix": 1000005400,
                     "volume_bbl": 150,
-                    "cost": 100
+                    "cost": 100,
+                    "arrival_elapsed_s": 1800
                   }
                 ],
-                "available_again_unix": 1000009000
+                "called_elapsed_s": 0,
+                "available_again_elapsed_s": 5400
               }
             ],
             "well_shut_ins": [],
             "inspection_assets": [],
-            "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
           },
           "evaluator_method": "event-evaluator-v1"
         }
@@ -258,6 +258,89 @@
     "assets": {
       "assets": {
         "tank:A": "pump"
+      }
+    },
+    "two-facility": {
+      "request": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_request",
+        "operation": "evaluate_plan",
+        "capture_directory": "C:/Breakwater/captures/capture-1",
+        "capture_manifest": {
+          "eog_version": 1,
+          "kind": "capture_manifest",
+          "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+          "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+          "source_hashes": {
+            "network.json": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+            "ops.json": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+            "telemetry.csv": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe"
+          },
+          "captured_files": {
+            "network.json": {
+              "sha256": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+              "size_bytes": 128
+            },
+            "ops.json": {
+              "sha256": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+              "size_bytes": 128
+            },
+            "telemetry.csv": {
+              "sha256": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe",
+              "size_bytes": 128
+            }
+          },
+          "source_first_unix": 1000000000,
+          "source_now_unix": 1000003600,
+          "cutoff_unix": 1000003600,
+          "context": "snapshot_now",
+          "sample_period_s": 300,
+          "max_age_s": 300
+        },
+        "arguments": {
+          "plan": {
+            "plan_id": "two-facility-response",
+            "context": "snapshot_now",
+            "start_unix": 1000003600,
+            "repair_deadlines": [
+              {
+                "facility_id": "field:A",
+                "repair_elapsed_s": 7200
+              },
+              {
+                "facility_id": "field:B",
+                "repair_elapsed_s": 7200
+              }
+            ],
+            "truck_jobs": [
+              {
+                "job_id": "job-1",
+                "truck_id": "truck-1",
+                "system_id": "system-1",
+                "facility_id": "field:A",
+                "response_min": 30,
+                "cycle_min": 60,
+                "trips": [
+                  {
+                    "volume_bbl": 150,
+                    "cost": 100,
+                    "arrival_elapsed_s": 1800
+                  }
+                ],
+                "called_elapsed_s": 0,
+                "available_again_elapsed_s": 5400
+              }
+            ],
+            "well_shut_ins": [],
+            "inspection_assets": [],
+            "plan_hash": "f394f3c6206cd0a01c92ad367cbc78a887c4889302ff84da5f7f7838813d0327"
+          }
+        }
       }
     }
   },
@@ -463,7 +546,7 @@
             "repair_deadlines": [
               {
                 "facility_id": "field:A",
-                "repair_unix": 1000010800
+                "repair_elapsed_s": 7200
               }
             ],
             "truck_jobs": [
@@ -472,22 +555,22 @@
                 "truck_id": "truck-1",
                 "system_id": "system-1",
                 "facility_id": "field:A",
-                "called_unix": 1000003600,
                 "response_min": 30,
                 "cycle_min": 60,
                 "trips": [
                   {
-                    "arrival_unix": 1000005400,
                     "volume_bbl": 150,
-                    "cost": 100
+                    "cost": 100,
+                    "arrival_elapsed_s": 1800
                   }
                 ],
-                "available_again_unix": 1000009000
+                "called_elapsed_s": 0,
+                "available_again_elapsed_s": 5400
               }
             ],
             "well_shut_ins": [],
             "inspection_assets": [],
-            "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
           }
         }
       }
@@ -517,7 +600,7 @@
               "repair_deadlines": [
                 {
                   "facility_id": "field:A",
-                  "repair_unix": 1000010800
+                  "repair_elapsed_s": 7200
                 }
               ],
               "truck_jobs": [
@@ -526,22 +609,22 @@
                   "truck_id": "truck-1",
                   "system_id": "system-1",
                   "facility_id": "field:A",
-                  "called_unix": 1000003600,
                   "response_min": 30,
                   "cycle_min": 60,
                   "trips": [
                     {
-                      "arrival_unix": 1000005400,
                       "volume_bbl": 150,
-                      "cost": 100
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
                     }
                   ],
-                  "available_again_unix": 1000009000
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
                 }
               ],
               "well_shut_ins": [],
               "inspection_assets": [],
-              "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
             },
             "feasible": true,
             "trajectories": [
@@ -550,17 +633,17 @@
                 "tank_id": "tank:A",
                 "capacity_bbl": 1000,
                 "shutdown_volume_bbl": 920,
-                "times_unix": [
-                  1000003600,
-                  1000005400,
-                  1000005400,
-                  1000010800
-                ],
                 "volumes_bbl": [
                   800,
                   850,
                   700,
                   850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
                 ]
               }
             ],
@@ -573,8 +656,8 @@
               {
                 "truck_id": "truck-1",
                 "job_id": "job-1",
-                "start_unix": 1000003600,
-                "end_unix": 1000009000
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
               }
             ],
             "violations": [],
@@ -583,7 +666,10 @@
             ],
             "limitations": [
               "Synthetic interface fixture, not an EOG detection or optimization result."
-            ]
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
           }
         }
       }
@@ -718,7 +804,7 @@
                 "repair_deadlines": [
                   {
                     "facility_id": "field:A",
-                    "repair_unix": 1000010800
+                    "repair_elapsed_s": 7200
                   }
                 ],
                 "truck_jobs": [
@@ -727,22 +813,22 @@
                     "truck_id": "truck-1",
                     "system_id": "system-1",
                     "facility_id": "field:A",
-                    "called_unix": 1000003600,
                     "response_min": 30,
                     "cycle_min": 60,
                     "trips": [
                       {
-                        "arrival_unix": 1000005400,
                         "volume_bbl": 150,
-                        "cost": 100
+                        "cost": 100,
+                        "arrival_elapsed_s": 1800
                       }
                     ],
-                    "available_again_unix": 1000009000
+                    "called_elapsed_s": 0,
+                    "available_again_elapsed_s": 5400
                   }
                 ],
                 "well_shut_ins": [],
                 "inspection_assets": [],
-                "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+                "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
               },
               "feasible": true,
               "trajectories": [
@@ -751,17 +837,17 @@
                   "tank_id": "tank:A",
                   "capacity_bbl": 1000,
                   "shutdown_volume_bbl": 920,
-                  "times_unix": [
-                    1000003600,
-                    1000005400,
-                    1000005400,
-                    1000010800
-                  ],
                   "volumes_bbl": [
                     800,
                     850,
                     700,
                     850
+                  ],
+                  "elapsed_s": [
+                    0,
+                    1800,
+                    1800,
+                    7200
                   ]
                 }
               ],
@@ -774,8 +860,8 @@
                 {
                   "truck_id": "truck-1",
                   "job_id": "job-1",
-                  "start_unix": 1000003600,
-                  "end_unix": 1000009000
+                  "start_elapsed_s": 0,
+                  "end_elapsed_s": 5400
                 }
               ],
               "violations": [],
@@ -784,7 +870,10 @@
               ],
               "limitations": [
                 "Synthetic interface fixture, not an EOG detection or optimization result."
-              ]
+              ],
+              "coverage": "available",
+              "outcome": "avoids_shutdown",
+              "shutdowns": []
             }
           ],
           "selected_plan_id": "plan-1",
@@ -795,7 +884,9 @@
             "candidate_limit": 10000,
             "time_limit_s": 90,
             "elapsed_s": 0.1,
-            "complete": false
+            "complete": false,
+            "action_time_resolution_s": null,
+            "space_description": "Bounded comparison of the explicitly retained synthetic candidates; no global optimality claim."
           },
           "limitations": [
             "No global optimality claim."
@@ -828,11 +919,11 @@
               "repair_deadlines": [
                 {
                   "facility_id": "field:A",
-                  "repair_unix": 1000010800
+                  "repair_elapsed_s": 7200
                 },
                 {
                   "facility_id": "field:B",
-                  "repair_unix": 1000010800
+                  "repair_elapsed_s": 7200
                 }
               ],
               "truck_jobs": [
@@ -841,39 +932,39 @@
                   "truck_id": "truck-1",
                   "system_id": "system-1",
                   "facility_id": "field:A",
-                  "called_unix": 1000003600,
                   "response_min": 30,
                   "cycle_min": 60,
                   "trips": [
                     {
-                      "arrival_unix": 1000005400,
                       "volume_bbl": 150,
-                      "cost": 100
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
                     }
                   ],
-                  "available_again_unix": 1000009000
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
                 },
                 {
                   "job_id": "job-2",
                   "truck_id": "truck-1",
                   "system_id": "system-1",
                   "facility_id": "field:B",
-                  "called_unix": 1000003600,
                   "response_min": 30,
                   "cycle_min": 60,
                   "trips": [
                     {
-                      "arrival_unix": 1000005400,
                       "volume_bbl": 150,
-                      "cost": 100
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
                     }
                   ],
-                  "available_again_unix": 1000009000
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
                 }
               ],
               "well_shut_ins": [],
               "inspection_assets": [],
-              "plan_hash": "9db6d06034017cc2d8fa1c97ad48ed0e5e9c44f0920801bf915ba92a864e217d"
+              "plan_hash": "660789a88a45f2a076d98355ec1e1538ff20fdb2646a1ae9ba77e1447977efc1"
             },
             "feasible": false,
             "trajectories": [
@@ -882,17 +973,17 @@
                 "tank_id": "tank:A",
                 "capacity_bbl": 1000,
                 "shutdown_volume_bbl": 920,
-                "times_unix": [
-                  1000003600,
-                  1000005400,
-                  1000005400,
-                  1000010800
-                ],
                 "volumes_bbl": [
                   800,
                   850,
                   700,
                   850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
                 ]
               },
               {
@@ -900,37 +991,33 @@
                 "tank_id": "tank:B",
                 "capacity_bbl": 1000,
                 "shutdown_volume_bbl": 920,
-                "times_unix": [
-                  1000003600,
-                  1000005400,
-                  1000005400,
-                  1000010800
-                ],
                 "volumes_bbl": [
                   800,
                   850,
                   700,
                   850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
                 ]
               }
             ],
-            "cost": {
-              "truck_cost": 200,
-              "lost_revenue": 0,
-              "total": 200
-            },
+            "cost": null,
             "fleet_occupancy": [
               {
                 "truck_id": "truck-1",
                 "job_id": "job-1",
-                "start_unix": 1000003600,
-                "end_unix": 1000009000
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
               },
               {
                 "truck_id": "truck-1",
                 "job_id": "job-2",
-                "start_unix": 1000003600,
-                "end_unix": 1000009000
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
               }
             ],
             "violations": [
@@ -938,7 +1025,7 @@
                 "code": "fleet_conflict",
                 "message": "The same truck is assigned to two overlapping facility jobs.",
                 "asset_id": "field:B",
-                "time_unix": 1000003600
+                "elapsed_s": 0
               }
             ],
             "assumptions": [
@@ -946,7 +1033,10 @@
             ],
             "limitations": [
               "Synthetic interface fixture, not an EOG detection or optimization result."
-            ]
+            ],
+            "coverage": "partial",
+            "outcome": "unavailable",
+            "shutdowns": []
           }
         }
       }
@@ -1027,7 +1117,7 @@
             "repair_deadlines": [
               {
                 "facility_id": "field:A",
-                "repair_unix": 1000010800
+                "repair_elapsed_s": 7200
               }
             ],
             "truck_jobs": [
@@ -1036,22 +1126,22 @@
                 "truck_id": "truck-1",
                 "system_id": "system-1",
                 "facility_id": "field:A",
-                "called_unix": 1000003600,
                 "response_min": 30,
                 "cycle_min": 60,
                 "trips": [
                   {
-                    "arrival_unix": 1000005400,
                     "volume_bbl": 150,
-                    "cost": 100
+                    "cost": 100,
+                    "arrival_elapsed_s": 1800
                   }
                 ],
-                "available_again_unix": 1000009000
+                "called_elapsed_s": 0,
+                "available_again_elapsed_s": 5400
               }
             ],
             "well_shut_ins": [],
             "inspection_assets": [],
-            "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
           },
           "evaluator_method": "event-evaluator-v1"
         }
@@ -1089,8 +1179,17 @@
             "violations": [],
             "minimum_shutdown_margin_bbl": 70,
             "evidence_ids": [],
-            "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04",
-            "evidence": []
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e",
+            "evidence": [],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": [],
+            "validated_horizons": [
+              {
+                "facility_id": "field:A",
+                "repair_elapsed_s": 7200
+              }
+            ]
           }
         }
       }
@@ -1120,7 +1219,7 @@
               "repair_deadlines": [
                 {
                   "facility_id": "field:A",
-                  "repair_unix": 1000010800
+                  "repair_elapsed_s": 7200
                 }
               ],
               "truck_jobs": [],
@@ -1128,12 +1227,12 @@
                 {
                   "well_id": "well:A",
                   "facility_id": "field:A",
-                  "start_unix": 1000004680,
-                  "end_unix": 1000010800
+                  "start_elapsed_s": 1080,
+                  "end_elapsed_s": 7200
                 }
               ],
               "inspection_assets": [],
-              "plan_hash": "d72319382ee3f31cdbce2b90c04370ad6dedfa93041c4abf4dfdd4724531d4e6"
+              "plan_hash": "106137fcf2c4bfdc66f9de673e6ae223df7043e85b6f703872e38e9d633d9e8b"
             },
             "feasible": true,
             "trajectories": [
@@ -1142,15 +1241,15 @@
                 "tank_id": "tank:A",
                 "capacity_bbl": 1000,
                 "shutdown_volume_bbl": 920,
-                "times_unix": [
-                  1000003600,
-                  1000004680,
-                  1000010800
-                ],
                 "volumes_bbl": [
                   800,
                   830,
                   915
+                ],
+                "elapsed_s": [
+                  0,
+                  1080,
+                  7200
                 ]
               }
             ],
@@ -1166,7 +1265,10 @@
             ],
             "limitations": [
               "Synthetic interface fixture, not an EOG detection or optimization result."
-            ]
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
           }
         }
       }
@@ -1260,7 +1362,7 @@
               "repair_deadlines": [
                 {
                   "facility_id": "field:A",
-                  "repair_unix": 1000010800
+                  "repair_elapsed_s": 7200
                 }
               ],
               "truck_jobs": [
@@ -1269,22 +1371,22 @@
                   "truck_id": "truck-1",
                   "system_id": "system-1",
                   "facility_id": "field:A",
-                  "called_unix": 1000003600,
                   "response_min": 30,
                   "cycle_min": 60,
                   "trips": [
                     {
-                      "arrival_unix": 1000005400,
                       "volume_bbl": 150,
-                      "cost": 100
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
                     }
                   ],
-                  "available_again_unix": 1000009000
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
                 }
               ],
               "well_shut_ins": [],
               "inspection_assets": [],
-              "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
             },
             "feasible": true,
             "trajectories": [
@@ -1293,17 +1395,17 @@
                 "tank_id": "tank:A",
                 "capacity_bbl": 1000,
                 "shutdown_volume_bbl": 920,
-                "times_unix": [
-                  1000003600,
-                  1000005400,
-                  1000005400,
-                  1000010800
-                ],
                 "volumes_bbl": [
                   800,
                   850,
                   700,
                   850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
                 ]
               }
             ],
@@ -1316,8 +1418,8 @@
               {
                 "truck_id": "truck-1",
                 "job_id": "job-1",
-                "start_unix": 1000003600,
-                "end_unix": 1000009000
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
               }
             ],
             "violations": [],
@@ -1326,7 +1428,10 @@
             ],
             "limitations": [
               "Synthetic interface fixture, not an EOG detection or optimization result."
-            ]
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
           }
         }
       }
@@ -1358,7 +1463,7 @@
                 "repair_deadlines": [
                   {
                     "facility_id": "field:A",
-                    "repair_unix": 1000010800
+                    "repair_elapsed_s": 7200
                   }
                 ],
                 "truck_jobs": [
@@ -1367,22 +1472,22 @@
                     "truck_id": "truck-1",
                     "system_id": "system-1",
                     "facility_id": "field:A",
-                    "called_unix": 1000003600,
                     "response_min": 30,
                     "cycle_min": 60,
                     "trips": [
                       {
-                        "arrival_unix": 1000005400,
                         "volume_bbl": 150,
-                        "cost": 100
+                        "cost": 100,
+                        "arrival_elapsed_s": 1800
                       }
                     ],
-                    "available_again_unix": 1000009000
+                    "called_elapsed_s": 0,
+                    "available_again_elapsed_s": 5400
                   }
                 ],
                 "well_shut_ins": [],
                 "inspection_assets": [],
-                "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+                "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
               },
               "feasible": true,
               "trajectories": [
@@ -1391,17 +1496,17 @@
                   "tank_id": "tank:A",
                   "capacity_bbl": 1000,
                   "shutdown_volume_bbl": 920,
-                  "times_unix": [
-                    1000003600,
-                    1000005400,
-                    1000005400,
-                    1000010800
-                  ],
                   "volumes_bbl": [
                     800,
                     850,
                     700,
                     850
+                  ],
+                  "elapsed_s": [
+                    0,
+                    1800,
+                    1800,
+                    7200
                   ]
                 }
               ],
@@ -1414,8 +1519,8 @@
                 {
                   "truck_id": "truck-1",
                   "job_id": "job-1",
-                  "start_unix": 1000003600,
-                  "end_unix": 1000009000
+                  "start_elapsed_s": 0,
+                  "end_elapsed_s": 5400
                 }
               ],
               "violations": [],
@@ -1424,7 +1529,10 @@
               ],
               "limitations": [
                 "Synthetic interface fixture, not an EOG detection or optimization result."
-              ]
+              ],
+              "coverage": "available",
+              "outcome": "avoids_shutdown",
+              "shutdowns": []
             }
           ],
           "selected_plan_id": "plan-1",
@@ -1435,7 +1543,9 @@
             "candidate_limit": 10000,
             "time_limit_s": 90,
             "elapsed_s": 0.1,
-            "complete": false
+            "complete": false,
+            "action_time_resolution_s": null,
+            "space_description": "Bounded comparison of the explicitly retained synthetic candidates; no global optimality claim."
           },
           "limitations": [
             "No global optimality claim."
@@ -1476,8 +1586,17 @@
             "violations": [],
             "minimum_shutdown_margin_bbl": 70,
             "evidence_ids": [],
-            "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04",
-            "evidence": []
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e",
+            "evidence": [],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": [],
+            "validated_horizons": [
+              {
+                "facility_id": "field:A",
+                "repair_elapsed_s": 7200
+              }
+            ]
           }
         }
       }
@@ -2191,7 +2310,7 @@
               "repair_deadlines": [
                 {
                   "facility_id": "field:A",
-                  "repair_unix": 1000010800
+                  "repair_elapsed_s": 7200
                 }
               ],
               "truck_jobs": [
@@ -2200,22 +2319,22 @@
                   "truck_id": "truck-1",
                   "system_id": "system-1",
                   "facility_id": "field:A",
-                  "called_unix": 1000003600,
                   "response_min": 30,
                   "cycle_min": 60,
                   "trips": [
                     {
-                      "arrival_unix": 1000005400,
                       "volume_bbl": 150,
-                      "cost": 100
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
                     }
                   ],
-                  "available_again_unix": 1000009000
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
                 }
               ],
               "well_shut_ins": [],
               "inspection_assets": [],
-              "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
             },
             "feasible": true,
             "trajectories": [
@@ -2224,17 +2343,17 @@
                 "tank_id": "tank:A",
                 "capacity_bbl": 1000,
                 "shutdown_volume_bbl": 920,
-                "times_unix": [
-                  1000003600,
-                  1000005400,
-                  1000005400,
-                  1000010800
-                ],
                 "volumes_bbl": [
                   800,
                   850,
                   700,
                   850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
                 ]
               }
             ],
@@ -2247,8 +2366,8 @@
               {
                 "truck_id": "truck-1",
                 "job_id": "job-1",
-                "start_unix": 1000003600,
-                "end_unix": 1000009000
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
               }
             ],
             "violations": [],
@@ -2257,7 +2376,10 @@
             ],
             "limitations": [
               "Synthetic interface fixture, not an EOG detection or optimization result."
-            ]
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
           }
         }
       }
@@ -2315,7 +2437,7 @@
             "repair_deadlines": [
               {
                 "facility_id": "field:A",
-                "repair_unix": 1000010800
+                "repair_elapsed_s": 7200
               }
             ],
             "truck_jobs": [
@@ -2324,22 +2446,22 @@
                 "truck_id": "truck-1",
                 "system_id": "system-1",
                 "facility_id": "field:A",
-                "called_unix": 1000003600,
                 "response_min": 30,
                 "cycle_min": 60,
                 "trips": [
                   {
-                    "arrival_unix": 1000005400,
                     "volume_bbl": 149,
-                    "cost": 100
+                    "cost": 100,
+                    "arrival_elapsed_s": 1800
                   }
                 ],
-                "available_again_unix": 1000009000
+                "called_elapsed_s": 0,
+                "available_again_elapsed_s": 5400
               }
             ],
             "well_shut_ins": [],
             "inspection_assets": [],
-            "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
           }
         }
       }
@@ -2369,7 +2491,7 @@
               "repair_deadlines": [
                 {
                   "facility_id": "field:A",
-                  "repair_unix": 1000010800
+                  "repair_elapsed_s": 7200
                 }
               ],
               "truck_jobs": [
@@ -2378,22 +2500,22 @@
                   "truck_id": "truck-1",
                   "system_id": "system-1",
                   "facility_id": "field:A",
-                  "called_unix": 1000003600,
                   "response_min": 30,
                   "cycle_min": 60,
                   "trips": [
                     {
-                      "arrival_unix": 1000005400,
                       "volume_bbl": 150,
-                      "cost": 100
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
                     }
                   ],
-                  "available_again_unix": 1000009000
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
                 }
               ],
               "well_shut_ins": [],
               "inspection_assets": [],
-              "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
             },
             "feasible": true,
             "trajectories": [
@@ -2402,16 +2524,16 @@
                 "tank_id": "tank:A",
                 "capacity_bbl": 1000,
                 "shutdown_volume_bbl": 920,
-                "times_unix": [
-                  1000003600,
-                  1000005400,
-                  1000005400,
-                  1000010800
-                ],
                 "volumes_bbl": [
                   800,
                   850,
                   700
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
                 ]
               }
             ],
@@ -2424,8 +2546,8 @@
               {
                 "truck_id": "truck-1",
                 "job_id": "job-1",
-                "start_unix": 1000003600,
-                "end_unix": 1000009000
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
               }
             ],
             "violations": [],
@@ -2434,7 +2556,10 @@
             ],
             "limitations": [
               "Synthetic interface fixture, not an EOG detection or optimization result."
-            ]
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
           }
         }
       }
@@ -2465,7 +2590,7 @@
                 "repair_deadlines": [
                   {
                     "facility_id": "field:A",
-                    "repair_unix": 1000010800
+                    "repair_elapsed_s": 7200
                   }
                 ],
                 "truck_jobs": [
@@ -2474,22 +2599,22 @@
                     "truck_id": "truck-1",
                     "system_id": "system-1",
                     "facility_id": "field:A",
-                    "called_unix": 1000003600,
                     "response_min": 30,
                     "cycle_min": 60,
                     "trips": [
                       {
-                        "arrival_unix": 1000005400,
                         "volume_bbl": 150,
-                        "cost": 100
+                        "cost": 100,
+                        "arrival_elapsed_s": 1800
                       }
                     ],
-                    "available_again_unix": 1000009000
+                    "called_elapsed_s": 0,
+                    "available_again_elapsed_s": 5400
                   }
                 ],
                 "well_shut_ins": [],
                 "inspection_assets": [],
-                "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+                "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
               },
               "feasible": true,
               "trajectories": [
@@ -2498,17 +2623,17 @@
                   "tank_id": "tank:A",
                   "capacity_bbl": 1000,
                   "shutdown_volume_bbl": 920,
-                  "times_unix": [
-                    1000003600,
-                    1000005400,
-                    1000005400,
-                    1000010800
-                  ],
                   "volumes_bbl": [
                     800,
                     850,
                     700,
                     850
+                  ],
+                  "elapsed_s": [
+                    0,
+                    1800,
+                    1800,
+                    7200
                   ]
                 }
               ],
@@ -2521,8 +2646,8 @@
                 {
                   "truck_id": "truck-1",
                   "job_id": "job-1",
-                  "start_unix": 1000003600,
-                  "end_unix": 1000009000
+                  "start_elapsed_s": 0,
+                  "end_elapsed_s": 5400
                 }
               ],
               "violations": [],
@@ -2531,7 +2656,10 @@
               ],
               "limitations": [
                 "Synthetic interface fixture, not an EOG detection or optimization result."
-              ]
+              ],
+              "coverage": "available",
+              "outcome": "avoids_shutdown",
+              "shutdowns": []
             }
           ],
           "selected_plan_id": "absent",
@@ -2542,7 +2670,9 @@
             "candidate_limit": 10000,
             "time_limit_s": 90,
             "elapsed_s": 0.1,
-            "complete": false
+            "complete": false,
+            "action_time_resolution_s": null,
+            "space_description": "Bounded comparison of the explicitly retained synthetic candidates; no global optimality claim."
           },
           "limitations": [
             "No global optimality claim."
@@ -2576,7 +2706,7 @@
                 "repair_deadlines": [
                   {
                     "facility_id": "field:A",
-                    "repair_unix": 1000010800
+                    "repair_elapsed_s": 7200
                   }
                 ],
                 "truck_jobs": [
@@ -2585,22 +2715,22 @@
                     "truck_id": "truck-1",
                     "system_id": "system-1",
                     "facility_id": "field:A",
-                    "called_unix": 1000003600,
                     "response_min": 30,
                     "cycle_min": 60,
                     "trips": [
                       {
-                        "arrival_unix": 1000005400,
                         "volume_bbl": 150,
-                        "cost": 100
+                        "cost": 100,
+                        "arrival_elapsed_s": 1800
                       }
                     ],
-                    "available_again_unix": 1000009000
+                    "called_elapsed_s": 0,
+                    "available_again_elapsed_s": 5400
                   }
                 ],
                 "well_shut_ins": [],
                 "inspection_assets": [],
-                "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04"
+                "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
               },
               "feasible": true,
               "trajectories": [
@@ -2609,17 +2739,17 @@
                   "tank_id": "tank:A",
                   "capacity_bbl": 1000,
                   "shutdown_volume_bbl": 920,
-                  "times_unix": [
-                    1000003600,
-                    1000005400,
-                    1000005400,
-                    1000010800
-                  ],
                   "volumes_bbl": [
                     800,
                     850,
                     700,
                     850
+                  ],
+                  "elapsed_s": [
+                    0,
+                    1800,
+                    1800,
+                    7200
                   ]
                 }
               ],
@@ -2632,8 +2762,8 @@
                 {
                   "truck_id": "truck-1",
                   "job_id": "job-1",
-                  "start_unix": 1000003600,
-                  "end_unix": 1000009000
+                  "start_elapsed_s": 0,
+                  "end_elapsed_s": 5400
                 }
               ],
               "violations": [],
@@ -2642,7 +2772,10 @@
               ],
               "limitations": [
                 "Synthetic interface fixture, not an EOG detection or optimization result."
-              ]
+              ],
+              "coverage": "available",
+              "outcome": "avoids_shutdown",
+              "shutdowns": []
             }
           ],
           "selected_plan_id": "plan-1",
@@ -2653,7 +2786,9 @@
             "candidate_limit": 10000,
             "time_limit_s": 90,
             "elapsed_s": 0.1,
-            "complete": false
+            "complete": false,
+            "action_time_resolution_s": null,
+            "space_description": "Bounded comparison of the explicitly retained synthetic candidates; no global optimality claim."
           },
           "limitations": [
             "No global optimality claim."
@@ -2693,8 +2828,17 @@
             "violations": [],
             "minimum_shutdown_margin_bbl": 70,
             "evidence_ids": [],
-            "plan_hash": "2d8ce8b9e4dff0036b3a41a67e676eb77c5e6de59e6bcc9aeca343a281663e04",
-            "evidence": []
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e",
+            "evidence": [],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": [],
+            "validated_horizons": [
+              {
+                "facility_id": "field:A",
+                "repair_elapsed_s": 7200
+              }
+            ]
           }
         }
       }
@@ -2732,7 +2876,16 @@
             "minimum_shutdown_margin_bbl": 70,
             "evidence_ids": [],
             "plan_hash": "0000000000000000000000000000000000000000000000000000000000000000",
-            "evidence": []
+            "evidence": [],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": [],
+            "validated_horizons": [
+              {
+                "facility_id": "field:A",
+                "repair_elapsed_s": 7200
+              }
+            ]
           }
         }
       },
@@ -3006,6 +3159,1902 @@
         },
         "arguments": {
           "system_ids": []
+        }
+      }
+    },
+    {
+      "name": "valid-do-nothing-evaluation-response",
+      "valid": true,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "do-nothing",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "8b7b1c6aa71a1b0a7fa1179ab2e75922d667fc08892b6af9ec2cd6ceff2b2088"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  920,
+                  920
+                ],
+                "elapsed_s": [
+                  0,
+                  4320,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 0,
+              "lost_revenue": 80,
+              "total": 80
+            },
+            "fleet_occupancy": [],
+            "violations": [],
+            "assumptions": [
+              "100 bbl/hour inflow, 100 dollars/hour exposure; shutdown at 1.2 hours; repair at two hours."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "automatic_shutdown",
+            "shutdowns": [
+              {
+                "facility_id": "field:A",
+                "elapsed_s": 4320
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "valid-do-nothing-selected-search-response",
+      "valid": true,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "search_plans",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluations": [
+            {
+              "plan": {
+                "plan_id": "plan-1",
+                "context": "snapshot_now",
+                "start_unix": 1000003600,
+                "repair_deadlines": [
+                  {
+                    "facility_id": "field:A",
+                    "repair_elapsed_s": 7200
+                  }
+                ],
+                "truck_jobs": [
+                  {
+                    "job_id": "job-1",
+                    "truck_id": "truck-1",
+                    "system_id": "system-1",
+                    "facility_id": "field:A",
+                    "response_min": 30,
+                    "cycle_min": 60,
+                    "trips": [
+                      {
+                        "volume_bbl": 150,
+                        "cost": 100,
+                        "arrival_elapsed_s": 1800
+                      }
+                    ],
+                    "called_elapsed_s": 0,
+                    "available_again_elapsed_s": 5400
+                  }
+                ],
+                "well_shut_ins": [],
+                "inspection_assets": [],
+                "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+              },
+              "feasible": true,
+              "trajectories": [
+                {
+                  "facility_id": "field:A",
+                  "tank_id": "tank:A",
+                  "capacity_bbl": 1000,
+                  "shutdown_volume_bbl": 920,
+                  "volumes_bbl": [
+                    800,
+                    850,
+                    700,
+                    850
+                  ],
+                  "elapsed_s": [
+                    0,
+                    1800,
+                    1800,
+                    7200
+                  ]
+                }
+              ],
+              "cost": {
+                "truck_cost": 100,
+                "lost_revenue": 0,
+                "total": 100
+              },
+              "fleet_occupancy": [
+                {
+                  "truck_id": "truck-1",
+                  "job_id": "job-1",
+                  "start_elapsed_s": 0,
+                  "end_elapsed_s": 5400
+                }
+              ],
+              "violations": [],
+              "assumptions": [
+                "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+              ],
+              "limitations": [
+                "Synthetic interface fixture, not an EOG detection or optimization result."
+              ],
+              "coverage": "available",
+              "outcome": "avoids_shutdown",
+              "shutdowns": []
+            },
+            {
+              "plan": {
+                "plan_id": "do-nothing",
+                "context": "snapshot_now",
+                "start_unix": 1000003600,
+                "repair_deadlines": [
+                  {
+                    "facility_id": "field:A",
+                    "repair_elapsed_s": 7200
+                  }
+                ],
+                "truck_jobs": [],
+                "well_shut_ins": [],
+                "inspection_assets": [],
+                "plan_hash": "8b7b1c6aa71a1b0a7fa1179ab2e75922d667fc08892b6af9ec2cd6ceff2b2088"
+              },
+              "feasible": true,
+              "trajectories": [
+                {
+                  "facility_id": "field:A",
+                  "tank_id": "tank:A",
+                  "capacity_bbl": 1000,
+                  "shutdown_volume_bbl": 920,
+                  "volumes_bbl": [
+                    800,
+                    920,
+                    920
+                  ],
+                  "elapsed_s": [
+                    0,
+                    4320,
+                    7200
+                  ]
+                }
+              ],
+              "cost": {
+                "truck_cost": 0,
+                "lost_revenue": 80,
+                "total": 80
+              },
+              "fleet_occupancy": [],
+              "violations": [],
+              "assumptions": [
+                "100 bbl/hour inflow, 100 dollars/hour exposure; shutdown at 1.2 hours; repair at two hours."
+              ],
+              "limitations": [
+                "Synthetic interface fixture, not an EOG detection or optimization result."
+              ],
+              "coverage": "available",
+              "outcome": "automatic_shutdown",
+              "shutdowns": [
+                {
+                  "facility_id": "field:A",
+                  "elapsed_s": 4320
+                }
+              ]
+            }
+          ],
+          "selected_plan_id": "do-nothing",
+          "search": {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "evaluated_candidates": 2,
+            "candidate_limit": 10000,
+            "time_limit_s": 90,
+            "elapsed_s": 0.1,
+            "complete": false,
+            "action_time_resolution_s": null,
+            "space_description": "Bounded comparison of the explicitly retained synthetic candidates; no global optimality claim."
+          },
+          "limitations": [
+            "No global optimality claim."
+          ]
+        }
+      }
+    },
+    {
+      "name": "valid-fractional-crossing-response",
+      "valid": true,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "fractional-crossing",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "6ba56b3922d9c72d1c2fd455d2c105c6cb297aa31209111f85c6322ef70afc16"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  900,
+                  920,
+                  920
+                ],
+                "elapsed_s": [
+                  0,
+                  514.2857142857142,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 0,
+              "lost_revenue": 0,
+              "total": 0
+            },
+            "fleet_occupancy": [],
+            "violations": [],
+            "assumptions": [
+              "Synthetic crossing at 1/7 hour with zero revenue exposure; binary64 elapsed time is retained without integer rounding."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "automatic_shutdown",
+            "shutdowns": [
+              {
+                "facility_id": "field:A",
+                "elapsed_s": 514.2857142857142
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "valid-unknown-horizon-response",
+      "valid": true,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "unavailable",
+        "diagnostics": [
+          {
+            "code": "unknown_repair_horizon",
+            "message": "Causal onset/repair horizon is unavailable; feasibility and cost were not assessed."
+          }
+        ],
+        "result": null
+      }
+    },
+    {
+      "name": "valid-threshold-at-repair-response",
+      "valid": true,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "threshold-at-repair",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "c7ad09010cef954a6142afaf56a6cb527e651c0885daa2807f60cc64030222d3"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  920
+                ],
+                "elapsed_s": [
+                  0,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 0,
+              "lost_revenue": 0,
+              "total": 0
+            },
+            "fleet_occupancy": [],
+            "violations": [],
+            "assumptions": [
+              "60 bbl/hour inflow reaches shutdown exactly at two-hour repair; threshold first, zero remaining automatic revenue loss."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "automatic_shutdown",
+            "shutdowns": [
+              {
+                "facility_id": "field:A",
+                "elapsed_s": 7200
+              }
+            ]
+          }
+        }
+      }
+    },
+    {
+      "name": "valid-arrival-at-repair-infeasible-response",
+      "valid": true,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "arrival-at-repair",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 120,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 7200
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 10800
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "6d85e61e9991cf5ea2e58140ec35d5a4c7d7ddc3e8904938a2da5a280c9c6da1"
+            },
+            "feasible": false,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800
+                ],
+                "elapsed_s": [
+                  0
+                ]
+              }
+            ],
+            "cost": null,
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 10800
+              }
+            ],
+            "violations": [
+              {
+                "code": "trip_at_repair",
+                "message": "Truck arrives at repair, not strictly before it; no total cost is asserted.",
+                "asset_id": "field:A",
+                "elapsed_s": 7200
+              }
+            ],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "partial",
+            "outcome": "unavailable",
+            "shutdowns": []
+          }
+        }
+      }
+    },
+    {
+      "name": "valid-two-facility-evaluation-response",
+      "valid": true,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "two-facility-response",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                },
+                {
+                  "facility_id": "field:B",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "f394f3c6206cd0a01c92ad367cbc78a887c4889302ff84da5f7f7838813d0327"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  850,
+                  700,
+                  850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
+                ]
+              },
+              {
+                "facility_id": "field:B",
+                "tank_id": "tank:B",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  920,
+                  920
+                ],
+                "elapsed_s": [
+                  0,
+                  4320,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 100,
+              "lost_revenue": 80,
+              "total": 180
+            },
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "automatic_shutdown",
+            "shutdowns": [
+              {
+                "facility_id": "field:B",
+                "elapsed_s": 4320
+              }
+            ]
+          }
+        }
+      },
+      "context_id": "two-facility"
+    },
+    {
+      "name": "feasible-empty-forecast",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "plan-1",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+            },
+            "feasible": true,
+            "trajectories": [],
+            "cost": {
+              "truck_cost": 100,
+              "lost_revenue": 0,
+              "total": 100
+            },
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
+          }
+        }
+      },
+      "context_id": "evaluate-plan"
+    },
+    {
+      "name": "feasible-short-forecast",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "plan-1",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800
+                ],
+                "elapsed_s": [
+                  0
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 100,
+              "lost_revenue": 0,
+              "total": 100
+            },
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
+          }
+        }
+      },
+      "context_id": "evaluate-plan"
+    },
+    {
+      "name": "feasible-missing-facility",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "two-facility-response",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                },
+                {
+                  "facility_id": "field:B",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "f394f3c6206cd0a01c92ad367cbc78a887c4889302ff84da5f7f7838813d0327"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  850,
+                  700,
+                  850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 100,
+              "lost_revenue": 80,
+              "total": 180
+            },
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "automatic_shutdown",
+            "shutdowns": [
+              {
+                "facility_id": "field:B",
+                "elapsed_s": 4320
+              }
+            ]
+          }
+        }
+      },
+      "context_id": "two-facility"
+    },
+    {
+      "name": "feasible-unavailable-cost",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "plan-1",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  850,
+                  700,
+                  850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
+                ]
+              }
+            ],
+            "cost": null,
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
+          }
+        }
+      }
+    },
+    {
+      "name": "feasible-partial-coverage",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "plan-1",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  850,
+                  700,
+                  850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
+                ]
+              }
+            ],
+            "cost": null,
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "partial",
+            "outcome": "unavailable",
+            "shutdowns": []
+          }
+        }
+      }
+    },
+    {
+      "name": "incomplete-invented-zero-cost",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "shared-fleet-conflict",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                },
+                {
+                  "facility_id": "field:B",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                },
+                {
+                  "job_id": "job-2",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:B",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "660789a88a45f2a076d98355ec1e1538ff20fdb2646a1ae9ba77e1447977efc1"
+            },
+            "feasible": false,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  850,
+                  700,
+                  850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
+                ]
+              },
+              {
+                "facility_id": "field:B",
+                "tank_id": "tank:B",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  850,
+                  700,
+                  850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  1800,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 0,
+              "lost_revenue": 0,
+              "total": 0
+            },
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              },
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-2",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [
+              {
+                "code": "fleet_conflict",
+                "message": "The same truck is assigned to two overlapping facility jobs.",
+                "asset_id": "field:B",
+                "elapsed_s": 0
+              }
+            ],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "partial",
+            "outcome": "unavailable",
+            "shutdowns": []
+          }
+        }
+      }
+    },
+    {
+      "name": "validation-missing-horizons",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "validate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "validation": {
+            "validation_id": "validation-1",
+            "plan_id": "plan-1",
+            "evaluator_method": "event-evaluator-v1",
+            "validator_method": "independent-validator-v1",
+            "independent": true,
+            "feasible": true,
+            "cost": {
+              "truck_cost": 100,
+              "lost_revenue": 0,
+              "total": 100
+            },
+            "violations": [],
+            "minimum_shutdown_margin_bbl": 70,
+            "evidence_ids": [],
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e",
+            "evidence": [],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": [],
+            "validated_horizons": []
+          }
+        }
+      },
+      "context_id": "validate-plan"
+    },
+    {
+      "name": "validation-changed-repair",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "validate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "validation": {
+            "validation_id": "validation-1",
+            "plan_id": "plan-1",
+            "evaluator_method": "event-evaluator-v1",
+            "validator_method": "independent-validator-v1",
+            "independent": true,
+            "feasible": true,
+            "cost": {
+              "truck_cost": 100,
+              "lost_revenue": 0,
+              "total": 100
+            },
+            "violations": [],
+            "minimum_shutdown_margin_bbl": 70,
+            "evidence_ids": [],
+            "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e",
+            "evidence": [],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": [],
+            "validated_horizons": [
+              {
+                "facility_id": "field:A",
+                "repair_elapsed_s": 7200.25
+              }
+            ]
+          }
+        }
+      },
+      "context_id": "validate-plan"
+    },
+    {
+      "name": "automatic-shutdown-without-crossing",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "do-nothing",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "8b7b1c6aa71a1b0a7fa1179ab2e75922d667fc08892b6af9ec2cd6ceff2b2088"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  920,
+                  920
+                ],
+                "elapsed_s": [
+                  0,
+                  4320,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 0,
+              "lost_revenue": 80,
+              "total": 80
+            },
+            "fleet_occupancy": [],
+            "violations": [],
+            "assumptions": [
+              "100 bbl/hour inflow, 100 dollars/hour exposure; shutdown at 1.2 hours; repair at two hours."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "automatic_shutdown",
+            "shutdowns": []
+          }
+        }
+      }
+    },
+    {
+      "name": "nonpositive-action-time-resolution",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "search_plans",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluations": [
+            {
+              "plan": {
+                "plan_id": "plan-1",
+                "context": "snapshot_now",
+                "start_unix": 1000003600,
+                "repair_deadlines": [
+                  {
+                    "facility_id": "field:A",
+                    "repair_elapsed_s": 7200
+                  }
+                ],
+                "truck_jobs": [
+                  {
+                    "job_id": "job-1",
+                    "truck_id": "truck-1",
+                    "system_id": "system-1",
+                    "facility_id": "field:A",
+                    "response_min": 30,
+                    "cycle_min": 60,
+                    "trips": [
+                      {
+                        "volume_bbl": 150,
+                        "cost": 100,
+                        "arrival_elapsed_s": 1800
+                      }
+                    ],
+                    "called_elapsed_s": 0,
+                    "available_again_elapsed_s": 5400
+                  }
+                ],
+                "well_shut_ins": [],
+                "inspection_assets": [],
+                "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+              },
+              "feasible": true,
+              "trajectories": [
+                {
+                  "facility_id": "field:A",
+                  "tank_id": "tank:A",
+                  "capacity_bbl": 1000,
+                  "shutdown_volume_bbl": 920,
+                  "volumes_bbl": [
+                    800,
+                    850,
+                    700,
+                    850
+                  ],
+                  "elapsed_s": [
+                    0,
+                    1800,
+                    1800,
+                    7200
+                  ]
+                }
+              ],
+              "cost": {
+                "truck_cost": 100,
+                "lost_revenue": 0,
+                "total": 100
+              },
+              "fleet_occupancy": [
+                {
+                  "truck_id": "truck-1",
+                  "job_id": "job-1",
+                  "start_elapsed_s": 0,
+                  "end_elapsed_s": 5400
+                }
+              ],
+              "violations": [],
+              "assumptions": [
+                "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+              ],
+              "limitations": [
+                "Synthetic interface fixture, not an EOG detection or optimization result."
+              ],
+              "coverage": "available",
+              "outcome": "avoids_shutdown",
+              "shutdowns": []
+            }
+          ],
+          "selected_plan_id": "plan-1",
+          "search": {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "evaluated_candidates": 1,
+            "candidate_limit": 10000,
+            "time_limit_s": 90,
+            "elapsed_s": 0.1,
+            "complete": false,
+            "action_time_resolution_s": 0,
+            "space_description": "Bounded comparison of the explicitly retained synthetic candidates; no global optimality claim."
+          },
+          "limitations": [
+            "No global optimality claim."
+          ]
+        }
+      }
+    },
+    {
+      "name": "missing-truck-jump",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "plan-1",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  850
+                ],
+                "elapsed_s": [
+                  0,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 100,
+              "lost_revenue": 0,
+              "total": 100
+            },
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
+          }
+        }
+      },
+      "context_id": "evaluate-plan"
+    },
+    {
+      "name": "single-sample-truck-jump",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "plan-1",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [
+                {
+                  "job_id": "job-1",
+                  "truck_id": "truck-1",
+                  "system_id": "system-1",
+                  "facility_id": "field:A",
+                  "response_min": 30,
+                  "cycle_min": 60,
+                  "trips": [
+                    {
+                      "volume_bbl": 150,
+                      "cost": 100,
+                      "arrival_elapsed_s": 1800
+                    }
+                  ],
+                  "called_elapsed_s": 0,
+                  "available_again_elapsed_s": 5400
+                }
+              ],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  700,
+                  850
+                ],
+                "elapsed_s": [
+                  0,
+                  1800,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 100,
+              "lost_revenue": 0,
+              "total": 100
+            },
+            "fleet_occupancy": [
+              {
+                "truck_id": "truck-1",
+                "job_id": "job-1",
+                "start_elapsed_s": 0,
+                "end_elapsed_s": 5400
+              }
+            ],
+            "violations": [],
+            "assumptions": [
+              "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
+          }
+        }
+      },
+      "context_id": "evaluate-plan"
+    },
+    {
+      "name": "missing-well-action-breakpoint",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "well-only",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [],
+              "well_shut_ins": [
+                {
+                  "well_id": "well:A",
+                  "facility_id": "field:A",
+                  "start_elapsed_s": 1080,
+                  "end_elapsed_s": 7200
+                }
+              ],
+              "inspection_assets": [],
+              "plan_hash": "106137fcf2c4bfdc66f9de673e6ae223df7043e85b6f703872e38e9d633d9e8b"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  915
+                ],
+                "elapsed_s": [
+                  0,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 0,
+              "lost_revenue": 425,
+              "total": 425
+            },
+            "fleet_occupancy": [],
+            "violations": [],
+            "assumptions": [
+              "Inflow 2400 bpd; shutting a 1200 bpd well after 18 minutes removes 50 bbl/hour until repair; its lost revenue is $250/hour."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "avoids_shutdown",
+            "shutdowns": []
+          }
+        }
+      }
+    },
+    {
+      "name": "missing-shutdown-crossing",
+      "valid": false,
+      "kind": "analysis_response",
+      "document": {
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "cutoff_unix": 1000003600,
+        "eog_version": 1,
+        "request_id": "request-1",
+        "method_version": 1,
+        "kind": "analysis_response",
+        "operation": "evaluate_plan",
+        "status": "completed",
+        "diagnostics": [],
+        "result": {
+          "analysis_id": "analysis-1",
+          "evaluation": {
+            "plan": {
+              "plan_id": "do-nothing",
+              "context": "snapshot_now",
+              "start_unix": 1000003600,
+              "repair_deadlines": [
+                {
+                  "facility_id": "field:A",
+                  "repair_elapsed_s": 7200
+                }
+              ],
+              "truck_jobs": [],
+              "well_shut_ins": [],
+              "inspection_assets": [],
+              "plan_hash": "8b7b1c6aa71a1b0a7fa1179ab2e75922d667fc08892b6af9ec2cd6ceff2b2088"
+            },
+            "feasible": true,
+            "trajectories": [
+              {
+                "facility_id": "field:A",
+                "tank_id": "tank:A",
+                "capacity_bbl": 1000,
+                "shutdown_volume_bbl": 920,
+                "volumes_bbl": [
+                  800,
+                  920
+                ],
+                "elapsed_s": [
+                  0,
+                  7200
+                ]
+              }
+            ],
+            "cost": {
+              "truck_cost": 0,
+              "lost_revenue": 80,
+              "total": 80
+            },
+            "fleet_occupancy": [],
+            "violations": [],
+            "assumptions": [
+              "100 bbl/hour inflow, 100 dollars/hour exposure; shutdown at 1.2 hours; repair at two hours."
+            ],
+            "limitations": [
+              "Synthetic interface fixture, not an EOG detection or optimization result."
+            ],
+            "coverage": "available",
+            "outcome": "automatic_shutdown",
+            "shutdowns": [
+              {
+                "facility_id": "field:A",
+                "elapsed_s": 4320
+              }
+            ]
+          }
         }
       }
     }

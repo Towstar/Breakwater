@@ -324,21 +324,20 @@
       "type": "object",
       "additionalProperties": false,
       "required": [
-        "arrival_unix",
+        "arrival_elapsed_s",
         "volume_bbl",
         "cost"
       ],
       "properties": {
-        "arrival_unix": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 253402300799
-        },
         "volume_bbl": {
           "type": "number",
           "exclusiveMinimum": 0
         },
         "cost": {
+          "type": "number",
+          "minimum": 0
+        },
+        "arrival_elapsed_s": {
           "type": "number",
           "minimum": 0
         }
@@ -352,11 +351,11 @@
         "truck_id",
         "system_id",
         "facility_id",
-        "called_unix",
+        "called_elapsed_s",
         "response_min",
         "cycle_min",
         "trips",
-        "available_again_unix"
+        "available_again_elapsed_s"
       ],
       "properties": {
         "job_id": {
@@ -379,11 +378,6 @@
           "minLength": 1,
           "maxLength": 256
         },
-        "called_unix": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 253402300799
-        },
         "response_min": {
           "type": "number",
           "minimum": 0
@@ -400,10 +394,13 @@
           },
           "minItems": 1
         },
-        "available_again_unix": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 253402300799
+        "called_elapsed_s": {
+          "type": "number",
+          "minimum": 0
+        },
+        "available_again_elapsed_s": {
+          "type": "number",
+          "minimum": 0
         }
       }
     },
@@ -413,8 +410,8 @@
       "required": [
         "well_id",
         "facility_id",
-        "start_unix",
-        "end_unix"
+        "start_elapsed_s",
+        "end_elapsed_s"
       ],
       "properties": {
         "well_id": {
@@ -427,15 +424,13 @@
           "minLength": 1,
           "maxLength": 256
         },
-        "start_unix": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 253402300799
+        "start_elapsed_s": {
+          "type": "number",
+          "minimum": 0
         },
-        "end_unix": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 253402300799
+        "end_elapsed_s": {
+          "type": "number",
+          "minimum": 0
         }
       }
     },
@@ -444,7 +439,7 @@
       "additionalProperties": false,
       "required": [
         "facility_id",
-        "repair_unix"
+        "repair_elapsed_s"
       ],
       "properties": {
         "facility_id": {
@@ -452,10 +447,9 @@
           "minLength": 1,
           "maxLength": 256
         },
-        "repair_unix": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 253402300799
+        "repair_elapsed_s": {
+          "type": "number",
+          "minimum": 0
         }
       }
     },
@@ -494,7 +488,8 @@
           "maxItems": 256,
           "items": {
             "$ref": "#/$defs/repair_deadline"
-          }
+          },
+          "minItems": 1
         },
         "truck_jobs": {
           "type": "array",
@@ -555,7 +550,7 @@
         "tank_id",
         "capacity_bbl",
         "shutdown_volume_bbl",
-        "times_unix",
+        "elapsed_s",
         "volumes_bbl"
       ],
       "properties": {
@@ -577,16 +572,6 @@
           "type": "number",
           "exclusiveMinimum": 0
         },
-        "times_unix": {
-          "type": "array",
-          "maxItems": 8192,
-          "items": {
-            "type": "integer",
-            "minimum": 0,
-            "maximum": 253402300799
-          },
-          "minItems": 1
-        },
         "volumes_bbl": {
           "type": "array",
           "maxItems": 8192,
@@ -594,6 +579,15 @@
             "type": "number"
           },
           "minItems": 1
+        },
+        "elapsed_s": {
+          "type": "array",
+          "minItems": 1,
+          "maxItems": 8192,
+          "items": {
+            "type": "number",
+            "minimum": 0
+          }
         }
       }
     },
@@ -603,8 +597,8 @@
       "required": [
         "truck_id",
         "job_id",
-        "start_unix",
-        "end_unix"
+        "start_elapsed_s",
+        "end_elapsed_s"
       ],
       "properties": {
         "truck_id": {
@@ -617,15 +611,13 @@
           "minLength": 1,
           "maxLength": 256
         },
-        "start_unix": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 253402300799
+        "start_elapsed_s": {
+          "type": "number",
+          "minimum": 0
         },
-        "end_unix": {
-          "type": "integer",
-          "minimum": 0,
-          "maximum": 253402300799
+        "end_elapsed_s": {
+          "type": "number",
+          "minimum": 0
         }
       }
     },
@@ -636,7 +628,7 @@
         "code",
         "message",
         "asset_id",
-        "time_unix"
+        "elapsed_s"
       ],
       "properties": {
         "code": {
@@ -661,12 +653,11 @@
             }
           ]
         },
-        "time_unix": {
+        "elapsed_s": {
           "anyOf": [
             {
-              "type": "integer",
-              "minimum": 0,
-              "maximum": 253402300799
+              "type": "number",
+              "minimum": 0
             },
             {
               "type": "null"
@@ -686,7 +677,10 @@
         "fleet_occupancy",
         "violations",
         "assumptions",
-        "limitations"
+        "limitations",
+        "coverage",
+        "outcome",
+        "shutdowns"
       ],
       "properties": {
         "plan": {
@@ -703,7 +697,14 @@
           }
         },
         "cost": {
-          "$ref": "#/$defs/cost"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/cost"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "fleet_occupancy": {
           "type": "array",
@@ -736,6 +737,27 @@
             "minLength": 1,
             "maxLength": 2048
           }
+        },
+        "coverage": {
+          "enum": [
+            "available",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "avoids_shutdown",
+            "automatic_shutdown",
+            "unavailable"
+          ]
+        },
+        "shutdowns": {
+          "type": "array",
+          "maxItems": 256,
+          "items": {
+            "$ref": "#/$defs/shutdown"
+          }
         }
       }
     },
@@ -754,7 +776,11 @@
         "minimum_shutdown_margin_bbl",
         "evidence_ids",
         "plan_hash",
-        "evidence"
+        "evidence",
+        "coverage",
+        "outcome",
+        "shutdowns",
+        "validated_horizons"
       ],
       "properties": {
         "validation_id": {
@@ -784,7 +810,14 @@
           "type": "boolean"
         },
         "cost": {
-          "$ref": "#/$defs/cost"
+          "anyOf": [
+            {
+              "$ref": "#/$defs/cost"
+            },
+            {
+              "type": "null"
+            }
+          ]
         },
         "violations": {
           "type": "array",
@@ -821,6 +854,34 @@
           "items": {
             "$ref": "#/$defs/evidence"
           }
+        },
+        "coverage": {
+          "enum": [
+            "available",
+            "partial",
+            "unavailable"
+          ]
+        },
+        "outcome": {
+          "enum": [
+            "avoids_shutdown",
+            "automatic_shutdown",
+            "unavailable"
+          ]
+        },
+        "shutdowns": {
+          "type": "array",
+          "maxItems": 256,
+          "items": {
+            "$ref": "#/$defs/shutdown"
+          }
+        },
+        "validated_horizons": {
+          "type": "array",
+          "maxItems": 256,
+          "items": {
+            "$ref": "#/$defs/repair_deadline"
+          }
         }
       }
     },
@@ -834,7 +895,9 @@
         "candidate_limit",
         "time_limit_s",
         "elapsed_s",
-        "complete"
+        "complete",
+        "action_time_resolution_s",
+        "space_description"
       ],
       "properties": {
         "scope": {
@@ -871,6 +934,39 @@
         },
         "complete": {
           "type": "boolean"
+        },
+        "action_time_resolution_s": {
+          "anyOf": [
+            {
+              "type": "number",
+              "exclusiveMinimum": 0
+            },
+            {
+              "type": "null"
+            }
+          ]
+        },
+        "space_description": {
+          "type": "string",
+          "minLength": 1,
+          "maxLength": 2048
+        }
+      }
+    },
+    "shutdown": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "facility_id",
+        "elapsed_s"
+      ],
+      "properties": {
+        "facility_id": {
+          "$ref": "#/$defs/id"
+        },
+        "elapsed_s": {
+          "type": "number",
+          "minimum": 0
         }
       }
     }

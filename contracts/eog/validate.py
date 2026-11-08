@@ -6,6 +6,7 @@ validation record is a claim by its publisher, not execution of a numerical proo
 from __future__ import annotations
 
 import argparse
+from collections import Counter
 import csv
 from datetime import datetime, timezone
 import hashlib
@@ -232,11 +233,11 @@ def _plan(plan, cutoff, manifest=None):
     _unique(plan["truck_jobs"], "job_id")
     _unique(plan["well_shut_ins"], "well_id")
     for shutdown in plan["well_shut_ins"]:
-        require(cutoff <= shutdown["start_unix"] <= shutdown["end_unix"], "invalid_time",
+        require(0 <= shutdown["start_elapsed_s"] <= shutdown["end_elapsed_s"], "invalid_time",
                 "Shut-in interval precedes the plan or is reversed.")
     for job in plan["truck_jobs"]:
-        arrivals = [trip["arrival_unix"] for trip in job["trips"]]
-        require(cutoff <= job["called_unix"] <= arrivals[0] <= arrivals[-1] <= job["available_again_unix"],
+        arrivals = [trip["arrival_elapsed_s"] for trip in job["trips"]]
+        require(0 <= job["called_elapsed_s"] <= arrivals[0] <= arrivals[-1] <= job["available_again_elapsed_s"],
                 "invalid_time", "Truck job timestamps are reversed or precede the plan.")
         require(all(a < b for a, b in zip(arrivals, arrivals[1:])), "invalid_time",
                 "A truck cannot have simultaneous or reversed trips.")
@@ -300,33 +301,90 @@ def _events(events, evidence, cutoff):
                     "Unavailable/ambiguous evidence cannot claim an available countdown.")
 
 
+def _horizons(values):
+    _unique(values, "facility_id")
+    return {item["facility_id"]: item["repair_elapsed_s"] for item in values}
+
+
+def _assessment(value):
+    if value["cost"] is not None:
+        _cost(value["cost"])
+    if value["feasible"]:
+        require(value["coverage"] == "available" and value["cost"] is not None
+                and value["outcome"] != "unavailable", "incomplete_assessment",
+                "Admissible actions need available forecast coverage, cost and outcome.")
+        require(not value["violations"], "contradictory_result",
+                "Admissible actions cannot list violations.")
+    else:
+        require(bool(value["violations"]), "missing_violation",
+                "An assessed invalid action needs a violation; unknown physics is top-level unavailable.")
+    require(value["coverage"] == "available" or value["outcome"] == "unavailable",
+            "incomplete_assessment", "Partial/unavailable coverage has no complete outcome.")
+    _unique(value["shutdowns"], "facility_id")
+    if value["outcome"] == "avoids_shutdown":
+        require(not value["shutdowns"], "contradictory_result", "Avoidance cannot list an automatic shutdown.")
+    if value["outcome"] == "automatic_shutdown":
+        require(bool(value["shutdowns"]), "missing_shutdown", "Automatic-shutdown outcome needs its crossing.")
+    if value["coverage"] != "available":
+        require(value["cost"] is None, "unavailable_cost",
+                "Incomplete assessment cannot invent a computable cost.")
+
+
+def _shutdowns(value, horizons):
+    for shutdown in value["shutdowns"]:
+        require(shutdown["facility_id"] in horizons and
+                shutdown["elapsed_s"] <= horizons[shutdown["facility_id"]],
+                "invalid_shutdown", "Shutdown lies outside its modeled facility/repair horizon.")
+
+
 def _evaluation(value, cutoff, manifest=None):
     _plan(value["plan"], cutoff, manifest)
-    _cost(value["cost"])
+    _assessment(value)
+    required = _horizons(value["plan"]["repair_deadlines"])
     _unique(value["trajectories"], "tank_id")
+    _unique(value["trajectories"], "facility_id")
     _unique(value["fleet_occupancy"], "job_id")
+    actual = {item["facility_id"] for item in value["trajectories"]}
+    require(actual <= set(required), "forecast_coverage", "Trajectory references an undeclared repair facility.")
+    if value["coverage"] == "available":
+        require(bool(required) and actual == set(required), "forecast_coverage",
+                "Available forecast must cover every declared repaired facility.")
     for trajectory in value["trajectories"]:
-        times = trajectory["times_unix"]
+        times = trajectory["elapsed_s"]
         require(len(times) == len(trajectory["volumes_bbl"]), "trajectory_shape",
                 "Trajectory times and volumes must have equal lengths.")
-        require(times[0] == cutoff and all(a <= b for a, b in zip(times, times[1:])),
-                "invalid_time", "Trajectory must start at cutoff and remain ordered.")
+        require(times[0] == 0 and all(a <= b for a, b in zip(times, times[1:])),
+                "invalid_time", "Trajectory must start at elapsed zero and remain ordered.")
+        horizon = required[trajectory["facility_id"]]
+        require(times[-1] <= horizon and (value["coverage"] != "available" or times[-1] == horizon),
+                "forecast_horizon", "Available forecast must include its exact repair endpoint.")
         require(all(a < b or (index == 0 or times[index-1] < a) for index, (a, b) in enumerate(zip(times, times[1:]))),
                 "trajectory_shape", "At most two samples at a timestamp represent before/after a discrete action.")
         require(trajectory["shutdown_volume_bbl"] <= trajectory["capacity_bbl"],
                 "invalid_range", "Shutdown inventory exceeds tank capacity.")
+    _shutdowns(value, required)
+    if value["feasible"]:
+        points = {item["facility_id"]: Counter(item["elapsed_s"]) for item in value["trajectories"]}
+        for job in value["plan"]["truck_jobs"]:
+            require(job["facility_id"] in points and all(points[job["facility_id"]][trip["arrival_elapsed_s"]] == 2
+                    for trip in job["trips"]), "missing_breakpoint",
+                    "Each facility truck-arrival time needs an exact combined before/after pair.")
+        for action in value["plan"]["well_shut_ins"]:
+            require(action["facility_id"] in points and
+                    points[action["facility_id"]][action["start_elapsed_s"]] > 0 and
+                    points[action["facility_id"]][action["end_elapsed_s"]] > 0, "missing_breakpoint",
+                    "Well-action breakpoints must be retained in the facility trajectory.")
+        for shutdown in value["shutdowns"]:
+            require(points[shutdown["facility_id"]][shutdown["elapsed_s"]] > 0, "missing_breakpoint",
+                    "Automatic shutdown crossing must be retained in the facility trajectory.")
     jobs = {job["job_id"]: job for job in value["plan"]["truck_jobs"]}
     require({item["job_id"] for item in value["fleet_occupancy"]} == set(jobs),
             "occupancy_mismatch", "Every declared truck job needs an occupancy record.")
     for item in value["fleet_occupancy"]:
         job = jobs[item["job_id"]]
-        require(item["truck_id"] == job["truck_id"] and item["start_unix"] == job["called_unix"]
-                and item["end_unix"] == job["available_again_unix"], "occupancy_mismatch",
-                "Occupancy must bind the exact job interval.")
-    require(not value["feasible"] or not value["violations"], "contradictory_result",
-            "A feasible evaluation cannot list violations.")
-    require(value["feasible"] or bool(value["violations"]), "missing_violation",
-            "An infeasible evaluation must explain at least one violation.")
+        require(item["truck_id"] == job["truck_id"] and item["start_elapsed_s"] == job["called_elapsed_s"]
+                and item["end_elapsed_s"] == job["available_again_elapsed_s"], "occupancy_mismatch",
+                "Occupancy must bind the exact half-open job interval.")
 
 
 def validate_document(document, kind=None, context=None):
@@ -409,14 +467,19 @@ def validate_document(document, kind=None, context=None):
         _evidence(validation["evidence"], cutoff, context.get("assets"))
         require(set(validation["evidence_ids"]) <= {item["evidence_id"] for item in validation["evidence"]},
                 "unknown_evidence", "Validation references missing source evidence.")
-        _cost(validation["cost"])
+        _assessment(validation)
+        verified = _horizons(validation["validated_horizons"])
+        require(validation["coverage"] != "available" or bool(verified), "forecast_coverage",
+                "Available validation must declare its modeled repair horizons.")
+        _shutdowns(validation, verified)
         require(validation["validator_method"] != validation["evaluator_method"],
                 "not_independent", "Validator must declare a different implementation.")
-        require(not validation["feasible"] or not validation["violations"], "contradictory_result",
-                "Feasible validation cannot list violations.")
-        require(validation["feasible"] or bool(validation["violations"]), "missing_violation",
-                "Infeasible validation needs a violation.")
         if request:
+            required = _horizons(request["arguments"]["plan"]["repair_deadlines"])
+            require(set(verified) <= set(required) and all(verified[key] == required[key] for key in verified),
+                    "forecast_horizon", "Validation changed a supplied repair horizon.")
+            require(validation["coverage"] != "available" or verified == required, "forecast_coverage",
+                    "Available validation must cover every requested repair horizon.")
             require(validation["plan_id"] == request["arguments"]["plan"]["plan_id"] and
                     validation["plan_hash"] == request["arguments"]["plan"]["plan_hash"] and
                     validation["evaluator_method"] == request["arguments"]["evaluator_method"],
