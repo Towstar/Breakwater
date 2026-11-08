@@ -5,6 +5,11 @@ independent analytic/semidiscrete comparisons, separated error studies and expli
 limits for tested regimes. It preserves the failed coarse inlet-front study; its
 refined mean-L1 pass does not qualify local peak accuracy or every accepted input.
 
+The A10a [checked mass-balance proofs](../proofs/FVM_MASS_BALANCE.md) formalize
+interior-face cancellation, one-step inventory balance and the variable-step signed
+ledger identity over exact reals. They do not certify PDE accuracy, positivity,
+floating-point implementation behavior or the scheduler.
+
 Include `breakwater/transport.hpp` and link `breakwater_engine`. This is a synthetic,
 cross-section-averaged scalar concentration model, separate from the tank-volume model:
 
