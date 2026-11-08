@@ -23,9 +23,11 @@ tool permissions. Unsupported evidence remains unavailable.
 
 Evidence E1: `science/evidence/eog-e1/verification.json`, exact source blobs recorded
 there (PR #34 numerical commit `99c1d419f5f2d8509cf2f1316ea5f4331afe08a2`).
-Evidence CR: `science/evidence/eog-contract-review-e3190fb/`, reviewed exact contract
-`e3190fbfa73d5321adb8e1180a783a881001a919`. These historical/scoped results do not
-qualify a subsequent integrated build. No EOG contract is adopted at this checkpoint.
+Evidence CR: `science/evidence/eog-contract-review-72cadd1/`, numerically accepted
+exact contract `72cadd1de7eed6666a60faff1d296e29c8f026ee`; normal/ASan 2/2 CTests
+with 70 Qt + 48 Python cases per mode. Earlier review evidence remains retained.
+These scoped results do not qualify an integrated provider/application build.
+Lucas's reciprocal exact adoption and main integration remain pending.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
@@ -54,7 +56,7 @@ qualify a subsequent integrated build. No EOG contract is adopted at this checkp
 | C03 | R The decision; S Plans | Rule | A | Compare baseline, truck, well, mixed at same snapshot/horizon | E1 public illustration 4.48h / $5016 / $905 | Partial | No production joint optimizer delivered |
 | C04 | S Plans; G independent checks | Chosen | A | Recompute exact plan physics/cost/calendar independently | None; CR only verifies declarations | Planned | Separate algorithm, adversarial plans, known optima |
 | C05 | G bounds; S Plans | Chosen | A | Bounded search, explicit best-found/enumerated scope | CR result consistency only | Planned | Runtime/memory/coverage evidence pending |
-| C06 | G coverage; CR R1/R3 | Chosen | B boundary; A recomputes | Full facility/repair horizon, exact fractional events | CR empty/short forecasts accepted; fractional rejected | Blocked | Lucas owns contract fixes; no adoption |
+| C06 | G coverage; CR R1/R3 | Chosen | B boundary; A recomputes | Full facility/repair horizon, exact fractional events | CR 72cadd1 rejects incomplete horizons and retains fractional transitions | Scoped pass | Provider must derive full facility set and recompute physics |
 | U01 | S Alerts view | Chosen | A ranking; B UI | All systems: failures by countdown, then revenue; inspections follow | No integrated evidence | Planned | Unknown countdown remains explicit |
 | U02 | R Suggestions / network, trends; G UI | Chosen | B | Dataset-driven 3D and channels; readable gaps/extrema/units | Handoff reports reader only, not fresh EOG render | Planned | Lucas implementation/render acceptance |
 | U03 | G whole-application regression | Chosen | B | Async cutoff/dataset binding, cancellation, restart, bounded history | No EOG integrated evidence | Planned | Reproduce real process failures and stale completions |
@@ -73,7 +75,7 @@ qualify a subsequent integrated build. No EOG contract is adopted at this checkp
 
 ## Next useful work
 
-Finish the exact contract review with Lucas; meanwhile build a pure causal
-observation/detection model and generated unfamiliar fixtures without binding to
-an unadopted wire contract. Each implemented increment updates the rows with actual
+Record Lucas's reciprocal adoption/integration of exact 72cadd1; continue the pure
+causal observation/detection model and generated unfamiliar fixtures before joining
+the provider/client. Each implemented increment updates the rows with actual
 source hashes, commands and scope. Lucas aggregates this into shared status.

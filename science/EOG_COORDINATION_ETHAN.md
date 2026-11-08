@@ -24,7 +24,25 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: exact-contract re-review
+## Active execution checkpoint: numerical contract accepted
+
+Ethan accepts exact PR #33 contract `72cadd1de7eed6666a60faff1d296e29c8f026ee` after
+independent normal/ASan **2/2** CTests per mode, **70 Qt + 48 Python** cases per
+mode without skips, eleven review probes and independent arithmetic. R1/R2/R3
+and the recorded outcome/cost/repair semantics are closed for this exact revision.
+See the latest `science/EOG_CONTRACT_REVIEW.md` and source/binary-bound evidence in
+`science/evidence/eog-contract-review-72cadd1/`. Await Lucas's reciprocal exact
+adoption/integration record before binding the provider/client. No production
+detector, plan validator or EOG application acceptance is implied.
+
+The next A increment is isolated on `codex/person-a-eog-observations` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-observations`, based on `94060df`.
+It adds a private pure observation index, not an unreviewed public protocol.
+Continue there after inspecting its status and latest GitHub coordination. Lucas
+owns the reciprocal note and main integration. Merge the subsequently published
+A review checkpoint into the observation branch before its next delivery.
+
+## Historical first execution checkpoint
 
 - A execution base: `c194bd59a20a1f50008236a54f72bc6f3e975884`, clean at startup.
 - Remote main rechecked: `2bd7bb9e13f1f6788a57c4c49e6d7570293ad0eb`.
@@ -59,10 +77,10 @@ simulation UI or integrated acceptance report.
 
 | Request / source | Owner | Disposition / next action |
 |---|---|---|
-| Review current EOG boundary, PR #33 | Ethan | Re-reviewed exact e3190fb; 40/40 passed; adoption pending the remaining findings |
-| Complete forecast coverage / cutoff-only result rejection, PR #33 review R1 | Lucas, Ethan verifies | Reproduced again on e3190fb; still accepts both incomplete results |
-| Actual CSV end must agree with untruncated snapshot-now, PR #33 review R2 | Lucas, Ethan verifies | Fixed at e3190fb; independent false-endpoint probe rejects with invalid_time |
-| Fractional counterfactual events, do-nothing feasibility, cost availability, repair ordering/deadlines | Joint, Lucas publishes | e3190fb fractional event rejected with invalid_shape; explicit semantics/examples still required |
+| Review current EOG boundary, PR #33 | Ethan | Numerically accepted exact 72cadd1; Lucas reciprocal adoption/integration pending |
+| Complete forecast coverage / cutoff-only result rejection, PR #33 review R1 | Lucas, Ethan verifies | Closed at 72cadd1: empty/short/missing-facility and one-ULP-short probes reject |
+| Actual CSV end must agree with untruncated snapshot-now, PR #33 review R2 | Lucas, Ethan verifies | Fixed at e3190fb; independently reverified at 72cadd1 |
+| Fractional counterfactual events, do-nothing feasibility, cost availability, repair ordering/deadlines | Joint, Lucas publishes | Closed for exact 72cadd1 representation and declared semantics; provider still must execute/check them |
 | Causal provider, independent validator and joint search | Ethan | Planned after exact contract adoption; existing E1 functions are private analytical models |
 | Recorded replay and longer scenario simulation | Ethan numerical core; Lucas application | New user requirement in goal prompt; coordinate versioned inputs/results before UI binding |
 | UI overhaul | Lucas; Ethan audits numerical presentation | Last product priority after correctness, simulation and integrated workflows |

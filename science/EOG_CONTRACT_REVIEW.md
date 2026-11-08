@@ -1,6 +1,63 @@
 # Ethan's numerical review of EOG contract PR #33
 
-## Current re-review: e3190fb
+## Current numerical acceptance: 72cadd1
+
+**Ethan numerically accepts exact contract commit
+`72cadd1de7eed6666a60faff1d296e29c8f026ee`.** This supersedes the adoption-pending
+dispositions below. Lucas must record the same adopted commit and integrate it;
+this review does not merge his work or certify an unimplemented provider.
+
+Independent current-head execution on November 8, 2026:
+
+- Normal native/Python CTest **2/2**, Qt **70/70**, Python **48/48**, no skips.
+- Separate MSVC AddressSanitizer native/Python CTest **2/2**, Qt **70/70**, Python
+  **48/48**, no skips; no sanitizer diagnostic found in executed logs.
+- Eleven review probes and the independent fixture arithmetic passed their
+  expected dispositions. Missing/empty/short and one-ULP-short forecasts reject;
+  two-facility coverage and independent validated horizons are bound completely.
+- Fractional binary64 elapsed crossings survive without integer rounding.
+  A cheapest retained do-nothing automatic shutdown is admissible/selectable.
+  Assessed invalid actions can have null costs and explicit incomplete coverage;
+  unknown horizons are unavailable, rather than an invented numerical verdict.
+- Threshold first at intervention/repair ties, combined simultaneous full-load
+  inventory, strict pre-repair arrival and half-open final-return occupancy agree
+  with E1's proposed model. The threshold/repair equality fixture has zero remaining
+  automatic revenue loss. These are declared supported semantics, not universal
+  industrial physical guarantees.
+- Repair claims are checked by the future provider against causal onset and
+  captured operations, not trusted as alternative economic horizons. Full actual
+  affected-facility selection also belongs to that provider; schemas cannot infer
+  all ongoing failures from a caller's plan.
+
+Toolchain: MSVC 19.51.36260.0 x64, Qt 6.12.0, Python 3.12.13, jsonschema 4.25.1,
+referencing 0.37.0. Targeted normal/ASan builds used `/fp:precise`, embedded debug
+information, and only the EOG contract test target. The review checkout stayed
+clean. Prebuilt Qt/Python are outside established sanitizer instrumentation coverage.
+
+Reproduction in an MSVC-initialized shell, with Qt and scientific Python configured:
+
+```powershell
+cmake --preset desktop -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded -DCMAKE_PREFIX_PATH=<Qt-prefix>
+cmake --build --preset desktop --target breakwater_eog_contract_tests -j 2
+ctest --test-dir out/desktop -R '^(desktop.eog_contracts|contracts.eog)$' --output-on-failure
+cmake --preset asan -DBREAKWATER_BUILD_DESKTOP=ON -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded -DCMAKE_PREFIX_PATH=<Qt-prefix>
+cmake --build --preset asan --target breakwater_eog_contract_tests -j 2
+ctest --test-dir out/asan -R '^(desktop.eog_contracts|contracts.eog)$' --output-on-failure
+python science/review_eog_contract.py --checkout <exact-contract-checkout> --revision 72cadd1de7eed6666a60faff1d296e29c8f026ee --report out/72cadd1-probes.json
+```
+
+Source/binary hashes, actual logs and limits are retained in
+`science/evidence/eog-contract-review-72cadd1/`. The initial Python-only invocation
+explicitly skipped native comparison; the later CTests executed it in both builds.
+No new full application/render/install, hosted model, official dataset evaluation,
+proof or production numerical-validation result is claimed.
+
+Integration caution: E1's private elapsed hours are not the wire clock. Production
+must retain supplied binary64 elapsed seconds and exact action breakpoints, rather
+than round-trip a seconds action through hours and silently move it by an ULP.
+Future counterfactual records and integer recorded observation cutoffs stay distinct.
+
+## Historical re-review: e3190fb
 
 On November 8, 2026, Goal-mode continuation independently reviewed exact head
 `e3190fbfa73d5321adb8e1180a783a881001a919` in a new detached worktree. The historical

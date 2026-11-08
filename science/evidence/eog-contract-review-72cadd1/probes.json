@@ -1,0 +1,273 @@
+{
+  "reviewed_revision": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "source_files": [
+    {
+      "path": "contracts/eog/README.md",
+      "git_blob_sha1": "fcbd2a0078e9f73b4c395e3dc34d4730d5eb3b3a",
+      "sha256": "8a687b784ec486f11298c8f2e6aaecbb892f7e8c866f32a93f3017a06dc75fb0"
+    },
+    {
+      "path": "contracts/eog/REVIEW_CHANGES.md",
+      "git_blob_sha1": "f219d9fcdac54ccf1f007d0ba0d01f00ddf1b5c7",
+      "sha256": "0739bce4548e520f409e421c76ba4a11a322a64749241d55028b0b353f231509"
+    },
+    {
+      "path": "contracts/eog/analysis-request-v1.schema.json",
+      "git_blob_sha1": "eb405a8c3573d2c946ab54a1323dcfeb947c4cbb",
+      "sha256": "57d72330eb97c948eee74620c2833cb051db10cdd361d994db3ab87296b0beff"
+    },
+    {
+      "path": "contracts/eog/analysis-response-v1.schema.json",
+      "git_blob_sha1": "7a8e5942b37203cf0dd12e3b385618cff43ad686",
+      "sha256": "9fae9141029492969957d6902b39c724f51ae57c23ac5c8605bd6b38749edc22"
+    },
+    {
+      "path": "contracts/eog/capture-manifest-v1.schema.json",
+      "git_blob_sha1": "e09bc104e156b8ad29754187403b925169d4c9c1",
+      "sha256": "f9a5aed81ae20409c08bc2bc5d9b296b8f69cb74e6eed599633ce8d38dc82557"
+    },
+    {
+      "path": "contracts/eog/common-v1.schema.json",
+      "git_blob_sha1": "60b40a86441a18ea5c606ac6ec01fec20c1d0ada",
+      "sha256": "31c3d93882aeabcc22981595ad7282693b49ef1ef5d99f73bbd175b782a152d3"
+    },
+    {
+      "path": "contracts/eog/examples/arrival-at-repair-infeasible-response.json",
+      "git_blob_sha1": "925d77f3de9036b6c254655bade2922dc56bf5b5",
+      "sha256": "24cccd8efb0d1c4554fe0c300292ea5aacf44f757bf5b4b7f8414d7860fb117a"
+    },
+    {
+      "path": "contracts/eog/examples/capture-manifest.json",
+      "git_blob_sha1": "634a28375b978b2461aa3dbf6b9061fbc72d99f5",
+      "sha256": "560a3d2f6de7b2b0dbbeb4fe81fb2b957c46f5622095bae764ef94c77298ce21"
+    },
+    {
+      "path": "contracts/eog/examples/detect-request.json",
+      "git_blob_sha1": "d1d9077a33cb71d2b19e5c20eded5b4e594d5b16",
+      "sha256": "8731bd398f388c925dfbedabe59f65328f6f44d861a5a3a9cbc3fea4f5ac0282"
+    },
+    {
+      "path": "contracts/eog/examples/detect-response.json",
+      "git_blob_sha1": "e721e40ab3904ed0b27d86c88c1086f205b417c6",
+      "sha256": "c59f2112545696ecd719053a78d2c3de4caca7400890dd2b1dbb62bb7bada2ba"
+    },
+    {
+      "path": "contracts/eog/examples/do-nothing-evaluation-response.json",
+      "git_blob_sha1": "c7673cdf4855f8b67c05e3857a1cdaa08f536145",
+      "sha256": "0fd38951b287b31eeb50f2b0e3f95aa2d57e183d23094a7dc7693b93c9a4f064"
+    },
+    {
+      "path": "contracts/eog/examples/do-nothing-selected-search-response.json",
+      "git_blob_sha1": "8fb414b6d5ae332bf74a92577f46ef7d8da52c97",
+      "sha256": "2b757cbdf38fe5fe87d9ad3f973ca1c5418ccc02035f115d1a372cbe1571c56c"
+    },
+    {
+      "path": "contracts/eog/examples/evaluate-plan-request.json",
+      "git_blob_sha1": "75a5c42916fa77e11c6bc030d6e5e739b3d58b85",
+      "sha256": "5f885a00b8e90603d188018323d06e485903d0f836c44a47a7f23774860bb90a"
+    },
+    {
+      "path": "contracts/eog/examples/evaluate-plan-response.json",
+      "git_blob_sha1": "d1f25c68fdee69b6ef6f5b843e4491a565802c53",
+      "sha256": "79a3b883b96281d0e87973c635607a743000dd7897f030ced7b3e158a48c3318"
+    },
+    {
+      "path": "contracts/eog/examples/fractional-crossing-response.json",
+      "git_blob_sha1": "5733bf159a78aec17f553c7f2cf2354d85a9731a",
+      "sha256": "a8fbfe1ed62333a9a905217950a4e2c683c6e737608dd2f3371eafeddb2a06dc"
+    },
+    {
+      "path": "contracts/eog/examples/renamed-detect-response.json",
+      "git_blob_sha1": "86ae672362aaace094cc2f0c56b0ff0e830023c0",
+      "sha256": "d7ebd1781a0d6357f95cab8772444cd1eee2cb3c0269855e1f31a97da2432afc"
+    },
+    {
+      "path": "contracts/eog/examples/search-plans-request.json",
+      "git_blob_sha1": "da6b75251a79c7f1cc00fdc11bc0339d4c687996",
+      "sha256": "20a307a83d499abae3a6d8d7f2a25fd4e42accae9b5323564be8e6a626f9b567"
+    },
+    {
+      "path": "contracts/eog/examples/search-plans-response.json",
+      "git_blob_sha1": "66c80f953af81ee0b28cd75e18778621b4cc16d5",
+      "sha256": "2b6744e7912f18ad2e1be0d2cfbf767ee2f9a904b62ca9c3c7d2c707ea0e5975"
+    },
+    {
+      "path": "contracts/eog/examples/shared-fleet-infeasible-response.json",
+      "git_blob_sha1": "09e53d76ac164fa375018937e9351d20b8a22a46",
+      "sha256": "9cb7ef7f9561a41132fc564756a17afc48e75a00d130a0b07f6c60181efe4824"
+    },
+    {
+      "path": "contracts/eog/examples/threshold-at-repair-response.json",
+      "git_blob_sha1": "fdadd25ecd05db0524aafdd8feec812a65359293",
+      "sha256": "63f44fdda893f7a66ed25776db490c68f2f37bcb3949015a9a681532b20f0453"
+    },
+    {
+      "path": "contracts/eog/examples/two-facility-evaluation-response.json",
+      "git_blob_sha1": "018f4ce0ba6b5b0f9aa88773cd9613b65f910e9e",
+      "sha256": "41149a68a2475f5d4daf5c43207655c3752bc3622a35900bc0ba978792dc6eb0"
+    },
+    {
+      "path": "contracts/eog/examples/unavailable-response.json",
+      "git_blob_sha1": "6f39037552f7ede75901653696e49bbfafd17cea",
+      "sha256": "326e66f83b511dfbb7d493b0bc01b47386163ba2cc53865aa42bf642b96e93d4"
+    },
+    {
+      "path": "contracts/eog/examples/unknown-horizon-response.json",
+      "git_blob_sha1": "49093d5e6e022186835e661b2fdd84b21d45a309",
+      "sha256": "006aef775c98481338a1189b792b2381e9aba65956c49a04937f8bdb61b6e96d"
+    },
+    {
+      "path": "contracts/eog/examples/validate-plan-request.json",
+      "git_blob_sha1": "3d07b2c43b0b647be69bac8e649804bfb1e5acf4",
+      "sha256": "a698133eeef95f71b57c648a2230f7232eeb0249fed38975244687ffdbdea7ca"
+    },
+    {
+      "path": "contracts/eog/examples/validate-plan-response.json",
+      "git_blob_sha1": "c5abcfd55d21b4848f2a07c21c76f307de60ac4d",
+      "sha256": "f99f84529dbd343cebee9f30db5eadcc18450427da41de37320804f55a5761e0"
+    },
+    {
+      "path": "contracts/eog/examples/well-only-evaluation-response.json",
+      "git_blob_sha1": "2beb272b37dcf2676462c6a23dfd5e5d68b637e6",
+      "sha256": "0f0930616c3a3a0e16522d2fbe31b99a6ff3388abeccf1d24a068905ee87610f"
+    },
+    {
+      "path": "contracts/eog/fixtures/analytical-cases.json",
+      "git_blob_sha1": "4ab93d16ff2e2070eaa0bfa97f1fa0c0a22f3d86",
+      "sha256": "155219e9f92368ab49b42c77497273421ebcd692abe9e9cad2dea82b418d66ea"
+    },
+    {
+      "path": "contracts/eog/fixtures/hash-vectors.json",
+      "git_blob_sha1": "a438a33ea2bde2f930c4d2108bc5519568737873",
+      "sha256": "b8ed7c9a9f552738854288da1ea47f45e282d7d9e0850ff35610d275d2b84177"
+    },
+    {
+      "path": "contracts/eog/fixtures/validation-cases.json",
+      "git_blob_sha1": "5762463c32ba053b2ff1a865520b1f51eb9d4372",
+      "sha256": "8c84a5408f098a76ab1bbeef4ae8d3111b1f3477ca56445a78a1bcc4d04204f1"
+    },
+    {
+      "path": "contracts/eog/tests/dto_compile.cpp",
+      "git_blob_sha1": "3951483d8d52f6324684bbf216c9a475e30ce2a4",
+      "sha256": "5a0a5b92d4d92a0c33ba20dba0b1b0e56ae5308f6d78bba2b3133a6b7579c6ca"
+    },
+    {
+      "path": "contracts/eog/tests/test_contracts.py",
+      "git_blob_sha1": "f2431b423c71c2a66440ec8689f722a8540ce540",
+      "sha256": "9af66b5cc668a2f79d72dc92fae266f7c597f2be68d9131c522f3f896653a923"
+    },
+    {
+      "path": "contracts/eog/validate.py",
+      "git_blob_sha1": "a6438ce38d93f2fb3fa2a1d31cb460b80602f97c",
+      "sha256": "ce73c70c2415966f6b12a636411ec6fc47967325522fe08498b902076e64c2dc"
+    },
+    {
+      "path": "contracts/include/breakwater/eog.hpp",
+      "git_blob_sha1": "ec29de356a859476f2312775e1d8e808f2607064",
+      "sha256": "7981e2e908cbbabf3841fe6b1f57b787127d0f7077bcf838178e85392c582ad8"
+    }
+  ],
+  "production_input_access": false,
+  "answer_key_access": false,
+  "probes": [
+    {
+      "name": "completed-feasible-result-without-required-tank-trajectory",
+      "expected": "reject incomplete result, or explicitly mark coverage unavailable",
+      "observed": {
+        "accepted": false,
+        "code": "forecast_coverage"
+      }
+    },
+    {
+      "name": "completed-feasible-result-with-zero-forecast-horizon",
+      "expected": "reject incomplete result, or explicitly mark coverage unavailable",
+      "observed": {
+        "accepted": false,
+        "code": "forecast_horizon"
+      }
+    },
+    {
+      "name": "fractional-counterfactual-event-time",
+      "expected": "some exact relative/fractional event-time representation before numerical adoption",
+      "observed": {
+        "accepted": true
+      }
+    },
+    {
+      "name": "forecast-one-ulp-before-required-endpoint",
+      "expected": "reject without feasibility epsilon",
+      "observed": {
+        "accepted": false,
+        "code": "forecast_horizon"
+      }
+    },
+    {
+      "name": "missing-one-of-two-required-facility-forecasts",
+      "expected": "reject missing facility",
+      "observed": {
+        "accepted": false,
+        "code": "forecast_coverage"
+      }
+    },
+    {
+      "name": "independent-validation-missing-required-horizons",
+      "expected": "reject incomplete validation",
+      "observed": {
+        "accepted": false,
+        "code": "forecast_coverage"
+      }
+    },
+    {
+      "name": "do-nothing-selected-search-response.json",
+      "expected": "accept explicit reviewed outcome/unavailable semantics",
+      "observed": {
+        "accepted": true
+      }
+    },
+    {
+      "name": "arrival-at-repair-infeasible-response.json",
+      "expected": "accept explicit reviewed outcome/unavailable semantics",
+      "observed": {
+        "accepted": true
+      }
+    },
+    {
+      "name": "threshold-at-repair-response.json",
+      "expected": "accept explicit reviewed outcome/unavailable semantics",
+      "observed": {
+        "accepted": true
+      }
+    },
+    {
+      "name": "unknown-horizon-response.json",
+      "expected": "accept explicit reviewed outcome/unavailable semantics",
+      "observed": {
+        "accepted": true
+      }
+    },
+    {
+      "name": "snapshot-now-clock-differs-from-last-source-row",
+      "expected": "reject source-window mismatch",
+      "observed": {
+        "accepted": false,
+        "code": "invalid_time"
+      }
+    }
+  ],
+  "new_example_arithmetic": {
+    "no_action_crossing_s": true,
+    "no_action_cost": true,
+    "threshold_repair_equality": true,
+    "threshold_repair_loss_zero": true,
+    "invalid_arrival_has_null_cost": true,
+    "fractional_event_retained": true
+  },
+  "independent_decimal_arithmetic": {
+    "truck_before_bbl": "850.0",
+    "truck_after_bbl": "700.0",
+    "truck_final_bbl": "850.0",
+    "well_final_bbl": "915.0",
+    "well_cost": "425.0",
+    "expected_values_match": true
+  }
+}

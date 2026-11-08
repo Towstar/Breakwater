@@ -1,0 +1,33 @@
+[1/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[2/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[3/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[4/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+[5/33] Running qmlimportscanner for breakwater_eog_contract_tests
+[6/33] Linking CXX static library engine\breakwater_engine.lib
+[7/33] Building CXX object desktop\CMakeFiles\breakwater_eog_contracts_resources_1.dir\.qt\rcc\qrc_eog_contract_schemas_init.cpp.obj
+[8/33] Automatic MOC and UIC for target breakwater_desktop_base
+[9/33] Running AUTOMOC file extraction for target breakwater_desktop_base
+[10/33] Running moc --collect-json for target breakwater_desktop_base
+[11/33] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectDocument.cpp.obj
+[12/33] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\breakwater_desktop_base_autogen\mocs_compilation.cpp.obj
+[13/33] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\quality\PipeParameters.cpp.obj
+[14/33] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectController.cpp.obj
+[15/33] Linking CXX static library desktop\breakwater_desktop_base.lib
+[16/33] Automatic MOC and UIC for target breakwater_telemetry
+[17/33] Running AUTOMOC file extraction for target breakwater_telemetry
+[18/33] Running moc --collect-json for target breakwater_telemetry
+[19/33] Building CXX object desktop\CMakeFiles\breakwater_telemetry.dir\breakwater_telemetry_autogen\mocs_compilation.cpp.obj
+[20/33] Building CXX object desktop\CMakeFiles\breakwater_telemetry.dir\telemetry\TelemetryContracts.cpp.obj
+[21/33] Linking CXX static library desktop\breakwater_telemetry.lib
+[22/33] Automatic MOC and UIC for target breakwater_eog_contracts
+[23/33] Running AUTOMOC file extraction for target breakwater_eog_contracts
+[24/33] Running moc --collect-json for target breakwater_eog_contracts
+[25/33] Running rcc for resource eog_contract_schemas
+[26/33] Building CXX object desktop\CMakeFiles\breakwater_eog_contracts.dir\breakwater_eog_contracts_autogen\mocs_compilation.cpp.obj
+[27/33] Building CXX object desktop\CMakeFiles\breakwater_eog_contracts.dir\.qt\rcc\qrc_eog_contract_schemas.cpp.obj
+[28/33] Building CXX object desktop\CMakeFiles\breakwater_eog_contracts.dir\eog\EogContracts.cpp.obj
+[29/33] Linking CXX static library desktop\breakwater_eog_contracts.lib
+[30/33] Automatic MOC and UIC for target breakwater_eog_contract_tests
+[31/33] Building CXX object desktop\CMakeFiles\breakwater_eog_contract_tests.dir\breakwater_eog_contract_tests_autogen\mocs_compilation.cpp.obj
+[32/33] Building CXX object desktop\CMakeFiles\breakwater_eog_contract_tests.dir\tests\eog_contract_tests.cpp.obj
+[33/33] Linking CXX executable desktop\breakwater_eog_contract_tests.exe

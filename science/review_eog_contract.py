@@ -11,6 +11,7 @@ from decimal import Decimal
 import hashlib
 import importlib.util
 import json
+import math
 from pathlib import Path
 import subprocess
 import tempfile
@@ -50,17 +51,56 @@ def review(root: Path, revision: str) -> dict:
                    "observed": check(missing, {"request": request})})
     shortened = copy.deepcopy(result)
     trajectory = shortened["result"]["evaluation"]["trajectories"][0]
-    trajectory["times_unix"] = trajectory["times_unix"][:1]
+    time_key = "elapsed_s" if "elapsed_s" in trajectory else "times_unix"
+    trajectory[time_key] = trajectory[time_key][:1]
     trajectory["volumes_bbl"] = trajectory["volumes_bbl"][:1]
     probes.append({"name": "completed-feasible-result-with-zero-forecast-horizon",
                    "expected": "reject incomplete result, or explicitly mark coverage unavailable",
                    "observed": check(shortened, {"request": request})})
-    fractional = copy.deepcopy(result)
-    fractional["result"]["evaluation"]["trajectories"][0]["times_unix"][1] += 0.25
-    fractional["result"]["evaluation"]["trajectories"][0]["times_unix"][2] += 0.25
+    if time_key == "elapsed_s":
+        fractional = read("examples/fractional-crossing-response.json")
+    else:
+        fractional = copy.deepcopy(result)
+        fractional["result"]["evaluation"]["trajectories"][0][time_key][1] += 0.25
+        fractional["result"]["evaluation"]["trajectories"][0][time_key][2] += 0.25
     probes.append({"name": "fractional-counterfactual-event-time",
                    "expected": "some exact relative/fractional event-time representation before numerical adoption",
                    "observed": check(fractional)})
+
+    example_checks = {}
+    if time_key == "elapsed_s":
+        short_ulp = copy.deepcopy(result)
+        points = short_ulp["result"]["evaluation"]["trajectories"][0][time_key]
+        points[-1] = math.nextafter(points[-1], -math.inf)
+        probes.append({"name": "forecast-one-ulp-before-required-endpoint",
+                       "expected": "reject without feasibility epsilon",
+                       "observed": check(short_ulp, {"request": request})})
+        missing_facility = read("examples/two-facility-evaluation-response.json")
+        missing_facility["result"]["evaluation"]["trajectories"].pop()
+        probes.append({"name": "missing-one-of-two-required-facility-forecasts",
+                       "expected": "reject missing facility", "observed": check(missing_facility)})
+        empty_validation = read("examples/validate-plan-response.json")
+        empty_validation["result"]["validation"]["validated_horizons"] = []
+        probes.append({"name": "independent-validation-missing-required-horizons",
+                       "expected": "reject incomplete validation",
+                       "observed": check(empty_validation, {"request": read("examples/validate-plan-request.json")})})
+        for filename in ("do-nothing-selected-search-response.json", "arrival-at-repair-infeasible-response.json",
+                         "threshold-at-repair-response.json", "unknown-horizon-response.json"):
+            observed_example = check(read("examples/" + filename))
+            probes.append({"name": filename, "expected": "accept explicit reviewed outcome/unavailable semantics",
+                           "observed": observed_example})
+        no_action = read("examples/do-nothing-evaluation-response.json")["result"]["evaluation"]
+        threshold_tie = read("examples/threshold-at-repair-response.json")["result"]["evaluation"]
+        invalid_arrival = read("examples/arrival-at-repair-infeasible-response.json")["result"]["evaluation"]
+        fractional_value = fractional["result"]["evaluation"]["shutdowns"][0]["elapsed_s"]
+        example_checks = {
+            "no_action_crossing_s": no_action["shutdowns"][0]["elapsed_s"] == 4320,
+            "no_action_cost": Decimal(str(no_action["cost"]["total"])) == Decimal(100) * (Decimal(2) - Decimal("1.2")),
+            "threshold_repair_equality": threshold_tie["shutdowns"][0]["elapsed_s"] == threshold_tie["plan"]["repair_deadlines"][0]["repair_elapsed_s"],
+            "threshold_repair_loss_zero": threshold_tie["cost"]["lost_revenue"] == 0,
+            "invalid_arrival_has_null_cost": not invalid_arrival["feasible"] and invalid_arrival["cost"] is None,
+            "fractional_event_retained": fractional_value == (1 / 7) * 3600 and not fractional_value.is_integer(),
+        }
 
     # Every source byte and source hash is correct; only the declared original
     # last timestamp is wrong. Snapshot-now should derive its endpoint from CSV.
@@ -131,7 +171,8 @@ def review(root: Path, revision: str) -> dict:
                            "sha256": hashlib.sha256((root / path).read_bytes()).hexdigest()})
     return {"reviewed_revision": revision, "source_files": identities,
             "production_input_access": False,
-            "answer_key_access": False, "probes": probes, "independent_decimal_arithmetic": arithmetic}
+            "answer_key_access": False, "probes": probes,
+            "new_example_arithmetic": example_checks, "independent_decimal_arithmetic": arithmetic}
 
 
 def main():
@@ -144,7 +185,8 @@ def main():
     args.report.parent.mkdir(parents=True, exist_ok=True)
     args.report.write_text(json.dumps(report, indent=2) + "\n", encoding="utf-8")
     print(json.dumps(report, indent=2))
-    return 0 if report["independent_decimal_arithmetic"]["expected_values_match"] else 1
+    return 0 if (report["independent_decimal_arithmetic"]["expected_values_match"] and
+                 all(report["new_example_arithmetic"].values())) else 1
 
 
 if __name__ == "__main__":

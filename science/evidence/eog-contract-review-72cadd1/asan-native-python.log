@@ -1,0 +1,38 @@
+Start testing: Nov 08 04:25 Central Standard Time
+----------------------------------------------------------
+25/33 Testing: desktop.eog_contracts
+25/33 Test: desktop.eog_contracts
+Command: "C:/Projects/Breakwater/.worktrees/eog-goal-review-72cadd1/out/asan/desktop/breakwater_eog_contract_tests.exe" "-o" "C:/Projects/Breakwater/.worktrees/eog-goal-review-72cadd1/out/asan/desktop/eog_contracts-results.txt,txt"
+Directory: C:/Projects/Breakwater/.worktrees/eog-goal-review-72cadd1/out/asan/desktop
+"desktop.eog_contracts" start time: Nov 08 04:25 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.60 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_contracts" end time: Nov 08 04:25 Central Standard Time
+"desktop.eog_contracts" time elapsed: 00:00:03
+----------------------------------------------------------
+
+26/33 Testing: contracts.eog
+26/33 Test: contracts.eog
+Command: "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe" "-B" "C:/Projects/Breakwater/.worktrees/eog-goal-review-72cadd1/contracts/eog/tests/test_contracts.py" "--native" "C:/Projects/Breakwater/.worktrees/eog-goal-review-72cadd1/out/asan/desktop/breakwater_eog_contract_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/eog-goal-review-72cadd1/out/asan/desktop
+"contracts.eog" start time: Nov 08 04:25 Central Standard Time
+Output:
+----------------------------------------------------------
+................................................
+----------------------------------------------------------------------
+Ran 48 tests in 5.887s
+
+OK
+<end of output>
+Test time =   6.53 sec
+----------------------------------------------------------
+Test Passed.
+"contracts.eog" end time: Nov 08 04:25 Central Standard Time
+"contracts.eog" time elapsed: 00:00:06
+----------------------------------------------------------
+
+End testing: Nov 08 04:25 Central Standard Time
