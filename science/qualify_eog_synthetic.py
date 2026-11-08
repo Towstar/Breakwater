@@ -21,7 +21,7 @@ import time
 from eog_detection import detect
 from eog_inputs import load_inputs
 from eog_model import compile_model
-from eog_synthetic import METHOD, SyntheticStream, compile_experiment, seeded_experiment
+from eog_synthetic import METHOD, Failure, SyntheticStream, compile_experiment, seeded_experiment
 
 
 def write(path, value):
@@ -33,6 +33,44 @@ def digest(path):
     with path.open("rb") as stream:
         while block := stream.read(1024 * 1024): sha.update(block)
     return sha.hexdigest()
+
+
+def controlled_case(model, root, library, start_unix):
+    root.mkdir()
+    config = seeded_experiment(model, start_unix=start_unix, duration_s=20000, seed=1943, failure_count=0, rate_change_count=0)
+    config = replace(config, failures=(Failure(model.facilities[0].id, 600.125),))
+    compiled = compile_experiment(model, config)
+    with SyntheticStream(library, compiled) as original:
+        original.advance(900)
+        if not original.dispatch(model.facilities[0].id, 0, 1)["accepted"]: raise RuntimeError("Controlled dispatch rejected.")
+        original.advance(1000.25)
+        if not original.shut_in(model.facilities[0].wells[0].id)["accepted"]: raise RuntimeError("Controlled shut-in rejected.")
+        repair = 600.125 + model.repair_hours * 3600
+        original.advance(repair + 1)
+        after_repair = original.truth()
+        original.advance(20000)
+        receipt, truth = original.provenance(), original.truth()
+        with SyntheticStream(library, compiled) as replay:
+            for command in receipt["controls"]:
+                replay.advance(command["elapsed_s"])
+                action = (replay.dispatch(command["facility_id"], command["truck"], command["trips"])
+                          if command["operation"] == "dispatch" else replay.shut_in(command["well_id"]))
+                if action["accepted"] != command["accepted"]: raise RuntimeError("Replay action disposition differs.")
+            replay.advance(20000)
+            replayed = replay.truth()
+            same = all(replayed[key] == value for key, value in truth.items() if key != "trace_count")
+            same_view = original.view().evidence_fingerprint() == replay.view().evidence_fingerprint()
+            same_id = receipt["run_fingerprint"] == replay.provenance()["run_fingerprint"]
+        busy_after_repair = after_repair["trucks"][0]["busy"] == 1
+        report = {"passed": bool(same and same_view and same_id and busy_after_repair),
+            "exact_physical_state_cost_fleet_replay": same, "exact_causal_observation_replay": same_view,
+            "exact_run_identity_replay": same_id, "busy_commitment_survives_repair": busy_after_repair,
+            "cost": truth["cost"], "completed_full_loads": truth["completed_full_loads"],
+            "limitations": ["Explicit valid controls, not an optimizer result or physical operating approval.",
+                "Observation/query trace-count differences are outside physical replay identity; raw traces remain bounded."]}
+        write(root / "host-only-provenance.json", receipt); write(root / "truth-final.json", truth)
+        write(root / "after-repair.json", after_repair); write(root / "summary.json", report)
+        return report
 
 
 def case(model, network, ops, root, library, start_unix, duration_s, seed):
@@ -129,13 +167,14 @@ def qualify(dataset, output, library, duration_s, seed):
     unfamiliar = compile_model(unfamiliar_network, unfamiliar_ops)
     generated = case(unfamiliar, unfamiliar_network, unfamiliar_ops, output / "unfamiliar-altered-model", library,
                      source.observations.last_unix, duration_s, seed + 1)
+    controlled = controlled_case(unfamiliar, output / "controlled-replay", library, source.observations.last_unix)
     unchanged = all(digest(dataset / name) == sha for name, sha in source.file_hashes)
     report = {"qualification": METHOD, "input_raw_set_identity": source.raw_input_set_identity, "input_file_hashes": dict(source.file_hashes),
-        "source_inputs_unchanged": unchanged, "native_library_sha256": digest(library), "cases": [official, generated],
+        "source_inputs_unchanged": unchanged, "native_library_sha256": digest(library), "cases": [official, generated], "controlled_replay": controlled,
         "limitations": ["Known generated forcing is used only by this offline comparison; detector receives no labels/seed/future receipt.",
             "The original official dataset is used for model import only; it is not relabeled as simulated reproduction.",
             "The unrelated altered network is synthetic, not the unpublished judging dataset."]}
-    report["passed"] = bool(unchanged and all(c["passed"] for c in report["cases"]))
+    report["passed"] = bool(unchanged and controlled["passed"] and all(c["passed"] for c in report["cases"]))
     write(output / "summary.json", report)
     print(json.dumps(report, ensure_ascii=True, indent=2))
     return report["passed"]
