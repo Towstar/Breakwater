@@ -190,7 +190,9 @@ std::shared_ptr<const Dataset> load_dataset(const QString& input, const std::sha
         hash.addData(line); return line;
     };
     auto header = readLine(); if (header.startsWith("\xef\xbb\xbf")) header.remove(0, 3);
-    QStringDecoder utf8(QStringDecoder::Utf8);
+    // Physical records cannot contain embedded newlines; do not carry an
+    // incomplete final UTF-8 sequence into an imaginary following record.
+    QStringDecoder utf8(QStringDecoder::Utf8, QStringConverter::Flag::Stateless);
     if (csvFields(utf8(header)) != QStringList{"timestamp", "ts_unix", "asset_id", "metric", "value"} || utf8.hasError()) invalid("Unexpected telemetry CSV header.");
     qint64 previous = -1; QSet<QString> atTimestamp; bool cadenceGap = false;
     while (!file.atEnd()) {

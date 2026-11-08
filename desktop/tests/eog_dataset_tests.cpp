@@ -7,6 +7,7 @@
 #include <QJsonDocument>
 #include <QSignalSpy>
 #include <QTemporaryDir>
+#include <QTextStream>
 #include <QtTest>
 #include <stdexcept>
 
@@ -96,7 +97,8 @@ private slots:
         bad = telemetry(); bad.replace("2026-10-05T00:05:00Z,1791158700", "2026-10-05T00:04:00Z,1791158640"); QTest::newRow("not-five-minutes") << bad;
         QTest::newRow("no-rows") << QByteArray("timestamp,ts_unix,asset_id,metric,value\n");
         QTest::newRow("bad-quote") << QByteArray("timestamp,ts_unix,asset_id,metric,value\n\"unterminated\n");
-        bad = telemetry(); bad[bad.indexOf("tank-Z")] = char(0xff); QTest::newRow("invalid-utf8") << bad;
+        bad = telemetry(); bad.replace(bad.indexOf("tank-Z"), 1, QByteArray::fromHex("ff")); QTest::newRow("invalid-utf8") << bad;
+        bad = telemetry(); bad.chop(1); bad += QByteArray::fromHex("e2"); QTest::newRow("truncated-utf8-at-eof") << bad;
     }
     void malformedTelemetry() {
         QFETCH(QByteArray, replacement); QTemporaryDir directory; fixture(directory.path());
@@ -163,10 +165,13 @@ int main(int argc, char** argv) {
                     data->systems.size() != 5 || data->facilities.size() != 15 || data->series.size() != 195 ||
                     data->source_hashes.value("telemetry.csv").toString() != expected.csv_sha256 || !data->warnings.isEmpty())
                     throw std::runtime_error("Parsed public dataset differs from independent CSV-only oracle.");
-                qInfo().noquote() << "Official input check PASS:" << expected.folder << "rows=" << data->row_count << "identity=" << data->identity;
-            } catch (const std::exception& error) { qCritical() << "Official input check FAILED:" << error.what(); return 2; }
+                QTextStream(stdout) << "Official input check PASS: " << expected.folder << " rows=" << data->row_count
+                    << " systems=" << data->systems.size() << " facilities=" << data->facilities.size()
+                    << " series=" << data->series.size() << " first=" << data->first_unix << " last=" << data->now_unix
+                    << " identity=" << data->identity << Qt::endl;
+            } catch (const std::exception& error) { QTextStream(stderr) << "Official input check FAILED: " << error.what() << Qt::endl; return 2; }
         }
-    } else qInfo("Official input check NOT RUN: BREAKWATER_EOG_OFFICIAL_ROOT not supplied.");
+    } else QTextStream(stdout) << "Official input check NOT RUN: BREAKWATER_EOG_OFFICIAL_ROOT not supplied." << Qt::endl;
     EogDatasetTests tests; return QTest::qExec(&tests, argc, argv);
 }
 #include "eog_dataset_tests.moc"

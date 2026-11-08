@@ -124,7 +124,7 @@ QVariantList EogDatasetController::routes() const {
         if (a.isEmpty() || b.isEmpty()) return;
         rows.append(QVariantMap{{"id", "display:" + series_key(from, to)}, {"source", from}, {"target", to},
             {"sx", a.value("x")}, {"sz", a.value("z")}, {"tx", b.value("x")}, {"tz", b.value("z")},
-            {"available", true}, {"flow", 0}, {"display_only", true}});
+            {"connected", true}, {"flow_available", false}, {"display_only", true}});
     };
     for (const auto& well : facility.well_ids) add(well, facility.tank_id);
     add(facility.tank_id, facility.pump_id); add(facility.pump_id, facility.pipeline_id);
