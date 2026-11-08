@@ -153,6 +153,11 @@ try {
                     if ($required -notin $registered.tests.name) { throw "Required telemetry contract check is missing: $required" }
                 }
             }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'contracts/eog/validate.py')) {
+                foreach ($required in @('desktop.eog_contracts', 'contracts.eog')) {
+                    if ($required -notin $registered.tests.name) { throw "Required EOG contract check is missing: $required" }
+                }
+            }
             if (Test-Path -LiteralPath (Join-Path $projectRoot 'desktop/telemetry/TelemetryController.hpp')) {
                 foreach ($required in @('desktop.sensor_editor', 'desktop.telemetry_stream', 'desktop.telemetry_lifecycle',
                     'desktop.sensor_editor_normal_smoke', 'desktop.sensor_editor_compact_smoke',
@@ -164,11 +169,6 @@ try {
                 foreach ($required in @('desktop.eog_dataset', 'desktop.eog_cli', 'desktop.eog_overview_normal',
                     'desktop.eog_overview_compact', 'desktop.eog_facility_normal', 'desktop.eog_facility_compact')) {
                     if ($required -notin $registered.tests.name) { throw "Required EOG console check is missing: $required" }
-                }
-            }
-            if (Test-Path -LiteralPath (Join-Path $projectRoot 'contracts/eog/validate.py')) {
-                foreach ($required in @('desktop.eog_contracts', 'contracts.eog')) {
-                    if ($required -notin $registered.tests.name) { throw "Required EOG contract check is missing: $required" }
                 }
             }
         }
