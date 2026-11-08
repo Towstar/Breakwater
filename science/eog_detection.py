@@ -61,6 +61,7 @@ class Event:
     category: str
     state: str
     first_evidence_unix: int
+    detected_unix: int
     onset_unix: int | None
     onset_bounds: tuple[int, int] | None
     updated_unix: int
@@ -106,7 +107,7 @@ def _event(f, category, first, previous, evidence):
     bounds = (previous, first) if previous is not None else None
     limitations = (() if previous is not None else
                    ("Left-censored onset: no preceding interpretable non-event evidence.",))
-    return Event(identifier, f.system_id, f.id, asset, category, "ongoing", first, onset, bounds,
+    return Event(identifier, f.system_id, f.id, asset, category, "ongoing", first, first, onset, bounds,
                  first, None, "available", None, "unavailable" if category == "pump_failure" else "not_applicable",
                  None, None, None, None, None,
                  "compare_responses" if category == "pump_failure" else "field_inspection", tuple(evidence), (), limitations)
@@ -367,7 +368,7 @@ def _inspection_events(f, view, rules, category):
             if current is None and confirmed(pending_bad):
                 evidence = tuple(sample for _, frame_samples in pending_bad for sample in frame_samples)
                 current = _event(f, category, pending_bad[0][0], previous_good, evidence)
-                current = replace(current, updated_unix=timestamp, assumptions=(
+                current = replace(current, detected_unix=timestamp, updated_unix=timestamp, assumptions=(
                     "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset.",))
             elif current is not None:
                 initial = current.evidence[:rules.inspection_samples * len(keys)]

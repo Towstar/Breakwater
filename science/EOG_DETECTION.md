@@ -63,6 +63,9 @@ onset marks the first sustained threshold breach. Failure onset uses first obser
 fault feedback, with the preceding interpretable normal reading as an uncertainty
 bound; absent preceding evidence is explicitly left-censored. Source samples that
 justify onset, productive wells and current conclusions remain retained.
+`detected_unix` is the actual first causal emission time, distinct from an estimated
+earlier onset and a later update/resolution. This provenance field was added after
+the initial unlabeled smoke; it does not change detection decisions or thresholds.
 
 Ongoing repair remaining is configured duration minus time since the stated onset
 estimate. Left-censored/expired horizons are unknown; a persistent fault is not
@@ -109,6 +112,24 @@ future-prefix equivalence. Initial adversarial failures and corrected reruns are
 retained when evidence is published. Full scientific regression and official-input
 smoke results are recorded separately after execution, without calling smoke
 execution a labeled accuracy qualification.
+
+The separately invoked `evaluate_eog_detection.py` reads a frozen detector report
+and an explicit offline label file. No runtime module imports it, and it never
+invokes the detector. It reports one-to-one exact-ID/category interval matching,
+misses/unmatched and early alarms, actual emission delay, onset/resolution error
+and lifecycle confusion. Reference actions are not copied into its output. For
+this first practice evaluation, the **predeclared event-presence gate** requires
+all labeled events matched, no unmatched/early alarms and correct matched lifecycle.
+Timing errors remain separate measurements; this gate does not qualify countdowns,
+plans, cost, optimality or independent held-out accuracy.
+
+```powershell
+python -S science/evaluate_eog_detection.py --detection-report out/eog-detection.json --offline-labels <separate-offline-label-file> --report out/eog-offline-evaluation.json
+```
+
+Exit 2 means the presence gate failed and preserves the report. It is not a passed
+qualification or an execution crash. The full-week, historical cuts and mock sample
+are correlated. The judging network was absent at the source revision check.
 
 Next: label-isolated offline qualification, real protected-capture/provider mapping,
 deterministic response evaluation, joint search and independent plan validation;

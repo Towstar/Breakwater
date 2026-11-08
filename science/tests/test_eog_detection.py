@@ -181,6 +181,7 @@ class EogDetectionTests(unittest.TestCase):
         rows = sum((frame(m, t, received=2700 if t < 1200 else 1800) for t in range(0, 2400, 300)), [])
         event, = self.active(detect(m, view(m, rows)), "pipeline_leak")
         self.assertEqual((event.onset_unix, event.onset_bounds), (1200, (900, 1200)))
+        self.assertEqual(event.detected_unix, 2100)
         self.assertIsNone(event.countdown_hours)
         self.assertEqual(event.recommended_action, "field_inspection")
 
