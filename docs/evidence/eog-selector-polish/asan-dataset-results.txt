@@ -1,0 +1,28 @@
+********* Start testing of EogDatasetTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : EogDatasetTests::initTestCase()
+PASS   : EogDatasetTests::threeFilesPreserveRawUnitsAndIgnoreAnswerKey()
+PASS   : EogDatasetTests::quotedRenamedIdsAndReorderedRowsWork()
+PASS   : EogDatasetTests::missingReadingsAreNotFilledWithZero()
+PASS   : EogDatasetTests::malformedTelemetry(duplicate)
+PASS   : EogDatasetTests::malformedTelemetry(bad-state)
+PASS   : EogDatasetTests::malformedTelemetry(nonfinite)
+PASS   : EogDatasetTests::malformedTelemetry(unknown-asset)
+PASS   : EogDatasetTests::malformedTelemetry(unknown-metric)
+PASS   : EogDatasetTests::malformedTelemetry(clock-mismatch)
+PASS   : EogDatasetTests::malformedTelemetry(not-five-minutes)
+PASS   : EogDatasetTests::malformedTelemetry(no-rows)
+PASS   : EogDatasetTests::malformedTelemetry(bad-quote)
+PASS   : EogDatasetTests::malformedTelemetry(invalid-utf8)
+PASS   : EogDatasetTests::malformedTelemetry(truncated-utf8-at-eof)
+PASS   : EogDatasetTests::duplicateJsonAndMismatchedOpsFail()
+PASS   : EogDatasetTests::explicitCancellationHasNoPublishedData()
+PASS   : EogDatasetTests::controllerIsAtomicAndCursorDoesNotLeakFuture()
+PASS   : EogDatasetTests::staleStateRetainsRawEvidenceAndSeparatesPumpMeaning()
+PASS   : EogDatasetTests::tankGuidesUseCustomDefaultsAndNeverChangeRawEvidence()
+PASS   : EogDatasetTests::overviewUsesAllInputSystemsAndKeepsTravelTimesAuthoritative()
+PASS   : EogDatasetTests::decimationPreservesExtremaAndOnlyBreaksAtRealGaps()
+PASS   : EogDatasetTests::cancellationAndNewerLoadWinWithoutUiBlocking()
+PASS   : EogDatasetTests::cleanupTestCase()
+Totals: 24 passed, 0 failed, 0 skipped, 0 blacklisted, 30125ms
+********* Finished testing of EogDatasetTests *********
