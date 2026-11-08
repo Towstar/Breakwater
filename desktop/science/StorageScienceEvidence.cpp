@@ -138,6 +138,17 @@ bool validate_storage_science_evidence(const QJsonObject& evidence, const QJsonO
         require(runId == snapshotId);
         const auto hash = text(evidence.value("physical_hash"), 64);
         static const QRegularExpression hashPattern(QStringLiteral("^[0-9a-f]{64}$")); require(hashPattern.match(hash).hasMatch());
+        if (archive.contains("agent_origin")) {
+            require(archive.value("agent_origin").isObject()); const auto origin = archive.value("agent_origin").toObject();
+            keys(origin, {"incident_snapshot_id", "incident_physical_hash", "run_id", "effective_physical_hash",
+                "agent_session_id", "tool_call_id"});
+            require(!QUuid::fromString(text(origin.value("incident_snapshot_id"))).isNull() &&
+                !QUuid::fromString(text(origin.value("agent_session_id"))).isNull());
+            require(hashPattern.match(text(origin.value("incident_physical_hash"), 64)).hasMatch());
+            require(origin.value("run_id") == runId && origin.value("effective_physical_hash") == hash &&
+                evidence.value("analysis_mode") == "sensitivities");
+            (void)text(origin.value("tool_call_id"));
+        }
         const auto revision = integer(evidence.value("numerical_revision"), 0, 9007199254740991LL);
         const auto horizon = number(evidence.value("horizon_h")), step = number(evidence.value("step_h"));
         require(evidence.value("native_solver_version") == QString::fromLatin1(solver_version));

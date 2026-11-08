@@ -42,6 +42,7 @@ private:
     bool applying_ = false;
     quint64 captured_revision_ = 0;
     QPointer<history::HistoryController> history_;
+    QPointer<history::SessionRepository> repository_;
     history::SessionRecorder* recorder_ = nullptr;
     QString configured_model_, storage_status_ = "History not attached";
 };

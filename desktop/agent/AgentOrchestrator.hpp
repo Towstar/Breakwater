@@ -2,10 +2,13 @@
 #include "ModelTransport.hpp"
 #include "SimulationGateway.hpp"
 #include <QElapsedTimer>
+#include <QPointer>
 #include <QSet>
 #include <QTimer>
 #include <QVariantList>
 #include <memory>
+
+namespace breakwater::desktop::science { class AgentSensitivityClient; }
 
 namespace breakwater::desktop::agent {
 struct AgentLimits {
@@ -18,6 +21,8 @@ class AgentOrchestrator final : public QObject {
     Q_OBJECT
 public:
     explicit AgentOrchestrator(ModelTransport* transport, QObject* parent = nullptr);
+    ~AgentOrchestrator() override;
+    void setSensitivityClient(science::AgentSensitivityClient* client);
     void start(std::shared_ptr<SimulationGateway> gateway, const QString& objective, AgentLimits limits = {});
     void cancel();
     void invalidate();
@@ -30,8 +35,11 @@ public:
 signals:
     void changed();
     void activity(const QJsonObject& event);
+    void scientificEvidenceReady(const QJsonObject& archive);
 private:
     ModelTransport* transport_;
+    QPointer<science::AgentSensitivityClient> sensitivity_client_;
+    QMetaObject::Connection sensitivity_completed_, sensitivity_failed_, sensitivity_destroyed_;
     std::shared_ptr<SimulationGateway> gateway_;
     AgentLimits limits_;
     QTimer deadline_;
@@ -49,6 +57,12 @@ private:
     void requestModel();
     void receive(const QJsonObject& message);
     void nextTool();
+    void completeTool(quint64 generation, const std::shared_ptr<SimulationGateway>& gateway,
+                      const QString& id, const QString& name, qint64 started, const QJsonObject& outcome);
+    void startSensitivity(const QJsonObject& arguments, quint64 generation,
+                          const std::shared_ptr<SimulationGateway>& gateway,
+                          const QString& id, qint64 started);
+    void cancelSensitivity();
     void finish(const QJsonObject& message);
     void fail(const QString& code, const QString& message);
     void event(const QString& type, QJsonObject fields = {});

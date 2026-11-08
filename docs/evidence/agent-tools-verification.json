@@ -1,0 +1,64 @@
+{
+  "verification_version": 1,
+  "passed": true,
+  "local_source_checkpoint": "3b3127fa4d31a6e2d946ca7d3f8273fbb6940586",
+  "integrated_main": "de06aa1860ccbd3af2e4091557a50920ad16d423",
+  "additional_runtime_changes": false,
+  "additional_test_harness_change": "Global desktop.storage_worker CTest ceiling 180 to 360 seconds; request/application deadlines unchanged. Documentation/evidence updates do not change runtime.",
+  "normal": {
+    "ctest_passed": 29,
+    "ctest_total": 29,
+    "ctest_seconds": 331.29,
+    "qt_passed": 408,
+    "qt_failed": 0,
+    "qt_skipped": 0
+  },
+  "asan": {
+    "ctest_passed": 29,
+    "ctest_total": 29,
+    "ctest_seconds": 383.53,
+    "qt_passed": 408,
+    "qt_failed": 0,
+    "qt_skipped": 0,
+    "diagnostics_found": false,
+    "coverage_limit": "Prebuilt Qt/Python/Torch are outside established ASan instrumentation coverage."
+  },
+  "python": {
+    "ran": 127,
+    "passed": 123,
+    "skipped": 4,
+    "seconds": 41.417,
+    "skip_scope": "ActualPhysicsNeMoTests",
+    "skip_reason": "PhysicsNeMo is optional in the A3-only environment"
+  },
+  "toolchain": {
+    "visual_studio": "17.14.19",
+    "msbuild": "17.14.23+b0019275e",
+    "msvc": "19.44.35219.0",
+    "msvc_tools": "14.44.35207",
+    "windows_sdk": "10.0.26100.0",
+    "cmake": "3.31.6-msvc6",
+    "ninja": "1.12.1",
+    "qt": "6.12.0",
+    "python": "3.12.13",
+    "torch": "2.15.0+cpu"
+  },
+  "log_sha256": {
+    "out/agent-tools-vs-generate-combined-final.log": "8246553252b8df91c4b3b0de0601b8a4589d0bc05825982786e612dfa87804a8",
+    "out/agent-tools-vs-build-combined-final.log": "2c9bc78eeca401838aeed87929d14c1929f97f41ee216f6e2aa77043d3bff257",
+    "out/agent-tools-vs-regenerate-combined-final.log": "b496e679c872a6fdc18a2071661d9e2051da0f3caba05e797fe3b8e4358bf5d6",
+    "out/agent-tools-vs-tests-combined-final.log": "1677e4bfd236f0d2cc74f0f548d682cc9220ef1a0ac4550a846a17e663194fd3",
+    "out/agent-tools-python-combined-final.log": "78637adea3b2494415c81f83caff98b6d20e9de0109b159f07ddb62afc5bfeed",
+    "out/agent-tools-asan-generate-combined-final.log": "778428f081feaa1cd23c727159cada05412afa02d01c230cd1a3e2704f36e4f2",
+    "out/agent-tools-asan-build-combined-final.log": "0075616a3ff5249ceaf791b0b80a1e78c8d5c575f30a37fa668fe3c34ae695f6",
+    "out/agent-tools-asan-tests-combined-final.log": "2eeae08987dabc5edabedeb0845cb2ffeb0defacd5ffb3a94068f2138cca66b5"
+  },
+  "app_sha256": {
+    "out/visual-studio/desktop/RelWithDebInfo/breakwater.exe": "230f63ce48728f0391f0c727ee2c739279a1978346174f11b80b67dca94bae74",
+    "out/agent-asan/desktop/breakwater.exe": "71fa4c54bb483c076abd27be2169f84aefd3df6ae4e06f0bce7f0b2919213bba"
+  },
+  "retained_prior_logs": [
+    "out/agent-tools-before-combined-20261107-225744",
+    "out/agent-tools-combined-interrupted-20261107-231224"
+  ]
+}

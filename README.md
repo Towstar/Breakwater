@@ -3,6 +3,12 @@
 Person B's native Nemotron tools and investigation panel are documented in
 [docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md), including local `.env`
 configuration, actual tool-call smoke commands, snapshot rules and approval staging.
+
+Nemotron can inspect stored native runs and request local PyTorch control
+sensitivities, with complete scientific evidence retained in History. Native
+validation and explicit operator review govern simulated control changes.
+[Four actual live rehearsals](docs/DEMO_REHEARSAL.md#executed-live-evidence) record
+the canonical and edited-network outcomes, including retained unsuccessful attempts.
 Automatic history, run comparison/charts, operator review and worker health are
 described in [docs/DESKTOP_FOUNDATION.md](docs/DESKTOP_FOUNDATION.md).
 The native pipe viewer, physical inputs, concentration field and mass ledger are

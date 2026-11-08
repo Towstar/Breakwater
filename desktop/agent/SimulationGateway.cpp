@@ -1,5 +1,6 @@
 #include "SimulationGateway.hpp"
 #include "ProjectDocument.hpp"
+#include "science/StorageScienceAnalysis.hpp"
 #include "breakwater/search.hpp"
 
 #include <QDateTime>
@@ -15,6 +16,7 @@ constexpr std::size_t max_runs = 128;
 constexpr qsizetype max_candidates = 32;
 constexpr qsizetype max_controls = 384;
 constexpr int max_control_id_length = 512;
+constexpr qsizetype max_sensitivity_controls = 8;
 QString q(const std::string& value) { return QString::fromStdString(value); }
 QString uuid() { return QUuid::createUuid().toString(QUuid::WithoutBraces); }
 struct InvalidCall { QString code; QString message; };
@@ -204,6 +206,67 @@ QJsonObject SimulationGateway::snapshot() const {
     return {{"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h}, {"network", network_json(network_)}};
 }
 
+PreparedSensitivity SimulationGateway::prepareSensitivity(const QJsonObject& args) const {
+    PreparedSensitivity prepared;
+    try {
+        if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed; start a new investigation.");
+        keys(args, {"snapshot_id", "run_id", "control_ids"}, {"snapshot_id", "run_id", "control_ids"});
+        if (string(args, "snapshot_id") != snapshot_id_)
+            reject("snapshot_mismatch", "The requested snapshot is not this session's incident snapshot.");
+        const auto run_id = string(args, "run_id");
+        if (!args.value("control_ids").isArray()) reject("invalid_arguments", "control_ids must be an array of selected IDs.");
+        const auto ids = args.value("control_ids").toArray();
+        if (ids.isEmpty() || ids.size() > max_sensitivity_controls)
+            reject("resource_limit", "Select between 1 and 8 interior controls for sensitivity analysis.");
+        StoredRun stored;
+        {
+            std::lock_guard lock(mutex_);
+            const auto found = runs_.find(run_id);
+            if (found == runs_.end()) reject("unknown_run", "The run ID is not in this session's immutable run store.");
+            stored = found->second;
+        }
+        const auto catalog = control_catalog(stored.compiled.network);
+        QSet<QString> seen;
+        std::ptrdiff_t previous = -1;
+        QJsonArray selected;
+        for (const auto& value : ids) {
+            if (!value.isString() || value.toString().trimmed().isEmpty() || value.toString().size() > max_control_id_length)
+                reject("invalid_arguments", "Sensitivity control IDs must be nonempty bounded strings.");
+            const auto id = value.toString();
+            if (seen.contains(id)) reject("invalid_control", "Sensitivity control IDs must be unique.");
+            seen.insert(id);
+            const auto descriptor = std::find_if(catalog.begin(), catalog.end(), [&](const ControlDescriptor& item) { return q(item.id) == id; });
+            if (descriptor == catalog.end()) reject("invalid_control", "Unknown captured sensitivity control: " + id);
+            const auto index = std::distance(catalog.begin(), descriptor);
+            if (index <= previous) reject("invalid_control_order", "Select control IDs in the returned sensitivity catalog order.");
+            const auto reason = science::sensitivity_ineligible_reason(stored.compiled.network, *descriptor);
+            if (!reason.isEmpty()) reject("invalid_sensitivity_control", reason);
+            previous = index;
+            selected.append(QJsonObject{{"control_id", id}, {"value", descriptor->value}});
+        }
+        auto capture = std::make_shared<CapturedForecast>();
+        capture->network = std::move(stored.compiled.network);
+        capture->config = config_;
+        capture->result = std::move(stored.result);
+        capture->validation = std::move(stored.reported_validation);
+        capture->id = run_id;
+        ProjectDocument effective;
+        effective.network = capture->network;
+        capture->physical_hash = physics_hash(effective);
+        capture->revision = 0; // Immutable gateway run; no editor revision is inferred.
+        if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed while capturing the scientific run.");
+        prepared.origin = {{"incident_snapshot_id", snapshot_id_}, {"incident_physical_hash", physical_hash_},
+            {"run_id", run_id}, {"effective_physical_hash", capture->physical_hash}};
+        prepared.controls = selected;
+        prepared.capture = std::move(capture);
+    } catch (const InvalidCall& error) {
+        prepared.error = failure(error.code, error.message);
+    } catch (const std::exception&) {
+        prepared.error = failure("science_capture_failed", "The stored native run could not be captured for scientific analysis.");
+    }
+    return prepared;
+}
+
 QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& args) {
     try {
         if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed; start a new investigation.");
@@ -228,9 +291,40 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
             return {{"ok", true}, {"snapshot_id", snapshot_id_}, {"controls", controls},
                 {"unspecified_controls", "All unspecified controls retain their immutable snapshot values."}};
         }
-        const QSet<QString> supported{"forecast_baseline", "simulate_candidates", "validate_run", "compare_runs", "search_interventions", "request_approval"};
+        const QSet<QString> supported{"forecast_baseline", "simulate_candidates", "validate_run", "compare_runs", "search_interventions", "request_approval", "get_sensitivity_catalog", "analyze_sensitivities"};
         if (!supported.contains(name)) reject("unknown_tool", "This tool is not registered.");
         if (string(args, "snapshot_id") != snapshot_id_) reject("snapshot_mismatch", "The requested snapshot is not this session's incident snapshot.");
+        if (name == "analyze_sensitivities") {
+            const auto prepared = prepareSensitivity(args);
+            if (!prepared.error.isEmpty()) return prepared.error;
+            return failure("external_executor_required", "Scientific sensitivities must run through the asynchronous scientific worker executor.");
+        }
+        if (name == "get_sensitivity_catalog") {
+            keys(args, {"snapshot_id", "run_id"}, {"snapshot_id", "run_id"});
+            const auto run_id = string(args, "run_id");
+            Network effective;
+            {
+                std::lock_guard lock(mutex_);
+                const auto found = runs_.find(run_id);
+                if (found == runs_.end()) reject("unknown_run", "The run ID is not in this session's immutable run store.");
+                effective = found->second.compiled.network;
+            }
+            QJsonArray controls;
+            for (const auto& descriptor : control_catalog(effective)) {
+                const auto reason = science::sensitivity_ineligible_reason(effective, descriptor);
+                controls.append(QJsonObject{{"control_id", q(descriptor.id)}, {"captured_value", descriptor.value},
+                    {"unit", q(descriptor.unit)}, {"minimum", descriptor.minimum}, {"maximum", descriptor.maximum},
+                    {"eligible", reason.isEmpty()}, {"reason", reason}});
+            }
+            ProjectDocument effective_document;
+            effective_document.network = effective;
+            if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed while inspecting scientific controls.");
+            return {{"ok", true}, {"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"run_id", run_id},
+                {"effective_physical_hash", physics_hash(effective_document)}, {"horizon_h", config_.horizon_h}, {"step_h", config_.step_h},
+                {"controls", controls}, {"max_selected_controls", max_sensitivity_controls},
+                {"column_order", "Select eligible IDs in this catalog order; returned columns keep that order."},
+                {"scope", "Local derivatives at unchanged captured values only. Scientific analysis grants no native feasibility validation or approval."}};
+        }
         if (name == "forecast_baseline") {
             keys(args, {"snapshot_id"}, {"snapshot_id"});
             { std::lock_guard lock(mutex_); if (runs_.size() >= max_runs) reject("resource_limit", "The session run-store limit was reached."); }
@@ -442,6 +536,9 @@ QJsonArray SimulationGateway::toolDefinitions() {
     auto candidate_args = snapshot;
     candidate_args["candidates"] = QJsonObject{{"type", "array"}, {"minItems", 1}, {"maxItems", static_cast<int>(max_candidates)}, {"items", candidate}};
     auto run_args = snapshot; run_args["run_id"] = text_schema();
+    auto sensitivity_args = run_args;
+    sensitivity_args["control_ids"] = QJsonObject{{"type", "array"}, {"minItems", 1}, {"maxItems", static_cast<int>(max_sensitivity_controls)},
+        {"uniqueItems", true}, {"items", text_schema(max_control_id_length)}};
     auto compare_args = snapshot;
     compare_args["run_ids"] = QJsonObject{{"type", "array"}, {"minItems", 2}, {"maxItems", 32}, {"uniqueItems", true}, {"items", text_schema()}};
     const auto search_axis = schema({{"control_id", text_schema(max_control_id_length)},
@@ -457,6 +554,8 @@ QJsonArray SimulationGateway::toolDefinitions() {
         tool("simulate_candidates", "Evaluate 1..32 intervention candidates through the real native engine from the same immutable snapshot and fixed horizon. Only specified controls change.", schema(candidate_args, {"snapshot_id", "candidates"})),
         tool("validate_run", "Independently validate a stored run using the authoritative native validator. Only an explicitly validated feasible run may be recommended or staged.", schema(run_args, {"snapshot_id", "run_id"})),
         tool("compare_runs", "Compare real stored run costs, validation, limit times, headroom, controls and trajectories from this snapshot and horizon.", schema(compare_args, {"snapshot_id", "run_ids"})),
+        tool("get_sensitivity_catalog", "Inspect a stored run's actual effective controls, captured values, units, bounds and interior eligibility. Select 1..8 eligible IDs in returned catalog order. This does not validate or change the run.", schema(run_args, {"snapshot_id", "run_id"})),
+        tool("analyze_sensitivities", "Execute advisory CPU PyTorch terminal-volume Jacobians (hours) and cost gradients (synthetic units per m3/h) for 1..8 eligible controls of a real stored run. Pass only IDs in sensitivity-catalog order; captured values stay unchanged. Unselected controls remain fixed. Native validate_run and explicit operator approval remain required.", schema(sensitivity_args, {"snapshot_id", "run_id", "control_ids"})),
         tool("request_approval", "Stage an inspected, independently validated feasible run for human review. This does not approve or apply controls.", schema(run_args, {"snapshot_id", "run_id"})),
         tool("search_interventions", "Run the real native finite search across at most four catalog control axes and 10000 combinations at the fixed snapshot/horizon. Finalists are independently dense-reference validated and stored; the result is best among evaluated candidates, not a global optimum. Empty axes evaluate unchanged operation once.", schema(search_args, {"snapshot_id", "axes"}))
     };

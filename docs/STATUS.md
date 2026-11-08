@@ -1,5 +1,90 @@
 # Implementation status
 
+## Captured-run Nemotron sensitivities and live operator-reviewed evidence
+
+- Local source checkpoint `ca84c0c` adds stored-run scientific tools and guarded
+  rehearsal exports. Latest main `de06aa1` (PR #26) was merged at local checkpoint
+  `3b3127f` without conflicts;
+  upstream verification/test additions preserve this increment's runtime files.
+  PR #26's dated checks below apply to its own recorded source revision.
+- The ten-tool production catalog now includes `get_sensitivity_catalog` and
+  `analyze_sensitivities`. Actual asynchronous CPU float64 PyTorch analysis uses
+  1–8 unchanged interior controls from an immutable native run, including candidate
+  overrides. Bounded summaries and separate full scientific History records bind
+  incident snapshot/hash, effective network hash, run, agent session and exact
+  model call. Analysis remains advisory; native validation and explicit simulated
+  operator approval retain authority. Manual candidate selection/general candidate
+  forward comparison remain separate E1 work.
+- Production startup/rehearsal options use the real investigator. Automatic export
+  requires the existing review/apply action, a fresh feasible native capture matching
+  the approved effective network/revision/identities, and a matching saved approval.
+  Worker-thread raw checkpoint inspection preserves live History; asynchronous
+  rechecks reject state drift. Bounded reason codes report failures, and the
+  production coordinator is shared with its full-signal regression.
+- Three canonical sessions and the renamed, changed-topology follow-up completed
+  actual model tools, native validation, UI review/application and guarded export.
+  The [audit summary](evidence/live-nemotron-rehearsals.json) reports all four passed;
+  [reproduction and exact scope](DEMO_REHEARSAL.md#executed-live-evidence) include the
+  original local JSON/SQLite sources and the public edited-project input.
+- Fresh combined checks on local `3b3127f` plus the CTest-only worker suite ceiling
+  adjustment: normal/MSVC **29/29** (331.29 s), full-desktop MSVC AddressSanitizer
+  **29/29** (383.53 s). Each build's 12 logged Qt suites report **408 passed,
+  zero failed/skipped**: gateway 27, orchestrator 23, agent science 31, storage worker
+  121, manual storage science 43 and science evidence 43, plus the remaining suites.
+  QML, normal/compact scientific History and pipe-evidence render/reopen checks
+  passed in both builds. No sanitizer report was found; prebuilt Qt/Python/Torch
+  remain outside established ASan instrumentation coverage.
+- Full local Python discovery ran **127 tests** in 41.417 s: **123 passed, four
+  skipped**. All skips are `ActualPhysicsNeMoTests`: PhysicsNeMo is optional and
+  absent in this local CPU environment. Real CPU Torch worker/derivative exchanges
+  executed successfully. Toolchain: MSVC 19.44.35219.0, Qt 6.12.0, Python 3.12.13,
+  Torch 2.15.0+cpu. Normal build reported zero warnings/errors; ASan build succeeded.
+- Logs: `out/agent-tools-{vs,asan}-{generate,build,tests}-combined-final.log`,
+  `out/agent-tools-vs-regenerate-combined-final.log` and
+  `out/agent-tools-python-combined-final.log`. The interrupted earlier normal run
+  remains separate and is not counted as a complete suite. Prior failures/profiles
+  remain retained. The expanded 121-case worker suite measured 170.71 s initially
+  and 147.03/144.01 s in the final normal/ASan runs; its global CTest ceiling is now
+  360 s, matching the multi-process manual Science suite. Worker request, application
+  and hosted-model deadlines were not relaxed.
+- Thirteen startup rejection cases and ten portable auditor regressions passed;
+  auditor fixtures are synthetic tests, never live execution evidence. Independent
+  source/caller review and documentation/evidence review found no actionable defects.
+
+| Actual archive | Stored native runs | Finite search inputs | Selected synthetic cost | Minimum margin m³ | Tools / hosted requests |
+|---|---:|---:|---:|---:|---:|
+| `canonical-7.json` | 6 | 108 | 9,030 | 13 | 9 / 10 |
+| `canonical-9.json` | 4 | 81 | 12,780 | 16 | 10 / 11 |
+| `canonical-11.json` | 6 | 720 | 4,800 | 4 | 7 / 8 |
+| `edited-2.json` | 6 | 64 | 4,800 | 9 | 8 / 9 |
+
+- All 38 hosted completions identify
+  `nvidia/nemotron-3.5-lightning-30b-a3b`, HTTP 200 and zero retries. Native runs
+  retain all 121 original samples over three hours; edited runs include three tanks.
+  All four SQLite `quick_check` calls returned `ok`. Different model-selected search grids
+  establish neither a global optimum nor a reliability/performance comparison.
+- Canonical 7's actual sensitivity call and separately retained result
+  `d4c4f795-e3f7-4942-860e-d90f0f69b7cb` pass exact origin/native-capture checks.
+  At curtailment 5 and bypass 16 m³/h, the Jacobian is `[[-3,-3],[0,3]]` h and cost
+  gradient `[750,0]` synthetic units/(m³/h); native and worker cost are both 9,030
+  with zero returned-sample difference. Science followed initial staging, so this
+  trace does not demonstrate derivative-guided revision of the selected plan.
+- Actual History reopening of canonical 7 showed six complete native runs, the
+  overflowing baseline and candidate ending near 107 m³, with historical approval
+  unavailable. The separate scientific result reopened with the same captured
+  values, derivatives and zero native/worker difference. Explicit Reset clicks were
+  observed after canonical 9, canonical 11 and edited 2; canonical 7 was followed by
+  a fresh canonical launch rather than a recorded Reset-button click.
+- Failed/no-plan/timeout/budget/unknown-finish attempts remain distinct local evidence.
+  Edited 1 failed its tool limit with no operator approval while its completed
+  scientific record remained valid and durable. Canonical 4's approved backend
+  survived an export failure whose original cause was not reproduced by the current
+  full-signal test. Neither attempt counts as a clean rehearsal. The audit checks
+  retained evidence consistency, not cryptographic execution authentication.
+- This closes the recorded live rehearsal slice. Broader G4 native-dialog,
+  clean-Windows and relocated-release acceptance remains explicit; telemetry G1,
+  automatic pipe History and the rest of E1 remain separately scoped work.
+
 ## Planned continuation: hypothetical sensors and detection — November 7, 2026
 
 - The user requested configurable **hypothetical sensors** and synthetic live

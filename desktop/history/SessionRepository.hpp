@@ -24,6 +24,9 @@ public:
     void enqueueCheckpoint(std::function<QJsonObject()> capture, QString checkpointId = {});
     void listSessions();
     void loadSession(const QString& sessionId);
+    // C++ evidence checkpoint inspection; does not select historical UI state or
+    // restore approval. The caller must retain its own live authority checks.
+    void inspectSession(const QString& sessionId);
     void exportSession(const QString& sessionId, const QUrl& destination);
     void importSession(const QUrl& source);
 
@@ -34,6 +37,7 @@ signals:
     void ready();
     void sessionsListed(const QJsonArray& sessions);
     void sessionLoaded(const QJsonObject& archive);
+    void sessionInspected(const QJsonObject& archive);
     void sessionSaved(const QString& sessionId);
     void checkpointFailed(const QString& checkpointId, const QString& code, const QString& message);
     void operationCompleted(const QString& operation, const QString& sessionId);

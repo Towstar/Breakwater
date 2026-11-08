@@ -1,8 +1,20 @@
 #include "agent/AgentController.hpp"
+#include "science/AgentSensitivityClient.hpp"
+#include "history/SessionRepository.hpp"
+#include "history/HistoryController.hpp"
+#include "history/RehearsalEvidenceGuard.hpp"
+#include "history/RehearsalArchiveCoordinator.hpp"
+#include <QFile>
+#include <QFileInfo>
 #include <QJsonDocument>
 #include <QSignalSpy>
+#include <QTemporaryDir>
 #include <QtTest>
 #include <functional>
+
+#ifndef BREAKWATER_TEST_PYTHON
+#define BREAKWATER_TEST_PYTHON ""
+#endif
 
 using namespace breakwater;
 using namespace breakwater::desktop;
@@ -97,6 +109,246 @@ void adaptiveModel(FakeModel& model, bool skipValidation = false) {
 class OrchestratorTests : public QObject {
     Q_OBJECT
 private slots:
+    void rehearsalCoordinatorExportsApprovedSearchFromEmptyInitialForecast_data() {
+        QTest::addColumn<bool>("editDuringForecast");
+        QTest::newRow("approved-search-export") << false;
+        QTest::newRow("reject-editor-drift") << true;
+    }
+    void rehearsalCoordinatorExportsApprovedSearchFromEmptyInitialForecast() {
+        QFETCH(bool, editDuringForecast);
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        history::SessionRepository repository(directory.filePath("coordinator.sqlite"));
+        QSignalSpy ready(&repository, &history::SessionRepository::ready);
+        history::HistoryController historyView(&repository);
+        ProjectController project; project.loadExample("baseline");
+        QVERIFY(!project.capturedForecast());
+        FakeModel model;
+        model.respond = [step = 0, snapshot = QString{}, run = QString{}](const QJsonArray& history) mutable -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history, "state").value("snapshot_id").toString();
+                return calls({call("baseline", "forecast_baseline", {{"snapshot_id", snapshot}})});
+            case 2: return calls({call("search", "search_interventions", {{"snapshot_id", snapshot}, {"axes", QJsonArray{
+                QJsonObject{{"control_id", "route:backup_pump:flow"}, {"values", QJsonArray{32}}},
+                QJsonObject{{"control_id", "route:bypass:flow"}, {"values", QJsonArray{20}}},
+                QJsonObject{{"control_id", "source:source_a:curtail"}, {"values", QJsonArray{0}}},
+                QJsonObject{{"control_id", "route:truck_route:flow"}, {"values", QJsonArray{20}}}}}, {"result_limit", 1}})});
+            case 3:
+                run = resultFor(history, "search").value("runs").toArray().first().toObject().value("run_id").toString();
+                return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            default: return conclusion(run);
+            }
+        };
+        AgentController agent(&project, &model); agent.setHistory(&repository, &historyView);
+        bool completed = false; QString failure;
+        const auto destination = directory.filePath("approved.json");
+        history::RehearsalArchiveCoordinator coordinator(project, agent, repository, destination,
+            [&] { completed = true; }, [&](const QString& code) { failure = code; });
+        QTRY_VERIFY_WITH_TIMEOUT(!ready.isEmpty(), 10000);
+        coordinator.begin();
+        agent.investigate("Use actual bounded search and stage a validated response for operator review.");
+        QTRY_VERIFY_WITH_TIMEOUT(!agent.running(), 10000);
+        QTRY_VERIFY_WITH_TIMEOUT(agent.canApprove(), 10000);
+        QVERIFY(agent.approvePlan());
+        if (editDuringForecast) {
+            project.select("tank_a"); project.editSelected("capacity", "121");
+            project.forecast();
+            QTRY_VERIFY_WITH_TIMEOUT(!failure.isEmpty(), 10000);
+            QCOMPARE(failure, "approved_state_changed");
+            QVERIFY(!completed); QVERIFY(!QFileInfo::exists(destination));
+            QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000);
+            QVERIFY(project.capturedForecast()); QVERIFY(project.capturedForecast()->validation.feasible);
+            return;
+        }
+        QTRY_VERIFY_WITH_TIMEOUT(completed || !failure.isEmpty(), 10000);
+        QVERIFY2(failure.isEmpty(), qPrintable(failure));
+        QVERIFY(completed); QVERIFY(QFileInfo::exists(destination));
+        QFile file(destination); QVERIFY(file.open(QIODevice::ReadOnly));
+        const auto archive = QJsonDocument::fromJson(file.readAll()).object();
+        QCOMPARE(archive.value("recommendation").toObject().value("approval_status").toString(), "operator_applied");
+        QCOMPARE(archive.value("approvals").toArray().size(), 1);
+        QVERIFY(history::SessionRepository::validateArchive(archive));
+        QVERIFY(project.capturedForecast()); QVERIFY(project.capturedForecast()->validation.feasible);
+        QCOMPARE(project.capturedForecast()->result.cost, 4800.0);
+        QVERIFY(!historyView.historical());
+    }
+    void rehearsalExportRequiresAppliedFreshCaptureAndDurableHistoricalApproval() {
+        for (const bool editDuringForecast : {false, true}) {
+            QTemporaryDir directory; QVERIFY(directory.isValid());
+            history::SessionRepository repository(directory.filePath("rehearsal.sqlite"));
+            QSignalSpy ready(&repository, &history::SessionRepository::ready);
+            QSignalSpy failures(&repository, &history::SessionRepository::failed);
+            history::HistoryController historyView(&repository);
+            ProjectController project; project.loadExample("baseline");
+            project.forecast(); QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000);
+            const auto priorCapture = project.runId(); QVERIFY(!priorCapture.isEmpty());
+            history::RehearsalEvidenceGuard guard;
+            guard.setIncident(project.document(), project.networkHash(), priorCapture);
+            FakeModel model; adaptiveModel(model);
+            AgentController agent(&project, &model); agent.setHistory(&repository, &historyView);
+            bool pinned = false;
+            connect(&agent, &AgentController::changed, &agent, [&] {
+                if (!guard.pinned() && agent.recommendation().value("approval_status").toString() == "operator_applied")
+                    pinned = guard.pinApproval(agent.recommendation(), project.simulationRevision());
+            });
+            QJsonObject stored;
+            connect(&repository, &history::SessionRepository::sessionSaved, &agent, [&](const QString& id) {
+                if (guard.pinned() && id == guard.sessionId()) repository.loadSession(id);
+            });
+            connect(&repository, &history::SessionRepository::sessionLoaded, &agent, [&](const QJsonObject& archive) {
+                if (guard.storedApprovalMatches(archive)) stored = archive;
+            });
+            QTRY_VERIFY_WITH_TIMEOUT(!ready.isEmpty(), 10000);
+            agent.investigate("Validate and stage a response for an operator-reviewed rehearsal.");
+            QTRY_VERIFY_WITH_TIMEOUT(!agent.running(), 10000);
+            QTRY_VERIFY_WITH_TIMEOUT(agent.canApprove(), 10000);
+            QVERIFY(!guard.pinned()); QVERIFY(!guard.captureMatches(agent.recommendation(), project));
+            QVERIFY(agent.approvePlan()); QVERIFY(pinned); QVERIFY(guard.pinned());
+            if (editDuringForecast) {
+                // The approved forecast's completion is still queued. A later
+                // feasible editor forecast must not substitute for that result.
+                project.select("tank_a"); project.editSelected("capacity", "121");
+                project.forecast();
+            }
+            QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000);
+            QVERIFY(project.capturedForecast()); QVERIFY(project.capturedForecast()->validation.feasible);
+            QVERIFY(project.runId() != priorCapture);
+            QCOMPARE(guard.acceptFreshCapture(agent.recommendation(), project), !editDuringForecast);
+            QTRY_VERIFY_WITH_TIMEOUT(!stored.isEmpty(), 10000);
+            QVERIFY(failures.isEmpty());
+            QCOMPARE(stored.value("recommendation").toObject().value("approval_status").toString(), "historical");
+            QVERIFY(history::SessionRepository::validateArchive(stored));
+            QVERIFY(guard.storedApprovalMatches(stored));
+            auto missingApproval = stored; missingApproval["approvals"] = QJsonArray{};
+            QVERIFY(!guard.storedApprovalMatches(missingApproval));
+            auto mismatched = stored; auto recommendation = mismatched.value("recommendation").toObject();
+            recommendation["validation_id"] = "00000000-0000-0000-0000-000000000001";
+            mismatched["recommendation"] = recommendation;
+            QVERIFY(!guard.storedApprovalMatches(mismatched));
+            if (!editDuringForecast) {
+                project.moveAsset("tank_a", 180, 100);
+                QVERIFY(guard.captureMatches(agent.recommendation(), project));
+                project.select("tank_a"); project.editSelected("capacity", "121");
+                project.forecast(); QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000);
+                QVERIFY(project.capturedForecast()->validation.feasible);
+                QVERIFY(!guard.captureMatches(agent.recommendation(), project));
+            }
+        }
+    }
+    void scientificToolUsesActualWorkerAndPreservesNativeApprovalAuthority() {
+        const auto python = QString::fromUtf8(BREAKWATER_TEST_PYTHON);
+        if (!QFileInfo(python).isFile()) QSKIP("Configure the CPU Python worker for the actual agent sensitivity exchange.");
+        auto project = example_project(); project.network = main_pump_failure(project.network);
+        const auto gateway = std::make_shared<SimulationGateway>(project.network, physics_hash(project));
+        FakeModel model; QString snapshot, run;
+        bool catalogBound = false, actualAnalysis = false, analysisDidNotValidate = false;
+        model.respond = [&, step = 0](const QJsonArray& history) mutable -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("controls", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history, "state").value("snapshot_id").toString();
+                return calls({call("candidate", "simulate_candidates", candidateArguments(snapshot, "candidate", controlJson(incident_controls("mixed"))))});
+            case 2:
+                run = resultFor(history, "candidate").value("runs").toArray().first().toObject().value("run_id").toString();
+                return calls({call("sensitivity-catalog", "get_sensitivity_catalog", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            case 3:
+                catalogBound = resultFor(history, "sensitivity-catalog").value("run_id") == run;
+                return calls({call("sensitivities", "analyze_sensitivities", {{"snapshot_id", snapshot}, {"run_id", run},
+                    {"control_ids", QJsonArray{"source:source_a:curtail", "route:bypass:flow"}}})});
+            case 4: {
+                const auto outcome = resultFor(history, "sensitivities"), analysis = outcome.value("analysis").toObject();
+                actualAnalysis = outcome.value("ok").toBool() && outcome.value("advisory").toBool() &&
+                    outcome.value("validation_status") == "not_performed" && analysis.value("within_tolerance").toBool() &&
+                    analysis.value("derivatives").toObject().value("terminal_volume_jacobian_h").toArray() == QJsonArray{QJsonArray{-3.0, -3.0}, QJsonArray{0.0, 3.0}};
+                analysisDidNotValidate = !gateway->recommendation(run).value("ok").toBool() && !gateway->stagedPlan().value("ok").toBool();
+                return calls({call("validate", "validate_run", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            }
+            case 5: return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            default: return conclusion(run);
+            }
+        };
+        science::AgentSensitivityClient scientific(python, QStringLiteral(BREAKWATER_SOURCE_DIR "/science/worker.py"));
+        AgentOrchestrator session(&model); session.setSensitivityClient(&scientific);
+        QSignalSpy evidence(&session, &AgentOrchestrator::scientificEvidenceReady);
+        session.start(gateway, "Investigate using local scientific sensitivities, then validate and stage a response.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 90000);
+        QVERIFY(catalogBound); QVERIFY(actualAnalysis); QVERIFY(analysisDidNotValidate); QCOMPARE(evidence.size(), 1);
+        const auto archive = evidence.first().first().toJsonObject(); QString error;
+        QVERIFY2(history::SessionRepository::validateArchive(archive, &error), qPrintable(error));
+        const auto origin = archive.value("agent_origin").toObject();
+        QCOMPARE(origin.value("agent_session_id").toString(), session.sessionId());
+        QCOMPARE(origin.value("incident_snapshot_id").toString(), snapshot); QCOMPARE(origin.value("run_id").toString(), run);
+        QCOMPARE(origin.value("tool_call_id").toString(), "sensitivities");
+        QVERIFY(origin.value("effective_physical_hash") != origin.value("incident_physical_hash"));
+        QCOMPARE(session.result().value("selected_run_id").toString(), run);
+        QCOMPARE(session.result().value("status").toString(), "validated_recommendation");
+        QVERIFY(gateway->stagedPlan().value("ok").toBool()); QVERIFY(gateway->isCurrent());
+        QCOMPARE(gateway->physicalHash(), physics_hash(project));
+        QCOMPARE(resultFor(model.history, "sensitivities").value("result_id"), archive.value("session_id"));
+    }
+    void unavailableScientificWorkerReturnsMatchedErrorAndNativePlanningContinues() {
+        auto project = example_project(); project.network = main_pump_failure(project.network);
+        const auto gateway = std::make_shared<SimulationGateway>(project.network, physics_hash(project));
+        FakeModel model; QString snapshot, run; bool sawFailure = false;
+        model.respond = [&, step = 0](const QJsonArray& history) mutable -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("controls", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history, "state").value("snapshot_id").toString();
+                return calls({call("candidate", "simulate_candidates", candidateArguments(snapshot, "candidate", controlJson(incident_controls("mixed"))))});
+            case 2:
+                run = resultFor(history, "candidate").value("runs").toArray().first().toObject().value("run_id").toString();
+                return calls({call("missing-worker", "analyze_sensitivities", {{"snapshot_id", snapshot}, {"run_id", run}, {"control_ids", QJsonArray{"source:source_a:curtail"}}})});
+            case 3:
+                sawFailure = !resultFor(history, "missing-worker").value("ok").toBool() &&
+                    !resultFor(history, "missing-worker").value("error").toObject().value("code").toString().isEmpty();
+                return calls({call("validate", "validate_run", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            case 4: return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            default: return conclusion(run);
+            }
+        };
+        science::AgentSensitivityClient scientific("not-an-installed-python", "not-an-installed-worker");
+        AgentOrchestrator session(&model); session.setSensitivityClient(&scientific);
+        QSignalSpy evidence(&session, &AgentOrchestrator::scientificEvidenceReady);
+        session.start(gateway, "Use scientific analysis when available and native validation for the plan.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(sawFailure); QVERIFY(evidence.isEmpty()); QCOMPARE(session.result().value("selected_run_id").toString(), run);
+        QVERIFY(gateway->stagedPlan().value("ok").toBool()); QVERIFY(gateway->isCurrent());
+    }
+    void cancellationDuringScientificToolStopsContinuationAndKeepsNativeRun() {
+        const auto python = QString::fromUtf8(BREAKWATER_TEST_PYTHON);
+        if (!QFileInfo(python).isFile()) QSKIP("Configure the CPU Python worker for scientific cancellation.");
+        auto project = example_project(); project.network = main_pump_failure(project.network);
+        const auto gateway = std::make_shared<SimulationGateway>(project.network, physics_hash(project));
+        FakeModel model; QString snapshot, run;
+        model.respond = [&, step = 0](const QJsonArray& history) mutable -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("controls", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history, "state").value("snapshot_id").toString();
+                return calls({call("candidate", "simulate_candidates", candidateArguments(snapshot, "candidate", controlJson(incident_controls("mixed"))))});
+            case 2:
+                run = resultFor(history, "candidate").value("runs").toArray().first().toObject().value("run_id").toString();
+                return calls({call("cancelled-analysis", "analyze_sensitivities", {{"snapshot_id", snapshot}, {"run_id", run}, {"control_ids", QJsonArray{"source:source_a:curtail"}}})});
+            default: return conclusion(run);
+            }
+        };
+        science::AgentSensitivityClient scientific(python, QStringLiteral(BREAKWATER_SOURCE_DIR "/science/worker.py"));
+        AgentOrchestrator session(&model); session.setSensitivityClient(&scientific);
+        QSignalSpy evidence(&session, &AgentOrchestrator::scientificEvidenceReady);
+        connect(&session, &AgentOrchestrator::activity, &session, [&](const QJsonObject& event) {
+            if (event.value("type") == "tool_started" && event.value("tool_name") == "analyze_sensitivities")
+                QTimer::singleShot(50, &session, &AgentOrchestrator::cancel);
+        });
+        session.start(gateway, "Investigate until cancelled.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QTRY_VERIFY_WITH_TIMEOUT(!scientific.busy(), 10000);
+        QCOMPARE(model.requests, 3); QVERIFY(session.result().isEmpty()); QVERIFY(evidence.isEmpty());
+        QCOMPARE(gateway->runs().size(), 1); QCOMPARE(gateway->runDetails(run).value("run").toObject().value("run_id").toString(), run);
+        QVERIFY(!gateway->stagedPlan().value("ok").toBool());
+        QVERIFY(resultFor(model.history, "cancelled-analysis").isEmpty());
+    }
     void cancellationAndDeadlineRetainSanitizedRequestMetadata() {
         for (const bool timeout : {false, true}) {
             FakeModel model; model.silent = true; model.metadataOnCancel = true;

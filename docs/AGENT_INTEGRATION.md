@@ -83,6 +83,8 @@ the exact tool-call ID so it can revise its approach.
 | `validate_run` | `snapshot_id`, `run_id` | Independent authoritative validation, validation ID |
 | `compare_runs` | `snapshot_id`, `run_ids` | Comparable stored summaries from the same snapshot/horizon |
 | `search_interventions` | `snapshot_id`, `axes`, optional `result_limit` | Actual engine search diagnostics and independently validated stored finalists |
+| `get_sensitivity_catalog` | `snapshot_id`, `run_id` | Captured effective native controls, eligibility reasons, bounds/units, and incident/effective identity |
+| `analyze_sensitivities` | `snapshot_id`, `run_id`, `control_ids` | Actual local CPU PyTorch comparison and selected-control derivatives; advisory, never validation |
 | `request_approval` | `snapshot_id`, `run_id` | Human review request; `applied: false` |
 
 Example candidate request (obtain the actual snapshot/control IDs from inspection):
@@ -134,6 +136,29 @@ A no-plan result applies only to the evaluated inputs. Engine search finalists a
 carry authoritative independent validation; individually simulated candidates still
 require an explicit `validate_run` call before recommendation or staging.
 
+Scientific analysis addresses a stored native run from this incident, including
+candidate overrides. Obtain its eligible controls with `get_sensitivity_catalog`,
+then select 1–8 unique interior continuous-control IDs in the returned native
+catalog order. `analyze_sensitivities` uses exactly their captured values; it rejects
+foreign/stale runs, unavailable/fixed controls, boundaries and unsupported selections.
+It cannot alter settings or add a run to the native store. The actual Python worker
+executes asynchronously through a dedicated lane; missing Python/Torch, timeout and
+invalid worker responses return a matched tool error so native planning can continue
+within the same session budget. Cancelling the investigation stops scientific work
+and model continuation; completed native runs remain available as evidence.
+
+The model receives a bounded 256 KiB summary with returned-sample native/PyTorch
+comparison, provenance, warnings, selected values, terminal-volume Jacobian in
+hours and cost gradient in synthetic units per (m3/h). `advisory: true` and
+`validation_status: "not_performed"` preserve native validation authority. Each
+success also saves a separate immutable scientific History session with full
+original native trajectories and bounded worker evidence. `origin` in the model
+result and `agent_origin` in that source session bind incident snapshot/hash,
+effective candidate hash, native run, agent session and exact tool-call ID. The
+scientific capture uses the native run ID as its snapshot ID; it does not replace
+the investigation's incident snapshot. See [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md)
+and [DEMO_REHEARSAL.md](DEMO_REHEARSAL.md) for setup and live evidence gates.
+
 ## Sessions, snapshots and approval
 
 An immutable session snapshot copies the physical network and receives a fresh UUID,
@@ -182,5 +207,8 @@ Vendor references used for the transport:
 [NIM tool-message format](https://docs.nvidia.com/nemo/guardrails/v0.24.1/guardrails-python-sdk/nemoguardrails/guardrails/model_engine).
 Self-hosted parser flags are not sent to the hosted API. Actual hosted model identity,
 tool execution and matching result continuation have passed the live smoke recorded
-in [STATUS.md](STATUS.md). Clean production operator-review rehearsals remain pending;
-raw model reasoning is never retained.
+in [STATUS.md](STATUS.md). Three canonical production operator-reviewed sessions and
+a renamed, changed-topology session now pass the retained live-evidence audit; see
+[the executed set](DEMO_REHEARSAL.md#executed-live-evidence) for actual tool choices,
+scientific provenance, failed attempts and limits. Broader release acceptance remains
+separate. Raw model reasoning is never retained.
