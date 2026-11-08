@@ -70,6 +70,28 @@ class ProcessChecks(unittest.TestCase):
 
 
 class FramingTests(ProcessChecks):
+    def test_nonfinite_control_price_is_rejected_without_loading_torch(self):
+        startup = f"""import sys
+sys.path.insert(0, {str(SCIENCE)!r})
+import worker, worker_storage
+def forbidden_backend():
+    raise AssertionError('Invalid combined price reached the numerical runtime')
+worker_storage._load_backend = forbidden_backend
+worker.main()
+"""
+        values = []
+        for flow in (0.0, .25):
+            value = wire_request(f"cost-overflow:{flow}")
+            payload = value["payload"]
+            payload.update(derivatives=False, controls=[])
+            payload["network"]["routes"][0].update(cost_per_m3=sys.float_info.max, setpoint_m3h=flow)
+            payload["network"]["assets"][1]["cost_per_m3"] = sys.float_info.max
+            values.append(value)
+        failed_zero, failed_low, health = self.exchange([*values, request()], startup=startup, flags=("-S",))
+        self.assert_error(failed_zero, "invalid_network", "cost-overflow:0.0")
+        self.assert_error(failed_low, "invalid_network", "cost-overflow:0.25")
+        self.assertEqual(health["status"], "completed")
+
     def test_health_works_without_site_packages_and_keeps_legacy_shape(self):
         legacy = {"protocol_version": 1, "request_id": "legacy:health", "method": "health"}
         response, = self.exchange([legacy], flags=("-S",))
@@ -171,6 +193,63 @@ class FramingTests(ProcessChecks):
 
 @unittest.skipUnless(importlib.util.find_spec("torch") is not None, "PyTorch is required for actual worker science execution")
 class ScientificProcessTests(ProcessChecks):
+    def test_requested_horizon_grid_regressions_and_selected_derivative(self):
+        values = []
+        grids = [
+            (.9000000000000001, .1, [0.0, *[index * .1 for index in range(1, 10)], .9000000000000001]),
+            (.30000000000000004, .1, [0.0, .1, .2, .30000000000000004]),
+            (math.ulp(0.0), 1e308, [0.0, math.ulp(0.0)]),
+        ]
+        for index, (horizon, step, _) in enumerate(grids):
+            value = wire_request(f"grid:{index}")
+            value["payload"].update(horizon_h=horizon, step_h=step)
+            values.append(value)
+        responses = self.exchange(values)
+        for response, (horizon, _, expected) in zip(responses, grids):
+            self.assertEqual(response["status"], "completed", response)
+            output = response["result"]
+            self.assertEqual(output["time_h"], expected)
+            self.assertEqual(output["time_indices"], list(range(len(expected))))
+            self.assertEqual(output["derivatives"]["terminal_volume_jacobian_h"], [[-horizon]])
+
+    def test_one_ulp_terminal_tail_counts_toward_work_limit(self):
+        valid = wire_request("grid:10000")
+        valid["payload"].update(horizon_h=1.0, step_h=.0001)
+        invalid = copy.deepcopy(valid)
+        invalid["request_id"] = "grid:10001"
+        invalid["payload"]["horizon_h"] = math.nextafter(1.0, math.inf)
+        accepted, rejected = self.exchange([valid, invalid])
+        self.assertEqual(accepted["status"], "completed", accepted)
+        output = accepted["result"]
+        self.assertEqual(output["time_h"][-1], 1.0)
+        self.assertEqual(output["time_indices"][-1], 10000)
+        self.assert_error(rejected, "work_limit", "grid:10001")
+
+    def test_publication_rejects_mapper_that_omits_one_ulp_terminal_interval(self):
+        startup = f"""import sys
+sys.path.insert(0, {str(SCIENCE)!r})
+import worker, worker_storage
+original = worker_storage.storage_rollout
+def shortened(payload):
+    result = original(payload)
+    result['time_h'].pop()
+    result['time_indices'].pop()
+    for row in result['volumes_m3']:
+        row.pop()
+    return result
+worker_storage.storage_rollout = shortened
+worker.main()
+"""
+        value = wire_request("grid:shortened")
+        value["payload"].update(horizon_h=.9000000000000001, step_h=.1)
+        before, failed, after, health = self.exchange([
+            request("capabilities", "before", {"capability_version": 1}), value,
+            request("capabilities", "after", {"capability_version": 1}), request()], startup=startup)
+        self.assertFalse(methods(before)["storage_rollout"]["execution_verified"])
+        self.assert_error(failed, "numerical_failure", "grid:shortened")
+        self.assertFalse(methods(after)["storage_rollout"]["execution_verified"])
+        self.assertEqual(health["status"], "completed")
+
     def test_capability_verification_requires_success_and_is_session_local(self):
         caps = request("capabilities", "caps:0", {"capability_version": 1})
         invalid = wire_request("bad:control")

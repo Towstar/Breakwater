@@ -8,6 +8,7 @@ from __future__ import annotations
 import argparse
 import hashlib
 import json
+import math
 from pathlib import Path
 import platform
 import subprocess
@@ -121,6 +122,11 @@ def verify(native: Path):
             raise ValueError("Duplicate fixture control IDs")
         config = case["config"]
         result = model.rollout(overrides, **config)
+        times = result.time_h.tolist()
+        if (times[0] != 0.0 or times[-1] != config["horizon_h"] or
+                not 2 <= len(times) <= 10001 or
+                any(a >= b for a, b in zip(times, times[1:]))):
+            raise AssertionError(f"{case['name']}: rollout does not cover the exact requested interval")
         references = case["references"]
         if set(references) != {"dense_reference", "sparse", "affine"}:
             raise ValueError("Native fixture must execute all three reference methods")
@@ -135,6 +141,16 @@ def verify(native: Path):
                 "cost_units": _compare(result.cost, reference["cost"], FORWARD_ATOL,
                                        FORWARD_RTOL, "synthetic cost"),
             }
+        if case["name"] == "grid_requested_capacity_overflow":
+            # An ordinary relative trajectory tolerance would hide this .125 m3
+            # error at the deliberately extreme, but accepted, inventory scale.
+            expected = config["horizon_h"] * math.ldexp(1.0, 50)
+            if (result.volumes_m3[0, -1].item() != expected or
+                    any(ref["volumes_m3"][0][-1] != expected or ref["feasible"]
+                        for ref in references.values())):
+                raise AssertionError("Requested endpoint overflow was rounded away or marked feasible")
+        elif case["name"].startswith("grid_") and any(not ref["feasible"] for ref in references.values()):
+            raise AssertionError("Stationary grid regression was incorrectly rejected")
         payload = json.dumps({"network": case["network"], "overrides": pairs, "config": config},
                              sort_keys=True, separators=(",", ":"), allow_nan=False).encode()
         rows.append({"name": case["name"], "input_sha256": hashlib.sha256(payload).hexdigest(),

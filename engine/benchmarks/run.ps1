@@ -85,6 +85,7 @@ try {
         'engine/benchmarks/workloads.hpp',
         'engine/benchmarks/run.ps1',
         'engine/src/forecast_kernels.hpp',
+        'engine/src/storage_grid.hpp',
         'engine/src/search_kernel.hpp',
         'engine/src/control_influence.hpp',
         'engine/src/search_evaluation.hpp',

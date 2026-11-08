@@ -75,9 +75,14 @@ test inputs**, not a replacement project/worker wire format.
   and a scalar synthetic `cost`. No feasibility verdict is supplied by Torch.
 
 All inputs are captured independently of later mutations to the input mapping.
-Time zero is the initial state. `ceil(horizon/step)` updates include the exact final
-horizon, including a shortened last interval. The supported horizon is `(0,24]` hours
-with at most 10,000 steps, 128 assets and 256 routes, matching the native base.
+Time zero is the initial state. Preserve each rounded float64 `k*step` strictly
+before the horizon, then append the exact requested horizon once. Count actual
+intervals, including a final partial interval, rather than using a rounded quotient.
+For example, `.9000000000000001/.1` retains `.9` and a one-ULP final interval;
+`.30000000000000004/.1` has no duplicate final sample. A positive subnormal horizon
+with a larger step gives `[0,horizon]`. The supported horizon is `(0,24]` hours with
+at most 10,000 updates, 128 assets and 256 routes, matching the native base.
+See [the A-001 fix](A001_HORIZON_FIX.md) for regressions and current verification.
 
 An incidence matrix over all routes maps nonnegative flows to storage rates:
 
@@ -93,6 +98,12 @@ Source-route setpoints are not independent controls. Reducing production also sa
 the associated feed-route cost, so curtailment's cost derivative includes both terms.
 Topology and input/control validation follow the native compiler; invalid drafts
 cannot be rescued by overrides. Source curtailment rechecks actual feed capacity.
+
+Each tank-origin discharge also needs a finite combined route/destination unit
+price, matching the native control catalog. This applies even at zero flow.
+Representable unit prices may still yield an overflowing operating cost; a model
+with such a baseline can evaluate finite lower-flow overrides. Nonfinite rollout
+costs fail explicitly without clipping. See [A-002 resolution](A002_COST_FIX.md).
 
 Native structural checks allow a stored route flow up to `capacity + 1e-9`; an omitted
 stored setting preserves that tolerance. Explicit overrides, including a full vector,
