@@ -6,7 +6,10 @@ independent numerical validation, a process adapter or operating-control applica
 
 Lucas / Person B owns the public boundary. Ethan / Person A owns its numerical
 provider. Both adopt the **same exact reviewed commit** before dependent integration.
-Numerical acceptance remains pending; the checklist below is not an approval claim.
+Ethan's numerical acceptance of exact `72cadd1de7eed6666a60faff1d296e29c8f026ee`
+and Lucas's reciprocal adoption are recorded in
+[the coordination note](../../docs/EOG_COORDINATION.md). Provider implementation,
+process lifecycle and full application acceptance remain separate work.
 
 These contracts are additive. G1 telemetry, project-v1/v2/v3, existing network hashes
 and the scientific worker v1 protocol are unchanged. The proposed EOG worker has a
@@ -294,14 +297,10 @@ None is copied from answer keys or claims a working EOG numerical provider.
 
 ## Exact-commit adoption checklist
 
-- [ ] Ethan reviews units, hysteresis/state meaning and measured-versus-commanded data.
-- [ ] Ethan reviews missing/stale/onset uncertainty and repair assumptions.
-- [ ] Ethan reviews full-load inventory, timing ties, deadlines and return-to-yard occupancy.
-- [ ] Ethan reviews shared fleet, revenue loss and snapshot planning context.
-- [ ] Ethan reviews independent validation and bounded-search claims.
-- [ ] Lucas verifies cross-language fixtures, binding and adapter resource/lifecycle limits.
-- [ ] Record numerical acceptance against the exact contract head.
-- [ ] Both implementations adopt that exact revision before integration.
+- [x] Ethan reviewed units, state, uncertainty, timing, fleets, economics and validation semantics at exact `72cadd1`.
+- [x] Lucas verified cross-language fixtures and binding; process-adapter lifecycle acceptance remains a separate increment.
+- [x] Numerical acceptance is recorded against that exact revision.
+- [x] Both developers adopt `72cadd1` as the shared interface baseline before provider/client binding.
 
 Imported/reopened/replayed records remain historical evidence. These contracts
 contain no operating approval, physical dispatch or sandbox-control authority.
