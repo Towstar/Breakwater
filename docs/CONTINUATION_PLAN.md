@@ -1,5 +1,11 @@
 # BREAKWATER continuation plan
 
+**Current handoff after PR #14:** A3–A8 are merged, including `capabilities` and
+`storage_rollout` in the repo worker. The earlier execution sequence/checkpoints below
+are retained as history; do not restart A's worker mapping. B's next increment is
+deployment and desktop-adapter integration. See [STATUS.md](STATUS.md) and
+[science/WORKER.md](../science/WORKER.md) for current scope and evidence.
+
 **Status after PR #6:** A3, A4, A5 and A6 below are implemented and merged.
 This document retains their original execution sequence and acceptance criteria;
 use [STATUS.md](STATUS.md) for current evidence. B3/B4 are implemented in this workstream;

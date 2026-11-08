@@ -6,6 +6,11 @@ Copy the following prompt into Person A's coding session.
 You are implementing Person A's workstream for BREAKWATER. I am the project owner and
 the PDE/simulation developer. Continue the existing C++20/MSVC numerical foundation.
 
+STATUS AFTER PR #14: A3–A8, including the agreed scientific worker mapping, are merged.
+Do not repeat those increments. The worker-mapping instructions below are an earlier
+handoff; see science/WORKER.md and docs/STATUS.md for current evidence. B owns the next
+deployment/desktop-adapter step; A continues science/proof maintenance.
+
 REPOSITORY
 https://github.com/Towstar/Breakwater
 Use a separate clone/worktree and branch codex/person-a-engine from current origin/main.
