@@ -1,5 +1,18 @@
 # Implementation status
 
+## EOG model search scope correction
+
+Runtime `4654de4` removes the unsupported system-filter parameter from Nemotron's
+search tool and explicitly binds its declared whole-network scope to the provider.
+Filtered observations/detection remain available. Explicit malformed or narrower
+search scopes are rejected locally without a provider call or silent expansion.
+Controller tests passed 50/50 and investigator tests 66/66, with no skips. Two
+consecutive installed startup/render runs passed; an initial unisolated access
+violation and the passing previous-build control remain retained. A genuine
+hosted check completed detection and plan evaluation, then failed on the next
+model request with `transport_failed`; no complete hosted pass is claimed.
+Details: `docs/EOG_SEARCH_SCOPE_FIX.md`, `docs/evidence/eog-search-scope/`.
+
 ## Experimental sparse tracer calibration — submission branch
 
 The isolated submission increment adds **Learn decay · PhysicsNeMo** to the
