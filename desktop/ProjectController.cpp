@@ -20,6 +20,19 @@ struct JobResult { SimulationResult result; ValidationReport validation; QString
 }
 
 ProjectController::ProjectController(QObject* parent) : QObject(parent), project_(example_project()) {}
+void ProjectController::reportAction(const QString& code, const QString& title, const QString& message,
+                                     const QStringList& assetIds, const QString& field, const QString& severity) {
+    const auto id = QString::number(++action_feedback_sequence_);
+    action_feedback_ = {{"id", id}, {"operation_id", id}, {"code", code}, {"severity", severity},
+        {"category", "editor_action"}, {"title", title}, {"message", message}, {"asset_ids", assetIds},
+        {"field", field}, {"model_changed", false}, {"recovery_action", "view_issues"}};
+    summary_ = message;
+    emit actionFeedbackChanged(); emit changed();
+}
+void ProjectController::clearActionFeedback() {
+    if (action_feedback_.isEmpty()) return;
+    action_feedback_.clear(); emit actionFeedbackChanged();
+}
 QJsonObject ProjectController::editorDocument() const {
     return telemetry::sensor_project_json(project_, sensor_configuration_, sensor_layout_);
 }
@@ -269,8 +282,9 @@ bool ProjectController::edit(const std::function<void()>& mutation) {
     } catch (const std::exception& e) {
         project_ = previousProject; sensor_configuration_ = previousConfiguration; sensor_layout_ = previousLayout;
         selected_id_ = previousSelection; selected_sensor_id_ = previousSensorSelection;
-        summary_ = QString::fromUtf8(e.what()); emit changed(); return false;
+        reportAction("edit.rejected", "Property needs attention", QString::fromUtf8(e.what()), {selected_id_}); return false;
     }
+    clearActionFeedback();
     if (editorDocument() == before) { emit changed(); return true; }
     undo_.push_back(before); if (undo_.size() > 64) undo_.erase(undo_.begin()); redo_.clear();
     refresh(networkHash() != previous_hash);
@@ -287,6 +301,7 @@ bool ProjectController::restore(const QJsonObject& object) {
         telemetry::validate_sensor_project(parsed, configuration, layout);
         const auto previous_hash = networkHash(), previousSensorHash = sensorConfigurationHash();
         project_ = parsed; sensor_configuration_ = configuration; sensor_layout_ = layout;
+        clearActionFeedback();
         selected_id_.clear(); selected_sensor_id_.clear(); refresh(networkHash() != previous_hash); emit cameraChanged();
         if (sensorConfigurationHash() != previousSensorHash) emit sensorConfigurationChanged();
         return true;
@@ -295,7 +310,11 @@ bool ProjectController::restore(const QJsonObject& object) {
 void ProjectController::select(const QString& id) { selected_id_ = id; emit changed(); }
 void ProjectController::addAsset(const QString& kind_string, double x, double z) {
     const auto kind = parse_kind(kind_string.toStdString());
-    if (!kind || project_.network.assets.size() >= 128 || !std::isfinite(x) || !std::isfinite(z) || std::abs(x) > 10000.0 || std::abs(z) > 10000.0) return;
+    if (!kind) { reportAction("equipment.unsupported_kind", "Choose supported equipment", "Use the equipment palette. Pumps attach to routes leaving a storage tank."); return; }
+    if (project_.network.assets.size() >= 128) { reportAction("equipment.limit", "Equipment limit reached", "This editor supports 128 assets. Remove unused equipment before adding another asset."); return; }
+    if (!std::isfinite(x) || !std::isfinite(z) || std::abs(x) > 10000.0 || std::abs(z) > 10000.0) {
+        reportAction("placement.out_of_range", "Choose a position in the work area", "Use a finite position within the existing 10,000-unit layout bounds. No equipment was added.", {}, "position"); return;
+    }
     edit([&] {
         Asset a; a.id = fresh_id("asset_"); a.kind = *kind; a.label = kind_name(*kind);
         if (*kind == AssetKind::tank) { a.capacity_m3 = 120.0; a.initial_m3 = 0.0; }
@@ -307,17 +326,25 @@ void ProjectController::addAsset(const QString& kind_string, double x, double z)
     });
 }
 void ProjectController::moveAsset(const QString& id, double x, double z) {
-    if (!project_.positions.contains(id) || !std::isfinite(x) || !std::isfinite(z) || std::abs(x) > 10000.0 || std::abs(z) > 10000.0) return;
+    if (!project_.positions.contains(id)) { reportAction("placement.missing_target", "Target no longer exists", "Choose existing equipment before moving it.", {id}); return; }
+    if (!std::isfinite(x) || !std::isfinite(z) || std::abs(x) > 10000.0 || std::abs(z) > 10000.0) {
+        reportAction("placement.out_of_range", "Choose a position in the work area", "Use a finite position within the existing 10,000-unit layout bounds. The layout is unchanged.", {id}, "position"); return;
+    }
     edit([&] { project_.positions[id] = QVector3D(static_cast<float>(std::round(x / 20.0) * 20.0), 0, static_cast<float>(std::round(z / 20.0) * 20.0)); });
 }
 void ProjectController::connectAssets(const QString& source, const QString& target) {
-    if (project_.network.routes.size() >= 256) return;
+    if (project_.network.routes.size() >= 256) { reportAction("connection.limit", "Route limit reached", "This editor supports 256 routes. Remove an unused route before adding another.", {source, target}); return; }
     const Asset* s = nullptr; const Asset* d = nullptr;
     for (const auto& a : project_.network.assets) { if (q(a.id) == source) s = &a; if (q(a.id) == target) d = &a; }
-    if (!s || !d || source == target || !((s->kind == AssetKind::source && d->kind == AssetKind::tank) ||
-        (s->kind == AssetKind::tank && d->kind != AssetKind::source))) { summary_ = "Connect source -> tank, or tank -> tank/treatment/trucking."; emit changed(); return; }
+    if (!s || !d) { reportAction("connection.missing_target", "Target no longer exists", "Choose existing source and destination equipment. No route was added.", {source, target}); return; }
+    if (source == target) { reportAction("connection.self", "Choose a different destination", "An asset cannot connect to itself. No route was added.", {source}); return; }
+    if (!((s->kind == AssetKind::source && d->kind == AssetKind::tank) ||
+        (s->kind == AssetKind::tank && d->kind != AssetKind::source))) {
+        reportAction("connection.unsupported_types", "Connection not supported",
+            "Connect source -> tank, or tank -> tank/treatment/trucking. These are the supported connections in this model; no route was added.", {source, target}); return;
+    }
     for (const auto& r : project_.network.routes) if (r.source_id == s->id && s->kind == AssetKind::source) {
-        summary_ = "Each source feeds exactly one tank. Delete its existing route first."; emit changed(); return;
+        reportAction("connection.source_already_connected", "Source already connected", "Each source feeds exactly one tank. Delete its existing route first; no connection was replaced.", {source, target}); return;
     }
     edit([&] {
         Route r; r.id = fresh_id("route_"); r.source_id = source.toStdString(); r.target_id = target.toStdString();
@@ -327,15 +354,25 @@ void ProjectController::connectAssets(const QString& source, const QString& targ
     });
 }
 void ProjectController::attachPump(const QString& id) {
+    const auto route = std::find_if(project_.network.routes.cbegin(), project_.network.routes.cend(), [&](const Route& r) { return q(r.id) == id; });
+    if (route == project_.network.routes.cend()) {
+        reportAction("pump.choose_route", "Choose a pipe route", "Attach the pump to a route that starts at a storage tank. No pump was attached.", id.isEmpty() ? QStringList{} : QStringList{id}); return;
+    }
+    const auto source = std::find_if(project_.network.assets.cbegin(), project_.network.assets.cend(), [&](const Asset& a) { return a.id == route->source_id; });
+    if (source == project_.network.assets.cend() || source->kind != AssetKind::tank) {
+        reportAction("pump.source_feed", "Pump cannot attach here", "This route is source-driven. Choose a route leaving a storage tank. No pump was attached.", {id}); return;
+    }
+    if (route->has_pump) { selected_id_ = id; reportAction("pump.already_attached", "Pump already attached", "This route already has a pump. No second pump was created.", {id}, {}, "info"); return; }
     edit([&] {
         for (auto& r : project_.network.routes) if (q(r.id) == id)
             for (const auto& a : project_.network.assets) if (a.id == r.source_id && a.kind == AssetKind::tank) { r.has_pump = true; selected_id_ = id; }
     });
 }
 void ProjectController::editSelected(const QString& field, const QString& value) {
+    if (selected().isEmpty()) { reportAction("property.missing_target", "Select existing equipment", "The edited item no longer exists. Choose a new selection; the document is unchanged.", {selected_id_}, field); return; }
     bool numeric_ok = false; const double number = value.toDouble(&numeric_ok);
     if (field != "label" && field != "available" && (!numeric_ok || !std::isfinite(number) || number < 0.0)) {
-        summary_ = "Enter a finite, nonnegative value."; emit changed(); return;
+        reportAction("property.invalid_number", "Enter a valid number", "Enter a finite, nonnegative value in the field's displayed units. The accepted model value is unchanged.", {selected_id_}, field); return;
     }
     edit([&] {
         for (auto& a : project_.network.assets) if (q(a.id) == selected_id_) {
@@ -356,6 +393,7 @@ void ProjectController::editSelected(const QString& field, const QString& value)
     });
 }
 void ProjectController::deleteSelected() {
+    if (selected().isEmpty()) { reportAction("delete.missing_selection", "Select equipment or a route", "Choose an existing item before deleting. The document is unchanged."); return; }
     const auto id = selected_id_.toStdString();
     QSet<QString> removed{selected_id_};
     for (const auto& route : project_.network.routes)
@@ -363,8 +401,7 @@ void ProjectController::deleteSelected() {
     for (const auto& value : sensor_configuration_.value("sensors").toArray()) {
         const auto sensor = value.toObject();
         if (removed.contains(sensor.value("attachment").toObject().value("id").toString())) {
-            summary_ = "Remove or reattach sensor " + sensor.value("label").toString() + " before deleting its equipment or route.";
-            emit changed(); return;
+            reportAction("delete.sensor_attached", "Sensor still attached", "Remove or reattach sensor " + sensor.value("label").toString() + " before deleting its equipment or route.", {selected_id_}); return;
         }
     }
     edit([&] {
@@ -378,8 +415,12 @@ void ProjectController::deleteSelected() {
     });
 }
 void ProjectController::failSelectedPump() {
+    const auto route = std::find_if(project_.network.routes.cbegin(), project_.network.routes.cend(), [&](const Route& r) { return q(r.id) == selected_id_; });
+    if (route == project_.network.routes.cend() || !route->has_pump || !route->available) {
+        reportAction("pump.not_available", "Select an available pump", "Choose an available route-mounted pump. No different scenario or equipment was changed.", {selected_id_}); return;
+    }
     try { const auto n = main_pump_failure(project_.network, selected_id_.toStdString()); edit([&] { project_.network = n; }); }
-    catch (const std::exception& e) { summary_ = QString::fromUtf8(e.what()); emit changed(); }
+    catch (const std::exception& e) { reportAction("pump.not_available", "Select an available pump", QString::fromUtf8(e.what()), {selected_id_}); }
 }
 void ProjectController::undo() {
     if (undo_.empty()) return;
@@ -390,6 +431,7 @@ void ProjectController::redo() {
     const auto current = editorDocument(), next = redo_.back(); redo_.pop_back(); undo_.push_back(current); restore(next);
 }
 void ProjectController::reset() {
+    clearActionFeedback();
     const auto previousSensorHash = sensorConfigurationHash();
     project_ = example_project(); sensor_configuration_ = {}; sensor_layout_ = {}; selected_sensor_id_.clear();
     selected_id_.clear(); undo_.clear(); redo_.clear(); refresh(true); emit cameraChanged();
@@ -429,7 +471,7 @@ void ProjectController::forecast() {
 }
 void ProjectController::forecastWithConfig(SimulationConfig configuration) {
     if (busy_) return;
-    if (!draftIssues().empty()) { summary_ = "Fix draft issues before forecasting."; emit changed(); return; }
+    if (!draftIssues().empty()) { reportAction("forecast.incomplete_draft", "Network needs attention", "Fix draft issues before forecasting. Editing and draft saving remain available."); return; }
     busy_ = true; run_.reset(); approved_ = false; summary_ = "Calculating native forecast..."; emit changed();
     const auto generation = ++job_generation_; const auto revision = revision_; const auto network = project_.network;
     const auto physicalHash = networkHash();

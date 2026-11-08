@@ -1,0 +1,22 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-provider-review/out/provider-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-provider-review/out/provider-asan
+    Start 12: desktop.ui_overhaul_normal
+1/8 Test #12: desktop.ui_overhaul_normal .......   Passed   12.10 sec
+    Start 13: desktop.ui_overhaul_compact
+2/8 Test #13: desktop.ui_overhaul_compact ......   Passed   12.57 sec
+    Start 59: desktop.eog_analysis_normal
+3/8 Test #59: desktop.eog_analysis_normal ......   Passed   11.80 sec
+    Start 60: desktop.eog_overview_normal
+4/8 Test #60: desktop.eog_overview_normal ......   Passed    8.29 sec
+    Start 61: desktop.eog_facility_normal
+5/8 Test #61: desktop.eog_facility_normal ......   Passed    8.35 sec
+    Start 62: desktop.eog_analysis_compact
+6/8 Test #62: desktop.eog_analysis_compact .....   Passed    7.79 sec
+    Start 63: desktop.eog_overview_compact
+7/8 Test #63: desktop.eog_overview_compact .....   Passed    7.75 sec
+    Start 64: desktop.eog_facility_compact
+8/8 Test #64: desktop.eog_facility_compact .....   Passed    8.97 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =  77.66 sec

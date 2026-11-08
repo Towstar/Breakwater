@@ -35,6 +35,8 @@ class ProjectController final : public QObject {
     Q_PROPERTY(QString networkHash READ networkHash NOTIFY changed)
     Q_PROPERTY(double forecastFraction READ forecastFraction WRITE setForecastFraction NOTIFY changed)
     Q_PROPERTY(double forecastTimeH READ forecastTimeH NOTIFY changed)
+    Q_PROPERTY(double forecastHorizonH READ forecastHorizonH NOTIFY changed)
+    Q_PROPERTY(QVariantMap actionFeedback READ actionFeedback NOTIFY actionFeedbackChanged)
     Q_PROPERTY(QVariantMap camera READ camera NOTIFY cameraChanged)
     Q_PROPERTY(QVariantList sensorMarkers READ sensorMarkers NOTIFY changed)
     Q_PROPERTY(QVariantMap selectedSensor READ selectedSensor NOTIFY changed)
@@ -57,6 +59,8 @@ public:
     quint64 simulationRevision() const { return revision_; }
     double forecastFraction() const { return forecast_fraction_; }
     double forecastTimeH() const;
+    double forecastHorizonH() const { return run_ ? run_->config.horizon_h : 0.0; }
+    QVariantMap actionFeedback() const { return action_feedback_; }
     QVariantMap camera() const;
     void setForecastFraction(double value);
     QJsonObject document() const { return project_json(project_); }
@@ -103,10 +107,13 @@ signals:
     void changed();
     void cameraChanged();
     void sensorConfigurationChanged();
+    void actionFeedbackChanged();
 private:
     ProjectDocument project_;
     QString selected_id_;
     QString selected_sensor_id_;
+    QVariantMap action_feedback_;
+    quint64 action_feedback_sequence_ = 0;
     QJsonObject sensor_configuration_, sensor_layout_;
     QString summary_ = "Synthetic constant-flow model. Healthy preview accumulates 8 m3/h in Tank A.";
     std::vector<QJsonObject> undo_, redo_;
@@ -115,6 +122,9 @@ private:
     double forecast_fraction_ = 0.0;
     std::shared_ptr<const CapturedForecast> run_;
     bool edit(const std::function<void()>& mutation);
+    void reportAction(const QString& code, const QString& title, const QString& message,
+                      const QStringList& assetIds = {}, const QString& field = {}, const QString& severity = "warning");
+    void clearActionFeedback();
     void synchronizeSensorConfiguration();
     void refresh(bool physics_changed);
     std::size_t sampleIndex() const;

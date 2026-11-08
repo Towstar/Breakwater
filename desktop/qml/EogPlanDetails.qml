@@ -5,6 +5,11 @@ import QtQuick.Layouts
 
 ColumnLayout {
     id: details
+    // Also loaded directly by the standalone evidence render tests. Keep these
+    // matching presentation tokens local; no application singleton is required.
+    readonly property color textColor: "#F3F3F3"
+    readonly property color secondaryColor: "#BBC2C9"
+    readonly property color errorColor: "#EB8585"
     required property var evaluation
     required property var validation
     readonly property var assessment: evaluation || ({})
@@ -45,9 +50,11 @@ ColumnLayout {
         Layout.fillWidth: true
         textFormat: Text.PlainText
         wrapMode: Text.WrapAnywhere
-        color: "#d4e3ec"
+        font.family: "Segoe UI"
+        font.pixelSize: 13
+        color: details.textColor
     }
-    component Heading: TextLine { font.bold: true; color: "#9bb8c6" }
+    component Heading: TextLine { font.bold: true; font.pixelSize: 12; font.letterSpacing: 0.3; color: details.secondaryColor }
     // Each list retains its complete model and creates only visible delegates.
     // Long schedules remain scrollable without allocating every trip/evidence row.
     component Records: ListView {
@@ -76,9 +83,9 @@ ColumnLayout {
     TextLine {
         objectName: "assessmentStatus"
         text: "Admissibility: " + details.admissible(details.assessment.feasible) + " · Outcome: " + details.outcome(details.assessment.outcome) + " · Coverage: " + details.value(details.assessment.coverage)
-        color: details.assessment.feasible === false ? "#ed8181" : "#d4e3ec"
+        color: details.assessment.feasible === false ? details.errorColor : details.textColor
     }
-    TextLine { text: "Admissibility describes allowed actions. An admissible no-action plan may still reach automatic shutdown."; color: "#9bb8c6" }
+    TextLine { text: "Admissibility describes allowed actions. An admissible no-action plan may still reach automatic shutdown."; color: details.secondaryColor }
     TextLine { objectName: "returnedCosts"; text: details.costs(details.assessment.cost) }
 
     Heading { text: "Repair horizons · " + (details.plan.repair_deadlines || []).length + " returned" }
@@ -89,6 +96,17 @@ ColumnLayout {
     ComboBox {
         id: jobChoice
         objectName: "jobChoice"
+        font.family: "Segoe UI"
+        font.pixelSize: 13
+        palette.window: "#15181B"
+        palette.base: "#15181B"
+        palette.button: "#1D2125"
+        palette.buttonText: details.textColor
+        palette.text: details.textColor
+        palette.windowText: details.textColor
+        palette.highlight: "#2D3339"
+        palette.highlightedText: details.textColor
+        palette.mid: "#68727D"
         Layout.fillWidth: true
         visible: details.jobs.length > 0
         model: details.jobs
@@ -102,7 +120,8 @@ ColumnLayout {
             required property int index
             width: jobChoice.width
             highlighted: jobChoice.highlightedIndex === index
-            contentItem: Label { text: details.value(jobDelegate.modelData.job_id); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere }
+            background: Rectangle { color: jobDelegate.highlighted ? "#2D3339" : jobDelegate.hovered ? "#262B30" : "#1D2125"; border.color: jobDelegate.activeFocus ? "#F3F3F3" : "transparent" }
+            contentItem: Label { text: details.value(jobDelegate.modelData.job_id); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: details.textColor; font.family: "Segoe UI"; font.pixelSize: 13 }
         }
     }
     TextLine { visible: !details.jobs.length; text: details.hasPlan ? "No truck jobs proposed." : "Truck schedule unavailable." }
@@ -140,7 +159,7 @@ ColumnLayout {
     TextLine {
         objectName: "validationMargin"
         text: "Minimum shutdown margin: " + details.number(details.checked.minimum_shutdown_margin_bbl, "bbl")
-        color: typeof details.checked.minimum_shutdown_margin_bbl === "number" && details.checked.minimum_shutdown_margin_bbl < 0 ? "#ed8181" : "#d4e3ec"
+        color: typeof details.checked.minimum_shutdown_margin_bbl === "number" && details.checked.minimum_shutdown_margin_bbl < 0 ? details.errorColor : details.textColor
     }
     TextLine { text: "Validation costs · " + details.costs(details.checked.cost) }
     Records { rows: details.checked.validated_horizons || []; describe: function(item) { return "Validated facility " + details.value(item.facility_id) + " · repair horizon " + details.elapsed(item.repair_elapsed_s) } }
@@ -153,7 +172,7 @@ ColumnLayout {
     Heading { text: "Limitations · " + (details.assessment.limitations || []).length + " returned" }
     Records { objectName: "limitationRows"; rows: details.assessment.limitations || []; describe: function(item) { return details.value(item) } }
     TextLine { visible: !(details.assessment.limitations || []).length; text: "No limitations reported; missing evidence is not a qualification claim." }
-    CheckBox { id: advanced; objectName: "advancedDisclosure"; text: "Advanced · exact plan, timing, hashes and returned evidence" }
+    CheckBox { id: advanced; font.family: "Segoe UI"; font.pixelSize: 12; palette.windowText: details.textColor; palette.text: details.textColor; objectName: "advancedDisclosure"; text: "Advanced · exact plan, timing, hashes and returned evidence" }
     Loader {
         Layout.fillWidth: true
         active: advanced.checked
@@ -164,6 +183,12 @@ ColumnLayout {
             textFormat: TextEdit.PlainText
             wrapMode: TextEdit.WrapAnywhere
             font.family: "Consolas"
+            font.pixelSize: 12
+            color: details.textColor
+            selectionColor: "#F3F3F3"
+            selectedTextColor: "#0D0F11"
+            padding: 10
+            background: Rectangle { color: "#15181B"; radius: 4; border.color: "#333A42" }
             text: JSON.stringify({evaluation: details.assessment, validation: details.checked}, null, 2)
         }
     }
