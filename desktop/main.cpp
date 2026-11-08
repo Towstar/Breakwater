@@ -6,6 +6,7 @@
 #include "quality/PipeTransportController.hpp"
 #include "science/PythonWorkerClient.hpp"
 #include "science/StorageScienceController.hpp"
+#include "telemetry/TelemetryController.hpp"
 #include <QGuiApplication>
 #include <QDir>
 #include <QElapsedTimer>
@@ -24,7 +25,7 @@ int main(int argc, char** argv) {
     QCoreApplication::setApplicationName("BREAKWATER");
     QCoreApplication::setOrganizationName("Breakwater");
     const auto arguments = app.arguments();
-    QString startupProject, startupObjective, rehearsalArchive, startupHistory;
+    QString startupProject, startupObjective, rehearsalArchive, startupHistory, startupTelemetryReplay;
     const auto singleValue = [&](const QString& name, QString& destination) {
         if (!arguments.contains(name)) return true;
         const auto index = arguments.indexOf(name);
@@ -35,6 +36,7 @@ int main(int argc, char** argv) {
     };
     const bool startupInvestigation = arguments.contains("--investigate");
     if (!singleValue("--project", startupProject) || !singleValue("--objective", startupObjective) ||
+        !singleValue("--telemetry-replay", startupTelemetryReplay) ||
         !singleValue("--rehearsal-archive", rehearsalArchive) ||
         (startupInvestigation && !singleValue("--history-db", startupHistory)) ||
         arguments.count("--investigate") > 1 || startupObjective.size() > 4000 ||
@@ -44,7 +46,8 @@ int main(int argc, char** argv) {
         ((!startupProject.isEmpty() || startupInvestigation) && arguments.contains("--science-check")) ||
         (startupInvestigation && (arguments.contains("--smoke") || arguments.contains("--screenshot") ||
             arguments.contains("--import-session") || arguments.contains("--import-pipe-evidence") ||
-            arguments.contains("--open-scientific-history")))) {
+            arguments.contains("--open-scientific-history") || arguments.contains("--sensor-editor-check") ||
+            !startupTelemetryReplay.isEmpty()))) {
         qCritical("Invalid startup options. --investigate requires one explicit --objective; rehearsal export also requires --history-db. Do not combine live investigation with smoke/import/science modes.");
         return 8;
     }
@@ -66,10 +69,27 @@ int main(int argc, char** argv) {
         const QFileInfo projectFile(startupProject);
         if (!projectFile.isFile() || projectFile.size() > 2 * 1024 * 1024 ||
             !controller.load(QUrl::fromLocalFile(projectFile.absoluteFilePath()))) {
-            qCritical("The startup project must be a readable project-v1 file no larger than 2 MiB.");
+            qCritical("The startup project must be a readable supported editor project no larger than 2 MiB.");
             return 8;
         }
     } else if (startupInvestigation) controller.loadExample("baseline");
+    const bool sensorEditorCheck = arguments.contains("--sensor-editor-check");
+    if (sensorEditorCheck && !controller.addSensor("inventory", "tank_a")) {
+        qCritical("Cannot prepare the sensor editor render check."); return 8;
+    }
+    breakwater::desktop::telemetry::TelemetryController telemetry;
+    QObject::connect(&telemetry, &breakwater::desktop::telemetry::TelemetryController::failed, &app,
+        [&](const QString&, const QString&) { if (!startupTelemetryReplay.isEmpty()) app.exit(9); });
+    QJsonObject telemetryConfiguration;
+    const auto configureTelemetry = [&] {
+        const auto configuration = controller.sensorConfiguration();
+        if (configuration == telemetryConfiguration) return;
+        telemetryConfiguration = configuration;
+        telemetry.configure(configuration, controller.sensorContext());
+    };
+    QObject::connect(&controller, &breakwater::desktop::ProjectController::sensorConfigurationChanged, &telemetry, configureTelemetry);
+    QObject::connect(&controller, &breakwater::desktop::ProjectController::changed, &telemetry, configureTelemetry);
+    configureTelemetry();
     if (startupInvestigation && !controller.draftIssues().isEmpty()) {
         qCritical("The startup project has draft issues; no investigation was started.");
         return 8;
@@ -135,9 +155,19 @@ int main(int argc, char** argv) {
     engine.setInitialProperties({{"controller", QVariant::fromValue(&controller)}, {"investigator", QVariant::fromValue(&investigator)},
         {"history", QVariant::fromValue(&history)}, {"scientificWorker", QVariant::fromValue(&scientificWorker)},
         {"pipeTransport", QVariant::fromValue(&pipeTransport)}, {"storageScience", QVariant::fromValue(&storageScience)},
-        {"credentials", QVariant::fromValue(&credentials)}});
+        {"credentials", QVariant::fromValue(&credentials)}, {"telemetry", QVariant::fromValue(&telemetry)}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
+    if (sensorEditorCheck || !startupTelemetryReplay.isEmpty()) {
+        QTimer::singleShot(0, &app, [&] {
+            if (engine.rootObjects().isEmpty()) return;
+            if (sensorEditorCheck) QMetaObject::invokeMethod(engine.rootObjects().front(), "openSensors");
+            if (!startupTelemetryReplay.isEmpty()) {
+                telemetry.startReplay(QUrl::fromLocalFile(QFileInfo(startupTelemetryReplay).absoluteFilePath()));
+                QMetaObject::invokeMethod(engine.rootObjects().front(), "openTelemetry");
+            }
+        });
+    }
     bool startupLaunched = false;
     const auto rehearsalFailed = [&](const QString& code) {
         if (!engine.rootObjects().isEmpty()) {
@@ -229,6 +259,12 @@ int main(int argc, char** argv) {
             const bool labelsVisible = engine.rootObjects().front()->property("visibleAssetLabels").toInt() > 0;
             const bool pipeDialogVisible = engine.rootObjects().front()->property("pipeTransportVisible").toBool();
             const bool scienceVisible = engine.rootObjects().front()->property("storageScienceVisible").toBool();
+            const bool sensorPending = sensorEditorCheck && (!engine.rootObjects().front()->property("sensorEditorVisible").toBool()
+                || controller.sensorMarkers().isEmpty());
+            const bool telemetryPending = !startupTelemetryReplay.isEmpty() &&
+                (!engine.rootObjects().front()->property("telemetryVisible").toBool() || telemetry.tracePreview().isEmpty()
+                    || engine.rootObjects().front()->property("telemetryTraceSamples").toInt() < 1 || telemetry.active());
+            if (!startupTelemetryReplay.isEmpty() && !telemetry.error().isEmpty()) { app.exit(9); return; }
             const bool sciencePending = scienceCheck && (!scienceStarted || storageScience.busy() ||
                 storageScience.historyPending() || storageScience.result().isEmpty() || !scienceVisible ||
                 storageScience.historySavedResultId() != storageScience.result().value("result_id").toString() ||
@@ -239,7 +275,7 @@ int main(int argc, char** argv) {
                     !pipeDialogVisible));
             // An imported-evidence modal is the render target; scene labels behind
             // that modal are not a prerequisite for viewing its charts.
-            if (capture.isNull() || (pipeImportIndex < 0 && !scienceCheck && !scientificHistoryCheck && !labelsVisible) || evidencePending || sciencePending || scientificWorker.busy()) {
+            if (capture.isNull() || (pipeImportIndex < 0 && !scienceCheck && !scientificHistoryCheck && !labelsVisible) || evidencePending || sciencePending || sensorPending || telemetryPending || scientificWorker.busy()) {
                 if (smokeElapsed.elapsed() >= (scienceCheck ? 90000 : 20000)) app.exit(capture.isNull() ? 3 : 5);
                 else if (window) window->requestUpdate();
                 return;

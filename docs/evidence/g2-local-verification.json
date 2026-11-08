@@ -1,0 +1,287 @@
+{
+  "evidence_version": 1,
+  "recorded_utc": "2026-11-08T10:11:22.2535241Z",
+  "tested_source_commit": "7360f495b5e13c867297a2d8944ddb207b6a8e51",
+  "main_baseline": "2bd7bb9e13f1f6788a57c4c49e6d7570293ad0eb",
+  "normal": {
+    "ctests": 38,
+    "passed": 38,
+    "skipped": 0,
+    "duration_s": 380.14,
+    "qt_cases": 641
+  },
+  "asan": {
+    "ctests": 38,
+    "passed": 38,
+    "skipped": 0,
+    "duration_s": 657.47,
+    "qt_cases": 641,
+    "diagnostic_found": false
+  },
+  "qt_suites": {
+    "normal": [
+      {
+        "suite": "agent_gateway-results",
+        "passed": 27,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "agent_orchestrator-results",
+        "passed": 23,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "agent_science-results",
+        "passed": 31,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "history_controller-results",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "nemotron_client-results",
+        "passed": 46,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "pipe_transport_evidence-results",
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "pipe_transport-results",
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "python_worker-results",
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "science_evidence-results",
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "sensor_editor-results",
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "session_repository-results",
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "storage_science-results",
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "storage_worker-results",
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "telemetry_contracts-results",
+        "passed": 164,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "telemetry_lifecycle-results",
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "telemetry_stream-results",
+        "passed": 31,
+        "failed": 0,
+        "skipped": 0
+      }
+    ],
+    "asan": [
+      {
+        "suite": "agent_gateway-results",
+        "passed": 27,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "agent_orchestrator-results",
+        "passed": 23,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "agent_science-results",
+        "passed": 31,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "history_controller-results",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "nemotron_client-results",
+        "passed": 46,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "pipe_transport_evidence-results",
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "pipe_transport-results",
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "python_worker-results",
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "science_evidence-results",
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "sensor_editor-results",
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "session_repository-results",
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "storage_science-results",
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "storage_worker-results",
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "telemetry_contracts-results",
+        "passed": 164,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "telemetry_lifecycle-results",
+        "passed": 21,
+        "failed": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "telemetry_stream-results",
+        "passed": 31,
+        "failed": 0,
+        "skipped": 0
+      }
+    ]
+  },
+  "visual_studio": {
+    "projects": 94,
+    "dependencies": 330,
+    "missing_paths": 0
+  },
+  "ci_policy_tests": 15,
+  "compiler": {
+    "compiler": "14.44.35219.0",
+    "visual_studio": "17.14.36623.8",
+    "bootstrap_path_length": 439
+  },
+  "qt": "6.12.0",
+  "python": "3.12.13",
+  "torch": "2.15.0+cpu",
+  "graphics": {
+    "QSG_RHI_BACKEND": "d3d11",
+    "QSG_RHI_PREFER_SOFTWARE_RENDERER": "1"
+  },
+  "code_sha256": {
+    "Breakwater.slnx": "d494f42bb6071cf8420e88ddf6230b93cc3b21f913d016cdcb9e11568f9ae72d",
+    "desktop/CMakeLists.txt": "1740ae8401e972c0cceb86f28f8cfc174e3c9e18eb93fad770b8df2f6ce7b341",
+    "desktop/ProjectController.cpp": "cba3446ac83e47750f96e3ed43f187104fd28ab3e85ee4ab4be0796812934cdb",
+    "desktop/ProjectController.hpp": "2634b450ebdba7cb7d18c814c6468803df89ec12c4211a65a157ba269a79fe6e",
+    "desktop/main.cpp": "350aa275fd0ed23d16055fa6d11a7c068bb80fdc5e6f4ff087559c6467832a6b",
+    "desktop/qml/Main.qml": "325212cd67fe8e7e77bc7a0334c129ae1c00d114a8c197fcd66320ac22038871",
+    "desktop/qml/SensorPanel.qml": "e8180388dc52f0d96db92e31ecf7f955631e8a14089d7bec81c0f185b62b9b99",
+    "desktop/qml/SensorTraceChart.qml": "5429112564c2347e87254a9d0e57e1b780fb829f4fd2cb3b75c135710b0ea0d6",
+    "desktop/qml/TelemetryPanel.qml": "659e0673f2b6bf2ae16b84158358fcfd75f4e188c93cb3a49c47626855bbea45",
+    "desktop/telemetry/SensorProject.cpp": "b8cd9631998c93d13e08473d6db0616f99780a5922f590f2e2a34f689feb482e",
+    "desktop/telemetry/SensorProject.hpp": "5d1f549820a85903c38725482e26076d55f6b02c18770d2509ce3d42bd2160b9",
+    "desktop/telemetry/TelemetryController.cpp": "ef689ed6ebf195bceb05935ccff8cfa64326d40d6e4644cb8158ff18d9e32edf",
+    "desktop/telemetry/TelemetryController.hpp": "8e11eaa321741d7b52a1f1de75d7b4b9683a030329a4dd2515f32273bad1893d",
+    "desktop/telemetry/TelemetryStream.cpp": "72f0d87ea1024baddb1b2582d087ad17709021357d5db32bf3fee5921322d344",
+    "desktop/telemetry/TelemetryStream.hpp": "cd4ccb6b6a4c73757c4e4e7c29ebc43aec14af2bf1f450e5666cb8038b1efa97",
+    "desktop/tests/sensor_editor_tests.cpp": "7633b3280d10ee717ac10fb3d96fcbef3778ee41cdb5a507714074cfbda78338",
+    "desktop/tests/telemetry_fixtures/publisher_fixture.py": "2b58571aeb9b8088feffe7d143507ebc54ee8f3114f1e2634280771b25441c45",
+    "desktop/tests/telemetry_lifecycle_tests.cpp": "d24c7b9f7862df477929a39cb8b694850b723ce558640d87d1bde89dbab0c506",
+    "desktop/tests/telemetry_stream_tests.cpp": "9abfb84fb8c3b184a719f5b4ffe80057683f4b05c530acbddc56530b58f4c66e",
+    "scripts/ci/Run-Checks.ps1": "61edba55ff29a5aee84d4fac98baa46e2d66481902d0288a23f8bc3026891074"
+  },
+  "local_log_sha256": {
+    "out/g2-delivery-normal-results.log": "e9c2a3e8cdedce600bd6dd91863c4a257f255864565592cbf83e0a75cb4dcdbb",
+    "out/g2-final-asan-results.log": "c2eef91b15f0dd20109b86e16839a914d20605d56fa89005eda08ef69c233355",
+    "out/g2-normal/g2-delivery-normal.xml": "909fe9eb95e273ddc9fbe8f80497d7231ea3ef29b0ae1c24ea1ed55a960fcfb7",
+    "out/g2-asan/g2-final-asan.xml": "3e57b5358530e1e46dfa31c770497533c1b9af0d4eff96dd6a524c9714de1e39",
+    "out/g2-ci-policy-current.log": "ecde47fbfb604bc8d30b42c8cf9455a77a15e1bd2006d65cb03f4398f2637ad9",
+    "out/g2-full-visual-studio-corrected.log": "8b9481510a6ae8f926f10bb42a2f22890b86cf5a8b5b4e9d513be03c3d611d2d",
+    "out/g2-source-loss-before-fix.txt": "2e34e10169a4d8b939a6336c3a75ccf9d0b5b63a1189a5cd15c8f47b1feda30b",
+    "out/g2-source-loss-after-fix.txt": "be3510227c6110805518bc2204a40b219d0c6528346a8158027f20ca30538496"
+  },
+  "retained_attempts": [
+    "out/g2-attempts/full-asan-first",
+    "out/g2-source-loss-before-fix.txt",
+    "out/g2-full-visual-studio.log"
+  ],
+  "review": {
+    "provenance": "Independent same-family read-only review of 2aa47e6, plus author correction checks",
+    "finding": "Paused status masked source loss; actual process regression reproduced and corrected",
+    "full_transcript_audit": "not available",
+    "cross_family_review": "not run"
+  },
+  "limitations": [
+    "Hosted checks pending publication",
+    "Prebuilt Qt/Python/Torch outside native ASan instrumentation",
+    "Protocol fixture is not a numerical plant; no observation mapper or detector",
+    "Replay reconstructs sample event time, not original arrival jitter",
+    "EOG numerical contracts/provider are separate work"
+  ]
+}
