@@ -13,7 +13,7 @@ import math
 from eog_model import Facility, Model, ModelError
 from eog_observations import ObservationError, Sample, View
 
-METHOD = "eog-detection-0.2.0"
+METHOD = "eog-detection-0.2.1"
 
 
 @dataclass(frozen=True, slots=True)
@@ -104,9 +104,11 @@ def _event(f, category, first, previous, evidence):
     raw = json.dumps((METHOD, asset, category, first), ensure_ascii=False, separators=(",", ":")).encode()
     identifier = "eog-" + hashlib.sha256(raw).hexdigest()[:32]
     onset = first if previous is not None else None
-    bounds = (previous, first) if previous is not None else None
+    bounds = (previous, first) if previous is not None and category == "pump_failure" else None
     limitations = (() if previous is not None else
                    ("Left-censored onset: no preceding interpretable non-event evidence.",))
+    if category != "pump_failure":
+        limitations += ("Inspection onset estimates the evidence threshold crossing; physical onset uncertainty is not bounded by a nominal below-threshold reading.",)
     return Event(identifier, f.system_id, f.id, asset, category, "ongoing", first, first, onset, bounds,
                  first, None, "available", None, "unavailable" if category == "pump_failure" else "not_applicable",
                  None, None, None, None, None,

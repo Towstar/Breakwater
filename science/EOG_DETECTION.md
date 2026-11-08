@@ -88,6 +88,12 @@ This family does not establish sub-5% detection, arbitrary noise/offset robustne
 short-cycle diagnosis, or industrial physical validity. Off-cycle conditions remain
 explicitly unobservable; a normal stop cannot itself create or resolve an alert.
 
+The subsequent `0.2.1` provenance correction removes physical-onset bounds from
+inspection events. A last below-threshold residual does not prove that physical
+wear/leak had not already begun. The point estimate remains an explicitly labeled
+evidence-threshold onset, with physical uncertainty unavailable. Categorical
+failure feedback retains its stated observation-time onset bracket.
+
 ## Time, provenance and economics
 
 Only causal `View` methods are queried. Appending/changing future data cannot change
