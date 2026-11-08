@@ -211,11 +211,12 @@ void EogInvestigator::start(const QString& objective, const QJsonObject& context
     session_id_ = QUuid::createUuid().toString(QUuid::WithoutBraces);
     messages_ = {}; tools_ = {}; queued_calls_ = {}; seen_ids_.clear(); offered_names_.clear();
     events_.clear(); result_ = {}; pending_ = {};
+    final_rejection_reason_.clear(); final_correction_used_ = json_final_phase_ = false;
     tool_calls_ = refinement_rounds_ = request_rounds_ = 0;
     awaiting_model_ = executing_tool_ = recording_cancel_metadata_ = metadata_seen_ = started_seen_ = false;
     limits.toolCalls = std::clamp(limits.toolCalls, 0, 12);
     limits.refinementRounds = std::clamp(limits.refinementRounds, 0, 3);
-    limits.durationMs = std::clamp(limits.durationMs, 1, 120000); limits_ = limits;
+    limits.durationMs = std::clamp(limits.durationMs, 1, maximum_eog_investigation_duration_ms); limits_ = limits;
     elapsed_.start(); running_ = true; status_ = "Investigating EOG evidence";
     const auto starting = generation_;
     try {
@@ -257,7 +258,7 @@ void EogInvestigator::requestModel() {
     if (++request_rounds_ > limits_.toolCalls + 1) { stop("request_limit", "The bounded model-request limit was reached."); return; }
     const auto remaining = limits_.toolCalls - tool_calls_, refinements = limits_.refinementRounds - refinement_rounds_;
     QJsonArray offered; offered_names_.clear();
-    if (remaining > 0) for (const auto& item : tools_) {
+    if (!json_final_phase_ && remaining > 0) for (const auto& item : tools_) {
         const auto name = item.toObject().value("function").toObject().value("name").toString();
         if (candidate(name) && refinements <= 0) continue;
         offered.append(item); offered_names_.insert(name);
@@ -288,7 +289,10 @@ void EogInvestigator::requestModel() {
                 stop(identifier(code) ? code : QStringLiteral("model_failed"), "The hosted model request failed.");
         }, Qt::QueuedConnection));
     const QPointer<EogInvestigator> guard(this);
-    try { transport_->request(messages, offered); }
+    try {
+        if (json_final_phase_) transport_->requestFinalJson(messages);
+        else transport_->request(messages, offered);
+    }
     catch (const std::exception&) { if (guard && generation_ == epoch && running_) stop("model_failed", "The hosted model request failed."); }
 }
 void EogInvestigator::recordMetadata(const QJsonObject& metadata, quint64 epoch, quint64 serial) {
@@ -309,6 +313,11 @@ void EogInvestigator::receive(const QJsonObject& message) {
     catch (const std::exception&) { stop("invalid_model_reply", "The model reply is malformed or exceeds its bound."); return; }
     if (safe.value("role") != "assistant") { stop("invalid_model_reply", "The model reply has an invalid role."); return; }
     const auto callValue = safe.value("tool_calls");
+    if (json_final_phase_ && !callValue.isUndefined() && !callValue.isNull() &&
+            (!callValue.isArray() || !callValue.toArray().isEmpty())) {
+        final_rejection_reason_ = "tool_calls";
+        stop("invalid_final", "The model final was rejected (tool_calls); JSON-only correction cannot call tools."); return;
+    }
     if (!callValue.isUndefined() && !callValue.isNull() && !callValue.isArray()) {
         stop("malformed_tool_calls", "The model returned a malformed tool-call list."); return;
     }
@@ -412,6 +421,28 @@ void EogInvestigator::completeFinal(const QJsonObject& message) {
     } catch (const std::exception&) {
         // The stage is selected only from literals above. Never echo rejected
         // content, unknown fields/IDs or parser exception text into evidence.
+        final_rejection_reason_ = QString::fromLatin1(stage);
+        if (!final_correction_used_ && request_rounds_ < limits_.toolCalls + 1) {
+            final_correction_used_ = json_final_phase_ = true;
+            const auto correction = QStringLiteral(
+                "Final JSON formatting correction: the previous final failed the %1 check. "
+                "Return only one JSON object with exactly summary (nonblank string, at most 4000 characters), "
+                "selected_plan_id (retained reference or null), validation_id (retained reference or null), "
+                "and event_ids (array of at most 256 unique retained references). "
+                "No prose, code fences, private reasoning or tool calls. Use only evidence already in this conversation; "
+                "do not invent or change numerical evidence, IDs, actions or repair horizons.").arg(QLatin1String(stage));
+            if (!appendMessage({{"role", "user"}, {"content", correction}})) return;
+            status_ = "Correcting final JSON format within the existing investigation budget";
+            const auto epoch = generation_; const QPointer<EogInvestigator> guard(this);
+            emit finalCorrectionRequested(final_rejection_reason_);
+            if (!guard || generation_ != epoch || !running_) return;
+            emit changed();
+            if (!guard || generation_ != epoch || !running_) return;
+            QTimer::singleShot(0, this, [this, epoch] {
+                if (generation_ == epoch && running_ && !awaiting_model_ && !executing_tool_) requestModel();
+            });
+            return;
+        }
         stop("invalid_final", QStringLiteral("The model final was rejected (%1); required bounded JSON checks failed.").arg(QLatin1String(stage))); return;
     }
     deadline_.stop(); disconnectRequest(); running_ = awaiting_model_ = executing_tool_ = false;
@@ -441,6 +472,17 @@ void EogInvestigator::stop(const QString& code, const QString& message, bool rec
     emit failed(code, message);
 }
 void EogInvestigator::cancel() { stop("cancelled", "The EOG investigation was cancelled."); }
+bool EogInvestigator::isFinalFormatCorrectionCode(const QString& code) {
+    // Only a recorded, nonterminal formatting retry is recoverable. Unknown
+    // prefixes and terminal invalid_final/transport/deadline errors stay fatal.
+    static const QSet<QString> recoverable{
+        "final_format_rejected_content_type", "final_format_rejected_encoding_or_size",
+        "final_format_rejected_json_document", "final_format_rejected_field_set",
+        "final_format_rejected_summary", "final_format_rejected_selected_plan_reference",
+        "final_format_rejected_validation_reference", "final_format_rejected_event_ids",
+        "final_format_rejected_event_reference", "final_format_rejected_duplicate_event_ids"};
+    return recoverable.contains(code);
+}
 void EogInvestigator::invalidate() { stop("stale_capture", "The EOG dataset or cutoff changed; retained evidence is historical."); }
 } // namespace breakwater::desktop::eog
 

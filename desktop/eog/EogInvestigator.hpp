@@ -8,10 +8,11 @@
 #include <QVariantList>
 
 namespace breakwater::desktop::eog {
+inline constexpr int maximum_eog_investigation_duration_ms = 180000;
 struct EogInvestigationLimits {
     int toolCalls = 12;
     int refinementRounds = 3;
-    int durationMs = 120000;
+    int durationMs = maximum_eog_investigation_duration_ms;
 };
 
 // EOG-only model loop. Numeric evidence/reference verification belongs to the
@@ -37,6 +38,8 @@ public:
     QString sessionId() const { return session_id_; }
     QVariantList events() const { return events_; }
     QJsonObject result() const { return result_; }
+    QString finalRejectionReason() const { return final_rejection_reason_; }
+    static bool isFinalFormatCorrectionCode(const QString& code);
 signals:
     void changed();
     void toolRequested(const QString& callId, const QString& name, const QJsonObject& arguments);
@@ -44,6 +47,8 @@ signals:
     void failed(const QString& code, const QString& message);
     void activity(const QJsonObject& event);
     void requestMetadata(const QJsonObject& sanitized);
+    // A single bounded formatting retry; reason is a fixed classifier literal.
+    void finalCorrectionRequested(const QString& reason);
     // Abort the controller's asynchronous numeric operation on cancel/timeout/drift.
     void cancellationRequested();
 private:
@@ -59,13 +64,14 @@ private:
     QSet<QString> seen_ids_, offered_names_;
     QVariantList events_;
     QJsonObject result_;
-    QString session_id_, status_ = QStringLiteral("Ready");
+    QString session_id_, status_ = QStringLiteral("Ready"), final_rejection_reason_;
     Pending pending_;
     QList<QMetaObject::Connection> request_connections_;
     quint64 generation_ = 0, request_serial_ = 0;
     int tool_calls_ = 0, refinement_rounds_ = 0, request_rounds_ = 0;
     bool running_ = false, awaiting_model_ = false, executing_tool_ = false;
     bool recording_cancel_metadata_ = false, metadata_seen_ = false, started_seen_ = false;
+    bool final_correction_used_ = false, json_final_phase_ = false;
     void disconnectRequest();
     bool appendMessage(const QJsonObject& message);
     bool recordEvent(const QString& type, QJsonObject fields = {});

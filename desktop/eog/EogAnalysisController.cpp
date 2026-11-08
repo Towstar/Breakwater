@@ -171,12 +171,21 @@ EogAnalysisController::EogAnalysisController(EogDatasetController* dataset, EogA
     connect(&investigator_, &EogInvestigator::toolRequested, this, &EogAnalysisController::toolRequested);
     connect(&investigator_, &EogInvestigator::cancellationRequested, client_, &EogAnalysisClient::cancel);
     connect(&investigator_, &EogInvestigator::finished, this, &EogAnalysisController::finalResult);
+    connect(&investigator_, &EogInvestigator::finalCorrectionRequested, this, [this](const QString& reason) {
+        if (retiring_) return;
+        // The investigator supplies a fixed validation-stage literal, never
+        // rejected model text. This is a bounded formatting retry, not a sealed
+        // failure or permission to bypass the eventual grounding checks.
+        status_ = "Nemotron is correcting the final JSON format. Numerical evidence remains available.";
+        recordEvent({{"type", "failure"}, {"code", "final_format_rejected_" + reason}});
+    });
     connect(&investigator_, &EogInvestigator::failed, this, [this](const QString& code, const QString&) {
         if (retiring_) return;
+        const auto recordedCode = code == "invalid_final" ? "invalid_final_" + investigator_.finalRejectionReason() : code;
         review_disabled_ = true;
         client_->cancel(); pending_request_ = {}; pending_execution_.clear();
-        status_ = "Nemotron investigation incomplete (" + code + "). Numerical evidence remains available.";
-        if (!session_id_.isEmpty() && !sealed_) { recordEvent({{"type", "failure"}, {"code", code}}); history_->finishSession(session_id_, "failed"); sealed_ = true; }
+        status_ = "Nemotron investigation incomplete (" + recordedCode + "). Numerical evidence remains available.";
+        if (!session_id_.isEmpty() && !sealed_) { recordEvent({{"type", "failure"}, {"code", recordedCode}}); history_->finishSession(session_id_, "failed"); sealed_ = true; }
         emit changed();
     });
     connect(&investigator_, &EogInvestigator::requestMetadata, this, [this](QJsonObject metadata) {

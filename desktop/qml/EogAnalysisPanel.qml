@@ -38,6 +38,8 @@ Dialog {
         if (row.type === "tool_result") return (row.ok === true ? "Tool completed · " : row.ok === false ? "Tool failed · " : "Tool result · ") + String(row.name || "unnamed tool")
         if (row.type === "final") return "Final explanation recorded"
         if (row.type === "cancel") return "Investigation cancelled"
+        if (row.type === "failure" && String(row.code || "").indexOf("final_format_rejected_") === 0)
+            return "Final format correction requested"
         if (row.type === "failure") return "Investigation incomplete"
         return "Recorded event · " + String(row.type || "unavailable")
     }

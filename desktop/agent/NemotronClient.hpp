@@ -34,6 +34,7 @@ public:
                             QObject* parent = nullptr, QNetworkAccessManager* manager = nullptr);
     ~NemotronClient() override;
     void request(const QJsonArray& messages, const QJsonArray& tools) override;
+    void requestFinalJson(const QJsonArray& messages) override;
     void cancel() override;
     // Configuration changes are allowed between requests only.
     bool reloadConfiguration();
@@ -58,6 +59,7 @@ private:
     quint64 requestGeneration_ = 0;
     quint64 deliveringGeneration_ = 0;
     bool active_ = false;
+    void requestImpl(const QJsonArray& messages, const QJsonArray& tools, bool jsonFinal);
     void send();
     void consume();
     void finish();
