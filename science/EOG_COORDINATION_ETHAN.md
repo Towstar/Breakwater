@@ -27,7 +27,52 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: native stateful synthetic plant
+## Active execution checkpoint: imported-model causal synthetic observations
+
+Current branch/worktree: `codex/person-a-eog-synthetic-observations` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-synthetic-observations`. Runtime
+source **78338aa**, initial ABI/mapping d0c15f9; complete offline driver **1947638**.
+Latest accepted UI main **7418a2d** is merged as **be31979**. A-owned tested source
+is unchanged by that merge; the only root numerical-build-area change is B's
+Visual Studio tracking location, outside these Ninja checks. Public gate remains
+exact 72cadd1; native plant remains 0.1.0, private computational BWES ABI 1.
+
+The imported Model maps to a real persistent native plant through a checked C ABI,
+with explicit initialization, seeded schedules and 300-second causal projection.
+Future truth/seed/full receipt never enter `view()` or detector execution. Raw
+negative/noisy values and dropped-frame age/gaps are preserved. Bounded fractional
+control journals reproduce physical state/cost/fleet and observations; reset clears
+them. Unsupported future oil/gas changes reject rather than becoming unobserved
+economic assumptions. Details: `science/EOG_SYNTHETIC_OBSERVATIONS.md`.
+
+Final full science: **399/399**, zero failures/skips. Native normal/ASan: **13/13**
+each, 28 ABI and 57,498 synthetic checks. Checked Python: bridge 8/8 + final
+synthetic/control 14/14. Actual one-day official-model/unfamiliar-model runs emit
+56,355 / 11,271 samples, round-trip every sample/model/detector result through the
+fixed loader and match normal/checked bytes. All six injected failures are found
+within one acquisition interval; no extra inspection events. Original source
+hashes remain unchanged. Controlled fractional replay retains busy occupancy after
+repair and reproduces cost 9390.1683984375. This is explicit-control evidence, not
+an optimized plan, independent physical proof or application acceptance.
+
+B needs the new `breakwater_eog_plant` target/DLL, two Python modules and absolute
+`BREAKWATER_EOG_PLANT` test configuration; keep zero-unexpected-skip policy. A has
+not edited root CI, public contracts or desktop files. A-owned private numerical
+input/results are ready for exact-source mapping review; a shared simulation wire
+and operator controls remain B-owned and unadopted.
+
+B's new `codex/person-b-eog-search-integration` branch includes exact a420deb A
+source unchanged and now implements search client/model/history/packaging changes.
+Its source-only provenance note is `docs/EOG_SEARCH_INTEGRATION.md`; its final joined
+tests/installation still need evidence/review. Earlier #46 hosted stale assertion
+failure is preserved below and is not treated as fixed merely from a new branch.
+
+Next A correctness priority: inspection observability/latency and causal lifecycle
+qualification, then commitment-aware planning. Keep the replay/counterfactual/
+extended application and final installed/rendered/workbench acceptance in scope.
+The goal remains active; do not mark complete on these native/science checks.
+
+## Published checkpoint: native stateful synthetic plant
 
 Current branch/worktree: `codex/person-a-eog-simulation` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-simulation`. Corrected native

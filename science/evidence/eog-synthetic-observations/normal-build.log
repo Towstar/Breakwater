@@ -1,0 +1,40 @@
+**********************************************************************
+** Visual Studio 2026 Developer PowerShell v18.11.3
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+-- Configuring done (0.4s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Projects/Breakwater/.worktrees/person-a-eog-synthetic-observations/out/headless
+[1/2] Building CXX object engine\CMakeFiles\breakwater_eog_plant_tests.dir\tests\eog_simulation_c_tests.cpp.obj
+[2/2] Linking CXX executable engine\breakwater_eog_plant_tests.exe
+Test project C:/Projects/Breakwater/.worktrees/person-a-eog-synthetic-observations/out/headless
+      Start  1: engine.eog_plant_abi
+ 1/13 Test  #1: engine.eog_plant_abi ...............   Passed    1.20 sec
+      Start  2: engine.eog_simulation
+ 2/13 Test  #2: engine.eog_simulation ..............   Passed    1.84 sec
+      Start  3: engine.eog_response
+ 3/13 Test  #3: engine.eog_response ................   Passed    1.33 sec
+      Start  4: engine.eog_analytical
+ 4/13 Test  #4: engine.eog_analytical ..............   Passed    3.07 sec
+      Start  5: engine.eog_analytical_example
+ 5/13 Test  #5: engine.eog_analytical_example ......   Passed    0.67 sec
+      Start  6: engine.benchmark_correctness
+ 6/13 Test  #6: engine.benchmark_correctness .......   Passed    0.85 sec
+      Start  7: engine.acceptance
+ 7/13 Test  #7: engine.acceptance ..................   Passed    0.48 sec
+      Start  8: engine.search
+ 8/13 Test  #8: engine.search ......................   Passed    0.44 sec
+      Start  9: engine.control_influence
+ 9/13 Test  #9: engine.control_influence ...........   Passed    2.78 sec
+      Start 10: engine.search_example
+10/13 Test #10: engine.search_example ..............   Passed    0.51 sec
+      Start 11: engine.search_infeasible_example
+11/13 Test #11: engine.search_infeasible_example ...   Passed    0.09 sec
+      Start 12: engine.transport
+12/13 Test #12: engine.transport ...................   Passed    4.73 sec
+      Start 13: engine.transport_example
+13/13 Test #13: engine.transport_example ...........   Passed    2.15 sec
+
+100% tests passed, 0 tests failed out of 13
+
+Total Test time (real) =  22.09 sec

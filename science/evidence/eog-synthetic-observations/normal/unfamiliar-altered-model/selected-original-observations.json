@@ -1,0 +1,938 @@
+[
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0",
+    "metric": "inflow_bpd",
+    "value": 1312.6736108292507
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+    "metric": "pressure_psi",
+    "value": 1050.8001144854916
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "discharge_psi",
+    "value": 1049.881918425875
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/tank",
+    "metric": "level_pct",
+    "value": 64.09104373677083
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+    "metric": "water_bpd",
+    "value": 328.4649803925934
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+    "metric": "water_bpd",
+    "value": 510.26894851637616
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+    "metric": "water_bpd",
+    "value": 473.76273978158935
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1",
+    "metric": "inflow_bpd",
+    "value": 1310.2524170688985
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+    "metric": "pressure_psi",
+    "value": 1049.2881458742293
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "discharge_psi",
+    "value": 1049.9709517892516
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/tank",
+    "metric": "level_pct",
+    "value": 33.589701452263824
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+    "metric": "water_bpd",
+    "value": 327.51659841467836
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+    "metric": "water_bpd",
+    "value": 508.7745353110178
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+    "metric": "water_bpd",
+    "value": 476.49222973854614
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2",
+    "metric": "inflow_bpd",
+    "value": 1320.4018671705671
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+    "metric": "pressure_psi",
+    "value": 1050.9227707156392
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "discharge_psi",
+    "value": 1050.2142338133115
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/tank",
+    "metric": "level_pct",
+    "value": 53.15221911686583
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+    "metric": "water_bpd",
+    "value": 327.5898162149737
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+    "metric": "water_bpd",
+    "value": 512.7678523317863
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+    "metric": "water_bpd",
+    "value": 476.6334254597346
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0",
+    "metric": "inflow_bpd",
+    "value": 1317.4749006311922
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+    "metric": "pressure_psi",
+    "value": 1100.9939846947323
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 2689.155214938444
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "discharge_psi",
+    "value": 1200.059082063476
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "flow_bpd",
+    "value": 2704.99921092957
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/tank",
+    "metric": "level_pct",
+    "value": 55.358011029914955
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+    "metric": "water_bpd",
+    "value": 327.49632551879756
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+    "metric": "water_bpd",
+    "value": 509.9341814947176
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+    "metric": "water_bpd",
+    "value": 475.7500646369765
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1",
+    "metric": "inflow_bpd",
+    "value": 1317.3537915450322
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+    "metric": "pressure_psi",
+    "value": 1050.693070051095
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "discharge_psi",
+    "value": 1049.7580409954417
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/tank",
+    "metric": "level_pct",
+    "value": 43.69654753400825
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+    "metric": "water_bpd",
+    "value": 327.58842129335426
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+    "metric": "water_bpd",
+    "value": 512.7208825213374
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+    "metric": "water_bpd",
+    "value": 474.12341615628515
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2",
+    "metric": "inflow_bpd",
+    "value": 1319.8000238799752
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+    "metric": "pressure_psi",
+    "value": 1050.749538289303
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "discharge_psi",
+    "value": 1050.4234844224
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/tank",
+    "metric": "level_pct",
+    "value": 63.2826218738088
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+    "metric": "water_bpd",
+    "value": 327.84761119442686
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+    "metric": "water_bpd",
+    "value": 509.6800659199877
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770100,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+    "metric": "water_bpd",
+    "value": 476.0549554580477
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0",
+    "metric": "inflow_bpd",
+    "value": 1307.5327560157307
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+    "metric": "pressure_psi",
+    "value": 1100.2083132529203
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 2702.689495789339
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "discharge_psi",
+    "value": 1200.8338688576082
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "flow_bpd",
+    "value": 2701.2375266866493
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/tank",
+    "metric": "level_pct",
+    "value": 55.046995641615425
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+    "metric": "water_bpd",
+    "value": 328.4097202997407
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+    "metric": "water_bpd",
+    "value": 509.2661984452239
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+    "metric": "water_bpd",
+    "value": 474.66510158629274
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1",
+    "metric": "inflow_bpd",
+    "value": 1307.9664474606607
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+    "metric": "pressure_psi",
+    "value": 1049.3407811398276
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "discharge_psi",
+    "value": 1049.5614096496931
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/tank",
+    "metric": "level_pct",
+    "value": 44.04372258488273
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+    "metric": "water_bpd",
+    "value": 327.7052335091599
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+    "metric": "water_bpd",
+    "value": 512.4417022283178
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+    "metric": "water_bpd",
+    "value": 476.4183545406427
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2",
+    "metric": "inflow_bpd",
+    "value": 1307.4832715087293
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+    "metric": "pressure_psi",
+    "value": 1050.0513417725
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "discharge_psi",
+    "value": 1050.0532244396913
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "status",
+    "value": 2.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/tank",
+    "metric": "level_pct",
+    "value": 63.597768581455995
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+    "metric": "water_bpd",
+    "value": 328.5510817486652
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+    "metric": "water_bpd",
+    "value": 512.8215007432946
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791770400,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+    "metric": "water_bpd",
+    "value": 474.822132061157
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0",
+    "metric": "inflow_bpd",
+    "value": 1320.2089844028585
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+    "metric": "pressure_psi",
+    "value": 1050.3500532121557
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "discharge_psi",
+    "value": 1049.945542098748
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+    "metric": "status",
+    "value": 2.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/tank",
+    "metric": "level_pct",
+    "value": 40.50846245813159
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+    "metric": "water_bpd",
+    "value": 326.9684799686075
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+    "metric": "water_bpd",
+    "value": 510.61133097317884
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+    "metric": "water_bpd",
+    "value": 474.9912363301461
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1",
+    "metric": "inflow_bpd",
+    "value": 1315.6391550109604
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+    "metric": "pressure_psi",
+    "value": 1100.162870315377
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 2698.4451786602203
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "discharge_psi",
+    "value": 1200.8045076987883
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "flow_bpd",
+    "value": 2698.1104507579676
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/tank",
+    "metric": "level_pct",
+    "value": 55.982715640720166
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+    "metric": "water_bpd",
+    "value": 328.9225738320652
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+    "metric": "water_bpd",
+    "value": 511.8383360071169
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+    "metric": "water_bpd",
+    "value": 473.5933794238252
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2",
+    "metric": "inflow_bpd",
+    "value": 1320.6998204367123
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+    "metric": "pressure_psi",
+    "value": 1050.4101324011444
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "discharge_psi",
+    "value": 1050.2300915767478
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/tank",
+    "metric": "level_pct",
+    "value": 56.56168551408909
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+    "metric": "water_bpd",
+    "value": 330.136144183207
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+    "metric": "water_bpd",
+    "value": 476.78448672656964
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+    "metric": "water_bpd",
+    "value": 522.1364514695903
+  }
+]

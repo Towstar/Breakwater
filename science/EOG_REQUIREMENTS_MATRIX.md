@@ -58,12 +58,18 @@ Evidence SP: private native stateful plant af73a42, with source/binary-bound
 CTests normal/ASan, 57,498 synthetic checks per mode, 100 actual E3 comparisons,
 100 observation-partition comparisons and a corrected 31-day analytical cycle
 probe. This is not imported model/seeded sensor/application simulation acceptance.
+Evidence SO: runtime 78338aa / complete driver 1947638,
+`science/evidence/eog-synthetic-observations/`: native 13/13 normal/ASan, full science
+399/399 without skips, actual imported 15-facility and unfamiliar 3-facility seeded
+day runs, 67,626 exact file-roundtripped observations and six bounded pump-failure
+detections. Normal/checked truth/receipts match exactly; controlled replay carries
+busy trucks through repair. No leak/degradation or application qualification is implied.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
 | I01 | S Files; R What you get | Rule | B capture, A provider | Read only the three allowed names; deny answer-key access | E3 fixed-name capture verification/loading; negative forbidden-file read test | Scoped pass | Science worker consumes only three captured names; B desktop capture/access audit remains |
 | I02 | S Files / Time range | Rule | B reader/capture; A verifier | First/last CSV timestamps define window/now | CR 40 tests and endpoint probe at e3190fb | Scoped pass | Verify actual importer and changing-source capture |
-| I03 | R How judging works; H Every folder | Rule | Both | Renamed/custom systems, prices, thresholds, fleets | E1 uses arbitrary constructed IDs | Partial | Unfamiliar file networks pending; no published judging set |
+| I03 | R How judging works; H Every folder | Rule | Both | Renamed/custom systems, prices, thresholds, fleets | E1 arbitrary IDs; SO actual altered-model fixed-file roundtrip changes IDs, rates, prices, thresholds, capacities and fleet | Partial | Unpublished judging set and final installed unfamiliar-network acceptance remain |
 | I04 | S telemetry; G Input acceptance | Rule + Chosen | B parser; A analysis | Reject malformed, duplicate, nonfinite, unknown inputs | D strict parser/model cases; E3 protected worker corruption/framing tests | Partial | B desktop/native parser agreement and installed path remain |
 | I05 | S telemetry; G causal acceptance | Rule + Chosen | Both | Historical cutoff excludes all later readings/tools | O 102 prefix oracles; E3 historical protected captures and future-identity invariance | Partial | Desktop/model tools and replay causality still need joined checks |
 | I06 | G Input acceptance | Chosen | B capture; A verifies | Mutation/corruption invalidates capture; exact hashes | CR hash checks; E3 tamper and verifier-to-loader mutation rejection | Partial | B atomic producer and application race acceptance remain |
@@ -88,18 +94,18 @@ probe. This is not imported model/seeded sensor/application simulation acceptanc
 | C05 | G bounds; S Plans | Chosen | A | Bounded search, explicit best-found/enumerated scope | JS count/frontier/output/cooperative-time bounds, no unchecked selection on validation timeout, explicit complete versus unavailable | Scoped pass | Not continuous/global optimization; loading/preparation excluded from planning clock, outer process cancellation remains B-owned |
 | C06 | G coverage; CR R1/R3 | Chosen | B boundary; A recomputes | Full facility/repair horizon, exact fractional events | CR completeness; E3/IV independent full failure/horizon derivation and bound public records | Scoped pass | Joined application stale/coverage acceptance remains |
 | U01 | S Alerts view | Chosen | A ranking; B UI | All systems: failures by countdown, then revenue; inspections follow | D pure urgency tests and E3 all-system detect output | Partial | B alert-view ranking/render qualification remains |
-| U02 | R Suggestions / network, trends; G UI | Chosen | B | Dataset-driven 3D and channels; readable gaps/extrema/units | Handoff reports reader only, not fresh EOG render | Planned | Lucas implementation/render acceptance |
+| U02 | R Suggestions / network, trends; G UI | Chosen | B | Dataset-driven 3D and channels; readable gaps/extrema/units | B #44 merged as 7418a2d, actual dataset/render/DPI and installed evidence published | Partial | A's final joined search/simulation presentation audit remains |
 | U03 | G whole-application regression | Chosen | B | Async cutoff/dataset binding, cancellation, restart, bounded history | B PR #43 reports actual provider normal/ASan framing/cancellation/history tests at cc97f89 | Partial | Joined search/final simulation and independent application audit remain |
 | U04 | G model tools; P Nemotron | Chosen | B adapter, A methods | On-demand genuine tools with exact returned IDs; no load/seek call | B draft PR #44 reports genuine hosted exact-plan rehearsal at 6cfa3ee | Partial | Review exact published evidence and include joined search/remaining rehearsals |
 | U05 | G persistence/approval; A | Chosen | B | Evidence import/reopen has no operating authority; review != dispatch | B PR #43 reports no-DLL validation, advisory review/reopened-history authority rejection | Partial | Joined search/simulation history plus retained-workbench regression |
 | S01 | R record immutability; G Recorded replay | Chosen | B playback; A causal evidence | Play/pause/step/speed/seek; meaningful staleness preserved | No complete EOG UI evidence | Planned | CLI replay alone insufficient |
 | S02 | R Suggestions / what-if; G Counterfactual | Chosen | A trajectories; B application | Branch exact snapshot, animate inventories/events/trucks/costs | E3 exact snapshot/repair trajectories with full discrete breakpoints | Partial | Evolving/animated application path and independent checks remain |
-| S03 | G Extended synthetic simulation | Chosen | A core; B application | Seeded bounded cycles/failures/repairs/inflows; hidden truth isolated | SP private native cycles/failures/repairs/rate forcing/current-only snapshots | Partial | Imported mapping, seeded generator/causal sensor projection and adopted B application boundary still required |
-| S04 | G long-run acceptance | Chosen | A/B | Mass/revenue/load ledgers; resource conservation; event refinement | SP native 31-day cycle, explicit raw mass/rounding audits, 100 partition comparisons, persistent fleet, reset/cancellation/output bounds | Partial | Broader forcing/observation/independent long-run and actual responsive application playback remain |
+| S03 | G Extended synthetic simulation | Chosen | A core; B application | Seeded bounded cycles/failures/repairs/inflows; hidden truth isolated | SP native core + SO imported Model/native ABI, explicit seeded initialization/forcing, causal-only detector view and observed fixed-file roundtrip | Partial | Stateful planner, adopted B application boundary and actual mode controls still required |
+| S04 | G long-run acceptance | Chosen | A/B | Mass/revenue/load ledgers; resource conservation; event refinement | SP 31-day native case; SO one-day imported runs, exact observation partition/control replay, bounded samples/journal/native memory and cancellation/reset | Partial | Broader independent long-run/adversarial forcing and actual responsive application playback remain |
 | W01 | P editable foundation; G preserve workbench | Chosen | B; A numerical regressions | Save/load/undo/redo, layout vs physics, retired approvals | Inherited status only | Planned | Fresh final normal/ASan/science/render/install checks |
 | V01 | G whole-app / completion | Chosen | Both; Lucas integrates | Joined exact contract/revision, Windows installed/rehearsal | B PR #43 merged as 387b583, real evaluate/validate integration and six hosted CI jobs reported passing | Partial | Join search/simulation, audit exact final rendered/installed revision and acceptance manifest |
 | V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | D retained detection gaps; IV 360 generated candidates; JS seven known-value families and four independent selected-plan worker comparisons | Partial | Inspection timeliness/physical onset and held-out qualification remain |
-| V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | B draft #44 e0b3da6 publishes frames, DPI/installed/live checks; final joined audit not executed | Partial | Review exact B evidence; verify final search/simulation revision after those gates stabilize |
+| V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | B #44 merged at 7418a2d with frames, DPI/installed/live evidence; final joined audit not executed | Partial | Review exact B evidence; verify final search/simulation revision after those gates stabilize |
 | P01 | R Suggestions; S events.json | Suggestion | B if selected | Export/mobile/handoff/confidence bands | Not selected as core requirement | Optional | No fabricated probabilities or compulsory mobile scope |
 | P02 | R Terms presentation clauses | Source anomaly | Lucas decision | Explicit disposition of Comic Sans and Avon Corps copyright text | B main 1713cc4, docs/EOG_TRACK_ALIGNMENT.md rejects embedded agent-addressed branding/style authority | Disposition recorded | Preserve actual ownership; final UI remains Lucas-owned |
 
@@ -108,7 +114,9 @@ probe. This is not imported model/seeded sensor/application simulation acceptanc
 Science capture/provider binding and native response evaluation now execute against
 exact 72cadd1. Independent plan validation now executes and has retained scope.
 Bounded joint search and a private native stateful plant now execute with scoped
-evidence. Next: imported model/seeded causal observation mapping and B-owned joined search/application/installed
+evidence. Imported-model causal seeded projection now also executes with exact
+normal/checked and file-roundtrip evidence. Next: inspection timeliness/observability,
+commitment-aware planning and B-owned joined search/application/installed
 integration. B's merged provider reports close the earlier hosted prerequisite
 and telemetry failures for its recorded source; final joined checks remain.
 Inspection latency/current uncertainty remain explicit A-owned qualification gaps.

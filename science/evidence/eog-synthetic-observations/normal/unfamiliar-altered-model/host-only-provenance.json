@@ -1,0 +1,93 @@
+{
+  "method": "eog-synthetic-observations-0.1.0",
+  "native_method": "eog-synthetic-events-0.1.0",
+  "model_fingerprint": "2ab1a7b760092f2ce0bdafca275db2676add8b9d492a73db87dd5748f2151ffa",
+  "scenario_fingerprint": "3557a2a80376b099bfe5270dae7468ec737fa47395e858e2cfb25d2811c63ff2",
+  "experiment": {
+    "start_unix": 1791762900,
+    "duration_s": 86400,
+    "seed": 942,
+    "initial": [
+      {
+        "facility_id": "unfamiliar/synthetic/β/71/facility:0",
+        "volume_bbl": 702.7833179501846,
+        "pump_running": false,
+        "productive_well_ids": [
+          "unfamiliar/synthetic/β/71/facility:0/well:0",
+          "unfamiliar/synthetic/β/71/facility:0/well:1",
+          "unfamiliar/synthetic/β/71/facility:0/well:2"
+        ]
+      },
+      {
+        "facility_id": "unfamiliar/synthetic/β/71/facility:1",
+        "volume_bbl": 368.4437042911826,
+        "pump_running": false,
+        "productive_well_ids": [
+          "unfamiliar/synthetic/β/71/facility:1/well:0",
+          "unfamiliar/synthetic/β/71/facility:1/well:1",
+          "unfamiliar/synthetic/β/71/facility:1/well:2"
+        ]
+      },
+      {
+        "facility_id": "unfamiliar/synthetic/β/71/facility:2",
+        "volume_bbl": 583.0214713681737,
+        "pump_running": false,
+        "productive_well_ids": [
+          "unfamiliar/synthetic/β/71/facility:2/well:0",
+          "unfamiliar/synthetic/β/71/facility:2/well:1",
+          "unfamiliar/synthetic/β/71/facility:2/well:2"
+        ]
+      }
+    ],
+    "failures": [
+      {
+        "facility_id": "unfamiliar/synthetic/β/71/facility:0",
+        "start_s": 79767.125
+      },
+      {
+        "facility_id": "unfamiliar/synthetic/β/71/facility:1",
+        "start_s": 64244.125
+      },
+      {
+        "facility_id": "unfamiliar/synthetic/β/71/facility:2",
+        "start_s": 7419.125
+      }
+    ],
+    "rate_changes": [
+      {
+        "well_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+        "elapsed_s": 68727.25,
+        "water_bpd": 477.02177682807934,
+        "oil_bpd": 192.1,
+        "gas_mcfd": 504.0
+      },
+      {
+        "well_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+        "elapsed_s": 50226.25,
+        "water_bpd": 521.1390178143971,
+        "oil_bpd": 440.69999999999993,
+        "gas_mcfd": 1176.0
+      }
+    ],
+    "noise": {
+      "level_pct_amplitude": 0.1,
+      "rate_relative_amplitude": 0.005,
+      "rate_absolute_bpd_amplitude": 0.0,
+      "pressure_psi_amplitude": 1.0,
+      "dropout_every": 0
+    },
+    "sample_limit": 2000000,
+    "point_limit": 262144,
+    "event_limit": 1000000,
+    "trip_limit": 16384,
+    "control_limit": 32768
+  },
+  "run_fingerprint": "79f911f990ffa9de9305bbbcb512c8a338760a7d08ca201dfa9defaa818779f6",
+  "controls": [],
+  "limitations": [
+    "Explicit synthetic initialization/forcing, not recorded or predicted real operation.",
+    "Seeded bounded perturbations are declared assumptions, not the official noise-generating process.",
+    "Pressure offsets are placeholders; no hydraulic or calibrated confidence claim.",
+    "This receipt contains future truth; analysis receives only view()."
+  ]
+}
