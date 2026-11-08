@@ -559,6 +559,51 @@ private slots:
         QVERIFY(!h.analysis.historical()); QVERIFY(h.analysis.sessionId() != oldSession);
         QCOMPARE(h.analysis.events().first().toMap().value("updated_unix").toDouble(), h.dataset.firstUnix());
     }
+    void oversizedProtocolSearchKeepsModelReferencesAndExactHistoricalEvidence() {
+        // Enlarge schema-valid protocol limitations, not numerical results. The
+        // same bounded-output path also handles large retained action schedules.
+        QTemporaryDir fixture; QVERIFY(fixture.isValid()); auto source = bytes(worker_);
+        const QByteArray needle = R"("limitations": ["Exercise desktop contracts and retention only."])";
+        QVERIFY(source.contains(needle));
+        source.replace(needle, R"("limitations": [("Protocol-only large-response bound " + str(i) + " " + "x" * 2048)[:2048] for i in range(64)])");
+        const auto scripted = fixture.filePath("large_protocol_fixture.py"); QVERIFY(write(scripted, source));
+        Harness h(fixtures_, scripted); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        QSignalSpy completed(&h.client, &EogAnalysisClient::completed), loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        adaptive(h.model); h.analysis.investigate("Keep exact plan references when retained evidence exceeds the model message budget.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests >= 6 && !h.analysis.busy(), 30000);
+        QVERIFY2(h.analysis.status().contains("Nemotron completed"), qPrintable(h.analysis.status()));
+        QJsonObject original;
+        for (const auto& row : completed) if (row.first().toJsonObject().value("operation") == "search_plans") original = row.first().toJsonObject();
+        QVERIFY(!original.isEmpty()); QVERIFY(QJsonDocument(original).toJson(QJsonDocument::Compact).size() > 256 * 1024);
+        const auto wire = original.value("result").toObject();
+        const auto modelMessage = resultFor(h.model.messages, "search"); QVERIFY(modelMessage.value("ok").toBool());
+        QVERIFY(QJsonDocument(modelMessage).toJson(QJsonDocument::Compact).size() <= 256 * 1024);
+        const auto preview = modelMessage.value("result").toObject().value("result").toObject();
+        QVERIFY(!preview.value("presentation").toString().isEmpty());
+        QCOMPARE(preview.value("selected_plan_id"), wire.value("selected_plan_id"));
+        QCOMPARE(preview.value("search"), wire.value("search"));
+        const auto selected = QJsonObject::fromVariantMap(h.analysis.selectedEvaluation());
+        QJsonObject summary;
+        for (const auto& value : preview.value("evaluations").toArray()) {
+            const auto row = value.toObject();
+            if (row.value("plan").toObject().value("plan_id") == wire.value("selected_plan_id")) summary = row;
+        }
+        QVERIFY(!summary.isEmpty());
+        for (const auto* key : {"cost", "coverage", "outcome", "feasible"}) QCOMPARE(summary.value(key), selected.value(key));
+        QCOMPARE(summary.value("plan").toObject().value("plan_hash"), selected.value("plan").toObject().value("plan_hash"));
+        QVERIFY(summary.value("complete_evidence_in_local_history").toBool());
+        QVERIFY(!summary.value("plan").toObject().contains("truck_jobs"));
+        QCOMPARE(selected.value("limitations").toArray().size(), 64);
+        QCOMPARE(selected.value("limitations").toArray().first().toString().size(), 2048);
+        QVERIFY(h.analysis.canReview()); QVERIFY(drain(h.history)); QVERIFY(h.historyFailures.isEmpty());
+        h.history.loadSession(h.analysis.sessionId()); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        bool retained = false;
+        for (const auto& value : loaded.first().first().toJsonObject().value("analyses").toArray()) {
+            const auto response = value.toObject().value("response").toObject();
+            if (response.value("operation") == "search_plans") { QCOMPARE(response, original); retained = true; }
+        }
+        QVERIFY(retained); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+    }
     void modelChosenToolsContinueWithGroundedExactReferences() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
         adaptive(h.model, false, false, {}, true);

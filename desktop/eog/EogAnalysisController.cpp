@@ -69,6 +69,39 @@ QJsonObject modelResponse(QJsonObject response) {
         result["evidence"] = retained; result["retained_evidence_count"] = all.size();
     }
     response["result"] = result;
+    if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > 256 * 1024 &&
+        (result.contains("evaluation") || result.contains("evaluations"))) {
+        // Presentation-only fallback. Exact plans/trajectories remain in the
+        // registry/history; validate_plan resolves the retained ID, never this
+        // intentionally incomplete schedule preview.
+        const auto summary = [](const QJsonObject& value) {
+            const auto plan = value.value("plan").toObject();
+            const auto jobs = plan.value("truck_jobs").toArray(); qint64 trips = 0;
+            for (const auto& job : jobs) trips += job.toObject().value("trips").toArray().size();
+            QJsonObject identity;
+            for (const auto* key : {"plan_id", "plan_hash", "context", "start_unix"}) identity[key] = plan.value(key);
+            QJsonObject output{{"plan", identity}, {"truck_job_count", jobs.size()}, {"truck_trip_count", trips},
+                {"well_shut_in_count", plan.value("well_shut_ins").toArray().size()},
+                {"repair_deadline_count", plan.value("repair_deadlines").toArray().size()},
+                {"complete_evidence_in_local_history", true}};
+            for (const auto* key : {"feasible", "coverage", "outcome", "cost"}) output[key] = value.value(key);
+            output["violation_count"] = value.value("violations").toArray().size();
+            output["shutdown_count"] = value.value("shutdowns").toArray().size();
+            return output;
+        };
+        QJsonObject brief{{"analysis_id", result.value("analysis_id")},
+            {"presentation", "Bounded summary only; full actions, horizons, constraints and trajectories remain in local evidence. Use validate_plan with the retained plan_id."}};
+        if (result.contains("evaluation")) brief["evaluation"] = summary(result.value("evaluation").toObject());
+        if (result.contains("evaluations")) {
+            QJsonArray values; for (const auto& value : result.value("evaluations").toArray()) values.append(summary(value.toObject()));
+            brief["evaluations"] = values; brief["retained_evaluation_count"] = result.value("retained_evaluation_count");
+        }
+        for (const auto* key : {"selected_plan_id", "search"}) if (result.contains(key)) brief[key] = result.value(key);
+        QJsonArray limits; const auto allLimits = result.value("limitations").toArray();
+        for (const auto& value : allLimits) { if (limits.size() == 8) break; limits.append(value.toString().left(1024)); }
+        brief["limitations_preview"] = limits; brief["full_limitation_count"] = allLimits.size();
+        response["result"] = brief;
+    }
     if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > 256 * 1024)
         return {{"request_id", response.value("request_id")}, {"operation", response.value("operation")},
             {"status", response.value("status")}, {"detail", "Numerical evidence exceeds model output budget; retained in local history."}};

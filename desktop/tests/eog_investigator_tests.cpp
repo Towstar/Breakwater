@@ -111,6 +111,53 @@ private slots:
         }
         QCOMPARE(archived, QStringList({"read-b", "read-a", "detect-c"}));
     }
+    void searchSummaryRetainsClaimsWithoutInventingImplementationIdentity_data() {
+        QTest::addColumn<QJsonObject>("claims"); QTest::addColumn<QJsonObject>("expected");
+        const QJsonObject bounded{{"scope", "bounded_search"}, {"optimality", "best_found"}, {"complete", false},
+            {"evaluated_candidates", 17}, {"candidate_limit", 17}};
+        const QJsonObject complete{{"scope", "enumerated_space"}, {"optimality", "proven_within_space"}, {"complete", true},
+            {"evaluated_candidates", 2}, {"candidate_limit", 17}};
+        const QJsonObject unavailable{{"scope", "bounded_search"}, {"optimality", "unavailable"}, {"complete", false},
+            {"evaluated_candidates", 0}, {"candidate_limit", 17}};
+        QTest::newRow("bounded") << bounded << bounded;
+        QTest::newRow("complete-family") << complete << complete;
+        QTest::newRow("unavailable") << unavailable << unavailable;
+        QTest::newRow("malformed-summary-fields") << QJsonObject{{"scope", "unknown"}, {"optimality", "global_optimum"},
+            {"complete", "true"}, {"evaluated_candidates", -1}, {"candidate_limit", 10001}} << QJsonObject{};
+    }
+    void searchSummaryRetainsClaimsWithoutInventingImplementationIdentity() {
+        QFETCH(QJsonObject, claims); QFETCH(QJsonObject, expected);
+        // Protocol-only orchestration test: the controller owns numerical/public
+        // response validation. A summary never grants selection or review.
+        claims["space_description"] = "Protocol-only family declaration; not a worker implementation identity.";
+        claims["worker_method"] = "DO_NOT_PROMOTE_IMPLEMENTATION_CLAIM";
+        FakeTransport model;
+        model.respond = [](const QJsonArray&, int step) {
+            return step == 1 ? calls({call("search-fixture", "search_plans")}) : finalReply();
+        };
+        EogInvestigator investigator(&model); QSignalSpy finished(&investigator, &EogInvestigator::finished);
+        const QJsonObject response{{"request_id", "protocol-only-search-request"}, {"operation", "search_plans"},
+            {"method_version", 1}, {"status", "completed"}, {"result", QJsonObject{{"analysis_id", "protocol-only-search"},
+                {"search", claims}, {"evaluations", QJsonArray{}}, {"selected_plan_id", QJsonValue::Null}}}};
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& id, const QString& name, const QJsonObject&) {
+                QCOMPARE(name, QString("search_plans")); investigator.completeTool(id, outcome(response));
+            });
+        investigator.start("Inspect bounded search claims.", {}, definitions()); QTRY_COMPARE(finished.size(), 1);
+        QJsonObject summary;
+        for (const auto& value : investigator.events()) {
+            const auto event = value.toMap();
+            if (event.value("type") == "tool_result") summary = QJsonObject::fromVariantMap(event.value("output_summary").toMap());
+        }
+        QCOMPARE(summary.value("request_id"), QJsonValue("protocol-only-search-request"));
+        QCOMPARE(summary.value("search").toObject(), expected);
+        if (expected.isEmpty()) QVERIFY(!summary.contains("search"));
+        const auto serialized = QJsonDocument(summary).toJson(QJsonDocument::Compact);
+        QVERIFY(serialized.size() < 2000); QVERIFY(!serialized.contains("DO_NOT_PROMOTE_IMPLEMENTATION_CLAIM"));
+        QVERIFY(!summary.contains("worker_method")); QVERIFY(!summary.contains("method_version"));
+        QCOMPARE(resultFor(model.histories.last(), "search-fixture").value("result").toObject(), response);
+        QVERIFY(investigator.result().value("selected_plan_id").isNull());
+    }
     void queueWaitsForExactExecutionAndIgnoresRepeatedCompletions() {
         FakeTransport model;
         model.respond = [](const QJsonArray&, int step) {

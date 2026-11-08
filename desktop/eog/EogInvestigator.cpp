@@ -127,6 +127,21 @@ QJsonObject outputSummary(const QJsonObject& outcome) {
     }
     if (numerical.value("events").isArray()) summary["event_count"] = numerical.value("events").toArray().size();
     if (numerical.value("evaluations").isArray()) summary["evaluation_count"] = numerical.value("evaluations").toArray().size();
+    // Summarize actual bounded-search claims, without turning a free-form
+    // description or the wire method_version into an implementation identity.
+    // The complete family declaration remains in the bound response/history.
+    const auto search = numerical.value("search").toObject();
+    QJsonObject searchSummary;
+    if (search.value("scope") == "enumerated_space" || search.value("scope") == "bounded_search")
+        searchSummary["scope"] = search.value("scope");
+    if (search.value("optimality") == "proven_within_space" || search.value("optimality") == "best_found" || search.value("optimality") == "unavailable")
+        searchSummary["optimality"] = search.value("optimality");
+    if (search.value("complete").isBool()) searchSummary["complete"] = search.value("complete");
+    for (const auto* key : {"evaluated_candidates", "candidate_limit"}) {
+        const auto value = boundedInteger(search.value(QLatin1String(key)), 10000);
+        if (!value.isNull()) searchSummary[QLatin1String(key)] = value;
+    }
+    if (!searchSummary.isEmpty()) summary["search"] = searchSummary;
     const auto validation = numerical.value("validation").toObject();
     if (reference(validation.value("validation_id"))) summary["validation_id"] = validation.value("validation_id");
     const auto errorCode = outcome.value("error").toObject().value("code").toString();
