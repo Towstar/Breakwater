@@ -1,0 +1,55 @@
+**********************************************************************
+** Visual Studio 2026 Developer PowerShell v18.11.3
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+-- Configuring done (0.8s)
+-- Generating done (0.5s)
+-- Build files have been written to: C:/Projects/Breakwater/.worktrees/person-a-engine/out/asan
+[1/27] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[2/27] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+[3/27] Building CXX object engine\CMakeFiles\breakwater_cli.dir\src\main.cpp.obj
+[4/27] Building CXX object engine\CMakeFiles\breakwater_physicsnemo_reference.dir\examples\physicsnemo_transport_reference.cpp.obj
+[5/27] Building CXX object engine\CMakeFiles\breakwater_search_example.dir\examples\search_example.cpp.obj
+[6/27] Building CXX object engine\CMakeFiles\breakwater_transport_example.dir\examples\transport_example.cpp.obj
+[7/27] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[8/27] Building CXX object engine\CMakeFiles\breakwater_transport_qualification_reference.dir\examples\transport_qualification_reference.cpp.obj
+[9/27] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[10/27] Building CXX object engine\CMakeFiles\breakwater_rollout_reference.dir\examples\rollout_reference.cpp.obj
+[11/27] Linking CXX static library engine\breakwater_engine.lib
+[12/27] Building CXX object engine\CMakeFiles\breakwater_transport_tests.dir\tests\transport_tests.cpp.obj
+[13/27] Building CXX object engine\CMakeFiles\breakwater_control_influence_tests.dir\tests\control_influence_tests.cpp.obj
+[14/27] Building CXX object engine\CMakeFiles\breakwater_engine_tests.dir\tests\engine_tests.cpp.obj
+[15/27] Building CXX object engine\CMakeFiles\breakwater_search_tests.dir\tests\search_tests.cpp.obj
+[16/27] Building CXX object engine\CMakeFiles\breakwater_benchmark.dir\benchmarks\benchmark.cpp.obj
+[17/27] Linking CXX executable engine\breakwater_cli.exe
+[18/27] Linking CXX executable engine\breakwater_search_example.exe
+[19/27] Linking CXX executable engine\breakwater_transport_example.exe
+[20/27] Linking CXX executable engine\breakwater_rollout_reference.exe
+[21/27] Linking CXX executable engine\breakwater_transport_qualification_reference.exe
+[22/27] Linking CXX executable engine\breakwater_physicsnemo_reference.exe
+[23/27] Linking CXX executable engine\breakwater_transport_tests.exe
+[24/27] Linking CXX executable engine\breakwater_control_influence_tests.exe
+[25/27] Linking CXX executable engine\breakwater_engine_tests.exe
+[26/27] Linking CXX executable engine\breakwater_search_tests.exe
+[27/27] Linking CXX executable engine\breakwater_benchmark.exe
+Test project C:/Projects/Breakwater/.worktrees/person-a-engine/out/asan
+    Start 1: engine.benchmark_correctness
+1/8 Test #1: engine.benchmark_correctness .......   Passed    3.20 sec
+    Start 2: engine.acceptance
+2/8 Test #2: engine.acceptance ..................   Passed    1.23 sec
+    Start 3: engine.search
+3/8 Test #3: engine.search ......................   Passed    0.59 sec
+    Start 4: engine.control_influence
+4/8 Test #4: engine.control_influence ...........   Passed   31.05 sec
+    Start 5: engine.search_example
+5/8 Test #5: engine.search_example ..............   Passed    0.25 sec
+    Start 6: engine.search_infeasible_example
+6/8 Test #6: engine.search_infeasible_example ...   Passed    0.09 sec
+    Start 7: engine.transport
+7/8 Test #7: engine.transport ...................   Passed   22.84 sec
+    Start 8: engine.transport_example
+8/8 Test #8: engine.transport_example ...........   Passed    0.22 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =  59.55 sec
