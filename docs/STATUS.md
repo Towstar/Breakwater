@@ -1,6 +1,6 @@
 # Implementation status
 
-## Current merged demo release — November 8, 2026
+## Current merged demo build — November 8, 2026
 
 - Main `3116b3d8349beab729f8a1413cbbd9ff160e67ac` merges PR #55 after
   PR #48 merged at `c5c12e82f7c4bf8da267394139263845f606acf4`. It includes
