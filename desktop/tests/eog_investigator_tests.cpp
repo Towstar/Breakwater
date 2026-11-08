@@ -454,9 +454,9 @@ private slots:
         QCOMPARE(failed.first().first().toString(), QString("invalid_final")); QCOMPARE(model.requests, toolBudget + 1);
         QCOMPARE(model.finalRequests, 0); QVERIFY(corrections.isEmpty());
     }
-    void defaultAndMaximumDurationUseTheShared180SecondBound() {
+    void defaultAndMaximumDurationUseTheSharedFourMinuteBound() {
         using breakwater::desktop::eog::maximum_eog_investigation_duration_ms;
-        QCOMPARE(maximum_eog_investigation_duration_ms, 180000);
+        QCOMPARE(maximum_eog_investigation_duration_ms, 240000);
         QCOMPARE(EogInvestigationLimits{}.durationMs, maximum_eog_investigation_duration_ms);
         FakeTransport model; model.silent = true; EogInvestigator investigator(&model);
         for (const auto requested : {maximum_eog_investigation_duration_ms, std::numeric_limits<int>::max()}) {
@@ -465,7 +465,7 @@ private slots:
             const auto system = model.histories.last().first().toObject().value("content").toString();
             const auto match = QRegularExpression("Remaining budget: [0-9]+ tools, [0-9]+ candidate refinements, ([0-9]+) ms").match(system);
             QVERIFY(match.hasMatch()); const auto remaining = match.captured(1).toInt();
-            QVERIFY(remaining > 120000 && remaining <= maximum_eog_investigation_duration_ms); investigator.cancel();
+            QVERIFY(remaining > 180000 && remaining <= maximum_eog_investigation_duration_ms); investigator.cancel();
         }
     }
     void finalCorrectionKeepsTheOriginalOverallDeadline() {
