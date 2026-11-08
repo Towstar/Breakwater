@@ -1,0 +1,18 @@
+{
+  "verification_version": 1,
+  "scope": "Correction after actual hosted bootstrap setup failure; no new hosted success is claimed.",
+  "failed_hosted_run": 42452963600,
+  "failed_job": 128645903772,
+  "failure": "actions/setup-python does not publish Windows x64 CPython 3.12.13.",
+  "official_manifest": "https://raw.githubusercontent.com/actions/python-versions/main/versions-manifest.json",
+  "bootstrap_python": "3.12.10",
+  "scientific_python": "3.12.13",
+  "offline_regressions_passed": 15,
+  "sha256": {
+    ".github/workflows/windows-checks.yml": "9de4a706334fee99de682cd7c4c989de8377333b5a6a60d8c11d40c09ac01968",
+    "scripts/ci/Run-Checks.ps1": "d227f9ea9cf7a2a0a6c95cd9f90ed207ca80b4836a0b31df18dcd2215acddbba",
+    "scripts/ci/Write-JobEvidence.ps1": "e9ec1b971c48e38c55a53465319d246121c5ae8f8409cb9ba2923fbe3295f0c1",
+    "scripts/ci/tests/test_ci.py": "a077a15fb4e64ab71f756c9c930e3253f8722b630be22da158dd3b6ec8e99394",
+    "out/g0-bootstrap-fix-tests.log": "2132aad26c476e6350e0245385bd1c5295073c171b5f15e736f738de34f01bac"
+  }
+}

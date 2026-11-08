@@ -18,6 +18,11 @@ sensitivities and the four actual live review/export rehearsals are recorded in
 [STATUS.md](STATUS.md) and [DEMO_REHEARSAL.md](DEMO_REHEARSAL.md). Broader G4 release
 acceptance and manual candidate-forward Science remain separate; sensors are planned.
 
+Latest main `7f2bb7f` merges PR #27 and preserves A's PR #28. A's
+[observation guidance](../science/OBSERVATION_SEMANTICS.md) at `9941859` is available
+for G1; F1 is a completed study with unqualified accuracy, not an unstarted task.
+Continue with credential-free Windows checks and a separate G1 contract increment.
+
 You write desktop/, contracts/, root CMake/config/scripts/solution, README and shared
 docs/. A owns engine/, science/, proofs/, scenarios/ and their tests/build/locks.
 Review any source, but request A-owned changes with a minimal reproduction.
@@ -169,6 +174,8 @@ Continue BREAKWATER as Person B using docs/KICKOFF_PERSON_B.md.
 Inspect status, current remote/main and the active integration worktree before G0.
 PR #26 is already merged at de06aa1 and incorporated at 3b3127f; preserve its
 worktree/evidence and validate the actual current revision and any later updates.
+PR #27 and A's PR #28 are integrated at main7f2bb7f. Use A's OBSERVATION_SEMANTICS.md
+for G1 review and retain the completed F1 study and its accuracy limitations.
 Read the active continuation and hypothetical-telemetry plans. B5 comparison,
 selected sensitivities and scientific history are delivered; do not repeat them.
 After the integrated gate, publish G1 sensor/reading/snapshot/event contracts with A's

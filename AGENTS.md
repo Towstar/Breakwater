@@ -5,8 +5,8 @@ The accepted desktop plan supersedes the older Python/web architecture. Preserve
 
 ## Ownership
 
-- Person A is the project owner/user: the PDE and simulation developer.
-- Person B is the other developer: desktop application, Nemotron and integration.
+- Person A is the numerical/scientific workstream: PDEs, simulation and proofs.
+- Person B is the application workstream: desktop, Nemotron, contracts and integration.
 - Person A: `engine/`, `science/`, `proofs/`, `scenarios/`, numerical tests and benchmarks.
 - Person B: `desktop/`, `contracts/`, root CMake/configuration, scripts, integration tests and delivery docs.
 - Shared public contracts belong to B; coordinate changes before concurrent implementation.

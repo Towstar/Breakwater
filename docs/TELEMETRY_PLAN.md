@@ -9,6 +9,11 @@ Read [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md) for the complete next-step ord
 [IMPLEMENTATION_PLAN.md](IMPLEMENTATION_PLAN.md) for the desktop architecture and
 [PARALLEL_WORK.md](PARALLEL_WORK.md) for ownership.
 
+Current integration: PR #26 and PR #27 are merged, as is Person A's PR #28.
+[A's observation guidance](../science/OBSERVATION_SEMANTICS.md) is the numerical
+review input for G1. Both workstreams still need to adopt the exact shared contract
+commit before G2 mappings or streaming implementations begin.
+
 ## 1. Scope and operating modes
 
 Sensors are hypothetical equipment placed in the synthetic facility. "Synthetic
@@ -258,14 +263,15 @@ approved and limited to the synthetic plant.
 
 | Gate | Person A | Person B | Exit evidence |
 |---|---|---|---|
-| G0: integrated baseline | Supply relevant numerical oracles/reviews. | Review/merge verified PR #26, preserve existing science/history/credentials, establish Windows PR checks. | Exact resulting revision and actual normal/checked checks; inherited results identified. |
+| G0: integrated baseline | Supply relevant numerical oracles/reviews. | PR #26/#27/#28 are integrated; preserve science/history/credentials and establish Windows PR checks. | Exact resulting revision and actual normal/checked checks; inherited results identified. |
 | G1: common contract | Specify measurement operators, calibration, required coverage, state semantics and missing-data policy. | Publish additive sensor/reading/snapshot/event contracts and compatibility examples. | Both workstreams adopt the same committed contract before dependent code. |
 | G2: synthetic monitoring | Deliver deterministic plant/sensor publisher, observation mapping and known-value fixtures. | Deliver sensor editor, local input lifecycle, quality/clock handling, bounded live traces and replay. | Canonical and renamed/custom networks; identical replay from seed/recording; fault truth inaccessible to detectors. |
 | G3: detection and forecasts | Deliver physical residuals, uncertainty/coverage matrix, baseline rules and statistical evaluation. | Deliver events, immutable observed captures, native forecast adapter, bounded investigation trigger and freshness guards. | Healthy/noisy/missing and fault scenarios; no stale publication or approval; event metrics reported. |
 | G4: operator/release acceptance | Review numerical meaning and telemetry/science parity. | Complete installed/relocated and clean-machine acceptance, manual dialogs/cancel and canonical/custom review rehearsals. | Three clean canonical runs and custom follow-up, recorded simulated-only approval/reset and honest unavailable states. |
 | D1: detector comparison | Run the bounded RBM/baseline experiment and report findings. | Publish/adopt runtime result contract only for a separately selected method. | Held-out event metrics at declared budgets, including negative/inconclusive outcomes. |
 
-F1 front/threshold accuracy proceeds independently while B publishes G1. Later
+F1's front/threshold study is delivered in PR #28 with material accuracy limitations;
+see science/FRONT_ACCURACY.md. A reviews B's exact G1 contract before adoption. Later
 candidate science, automatic pipe history, robustness screening and conditioned
 PhysicsNeMo remain in the complete continuation plan.
 
