@@ -1,119 +1,186 @@
-# Person B kickoff: desktop, Nemotron and integration
+# Person B: Nemotron, APIs, desktop and integration
 
-Person A is the project owner and PDE/simulation developer. Person B can begin immediately
-using the numerical engine already on `main`; A's next scientific work is not a prerequisite.
+Updated November 7, 2026. This is your active audit-first work plan. Coordinate with
+[Person A's plan](KICKOFF_PERSON_A.md). The steps below are planned work, not a claim
+that the comprehensive audit or next features have already been completed.
 
-Copy the following prompt into Person B's coding session.
+## Role, baseline and ownership
 
-```text
-You are implementing Person B's workstream for BREAKWATER: the native desktop app,
-Nemotron planning, public contracts and integration. Person A owns PDEs/simulation/science.
-Continue the existing application; do not rebuild it as a web app.
+You own the native C++20/MSVC/Qt Quick application, NVIDIA HTTPS client, Nemotron
+tools, public contracts, packaging and integration. API work means the existing
+native tool/NDJSON boundaries; retain the accepted Windows architecture.
 
-REPOSITORY AND BRANCH
-https://github.com/Towstar/Breakwater
-Use a separate clone/worktree and branch codex/person-b-desktop from current origin/main.
-For a fresh directory:
-  git clone https://github.com/Towstar/Breakwater.git Breakwater-B
-  cd Breakwater-B
-  git switch -c codex/person-b-desktop
-If a checkout already exists, inspect status and preserve its work before changing branches.
-If you cannot push to the upstream repo, use a fork and open a PR to Towstar/Breakwater:main.
+At preparation, main was 794c7cd. A3–A8 are merged: the repo worker implements
+health, capabilities and storage_rollout. The desktop client still calls health
+only, and its installer copies only worker.py. Native pipe transport/viewing,
+investigation history, planning tools and simulated approval already exist.
 
-READ FIRST
-AGENTS.md
-docs/PARALLEL_WORK.md
-docs/STATUS.md
-docs/CONTINUATION_PLAN.md
-docs/IMPLEMENTATION_PLAN.md
-For Dev Agents.md, Part A
-README.md and contracts/README.md
-desktop/ProjectController.hpp/.cpp and ProjectDocument.hpp/.cpp
-engine/include/breakwater/engine.hpp and contracts/include/breakwater/types.hpp
-engine/TRANSPORT.md and engine/include/breakwater/transport.hpp
+Recorded baseline evidence is 18 combined CTest suites, 69 Python tests, 21 audited
+Lean theorems, and a 66-project/180-dependency solution. Reproduce relevant checks
+on your machine and record actual counts; these records are not a new audit.
 
-OWNERSHIP
-You own desktop/, contracts/, root build/configuration, scripts/, Breakwater.slnx,
-README, AGENTS and shared docs/. You do not edit engine/, science/, proofs/ or scenarios/.
-Each person owns the CMakeLists.txt inside their own subsystem. Request engine changes
-from A instead of patching A's code. Preserve existing shared contracts for the first
-increment; publish necessary additive contract changes separately with examples.
+| You may edit | Request changes from A |
+|---|---|
+| desktop/, contracts/, root CMake/presets, scripts/, Breakwater.slnx, README and shared docs/ | engine/, science/, proofs/, scenarios/, their tests, local build files and dependency locks |
 
-BASELINE AND SETUP
-The app is C++20/MSVC x64, Qt Quick/QML and Qt Quick 3D 6.12, using Visual Studio 2026.
-The existing editor already supports primitive equipment, connections, parameters,
-save/load, undo/redo, background forecasts, timeline scrubbing and approval invalidation.
-Native Nemotron orchestration, real tools, bounded search, immutable agent runs and
-approval staging are integrated, including review fixes. Hosted model calling is
-verified; clean operator-review rehearsals remain incomplete. Native single-pipe
-transport and its selected-pipe desktop viewer are implemented. Scientific worker
-methods beyond health remain pending.
+Read any subsystem for review. Make fixes within your ownership. Publish necessary
+additive contract changes with examples, then obtain A's adoption before implementation.
 
-Follow-up: the approved desktop-first increment implements investigation history,
-comparisons/charts, operator review and a health-only QProcess adapter; see
-docs/DESKTOP_FOUNDATION.md and the latest docs/STATUS.md. Scientific worker methods and
-generalized learned pipe inference remain pending. B3 contracts/persistence and B4
-native viewing are now implemented; follow the updated next increment below.
+Use a separate clone/worktree and codex/person-b-desktop or a named codex/ subbranch
+from latest origin/main. Inspect status first; preserve existing work. Do not switch
+another session's branch, reset its work, force-push, or put feature work directly on
+main. B integrates small reviewed PRs. Preserve complete ancestry and original plans.
 
-Inspect the machine rather than assuming the original developer's SDKs are installed.
-.tools/ and out/ are ignored and will be absent in a fresh clone. Follow README for
-Qt setup; scripts/install-qt.py provides a pinned project-local SDK option. Do not
-commit SDKs or generated .vcxproj files. With the SDK available, run:
-  .\scripts\Generate-VisualStudio.ps1 -QtPrefix 'C:\Qt\6.12.0\msvc2022_64' -Build
-Omit -QtPrefix when using the documented project-local SDK. Open Breakwater.slnx, use
-x64 / RelWithDebInfo and startup project breakwater. You own any committed regeneration
-of the root solution. If Qt setup is blocked, continue B3 contract/schema examples and
-adapter protocol test design, and record the concrete setup failure.
+Read first: [AGENTS](../AGENTS.md), [original handoff, Part A](../For%20Dev%20Agents.md),
+[accepted plan](IMPLEMENTATION_PLAN.md), [status](STATUS.md),
+[parallel ownership](PARALLEL_WORK.md), [science contract](SCIENCE_CONTRACTS.md),
+[schemas](../contracts/science/README.md), [A8 worker](../science/WORKER.md),
+[desktop foundation](DESKTOP_FOUNDATION.md) and [pipe viewer](PIPE_TRANSPORT.md).
 
-NEXT INCREMENT: B5 SCIENTIFIC WORKER INTEGRATION
-Review docs/SCIENCE_CONTRACTS.md and contracts/science/ with A. The proposed method
-examples/schemas and native route-parameter persistence are committed; scientific wire
-methods remain reserved. Coordinate units, provenance and ordering before A implements
-the worker mapping. The current desktop process adapter implements health only.
+## 1. Audit the entire foundation with A before new features
 
-Physical pipe length/area/dispersion/decay are independent of layout. Flow comes from
-the captured numerical run, including availability. Worker JSON lines are limited to
-1 MiB but native fields may contain four million values; define bounded display output
-and any size/hash-checked application-owned artifact references. Keep health v1 working.
+Freeze the reviewed commit and create a requirements-to-implementation/evidence matrix.
+Distinguish working source, installed functionality, recorded upstream evidence,
+unverified behavior and planned features. Review A's boundary conclusions while A
+reviews your scientific mappings.
 
-PRESERVE B4 AND EXTEND B5
-The selected-pipe native viewer is implemented; read docs/PIPE_TRANSPORT.md. Keep its
-native parity, physical/layout separation, explicit provenance and stale-result guards.
-Do not replace it with A4's fixed-case PhysicsNeMo model or claim arbitrary-route inference.
+| Area | Required review and evidence |
+|---|---|
+| Editor/project | Stable IDs, topology edits, route attachments, drafts, save/load, undo/redo, atomic writes, physical settings, layout versus numerical revisions |
+| State/approval | Immutable snapshots/runs, effective controls, validation before staging, user-only application, reset/deletion/cancellation, late completion and historical-import rejection |
+| Worker | Legacy health, version/method negotiation, selected controls, request IDs, identity, dimensions, exact horizon, original indices, byte/work limits and missing runtimes |
+| Pipe viewer | Captured flow including failed pumps/curtailment, explicit geometry, signed ledger, cell averages, stale binding and volume/quality separation |
+| Persistence | SQLite thread/lifetime behavior, immutable records, corruption/size failures, export/import and historical-only restoration |
+| Nemotron | Real numerical tools, 12 calls/three refinement rounds/two minutes, fixed constraints/horizon, fabricated IDs, skipped validation, malformed calls, timeout/no-plan behavior and credential redaction |
+| Delivery/docs | Qt/QML/Sql/qsqlite, scientific modules, Python pins, source-path fallback leakage, actual dialogs and current versus historical claims |
 
-Extend the existing QProcess adapter only for actually implemented scientific methods:
-capability negotiation, exact matching identity, bounded output and separate diagnostics.
-Keep framing/IDs/timeouts/cancellation/restart guards. Test fake workers, then A's actual
-methods when available. A owns science/ implementations and dependency pins; do not edit them.
+Rebuild the root solution directly and run normal plus full-desktop ASan tests.
+Configure an actual Python interpreter so worker tests run; record skips as unavailable.
+Coordinate A's fresh numerical/science/Lean checks instead of attributing old evidence
+to this audit. Manually check save/export/reopen dialogs, in-flight cancellation,
+restart, 1440×900 and 1100×700 layouts, and a renamed/custom network.
 
-Retain the integrated Nemotron limits: 12 tool calls, three refinement rounds and two
-minutes. Keep credentials in process configuration, out of QML, project files and logs.
-With credentials, run the existing genuine hosted smoke and record actual tool/run IDs.
-Do not ask the user to paste a key into chat. Missing access does not block native work.
+Use x64 Visual Studio Developer PowerShell with installed MSVC, CMake/Ninja and Qt:
 
-Do not let model text create a passing verdict, invent a run, shorten the horizon,
-relax a bound, modify topology or approve a plan. Recommendations must cite stored,
-validated evidence. Only an explicit operator action applies simulated controls.
-Reject approval when numerical edits make the captured snapshot stale. Layout-only
-edits preserve valid results and approvals.
+~~~powershell
+$qtPrefix = 'C:\path\to\Qt\6.12.0\msvc2022_64'
+$env:BREAKWATER_PYTHON = 'C:\path\to\science\.venv\Scripts\python.exe'
+.\scripts\Generate-VisualStudio.ps1 -QtPrefix $qtPrefix -EmbeddedDebugInfo
+MSBuild.exe Breakwater.slnx /p:Configuration=RelWithDebInfo /p:Platform=x64 /m:1
+ctest --test-dir out/visual-studio -C RelWithDebInfo --output-on-failure
+cmake -S . -B out/audit-desktop-asan -G Ninja -DCMAKE_BUILD_TYPE=RelWithDebInfo -DBREAKWATER_BUILD_DESKTOP=ON -DBREAKWATER_ENABLE_ASAN=ON -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded "-DCMAKE_PREFIX_PATH=$qtPrefix" "-DPython3_EXECUTABLE=$env:BREAKWATER_PYTHON"
+cmake --build out/audit-desktop-asan --parallel 2
+ctest --test-dir out/audit-desktop-asan --output-on-failure
+~~~
 
-TESTS AND DELIVERY
-Use a fake MODEL CLIENT for most tests while executing real numerical tools. Cover
-malformed/unknown tools, invented/stale run IDs, invalid controls, skipped validation,
-timeouts, failed candidates, approval bypasses and renamed/custom networks. Test reset,
-editing and concurrent jobs for stale-result leakage. Run the desktop project/render
-tests. With credentials, separately run and record a genuine model-issued tool call;
-otherwise report live integration unverified and continue the deterministic work.
+Check each exit status. VS2026 is the default; explicitly select the supported VS2022
+generator when needed. .tools/ and out/ are local/ignored, not supplied by cloning.
+Record setup failures; do not assume another developer's paths/packages. Sanitizer
+timings are not benchmarks.
 
-Also cover selected-pipe parity, maximum output, wrong request IDs, missing Python,
-worker crashes/restarts and quality-result invalidation. Keep quality separate from
-volume approval. Update docs/STATUS.md with actual evidence. Follow B7 for durable
-evidence export/reopen after the native viewer and worker boundary; defer UI polish.
-Push your feature branch and open a PR. You are the integration owner: review A's small
-increments, integrate agreed changes through PRs after relevant tests pass, and keep
-main runnable. Do not force-push or put feature work directly onto main.
+Write docs/AUDIT_PERSON_B.md, then aggregate A's science/AUDIT_PERSON_A.md into
+docs/AUDIT_REPORT.md. Each finding needs severity, owner, file/evidence reference,
+reproduction, impact, proposed fix and acceptance test. Record versions, commands,
+commit, failures/skips and requirement gaps. Passing tests alone does not close
+review. Resolve P0/P1 correctness, approval, persistence and deployment blockers before
+dependent features; explicitly triage lower-priority findings.
 
-Report commit SHA, touched files, contract changes, actual tests/results, limitations
-and an executable example after each increment. Start by inspecting and running the
-existing baseline, then implement the first increment instead of returning only a plan.
-```
+## 2. Fix findings and reconcile existing work
+
+Deliver owner-specific fixes in small PRs. At preparation,
+[PR #13](https://github.com/Towstar/Breakwater/pull/13) was open: historical native-pipe
+evidence reopening plus a B5 plan, not production science-client integration. Recheck
+its current head/status against main/A8 and integrate after relevant checks pass.
+Preserve historical/unverified labels and rejection of approval restoration, including
+matching IDs/hashes. It does not supply automatic scientific-result retention.
+
+Refresh STATUS, continuation instructions and kickoffs from the findings. Preserve
+IMPLEMENTATION_PLAN.md and For Dev Agents.md as the full roadmap/handoff.
+
+## 3. B5a: deploy the scientific worker
+
+Install worker_storage.py and the required breakwater_science package beside
+worker.py; configure a compatible Python environment using A's pinned dependencies.
+Keep SDKs, environments, credentials, caches and checkpoints out of Git. Test an
+installed/staged application from a new location with the source checkout unavailable,
+so a development fallback cannot hide missing modules. Execute actual storage requests.
+
+**Exit gate:** installed health/capabilities/storage work. Missing Python/Torch produces
+an explicit unavailable state while native simulation stays usable. A worker.py-only
+deployment still preserves legacy health truthfully.
+
+## 4. B5b: typed asynchronous capabilities and forward analysis
+
+Extend desktop/science/ with a bounded session lifecycle. Use the same worker process
+for capabilities → storage_rollout → capabilities: execution verification is process-local.
+Allow the first calculation before execution_verified becomes true. Code/package
+availability is not scientific execution or qualification.
+After the final response, close stdin and require a clean process exit before publishing
+the scientific result; a response followed by a crash must fail the job.
+
+Test fake-worker faults, then A's real worker: malformed/oversized output, unsupported
+versions, wrong IDs, bad shapes/nonfinite values, stream limits, crashes, deadlines,
+cancel/restart and late completions. Enforce identity/control bindings independently
+of JSON Schema. Artifacts remain unsupported under current capabilities.
+
+Start with a forward-only UI comparison using an immutable native run and effective
+controls. Keep its original horizon/time grid; **never infer step_h from a decimated
+display preview**. Preserve time indices and tank IDs. Show native/PyTorch values,
+differences, units, versions and warnings without granting feasibility, staging plans
+or applying controls.
+
+Audit the current captured-run metadata: add the original requested simulation config
+and actual native grid/reference arrays where absent. Coordinate representable-grid
+and rounding conventions with A before strict comparisons. Investigate the reported
+one-ULP short-endpoint case and A8's rejection of duplicate-time grids. Do not
+silently repair samples, shorten the requested horizon or infer config from a last point.
+
+**Exit gate:** actual development and installed requests agree with native references
+on canonical and renamed/custom networks; UI stays responsive. Numerical edits, reset,
+run changes, deletion and cancellation retire stale results. Layout-only movement
+preserves eligible results.
+
+## 5. B5c: selected-control derivatives
+
+Add gradients separately after the forward path works. The request controls list
+supplies both overrides and derivative columns in that exact order; omitted controls
+remain captured constants. Selected fixed/boundary controls fail explicitly. Explain
+this domain and show terminal Jacobians in hours and cost gradients in synthetic units
+per m3/h. Never silently perturb inputs or drop requested derivatives.
+
+Changed analysis settings require a corresponding native captured run/identity; do
+not reuse an unrelated run ID. Check response identity, ordering, dimensions and horizon.
+Scientific results remain advisory and cannot restore or bypass native approval.
+
+## 6. Evidence, Nemotron rehearsals and release
+
+Persist bounded, versioned scientific evidence with captured identity/controls, units,
+versions and warnings. Reopened results are historical and non-actionable. A fresh
+editable incident requires explicit creation, native validation and fresh approval.
+
+Complete actual save/export/reopen and cancellation workflows, then the outstanding
+three canonical operator-review rehearsals and a custom-network rehearsal. Use existing
+hosted smokes with configured credentials; never request keys in chat or expose them
+in QML/logs. Retain failed/no-plan attempts and actual model-issued tool/run evidence.
+A valid plan need not match a prescribed cost; finite search is not global optimality.
+
+**Release gate:** reproducible installed Windows build, current normal/ASan/science/Lean
+evidence, declared limitations and a working operator workflow. Keep the fixed-case
+PhysicsNeMo smoke separate from arbitrary-route inference and authoritative native FVM.
+
+## Delivery and copy/paste starting instruction
+
+A can qualify transport in parallel with B5 without changing this contract. Request
+numerical fixes from A with reproductions; B owns shared contracts and integration.
+Each PR reports commit, paths, interface changes, actual tests, limitations and a runnable
+example. Regenerate solutions when targets change; merge reviewed PRs, update STATUS
+and merge main into shared branches without force pushes.
+
+~~~text
+Continue BREAKWATER as Person B using docs/KICKOFF_PERSON_B.md. First inspect the
+current branch/status and perform step 1 with Person A. Produce the finding ledger
+and acceptance gates before new features. Preserve A-owned files, existing work,
+legacy health and native approval authority. Resolve blockers, then deliver B5a,
+B5b and B5c as separate tested PRs. Begin with actual inspection/evidence; do not
+claim the audit or planned features are already complete.
+~~~
