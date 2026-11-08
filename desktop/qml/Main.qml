@@ -13,6 +13,10 @@ ApplicationWindow {
     required property var scientificWorker
     required property var pipeTransport
     required property var storageScience
+    required property var telemetry
+    readonly property bool sensorEditorVisible: sensorDialog.visible
+    readonly property bool telemetryVisible: telemetryDialog.visible
+    readonly property int telemetryTraceSamples: telemetryDialog.renderedNumericSamples
     readonly property bool storageScienceVisible: showAgent && agentPanel.scienceVisible
     readonly property bool pipeTransportVisible: pipeTransportDialog.visible
     readonly property bool compactUi: Qt.application.arguments.indexOf("--compact-ui") >= 0
@@ -57,6 +61,8 @@ ApplicationWindow {
     }
     function openPipeTransport() { pipeTransportDialog.open() }
     function openStorageScience() { showAgent = true; agentPanel.showScience() }
+    function openSensors() { sensorDialog.open() }
+    function openTelemetry() { telemetryDialog.open() }
     function clickAsset(id) {
         if (connectMode) {
             if (connectionSource.length === 0) connectionSource = id
@@ -75,6 +81,8 @@ ApplicationWindow {
     FileDialog { id: openDialog; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.load(selectedFile) }
     FileDialog { id: saveDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.save(selectedFile) }
     PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
+    SensorPanel { id: sensorDialog; controller: app.controller }
+    TelemetryPanel { id: telemetryDialog; telemetry: app.telemetry }
 
     header: ToolBar {
         height: 64
@@ -162,6 +170,8 @@ ApplicationWindow {
                         }
                     }
                     Button { Layout.fillWidth: true; text: "Nemotron investigator"; onClicked: app.showAgent = !app.showAgent }
+                    Button { objectName: "openSensorEditor"; Layout.fillWidth: true; text: "Sensors"; onClicked: app.openSensors() }
+                    Button { objectName: "openTelemetry"; Layout.fillWidth: true; text: "Local monitoring"; onClicked: app.openTelemetry() }
                     Button { objectName: "openPipeEvidence"; Layout.fillWidth: true; text: "Pipe transport"; onClicked: pipeTransportDialog.open() }
                     Label { text: "PhysicsNeMo: not connected\nLean proofs: standalone"; color: "#8ca5b4"; font.pixelSize: 11; lineHeight: 1.3 }
                 }
@@ -192,6 +202,17 @@ ApplicationWindow {
                         }
                     }
                     Repeater3D { model: controller.assets; delegate: Equipment { required property var modelData; assetData: modelData } }
+                    Repeater3D {
+                        model: controller.sensorMarkers
+                        delegate: Model {
+                            required property var modelData
+                            objectName: "sensor:" + modelData.id
+                            source: "#Sphere"; pickable: true
+                            position: Qt.vector3d(modelData.x, modelData.y, modelData.z)
+                            scale: Qt.vector3d(0.14, 0.14, 0.14)
+                            materials: PrincipledMaterial { baseColor: modelData.selected ? "#ffcf70" : "#60d2d1"; roughness: 0.55 }
+                        }
+                    }
                 }
                 Repeater {
                     id: labelRepeater
@@ -249,6 +270,7 @@ ApplicationWindow {
                         draggedNode = null; draggedId = ""
                         if (mouse.button === Qt.LeftButton) {
                             if (moved && id.length > 0) controller.moveAsset(id, position.x, position.z)
+                            else if (pickedName.indexOf("sensor:") === 0) { controller.selectSensor(pickedName.substring(7)); app.openSensors() }
                             else if (pickedName.indexOf("asset:") === 0) app.clickAsset(pickedName.substring(6))
                             else if (pickedName.indexOf("route:") === 0) controller.select(pickedName.substring(6))
                             else controller.select("")

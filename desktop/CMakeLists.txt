@@ -1,15 +1,26 @@
 qt_standard_project_setup(REQUIRES 6.12)
 
-qt_add_library(breakwater_desktop_base STATIC ProjectDocument.cpp ProjectController.cpp ProjectDocument.hpp ProjectController.hpp
+qt_add_library(breakwater_project_document STATIC ProjectDocument.cpp ProjectDocument.hpp
   quality/PipeParameters.hpp quality/PipeParameters.cpp)
-target_include_directories(breakwater_desktop_base PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(breakwater_desktop_base PUBLIC breakwater_engine Qt6::Quick Qt6::Concurrent)
+target_include_directories(breakwater_project_document PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_project_document PUBLIC breakwater_engine Qt6::Gui)
 
 qt_add_library(breakwater_telemetry STATIC
   telemetry/TelemetryContracts.hpp telemetry/TelemetryContracts.cpp
+  telemetry/SensorProject.hpp telemetry/SensorProject.cpp
   "${PROJECT_SOURCE_DIR}/contracts/include/breakwater/telemetry.hpp")
 target_include_directories(breakwater_telemetry PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(breakwater_telemetry PUBLIC breakwater_desktop_base Qt6::Core)
+target_link_libraries(breakwater_telemetry PUBLIC breakwater_project_document Qt6::Core)
+
+qt_add_library(breakwater_desktop_base STATIC ProjectController.cpp ProjectController.hpp)
+target_include_directories(breakwater_desktop_base PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_desktop_base PUBLIC breakwater_telemetry Qt6::Quick Qt6::Concurrent)
+
+qt_add_library(breakwater_telemetry_runtime STATIC
+  telemetry/TelemetryStream.hpp telemetry/TelemetryStream.cpp
+  telemetry/TelemetryController.hpp telemetry/TelemetryController.cpp)
+target_include_directories(breakwater_telemetry_runtime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_telemetry_runtime PUBLIC breakwater_telemetry Qt6::Core)
 
 qt_add_library(breakwater_eog_contracts STATIC eog/EogContracts.hpp eog/EogContracts.cpp)
 target_include_directories(breakwater_eog_contracts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -49,11 +60,12 @@ qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
 
 qt_add_executable(breakwater WIN32 main.cpp)
-target_link_libraries(breakwater PRIVATE breakwater_agent Qt6::QuickControls2 Qt6::Quick3D)
+target_link_libraries(breakwater PRIVATE breakwater_agent breakwater_telemetry_runtime Qt6::QuickControls2 Qt6::Quick3D)
 get_filename_component(_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
 set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_prefix}/bin;%PATH%")
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
-  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml qml/StorageSciencePanel.qml)
+  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml qml/StorageSciencePanel.qml
+    qml/SensorPanel.qml qml/TelemetryPanel.qml qml/SensorTraceChart.qml)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
 # in a fresh parallel Visual Studio build. Qt creates that target at root deferral.
@@ -94,6 +106,38 @@ if(BUILD_TESTING)
     set(Python3_EXECUTABLE "$ENV{BREAKWATER_PYTHON}")
   endif()
   find_package(Python3 3.12 QUIET COMPONENTS Interpreter)
+  foreach(_suite sensor_editor telemetry_stream telemetry_lifecycle)
+    qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
+    target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_desktop_base breakwater_telemetry_runtime Qt6::Test)
+    target_compile_definitions(breakwater_${_suite}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    if(Python3_Interpreter_FOUND)
+      file(TO_CMAKE_PATH "${Python3_EXECUTABLE}" _g2_test_python)
+      target_compile_definitions(breakwater_${_suite}_tests PRIVATE BREAKWATER_TEST_PYTHON="${_g2_test_python}")
+    endif()
+    add_test(NAME desktop.${_suite} COMMAND breakwater_${_suite}_tests
+      -o "${CMAKE_CURRENT_BINARY_DIR}/${_suite}-results.txt,txt")
+    set_tests_properties(desktop.${_suite} PROPERTIES TIMEOUT 180
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endforeach()
+  set(_g2_evidence_dir "${CMAKE_CURRENT_BINARY_DIR}/test-artifacts/g2")
+  target_link_libraries(breakwater_sensor_editor_tests PRIVATE breakwater_agent)
+  set_tests_properties(desktop.telemetry_lifecycle PROPERTIES FIXTURES_SETUP g2_recording
+    ENVIRONMENT "BREAKWATER_TEST_ARTIFACT_DIR=${_g2_evidence_dir}")
+  foreach(_g2_size normal compact)
+    set(_g2_sensor_args --sensor-editor-check --smoke --screenshot "${CMAKE_CURRENT_BINARY_DIR}/g2-sensors-${_g2_size}.png")
+    set(_g2_replay_args --project "${_g2_evidence_dir}/g2-monitoring-project.json"
+      --telemetry-replay "${_g2_evidence_dir}/g2-recording.ndjson" --smoke
+      --screenshot "${CMAKE_CURRENT_BINARY_DIR}/g2-replay-${_g2_size}.png")
+    if(_g2_size STREQUAL "compact")
+      list(APPEND _g2_sensor_args --compact-ui)
+      list(APPEND _g2_replay_args --compact-ui)
+    endif()
+    add_test(NAME desktop.sensor_editor_${_g2_size}_smoke COMMAND breakwater ${_g2_sensor_args})
+    add_test(NAME desktop.telemetry_replay_${_g2_size}_smoke COMMAND breakwater ${_g2_replay_args})
+    set_tests_properties(desktop.sensor_editor_${_g2_size}_smoke desktop.telemetry_replay_${_g2_size}_smoke
+      PROPERTIES TIMEOUT 30 ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    set_tests_properties(desktop.telemetry_replay_${_g2_size}_smoke PROPERTIES FIXTURES_REQUIRED g2_recording)
+  endforeach()
   qt_add_executable(breakwater_telemetry_contract_tests tests/telemetry_contract_tests.cpp)
   target_link_libraries(breakwater_telemetry_contract_tests PRIVATE breakwater_telemetry Qt6::Test)
   target_compile_definitions(breakwater_telemetry_contract_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")

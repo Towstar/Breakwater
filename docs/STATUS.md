@@ -1,5 +1,55 @@
 # Implementation status
 
+## EOG exact-contract adoption — November 8, 2026
+
+- Ethan numerically accepts exact `72cadd1de7eed6666a60faff1d296e29c8f026ee`
+  in [his recorded review](https://github.com/Towstar/Breakwater/pull/33#pullrequestreview-5817527505).
+  Lucas adopts that same revision; [coordination](EOG_COORDINATION.md) records scope,
+  provider cautions and the unchanged interface during G2 baseline synchronization.
+- Local normal/ASan contract checks each passed 2/2 CTests, 70 Qt cases and
+  48 Python/native comparison methods; 63 shared fixtures passed. Ethan independently
+  repeated both modes and published 11 additional review probes with source/binary
+  provenance. These are interchange/numerical-meaning checks, not a working provider
+  or full EOG application acceptance. His retained evidence is linked in the note.
+- G2 PR #35 is merged at `1713cc4` after all six hosted jobs passed. Desktop
+  normal/ASan each ran 38/38 CTests and 641 Qt cases; native each ran 8/8. Science
+  ran 186 tests with 182 passes and four declared optional PhysicsNeMo skips;
+  pinned Lean audits passed. The six downloaded reports identify the same tree as
+  PR head `240248a`. [Hosted run](https://github.com/Towstar/Breakwater/actions/runs/42470434359).
+- Ethan's E1 analytical fixtures in PR #34 and private causal observation work
+  remain separate. No production EOG detector, optimizer or independent numerical
+  plan validator is claimed by the contract increment.
+
+## Current Person B continuation — November 8, 2026
+
+- G1 PR #31 is merged at `2bd7bb9`; exact contract `f12a827` has recorded Person A
+  acceptance and formal GitHub approval. The historical pending-review statements
+  below describe their original checkpoints, not the current gate.
+- G2 implements sensor editing/project-v2, bounded local input and replay on a
+  separate branch. A full normal run at checkpoint `2aa47e6` passed **38/38 CTests**
+  in 340.68 s and **640 Qt cases**, without skips. Independent same-family review
+  then found a paused-source status precedence defect; its process regression
+  reproduced the failure and passes after correction at `e748c3e`.
+- Final source checkpoint `7360f49` passed **38/38 CTests** in normal (380.14 s)
+  and ASan (657.47 s) builds, with **641 Qt cases per mode**, zero failures/skips
+  and no sanitizer diagnostic. [Local evidence](evidence/g2-local-verification.json)
+  records exact source/log hashes and coverage. Hosted checks remain pending for
+  the published PR head. The first full ASan attempt
+  retained a lifecycle test-budget failure (restart became observable at 6.05 s,
+  beyond its default 5 s test wait); dependent replay renders were not run.
+  `7360f49` gives that functional fixture an explicit process/wait budget; dedicated
+  timeout/cancellation assertions remain unchanged. That failed attempt is retained
+  and is not claimed as sanitizer acceptance.
+- Visual Studio 2022 solution generation resolves **94 projects / 330 dependencies**;
+  the first invocation lacked dotnet on its compiler-bounded PATH, and the corrected
+  process-local PATH passed. All **15 CI policy regressions** pass.
+- EOG contracts are published separately in [PR #33](https://github.com/Towstar/Breakwater/pull/33)
+  and are under active numerical review. Their original review checkpoints remain
+  recorded there; Ethan's subsequent completeness/clock/outcome findings require
+  a new reviewed draft before provider binding. Numerical acceptance and provider
+  implementation remain separate follow-ups.
+  G2 itself supplies no EOG detector/planner, numerical publisher or observation mapper.
+
 ## G1 telemetry interfaces and acceptance checks — November 8, 2026
 
 - Implemented [shared contracts](../contracts/telemetry/README.md), Qt-free DTOs,

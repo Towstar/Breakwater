@@ -158,6 +158,13 @@ try {
                     if ($required -notin $registered.tests.name) { throw "Required EOG contract check is missing: $required" }
                 }
             }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'desktop/telemetry/TelemetryController.hpp')) {
+                foreach ($required in @('desktop.sensor_editor', 'desktop.telemetry_stream', 'desktop.telemetry_lifecycle',
+                    'desktop.sensor_editor_normal_smoke', 'desktop.sensor_editor_compact_smoke',
+                    'desktop.telemetry_replay_normal_smoke', 'desktop.telemetry_replay_compact_smoke')) {
+                    if ($required -notin $registered.tests.name) { throw "Required G2 desktop check is missing: $required" }
+                }
+            }
         }
         Invoke-CiStep 'ctest' 'ctest' @('--test-dir', $buildRoot, '--output-on-failure', '--no-tests=error', '--output-junit', (Join-Path $artifactRoot 'ctest-results.xml'))
         [xml]$junit = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'ctest-results.xml')

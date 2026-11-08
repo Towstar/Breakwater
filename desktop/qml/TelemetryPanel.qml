@@ -1,0 +1,194 @@
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+import QtQuick.Dialogs
+
+Dialog {
+    id: panel
+    required property var telemetry
+    parent: Overlay.overlay
+    anchors.centerIn: parent
+    width: Math.min(920, parent ? parent.width - 36 : 920)
+    height: Math.min(720, parent ? parent.height - 36 : 720)
+    modal: false
+    title: "Synthetic monitoring and replay"
+    standardButtons: Dialog.Close
+    property string notice: ""
+    property string selectedSensorId: ""
+    readonly property int renderedNumericSamples: traceChart.visible ? traceChart.numericSampleCount : 0
+    readonly property var selectedSensor: {
+        for (const row of telemetry.sensors) if (row.sensor_id === selectedSensorId) return row
+        return ({})
+    }
+    function reconcileSelection() {
+        const rows = telemetry.sensors
+        let index = -1
+        for (let i = 0; i < rows.length; ++i) if (rows[i].sensor_id === selectedSensorId) index = i
+        if (index < 0 && rows.length > 0) {
+            index = 0
+            for (let i = 0; i < rows.length; ++i) if (rows[i].quantity !== "pump_state") { index = i; break }
+            selectedSensorId = rows[index].sensor_id
+        }
+        if (sensorChoice.currentIndex !== index) sensorChoice.currentIndex = index
+    }
+    function statusLabel(value) { return value.replace(/_/g, " ") }
+    function modeLabel(mode) {
+        if (mode === "synthetic_live") return "Synthetic live"
+        if (mode === "replay") return "Replay"
+        if (mode === "historical") return "Historical"
+        return "Manual"
+    }
+    Connections {
+        target: panel.telemetry
+        function onFailed(code, message) { panel.notice = code + ": " + message }
+        function onRecordingExported(destination) { panel.notice = "Raw G1 frames saved. Replay reconstructs event time; original arrival jitter is not recorded." }
+    }
+    FileDialog {
+        id: replayDialog
+        nameFilters: ["Telemetry recording (*.ndjson *.jsonl)"]
+        onAccepted: { panel.notice = ""; panel.telemetry.startReplay(selectedFile) }
+    }
+    FileDialog {
+        id: historicalDialog
+        nameFilters: ["Telemetry recording (*.ndjson *.jsonl)"]
+        onAccepted: { panel.notice = ""; panel.telemetry.showHistorical(selectedFile) }
+    }
+    FileDialog {
+        id: saveDialog
+        fileMode: FileDialog.SaveFile
+        defaultSuffix: "ndjson"
+        nameFilters: ["Telemetry recording (*.ndjson)"]
+        onAccepted: panel.telemetry.exportRecording(selectedFile)
+    }
+    contentItem: ScrollView {
+        id: scroll
+        clip: true
+        contentWidth: availableWidth
+        ColumnLayout {
+            width: scroll.availableWidth
+            spacing: 10
+            Label {
+                Layout.fillWidth: true
+                text: "Hypothetical sensors only. Measurements stay separate from design controls. Detection and observation-based forecasts are not connected in this increment."
+                wrapMode: Text.Wrap
+                color: "#a9c0cb"
+            }
+            Flow {
+                Layout.fillWidth: true
+                spacing: 6
+                Button { text: "Manual"; onClicked: panel.telemetry.manual() }
+                Button {
+                    text: "Start synthetic input"
+                    enabled: panel.telemetry.publisherConfigured && panel.telemetry.configurationHash.length > 0
+                    onClicked: { panel.notice = ""; panel.telemetry.startConfiguredPublisher() }
+                }
+                Button { text: "Open replay"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: replayDialog.open() }
+                Button { text: "Historical view"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: historicalDialog.open() }
+                Button { text: "Save recording"; enabled: panel.telemetry.tracePreview.length > 0; onClicked: saveDialog.open() }
+            }
+            Label {
+                Layout.fillWidth: true
+                visible: !panel.telemetry.publisherConfigured
+                text: "No local plant publisher is configured. A publisher may be supplied separately; recorded synthetic fixtures can be replayed now."
+                wrapMode: Text.Wrap
+                color: "#e9bf79"
+            }
+            Label {
+                Layout.fillWidth: true
+                text: panel.modeLabel(panel.telemetry.mode) + " · " + panel.statusLabel(panel.telemetry.status) + " · event " + panel.telemetry.eventTime.toFixed(2) + " s · " + panel.telemetry.rate.toFixed(2) + "×"
+                font.bold: true
+                wrapMode: Text.Wrap
+            }
+            Label {
+                Layout.fillWidth: true
+                visible: panel.telemetry.mode === "replay" || panel.telemetry.mode === "historical"
+                text: "Event-time replay; original arrival jitter and receiver freshness classifications are not reconstructed."
+                color: "#e9bf79"
+                wrapMode: Text.Wrap
+            }
+            Label {
+                Layout.fillWidth: true
+                visible: panel.telemetry.snapshot.replay_prefix === true
+                text: "This recording is a retained prefix without an end frame. It is historical evidence, not a complete stream epoch."
+                color: "#e9bf79"
+                wrapMode: Text.Wrap
+            }
+            Flow {
+                Layout.fillWidth: true
+                spacing: 6
+                Button { text: panel.telemetry.paused ? "Resume" : "Pause"; enabled: panel.telemetry.active; onClicked: panel.telemetry.paused ? panel.telemetry.resume() : panel.telemetry.pause() }
+                ComboBox {
+                    id: speed
+                    model: ["0.25×", "0.5×", "1×", "2×", "4×"]
+                    currentIndex: 2
+                    enabled: panel.telemetry.active
+                    onActivated: panel.telemetry.setRate([0.25, 0.5, 1, 2, 4][currentIndex])
+                }
+                Button {
+                    text: "Restart epoch"
+                    enabled: panel.telemetry.mode === "replay" || panel.telemetry.mode === "historical" || panel.telemetry.active
+                    onClicked: panel.telemetry.restart()
+                    ToolTip.visible: hovered
+                    ToolTip.text: "Starts a new epoch and resets recent evidence. Save a recording first to retain the current epoch."
+                }
+                Button { text: "Stop"; enabled: panel.telemetry.active; onClicked: panel.telemetry.stop() }
+            }
+            Label {
+                Layout.fillWidth: true
+                text: panel.telemetry.error.length > 0 ? panel.telemetry.error : panel.notice
+                visible: text.length > 0
+                textFormat: Text.PlainText
+                color: "#f1bd85"
+                wrapMode: Text.Wrap
+            }
+            ComboBox {
+                id: sensorChoice
+                Layout.fillWidth: true
+                model: panel.telemetry.sensors
+                textRole: "label"
+                valueRole: "sensor_id"
+                onActivated: panel.selectedSensorId = currentValue
+                onModelChanged: Qt.callLater(panel.reconcileSelection)
+            }
+            Label {
+                Layout.fillWidth: true
+                text: {
+                    const row = panel.selectedSensor
+                    if (!row.sensor_id) return "Place sensors in the Sensors editor to configure monitoring."
+                    const value = row.canonical_value === undefined ? "missing" : String(row.canonical_value)
+                    const age = typeof row.age_s === "number" ? row.age_s.toFixed(2) + " s" : "unavailable"
+                    return value + " " + (row.unit || "") + " · " + row.status + " · age " + age
+                        + "\nOriginal: " + (row.original_value === undefined ? "missing" : String(row.original_value)) + " " + (row.original_unit || "")
+                        + "; canonical display: " + (row.canonical_unit || row.unit || "")
+                        + "\nReported quality: " + (row.reported_quality || "missing") + "; receiver: " + (row.receiver_status || row.status || "missing")
+                }
+                textFormat: Text.PlainText
+                wrapMode: Text.Wrap
+            }
+            SensorTraceChart {
+                id: traceChart
+                Layout.fillWidth: true
+                Layout.preferredHeight: 180
+                samples: panel.telemetry.tracePreview
+                sensorId: panel.selectedSensor.sensor_id || ""
+                unit: panel.selectedSensor.unit || ""
+                visible: panel.selectedSensor.quantity !== "pump_state"
+            }
+            Label {
+                Layout.fillWidth: true
+                text: "Recent trace: " + (panel.telemetry.snapshot.trace_readings || 0) + " readings / "
+                    + (panel.telemetry.snapshot.trace_bytes || 0) + " bytes. Dropped: " + (panel.telemetry.counters.trace_dropped_readings || 0)
+                    + ". Late: " + (panel.telemetry.counters.late_frames || 0) + ". Future: " + (panel.telemetry.counters.future_frames || 0)
+                    + ". Duplicates: " + (panel.telemetry.counters.duplicate_frames || 0) + "."
+                wrapMode: Text.Wrap
+                color: "#a9c0cb"
+            }
+            Label {
+                Layout.fillWidth: true
+                text: "Finite negative and out-of-range measurements are retained. Replay and historical evidence cannot authorize operating changes. No observation mapper or physical fault diagnosis is supplied here."
+                wrapMode: Text.Wrap
+                color: "#a9c0cb"
+            }
+        }
+    }
+}
