@@ -16,3 +16,11 @@ validation of a physical plant or permission to operate equipment.
 
 Reproduction commands and application/remaining-scope notes are in
 ../../SUBMISSION_CHECKPOINT.md and ../../TRANSPORT_CALIBRATION.md.
+
+Final selector runtime is 325a168b4356157d10e25783e88e7381a4d5e850, adopting B55
+7fda267 after the actual6c0c2a2 calibration/trucking GUI workflows. The final
+latest-selector/ frames each exited0 with empty stderr and were visually checked.
+Both normal/compact installed native UI checks passed all9gates. The initial
+hidden-window phase0 timeout is retained separately; visible reruns passed.
+Build-provenance records both executable hashes and verifies that the calibration,
+provider and numerical source files are unchanged by the selector-only update.

@@ -1,10 +1,12 @@
 # Submission checkpoint — November 8, 2026
 
 This local submission build combines Lucas's published desktop/search source
-`8bc6237c5dee9e4a600c74fb44dac06ec3ac3b59`, Ethan's PR #53 committed-response
-increment and PR #54 sparse PhysicsNeMo tracer calibration. Lucas remains the
-main-branch integrator. The runtime freeze is
-`6c0c2a2152dfe854619524529beb9193bc5da959`; later edits are documentation/evidence.
+`8bc6237c5dee9e4a600c74fb44dac06ec3ac3b59`, his subsequently published PR #55
+selector polish `7fda267`, Ethan's PR #53 committed-response increment and PR #54
+sparse PhysicsNeMo tracer calibration. Lucas remains the main-branch integrator.
+The final runtime freeze is `325a168b4356157d10e25783e88e7381a4d5e850`.
+The actual calibration/trucking GUI workflow was qualified at `6c0c2a2`; the
+subsequent selector-only change leaves its C++/Python/numerical source unchanged.
 
 Run locally from PowerShell:
 
@@ -13,7 +15,7 @@ Run locally from PowerShell:
 ```
 
 That launcher now selects the final executable at
-`C:\Projects\Breakwater\out\submission-final\bin\breakwater.exe` and the existing
+`C:\Projects\Breakwater\out\submission-final-latest\bin\breakwater.exe` and the existing
 pinned scientific Python environment. Qt, the production workers and native EOG
 provider are installed in the final bundle; Python is an existing local dependency.
 The original baseline bundle was preserved so an already-open window is untouched.
@@ -24,6 +26,11 @@ The original baseline bundle was preserved so an already-open window is untouche
   no input mutation before explicit application, and retirement of the old forecast
   and approval after applying the coefficient.
 - Existing project regression: 13/13, zero skips.
+- Final selector rebuild: all nine installed native UI gates passed in each of
+  normal and compact sizes, covering actual forecast, picking, dragging, keyboard
+  rejection, focus behavior and retirement of stale approval. The first hidden-
+  window attempt timed out before exposure; its harness failure is retained and
+  the successful visible-window reruns are separate records.
 - Full integrated science: 459/459, zero skips, at pre-test-relocation source
   `25aa6147aed1dd405a326ac271a77cb4534459ac`. The product Python code is unchanged
   by the subsequent relocation. The final discovery layout has 456 default tests

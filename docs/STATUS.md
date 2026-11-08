@@ -26,6 +26,15 @@ the final discovery layout has 456 default tests plus three explicit real-runtim
 qualification tests, which separately passed. Source-qualified evidence and
 installed screenshot results belong to `science/evidence/submission-checkpoint/`.
 
+The subsequent selector-only rebuild adopts PR #55 `7fda267`, with combined
+runtime `325a168b4356157d10e25783e88e7381a4d5e850`. All nine installed native UI
+gates passed in each of normal and compact sizes. Calibration/provider/numerical
+source is unchanged from the actual `6c0c2a2` GUI qualification. That real UI fit
+0.2000/h, explicitly applied it, required a fresh forecast, and completed native
+transport with a displayed peak tracer-balance residual of 1.47831e-13 mg. The
+same qualified UI searched and separately validated a truck-only plan costing
+1810 versus a 9970.45 no-action baseline; search remains bounded `best_found`.
+
 This is experimental parameter inference under the stated synthetic first-order
 model, not a general neural PDE surrogate or a qualified chemistry model. Flow,
 dispersion, unknown sources and uncertainty are not inferred. Missing

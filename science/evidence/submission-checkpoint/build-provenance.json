@@ -1,9 +1,9 @@
 {
-  "runtime_source": "6c0c2a2152dfe854619524529beb9193bc5da959",
-  "documentation_head": "2e0126043e60e4021db192f2a12af771925e10ae",
-  "built_utc": "2026-11-08T17:26:16.2212602Z",
-  "executable": "C:\\Projects\\Breakwater\\out\\submission-final\\bin\\breakwater.exe",
-  "executable_sha256": "90a328705d12855d4ef8f55455626912f0de0d732dfc5c849ed896cd6015314b",
+  "runtime_source": "325a168b4356157d10e25783e88e7381a4d5e850",
+  "documentation_head": "325a168b4356157d10e25783e88e7381a4d5e850",
+  "built_utc": "2026-11-08T17:33:01.1209415Z",
+  "executable": "C:\\Projects\\Breakwater\\out\\submission-final-latest\\bin\\breakwater.exe",
+  "executable_sha256": "e4e3a38151af178d05f0689a3fb1b75399c399e1135fbe0d832b2125f169a6b1",
   "eog_native_sha256": "ea3b7677ee1912c7820398c122ead55969daade82bf6a88904765c056207b564",
   "installed_calibration_sha256": "b6eb42add7fe8d6c8b601c8102dc4d1ca4e2f3ee51804a9f6bcbe0e86e5ceb8a",
   "build": "MSVC 19.51 x64; Ninja; RelWithDebInfo; precise floating point; Qt 6.12.0",
@@ -103,6 +103,21 @@
       "path": "engine/include/breakwater/eog_response.h",
       "git_blob": "bc42df63d1ba1ac61d5afaeb7849dfea382c2713",
       "file_sha256": "72cd4b2e667fd1c1969635e6486cc4a0797be0827d0c4b85a80d76e139326ed5"
+    },
+    {
+      "path": "desktop/qml/EogDatasetPanel.qml",
+      "git_blob": "cb2187d916c267bb0a0c0bae82e1f518f2345373",
+      "file_sha256": "b7e665d0bde98406a37f465bd9bd73f0cfbc666526d10482943fdbfb96196d19"
     }
-  ]
+  ],
+  "calibration_qualified_runtime_source": "6c0c2a2152dfe854619524529beb9193bc5da959",
+  "calibration_qualified_executable_sha256": "90a328705d12855d4ef8f55455626912f0de0d732dfc5c849ed896cd6015314b",
+  "latest_selector_head": "7fda2671009f5ec57df680262b64b8ca040a741f",
+  "native_ui_checks": {
+    "compact": 9,
+    "normal": 9,
+    "initial_hidden_window_timeout_retained": true,
+    "failed_visible_checks": 0
+  },
+  "calibration_provider_sources_unchanged_after_qualified_run": true
 }
