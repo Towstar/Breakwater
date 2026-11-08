@@ -5,13 +5,22 @@ November 8. Audited source: **`6fb8c29cf08399859ab41ea60771c31f4ec04e41`**,
 the clean main baseline, reviewed on **`codex/person-a-engine`** in a separate
 worktree. This report follows [the Person A kickoff](../docs/KICKOFF_PERSON_A.md).
 
-> Follow-up: A-001, A-002 and A-003 are fixed and regression-verified on `codex/person-a-engine`;
-> see [A001_HORIZON_FIX.md](A001_HORIZON_FIX.md), [A002_COST_FIX.md](A002_COST_FIX.md)
-> and [A003_RESIDUAL_FIX.md](A003_RESIDUAL_FIX.md). The original audit below describes
-> frozen commit `6fb8c29`. A-004 remains open; these follow-ups do not claim
-> completion of Person B's audit.
+All four findings from this Person A audit are resolved on `codex/person-a-engine`:
+
+| Finding | Current disposition | Resolution/evidence |
+|---|---|---|
+| A-001 | Fixed in `d602160` | [Exact requested horizons](A001_HORIZON_FIX.md) |
+| A-002 | Fixed in `b24004b` | [Finite costs and independent validation](A002_COST_FIX.md) |
+| A-003 | Fixed in `0c2efe9` | [Constant/linear residuals and parameter gradients](A003_RESIDUAL_FIX.md) |
+| A-004 | Documentation corrected | [Worker status and documentation verification](A004_STATUS_FIX.md) |
+
+This closes the reported A-owned findings, not Person B's audit or the broader
+transport/learned-model qualification work. The original audit below is retained
+as evidence of frozen commit `6fb8c29`, including its then-open dispositions.
 
 ## Result and gate
+
+**Original result at `6fb8c29`; current resolutions are listed above.**
 
 **The audit is complete for the Person A scope below; the gate for dependent
 features remains blocked by A-001 (P1).** Fresh existing regression suites pass,
@@ -124,6 +133,10 @@ Maximum canonical conservation residual observed here was 1.24344978758e-14 m³.
 Overflow predictions remain visible.
 
 ## Findings
+
+The finding statuses and line references below describe the original audited
+commit. They are retained as historical reproductions; see the current disposition
+table above for completed fixes.
 
 ### A-001 — P1: requested-horizon coverage is not guaranteed
 

@@ -1,5 +1,12 @@
 # Person A science evidence
 
+The dated entries below preserve status and evidence at each milestone. In
+particular, the A3/A4 health-only worker statements describe those deliveries;
+A8 later added capabilities, storage rollout and selected-control derivatives.
+Use [WORKER.md](WORKER.md) for current repository-worker behavior and the
+[audit follow-ups](AUDIT_PERSON_A.md) for subsequent corrections. Historical counts
+and limitations below are retained rather than presented as new executions.
+
 ## A3 — differentiable fixed-flow storage (November 7, 2026)
 
 Implemented on `codex/person-a-engine`, based on current shared baseline `bf8beb1`.
