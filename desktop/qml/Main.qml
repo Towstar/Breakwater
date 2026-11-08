@@ -80,10 +80,27 @@ ApplicationWindow {
         const t = -a.y / denominator
         return Qt.vector3d(a.x + t * (b.x - a.x), 0, a.z + t * (b.z - a.z))
     }
-    function openPipeTransport() { pipeTransportDialog.open() }
-    function openStorageScience() { showAgent = true; agentPanel.showScience() }
-    function openSensors() { sensorDialog.open() }
-    function openTelemetry() { telemetryDialog.open() }
+    function closeWorkbenchPanels() {
+        showAgent = false
+        pipeTransportDialog.close()
+        sensorDialog.close()
+        telemetryDialog.close()
+    }
+    function openPipeTransport() { closeWorkbenchPanels(); pipeTransportDialog.open() }
+    function openStorageScience() { closeWorkbenchPanels(); showAgent = true; agentPanel.showScience() }
+    function openSensors() { closeWorkbenchPanels(); sensorDialog.open() }
+    function openTelemetry() { closeWorkbenchPanels(); telemetryDialog.open() }
+    function toggleWorkbenchPanel(name) {
+        const wasVisible = name === "investigator" ? showAgent
+            : name === "sensors" ? sensorDialog.visible
+            : name === "telemetry" ? telemetryDialog.visible : pipeTransportDialog.visible
+        closeWorkbenchPanels()
+        if (wasVisible) return
+        if (name === "investigator") showAgent = true
+        else if (name === "sensors") sensorDialog.open()
+        else if (name === "telemetry") telemetryDialog.open()
+        else if (name === "pipe") pipeTransportDialog.open()
+    }
     function openEogAnalysis() { eogAnalysisDialog.open() }
     function commitNumericField(field, value) {
         const assetId = controller.selectedId
@@ -289,10 +306,10 @@ ApplicationWindow {
                             }
                         }
                     }
-                    ActionButton { Layout.fillWidth: true; iconName: "workflow"; text: "Nemotron investigator"; checked: app.showAgent; onClicked: app.showAgent = !app.showAgent }
-                    ActionButton { objectName: "openSensorEditor"; Layout.fillWidth: true; iconName: "gauge"; text: "Sensors"; onClicked: app.openSensors() }
-                    ActionButton { objectName: "openTelemetry"; Layout.fillWidth: true; iconName: "activity"; text: "Local monitoring"; onClicked: app.openTelemetry() }
-                    ActionButton { objectName: "openPipeEvidence"; Layout.fillWidth: true; iconName: "waves"; text: "Pipe transport"; onClicked: pipeTransportDialog.open() }
+                    ActionButton { objectName: "toggleInvestigator"; Layout.fillWidth: true; iconName: "workflow"; text: "Nemotron investigator"; checked: app.showAgent; onClicked: app.toggleWorkbenchPanel("investigator") }
+                    ActionButton { objectName: "openSensorEditor"; Layout.fillWidth: true; iconName: "gauge"; text: "Sensors"; checked: sensorDialog.visible; onClicked: app.toggleWorkbenchPanel("sensors") }
+                    ActionButton { objectName: "openTelemetry"; Layout.fillWidth: true; iconName: "activity"; text: "Local monitoring"; checked: telemetryDialog.visible; onClicked: app.toggleWorkbenchPanel("telemetry") }
+                    ActionButton { objectName: "openPipeEvidence"; Layout.fillWidth: true; iconName: "waves"; text: "Pipe transport"; checked: pipeTransportDialog.visible; onClicked: app.toggleWorkbenchPanel("pipe") }
                     Label { text: "PhysicsNeMo: not connected\nLean proofs: standalone"; color: Theme.muted; font.pixelSize: Theme.captionSize; lineHeight: 1.3 }
                 }
             }

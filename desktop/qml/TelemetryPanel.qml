@@ -7,10 +7,12 @@ Dialog {
     id: panel
     required property var telemetry
     parent: Overlay.overlay
-    anchors.centerIn: parent
-    width: Math.min(920, parent ? parent.width - 36 : 920)
+    width: Math.min(920, parent ? parent.width - 236 : 920)
     height: Math.min(720, parent ? parent.height - 36 : 720)
+    x: 220 + Math.max(0, ((parent ? parent.width : 1156) - 236 - width) / 2)
+    y: Math.max(16, ((parent ? parent.height : 756) - height) / 2)
     modal: false
+    closePolicy: Popup.CloseOnEscape
     title: "Synthetic monitoring and replay"
     standardButtons: Dialog.Close
     font.family: Theme.fontFamily
@@ -27,6 +29,15 @@ Dialog {
     palette.highlightedText: Theme.background
     palette.mid: Theme.controlBorder
     background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
+    header: ToolBar {
+        implicitHeight: 52; padding: 8
+        background: Rectangle { color: Theme.surface; Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider } }
+        contentItem: RowLayout {
+            spacing: 12
+            Label { Layout.fillWidth: true; text: panel.title; color: Theme.text; font.pixelSize: 18; font.weight: Font.DemiBold }
+            ActionButton { objectName: "telemetryPanelClose"; iconName: "x"; text: "Close"; tooltip: "Close"; display: AbstractButton.IconOnly; Layout.preferredWidth: 36; onClicked: panel.close() }
+        }
+    }
     property string notice: ""
     property string selectedSensorId: ""
     readonly property int renderedNumericSamples: traceChart.visible ? traceChart.numericSampleCount : 0
@@ -78,18 +89,24 @@ Dialog {
         id: scroll
         clip: true
         contentWidth: availableWidth
+        ScrollBar.vertical.policy: ScrollBar.AsNeeded
         ColumnLayout {
             width: scroll.availableWidth
-            spacing: 10
+            spacing: 14
             Label {
                 Layout.fillWidth: true
                 text: "Hypothetical sensors only. Measurements stay separate from design controls. Detection and observation-based forecasts are not connected in this increment."
                 wrapMode: Text.Wrap
                 color: Theme.secondary
             }
-            Flow {
-                Layout.fillWidth: true
-                spacing: 6
+            Frame {
+                Layout.fillWidth: true; padding: 12
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                contentItem: ColumnLayout {
+                spacing: 10
+                Label { text: "INPUT SOURCE"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
+                Flow {
+                Layout.fillWidth: true; spacing: 8
                 ActionButton { text: "Manual"; onClicked: panel.telemetry.manual() }
                 ActionButton {
                     text: "Start synthetic input"
@@ -99,7 +116,15 @@ Dialog {
                 ActionButton { text: "Open replay"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: replayDialog.open() }
                 ActionButton { text: "Historical view"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: historicalDialog.open() }
                 ActionButton { text: "Save recording"; enabled: panel.telemetry.tracePreview.length > 0; onClicked: saveDialog.open() }
+                }
+                }
             }
+            Frame {
+                Layout.fillWidth: true; padding: 12
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                contentItem: ColumnLayout {
+                spacing: 10
+                Label { text: "PLAYBACK AND STREAM STATE"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
             Label {
                 Layout.fillWidth: true
                 visible: !panel.telemetry.publisherConfigured
@@ -129,10 +154,11 @@ Dialog {
             }
             Flow {
                 Layout.fillWidth: true
-                spacing: 6
+                spacing: 8
                 ActionButton { text: panel.telemetry.paused ? "Resume" : "Pause"; enabled: panel.telemetry.active; onClicked: panel.telemetry.paused ? panel.telemetry.resume() : panel.telemetry.pause() }
                 ComboBox {
                     id: speed
+                    width: 112
                     model: ["0.25×", "0.5×", "1×", "2×", "4×"]
                     currentIndex: 2
                     enabled: panel.telemetry.active
@@ -147,6 +173,8 @@ Dialog {
                 }
                 ActionButton { text: "Stop"; enabled: panel.telemetry.active; onClicked: panel.telemetry.stop() }
             }
+                }
+            }
             Label {
                 Layout.fillWidth: true
                 text: panel.telemetry.error.length > 0 ? panel.telemetry.error : panel.notice
@@ -155,6 +183,12 @@ Dialog {
                 color: Theme.warning
                 wrapMode: Text.Wrap
             }
+            Frame {
+                Layout.fillWidth: true; padding: 12
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                contentItem: ColumnLayout {
+                spacing: 10
+            Label { text: "SENSOR OBSERVATIONS"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
             ComboBox {
                 id: sensorChoice
                 Layout.fillWidth: true
@@ -163,6 +197,7 @@ Dialog {
                 valueRole: "sensor_id"
                 onActivated: panel.selectedSensorId = currentValue
                 onModelChanged: Qt.callLater(panel.reconcileSelection)
+                enabled: count > 0
             }
             Label {
                 Layout.fillWidth: true
@@ -183,10 +218,13 @@ Dialog {
                 id: traceChart
                 Layout.fillWidth: true
                 Layout.preferredHeight: 180
+                Layout.minimumHeight: 160
                 samples: panel.telemetry.tracePreview
                 sensorId: panel.selectedSensor.sensor_id || ""
                 unit: panel.selectedSensor.unit || ""
                 visible: panel.selectedSensor.quantity !== "pump_state"
+            }
+                }
             }
             Label {
                 Layout.fillWidth: true

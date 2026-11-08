@@ -35,8 +35,8 @@ Button {
         color: !control.enabled ? Theme.surface
             : control.highlighted ? (control.down ? Theme.primaryPressed : control.hovered ? Theme.primaryHover : Theme.text)
             : control.down || control.checked ? Theme.selected : control.hovered ? Theme.hover : Theme.raised
-        border.width: 1
-        border.color: !control.enabled ? Theme.divider : control.highlighted || control.activeFocus ? Theme.text : Theme.controlBorder
+        border.width: control.checked ? 2 : 1
+        border.color: !control.enabled ? Theme.divider : control.highlighted || control.checked || control.visualFocus ? Theme.text : Theme.controlBorder
         Rectangle {
             anchors.fill: parent
             anchors.margins: -3
@@ -44,7 +44,7 @@ Button {
             color: "transparent"
             border.width: 1
             border.color: Theme.text
-            visible: control.activeFocus
+            visible: control.visualFocus
         }
     }
 }
