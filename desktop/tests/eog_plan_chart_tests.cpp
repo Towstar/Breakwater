@@ -49,7 +49,7 @@ struct Ink {
 // anti-alias blend from white to graphite. Trajectories require near-opaque cores
 // plus a tight channel residual; boundary guides additionally need a long row.
 bool matchesInk(QColor actual, QColor target, double minimumCoverage) {
-    const QColor background(QString::fromLatin1(backgroundColor));
+    static const QColor background(QString::fromLatin1(backgroundColor));
     const double tr = target.red() - background.red(), tg = target.green() - background.green(),
         tb = target.blue() - background.blue(), norm = tr * tr + tg * tg + tb * tb;
     const double ar = actual.red() - background.red(), ag = actual.green() - background.green(),

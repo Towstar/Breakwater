@@ -178,7 +178,13 @@ Rectangle {
         }
     }
     component SceneLabel: Label {
+            id: sceneLabel
             required property var modelData
+            // Offset only the presentation label: imported positions and picks
+            // still use the original world-space equipment coordinates.
+            readonly property point screenOffset: !network.overview ? Qt.point(0, 0)
+                : modelData.kind === "disposal" ? Qt.point(-56, -22)
+                : modelData.kind === "truck_yard" ? Qt.point(56, 18) : Qt.point(0, 0)
             readonly property vector3d projectedPoint: {
                 if (!network.projectionReady) return Qt.vector3d(0, 0, -1)
                 const watchRotation = rig.eulerRotation, watchDistance = eogCamera.z
@@ -187,7 +193,21 @@ Rectangle {
             }
             objectName: "eogLabel:" + modelData.id
             visible: network.projectionReady && network.visibleNode(modelData) && projectedPoint.z > 0
-            x: projectedPoint.x - width / 2; y: projectedPoint.y; width: Math.min(180, implicitWidth)
+            x: Math.max(8, Math.min(Math.max(8, network.width - width - 8), projectedPoint.x - width / 2 + screenOffset.x))
+            y: Math.max(8, Math.min(Math.max(8, network.height - height - 8), projectedPoint.y + screenOffset.y))
+            width: Math.min(180, implicitWidth)
+            readonly property point leaderStart: Qt.point(projectedPoint.x - x, projectedPoint.y - y)
+            readonly property point leaderEnd: Qt.point(Math.max(0, Math.min(width, leaderStart.x)), Math.max(0, Math.min(height, leaderStart.y)))
+            Rectangle {
+                // A noninteractive screen-space leader keeps a separated label
+                // visibly associated with its unchanged projected equipment.
+                visible: network.overview && (sceneLabel.modelData.kind === "disposal" || sceneLabel.modelData.kind === "truck_yard") && width > 1
+                x: sceneLabel.leaderStart.x; y: sceneLabel.leaderStart.y
+                width: Math.hypot(sceneLabel.leaderEnd.x - sceneLabel.leaderStart.x, sceneLabel.leaderEnd.y - sceneLabel.leaderStart.y)
+                height: 1; color: "#68727D"; opacity: 0.75; z: -1
+                transformOrigin: Item.Left
+                rotation: Math.atan2(sceneLabel.leaderEnd.y - sceneLabel.leaderStart.y, sceneLabel.leaderEnd.x - sceneLabel.leaderStart.x) * 180 / Math.PI
+            }
             text: modelData.label || modelData.id
             textFormat: Text.PlainText; elide: Text.ElideMiddle; horizontalAlignment: Text.AlignHCenter
             color: modelData.selected ? "#edf1f3" : "#c8d1d8"; font.pixelSize: 12
