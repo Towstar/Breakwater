@@ -1,0 +1,595 @@
+{
+  "method": "eog-synthetic-events-0.1.0",
+  "elapsed_s": 86400.0,
+  "status": "completed",
+  "diagnostic": "",
+  "cost": {
+    "truck_cost": 0.0,
+    "lost_revenue": 19012.105138964915,
+    "total": 19012.105138964915
+  },
+  "completed_full_loads": 0,
+  "trace_count": 4393,
+  "facilities": [
+    {
+      "volume_bbl": 514.1199007109608,
+      "inflow_bpd": 2400.0,
+      "pump_flow_bpd": 3600.0,
+      "pump_status": 1,
+      "automatic_shut_in": 0,
+      "produced_bbl": 2400.0,
+      "pumped_bbl": 2417.6402978671176,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 0.0,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 497.427372685185,
+      "inflow_bpd": 2000.0,
+      "pump_flow_bpd": 3000.0,
+      "pump_status": 1,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1795.2964238979482,
+      "pumped_bbl": 1913.6071536382894,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 7983.439467980013,
+      "balance_residual_bbl": 0.0,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 356.35569060737055,
+      "inflow_bpd": 1800.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1800.0,
+      "pumped_bbl": 1919.9999999999995,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 3.410605131648481e-13,
+      "event_boundary_rounding_bbl": -5.684341886080802e-14
+    },
+    {
+      "volume_bbl": 655.6333912037043,
+      "inflow_bpd": 2200.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1942.839804174173,
+      "pumped_bbl": 1859.9999999999993,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 11028.665670984903,
+      "balance_residual_bbl": 3.410605131648481e-13,
+      "event_boundary_rounding_bbl": -1.1368683772161603e-13
+    },
+    {
+      "volume_bbl": 334.53007010553335,
+      "inflow_bpd": 1600.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1599.9999999999998,
+      "pumped_bbl": 1680.0,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": -3.410605131648481e-13,
+      "event_boundary_rounding_bbl": 5.684341886080802e-14
+    },
+    {
+      "volume_bbl": 285.0318000627323,
+      "inflow_bpd": 1469.3257848964602,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1409.5361067366691,
+      "pumped_bbl": 1453.74147709063,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 5.684341886080802e-14,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 430.85648751497706,
+      "inflow_bpd": 2000.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 2000.0,
+      "pumped_bbl": 2159.9999999999995,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 2.2737367544323206e-13,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 283.4017158258136,
+      "inflow_bpd": 1500.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1500.0000000000002,
+      "pumped_bbl": 1680.0,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": -1.7053025658242404e-13,
+      "event_boundary_rounding_bbl": 1.7053025658242404e-13
+    },
+    {
+      "volume_bbl": 375.4021788544387,
+      "inflow_bpd": 1800.0000000000002,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1800.0000000000002,
+      "pumped_bbl": 1920.0000000000005,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 0.0,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 265.49857413269365,
+      "inflow_bpd": 1500.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1500.0,
+      "pumped_bbl": 1679.9999999999995,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 0.0,
+      "event_boundary_rounding_bbl": -5.684341886080802e-14
+    },
+    {
+      "volume_bbl": 479.02104189055115,
+      "inflow_bpd": 2100.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 2100.0,
+      "pumped_bbl": 2159.999999999999,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 5.684341886080801e-13,
+      "event_boundary_rounding_bbl": -1.1368683772161603e-13
+    },
+    {
+      "volume_bbl": 226.0379135598539,
+      "inflow_bpd": 1699.9999999999998,
+      "pump_flow_bpd": 2550.0,
+      "pump_status": 1,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1699.9999999999998,
+      "pumped_bbl": 1796.8862593204378,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 0.0,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 286.19816228873106,
+      "inflow_bpd": 1899.7205741740445,
+      "pump_flow_bpd": 2850.0,
+      "pump_status": 1,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1899.7800273547737,
+      "pumped_bbl": 1945.8956248110874,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 2.2737367544323206e-13,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 412.4531064348812,
+      "inflow_bpd": 1700.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 2,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1699.9999999999998,
+      "pumped_bbl": 1692.1471911120232,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": -2.2737367544323206e-13,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 192.17943892301432,
+      "inflow_bpd": 1300.0,
+      "pump_flow_bpd": 1950.0,
+      "pump_status": 1,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1300.0,
+      "pumped_bbl": 1403.461683230957,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": -8.526512829121202e-14,
+      "event_boundary_rounding_bbl": 0.0
+    }
+  ],
+  "wells": [
+    {
+      "producing": 1,
+      "water_bpd": 1000.0,
+      "oil_bpd": 280.0,
+      "gas_mcfd": 1000.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 800.0,
+      "oil_bpd": 490.00000000000006,
+      "gas_mcfd": 1750.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 600.0,
+      "oil_bpd": 630.0,
+      "gas_mcfd": 2250.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 1000.0,
+      "oil_bpd": 330.0,
+      "gas_mcfd": 1200.0,
+      "lost_revenue": 2395.031840394004
+    },
+    {
+      "producing": 1,
+      "water_bpd": 600.0,
+      "oil_bpd": 330.0,
+      "gas_mcfd": 1200.0,
+      "lost_revenue": 2395.031840394004
+    },
+    {
+      "producing": 1,
+      "water_bpd": 400.0,
+      "oil_bpd": 440.00000000000006,
+      "gas_mcfd": 1600.0,
+      "lost_revenue": 3193.3757871920056
+    },
+    {
+      "producing": 1,
+      "water_bpd": 450.0,
+      "oil_bpd": 560.0,
+      "gas_mcfd": 2000.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 700.0,
+      "oil_bpd": 169.99999999999997,
+      "gas_mcfd": 600.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 650.0,
+      "oil_bpd": 389.99999999999994,
+      "gas_mcfd": 1400.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 1100.0,
+      "oil_bpd": 400.0,
+      "gas_mcfd": 1500.0,
+      "lost_revenue": 3331.3934459254874
+    },
+    {
+      "producing": 1,
+      "water_bpd": 650.0,
+      "oil_bpd": 400.0,
+      "gas_mcfd": 1500.0,
+      "lost_revenue": 3331.3934459254874
+    },
+    {
+      "producing": 1,
+      "water_bpd": 450.0,
+      "oil_bpd": 520.0,
+      "gas_mcfd": 2050.0,
+      "lost_revenue": 4365.878779133928
+    },
+    {
+      "producing": 1,
+      "water_bpd": 400.0,
+      "oil_bpd": 420.0,
+      "gas_mcfd": 1500.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 650.0,
+      "oil_bpd": 120.0,
+      "gas_mcfd": 450.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 550.0,
+      "oil_bpd": 290.0,
+      "gas_mcfd": 1050.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 600.0,
+      "oil_bpd": 160.0,
+      "gas_mcfd": 600.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 450.0,
+      "oil_bpd": 280.0,
+      "gas_mcfd": 1000.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 419.3257848964604,
+      "oil_bpd": 370.0,
+      "gas_mcfd": 1350.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 850.0,
+      "oil_bpd": 240.0,
+      "gas_mcfd": 900.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 650.0,
+      "oil_bpd": 420.0,
+      "gas_mcfd": 1550.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 500.0,
+      "oil_bpd": 540.0,
+      "gas_mcfd": 1950.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 750.0,
+      "oil_bpd": 250.0,
+      "gas_mcfd": 900.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 450.0,
+      "oil_bpd": 250.0,
+      "gas_mcfd": 900.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 300.0,
+      "oil_bpd": 330.0,
+      "gas_mcfd": 1200.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 450.0,
+      "oil_bpd": 520.0,
+      "gas_mcfd": 1900.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 720.0,
+      "oil_bpd": 160.0,
+      "gas_mcfd": 550.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 630.0,
+      "oil_bpd": 360.0,
+      "gas_mcfd": 1350.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 650.0,
+      "oil_bpd": 180.0,
+      "gas_mcfd": 650.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 500.0,
+      "oil_bpd": 320.0,
+      "gas_mcfd": 1150.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 350.0,
+      "oil_bpd": 400.0,
+      "gas_mcfd": 1500.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 1050.0,
+      "oil_bpd": 350.0,
+      "gas_mcfd": 1250.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 630.0,
+      "oil_bpd": 350.0,
+      "gas_mcfd": 1250.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 420.0,
+      "oil_bpd": 470.0,
+      "gas_mcfd": 1700.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 450.0,
+      "oil_bpd": 510.0,
+      "gas_mcfd": 1950.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 650.0,
+      "oil_bpd": 150.0,
+      "gas_mcfd": 600.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 600.0,
+      "oil_bpd": 360.0,
+      "gas_mcfd": 1350.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 800.0,
+      "oil_bpd": 220.00000000000003,
+      "gas_mcfd": 800.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 625.0,
+      "oil_bpd": 380.0,
+      "gas_mcfd": 1400.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 474.72057417404454,
+      "oil_bpd": 490.00000000000006,
+      "gas_mcfd": 1800.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 850.0,
+      "oil_bpd": 280.0,
+      "gas_mcfd": 1000.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 510.0,
+      "oil_bpd": 280.0,
+      "gas_mcfd": 1000.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 339.99999999999994,
+      "oil_bpd": 370.0,
+      "gas_mcfd": 1400.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 325.0,
+      "oil_bpd": 389.99999999999994,
+      "gas_mcfd": 1450.0000000000002,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 520.0,
+      "oil_bpd": 120.0,
+      "gas_mcfd": 400.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 455.0,
+      "oil_bpd": 270.0,
+      "gas_mcfd": 1000.0,
+      "lost_revenue": 0.0
+    }
+  ],
+  "trucks": [
+    {
+      "system": 0,
+      "truck": 0,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 0,
+      "truck": 1,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 1,
+      "truck": 0,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 1,
+      "truck": 1,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 2,
+      "truck": 0,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 2,
+      "truck": 1,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 2,
+      "truck": 2,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 3,
+      "truck": 0,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 3,
+      "truck": 1,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 4,
+      "truck": 0,
+      "busy": 0,
+      "available_again_s": 0.0
+    },
+    {
+      "system": 4,
+      "truck": 1,
+      "busy": 0,
+      "available_again_s": 0.0
+    }
+  ]
+}

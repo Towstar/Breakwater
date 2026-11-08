@@ -1,0 +1,451 @@
+{
+  "method": "eog-detection-0.2.2",
+  "cutoff_unix": 1791849300,
+  "model_fingerprint": "2ab1a7b760092f2ce0bdafca275db2676add8b9d492a73db87dd5748f2151ffa",
+  "evidence_fingerprint": "96ac9481c0bf172f2881815d61b9ebdf9e109320cf40b3459caa2a89f82ec0ce",
+  "rules_fingerprint": "1b9a22b60b18d629d2e40c2428d06b19cd962d62bf1c954f6e9e080f8bdfbdff",
+  "events": [
+    {
+      "id": "eog-8dc0aaab44e0199c9902e4e7c481d781",
+      "system_id": "unfamiliar/synthetic/β/71/system",
+      "facility_id": "unfamiliar/synthetic/β/71/facility:2",
+      "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+      "category": "pump_failure",
+      "state": "resolved",
+      "first_evidence_unix": 1791770400,
+      "detected_unix": 1791770400,
+      "onset_unix": 1791770400,
+      "onset_bounds": [
+        1791770100,
+        1791770400
+      ],
+      "updated_unix": 1791785700,
+      "end_unix": 1791785700,
+      "coverage": "available",
+      "countdown_hours": null,
+      "countdown_state": "not_applicable",
+      "repair_remaining_hours": null,
+      "hourly_revenue_exposure": null,
+      "observed_volume_bbl": null,
+      "forecast_volume_at_cutoff_bbl": null,
+      "assumed_inflow_bpd": null,
+      "recommended_action": "compare_responses",
+      "evidence": [
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2",
+          "metric": "inflow_bpd",
+          "value": 1319.8000238799752
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+          "metric": "flow_bpd",
+          "value": 0.0
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+          "metric": "status",
+          "value": 0.0
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/tank",
+          "metric": "level_pct",
+          "value": 63.2826218738088
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+          "metric": "water_bpd",
+          "value": 327.84761119442686
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+          "metric": "water_bpd",
+          "value": 509.6800659199877
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791770100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+          "metric": "water_bpd",
+          "value": 476.0549554580477
+        },
+        {
+          "unix": 1791770400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+          "metric": "status",
+          "value": 2.0
+        },
+        {
+          "unix": 1791785700,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+          "metric": "flow_bpd",
+          "value": 2701.6328928613425
+        },
+        {
+          "unix": 1791785700,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:2/pump",
+          "metric": "status",
+          "value": 1.0
+        }
+      ],
+      "assumptions": [
+        "Resolution is first coherent observed delivery/normal-off recovery, not a scheduled repair label."
+      ],
+      "limitations": [],
+      "productive_well_ids": null
+    },
+    {
+      "id": "eog-4aec779016c866c4b8fa4657df76dc2d",
+      "system_id": "unfamiliar/synthetic/β/71/system",
+      "facility_id": "unfamiliar/synthetic/β/71/facility:1",
+      "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+      "category": "pump_failure",
+      "state": "resolved",
+      "first_evidence_unix": 1791827400,
+      "detected_unix": 1791827400,
+      "onset_unix": 1791827400,
+      "onset_bounds": [
+        1791827100,
+        1791827400
+      ],
+      "updated_unix": 1791842700,
+      "end_unix": 1791842700,
+      "coverage": "available",
+      "countdown_hours": null,
+      "countdown_state": "not_applicable",
+      "repair_remaining_hours": null,
+      "hourly_revenue_exposure": null,
+      "observed_volume_bbl": null,
+      "forecast_volume_at_cutoff_bbl": null,
+      "assumed_inflow_bpd": null,
+      "recommended_action": "compare_responses",
+      "evidence": [
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1",
+          "metric": "inflow_bpd",
+          "value": 1317.9850365124498
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+          "metric": "flow_bpd",
+          "value": 0.0
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+          "metric": "status",
+          "value": 0.0
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/tank",
+          "metric": "level_pct",
+          "value": 44.69935563495856
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+          "metric": "water_bpd",
+          "value": 328.15922512411765
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+          "metric": "water_bpd",
+          "value": 512.1958107219477
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791827100,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+          "metric": "water_bpd",
+          "value": 472.5240387313224
+        },
+        {
+          "unix": 1791827400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+          "metric": "status",
+          "value": 2.0
+        },
+        {
+          "unix": 1791842700,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+          "metric": "flow_bpd",
+          "value": 2707.8037449968188
+        },
+        {
+          "unix": 1791842700,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:1/pump",
+          "metric": "status",
+          "value": 1.0
+        }
+      ],
+      "assumptions": [
+        "Resolution is first coherent observed delivery/normal-off recovery, not a scheduled repair label."
+      ],
+      "limitations": [],
+      "productive_well_ids": null
+    },
+    {
+      "id": "eog-f31f11fb032a8aa5ca32fc7a6c211a1e",
+      "system_id": "unfamiliar/synthetic/β/71/system",
+      "facility_id": "unfamiliar/synthetic/β/71/facility:0",
+      "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+      "category": "pump_failure",
+      "state": "ongoing",
+      "first_evidence_unix": 1791842700,
+      "detected_unix": 1791842700,
+      "onset_unix": 1791842700,
+      "onset_bounds": [
+        1791842400,
+        1791842700
+      ],
+      "updated_unix": 1791849300,
+      "end_unix": null,
+      "coverage": "available",
+      "countdown_hours": 10.109803972474896,
+      "countdown_state": "available",
+      "repair_remaining_hours": 2.416666666666667,
+      "hourly_revenue_exposure": 4100.25,
+      "observed_volume_bbl": 443.9727485411222,
+      "forecast_volume_at_cutoff_bbl": 443.9727485411222,
+      "assumed_inflow_bpd": 1320.2089844028585,
+      "recommended_action": "compare_responses",
+      "evidence": [
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0",
+          "metric": "inflow_bpd",
+          "value": 1309.0599271163628
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+          "metric": "flow_bpd",
+          "value": 2713.427022757459
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/tank",
+          "metric": "level_pct",
+          "value": 31.854130074401425
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+          "metric": "water_bpd",
+          "value": 329.05006589919043
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+          "metric": "water_bpd",
+          "value": 512.3233079632777
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791842400,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+          "metric": "water_bpd",
+          "value": 473.4602066759793
+        },
+        {
+          "unix": 1791842700,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+          "metric": "status",
+          "value": 2.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0",
+          "metric": "inflow_bpd",
+          "value": 1320.2089844028585
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+          "metric": "flow_bpd",
+          "value": 0.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/pump",
+          "metric": "status",
+          "value": 2.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/tank",
+          "metric": "level_pct",
+          "value": 40.50846245813159
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+          "metric": "water_bpd",
+          "value": 326.9684799686075
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+          "metric": "water_bpd",
+          "value": 510.61133097317884
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+          "metric": "water_bpd",
+          "value": 474.9912363301461
+        }
+      ],
+      "assumptions": [
+        "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+        "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+      ],
+      "limitations": [],
+      "productive_well_ids": [
+        "unfamiliar/synthetic/β/71/facility:0/well:0",
+        "unfamiliar/synthetic/β/71/facility:0/well:1",
+        "unfamiliar/synthetic/β/71/facility:0/well:2"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:0",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:0",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:0",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:1",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:1",
+      "category": "pipeline_leak",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:1",
+      "category": "pump_degradation",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:2",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:2",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "unfamiliar/synthetic/β/71/facility:2",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    }
+  ]
+}
