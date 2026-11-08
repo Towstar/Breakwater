@@ -153,6 +153,11 @@ try {
                     if ($required -notin $registered.tests.name) { throw "Required telemetry contract check is missing: $required" }
                 }
             }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'contracts/eog/validate.py')) {
+                foreach ($required in @('desktop.eog_contracts', 'contracts.eog')) {
+                    if ($required -notin $registered.tests.name) { throw "Required EOG contract check is missing: $required" }
+                }
+            }
             if (Test-Path -LiteralPath (Join-Path $projectRoot 'desktop/telemetry/TelemetryController.hpp')) {
                 foreach ($required in @('desktop.sensor_editor', 'desktop.telemetry_stream', 'desktop.telemetry_lifecycle',
                     'desktop.sensor_editor_normal_smoke', 'desktop.sensor_editor_compact_smoke',

@@ -1,0 +1,78 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eog_version",
+    "kind",
+    "dataset_identity",
+    "capture_id",
+    "source_hashes",
+    "captured_files",
+    "source_first_unix",
+    "source_now_unix",
+    "cutoff_unix",
+    "context",
+    "sample_period_s",
+    "max_age_s"
+  ],
+  "properties": {
+    "eog_version": {
+      "const": 1
+    },
+    "kind": {
+      "const": "capture_manifest"
+    },
+    "dataset_identity": {
+      "$ref": "common-v1.schema.json#/$defs/hash"
+    },
+    "capture_id": {
+      "$ref": "common-v1.schema.json#/$defs/hash"
+    },
+    "source_hashes": {
+      "$ref": "common-v1.schema.json#/$defs/source_hashes"
+    },
+    "captured_files": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "network.json",
+        "ops.json",
+        "telemetry.csv"
+      ],
+      "properties": {
+        "network.json": {
+          "$ref": "common-v1.schema.json#/$defs/captured_file"
+        },
+        "ops.json": {
+          "$ref": "common-v1.schema.json#/$defs/captured_file"
+        },
+        "telemetry.csv": {
+          "$ref": "common-v1.schema.json#/$defs/captured_file"
+        }
+      }
+    },
+    "source_first_unix": {
+      "$ref": "common-v1.schema.json#/$defs/time"
+    },
+    "source_now_unix": {
+      "$ref": "common-v1.schema.json#/$defs/time"
+    },
+    "cutoff_unix": {
+      "$ref": "common-v1.schema.json#/$defs/time"
+    },
+    "context": {
+      "enum": [
+        "snapshot_now",
+        "historical_cursor"
+      ]
+    },
+    "sample_period_s": {
+      "const": 300
+    },
+    "max_age_s": {
+      "const": 300
+    }
+  },
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Towstar/Breakwater/main/contracts/eog/capture-manifest-v1.schema.json"
+}

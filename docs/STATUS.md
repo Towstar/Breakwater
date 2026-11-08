@@ -1,5 +1,25 @@
 # Implementation status
 
+## EOG exact-contract adoption — November 8, 2026
+
+- Ethan numerically accepts exact `72cadd1de7eed6666a60faff1d296e29c8f026ee`
+  in [his recorded review](https://github.com/Towstar/Breakwater/pull/33#pullrequestreview-5817527505).
+  Lucas adopts that same revision; [coordination](EOG_COORDINATION.md) records scope,
+  provider cautions and the unchanged interface during G2 baseline synchronization.
+- Local normal/ASan contract checks each passed 2/2 CTests, 70 Qt cases and
+  48 Python/native comparison methods; 63 shared fixtures passed. Ethan independently
+  repeated both modes and published 11 additional review probes with source/binary
+  provenance. These are interchange/numerical-meaning checks, not a working provider
+  or full EOG application acceptance. His retained evidence is linked in the note.
+- G2 PR #35 is merged at `1713cc4` after all six hosted jobs passed. Desktop
+  normal/ASan each ran 38/38 CTests and 641 Qt cases; native each ran 8/8. Science
+  ran 186 tests with 182 passes and four declared optional PhysicsNeMo skips;
+  pinned Lean audits passed. The six downloaded reports identify the same tree as
+  PR head `240248a`. [Hosted run](https://github.com/Towstar/Breakwater/actions/runs/42470434359).
+- Ethan's E1 analytical fixtures in PR #34 and private causal observation work
+  remain separate. No production EOG detector, optimizer or independent numerical
+  plan validator is claimed by the contract increment.
+
 ## Current Person B continuation — November 8, 2026
 
 - G1 PR #31 is merged at `2bd7bb9`; exact contract `f12a827` has recorded Person A

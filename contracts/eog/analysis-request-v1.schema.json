@@ -1,0 +1,187 @@
+{
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "eog_version",
+    "request_id",
+    "operation",
+    "method_version",
+    "dataset_identity",
+    "capture_id",
+    "cutoff_unix",
+    "kind",
+    "capture_directory",
+    "capture_manifest",
+    "arguments"
+  ],
+  "properties": {
+    "eog_version": {
+      "const": 1
+    },
+    "request_id": {
+      "$ref": "common-v1.schema.json#/$defs/id"
+    },
+    "operation": {
+      "enum": [
+        "detect",
+        "evaluate_plan",
+        "search_plans",
+        "validate_plan"
+      ]
+    },
+    "method_version": {
+      "const": 1
+    },
+    "dataset_identity": {
+      "$ref": "common-v1.schema.json#/$defs/hash"
+    },
+    "capture_id": {
+      "$ref": "common-v1.schema.json#/$defs/hash"
+    },
+    "cutoff_unix": {
+      "$ref": "common-v1.schema.json#/$defs/time"
+    },
+    "kind": {
+      "const": "analysis_request"
+    },
+    "capture_directory": {
+      "type": "string",
+      "minLength": 1,
+      "maxLength": 4096
+    },
+    "capture_manifest": {
+      "$ref": "capture-manifest-v1.schema.json"
+    },
+    "arguments": {
+      "type": "object"
+    }
+  },
+  "allOf": [
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "detect"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "arguments": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "system_ids"
+            ],
+            "properties": {
+              "system_ids": {
+                "type": "array",
+                "maxItems": 256,
+                "items": {
+                  "$ref": "common-v1.schema.json#/$defs/id"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "evaluate_plan"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "arguments": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "plan"
+            ],
+            "properties": {
+              "plan": {
+                "$ref": "common-v1.schema.json#/$defs/plan"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "validate_plan"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "arguments": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "plan",
+              "evaluator_method"
+            ],
+            "properties": {
+              "plan": {
+                "$ref": "common-v1.schema.json#/$defs/plan"
+              },
+              "evaluator_method": {
+                "$ref": "common-v1.schema.json#/$defs/id"
+              }
+            }
+          }
+        }
+      }
+    },
+    {
+      "if": {
+        "properties": {
+          "operation": {
+            "const": "search_plans"
+          }
+        }
+      },
+      "then": {
+        "properties": {
+          "arguments": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+              "system_ids",
+              "candidate_limit",
+              "time_limit_s"
+            ],
+            "properties": {
+              "system_ids": {
+                "type": "array",
+                "maxItems": 256,
+                "items": {
+                  "$ref": "common-v1.schema.json#/$defs/id"
+                }
+              },
+              "candidate_limit": {
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 10000
+              },
+              "time_limit_s": {
+                "type": "number",
+                "exclusiveMinimum": 0,
+                "maximum": 120
+              }
+            }
+          }
+        }
+      }
+    }
+  ],
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Towstar/Breakwater/main/contracts/eog/analysis-request-v1.schema.json"
+}

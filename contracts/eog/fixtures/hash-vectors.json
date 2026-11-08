@@ -1,0 +1,166 @@
+{
+  "dataset_vectors": [
+    {
+      "source_hashes": {
+        "network.json": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+        "ops.json": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+        "telemetry.csv": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe"
+      },
+      "identity_utf8": "breakwater-eog-inputs-v1\nnetwork.json:37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34\nops.json:eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34\ntelemetry.csv:41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe\n",
+      "sha256": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c"
+    }
+  ],
+  "capture_vectors": [
+    {
+      "manifest": {
+        "eog_version": 1,
+        "kind": "capture_manifest",
+        "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+        "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+        "source_hashes": {
+          "network.json": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+          "ops.json": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+          "telemetry.csv": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe"
+        },
+        "captured_files": {
+          "network.json": {
+            "sha256": "37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34",
+            "size_bytes": 128
+          },
+          "ops.json": {
+            "sha256": "eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34",
+            "size_bytes": 128
+          },
+          "telemetry.csv": {
+            "sha256": "41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe",
+            "size_bytes": 128
+          }
+        },
+        "source_first_unix": 1000000000,
+        "source_now_unix": 1000003600,
+        "cutoff_unix": 1000003600,
+        "context": "snapshot_now",
+        "sample_period_s": 300,
+        "max_age_s": 300
+      },
+      "canonical_utf8": "{\"captured_files\":{\"network.json\":{\"sha256\":\"37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34\",\"size_bytes\":{\"$f64\":\"4060000000000000\"}},\"ops.json\":{\"sha256\":\"eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34\",\"size_bytes\":{\"$f64\":\"4060000000000000\"}},\"telemetry.csv\":{\"sha256\":\"41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe\",\"size_bytes\":{\"$f64\":\"4060000000000000\"}}},\"context\":\"snapshot_now\",\"cutoff_unix\":{\"$f64\":\"41cdcd6c08000000\"},\"dataset_identity\":\"5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c\",\"eog_version\":{\"$f64\":\"3ff0000000000000\"},\"kind\":\"capture_manifest\",\"max_age_s\":{\"$f64\":\"4072c00000000000\"},\"sample_period_s\":{\"$f64\":\"4072c00000000000\"},\"source_first_unix\":{\"$f64\":\"41cdcd6500000000\"},\"source_hashes\":{\"network.json\":\"37d32f093f34bc39ade6e3bc12d9e1785730639c711eb50acf12518320535d34\",\"ops.json\":\"eb8c384699aab746f728abc0f1a5a0b11d9f48ca5a63b0faf8d8f225a5df5f34\",\"telemetry.csv\":\"41c6a27bf822c9760bb88ff7106df00a33926a711141130c977fe748c107e5fe\"},\"source_now_unix\":{\"$f64\":\"41cdcd6c08000000\"}}",
+      "sha256": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191"
+    }
+  ],
+  "plan_vectors": [
+    {
+      "name": "elapsed-plan",
+      "plan": {
+        "plan_id": "plan-1",
+        "context": "snapshot_now",
+        "start_unix": 1000003600,
+        "repair_deadlines": [
+          {
+            "facility_id": "field:A",
+            "repair_elapsed_s": 7200
+          }
+        ],
+        "truck_jobs": [
+          {
+            "job_id": "job-1",
+            "truck_id": "truck-1",
+            "system_id": "system-1",
+            "facility_id": "field:A",
+            "response_min": 30,
+            "cycle_min": 60,
+            "trips": [
+              {
+                "volume_bbl": 150,
+                "cost": 100,
+                "arrival_elapsed_s": 1800
+              }
+            ],
+            "called_elapsed_s": 0,
+            "available_again_elapsed_s": 5400
+          }
+        ],
+        "well_shut_ins": [],
+        "inspection_assets": [],
+        "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+      },
+      "canonical_utf8": "{\"context\":\"snapshot_now\",\"inspection_assets\":[],\"plan_id\":\"plan-1\",\"repair_deadlines\":[{\"facility_id\":\"field:A\",\"repair_elapsed_s\":{\"$f64\":\"40bc200000000000\"}}],\"start_unix\":{\"$f64\":\"41cdcd6c08000000\"},\"truck_jobs\":[{\"available_again_elapsed_s\":{\"$f64\":\"40b5180000000000\"},\"called_elapsed_s\":{\"$f64\":\"0000000000000000\"},\"cycle_min\":{\"$f64\":\"404e000000000000\"},\"facility_id\":\"field:A\",\"job_id\":\"job-1\",\"response_min\":{\"$f64\":\"403e000000000000\"},\"system_id\":\"system-1\",\"trips\":[{\"arrival_elapsed_s\":{\"$f64\":\"409c200000000000\"},\"cost\":{\"$f64\":\"4059000000000000\"},\"volume_bbl\":{\"$f64\":\"4062c00000000000\"}}],\"truck_id\":\"truck-1\"}],\"well_shut_ins\":[]}",
+      "sha256": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+    },
+    {
+      "name": "fractional-action",
+      "plan": {
+        "plan_id": "plan-1",
+        "context": "snapshot_now",
+        "start_unix": 1000003600,
+        "repair_deadlines": [
+          {
+            "facility_id": "field:A",
+            "repair_elapsed_s": 7200
+          }
+        ],
+        "truck_jobs": [
+          {
+            "job_id": "job-1",
+            "truck_id": "truck-1",
+            "system_id": "system-1",
+            "facility_id": "field:A",
+            "response_min": 30,
+            "cycle_min": 60,
+            "trips": [
+              {
+                "volume_bbl": 150,
+                "cost": 100,
+                "arrival_elapsed_s": 514.2857142857142
+              }
+            ],
+            "called_elapsed_s": 0,
+            "available_again_elapsed_s": 5400
+          }
+        ],
+        "well_shut_ins": [],
+        "inspection_assets": [],
+        "plan_hash": "ff38d0cba135948da23354e4f9815ededd2332095f3e20e24de689e926679755"
+      },
+      "canonical_utf8": "{\"context\":\"snapshot_now\",\"inspection_assets\":[],\"plan_id\":\"plan-1\",\"repair_deadlines\":[{\"facility_id\":\"field:A\",\"repair_elapsed_s\":{\"$f64\":\"40bc200000000000\"}}],\"start_unix\":{\"$f64\":\"41cdcd6c08000000\"},\"truck_jobs\":[{\"available_again_elapsed_s\":{\"$f64\":\"40b5180000000000\"},\"called_elapsed_s\":{\"$f64\":\"0000000000000000\"},\"cycle_min\":{\"$f64\":\"404e000000000000\"},\"facility_id\":\"field:A\",\"job_id\":\"job-1\",\"response_min\":{\"$f64\":\"403e000000000000\"},\"system_id\":\"system-1\",\"trips\":[{\"arrival_elapsed_s\":{\"$f64\":\"4080124924924924\"},\"cost\":{\"$f64\":\"4059000000000000\"},\"volume_bbl\":{\"$f64\":\"4062c00000000000\"}}],\"truck_id\":\"truck-1\"}],\"well_shut_ins\":[]}",
+      "sha256": "ff38d0cba135948da23354e4f9815ededd2332095f3e20e24de689e926679755"
+    },
+    {
+      "name": "numeric-format-equivalence",
+      "plan": {
+        "plan_id": "plan-1",
+        "context": "snapshot_now",
+        "start_unix": 1000003600,
+        "repair_deadlines": [
+          {
+            "facility_id": "field:A",
+            "repair_elapsed_s": 7200
+          }
+        ],
+        "truck_jobs": [
+          {
+            "job_id": "job-1",
+            "truck_id": "truck-1",
+            "system_id": "system-1",
+            "facility_id": "field:A",
+            "response_min": 30,
+            "cycle_min": 60,
+            "trips": [
+              {
+                "volume_bbl": 150.0,
+                "cost": 100,
+                "arrival_elapsed_s": 1800
+              }
+            ],
+            "called_elapsed_s": -0.0,
+            "available_again_elapsed_s": 5400
+          }
+        ],
+        "well_shut_ins": [],
+        "inspection_assets": [],
+        "plan_hash": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+      },
+      "canonical_utf8": "{\"context\":\"snapshot_now\",\"inspection_assets\":[],\"plan_id\":\"plan-1\",\"repair_deadlines\":[{\"facility_id\":\"field:A\",\"repair_elapsed_s\":{\"$f64\":\"40bc200000000000\"}}],\"start_unix\":{\"$f64\":\"41cdcd6c08000000\"},\"truck_jobs\":[{\"available_again_elapsed_s\":{\"$f64\":\"40b5180000000000\"},\"called_elapsed_s\":{\"$f64\":\"0000000000000000\"},\"cycle_min\":{\"$f64\":\"404e000000000000\"},\"facility_id\":\"field:A\",\"job_id\":\"job-1\",\"response_min\":{\"$f64\":\"403e000000000000\"},\"system_id\":\"system-1\",\"trips\":[{\"arrival_elapsed_s\":{\"$f64\":\"409c200000000000\"},\"cost\":{\"$f64\":\"4059000000000000\"},\"volume_bbl\":{\"$f64\":\"4062c00000000000\"}}],\"truck_id\":\"truck-1\"}],\"well_shut_ins\":[]}",
+      "sha256": "26f35f01285766743e8ec025a38cb694de87cc4fd82f2eab218cc4e686ccb27e"
+    }
+  ]
+}
