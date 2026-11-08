@@ -16,7 +16,7 @@ struct NemotronConfig {
     QUrl endpoint = QUrl(QStringLiteral("https://integrate.api.nvidia.com/v1/chat/completions"));
     QString model = QStringLiteral("nvidia/nemotron-3.5-lightning-30b-a3b");
     QString credentialSource;
-    int timeoutMs = 30000;
+    int timeoutMs = 60000;
     int maxRetries = 2;
     // An explicit file is useful for isolated launches; otherwise discover the local .env.
     // Nonempty process variables take precedence. Endpoints follow the selected

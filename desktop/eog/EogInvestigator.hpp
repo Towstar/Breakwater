@@ -8,7 +8,7 @@
 #include <QVariantList>
 
 namespace breakwater::desktop::eog {
-inline constexpr int maximum_eog_investigation_duration_ms = 180000;
+inline constexpr int maximum_eog_investigation_duration_ms = 240000;
 struct EogInvestigationLimits {
     int toolCalls = 12;
     int refinementRounds = 3;
