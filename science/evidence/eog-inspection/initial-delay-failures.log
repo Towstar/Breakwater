@@ -1,0 +1,279 @@
+test_cumulative_rule_values_and_stricter_gap_policy_are_checked (test_eog_inspection.CumulativeInspectionTests.test_cumulative_rule_values_and_stricter_gap_policy_are_checked) ... ok
+test_fast_acquisitions_cannot_accumulate_score (test_eog_inspection.CumulativeInspectionTests.test_fast_acquisitions_cannot_accumulate_score) ... ok
+test_future_changes_and_file_access_cannot_change_causal_score (test_eog_inspection.CumulativeInspectionTests.test_future_changes_and_file_access_cannot_change_causal_score) ... ok
+test_gap_invalid_stop_and_fault_break_pending_score (test_eog_inspection.CumulativeInspectionTests.test_gap_invalid_stop_and_fault_break_pending_score) ... ok
+test_one_or_two_large_outliers_do_not_create_an_episode (test_eog_inspection.CumulativeInspectionTests.test_one_or_two_large_outliers_do_not_create_an_episode) ... ok
+test_original_evidence_is_bounded_and_raw_values_remain_exact (test_eog_inspection.CumulativeInspectionTests.test_original_evidence_is_bounded_and_raw_values_remain_exact) ... ok
+test_persistent_meter_bias_has_an_identical_observation_counterexample (test_eog_inspection.CumulativeInspectionTests.test_persistent_meter_bias_has_an_identical_observation_counterexample) ... ok
+test_predeclared_healthy_noisy_day_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_healthy_noisy_day_family) ... ok
+test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) ... 
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=0, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=0, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=1, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=1, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=5, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=6, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=7, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=8, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=10, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=11, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=13, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=13, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=14, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=15, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=16, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=16, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=18, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=19, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=20, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=21, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=22, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=23, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=23, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=25, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=25, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=26, cycling=True, category='pipeline_leak') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=27, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=28, cycling=True, category='pump_degradation') ... FAIL
+  test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=30, cycling=True, category='pump_degradation') ... FAIL
+test_recovery_requires_running_agreement_and_next_episode_is_fresh (test_eog_inspection.CumulativeInspectionTests.test_recovery_requires_running_agreement_and_next_episode_is_fresh) ... ok
+test_short_cycles_retain_only_observed_continuity (test_eog_inspection.CumulativeInspectionTests.test_short_cycles_retain_only_observed_continuity) ... ok
+test_six_hour_expiry_prevents_cross_cycle_old_score (test_eog_inspection.CumulativeInspectionTests.test_six_hour_expiry_prevents_cross_cycle_old_score) ... ok
+test_three_percent_step_matches_independent_fraction_score (test_eog_inspection.CumulativeInspectionTests.test_three_percent_step_matches_independent_fraction_score) ... ok
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=0, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=0, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=1, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16500 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=1, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=5, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 18300 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=6, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=7, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 18000 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=8, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=10, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=11, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=13, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 18000 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=13, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=14, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=15, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=16, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 18000 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=16, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=18, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=19, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=20, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=21, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=22, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=23, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=23, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=25, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16500 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=25, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16500 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=26, cycling=True, category='pipeline_leak')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16500 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=27, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 16200 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=28, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+======================================================================
+FAIL: test_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) (index=30, cycling=True, category='pump_degradation')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-inspection\science\tests\test_eog_inspection.py", line 171, in test_predeclared_small_loss_and_short_cycle_family
+    self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
+AssertionError: 14700 not less than or equal to 14400
+
+----------------------------------------------------------------------
+Ran 13 tests in 3.354s
+
+FAILED (failures=29)

@@ -13,12 +13,17 @@ import math
 from eog_model import Facility, Model, ModelError
 from eog_observations import ObservationError, Sample, View
 
-METHOD = "eog-detection-0.2.2"
+METHOD = "eog-detection-0.3.0"
 
 
 @dataclass(frozen=True, slots=True)
 class Rules:
     inspection_samples: int = 4
+    inspection_cumulative: bool = True
+    inspection_drift_fraction: float = 0.015
+    inspection_score_threshold: float = 0.25
+    inspection_influence_fraction: float = 0.05
+    inspection_window_s: int = 21600
     zero_flow_bpd: float = 5.0
     zero_flow_fraction: float = 0.02
     leak_fraction: float = 0.05
@@ -35,8 +40,12 @@ class Rules:
             raise ModelError("invalid_rules", "Inspection confirmation needs 2-24 consecutive running frames.")
         if type(self.max_events) is not int or not 1 <= self.max_events <= 4096:
             raise ModelError("invalid_rules", "Event budget must be in [1, 4096].")
+        if (type(self.inspection_cumulative) is not bool or type(self.inspection_window_s) is not int or
+                not 900 <= self.inspection_window_s <= 21600):
+            raise ModelError("invalid_rules", "Cumulative inspection needs a boolean switch and a 900-21600s window.")
         for name in ("zero_flow_bpd", "zero_flow_fraction", "leak_fraction", "leak_absolute_bpd",
-                     "degradation_fraction", "level_tolerance_pct", "inflow_balance_fraction", "inflow_balance_bpd", "running_upper_fraction"):
+                     "degradation_fraction", "level_tolerance_pct", "inflow_balance_fraction", "inflow_balance_bpd", "running_upper_fraction",
+                     "inspection_drift_fraction", "inspection_score_threshold", "inspection_influence_fraction"):
             value = getattr(self, name)
             if isinstance(value, bool) or not isinstance(value, (int, float)):
                 raise ModelError("invalid_rules", "Thresholds must be finite nonnegative numeric values.")
@@ -50,6 +59,9 @@ class Rules:
                 self.zero_flow_fraction < 1 and self.inflow_balance_fraction < 1 and self.running_upper_fraction < 1 and
                 self.level_tolerance_pct <= 5):
             raise ModelError("invalid_rules", "Unsupported fractional/level threshold range.")
+        if not (0 < self.inspection_drift_fraction < self.inspection_influence_fraction <= 1 and
+                self.inspection_influence_fraction <= self.inspection_score_threshold <= 64):
+            raise ModelError("invalid_rules", "Unsupported cumulative inspection allowance/influence/threshold.")
 
 
 @dataclass(frozen=True, slots=True)
@@ -336,6 +348,50 @@ def _forecast_failure(model, f, event, view, rules, productive):
                    assumptions=tuple(assumptions), limitations=tuple(limitations))
 
 
+class _InspectionSum:
+    """Bounded causal change score, not a calibrated fault probability.
+
+    Stopped frames preserve acquisition continuity but contribute no discrepancy.
+    Replaying the small retained window removes expired score contributions and
+    retains exactly the original frames that support the positive suffix.
+    """
+    def __init__(self, rules, maximum_gap):
+        self.rules, self.maximum_gap = rules, maximum_gap
+        self.frames, self.previous = [], None
+        self.before_support = None
+
+    def reset(self):
+        self.frames, self.previous = [], None
+        self.before_support = None
+
+    def observe(self, timestamp, frame, fraction):
+        if not self.rules.inspection_cumulative:
+            return ()
+        if self.previous is not None and (timestamp - self.previous != 300 or 300 > self.maximum_gap):
+            self.frames = []
+        self.previous = timestamp
+        self.frames = [item for item in self.frames if timestamp - item[0] <= self.rules.inspection_window_s]
+        self.frames.append((timestamp, frame, fraction))
+        score, support, running, last_zero = 0.0, [], 0, None
+        for stamp, readings, residual in self.frames:
+            if residual is not None:
+                score = max(0.0, math.fsum((score, min(residual, self.rules.inspection_influence_fraction)
+                                          - self.rules.inspection_drift_fraction)))
+                if score == 0:
+                    support, running = [], 0
+                    last_zero = stamp
+                    continue
+                running += 1
+            if score > 0:
+                support.append((stamp, readings))
+        self.before_support = last_zero
+        if (fraction is not None and score > self.rules.inspection_score_threshold and
+                running >= self.rules.inspection_samples and
+                support[-1][0] - support[0][0] >= (self.rules.inspection_samples - 1) * 300):
+            return tuple(support)
+        return ()
+
+
 def _inspection_events(f, view, rules, category):
     keys = _keys(f, receipt=category == "pipeline_leak")
     data = _series(view, keys)
@@ -343,11 +399,13 @@ def _inspection_events(f, view, rules, category):
     zero = max(rules.zero_flow_bpd, f.pump_flow_bpd * rules.zero_flow_fraction)
     current, pending_bad, pending_good, previous_good = None, [], [], None
     events, last_interpretable = [], None
+    initial_evidence, cumulative_episode = (), False
     def confirmed(sequence):
         return (len(sequence) == rules.inspection_samples and
                 sequence[-1][0] - sequence[0][0] >= (rules.inspection_samples - 1) * 300)
 
     maximum_gap = min(300, view.policy.max_gap_s)
+    cumulative = _InspectionSum(rules, maximum_gap)
     def strength(frame):
         flow = frame[1].value
         if category == "pipeline_leak":
@@ -363,27 +421,39 @@ def _inspection_events(f, view, rules, category):
 
     def sustained(sequence):
         return confirmed(sequence) and math.fsum(strength(frame) for _, frame in sequence) / len(sequence) > 1
+    cumulative_support = ()
     for timestamp, status in data[status_key].items():
         frame = _frame(view, data, timestamp)
+        cumulative_support = ()
+        if (frame is not None and status.value == 0 and abs(frame[1].value) <= zero and
+                (category != "pipeline_leak" or abs(frame[2].value) <= zero)):
+            cumulative.observe(timestamp, frame, None)
+            pending_bad, pending_good = [], []
+            continue
         if (frame is None or status.value != 1 or frame[1].value <= zero or
                 frame[1].value / f.pump_flow_bpd > 1 + rules.running_upper_fraction):
+            cumulative.reset()
             pending_bad, pending_good = [], []
             continue
         flow = frame[1].value
         if category == "pipeline_leak":
             received = frame[2].value
             if received < 0 or received > flow + max(rules.leak_absolute_bpd, flow * rules.leak_fraction):
+                cumulative.reset()
                 pending_bad, pending_good = [], []
                 continue
         normalized = strength(frame)
         if normalized is None:
+            cumulative.reset()
             pending_bad, pending_good = [], []
             continue
+        fraction = normalized * (rules.leak_fraction if category == "pipeline_leak" else rules.degradation_fraction)
+        cumulative_support = cumulative.observe(timestamp, frame, fraction)
         # Every supporting frame exceeds half the full threshold; its four-frame
         # mean must exceed the full threshold. An isolated large outlier cannot
         # substitute for persistent evidence, and one modest noisy dip need not
         # discard a sustained observed loss.
-        bad = normalized > 0.5
+        bad = normalized > 0.5 or (cumulative_episode and fraction > rules.inspection_drift_fraction)
         last_interpretable = timestamp
         if bad:
             if pending_bad and timestamp - pending_bad[-1][0] > maximum_gap:
@@ -394,11 +464,11 @@ def _inspection_events(f, view, rules, category):
             if current is None and sustained(pending_bad):
                 evidence = tuple(sample for _, frame_samples in pending_bad for sample in frame_samples)
                 current = _event(f, category, pending_bad[0][0], previous_good, evidence)
+                initial_evidence, cumulative_episode = current.evidence, False
                 current = replace(current, detected_unix=timestamp, updated_unix=timestamp, assumptions=(
                     "Onset is the first sample of a sustained evidence-threshold breach, not an authenticated physical fault onset.",))
             elif current is not None:
-                initial = current.evidence[:rules.inspection_samples * len(keys)]
-                current = replace(current, updated_unix=timestamp, evidence=_retain(initial, frame))
+                current = replace(current, updated_unix=timestamp, evidence=_retain(initial_evidence, frame))
         else:
             if pending_good and timestamp - pending_good[-1][0] > maximum_gap:
                 pending_good = []
@@ -406,20 +476,30 @@ def _inspection_events(f, view, rules, category):
             pending_good = pending_good[-rules.inspection_samples:]
             pending_bad = []
             if current is not None:
-                initial = current.evidence[:rules.inspection_samples * len(keys)]
-                current = replace(current, updated_unix=timestamp, evidence=_retain(initial, frame))
+                current = replace(current, updated_unix=timestamp, evidence=_retain(initial_evidence, frame))
             if current is not None and confirmed(pending_good):
                 current = replace(current, state="resolved", end_unix=pending_good[0][0], updated_unix=timestamp,
                                   evidence=current.evidence + tuple(s for _, readings in pending_good for s in readings),
                                   limitations=current.limitations + ("Recovery is sustained observed flow agreement; it is not an externally confirmed repair endpoint.",))
                 events.append(current)
                 current = None
+                initial_evidence, cumulative_episode = (), False
+                cumulative.reset()
+                cumulative_support = ()
             previous_good = timestamp
+        if current is None and cumulative_support:
+            evidence = tuple(sample for _, readings in cumulative_support for sample in readings)
+            current = _event(f, category, cumulative_support[0][0], cumulative.before_support, evidence)
+            initial_evidence, cumulative_episode = current.evidence, True
+            current = replace(current, detected_unix=timestamp, updated_unix=timestamp, assumptions=(
+                "A bounded one-sided running-observation change score supports this inspection; coherent stopped frames contribute no discrepancy or recovery.",
+                "Onset marks the retained positive-score evidence suffix, not an authenticated physical fault onset.",), limitations=current.limitations + (
+                "The cumulative signal is a declared heuristic, not a calibrated probability; persistent meter bias can be indistinguishable from physical loss.",))
     cohort = view.cohort(keys)
     latest_stamps = [r.sample.unix for r in cohort.readings if r.sample is not None]
     recent = (cohort.state == "available" and len(set(latest_stamps)) == 1 and
               last_interpretable == latest_stamps[0])
-    enough = confirmed(pending_bad) or confirmed(pending_good)
+    enough = confirmed(pending_bad) or confirmed(pending_good) or bool(cumulative_support)
     state = "available" if recent and enough else "ambiguous" if cohort.state == "available" else "unavailable"
     reason = ("Sustained running-flow evidence available." if state == "available" else
               "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair.")

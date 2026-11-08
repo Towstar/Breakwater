@@ -1,0 +1,92 @@
+[
+  {
+    "id": "EVENT_1",
+    "category": "pipeline_leak",
+    "first_running_h": 1.0,
+    "first_1pct_h": 1.0,
+    "first_2_5pct_h": 1.3333333333333333,
+    "first_5pct_h": 3.5,
+    "first_run_after_end_h": 2.0
+  },
+  {
+    "id": "EVENT_2",
+    "category": "pump_degradation",
+    "first_running_h": 2.1666666666666665,
+    "first_1pct_h": 2.1666666666666665,
+    "first_2_5pct_h": 3.3333333333333335,
+    "first_5pct_h": 9.833333333333334,
+    "first_run_after_end_h": 0.0
+  },
+  {
+    "id": "EVENT_3",
+    "category": "pump_degradation",
+    "first_running_h": 1.75,
+    "first_1pct_h": 2.0,
+    "first_2_5pct_h": 4.666666666666667,
+    "first_5pct_h": 9.416666666666666,
+    "first_run_after_end_h": 0.0
+  },
+  {
+    "id": "EVENT_4",
+    "category": "pipeline_leak",
+    "first_running_h": 0.0,
+    "first_1pct_h": 0.0,
+    "first_2_5pct_h": 0.25,
+    "first_5pct_h": 8.75,
+    "first_run_after_end_h": 0.0
+  },
+  {
+    "id": "EVENT_5",
+    "category": "pump_degradation",
+    "first_running_h": 0.3333333333333333,
+    "first_1pct_h": 0.5,
+    "first_2_5pct_h": 4.75,
+    "first_5pct_h": 13.916666666666666,
+    "first_run_after_end_h": 6.0
+  },
+  {
+    "id": "EVENT_7",
+    "category": "pump_degradation",
+    "first_running_h": 0.0,
+    "first_1pct_h": 0.75,
+    "first_2_5pct_h": 4.583333333333333,
+    "first_5pct_h": 12.083333333333334,
+    "first_run_after_end_h": 6.0
+  },
+  {
+    "id": "EVENT_8",
+    "category": "pump_degradation",
+    "first_running_h": 2.4166666666666665,
+    "first_1pct_h": 2.5,
+    "first_2_5pct_h": 3.1666666666666665,
+    "first_5pct_h": 10.916666666666666,
+    "first_run_after_end_h": 6.0
+  },
+  {
+    "id": "EVENT_10",
+    "category": "pipeline_leak",
+    "first_running_h": 0.16666666666666666,
+    "first_1pct_h": 0.16666666666666666,
+    "first_2_5pct_h": 0.8333333333333334,
+    "first_5pct_h": 4.5,
+    "first_run_after_end_h": 1.1666666666666667
+  },
+  {
+    "id": "EVENT_16",
+    "category": "pipeline_leak",
+    "first_running_h": 0.0,
+    "first_1pct_h": 0.08333333333333333,
+    "first_2_5pct_h": 0.08333333333333333,
+    "first_5pct_h": 10.5,
+    "first_run_after_end_h": 0.0
+  },
+  {
+    "id": "EVENT_17",
+    "category": "pipeline_leak",
+    "first_running_h": 0.0,
+    "first_1pct_h": 0.08333333333333333,
+    "first_2_5pct_h": 0.16666666666666666,
+    "first_5pct_h": 2.5,
+    "first_run_after_end_h": 3.5
+  }
+]
