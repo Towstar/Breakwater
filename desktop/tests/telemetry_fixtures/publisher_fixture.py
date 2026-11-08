@@ -86,7 +86,8 @@ while True:
     try:
         command = commands.get_nowait()
     except queue.Empty:
-        emit("heartbeat", dict(paused=paused, clock_rate=rate))
+        if not (mode == "pause_silent" and paused):
+            emit("heartbeat", dict(paused=paused, clock_rate=rate))
         continue
     if mode == "no_ack":
         continue
