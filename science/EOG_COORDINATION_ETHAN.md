@@ -27,7 +27,45 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: bounded joint search
+## Active execution checkpoint: native stateful synthetic plant
+
+Current branch/worktree: `codex/person-a-eog-simulation` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-simulation`. Corrected native
+source **af73a42**; latest accepted main **c1622b9** merged as **7323968** without
+changing tested engine source. This adopts Lucas's merge of #45. No B-owned
+desktop/contracts/root file is edited.
+
+Private `engine/include/breakwater/eog_simulation.hpp` / `src/eog_simulation.cpp`
+now implement bounded persistent pump cycling, repeated failures/repairs, explicit
+rate forcing, per-well through-repair shut-ins and full-load jobs on physical shared
+trucks. Final-return commitments survive repairs and later incidents. Input is
+copied; snapshots contain only current truth. No seeded observation projector or
+production simulation protocol is claimed. Details/limits: `engine/EOG_SIMULATION.md`.
+
+Actual final normal/ASan: **12/12 native CTests each**, **57,498 synthetic checks**
+per mode, including 100 observation-partition comparisons and 100 exact actual
+E3 cost/inventory comparisons. The original 31-day cycle error (2.58757e-5 bbl)
+failed and was corrected by algebraic event roots, without changing tolerance:
+final error 4.98283e-7 bbl, raw mass residual -8.54726e-7 bbl. Signed event-boundary
+rounding stays separately visible. Retained initial source/failures and pinned
+normal/checked evidence are in `science/evidence/eog-simulation/`.
+
+Search PR **#46** now targets main after #45 merged. Exact a420deb hosted run
+42491491720 passes native normal/ASan, Lean and science. Desktop normal passes
+61/62 CTests; actual Qt artifact 13622352092 proves its one failure is a stale
+search-unavailable expectation at eog_provider_integration_tests.cpp:293. B's
+concrete requested genuine search/review/history acceptance is recorded at:
+https://github.com/Towstar/Breakwater/pull/46#issuecomment-6723113570 .
+The B-owned source/assertions and installed eog_search.py staging remain B's work.
+
+Next: map real imported Model/IDs into this private native plant, add a seeded
+causal observation projector and qualify detector/planner isolation. Snapshot
+search must not ignore persistent commitments. Lucas must publish the additive
+application/simulation boundary before binding UI controls. B's #44 at e0b3da6
+publishes new installed/render/live evidence; it requires exact-source review and
+does not complete final joined search/simulation/UI acceptance. Goal stays active.
+
+## Published checkpoint: bounded joint search
 
 Current A branch/worktree: `codex/person-a-eog-search` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-search`. Runtime freeze **34fdf5d**,

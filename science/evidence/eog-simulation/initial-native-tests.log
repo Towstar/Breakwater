@@ -1,0 +1,369 @@
+Start testing: Nov 08 08:54 Central Standard Time
+----------------------------------------------------------
+1/12 Testing: engine.eog_simulation
+1/12 Test: engine.eog_simulation
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_eog_simulation_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.eog_simulation" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+56817 synthetic-event checks passed (100 long-run observation-partition comparisons)
+<end of output>
+Test time =   0.30 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_simulation" end time: Nov 08 08:54 Central Standard Time
+"engine.eog_simulation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+2/12 Testing: engine.eog_response
+2/12 Test: engine.eog_response
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_eog_response_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.eog_response" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+6768 response checks passed (600 independent no-action and 600 well-stop randomized cases)
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_response" end time: Nov 08 08:54 Central Standard Time
+"engine.eog_response" time elapsed: 00:00:00
+----------------------------------------------------------
+
+3/12 Testing: engine.eog_analytical
+3/12 Test: engine.eog_analytical
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_eog_analytical_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.eog_analytical" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS barrel and daily units
+PASS finite raw unusual values are not clipped
+PASS normal stopped state and hysteretic cycle
+PASS fault feedback and unknown restart
+PASS analytical countdown uses shutdown threshold
+PASS remaining repair is based on assumed onset
+PASS observation fixture uses an explicit historical clock and policy
+PASS missing stale future and incoherent evidence abstains
+PASS no-crossing and reached are distinct from unavailable
+PASS opening no-action trip and loss
+PASS opening full-load truck and return
+PASS truck removal keeps both sides of the jump
+PASS repeat trip arrivals and return
+PASS truck too late cannot restart shut wells
+PASS threshold wins exact truck tie
+PASS full fixed load cannot exceed inventory
+PASS simultaneous full loads are checked together
+PASS every load must precede repair strictly
+PASS last repeat arrival also respects repair
+PASS immediate well shut-in cost
+PASS delayed well shut-in cost
+PASS each well has its own start and revenue
+PASS mixed response costs are itemized
+PASS automatic loss does not double count deliberate loss
+PASS threshold wins a simultaneous well shut-in
+PASS threshold at repair reports trip with zero loss
+PASS already shut-in exposure remains until repair
+PASS above-threshold finite inventory is preserved
+PASS preexisting unproductive wells add no exposure
+PASS two failures cannot double book shared truck
+PASS three failures compete for two trucks
+PASS return occupancy prevents early reassignment
+PASS sequential jobs restart from yard
+PASS one ULP overlapping return is rejected
+PASS fleet identity is local to each system
+PASS response order does not change simultaneous result
+PASS unknown IDs are explicit violations
+PASS duplicate shut-ins and invalid action times
+PASS bounded work and malformed fixtures
+PASS nonfinite observations and arithmetic overflow
+PASS analytical random no-action crossing and revenue oracle
+PASS random scheduled responses satisfy separate integral ledgers
+42/42 EOG analytical cases passed
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_analytical" end time: Nov 08 08:54 Central Standard Time
+"engine.eog_analytical" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/12 Testing: engine.eog_analytical_example
+4/12 Test: engine.eog_analytical_example
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_eog_analytical_example.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.eog_analytical_example" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+method=eog-analytical-0.1.0 (private E1 fixture; no detection/search/worker)
+no-action: shutdown_after_h=4.480000 cost=5016.000000
+one-truck: arrival_h=1.250000 free_h=5.083333 final_bbl=700.000000 cost=905.000000
+well-2-off-at-2h: final_bbl=733.333333 cost=2000.000000
+<end of output>
+Test time =   0.15 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_analytical_example" end time: Nov 08 08:54 Central Standard Time
+"engine.eog_analytical_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/12 Testing: engine.benchmark_correctness
+5/12 Test: engine.benchmark_correctness
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_benchmark.exe" "--verify-only" "--count" "100"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.benchmark_correctness" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+canonical_incident candidates=100 verified=100 feasible=5 screen_passes=5 influence_passes=5 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+custom_24_tanks candidates=100 verified=100 feasible=23 screen_passes=23 influence_passes=23 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+{"benchmark_version":2,"status":"passed","method":"correctness_only","configuration":"RelWithDebInfo","checked_build":false,"cpp_standard":2020,"compiler":"MSVC 195136260","logical_processors_reported":16,"processor_identifier":"AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD","steady_clock":true,"warmup_batches":2,"repeats":7,"calibration_target_ms":10,"maximum_iterations_per_sample":1024,"phase_order":"rotated per repetition","quantile":"p90 nearest rank; stddev population","notes":"Kernel setup excluded except explicitly timed influence_precompute. Dense/sparse have identical samples, writes and full-buffer checksum consumption. Affine avoids trajectories. Paired route-walk/influence screens consume identical numeric outputs; potential influence rows preserve canonical cost order. Retained validation is five runs, not the full batch. Overlapping phases do not sum to total search. No global optimum or universal speedup claim.","results":[{"workload":"canonical_incident","public_evaluator":"route_walk","candidates":100,"distinct_candidates":100,"candidate_fnv1a64":"74d91098d3821317","assets":6,"routes":6,"tanks":2,"internal_edges":1,"samples":121,"horizon_h":3,"step_h":0.025,"prepared_numeric_bytes":5632,"trajectory_workspace_bytes":2936,"preparation_once_ms":1.4342999999999999,"influence_preparation_once_ms":0.0106,"max_forward_error_m3":9.3791641120333225e-13,"all_candidates_reference_checked":true,"reference_feasible_candidates":5,"screen_passes":5,"influence_screen_passes":5,"influence_fallbacks":1,"max_influence_rate_error_m3h":7.1054273576010019e-15,"max_influence_destination_error_m3h":8.8817841970012523e-16,"max_influence_cost_error":0,"reference_checks_in_search":5,"reference_rejections_in_search":0,"recommendations":5,"best_evaluated_cost":9713.8502623906716,"best_candidate_index":53,"phases":[]},{"workload":"custom_24_tanks","public_evaluator":"route_walk","candidates":100,"distinct_candidates":100,"candidate_fnv1a64":"858a8c52690e4e80","assets":28,"routes":66,"tanks":24,"internal_edges":60,"samples":121,"horizon_h":3,"step_h":0.025,"prepared_numeric_bytes":194112,"trajectory_workspace_bytes":24584,"preparation_once_ms":13.018700000000001,"influence_preparation_once_ms":0.011599999999999999,"max_forward_error_m3":8.2422957348171622e-13,"all_candidates_reference_checked":true,"reference_feasible_candidates":23,"screen_passes":23,"influence_screen_passes":23,"influence_fallbacks":1,"max_influence_rate_error_m3h":1.7763568394002505e-15,"max_influence_destination_error_m3h":8.8817841970012523e-16,"max_influence_cost_error":6.2527760746888816e-13,"reference_checks_in_search":5,"reference_rejections_in_search":0,"recommendations":5,"best_evaluated_cost":243.66435799319726,"best_candidate_index":21,"phases":[]}]}
+<end of output>
+Test time =   0.28 sec
+----------------------------------------------------------
+Test Passed.
+"engine.benchmark_correctness" end time: Nov 08 08:54 Central Standard Time
+"engine.benchmark_correctness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/12 Testing: engine.acceptance
+6/12 Test: engine.acceptance
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_engine_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.acceptance" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS healthy preview accumulates explicitly
+PASS baseline exact limit time and unclipped prediction
+PASS isolated downstream failure
+PASS mixed plan cost and inventory
+PASS capacity equality is permitted
+PASS generic renamed network and shared throughput
+PASS negative inventories remain visible
+PASS unknown nonfinite duplicate and unavailable controls rejected
+PASS draft and malformed topology rejected
+PASS independent validator catches corrupted trajectories and cost
+PASS nonfinite derived catalog prices are explicit invalid network parameters
+PASS independent cost overflow rejects finite infinite and NaN result costs
+PASS simulated cost overflow remains visible and fails independent validation
+PASS finite huge and zero costs validate independently of cached pricing
+PASS decimal horizon edge cases preserve interior samples and the exact endpoint
+PASS subnormal and neighboring horizons remain strictly covered
+PASS one-ULP shortened and extended results never satisfy requested-horizon validation
+PASS requested-horizon overflow cannot be hidden by one-ULP-short sampling
+PASS actual interval count enforces the 10000-update boundary
+PASS random graph dense sparse affine agreement and internal conservation
+PASS candidate snapshots are independent under concurrency
+PASS bounded configuration and workspace validation
+22/22 cases passed
+<end of output>
+Test time =   0.19 sec
+----------------------------------------------------------
+Test Passed.
+"engine.acceptance" end time: Nov 08 08:54 Central Standard Time
+"engine.acceptance" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/12 Testing: engine.search
+7/12 Test: engine.search
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_search_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.search" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS canonical explicit batch rejects bad plans and returns real mixed reference
+PASS small canonical grid agrees with exhaustive independent reference oracle
+PASS curtailment ranking includes savings on nonzero-cost source feed route
+PASS renamed colon IDs and unspecified settings remain intact
+PASS shared treatment and trucking limits screen aggregate arrivals
+PASS capacity equality and validator tolerance are respected
+PASS no axes evaluate one unchanged candidate and infeasible search is explicit
+PASS valid decimal and subnormal grids do not become false no-plan results
+PASS one-ULP final overflow never receives a recommendation
+PASS forecast work-limit errors precede candidate screening
+PASS equal cost results retain input order
+PASS exactly 10000 candidates accepted and larger requests rejected
+PASS grid product limit and four-control limit are enforced
+PASS unknown duplicate nonfinite out-of-bounds and unavailable controls rejected
+PASS source control cannot exceed its connected feed capacity
+PASS malformed requests and options are rejected before evaluation
+PASS candidate batches and concurrent searches do not mutate snapshots
+PASS overflow in an auxiliary screening scale defers to reference validation
+PASS nonfinite arithmetic is counted and never recommended
+PASS hourly-product and horizon-total cost overflow retain finite repaired candidates
+PASS aggregate-hourly cost overflow and source-product overflow cannot hide zero-cost plans
+PASS nonrepresentable catalog unit prices fail explicitly before search
+22/22 search cases passed
+<end of output>
+Test time =   0.16 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search" end time: Nov 08 08:54 Central Standard Time
+"engine.search" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/12 Testing: engine.control_influence
+8/12 Test: engine.control_influence
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_control_influence_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.control_influence" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS large public batch and Cartesian search retain exhaustive reference rankings
+PASS precomputed rates and destination sums match route traversal across actual network shapes
+PASS nonzero source feed cost and partial defaults agree at the numeric screen
+PASS near-boundary predictions exercise the route-walk fallback
+PASS canonical and custom batch rankings agree with exhaustive native oracle
+PASS partial overrides keep other route and source settings fixed
+PASS close reference costs and ties preserve exact ranking across the result cutoff
+PASS shared destination equality and near-boundary rows match independent validation
+PASS storage equality and narrowed horizon preserve the reference feasibility decision
+PASS nonfinite baseline cost does not hide a finite overridden candidate
+PASS automatic influence dispatch rejects cost overflow but preserves finite repairs
+PASS reciprocal huge flows and zeroed overrides do not lose finite cancellation
+PASS changed costs topology and availability are rebuilt for each captured network
+PASS invalid controls still fail before the optimized screen
+PASS no selected controls still evaluates one immutable candidate
+15/15 control-influence cases passed
+<end of output>
+Test time =   1.01 sec
+----------------------------------------------------------
+Test Passed.
+"engine.control_influence" end time: Nov 08 08:54 Central Standard Time
+"engine.control_influence" time elapsed: 00:00:01
+----------------------------------------------------------
+
+9/12 Testing: engine.search_example
+9/12 Test: engine.search_example
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_search_example.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.search_example" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=432 screen_survivors=39 constraint_rejections=393 numerical_rejections=0 reference_checks=5 reference_rejections=0
+candidate=352 reference_validated=true cost=4800 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=356 reference_validated=true cost=5280 synthetic_units minimum_headroom=10 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=22 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=110 m3
+  tank_b final=117 m3
+candidate=349 reference_validated=true cost=7350 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=15 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=281 reference_validated=true cost=8550 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=15 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=116 m3
+  tank_b final=102 m3
+candidate=353 reference_validated=true cost=8550 synthetic_units minimum_headroom=13 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=101 m3
+  tank_b final=117 m3
+Best among evaluated candidates. Quality/stress robustness not evaluated.
+<end of output>
+Test time =   0.11 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search_example" end time: Nov 08 08:54 Central Standard Time
+"engine.search_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/12 Testing: engine.search_infeasible_example
+10/12 Test: engine.search_infeasible_example
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_search_example.exe" "--infeasible"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.search_infeasible_example" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=2 screen_survivors=0 constraint_rejections=2 numerical_rejections=0 reference_checks=0 reference_rejections=0
+NO_FEASIBLE_PLAN_FOUND among evaluated candidates; not a global infeasibility proof.
+<end of output>
+Test time =   0.03 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search_infeasible_example" end time: Nov 08 08:54 Central Standard Time
+"engine.search_infeasible_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/12 Testing: engine.transport
+11/12 Test: engine.transport
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_transport_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.transport" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS large finite concentration and mass do not overflow auxiliary norms
+PASS finite physical mass survives a concentration-sum overflow
+PASS disabled processes preserve a nonuniform field and exact output horizon
+PASS pure decay agrees with analytic solution and converges in time
+PASS one open Euler step balances signed faces source and old-state decay
+PASS one closed Euler step cancels internal faces with source and decay
+PASS variable event steps telescope the old-inventory source and decay ledger
+PASS constant field survives positive advection and diffusion
+PASS CFL one pure upwind advection shifts by one cell
+PASS closed diffusion cosine cell averages converge under mesh refinement
+PASS zero-flow Dirichlet diffusion records signed inlet mass loss
+PASS inlet half-cell diffusion CFL preserves first-cell positivity
+PASS open equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS closed equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS zero data zero coefficients and pure decay equality permit zero concentration
+PASS open unequal event steps use each velocity and nonnegative inlet average
+PASS flow changes and stops are resolved between output samples
+PASS piecewise linear inlet uses interval-average forcing
+PASS source and reaction ledger uses concentration-to-mass conversion
+PASS input profiles and concurrent transport calls remain independent
+PASS invalid pipe geometry and integration options are rejected
+PASS invalid initial and source profiles are rejected
+PASS invalid schedules and closed-pipe nonzero flow are rejected
+PASS output memory substep and cell-update budgets are enforced
+PASS nonfinite derived arithmetic and non-advancing time fail explicitly
+25/25 transport cases passed
+<end of output>
+Test time =   1.80 sec
+----------------------------------------------------------
+Test Passed.
+"engine.transport" end time: Nov 08 08:54 Central Standard Time
+"engine.transport" time elapsed: 00:00:01
+----------------------------------------------------------
+
+12/12 Testing: engine.transport_example
+12/12 Test: engine.transport_example
+Command: "C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine/breakwater_transport_example.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-simulation/out/headless/engine
+"engine.transport_example" start time: Nov 08 08:54 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | fvm-upwind-euler-0.1.0 | single-pipe tracer reference
+cells=64 frames=41 substeps=136 maximum_cfl=0.9
+final_inventory_mg=1994.10774493 signed_inlet_exchange_mg=4533.10789803 outlet_exchange_mg=4276.15496538 decayed_mg=262.845187721
+maximum_mass_residual_mg=1.36887055523e-12 minimum_concentration_mg_l=0.189932938338 final_outlet_cell_mg_l=0.275066562435
+Scalar transport proxy; network-wide chemistry and learned model validation are separate work.
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"engine.transport_example" end time: Nov 08 08:54 Central Standard Time
+"engine.transport_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+End testing: Nov 08 08:54 Central Standard Time

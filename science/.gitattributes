@@ -8,3 +8,4 @@
 /evidence/eog-response/** -text whitespace=-blank-at-eol,-blank-at-eof linguist-generated
 /evidence/eog-validation/** -text whitespace=-blank-at-eol,-blank-at-eof linguist-generated
 /evidence/eog-search/** -text whitespace=-blank-at-eol,-blank-at-eof linguist-generated
+/evidence/eog-simulation/** -text whitespace=-blank-at-eol,-blank-at-eof linguist-generated
