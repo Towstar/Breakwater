@@ -317,22 +317,43 @@ private slots:
         QVERIFY(saved.value("http_status").isNull()); QVERIFY(saved.value("duration_ms").isNull()); QVERIFY(saved.value("retry_count").isNull());
     }
     void malformedFinal_data() {
-        QTest::addColumn<QString>("content");
-        QTest::newRow("duplicate") << QString("{\"summary\":\"a\",\"summary\":\"b\",\"selected_plan_id\":null,\"validation_id\":null,\"event_ids\":[]}");
-        QTest::newRow("extra-grounding") << QString("{\"summary\":\"a\",\"selected_plan_id\":null,\"validation_id\":null,\"event_ids\":[],\"grounded\":true}");
-        QTest::newRow("missing") << QString("{\"summary\":\"a\",\"selected_plan_id\":null,\"validation_id\":null}");
-        QTest::newRow("nonfinite") << QString("{\"summary\":\"a\",\"selected_plan_id\":NaN,\"validation_id\":null,\"event_ids\":[]}");
-        QTest::newRow("reasoning") << QString("{\"summary\":\"<think>private</think>\",\"selected_plan_id\":null,\"validation_id\":null,\"event_ids\":[]}");
-        QTest::newRow("duplicate-events") << QString("{\"summary\":\"a\",\"selected_plan_id\":null,\"validation_id\":null,\"event_ids\":[\"one\",\"one\"]}");
-        QTest::newRow("code-fence") << QString(3, QChar(96)) + "json\n{}\n" + QString(3, QChar(96));
+        QTest::addColumn<QJsonValue>("content"); QTest::addColumn<QString>("reason");
+        const QString canary("RAW_REJECTED_FINAL_CANARY");
+        const QJsonObject base{{"summary", canary}, {"selected_plan_id", canary}, {"validation_id", QJsonValue::Null}, {"event_ids", QJsonArray{}}};
+        const auto text = [](const QJsonObject& value) { return QJsonValue(QString::fromUtf8(QJsonDocument(value).toJson(QJsonDocument::Compact))); };
+        const auto changed = [&](const QString& key, const QJsonValue& value) { auto row = base; row[key] = value; return text(row); };
+        QTest::newRow("content-type") << QJsonValue(QJsonObject{{"private", canary}}) << QString("content_type");
+        QTest::newRow("duplicate") << QJsonValue(QString("{\"summary\":\"RAW_REJECTED_FINAL_CANARY\",\"summary\":\"b\",\"selected_plan_id\":null,\"validation_id\":null,\"event_ids\":[]}")) << QString("json_document");
+        QTest::newRow("extra-grounding") << changed("RAW_REJECTED_FINAL_CANARY_extra", true) << QString("field_set");
+        auto missing = base; missing.remove("event_ids"); QTest::newRow("missing") << text(missing) << QString("field_set");
+        QTest::newRow("nonfinite") << QJsonValue(QString("{\"summary\":\"RAW_REJECTED_FINAL_CANARY\",\"selected_plan_id\":NaN,\"validation_id\":null,\"event_ids\":[]}")) << QString("json_document");
+        QTest::newRow("reasoning") << changed("summary", "<think>RAW_REJECTED_FINAL_CANARY</think>") << QString("summary");
+        QTest::newRow("empty-summary") << changed("summary", " ") << QString("summary");
+        QTest::newRow("summary-type") << changed("summary", 17) << QString("summary");
+        QTest::newRow("summary-size") << changed("summary", QString(4001, 'x')) << QString("summary");
+        QTest::newRow("selected-plan-reference") << changed("selected_plan_id", 17) << QString("selected_plan_reference");
+        QTest::newRow("validation-reference") << changed("validation_id", false) << QString("validation_reference");
+        QTest::newRow("event-ids-type") << changed("event_ids", canary) << QString("event_ids");
+        QJsonArray many; for (int i = 0; i < 257; ++i) many.append(canary);
+        QTest::newRow("event-ids-size") << changed("event_ids", many) << QString("event_ids");
+        QTest::newRow("event-reference") << changed("event_ids", QJsonArray{QJsonValue::Null}) << QString("event_reference");
+        QTest::newRow("duplicate-events") << changed("event_ids", QJsonArray{canary, canary}) << QString("duplicate_event_ids");
+        QTest::newRow("code-fence") << QJsonValue(QString(3, QChar(96)) + "json\n" + text(base).toString() + "\n" + QString(3, QChar(96))) << QString("json_document");
     }
     void malformedFinal() {
-        QFETCH(QString, content); FakeTransport model;
+        QFETCH(QJsonValue, content); QFETCH(QString, reason); FakeTransport model;
         model.respond = [content](const QJsonArray&, int) { return QJsonObject{{"role", "assistant"}, {"content", content}}; };
         EogInvestigator investigator(&model);
         QSignalSpy failed(&investigator, &EogInvestigator::failed), finished(&investigator, &EogInvestigator::finished);
         investigator.start("Explain.", {}, definitions()); QTRY_COMPARE(failed.size(), 1); QVERIFY(finished.isEmpty());
         QCOMPARE(failed[0][0].toString(), QString("invalid_final"));
+        QVERIFY(failed[0][1].toString().contains("(" + reason + ")"));
+        QVERIFY(!investigator.running()); QVERIFY(investigator.result().isEmpty());
+        const auto saved = QJsonDocument(QJsonArray::fromVariantList(investigator.events())).toJson(QJsonDocument::Compact);
+        QVERIFY(!saved.contains("RAW_REJECTED_FINAL_CANARY"));
+        const auto event = investigator.events().last().toMap(); QCOMPARE(event.value("type").toString(), QString("failed"));
+        QCOMPARE(event.value("code").toString(), QString("invalid_final"));
+        QCOMPARE(event.value("message").toString(), failed[0][1].toString());
     }
     void wellFormedFinalDoesNotEstablishGrounding() {
         FakeTransport model; model.respond = [](const QJsonArray&, int) { return finalReply("unverified-plan", "unverified-validation"); };

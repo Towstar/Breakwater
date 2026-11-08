@@ -55,6 +55,9 @@ Keep future analysis causal to the fixed dataset/capture/cutoff. Do not request 
 Each evaluate_plan or search_plans attempt consumes one candidate refinement, including failed attempts.
 Respect remaining budgets. When candidate tools are exhausted, inspect existing evidence or finish.
 Do not reveal hidden reasoning or return prose/code fences outside the final JSON.
+Keep the final summary nonempty and at most 4,000 characters. Return only the four required fields.
+Use JSON null for unavailable plan/validation references, not empty strings or invented placeholders.
+event_ids must contain at most 256 unique actual references; each reference is at most 256 characters.
 Finish with exactly {"summary": <concise operator explanation and limitations>,
 "selected_plan_id": <actual plan ID or null>, "validation_id": <actual validation ID or null>,
 "event_ids": [<actual event IDs>]}. These are claims for application reference verification,
@@ -379,26 +382,38 @@ void EogInvestigator::completeTool(const QString& callId, const QJsonObject& out
 }
 void EogInvestigator::completeFinal(const QJsonObject& message) {
     QJsonObject final;
+    const char* stage = "content_type";
     try {
         require(message.value("content").isString());
         const auto text = message.value("content").toString();
+        stage = "encoding_or_size";
         require(text.toUtf8().size() <= maximumAssistantBytes && QString::fromUtf8(text.toUtf8()) == text);
+        stage = "json_document";
         final = decode_document(text.toUtf8());
         const QSet<QString> expected{"summary", "selected_plan_id", "validation_id", "event_ids"};
+        stage = "field_set";
         require(final.size() == expected.size());
         for (auto it = final.begin(); it != final.end(); ++it) require(expected.contains(it.key()));
         const auto summary = final.value("summary");
+        stage = "summary";
         require(summary.isString() && !summary.toString().trimmed().isEmpty() && summary.toString().size() <= 4000 &&
             !summary.toString().contains("<think>", Qt::CaseInsensitive) && !summary.toString().contains("</think>", Qt::CaseInsensitive));
         for (const auto* key : {"selected_plan_id", "validation_id"}) {
+            stage = QLatin1String(key) == QLatin1String("selected_plan_id") ? "selected_plan_reference" : "validation_reference";
             const auto value = final.value(QLatin1String(key)); require(value.isNull() || reference(value));
         }
+        stage = "event_ids";
         require(final.value("event_ids").isArray() && final.value("event_ids").toArray().size() <= 256);
         QSet<QString> ids;
         for (const auto& value : final.value("event_ids").toArray()) {
-            require(reference(value) && !ids.contains(value.toString())); ids.insert(value.toString());
+            stage = "event_reference"; require(reference(value));
+            stage = "duplicate_event_ids"; require(!ids.contains(value.toString())); ids.insert(value.toString());
         }
-    } catch (const std::exception&) { stop("invalid_final", "The model final must contain only the required bounded JSON fields."); return; }
+    } catch (const std::exception&) {
+        // The stage is selected only from literals above. Never echo rejected
+        // content, unknown fields/IDs or parser exception text into evidence.
+        stop("invalid_final", QStringLiteral("The model final was rejected (%1); required bounded JSON checks failed.").arg(QLatin1String(stage))); return;
+    }
     deadline_.stop(); disconnectRequest(); running_ = awaiting_model_ = executing_tool_ = false;
     queued_calls_ = {}; pending_ = {}; result_ = final; ++generation_;
     status_ = "Model completed; numerical reference review is required";
