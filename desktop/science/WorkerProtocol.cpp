@@ -44,36 +44,39 @@ QJsonArray array(const QJsonValue& value, qsizetype minimum, qsizetype maximum) 
 void numbers(const QJsonValue& value, qsizetype count) {
     for (const auto& item : array(value, count, count)) (void)number(item);
 }
-std::vector<double> storageTimes(double horizon, double step) {
+std::vector<double> requestedTimes(double horizon, double step) {
+    // Independently enforce the adopted wire policy. Rounded division is not a
+    // work count: it can omit a terminal ULP, invent a duplicate, or underflow.
+    constexpr std::size_t maximumUpdates = 10000;
     require(std::isfinite(horizon) && std::isfinite(step) && horizon > 0.0 && horizon <= 24.0 && step > 0.0);
-    // Reconstruct the bounded original grid independently of the worker/native
-    // result. Rounded division cannot decide admission, endpoints or indices.
+    require(horizon <= static_cast<double>(maximumUpdates) * step);
     std::vector<double> times{0.0};
-    for (int k = 1; k <= 10000; ++k) {
-        const double time = static_cast<double>(k) * step;
+    for (std::size_t index = 1; index <= maximumUpdates; ++index) {
+        const auto time = static_cast<double>(index) * step;
         if (time >= horizon) { times.push_back(horizon); return times; }
         require(time > times.back());
         times.push_back(time);
     }
-    throw std::invalid_argument("Storage forecasts support at most 10000 updates including the final partial interval.");
+    throw std::invalid_argument("Invalid scientific protocol data.");
 }
 } // namespace
 
-bool forwardPayload(const QJsonObject& payload) {
+bool storagePayload(const QJsonObject& payload) {
     try {
         keys(payload, {"method_version", "identity", "network", "controls", "horizon_h", "step_h", "derivatives", "preview"});
         require(integer(payload.value("method_version"), 1, 1) == 1 && payload.value("identity").isObject());
         identity(payload.value("identity").toObject());
         const auto horizon = number(payload.value("horizon_h")), step = number(payload.value("step_h"));
-        (void)storageTimes(horizon, step);
-        require(payload.value("derivatives").isBool() && !payload.value("derivatives").toBool());
+        (void)requestedTimes(horizon, step);
+        require(payload.value("derivatives").isBool());
+        const bool derivatives = payload.value("derivatives").toBool();
         require(payload.value("preview").isObject()); const auto preview = payload.value("preview").toObject();
         keys(preview, {"max_times"}); (void)integer(preview.value("max_times"), 2, 256);
         require(payload.value("network").isObject());
         const auto network = parse_project({{"version", 1}, {"network", payload.value("network")}, {"layout", QJsonObject{}}}).network;
         require(network.assets.size() <= 128 && network.routes.size() <= 256);
         std::vector<ControlValue> controls; QSet<QString> identifiers;
-        for (const auto& value : array(payload.value("controls"), 0, 384)) {
+        for (const auto& value : array(payload.value("controls"), derivatives ? 1 : 0, 384)) {
             require(value.isObject()); const auto control = value.toObject(); keys(control, {"control_id", "value"});
             text(control.value("control_id"), 512); const auto id = control.value("control_id").toString();
             require(!identifiers.contains(id)); identifiers.insert(id);
@@ -81,6 +84,21 @@ bool forwardPayload(const QJsonObject& payload) {
         }
         // Validate the captured draft independently before applying any override.
         (void)compile(network); (void)compile(network, controls);
+        if (derivatives) {
+            const auto catalog = control_catalog(network);
+            for (const auto& control : controls) {
+                const auto descriptor = std::find_if(catalog.begin(), catalog.end(), [&](const ControlDescriptor& value) { return value.id == control.id; });
+                require(descriptor != catalog.end() && descriptor->minimum < descriptor->maximum &&
+                    control.value > descriptor->minimum && control.value < descriptor->maximum);
+                const auto source = std::find_if(network.assets.begin(), network.assets.end(), [&](const Asset& value) {
+                    return value.id == descriptor->asset_id && value.kind == AssetKind::source;
+                });
+                if (source != network.assets.end()) {
+                    const auto feed = std::find_if(network.routes.begin(), network.routes.end(), [&](const Route& value) { return value.source_id == source->id; });
+                    require(feed != network.routes.end() && source->inflow_m3h - control.value < feed->capacity_m3h);
+                }
+            }
+        }
         return true;
     } catch (const std::exception&) { return false; }
 }
@@ -119,7 +137,11 @@ bool capabilities(const QJsonObject& result) {
 
 bool storage(const QJsonObject& result, const QJsonObject& payload) {
     try {
-        keys(result, {"method", "method_version", "identity", "provenance", "time_h", "time_indices", "tank_ids", "volumes_m3", "cost", "warnings"});
+        require(payload.value("derivatives").isBool());
+        const bool derivatives = payload.value("derivatives").toBool();
+        QSet<QString> fields{"method", "method_version", "identity", "provenance", "time_h", "time_indices", "tank_ids", "volumes_m3", "cost", "warnings"};
+        if (derivatives) fields.insert("derivatives");
+        keys(result, fields);
         require(result.value("method").toString() == "storage_rollout"); (void)integer(result.value("method_version"), 1, 1);
         require(result.value("identity").isObject() && result.value("identity") == payload.value("identity"));
         require(result.value("provenance").isObject()); const auto provenance = result.value("provenance").toObject();
@@ -130,16 +152,17 @@ bool storage(const QJsonObject& result, const QJsonObject& payload) {
         const auto maximum = payload.value("preview").toObject().value("max_times").toInt();
         const auto times = array(result.value("time_h"), 2, maximum), indices = array(result.value("time_indices"), times.size(), times.size());
         const auto horizon = payload.value("horizon_h").toDouble(), step = payload.value("step_h").toDouble();
-        const auto grid = storageTimes(horizon, step);
-        const auto lastIndex = static_cast<qint64>(grid.size() - 1);
+        const auto expectedTimes = requestedTimes(horizon, step);
+        const auto lastIndex = static_cast<qint64>(expectedTimes.size() - 1);
         qint64 previousIndex = -1; double previousTime = -1.0;
         for (qsizetype i = 0; i < times.size(); ++i) {
             const auto index = integer(indices[i], 0, lastIndex);
             const auto time = number(times[i]);
-            require(index > previousIndex && time > previousTime && time == grid[static_cast<std::size_t>(index)]);
+            require(index > previousIndex && time > previousTime && time == expectedTimes[static_cast<std::size_t>(index)]);
             previousIndex = index; previousTime = time;
         }
-        require(indices.first().toInteger() == 0 && indices.last().toInteger() == lastIndex);
+        require(indices.first().toInteger() == 0 && indices.last().toInteger() == lastIndex &&
+            times.first().toDouble() == 0.0 && times.last().toDouble() == horizon);
         QJsonArray tankIds;
         for (const auto& value : payload.value("network").toObject().value("assets").toArray())
             if (value.toObject().value("kind").toString() == "tank") tankIds.append(value.toObject().value("id"));
@@ -147,6 +170,16 @@ bool storage(const QJsonObject& result, const QJsonObject& payload) {
         for (const auto& row : array(result.value("volumes_m3"), tankIds.size(), tankIds.size())) numbers(row, times.size());
         require(number(result.value("cost")) >= 0.0);
         for (const auto& warning : array(result.value("warnings"), 0, 32)) text(warning, 1000, true);
+        if (derivatives) {
+            QJsonArray controlIds;
+            for (const auto& value : array(payload.value("controls"), 1, 384)) controlIds.append(value.toObject().value("control_id"));
+            require(result.value("derivatives").isObject());
+            const auto derivative = result.value("derivatives").toObject();
+            keys(derivative, {"control_ids", "terminal_volume_jacobian_h", "cost_gradient"});
+            require(derivative.value("control_ids").isArray() && derivative.value("control_ids").toArray() == controlIds);
+            for (const auto& row : array(derivative.value("terminal_volume_jacobian_h"), tankIds.size(), tankIds.size())) numbers(row, controlIds.size());
+            numbers(derivative.value("cost_gradient"), controlIds.size());
+        }
         return true;
     } catch (const std::exception&) { return false; }
 }

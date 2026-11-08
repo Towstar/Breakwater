@@ -1,11 +1,55 @@
-# B5: desktop CPU storage comparison
+# B5: desktop CPU storage comparison and sensitivities
 
 The Science tab executes the actual Python worker's CPU float64 PyTorch storage
 rollout for a retained native forecast. It compares returned samples at their original
 native indices, reports differences and preserves finite negative/over-capacity values.
-Native C++ remains the feasibility/approval authority. This is forward-only analysis;
-selected derivatives, candidate/history science and automatic science retention are
-separate increments. The native pipe viewer remains independent of Python.
+Native C++ remains the feasibility/approval authority. B5c adds explicitly selected
+continuous-control derivatives at unchanged captured values. Completed forward and
+sensitivity results are now retained automatically in local History, including results
+that disagree with native. Agent-candidate science remains separate. The native pipe
+viewer is independent of Python.
+
+## Automatic scientific history
+
+1. Run a native forecast, open Science, then compare with PyTorch or run selected
+   sensitivities. The local history status reports saving, success or a storage error.
+2. Open History and select the saved comparison or sensitivity session. Choose
+   **View scientific evidence** to inspect its tank charts, errors, derivatives,
+   captured values, versions, warnings and original identities.
+3. Restart the application and reopen the same session. **Export JSON** and
+   **Import JSON** use the existing versioned session workflow. **Return to current**
+   returns to the separate live capture; it does not restore controls or selections.
+
+Each completed result is an immutable completed session with a distinct result UUID.
+It retains the frozen network, full original native trajectory/configuration and
+reported native validation, plus the bounded worker preview (at most 256 original
+sample indices) and full selected-control derivative matrix. Omitted controls remain
+in the captured network. Worker previews are not represented as full worker rollouts.
+
+SQLite and session archive versions remain 1. Science sessions add
+`session_kind: "scientific"`, `scientific_evidence_version: 1` and a singleton
+`scientific_evidence` array. Each scientific result is capped at 1 MiB; full native
+data retains the existing session/network/sample/archive limits. The validator checks
+field/version allowlists, identities/hash/revision, exact original grid, captured
+controls/domain/order/units, preview/native binding, finite dimensions, provenance
+and recomputed comparison diagnostics before saving or importing. Existing investigation
+archives need no science fields. Project-v1 files and worker NDJSON are unchanged.
+
+Serialization, validation and transactional writes run on the existing repository
+thread, which drains accepted checkpoints on shutdown. A storage failure remains
+visible while native forecasting and completed scientific results stay usable.
+Reopening is historical and non-actionable. Imported JSON is internally checked
+evidence, not authenticated worker execution, fresh feasibility validation or approval.
+It never restores a live capture, launches a worker or authorizes a simulated plan.
+
+For a reproducible historical render of an exported science session:
+
+```powershell
+.\scripts\Start-Desktop.ps1 -Wait -AppArguments @('--import-session','C:\path\science.json','--open-scientific-history','--smoke')
+```
+
+The science-check smoke requires successful retention of its exact result ID. A
+storage failure returns exit 7 and does not produce a success screenshot.
 
 ## Local setup and launch
 
@@ -49,11 +93,33 @@ this machine's PowerShell 5 execution policy blocked its launch probe and was pr
 5. **Cancel** retires the job. Numerical edits, reset, deletion or a new native forecast
    retire prior science. Camera, selection, layout and independent pipe-parameter edits
    preserve a still-matching captured forecast. Selecting/charting tanks changes no controls.
+6. Scroll to **Selected-control sensitivities** and select the captured controls to
+   differentiate. Fixed/unavailable controls, values on a bound and source flows on
+   their feed-capacity boundary are disabled with a reason. No controls are preselected.
+7. Choose **Run selected sensitivities**. Inspect the selected tank's terminal-volume
+   Jacobian in **hours** and cost gradient in **synthetic units per (m3/h)**. Select
+   another tank to view its rows. Columns follow the displayed native catalog order.
+
+Only the selected controls are sent as overrides, at exactly their captured values;
+omitted controls remain captured constants. Changing a value requires editing the
+native network and running a fresh forecast. The UI never perturbs a boundary input,
+changes operating controls, or silently drops a requested derivative. For example,
+over a three-hour horizon a one-unit increase in an interior transfer from tank A
+to B has terminal-volume derivatives -3 h / +3 h with other controls fixed.
+
+Changing the selection retires pending/completed sensitivity evidence; an independent
+forward result remains viewable. A new capture clears selection. The complete validated
+matrix is retained, while the bounded list displays one tank's rows. Oversized results
+fail explicitly rather than truncating columns. Sensitivities do not differentiate
+through rejection, discrete search or operator approval.
 
 Agreement uses `1e-9 + 1e-10 * max(abs(native), abs(worker))`, separately in m3 and
 synthetic cost units. Scaled error at or below one is within that tolerance. The metric
-covers returned preview samples, not undisplayed worker samples or every feasibility
-constraint. Agreement is advisory and never stages/applies controls or grants approval.
+covers returned preview samples and cost, not undisplayed samples, derivatives or every
+feasibility constraint. Derivative checks enforce finite shapes, exact IDs/order and
+captured provenance; numerical derivative/native finite differences are regression
+checks, not a runtime feasibility verdict. Agreement is advisory and never stages/applies
+controls or grants approval.
 
 ## Process and identity boundary
 
@@ -64,6 +130,10 @@ flag belongs to that completed process; a fresh process starts unverified. Resul
 published only after stdin closes and the process exits successfully. Unexpected output,
 crashes, cancellation, deadlines or stale generations cannot publish late.
 
+Sensitivity evidence also binds analysis mode, selected IDs/values and job generation.
+Results include `analysis_mode`, `selected_controls`, `native_solver_version`, and
+the requested `derivatives` object. Forward results reject unrequested derivatives.
+
 Limits are 1 MiB per UTF-8 frame including newline, three MiB total for the storage
 exchange, and 64 KiB counted/discarded stderr. Health defaults to ten seconds; science
 has a sixty-second whole-job deadline. Replacement work waits for the previous child
@@ -71,13 +141,15 @@ to exit. Child-provided error text and model credentials do not enter evidence.
 
 The captured native run retains its original requested configuration and immutable full
 reference arrays. The worker's bounded preview is never used to infer a new step. The
-existing indexed grid `min(k * step, horizon)` can end one ULP below the requested
-horizon; both the original requested horizon and the actual native grid are preserved.
-Duplicate/unrepresentable worker grids fail explicitly rather than being repaired.
+grid retains every rounded `k * step` strictly before the requested horizon, then
+appends that exact horizon once. This includes a one-ULP terminal interval when
+needed. The desktop independently checks that grid and its original indices instead
+of deriving its length with `ceil(horizon / step)`. More than 10,000 updates or an
+unrepresentable grid fails explicitly. The original request is never shortened.
 
 ## Installed and automated checks
 
-CMake installs `worker.py`, `worker_storage.py` and the Python package beside one
+CMake installs `worker.py`, `worker_storage.py`, `storage_grid.py` and the Python package beside one
 another. Development source fallback is limited to the canonical development binary
 directory. A copied installed app must use its deployed files and external configured
 runtime; an absent mapper or Torch produces an unavailable state.
@@ -97,6 +169,15 @@ Science page and a rendered frame. `--compact-ui --science-example bad` exercise
 compact view and infeasible native predictions without treating agreement as approval.
 Report-write failure returns exit 7; execution/identity/comparison failure returns a
 nonzero exit. Test reports and screenshots are generated evidence, not project files.
+
+For the same actual-app check with explicit selected captured controls:
+
+```powershell
+.\scripts\Start-Desktop.ps1 -Wait -AppArguments @('--science-check','--science-derivatives','--science-control','source:source_a:curtail','--science-control','route:bypass:flow','--smoke','--science-report',(Join-Path $PWD 'out/storage-sensitivities.json'))
+```
+
+Missing, duplicate, unknown or ineligible selections fail explicitly. This mode supplies
+no alternative values: the displayed native mixed-plan capture remains the reference.
 
 CTest registers real Science render checks when the configured interpreter detects
 Torch; real tests still have to execute successfully. Missing-runtime skips are not

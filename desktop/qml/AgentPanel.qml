@@ -120,7 +120,7 @@ ColumnLayout {
     }
     PlainLabel {
         Layout.fillWidth: true; elide: Text.ElideRight; color: "#60d2d1"
-        text: tabs.currentIndex === 2 ? panel.history.status : tabs.currentIndex === 3 ? panel.storageScience.status : panel.investigator.status
+        text: tabs.currentIndex === 2 || (tabs.currentIndex === 3 && panel.history.historical) ? panel.history.status : tabs.currentIndex === 3 ? panel.storageScience.status : panel.investigator.status
     }
     RowLayout {
         Layout.fillWidth: true
@@ -132,8 +132,8 @@ ColumnLayout {
             TabButton { text: "Science" }
         }
         Item { Layout.fillWidth: true }
-        PlainLabel { text: panel.scienceVisible ? "CURRENT NATIVE FORECAST · READ ONLY" : panel.history.historical ? "HISTORICAL · READ ONLY" : "CURRENT SESSION"; color: !panel.scienceVisible && panel.history.historical ? "#ffcf70" : "#9eb5c2"; font.pixelSize: 10 }
-        Button { visible: panel.history.historical && !panel.scienceVisible; text: "Return to current"; onClicked: panel.history.showLive() }
+        PlainLabel { text: panel.history.historical ? "HISTORICAL · READ ONLY" : panel.scienceVisible ? "CURRENT NATIVE FORECAST · READ ONLY" : "CURRENT SESSION"; color: panel.history.historical ? "#ffcf70" : "#9eb5c2"; font.pixelSize: 10 }
+        Button { objectName: "returnToCurrentEvidence"; visible: panel.history.historical; text: "Return to current"; onClicked: panel.history.showLive() }
     }
     StackLayout {
         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 0
@@ -244,7 +244,7 @@ ColumnLayout {
                 Layout.fillWidth: true; Layout.fillHeight: true; spacing: 4
                 RowLayout {
                     Layout.fillWidth: true
-                    SectionLabel { text: "SAVED INVESTIGATIONS · " + panel.history.sessions.length }
+                    SectionLabel { text: "SAVED SESSIONS · " + panel.history.sessions.length }
                     Item { Layout.fillWidth: true }
                     Button { text: "Refresh"; enabled: !panel.history.busy; onClicked: panel.history.refresh() }
                 }
@@ -261,7 +261,7 @@ ColumnLayout {
                             PlainLabel { Layout.fillWidth: true; text: (modelData.status || "unknown") + " · " + (modelData.created_at || "") + "\nSession " + modelData.session_id; font.pixelSize: 10; wrapMode: Text.WrapAnywhere; color: "#9eb5c2" }
                         }
                     }
-                    PlainLabel { anchors.centerIn: parent; width: parent.width - 20; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap; visible: sessionList.count === 0; text: "No saved investigations yet. Completed tool evidence is saved as the investigation runs."; color: "#8ca5b4" }
+                    PlainLabel { anchors.centerIn: parent; width: parent.width - 20; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap; visible: sessionList.count === 0; text: "No saved sessions yet. Investigation evidence and completed scientific comparisons are saved automatically."; color: "#8ca5b4" }
                 }
             }
             ColumnLayout {
@@ -270,16 +270,18 @@ ColumnLayout {
                 PlainLabel { Layout.fillWidth: true; text: panel.history.selectedSessionId || "No session selected"; wrapMode: Text.WrapAnywhere; font.pixelSize: 11 }
                 PlainLabel { Layout.fillWidth: true; text: panel.history.historical ? "Historical and imported sessions are read-only evidence. They cannot apply controls to the current network." : "Current investigation. Select stored runs in Comparison to inspect outcomes."; wrapMode: Text.WordWrap; color: panel.history.historical ? "#ffcf70" : "#9eb5c2" }
                 PlainLabel { text: panel.history.runs.length + " stored numerical runs" }
+                PlainLabel { text: panel.history.scientificEvidence.length + " stored scientific results" }
+                Button { objectName: "viewHistoricalScience"; text: "View scientific evidence"; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: tabs.currentIndex = 3 }
                 RowLayout {
                     Button { text: "Compare runs"; enabled: panel.history.runs.length > 0; onClicked: tabs.currentIndex = 1 }
                     Button { text: "Export JSON"; enabled: !panel.history.busy && panel.history.selectedSessionId.length > 0; onClicked: exportDialog.open() }
                     Button { text: "Import JSON"; enabled: !panel.history.busy; onClicked: importDialog.open() }
                 }
-                PlainLabel { Layout.fillWidth: true; text: "Versioned session JSON includes captured state, stored runs, validation evidence and execution events."; wrapMode: Text.WordWrap; font.pixelSize: 10; color: "#8ca5b4" }
+                PlainLabel { Layout.fillWidth: true; text: "Versioned session JSON includes captured state, stored runs, validation evidence, execution events and any retained scientific results."; wrapMode: Text.WordWrap; font.pixelSize: 10; color: "#8ca5b4" }
                 Item { Layout.fillHeight: true }
             }
         }
-        StorageSciencePanel { scientificWorker: panel.scientificWorker; storageScience: panel.storageScience }
+        StorageSciencePanel { scientificWorker: panel.scientificWorker; storageScience: panel.storageScience; history: panel.history }
     }
     FileDialog { id: exportDialog; title: "Export investigation session"; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER session (*.json)"]; onAccepted: panel.history.exportSession(selectedFile) }
     FileDialog { id: importDialog; title: "Import historical investigation"; nameFilters: ["BREAKWATER session (*.json)"]; onAccepted: panel.history.importSession(selectedFile) }

@@ -1,5 +1,6 @@
 #include "SessionRepository.hpp"
 #include "ProjectDocument.hpp"
+#include "science/StorageScienceEvidence.hpp"
 
 #include <QDateTime>
 #include <QDir>
@@ -76,6 +77,8 @@ QJsonObject historical(QJsonObject archive) {
     return archive;
 }
 void unchangedEvidence(const QJsonObject& previous, const QJsonObject& next) {
+    if (previous.value("session_kind") == "scientific" && previous != next)
+        reject("checkpoint_conflict", "Completed scientific history records are immutable.");
     if (previous.value("snapshot") != next.value("snapshot") || previous.value("created_at") != next.value("created_at") ||
         previous.value("objective") != next.value("objective"))
         reject("checkpoint_conflict", "A session checkpoint cannot replace its immutable snapshot or original objective.");
@@ -221,6 +224,19 @@ void checkArchive(const QJsonObject& archive) {
         require(recommendation.value("selected_run_id").isString() && run_ids.contains(recommendation.value("selected_run_id").toString()), "Recommendation refers to an unknown archived run.");
     require(archive.value("approvals").isArray() && archive.value("approvals").toArray().size() <= 128, "Approval audit entries exceed the session limit.");
     for (const auto& approval : archive.value("approvals").toArray()) require(approval.isObject(), "Approval audit entries must be objects.");
+    const bool has_science = archive.contains("scientific_evidence") || archive.contains("scientific_evidence_version") ||
+        archive.value("session_kind") == "scientific";
+    if (has_science) {
+        require(archive.value("scientific_evidence_version").isDouble() &&
+            archive.value("scientific_evidence_version").toDouble() == 1.0,
+            "Unsupported scientific history evidence version.");
+        require(archive.value("scientific_evidence").isArray() && archive.value("scientific_evidence").toArray().size() == 1,
+            "A scientific history record must contain exactly one immutable result.");
+        const auto evidence = archive.value("scientific_evidence").toArray().first();
+        require(evidence.isObject(), "Scientific history evidence must be an object.");
+        QString science_error;
+        require(science::validate_storage_science_evidence(evidence.toObject(), archive, &science_error), science_error);
+    }
 }
 }
 
@@ -292,8 +308,8 @@ public:
         }
         initialized_ = false;
     }
-    void save(QJsonObject archive) {
-        perform([&] {
+    bool save(QJsonObject archive, const QString& checkpointId = {}) {
+        return perform([&] {
             available(); checkArchive(archive);
             const auto bytes = serialized(archive);
             const auto id = archive.value("session_id").toString();
@@ -315,14 +331,18 @@ public:
                 existing.finish(); write(archive, bytes);
             });
             emit sessionSaved(id); emit operationCompleted("save", id);
-        });
+        }, checkpointId);
     }
-    void capture(std::function<QJsonObject()> producer) {
-        perform([&] {
+    void capture(std::function<QJsonObject()> producer, const QString& checkpointId) {
+        QJsonObject archive;
+        if (!perform([&] {
             available();
             if (!producer) reject("invalid_request", "A checkpoint capture callback is required.");
-            save(producer());
-        });
+            archive = producer();
+            if (!checkpointId.isEmpty() && archive.value("session_id").toString() != checkpointId)
+                reject("invalid_request", "The checkpoint identity differs from its captured session.");
+        }, checkpointId)) return;
+        (void)save(std::move(archive), checkpointId);
     }
     void list() {
         perform([&] {
@@ -385,16 +405,24 @@ signals:
     void sessionsListed(const QJsonArray& sessions);
     void sessionLoaded(const QJsonObject& archive);
     void sessionSaved(const QString& sessionId);
+    void checkpointFailed(const QString& checkpointId, const QString& code, const QString& message);
     void operationCompleted(const QString& operation, const QString& sessionId);
     void failed(const QString& code, const QString& message);
 private:
     QString path_, connection_;
     QSqlDatabase database_;
     bool initialized_ = false;
-    void perform(const std::function<void()>& action) {
-        try { action(); }
-        catch (const RepositoryError& error) { emit failed(error.code, error.message); }
-        catch (const std::exception&) { emit failed("storage_failed", "The session history operation failed."); }
+    bool perform(const std::function<void()>& action, const QString& checkpointId = {}) {
+        try { action(); return true; }
+        catch (const RepositoryError& error) {
+            emit failed(error.code, error.message);
+            if (!checkpointId.isEmpty()) emit checkpointFailed(checkpointId, error.code, error.message);
+        }
+        catch (const std::exception&) {
+            emit failed("storage_failed", "The session history operation failed.");
+            if (!checkpointId.isEmpty()) emit checkpointFailed(checkpointId, "storage_failed", "The session history operation failed.");
+        }
+        return false;
     }
     void available() const { if (!initialized_) reject("storage_unavailable", "The session history database is unavailable."); }
     void execute(const QString& sql) {
@@ -451,6 +479,7 @@ SessionRepository::SessionRepository(QString databasePath, QObject* parent) : QO
     connect(worker_, &SessionRepositoryWorker::sessionsListed, this, &SessionRepository::sessionsListed, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::sessionLoaded, this, &SessionRepository::sessionLoaded, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::sessionSaved, this, &SessionRepository::sessionSaved, Qt::QueuedConnection);
+    connect(worker_, &SessionRepositoryWorker::checkpointFailed, this, &SessionRepository::checkpointFailed, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::operationCompleted, this, &SessionRepository::operationCompleted, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::failed, this, &SessionRepository::failed, Qt::QueuedConnection);
     QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->initialize(); }, Qt::QueuedConnection);
@@ -466,8 +495,10 @@ SessionRepository::~SessionRepository() {
     }
 }
 void SessionRepository::saveSession(const QJsonObject& archive) { QMetaObject::invokeMethod(worker_, [worker = worker_, archive] { worker->save(archive); }, Qt::QueuedConnection); }
-void SessionRepository::enqueueCheckpoint(std::function<QJsonObject()> capture) {
-    QMetaObject::invokeMethod(worker_, [worker = worker_, capture = std::move(capture)]() mutable { worker->capture(std::move(capture)); }, Qt::QueuedConnection);
+void SessionRepository::enqueueCheckpoint(std::function<QJsonObject()> capture, QString checkpointId) {
+    QMetaObject::invokeMethod(worker_, [worker = worker_, capture = std::move(capture), checkpointId = std::move(checkpointId)]() mutable {
+        worker->capture(std::move(capture), checkpointId);
+    }, Qt::QueuedConnection);
 }
 void SessionRepository::listSessions() { QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->list(); }, Qt::QueuedConnection); }
 void SessionRepository::loadSession(const QString& id) { QMetaObject::invokeMethod(worker_, [worker = worker_, id] { worker->load(id); }, Qt::QueuedConnection); }

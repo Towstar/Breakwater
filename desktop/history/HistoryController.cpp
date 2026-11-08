@@ -85,6 +85,7 @@ void HistoryController::defaultSelection(bool reset) {
     const auto options = tanks();
     bool found = false; for (const auto& option : options) found |= option.toMap().value("id").toString() == tank_;
     if (!found) tank_ = options.isEmpty() ? QString{} : options.first().toMap().value("id").toString();
+    defaultScientificSelection(reset);
 }
 void HistoryController::setLiveSession(const QJsonObject& archive) {
     if (archive.value("session_id") == live_.value("session_id") && archive.value("checkpoint_sequence").toDouble() < live_.value("checkpoint_sequence").toDouble()) return;
@@ -107,6 +108,92 @@ void HistoryController::selectRuns(const QString& baseline, const QString& candi
 }
 void HistoryController::selectTank(const QString& id) {
     for (const auto& value : tanks()) if (value.toMap().value("id").toString() == id) { tank_ = id; emit changed(); return; }
+}
+QJsonObject HistoryController::scientificDetail(const QString& id) const {
+    for (const auto& value : archive_.value("scientific_evidence").toArray()) {
+        const auto evidence = value.toObject();
+        if (!id.isEmpty() && evidence.value("result_id").toString() == id) return evidence;
+    }
+    return {};
+}
+QVariantList HistoryController::scientificEvidence() const {
+    QVariantList rows;
+    for (const auto& value : archive_.value("scientific_evidence").toArray()) {
+        const auto evidence = value.toObject();
+        rows.append(QVariantMap{{"result_id", evidence.value("result_id").toString()},
+            {"run_id", evidence.value("run_id").toString()}, {"created_at", evidence.value("created_at").toString()},
+            {"analysis_mode", evidence.value("analysis_mode").toString()},
+            {"within_tolerance", evidence.value("within_tolerance").toBool()}});
+    }
+    return rows;
+}
+QVariantMap HistoryController::scientificResult() const { return scientificDetail(scientific_result_).toVariantMap(); }
+QVariantList HistoryController::scientificTanks() const { return scientificDetail(scientific_result_).value("tanks").toArray().toVariantList(); }
+void HistoryController::defaultScientificSelection(bool reset) {
+    const auto evidence = archive_.value("scientific_evidence").toArray();
+    if (reset || scientificDetail(scientific_result_).isEmpty()) {
+        scientific_result_ = evidence.isEmpty() ? QString{} : evidence.first().toObject().value("result_id").toString();
+        scientific_tank_.clear();
+    }
+    const auto options = scientificTanks();
+    bool found = false;
+    for (const auto& value : options) found |= value.toMap().value("id").toString() == scientific_tank_;
+    if (!found) scientific_tank_ = options.isEmpty() ? QString{} : options.first().toMap().value("id").toString();
+}
+void HistoryController::selectScientificResult(const QString& id) {
+    if (id == scientific_result_ || scientificDetail(id).isEmpty()) return;
+    scientific_result_ = id; scientific_tank_.clear(); defaultScientificSelection(false); emit changed();
+}
+void HistoryController::selectScientificTank(const QString& id) {
+    if (id == scientific_tank_) return;
+    for (const auto& value : scientificTanks()) if (value.toMap().value("id").toString() == id) {
+        scientific_tank_ = id; emit changed(); return;
+    }
+}
+QVariantMap HistoryController::scientificChart() const {
+    const auto result = scientificDetail(scientific_result_);
+    const auto descriptors = result.value("tanks").toArray();
+    qsizetype tank = -1;
+    for (qsizetype i = 0; i < descriptors.size(); ++i) if (descriptors[i].toObject().value("id").toString() == scientific_tank_) tank = i;
+    if (tank < 0) return {{"available", false}};
+    const auto preview = result.value("preview").toObject();
+    const auto times = preview.value("time_h").toArray(), native = preview.value("native_volumes_m3").toArray(), worker = preview.value("worker_volumes_m3").toArray();
+    if (tank >= native.size() || tank >= worker.size()) return {{"available", false}};
+    const auto first = native[tank].toArray(), second = worker[tank].toArray();
+    if (times.isEmpty() || first.size() != times.size() || second.size() != times.size()) return {{"available", false}};
+    const auto capacity = descriptors[tank].toObject().value("capacity_m3").toDouble();
+    double low = 0.0, high = capacity;
+    QVariantList nativePoints, workerPoints;
+    for (qsizetype i = 0; i < times.size(); ++i) {
+        const auto a = first[i].toDouble(), b = second[i].toDouble(), time = times[i].toDouble();
+        low = std::min({low, a, b}); high = std::max({high, a, b});
+        nativePoints.append(QVariantMap{{"time_h", time}, {"volume_m3", a}});
+        workerPoints.append(QVariantMap{{"time_h", time}, {"volume_m3", b}});
+    }
+    if (high == low) high = low + 1.0;
+    return {{"available", true}, {"historical", historical_}, {"horizon_h", result.value("horizon_h").toDouble()},
+        {"capacity_m3", capacity}, {"y_min", low}, {"y_max", high}, {"series", QVariantList{
+            QVariantMap{{"label", "Native"}, {"reference", true}, {"points", nativePoints}},
+            QVariantMap{{"label", "PyTorch"}, {"points", workerPoints}}}}};
+}
+QVariantList HistoryController::scientificSensitivityRows() const {
+    const auto result = scientificDetail(scientific_result_);
+    if (result.value("analysis_mode").toString() != "sensitivities") return {};
+    const auto descriptors = result.value("tanks").toArray();
+    qsizetype tank = -1;
+    for (qsizetype i = 0; i < descriptors.size(); ++i) if (descriptors[i].toObject().value("id").toString() == scientific_tank_) tank = i;
+    const auto selected = result.value("selected_controls").toArray();
+    const auto derivative = result.value("derivatives").toObject();
+    const auto matrix = derivative.value("terminal_volume_jacobian_h").toArray(), gradient = derivative.value("cost_gradient").toArray();
+    if (tank < 0 || tank >= matrix.size() || gradient.size() != selected.size()) return {};
+    const auto values = matrix[tank].toArray();
+    if (values.size() != selected.size()) return {};
+    QVariantList rows;
+    for (qsizetype i = 0; i < selected.size(); ++i) {
+        auto row = selected[i].toObject().toVariantMap(); row["terminal_volume_jacobian_h"] = values[i].toDouble(); row["cost_gradient"] = gradient[i].toDouble();
+        rows.append(row);
+    }
+    return rows;
 }
 void HistoryController::exportSession(const QUrl& destination) { if (repository_ && !selectedSessionId().isEmpty()) { busy_ = true; repository_->exportSession(selectedSessionId(), destination); emit changed(); } }
 void HistoryController::importSession(const QUrl& source) { if (repository_) { busy_ = true; repository_->importSession(source); emit changed(); } }

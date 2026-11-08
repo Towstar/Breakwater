@@ -50,6 +50,18 @@ are preserved.
 
 ## Remaining evidence closure
 
+Subsequent integration: [AUDIT_REPORT.md](AUDIT_REPORT.md) now aggregates Person A's
+PR #17 audit and fixes. Its P1 shortened-horizon counterexample was outside this
+original B conclusion. B's former one-ULP compatibility behavior is superseded by
+the corrected exact-endpoint grid, with explicit desktop/deployment regression checks.
+
+Later current-main review identified B-06/P1 in `NemotronClient::fromEnvironment`:
+an endpoint-only project `.env` could combine with a process/saved-user credential
+and redirect authenticated requests. The source-bound endpoint fix and nine synthetic
+destination/header regressions are included in B5c; both builds' 46 client tests pass.
+Explicit process URL overrides and same-file custom endpoint/key pairs remain supported.
+This finding belongs to incoming `dc348d8`, not the original frozen audit baseline.
+
 B5 closure: STATUS records 24/24 normal/full-desktop ASan suites, 32 real Python tests,
 290 worker/native requests, actual installed execution with original science sources
 unavailable, and explicit missing-runtime/module cases. B-01/B-04/B-05 fixes passed
@@ -62,6 +74,7 @@ Those limits and the missing comprehensive A audit remain explicit.
 - Actual dialog filename entry/save/reopen remains unverified. Backend restart,
   immutable restoration, project save/load and exports passed their suites.
 - Local pinned Torch/native and source-independent installed execution passed.
-- A's comprehensive `science/AUDIT_PERSON_A.md` is not present at this baseline;
-  upstream numerical/scientific/proof reports are not labeled as this audit's execution.
+- A's comprehensive `science/AUDIT_PERSON_A.md` was absent at the frozen baseline;
+  it is now integrated and aggregated separately. Upstream numerical/scientific/proof
+  reports are not labeled as this original audit's execution.
 - Full release gates, scientific history and live Nemotron rehearsals remain separate.

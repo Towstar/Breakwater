@@ -1,5 +1,14 @@
 # Implementation status
 
+## PR #26 reconciliation with current main — November 7, 2026
+
+- Integrating `e057fa4` into the verified branch, retaining selected-control
+  sensitivities, automatic scientific-history retention and immutable historical
+  reopening. Exact-grid and lifecycle regressions are combined with the new suites.
+- Affected normal/MSVC ASan, real-worker, history, rendering and installed checks
+  are in progress; earlier frozen-baseline evidence below keeps its original scope.
+- The local continuation plan remains untracked and excluded from the PR.
+
 ## Combined verification — November 7, 2026
 
 - [Combined report](COMBINED_VERIFICATION.md): isolated baseline `1a537ed`, corrected
@@ -18,6 +27,228 @@
   refinement failure and 0.40191 mg/L front maximum-error limitation are preserved.
 - Hosted Nemotron, clean-machine acceptance, new physics and the front study remain
   outside this run. Existing historical milestone reports below retain their scopes.
+
+## Scientific history retention and ordered main integration — November 7, 2026
+
+- Merged PRs **#13 → #18 → #19 → #21 → #23**, with merge commits and complete
+  ancestry retained. Resolved generated-solution/shared documentation and the earlier
+  science/credential bindings without discarding either feature. Each stacked PR was
+  retargeted to main after its predecessor landed. The final combined desktop source
+  matched tested B5c before adding retention.
+- A new brother update appeared during integration: PR #24 at `2696a2b` was reviewed
+  and merged at **`106a756` main**. It adds A10b's conditional exact-real FVM
+  nonnegativity proofs, native regressions and post-A10a audit evidence. All A-owned
+  source matches that reviewed head; no solver algorithm, dependency lock or scientific
+  method was rewritten. The **54-proposition** Lean audit is A's archived execution,
+  not a fresh local replay. Earlier 21/37-proposition reports below remain dated evidence.
+- PA10-B01 is resolved by B5's immutable `CapturedForecast` configuration/full arrays,
+  exact-horizon boundary checks and new science archive. PA10-B02 is resolved by this
+  current shared status. The original frozen-source audit in
+  `science/AUDIT_POST_A10A.md` remains unchanged.
+- Completed forward/sensitivity evidence now queues an immutable standalone session
+  on the existing SQL worker before any observer can change the capture. It retains
+  the network, full original native trajectory/configuration/validation and bounded
+  worker preview, all selected derivative columns and provenance. Each result has its
+  own UUID, completed status, no recommendation or approval, and a versioned singleton
+  science payload. Existing SQLite/session/project/worker versions remain unchanged.
+- Strict 1 MiB scientific-result validation reuses the worker contract and checks
+  identities/hash/revision, original grid and indices, captured controls/domain/order/
+  units, finite matrix dimensions, provenance and independently recomputed diagnostic
+  flags. Completed science records cannot be replaced by later checkpoints. Legacy
+  investigation archives still import without scientific fields.
+- History reopens scientific charts/derivatives as historical evidence. Selecting a
+  result/tank does not change live controls, captures, selections or approvals. Worker
+  actions remain hidden while historical evidence is displayed; Return to current
+  restores the separate live view. Imported JSON is not authenticated execution.
+- Capture/save failures are correlated to their result IDs, preserving unrelated
+  import/export errors and subsequent successful-save acknowledgements. Interactive
+  science/native forecasting remains usable after storage failures; the acceptance
+  smoke requires the exact saved result ID and fails with exit 7 on persistence failure.
+- Direct-root VS2022 and full-desktop MSVC ASan builds passed. **28/28 CTest suites
+  passed in each** (313.16 s / 390.06 s), including live storage/selected derivatives
+  and historical evidence renders at normal/compact sizes. In each build: **42 science
+  evidence cases, 9 history cases, 35 science-controller cases, 80 worker cases and
+  46 Nemotron-client cases** passed without failures/skips. Actual updated native
+  transport passed **25/25 cases** in both. Python discovery: **127 run, 123 passed,
+  four optional PhysicsNeMo skips**, 59.270 s. These timings are acceptance runs,
+  not benchmarks. Normal build had five Qt/deprecation warnings and zero errors.
+- Relocated installed execution with checkout science sources unavailable passed
+  seven actual NDJSON requests, exact ULP tail/0.125 m3 overflow, selected derivatives,
+  health and rendering. Removing the deployed grid helper explicitly disables storage
+  while legacy health remains available. The installed app retained one complete
+  science session with **121 original native samples** and the full two-control matrix.
+  Both database integrity checks passed. A second installed process reopened/imported
+  the exact evidence and rendered historical Science with an unavailable Python path;
+  it needed no worker/current native capture. Checkout sources were restored unchanged.
+  The bundle includes `.env.example` and no real credential file.
+- Actual 1440x900 Windows UI checks verified the saved 0.95 h/0.3 h result, captured
+  values 10/20, Tank A [-0.95,-0.95] h, Tank B [0,+0.95] h and cost gradients [237.5,0].
+  Return to current restored no capture or selection; a new forecast used healthy
+  main-pump 44 settings instead of applying the archived mixed controls. After closing
+  and restarting without an import flag, History → Refresh → stored row → View
+  scientific evidence reopened the same result from SQLite. Historical probes/actions
+  remained unavailable. The verified normal app was left open on historical derivatives.
+- A real failed-storage CLI check returned **exit 7**, `history_storage_failed`, and
+  no success screenshot. Independent scoped same-family reviews found and resolved
+  the storage-smoke acknowledgement and unrelated-error-correlation cases; actual
+  before/after failed-import regressions pass. Original initial failures remain under
+  `out/retention-vs-initial-build.log` (generated 260-character MSBuild path, fixed by
+  shortening the test target) and `out/retention-asan-initial-focused-tests.log`
+  (an exact decimal chart-bound assertion, corrected to compare the retained native
+  terminal value while separately checking analytic agreement).
+- Evidence: `out/retention-*-tests.log`, per-suite `*-results.txt`,
+  `out/retention-python-tests.log`, `out/retention-source-hidden.log`,
+  `out/retention-installed-reopen.log`, `out/retention-installed-*.json/.png`,
+  `out/retention-negative-cli.log`, and QML lint logs. The generated solution has
+  **75 projects/211 dependency references**, zero missing/dangling paths. No new hosted
+  model, Lean, neural training or performance execution is claimed by this increment.
+  Manual compact/file-picker and in-flight GUI-cancel gaps, plus clean canonical/custom
+  operator-review rehearsals, remain separate release work. No controls were applied.
+
+## PR #23 ordered-stack reconciliation — November 7, 2026
+
+- Merged main after #13 → #18 → #19 → #21 into the B5c review branch. Both parents
+  are preserved. Runtime source, contracts, scientific source, scripts and the
+  73-project/204-dependency solution exactly match the previously tested B5c tree
+  `e4d48b4`; only shared handoff/status notes required reconciliation.
+- Credential source/endpoint pairing and selected-control safeguards remain intact.
+  Earlier reports below retain their original scope and dates; the ordered-stack
+  integration and scientific retention increment record their fresh gates separately.
+## Final A10a integration check — November 7, 2026
+
+- Merged latest main `5545417` (PR #22, underlying `9b95ff9`) into the B5c
+  branch with both parents preserved and no conflicts. This adds the discrete
+  finite-volume mass-balance proofs, audit/documentation and three native regression
+  cases; solver algorithms, public contracts and the tested desktop source are unchanged.
+- Rebuilt and reran the changed `engine.transport` suite in normal VS2022 and
+  MSVC ASan builds: **21/21 cases passed in each**, including signed open-boundary
+  exchange, closed internal-face cancellation and variable-step old-state decay.
+  Evidence: `out/b5c-a10-normal-tests.log`, `out/b5c-a10-asan-tests.log`.
+  Independent scoped review found no consequential issue. The new 37-theorem Lean
+  run remains Person A's archived evidence; no fresh local Lean execution is claimed.
+- The preceding complete 25-suite normal/ASan, installed worker and live hosted
+  checks below remain the desktop/runtime gate. These integration changes are
+  published on PR #23; the B PR stack is still awaiting its ordered main integration.
+
+## B5c selected-control sensitivities and current-main reconciliation — November 7, 2026
+
+- Integrated runtime main `6966707` and subsequent documentation/solution refresh
+  `7785d1d`, including PR #17, PR #20's A9 qualification and
+  `dc348d8` native key settings. Preserved complete ancestry and resolved the
+  main/QML/status conflicts by retaining Science and credential settings together.
+  The preceding audit compatibility increment is delivered separately in PR #21.
+- Science now lists captured control values, units, bounds and eligibility reasons.
+  Users explicitly select strictly interior controls; the worker receives only those
+  IDs in native catalog order, at unchanged captured values. Fixed/boundary controls
+  and source feed-capacity boundaries cannot be selected. No values are perturbed,
+  implicitly selected or silently dropped; omitted controls remain captured constants.
+- Typed admission/publication checks enforce the requested derivative object, exact
+  ordered IDs, finite tank-by-control Jacobian/cost-gradient dimensions and no artifacts.
+  Controller checks independently bind mode, selected values, capture/config and job
+  generation. Selection changes retire sensitivities; independent forward results
+  survive. New capture/numerical edits/reset clear selection; layout/camera/quality
+  changes preserve matching evidence. No native control or approval action is invoked.
+- Evidence adds mode, selected controls/units, native solver version and the complete
+  derivative matrix. The UI displays one tank's rows using bounded lists, Jacobians in
+  hours and cost gradients in synthetic units per (m3/h). Forward agreement covers
+  returned trajectories/cost, not a runtime derivative or feasibility certification.
+- Review found and fixed **B-06/P1** in the incoming configuration loader: a project
+  endpoint-only `.env` could redirect a process/saved-user key. Endpoint now follows
+  the chosen credential source, with explicit process URL overrides preserved. Nine
+  synthetic regressions check actual mocked request destinations and bearer headers;
+  no actual key or credential file was inspected by the source reviewers.
+- Direct-root VS2022 and full desktop MSVC ASan builds passed. **25/25 CTest suites
+  passed in each** (264.98 s / 328.82 s). Both builds: scientific worker **80 passed**,
+  controller **35 passed**, Nemotron client **46 passed**, all zero failed/skipped.
+  Coverage includes native central differences at three scales, opaque/Unicode IDs,
+  subsets/order, signed/zero derivatives, malformed results, stale jobs, cancellation
+  and synchronous observer deletion. Normal build: four Qt-header warnings, zero errors.
+- Fresh Python discovery: **127 run, 123 passed, four optional PhysicsNeMo tests
+  skipped** (56.602 s). A9's refined matrix passed **45 cases/580 gates** with both
+  normal and ASan native exporters. The original coarse study retained its one failed
+  convergence gate and remains unqualified; local peak/threshold accuracy is not
+  established. The first ASan exporter launch outside the developer shell failed with
+  loader exit `0xC0000135`; the correctly initialized developer-shell run passed and
+  both attempt reports remain retained. No Lean/neural-training/performance run is claimed.
+- Actual 1440x900/1100x700 GUI checks showed captured curtailment 10/bypass 20,
+  Tank A [-3,-3] h, Tank B [0,+3] h and cost gradients [750,0], eligibility reasons,
+  scroll access and selection order. Layout preservation, sensitivity invalidation,
+  forward preservation and numerical/new-capture/reset clearing passed. Both private
+  QA apps closed cleanly; stderr logs were empty. GUI in-flight cancel still raced
+  completion; its automated checks passed. Earlier native save/reopen dialog gaps remain.
+- Relocated installed execution with science sources temporarily unavailable passed
+  seven real worker requests, exact-tail/overflow checks, selected derivatives and
+  deployed module origins. Missing grid helper still produces explicit unavailable
+  storage with valid legacy health. The installed desktop completed actual native/
+  Torch comparison plus selected derivatives, health and rendering. Source was restored
+  unchanged. Five invalid CLI selections returned exit 6 and saved no screenshot.
+- The replacement User-scope API key passed the rebuilt client's genuine hosted
+  tool-call/execution/result-continuation smoke against the configured Lightning model.
+  Only fixed sanitized outcome metadata was retained; no key/raw response was logged.
+- Root solution: **73 projects/204 dependency references**, all valid, including A9's
+  new exporter. Evidence: `out/b5c-*-tests.log`, per-suite `*-results.txt`,
+  `out/b5c-python-tests.log`, `out/b5c-qualification-*/report.json`,
+  `out/b5c-installed-science.json`, `out/b5c-source-hidden.log`, retained GUI reports
+  and `out/b5c-live-key-verification.json`. Independent scoped same-family reviews
+  covered protocol/controller/credential/A9 callers; remaining manual/release gates
+  are explicit. Next: bounded scientific retention/restoration and clean rehearsals.
+
+## PR #21 current-main reconciliation — November 7, 2026
+
+- Integrated #19's merged baseline while preserving current key settings, all A-owned
+  sources and the complete deployed worker/grid package. The independent desktop
+  exact-horizon checks and native solver provenance 0.1.1 remain in this increment.
+- Retained the regenerated 73-project VS2022 solution and checked its complete graph.
+  Earlier test reports below keep their original scope; final combined-stack checks
+  remain the gate before further release claims.
+
+## Person A audit-fix integration before B5c — November 7, 2026
+
+- Checked GitHub and merged PR #17 head `367dcf1` into B5b `9f8f550`, preserving both
+  parents without conflicts. The A-owned source matches that head; B changes only
+  contracts, desktop integration/tests and shared handoff/evidence documentation.
+- Aggregated [A's audit](../science/AUDIT_PERSON_A.md) in [AUDIT_REPORT.md](AUDIT_REPORT.md).
+  Its P1 shortened-horizon counterexample supersedes the earlier bounded B audit's
+  no-P0/P1 conclusion. A's exact-horizon, finite-cost, residual and documentation fixes
+  are included. Scientific worker methods remain advisory; native validation and
+  explicit simulated operator approval remain separate.
+- The desktop independently reconstructs rounded interior multiples and the exact
+  requested endpoint instead of deriving work/indices with rounded division. Added
+  exact-tail, duplicate, underflow, work-boundary and malformed-endpoint checks;
+  actual desktop/worker tests retain a 0.125 m3 capacity violation and deny approval.
+  Planning-tool regression checks reject its validation/staging/search recommendation.
+- Deployed the newly required `storage_grid.py`. Native solver provenance advances
+  to `constant-flow-0.1.1`; current wire provenance is
+  `torch-constant-flow-0.1.2+worker-v1`. Project/protocol/method versions stay 1.
+  Historical records do not become newly validated or actionable after this update.
+- Fresh direct-root VS2022 normal and full desktop MSVC ASan builds passed;
+  **24/24 CTest suites passed in each** (171.37 s / 247.48 s). Normal compilation
+  reported five warnings in Qt headers/A's benchmark and zero errors. The unchanged
+  solution has 72 projects/201 dependency references; all paths resolve.
+- Fresh full Python discovery: **94 run, 90 passed, four optional PhysicsNeMo tests
+  skipped**, 46.145 s. The 19 analytical residual/mathematics tests executed; genuine
+  PhysicsNeMo neural training/gradients, Lean and performance measurements remain
+  attributed upstream evidence, not new local executions.
+- Fresh actual-worker/native verification passed **302 NDJSON requests**, 18 fixtures,
+  three solvers, 44 interior controls and 132 finite-difference checks. Exact grids and
+  offline schemas passed; maximum volume difference `7.67386154621e-13 m3`.
+  An initial probe ran before the new exporter finished building and rejected its old
+  12-case document; the completed-build run above used the actual updated executable.
+- With original science sources temporarily unavailable and Windows-only PATH, the
+  relocated installed worker passed six real requests, exact ULP-tail timestamps,
+  the 0.125 m3 overflow and deployed module-origin checks. Removing its grid helper
+  produced `runtime_unavailable` while legacy health remained completed. The installed
+  desktop then completed native/PyTorch comparison (both costs 12,780), health, visible
+  rendering and screenshot export. Source was restored unchanged. Its deployed-qsqlite
+  database passed read-only integrity checks. The initial local probe's version assertion
+  omitted the documented `+worker-v1` suffix; corrected fixture expectations passed.
+- Evidence: `out/b-audit-*-build.log`, `out/b-audit-*-tests.log`,
+  `out/b-audit-python-tests.log`, `out/b-audit-worker-verification.json`,
+  `out/b-audit-installed-worker.json`, `out/b-audit-installed-science.json`, and
+  `out/b-audit-source-hidden.log`. Independent scoped source/caller review found no
+  consequential regression. Existing manual dialog/cancel/release gaps remain open.
+- Next implementation: B5c explicit selected-control derivatives. Automatic scientific
+  retention and clean hosted rehearsals remain later work. No controls were applied.
 
 ## PR #19 current-main reconciliation — November 7, 2026
 
@@ -172,12 +403,13 @@
   clean live-model rehearsals or qualify learned predictions. No new hosted calls ran.
 
 Scope: shared base, native search, durable desktop investigations, science contracts,
-native selected-pipe viewing, Person A's A3–A9 increments and four audit fixes.
-PRs #7, #8, #10, #11, #14, #17 and #20 are merged; their histories are retained.
+native selected-pipe viewing, and Person A's A3–A9 science/benchmark/proof increments.
+PRs #7, #8, #10, #11, #14, #17 and #20 are merged; their complete histories are retained.
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
 
-## Audit/A9 main integration — November 7, 2026
+## Audit/A9 main integration — November 7, 2026 (upstream report)
+
 
 - Merged #17 at `0d78ffa` and retargeted/merged #20 at `6966707`, with no conflicts.
   Local main was fast-forwarded. The four A-owned audit findings are resolved;
@@ -213,7 +445,7 @@ in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now deliv
   installed-worker/forward-comparison work is in the still-unmerged B stack
   #13 → #18 → #19. Review that stack next rather than reimplementing it.
 
-## Local Nemotron key setup — November 7, 2026
+## Local Nemotron key setup — November 7, 2026 (upstream report)
 
 - Implemented automatic `.env` loading for the desktop and hosted smoke executable.
   The key-free `.env.example` is versioned and installed; real `.env` files remain

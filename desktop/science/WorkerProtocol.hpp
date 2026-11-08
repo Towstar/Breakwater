@@ -6,8 +6,9 @@
 namespace breakwater::desktop::science::protocol {
 
 // These checks are independent of the child process's own validation. They only
-// admit the adopted inline forward method, never derivatives or artifact paths.
-bool forwardPayload(const QJsonObject& payload);
+// admit inline forward analysis and explicitly selected interior derivatives,
+// never artifacts. The controller separately binds unchanged captured values.
+bool storagePayload(const QJsonObject& payload);
 bool capabilities(const QJsonObject& result);
 bool storage(const QJsonObject& result, const QJsonObject& payload);
 QJsonObject storageCapability(const QJsonObject& capabilities);

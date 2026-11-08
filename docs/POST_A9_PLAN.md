@@ -6,6 +6,15 @@ Updated November 7, 2026. This is the active continuation plan after merging
 [implementation plan](IMPLEMENTATION_PLAN.md) and original handoff remain intact.
 The work below is planned unless explicitly identified as delivered.
 
+**Current integration update:** the B stack landed in order #13 → #18 → #19 → #21
+→ #23, preserving merge ancestry and the credential settings. A's new PR #24 then
+landed at main `106a756`, adding conditional FVM nonnegativity and its native tests.
+Scientific retention/restoration is implemented as a separate B increment after
+derivative presentation; see [STATUS.md](STATUS.md) for current executed checks and
+[DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for the historical viewing workflow.
+The 6966707 verification and original ordered plan below remain historical evidence;
+they do not replace the combined checks or close manual release/rehearsal gaps.
+
 ## Integrated baseline
 
 - PR #17 merged at `0d78ffa1b35a6f4dc14aa770a10e9bee645da4b7`:
