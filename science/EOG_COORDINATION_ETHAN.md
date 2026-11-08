@@ -14,6 +14,7 @@ and performs the UI overhaul last.
 - A branch/worktree: `codex/person-a-eog-analysis`,
   `C:\Projects\Breakwater\.worktrees\person-a-eog-analysis`.
 - A increment: https://github.com/Towstar/Breakwater/pull/34
+- Current causal observation increment: https://github.com/Towstar/Breakwater/pull/36
 - Contract coordination: https://github.com/Towstar/Breakwater/pull/33
 - Numerical handoff: `science/EOG_E1_HANDOFF.md`.
 - Numerical contract review: `science/EOG_CONTRACT_REVIEW.md`.
@@ -24,7 +25,42 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: numerical contract accepted
+## Active execution checkpoint: pure causal observation increment
+
+Current A branch: `codex/person-a-eog-observations`, worktree
+`C:\Projects\Breakwater\.worktrees\person-a-eog-observations`, based on the
+published Person A review checkpoint `c526da1`. The EOG contract review remains
+in PR #34; this separate increment changes only `science/`.
+
+Implemented `science/eog_observations.py`, a bounded immutable index with causal
+latest/series/cohort/window queries, explicit freshness/skew/gaps, preserved raw
+finite evidence and a private causal fingerprint. No file parser, detector,
+provider wire mapping, planner or application simulation is claimed. The exact
+public numerical contract acceptance remains 72cadd1 as recorded below.
+
+Current method is `eog-observations-0.1.1`. The PR #36 follow-up separates actual
+first/last acquisitions from an explicit verified capture cutoff, so a cursor at
+450 s with last captured acquisition at 300 s is supported with the true 150 s age.
+It rejects supplied rows beyond that cutoff. Original source dataset-now still
+belongs to the separately verified manifest; no reading or clock is fabricated.
+
+Actual final checks: **36/36** focused tests on Python 3.12.13 with `-S` (site packages
+disabled); **222/222** complete science tests in the pinned environment, no skips.
+The initial missing-API capture-gap failure and earlier 33/219 passes are retained.
+Four existing actual PhysicsNeMo CPU tests executed; the CUDA-driver warning is
+retained, not represented as GPU execution or a new learned-quality qualification.
+Evidence, source identities, commands and limits: `science/evidence/eog-observations/`.
+The initial post-test base fast-forward added only the published review/docs/evidence
+and standalone review script; the final capture-gap checks ran after that update.
+
+Next: inspect Lucas's latest PR #33/main/coordination state, obtain reciprocal exact
+72cadd1 adoption/integration, then implement causal event detection/lifecycle and
+file-to-provider binding in small tested increments. Keep immutable observations
+separate from model settings and future synthetic truth. Do not repeat E1 or the
+closed numerical review. Full application/replay/planning/simulation/UI acceptance
+remains open in the requirements matrix; Goal mode stays active.
+
+## Numerical contract acceptance checkpoint
 
 Ethan accepts exact PR #33 contract `72cadd1de7eed6666a60faff1d296e29c8f026ee` after
 independent normal/ASan **2/2** CTests per mode, **70 Qt + 48 Python** cases per
@@ -35,12 +71,12 @@ See the latest `science/EOG_CONTRACT_REVIEW.md` and source/binary-bound evidence
 adoption/integration record before binding the provider/client. No production
 detector, plan validator or EOG application acceptance is implied.
 
-The next A increment is isolated on `codex/person-a-eog-observations` in
+The next A increment was isolated on `codex/person-a-eog-observations` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-observations`, based on `94060df`.
 It adds a private pure observation index, not an unreviewed public protocol.
 Continue there after inspecting its status and latest GitHub coordination. Lucas
-owns the reciprocal note and main integration. Merge the subsequently published
-A review checkpoint into the observation branch before its next delivery.
+owns the reciprocal note and main integration. A's published review checkpoint
+was fast-forwarded into that branch before this delivery.
 
 ## Historical first execution checkpoint
 

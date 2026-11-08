@@ -28,18 +28,21 @@ exact contract `72cadd1de7eed6666a60faff1d296e29c8f026ee`; normal/ASan 2/2 CTest
 with 70 Qt + 48 Python cases per mode. Earlier review evidence remains retained.
 These scoped results do not qualify an integrated provider/application build.
 Lucas's reciprocal exact adoption and main integration remain pending.
+Evidence O: `science/evidence/eog-observations/`, exact private observation module
+and test hashes; final capture-gap follow-up passed 36 focused / 222 full-science
+cases without skips. Earlier 33/219 evidence and the reproduced failure are retained.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
 | I01 | S Files; R What you get | Rule | B capture, A provider | Read only the three allowed names; deny answer-key access | E1 has no file access; CR tests fixed capture names | Partial | Production provider/input-access test pending |
 | I02 | S Files / Time range | Rule | B reader/capture; A verifier | First/last CSV timestamps define window/now | CR 40 tests and endpoint probe at e3190fb | Scoped pass | Verify actual importer and changing-source capture |
 | I03 | R How judging works; H Every folder | Rule | Both | Renamed/custom systems, prices, thresholds, fleets | E1 uses arbitrary constructed IDs | Partial | Unfamiliar file networks pending; no published judging set |
-| I04 | S telemetry; G Input acceptance | Rule + Chosen | B parser; A analysis | Reject malformed, duplicate, nonfinite, unknown inputs | CR structural cases only | Partial | Provider and desktop agreement pending |
-| I05 | S telemetry; G causal acceptance | Rule + Chosen | Both | Historical cutoff excludes all later readings/tools | CR manifest/evidence causality | Partial | End-to-end future-data and changing-cursor checks pending |
+| I04 | S telemetry; G Input acceptance | Rule + Chosen | B parser; A analysis | Reject malformed, duplicate, nonfinite, unknown inputs | CR structural cases; O row identity/value/order/budget adversaries | Partial | File parser, provider and desktop agreement pending |
+| I05 | S telemetry; G causal acceptance | Rule + Chosen | Both | Historical cutoff excludes all later readings/tools | CR binding; O 102 generated cutoffs match independent prefix filters | Partial | Production file/model/desktop cutoff checks pending |
 | I06 | G Input acceptance | Chosen | B capture; A verifies | Mutation/corruption invalidates capture; exact hashes | CR raw-hash/endpoint cases | Partial | Atomic producer and race tests pending |
 | O01 | S network/telemetry; R Terms | Rule | A | bbl, bpd/24, mcfd revenue, psi, percent | E1 arithmetic and CR Decimal oracles | Scoped pass | Preserve units through actual wire/UI |
-| O02 | S telemetry noise; G observations | Chosen | Both | Preserve finite unusual readings; no hidden clipping | E1 conversion/availability fixtures | Partial | Actual parser/charts and unsupported states pending |
-| O03 | S five-minute telemetry; G policy | Chosen | A evidence; B displays | Explicit freshness, gap and cross-channel coherence | E1 caller-supplied observation bounds | Partial | Versioned production 300-second policy pending |
+| O02 | S telemetry noise; G observations | Chosen | Both | Preserve finite unusual readings; no hidden clipping | E1 conversion; O negative/over-range/status/negative-zero evidence retained | Partial | Actual file parser/charts and physical-state acceptance pending |
+| O03 | S five-minute telemetry; G policy | Chosen | A evidence; B displays | Explicit freshness, gap and cross-channel coherence | O versioned 300-second age/gap, zero default skew, boundary adversaries | Partial | Wire detector/provider and UI binding pending |
 | D01 | S Normal behavior; X section 2 | Rule | A | Normal stopped/running hysteresis creates no fault | E1 hysteresis fixtures | Partial | Causal detector on sawtooth histories pending |
 | D02 | S Three problems; R What goes wrong | Chosen | A | Failure, degradation, leak from causal sensors | None for production detector | Planned | Define/evaluate versioned rules and abstentions |
 | D03 | S Three problems; H Reading key | Rule | A | Onset uncertainty, causal resolution; degradation then failure separate | CR event shape only | Planned | Lifecycle implementation and delay/confusion metrics pending |

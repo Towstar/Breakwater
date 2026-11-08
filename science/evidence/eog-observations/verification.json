@@ -1,0 +1,66 @@
+{
+  "evidence_version": 1,
+  "generated_utc": "2026-11-08T10:29:38.6349474Z",
+  "track": "Person A private causal observation core",
+  "branch": "codex/person-a-eog-observations",
+  "tested_base": "94060df",
+  "delivery_base": "c526da1",
+  "base_update_scope": "Review documentation/evidence and standalone review helper only; runtime/scientific test inputs unchanged",
+  "exact_numerically_accepted_eog_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "wire_dependency": false,
+  "method_version": "eog-observations-0.1.0",
+  "sources": [
+    {
+      "path": "science/eog_observations.py",
+      "sha256": "f48ed74a7fe0b4f993c60228ff8c3a70db3dce97ac049d5cad3b870fb6360377",
+      "git_blob_sha1": "884799202c74f473a572bd9079d90cd7088b5c6f"
+    },
+    {
+      "path": "science/tests/test_eog_observations.py",
+      "sha256": "59e5a2ee6ce1eeb95744ab0467b80f59c9cd114ff1b171b8f9831691fb18b00e",
+      "git_blob_sha1": "a4ba8803fcfab1719536172b4761f114a4aa61df"
+    }
+  ],
+  "environment": {
+    "python": "3.12.13",
+    "torch": "2.15.0+cpu",
+    "physicsnemo": "2.2.2",
+    "jsonschema": "4.25.1",
+    "referencing": "0.37.0"
+  },
+  "focused": {
+    "command": "python -S -m unittest discover -s science/tests -p test_eog_observations.py -v",
+    "run": 33,
+    "passed": 33,
+    "skipped": 0,
+    "exit_code": 0,
+    "seconds": 0.017,
+    "log": "stdlib-tests.log"
+  },
+  "full_science": {
+    "command": "python -m unittest discover -s science/tests -v",
+    "run": 219,
+    "passed": 219,
+    "skipped": 0,
+    "exit_code": 0,
+    "seconds": 59.427,
+    "log": "full-science-tests.log",
+    "original_tests": 186,
+    "new_tests": 33,
+    "existing_actual_physicsnemo_cpu_tests": 4
+  },
+  "randomized": {
+    "seed": 20261108,
+    "cutoffs": 102,
+    "oracle": "Independently filter the original immutable row sequence at each cutoff, then compare every queried channel",
+    "official_telemetry_access": false,
+    "answer_key_access": false
+  },
+  "limitations": [
+    "Private already-parsed observation indexing only; no file parser, detector, production wire provider, planner, independent numerical validator or application simulation.",
+    "Fingerprint is private causal evidence identity, never a replacement for public dataset/capture verification.",
+    "No new native/ASan, installed app/render, hosted-model, optimized benchmark or Lean execution in this increment.",
+    "Retained CUDA-driver warning means these existing PhysicsNeMo tests ran on CPU; no GPU or new learned-quality qualification claim.",
+    "Expected F1 malformed-input/native-failure messages in the full log are deliberate unit-test fixtures; all 219 tests passed."
+  ]
+}
