@@ -1,17 +1,82 @@
 #include "NemotronClient.hpp"
 
+#include <QCoreApplication>
+#include <QDir>
+#include <QFile>
+#include <QFileInfo>
+#include <QHash>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSet>
+#include <QStandardPaths>
 #include <QThread>
 #include <QUuid>
 #include <algorithm>
 
 namespace breakwater::desktop::agent {
 namespace {
+QString localEnvironmentFile() {
+    const auto findFile = [](QDir directory) -> QString {
+        // Check the launch directory, then its nearest checkout root. Stop at the
+        // first .git boundary so a worktree cannot inherit another checkout's key.
+        const auto local = directory.filePath(".env");
+        if (QFileInfo(local).isFile()) return local;
+        do {
+            if (directory.exists(".git")) {
+                const auto path = directory.filePath(".env");
+                return QFileInfo(path).isFile() ? path : QString{};
+            }
+        } while (directory.cdUp());
+        return {};
+    };
+    const auto workingFile = findFile(QDir::current());
+    if (!workingFile.isEmpty()) return workingFile;
+    return findFile(QDir(QCoreApplication::applicationDirPath()));
+}
+
+QHash<QString, QString> localEnvironmentValues(const QString& path) {
+    QHash<QString, QString> values;
+    QFile file(path);
+    constexpr qint64 maximumBytes = 64 * 1024;
+    if (path.isEmpty() || !file.open(QIODevice::ReadOnly) || file.size() > maximumBytes) return values;
+    const auto bytes = file.read(maximumBytes + 1);
+    if (bytes.size() > maximumBytes || file.error() != QFileDevice::NoError) return values;
+    auto text = QString::fromUtf8(bytes);
+    if (text.startsWith(QChar(0xfeff))) text.remove(0, 1);
+    for (auto line : text.split('\n')) {
+        line = line.trimmed();
+        if (line.isEmpty() || line.startsWith('#')) continue;
+        if (line.startsWith("export ") || line.startsWith("export\t")) line = line.mid(6).trimmed();
+        const auto separator = line.indexOf('=');
+        if (separator < 0) continue;
+        const auto name = line.left(separator).trimmed();
+        if (name != "NVIDIA_API_KEY" && name != "NVIDIA_BASE_URL" && name != "NEMOTRON_MODEL") continue;
+        auto value = line.mid(separator + 1).trimmed();
+        if (value.startsWith('\'') || value.startsWith('"')) {
+            const auto end = value.indexOf(value.front(), 1);
+            if (end < 0) return {};
+            const auto suffix = value.mid(end + 1).trimmed();
+            if (!suffix.isEmpty() && !suffix.startsWith('#')) return {};
+            value = value.mid(1, end - 1);
+        } else {
+            for (qsizetype i = 1; i < value.size(); ++i) {
+                if (value[i] == '#' && value[i - 1].isSpace()) {
+                    value = value.left(i).trimmed();
+                    break;
+                }
+            }
+            if (value.startsWith('#')) value.clear();
+        }
+        // Treat values literally: never execute shell syntax, expand variables,
+        // or publish credentials into the process environment or worker children.
+        values.insert(name, value);
+    }
+    return values;
+}
+
 QString modelIdentifier(const QString& value, const QString& secret = {}) {
     if (value.isEmpty() || value.size() > 256 || (!secret.isEmpty() && value.contains(secret))) return {};
     for (const auto character : value) {
@@ -76,10 +141,22 @@ bool parseAssistant(const QByteArray& bytes, QJsonObject& assistant, QString& mo
 
 QString NemotronClient::lastResponseModel() const { return modelIdentifier(responseModel_, config_.apiKey); }
 
-NemotronConfig NemotronConfig::fromEnvironment() {
+NemotronConfig NemotronConfig::fromEnvironment(const QString& envFilePath) {
+    const auto local = localEnvironmentValues(envFilePath.isEmpty() ? localEnvironmentFile() : envFilePath);
+    // An explicit path isolates tests/custom launches from saved user settings.
+    const auto saved = envFilePath.isEmpty() ? localEnvironmentValues(userEnvironmentFile()) : QHash<QString, QString>{};
+    const auto setting = [&local, &saved](const char* name) {
+        const auto process = qEnvironmentVariable(name).trimmed();
+        const auto file = local.value(QString::fromLatin1(name)).trimmed();
+        if (!process.isEmpty()) return process;
+        return file.isEmpty() ? saved.value(QString::fromLatin1(name)).trimmed() : file;
+    };
     NemotronConfig config;
-    config.apiKey = qEnvironmentVariable("NVIDIA_API_KEY").trimmed();
-    const auto endpoint = qEnvironmentVariable("NVIDIA_BASE_URL").trimmed();
+    config.apiKey = setting("NVIDIA_API_KEY");
+    if (!qEnvironmentVariable("NVIDIA_API_KEY").trimmed().isEmpty()) config.credentialSource = "environment";
+    else if (!local.value("NVIDIA_API_KEY").trimmed().isEmpty()) config.credentialSource = "local_file";
+    else if (!config.apiKey.isEmpty()) config.credentialSource = "user_file";
+    const auto endpoint = setting("NVIDIA_BASE_URL");
     if (!endpoint.isEmpty()) {
         config.endpoint = QUrl(endpoint);
         auto path = config.endpoint.path();
@@ -87,9 +164,20 @@ NemotronConfig NemotronConfig::fromEnvironment() {
         if (!path.endsWith("/chat/completions")) path += "/chat/completions";
         config.endpoint.setPath(path);
     }
-    const auto model = qEnvironmentVariable("NEMOTRON_MODEL").trimmed();
+    const auto model = setting("NEMOTRON_MODEL");
     if (!model.isEmpty()) config.model = model;
     return config;
+}
+
+QString NemotronConfig::userEnvironmentFile() {
+    const auto directory = QStandardPaths::writableLocation(QStandardPaths::AppConfigLocation);
+    return directory.isEmpty() ? QString{} : QDir(directory).filePath(".env");
+}
+
+bool NemotronClient::reloadConfiguration() {
+    if (active_) return false;
+    config_ = NemotronConfig::fromEnvironment();
+    return true;
 }
 
 NemotronClient::NemotronClient(NemotronConfig config, QObject* parent, QNetworkAccessManager* manager)

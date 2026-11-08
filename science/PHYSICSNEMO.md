@@ -94,6 +94,14 @@ Autograd computes first time/spatial and second spatial derivatives in physical 
 The residual is implemented explicitly with Torch; this increment does not use or
 claim execution of the optional PhysicsNeMo Sym/PhysicsInformer package.
 
+The residual helper supports constant and affine pointwise fields, including
+coordinate-independent trainable parameters and zero spatial curvature. It returns
+zero for an absent coordinate derivative without detaching genuine parameter
+dependencies. Evaluation under `torch.no_grad()` temporarily enables coordinate AD;
+active `torch.inference_mode()` fails explicitly. Field and autograd errors propagate.
+Coordinate-dependent callables must retain their differentiable graph. See
+[A-003 resolution](A003_RESIDUAL_FIX.md) for analytic and actual neural-gradient tests.
+
 Let `h(x)=sin(pi*x/(2*L))`. The prediction is
 `c_theta=h(x)*MLP(2*h(x)-1, 2*t/T-1)`. This enforces the zero inlet and zero-gradient
 outlet without embedding `phi` or its exponential time decay. The network still has
@@ -151,5 +159,26 @@ and [requirements](https://docs.nvidia.com/physicsnemo/latest/getting-started/sy
 The real model/checkpoint API is documented in
 [PhysicsNeMo modules](https://docs.nvidia.com/physicsnemo/latest/physicsnemo/api/models/modules.html).
 
-The scientific worker remains health-only pending B's contract/adapter. No desktop,
-public contract, root configuration or solution files are modified by A4.
+## Worker and desktop status
+
+At A4 delivery, the scientific worker supported health only; A4's contribution was
+the standalone fixed-case model/training/reference smoke described above. A8 later
+added repository-worker `capabilities` and `storage_rollout`, including optional
+selected-control terminal Jacobians and cost gradients under the published
+[scientific contract](../docs/SCIENCE_CONTRACTS.md). See [WORKER.md](WORKER.md) for
+the current method inventory, runtime requirements and execution-state semantics.
+The legacy `health` response intentionally retains its original health-only fields;
+use `capabilities` to inspect storage implementation and execution state.
+
+Python `pipe_transport` remains explicitly `not_implemented`, artifact support is
+false, and no generic PhysicsNeMo inference method is provided. The desktop pipe
+viewer uses authoritative native FVM directly. This learned-quality smoke remains
+experimental and separate from volume feasibility or simulated approval.
+
+The desktop source inherited by `codex/person-a-engine` from baseline `6fb8c29`
+still has a health-only Python adapter and installs only `worker.py`. Repository
+storage support does not establish installed-app science support. Person B owns
+runtime packaging and desktop integration; parallel B branches may advance
+independently. This document does not certify their installed application.
+No desktop, public contract, root configuration or solution files were modified
+by A4 or this documentation correction.

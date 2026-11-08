@@ -11,6 +11,8 @@ from dataclasses import dataclass
 import math
 import re
 
+from storage_grid import StorageGridError, storage_sample_times
+
 
 class StorageError(Exception):
     """A bounded protocol error; deliberately contains no environment diagnostics."""
@@ -142,6 +144,9 @@ def _network(value):
         if not ((source["kind"] == "source" and target["kind"] == "tank") or
                 (source["kind"] == "tank" and target["kind"] in ("tank", "treatment", "trucking"))):
             _fail("invalid_network", "Unsupported route direction.")
+        if source["kind"] == "tank" and target["kind"] != "tank" and not math.isfinite(
+                route["cost_per_m3"] + target["cost_per_m3"]):
+            _fail("invalid_network", "Combined route/destination control price must be finite.")
         if source["kind"] == "source":
             feeds[source["id"]].append(route)
             if route["has_pump"] or not route["available"]:
@@ -176,16 +181,10 @@ def _validate(payload):
         _fail("unsupported_version", "Unsupported storage method version.")
     identity = _identity(payload["identity"])
     horizon, step = _number(payload["horizon_h"]), _number(payload["step_h"])
-    if not 0 < horizon <= 24 or step <= 0:
-        _fail("invalid_parameters", "Storage horizon must be in (0,24] hours and step must be positive.")
-    ratio = horizon / step
-    if not math.isfinite(ratio) or ratio > 10000:
-        _fail("work_limit", "Storage forecasts support at most 10,000 updates.")
-    if ratio <= 0:
-        _fail("invalid_parameters", "Requested horizon and step do not yield a representable sample interval.")
-    updates = math.ceil(ratio)
-    if updates > 1 and (updates - 1) * step >= horizon:
-        _fail("invalid_parameters", "Requested sample grid repeats its final time in float64 arithmetic.")
+    try:
+        storage_sample_times(horizon, step)
+    except StorageGridError as error:
+        _fail(error.code, str(error))
     if not isinstance(payload["derivatives"], bool):
         _fail("invalid_request", "derivatives must be boolean.")
     _object(payload["preview"], {"max_times"}, code="invalid_parameters")

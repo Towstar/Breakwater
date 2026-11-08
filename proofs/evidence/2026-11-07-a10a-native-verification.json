@@ -1,0 +1,39 @@
+{
+  "status": "passed",
+  "client_date": "2026-11-07",
+  "baseline_commit": "7785d1d9f7ab87a21e9428c9466880891c99d832",
+  "scope": "Targeted native transport regressions for the A10a formal-to-native mapping; no changed solver algorithm or full desktop/Python qualification run.",
+  "compiler": "MSVC x64",
+  "cpp_standard": 20,
+  "test": "engine.transport",
+  "normal": {
+    "cases_passed": 21,
+    "cases_failed": 0,
+    "ctest_test_seconds": 3.38,
+    "address_sanitizer": false,
+    "executable_sha256": "d64208e251963c325c8104ff75b08431ce0f97ae51ebd50ee2eda4b391ec8a77"
+  },
+  "checked": {
+    "cases_passed": 21,
+    "cases_failed": 0,
+    "ctest_test_seconds": 21.16,
+    "address_sanitizer": true,
+    "sanitizer_findings_reported": false,
+    "executable_sha256": "9fc5d659e0781e8800804c3f8c5a3b181c5eebc195114ada8bd17737716b8aba"
+  },
+  "new_cases": [
+    "One open Euler step: half-cell inlet with negative signed exchange, nonunit geometry, internal transfer, outlet, source and old-state decay.",
+    "One closed Euler step: both-sign interior diffusion cancels from inventory while source and decay remain.",
+    "Three event-shortened unequal steps: hand-computed Euler product and old-inventory cumulative source/decay ledger."
+  ],
+  "source_hashes": [
+    {
+      "path": "engine/src/transport.cpp",
+      "sha256": "b56af9674f70cf692f260fc984783f7de11d6f75013a0586fbd747637f34824e"
+    },
+    {
+      "path": "engine/tests/transport_tests.cpp",
+      "sha256": "5fe5db334780de24a80c7e11957262b241bcfc867311a4013e7863b5eeabd53e"
+    }
+  ]
+}

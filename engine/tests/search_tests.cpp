@@ -155,6 +155,62 @@ int main() {
             require(result.diagnostics.candidates_evaluated == 1, "Empty grid must contain unchanged candidate");
             require(result.status == SearchStatus::no_feasible_plan_found && result.recommendations.empty(), "Baseline must not become a feasible plan");
         }},
+        {"valid decimal and subnormal grids do not become false no-plan results", [] {
+            const auto network = small_network();
+            for (const auto config : std::vector<SimulationConfig>{{.9000000000000001, .1},
+                    {.30000000000000004, .1}, {std::numeric_limits<double>::denorm_min(), 24.0}}) {
+                const SearchOptions options{config, 1};
+                const auto result = search_candidates(network, {}, options);
+                check_result(network, result, options);
+                require(result.recommendations.size() == 1 && result.diagnostics.reference_rejections == 0,
+                        "Supported forecast grid was mistaken for an exhausted feasible search");
+                const auto& times = result.recommendations[0].run.time_h;
+                require(times.back() == config.horizon_h, "Recommendation ends short of its requested horizon");
+                for (std::size_t i = 1; i < times.size(); ++i)
+                    require(times[i] > times[i - 1], "Recommendation has duplicate final time");
+                const std::vector<CandidateControls> batch(1);
+                const auto explicit_result = evaluate_candidates(network, batch, options);
+                check_result(network, explicit_result, options);
+                require(explicit_result.recommendations.size() == 1, "Explicit batch rejected a supported forecast grid");
+            }
+        }},
+        {"one-ULP final overflow never receives a recommendation", [] {
+            const double q = std::ldexp(1.0, 50);
+            Network network;
+            network.assets = {{"tank", "Tank", AssetKind::tank, .9 * q, 0.0},
+                              {"source", "Source", AssetKind::source, 0.0, 0.0, q}};
+            network.routes = {{"feed", "source", "tank", q, 0.0}};
+            const SearchOptions options{{.9000000000000001, .1}, 1};
+            const auto result = search_candidates(network, {}, options);
+            check_result(network, result, options);
+            require(result.recommendations.empty() && result.status == SearchStatus::no_feasible_plan_found,
+                    "Search recommended the one-ULP-short false-feasibility case");
+            const std::vector<CandidateControls> batch(1);
+            const auto explicit_result = evaluate_candidates(network, batch, options);
+            check_result(network, explicit_result, options);
+            require(explicit_result.recommendations.empty(), "Explicit batch recommended the false-feasibility case");
+        }},
+        {"forecast work-limit errors precede candidate screening", [] {
+            const auto stationary = small_network();
+            const auto infeasible = main_pump_failure(canonical_scenario());
+            const SimulationConfig maximum{1.0, .0001};
+            const SearchOptions maximum_options{maximum, 1};
+            const auto accepted = search_candidates(stationary, {}, maximum_options);
+            check_result(stationary, accepted, maximum_options);
+            require(accepted.recommendations.size() == 1 && accepted.recommendations[0].run.time_h.size() == 10001,
+                    "Search rejected or truncated the exact update cap");
+            const SearchOptions rounded_cap{{.0082, 8.2e-7}, 1};
+            const auto rounded_result = search_candidates(stationary, {}, rounded_cap);
+            check_result(stationary, rounded_result, rounded_cap);
+            require(rounded_result.recommendations.size() == 1 && rounded_result.recommendations[0].run.time_h.size() == 10001,
+                    "Search used rounded division instead of the actual interval cap");
+            const SearchOptions excessive{{std::nextafter(1.0, std::numeric_limits<double>::infinity()), .0001}, 1};
+            const std::vector<CandidateControls> batch(1);
+            for (const auto& network : {stationary, infeasible}) {
+                rejects([&] { (void)search_candidates(network, {}, excessive); });
+                rejects([&] { (void)evaluate_candidates(network, batch, excessive); });
+            }
+        }},
         {"equal cost results retain input order", [] {
             const auto network = small_network();
             const std::vector<SearchAxis> axes = {{"route:pump:out:flow", {5, 1, 3, 0}}};
@@ -260,6 +316,74 @@ int main() {
             overflow.routes = {{"feed_a", "a", "reservoir", 1e308, 0}, {"feed_b", "b", "reservoir", 1e308, 0}};
             const auto bad = search_candidates(overflow, {}); check_result(overflow, bad);
             require(bad.recommendations.empty() && bad.diagnostics.numerical_screen_rejections == 1, "Rate overflow became a feasible recommendation");
+        }},
+        {"hourly-product and horizon-total cost overflow retain finite repaired candidates", [] {
+            const double maximum = std::numeric_limits<double>::max();
+            for (const double horizon : {1.0, 2.0}) {
+                auto network = small_network(maximum);
+                network.routes[0].setpoint_m3h = 10.0; // The captured baseline hourly cost overflows.
+                const std::vector<CandidateControls> batch = {
+                    {{{"route:pump:out:flow", 10.0}}}, {{{"route:pump:out:flow", 1.0}}},
+                    {{{"route:pump:out:flow", .25}}}, {{{"route:pump:out:flow", 0.0}}}};
+                const SearchOptions options{{horizon, .1}, 5};
+                const auto result = evaluate_candidates(network, batch, options);
+                check_result(network, result, options);
+                const std::size_t rejected = horizon == 1.0 ? 1 : 2;
+                require(result.diagnostics.numerical_screen_rejections == rejected &&
+                            result.diagnostics.constraint_screen_rejections == 0,
+                        "Hourly/forecast cost overflow did not produce a numerical rejection");
+                require(result.recommendations.size() == batch.size() - rejected,
+                        "Cost overflow discarded a representable override or retained an infinite cost");
+                require(result.recommendations[0].candidate_index == 3 && result.recommendations[0].run.cost == 0.0,
+                        "Zero-flow huge-price candidate was not preserved exactly");
+                require(result.recommendations[1].candidate_index == 2 &&
+                            result.recommendations[1].run.cost == horizon * (.25 * maximum),
+                        "Finite large candidate cost was changed during screening/ranking");
+                if (horizon == 1.0)
+                    require(result.recommendations[2].candidate_index == 1 && result.recommendations[2].run.cost == maximum,
+                            "Largest finite representable cost was rejected");
+            }
+        }},
+        {"aggregate-hourly cost overflow and source-product overflow cannot hide zero-cost plans", [] {
+            const double price = .75 * std::numeric_limits<double>::max();
+            auto aggregate = small_network(price);
+            aggregate.routes[0].setpoint_m3h = 1.0;
+            auto second = aggregate.routes[0]; second.id = "pump:second";
+            aggregate.routes.push_back(second);
+            const std::vector<CandidateControls> batch = {{},
+                {{{"route:pump:out:flow", 0.0}}},
+                {{{"route:pump:out:flow", 0.0}, {"route:pump:second:flow", 0.0}}}};
+            const SearchOptions options{{1.0, .1}, 5};
+            const auto result = evaluate_candidates(aggregate, batch, options);
+            check_result(aggregate, result, options);
+            require(result.diagnostics.numerical_screen_rejections == 1 && result.recommendations.size() == 2,
+                    "Sum of finite hourly contributions overflowed without an explicit rejection");
+            require(result.recommendations[0].candidate_index == 2 && result.recommendations[0].run.cost == 0.0 &&
+                        result.recommendations[1].candidate_index == 1 && result.recommendations[1].run.cost == price,
+                    "Aggregate-overflow repair changed finite reference cost ordering");
+
+            auto source = feed_network();
+            source.assets[1].cost_per_m3 = std::numeric_limits<double>::max();
+            source.assets[1].curtailment_m3h = 5.0;
+            source.routes[0].cost_per_m3 = 0.0;
+            const std::vector<SearchAxis> axes{{"source:well:a:curtail", {5.0, 0.0, .25}}};
+            const auto source_result = search_candidates(source, axes, options);
+            check_result(source, source_result, options);
+            require(source_result.diagnostics.numerical_screen_rejections == 1 && source_result.recommendations.size() == 2,
+                    "Source-curtailment cost product overflow was not rejected independently");
+            require(source_result.recommendations[0].candidate_index == 1 && source_result.recommendations[0].run.cost == 0.0 &&
+                        source_result.recommendations[1].candidate_index == 2 &&
+                        source_result.recommendations[1].run.cost == .25 * std::numeric_limits<double>::max(),
+                    "Finite source-curtailment repairs were lost or misranked");
+        }},
+        {"nonrepresentable catalog unit prices fail explicitly before search", [] {
+            auto network = small_network(std::numeric_limits<double>::max());
+            network.assets[1].cost_per_m3 = std::numeric_limits<double>::max();
+            // Actual baseline cost is zero, but the public marginal-cost catalog
+            // cannot represent route price + destination price. It must not emit infinity.
+            rejects([&] { (void)search_candidates(network, {}); });
+            const std::vector<CandidateControls> batch(1);
+            rejects([&] { (void)evaluate_candidates(network, batch); });
         }}
     };
     int failures = 0;

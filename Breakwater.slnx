@@ -35,6 +35,7 @@
       <BuildDependency Project="out/visual-studio/engine/breakwater_search_example.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_search_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_transport_example.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_transport_qualification_reference.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_transport_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
     </Project>
@@ -370,6 +371,10 @@
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>
   <Project Path="out/visual-studio/engine/breakwater_transport_example.vcxproj">
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/engine/breakwater_transport_qualification_reference.vcxproj">
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
   </Project>
