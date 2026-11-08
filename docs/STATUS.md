@@ -1,5 +1,26 @@
 # Implementation status
 
+## B5a: project-local scientific runtime and deployment — November 7, 2026
+
+- Merged the latest audit-first Person B handoff at `6fb8c29`; baseline direct-root
+  VS2022 and full desktop MSVC ASan checks each passed 20/20 suites.
+- Added `scripts/Setup-ScientificWorker.ps1`: checksum-verified local uv 0.11.9,
+  isolated CPython 3.12.13 AMD64, existing hash locks for Torch 2.15.0+cpu,
+  NumPy 2.5.4 and schema-test dependencies. Actual CPU float64 result 11.0 and
+  an idempotent rerun passed. Tools/environment/cache remain under ignored `.tools`.
+- `Start-Desktop.ps1` configures child-only Python/Qt and optional hosted credentials.
+  `Generate-VisualStudio.ps1 -PythonExecutable` pins the test interpreter. PowerShell 7
+  checks passed; PowerShell 5 execution was blocked by its unchanged local policy.
+- CMake now deploys worker_storage.py and the Python package beside worker.py.
+  A relocated installation's worker executed health/capabilities/storage/capabilities
+  with original scientific sources unavailable; module origins pointed to deployed
+  files. Actual local execution also passed 32 Python tests and 290 worker/native
+  verification requests. Scientific source and dependency locks were unchanged.
+- This increment supplies runtime preparation and module deployment. The typed
+  desktop forward-analysis client/UI, source-fallback restriction and their final
+  combined checks are the following B5b increment. No derivative UI, scientific
+  history, new hosted calls or operating-control application is claimed here.
+
 ## PR #14 pull/review and next B5 plan — November 7, 2026
 
 - Pulled main `794c7cd`, including PR #14's `d4cae03` worker mapping. Reconciled the
