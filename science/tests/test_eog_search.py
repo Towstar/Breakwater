@@ -137,6 +137,18 @@ class SearchNativeTests(unittest.TestCase):
         self.assertEqual(chosen["cost"]["total"], 55)
         self.assertEqual(sum(len(j["trips"]) for j in chosen["plan"]["truck_jobs"]), 9)
 
+    def test_late_first_pickup_requires_real_prearrival_curtailment(self):
+        # Without curtailment the tank trips at 5 s, before the first load at8.
+        # Avoiding that needs the cheap well stopped by2, costing at least1.8;
+        # one trip costs1. Representable controls approach the 2.8 infimum.
+        m, v = fixture(water=(1, 1), revenue=(0.1, 10), response=8, capacity=20, trip_cost=1)
+        chosen = self.selected(self.run_search(m, v))
+        self.assertAlmostEqual(chosen["cost"]["total"], 2.8, places=10)
+        self.assertEqual(chosen["outcome"], "avoids_shutdown")
+        self.assertEqual(chosen["trajectories"][0]["shutdown_volume_bbl"], 90)
+        action, = chosen["plan"]["well_shut_ins"]
+        self.assertLess(action["start_elapsed_s"], 2)
+
     def test_well_only_fractional_knapsack_bound_and_zero_water_economics(self):
         # Exact relaxed minimum: 4*1 + 4*3 + (2/3)*12 =24. It is a
         # lower bound independent of native flags and the generated menus.

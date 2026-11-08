@@ -17,7 +17,7 @@ import time
 from eog_plan_validator import ValidationUnavailable, prepare, validate_prepared
 from eog_response import ResponseUnavailable, compile_context, evaluate
 
-METHOD = "eog-joint-search-0.1.0"
+METHOD = "eog-joint-search-0.1.1"
 
 
 class _PlanningDeadline(Exception):
@@ -96,7 +96,7 @@ def _well_data(snapshot, fi):
     return result
 
 
-def _greedy(snapshot, fi, horizon, removed, order="ratio"):
+def _greedy(snapshot, fi, horizon, removed, order="ratio", *, target=None):
     """Exact-rational terminal/prefix relaxation used only to generate controls.
 
     For no trucks, positive fixed rates give a fractional-knapsack stopped-volume
@@ -108,7 +108,7 @@ def _greedy(snapshot, fi, horizon, removed, order="ratio"):
         return (), Fraction()
     wells = [(wi, q, r) for wi, q, r in _well_data(snapshot, fi) if q > 0]
     needed = Fraction(f["initial_bbl"]) + sum((q * Fraction(horizon) for _, q, _ in wells), Fraction())
-    needed -= Fraction(removed) + Fraction(f["shutdown_bbl"])
+    needed -= Fraction(removed) + Fraction(f["shutdown_bbl"] if target is None else target)
     if needed <= 0:
         return (), Fraction()
     if order == "ratio": key = lambda w: (w[2] / w[1], w[0])
@@ -148,18 +148,30 @@ def _local_policies(snapshot, fi, schedule, rules, check):
     arrivals = sorted(t for job in schedule if job.facility == fi for t in _arrivals(snapshot, job))
     capacity = snapshot["truck_capacity_bbl"]
     horizon = f["repair_s"]
-    preferred, _ = _greedy(snapshot, fi, horizon, len(arrivals) * capacity)
-    preferred = _shift(preferred, 0.0)
+    pivots = [horizon, *_pivot_times(arrivals, rules.prefix_pivots)]
+    targets = [f["shutdown_bbl"]]
+    for steps in (1, 4):
+        target = f["shutdown_bbl"]
+        for _ in range(steps): target = math.nextafter(target, 0.0)
+        targets.append(target)
+    # A volume-ULP seed changes the proposed control time, never the physical
+    # shutdown threshold. Time ULPs alone may be much smaller than a volume ULP.
+    preferred_map = {}
+    for t in pivots:
+        policy, _ = _greedy(snapshot, fi, t, sum(a < t for a in arrivals) * capacity, target=targets[1])
+        for wi, value in policy: preferred_map[wi] = min(preferred_map.get(wi, horizon), value)
+    preferred = _shift(tuple(sorted(preferred_map.items())), 0.0)
     options = {(), preferred}
     for order in ("ratio", "revenue", "water"):
         check()
         combined = {}
-        for t in [horizon, *_pivot_times(arrivals, rules.prefix_pivots)]:
+        for t in pivots:
             check()
-            policy, _ = _greedy(snapshot, fi, t, sum(a < t for a in arrivals) * capacity, order)
-            if policy:
-                options.update((policy, _shift(policy, 0.0), _shift(policy, 0.0, 4), _shift(policy, horizon)))
-                for wi, start in policy: combined[wi] = min(combined.get(wi, horizon), start)
+            for target in targets:
+                policy, _ = _greedy(snapshot, fi, t, sum(a < t for a in arrivals) * capacity, order, target=target)
+                if policy:
+                    options.update((policy, _shift(policy, 0.0), _shift(policy, 0.0, 4), _shift(policy, horizon)))
+                    for wi, start in policy: combined[wi] = min(combined.get(wi, horizon), start)
         if combined:
             policy = tuple(sorted(combined.items()))
             options.update((policy, _shift(policy, 0.0), _shift(policy, 0.0, 4)))
@@ -435,6 +447,7 @@ def search(model, view, native, *, identity, clock_context, candidate_limit=1000
         "Planning time excludes protected loading and the two causal snapshot preparations; it includes candidate evaluation and selected-plan validation.",
         "All current failures are modeled together; no historical dispatch is assumed and evolving prior commitments are unsupported.",
         "Already-shut or native-baseline zero-loss facilities receive no cost-increasing controls; other facilities remain in the complete cost/forecast context.",
+        "Control seeds target the input shutdown inventory or one/four representable inventory steps below it; evaluation always uses the original input threshold, without feasibility tolerance or clipping.",
         "Full baseline/selected traces are retained; at most " + str(rules.retained_evaluations) + " evaluations are returned.",
         "Inspection timing and physical onset uncertainty remain unqualified."]
     if reason: limitations.append("Termination: " + reason + ".")
