@@ -75,6 +75,33 @@ private slots:
         sensor["max_age_s"] = sensor.value("max_age_s").toDouble() + 1; sensors[0] = sensor; original["sensors"] = sensors;
         QVERIFY(sensor_semantic_hash(original) != hashBefore);
     }
+    void duplicateKeyFastPathPreservesEscapedAndUnicodeAliases_data() {
+        QTest::addColumn<QByteArray>("raw"); QTest::addColumn<bool>("valid");
+        const auto pump = QByteArray::fromHex("e6b3b5");
+        QTest::newRow("plain-unique") << QByteArray("{\"alpha\":1,\"beta\":2}") << true;
+        QTest::newRow("plain-duplicate") << QByteArray("{\"alpha\":1,\"alpha\":2}") << false;
+        QTest::newRow("escaped-unique") << QByteArray("{\"\\u0061lpha\":1,\"beta\":2}") << true;
+        QTest::newRow("escaped-duplicate") << QByteArray("{\"alpha\":1,\"\\u0061lpha\":2}") << false;
+        QTest::newRow("unicode-unique") << QByteArray("{\"") + pump + "\":1,\"other\":2}" << true;
+        QTest::newRow("unicode-duplicate") << QByteArray("{\"") + pump + "\":1,\"" + pump + "\":2}" << false;
+        QTest::newRow("unicode-escaped-alias") << QByteArray("{\"") + pump + "\":1,\"\\u6cf5\":2}" << false;
+        QTest::newRow("escaped-solidus-alias") << QByteArray("{\"a/b\":1,\"a\\/b\":2}") << false;
+        QTest::newRow("escaped-backslash-alias") << QByteArray("{\"a\\\\b\":1,\"a\\u005cb\":2}") << false;
+        QTest::newRow("invalid-utf8-key") << QByteArray("{\"") + QByteArray::fromHex("ff") + "\":1}" << false;
+        QTest::newRow("unpaired-surrogate-key") << QByteArray("{\"\\ud800\":1}") << false;
+    }
+    void duplicateKeyFastPathPreservesEscapedAndUnicodeAliases() {
+        QFETCH(QByteArray, raw); QFETCH(bool, valid);
+        bool accepted = false;
+        try { (void)decode_document(raw); accepted = true; } catch (const std::invalid_argument&) {}
+        QCOMPARE(accepted, valid);
+    }
+    void duplicateKeyFastPathDoesNotChangeDepthBoundary() {
+        const auto atBound = QByteArray("{\"x\":") + QByteArray(63, '[') + '0' + QByteArray(63, ']') + '}';
+        QVERIFY(!decode_document(atBound).isEmpty());
+        const auto beyond = QByteArray("{\"x\":") + QByteArray(64, '[') + '0' + QByteArray(64, ']') + '}';
+        QVERIFY_THROWS_EXCEPTION(std::invalid_argument, decode_document(beyond));
+    }
     void malformedBytesCannotBeNormalizedIntoEvidence() {
         for (const auto& bytes : {QByteArray("{\"a\":1,\"\\u0061\":2}"), QByteArray("{\"n\":NaN}"), QByteArray("{\"n\":1e999}"), QByteArray("{\"s\":\"\\ud800\"}"), QByteArray("{\"\\ud800\":1}"), QByteArray("{\"s\":\"\xff\"}"), QByteArray("\xef\xbb\xbf{}")})
             QVERIFY_THROWS_EXCEPTION(std::invalid_argument, decode_document(bytes));
