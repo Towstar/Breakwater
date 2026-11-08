@@ -4,6 +4,7 @@
 // Public search entry points still own request validation, ranking and independent
 // reference validation. Potential screen survivors are not feasibility verdicts.
 #include "breakwater/search.hpp"
+#include "storage_grid.hpp"
 
 #include <algorithm>
 #include <array>
@@ -99,10 +100,7 @@ struct Prepared {
 };
 
 inline void check_options(const SearchOptions& options) {
-    const auto c = options.config;
-    if (!std::isfinite(c.horizon_h) || !std::isfinite(c.step_h) || c.horizon_h <= 0.0 ||
-        c.horizon_h > 24.0 || c.step_h <= 0.0 || std::ceil(c.horizon_h / c.step_h) > 10000.0)
-        throw std::invalid_argument("Search requires the engine's supported horizon and sample bounds.");
+    check_storage_config(options.config);
     if (options.result_limit == 0 || options.result_limit > max_search_recommendations)
         throw std::invalid_argument("Search result_limit must be between 1 and 5.");
 }

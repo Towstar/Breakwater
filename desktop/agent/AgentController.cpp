@@ -6,7 +6,10 @@
 namespace breakwater::desktop::agent {
 AgentController::AgentController(ProjectController* project, ModelTransport* transport, QObject* parent)
     : QObject(parent), project_(project) {
-    if (!transport) transport = new NemotronClient(NemotronConfig::fromEnvironment(), this);
+    if (!transport) {
+        owned_client_ = new NemotronClient(NemotronConfig::fromEnvironment(), this);
+        transport = owned_client_;
+    }
     if (const auto* client = qobject_cast<NemotronClient*>(transport)) configured_model_ = client->configuredModelIdentifier();
     session_ = new AgentOrchestrator(transport, this);
     connect(session_, &AgentOrchestrator::changed, this, &AgentController::changed);
@@ -47,6 +50,11 @@ QVariantList AgentController::runs() const {
 void AgentController::investigate(const QString& objective) {
     if (running()) return;
     if (recorder_) recorder_->flush();
+    if (owned_client_) {
+        owned_client_->reloadConfiguration();
+        configured_model_ = owned_client_->configuredModelIdentifier();
+        if (recorder_) recorder_->setConfiguredModel(configured_model_);
+    }
     recommendation_ = {};
     const auto project = parse_project(project_->document());
     captured_revision_ = project_->simulationRevision();

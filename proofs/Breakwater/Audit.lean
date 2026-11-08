@@ -2,6 +2,7 @@ module
 
 public import Breakwater.Network
 public import Breakwater.ControlInfluence
+public import Breakwater.Transport
 meta import Lean.Util.CollectAxioms
 meta import Lean.Meta.InferType
 
@@ -28,6 +29,22 @@ meta import Lean.Meta.InferType
 #print axioms Breakwater.ControlInfluence.precomputed_zero_delta
 #print axioms Breakwater.ControlInfluence.precomputed_network_rate
 #print axioms Breakwater.ControlInfluence.precomputed_network_trajectory
+#print axioms Breakwater.Transport.inventory_eq_scale_sum
+#print axioms Breakwater.Transport.face_differences_telescope
+#print axioms Breakwater.Transport.euler_sum_balance
+#print axioms Breakwater.Transport.euler_inventory_balance
+#print axioms Breakwater.Transport.openFlux_inlet
+#print axioms Breakwater.Transport.openFlux_outlet
+#print axioms Breakwater.Transport.openFlux_interior
+#print axioms Breakwater.Transport.closedFlux_inlet
+#print axioms Breakwater.Transport.closedFlux_outlet
+#print axioms Breakwater.Transport.closedFlux_interior
+#print axioms Breakwater.Transport.open_euler_inventory_balance
+#print axioms Breakwater.Transport.closed_euler_inventory_balance
+#print axioms Breakwater.Transport.zero_flow_inlet_loss
+#print axioms Breakwater.Transport.rollout_residual_preserved
+#print axioms Breakwater.Transport.rollout_mass_residual_zero
+#print axioms Breakwater.Transport.rollout_inventory_balance
 
 /-- The advertised results are checked transitively, not just scanned for placeholders. -/
 public meta def Breakwater.auditedAlgorithms : Array Lean.Name := #[
@@ -51,7 +68,23 @@ public meta def Breakwater.auditedAlgorithms : Array Lean.Name := #[
   ``Breakwater.ControlInfluence.precomputed_eq_direct,
   ``Breakwater.ControlInfluence.precomputed_zero_delta,
   ``Breakwater.ControlInfluence.precomputed_network_rate,
-  ``Breakwater.ControlInfluence.precomputed_network_trajectory
+  ``Breakwater.ControlInfluence.precomputed_network_trajectory,
+  ``Breakwater.Transport.inventory_eq_scale_sum,
+  ``Breakwater.Transport.face_differences_telescope,
+  ``Breakwater.Transport.euler_sum_balance,
+  ``Breakwater.Transport.euler_inventory_balance,
+  ``Breakwater.Transport.openFlux_inlet,
+  ``Breakwater.Transport.openFlux_outlet,
+  ``Breakwater.Transport.openFlux_interior,
+  ``Breakwater.Transport.closedFlux_inlet,
+  ``Breakwater.Transport.closedFlux_outlet,
+  ``Breakwater.Transport.closedFlux_interior,
+  ``Breakwater.Transport.open_euler_inventory_balance,
+  ``Breakwater.Transport.closed_euler_inventory_balance,
+  ``Breakwater.Transport.zero_flow_inlet_loss,
+  ``Breakwater.Transport.rollout_residual_preserved,
+  ``Breakwater.Transport.rollout_mass_residual_zero,
+  ``Breakwater.Transport.rollout_inventory_balance
 ]
 
 -- These are the standard foundations of the pinned classical-real Mathlib development.

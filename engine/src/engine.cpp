@@ -1,5 +1,6 @@
 #include "breakwater/engine.hpp"
 #include "forecast_kernels.hpp"
+#include "storage_grid.hpp"
 
 #include <algorithm>
 #include <cmath>
@@ -11,7 +12,10 @@
 namespace breakwater {
 namespace {
 constexpr double atol = 1e-9;
-bool close(double a, double b) { return std::abs(a - b) <= atol + 1e-10 * std::max(std::abs(a), std::abs(b)); }
+bool close(double a, double b) {
+    return std::isfinite(a) && std::isfinite(b) &&
+        std::abs(a - b) <= atol + 1e-10 * std::max(std::abs(a), std::abs(b));
+}
 const Asset* find_asset(const Network& n, const std::string& id) {
     const auto it = std::find_if(n.assets.begin(), n.assets.end(), [&](const Asset& a) { return a.id == id; });
     return it == n.assets.end() ? nullptr : &*it;
@@ -21,9 +25,7 @@ double flow(const Network& n, const Route& r) {
     return source && source->kind == AssetKind::source ? source->inflow_m3h - source->curtailment_m3h : r.setpoint_m3h;
 }
 void check_config(SimulationConfig c) {
-    if (!std::isfinite(c.horizon_h) || !std::isfinite(c.step_h) || c.horizon_h <= 0.0 ||
-        c.horizon_h > 24.0 || c.step_h <= 0.0 || std::ceil(c.horizon_h / c.step_h) > 10000.0)
-        throw std::invalid_argument("Forecast needs 0 < horizon <= 24 h and 1..10000 positive steps.");
+    detail::check_storage_config(c);
 }
 }
 
@@ -85,6 +87,10 @@ std::vector<Issue> inspect_network(const Network& n) {
         if (!std::isfinite(r.capacity_m3h) || !std::isfinite(r.setpoint_m3h) || !std::isfinite(r.cost_per_m3) ||
             r.capacity_m3h < 0.0 || r.setpoint_m3h < 0.0 || r.cost_per_m3 < 0.0)
             add("invalid_number", r.id, "Route parameters must be finite and nonnegative.");
+        if (s->kind == AssetKind::tank && d->kind != AssetKind::tank &&
+            std::isfinite(r.cost_per_m3) && std::isfinite(d->cost_per_m3) &&
+            !std::isfinite(r.cost_per_m3 + d->cost_per_m3))
+            add("cost_overflow", r.id, "Combined route and destination unit cost exceeds finite double precision.");
         if (flow(n, r) > r.capacity_m3h + atol) add("route_capacity", r.id, "Flow exceeds this route's capacity.");
         if (!r.available && (!r.has_pump || r.setpoint_m3h != 0.0)) add("unavailable_route", r.id, "Unavailable pumps must have zero requested flow.");
     }
@@ -96,13 +102,21 @@ std::vector<Issue> inspect_network(const Network& n) {
 std::vector<ControlDescriptor> control_catalog(const Network& n) {
     std::vector<ControlDescriptor> controls;
     for (const auto& a : n.assets)
-        if (a.kind == AssetKind::source) controls.push_back({"source:" + a.id + ":curtail", a.id, "m3/h", a.curtailment_m3h, 0.0, a.curtailment_max_m3h, a.cost_per_m3});
+        if (a.kind == AssetKind::source) {
+            if (!std::isfinite(a.cost_per_m3))
+                throw std::invalid_argument("Control catalog requires a finite source unit cost: " + a.id);
+            controls.push_back({"source:" + a.id + ":curtail", a.id, "m3/h", a.curtailment_m3h, 0.0, a.curtailment_max_m3h, a.cost_per_m3});
+        }
     for (const auto& r : n.routes) {
         const auto* s = find_asset(n, r.source_id);
         const auto* d = find_asset(n, r.target_id);
-        if (s && s->kind == AssetKind::tank)
+        if (s && s->kind == AssetKind::tank) {
+            const double unit_cost = r.cost_per_m3 + (d && d->kind != AssetKind::tank ? d->cost_per_m3 : 0.0);
+            if (!std::isfinite(unit_cost))
+                throw std::invalid_argument("Control catalog requires a finite combined route/destination unit cost: " + r.id);
             controls.push_back({"route:" + r.id + ":flow", r.id, "m3/h", r.setpoint_m3h, 0.0, r.available ? r.capacity_m3h : 0.0,
-                r.cost_per_m3 + (d && d->kind != AssetKind::tank ? d->cost_per_m3 : 0.0)});
+                unit_cost});
+        }
     }
     return controls;
 }
@@ -167,9 +181,8 @@ SimulationResult simulate(const CompiledNetwork& c, SimulationConfig config, Sol
     SimulationResult r;
     r.tank_ids = c.tank_ids;
     r.solver = solver;
-    const auto steps = static_cast<std::size_t>(std::ceil(config.horizon_h / config.step_h));
-    r.time_h.reserve(steps + 1);
-    for (std::size_t k = 0; k <= steps; ++k) r.time_h.push_back(std::min(static_cast<double>(k) * config.step_h, config.horizon_h));
+    r.time_h = detail::storage_sample_times(config);
+    const auto steps = r.time_h.size() - 1;
     r.volumes_m3.assign(c.tank_ids.size(), std::vector<double>(steps + 1));
     std::vector<double> state = c.initial_m3;
     std::vector<double> rates(state.size());
@@ -217,8 +230,8 @@ ValidationReport validate(const CompiledNetwork& c, const SimulationResult& r, S
         if (!std::isfinite(r.time_h[k]) || (k > 0 && r.time_h[k] <= r.time_h[k - 1])) {
             add("result_time", "", "Sample times must be finite and strictly increasing."); return report;
         }
-    const double horizon = r.time_h.back();
-    if (!close(horizon, config.horizon_h)) {
+    const double horizon = config.horizon_h;
+    if (r.time_h.back() != horizon) {
         add("forecast_horizon", "", "Result does not cover the requested forecast horizon."); return report;
     }
     // Deliberately recompute rates/cost from ID-based source data, not compiled sparse arrays.
@@ -233,6 +246,11 @@ ValidationReport validate(const CompiledNetwork& c, const SimulationResult& r, S
         const auto& s = *find_asset(c.network, route.source_id);
         const auto& d = *find_asset(c.network, route.target_id);
         const double q = flow(c.network, route);
+        // Independently enforce the catalog's representable unit-price domain,
+        // even when a zero/tiny flow would make the actual charge finite.
+        if (s.kind == AssetKind::tank && d.kind != AssetKind::tank &&
+            !std::isfinite(route.cost_per_m3 + d.cost_per_m3))
+            add("cost_overflow", route.id, "Combined route and destination unit cost exceeds finite double precision.");
         expected_cost_per_h += q * route.cost_per_m3;
         if (s.kind == AssetKind::tank) rates[s.id] -= q;
         if (d.kind == AssetKind::tank) rates[d.id] += q;
@@ -273,7 +291,11 @@ ValidationReport validate(const CompiledNetwork& c, const SimulationResult& r, S
         report.max_conservation_residual_m3 = std::max(report.max_conservation_residual_m3, residual);
     }
     if (report.max_conservation_residual_m3 > 1e-7) add("conservation", "", "Volume balance residual exceeds 1e-7 m3.");
-    if (!std::isfinite(r.cost) || !close(r.cost, horizon * expected_cost_per_h)) add("cost_mismatch", "", "Cost differs from independent calculation.");
+    const double expected_cost = horizon * expected_cost_per_h;
+    if (!std::isfinite(expected_cost_per_h) || !std::isfinite(expected_cost))
+        add("cost_overflow", "", "Independent hourly or forecast cost exceeds finite double precision.");
+    if (!std::isfinite(r.cost) || r.cost < 0.0 || !close(r.cost, expected_cost))
+        add("cost_mismatch", "", "Cost differs from independent finite nonnegative calculation.");
     std::sort(report.limits.begin(), report.limits.end(), [](const LimitEvent& a, const LimitEvent& b) { return a.time_h < b.time_h; });
     report.feasible = report.violations.empty();
     return report;

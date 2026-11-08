@@ -40,7 +40,7 @@ is the caller's cancellation mechanism; v1 introduces no cancellation method.
 | Method | Behavior |
 |---|---|
 | `health` | Preserves the existing five-field result, including `methods: ["health"]` and `scientific_execution: "not_implemented"`, for the strict desktop health client |
-| `capabilities` | Reports deployed method implementations, fixed limits, no artifact support, and process-local scientific execution verification |
+| `capabilities` | Reports mapper presence, supported methods/limits, no artifact support, and process-local scientific execution verification |
 | `storage_rollout` | Executes the agreed project-network mapping and optional selected-control derivatives |
 | `pipe_transport` | Explicit `not_implemented`; the desktop pipe viewer already runs authoritative native FVM directly |
 
@@ -50,6 +50,13 @@ shape. Storage's `execution_verified` starts false and becomes true only after a
 actual result passes identity/shape/numeric checks and the serialized byte budget.
 It records successful execution in this process, not qualification of future inputs.
 Restart resets it. Package discovery never establishes scientific execution.
+
+For storage, `implemented: true` currently means only that `worker_storage.py`
+exists beside `worker.py`. It does not prove that the helper/package is complete,
+Torch imports successfully, or a numerical job has executed. A missing runtime can
+therefore coexist with that implementation flag and yield `runtime_unavailable`
+on a storage request. A successful, checked result in this process is required for
+storage's `execution_verified: true`; neither flag grants native validation or approval.
 
 Scientific imports are lazy. Python/library stdout and stderr are discarded during
 imports/calculation, keeping normal stdout protocol-only and errors bounded. Missing
@@ -96,6 +103,20 @@ The method retains the native 128-asset/256-route, 24-hour and 10,000-update lim
 Requests support at most 384 explicit control entries, subject to real catalog and
 uniqueness checks. Invalid/nonrepresentable grids and nonfinite outputs fail explicitly.
 
+The combined route/destination unit price for each tank-origin discharge must be
+finite. Overflow here is `invalid_network`, including at zero/tiny flow, and is
+rejected before loading PyTorch. A finite unit price with a nonfinite hourly or
+forecast cost yields `numerical_failure`; finite lower-flow overrides remain
+available. See [A-002 resolution](A002_COST_FIX.md) for native/worker parity checks.
+
+Storage preserves each rounded float64 `k*step_h` strictly before the horizon,
+then appends the original horizon exactly once. A one-ULP terminal interval counts
+toward the 10,000-update limit; no interior sample is shifted to hide it. Division
+rounding does not determine the sample count. Even a positive subnormal horizon
+with a larger step has both endpoints. Publication independently reconstructs this
+grid and requires exact timestamps and original indices, including the final index.
+See [A-001 resolution](A001_HORIZON_FIX.md) for the native/Torch/worker checks.
+
 Previews contain every tank and at most the requested 2..256 times. They retain time
 zero, the exact horizon and original `time_indices`; values come from the full forward
 grid. If needed, publication reduces only preview times to fit the **1 MiB including
@@ -109,21 +130,23 @@ accept JSON numeric representations of one and reject booleans.
 
 ## Delivery boundary for Person B
 
-This increment changes only `science/`. The current desktop health adapter continues
-to work; it does not yet negotiate these science methods or publish their results.
-B's installer currently copies only `worker.py`. That file remains self-contained:
+In the desktop source inherited by this Person A branch from baseline `6fb8c29`,
+the adapter requests health only; it does not negotiate these science methods or
+publish their results. The installer in that snapshot copies only `worker.py`.
+These claims describe this branch, not the status of Person B's parallel branches
+or an independently installed application. That worker file remains self-contained:
 an installed copy still supports health/capabilities, truthfully reporting storage
 unavailable when its mapper is absent.
 
-To deploy science, B must additionally install `worker_storage.py` and the
-`breakwater_science` package beside it, select a Python environment with the pinned
+To deploy science, B must additionally install `worker_storage.py`, the standard-library
+`storage_grid.py` helper and the `breakwater_science` package beside it, select a Python environment with the pinned
 Torch runtime, and extend the asynchronous adapter for capability/result negotiation.
 The repo worker already has those modules beside it. Keep identity, staleness,
 timeouts/retirement, output bounds and independent volume approval in that adapter.
 No B-owned application, contract, packaging or root configuration files are changed
 by this A workstream.
 
-## Executed evidence
+## Historical A8 delivery evidence
 
 On November 7, 2026, the complete scientific suite passed **69/69 tests**, including
 16 real subprocess protocol tests and 14 mapper/derivative tests. The actual native
@@ -142,3 +165,8 @@ The [versioned report](evidence/2026-11-07-worker-verification.json) records Pyt
 Torch/schema versions, native executable and source/lock/schema hashes, forward and
 gradient tolerances, endpoint values and verification transitions. No checkpoint,
 environment, credential or generated native executable is committed.
+
+These counts describe A8 delivery. Subsequent numerical fixes and executions are
+recorded in [A-001](A001_HORIZON_FIX.md), [A-002](A002_COST_FIX.md) and
+[A-003](A003_RESIDUAL_FIX.md). The [A-004 documentation check](A004_STATUS_FIX.md)
+separately verifies current worker status without changing runtime behavior.

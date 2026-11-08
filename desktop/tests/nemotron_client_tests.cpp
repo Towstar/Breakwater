@@ -1,11 +1,15 @@
 #include "agent/NemotronClient.hpp"
+#include "agent/CredentialSettings.hpp"
 
 #include <QBuffer>
+#include <QDir>
+#include <QFile>
 #include <QJsonDocument>
 #include <QNetworkAccessManager>
 #include <QNetworkReply>
 #include <QNetworkRequest>
 #include <QSignalSpy>
+#include <QTemporaryDir>
 #include <QUuid>
 #include <QtTest>
 #include <algorithm>
@@ -14,6 +18,23 @@
 using namespace breakwater::desktop::agent;
 
 namespace {
+struct ScopedConfiguration {
+    QByteArray key = qgetenv("NVIDIA_API_KEY"), endpoint = qgetenv("NVIDIA_BASE_URL"), model = qgetenv("NEMOTRON_MODEL");
+    bool hadKey = qEnvironmentVariableIsSet("NVIDIA_API_KEY"), hadEndpoint = qEnvironmentVariableIsSet("NVIDIA_BASE_URL"), hadModel = qEnvironmentVariableIsSet("NEMOTRON_MODEL");
+    QString directory = QDir::currentPath();
+    ScopedConfiguration() { qunsetenv("NVIDIA_API_KEY"); qunsetenv("NVIDIA_BASE_URL"); qunsetenv("NEMOTRON_MODEL"); }
+    ~ScopedConfiguration() {
+        if (hadKey) qputenv("NVIDIA_API_KEY", key); else qunsetenv("NVIDIA_API_KEY");
+        if (hadEndpoint) qputenv("NVIDIA_BASE_URL", endpoint); else qunsetenv("NVIDIA_BASE_URL");
+        if (hadModel) qputenv("NEMOTRON_MODEL", model); else qunsetenv("NEMOTRON_MODEL");
+        QDir::setCurrent(directory);
+    }
+};
+bool writeSettings(const QString& path, const QByteArray& bytes) {
+    QFile file(path);
+    return file.open(QIODevice::WriteOnly) && file.write(bytes) == bytes.size();
+}
+
 struct Response {
     int status = 200;
     QByteArray bytes;
@@ -96,6 +117,101 @@ NemotronConfig configuration() { NemotronConfig c; c.apiKey = "test-secret-must-
 class NemotronClientTests final : public QObject {
     Q_OBJECT
 private slots:
+    void readsLiteralDotEnvWithoutExportingSecrets() {
+        ScopedConfiguration environment;
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        const auto path = directory.filePath(".env");
+        QVERIFY(writeSettings(path, QByteArray::fromHex("efbbbf") +
+            "# Local configuration\r\nexport NVIDIA_API_KEY = 'fixture-secret#literal' # key\r\n"
+            "NVIDIA_BASE_URL=\"https://fixture.invalid/v1/\"\r\n"
+            "NEMOTRON_MODEL=fixture/nemotron # model\r\nIGNORED_VARIABLE=anything\r\n"));
+        const auto config = NemotronConfig::fromEnvironment(path);
+        QVERIFY(config.apiKey == "fixture-secret#literal");
+        QCOMPARE(config.endpoint, QUrl("https://fixture.invalid/v1/chat/completions"));
+        QCOMPARE(config.model, "fixture/nemotron"); QCOMPARE(config.credentialSource, "local_file");
+        QVERIFY(!qEnvironmentVariableIsSet("NVIDIA_API_KEY"));
+        QVERIFY(writeSettings(path, "NVIDIA_API_KEY=$(literal-command)${LITERAL_VARIABLE}\n"));
+        QVERIFY(NemotronConfig::fromEnvironment(path).apiKey == "$(literal-command)${LITERAL_VARIABLE}");
+    }
+
+    void processSettingsOverrideFileAndAbsentFilesKeepDefaults() {
+        ScopedConfiguration environment;
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        const auto path = directory.filePath(".env");
+        const auto defaults = NemotronConfig::fromEnvironment(path);
+        QVERIFY(defaults.apiKey.isEmpty()); QCOMPARE(defaults.endpoint, NemotronConfig{}.endpoint);
+        QCOMPARE(defaults.model, NemotronConfig{}.model);
+        QVERIFY(writeSettings(path, "NVIDIA_API_KEY=file-fixture\nNVIDIA_BASE_URL=https://file.invalid/v1\nNEMOTRON_MODEL=file/model\n"));
+        qputenv("NVIDIA_API_KEY", "process-fixture"); qputenv("NVIDIA_BASE_URL", "https://process.invalid/v1/chat/completions");
+        qputenv("NEMOTRON_MODEL", "process/model");
+        const auto config = NemotronConfig::fromEnvironment(path);
+        QVERIFY(config.apiKey == "process-fixture"); QCOMPARE(config.credentialSource, "environment");
+        QCOMPARE(config.endpoint, QUrl("https://process.invalid/v1/chat/completions")); QCOMPARE(config.model, "process/model");
+        qputenv("NVIDIA_API_KEY", "  ");
+        QVERIFY(NemotronConfig::fromEnvironment(path).apiKey == "file-fixture");
+    }
+
+    void discoversCheckoutFileFromNestedBuildDirectoryAndRespectsWorktreeBoundary() {
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        ScopedConfiguration environment;
+        QDir root(directory.path()); QVERIFY(root.mkpath("out/build")); QVERIFY(root.mkdir(".git"));
+        QVERIFY(writeSettings(root.filePath(".env"), "NVIDIA_API_KEY=checkout-fixture\n"));
+        QVERIFY(QDir::setCurrent(root.filePath("out/build")));
+        QVERIFY(NemotronConfig::fromEnvironment().apiKey == "checkout-fixture");
+        QVERIFY(writeSettings(root.filePath("out/build/.env"), "NVIDIA_API_KEY=working-fixture\n"));
+        QVERIFY(NemotronConfig::fromEnvironment().apiKey == "working-fixture");
+        QVERIFY(root.mkpath(".worktrees/child/out/build"));
+        QVERIFY(writeSettings(root.filePath(".worktrees/child/.git"), "gitdir: fixture\n"));
+        QVERIFY(QDir::setCurrent(root.filePath(".worktrees/child/out/build")));
+        // Saved user configuration or an executable-local file may still apply;
+        // the containing checkout's credential must never cross this boundary.
+        QVERIFY(NemotronConfig::fromEnvironment().apiKey != "checkout-fixture");
+    }
+
+    void rejectsMalformedQuotedAndOversizedFilesWithoutLoggingTheirContents() {
+        ScopedConfiguration environment;
+        QTemporaryDir directory; QVERIFY(directory.isValid()); const auto path = directory.filePath(".env");
+        QVERIFY(writeSettings(path, "NVIDIA_API_KEY=fixture-secret\nNEMOTRON_MODEL=\"unterminated\n"));
+        QVERIFY(NemotronConfig::fromEnvironment(path).apiKey.isEmpty());
+        QVERIFY(writeSettings(path, "NVIDIA_API_KEY=\"fixture-secret\"unexpected\n"));
+        QVERIFY(NemotronConfig::fromEnvironment(path).apiKey.isEmpty());
+        QVERIFY(writeSettings(path, "NVIDIA_API_KEY=fixture-secret\n#" + QByteArray(65536, 'x')));
+        QVERIFY(NemotronConfig::fromEnvironment(path).apiKey.isEmpty());
+    }
+
+    void userKeySettingsSaveReloadReplaceAndRemoveWithoutExposingAKeyProperty() {
+        ScopedConfiguration environment;
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        const auto path = directory.filePath("settings/.env");
+        CredentialSettings settings(nullptr, path);
+        QVERIFY(!settings.configured()); QVERIFY(!settings.saved());
+        QVERIFY(settings.saveApiKey("  fixture-user-key  "));
+        QVERIFY(settings.configured()); QVERIFY(settings.saved());
+        QVERIFY(!settings.status().contains("fixture-user-key"));
+        QVERIFY(settings.metaObject()->indexOfProperty("apiKey") < 0);
+        QVERIFY(settings.metaObject()->indexOfProperty("key") < 0);
+        CredentialSettings reopened(nullptr, path); QVERIFY(reopened.configured());
+        QVERIFY(NemotronConfig::fromEnvironment(path).apiKey == "fixture-user-key");
+        QVERIFY(settings.saveApiKey("fixture-replacement-key"));
+        QVERIFY(NemotronConfig::fromEnvironment(path).apiKey == "fixture-replacement-key");
+        QVERIFY(settings.forgetApiKey()); QVERIFY(!settings.saved()); QVERIFY(!settings.configured());
+        QVERIFY(!QFile::exists(path)); QVERIFY(!qEnvironmentVariableIsSet("NVIDIA_API_KEY"));
+    }
+
+    void invalidKeyInputAndWriteFailuresPreserveAnExistingKey() {
+        ScopedConfiguration environment;
+        QTemporaryDir directory; QVERIFY(directory.isValid()); const auto path = directory.filePath(".env");
+        CredentialSettings settings(nullptr, path); QVERIFY(settings.saveApiKey("fixture-kept-key"));
+        for (const auto& invalid : {QString{}, QString("key\nNEMOTRON_MODEL=injected"), QString("bad key"), QString(4097, 'x')}) {
+            QVERIFY(!settings.saveApiKey(invalid));
+            QVERIFY(NemotronConfig::fromEnvironment(path).apiKey == "fixture-kept-key");
+            QVERIFY(!settings.status().contains("fixture-kept-key"));
+        }
+        CredentialSettings unwritable(nullptr, directory.path());
+        QVERIFY(!unwritable.saveApiKey("fixture-secret"));
+        QVERIFY(!unwritable.status().contains("fixture-secret"));
+    }
+
     void completionMetadataPrecedesThePublicResultAndContainsOnlySafeFields() {
         FakeNetwork network; network.responses.append(Response{200, textCompletion()});
         const auto config = configuration(); NemotronClient client(config, nullptr, &network);
@@ -114,6 +230,19 @@ private slots:
         const auto serialized = QJsonDocument(metadata).toJson();
         QVERIFY(!serialized.contains(config.apiKey.toUtf8())); QVERIFY(!serialized.contains("Authorization"));
         QVERIFY(!serialized.contains("messages")); QVERIFY(!serialized.contains("reasoning")); QVERIFY(!serialized.contains("Ready."));
+    }
+
+    void configurationReloadWaitsUntilTheCurrentRequestEnds() {
+        ScopedConfiguration environment;
+        qputenv("NVIDIA_API_KEY", "fixture-next-key");
+        FakeNetwork network; network.responses.append(Response{200, textCompletion(), -1});
+        NemotronClient client(configuration(), nullptr, &network);
+        client.request(messages(), {});
+        QVERIFY(!client.reloadConfiguration());
+        QVERIFY(client.config().apiKey == configuration().apiKey);
+        client.cancel();
+        QVERIFY(client.reloadConfiguration());
+        QVERIFY(client.config().apiKey == "fixture-next-key");
     }
 
     void failureMetadataIsRedactedAndPrecedesTheError() {

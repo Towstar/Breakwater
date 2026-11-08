@@ -1,0 +1,178 @@
+{
+  "qualification_version": 1,
+  "scope": "Bounded synthetic one-dimensional native transport qualification; no hydraulic, industrial, learned-model or volume-approval claim.",
+  "declaration": "Follow-up declared after the baseline 32/64/128-cell scheduled-inlet refinement failed its unchanged order gate. Only that regime's meshes are refined; no numerical method, forcing, CFL, or acceptance threshold is relaxed. The original baseline config and failed evidence are retained.",
+  "expected_case_count": 45,
+  "matrix": {
+    "space_cells": [
+      32,
+      64,
+      128
+    ],
+    "time_cells": 64,
+    "time_cfl": [
+      0.8,
+      0.4,
+      0.2,
+      0.1
+    ],
+    "regimes": {
+      "advection": {
+        "count": 7,
+        "horizon_h": 0.5,
+        "space_cfl": 0.01
+      },
+      "closed_diffusion": {
+        "count": 7,
+        "horizon_h": 0.2,
+        "space_cfl": 0.01
+      },
+      "open_diffusion": {
+        "count": 7,
+        "horizon_h": 0.2,
+        "space_cfl": 0.01
+      },
+      "mixed_adr": {
+        "count": 13,
+        "horizon_h": 0.5,
+        "space_cfl": 0.01,
+        "mode_fractions": [
+          0.6,
+          0.75,
+          0.85
+        ],
+        "time_mode_fraction": 0.75
+      },
+      "reaction_source": {
+        "count": 4,
+        "horizon_h": 1,
+        "cells": 8,
+        "time_cfl": [
+          0.5,
+          0.25,
+          0.125,
+          0.0625
+        ]
+      },
+      "source_only": {
+        "count": 1,
+        "horizon_h": 1,
+        "cells": 8,
+        "cfl": 0.5
+      },
+      "scheduled_advection": {
+        "count": 3,
+        "horizon_h": 0.6,
+        "output_step_h": 0.05,
+        "space_cfl": 0.01
+      },
+      "scheduled_inlet": {
+        "count": 3,
+        "horizon_h": 0.6,
+        "output_step_h": 0.05,
+        "space_cfl": 0.1,
+        "space_cells": [
+          128,
+          256,
+          512
+        ]
+      }
+    }
+  },
+  "common_gates": {
+    "input_absolute_tolerance": 1e-12,
+    "ledger_absolute_tolerance_mg": 1e-8,
+    "ledger_relative_tolerance": 1e-10,
+    "minimum_concentration_tolerance_mg_l": 5e-12,
+    "maximum_concentration_mg_l": 1,
+    "maximum_concentration_tolerance_mg_l": 1e-10,
+    "cfl_tolerance": 1e-12,
+    "zero_error_floor_mg_l": 1e-13,
+    "low_cfl_time_to_spatial_error_maximum": 0.05,
+    "mixed_eigen_relative_residual_maximum": 1e-12,
+    "mixed_eigen_orthogonality_maximum": 1e-12,
+    "mixed_matrix_reconstruction_relative_maximum": 1e-12,
+    "mixed_initial_reconstruction_maximum_mg_l": 1e-11,
+    "reference_roundoff_multiplier": 128,
+    "reference_error_resolution_factor": 10,
+    "finest_analytic_ledger_relative_maximum": 0.02
+  },
+  "spatial_gates": {
+    "advection": {
+      "order_min": 0.7,
+      "order_max": 1.35,
+      "finest_mean_l1_max_mg_l": 0.025
+    },
+    "closed_diffusion": {
+      "order_min": 1.8,
+      "order_max": 2.2,
+      "finest_mean_l1_max_mg_l": 0.00001
+    },
+    "open_diffusion": {
+      "order_min": 1.8,
+      "order_max": 2.2,
+      "finest_mean_l1_max_mg_l": 0.00001
+    },
+    "mixed_adr": {
+      "order_min": 0.7,
+      "order_max": 1.35,
+      "finest_mean_l1_max_mg_l": 0.01
+    },
+    "scheduled_advection": {
+      "order_min": 0.65,
+      "order_max": 1.35,
+      "finest_mean_l1_max_mg_l": 0.04
+    },
+    "scheduled_inlet": {
+      "order_min": 0.25,
+      "order_max": 1.35,
+      "finest_mean_l1_max_mg_l": 0.04
+    }
+  },
+  "temporal_gates": {
+    "advection": {
+      "order_min": 0.8,
+      "order_max": 1.5,
+      "finest_mean_l1_max_mg_l": 0.005
+    },
+    "closed_diffusion": {
+      "order_min": 0.85,
+      "order_max": 1.15,
+      "finest_mean_l1_max_mg_l": 0.000005
+    },
+    "open_diffusion": {
+      "order_min": 0.85,
+      "order_max": 1.15,
+      "finest_mean_l1_max_mg_l": 0.000005
+    },
+    "mixed_adr": {
+      "order_min": 0.8,
+      "order_max": 1.3,
+      "finest_mean_l1_max_mg_l": 0.001
+    },
+    "reaction_source": {
+      "order_min": 0.85,
+      "order_max": 1.5,
+      "finest_mean_l1_max_mg_l": 0.01
+    }
+  },
+  "expected_rejections": {
+    "substep_budget": "runtime_error",
+    "output_frame_budget": "invalid_argument",
+    "output_value_budget": "invalid_argument"
+  },
+  "notes": [
+    "Mean-L1, RMS and maximum field errors have units mg/L; signed ledger errors have units mg.",
+    "Spatial studies compare native, continuum and independently computed semidiscrete fields; low-CFL time contamination is bounded separately.",
+    "Temporal studies use fixed meshes and independently computed semidiscrete references.",
+    "Scheduled inlet fields can have fronts; only mean-L1 refinement is gated, with no smooth Linfinity convergence claim.",
+    "Mixed semidiscrete eigendecomposition is a checked floating-point numerical oracle, not an exact enclosure.",
+    "Output times constrain Euler substeps; schedule studies hold their declared output grid fixed.",
+    "All configured source profiles and forcing data are finite and nonnegative.",
+    "Baseline evidence out/a9/qualification/report.json records scheduled-inlet orders 0.2765063820 and 0.2037015797. The follow-up studies the same narrow-front forcing on 128/256/512 cells; coarse scheduled-inlet accuracy remains unqualified."
+  ],
+  "qualification_variant": "refined_inlet",
+  "native_arguments": [
+    "--refined-inlet"
+  ]
+}

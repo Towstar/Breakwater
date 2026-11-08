@@ -287,6 +287,36 @@ int main() {
                     "Overflow repair did not exercise the influence fallback");
             check_public_oracle(network, candidates);
         }},
+        {"automatic influence dispatch rejects cost overflow but preserves finite repairs", [] {
+            Network network;
+            network.assets = {{"tank", "Tank", AssetKind::tank, 100, 50},
+                              {"plant", "Plant", AssetKind::treatment, 20}};
+            network.routes = {{"priced", "tank", "plant", 20, 10, true, true,
+                               std::numeric_limits<double>::max()}};
+            // Unpriced zero-capacity routes cross the real public dispatch threshold
+            // without changing inventory, destination throughput, or baseline cost.
+            for (std::size_t index = 1; index < 32; ++index)
+                network.routes.push_back({"idle:" + std::to_string(index), "tank", "plant", 0, 0});
+            const auto rows = one_control_rows("route:priced:flow", {10.0, 0.0, .25, .5});
+            check_public_oracle(network, rows, {{1.0, .1}, 5});
+            std::vector<CandidateControls> candidates;
+            candidates.reserve(2048);
+            for (std::size_t index = 0; index < 2048; ++index) candidates.push_back(rows[index % rows.size()]);
+            require(detail::use_control_influence(network.routes.size(), candidates.size()),
+                    "Cost-overflow regression did not exercise automatic influence dispatch");
+            const SearchOptions options{{1.0, .1}, 5};
+            check_public_implementations(network, candidates, options);
+            const auto result = evaluate_candidates(network, candidates, options);
+            require(result.diagnostics.numerical_screen_rejections == 512 &&
+                        result.diagnostics.screen_passes == 1536 && result.recommendations.size() == 5,
+                    "Influence dispatch lost finite repairs or failed to count cost-overflow rows");
+            for (std::size_t rank = 0; rank < result.recommendations.size(); ++rank) {
+                const auto& recommendation = result.recommendations[rank];
+                require(recommendation.candidate_index == 1 + 4 * rank && recommendation.run.cost == 0.0 &&
+                            recommendation.validation.feasible,
+                        "Influence dispatch changed exact zero-cost/index ordering after overflow fallback");
+            }
+        }},
         {"reciprocal huge flows and zeroed overrides do not lose finite cancellation", [] {
             Network network;
             network.assets = {{"a", "A", AssetKind::tank, 100, 50}, {"b", "B", AssetKind::tank, 100, 50}};

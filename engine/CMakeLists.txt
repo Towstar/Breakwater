@@ -20,6 +20,10 @@ target_link_libraries(breakwater_rollout_reference PRIVATE breakwater_engine)
 add_executable(breakwater_physicsnemo_reference examples/physicsnemo_transport_reference.cpp)
 target_link_libraries(breakwater_physicsnemo_reference PRIVATE breakwater_engine)
 
+# Private A9 regime/refinement fixtures, executed by science qualification tools.
+add_executable(breakwater_transport_qualification_reference examples/transport_qualification_reference.cpp)
+target_link_libraries(breakwater_transport_qualification_reference PRIVATE breakwater_engine)
+
 add_executable(breakwater_benchmark benchmarks/benchmark.cpp)
 target_link_libraries(breakwater_benchmark PRIVATE breakwater_engine)
 target_compile_definitions(breakwater_benchmark PRIVATE
