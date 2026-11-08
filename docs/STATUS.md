@@ -10,10 +10,13 @@
   publication and shares it with history. Negative, overflowing, stale and missing
   evidence retain their distinct semantics. The earlier source-gate run passed
   **16/16** normal (49.89 s) and ASan (188.59 s), 230 Qt cases per mode, zero skips.
-- The later readable plan/event panes and global coverage regressions passed
-  **18/18** normal EOG CTests (67.66 s), **250 Qt cases**, zero skips, including
-  six actual application renders and lazy 4,096-row schedule/evidence views.
-  The matching ASan run remains pending. This is not full combined desktop acceptance.
+- The readable plan/event panes and global coverage regressions passed **18/18**
+  EOG CTests in normal (65.78 s) and ASan (167.60 s), **250 Qt cases per mode**,
+  zero skips, including six actual application renders and lazy 4,096-row views.
+  The first ASan run retained a 15-second bulk-history fixture wait failure: all
+  102 durable writes completed at about 19.7 seconds. Its wait is now 60 seconds;
+  counts, paging and operational deadlines are unchanged, and heartbeat counting
+  now starts with the actual write workload. This is not full combined acceptance.
 - Visual Studio's original MAX_PATH tracking failure is retained. `c85b0e7`
   keeps tracking enabled with shorter per-project/configuration paths; the corrected
   full build and 16 then-registered EOG checks passed. The newer solution resolves

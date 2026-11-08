@@ -391,8 +391,11 @@ private slots:
         QSignalSpy saved(&repository, &EogHistoryRepository::sessionSaved), pages(&repository, &EogHistoryRepository::sessionsListed), failures(&repository, &EogHistoryRepository::failed);
         int beats = 0; QTimer timer; timer.setInterval(2); connect(&timer, &QTimer::timeout, this, [&] { ++beats; }); timer.start();
         QTRY_COMPARE(ready.size(), 1);
+        beats = 0;
         for (int index = 0; index < 102; ++index) repository.beginSession(id(), "Paged fixture", lease);
-        QTRY_COMPARE_WITH_TIMEOUT(saved.size(), 102, 15000); QVERIFY(beats > 2);
+        // Each session is a separate durable transaction with bounded input
+        // verification. This aggregate fixture wait is not an operation deadline.
+        QTRY_COMPARE_WITH_TIMEOUT(saved.size(), 102, 60000); QVERIFY(beats > 2);
         repository.listSessions(); QTRY_COMPARE(pages.size(), 1); const auto first = pages[0][0].toJsonArray();
         QCOMPARE(first.size(), 100); QCOMPARE(pages[0][1].toInt(), 100);
         repository.listSessions(100); QTRY_COMPARE(pages.size(), 2); QCOMPARE(pages[1][0].toJsonArray().size(), 2); QCOMPARE(pages[1][1].toInt(), -1);

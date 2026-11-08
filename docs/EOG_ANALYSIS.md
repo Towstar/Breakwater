@@ -123,8 +123,12 @@ The later operator panes show readable truck schedules, well actions, itemized
 costs, independent validation/margins and original samples with units, timestamps,
 reported quality and qualifications. Large lists render lazily, exact JSON opens
 on demand, and session changes clear selected event evidence and old dialogs.
-The current normal run passed **18/18 EOG CTests**, **250 Qt cases**, zero skips
-(67.66 s). The corresponding ASan run remains pending. The first plan-details
+The current runs passed **18/18 EOG CTests**, **250 Qt cases per mode**, zero skips:
+normal 65.78 s and MSVC ASan 167.60 s. The first ASan bulk-history test exceeded
+its 15-second wait while completing all 102 separate durable writes at about
+19.7 seconds. Independent bounded-path review supports a 60-second fixture wait;
+write counts, pagination, heartbeats and production deadlines remain intact.
+The heartbeat count now resets at workload start. The first plan-details
 test failure is retained: its QObject-only lookup missed real visual ListView
 delegates; corrected discovery preserves all evidence and lazy-bound assertions.
 
