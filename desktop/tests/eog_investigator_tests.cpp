@@ -326,6 +326,9 @@ private slots:
         const auto text = [](const QJsonObject& value) { return QJsonValue(QString::fromUtf8(QJsonDocument(value).toJson(QJsonDocument::Compact))); };
         const auto changed = [&](const QString& key, const QJsonValue& value) { auto row = base; row[key] = value; return text(row); };
         QTest::newRow("content-type") << QJsonValue(QJsonObject{{"private", canary}}) << QString("content_type");
+        QTest::newRow("null-content") << QJsonValue(QJsonValue::Null) << QString("content_type");
+        QTest::newRow("empty-content") << QJsonValue(QString{}) << QString("json_document");
+        QTest::newRow("whitespace-content") << QJsonValue(QString(" \t\r\n ")) << QString("json_document");
         QTest::newRow("duplicate") << QJsonValue(QString("{\"summary\":\"RAW_REJECTED_FINAL_CANARY\",\"summary\":\"b\",\"selected_plan_id\":null,\"validation_id\":null,\"event_ids\":[]}")) << QString("json_document");
         QTest::newRow("extra-grounding") << changed("RAW_REJECTED_FINAL_CANARY_extra", true) << QString("field_set");
         auto missing = base; missing.remove("event_ids"); QTest::newRow("missing") << text(missing) << QString("field_set");
