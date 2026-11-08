@@ -33,6 +33,12 @@ Current branch/worktree: `codex/person-a-eog-validation` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-validation`, based on PR #40
 head `6581259f46edec8b8f9099c5fb815222cb625a53`. Initial source is 20489a6;
 corrected runtime/native source **a404df7**, qualification driver **7dceb86**.
+Published PR: https://github.com/Towstar/Breakwater/pull/41 ; measured evidence
+head `a7fd503bd66906b2c48f1382073bd3da1370b8bd` before this pointer update.
+Concrete B method/runtime/history requests:
+https://github.com/Towstar/Breakwater/pull/41#issuecomment-6721559452 .
+Provider cross-reference:
+https://github.com/Towstar/Breakwater/pull/40#issuecomment-6721560056 .
 
 `science/eog_plan_validator.py` independently reconstructs causal failures/onsets,
 productive wells, horizons, inventory and economics from Model/View. It does not
@@ -175,7 +181,7 @@ qualification without hidden-label/endpoint leakage. Lucas integrates PR #34/#36
 and the new small numerical increment, and owns desktop/process/model/history/UI
 and shared status. Whole-application/replay/extended simulation/UI gates stay open.
 
-## Hosted integration check checkpoint
+## Historical hosted integration checkpoint (superseded above)
 
 The bounded Lean retry **128717105524 completed successfully** in run 42472091130.
 The original setup failure remains retained; do not repeat the earlier "live" state.
@@ -282,7 +288,7 @@ was fast-forwarded into that branch before this delivery.
   fixtures, without consuming an unadopted wire representation. Lucas owns the
   contract fixes, reciprocal coordination note, application path and shared status.
 
-## Current preparation snapshot
+## Historical preparation snapshot
 
 | Item | Observed state / next action |
 |---|---|
