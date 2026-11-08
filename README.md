@@ -1,7 +1,7 @@
 # BREAKWATER
 
 Person B's native Nemotron tools and investigation panel are documented in
-[docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md), including environment
+[docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md), including local `.env`
 configuration, actual tool-call smoke commands, snapshot rules and approval staging.
 Automatic history, run comparison/charts, operator review and worker health are
 described in [docs/DESKTOP_FOUNDATION.md](docs/DESKTOP_FOUNDATION.md).
@@ -16,6 +16,11 @@ The next increments and parallel ownership are in
 The base now includes native search, Nemotron tools, single-pipe transport,
 standalone differentiable storage and experimental PhysicsNeMo calculations,
 measured benchmarks, and checked Lean algorithm proofs.
+
+For Nemotron access, open **Nemotron investigator → Set API key** and save your key
+locally. Installed users need no source checkout or launch script. Developers can
+also copy `.env.example` to `.env` and fill it in; `.env` stays out of Git and is
+read automatically. Existing process variables take precedence over local files.
 
 ## Open in Visual Studio
 

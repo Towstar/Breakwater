@@ -7,6 +7,7 @@ target_link_libraries(breakwater_desktop_base PUBLIC breakwater_engine Qt6::Quic
 
 qt_add_library(breakwater_agent STATIC
   agent/ModelTransport.hpp agent/NemotronClient.hpp agent/NemotronClient.cpp
+  agent/CredentialSettings.hpp agent/CredentialSettings.cpp
   agent/SimulationGateway.hpp agent/SimulationGateway.cpp
   agent/AgentOrchestrator.hpp agent/AgentOrchestrator.cpp
   agent/AgentController.hpp agent/AgentController.cpp
@@ -75,6 +76,7 @@ if(BUILD_TESTING)
 endif()
 
 install(TARGETS breakwater RUNTIME DESTINATION bin)
+install(FILES "${PROJECT_SOURCE_DIR}/.env.example" DESTINATION bin)
 install(FILES "${PROJECT_SOURCE_DIR}/science/worker.py" DESTINATION share/breakwater/science)
 qt_generate_deploy_qml_app_script(TARGET breakwater OUTPUT_SCRIPT deploy_script NO_UNSUPPORTED_PLATFORM_ERROR)
 install(SCRIPT ${deploy_script})

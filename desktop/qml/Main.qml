@@ -8,6 +8,7 @@ ApplicationWindow {
     id: app
     required property var controller
     required property var investigator
+    required property var credentials
     required property var history
     required property var scientificWorker
     required property var pipeTransport
@@ -313,7 +314,7 @@ ApplicationWindow {
         }
         Rectangle {
             Layout.fillWidth: true; Layout.preferredHeight: app.showAgent ? Math.min(420, Math.round(app.height * 0.52)) : 196; color: "#172735"
-            AgentPanel { anchors.fill: parent; anchors.margins: 14; visible: app.showAgent; investigator: app.investigator; history: app.history; scientificWorker: app.scientificWorker }
+            AgentPanel { anchors.fill: parent; anchors.margins: 14; visible: app.showAgent; investigator: app.investigator; history: app.history; scientificWorker: app.scientificWorker; credentials: app.credentials }
             ColumnLayout {
                 visible: !app.showAgent
                 anchors.fill: parent; anchors.margins: 14; spacing: 5

@@ -6,6 +6,32 @@ PRs #7, #8, #10, #11 and #14 are merged; their complete histories are retained.
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
 
+## Local Nemotron key setup — November 7, 2026
+
+- Implemented automatic `.env` loading for the desktop and hosted smoke executable.
+  The key-free `.env.example` is versioned and installed; real `.env` files remain
+  ignored and are excluded from installation. Existing ignore rules already cover
+  this distinction. No scientific or numerical contract changed.
+- Installed users can choose **Nemotron investigator → Set API key** to save,
+  replace or remove a key in their per-user settings directory. Entry is masked
+  and cleared on close; there is no saved-key getter exposed to QML. The local
+  settings file is plaintext, not an encrypted credential vault.
+- Native configuration reloads between investigations, preserves active requests,
+  records the refreshed model identity and keeps file credentials out of child
+  environments. Process settings take precedence over launch/checkout `.env`,
+  followed by saved user settings. Details: [configuration](AGENT_INTEGRATION.md).
+- Normal MSVC desktop build and **18/18 CTest suites passed** (32.20 s), including
+  **37 Nemotron-client cases** and **24 worker cases**, with no failures or skips.
+  New checks exercise parsing, precedence, worktree boundaries, malformed/oversized
+  files, atomic save/reopen/replacement/removal, invalid input, write failures and
+  idle-only configuration reload, using synthetic keys.
+- `cmake --install out/desktop --prefix out/installed` succeeded. The staged package
+  contains `.env.example` and zero real `.env` files. Launched the packaged executable
+  through the Windows UI and inspected the setup dialog, empty masked input and
+  disabled empty-input save action. Persistence was tested with temporary files;
+  no real key was entered and no live hosted request or new sanitizer run is claimed.
+  Build/test/package output is local to `.worktrees/local-env/out/`.
+
 ## A8 scientific-worker integration — November 7, 2026
 
 - PR #14 merged at `5c773f7` without conflicts. The repo worker implements

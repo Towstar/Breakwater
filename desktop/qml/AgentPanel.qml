@@ -7,6 +7,7 @@ import QtQuick.Dialogs
 ColumnLayout {
     id: panel
     required property var investigator
+    required property var credentials
     required property var history
     required property var scientificWorker
     readonly property var reviewData: investigator.review || ({})
@@ -38,6 +39,63 @@ ColumnLayout {
         target: panel.history
         function onChanged() {
             if (panel.history.historical && tabs.currentIndex === 0) tabs.currentIndex = 1
+        }
+    }
+
+    Dialog {
+        id: keyDialog
+        objectName: "nemotronKeyDialog"
+        title: "NVIDIA API key"
+        modal: true
+        anchors.centerIn: Overlay.overlay
+        width: Math.min(460, panel.width - 28)
+        onOpened: apiKeyInput.forceActiveFocus()
+        onClosed: apiKeyInput.clear()
+        contentItem: ColumnLayout {
+            spacing: 12
+            PlainLabel {
+                Layout.fillWidth: true; wrapMode: Text.WordWrap
+                text: "Paste your NVIDIA API key. It is saved locally for this Windows account and used for future investigations."
+            }
+            TextField {
+                id: apiKeyInput; objectName: "nemotronApiKeyInput"
+                Layout.fillWidth: true; placeholderText: "NVIDIA API key"
+                echoMode: TextInput.Password; maximumLength: 4096
+                selectByMouse: true
+                onAccepted: { if (saveKeyButton.enabled) saveKeyButton.clicked() }
+            }
+            PlainLabel {
+                Layout.fillWidth: true; wrapMode: Text.WordWrap
+                text: panel.credentials.status
+            }
+            RowLayout {
+                Button {
+                    id: saveKeyButton; objectName: "saveNemotronKey"; text: "Save key"; highlighted: true
+                    enabled: apiKeyInput.text.trim().length > 0 && !panel.investigator.running
+                    onClicked: { if (panel.credentials.saveApiKey(apiKeyInput.text)) { apiKeyInput.clear(); keyDialog.close() } }
+                }
+                Button {
+                    text: "Remove saved key"; enabled: panel.credentials.saved && !panel.investigator.running
+                    onClicked: panel.credentials.forgetApiKey()
+                }
+                Item { Layout.fillWidth: true }
+                Button { text: "Close"; onClicked: keyDialog.close() }
+            }
+        }
+    }
+
+    RowLayout {
+        Layout.fillWidth: true
+        PlainLabel {
+            Layout.fillWidth: true; wrapMode: Text.WordWrap
+            text: panel.credentials.status
+            color: panel.credentials.configured ? "#9eb5c2" : "#ffcf70"
+        }
+        Button {
+            objectName: "configureNemotronKey"
+            text: panel.credentials.configured ? "API key settings" : "Set API key"
+            enabled: !panel.investigator.running
+            onClicked: keyDialog.open()
         }
     }
 

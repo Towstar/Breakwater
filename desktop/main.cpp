@@ -1,5 +1,6 @@
 #include "ProjectController.hpp"
 #include "agent/AgentController.hpp"
+#include "agent/CredentialSettings.hpp"
 #include "history/HistoryController.hpp"
 #include "quality/PipeTransportController.hpp"
 #include "science/PythonWorkerClient.hpp"
@@ -25,6 +26,7 @@ int main(int argc, char** argv) {
     breakwater::desktop::history::SessionRepository repository(historyPath);
     breakwater::desktop::history::HistoryController history(&repository);
     breakwater::desktop::agent::AgentController investigator(&controller);
+    breakwater::desktop::agent::CredentialSettings credentials;
     investigator.setHistory(&repository, &history);
     breakwater::desktop::quality::PipeTransportController pipeTransport(&controller, &history);
     breakwater::desktop::science::PythonWorkerClient scientificWorker;
@@ -44,7 +46,7 @@ int main(int argc, char** argv) {
     QQmlApplicationEngine engine;
     engine.setInitialProperties({{"controller", QVariant::fromValue(&controller)}, {"investigator", QVariant::fromValue(&investigator)},
         {"history", QVariant::fromValue(&history)}, {"scientificWorker", QVariant::fromValue(&scientificWorker)},
-        {"pipeTransport", QVariant::fromValue(&pipeTransport)}});
+        {"pipeTransport", QVariant::fromValue(&pipeTransport)}, {"credentials", QVariant::fromValue(&credentials)}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
     const auto importIndex = arguments.indexOf("--import-session");
