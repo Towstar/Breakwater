@@ -68,6 +68,12 @@ and preserve deterministic/manual use when model credentials are unavailable.
 
 ## G1: publish the shared sensor/telemetry contract
 
+The interface/validator increment is implemented; see
+[contracts/telemetry](../contracts/telemetry/README.md) and [G1_REVIEW.md](G1_REVIEW.md).
+Complete Person A's exact-contract review and adopt the same commit before G2.
+The checklist below states the requirements of that review, not an instruction to
+recreate schemas or claim an operational monitoring system.
+
 With A reviewing physical semantics, define additive versioned schemas/types/examples:
 
 - Sensor definitions: stable ID, type/unit, source/channel, asset/route attachment,

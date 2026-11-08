@@ -5,6 +5,12 @@ qt_add_library(breakwater_desktop_base STATIC ProjectDocument.cpp ProjectControl
 target_include_directories(breakwater_desktop_base PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_desktop_base PUBLIC breakwater_engine Qt6::Quick Qt6::Concurrent)
 
+qt_add_library(breakwater_telemetry STATIC
+  telemetry/TelemetryContracts.hpp telemetry/TelemetryContracts.cpp
+  "${PROJECT_SOURCE_DIR}/contracts/include/breakwater/telemetry.hpp")
+target_include_directories(breakwater_telemetry PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_telemetry PUBLIC breakwater_desktop_base Qt6::Core)
+
 qt_add_library(breakwater_agent STATIC
   agent/ModelTransport.hpp agent/NemotronClient.hpp agent/NemotronClient.cpp
   agent/CredentialSettings.hpp agent/CredentialSettings.cpp
@@ -84,6 +90,22 @@ if(BUILD_TESTING)
     set(Python3_EXECUTABLE "$ENV{BREAKWATER_PYTHON}")
   endif()
   find_package(Python3 3.12 QUIET COMPONENTS Interpreter)
+  qt_add_executable(breakwater_telemetry_contract_tests tests/telemetry_contract_tests.cpp)
+  target_link_libraries(breakwater_telemetry_contract_tests PRIVATE breakwater_telemetry Qt6::Test)
+  target_compile_definitions(breakwater_telemetry_contract_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+  add_test(NAME desktop.telemetry_contracts COMMAND breakwater_telemetry_contract_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/telemetry_contracts-results.txt,txt")
+  set_tests_properties(desktop.telemetry_contracts PROPERTIES TIMEOUT 60
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  qt_add_executable(breakwater_telemetry_contract_check tests/telemetry_contract_check.cpp)
+  target_link_libraries(breakwater_telemetry_contract_check PRIVATE breakwater_telemetry Qt6::Core)
+  if(Python3_Interpreter_FOUND)
+    add_test(NAME contracts.telemetry COMMAND "${Python3_EXECUTABLE}" -B
+      "${PROJECT_SOURCE_DIR}/contracts/telemetry/tests/test_contracts.py"
+      --native "$<TARGET_FILE:breakwater_telemetry_contract_check>")
+    set_tests_properties(contracts.telemetry PROPERTIES TIMEOUT 120
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endif()
   if(Python3_Interpreter_FOUND)
     file(TO_CMAKE_PATH "${Python3_EXECUTABLE}" _breakwater_test_python)
     foreach(_worker_suite python_worker storage_worker storage_science science_evidence agent_science agent_orchestrator)

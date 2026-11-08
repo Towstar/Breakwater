@@ -41,6 +41,11 @@ or hardware acceptance requirement for this milestone.
 
 ## Immediate work: review and adopt the shared G1 contract
 
+The B-owned interface/validator increment is ready for exact-contract review in
+[contracts/telemetry](../contracts/telemetry/README.md). Record acceptance against
+the precise PR head/commit using [G1_REVIEW.md](G1_REVIEW.md); passing CI is not
+numerical signoff and G2 must wait for shared adoption.
+
 1. The numerical requirements are delivered in
    [OBSERVATION_SEMANTICS.md](../science/OBSERVATION_SEMANTICS.md) at `9941859`.
    Review B's exact G1 contract against these typed attachments, level-volume calibration,

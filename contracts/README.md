@@ -3,6 +3,15 @@
 Person B owns this boundary. The native types are in `include/breakwater/types.hpp`.
 Engine functions are published in `engine/include/breakwater/engine.hpp`.
 
+## G1 telemetry interfaces
+
+[Telemetry v1](telemetry/README.md) adds sensor configuration, stream lifecycle,
+observed snapshots and detection-event interchange, plus a reserved project-v2
+wrapper for future sensor-bearing projects. Qt-free DTOs, strict native/Python
+validators and synthetic fixtures are implemented; sensor UI, acquisition and
+numerical mapping are not. Exact Person A/B adoption is tracked in
+[G1_REVIEW.md](../docs/G1_REVIEW.md) before dependent G2 implementation.
+
 ## Project v1
 
 `version: 1`, `synthetic: true`, `network: { assets: [], routes: [] }`, and

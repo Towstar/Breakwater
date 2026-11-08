@@ -1,0 +1,86 @@
+{
+  "telemetry_version": 1,
+  "kind": "observed_snapshot",
+  "snapshot_id": "capture-1",
+  "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+  "numerical_revision": 0,
+  "configuration_hash": "46fd33523ca177d05275c39ec946ae68aa51a425685f1103fbe15a63b47c2ca5",
+  "stream_id": "plant-1",
+  "epoch_id": "epoch-1",
+  "mode": "synthetic_live",
+  "captured_event_time_s": 10,
+  "expires_event_time_s": 15,
+  "samples": [
+    {
+      "sensor_id": "tank-a-volume",
+      "frame_sequence": 1,
+      "event_time_s": 10,
+      "received_utc": "2026-11-08T05:00:10.000Z",
+      "received_monotonic_s": 10.1,
+      "original_value": 80000,
+      "original_unit": "L",
+      "canonical_value": 80,
+      "canonical_unit": "m3",
+      "reported_quality": "good",
+      "receiver_status": "good",
+      "acquisition_start_s": 10,
+      "acquisition_end_s": 10
+    },
+    {
+      "sensor_id": "main-pump-feedback",
+      "frame_sequence": 1,
+      "event_time_s": 10,
+      "received_utc": "2026-11-08T05:00:10.000Z",
+      "received_monotonic_s": 10.1,
+      "original_value": "unavailable",
+      "original_unit": "state",
+      "canonical_value": "unavailable",
+      "canonical_unit": "state",
+      "reported_quality": "good",
+      "receiver_status": "good",
+      "acquisition_start_s": 10,
+      "acquisition_end_s": 10
+    }
+  ],
+  "commands": [
+    {
+      "control_id": "route:main_pump:flow",
+      "value": 44,
+      "unit": "m3/h"
+    }
+  ],
+  "derived_state": [
+    {
+      "quantity": "inventory",
+      "attachment_id": "tank_a",
+      "value": 80,
+      "unit": "m3",
+      "origin": "converted",
+      "source_sensor_ids": [
+        "tank-a-volume"
+      ]
+    },
+    {
+      "quantity": "pump_state",
+      "attachment_id": "main_pump",
+      "value": "unavailable",
+      "unit": "state",
+      "origin": "measured",
+      "source_sensor_ids": [
+        "main-pump-feedback"
+      ]
+    }
+  ],
+  "coverage": {
+    "required_sensor_ids": [
+      "tank-a-volume"
+    ],
+    "missing_sensor_ids": [],
+    "conflicting_sensor_ids": []
+  },
+  "assumptions": [
+    "Measured pump feedback is unavailable; changing its command does not establish recovery."
+  ],
+  "availability": "available",
+  "actionable": false
+}

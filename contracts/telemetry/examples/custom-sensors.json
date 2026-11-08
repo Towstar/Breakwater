@@ -1,0 +1,74 @@
+{
+  "telemetry_version": 1,
+  "kind": "sensor_configuration",
+  "configuration_id": "renamed-monitoring",
+  "revision": 1,
+  "physical_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+  "policy": {
+    "max_skew_s": 1.0,
+    "reorder_window_s": 2.0,
+    "future_allowance_s": 0.25,
+    "heartbeat_period_s": 1.0,
+    "source_timeout_s": 5.0
+  },
+  "sensors": [
+    {
+      "sensor_id": "tank-a-volume",
+      "label": "tank-a-volume",
+      "quantity": "inventory",
+      "unit": "m3",
+      "source_id": "synthetic-publisher",
+      "channel_id": "tank-a-volume",
+      "attachment": {
+        "kind": "asset",
+        "id": "north_plant_tank_a"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "tank-a-volume",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    },
+    {
+      "sensor_id": "main-pump-feedback",
+      "label": "main-pump-feedback",
+      "quantity": "pump_state",
+      "unit": "state",
+      "source_id": "synthetic-publisher",
+      "channel_id": "main-pump-feedback",
+      "attachment": {
+        "kind": "route",
+        "id": "north_line_main_pump"
+      },
+      "enabled": true,
+      "expected_period_s": 1,
+      "max_age_s": 5,
+      "uncertainty_bound": 0.2,
+      "group_id": "main-pump-feedback",
+      "role": "primary",
+      "physical_support": {
+        "kind": "none",
+        "acquisition_window_s": 0,
+        "delay_s": 0
+      },
+      "calibration": {
+        "calibration_id": "identity",
+        "version": 1,
+        "kind": "identity",
+        "error_bound": 0
+      }
+    }
+  ]
+}

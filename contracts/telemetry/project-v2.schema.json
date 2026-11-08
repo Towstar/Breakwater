@@ -1,0 +1,67 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/Towstar/Breakwater/main/contracts/telemetry/project-v2.schema.json",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "version",
+    "project",
+    "sensor_configuration",
+    "sensor_layout"
+  ],
+  "properties": {
+    "version": {
+      "const": 2
+    },
+    "project": {
+      "type": "object",
+      "required": [
+        "version",
+        "network",
+        "layout"
+      ],
+      "properties": {
+        "version": {
+          "const": 1
+        },
+        "network": {
+          "type": "object"
+        },
+        "layout": {
+          "type": "object"
+        }
+      }
+    },
+    "sensor_configuration": {
+      "$ref": "common-v1.schema.json#/$defs/configuration"
+    },
+    "sensor_layout": {
+      "type": "object",
+      "maxProperties": 256,
+      "propertyNames": {
+        "type": "string",
+        "pattern": "^[A-Za-z0-9][A-Za-z0-9_.:-]{0,127}(?![\\s\\S])"
+      },
+      "additionalProperties": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": [
+          "x",
+          "y",
+          "z"
+        ],
+        "properties": {
+          "x": {
+            "type": "number"
+          },
+          "y": {
+            "type": "number"
+          },
+          "z": {
+            "type": "number"
+          }
+        }
+      }
+    }
+  }
+}
