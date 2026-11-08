@@ -302,7 +302,16 @@ private:
     }
     bool acceptLive(const QByteArray& line) {
         QJsonObject frame;
-        try { frame = decode_document(line, frameLimit); validate_document(frame, "stream_frame", context_); }
+        try {
+            frame = decode_document(line, frameLimit);
+            // Configure validated the immutable network/sensor registry. Check
+            // this frame's structure and exact cached identities before touching
+            // lifecycle state; the core below still validates enabled sensors,
+            // measurement types/units, duplicates, epochs and clock policy.
+            (void)parse_stream_frame(frame, {{"physical_hash", configuration_.value("physical_hash")}});
+            if (frame.value("configuration_hash") != configuration_hash_)
+                throw std::invalid_argument("Configuration identity mismatch.");
+        }
         catch (const std::exception& exception) { fail("frame_invalid", QString::fromUtf8(exception.what())); return false; }
         const auto type = frame.value("type").toString();
         const auto payload = frame.value("payload").toObject();
