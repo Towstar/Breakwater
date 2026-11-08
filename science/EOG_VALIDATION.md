@@ -86,3 +86,9 @@ the independent result with frozen E3 records afterward, checks one-ULP forged
 deadline rejection and retains itemized audits. No answer key is read. These four
 official practice prefixes are correlated. Whole-application, installed and final UI
 acceptance still require Lucas's integration and a joined final revision.
+
+Add `--native-library ABSOLUTE_NATIVE_DLL` to re-execute the corrected native
+evaluation in separate worker processes first. The qualification client compares
+its costs, outcomes, crossings and complete trajectories with the frozen native
+records. Validation still runs in different processes without a DLL path and sees
+only the exact candidate/capture, not either evaluator's result.
