@@ -22,6 +22,27 @@ bool accepts(const QJsonObject& value, const QString& kind = {}, const QJsonObje
 class EogContractTests final : public QObject {
     Q_OBJECT
 private slots:
+    void agentPlanSchemaIsInlineAndOnlyEnvelopeFieldsAreOptional() {
+        const auto schema = eog::agent_plan_schema(), properties = schema.value("properties").toObject();
+        QVERIFY(!QJsonDocument(schema).toJson().contains("\"$ref\""));
+        QCOMPARE(schema.value("type"), QJsonValue("object")); QVERIFY(!schema.value("additionalProperties").toBool());
+        QCOMPARE(schema.value("required").toArray(), (QJsonArray{"repair_deadlines", "truck_jobs", "well_shut_ins", "inspection_assets"}));
+        QCOMPARE(properties.size(), 8); QVERIFY(properties.contains("plan_hash"));
+        const auto deadlines = properties.value("repair_deadlines").toObject();
+        QCOMPARE(deadlines.value("minItems").toInt(), 1); QCOMPARE(deadlines.value("maxItems").toInt(), 256);
+        QCOMPARE(deadlines.value("items").toObject().value("required").toArray(), (QJsonArray{"facility_id", "repair_elapsed_s"}));
+        const auto job = properties.value("truck_jobs").toObject().value("items").toObject();
+        QCOMPARE(job.value("type"), QJsonValue("object")); QCOMPARE(job.value("required").toArray().size(), 9);
+        const auto trips = job.value("properties").toObject().value("trips").toObject();
+        QCOMPARE(trips.value("minItems").toInt(), 1); QCOMPARE(trips.value("maxItems").toInt(), 4096);
+        const auto trip = trips.value("items").toObject();
+        QCOMPARE(trip.value("required").toArray(), (QJsonArray{"arrival_elapsed_s", "volume_bbl", "cost"}));
+        QCOMPARE(trip.value("properties").toObject().value("arrival_elapsed_s").toObject().value("type"), QJsonValue("number"));
+        const auto stop = properties.value("well_shut_ins").toObject().value("items").toObject();
+        QCOMPARE(stop.value("required").toArray(), (QJsonArray{"well_id", "facility_id", "start_elapsed_s", "end_elapsed_s"}));
+        QCOMPARE(properties.value("plan_hash").toObject().value("pattern"), QJsonValue("^[0-9a-f]{64}$"));
+        QCOMPARE(load("common-v1.schema.json").value("$defs").toObject().value("plan").toObject().value("required").toArray().size(), 8);
+    }
     void sharedCorpus_data() {
         QTest::addColumn<QJsonObject>("document");
         QTest::addColumn<QJsonObject>("context");

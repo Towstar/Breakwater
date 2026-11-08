@@ -173,6 +173,11 @@ QJsonObject noAction(const Harness& h, const QString& id, double horizon) {
         {"truck_jobs", QJsonArray{}}, {"well_shut_ins", QJsonArray{}}, {"inspection_assets", QJsonArray{}}};
     result["plan_hash"] = plan_identity(result); return result;
 }
+QJsonObject plainProposal(const Harness& h) {
+    auto result = noAction(h, "unused-envelope", 7200);
+    for (const auto* key : {"plan_id", "plan_hash", "context", "start_unix"}) result.remove(key);
+    return result;
+}
 }
 class EogAnalysisControllerTests final : public QObject {
     Q_OBJECT
@@ -183,6 +188,73 @@ private slots:
         const auto path = QFINDTESTDATA("eog_fixtures/render/network.json");
         QVERIFY(!path.isEmpty()); fixtures_ = QFileInfo(path).absolutePath();
         worker_ = QFINDTESTDATA("eog_fixtures/controller_worker_fixture.py"); QVERIFY(!worker_.isEmpty());
+    }
+    void modelReceivesCompleteSchemaAndCanSubmitPlainUnhashedPlan() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const auto proposal = plainProposal(h);
+        h.model.respond = [step = 0, proposal](const QJsonArray&) mutable {
+            return step++ == 0 ? tool("plain-proposal", "evaluate_plan", {{"plan", proposal}}) : final();
+        };
+        QSignalSpy done(&h.client, &EogAnalysisClient::completed);
+        h.analysis.investigate("Evaluate this explicit plain plan; no fixed tool order is required.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QCOMPARE(done.size(), 1); QCOMPARE(h.providerCalls(), 1);
+        QJsonObject exposed;
+        for (const auto& value : h.model.definitions) {
+            const auto definition = value.toObject().value("function").toObject();
+            if (definition.value("name") == "evaluate_plan") exposed = definition.value("parameters").toObject().value("properties").toObject().value("plan").toObject();
+        }
+        QCOMPARE(exposed, agent_plan_schema()); QVERIFY(!QJsonDocument(exposed).toJson().contains("\"$ref\""));
+        const auto evaluation = done.first().at(0).toJsonObject().value("result").toObject().value("evaluation").toObject();
+        const auto actual = evaluation.value("plan").toObject();
+        QVERIFY(!actual.value("plan_id").toString().isEmpty()); QCOMPARE(actual.value("plan_hash").toString(), plan_identity(actual));
+        QCOMPARE(actual.value("context"), QJsonValue("snapshot_now")); QCOMPARE(actual.value("start_unix").toDouble(), h.dataset.cursorUnix());
+        for (auto it = proposal.begin(); it != proposal.end(); ++it) QCOMPARE(actual.value(it.key()), it.value());
+        const auto continuation = resultFor(h.model.messages, "plain-proposal"); QVERIFY(continuation.value("ok").toBool());
+        QCOMPARE(continuation.value("result").toObject().value("result").toObject().value("evaluation").toObject().value("plan"), QJsonValue(actual));
+        QVERIFY(!h.analysis.canReview()); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+    }
+    void modelClaimsAreRejectedWithoutRepairingThem_data() {
+        QTest::addColumn<QString>("claim");
+        for (const auto* name : {"hash", "context", "start", "controls", "missing_horizon"}) QTest::newRow(name) << QString::fromLatin1(name);
+    }
+    void modelClaimsAreRejectedWithoutRepairingThem() {
+        QFETCH(QString, claim); Harness h(fixtures_, worker_);
+        QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        auto proposal = plainProposal(h);
+        if (claim == "hash") proposal["plan_hash"] = QString(64, '0');
+        if (claim == "context") proposal["context"] = "historical_cursor";
+        if (claim == "start") proposal["start_unix"] = h.dataset.firstUnix();
+        if (claim == "controls") proposal["truck_jobs"] = "not-an-array";
+        if (claim == "missing_horizon") proposal.remove("repair_deadlines");
+        h.model.respond = [step = 0, proposal](const QJsonArray&) mutable {
+            return step++ == 0 ? tool("bad-proposal", "evaluate_plan", {{"plan", proposal}}) : final();
+        };
+        QSignalSpy done(&h.client, &EogAnalysisClient::completed);
+        h.analysis.investigate("A wrong explicit claim must not be silently repaired.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QCOMPARE(h.providerCalls(), 0); QCOMPARE(done.size(), 0); QVERIFY(h.analysis.plans().isEmpty());
+        const auto continuation = resultFor(h.model.messages, "bad-proposal"); QVERIFY(!continuation.value("ok").toBool());
+        QCOMPARE(continuation.value("error").toObject().value("code"), QJsonValue("invalid_plan_proposal")); QVERIFY(!h.analysis.canReview());
+    }
+    void manualDraftIsFreshUnhashedAndDoesNotChangeSelectedControls() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        QVERIFY(h.analysis.newPlanDraftJson().isEmpty()); QSignalSpy done(&h.client, &EogAnalysisClient::completed);
+        h.analysis.evaluatePlan(QString::fromUtf8(QJsonDocument(plainProposal(h)).toJson()));
+        QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 15000);
+        const auto previous = h.analysis.selectedEvaluation(); const auto previousPlans = h.analysis.plans();
+        const auto original = parse(h.analysis.selectedPlanJson());
+        const auto first = parse(h.analysis.newPlanDraftJson()), second = parse(h.analysis.newPlanDraftJson());
+        QVERIFY(!first.contains("plan_hash")); QVERIFY(!second.contains("plan_hash"));
+        QVERIFY(first.value("plan_id") != second.value("plan_id")); QVERIFY(first.value("plan_id") != original.value("plan_id"));
+        for (auto it = original.begin(); it != original.end(); ++it)
+            if (it.key() != "plan_id" && it.key() != "plan_hash") QCOMPARE(first.value(it.key()), it.value());
+        QCOMPARE(h.analysis.selectedEvaluation(), previous); QCOMPARE(h.analysis.plans(), previousPlans); QCOMPARE(h.providerCalls(), 1);
+        h.analysis.evaluatePlan(QString::fromUtf8(QJsonDocument(first).toJson())); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 2, 15000);
+        const auto actual = done.last().at(0).toJsonObject().value("result").toObject().value("evaluation").toObject().value("plan").toObject();
+        QCOMPARE(actual.value("plan_id"), first.value("plan_id")); QCOMPARE(actual.value("plan_hash").toString(), plan_identity(actual));
+        QCOMPARE(h.analysis.plans().size(), 2); h.analysis.selectPlan(original.value("plan_id").toString());
+        QCOMPARE(parse(h.analysis.selectedPlanJson()), original); QVERIFY(!h.analysis.canReview());
     }
     void loadingCursorAndEquipmentSelectionMakeNoAutomaticRequests() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);

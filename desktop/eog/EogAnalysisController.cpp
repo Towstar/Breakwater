@@ -220,6 +220,17 @@ QJsonObject EogAnalysisController::request(const QString& operation, const QJson
         {"operation", operation}, {"dataset_identity", manifest.value("dataset_identity")}, {"capture_id", manifest.value("capture_id")},
         {"cutoff_unix", manifest.value("cutoff_unix")}, {"capture_manifest", manifest}, {"capture_directory", capture_->directory()}, {"arguments", arguments}};
 }
+QJsonObject EogAnalysisController::bindPlanProposal(QJsonObject proposal) const {
+    if (!capture_) throw std::invalid_argument("A current capture is required for a plan proposal.");
+    // Supply only omitted envelope fields. Explicit claims and every numerical
+    // action/horizon remain unchanged and must pass the original wire contract.
+    if (!proposal.contains("plan_id")) proposal["plan_id"] = newId();
+    if (!proposal.contains("context")) proposal["context"] = capture_->manifest().value("context");
+    if (!proposal.contains("start_unix")) proposal["start_unix"] = cutoff_;
+    if (!proposal.contains("plan_hash")) proposal["plan_hash"] = plan_identity(proposal);
+    validate_document(request("evaluate_plan", {{"plan", proposal}}), "analysis_request");
+    return proposal;
+}
 void EogAnalysisController::runOperation(const QString& operation, const QJsonObject& arguments, const QString& execution) {
     if (!capture_ || historical_ || sealed_ || client_->busy() || ++request_count_ > 12) {
         if (!execution.isEmpty()) { pending_execution_ = execution; completeTool(failure("analysis_limit_or_stale")); }
@@ -241,8 +252,19 @@ void EogAnalysisController::evaluatePlan(const QString& json) {
     if (json.toUtf8().size() > 64 * 1024) { status_ = "Proposed plan exceeds 64 KiB."; emit changed(); return; }
     try {
         const auto plan = decode_document(json.toUtf8());
-        prepare("Manual EOG plan evaluation", [this, plan] { runOperation("evaluate_plan", {{"plan", plan}}); });
+        prepare("Manual EOG plan evaluation", [this, plan] {
+            try { runOperation("evaluate_plan", {{"plan", bindPlanProposal(plan)}}); }
+            catch (const std::exception&) {
+                status_ = "Proposed plan has invalid claims, fields or capture identity. Supplied values were not changed."; emit changed();
+            }
+        });
     } catch (const std::exception&) { status_ = "Proposed plan must be strict JSON without duplicate keys."; emit changed(); }
+}
+QString EogAnalysisController::newPlanDraftJson() const {
+    if (!evaluations_.contains(selected_)) return {};
+    auto plan = evaluations_.value(selected_).value("plan").toObject();
+    plan["plan_id"] = newId(); plan.remove("plan_hash");
+    return QString::fromUtf8(QJsonDocument(plan).toJson(QJsonDocument::Indented));
 }
 void EogAnalysisController::evaluateNoAction() {
     if (busy() || historical_ || sealed_ || !evaluations_.contains(selected_)) return;
@@ -465,8 +487,8 @@ QJsonArray EogAnalysisController::toolDefinitions() const {
         tool("read_observations", "Read original measurements at or before the fixed cutoff. Freshness uses the dataset clock. Missing/stale values are not healthy/zero.",
             {{"asset_id", string}, {"metric", string}, {"window_s", integer(0, 7 * 86400)}, {"limit", integer(1, 256)}}, {"asset_id", "metric"}),
         tool("detect", "Execute the numerical causal detector for requested systems; an empty list means all systems.", {{"system_ids", systems}}, {"system_ids"}),
-        tool("evaluate_plan", "Execute numerical evaluation of an explicit version-1 plan. Preserve exact binary64 elapsed seconds and provider-derived horizons. No controls are applied.",
-            {{"plan", QJsonObject{{"type", "object"}}}}, {"plan"}),
+        tool("evaluate_plan", "Evaluate explicit controls and provider-derived repair horizons using the complete plan schema. Omit plan_id, plan_hash, context and start_unix to let the application bind the current capture; do not calculate a hash. Preserve exact binary64 elapsed seconds. No numerical actions or horizons are supplied automatically; no controls are applied.",
+            {{"plan", agent_plan_schema()}}, {"plan"}),
         tool("search_plans", "Execute bounded joint numerical search. Compare retained admissible costs including no action; disclose scope and limitations.",
             {{"system_ids", systems}, {"candidate_limit", integer(1, 10000)}, {"time_limit_s", QJsonObject{{"type", "number"}, {"exclusiveMinimum", 0}, {"maximum", 60}}}},
             {"system_ids", "candidate_limit", "time_limit_s"}),
@@ -481,6 +503,12 @@ void EogAnalysisController::toolRequested(const QString& execution, const QStrin
         return;
     }
     auto numerical = arguments;
+    if (name == "evaluate_plan") {
+        try {
+            if (!arguments.value("plan").isObject()) throw std::invalid_argument("A plan object is required.");
+            numerical["plan"] = bindPlanProposal(arguments.value("plan").toObject());
+        } catch (const std::exception&) { completeTool(failure("invalid_plan_proposal")); return; }
+    }
     if (name == "validate_plan") {
         const auto plan = arguments.value("plan_id").toString();
         if (!evaluations_.contains(plan)) { completeTool(failure("unknown_plan")); return; }
