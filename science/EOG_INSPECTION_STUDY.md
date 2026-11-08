@@ -89,3 +89,13 @@ new result, also require the same outcomes on 64 fresh configurations at seed
 2026110806 and 64 fresh healthy noisy days at seed 2026110807. Only after those
 checks will the frozen candidate run on official data; its result remains a
 practice evaluation because prior labels were already available to this project.
+
+The 0.175 refinement passes the original families and all healthy fresh days,
+but two fresh-seed short-cycle leak cases emit at 4h05m, missing the unchanged
+four-hour bound. Retain that failure and mark seed 2026110806 as development
+data from this point. Freeze 0.15 for the next candidate, leaving all other
+parameters/outcomes unchanged. Validate additionally on **128** new configurations
+at seed 2026110808 and 128 healthy noisy days at 2026110809 before official
+execution. The independent score oracle will round each exact Fraction sum to
+binary64, so an exact mathematical tie is not silently substituted for the
+runtime's declared floating-point recurrence.
