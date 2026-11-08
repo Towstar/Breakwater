@@ -11,10 +11,103 @@ are retained as history; do not restart A's worker mapping. B's next increment i
 deployment and desktop-adapter integration. See [STATUS.md](STATUS.md) and
 [science/WORKER.md](../science/WORKER.md) for current scope and evidence.
 
+## Next Person B task: B5 desktop storage cross-check
+
+Plan after reviewing PR #14 (`d4cae03`, merged through `5c773f7`) and pulling main
+`794c7cd`. The worker mapping is delivered; the next task is a desktop-to-PyTorch
+calculation matched to an actual retained native forecast. Keep this first increment
+focused on the current manual forecast and forward execution (`derivatives: false`).
+
+### 1. Deploy and configure the real runtime
+
+- Extend `desktop/CMakeLists.txt` installation to include `worker_storage.py` and the
+  `breakwater_science` Python sources beside `worker.py`, excluding caches/environments.
+- Provide reproducible local setup using A's existing hash-locked CPU environment and
+  pinned Python 3.12.13; configure its executable through `BREAKWATER_PYTHON`. Keep
+  schema-validation dependencies test-only and PhysicsNeMo outside this runtime gate.
+- Test a clean install prefix with Windows-only PATH plus the explicitly configured
+  interpreter. Preserve explicit missing-runtime/module errors and legacy health.
+
+### 2. Extend the asynchronous process adapter
+
+Extend `desktop/science/PythonWorkerClient` using its existing retirement, generation,
+deadline and credential-redaction safeguards. Preserve `checkHealth()` and its tests.
+Use a bounded single-job process for `capabilities -> storage_rollout -> capabilities`,
+then close stdin and publish only after clean process exit. These exchanges must use
+the same process: `execution_verified` starts false on every restart and becomes true
+only after checked storage publication. `implemented: true` means the mapper is
+deployed; it does not prove Torch can execute or block the first unverified attempt.
+
+Match every request ID and method/version/state, handle partial and multiple frames,
+and apply the 1 MiB **including newline** limit per UTF-8 frame. Bound total output to
+the finite expected exchange and stderr separately. Retire on timeout, cancellation,
+unexpected output or crash; retain no raw child diagnostics or model credentials.
+Do not start a replacement process until the retiring job has exited.
+
+### 3. Capture the actual native reference
+
+Add a `StorageScienceController` and a bounded read-only `ProjectController` accessor
+for the retained run's original configuration, tank order, times, volumes and cost.
+`capturedRun()` currently lacks the step/reference arrays and derives horizon from
+the last sample; store/capture the original horizon and step explicitly. Do not
+reconstruct a reference from edited controls or hardcode a fresh grid.
+
+Capture network, overrides, snapshot/run IDs, physical hash, numerical revision and
+grid before launch. Bind completion to the complete payload and job generation.
+Numerical edits, reset and a new forecast invalidate publication; layout/camera and
+ordinary selection changes preserve the same captured evidence. Keep imported
+history detached and defer candidate/history science to a later increment.
+
+### 4. Validate, compare and display advisory evidence
+
+Validate response envelope/provenance, exact captured identity, tank order, finite
+arrays/cost, ordered sample indices and the requested grid. Reject missing, unknown,
+wrong-sized or inconsistent data before display. Compare each returned worker sample
+with the corresponding retained native index using the existing forward tolerance
+`1e-9 + 1e-10 * scale`, reporting per-tank maximum error and cost difference. Preserve
+negative and over-capacity predictions; numerical agreement is separate from feasibility.
+
+One inherited grid edge can leave `min(k * step, horizon)` one ULP below the requested
+horizon. Coordinate that native/A3 endpoint convention before adding strict floating
+equality checks; retain the original requested configuration and actual indexed grid
+without shortening, shifting or silently repairing either result.
+
+Update the Science tab with separate unavailable/deployed/unverified/executed/error
+states, worker provenance, tank trajectories and comparison diagnostics. Reuse existing
+chart facilities where suitable. No result creates a native run, changes operating
+controls, grants approval or triggers optimization/Nemotron tools.
+
+### 5. Verify and deliver
+
+- Fake-worker coverage: fragmented/coalesced frames, duplicate/extra responses, wrong
+  IDs, malformed capabilities/results, per-frame/aggregate limits, timeout/cancel,
+  crash after response, clean-exit gating and restart verification reset.
+- Real configured-worker coverage: same-process verification false-to-true, canonical
+  and renamed/custom networks, shortened final step and the endpoint edge, unclipped
+  violations, strict parity, stale completions and unchanged controls/approval.
+- Run installed-prefix smoke, combined normal/MSVC ASan checks and QML/render checks,
+  then interactively verify responsive execution/cancel and readable comparison.
+- Deliver a small PR with executable setup/demo instructions and actual local evidence.
+  Completion requires a real desktop -> deployed worker -> PyTorch -> checked native
+  comparison; upstream scientific results alone do not satisfy this gate.
+
+### Following increment
+
+Add explicit selected-interior-control sensitivities after the forward path passes.
+The current `controls` array supplies both overrides and derivative columns. Sending
+all stored boundary controls with `derivatives: true` correctly fails; dropping them
+would change the forecast. Use captured effective settings and an explicit selection,
+preserve full IDs/order, and never nudge values to create derivatives. Report Jacobian
+units h and cost-gradient units synthetic units per (m3/h). Automatic science-history
+retention, generic PhysicsNeMo/pipe inference and clean live-model rehearsals remain
+separate work.
+
 **Status after PR #6:** A3, A4, A5 and A6 below are implemented and merged.
 This document retains their original execution sequence and acceptance criteria;
 use [STATUS.md](STATUS.md) for current evidence. B3/B4 are implemented in this workstream;
 the next integration is the agreed scientific worker mapping and adapter.
+The subsequent A7 control-influence optimization is also integrated through main
+`a707b32`; it does not add scientific worker methods or alter the next ownership boundary.
 
 Updated November 7, 2026. This is the execution order for the next increments, based
 on merged PRs [#1](https://github.com/Towstar/Breakwater/pull/1),
@@ -33,6 +126,9 @@ portion of B5 and investigation-retention portion of B7 below. A's A3–A6 sourc
 boundary plus independent physical-parameter persistence. The worker remains health-only;
 the native pipe viewer is now implemented. Scientific worker method adoption is next.
 Hosted Nemotron access is verified; clean operator-review rehearsals remain incomplete.
+The B7 native-evidence subincrement now reopens bounded transport exports as historical,
+read-only evidence in the existing charts. Automatic quality-result retention is still
+separate unfinished work; investigation sessions already have SQLite history.
 
 The desktop now selects a pipe and captured forecast, executes authoritative native
 tracer transport, and displays its outlet trace, field and mass ledger. The next boundary

@@ -52,6 +52,13 @@ int main(int argc, char** argv) {
     const auto importIndex = arguments.indexOf("--import-session");
     if (importIndex >= 0 && importIndex + 1 < arguments.size())
         QTimer::singleShot(0, &history, [&history, path = arguments[importIndex + 1]] { history.importSession(QUrl::fromLocalFile(path)); });
+    const auto pipeImportIndex = arguments.indexOf("--import-pipe-evidence");
+    if (pipeImportIndex >= 0 && pipeImportIndex + 1 < arguments.size()) {
+        QTimer::singleShot(0, &pipeTransport, [&, path = arguments[pipeImportIndex + 1]] {
+            pipeTransport.importResult(QUrl::fromLocalFile(path));
+            if (!engine.rootObjects().isEmpty()) QMetaObject::invokeMethod(engine.rootObjects().front(), "openPipeTransport");
+        });
+    }
     if (arguments.contains("--worker-health")) QTimer::singleShot(0, &scientificWorker, &breakwater::desktop::science::PythonWorkerClient::checkHealth);
     if (arguments.contains("--agent-panel") && !engine.rootObjects().isEmpty()) engine.rootObjects().front()->setProperty("showAgent", true);
     if (arguments.contains("--smoke") || arguments.contains("--screenshot")) {
@@ -62,8 +69,13 @@ int main(int argc, char** argv) {
             auto* window = qobject_cast<QQuickWindow*>(engine.rootObjects().front());
             const auto capture = window ? window->grabWindow() : QImage{};
             const bool labelsVisible = engine.rootObjects().front()->property("visibleAssetLabels").toInt() > 0;
-            const bool evidencePending = importIndex >= 0 && (history.busy() || history.selectedSessionId().isEmpty());
-            if (capture.isNull() || !labelsVisible || evidencePending || scientificWorker.busy()) {
+            const bool pipeDialogVisible = engine.rootObjects().front()->property("pipeTransportVisible").toBool();
+            const bool evidencePending = (importIndex >= 0 && (history.busy() || history.selectedSessionId().isEmpty())) ||
+                (pipeImportIndex >= 0 && (pipeTransport.busy() || !pipeTransport.viewingImportedEvidence() ||
+                    !pipeDialogVisible));
+            // An imported-evidence modal is the render target; scene labels behind
+            // that modal are not a prerequisite for viewing its charts.
+            if (capture.isNull() || (pipeImportIndex < 0 && !labelsVisible) || evidencePending || scientificWorker.busy()) {
                 if (smokeElapsed.elapsed() >= 20000) app.exit(capture.isNull() ? 3 : 5);
                 else if (window) window->requestUpdate();
                 return;

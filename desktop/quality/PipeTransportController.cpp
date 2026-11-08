@@ -1,6 +1,9 @@
 #include "PipeTransportController.hpp"
+#include "PipeTransportEvidence.hpp"
 #include <QDateTime>
 #include <QCryptographicHash>
+#include <QFile>
+#include <QFileInfo>
 #include <QFutureWatcher>
 #include <QJsonDocument>
 #include <QSaveFile>
@@ -11,6 +14,23 @@
 
 namespace breakwater::desktop::quality {
 namespace {
+QJsonObject readEvidence(const QString& path) {
+    const QFileInfo info(path);
+    if (!info.isFile() || info.size() <= 0 || info.size() > maximumPipeEvidenceBytes)
+        return {{"error", "Choose a native transport JSON file no larger than 1 MiB."}};
+    QFile file(path);
+    if (!file.open(QIODevice::ReadOnly)) return {{"error", "Cannot open native transport evidence."}};
+    const auto bytes = file.read(maximumPipeEvidenceBytes + 1);
+    if (file.error() != QFileDevice::NoError || bytes.size() > maximumPipeEvidenceBytes || !file.atEnd())
+        return {{"error", "Cannot read native transport evidence within the 1 MiB limit."}};
+    QJsonParseError parseError;
+    const auto document = QJsonDocument::fromJson(bytes, &parseError);
+    if (parseError.error != QJsonParseError::NoError || !document.isObject())
+        return {{"error", "Native transport evidence must be a valid JSON object."}};
+    QString error;
+    if (!validate_pipe_transport_evidence(document.object(), &error)) return {{"error", error}};
+    return {{"evidence", document.object()}};
+}
 std::vector<std::size_t> sampleIndices(std::size_t size, std::size_t maximum) {
     const auto count = std::min(size, maximum);
     std::vector<std::size_t> result;
@@ -81,7 +101,7 @@ QJsonObject PipeTransportController::context(const QString& runId) const {
     return contexts_.value(runId);
 }
 QVariantMap PipeTransportController::parameters() const { return project_ && !route_.isEmpty() ? project_->pipeParameters(route_).toVariantMap() : QVariantMap{}; }
-bool PipeTransportController::canRun() const { return !busy_ && !route_.isEmpty() && !context(selected_run_).isEmpty(); }
+bool PipeTransportController::canRun() const { return !busy_ && !viewing_imported_ && !route_.isEmpty() && !context(selected_run_).isEmpty(); }
 QString PipeTransportController::currentBinding() const {
     if (!project_) return {};
     auto source = context(selected_run_);
@@ -93,7 +113,8 @@ QString PipeTransportController::currentBinding() const {
 }
 void PipeTransportController::invalidate(const QString& message) {
     ++generation_; result_.clear(); retired_status_ = message;
-    status_ = message + (busy_ ? " Previous native calculation is finishing." : QString{});
+    if (!viewing_imported_ && !importing_)
+        status_ = message + (busy_ ? " Previous native calculation is finishing." : QString{});
 }
 void PipeTransportController::refresh() {
     if (!project_) return;
@@ -136,11 +157,11 @@ void PipeTransportController::refresh() {
     emit changed();
 }
 void PipeTransportController::selectRun(const QString& id) {
-    if (context(id).isEmpty() || id == selected_run_) return;
+    if (viewing_imported_ || context(id).isEmpty() || id == selected_run_) return;
     selected_run_ = id; refresh();
 }
 void PipeTransportController::setParameter(const QString& field, const QString& value) {
-    if (!project_ || route_.isEmpty()) return;
+    if (viewing_imported_ || !project_ || route_.isEmpty()) return;
     auto object = project_->pipeParameters(route_);
     if (!object.contains(field)) return;
     if (field == "boundary") object[field] = value;
@@ -180,17 +201,59 @@ void PipeTransportController::run() {
 }
 void PipeTransportController::cancel() {
     if (!busy_) return;
+    if (importing_) {
+        ++import_generation_;
+        status_ = "Import cancelled. Previous evidence is retained.";
+        emit changed(); return;
+    }
     invalidate("Cancelled."); emit changed();
 }
+void PipeTransportController::importResult(const QUrl& source) {
+    if (busy_) return;
+    if (!source.isLocalFile()) {
+        status_ = "Choose a local native transport evidence file."; emit changed(); return;
+    }
+    const auto epoch = ++import_generation_;
+    importing_ = busy_ = true;
+    status_ = "Reading historical native transport evidence…";
+    auto* watcher = new QFutureWatcher<QJsonObject>(this);
+    connect(watcher, &QFutureWatcher<QJsonObject>::finished, this, [this, watcher, epoch] {
+        const auto outcome = watcher->result(); watcher->deleteLater();
+        importing_ = busy_ = false;
+        if (epoch == import_generation_) {
+            if (outcome.contains("error")) status_ = outcome.value("error").toString();
+            else {
+                imported_result_ = outcome.value("evidence").toObject().toVariantMap();
+                viewing_imported_ = true;
+                status_ = "Imported historical evidence. File contents are unverified and cannot approve a plan.";
+            }
+        }
+        emit changed();
+    });
+    watcher->setFuture(QtConcurrent::run([path = source.toLocalFile()] {
+        try { return readEvidence(path); }
+        catch (...) { return QJsonObject{{"error", "Cannot load native transport evidence."}}; }
+    }));
+    emit changed();
+}
+void PipeTransportController::showCurrentResult() {
+    if (busy_ || !viewing_imported_) return;
+    viewing_imported_ = false; imported_result_.clear();
+    status_ = !result_.isEmpty() ? "Native scalar reference complete. Quality is separate from volume approval."
+        : canRun() ? "Ready for native scalar transport." : "Select a pipe and capture a volume forecast.";
+    emit changed();
+}
 bool PipeTransportController::exportResult(const QUrl& destination) {
-    if (result_.isEmpty() || !destination.isLocalFile()) return false;
-    const auto bytes = QJsonDocument(QJsonObject::fromVariantMap(result_)).toJson(QJsonDocument::Compact);
-    if (bytes.size() > 1024 * 1024) { status_ = "Transport preview exceeds the 1 MiB export limit."; emit changed(); return false; }
+    const auto displayed = result();
+    if (busy_ || displayed.isEmpty() || !destination.isLocalFile()) return false;
+    const auto bytes = QJsonDocument(QJsonObject::fromVariantMap(displayed)).toJson(QJsonDocument::Compact);
+    if (bytes.size() > maximumPipeEvidenceBytes) { status_ = "Transport preview exceeds the 1 MiB export limit."; emit changed(); return false; }
     QSaveFile file(destination.toLocalFile());
     if (!file.open(QIODevice::WriteOnly) || file.write(bytes) != bytes.size() || !file.commit()) {
         status_ = "Cannot export transport evidence."; emit changed(); return false;
     }
-    status_ = "Native transport evidence exported."; emit changed(); return true;
+    status_ = viewing_imported_ ? "Imported historical evidence exported; file contents remain unverified."
+        : "Native transport evidence exported."; emit changed(); return true;
 }
 
 } // namespace breakwater::desktop::quality
