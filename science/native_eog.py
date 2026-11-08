@@ -118,6 +118,9 @@ class NativeEvaluator:
             raise NativeError("abi_mismatch", "Native EOG exports are missing.") from error
 
     def evaluate(self, snapshot, plan):
+        return self._evaluate(snapshot, plan)
+
+    def _evaluate(self, snapshot, plan, call=None):
         _shape(snapshot, ("oil_per_bbl", "gas_per_mcf", "truck_capacity_bbl", "cost_per_trip", "fleets", "facilities", "wells"))
         _shape(plan, ("horizons", "stops", "jobs", "trips"))
         fleets = _array(Fleet, snapshot["fleets"], 64)
@@ -132,7 +135,8 @@ class NativeEvaluator:
                      fleets, facilities, wells, len(fleets), len(facilities), len(wells))
         p = Plan(1, C.sizeof(Plan), horizons, stops, jobs, trips, len(horizons), len(stops), len(jobs), len(trips))
         handle = C.c_void_p()
-        code = self._lib.bweog_evaluate(C.byref(s), C.byref(p), C.byref(handle))
+        code = (self._lib.bweog_evaluate(C.byref(s), C.byref(p), C.byref(handle)) if call is None else
+                call(s, p, handle))
         if code:
             raise NativeError("native_input" if code == 1 else "native_failure",
                               self._lib.bweog_last_error().decode("utf-8", "replace"))
