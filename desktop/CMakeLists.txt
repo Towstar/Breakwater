@@ -169,3 +169,17 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/science/breakwater_science" DESTINATION
   FILES_MATCHING PATTERN "*.py" PATTERN "__pycache__" EXCLUDE)
 qt_generate_deploy_qml_app_script(TARGET breakwater OUTPUT_SCRIPT deploy_script NO_UNSUPPORTED_PLATFORM_ERROR)
 install(SCRIPT ${deploy_script})
+
+# Read-only challenge input and presentation stay separate from the simulator.
+qt_add_library(breakwater_eog STATIC
+  eog/EogDataset.hpp eog/EogDataset.cpp eog/EogDatasetController.hpp eog/EogDatasetController.cpp)
+target_include_directories(breakwater_eog PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_eog PUBLIC breakwater_telemetry Qt6::Concurrent)
+if(BUILD_TESTING)
+  qt_add_executable(breakwater_eog_dataset_tests tests/eog_dataset_tests.cpp)
+  target_link_libraries(breakwater_eog_dataset_tests PRIVATE breakwater_eog Qt6::Test)
+  add_test(NAME desktop.eog_dataset COMMAND breakwater_eog_dataset_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/eog_dataset-results.txt,txt")
+  set_tests_properties(desktop.eog_dataset PROPERTIES TIMEOUT 180
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+endif()
