@@ -1,5 +1,13 @@
 # Implementation status
 
+## PR #21 current-main reconciliation — November 7, 2026
+
+- Integrated #19's merged baseline while preserving current key settings, all A-owned
+  sources and the complete deployed worker/grid package. The independent desktop
+  exact-horizon checks and native solver provenance 0.1.1 remain in this increment.
+- Retained the regenerated 73-project VS2022 solution and checked its complete graph.
+  Earlier test reports below keep their original scope; final combined-stack checks
+  remain the gate before further release claims.
 ## Person A audit-fix integration before B5c — November 7, 2026
 
 - Checked GitHub and merged PR #17 head `367dcf1` into B5b `9f8f550`, preserving both
@@ -48,7 +56,23 @@
 - Next implementation: B5c explicit selected-control derivatives. Automatic scientific
   retention and clean hosted rehearsals remain later work. No controls were applied.
 
+## PR #19 current-main reconciliation — November 7, 2026
+
+- Combined B5b's forward-only desktop storage path with merged #13/#18 and current
+  native key settings. The entry point and AgentPanel receive both science and
+  credential controllers; the installed worker retains its grid helper and package.
+- Regenerated the combined VS2022 solution. Final ordered-stack runtime checks remain
+  pending; no selected-control derivatives or scientific history are added here.
+## PR #18 current-main reconciliation — November 7, 2026
+
+- Integrated the merged historical-evidence baseline while preserving native key
+  settings and A's current sources. Added the newly required storage_grid.py helper
+  to deployment alongside worker_storage.py and the complete scientific package.
+- Regenerated the combined VS2022 solution. Runtime and installer verification of
+  the final ordered stack remains the integration gate; earlier reports below
+  retain their original scope and do not establish a fresh combined run.
 ## B5a/B5b local runtime and desktop storage integration — November 7, 2026
+
 
 - Merged the audit-first handoff at `6fb8c29` and froze `10cb8f7` for
   [AUDIT_PERSON_B.md](AUDIT_PERSON_B.md). Direct root MSBuild and normal/full-desktop
@@ -97,6 +121,16 @@
   science, automatic retention and clean hosted rehearsals remain separate. No new
   hosted calls or operating-control application ran in this increment.
 
+## PR #13 current-main reconciliation — November 7, 2026
+
+- Merged main `5545417` into the historical native-pipe evidence branch, preserving
+  both parents, Person A's audit/A9/A10a work and native credential settings.
+  Shared entry-point/QML changes retain both credential setup and read-only evidence
+  reopening; no B5 desktop storage feature is introduced in this increment.
+- Regenerated the VS2022 x64 solution against the combined source, retaining the B7
+  evidence test/render targets and A9 qualification exporter. Original status reports
+  below remain historical evidence. The final ordered-stack build and verification
+  are the integration gate; a new full suite or Lean run is not claimed here.
 ## PR #14 pull/review and next B5 plan — November 7, 2026
 
 - Pulled main `794c7cd`, including PR #14's `d4cae03` worker mapping. Reconciled the
@@ -175,12 +209,75 @@
   clean live-model rehearsals or qualify learned predictions. No new hosted calls ran.
 
 Scope: shared base, native search, durable desktop investigations, science contracts,
-native selected-pipe viewing, and Person A's A3–A8 science/benchmark/proof increments.
-PRs #7, #8, #10, #11 and #14 are merged; their complete histories are retained.
+native selected-pipe viewing, Person A's A3–A9 increments and four audit fixes.
+PRs #7, #8, #10, #11, #14, #17 and #20 are merged; their histories are retained.
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
 
+## Audit/A9 main integration — November 7, 2026
+
+- Merged #17 at `0d78ffa` and retargeted/merged #20 at `6966707`, with no conflicts.
+  Local main was fast-forwarded. The four A-owned audit findings are resolved;
+  A9 supplies bounded synthetic transport qualification. See the
+  [integration record and next-change plan](POST_A9_PLAN.md) for ownership,
+  acceptance criteria, commands and evidence paths.
+- Preserved dotenv/credential-support commit `dc348d8` and its application,
+  scripts, README and public template unchanged. Real `.env` files remain ignored
+  and untracked. No real key was read, changed or published by this integration.
+- Regenerated the root Visual Studio 2026 x64 solution: 67 projects, 183 build
+  dependencies, no missing/dangling references. The direct `Breakwater.slnx`
+  MSBuild passed. Combined normal CTest passed **18/18** (26.14 s); separate
+  full-desktop MSVC ASan build/CTest passed **18/18** (88.20 s), no sanitizer report.
+- Full integrated-source Python suite passed **127/127**, no skips (81.358 s).
+  Native/PyTorch/worker checks passed 18 cases across three native solvers,
+  **302 actual NDJSON requests**, 44 interior controls and 132 central differences;
+  maximum volume difference `7.67386154621e-13 m3`.
+- Actual fixed-case PhysicsNeMo model/residual/training/checkpoint smoke passed
+  **12/12 gates**, including 1,800 updates and zero checkpoint inference difference.
+  Held-out field RMSE `0.00336886618 mg/L`; this is experimental fixed-case evidence.
+- Refined transport qualification passed **45 cases / 580 gates** in normal and
+  MSVC ASan execution. The original coarse study reproduced its expected single
+  failed refinement gate; that configuration remains unqualified. Mean-error gates
+  do not qualify local peaks: refined scheduled-inlet maximum cell-average error
+  remains about `0.40191 mg/L`. See [A9 scope](../science/TRANSPORT_QUALIFICATION.md).
+- Pinned `lake build` passed (1,061 jobs), all **21 theorem assumption audits**
+  passed, and the deliberate unapproved-assumption probe was rejected. These are
+  exact-real finite-graph storage/control-influence algorithm proofs, not PDE,
+  IEEE, memory-safety or global-optimality guarantees.
+- Evidence is local under `out/post-a9/` and `out/a6-proofs/`. No new hosted-model
+  call, performance benchmark or installed-app acceptance run is claimed here.
+  Desktop scientific execution remains health-only on this main baseline; the
+  installed-worker/forward-comparison work is in the still-unmerged B stack
+  #13 → #18 → #19. Review that stack next rather than reimplementing it.
+
+## Local Nemotron key setup — November 7, 2026
+
+- Implemented automatic `.env` loading for the desktop and hosted smoke executable.
+  The key-free `.env.example` is versioned and installed; real `.env` files remain
+  ignored and are excluded from installation. Existing ignore rules already cover
+  this distinction. No scientific or numerical contract changed.
+- Installed users can choose **Nemotron investigator → Set API key** to save,
+  replace or remove a key in their per-user settings directory. Entry is masked
+  and cleared on close; there is no saved-key getter exposed to QML. The local
+  settings file is plaintext, not an encrypted credential vault.
+- Native configuration reloads between investigations, preserves active requests,
+  records the refreshed model identity and keeps file credentials out of child
+  environments. Process settings take precedence over launch/checkout `.env`,
+  followed by saved user settings. Details: [configuration](AGENT_INTEGRATION.md).
+- Normal MSVC desktop build and **18/18 CTest suites passed** (32.20 s), including
+  **37 Nemotron-client cases** and **24 worker cases**, with no failures or skips.
+  New checks exercise parsing, precedence, worktree boundaries, malformed/oversized
+  files, atomic save/reopen/replacement/removal, invalid input, write failures and
+  idle-only configuration reload, using synthetic keys.
+- `cmake --install out/desktop --prefix out/installed` succeeded. The staged package
+  contains `.env.example` and zero real `.env` files. Launched the packaged executable
+  through the Windows UI and inspected the setup dialog, empty masked input and
+  disabled empty-input save action. Persistence was tested with temporary files;
+  no real key was entered and no live hosted request or new sanitizer run is claimed.
+  Build/test/package output is local to `.worktrees/local-env/out/`.
+
 ## A8 scientific-worker integration — November 7, 2026 (upstream report)
+
 
 - PR #14 merged at `5c773f7` without conflicts. The repo worker implements
   `capabilities` and CPU float64 `storage_rollout`, with selected-interior-control

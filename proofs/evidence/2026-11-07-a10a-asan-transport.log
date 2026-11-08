@@ -1,0 +1,40 @@
+Start testing: Nov 07 20:19 Central Standard Time
+----------------------------------------------------------
+7/8 Testing: engine.transport
+7/8 Test: engine.transport
+Command: "C:/Projects/Breakwater/.worktrees/person-a-engine/out/audit-person-a/asan/engine/breakwater_transport_tests.exe"
+Directory: C:/Projects/Breakwater/.worktrees/person-a-engine/out/audit-person-a/asan/engine
+"engine.transport" start time: Nov 07 20:19 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS large finite concentration and mass do not overflow auxiliary norms
+PASS finite physical mass survives a concentration-sum overflow
+PASS disabled processes preserve a nonuniform field and exact output horizon
+PASS pure decay agrees with analytic solution and converges in time
+PASS one open Euler step balances signed faces source and old-state decay
+PASS one closed Euler step cancels internal faces with source and decay
+PASS variable event steps telescope the old-inventory source and decay ledger
+PASS constant field survives positive advection and diffusion
+PASS CFL one pure upwind advection shifts by one cell
+PASS closed diffusion cosine cell averages converge under mesh refinement
+PASS zero-flow Dirichlet diffusion records signed inlet mass loss
+PASS inlet half-cell diffusion CFL preserves first-cell positivity
+PASS flow changes and stops are resolved between output samples
+PASS piecewise linear inlet uses interval-average forcing
+PASS source and reaction ledger uses concentration-to-mass conversion
+PASS input profiles and concurrent transport calls remain independent
+PASS invalid pipe geometry and integration options are rejected
+PASS invalid initial and source profiles are rejected
+PASS invalid schedules and closed-pipe nonzero flow are rejected
+PASS output memory substep and cell-update budgets are enforced
+PASS nonfinite derived arithmetic and non-advancing time fail explicitly
+21/21 transport cases passed
+<end of output>
+Test time =  21.16 sec
+----------------------------------------------------------
+Test Passed.
+"engine.transport" end time: Nov 07 20:19 Central Standard Time
+"engine.transport" time elapsed: 00:00:21
+----------------------------------------------------------
+
+End testing: Nov 07 20:19 Central Standard Time

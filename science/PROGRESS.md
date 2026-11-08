@@ -224,3 +224,42 @@ captured run/generation. These steps are not claimed by this A-only increment.
 PhysicsNeMo remains A4's fixed-case experimental smoke; native FVM/volume validation
 and simulated approval remain authoritative. No new C++/Lean/PDE/quality guarantee
 is inferred from these Python checks.
+
+## A9 — bounded transport qualification (November 7, 2026)
+
+Added a private native exporter, independent analytic/semidiscrete references,
+declared gate configurations and a report command. The refined matrix passes
+45 cases / 580 gates in both normal MSVC and MSVC AddressSanitizer executions.
+Fresh existing native suites pass 8/8 in each build; the full Python suite passes
+127/127 tests without skips.
+
+The original coarse scheduled-inlet convergence failure is retained. Only that
+study's meshes were refined, with every gate, forcing and CFL unchanged. The
+refined mean-L1 pass does not qualify local peaks: its maximum cell-average error
+is still .40191 mg/L, and its mesh/time refinement remains coupled.
+
+See [TRANSPORT_QUALIFICATION.md](TRANSPORT_QUALIFICATION.md) for inventory, equations,
+measured convergence, uncertainty, exact commands, hashes and unsupported regimes.
+No native algorithm, public contract, B-owned file, Lean proof or learned-model
+training method changed in this increment.
+
+## A10a — checked discrete FVM mass balance (November 7, 2026)
+
+Added the exact-real finite-cell transport proofs in `proofs/Breakwater/Transport.lean`:
+interior-face cancellation, one-step signed inventory/source/old-state decay balance,
+native open/closed boundary laws and recursive variable-step cumulative balance.
+The native algorithm, scientific worker and public contracts remain unchanged.
+
+Pinned `lake build` passed (1,062 jobs); all **37 theorem assumption audits** passed,
+including 16 new transport results and the existing 21 storage/control-influence
+results. The standard-foundation allowlist is unchanged and the deliberate
+unapproved assumption was rejected. The targeted native transport regressions passed
+**21/21** normally and under MSVC ASan, including three independent hand-computed
+mapping examples. Person B's files are untouched.
+
+See [proof evidence](../proofs/PROGRESS.md) and
+[FVM mass-balance scope/mapping](../proofs/FVM_MASS_BALANCE.md). This proves a
+discrete algebraic ledger identity, not PDE accuracy, positivity, floating-point
+implementation correctness or valid optimization plans. A9's retained coarse-front
+failure and peak-accuracy limitations are unchanged. No new Python/ML execution or
+benchmark is claimed by this proof increment.

@@ -1,5 +1,75 @@
 # Person A proof evidence
 
+## A10a — discrete FVM mass balance (November 7, 2026)
+
+Implemented on `codex/person-a-engine` from integrated main `7785d1d`. New work is
+confined to `proofs/`, three native transport regression examples and the A-owned
+transport/science notes. Person B's application, contracts, root build/solution and
+shared `docs/` are unchanged from that baseline. Earlier A6/A7 records below remain
+historical evidence rather than the current theorem count.
+
+`Breakwater/Transport.lean` delivers **16 new checked statements**, preserving the
+existing 21 storage/control-influence statements for **37 audited results**:
+
+1. Finite shared-face cancellation and the concentration/inventory sum conversion.
+2. One explicit Euler step's signed inlet/outlet/source/old-inventory decay balance,
+   including `1000 * area * dx` litres and `1000 * area` boundary-flux conversion.
+3. Native open half-cell inlet, upwind/diffusive interior and advective outlet laws;
+   closed zero-exchange boundaries with zero-velocity interior diffusion.
+4. A strict negative-inlet-flux result for zero flow, positive dispersion/width and
+   a higher first-cell concentration than the prescribed inlet.
+5. Actual recursive state-dependent variable-step rollout, an independently defined
+   four-term cumulative ledger, preserved residual, zero initial-ledger residual
+   and telescoped final inventory balance. Per-step conservation is derived, not
+   assumed as a rollout hypothesis.
+
+The [formal/native mapping](FVM_MASS_BALANCE.md) catalogs every theorem, equation,
+unit, finite-index domain and scope limit. Generic cancellation permits empty
+cells; boundary constructors are nonempty. Native at-least-two-cell inputs are
+included. The mass conversion requires `dx != 0`; CFL, nonnegative flux and fixed
+step/rates are not required for this exact-real identity. Native event-shortened
+steps are covered as a sequence; scheduler construction itself is not proved.
+
+Actual checks on November 7, 2026:
+
+```powershell
+./proofs/verify.ps1 -LeanBin 'C:/Projects/Breakwater/.tools/lean-4.35.0-windows/bin'
+```
+
+- Direct new-module compilation with warnings as errors passed before integration.
+- Final `lake build` completed successfully (**1,062 jobs**), checking the new
+  transport module, combined audit and root library with cached dependencies reused.
+- Fresh direct audit passed all **37 proposition-typed results**. All reported
+  transitive assumptions are the unchanged standard foundations `propext`,
+  `Classical.choice`, `Quot.sound`; the allowlist was not expanded.
+- The owned-source prohibited-token scan, Lean/Mathlib pin checks and deliberate
+  unapproved-assumption rejection passed. The full verifier exited **0**.
+- Lean remains **4.35.0**, Mathlib remains
+  `56a005855ea17e0b0958f73ec801ae140b0a1679`, and the nine resolved dependency pins
+  are unchanged. Proof verification ran 02:22:34–02:24:28 UTC on November 8
+  (November 7 in America/Chicago); exact timestamps/hashes are in the record.
+- The targeted MSVC transport suite passed **21/21 cases** normally (**3.38 s**)
+  and with AddressSanitizer (**21.16 s**), no sanitizer report. Three new dyadic,
+  hand-computed examples check signed open exchange/nonunit geometry, closed
+  interior cancellation, and unequal event steps with old-inventory decay.
+
+Committed evidence:
+
+- [Lake build](evidence/2026-11-07-a10a-lake-build.log).
+- [Fresh transitive assumption audit](evidence/2026-11-07-a10a-axiom-audit.log).
+- [Expected unapproved-assumption rejection](evidence/2026-11-07-a10a-negative-audit.log).
+- [Proof versions, pins and checked-source hashes](evidence/2026-11-07-a10a-verification.json).
+- [Native regression log](evidence/2026-11-07-a10a-native-transport.log),
+  [ASan regression log](evidence/2026-11-07-a10a-asan-transport.log) and
+  [native source/executable hashes and scope](evidence/2026-11-07-a10a-native-verification.json).
+
+This is an exact-real discrete conservation/correctness result, not a proof of
+PDE accuracy, positivity, IEEE arithmetic, compensated summation/tolerances, C++
+memory safety, event selection, hydraulic fidelity, optimization feasibility or
+global optimality. The solver and public contracts are unchanged. No new full
+desktop/Python suite, learned training, transport accuracy qualification or benchmark
+is claimed. A10b positivity and the separate front-accuracy study remain later work.
+
 ## A6 — checked algorithms (November 7, 2026)
 
 Implemented on `codex/person-a-engine`, after A5 commit `eca890d`. Every incremental

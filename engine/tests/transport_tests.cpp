@@ -139,6 +139,65 @@ int main() {
             near(fine.cumulative_decay_mg.back(), fine.inventory_mg.front() - fine.inventory_mg.back(), 1e-6);
             near(fine.cumulative_inlet_mg.back(), 0); near(fine.cumulative_outlet_mg.back(), 0);
         }},
+        {"one open Euler step balances signed faces source and old-state decay", [] {
+            auto p = pipe(2, 4, 0.25); p.dispersion_m2_h = 1; p.decay_per_h = 0.5;
+            const auto options = config(0.125, 0.125);
+            const auto result = solve(p, {4, 2}, options, {{0, 0.25}}, {{0, 1}}, {1, 3});
+            check_result(p, options, result);
+            require(result.diagnostics.substeps == 1, "Expected one declared Euler step");
+            // dx=2 m, 500 L/cell, v=1 m/h. The three signed faces are
+            // [-2, 5, 2] mg/L*m/h: half-cell inlet diffusion exceeds advection.
+            // The shared internal face transfers mass but cancels from the ledger.
+            near(result.concentration_mg_l.back()[0], 3.4375, 1e-12);
+            near(result.concentration_mg_l.back()[1], 2.4375, 1e-12);
+            near(result.inventory_mg.front(), 3000, 1e-10);
+            near(result.cumulative_inlet_mg.back(), -62.5, 1e-10);
+            near(result.cumulative_outlet_mg.back(), 62.5, 1e-10);
+            near(result.cumulative_source_mg.back(), 250, 1e-10);
+            near(result.cumulative_decay_mg.back(), 187.5, 1e-10);
+            near(result.inventory_mg.back(), 2937.5, 1e-10);
+            near(result.mass_balance_residual_mg.back(), 0, 1e-10);
+        }},
+        {"one closed Euler step cancels internal faces with source and decay", [] {
+            auto p = pipe(3, 6, 0.125); p.dispersion_m2_h = 2; p.decay_per_h = 0.25;
+            const auto options = config(0.25, 0.25, TransportBoundary::closed_no_flux);
+            const auto result = solve(p, {1, 4, 2}, options, {{0, 0}}, {}, {0, 1, 2});
+            check_result(p, options, result);
+            require(result.diagnostics.substeps == 1, "Expected one declared Euler step");
+            // dx=2 m, 250 L/cell and faces [0, -3, 2, 0]. The nonzero
+            // interior exchanges change the field but not the summed inventory.
+            near(result.concentration_mg_l.back()[0], 1.3125, 1e-12);
+            near(result.concentration_mg_l.back()[1], 3.375, 1e-12);
+            near(result.concentration_mg_l.back()[2], 2.625, 1e-12);
+            near(result.inventory_mg.front(), 1750, 1e-10);
+            near(result.cumulative_inlet_mg.back(), 0, 1e-10);
+            near(result.cumulative_outlet_mg.back(), 0, 1e-10);
+            near(result.cumulative_source_mg.back(), 187.5, 1e-10);
+            near(result.cumulative_decay_mg.back(), 109.375, 1e-10);
+            near(result.inventory_mg.back(), 1828.125, 1e-10);
+            near(result.mass_balance_residual_mg.back(), 0, 1e-10);
+        }},
+        {"variable event steps telescope the old-inventory source and decay ledger", [] {
+            auto p = pipe(2, 2, 0.5); p.decay_per_h = 0.5;
+            const auto options = config(1, 1, TransportBoundary::closed_no_flux);
+            const auto result = solve(p, {2, 4}, options, {{0, 0}, {0.125, 0}, {0.5, 0}}, {}, {1, 0});
+            check_result(p, options, result);
+            require(result.time_h.size() == 2, "Only initial and terminal output were requested");
+            require(result.diagnostics.substeps == 3, "Did not stop at both schedule events");
+            // The schedule partitions dt into 1/8, 3/8, 1/2 h. The first cell
+            // is at source/decay equilibrium; the second is 4*(15/16)*(13/16)*(3/4).
+            // Decay masses from the three OLD inventories are 187.5,
+            // 539.0625 and 630.859375 mg, rather than a terminal-state estimate.
+            near(result.concentration_mg_l.back()[0], 2, 1e-12);
+            near(result.concentration_mg_l.back()[1], 585.0 / 256.0, 1e-12);
+            near(result.inventory_mg.front(), 3000, 1e-10);
+            near(result.cumulative_inlet_mg.back(), 0, 1e-10);
+            near(result.cumulative_outlet_mg.back(), 0, 1e-10);
+            near(result.cumulative_source_mg.back(), 500, 1e-10);
+            near(result.cumulative_decay_mg.back(), 1357.421875, 1e-10);
+            near(result.inventory_mg.back(), 2142.578125, 1e-10);
+            near(result.mass_balance_residual_mg.back(), 0, 1e-10);
+        }},
         {"constant field survives positive advection and diffusion", [] {
             auto p = pipe(8); p.dispersion_m2_h = 0.2;
             const auto options = config(0.75, 0.17);

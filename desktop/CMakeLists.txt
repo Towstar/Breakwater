@@ -7,6 +7,7 @@ target_link_libraries(breakwater_desktop_base PUBLIC breakwater_engine Qt6::Quic
 
 qt_add_library(breakwater_agent STATIC
   agent/ModelTransport.hpp agent/NemotronClient.hpp agent/NemotronClient.cpp
+  agent/CredentialSettings.hpp agent/CredentialSettings.cpp
   agent/SimulationGateway.hpp agent/SimulationGateway.cpp
   agent/AgentOrchestrator.hpp agent/AgentOrchestrator.cpp
   agent/AgentController.hpp agent/AgentController.cpp
@@ -109,6 +110,7 @@ if(BUILD_TESTING)
 endif()
 
 install(TARGETS breakwater RUNTIME DESTINATION bin)
+install(FILES "${PROJECT_SOURCE_DIR}/.env.example" DESTINATION bin)
 install(FILES "${PROJECT_SOURCE_DIR}/science/worker.py" DESTINATION share/breakwater/science)
 install(FILES "${PROJECT_SOURCE_DIR}/science/worker_storage.py" "${PROJECT_SOURCE_DIR}/science/storage_grid.py"
   DESTINATION share/breakwater/science)

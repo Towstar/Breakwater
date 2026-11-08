@@ -1,5 +1,10 @@
 # BREAKWATER continuation plan
 
+**Current continuation after PRs #17 and #20:** the Person A audit fixes and A9
+transport qualification are merged. Use [POST_A9_PLAN.md](POST_A9_PLAN.md) for the
+fresh integration checks, remaining B-stack review and ordered next increments.
+The execution sequence below is retained as historical context.
+
 **Current B handoff:** B5a local runtime/deployment and B5b forward-only desktop storage
 comparison are implemented in this workstream. Follow [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md)
 for setup/use and [STATUS.md](STATUS.md) for evidence and limitations. Next is B5c

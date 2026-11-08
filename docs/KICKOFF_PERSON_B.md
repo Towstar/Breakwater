@@ -1,8 +1,11 @@
 # Person B: Nemotron, APIs, desktop and integration
 
-Updated November 7, 2026. This is your active audit-first work plan. Coordinate with
-[Person A's plan](KICKOFF_PERSON_A.md). The steps below are planned work, not a claim
-that the comprehensive audit or next features have already been completed.
+Updated November 7, 2026. Use [POST_A9_PLAN.md](POST_A9_PLAN.md) for the active
+integration baseline and ordered next changes. A's audit fixes and A9 are merged;
+the broader B audit and installed-app acceptance remain separate. PRs #13, #18 and
+#19 already contain reviewable B work: reconcile that stack before rebuilding B5a/b.
+Coordinate with [Person A's plan](KICKOFF_PERSON_A.md). The original sequence below
+is retained as context, not a claim of comprehensive audit/release completion.
 
 Current workstream update: B5a/B5b runtime deployment and forward desktop comparison
 are implemented. Person A's audit/fixes through PR #17 (`367dcf1`) are integrated;
@@ -184,9 +187,10 @@ and merge main into shared branches without force pushes.
 
 ~~~text
 Continue BREAKWATER as Person B using docs/KICKOFF_PERSON_B.md. First inspect the
-current branch/status and perform step 1 with Person A. Produce the finding ledger
-and acceptance gates before new features. Preserve A-owned files, existing work,
-legacy health and native approval authority. Resolve blockers, then deliver B5a,
-B5b and B5c as separate tested PRs. Begin with actual inspection/evidence; do not
-claim the audit or planned features are already complete.
+current branch/status and docs/POST_A9_PLAN.md. Review the B audit dispositions and
+the existing #13 -> #18 -> #19 stack against current main before new features.
+Preserve dotenv/credential setup, A-owned files, legacy health and native approval
+authority. Rerun the installed-runtime and exact-grid/cost-boundary gates after
+integration. B5c derivatives and scientific evidence follow the verified forward
+path. Report actual checks and remaining blockers; retain inherited evidence labels.
 ~~~

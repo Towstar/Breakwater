@@ -6,6 +6,8 @@ $ErrorActionPreference = 'Stop'
 $proofRoot = $PSScriptRoot
 $projectRoot = Split-Path -Parent $proofRoot
 $outputDirectory = Join-Path $projectRoot 'out/a6-proofs'
+# This explicit count guards the advertised list in Breakwater/Audit.lean.
+$expectedAlgorithmTheorems = 37
 
 if ($LeanBin) {
     if (-not (Test-Path -LiteralPath (Join-Path $LeanBin 'lake.exe'))) {
@@ -68,7 +70,7 @@ try {
     $auditText = ($auditOutput | ForEach-Object { "$_" }) -join "`n"
     [System.IO.File]::WriteAllText((Join-Path $outputDirectory 'axiom-audit.log'), $auditText + "`n")
     $auditOutput | ForEach-Object { Write-Output "$_" }
-    if ($auditExit -ne 0 -or $auditText -notmatch 'BREAKWATER assumption audit passed for 21 algorithm theorems') {
+    if ($auditExit -ne 0 -or $auditText -notmatch "BREAKWATER assumption audit passed for $expectedAlgorithmTheorems algorithm theorems") {
         throw "Transitive assumption audit failed. Evidence: $outputDirectory"
     }
     # Exercise the same audit function with a deliberately unapproved assumption.
@@ -105,16 +107,16 @@ run_cmd Breakwater.auditAlgorithmTheorems #[``A6RejectedProbe]
         lake_version = "$lakeVersion"
         mathlib_revision = $mathlib[0].rev
         manifest_sha256 = (Get-FileHash -LiteralPath (Join-Path $proofRoot 'lake-manifest.json') -Algorithm SHA256).Hash.ToLowerInvariant()
-        audited_algorithm_theorems = 21
+        audited_algorithm_theorems = $expectedAlgorithmTheorems
         permitted_foundational_axioms = @('propext', 'Classical.choice', 'Quot.sound')
         warning_as_error = $true
         unapproved_assumption_probe_rejected = $true
         source_hashes = $records
-        scope = 'Exact-real finite-graph algorithms; not IEEE floating-point, compiled C++ memory safety, or hydraulics.'
+        scope = 'Exact-real finite-graph storage/control-influence and discrete FVM mass balance; not IEEE floating-point, compiled memory safety, PDE accuracy, positivity, scheduling, or hydraulics.'
     }
     [System.IO.File]::WriteAllText((Join-Path $outputDirectory 'verification.json'),
         ($record | ConvertTo-Json -Depth 8) + "`n")
-    Write-Output "A6 checked proof evidence: $outputDirectory"
+    Write-Output "Checked algorithm proof evidence: $outputDirectory"
     # The expected-failure probe must not leak a failing native exit status.
     $global:LASTEXITCODE = 0
 } finally {

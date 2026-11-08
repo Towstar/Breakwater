@@ -1,9 +1,11 @@
-# Checked finite-network and control-influence algorithms
+# Checked storage, control-influence and finite-volume algorithms
 
-This is a standalone Lean project for the mathematical storage algorithms. The graph,
-conservation, trajectory and endpoint-bound proofs apply to arbitrary valid finite
-graphs, not just the supplied two-tank scenario. Person B's application, contracts,
-root setup/solution and shared documentation are untouched.
+This standalone Lean project checks mathematical storage algorithms and discrete
+single-pipe tracer mass balance. The storage results apply to arbitrary valid finite
+graphs; the transport identities apply to finite cells with shared face fluxes.
+Person B's application, contracts, root setup/solution and shared documentation are
+untouched. See [FVM_MASS_BALANCE.md](FVM_MASS_BALANCE.md) for A10a's equations,
+assumptions, native mapping and limits.
 
 ## Reproduce
 
@@ -141,11 +143,34 @@ the near-boundary fallback are separate implementation checks. Potential survivo
 have cost recomputed in the original source-then-route order before sorting, so the
 formal cost identity is not used to assert bitwise floating-point ranking equality.
 
+## Discrete finite-volume mass balance
+
+`Transport.lean` formalizes cell averages, bounded neighboring faces, the explicit
+Euler transport/source/old-state decay update, and a recursive variable-step rollout
+with a cumulative ledger. Interior face differences telescope to the two boundary
+fluxes. Multiplying by `1000 * area * dx` gives inventory in mg and the signed
+inlet/outlet conversion used by native C++.
+
+The one-step balance and cumulative zero-residual result are derived from these
+updates, including state-dependent fluxes recalculated at each step. Open boundary
+definitions include the half-cell Dirichlet inlet and advective outlet; closed
+mode uses zero boundary exchange and zero-velocity interior diffusion. Signed inlet
+diffusion is permitted. Unequal substeps include the native event/output-shortened
+step sequence, without claiming a proof of the scheduler itself.
+
+The required algebraic geometry condition is nonzero cell width. Native valid
+geometry is stricter, with positive width/area and at least two cells. No CFL or
+nonnegative-flux premise is needed for conservation. Positivity and PDE accuracy
+remain separate: a balanced numerical solution can still be inaccurate.
+
+The complete correspondence, boundary/source/decay units, native examples and
+scope exclusions are in [FVM_MASS_BALANCE.md](FVM_MASS_BALANCE.md).
+
 ## Assumptions and C++ correspondence
 
-All arithmetic is **exact over real numbers**. Graph, flows and external rates are
-fixed during the forecast. Flows/rates/step sizes may be signed in the algebraic
-identities; the native nonnegative-flow and increasing-time rules restrict their
+All arithmetic is **exact over real numbers**. For the storage results, graph,
+flows and external rates are fixed during the forecast. Flows/rates/step sizes may
+be signed in the algebraic identities; the native nonnegative-flow and increasing-time rules restrict their
 physical caller domain. No theorem assumes the desired interior storage inequality
 or conservation conclusion. Interval bounds assume only the bounds at both endpoints.
 
@@ -158,12 +183,13 @@ or conservation conclusion. Interval bounds assume only the bounds at both endpo
 | `trajectory`, time-grid closed form | `evaluate_endpoints` and exact-horizon sample grid in the native engine |
 | Interval storage bounds | Mathematical basis for constant-rate endpoint screening in [search_kernel.hpp](../engine/src/search_kernel.hpp) |
 | `directOutputs`, `baselineOutputs`, `controlColumn`, `evaluateColumns` | Route evaluator in [search_kernel.hpp](../engine/src/search_kernel.hpp) and request-local `ControlInfluence` baseline/columns/candidate loop in [control_influence.hpp](../engine/src/control_influence.hpp) |
+| Transport inventory, cell update and cumulative ledger | `mass_sum`, face flux/update loops and signed ledger in [transport.cpp](../engine/src/transport.cpp); details in [FVM_MASS_BALANCE.md](FVM_MASS_BALANCE.md) |
 
 This mapping is documented and reviewed; it is **not a compiler/refinement proof**
 of the C++ binary or parser. Floating-point order, roundoff guards, nonfinite values,
 index/memory safety and implementation correctness still rely on their separate native
 tests and sanitizer checks. Exact-real edge-order independence is not permission to
-reorder floating-point operations. There is no formal speedup, hydraulics, tracer PDE,
+reorder floating-point operations. There is no formal speedup, hydraulics, tracer PDE accuracy,
 complete destination/control/cost constraint validation, ML quality, robustness or optimizer proof.
 Endpoint screening still needs actual independent native validation for recommendations.
 
@@ -174,7 +200,7 @@ Owned sources contain no proof placeholders, custom assumption declarations, uns
 declarations or compiler-trusted decision shortcuts. The wrapper also rejects those
 tokens lexically in the owned Lean files.
 
-`Audit.lean` prints the transitive assumptions of 21 advertised algorithm theorems,
+`Audit.lean` prints the transitive assumptions of every advertised algorithm theorem,
 checks that their types are propositions, and rejects every dependency outside the
 explicit standard-foundation allowlist: `propext`, `Classical.choice`, `Quot.sound`.
 These standard principles of the pinned classical-real library are disclosed; this
