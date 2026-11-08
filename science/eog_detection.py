@@ -13,7 +13,7 @@ import math
 from eog_model import Facility, Model, ModelError
 from eog_observations import ObservationError, Sample, View
 
-METHOD = "eog-detection-0.2.1"
+METHOD = "eog-detection-0.2.2"
 
 
 @dataclass(frozen=True, slots=True)
@@ -78,6 +78,8 @@ class Event:
     evidence: tuple[Sample, ...]
     assumptions: tuple[str, ...]
     limitations: tuple[str, ...]
+    # Private response-compilation context. None means unknown; () is known zero.
+    productive_well_ids: tuple[str, ...] | None = None
 
 
 @dataclass(frozen=True, slots=True)
@@ -228,6 +230,7 @@ def _failure_events(model, f, view, rules):
 
 
 def _forecast_failure(model, f, event, view, rules, productive):
+    event = replace(event, productive_well_ids=productive)
     assumptions = ["Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
                    "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."]
     limitations = list(event.limitations)

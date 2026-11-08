@@ -1,0 +1,3 @@
+# EOG worker v1 runtime uses the already hash-frozen schema resolver graph.
+# The storage worker remains standard-library-only. No new package versions.
+-r requirements-worker-tests-win-py312.txt

@@ -1,0 +1,274 @@
+UpdateCTestConfiguration  from :C:/Projects/Breakwater/.worktrees/person-a-eog-response/DartConfiguration.tcl
+Test project C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan
+Constructing a list of tests
+Done constructing a list of tests
+Updating test list for fixtures
+Added 0 tests to meet fixture requirements
+Checking test dependency graph...
+Checking test dependency graph end
+test 1
+      Start  1: engine.eog_response
+
+1: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_eog_response_tests.exe
+1: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+1: Test timeout computed to be: 10000000
+1: 6766 response checks passed (600 independent no-action and 600 well-stop randomized cases)
+ 1/11 Test  #1: engine.eog_response ................   Passed    0.24 sec
+test 2
+      Start  2: engine.eog_analytical
+
+2: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_eog_analytical_tests.exe
+2: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+2: Test timeout computed to be: 10000000
+2: PASS barrel and daily units
+2: PASS finite raw unusual values are not clipped
+2: PASS normal stopped state and hysteretic cycle
+2: PASS fault feedback and unknown restart
+2: PASS analytical countdown uses shutdown threshold
+2: PASS remaining repair is based on assumed onset
+2: PASS observation fixture uses an explicit historical clock and policy
+2: PASS missing stale future and incoherent evidence abstains
+2: PASS no-crossing and reached are distinct from unavailable
+2: PASS opening no-action trip and loss
+2: PASS opening full-load truck and return
+2: PASS truck removal keeps both sides of the jump
+2: PASS repeat trip arrivals and return
+2: PASS truck too late cannot restart shut wells
+2: PASS threshold wins exact truck tie
+2: PASS full fixed load cannot exceed inventory
+2: PASS simultaneous full loads are checked together
+2: PASS every load must precede repair strictly
+2: PASS last repeat arrival also respects repair
+2: PASS immediate well shut-in cost
+2: PASS delayed well shut-in cost
+2: PASS each well has its own start and revenue
+2: PASS mixed response costs are itemized
+2: PASS automatic loss does not double count deliberate loss
+2: PASS threshold wins a simultaneous well shut-in
+2: PASS threshold at repair reports trip with zero loss
+2: PASS already shut-in exposure remains until repair
+2: PASS above-threshold finite inventory is preserved
+2: PASS preexisting unproductive wells add no exposure
+2: PASS two failures cannot double book shared truck
+2: PASS three failures compete for two trucks
+2: PASS return occupancy prevents early reassignment
+2: PASS sequential jobs restart from yard
+2: PASS one ULP overlapping return is rejected
+2: PASS fleet identity is local to each system
+2: PASS response order does not change simultaneous result
+2: PASS unknown IDs are explicit violations
+2: PASS duplicate shut-ins and invalid action times
+2: PASS bounded work and malformed fixtures
+2: PASS nonfinite observations and arithmetic overflow
+2: PASS analytical random no-action crossing and revenue oracle
+2: PASS random scheduled responses satisfy separate integral ledgers
+2: 42/42 EOG analytical cases passed
+ 2/11 Test  #2: engine.eog_analytical ..............   Passed    0.40 sec
+test 3
+      Start  3: engine.eog_analytical_example
+
+3: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_eog_analytical_example.exe
+3: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+3: Test timeout computed to be: 10000000
+3: method=eog-analytical-0.1.0 (private E1 fixture; no detection/search/worker)
+3: no-action: shutdown_after_h=4.480000 cost=5016.000000
+3: one-truck: arrival_h=1.250000 free_h=5.083333 final_bbl=700.000000 cost=905.000000
+3: well-2-off-at-2h: final_bbl=733.333333 cost=2000.000000
+ 3/11 Test  #3: engine.eog_analytical_example ......   Passed    0.19 sec
+test 4
+      Start  4: engine.benchmark_correctness
+
+4: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_benchmark.exe "--verify-only" "--count" "100"
+4: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+4: Test timeout computed to be: 10000000
+4: canonical_incident candidates=100 verified=100 feasible=5 screen_passes=5 influence_passes=5 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+4: custom_24_tanks candidates=100 verified=100 feasible=23 screen_passes=23 influence_passes=23 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+4: {"benchmark_version":2,"status":"passed","method":"correctness_only","configuration":"RelWithDebInfo","checked_build":true,"cpp_standard":2020,"compiler":"MSVC 195136260","logical_processors_reported":16,"processor_identifier":"AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD","steady_clock":true,"warmup_batches":2,"repeats":7,"calibration_target_ms":10,"maximum_iterations_per_sample":1024,"phase_order":"rotated per repetition","quantile":"p90 nearest rank; stddev population","notes":"Kernel setup excluded except explicitly timed influence_precompute. Dense/sparse have identical samples, writes and full-buffer checksum consumption. Affine avoids trajectories. Paired route-walk/influence screens consume identical numeric outputs; potential influence rows preserve canonical cost order. Retained validation is five runs, not the full batch. Overlapping phases do not sum to total search. No global optimum or universal speedup claim.","results":[{"workload":"canonical_incident","public_evaluator":"route_walk","candidates":100,"distinct_candidates":100,"candidate_fnv1a64":"74d91098d3821317","assets":6,"routes":6,"tanks":2,"internal_edges":1,"samples":121,"horizon_h":3,"step_h":0.025,"prepared_numeric_bytes":5632,"trajectory_workspace_bytes":2936,"preparation_once_ms":48.919800000000002,"influence_preparation_once_ms":0.12909999999999999,"max_forward_error_m3":9.3791641120333225e-13,"all_candidates_reference_checked":true,"reference_feasible_candidates":5,"screen_passes":5,"influence_screen_passes":5,"influence_fallbacks":1,"max_influence_rate_error_m3h":7.1054273576010019e-15,"max_influence_destination_error_m3h":8.8817841970012523e-16,"max_influence_cost_error":0,"reference_checks_in_search":5,"reference_rejections_in_search":0,"recommendations":5,"best_evaluated_cost":9713.8502623906716,"best_candidate_index":53,"phases":[]},{"workload":"custom_24_tanks","public_evaluator":"route_walk","candidates":100,"distinct_candidates":100,"candidate_fnv1a64":"858a8c52690e4e80","assets":28,"routes":66,"tanks":24,"internal_edges":60,"samples":121,"horizon_h":3,"step_h":0.025,"prepared_numeric_bytes":194112,"trajectory_workspace_bytes":24584,"preparation_once_ms":317.8954,"influence_preparation_once_ms":0.14419999999999999,"max_forward_error_m3":8.2422957348171622e-13,"all_candidates_reference_checked":true,"reference_feasible_candidates":23,"screen_passes":23,"influence_screen_passes":23,"influence_fallbacks":1,"max_influence_rate_error_m3h":1.7763568394002505e-15,"max_influence_destination_error_m3h":8.8817841970012523e-16,"max_influence_cost_error":6.2527760746888816e-13,"reference_checks_in_search":5,"reference_rejections_in_search":0,"recommendations":5,"best_evaluated_cost":243.66435799319726,"best_candidate_index":21,"phases":[]}]}
+ 4/11 Test  #4: engine.benchmark_correctness .......   Passed    1.28 sec
+test 5
+      Start  5: engine.acceptance
+
+5: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_engine_tests.exe
+5: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+5: Test timeout computed to be: 10000000
+5: PASS healthy preview accumulates explicitly
+5: PASS baseline exact limit time and unclipped prediction
+5: PASS isolated downstream failure
+5: PASS mixed plan cost and inventory
+5: PASS capacity equality is permitted
+5: PASS generic renamed network and shared throughput
+5: PASS negative inventories remain visible
+5: PASS unknown nonfinite duplicate and unavailable controls rejected
+5: PASS draft and malformed topology rejected
+5: PASS independent validator catches corrupted trajectories and cost
+5: PASS nonfinite derived catalog prices are explicit invalid network parameters
+5: PASS independent cost overflow rejects finite infinite and NaN result costs
+5: PASS simulated cost overflow remains visible and fails independent validation
+5: PASS finite huge and zero costs validate independently of cached pricing
+5: PASS decimal horizon edge cases preserve interior samples and the exact endpoint
+5: PASS subnormal and neighboring horizons remain strictly covered
+5: PASS one-ULP shortened and extended results never satisfy requested-horizon validation
+5: PASS requested-horizon overflow cannot be hidden by one-ULP-short sampling
+5: PASS actual interval count enforces the 10000-update boundary
+5: PASS random graph dense sparse affine agreement and internal conservation
+5: PASS candidate snapshots are independent under concurrency
+5: PASS bounded configuration and workspace validation
+5: 22/22 cases passed
+ 5/11 Test  #5: engine.acceptance ..................   Passed    0.87 sec
+test 6
+      Start  6: engine.search
+
+6: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_search_tests.exe
+6: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+6: Test timeout computed to be: 10000000
+6: PASS canonical explicit batch rejects bad plans and returns real mixed reference
+6: PASS small canonical grid agrees with exhaustive independent reference oracle
+6: PASS curtailment ranking includes savings on nonzero-cost source feed route
+6: PASS renamed colon IDs and unspecified settings remain intact
+6: PASS shared treatment and trucking limits screen aggregate arrivals
+6: PASS capacity equality and validator tolerance are respected
+6: PASS no axes evaluate one unchanged candidate and infeasible search is explicit
+6: PASS valid decimal and subnormal grids do not become false no-plan results
+6: PASS one-ULP final overflow never receives a recommendation
+6: PASS forecast work-limit errors precede candidate screening
+6: PASS equal cost results retain input order
+6: PASS exactly 10000 candidates accepted and larger requests rejected
+6: PASS grid product limit and four-control limit are enforced
+6: PASS unknown duplicate nonfinite out-of-bounds and unavailable controls rejected
+6: PASS source control cannot exceed its connected feed capacity
+6: PASS malformed requests and options are rejected before evaluation
+6: PASS candidate batches and concurrent searches do not mutate snapshots
+6: PASS overflow in an auxiliary screening scale defers to reference validation
+6: PASS nonfinite arithmetic is counted and never recommended
+6: PASS hourly-product and horizon-total cost overflow retain finite repaired candidates
+6: PASS aggregate-hourly cost overflow and source-product overflow cannot hide zero-cost plans
+6: PASS nonrepresentable catalog unit prices fail explicitly before search
+6: 22/22 search cases passed
+ 6/11 Test  #6: engine.search ......................   Passed    0.32 sec
+test 7
+      Start  7: engine.control_influence
+
+7: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_control_influence_tests.exe
+7: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+7: Test timeout computed to be: 10000000
+7: PASS large public batch and Cartesian search retain exhaustive reference rankings
+7: PASS precomputed rates and destination sums match route traversal across actual network shapes
+7: PASS nonzero source feed cost and partial defaults agree at the numeric screen
+7: PASS near-boundary predictions exercise the route-walk fallback
+7: PASS canonical and custom batch rankings agree with exhaustive native oracle
+7: PASS partial overrides keep other route and source settings fixed
+7: PASS close reference costs and ties preserve exact ranking across the result cutoff
+7: PASS shared destination equality and near-boundary rows match independent validation
+7: PASS storage equality and narrowed horizon preserve the reference feasibility decision
+7: PASS nonfinite baseline cost does not hide a finite overridden candidate
+7: PASS automatic influence dispatch rejects cost overflow but preserves finite repairs
+7: PASS reciprocal huge flows and zeroed overrides do not lose finite cancellation
+7: PASS changed costs topology and availability are rebuilt for each captured network
+7: PASS invalid controls still fail before the optimized screen
+7: PASS no selected controls still evaluates one immutable candidate
+7: 15/15 control-influence cases passed
+ 7/11 Test  #7: engine.control_influence ...........   Passed   16.72 sec
+test 8
+      Start  8: engine.search_example
+
+8: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_search_example.exe
+8: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+8: Test timeout computed to be: 10000000
+8: SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+8: candidates=432 screen_survivors=39 constraint_rejections=393 numerical_rejections=0 reference_checks=5 reference_rejections=0
+8: candidate=352 reference_validated=true cost=4800 synthetic_units minimum_headroom=4 m3
+8:   route:bypass:flow=20 m3/h
+8:   route:backup_pump:flow=35 m3/h
+8:   route:truck_route:flow=20 m3/h
+8:   source:source_a:curtail=0 m3/h
+8:   tank_a final=116 m3
+8:   tank_b final=117 m3
+8: candidate=356 reference_validated=true cost=5280 synthetic_units minimum_headroom=10 m3
+8:   route:bypass:flow=20 m3/h
+8:   route:backup_pump:flow=35 m3/h
+8:   route:truck_route:flow=22 m3/h
+8:   source:source_a:curtail=0 m3/h
+8:   tank_a final=110 m3
+8:   tank_b final=117 m3
+8: candidate=349 reference_validated=true cost=7350 synthetic_units minimum_headroom=4 m3
+8:   route:bypass:flow=20 m3/h
+8:   route:backup_pump:flow=35 m3/h
+8:   route:truck_route:flow=15 m3/h
+8:   source:source_a:curtail=5 m3/h
+8:   tank_a final=116 m3
+8:   tank_b final=117 m3
+8: candidate=281 reference_validated=true cost=8550 synthetic_units minimum_headroom=4 m3
+8:   route:bypass:flow=15 m3/h
+8:   route:backup_pump:flow=35 m3/h
+8:   route:truck_route:flow=20 m3/h
+8:   source:source_a:curtail=5 m3/h
+8:   tank_a final=116 m3
+8:   tank_b final=102 m3
+8: candidate=353 reference_validated=true cost=8550 synthetic_units minimum_headroom=13 m3
+8:   route:bypass:flow=20 m3/h
+8:   route:backup_pump:flow=35 m3/h
+8:   route:truck_route:flow=20 m3/h
+8:   source:source_a:curtail=5 m3/h
+8:   tank_a final=101 m3
+8:   tank_b final=117 m3
+8: Best among evaluated candidates. Quality/stress robustness not evaluated.
+ 8/11 Test  #8: engine.search_example ..............   Passed    0.17 sec
+test 9
+      Start  9: engine.search_infeasible_example
+
+9: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_search_example.exe "--infeasible"
+9: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+9: Test timeout computed to be: 10000000
+9: SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+9: candidates=2 screen_survivors=0 constraint_rejections=2 numerical_rejections=0 reference_checks=0 reference_rejections=0
+9: NO_FEASIBLE_PLAN_FOUND among evaluated candidates; not a global infeasibility proof.
+ 9/11 Test  #9: engine.search_infeasible_example ...   Passed    0.08 sec
+test 10
+      Start 10: engine.transport
+
+10: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_transport_tests.exe
+10: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+10: Test timeout computed to be: 10000000
+10: PASS large finite concentration and mass do not overflow auxiliary norms
+10: PASS finite physical mass survives a concentration-sum overflow
+10: PASS disabled processes preserve a nonuniform field and exact output horizon
+10: PASS pure decay agrees with analytic solution and converges in time
+10: PASS one open Euler step balances signed faces source and old-state decay
+10: PASS one closed Euler step cancels internal faces with source and decay
+10: PASS variable event steps telescope the old-inventory source and decay ledger
+10: PASS constant field survives positive advection and diffusion
+10: PASS CFL one pure upwind advection shifts by one cell
+10: PASS closed diffusion cosine cell averages converge under mesh refinement
+10: PASS zero-flow Dirichlet diffusion records signed inlet mass loss
+10: PASS inlet half-cell diffusion CFL preserves first-cell positivity
+10: PASS open equality bound has nonnegative minimum-mesh and interior impulse responses
+10: PASS closed equality bound has nonnegative minimum-mesh and interior impulse responses
+10: PASS zero data zero coefficients and pure decay equality permit zero concentration
+10: PASS open unequal event steps use each velocity and nonnegative inlet average
+10: PASS flow changes and stops are resolved between output samples
+10: PASS piecewise linear inlet uses interval-average forcing
+10: PASS source and reaction ledger uses concentration-to-mass conversion
+10: PASS input profiles and concurrent transport calls remain independent
+10: PASS invalid pipe geometry and integration options are rejected
+10: PASS invalid initial and source profiles are rejected
+10: PASS invalid schedules and closed-pipe nonzero flow are rejected
+10: PASS output memory substep and cell-update budgets are enforced
+10: PASS nonfinite derived arithmetic and non-advancing time fail explicitly
+10: 25/25 transport cases passed
+10/11 Test #10: engine.transport ...................   Passed   16.55 sec
+test 11
+      Start 11: engine.transport_example
+
+11: Test command: C:\Projects\Breakwater\.worktrees\person-a-eog-response\out\asan\engine\breakwater_transport_example.exe
+11: Working Directory: C:/Projects/Breakwater/.worktrees/person-a-eog-response/out/asan/engine
+11: Test timeout computed to be: 10000000
+11: SYNTHETIC | fvm-upwind-euler-0.1.0 | single-pipe tracer reference
+11: cells=64 frames=41 substeps=136 maximum_cfl=0.9
+11: final_inventory_mg=1994.10774493 signed_inlet_exchange_mg=4533.10789803 outlet_exchange_mg=4276.15496538 decayed_mg=262.845187721
+11: maximum_mass_residual_mg=1.36887055523e-12 minimum_concentration_mg_l=0.189932938338 final_outlet_cell_mg_l=0.275066562435
+11: Scalar transport proxy; network-wide chemistry and learned model validation are separate work.
+11/11 Test #11: engine.transport_example ...........   Passed    0.15 sec
+
+100% tests passed, 0 tests failed out of 11
+
+Total Test time (real) =  37.03 sec
