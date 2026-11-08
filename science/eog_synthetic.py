@@ -2,7 +2,8 @@
 
 This does not load files or extend the accepted analysis protocol. Future truth,
 seed and full scenario receipt are host/offline information. Detectors/planners
-receive only view(), never this host, its native handle or its provenance().
+receive view() and optionally control_history(), never this host, its native
+handle or its future-bearing provenance().
 """
 from __future__ import annotations
 
@@ -241,13 +242,14 @@ def seeded_experiment(model, *, start_unix, duration_s, seed, failure_count=None
 
 
 class SyntheticStream:
-    """Host-side plant owner. Analysis consumers receive only immutable View."""
+    """Host plant owner; analysis receives immutable observations/control facts."""
     def __init__(self, library, compiled):
         if type(compiled) is not Compiled:
             raise SyntheticError("invalid_parameter", "Synthetic stream needs the explicitly compiled scenario.")
         self._compiled = compiled
         self._native = NativePlant(library, compiled.native_input())
         self._rows = []; self._commands = []; self._elapsed = 0.0; self._next_sample = PERIOD_S
+        self._supported_elapsed = 0.0
         try: self._emit(self._native.snapshot(), 0)
         except BaseException: self._native.close(); raise
 
@@ -296,6 +298,7 @@ class SyntheticStream:
         self._elapsed = result["elapsed_s"]
         if result["status"] not in ("running", "completed"):
             raise SyntheticError("plant_" + result["status"], result["diagnostic"])
+        self._supported_elapsed = self._elapsed
         return result
 
     def advance(self, elapsed_s, cancelled=None):
@@ -321,6 +324,30 @@ class SyntheticStream:
         """Current host/offline diagnostics; never pass this object to analysis."""
         return self._native.snapshot()
 
+    def control_history(self, cutoff_elapsed_s=None):
+        """Immutable accepted facts only; no seed, diagnostics or future forcing.
+
+        The host remains private. Pass this projection, Model and causal View to
+        commitment reconstruction, never provenance() or the native plant handle.
+        """
+        from eog_commitments import Dispatch, History, MAX_CONTROLS, ShutIn
+        cutoff = self._elapsed if cutoff_elapsed_s is None else _number(cutoff_elapsed_s, high=self._elapsed)
+        if (cutoff > self._supported_elapsed or (cutoff == self._elapsed and
+                self._native.snapshot()["status"] not in ("running", "completed"))):
+            raise SyntheticError("plant_unavailable", "An unsupported/cancelled plant cannot publish a current valid history.")
+        commands = []
+        for command in self._commands:
+            if not command["accepted"] or command["elapsed_s"] > cutoff:
+                continue
+            if len(commands) >= MAX_CONTROLS:
+                raise SyntheticError("control_limit", "Complete accepted-control projection exceeds its bound.")
+            if command["operation"] == "dispatch":
+                commands.append(Dispatch(command["elapsed_s"], command["facility_id"], command["truck"], command["trips"]))
+            else:
+                commands.append(ShutIn(command["elapsed_s"], command["well_id"]))
+        return History(self._compiled.model.fingerprint(), self._compiled.experiment.start_unix,
+                       cutoff, True, tuple(commands))
+
     def provenance(self):
         """Full host/offline receipt, containing future truth and seed."""
         physical_actions = [dict(c) for c in self._commands if c["accepted"]]
@@ -331,7 +358,7 @@ class SyntheticStream:
             "limitations": ["Explicit synthetic initialization/forcing, not recorded or predicted real operation.",
                 "Seeded bounded perturbations are declared assumptions, not the official noise-generating process.",
                 "Pressure offsets are placeholders; no hydraulic or calibrated confidence claim.",
-                "This receipt contains future truth; analysis receives only view()."]}
+                "This receipt contains future truth; analysis receives only view() and accepted-control history."]}
 
     def dispatch(self, facility_id, truck, trips):
         if type(facility_id) is not str or facility_id not in self._compiled.facility_indices:
@@ -356,6 +383,7 @@ class SyntheticStream:
 
     def reset(self):
         self._native.reset(); self._rows.clear(); self._commands.clear(); self._elapsed = 0.0; self._next_sample = PERIOD_S
+        self._supported_elapsed = 0.0
         self._emit(self._native.snapshot(), 0)
 
     def close(self): self._native.close()
