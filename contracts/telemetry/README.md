@@ -10,8 +10,9 @@ Person A's recorded numerical review input is
 [`science/OBSERVATION_SEMANTICS.md`](../../science/OBSERVATION_SEMANTICS.md), commit
 `9941859b202d804b024d788b1238d94166b33309`. Its worked examples are retained in
 [`fixtures/person-a-worked-examples.json`](fixtures/person-a-worked-examples.json).
-That guidance is not approval of this exact G1 wire format. Exact-contract review
-and adoption remain **pending**; use the checklist at the end of this document.
+That guidance is distinct from approval of the wire format. Person A acceptance of
+exact commit `f12a827` is now recorded in [G1_REVIEW.md](../../docs/G1_REVIEW.md),
+and PR #31 was formally approved and merged at `2bd7bb9`. G2 adopts that baseline.
 
 ## Documents and compatibility
 
@@ -29,8 +30,9 @@ of truth. Unknown fields, quantities, versions and variants are rejected.
 | `detection-event-v1.schema.json` | Evidence/threshold versions, onset/update/clear, severity, unresolved/hypothesis diagnosis and separate acknowledgement |
 | `project-v2.schema.json` | Explicit v2 envelope containing an unchanged v1 `project`, `sensor_configuration` and separate `sensor_layout` |
 
-The project-v2 envelope is a contract for G2; the current editor does not load/save
-it. Existing project-v1 serialization is unchanged. Current older readers reject
+The project-v2 envelope is used by G2's sensor-bearing editor. G1 alone delivered
+the interface; G2's runtime acceptance is recorded separately in STATUS.md.
+Existing project-v1 serialization is unchanged. Current older readers reject
 `version: 2` rather than silently dropping the sensor fields on a later save. The
 embedded v1 object preserves its existing draft-network semantics. V2 validation
 requires a registered `network` and opaque `physical_hash` context; the embedded
