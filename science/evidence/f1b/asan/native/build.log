@@ -1,0 +1,33 @@
+[1/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+[2/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[3/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[4/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[5/33] Building CXX object engine\CMakeFiles\breakwater_front_experiment.dir\experimental\front_advection.cpp.obj
+[6/33] Linking CXX static library engine\breakwater_engine.lib
+[7/33] Building CXX object engine\CMakeFiles\breakwater_cli.dir\src\main.cpp.obj
+[8/33] Building CXX object engine\CMakeFiles\breakwater_search_example.dir\examples\search_example.cpp.obj
+[9/33] Building CXX object engine\CMakeFiles\breakwater_transport_example.dir\examples\transport_example.cpp.obj
+[10/33] Linking CXX static library engine\breakwater_front_experiment.lib
+[11/33] Building CXX object engine\CMakeFiles\breakwater_physicsnemo_reference.dir\examples\physicsnemo_transport_reference.cpp.obj
+[12/33] Building CXX object engine\CMakeFiles\breakwater_rollout_reference.dir\examples\rollout_reference.cpp.obj
+[13/33] Building CXX object engine\CMakeFiles\breakwater_transport_qualification_reference.dir\examples\transport_qualification_reference.cpp.obj
+[14/33] Building CXX object engine\CMakeFiles\breakwater_front_comparison_reference.dir\examples\front_comparison_reference.cpp.obj
+[15/33] Building CXX object engine\CMakeFiles\breakwater_engine_tests.dir\tests\engine_tests.cpp.obj
+[16/33] Building CXX object engine\CMakeFiles\breakwater_benchmark.dir\benchmarks\benchmark.cpp.obj
+[17/33] Building CXX object engine\CMakeFiles\breakwater_search_tests.dir\tests\search_tests.cpp.obj
+[18/33] Building CXX object engine\CMakeFiles\breakwater_control_influence_tests.dir\tests\control_influence_tests.cpp.obj
+[19/33] Linking CXX executable engine\breakwater_cli.exe
+[20/33] Linking CXX executable engine\breakwater_search_example.exe
+[21/33] Linking CXX executable engine\breakwater_transport_example.exe
+[22/33] Linking CXX executable engine\breakwater_rollout_reference.exe
+[23/33] Building CXX object engine\CMakeFiles\breakwater_front_experiment_tests.dir\tests\front_experiment_tests.cpp.obj
+[24/33] Linking CXX executable engine\breakwater_physicsnemo_reference.exe
+[25/33] Linking CXX executable engine\breakwater_transport_qualification_reference.exe
+[26/33] Linking CXX executable engine\breakwater_front_comparison_reference.exe
+[27/33] Building CXX object engine\CMakeFiles\breakwater_transport_tests.dir\tests\transport_tests.cpp.obj
+[28/33] Linking CXX executable engine\breakwater_benchmark.exe
+[29/33] Linking CXX executable engine\breakwater_engine_tests.exe
+[30/33] Linking CXX executable engine\breakwater_control_influence_tests.exe
+[31/33] Linking CXX executable engine\breakwater_search_tests.exe
+[32/33] Linking CXX executable engine\breakwater_transport_tests.exe
+[33/33] Linking CXX executable engine\breakwater_front_experiment_tests.exe

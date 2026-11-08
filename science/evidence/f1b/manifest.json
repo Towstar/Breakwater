@@ -1,0 +1,150 @@
+{
+  "baseline": "487d80dd54df7d7b6567dfed1170dea9a5e59cd7",
+  "declaration_commit": "a766396610e37fd3ccad201d1df498da56dfc327",
+  "verified_code_commit": "0cfbabd656b83103d53282a1388343808741681d",
+  "verified_code_tree": "b25324e5267e828ce029c86e50235f57872e3bdf",
+  "captured_utc": "2026-11-08T06:13:06.303027+00:00",
+  "source_hashes": {
+    "science/compare_front_accuracy.py": "7977b15ea4aa3cf9c5f6109e696804208f8061ebd39eb304c6008eb10129e23d",
+    "science/FRONT_COMPARISON_DECLARATION.md": "71903e729fd82d82ebc165aae412855e013ba42e0a460eeff58747ac912bed89",
+    "science/f1_front_accuracy_config.json": "6d8d1ffdc8b6574241b2d006aeb697457a6e9f56cd83610164f7b76c6cc69d8a",
+    "science/qualify_front_accuracy.py": "80232d167403eea700825c0ccbb2134aa67fba703ce08bf4b3f8385e4356f23c",
+    "science/breakwater_science/front_reference.py": "ce7e84f7577c728f930c78f411d5de849324f56a3dd50b83d41cddde25944450",
+    "science/breakwater_science/transport_reference.py": "8bfaa83ce71579e2f1c943170da8cca8307ad74852df0b0b68253de3ee09f197",
+    "engine/experimental/front_advection.hpp": "52dd00df268f59d43d3156a1e6ab00581f90f9789b6dddb3db31bb72d3908b57",
+    "engine/experimental/front_advection.cpp": "37395fa973e244a6cc12003b8a89196ba13b983cb28308b519b9212e7f4a162d",
+    "engine/examples/front_comparison_reference.cpp": "68dd1fc7c41680d8b60e783119e26aecdc7ab190402de8beee86cc67ceaf2e7e",
+    "engine/examples/transport_qualification_reference.cpp": "1bc97b0b367bc0d7b5103d63ae38f0618146012e87ea6e5a7331202176a99d54",
+    "engine/src/transport.cpp": "627125aeb1e67e289c78b0aeb00bab50c61461d3012a187de06d8376b567c21c",
+    "engine/include/breakwater/transport.hpp": "06819cc1c8d8e0ca2693a35ed1e5a9403fa6f34e372ff4c9dbe4d933648c67f2",
+    "engine/CMakeLists.txt": "7a9104017114fbef124fc38f65d1d24329777401c5886e8cdebda2067d9f9671",
+    "science/tests/test_front_comparison.py": "72ad3cbe28b54ad3b3b359ac27c7c165d33d12add3180e39ac01c3380457992f",
+    "engine/tests/front_experiment_tests.cpp": "917cbb9ebac16ba707549b0d0cc658cf16139f9b16dafdadb3025daeeca0d259"
+  },
+  "implementation_git_blobs": {
+    "engine/CMakeLists.txt": "c2aaec2a6961cf874bb8b307ebf048f5bf0088e3",
+    "engine/examples/front_comparison_reference.cpp": "3d43da78d9d05ab5ba4d86c579920f7d28cd9848",
+    "engine/experimental/front_advection.cpp": "b3eec36e23fe685742d5fa66c7c5c3796da2520e",
+    "engine/experimental/front_advection.hpp": "0d94295e44282969622459ef7080ea7e0ab63513",
+    "engine/tests/front_experiment_tests.cpp": "3224a0a3eef88c496930c2d54e7fdb3b16165434",
+    "science/compare_front_accuracy.py": "9697d683f9f6c565d507f2c0273cdda4a72b439a",
+    "science/tests/test_front_comparison.py": "f785f282f446ea419d1f76af34619dc52e409e24"
+  },
+  "preserved_f1_hash_entries": 80,
+  "executables": {
+    "out\\f1b\\normal\\engine\\breakwater_benchmark.exe": {
+      "sha256": "147da7fea231b96ba059145108ea3d77fe2b7e23b6b519d6285e3219ba9b3f82",
+      "bytes": 668672
+    },
+    "out\\f1b\\normal\\engine\\breakwater_cli.exe": {
+      "sha256": "4ec6dccb05dfe29328e334a79b76247791b9bc72b8a54240e281ce8359439908",
+      "bytes": 181248
+    },
+    "out\\f1b\\normal\\engine\\breakwater_control_influence_tests.exe": {
+      "sha256": "ab0cb45810ac93f0582342874b31c218c4771e4037995e4c6470d367a532d30d",
+      "bytes": 649216
+    },
+    "out\\f1b\\normal\\engine\\breakwater_engine_tests.exe": {
+      "sha256": "a8dd820c42923440e7a1171b6a9424e335387f6c3a27034954962d9008b31e29",
+      "bytes": 381440
+    },
+    "out\\f1b\\normal\\engine\\breakwater_front_comparison_reference.exe": {
+      "sha256": "df9446465033427466afcbdd5761aade6e24a6769c76eee8250eeea2ab264d72",
+      "bytes": 332288
+    },
+    "out\\f1b\\normal\\engine\\breakwater_front_experiment_tests.exe": {
+      "sha256": "4b06a35d5c82426eb7ca18b16ebf81a13e29db3811d7e1b25261c278c2583b90",
+      "bytes": 371200
+    },
+    "out\\f1b\\normal\\engine\\breakwater_physicsnemo_reference.exe": {
+      "sha256": "baebaca887e513b951bfe6716642069b32292d5f2c0a3d004be5f327f4064d9f",
+      "bytes": 305152
+    },
+    "out\\f1b\\normal\\engine\\breakwater_rollout_reference.exe": {
+      "sha256": "626ac0cb1361f9d4c2a8f53f81132dd0188d4f29f253affaa770bbb0f4c83aa9",
+      "bytes": 227328
+    },
+    "out\\f1b\\normal\\engine\\breakwater_search_example.exe": {
+      "sha256": "16263bbcfb1dd9c13d1a3ddaa3a5f4ec5325581c5abdd533235965114888b7b9",
+      "bytes": 525312
+    },
+    "out\\f1b\\normal\\engine\\breakwater_search_tests.exe": {
+      "sha256": "7eb9d2b6d7484d155f614cfb6b7ee283d11888a6adb21a0a3bd1e4c36d33175d",
+      "bytes": 730624
+    },
+    "out\\f1b\\normal\\engine\\breakwater_transport_example.exe": {
+      "sha256": "19fac8751129e21856e4d690d97af7470ee97b335f4ce1758950ee34898ab486",
+      "bytes": 311808
+    },
+    "out\\f1b\\normal\\engine\\breakwater_transport_qualification_reference.exe": {
+      "sha256": "82d4e180042a488e4195c414b5d5a13e337250af29b518e5c7b2f8dbd4f76d2b",
+      "bytes": 344576
+    },
+    "out\\f1b\\normal\\engine\\breakwater_transport_tests.exe": {
+      "sha256": "5eaedd6437f84b7606e2a86ebb0828e5580c6ffbb909f008b451cdc102a045fd",
+      "bytes": 515072
+    },
+    "out\\f1b\\asan\\engine\\breakwater_benchmark.exe": {
+      "sha256": "271add273256a4d04731adeece80189053f55803bbf8490b31a46d1bd87249e2",
+      "bytes": 1136640
+    },
+    "out\\f1b\\asan\\engine\\breakwater_cli.exe": {
+      "sha256": "eda73d23bddbc0849ef18fd563046fa73b4f88e5ab7887607e9ee55ae818612a",
+      "bytes": 405504
+    },
+    "out\\f1b\\asan\\engine\\breakwater_control_influence_tests.exe": {
+      "sha256": "ddac2c44c9c0514722cefd820b4364e8dbb78f918a55f1f446e5ed0aea9ca71e",
+      "bytes": 1118720
+    },
+    "out\\f1b\\asan\\engine\\breakwater_engine_tests.exe": {
+      "sha256": "41951e77ada674c1a0e06acaec5be17c98f474baddd770581395d141cafd4edc",
+      "bytes": 806912
+    },
+    "out\\f1b\\asan\\engine\\breakwater_front_comparison_reference.exe": {
+      "sha256": "01b0a914e4f1207566f08354b94b1a062aa5c655779d66a934233008b80727ad",
+      "bytes": 454144
+    },
+    "out\\f1b\\asan\\engine\\breakwater_front_experiment_tests.exe": {
+      "sha256": "47db33f6e863358b3daa7263474ba94f857345a0bcb8769d8dc69fa5034b3eb4",
+      "bytes": 525312
+    },
+    "out\\f1b\\asan\\engine\\breakwater_physicsnemo_reference.exe": {
+      "sha256": "1e02a32f44778fb62699454a436b509a7c9c8e6e6742eac887ecb4ed97367b0d",
+      "bytes": 394240
+    },
+    "out\\f1b\\asan\\engine\\breakwater_rollout_reference.exe": {
+      "sha256": "cfd2120aa70d3d0231c5e53fb411665cbd0526db134f096f3e7188bab6481588",
+      "bytes": 515072
+    },
+    "out\\f1b\\asan\\engine\\breakwater_search_example.exe": {
+      "sha256": "3d42c2657a3f4fbc915e867c933a17fcbefec900771d1bdb9f42dd2c4be065cf",
+      "bytes": 845312
+    },
+    "out\\f1b\\asan\\engine\\breakwater_search_tests.exe": {
+      "sha256": "6f00b28b34a850d5e9750cbd5c83d60dc6ec5052b4687e9ef6ccb182a74d60ff",
+      "bytes": 1272832
+    },
+    "out\\f1b\\asan\\engine\\breakwater_transport_example.exe": {
+      "sha256": "880d316d055f98f51bc637ce4ba17b8b2012e4cd415906073939454314b543f4",
+      "bytes": 404992
+    },
+    "out\\f1b\\asan\\engine\\breakwater_transport_qualification_reference.exe": {
+      "sha256": "ad82ebb977f2a9e4f469db45d09ee1c9e236e664c66cf7fa453a871b8e4a19b9",
+      "bytes": 486912
+    },
+    "out\\f1b\\asan\\engine\\breakwater_transport_tests.exe": {
+      "sha256": "e611f5d4a7e94adf11ded04b0f9dd6f16d9737c40a04bed98a3b103e615cb336",
+      "bytes": 786432
+    }
+  },
+  "reports": {
+    "normal": {
+      "full_report_sha256": "d893f5266f25a9352f99d09d743f9333bc4e67c70ba4e1ef004f4a1388776011",
+      "full_report_bytes": 12259700
+    },
+    "asan": {
+      "full_report_sha256": "7b2463821609cc2e0fb1961e54732ed70f9023faa573f498a52480393eb37b40",
+      "full_report_bytes": 12259689
+    }
+  }
+}

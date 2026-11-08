@@ -1,0 +1,84 @@
+{
+  "status": "experiment_completed_synthetic_targets_unmet",
+  "targets_passed": 58,
+  "targets_total": 63,
+  "production_qualification": "not_established",
+  "python_tests": 225,
+  "python_skips": 0,
+  "new_python_tests": 39,
+  "native_ctests_per_build": 9,
+  "new_native_checks": 21,
+  "asan_reports": 0,
+  "native_existing_counts": {
+    "storage": 22,
+    "search": 22,
+    "control_influence": 15,
+    "transport": 25
+  },
+  "cases_per_build": {
+    "baseline": 22,
+    "candidate": 28
+  },
+  "baseline_data_sha256": "14a086a64342931ea95a6c1d53f67d63e679c34720dc1d82cedb0aada5981477",
+  "candidate_data_sha256": "91119de26f4baddda20a8a394788c33263220eacb9aa9597caf8afa3a94f4caf",
+  "normal_asan_native_data_identical": true,
+  "a9_refined": {
+    "cases": 45,
+    "gates": 580,
+    "failed": 0
+  },
+  "a9_coarse": {
+    "cases": 45,
+    "gates": 580,
+    "failed": 1
+  },
+  "original_f1_hash_entries_preserved": 80,
+  "candidate_maximum_reference_disagreement_mg_l": 8.038014698286133e-14,
+  "candidate_maximum_reference_uncertainty_mg_l": 1.4807710613240488e-11,
+  "candidate_maximum_signed_mass_residual_mg": 2.97717406283482e-11,
+  "candidate_maximum_cell_stage_updates": 26542080,
+  "failed_targets": [
+    {
+      "id": "front_box.space.n512.cfl0.02.first_bracket.0.1",
+      "passed": false,
+      "native_bracket_h": [
+        1.4625000000000001,
+        1.475
+      ],
+      "reference_first_h": 1.5,
+      "maximum_endpoint_error_h": 0.03749999999999987,
+      "limit_h": 0.025
+    },
+    {
+      "id": "front_box.space.n512.cfl0.02.first_bracket.0.9",
+      "passed": false,
+      "native_bracket_h": [
+        1.5250000000000001,
+        1.5375
+      ],
+      "reference_first_h": 1.5,
+      "maximum_endpoint_error_h": 0.03750000000000009,
+      "limit_h": 0.025
+    },
+    {
+      "id": "scheduled_inlet.extended_space.n512.cfl0.1.first_bracket.0.9",
+      "passed": false,
+      "native_bracket_h": null,
+      "reference_first_h": 1.6998571428571432,
+      "maximum_endpoint_error_h": null,
+      "limit_h": 0.025
+    },
+    {
+      "id": "extended.sampled_peak",
+      "passed": false,
+      "error_mg_l": 0.11608959093623306,
+      "limit_mg_l": 0.1
+    },
+    {
+      "id": "extended.crossing_count.0.9",
+      "passed": false,
+      "actual": 0,
+      "expected": 1
+    }
+  ]
+}

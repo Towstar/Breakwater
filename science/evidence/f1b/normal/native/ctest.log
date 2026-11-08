@@ -1,0 +1,23 @@
+Test project C:/Projects/Breakwater/.worktrees/person-a-front-comparator/out/f1b/normal
+    Start 1: engine.benchmark_correctness
+1/9 Test #1: engine.benchmark_correctness .......   Passed    0.49 sec
+    Start 2: engine.acceptance
+2/9 Test #2: engine.acceptance ..................   Passed    0.20 sec
+    Start 3: engine.search
+3/9 Test #3: engine.search ......................   Passed    0.20 sec
+    Start 4: engine.control_influence
+4/9 Test #4: engine.control_influence ...........   Passed    1.32 sec
+    Start 5: engine.search_example
+5/9 Test #5: engine.search_example ..............   Passed    0.16 sec
+    Start 6: engine.search_infeasible_example
+6/9 Test #6: engine.search_infeasible_example ...   Passed    0.05 sec
+    Start 7: engine.transport
+7/9 Test #7: engine.transport ...................   Passed    2.77 sec
+    Start 8: engine.transport_example
+8/9 Test #8: engine.transport_example ...........   Passed    0.15 sec
+    Start 9: engine.front_experiment
+9/9 Test #9: engine.front_experiment ............   Passed    3.12 sec
+
+100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =   8.50 sec

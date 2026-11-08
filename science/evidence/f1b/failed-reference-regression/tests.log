@@ -1,0 +1,76 @@
+test_candidate_analysis_never_uses_upwind_semidiscrete_solution (test_front_comparison.CandidateIntegrityTests.test_candidate_analysis_never_uses_upwind_semidiscrete_solution) ... ok
+test_candidate_crosscheck_excludes_legacy_poisson_kernel (test_front_comparison.CandidateIntegrityTests.test_candidate_crosscheck_excludes_legacy_poisson_kernel) ... FAIL
+test_conserving_synthetic_parser_buffer (test_front_comparison.CandidateIntegrityTests.test_conserving_synthetic_parser_buffer) ... ok
+test_corrupted_and_boolean_fields_rejected (test_front_comparison.CandidateIntegrityTests.test_corrupted_and_boolean_fields_rejected) ... ok
+test_field_shapes_and_initial_identity_rejected (test_front_comparison.CandidateIntegrityTests.test_field_shapes_and_initial_identity_rejected) ... ok
+test_forged_cfl_and_stage_extrema_rejected (test_front_comparison.CandidateIntegrityTests.test_forged_cfl_and_stage_extrema_rejected) ... ok
+test_forged_substeps_even_with_consistent_stage_counts_rejected (test_front_comparison.CandidateIntegrityTests.test_forged_substeps_even_with_consistent_stage_counts_rejected) ... ok
+test_inconsistent_signed_ledgers_and_litre_units_rejected (test_front_comparison.CandidateIntegrityTests.test_inconsistent_signed_ledgers_and_litre_units_rejected) ... ok
+test_nonzero_source_mapping_rejected (test_front_comparison.CandidateIntegrityTests.test_nonzero_source_mapping_rejected) ... ok
+test_reference_disagreement_above_frozen_limit_rejected (test_front_comparison.CandidateIntegrityTests.test_reference_disagreement_above_frozen_limit_rejected) ... ok
+test_shifted_missing_duplicate_timestamps (test_front_comparison.CandidateIntegrityTests.test_shifted_missing_duplicate_timestamps) ... ok
+test_stage_counts_boolean_and_work_forgery_rejected (test_front_comparison.CandidateIntegrityTests.test_stage_counts_boolean_and_work_forgery_rejected) ... ok
+test_wrong_cell_order_rejected (test_front_comparison.CandidateIntegrityTests.test_wrong_cell_order_rejected) ... ok
+test_wrong_per_result_provenance_rejected (test_front_comparison.CandidateIntegrityTests.test_wrong_per_result_provenance_rejected) ... ok
+test_completed_unmet_and_met_have_different_exits (test_front_comparison.CommandTests.test_completed_unmet_and_met_have_different_exits) ... ok
+test_existing_directory_refused_without_changes (test_front_comparison.CommandTests.test_existing_directory_refused_without_changes) ... Refusing to overwrite an existing F1b attempt directory
+ok
+test_invalid_configuration_retains_failed_attempt (test_front_comparison.CommandTests.test_invalid_configuration_retains_failed_attempt) ... ok
+test_missing_executable_explicit_failure (test_front_comparison.CommandTests.test_missing_executable_explicit_failure) ... ok
+test_nonzero_process_and_extra_stderr_retained (test_front_comparison.CommandTests.test_nonzero_process_and_extra_stderr_retained) ... ok
+test_real_process_stdout_retained_and_hashed (test_front_comparison.CommandTests.test_real_process_stdout_retained_and_hashed) ... ok
+test_timeout_retains_partial_streams (test_front_comparison.CommandTests.test_timeout_retains_partial_streams) ... ok
+test_both_bracket_endpoints_checked_without_midpoint_substitution (test_front_comparison.DecisionTests.test_both_bracket_endpoints_checked_without_midpoint_substitution) ... ok
+test_exact_63_gates_with_independent_fixed_expectations (test_front_comparison.DecisionTests.test_exact_63_gates_with_independent_fixed_expectations) ... ok
+test_half_error_target_and_regression_are_distinct (test_front_comparison.DecisionTests.test_half_error_target_and_regression_are_distinct) ... ok
+test_missing_crossing_and_merged_repeated_events_fail (test_front_comparison.DecisionTests.test_missing_crossing_and_merged_repeated_events_fail) ... ok
+test_peak_compares_same_observation_grid (test_front_comparison.DecisionTests.test_peak_compares_same_observation_grid) ... ok
+test_reference_floor_regression_guard (test_front_comparison.DecisionTests.test_reference_floor_regression_guard) ... ok
+test_threshold_timing_equality_and_nextafter_rejection (test_front_comparison.DecisionTests.test_threshold_timing_equality_and_nextafter_rejection) ... ok
+test_time_sensitivity_known_quadratic_order_and_clock_identity (test_front_comparison.DecisionTests.test_time_sensitivity_known_quadratic_order_and_clock_identity) ... ok
+test_unresolved_ratio_cannot_claim_half_error (test_front_comparison.DecisionTests.test_unresolved_ratio_cannot_claim_half_error) ... ok
+test_boolean_versions_and_counts_rejected (test_front_comparison.DeclarationTests.test_boolean_versions_and_counts_rejected) ... ok
+test_changed_method_forcing_matrix_and_budget_rejected (test_front_comparison.DeclarationTests.test_changed_method_forcing_matrix_and_budget_rejected) ... ok
+test_exact_22_plus_six_case_identities (test_front_comparison.DeclarationTests.test_exact_22_plus_six_case_identities) ... ok
+test_fixed_configuration (test_front_comparison.DeclarationTests.test_fixed_configuration) ... ok
+test_matrix_validates (test_front_comparison.DeclarationTests.test_matrix_validates) ... ok
+test_missing_duplicate_foreign_and_extra_cases_rejected (test_front_comparison.DeclarationTests.test_missing_duplicate_foreign_and_extra_cases_rejected) ... ok
+test_nested_boolean_and_changed_targets_rejected (test_front_comparison.DeclarationTests.test_nested_boolean_and_changed_targets_rejected) ... ok
+test_nonfinite_and_duplicate_json_rejected (test_front_comparison.DeclarationTests.test_nonfinite_and_duplicate_json_rejected) ... ok
+test_root_provenance_bool_version_and_extra_fields_rejected (test_front_comparison.DeclarationTests.test_root_provenance_bool_version_and_extra_fields_rejected) ... ok
+
+======================================================================
+FAIL: test_candidate_crosscheck_excludes_legacy_poisson_kernel (test_front_comparison.CandidateIntegrityTests.test_candidate_crosscheck_excludes_legacy_poisson_kernel)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-front-comparator\science\tests\test_front_comparison.py", line 145, in test_candidate_crosscheck_excludes_legacy_poisson_kernel
+    result=study.evaluate_case(c,spec,base())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Breakwater\.worktrees\person-a-front-comparator\science\compare_front_accuracy.py", line 146, in evaluate_case
+    check=reference_check(case,times,base["integrity"]["reference_roundoff_multiplier"])
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Breakwater\.worktrees\person-a-front-comparator\science\breakwater_science\front_reference.py", line 232, in reference_check
+    kernel_error = max(kernel_error, n*poisson_decimal_disagreement(displacement(case, float(t))*n/length, n))
+                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Breakwater\.tools\python\cpython-3.12.13-windows-x86_64-none\Lib\unittest\mock.py", line 1139, in __call__
+    return self._mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Breakwater\.tools\python\cpython-3.12.13-windows-x86_64-none\Lib\unittest\mock.py", line 1143, in _mock_call
+    return self._execute_mock_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Breakwater\.tools\python\cpython-3.12.13-windows-x86_64-none\Lib\unittest\mock.py", line 1198, in _execute_mock_call
+    raise effect
+AssertionError: Legacy-only kernel
+
+----------------------------------------------------------------------
+Ran 39 tests in 2.014s
+
+FAILED (failures=1)
+F1b completed: C:\Users\EthanCochran\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\AC\#!sandbox.{ef85a3e6-f426-4cf9-8354-01aa9eb68102}\Temp\tmph3yys80l\attempt\report.json
+Synthetic targets: 62/63
+F1b completed: C:\Users\EthanCochran\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\AC\#!sandbox.{ef85a3e6-f426-4cf9-8354-01aa9eb68102}\Temp\tmpl0ypnooy\attempt\report.json
+Synthetic targets: 63/63
+F1b failed: C:\Users\EthanCochran\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\AC\#!sandbox.{ef85a3e6-f426-4cf9-8354-01aa9eb68102}\Temp\tmpbnb78wm0\attempt\report.json
+Wrong F1b configuration fields
+F1b failed: C:\Users\EthanCochran\AppData\Local\Packages\OpenAI.Codex_2p2nqsd0c76g0\AC\#!sandbox.{ef85a3e6-f426-4cf9-8354-01aa9eb68102}\Temp\tmpzkovo_l4\attempt\report.json
+[WinError 2] The system cannot find the file specified: 'C:\\Users\\EthanCochran\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{ef85a3e6-f426-4cf9-8354-01aa9eb68102}\\Temp\\tmpzkovo_l4\\absent.exe'

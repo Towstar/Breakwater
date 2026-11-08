@@ -1,0 +1,16 @@
+{
+  "exit": 0,
+  "started_utc": "2026-11-08T06:07:43.8583964Z",
+  "finished_utc": "2026-11-08T06:09:05.0936714Z",
+  "elapsed_s": 81.2380323,
+  "source_revision": "0cfbabd656b83103d53282a1388343808741681d",
+  "command": [
+    "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "-m",
+    "unittest",
+    "discover",
+    "-s",
+    "science/tests",
+    "-v"
+  ]
+}

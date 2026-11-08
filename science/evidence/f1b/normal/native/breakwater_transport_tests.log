@@ -1,0 +1,26 @@
+PASS large finite concentration and mass do not overflow auxiliary norms
+PASS finite physical mass survives a concentration-sum overflow
+PASS disabled processes preserve a nonuniform field and exact output horizon
+PASS pure decay agrees with analytic solution and converges in time
+PASS one open Euler step balances signed faces source and old-state decay
+PASS one closed Euler step cancels internal faces with source and decay
+PASS variable event steps telescope the old-inventory source and decay ledger
+PASS constant field survives positive advection and diffusion
+PASS CFL one pure upwind advection shifts by one cell
+PASS closed diffusion cosine cell averages converge under mesh refinement
+PASS zero-flow Dirichlet diffusion records signed inlet mass loss
+PASS inlet half-cell diffusion CFL preserves first-cell positivity
+PASS open equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS closed equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS zero data zero coefficients and pure decay equality permit zero concentration
+PASS open unequal event steps use each velocity and nonnegative inlet average
+PASS flow changes and stops are resolved between output samples
+PASS piecewise linear inlet uses interval-average forcing
+PASS source and reaction ledger uses concentration-to-mass conversion
+PASS input profiles and concurrent transport calls remain independent
+PASS invalid pipe geometry and integration options are rejected
+PASS invalid initial and source profiles are rejected
+PASS invalid schedules and closed-pipe nonzero flow are rejected
+PASS output memory substep and cell-update budgets are enforced
+PASS nonfinite derived arithmetic and non-advancing time fail explicitly
+25/25 transport cases passed

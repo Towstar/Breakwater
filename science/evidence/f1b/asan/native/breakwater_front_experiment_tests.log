@@ -1,0 +1,22 @@
+PASS MC fixed slopes and extrema
+PASS shared faces and first-order endpoints
+PASS two-cell SSP stages outlet quadrature and liters
+PASS interior SSP hand calculation
+PASS stage-time linear inlet injection
+PASS flow knot left interval both stages and paused state
+PASS inlet knots and unequal event pieces
+PASS constant fields and zero coefficients
+PASS zero data and exact terminal time
+PASS rounded interior endpoint remains distinct
+PASS smallest horizon has two endpoints
+PASS seeded bounded conservative profiles and input immutability
+PASS sharp pulse no clipping or overshoot
+PASS unsupported physics rejected independently
+PASS CFL domain including nextafter equality
+PASS invalid fields geometry and schedules
+PASS nonfinite derived arithmetic and nonadvancing clock
+PASS configured step limit and exact stage accounting
+PASS exact frame limit quotient independent
+PASS exact four-million saved values
+PASS actual fifty-million stage-update boundary
+21/21 experimental checks passed
