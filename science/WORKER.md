@@ -96,6 +96,12 @@ The method retains the native 128-asset/256-route, 24-hour and 10,000-update lim
 Requests support at most 384 explicit control entries, subject to real catalog and
 uniqueness checks. Invalid/nonrepresentable grids and nonfinite outputs fail explicitly.
 
+The combined route/destination unit price for each tank-origin discharge must be
+finite. Overflow here is `invalid_network`, including at zero/tiny flow, and is
+rejected before loading PyTorch. A finite unit price with a nonfinite hourly or
+forecast cost yields `numerical_failure`; finite lower-flow overrides remain
+available. See [A-002 resolution](A002_COST_FIX.md) for native/worker parity checks.
+
 Storage preserves each rounded float64 `k*step_h` strictly before the horizon,
 then appends the original horizon exactly once. A one-ULP terminal interval counts
 toward the 10,000-update limit; no interior sample is shifted to hide it. Division

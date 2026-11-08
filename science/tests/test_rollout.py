@@ -79,6 +79,37 @@ class RolloutTests(unittest.TestCase):
         self.assertClose(run.cost, 532.5)
         self.assertClose(model.rollout().volumes_m3[:, -1], [98.0, 27.0])
 
+    def test_combined_control_price_overflow_rejects_even_zero_flow(self):
+        price = sys.float_info.max
+        for kind in ("treatment", "trucking"):
+            for flow in (0.0, .25):
+                with self.subTest(kind=kind, flow=flow):
+                    network = {"assets": [
+                        {"id": "tank", "kind": "tank", "capacity_m3": 100, "initial_m3": 50},
+                        {"id": "sink", "kind": kind, "capacity_m3": 10, "cost_per_m3": price}],
+                        "routes": [{"id": "out", "source_id": "tank", "target_id": "sink",
+                                    "capacity_m3h": 10, "setpoint_m3h": flow, "cost_per_m3": price}]}
+                    with self.assertRaisesRegex(ValueError, "combined.*price"):
+                        StorageModel(network)
+
+    def test_finite_unit_price_retains_zero_and_repaired_cost_candidates(self):
+        price = sys.float_info.max
+        model = StorageModel({"assets": [
+            {"id": "tank", "kind": "tank", "capacity_m3": 100, "initial_m3": 50},
+            {"id": "sink", "kind": "treatment", "capacity_m3": 10}],
+            "routes": [{"id": "out", "source_id": "tank", "target_id": "sink",
+                        "capacity_m3h": 10, "setpoint_m3h": 10, "cost_per_m3": price}]})
+        # A nonfinite baseline cost must not prevent a finite explicit intervention.
+        with self.assertRaisesRegex(ValueError, "Nonfinite rollout result"):
+            model.rollout(horizon_h=1)
+        zero = model.rollout({"route:out:flow": 0}, horizon_h=1)
+        self.assertEqual(zero.cost.item(), 0)
+        self.assertEqual(zero.volumes_m3[0, -1].item(), 50)
+        finite = model.rollout({"route:out:flow": .25}, horizon_h=1)
+        self.assertEqual(finite.cost.item(), .25 * price)
+        with self.assertRaisesRegex(ValueError, "Nonfinite rollout result"):
+            model.rollout({"route:out:flow": .25}, horizon_h=24)
+
     def test_initial_sample_and_exact_nondividing_final_time(self):
         run = StorageModel(custom_network()).rollout(horizon_h=1.1, step_h=0.3)
         self.assertClose(run.time_h, [0.0, 0.3, 0.6, 0.9, 1.1], atol=1e-15)

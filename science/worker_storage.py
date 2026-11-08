@@ -144,6 +144,9 @@ def _network(value):
         if not ((source["kind"] == "source" and target["kind"] == "tank") or
                 (source["kind"] == "tank" and target["kind"] in ("tank", "treatment", "trucking"))):
             _fail("invalid_network", "Unsupported route direction.")
+        if source["kind"] == "tank" and target["kind"] != "tank" and not math.isfinite(
+                route["cost_per_m3"] + target["cost_per_m3"]):
+            _fail("invalid_network", "Combined route/destination control price must be finite.")
         if source["kind"] == "source":
             feeds[source["id"]].append(route)
             if route["has_pump"] or not route["available"]:

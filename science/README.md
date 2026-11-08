@@ -99,6 +99,12 @@ the associated feed-route cost, so curtailment's cost derivative includes both t
 Topology and input/control validation follow the native compiler; invalid drafts
 cannot be rescued by overrides. Source curtailment rechecks actual feed capacity.
 
+Each tank-origin discharge also needs a finite combined route/destination unit
+price, matching the native control catalog. This applies even at zero flow.
+Representable unit prices may still yield an overflowing operating cost; a model
+with such a baseline can evaluate finite lower-flow overrides. Nonfinite rollout
+costs fail explicitly without clipping. See [A-002 resolution](A002_COST_FIX.md).
+
 Native structural checks allow a stored route flow up to `capacity + 1e-9`; an omitted
 stored setting preserves that tolerance. Explicit overrides, including a full vector,
 must satisfy catalog bounds strictly. This distinction is tested without clipping.

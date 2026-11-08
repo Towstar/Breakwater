@@ -316,6 +316,74 @@ int main() {
             overflow.routes = {{"feed_a", "a", "reservoir", 1e308, 0}, {"feed_b", "b", "reservoir", 1e308, 0}};
             const auto bad = search_candidates(overflow, {}); check_result(overflow, bad);
             require(bad.recommendations.empty() && bad.diagnostics.numerical_screen_rejections == 1, "Rate overflow became a feasible recommendation");
+        }},
+        {"hourly-product and horizon-total cost overflow retain finite repaired candidates", [] {
+            const double maximum = std::numeric_limits<double>::max();
+            for (const double horizon : {1.0, 2.0}) {
+                auto network = small_network(maximum);
+                network.routes[0].setpoint_m3h = 10.0; // The captured baseline hourly cost overflows.
+                const std::vector<CandidateControls> batch = {
+                    {{{"route:pump:out:flow", 10.0}}}, {{{"route:pump:out:flow", 1.0}}},
+                    {{{"route:pump:out:flow", .25}}}, {{{"route:pump:out:flow", 0.0}}}};
+                const SearchOptions options{{horizon, .1}, 5};
+                const auto result = evaluate_candidates(network, batch, options);
+                check_result(network, result, options);
+                const std::size_t rejected = horizon == 1.0 ? 1 : 2;
+                require(result.diagnostics.numerical_screen_rejections == rejected &&
+                            result.diagnostics.constraint_screen_rejections == 0,
+                        "Hourly/forecast cost overflow did not produce a numerical rejection");
+                require(result.recommendations.size() == batch.size() - rejected,
+                        "Cost overflow discarded a representable override or retained an infinite cost");
+                require(result.recommendations[0].candidate_index == 3 && result.recommendations[0].run.cost == 0.0,
+                        "Zero-flow huge-price candidate was not preserved exactly");
+                require(result.recommendations[1].candidate_index == 2 &&
+                            result.recommendations[1].run.cost == horizon * (.25 * maximum),
+                        "Finite large candidate cost was changed during screening/ranking");
+                if (horizon == 1.0)
+                    require(result.recommendations[2].candidate_index == 1 && result.recommendations[2].run.cost == maximum,
+                            "Largest finite representable cost was rejected");
+            }
+        }},
+        {"aggregate-hourly cost overflow and source-product overflow cannot hide zero-cost plans", [] {
+            const double price = .75 * std::numeric_limits<double>::max();
+            auto aggregate = small_network(price);
+            aggregate.routes[0].setpoint_m3h = 1.0;
+            auto second = aggregate.routes[0]; second.id = "pump:second";
+            aggregate.routes.push_back(second);
+            const std::vector<CandidateControls> batch = {{},
+                {{{"route:pump:out:flow", 0.0}}},
+                {{{"route:pump:out:flow", 0.0}, {"route:pump:second:flow", 0.0}}}};
+            const SearchOptions options{{1.0, .1}, 5};
+            const auto result = evaluate_candidates(aggregate, batch, options);
+            check_result(aggregate, result, options);
+            require(result.diagnostics.numerical_screen_rejections == 1 && result.recommendations.size() == 2,
+                    "Sum of finite hourly contributions overflowed without an explicit rejection");
+            require(result.recommendations[0].candidate_index == 2 && result.recommendations[0].run.cost == 0.0 &&
+                        result.recommendations[1].candidate_index == 1 && result.recommendations[1].run.cost == price,
+                    "Aggregate-overflow repair changed finite reference cost ordering");
+
+            auto source = feed_network();
+            source.assets[1].cost_per_m3 = std::numeric_limits<double>::max();
+            source.assets[1].curtailment_m3h = 5.0;
+            source.routes[0].cost_per_m3 = 0.0;
+            const std::vector<SearchAxis> axes{{"source:well:a:curtail", {5.0, 0.0, .25}}};
+            const auto source_result = search_candidates(source, axes, options);
+            check_result(source, source_result, options);
+            require(source_result.diagnostics.numerical_screen_rejections == 1 && source_result.recommendations.size() == 2,
+                    "Source-curtailment cost product overflow was not rejected independently");
+            require(source_result.recommendations[0].candidate_index == 1 && source_result.recommendations[0].run.cost == 0.0 &&
+                        source_result.recommendations[1].candidate_index == 2 &&
+                        source_result.recommendations[1].run.cost == .25 * std::numeric_limits<double>::max(),
+                    "Finite source-curtailment repairs were lost or misranked");
+        }},
+        {"nonrepresentable catalog unit prices fail explicitly before search", [] {
+            auto network = small_network(std::numeric_limits<double>::max());
+            network.assets[1].cost_per_m3 = std::numeric_limits<double>::max();
+            // Actual baseline cost is zero, but the public marginal-cost catalog
+            // cannot represent route price + destination price. It must not emit infinity.
+            rejects([&] { (void)search_candidates(network, {}); });
+            const std::vector<CandidateControls> batch(1);
+            rejects([&] { (void)evaluate_candidates(network, batch); });
         }}
     };
     int failures = 0;

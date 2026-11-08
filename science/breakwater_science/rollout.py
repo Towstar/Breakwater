@@ -16,7 +16,7 @@ import torch
 
 from storage_grid import storage_sample_times
 
-METHOD_VERSION = "torch-constant-flow-0.1.1"
+METHOD_VERSION = "torch-constant-flow-0.1.2"
 MAX_SAMPLES = 10_001
 
 
@@ -153,6 +153,8 @@ class StorageModel:
                 (s.kind == "tank" and d.kind in ("tank", "treatment", "trucking"))
             ):
                 raise ValueError(f"Unsupported connection: {r.id}")
+            if s.kind == "tank" and d.kind != "tank" and not math.isfinite(r.cost + d.cost):
+                raise ValueError(f"Nonfinite combined route/destination control price: {r.id}")
             if s.kind == "source":
                 outgoing[s.id] += 1
                 if r.has_pump or not r.available:

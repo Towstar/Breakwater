@@ -25,6 +25,26 @@ bool has(const ValidationReport& r, const std::string& code, const std::string& 
 Network stationary_network() {
     return {{{"still", "Stationary tank", AssetKind::tank, 1.0, 0.5}}, {}};
 }
+Network priced_outlet_network(double flow = 1.0, double route_price = 0.0, double destination_price = 0.0) {
+    Network network;
+    network.assets = {{"tank", "Tank", AssetKind::tank, 100.0, 50.0},
+        {"plant", "Plant", AssetKind::treatment, 20.0, 0.0, 0.0, 0.0, 0.0, destination_price}};
+    network.routes = {{"priced", "tank", "plant", 20.0, flow, true, true, route_price}};
+    return network;
+}
+void require_cost_overflow(const CompiledNetwork& compiled, SimulationResult run, SimulationConfig config) {
+    // Exercise supplied finite/nonfinite costs independently of the cached cost.
+    for (const double supplied : {0.0, 42.0, std::numeric_limits<double>::max(),
+         std::numeric_limits<double>::infinity(), -std::numeric_limits<double>::infinity(),
+         std::numeric_limits<double>::quiet_NaN()}) {
+        run.cost = supplied;
+        const auto validation = validate(compiled, run, config);
+        require(!validation.feasible && has(validation, "cost_overflow", ""),
+                "Nonfinite independently derived cost passed or lacked an explicit overflow issue");
+        require(has(validation, "cost_mismatch", ""),
+                "Tolerant cost comparison accepted a nonfinite independently derived value");
+    }
+}
 void require_covered_grid(const SimulationResult& run, SimulationConfig config) {
     require(run.time_h.size() >= 2 && run.time_h.size() <= 10001, "Sample grid exceeds the update bounds");
     require(run.time_h.front() == 0.0 && run.time_h.back() == config.horizon_h,
@@ -101,6 +121,134 @@ int main() {
             run = simulate(c); run.cost = 123.0; require(has(validate(c, run), "cost_mismatch", ""), "False cost passed");
             run.time_h[3] = -1.0; require(!validate(c, run).feasible, "Malformed time passed");
             run = simulate(c, {1.0, 0.025}); require(!validate(c, run).feasible, "Shortened forecast passed a 3 h validation");
+        }},
+        {"nonfinite derived catalog prices are explicit invalid network parameters", [] {
+            const double largest = std::numeric_limits<double>::max();
+            for (const double flow : {0.0, 1.0}) {
+                const auto network = priced_outlet_network(flow, largest, largest);
+                const auto issues = inspect_network(network);
+                require(std::any_of(issues.begin(), issues.end(), [](const Issue& issue) {
+                    return issue.code == "cost_overflow" && issue.asset_id == "priced";
+                }), "Overflowing route-plus-destination unit price was not identified");
+                rejects([&] { (void)control_catalog(network); });
+                rejects([&] { (void)compile(network); });
+            }
+        }},
+        {"independent cost overflow rejects finite infinite and NaN result costs", [] {
+            const double largest = std::numeric_limits<double>::max();
+            const SimulationConfig one_hour{1.0, .25};
+
+            // Even a tiny flow with a finite total cannot make an infinite
+            // catalog unit price valid. Check this independently of compile.
+            auto unrepresentable_price = compile(priced_outlet_network(.25));
+            auto finite_charge = simulate(unrepresentable_price, one_hour);
+            unrepresentable_price.network.routes[0].cost_per_m3 = largest;
+            unrepresentable_price.network.assets[1].cost_per_m3 = largest;
+            finite_charge.cost = .25 * largest + .25 * largest;
+            require(std::isfinite(finite_charge.cost), "Expected a finite charge despite overflowing unit-price sum");
+            const auto invalid_price = validate(unrepresentable_price, finite_charge, one_hour);
+            require(!invalid_price.feasible && has(invalid_price, "cost_overflow", "priced"),
+                    "Independent validator trusted an unrepresentable catalog unit price");
+
+            // Compile and simulate safe zero-price inputs, then change only the
+            // source-of-truth prices. A validator trusting cached cost_per_h or
+            // the supplied result cost would accept these forged zero costs.
+            auto route_product = compile(priced_outlet_network(2.0));
+            auto route_run = simulate(route_product, one_hour);
+            route_product.network.routes[0].cost_per_m3 = largest;
+            require(route_product.cost_per_h == 0.0, "Route-product fixture lost its independent cached cost");
+            require_cost_overflow(route_product, route_run, one_hour);
+
+            auto destination_product = compile(priced_outlet_network(2.0));
+            auto destination_run = simulate(destination_product, one_hour);
+            destination_product.network.assets[1].cost_per_m3 = largest;
+            require_cost_overflow(destination_product, destination_run, one_hour);
+
+            auto summed_prices = compile(priced_outlet_network());
+            auto summed_run = simulate(summed_prices, one_hour);
+            summed_prices.network.routes[0].cost_per_m3 = largest;
+            summed_prices.network.assets[1].cost_per_m3 = largest;
+            require_cost_overflow(summed_prices, summed_run, one_hour);
+
+            auto multiple_routes = priced_outlet_network();
+            auto second_route = multiple_routes.routes[0]; second_route.id = "second-priced";
+            multiple_routes.routes.push_back(second_route);
+            auto summed_terms = compile(multiple_routes);
+            auto terms_run = simulate(summed_terms, one_hour);
+            for (auto& route : summed_terms.network.routes) route.cost_per_m3 = .75 * largest;
+            require(std::isfinite(summed_terms.network.routes[0].cost_per_m3), "Individual term must remain finite");
+            require_cost_overflow(summed_terms, terms_run, one_hour);
+
+            Network source_network;
+            source_network.assets = {{"tank", "Tank", AssetKind::tank, 100.0, 50.0},
+                {"well", "Well", AssetKind::source, 0.0, 0.0, 4.0, 2.0, 4.0}};
+            source_network.routes = {{"feed", "well", "tank", 4.0, 0.0}};
+            auto source_product = compile(source_network);
+            auto source_run = simulate(source_product, one_hour);
+            source_product.network.assets[1].cost_per_m3 = largest;
+            require_cost_overflow(source_product, source_run, one_hour);
+
+            const SimulationConfig three_hours{3.0, .25};
+            auto horizon_product = compile(priced_outlet_network());
+            auto horizon_run = simulate(horizon_product, three_hours);
+            horizon_product.network.routes[0].cost_per_m3 = largest / 2.0;
+            require(std::isfinite(horizon_product.network.routes[0].cost_per_m3), "Hourly cost must remain finite");
+            require_cost_overflow(horizon_product, horizon_run, three_hours);
+        }},
+        {"simulated cost overflow remains visible and fails independent validation", [] {
+            const double largest = std::numeric_limits<double>::max();
+            // Finite catalog prices must not make a repairable operating setting
+            // un-compilable: search can reduce this flow to a finite-cost value.
+            const auto network = priced_outlet_network(2.0, largest);
+            const auto compiled = compile(network);
+            const SimulationConfig config{1.0, .25};
+            require(std::isfinite(control_catalog(network)[0].cost_per_m3), "Catalog unit cost should be finite");
+            require(std::isinf(compiled.cost_per_h), "Expected unrounded hourly overflow evidence");
+            for (const auto solver : {Solver::dense_reference, Solver::sparse, Solver::affine}) {
+                auto run = simulate(compiled, config, solver);
+                require(std::isinf(run.cost), "Simulated cost overflow was clipped or replaced with zero");
+                require_cost_overflow(compiled, run, config);
+            }
+            const auto finite_hourly = compile(priced_outlet_network(1.0, largest / 2.0));
+            require(std::isfinite(finite_hourly.cost_per_h), "Expected a finite hourly cost before horizon scaling");
+            const SimulationConfig longer{3.0, .25};
+            const auto run = simulate(finite_hourly, longer);
+            require(std::isinf(run.cost), "Expected unrounded horizon-product overflow evidence");
+            require_cost_overflow(finite_hourly, run, longer);
+        }},
+        {"finite huge and zero costs validate independently of cached pricing", [] {
+            const double largest = std::numeric_limits<double>::max();
+            const SimulationConfig config{1.0, .25};
+            for (const auto network : {priced_outlet_network(1.0, largest),
+                 priced_outlet_network(0.0, largest), priced_outlet_network(1.0)}) {
+                auto compiled = compile(network);
+                const auto run = simulate(compiled, config);
+                require(std::isfinite(run.cost) && validate(compiled, run, config).feasible,
+                        "Representable huge/zero cost was incorrectly rejected");
+                const auto expected = run.cost;
+                for (const double cached : {0.0, std::numeric_limits<double>::infinity(),
+                     std::numeric_limits<double>::quiet_NaN()}) {
+                    compiled.cost_per_h = cached;
+                    require(validate(compiled, run, config).feasible,
+                            "Independent validation trusted corrupted cached pricing");
+                }
+                require(run.cost == expected, "Validation changed the supplied result cost");
+            }
+            auto zero_compiled = compile(priced_outlet_network(0.0));
+            auto negative_zero_cost = simulate(zero_compiled, config);
+            negative_zero_cost.cost = -1e-12;
+            const auto negative_report = validate(zero_compiled, negative_zero_cost, config);
+            require(!negative_report.feasible && has(negative_report, "cost_mismatch", ""),
+                    "Tolerance accepted a negative cost for a zero-cost operation");
+            const auto compiled = compile(priced_outlet_network(1.0, 7.0));
+            auto run = simulate(compiled, config);
+            require(run.cost == 7.0 && validate(compiled, run, config).feasible, "Finite priced reference failed");
+            for (const double forged : {0.0, 8.0, std::numeric_limits<double>::infinity(),
+                 -std::numeric_limits<double>::infinity(), std::numeric_limits<double>::quiet_NaN()}) {
+                run.cost = forged;
+                const auto report = validate(compiled, run, config);
+                require(!report.feasible && has(report, "cost_mismatch", ""), "Altered/nonfinite finite-reference cost passed");
+            }
         }},
         {"decimal horizon edge cases preserve interior samples and the exact endpoint", [] {
             const auto c = compile(stationary_network());

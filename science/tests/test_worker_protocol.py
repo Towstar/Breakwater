@@ -70,6 +70,28 @@ class ProcessChecks(unittest.TestCase):
 
 
 class FramingTests(ProcessChecks):
+    def test_nonfinite_control_price_is_rejected_without_loading_torch(self):
+        startup = f"""import sys
+sys.path.insert(0, {str(SCIENCE)!r})
+import worker, worker_storage
+def forbidden_backend():
+    raise AssertionError('Invalid combined price reached the numerical runtime')
+worker_storage._load_backend = forbidden_backend
+worker.main()
+"""
+        values = []
+        for flow in (0.0, .25):
+            value = wire_request(f"cost-overflow:{flow}")
+            payload = value["payload"]
+            payload.update(derivatives=False, controls=[])
+            payload["network"]["routes"][0].update(cost_per_m3=sys.float_info.max, setpoint_m3h=flow)
+            payload["network"]["assets"][1]["cost_per_m3"] = sys.float_info.max
+            values.append(value)
+        failed_zero, failed_low, health = self.exchange([*values, request()], startup=startup, flags=("-S",))
+        self.assert_error(failed_zero, "invalid_network", "cost-overflow:0.0")
+        self.assert_error(failed_low, "invalid_network", "cost-overflow:0.25")
+        self.assertEqual(health["status"], "completed")
+
     def test_health_works_without_site_packages_and_keeps_legacy_shape(self):
         legacy = {"protocol_version": 1, "request_id": "legacy:health", "method": "health"}
         response, = self.exchange([legacy], flags=("-S",))

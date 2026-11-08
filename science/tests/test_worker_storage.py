@@ -93,6 +93,7 @@ class ValidationTests(unittest.TestCase):
         request = payload(); plant = request["network"]["assets"][3]
         plant["capacity_m3"] = plant.pop("capacity_m3h")
         self.assertRejectedBeforeRuntime(request, "invalid_network")
+
         mutations = [lambda n: n["assets"][0].update(initial_m3=201),
             lambda n: n["assets"][0].update(capacity_m3=True),
             lambda n: n["assets"][2].update(curtailment_max_m3h=21),
@@ -112,6 +113,20 @@ class ValidationTests(unittest.TestCase):
             self.assertRejectedBeforeRuntime(request, "invalid_network")
         request = payload(); request["network"]["routes"].pop(0)
         self.assertRejectedBeforeRuntime(request, "invalid_network")
+
+    def test_combined_control_price_overflow_fails_before_runtime(self):
+        for kind in ("treatment", "trucking"):
+            for flow in (0.0, .25):
+                with self.subTest(kind=kind, flow=flow):
+                    request = payload()
+                    request["network"] = {"assets": [
+                        {"id": "tank", "label": "Tank", "kind": "tank", "capacity_m3": 100, "initial_m3": 50},
+                        {"id": "sink", "label": "Sink", "kind": kind, "capacity_m3h": 10,
+                         "cost_per_m3": sys.float_info.max}],
+                        "routes": [{"id": "out", "source_id": "tank", "target_id": "sink",
+                            "capacity_m3h": 10, "setpoint_m3h": flow, "cost_per_m3": sys.float_info.max,
+                            "has_pump": False, "available": True}]}
+                    self.assertRejectedBeforeRuntime(request, "invalid_network")
 
     def test_explicit_controls_are_exact_catalog_entries_and_not_clipped(self):
         for identifier, value in (("unknown", 1), ("route:failed:pump:flow", 1),
@@ -156,6 +171,27 @@ class StorageExecutionTests(unittest.TestCase):
     def assertNear(self, actual, expected, atol=1e-10, rtol=1e-10):
         self.torch.testing.assert_close(self.torch.tensor(actual, dtype=self.torch.float64),
             self.torch.tensor(expected, dtype=self.torch.float64), atol=atol, rtol=rtol)
+
+    def test_cost_overflow_does_not_preclude_finite_control_override(self):
+        request = payload()
+        request.update(horizon_h=1)
+        request["network"] = {"assets": [
+            {"id": "tank", "label": "Tank", "kind": "tank", "capacity_m3": 100, "initial_m3": 50},
+            {"id": "sink", "label": "Sink", "kind": "treatment", "capacity_m3h": 10}],
+            "routes": [{"id": "out", "source_id": "tank", "target_id": "sink", "capacity_m3h": 10,
+                        "setpoint_m3h": 10, "cost_per_m3": sys.float_info.max,
+                        "has_pump": False, "available": True}]}
+        with self.assertRaises(StorageError) as caught:
+            storage_rollout(request)
+        self.assertEqual(caught.exception.code, "numerical_failure")
+        for flow in (0.0, .25):
+            request["controls"] = [{"control_id": "route:out:flow", "value": flow}]
+            result = storage_rollout(request)
+            self.assertEqual(result["cost"], flow * sys.float_info.max)
+        request["horizon_h"] = 24
+        with self.assertRaises(StorageError) as caught:
+            storage_rollout(request)
+        self.assertEqual(caught.exception.code, "numerical_failure")
 
     def test_wire_units_ids_default_controls_and_provenance(self):
         request = payload(); request["identity"].update(route_id="opaque:route", parameter_hash="b" * 64)

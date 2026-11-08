@@ -22,6 +22,14 @@ invalid source-feed capacity settings, empty value lists/batches, and over-limit
 throw `std::invalid_argument` before candidate evaluation. Control IDs are matched to
 the catalog exactly; asset/route IDs may themselves contain colons.
 
+Catalog unit prices must be finite, including the combined route/destination
+price of each tank-origin discharge. An unrepresentable combined price rejects
+the network explicitly, even at zero flow. With representable unit prices, an
+overflowing current hourly/forecast cost does not prevent search from evaluating
+finite lower-flow interventions. Nonfinite candidate costs are numerical screen
+rejections; independently validated results require finite nonnegative costs.
+See [A-002 resolution](../science/A002_COST_FIX.md) for overflow regressions.
+
 ## Results and evidence
 
 `recommendations` contains actual dense-reference `run` values and passing `validation`
