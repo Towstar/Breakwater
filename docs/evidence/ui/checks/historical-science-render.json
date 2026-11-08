@@ -1,0 +1,10 @@
+{
+  "exit_code": 0,
+  "create_no_window": true,
+  "backend": "d3d11",
+  "prefer_software": true,
+  "archive_sha256": "0F8767F535C600516236F71FBB89497D1F3D273EE68B94AAE1579B6A23E20DBE",
+  "screenshot": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\history-visual-check\\historical-scientific-evidence.png",
+  "screenshot_exists": true,
+  "history_database": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\history-visual-check\\imported-history.sqlite"
+}

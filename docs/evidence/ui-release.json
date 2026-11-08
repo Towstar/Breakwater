@@ -1,0 +1,340 @@
+{
+  "version": 1,
+  "recorded_utc": "2026-11-08T15:02:25.9557419Z",
+  "scope": "Native desktop UI, detailed schematic 3D, safe feedback, installed worker/history and genuine hosted EOG handoff",
+  "revisions": {
+    "full_ui": "6cfa3ee2cca50f88f91fcb5aff9db7c10780434c",
+    "label_followup": "3b79f3eba8ad1ea5846836b5592cf5468afdb121",
+    "helper_followup": "758b92c",
+    "density_followup": "81dfeb698bca1df45f8f10afbeef07a42735e615",
+    "adopted_main": "387b5835042d87cbcb61cba608e073a005f1d2cc",
+    "public_eog_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+    "logo_sha256": "db1284fe6f6e3bb4845f16d99554722ae2a7e8ce47be85ef8354e430dcc21840"
+  },
+  "toolchain": {
+    "os": "Windows",
+    "compiler": "MSVC 19.44.35219",
+    "visual_studio": "2022 Community 17.14.19",
+    "qt": "6.12.0 msvc2022_64",
+    "python": "3.12.13",
+    "torch": "2.15.0+cpu",
+    "backend": "d3d11",
+    "prefer_software_renderer": true
+  },
+  "full_checks": [
+    {
+      "revision": "6cfa3ee",
+      "passed": 64,
+      "seconds": 512.02,
+      "total": 64,
+      "configuration": "normal"
+    },
+    {
+      "revision": "6cfa3ee",
+      "passed": 64,
+      "seconds": 934.32,
+      "total": 64,
+      "configuration": "asan"
+    },
+    {
+      "revision": "6cfa3ee",
+      "passed": 23,
+      "seconds": 89.6,
+      "total": 23,
+      "configuration": "visual-studio"
+    }
+  ],
+  "followup_checks": [
+    {
+      "revision": "3b79f3e",
+      "passed": 9,
+      "seconds": 16.14,
+      "total": 9,
+      "configuration": "normal-label"
+    },
+    {
+      "revision": "3b79f3e",
+      "passed": 9,
+      "seconds": 67.68,
+      "total": 9,
+      "configuration": "asan-label"
+    },
+    {
+      "revision": "758b92c",
+      "passed": 2,
+      "seconds": 5.71,
+      "total": 2,
+      "configuration": "normal-helper"
+    },
+    {
+      "revision": "758b92c",
+      "passed": 2,
+      "seconds": 21.0,
+      "total": 2,
+      "configuration": "asan-helper"
+    },
+    {
+      "revision": "758b92c",
+      "passed": 10,
+      "seconds": 48.92,
+      "total": 10,
+      "configuration": "visual-studio-helper"
+    },
+    {
+      "revision": "81dfeb6",
+      "passed": 8,
+      "seconds": 16.63,
+      "total": 8,
+      "configuration": "normal-density"
+    },
+    {
+      "revision": "81dfeb6",
+      "passed": 8,
+      "seconds": 77.66,
+      "total": 8,
+      "configuration": "asan-density"
+    },
+    {
+      "revision": "81dfeb6",
+      "passed": 8,
+      "seconds": 22.95,
+      "total": 8,
+      "configuration": "visual-studio-density"
+    }
+  ],
+  "hosted_ci": {
+    "run": 42488844281,
+    "tested_head": "6cfa3ee2cca50f88f91fcb5aff9db7c10780434c",
+    "jobs": 6,
+    "conclusions": "all success",
+    "final_documentation_head": "not yet run"
+  },
+  "screenshot_provenance": {
+    "workbench": "Actual WorkbenchUiCheck at758b92c: ready, repeated rejected numeric commit, accepted numeric edit retires run",
+    "history": "Actual installed import of completed SessionRepository sensitivities evidence c79d291d-cebf-470e-bde2-2a1366224d3b; read-only, disabled staged approval",
+    "overview_before": "Actual provider-normal console at5c22cdb",
+    "overview_after": "Actual normal label-followup render at3b79f3e",
+    "facility_after": "Actual normal render at3b79f3e",
+    "official": "Actual relocated installed app at81dfeb6, official mock_test_2026-10-10T1530 source dataset; 25overview nodes30routes / 8facility nodes6routes; bounded label separation only; no provider/model requested; immutable source hashes and sandbox unchanged in reports",
+    "modified": false
+  },
+  "installed": {
+    "relocated": true,
+    "source_sdk_overrides_cleared": true,
+    "final_ui_gates": 9,
+    "observed_dpr": [
+      1.0,
+      1.25,
+      1.5,
+      1.75
+    ],
+    "worker_health": "real NDJSON exchange",
+    "sensitivity_controls": [
+      "source:source_a:curtail",
+      "route:bypass:flow"
+    ],
+    "native_cost": 12780,
+    "torch_cost": 12780,
+    "difference": 0,
+    "tolerance": 1E-09,
+    "history_session": "c79d291d-cebf-470e-bde2-2a1366224d3b",
+    "imported_history_actionable": false,
+    "python_bundled": false,
+    "qt_translations": "Installer warns catalogs.json absent; English UI verified"
+  },
+  "live_evidence": "eog-live/README.md",
+  "review": {
+    "provenance": "independent same-family agents plus root self-review",
+    "scope": "bindings, picking, feedback/commit and Escape authority, screenshot path safeguards, actual evidence/doc claims",
+    "cross_family": false,
+    "complete_transcript_audit": false
+  },
+  "limitations": [
+    "No OS computer-helper interaction pass: GetCursorPos E_ACCESSDENIED. Tests dispatch actual local Qt window events.",
+    "No manual 1366x768 or accessibility conformance claim.",
+    "ASan instruments owned native code, not prebuilt Qt or Python.",
+    "Four explicitly optional PhysicsNeMo skips in prior full CPU discovery; installed PhysicsNeMo unavailable.",
+    "Hosted successes are zero-cost incident demonstrations, with earlier failures retained; no universal reliability, global optimality, physical or held-out accuracy claim.",
+    "Search unavailable in worker0.2.1 rehearsal freeze; new Ethan search PR46 requires separate integration.",
+    "No physical controls applied. Source/test revisions and later evidence-only changes are distinguished."
+  ],
+  "artifacts": [
+    {
+      "path": "ui/checks/normal-full.log",
+      "sha256": "31ad2021e284a7b50a892e3329a14a9a01fd9ed18f5fc3de141b0a4f351da39e",
+      "original": "out/ui-combined-final-tests.log"
+    },
+    {
+      "path": "ui/checks/asan-full.log",
+      "sha256": "43caf8020ecdde96f1c14320defa229b248ec5763ac8155964ca1da94c562aef",
+      "original": "../Breakwater-eog-provider-review/out/provider-review/ui-final-asan-tests.log"
+    },
+    {
+      "path": "ui/checks/vs-full.log",
+      "sha256": "09ed1c3ba95ddb7e14ab04013ce0d1c5817179d0d6c5fbd566341b1b63cb3c28",
+      "original": "out/ui-vs-tests.log"
+    },
+    {
+      "path": "ui/checks/vs-tracking.json",
+      "sha256": "bb7cff874f64b200356fc9ad2ace56c1e46f4fa63630ce706ff6ba5ac873dfa8",
+      "original": "out/ui-vs-tracking-audit.json"
+    },
+    {
+      "path": "ui/checks/normal-label.log",
+      "sha256": "ca526e2cec388984e7c37b3365836dc5c585f231ba88d4eb6cea28ac72b6f456",
+      "original": "out/ui-label-normal-tests.log"
+    },
+    {
+      "path": "ui/checks/asan-label.log",
+      "sha256": "edc6b981459893e1d22171848aed68f8e3af8cd702a6a6fc0f419b6a7ed77a6f",
+      "original": "../Breakwater-eog-provider-review/out/provider-review/ui-label-asan-tests.log"
+    },
+    {
+      "path": "ui/checks/normal-helper.log",
+      "sha256": "7dcb7209790902dcd8941fcb047b0de5864378dbe20318aae4e791196c311163",
+      "original": "out/ui-artifacts-unset-tests.log"
+    },
+    {
+      "path": "ui/checks/asan-helper.log",
+      "sha256": "889e8e9af8c1cf52ab6c04134e684f1235996b6ea68fb72e3abf8b157007d48a",
+      "original": "../Breakwater-eog-provider-review/out/provider-review/ui-artifact-asan-tests.log"
+    },
+    {
+      "path": "ui/checks/vs-helper.log",
+      "sha256": "869fa7eb42a0bbdcfac5c8fde7e1ba78a065d7131005d6d724eadc76bb9438b8",
+      "original": "out/ui-artifact-vs-tests.log"
+    },
+    {
+      "path": "ui/checks/helper-positive.json",
+      "sha256": "ae4ab701e2b40640ad3f5ac7eaba4ab0a32e2c2e40358f331c5dfeaf3cfbe38e",
+      "original": "out/ui-artifacts-result.json"
+    },
+    {
+      "path": "ui/checks/helper-invalid-parent.json",
+      "sha256": "390761c7b22706a9b2d8a33654b228a0075fc3705eb484238d093391ec33df3d",
+      "original": "out/ui-artifacts-invalid-parent.json"
+    },
+    {
+      "path": "ui/checks/helper-asan-positive.json",
+      "sha256": "580897210fd5e58f8bd821170fb8aa6dc4e428408b592796793d7517f1bd8b3e",
+      "original": "out/ui-artifacts-asan-positive.json"
+    },
+    {
+      "path": "ui/checks/helper-asan-invalid-parent.json",
+      "sha256": "98e1c33282213e4a52115c2190006b7f1e71075655adbc8c2eec10e62a0f0a57",
+      "original": "out/ui-artifacts-asan-invalid-parent.json"
+    },
+    {
+      "path": "ui/checks/installed-final.json",
+      "sha256": "763ec894ed9d9d2fdc97910563dbdbe9b889ee8a0f0a34ff4d17d98e9bd0fbf2",
+      "original": "out/ui-artifacts-portable-final.json"
+    },
+    {
+      "path": "ui/checks/installed-dpi-100.json",
+      "sha256": "0964d998e69dadfc30fde87ae4e97580b3d4ae28ac78d2e008c52817b677c6de",
+      "original": "out/portable-ui-dpi-100.json"
+    },
+    {
+      "path": "ui/checks/installed-dpi-125.json",
+      "sha256": "1dfdcc34b93b3f25fcad4f70f133dd946de0e1c32865c909b38be9520b3025fd",
+      "original": "out/portable-ui-dpi-1.25.json"
+    },
+    {
+      "path": "ui/checks/installed-dpi-150.json",
+      "sha256": "355642f56f792d42d0a4ca9c898be79ff0a2f1eac1007f32d083f70a99f34df5",
+      "original": "out/portable-ui-dpi-1.5.json"
+    },
+    {
+      "path": "ui/checks/installed-dpi-175.json",
+      "sha256": "17693a88ee404ec711e8eea52013ab058b201e45f11dc0c8b43c0d24c66c5ddd",
+      "original": "out/portable-ui-dpi-1.json"
+    },
+    {
+      "path": "ui/checks/installed-worker-health.json",
+      "sha256": "4af6b44d11b12207c4e0364486785f52d9ad9231692eedae47266d6f7189bee3",
+      "original": "out/portable-worker-health.json"
+    },
+    {
+      "path": "ui/checks/installed-science.json",
+      "sha256": "13ffee793a81c2e7d0213a9fbf17d6042653ccf01c07c5b3d4d47339b9b4c7a8",
+      "original": "out/portable-science.json"
+    },
+    {
+      "path": "ui/checks/historical-science-render.json",
+      "sha256": "66b458def7eb74736bb7bef891f89d480593e700b92ffd722e31637061de5d77",
+      "original": "out/history-visual-check/render-evidence.json"
+    },
+    {
+      "path": "ui/checks/official-overview.json",
+      "sha256": "14c9e0b9f07895334e84bca15c976bba0ba6f2796f739f7d4a3d373fc1b2c760",
+      "original": "docs/evidence/ui/checks/official-overview.json"
+    },
+    {
+      "path": "ui/checks/official-facility.json",
+      "sha256": "8abd43c9ed30992b3decb0003e121e63405d81581f4b998e08c35a91c1eac205",
+      "original": "docs/evidence/ui/checks/official-facility.json"
+    },
+    {
+      "path": "ui/checks/normal-density.log",
+      "sha256": "c4f3ad6cc95a19a095e0d1c5131e093b950d997c42aa636ac958437d5947ee85",
+      "original": "out/ui-density-normal.log"
+    },
+    {
+      "path": "ui/checks/asan-density.log",
+      "sha256": "ba4fd8085eb9a093e18ef027b0097e28510265f564c0c96a49dc81579b21d6f6",
+      "original": "../Breakwater-eog-provider-review/out/provider-review/ui-density-asan.log"
+    },
+    {
+      "path": "ui/checks/vs-density.log",
+      "sha256": "6daa21b28b221a0eac5cec24d48388d5252bae7ef8922e98f8c6ace3f48575ee",
+      "original": "out/ui-density-vs.log"
+    }
+  ],
+  "screenshots": [
+    {
+      "path": "ui/eog-facility-after.png",
+      "sha256": "da213c47ed463474f62e183a91597dca8c28a151b01c77babb0fb1423e7d9644",
+      "bytes": 293765
+    },
+    {
+      "path": "ui/eog-overview-after.png",
+      "sha256": "e2c07446e32b74dbe7c51b22f326983b3fb8cf9c6c285c4a4c343ab89440b683",
+      "bytes": 279801
+    },
+    {
+      "path": "ui/eog-overview-before.png",
+      "sha256": "648b6fe68a32122049c5e54a6ec9845fc29cf0361137becb9da044fc7e3ce695",
+      "bytes": 258578
+    },
+    {
+      "path": "ui/historical-science.png",
+      "sha256": "d743a55f848d155f6e675c97bfca4aac8e99d39d3675f874273a045689d8689d",
+      "bytes": 463654
+    },
+    {
+      "path": "ui/invalid-number.png",
+      "sha256": "21ef2854cc9bb553606d11b52de99f379d7162e0b16073c674fac2457529655e",
+      "bytes": 442863
+    },
+    {
+      "path": "ui/official-facility.png",
+      "sha256": "166d5b0d4966e766a7e3023ab83fe0a71a8255ea70e9eb27fef68e949684b67e",
+      "bytes": 368045
+    },
+    {
+      "path": "ui/official-overview.png",
+      "sha256": "b4967d1d4ccf0e2c5d74a4729ba654cc4a65d4c1c04b75022c832d818cdb5c70",
+      "bytes": 442578
+    },
+    {
+      "path": "ui/retired-run.png",
+      "sha256": "6829b819285dc3c01850ab73c3c06d1a12f07c59cf435e6e3eff8ffe5bccb085",
+      "bytes": 364043
+    },
+    {
+      "path": "ui/workbench-ready.png",
+      "sha256": "356130d0699af048c7d8b314964d0e315f4bebc7387e95ef9e54c1cf4e383305",
+      "bytes": 361796
+    }
+  ]
+}

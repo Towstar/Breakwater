@@ -1,6 +1,39 @@
 # Implementation status
 
-## Local real-provider connection — November 8, 2026
+## Current integrated desktop and hosted evidence — November 8, 2026
+
+- G2 telemetry, accepted EOG contracts, dataset console, investigation/history and
+  actual provider/independent validator are integrated through PRs #35, #37, #33,
+  #39, #42 and #43. Main `387b583` preserves Ethan's published numerical stack by
+  ancestry. Public EOG contract `72cadd1` and project-v1 remain unchanged.
+- The native UI/3D increment adds the supplied brand, bundled SVG actions, detailed
+  industrial equipment, readable traces and nonmodal rejected-action explanations.
+  The simulation workbench remains editable and separate from recorded EOG data.
+  Real Qt-input tests cover selection/drag, layout-only identity, rejection/retry,
+  once-only numeric commits, both Escape paths and retired approval.
+- At `6cfa3ee`, full combined checks passed **64/64 normal and 64/64 ASan**,
+  plus a full Visual Studio compile and **23/23** EOG/UI tests. All six hosted jobs
+  passed in [run 42488844281](https://github.com/Towstar/Breakwater/actions/runs/42488844281).
+  Subsequent scoped label/helper checks, actual installed resource/DPI checks,
+  real Torch sensitivities and reopened scientific history are recorded in
+  [UI handoff](UI_OVERHAUL.md) and [release evidence](evidence/ui-release.json).
+- **Three canonical hosted sessions and one renamed/topology-changed session**
+  completed genuine model-issued tool execution, exact independent plan validation
+  and grounded final recommendations. No controls were applied. The sanitized
+  [live evidence](evidence/eog-live/README.md) retains earlier unsuccessful attempts
+  and distinguishes three setup failures that made no model calls.
+- These hosted sessions use worker 0.2.1/native 0.1.1 and demonstrate validated
+  zero-cost incident advice. Search was unavailable in that frozen runtime.
+  Ethan's new PR #45 report guard and #46 bounded joint search are separate
+  integration increments; this checkpoint does not claim their desktop acceptance.
+- Four optional PhysicsNeMo tests remain explicitly skipped in the installed CPU
+  environment. OS computer-helper input was denied; native Qt-event interaction
+  checks and renders passed, but no manual OS/accessibility compliance is claimed.
+  Physical/onset/held-out qualification and global optimality remain unestablished.
+
+The sections below are dated checkpoints, not descriptions of current pending work.
+
+## Historical local real-provider connection — November 8, 2026
 
 - Combined source at `5c22cdb` passed **62/62 CTests normal (341.96 s)** and
   **62/62 ASan (641.29 s)**, with no failed/skipped tests or sanitizer diagnostic.

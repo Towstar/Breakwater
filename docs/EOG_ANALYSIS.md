@@ -1,5 +1,10 @@
 # EOG analysis, advisory review and history
 
+Current delivery evidence is recorded in [STATUS](STATUS.md), the
+[native UI handoff](UI_OVERHAUL.md) and [hosted rehearsal packet](evidence/eog-live/README.md).
+The final dated verification paragraphs below preserve earlier checkpoints;
+their pending statements are superseded by those current records.
+
 The EOG workflow uses the shared capture/analysis contract `72cadd1`. It has no
 reference to the workbench's operating controls. A captured dataset, numerical
 analysis, model explanation and operator review remain distinct evidence.
