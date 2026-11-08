@@ -1,0 +1,91 @@
+{
+  "dataset_identity": "5939bdb9b70ae9c4fb4bf6cf8f410fb0a94bd4b16b27ecc08d5394a9916a360c",
+  "capture_id": "05d894f608fdebeee8e651b771d20e000b8e7b97c65a86848a7307718ca0e191",
+  "cutoff_unix": 1000003600,
+  "eog_version": 1,
+  "request_id": "request-1",
+  "method_version": 1,
+  "kind": "analysis_response",
+  "operation": "evaluate_plan",
+  "status": "completed",
+  "diagnostics": [],
+  "result": {
+    "analysis_id": "analysis-1",
+    "evaluation": {
+      "plan": {
+        "plan_id": "arrival-at-repair",
+        "context": "snapshot_now",
+        "start_unix": 1000003600,
+        "repair_deadlines": [
+          {
+            "facility_id": "field:A",
+            "repair_elapsed_s": 7200
+          }
+        ],
+        "truck_jobs": [
+          {
+            "job_id": "job-1",
+            "truck_id": "truck-1",
+            "system_id": "system-1",
+            "facility_id": "field:A",
+            "response_min": 120,
+            "cycle_min": 60,
+            "trips": [
+              {
+                "volume_bbl": 150,
+                "cost": 100,
+                "arrival_elapsed_s": 7200
+              }
+            ],
+            "called_elapsed_s": 0,
+            "available_again_elapsed_s": 10800
+          }
+        ],
+        "well_shut_ins": [],
+        "inspection_assets": [],
+        "plan_hash": "6d85e61e9991cf5ea2e58140ec35d5a4c7d7ddc3e8904938a2da5a280c9c6da1"
+      },
+      "feasible": false,
+      "trajectories": [
+        {
+          "facility_id": "field:A",
+          "tank_id": "tank:A",
+          "capacity_bbl": 1000,
+          "shutdown_volume_bbl": 920,
+          "volumes_bbl": [
+            800
+          ],
+          "elapsed_s": [
+            0
+          ]
+        }
+      ],
+      "cost": null,
+      "fleet_occupancy": [
+        {
+          "truck_id": "truck-1",
+          "job_id": "job-1",
+          "start_elapsed_s": 0,
+          "end_elapsed_s": 10800
+        }
+      ],
+      "violations": [
+        {
+          "code": "trip_at_repair",
+          "message": "Truck arrives at repair, not strictly before it; no total cost is asserted.",
+          "asset_id": "field:A",
+          "elapsed_s": 7200
+        }
+      ],
+      "assumptions": [
+        "Inflow is 2400 bpd; failed pump delivers zero; two hours of repair remain."
+      ],
+      "limitations": [
+        "Synthetic interface fixture, not an EOG detection or optimization result."
+      ],
+      "coverage": "partial",
+      "outcome": "unavailable",
+      "shutdowns": []
+    }
+  }
+}

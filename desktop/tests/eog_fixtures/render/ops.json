@@ -1,0 +1,25 @@
+{
+  "dataset_id": "render-contract-only",
+  "prices": {
+    "oil_per_bbl": 61,
+    "gas_per_mcf": 2.5
+  },
+  "expected_repair_hours": {
+    "pump_failure": 7
+  },
+  "emergency_trucking": {
+    "truck_capacity_bbl": 137,
+    "cost_per_trip": 919
+  },
+  "systems": {
+    "CUSTOM-system": {
+      "emergency_fleet_size": 3,
+      "facilities": {
+        "facility-Z": {
+          "response_min": 84,
+          "cycle_min": 219
+        }
+      }
+    }
+  }
+}

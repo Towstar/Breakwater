@@ -1,6 +1,95 @@
 # Implementation status
 
-## Current Person B continuation — November 8, 2026
+## Local real-provider connection — November 8, 2026
+
+- Combined source at `5c22cdb` passed **62/62 CTests normal (341.96 s)** and
+  **62/62 ASan (641.29 s)**, with no failed/skipped tests or sanitizer diagnostic.
+  Full CPU discovery ran **354 methods: 350 passed, four explicitly optional
+  PhysicsNeMo skips**, no failures/errors or unexpected skips. These checks
+  include real worker execution and independent validation, not hosted-model acceptance.
+
+- The joined Person B integration branch connects PR #40's actual worker/native
+  library to the production desktop client. Focused provider/client/controller
+  checks passed **72 Qt cases per mode**, zero skips, in normal and MSVC ASan.
+  The real-provider suite includes renamed IDs, historical capture, untouched input
+  hashes, trusted default startup paths and unavailable validation refusing review.
+- Full CPU science discovery ran 330 methods: 326 passed, four declared optional
+  PhysicsNeMo skips, zero failures/errors or unexpected EOG skips. CI now builds
+  and configures the real native/contract prerequisites before discovery; fresh
+  hosted execution of that CI integration remains pending.
+- PR #41 is adopted locally at exact `d30cd04`, advancing the native method to
+  `eog-native-seconds-0.1.1` and adding independently reconstructed validation.
+  Joined focused checks pass **4/4 CTests** in normal (29.44 s) and ASan (42.02 s),
+  **73 Qt cases plus seven offline CLI methods per mode**, zero skips. Actual
+  no-DLL validation, exact cost/plan binding, explicit advisory review and renewed
+  authority rejection after reopening history pass. The old #40 records stay dated.
+  Installed startup and genuine hosted EOG rehearsals remain unverified.
+
+## Verified EOG desktop workflow — November 8, 2026
+
+- The read-only console PR #39 is merged at `de09f246`; all six hosted jobs
+  passed in run `42482993335`. Investigation/history PR #42 is separate.
+- Full combined checks at `9152dac` passed **56/56 CTests normal (342.14 s)**
+  and **56/56 ASan (676.61 s)**, with **909 recorded Qt cases per mode**, no
+  skips or sanitizer diagnostics. Full Visual Studio compilation and all
+  **18/18 EOG checks (56.40 s)** also passed. Hosted run `42481064546`
+  passed all six jobs. The subsequent merge of console main is source-identical.
+- Installed packaging and genuine hosted EOG rehearsals remain pending for this
+  workflow increment. The real provider and newer independent validator are
+  being verified in a separate Person B integration branch; they are not included
+  or claimed operational by PR #42.
+
+## Earlier local EOG desktop checkpoints — November 8, 2026
+
+- The unpublished integration includes the dataset console,
+  causal captures, bounded process client, separate SQLite history, on-demand
+  Nemotron tools and explicit advisory review. It preserves the workbench and
+  shared accepted contract `72cadd1`.
+- `c15269a` moves original-sample value/time/channel validation before client
+  publication and shares it with history. Negative, overflowing, stale and missing
+  evidence retain their distinct semantics. The earlier source-gate run passed
+  **16/16** normal (49.89 s) and ASan (188.59 s), 230 Qt cases per mode, zero skips.
+- The readable plan/event panes and global coverage regressions passed **18/18**
+  EOG CTests in normal (65.78 s) and ASan (167.60 s), **250 Qt cases per mode**,
+  zero skips, including six actual application renders and lazy 4,096-row views.
+  The first ASan run retained a 15-second bulk-history fixture wait failure: all
+  102 durable writes completed at about 19.7 seconds. Its wait is now 60 seconds;
+  counts, paging and operational deadlines are unchanged, and heartbeat counting
+  now starts with the actual write workload. This is not full combined acceptance.
+- Visual Studio's original MAX_PATH tracking failure is retained. `c85b0e7`
+  keeps tracking enabled with shorter per-project/configuration paths; the corrected
+  full build and 16 then-registered EOG checks passed. The newer solution resolves
+  120 projects / 463 dependencies; its new operator-view execution remains pending.
+- Ethan's PR #40 now delivers real detection and candidate evaluation; see
+  [coordination](EOG_COORDINATION.md) for exact source and reviewed evidence.
+  Desktop/installed provider integration and hosted EOG rehearsals remain pending.
+  Search and independent numerical validation remain unavailable in that revision.
+  Protocol-only workers do not qualify as working numerical methods.
+- Telemetry follow-up PR #37 is merged at `7653444` after all six hosted jobs
+  passed: desktop 38/38 and 659 Qt cases per mode, native 8/8 per mode, science
+  186 methods with four explicit optional skips, and pinned Lean audits.
+
+## EOG exact-contract adoption — November 8, 2026
+
+- Ethan numerically accepts exact `72cadd1de7eed6666a60faff1d296e29c8f026ee`
+  in [his recorded review](https://github.com/Towstar/Breakwater/pull/33#pullrequestreview-5817527505).
+  Lucas adopts that same revision; [coordination](EOG_COORDINATION.md) records scope,
+  provider cautions and the unchanged interface during G2 baseline synchronization.
+- Local normal/ASan contract checks each passed 2/2 CTests, 70 Qt cases and
+  48 Python/native comparison methods; 63 shared fixtures passed. Ethan independently
+  repeated both modes and published 11 additional review probes with source/binary
+  provenance. These are interchange/numerical-meaning checks, not a working provider
+  or full EOG application acceptance. His retained evidence is linked in the note.
+- G2 PR #35 is merged at `1713cc4` after all six hosted jobs passed. Desktop
+  normal/ASan each ran 38/38 CTests and 641 Qt cases; native each ran 8/8. Science
+  ran 186 tests with 182 passes and four declared optional PhysicsNeMo skips;
+  pinned Lean audits passed. The six downloaded reports identify the same tree as
+  PR head `240248a`. [Hosted run](https://github.com/Towstar/Breakwater/actions/runs/42470434359).
+- Ethan's E1 analytical fixtures in PR #34 and private causal observation work
+  remain separate. No production EOG detector, optimizer or independent numerical
+  plan validator is claimed by the contract increment.
+
+## Historical G2 continuation checkpoints — November 8, 2026
 
 - G1 PR #31 is merged at `2bd7bb9`; exact contract `f12a827` has recorded Person A
   acceptance and formal GitHub approval. The historical pending-review statements

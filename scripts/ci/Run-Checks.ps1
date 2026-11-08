@@ -98,6 +98,29 @@ function Set-UpCiScience {
     Save-Report
 }
 
+function Set-UpCiEogProvider {
+    if (-not (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py'))) { return }
+    $native = Join-Path $buildRoot 'engine/breakwater_eog_response.dll'
+    $contracts = Join-Path $projectRoot 'contracts/eog'
+    if (-not (Test-Path -LiteralPath $native -PathType Leaf) -or
+        -not (Test-Path -LiteralPath (Join-Path $contracts 'validate.py') -PathType Leaf)) {
+        throw 'The real EOG worker requires the built native library and adopted local contracts.'
+    }
+    $env:BREAKWATER_EOG_NATIVE = $native
+    $env:BREAKWATER_EOG_CONTRACTS = $contracts
+    $report.toolchain.eog_provider = [ordered]@{
+        native_sha256 = (Get-FileHash -LiteralPath $native -Algorithm SHA256).Hash.ToLowerInvariant()
+        worker_sha256 = (Get-FileHash -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py') -Algorithm SHA256).Hash.ToLowerInvariant()
+        contracts = 'contracts/eog'; native_mode = $Mode
+    }
+    if ($Mode -eq 'asan') {
+        $asanRuntime = Join-Path (Split-Path -Parent $native) 'clang_rt.asan_dynamic-x86_64.dll'
+        if (-not (Test-Path -LiteralPath $asanRuntime -PathType Leaf)) { throw 'The checked EOG DLL lacks its staged matching ASan runtime.' }
+        $report.toolchain.eog_provider['asan_runtime_sha256'] = (Get-FileHash -LiteralPath $asanRuntime -Algorithm SHA256).Hash.ToLowerInvariant()
+    }
+    Save-Report
+}
+
 function Copy-CiBuildEvidence {
     if (-not (Test-Path -LiteralPath $buildRoot)) { return }
     foreach ($name in @('CMakeCache.txt', 'Testing/Temporary/LastTest.log', 'Testing/Temporary/LastTestsFailed.log')) {
@@ -110,6 +133,12 @@ function Copy-CiBuildEvidence {
         Get-ChildItem -LiteralPath $desktop -Filter 'science-*.json' -File | Copy-Item -Destination $artifactRoot
         $evidence = Join-Path $desktop 'test-artifacts'
         if (Test-Path -LiteralPath $evidence) { Copy-Item -LiteralPath $evidence -Destination (Join-Path $artifactRoot 'test-artifacts') -Recurse }
+        $charts = Join-Path $desktop 'eog-plan-chart-artifacts'
+        if (Test-Path -LiteralPath $charts) { Copy-Item -LiteralPath $charts -Destination (Join-Path $artifactRoot 'eog-plan-chart-artifacts') -Recurse }
+        $details = Join-Path $desktop 'eog-plan-details-artifacts'
+        if (Test-Path -LiteralPath $details) { Copy-Item -LiteralPath $details -Destination (Join-Path $artifactRoot 'eog-plan-details-artifacts') -Recurse }
+        $events = Join-Path $desktop 'eog-event-details-artifacts'
+        if (Test-Path -LiteralPath $events) { Copy-Item -LiteralPath $events -Destination (Join-Path $artifactRoot 'eog-event-details-artifacts') -Recurse }
     }
     foreach ($directory in @($buildRoot, $desktop)) {
         if (Test-Path -LiteralPath $directory) { Get-ChildItem -LiteralPath $directory -Filter '*.png' -File | Copy-Item -Destination $artifactRoot }
@@ -141,6 +170,7 @@ try {
         }
         Invoke-CiStep 'configure' 'cmake' $configure
         Invoke-CiStep 'build' 'cmake' @('--build', $buildRoot, '--parallel', '2')
+        if ($Suite -eq 'desktop') { Set-UpCiEogProvider }
         Invoke-CiStep 'registered-tests' 'ctest' @('--test-dir', $buildRoot, '--show-only=json-v1')
         $registered = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'registered-tests.log') | ConvertFrom-Json
         if ($registered.tests.Count -eq 0) { throw 'CTest registered no tests.' }
@@ -158,6 +188,25 @@ try {
                     'desktop.sensor_editor_normal_smoke', 'desktop.sensor_editor_compact_smoke',
                     'desktop.telemetry_replay_normal_smoke', 'desktop.telemetry_replay_compact_smoke')) {
                     if ($required -notin $registered.tests.name) { throw "Required G2 desktop check is missing: $required" }
+                }
+            }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'desktop/eog/EogDataset.hpp')) {
+                foreach ($required in @('desktop.eog_dataset', 'desktop.eog_capture', 'desktop.eog_analysis_client', 'desktop.eog_history',
+                    'desktop.eog_investigator', 'desktop.eog_analysis_controller', 'desktop.eog_plan_chart', 'desktop.eog_plan_details', 'desktop.eog_event_details',
+                    'desktop.eog_analysis_normal', 'desktop.eog_analysis_compact',
+                    'desktop.eog_cli', 'desktop.eog_overview_normal',
+                    'desktop.eog_overview_compact', 'desktop.eog_facility_normal', 'desktop.eog_facility_compact')) {
+                    if ($required -notin $registered.tests.name) { throw "Required EOG console check is missing: $required" }
+                }
+            }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'contracts/eog/validate.py')) {
+                foreach ($required in @('desktop.eog_contracts', 'contracts.eog')) {
+                    if ($required -notin $registered.tests.name) { throw "Required EOG contract check is missing: $required" }
+                }
+            }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py')) {
+                foreach ($required in @('desktop.eog_provider', 'desktop.eog_live_cli', 'desktop.eog_demo_input')) {
+                    if ($required -notin $registered.tests.name) { throw "Required real EOG integration check is missing: $required" }
                 }
             }
         }
@@ -179,6 +228,14 @@ try {
         $report.asan_scope = 'Owned C++ targets only; prebuilt Qt/Python/Torch are outside established instrumentation coverage.'
     } elseif ($Suite -eq 'science') {
         Set-UpCiScience
+        if (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py')) {
+            Enter-CiCompiler
+            Invoke-CiStep 'eog-native-configure' 'cmake' @('-S', $projectRoot, '-B', $buildRoot, '-G', 'Ninja',
+                '-DCMAKE_BUILD_TYPE=RelWithDebInfo', '-DBUILD_TESTING=OFF', '-DBREAKWATER_BUILD_DESKTOP=OFF',
+                '-DBREAKWATER_ENABLE_ASAN=OFF', '-DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded')
+            Invoke-CiStep 'eog-native-build' 'cmake' @('--build', $buildRoot, '--target', 'breakwater_eog_response', '--parallel', '2')
+            Set-UpCiEogProvider
+        }
         Invoke-CiStep 'science-tests' $script:ciSciencePython @('-B', (Join-Path $PSScriptRoot 'Run-PythonTests.py'), '--output', (Join-Path $artifactRoot 'science-results.json'))
         $report.science = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'science-results.json') | ConvertFrom-Json
     } else {
@@ -188,7 +245,7 @@ try {
         $archive = Join-Path $leanRoot 'lean-4.35.0-windows.zip'
         $expectedHash = '5fc033e93e1a7bc59c5ebf311103d2c9cd18d4b3eddda4ffa3414e8adb0ef79e'
         if (-not (Test-Path -LiteralPath $archive)) {
-            Invoke-WebRequest -Uri 'https://github.com/leanprover/lean4/releases/download/v4.35.0/lean-4.35.0-windows.zip' -OutFile $archive -TimeoutSec 600
+            Invoke-WebRequest -Uri 'https://github.com/leanprover/lean4/releases/download/v4.35.0/lean-4.35.0-windows.zip' -OutFile $archive -TimeoutSec 600 -MaximumRetryCount 2 -RetryIntervalSec 3
         }
         if ((Get-FileHash -LiteralPath $archive -Algorithm SHA256).Hash.ToLowerInvariant() -ne $expectedHash) { throw 'The Lean archive does not match the committed official SHA256.' }
         $leanBin = Join-Path $leanRoot 'lean-4.35.0-windows/bin'

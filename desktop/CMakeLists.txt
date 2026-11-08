@@ -22,6 +22,17 @@ qt_add_library(breakwater_telemetry_runtime STATIC
 target_include_directories(breakwater_telemetry_runtime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_telemetry_runtime PUBLIC breakwater_telemetry Qt6::Core)
 
+qt_add_library(breakwater_eog_contracts STATIC eog/EogContracts.hpp eog/EogContracts.cpp)
+target_include_directories(breakwater_eog_contracts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_eog_contracts PUBLIC breakwater_telemetry)
+qt_add_resources(breakwater_eog_contracts eog_contract_schemas
+  PREFIX /breakwater/eog/contracts BASE "${PROJECT_SOURCE_DIR}/contracts/eog"
+  FILES
+    "${PROJECT_SOURCE_DIR}/contracts/eog/common-v1.schema.json"
+    "${PROJECT_SOURCE_DIR}/contracts/eog/capture-manifest-v1.schema.json"
+    "${PROJECT_SOURCE_DIR}/contracts/eog/analysis-request-v1.schema.json"
+    "${PROJECT_SOURCE_DIR}/contracts/eog/analysis-response-v1.schema.json")
+
 qt_add_library(breakwater_agent STATIC
   agent/ModelTransport.hpp agent/NemotronClient.hpp agent/NemotronClient.cpp
   agent/CredentialSettings.hpp agent/CredentialSettings.cpp
@@ -49,12 +60,14 @@ qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
 
 qt_add_executable(breakwater WIN32 main.cpp)
-target_link_libraries(breakwater PRIVATE breakwater_agent breakwater_telemetry_runtime Qt6::QuickControls2 Qt6::Quick3D)
+target_link_libraries(breakwater PRIVATE breakwater_agent breakwater_telemetry_runtime breakwater_eog_workflow Qt6::QuickControls2 Qt6::Quick3D)
 get_filename_component(_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
 set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_prefix}/bin;%PATH%")
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
   QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml qml/StorageSciencePanel.qml
-    qml/SensorPanel.qml qml/TelemetryPanel.qml qml/SensorTraceChart.qml)
+    qml/SensorPanel.qml qml/TelemetryPanel.qml qml/SensorTraceChart.qml
+    qml/EogDatasetPanel.qml qml/EogNetworkView.qml qml/EogTrendChart.qml
+    qml/EogAnalysisPanel.qml qml/EogPlanChart.qml qml/EogPlanDetails.qml qml/EogEventDetails.qml)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
 # in a fresh parallel Visual Studio build. Qt creates that target at root deferral.
@@ -149,6 +162,20 @@ if(BUILD_TESTING)
     set_tests_properties(contracts.telemetry PROPERTIES TIMEOUT 120
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   endif()
+  qt_add_executable(breakwater_eog_contract_tests tests/eog_contract_tests.cpp)
+  target_link_libraries(breakwater_eog_contract_tests PRIVATE breakwater_eog_contracts Qt6::Test)
+  target_compile_definitions(breakwater_eog_contract_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+  add_test(NAME desktop.eog_contracts COMMAND breakwater_eog_contract_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/eog_contracts-results.txt,txt")
+  set_tests_properties(desktop.eog_contracts PROPERTIES TIMEOUT 60
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  if(Python3_Interpreter_FOUND)
+    add_test(NAME contracts.eog COMMAND "${Python3_EXECUTABLE}" -B
+      "${PROJECT_SOURCE_DIR}/contracts/eog/tests/test_contracts.py"
+      --native "$<TARGET_FILE:breakwater_eog_contract_tests>")
+    set_tests_properties(contracts.eog PROPERTIES TIMEOUT 120
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endif()
   if(Python3_Interpreter_FOUND)
     file(TO_CMAKE_PATH "${Python3_EXECUTABLE}" _breakwater_test_python)
     foreach(_worker_suite python_worker storage_worker storage_science science_evidence agent_science agent_orchestrator)
@@ -219,3 +246,150 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/science/breakwater_science" DESTINATION
   FILES_MATCHING PATTERN "*.py" PATTERN "__pycache__" EXCLUDE)
 qt_generate_deploy_qml_app_script(TARGET breakwater OUTPUT_SCRIPT deploy_script NO_UNSUPPORTED_PLATFORM_ERROR)
 install(SCRIPT ${deploy_script})
+
+# Read-only challenge input and presentation stay separate from the simulator.
+qt_add_library(breakwater_eog STATIC
+  eog/EogDataset.hpp eog/EogDataset.cpp eog/EogDatasetController.hpp eog/EogDatasetController.cpp
+  eog/EogCapture.hpp eog/EogCapture.cpp eog/EogAnalysisClient.hpp eog/EogAnalysisClient.cpp
+  eog/EogHistoryRepository.hpp eog/EogHistoryRepository.cpp)
+target_include_directories(breakwater_eog PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_eog PUBLIC breakwater_eog_contracts Qt6::Concurrent Qt6::Sql)
+if(WIN32)
+  target_link_libraries(breakwater_eog PRIVATE Cabinet)
+endif()
+target_compile_definitions(breakwater_eog PRIVATE
+  BREAKWATER_EOG_WORKER_PATH="${PROJECT_SOURCE_DIR}/science/eog_worker.py"
+  BREAKWATER_EOG_CONTRACTS_PATH="${PROJECT_SOURCE_DIR}/contracts/eog"
+  BREAKWATER_EOG_NATIVE_LIBRARY_PATH="$<TARGET_FILE:breakwater_eog_response>"
+  BREAKWATER_EOG_NATIVE_LIBRARY_NAME="$<TARGET_FILE_NAME:breakwater_eog_response>"
+  BREAKWATER_DEVELOPMENT_BIN_DIR="$<TARGET_FILE_DIR:breakwater>")
+add_dependencies(breakwater breakwater_eog_response)
+# Python's restricted Windows DLL search needs the checked runtime beside the
+# provider DLL. The native target belongs to engine/, so stage it through a
+# dependency rather than attaching a cross-directory TARGET POST_BUILD command.
+if(MSVC AND BREAKWATER_ENABLE_ASAN)
+  get_filename_component(_eog_compiler_bin "${CMAKE_CXX_COMPILER}" DIRECTORY)
+  get_filename_component(BREAKWATER_EOG_ASAN_RUNTIME
+    "${_eog_compiler_bin}/clang_rt.asan_dynamic-x86_64.dll" ABSOLUTE)
+  if(NOT EXISTS "${BREAKWATER_EOG_ASAN_RUNTIME}")
+    message(FATAL_ERROR "The matching compiler's EOG AddressSanitizer runtime is unavailable: ${BREAKWATER_EOG_ASAN_RUNTIME}")
+  endif()
+  add_custom_target(breakwater_eog_provider_runtime
+    COMMAND "${CMAKE_COMMAND}" -E copy_if_different
+      "${BREAKWATER_EOG_ASAN_RUNTIME}"
+      "$<TARGET_FILE_DIR:breakwater_eog_response>/clang_rt.asan_dynamic-x86_64.dll"
+    VERBATIM)
+  add_dependencies(breakwater_eog_provider_runtime breakwater_eog_response)
+  add_dependencies(breakwater breakwater_eog_provider_runtime)
+endif()
+qt_add_library(breakwater_eog_workflow STATIC
+  eog/EogInvestigator.hpp eog/EogInvestigator.cpp
+  eog/EogAnalysisController.hpp eog/EogAnalysisController.cpp)
+target_include_directories(breakwater_eog_workflow PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
+target_link_libraries(breakwater_eog_workflow PUBLIC breakwater_eog breakwater_agent)
+qt_add_executable(breakwater_eog_live_check eog/live_check.cpp)
+target_link_libraries(breakwater_eog_live_check PRIVATE breakwater_eog_workflow)
+add_dependencies(breakwater_eog_live_check breakwater_eog_response)
+if(TARGET breakwater_eog_provider_runtime)
+  add_dependencies(breakwater_eog_live_check breakwater_eog_provider_runtime)
+endif()
+if(BUILD_TESTING)
+  qt_add_executable(breakwater_eog_dataset_tests tests/eog_dataset_tests.cpp)
+  target_link_libraries(breakwater_eog_dataset_tests PRIVATE breakwater_eog Qt6::Test)
+  add_test(NAME desktop.eog_dataset COMMAND breakwater_eog_dataset_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/eog_dataset-results.txt,txt")
+  set_tests_properties(desktop.eog_dataset PROPERTIES TIMEOUT 180
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  qt_add_executable(breakwater_eog_capture_tests tests/eog_capture_tests.cpp)
+  target_link_libraries(breakwater_eog_capture_tests PRIVATE breakwater_eog Qt6::Test)
+  add_test(NAME desktop.eog_capture COMMAND breakwater_eog_capture_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/eog_capture-results.txt,txt")
+  set_tests_properties(desktop.eog_capture PROPERTIES TIMEOUT 180
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  foreach(_eog_suite analysis_client history)
+    qt_add_executable(breakwater_eog_${_eog_suite}_tests tests/eog_${_eog_suite}_tests.cpp)
+    target_link_libraries(breakwater_eog_${_eog_suite}_tests PRIVATE breakwater_eog Qt6::Test)
+    target_compile_definitions(breakwater_eog_${_eog_suite}_tests PRIVATE BREAKWATER_TEST_PYTHON="${_breakwater_test_python}")
+    add_test(NAME desktop.eog_${_eog_suite} COMMAND breakwater_eog_${_eog_suite}_tests
+      -o "${CMAKE_CURRENT_BINARY_DIR}/eog_${_eog_suite}-results.txt,txt")
+    set_tests_properties(desktop.eog_${_eog_suite} PROPERTIES TIMEOUT 240
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endforeach()
+  foreach(_eog_workflow_suite investigator analysis_controller)
+    qt_add_executable(breakwater_eog_${_eog_workflow_suite}_tests tests/eog_${_eog_workflow_suite}_tests.cpp)
+    target_link_libraries(breakwater_eog_${_eog_workflow_suite}_tests PRIVATE breakwater_eog_workflow Qt6::Test)
+    target_compile_definitions(breakwater_eog_${_eog_workflow_suite}_tests PRIVATE BREAKWATER_TEST_PYTHON="${_breakwater_test_python}")
+    add_test(NAME desktop.eog_${_eog_workflow_suite} COMMAND breakwater_eog_${_eog_workflow_suite}_tests
+      -o "${CMAKE_CURRENT_BINARY_DIR}/eog_${_eog_workflow_suite}-results.txt,txt")
+    set_tests_properties(desktop.eog_${_eog_workflow_suite} PROPERTIES TIMEOUT 240
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endforeach()
+  qt_add_executable(breakwater_eog_provider_tests tests/eog_provider_integration_tests.cpp)
+  target_link_libraries(breakwater_eog_provider_tests PRIVATE breakwater_eog_workflow Qt6::Test)
+  target_compile_definitions(breakwater_eog_provider_tests PRIVATE
+    BREAKWATER_TEST_PYTHON="${_breakwater_test_python}"
+    BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}"
+    BREAKWATER_EOG_WORKER_PATH="${PROJECT_SOURCE_DIR}/science/eog_worker.py"
+    BREAKWATER_TEST_EOG_NATIVE_LIBRARY="$<TARGET_FILE:breakwater_eog_response>")
+  add_dependencies(breakwater_eog_provider_tests breakwater_eog_response)
+  if(TARGET breakwater_eog_provider_runtime)
+    add_dependencies(breakwater_eog_provider_tests breakwater_eog_provider_runtime)
+  endif()
+  add_test(NAME desktop.eog_provider COMMAND breakwater_eog_provider_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/eog_provider-results.txt,txt")
+  set_tests_properties(desktop.eog_provider PROPERTIES TIMEOUT 180
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  if(Python3_Interpreter_FOUND)
+    add_test(NAME desktop.eog_demo_input COMMAND "${Python3_EXECUTABLE}" -B
+      "${PROJECT_SOURCE_DIR}/scripts/tests/test_eog_demo.py")
+    set_tests_properties(desktop.eog_demo_input PROPERTIES TIMEOUT 120)
+    add_test(NAME desktop.eog_live_cli COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_live_cli_tests.py" "$<TARGET_FILE:breakwater_eog_live_check>"
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")
+    set_tests_properties(desktop.eog_live_cli PROPERTIES TIMEOUT 120
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    add_test(NAME desktop.eog_cli COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_cli_tests.py" "$<TARGET_FILE:breakwater>"
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")
+    set_tests_properties(desktop.eog_cli PROPERTIES TIMEOUT 180
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endif()
+  foreach(_eog_view plan_chart plan_details event_details)
+    qt_add_executable(breakwater_eog_${_eog_view}_tests tests/eog_${_eog_view}_tests.cpp)
+    target_link_libraries(breakwater_eog_${_eog_view}_tests PRIVATE breakwater_options Qt6::Quick Qt6::QuickControls2 Qt6::Test)
+    target_compile_definitions(breakwater_eog_${_eog_view}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    add_test(NAME desktop.eog_${_eog_view} COMMAND breakwater_eog_${_eog_view}_tests
+      -o "${CMAKE_CURRENT_BINARY_DIR}/eog_${_eog_view}-results.txt,txt")
+    set_tests_properties(desktop.eog_${_eog_view} PROPERTIES TIMEOUT 120
+      ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1"
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endforeach()
+  foreach(_eog_size normal compact)
+    set(_eog_analysis_args --workspace eog --eog-dataset "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render"
+      --eog-analysis-panel --smoke --eog-report "${CMAKE_CURRENT_BINARY_DIR}/eog-analysis-${_eog_size}.json"
+      --screenshot "${CMAKE_CURRENT_BINARY_DIR}/eog-analysis-${_eog_size}.png"
+      --history-db "${CMAKE_CURRENT_BINARY_DIR}/eog-analysis-${_eog_size}.sqlite")
+    if(_eog_size STREQUAL "compact")
+      list(APPEND _eog_analysis_args --compact-ui)
+    endif()
+    add_test(NAME desktop.eog_analysis_${_eog_size} COMMAND breakwater ${_eog_analysis_args})
+    set_tests_properties(desktop.eog_analysis_${_eog_size} PROPERTIES TIMEOUT 45
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    foreach(_eog_scene overview facility)
+      set(_eog_render_args --workspace eog --eog-dataset "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render"
+        --smoke --eog-report "${CMAKE_CURRENT_BINARY_DIR}/eog-${_eog_scene}-${_eog_size}.json"
+        --screenshot "${CMAKE_CURRENT_BINARY_DIR}/eog-${_eog_scene}-${_eog_size}.png"
+        --history-db "${CMAKE_CURRENT_BINARY_DIR}/eog-${_eog_scene}-${_eog_size}.sqlite")
+      if(_eog_size STREQUAL "compact")
+        list(APPEND _eog_render_args --compact-ui)
+      endif()
+      if(_eog_scene STREQUAL "facility")
+        list(APPEND _eog_render_args --eog-facility facility-Z)
+      endif()
+      add_test(NAME desktop.eog_${_eog_scene}_${_eog_size} COMMAND breakwater ${_eog_render_args})
+      set_tests_properties(desktop.eog_${_eog_scene}_${_eog_size} PROPERTIES TIMEOUT 45
+        ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    endforeach()
+  endforeach()
+endif()
+include(eog/InstallProvider.cmake)
