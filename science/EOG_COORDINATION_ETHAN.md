@@ -31,7 +31,9 @@ simulation UI or integrated acceptance report.
 
 Current A branch/worktree is `codex/person-a-eog-response` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-response`, stacked on PR #38
-head 70f7c8e. Native source freeze is `fe0da88`; final provider/reference mapping
+head 70f7c8e. Published PR: https://github.com/Towstar/Breakwater/pull/40 ; measured
+delivery head `51430b6e9aa4772ea784d547dace6be2a6bbcab2` before this pointer update.
+Native source freeze is `fe0da88`; final provider/reference mapping
 and qualification harness are `a41f1226fb2329ae14e5de5626ddc33488fc6294`.
 Native/science implementation only; no B-owned contract/desktop/root edits.
 
@@ -57,6 +59,16 @@ checked DLL. Four official causal prefixes completed all eight actual worker
 requests (four detect/four no-action evaluation), covering nine active failures.
 Computed plan costs are not independently validated or minimum-cost claims.
 Inspection rule timing is unchanged and remains unqualified.
+
+B handoff and concrete runtime/CI/packaging requests are recorded at
+https://github.com/Towstar/Breakwater/pull/40#issuecomment-6721291263 .
+The integration/Lean update is
+https://github.com/Towstar/Breakwater/pull/33#issuecomment-6721292002 .
+Newly discovered B console PR #39 is open at
+`989f83024a04065f680c197b9853f367374c0f54`, stacked on #33. It implements a
+read-only dataset overview/trends alongside the retained editor; its process,
+capture/history/model integration is separate and no fresh full acceptance is
+implied. There were no PR #39 comments/requests at the latest inspection.
 
 Next A work: separately coded numerical/resource validator and bounded joint search,
 then evolving simulation/replay and extended ledgers. Search/validation explicitly
@@ -120,6 +132,12 @@ PR #37 advanced to **59ff937e110467367f106ec88636ab095da89a4b**. Lucas documents
 a finite 360 s ASan stream CTest allowance after a 37/38 hosted desktop result,
 with unchanged operational deadlines/stress counts. A has not adopted/reviewed
 that source or claimed its new hosted run green. Recheck the current head/run.
+
+At the latest inspection, PR #37 run **42477239668** had five successful jobs and
+desktop ASan **128721529622 still running**. PR #38 exact 70f7c8e run
+**42476021181** completed with five successful jobs and desktop ASan failure:
+stream timeout, lifecycle 73.64 s failure and both dependent replay smokes not run.
+Do not call either complete matrix green from their partial passing jobs.
 
 PR #33 exact integration head f4e4c0f run
 https://github.com/Towstar/Breakwater/actions/runs/42472091130 is not green.
