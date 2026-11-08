@@ -9,6 +9,7 @@
   </Configurations>
   <Folder Name="/CMakePredefinedTargets/">
     <Project Path="out/visual-studio/ALL_BUILD.vcxproj">
+      <BuildDependency Project="out/visual-studio/breakwater_eog_dto_compile.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_gateway_tests.vcxproj" />
@@ -16,6 +17,11 @@
       <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_science_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_contracts.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_contracts_resources_1.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_contract_tests.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_dataset_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_history_controller_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_nemotron_client_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_nemotron_smoke.vcxproj" />
@@ -109,6 +115,7 @@
       <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_qml.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_res.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry_runtime.vcxproj" />
       <BuildDependency Project="out/visual-studio/generate_finalqtconf_breakwater.vcxproj" />
@@ -134,6 +141,22 @@
       <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
     </Project>
     <Project Path="out/visual-studio/desktop/breakwater_desktop_tests_qmlimportscan.vcxproj">
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_eog_autogen.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_eog_automoc_json_extraction.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_autogen.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_eog_contracts_autogen.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry.vcxproj" />
+      <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    </Project>
+    <Project Path="out/visual-studio/desktop/breakwater_eog_contracts_automoc_json_extraction.vcxproj">
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_contracts_autogen.vcxproj" />
       <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
     </Project>
     <Project Path="out/visual-studio/desktop/breakwater_history_controller_tests_qmlimportscan.vcxproj">
@@ -172,6 +195,7 @@
       <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_automoc_json_extraction.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_automoc_json_extraction.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj" />
+      <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_automoc_json_extraction.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_project_document_automoc_json_extraction.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry_automoc_json_extraction.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry_runtime_automoc_json_extraction.vcxproj" />
@@ -271,6 +295,9 @@
       <Build Project="false" />
     </Project>
   </Folder>
+  <Project Path="out/visual-studio/breakwater_eog_dto_compile.vcxproj">
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
   <Project Path="out/visual-studio/desktop/breakwater.vcxproj" DefaultStartup="true">
     <BuildDependency Project="out/visual-studio/desktop/breakwater_agent.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_agent_automoc_json_extraction.vcxproj" />
@@ -280,6 +307,8 @@
     <BuildDependency Project="out/visual-studio/desktop/breakwater_copy_res.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base_automoc_json_extraction.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_automoc_json_extraction.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_project_document.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_project_document_automoc_json_extraction.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_qmlimportscan.vcxproj" />
@@ -339,6 +368,40 @@
   <Project Path="out/visual-studio/desktop/breakwater_desktop_tests.vcxproj">
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_base.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_desktop_tests_qmlimportscan.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_project_document.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_eog.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_autogen.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_automoc_json_extraction.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_project_document.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_eog_contracts.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_contracts_autogen.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_contracts_automoc_json_extraction.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_project_document.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_eog_contracts_resources_1.vcxproj">
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_eog_contract_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_contracts.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog_contracts_resources_1.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_project_document.vcxproj" />
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+  </Project>
+  <Project Path="out/visual-studio/desktop/breakwater_eog_dataset_tests.vcxproj">
+    <BuildDependency Project="out/visual-studio/desktop/breakwater_eog.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_project_document.vcxproj" />
     <BuildDependency Project="out/visual-studio/desktop/breakwater_telemetry.vcxproj" />
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
