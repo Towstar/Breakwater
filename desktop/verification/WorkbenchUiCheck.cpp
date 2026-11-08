@@ -30,6 +30,8 @@ class Check final : public QObject {
     QPointer<QQuickWindow> window_; QPointer<ProjectController> controller_;
     QCoreApplication* app_; QTimer timer_; QElapsedTimer elapsed_;
     int phase_ = 0, changes_ = 0; bool done_ = false; QJsonArray checks_; QJsonObject observed_;
+    QElapsedTimer outside_shortcut_setup_;
+    bool outside_focus_settled_ = false, outside_escape_sent_ = false;
     QString hash_, run_, feedback_; quint64 revision_ = 0;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
     std::unique_ptr<QTemporaryDir> artifacts_;
@@ -85,7 +87,7 @@ class Check final : public QObject {
     QJsonObject focusObservation() {
         auto* field = item("numericProperty_capacity");
         auto* focused = window_->activeFocusItem();
-        return {{"notice_visible", item("actionFeedbackCard")->isVisible()},
+        return {{"window_active", window_->isActive()}, {"notice_visible", item("actionFeedbackCard")->isVisible()},
             {"feedback_id", controller_->actionFeedback().value("id").toString()},
             {"feedback_code", controller_->actionFeedback().value("code").toString()},
             {"field_text", field->property("text").toString()},
@@ -198,10 +200,30 @@ class Check final : public QObject {
                 require(!item("actionFeedbackCard")->isVisible(), "focused_escape_notice_not_dismissed");
                 require(eval("app.connectMode").toBool(), "focused_escape_cancelled_connection");
                 passed("focused_notice_escape_isolated");
-                item("numericProperty_capacity")->forceActiveFocus(); key(Qt::Key_Escape); break;
-            case 12:
+                outside_shortcut_setup_.start();
+                if (!window_->isActive()) window_->requestActivate();
+                item("numericProperty_capacity")->forceActiveFocus();
+                observed_["outside_escape_setup_started"] = focusObservation(); break;
+            case 12: {
+                if (!outside_escape_sent_) {
+                    auto* field = item("numericProperty_capacity");
+                    observed_["outside_escape_before_key"] = focusObservation();
+                    require(outside_shortcut_setup_.elapsed() < 2000, "outside_shortcut_focus_unavailable");
+                    if (!window_->isActive() || !field->hasActiveFocus() || window_->activeFocusItem() != field) {
+                        outside_focus_settled_ = false;
+                        if (!window_->isActive()) window_->requestActivate();
+                        field->forceActiveFocus(); return;
+                    }
+                    // Window shortcuts require an active window. Let the
+                    // requested activation/focus settle for an event-loop turn
+                    // before exercising the real key/Shortcut delivery path.
+                    if (!outside_focus_settled_) { outside_focus_settled_ = true; return; }
+                    outside_escape_sent_ = true; key(Qt::Key_Escape); return;
+                }
+                observed_["after_outside_escape"] = focusObservation();
                 require(!eval("app.connectMode").toBool(), "outside_notice_escape_did_not_cancel_connection");
                 preserved(); passed("outside_notice_escape_cancels_connection"); enter(QString::number(capacity_ + 1, 'g', 17)); break;
+            }
             case 13:
                 require(controller_->selected().value("capacity").toDouble() == capacity_ + 1, "keyboard_valid_retry_not_applied");
                 require(!item("numericRejection_capacity")->isVisible() && controller_->runId().isEmpty()
