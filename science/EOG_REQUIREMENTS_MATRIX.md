@@ -29,7 +29,8 @@ with 70 Qt + 48 Python cases per mode. Earlier review evidence remains retained.
 These scoped results do not qualify an integrated provider/application build.
 Lucas's reciprocal exact adoption and main integration remain pending.
 Evidence O: `science/evidence/eog-observations/`, exact private observation module
-and test hashes; 33 focused / 219 full-science cases passed without skips.
+and test hashes; final capture-gap follow-up passed 36 focused / 222 full-science
+cases without skips. Earlier 33/219 evidence and the reproduced failure are retained.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|

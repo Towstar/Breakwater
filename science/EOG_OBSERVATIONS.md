@@ -1,6 +1,6 @@
 # Private EOG causal observation core
 
-`eog_observations.py`, method `eog-observations-0.1.0`, indexes already parsed
+`eog_observations.py`, method `eog-observations-0.1.1`, indexes already parsed
 observations without file access, Qt, Torch, model APIs or a public wire mapping.
 It is the next small Person A increment after E1. It does not supply a production
 capture reader, event detector, planner, independent plan validator or simulation UI.
@@ -20,8 +20,16 @@ negative zero and values outside nominal ranges. A finite unknown status is reta
 but its interpretation is `unsupported_status`. This does not validate a physical
 initial state or convert a measurement into a commanded setting.
 
-The actual first/last supplied row timestamps determine the archive's window. Views
-select a cutoff within that window. `latest`, `series`, `cohort`, `window` and private
+The actual first/last supplied row timestamps remain `first_unix` / `last_unix`.
+By default views stop at the last row. A verified historical capture can explicitly
+provide `capture_cutoff_unix` after that row, for example a cutoff at 450 s with its
+last acquisition at 300 s. No sample is invented and its true age remains 150 s.
+Rows beyond an explicitly supplied capture cutoff are rejected. The actual source
+dataset-now remains the separately verified manifest's source endpoint, not this
+prefix's last acquisition or its cutoff. This pure index does not authenticate a
+caller-supplied cutoff; production must verify the public capture first.
+
+`latest`, `series`, `cohort`, `window` and private
 evidence hashing use only acquisitions at/before cutoff. A view's cutoff can fall
 between recorded frames. Missing channels never produce zero/healthy defaults.
 The archive, samples, catalog and returned records are immutable.
@@ -84,6 +92,12 @@ and observation policy; future values cannot change it. This is deliberately
 different from the public full-source dataset/capture identities. It is not a file
 integrity check, authenticated execution record or replacement for the accepted
 capture verifier.
+
+The capture-gap regression first failed because the original API lacked an explicit
+verified-cutoff argument; its retained log is `capture-gap-before-fix.log`. The
+corrected implementation separates acquisition support and cutoff rather than
+changing the user's cursor or inventing a future reading. Generated prefix/full
+archive comparisons now check both values and identical causal fingerprints.
 
 Archive construction validates every supplied row. A production historical analysis
 must receive a verified truncated capture, rather than using this pure index to

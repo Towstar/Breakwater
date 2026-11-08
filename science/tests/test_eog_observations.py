@@ -29,7 +29,7 @@ class CausalObservationTests(unittest.TestCase):
 
     def test_dataset_clock_is_actual_sample_extrema(self):
         archive = Archive(CATALOG, [row(100), row(400)])
-        self.assertEqual((archive.first_unix, archive.now_unix, archive.sample_count), (100, 400, 2))
+        self.assertEqual((archive.first_unix, archive.last_unix, archive.sample_count), (100, 400, 2))
         for t in (99, 401):
             self.reject("invalid_cutoff", lambda: archive.at(t))
 
@@ -38,6 +38,29 @@ class CausalObservationTests(unittest.TestCase):
         view = archive.at(450)
         self.assertEqual(view.latest(*FLOW.key).sample, row(300, value=20))
         self.assertEqual(view.series(*FLOW.key), (row(0, value=10), row(300, value=20)))
+
+    def test_verified_capture_cutoff_can_follow_its_last_acquisition(self):
+        prefix = [row(0, value=10), row(300, value=20)]
+        full = Archive(CATALOG, prefix + [row(600, value=999)]).at(450)
+        captured = Archive(CATALOG, prefix, capture_cutoff_unix=450).at(450)
+        self.assertEqual((captured._archive.last_unix, captured._archive.capture_cutoff_unix), (300, 450))
+        self.assertEqual(captured.latest(*FLOW.key).age_s, 150)
+        self.assertEqual(captured.latest(*FLOW.key).state, "available")
+        self.assertEqual(captured.series(*FLOW.key), full.series(*FLOW.key))
+        self.assertEqual(captured.evidence_fingerprint(), full.evidence_fingerprint())
+
+    def test_declared_capture_rejects_future_rows_and_invalid_clock(self):
+        self.reject("future_sample", lambda: Archive(CATALOG, [row(0), row(600)], capture_cutoff_unix=450))
+        for cutoff in (-1, 0.5, True, 253402300800):
+            self.reject("invalid_parameter", lambda: Archive(CATALOG, [row(0)], capture_cutoff_unix=cutoff))
+        self.reject("invalid_cutoff", lambda: Archive(CATALOG, [row(0)], capture_cutoff_unix=450).at(451))
+
+    def test_capture_gap_does_not_refresh_or_fabricate_a_sample(self):
+        archive = Archive(CATALOG, [row(0)], capture_cutoff_unix=601)
+        view = archive.at(601)
+        reading = view.latest(*FLOW.key)
+        self.assertEqual((reading.state, reading.age_s, reading.sample.unix), ("stale", 601, 0))
+        self.assertEqual(view.window(*FLOW.key, 0).state, "stale")
 
     def test_missing_is_not_zero_or_healthy(self):
         reading = Archive(CATALOG, [row(0)]).at(0).latest(*STATUS.key)
@@ -111,7 +134,7 @@ class CausalObservationTests(unittest.TestCase):
         channels.clear()
         self.assertEqual(archive.sample_count, 1)
         with self.assertRaises(FrozenInstanceError):
-            archive.now_unix = 5
+            archive.last_unix = 5
         with self.assertRaises(TypeError):
             archive._series[FLOW.key] = ()
         with self.assertRaises(FrozenInstanceError):
@@ -229,10 +252,13 @@ class CausalObservationTests(unittest.TestCase):
         for cutoff in [0, 6000] + [rng.randrange(6001) for _ in range(100)]:
             view = archive.at(cutoff)
             prefix = [s for s in rows if s.unix <= cutoff]
+            captured_view = Archive(CATALOG, prefix, capture_cutoff_unix=cutoff).at(cutoff)
+            self.assertEqual(view.evidence_fingerprint(), captured_view.evidence_fingerprint())
             for channel in (FLOW, TANK):
                 expected = tuple(s for s in prefix if s.key == channel.key)
                 self.assertEqual(view.series(*channel.key), expected)
                 self.assertEqual(view.latest(*channel.key).sample, expected[-1])
+                self.assertEqual(view.latest(*channel.key), captured_view.latest(*channel.key))
                 self.assertTrue(all(s.unix <= cutoff for s in view.window(*channel.key, 0).samples))
 
     def test_all_queries_need_no_files_or_model_packages(self):

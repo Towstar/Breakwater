@@ -1,0 +1,58 @@
+{
+  "evidence_version": 1,
+  "generated_utc": "2026-11-08T10:34:16.5206127Z",
+  "method_version": "eog-observations-0.1.1",
+  "branch": "codex/person-a-eog-observations",
+  "base": "a63a16f34f4e4a0ca7a166f89e195dd744c91d18",
+  "pull_request": "https://github.com/Towstar/Breakwater/pull/36",
+  "sources": [
+    {
+      "path": "science/eog_observations.py",
+      "sha256": "f9ae4ff5acfcdf779675fbc3d8dae1a4c8b1c46ed44e1c07d66c9e62d4cf24cb",
+      "git_blob_sha1": "f6ba3bcbeecd44e65098dd8bdc0813b5a06c0b72"
+    },
+    {
+      "path": "science/tests/test_eog_observations.py",
+      "sha256": "221142f0aa55dbcfadcaa11007040fe2652ffaa5f9ddc147c5414ddc7717d1bd",
+      "git_blob_sha1": "a063d9b76c90ecb7eaf8bcc15584f31d24793628"
+    }
+  ],
+  "original_case": "Historical capture cutoff 450 s with acquisitions only through 300 s",
+  "before_fix": {
+    "log": "capture-gap-before-fix.log",
+    "run": 34,
+    "errors": 1,
+    "exit_code": 1,
+    "disposition": "Original index API lacked an explicit verified capture cutoff; unsupported argument reproduced the missing capability before correction."
+  },
+  "focused": {
+    "command": "python -S -m unittest discover -s science/tests -p test_eog_observations.py -v",
+    "run": 36,
+    "passed": 36,
+    "skipped": 0,
+    "exit_code": 0,
+    "log": "stdlib-tests-after-capture-gap.log"
+  },
+  "full_science": {
+    "command": "python -m unittest discover -s science/tests -v",
+    "run": 222,
+    "passed": 222,
+    "skipped": 0,
+    "exit_code": 0,
+    "seconds": 50.221,
+    "log": "full-science-after-capture-gap.log"
+  },
+  "causality": {
+    "seed": 20261108,
+    "cutoffs": 102,
+    "prefix_full_values_and_fingerprints_agree": true,
+    "raw_future_rows_in_explicit_capture": "rejected",
+    "last_acquisition_and_cutoff": "distinct, never substituted for source dataset-now"
+  },
+  "prior_evidence": "verification.json retains the original 33/219 run and source identities",
+  "limitations": [
+    "Caller-supplied capture cutoff is not authenticated by this pure index; production must verify the public capture manifest and fixed files first.",
+    "No production detector, file parser, wire mapping, numerical plan validator or application simulation is supplied.",
+    "All scope/runtime limitations of the original verification.json still apply."
+  ]
+}

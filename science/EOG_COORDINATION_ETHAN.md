@@ -14,6 +14,7 @@ and performs the UI overhaul last.
 - A branch/worktree: `codex/person-a-eog-analysis`,
   `C:\Projects\Breakwater\.worktrees\person-a-eog-analysis`.
 - A increment: https://github.com/Towstar/Breakwater/pull/34
+- Current causal observation increment: https://github.com/Towstar/Breakwater/pull/36
 - Contract coordination: https://github.com/Towstar/Breakwater/pull/33
 - Numerical handoff: `science/EOG_E1_HANDOFF.md`.
 - Numerical contract review: `science/EOG_CONTRACT_REVIEW.md`.
@@ -37,13 +38,20 @@ finite evidence and a private causal fingerprint. No file parser, detector,
 provider wire mapping, planner or application simulation is claimed. The exact
 public numerical contract acceptance remains 72cadd1 as recorded below.
 
-Actual checks: **33/33** focused tests on Python 3.12.13 with `-S` (site packages
-disabled); **219/219** complete science tests in the pinned environment, no skips.
+Current method is `eog-observations-0.1.1`. The PR #36 follow-up separates actual
+first/last acquisitions from an explicit verified capture cutoff, so a cursor at
+450 s with last captured acquisition at 300 s is supported with the true 150 s age.
+It rejects supplied rows beyond that cutoff. Original source dataset-now still
+belongs to the separately verified manifest; no reading or clock is fabricated.
+
+Actual final checks: **36/36** focused tests on Python 3.12.13 with `-S` (site packages
+disabled); **222/222** complete science tests in the pinned environment, no skips.
+The initial missing-API capture-gap failure and earlier 33/219 passes are retained.
 Four existing actual PhysicsNeMo CPU tests executed; the CUDA-driver warning is
 retained, not represented as GPU execution or a new learned-quality qualification.
 Evidence, source identities, commands and limits: `science/evidence/eog-observations/`.
-The post-test base fast-forward adds only the published review/docs/evidence and
-standalone review script; numerical/test inputs stayed unchanged.
+The initial post-test base fast-forward added only the published review/docs/evidence
+and standalone review script; the final capture-gap checks ran after that update.
 
 Next: inspect Lucas's latest PR #33/main/coordination state, obtain reciprocal exact
 72cadd1 adoption/integration, then implement causal event detection/lifecycle and

@@ -20,7 +20,7 @@ MAX_UNIX = 253402300799
 MAX_SAMPLES = 2_000_000
 MAX_CHANNELS = 8192
 MAX_RETURNED_SAMPLES = 8192
-METHOD = "eog-observations-0.1.0"
+METHOD = "eog-observations-0.1.1"
 
 
 class ObservationError(ValueError):
@@ -143,13 +143,16 @@ class Archive:
     _series: object
     _times: object
     first_unix: int
-    now_unix: int
+    last_unix: int
+    capture_cutoff_unix: int
     sample_count: int
 
     def __init__(self, channels: Iterable[Channel], samples: Iterable[Sample], *,
-                 max_samples=MAX_SAMPLES, max_channels=MAX_CHANNELS):
+                 capture_cutoff_unix=None, max_samples=MAX_SAMPLES, max_channels=MAX_CHANNELS):
         _integer(max_samples, "Sample budget", low=1, high=MAX_SAMPLES)
         _integer(max_channels, "Channel budget", low=1, high=MAX_CHANNELS)
+        if capture_cutoff_unix is not None:
+            _integer(capture_cutoff_unix, "Verified capture cutoff")
         catalog = {}
         for channel in channels:
             if type(channel) is not Channel:
@@ -172,6 +175,8 @@ class Archive:
                 raise ObservationError("limit_exceeded", "Sample budget exceeded.")
             if previous is not None and sample.unix < previous:
                 raise ObservationError("unordered_samples", "Rows must be ordered by acquisition time.")
+            if capture_cutoff_unix is not None and sample.unix > capture_cutoff_unix:
+                raise ObservationError("future_sample", "A supplied row exceeds the declared capture cutoff.")
             if sample.key not in catalog:
                 raise ObservationError("unknown_channel", "Sample identity is absent from the explicit catalog.")
             values = grouped[sample.key]
@@ -189,13 +194,14 @@ class Archive:
         object.__setattr__(self, "_times", MappingProxyType({key: tuple(s.unix for s in values)
                                                           for key, values in series.items()}))
         object.__setattr__(self, "first_unix", first)
-        object.__setattr__(self, "now_unix", previous)
+        object.__setattr__(self, "last_unix", previous)
+        object.__setattr__(self, "capture_cutoff_unix", previous if capture_cutoff_unix is None else capture_cutoff_unix)
         object.__setattr__(self, "sample_count", count)
 
     def at(self, cutoff_unix: int, policy: Policy = Policy()):
         _integer(cutoff_unix, "Cutoff")
-        if not self.first_unix <= cutoff_unix <= self.now_unix:
-            raise ObservationError("invalid_cutoff", "Cutoff must lie inside the observed data window.")
+        if not self.first_unix <= cutoff_unix <= self.capture_cutoff_unix:
+            raise ObservationError("invalid_cutoff", "Cutoff must lie within the supplied capture clock.")
         if type(policy) is not Policy:
             raise ObservationError("invalid_parameter", "Expected an explicit observation Policy.")
         return View(self, cutoff_unix, policy)
@@ -211,8 +217,8 @@ class View:
         if type(self._archive) is not Archive or type(self.policy) is not Policy:
             raise ObservationError("invalid_parameter", "View requires Archive and Policy.")
         _integer(self.cutoff_unix, "Cutoff")
-        if not self._archive.first_unix <= self.cutoff_unix <= self._archive.now_unix:
-            raise ObservationError("invalid_cutoff", "Cutoff lies outside the observed window.")
+        if not self._archive.first_unix <= self.cutoff_unix <= self._archive.capture_cutoff_unix:
+            raise ObservationError("invalid_cutoff", "Cutoff lies outside the supplied capture clock.")
 
     def _key(self, asset_id, metric):
         key = _text(asset_id, "Asset ID"), _text(metric, "Metric")

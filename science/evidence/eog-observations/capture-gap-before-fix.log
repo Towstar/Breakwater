@@ -1,0 +1,48 @@
+test_all_queries_need_no_files_or_model_packages (test_eog_observations.CausalObservationTests.test_all_queries_need_no_files_or_model_packages) ... ok
+test_archive_and_returned_evidence_are_immutable (test_eog_observations.CausalObservationTests.test_archive_and_returned_evidence_are_immutable) ... ok
+test_cohort_requires_matching_acquisition_by_default (test_eog_observations.CausalObservationTests.test_cohort_requires_matching_acquisition_by_default) ... ok
+test_cohort_retains_every_unavailable_reason (test_eog_observations.CausalObservationTests.test_cohort_retains_every_unavailable_reason) ... ok
+test_dataset_clock_is_actual_sample_extrema (test_eog_observations.CausalObservationTests.test_dataset_clock_is_actual_sample_extrema) ... ok
+test_direct_view_construction_cannot_bypass_cutoff (test_eog_observations.CausalObservationTests.test_direct_view_construction_cannot_bypass_cutoff) ... ok
+test_duplicate_acquisition_and_channel_catalog_are_rejected (test_eog_observations.CausalObservationTests.test_duplicate_acquisition_and_channel_catalog_are_rejected) ... ok
+test_empty_input_and_catalog_do_not_create_fake_window (test_eog_observations.CausalObservationTests.test_empty_input_and_catalog_do_not_create_fake_window) ... ok
+test_evidence_hash_binds_cutoff_values_units_status_domain_and_policy (test_eog_observations.CausalObservationTests.test_evidence_hash_binds_cutoff_values_units_status_domain_and_policy) ... ok
+test_evidence_hash_excludes_future_and_is_order_independent_at_same_time (test_eog_observations.CausalObservationTests.test_evidence_hash_excludes_future_and_is_order_independent_at_same_time) ... ok
+test_explicit_skew_policy_can_allow_prior_frame (test_eog_observations.CausalObservationTests.test_explicit_skew_policy_can_allow_prior_frame) ... ok
+test_freshness_boundary_is_inclusive_without_epsilon (test_eog_observations.CausalObservationTests.test_freshness_boundary_is_inclusive_without_epsilon) ... ok
+test_full_id_and_unicode_are_retained (test_eog_observations.CausalObservationTests.test_full_id_and_unicode_are_retained) ... ok
+test_future_only_channel_is_missing_in_every_causal_query (test_eog_observations.CausalObservationTests.test_future_only_channel_is_missing_in_every_causal_query) ... ok
+test_id_length_uses_utf16_units_and_rejects_surrogates (test_eog_observations.CausalObservationTests.test_id_length_uses_utf16_units_and_rejects_surrogates) ... ok
+test_invalid_cohort_keys_and_policy_do_not_get_defaults (test_eog_observations.CausalObservationTests.test_invalid_cohort_keys_and_policy_do_not_get_defaults) ... ok
+test_missing_is_not_zero_or_healthy (test_eog_observations.CausalObservationTests.test_missing_is_not_zero_or_healthy) ... ok
+test_no_numeric_string_bool_nonfinite_or_overflow_coercion (test_eog_observations.CausalObservationTests.test_no_numeric_string_bool_nonfinite_or_overflow_coercion) ... ok
+test_queries_do_not_silently_decimate_evidence (test_eog_observations.CausalObservationTests.test_queries_do_not_silently_decimate_evidence) ... ok
+test_query_at_cutoff_never_uses_next_acquisition (test_eog_observations.CausalObservationTests.test_query_at_cutoff_never_uses_next_acquisition) ... ok
+test_randomized_views_match_independent_prefix_filter (test_eog_observations.CausalObservationTests.test_randomized_views_match_independent_prefix_filter) ... ok
+test_stale_raw_evidence_remains_visible (test_eog_observations.CausalObservationTests.test_stale_raw_evidence_remains_visible) ... ok
+test_status_catalog_is_bounded_and_cannot_contain_arbitrary_numbers (test_eog_observations.CausalObservationTests.test_status_catalog_is_bounded_and_cannot_contain_arbitrary_numbers) ... ok
+test_timestamp_is_exact_integer_and_bounded (test_eog_observations.CausalObservationTests.test_timestamp_is_exact_integer_and_bounded) ... ok
+test_unordered_and_unknown_rows_are_explicit_errors (test_eog_observations.CausalObservationTests.test_unordered_and_unknown_rows_are_explicit_errors) ... ok
+test_unusual_status_is_evidence_with_unavailable_interpretation (test_eog_observations.CausalObservationTests.test_unusual_status_is_evidence_with_unavailable_interpretation) ... ok
+test_verified_capture_cutoff_can_follow_its_last_acquisition (test_eog_observations.CausalObservationTests.test_verified_capture_cutoff_can_follow_its_last_acquisition) ... ERROR
+test_window_and_series_validate_bounds (test_eog_observations.CausalObservationTests.test_window_and_series_validate_bounds) ... ok
+test_window_distinguishes_missing_history_and_stale (test_eog_observations.CausalObservationTests.test_window_distinguishes_missing_history_and_stale) ... ok
+test_window_exposes_internal_gap_despite_fresh_latest (test_eog_observations.CausalObservationTests.test_window_exposes_internal_gap_despite_fresh_latest) ... ok
+test_window_keeps_predecessor_and_checks_boundary_gap (test_eog_observations.CausalObservationTests.test_window_keeps_predecessor_and_checks_boundary_gap) ... ok
+test_window_preserves_unsupported_earlier_status (test_eog_observations.CausalObservationTests.test_window_preserves_unsupported_earlier_status) ... ok
+test_window_tail_respects_gap_policy_even_when_fresh (test_eog_observations.CausalObservationTests.test_window_tail_respects_gap_policy_even_when_fresh) ... ok
+test_work_limits_consume_only_one_excess_input (test_eog_observations.CausalObservationTests.test_work_limits_consume_only_one_excess_input) ... ok
+
+======================================================================
+ERROR: test_verified_capture_cutoff_can_follow_its_last_acquisition (test_eog_observations.CausalObservationTests.test_verified_capture_cutoff_can_follow_its_last_acquisition)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-observations\science\tests\test_eog_observations.py", line 45, in test_verified_capture_cutoff_can_follow_its_last_acquisition
+    captured = Archive(CATALOG, prefix, capture_cutoff_unix=450).at(450)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+TypeError: Archive.__init__() got an unexpected keyword argument 'capture_cutoff_unix'
+
+----------------------------------------------------------------------
+Ran 34 tests in 0.009s
+
+FAILED (errors=1)
