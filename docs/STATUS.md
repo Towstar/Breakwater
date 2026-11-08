@@ -10,6 +10,9 @@
 - The formal control-column equivalence concerns exact-real folds, not floating-point
   guards, complete feasibility/ranking behavior, memory safety, speed or optimality.
   Native differential/oracle checks run as part of the combined suite below.
+- Also merged main's subsequent `dc75ef9` documentation/solution refresh. Reconciled the
+  generated solution and status entry, preserving B7's complete graph and distinguishing
+  the upstream report below. Runtime source is identical to the final 20/20 tested tree.
 - Native transport JSON exports can be reopened after restart through the sidebar's
   Pipe transport viewer, without a selected route or current forecast. Charts, signed
   mass ledger, recorded parameters and provenance reuse the existing native display.
@@ -51,12 +54,44 @@
   B7 subincrement does not automatically store native quality results in SQLite, complete
   clean live-model rehearsals or qualify learned predictions. No new hosted calls ran.
 
-Scope: shared base, native search, Person B's agent/run store, single-pipe transport,
-Person A's A3–A6 science/benchmark/proof increments, and A7's control-influence optimization.
+Scope: shared base, native search, durable desktop investigations, science contracts,
+native selected-pipe viewing, and Person A's A3–A7 science/benchmark/proof increments.
+PRs #7, #8, #10 and #11 are merged; their complete histories are retained.
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
 
-## Latest-main reconciliation — November 7, 2026
+## A7 and desktop-stack integration — November 7, 2026 (upstream report)
+
+- PR #11 merged at `e7569d9` without conflicts. Its request-local control influence
+  path selects workloads with at least 32 routes and 2,048 candidates, preserves
+  canonical survivor-cost ordering and independently validates finalists. Recorded
+  component benchmark ratios are 2.178x for screening and 1.094x for complete search
+  on the custom 10,000-candidate case; these are not new integration timings.
+- Before the desktop-stack merge, direct Visual Studio x64 RelWithDebInfo build and
+  **13/13 combined suites passed**; a separate native MSVC ASan build passed **8/8**.
+  Pinned Lean `lake build`, all **21 theorem audits**, and the unapproved-assumption
+  rejection passed in this main checkout. The B stack does not change proof sources.
+- Reviewed PRs #7/#8/#10 and integrated their complete stack at `a707b32` without
+  conflicts. GitHub records all three PRs as merged. SQLite history, bounded worker
+  health, project pipe profiles and the captured native transport viewer are now
+  on main, alongside A7. No scientific worker execution is advertised by that stack.
+- Regenerated the root solution with **66 projects and 180 build dependencies**;
+  every path/reference resolves, including the new control-influence test target.
+- Rebuilt the combined root `Breakwater.slnx` directly with MSVC x64 RelWithDebInfo:
+  **18/18 engine/desktop CTest suites passed** (18.63 s). A separate full-desktop
+  MSVC AddressSanitizer build also passed **18/18** (79.65 s), with no reported
+  sanitizer findings. The Python-worker suite ran 24 cases and pipe-viewer suite
+  ran 10 cases, both with zero failures/skips. Qt Sql/qsqlite and the actual pinned
+  Python interpreter were available; worker-health tests were not skipped.
+  Local logs: `out/stack-visual-studio-build.log`, `out/stack-ctest.log` and
+  `out/stack-asan.log`. The proof-source hashes remain identical to the fresh
+  21-theorem verification above; the B stack changes no Lean sources or pins.
+- Current next science increment: implement the agreed `capabilities` and
+  `storage_rollout` methods in Person A's `science/` workstream, preserving legacy
+  health and the published contract. Native volume approval remains authoritative;
+  fixed-case PhysicsNeMo evidence does not supply arbitrary-route inference.
+
+## Earlier B-workstream reconciliation — November 7, 2026
 
 - Merged main `5c47d4f`, including Person A's latest `7c99c68` Lean increment, into the
   pipe-viewer workstream. Resolved README/status and generated-solution conflicts while
@@ -67,9 +102,10 @@ in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now deliv
 - Scoped proof review found no blocker: five owned source hashes and the manifest match
   committed evidence; the 15-theorem audit permits only `propext`, `Classical.choice`
   and `Quot.sound`, and the negative-assumption probe is recorded as rejected.
-- The following PR #6 proof/science execution record is upstream evidence, not a fresh
-  run in this chat. Lean/Lake and the scientific packages are unavailable in this
-  process environment; no local proof/training replay is claimed. Proofs concern exact
+- At this earlier B-workstream checkpoint, the following PR #6 proof/science record
+  was upstream evidence. Lean/Lake and scientific packages were unavailable in that
+  process; it did not claim a local proof/training replay. The upstream main-checkout
+  report above records its own Lean run; this B7 chat did not repeat it. Proofs concern exact
   real finite-network algorithms, not C++ floating point, PDEs, ML quality or optimality.
 
 ## PR #6 integration — November 7, 2026 (upstream report)
