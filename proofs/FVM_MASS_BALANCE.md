@@ -83,8 +83,10 @@ or exact execution of floating-point time alignment.
   construction of validated runtime indices.
 - This is not a PDE convergence/accuracy theorem, positivity theorem, hydraulic
   validation, quality-threshold guarantee, optimization-feasibility certificate
-  or global-optimality proof. A10b positivity and the front-accuracy study remain
-  separate work. No solver algorithm or public contract is changed here.
+  or global-optimality proof. [A10b conditional nonnegativity](FVM_NONNEGATIVITY.md)
+  adds explicit physical/CFL hypotheses without changing these identities. The
+  front-accuracy study remains separate. No solver algorithm or public contract
+  is changed here.
 
 ## Checked statements
 

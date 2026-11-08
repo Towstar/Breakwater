@@ -19,7 +19,7 @@ The previously delivered half-cell inlet-CFL case is strengthened in place.
 | Existing unsafe-inlet request | `dx=1,D=1,v=k=0,T=1/2,C=[1,0]`. Scheduler must take two safe steps, yielding `[1/18,5/18]`, instead of the unsafe single-step first-cell value `-1/2`. |
 
 Expected impulse arrays are explicit rational values, not a copy of the solver's
-flux or update loop. Cases assert one substep and reported CFL exactly one in the
+flux or update loop. Cases assert one substep and check reported CFL against one in the
 dyadic equality tests, check field/ledger diagnostics and exercise both boundaries
 on the minimum mesh and with interior cells. Existing independent nonunit-geometry,
 signed-mass and unequal closed source/decay cases remain intact.

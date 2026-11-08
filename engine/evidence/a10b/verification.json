@@ -1,6 +1,6 @@
 {
   "source_base": "631f783787c2b889997aabda0a24c40dae3d9576",
-  "source_state": "Only transport_tests.cpp changed from the source base; source hashes identify the checked working files.",
+  "source_state": "The only native source change is transport_tests.cpp; proof and documentation changes are checked separately. Source hashes identify the checked working files.",
   "status": "passed",
   "recorded_utc": "2026-11-08T02:45:39.6965972Z",
   "compiler": "MSVC 19.51.36260.0 x64 C++20 precise floating point",

@@ -1,11 +1,12 @@
 # Checked storage, control-influence and finite-volume algorithms
 
 This standalone Lean project checks mathematical storage algorithms and discrete
-single-pipe tracer mass balance. The storage results apply to arbitrary valid finite
+single-pipe tracer mass balance and conditional nonnegativity. The storage results apply to arbitrary valid finite
 graphs; the transport identities apply to finite cells with shared face fluxes.
 Person B's application, contracts, root setup/solution and shared documentation are
 untouched. See [FVM_MASS_BALANCE.md](FVM_MASS_BALANCE.md) for A10a's equations,
-assumptions, native mapping and limits.
+assumptions, native mapping and limits; [FVM_NONNEGATIVITY.md](FVM_NONNEGATIVITY.md)
+documents A10b's physical conditions, variable steps and counterexample.
 
 ## Reproduce
 
@@ -160,11 +161,28 @@ step sequence, without claiming a proof of the scheduler itself.
 
 The required algebraic geometry condition is nonzero cell width. Native valid
 geometry is stricter, with positive width/area and at least two cells. No CFL or
-nonnegative-flux premise is needed for conservation. Positivity and PDE accuracy
-remain separate: a balanced numerical solution can still be inaccurate.
+nonnegative-flux premise is needed for conservation. A10b separately proves
+conditional nonnegativity; a balanced, nonnegative numerical solution can still
+be inaccurate.
 
 The complete correspondence, boundary/source/decay units, native examples and
 scope exclusions are in [FVM_MASS_BALANCE.md](FVM_MASS_BALANCE.md).
+
+## Conditional finite-volume nonnegativity
+
+`TransportNonnegativity.lean` derives the six open/closed stencil expansions from
+those existing face laws and `eulerStep`. Nonnegative physical data and the
+boundary-aware exact-real budget at most one make all coefficients nonnegative,
+including at equality and on the minimum two-cell mesh. A physically parameterized
+step list embeds into A10a's actual recurrence; induction proves variable-step
+preservation and composes it with the existing independent ledger balance.
+
+The checked counterexample shows that an interior-only diffusion budget can give
+`-1/2` mg/L in the open first cell. The native scheduler's corresponding request
+is safely subdivided, checked separately by regression. There are 17 new results
+and 54 total advertised statements. See [FVM_NONNEGATIVITY.md](FVM_NONNEGATIVITY.md)
+for every hypothesis, statement, native mapping and scope limit. In particular,
+this does not prove nonnegativity under compiled floating-point epsilon margins.
 
 ## Assumptions and C++ correspondence
 

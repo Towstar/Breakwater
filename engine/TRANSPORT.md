@@ -10,6 +10,14 @@ interior-face cancellation, one-step inventory balance and the variable-step sig
 ledger identity over exact reals. They do not certify PDE accuracy, positivity,
 floating-point implementation behavior or the scheduler.
 
+A10b's [conditional nonnegativity proof](../proofs/FVM_NONNEGATIVITY.md) derives
+the same boundary/interior stencils and preservation under nonnegative physical
+data and exact-real sufficient budget at most one, including variable steps and
+two-cell meshes. It composes with A10a without changing the solver. The separate
+[native regression record](A10B_REGRESSIONS.md) checks equality, zero values and
+unequal steps normally and under MSVC ASan. Native epsilon margins and tiny
+negative values remain outside the exact-real guarantee.
+
 Include `breakwater/transport.hpp` and link `breakwater_engine`. This is a synthetic,
 cross-section-averaged scalar concentration model, separate from the tank-volume model:
 

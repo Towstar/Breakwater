@@ -3,6 +3,7 @@ module
 public import Breakwater.Network
 public import Breakwater.ControlInfluence
 public import Breakwater.Transport
+public import Breakwater.TransportNonnegativity
 meta import Lean.Util.CollectAxioms
 meta import Lean.Meta.InferType
 
@@ -46,6 +47,24 @@ meta import Lean.Meta.InferType
 #print axioms Breakwater.Transport.rollout_mass_residual_zero
 #print axioms Breakwater.Transport.rollout_inventory_balance
 
+#print axioms Breakwater.Transport.open_first_expansion
+#print axioms Breakwater.Transport.open_last_expansion
+#print axioms Breakwater.Transport.open_interior_expansion
+#print axioms Breakwater.Transport.closed_first_expansion
+#print axioms Breakwater.Transport.closed_last_expansion
+#print axioms Breakwater.Transport.closed_interior_expansion
+#print axioms Breakwater.Transport.dimensionless_numbers_nonnegative
+#print axioms Breakwater.Transport.open_budget_identity
+#print axioms Breakwater.Transport.closed_budget_identity
+#print axioms Breakwater.Transport.open_coefficient_bounds
+#print axioms Breakwater.Transport.closed_coefficient_bounds
+#print axioms Breakwater.Transport.open_euler_nonnegative
+#print axioms Breakwater.Transport.closed_euler_nonnegative
+#print axioms Breakwater.Transport.native_step_nonnegative
+#print axioms Breakwater.Transport.native_rollout_nonnegative
+#print axioms Breakwater.Transport.native_rollout_nonnegative_mass_balance
+#print axioms Breakwater.Transport.interior_only_bound_counterexample
+
 /-- The advertised results are checked transitively, not just scanned for placeholders. -/
 public meta def Breakwater.auditedAlgorithms : Array Lean.Name := #[
   ``Breakwater.sparse_eq_dense,
@@ -84,7 +103,24 @@ public meta def Breakwater.auditedAlgorithms : Array Lean.Name := #[
   ``Breakwater.Transport.zero_flow_inlet_loss,
   ``Breakwater.Transport.rollout_residual_preserved,
   ``Breakwater.Transport.rollout_mass_residual_zero,
-  ``Breakwater.Transport.rollout_inventory_balance
+  ``Breakwater.Transport.rollout_inventory_balance,
+  ``Breakwater.Transport.open_first_expansion,
+  ``Breakwater.Transport.open_last_expansion,
+  ``Breakwater.Transport.open_interior_expansion,
+  ``Breakwater.Transport.closed_first_expansion,
+  ``Breakwater.Transport.closed_last_expansion,
+  ``Breakwater.Transport.closed_interior_expansion,
+  ``Breakwater.Transport.dimensionless_numbers_nonnegative,
+  ``Breakwater.Transport.open_budget_identity,
+  ``Breakwater.Transport.closed_budget_identity,
+  ``Breakwater.Transport.open_coefficient_bounds,
+  ``Breakwater.Transport.closed_coefficient_bounds,
+  ``Breakwater.Transport.open_euler_nonnegative,
+  ``Breakwater.Transport.closed_euler_nonnegative,
+  ``Breakwater.Transport.native_step_nonnegative,
+  ``Breakwater.Transport.native_rollout_nonnegative,
+  ``Breakwater.Transport.native_rollout_nonnegative_mass_balance,
+  ``Breakwater.Transport.interior_only_bound_counterexample
 ]
 
 -- These are the standard foundations of the pinned classical-real Mathlib development.

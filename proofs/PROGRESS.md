@@ -1,5 +1,74 @@
 # Person A proof evidence
 
+## A10b — conditional FVM nonnegativity (November 7, 2026)
+
+The [post-A10a audit](../science/AUDIT_POST_A10A.md) froze merged main
+`55454173987c5a75d1bb502bb5bde4910051e2d7` and closed the A10b gate in audit
+commit `631f783`. No new A-owned correctness blocker was found. B's original
+manual-capture configuration gap and shared-status update are documented for
+integration, without changing B's files. Native regression commit `974a58d`
+adds equality/minimum-mesh/interior/zero-data/source/variable-step checks.
+
+`TransportNonnegativity.lean` adds **17 checked statements**, preserving all
+37 existing statements for **54 audited propositions**. It derives the actual
+open/closed stencils from A10a's face laws and Euler definition, proves their
+coefficient bounds and one-step nonnegativity, embeds physically parameterized
+admissible steps into A10a's recursive rollout, proves finite variable-step
+preservation and composes it with the independent inventory ledger. It also
+proves the two-cell interior-only-CFL counterexample giving `-1/2` mg/L.
+Every statement/hypothesis/unit and the native mapping are catalogued in
+[FVM_NONNEGATIVITY.md](FVM_NONNEGATIVITY.md).
+
+Actual final command in the separate `codex/person-a-engine` worktree:
+
+```powershell
+./proofs/verify.ps1 -LeanBin C:/Projects/Breakwater/.tools/lean-4.35.0-windows/bin
+```
+
+- Direct module compilation with warnings as errors passed first.
+- Pinned `lake build` passed **1,063 jobs**, including the new module, combined
+  audit and root library; cached dependencies were reused.
+- Fresh direct proposition/transitive-assumption audit passed all **54** names.
+  The allowlist remains `propext`, `Classical.choice`, `Quot.sound`; no new
+  foundational assumption is permitted.
+- The generated negative probe was rejected specifically for
+  `A6UnexpectedProbe` by the same audit function. Prohibited-token scan, pin
+  checks and wrapper expected-count gate passed; verifier exited **0**.
+- Lean **4.35.0**, Lake **5.0.0-src+eb6cafb**, Mathlib
+  `56a005855ea17e0b0958f73ec801ae140b0a1679` and all resolved dependency pins
+  are unchanged. Final verification ran **02:43:08–02:45:45 UTC November 8**,
+  November 7 in America/Chicago; exact timestamps/source hashes are in JSON.
+- Final native normal and separate MSVC ASan CTests passed **8/8 each**; direct
+  transport harnesses passed **25/25 cases each**, zero skips and no sanitizer
+  report. See [native record](../engine/A10B_REGRESSIONS.md) for commands,
+  independent expected values, logs, versions and executable/source hashes.
+- The preceding frozen-source audit freshly passed **127/127 Python tests**,
+  native/Torch parity on 18 cases/3 solvers, **302 worker requests**, 44 interior
+  controls and 132 central differences. No Python/worker implementation changed
+  for A10b, so these were not repeated after the proof/test-only edits.
+
+Committed final proof evidence:
+
+- [Lake build](evidence/a10b-lake-build.log).
+- [Fresh proposition/transitive-assumption audit](evidence/a10b-axiom-audit.log).
+- [Expected assumption rejection](evidence/a10b-negative-audit.log).
+- [Versions, pins, checked-source hashes and scope](evidence/a10b-verification.json).
+
+Earlier unsuccessful development checks remain local under `out/a10b/`: the first
+attempt used an unavailable tactic import, then finite-index normalization and
+warning-as-error simp checks required corrections. They are not passing proof
+evidence. The final successful module/build/audit logs above identify the delivered
+source. A failed initial log redirection was corrected before Lean ran.
+
+The result concerns exact reals, >=2 cells, positive width, nonnegative physical
+inputs and each step's sufficient budget **at most one**. Zero values/equality
+are allowed. Native epsilon margins, retained tiny negatives, scheduler selection,
+compiled nonnegativity, IEEE bounds and memory safety are not proved. No numerical
+solver, timestep, public contract or B-owned file changed. There is no new PDE/front
+accuracy, learned-training, hosted-model, installed-app or benchmark claim. A9's
+failed coarse study and refined maximum-error limitation remain; work stops before
+the separate front-accuracy study. Earlier progress entries below are historical.
+
 ## A10a — discrete FVM mass balance (November 7, 2026)
 
 Implemented on `codex/person-a-engine` from integrated main `7785d1d`. New work is

@@ -1,5 +1,34 @@
 # Person A science evidence
 
+## Post-A10a audit and A10b — November 7, 2026
+
+The [new audit](AUDIT_POST_A10A.md) froze `5545417`, checked prior A-001–A-004
+resolutions and found no new A-owned blocker for A10b. Audit commit `631f783`
+precedes dependent implementation. Fresh checks passed 8/8 native suites normally
+and with MSVC ASan, 127/127 Python tests with no skips, 18 native/Torch cases across
+three solvers and 302 actual worker requests. All 37 preceding Lean statements and
+the expected assumption-rejection probe passed. B-owned capture configuration and
+shared proof-status findings are reported with reproductions, without B edits.
+
+[A10b](../proofs/FVM_NONNEGATIVITY.md) now adds conditional exact-real FVM
+nonnegativity on the native >=2-cell domain, all six derived stencil expansions,
+physically admissible variable-step preservation, A10a mass-balance composition
+and the deliberately unsafe half-cell inlet counterexample. Final pinned Lean
+build and fresh transitive audit passed **54 statements** with unchanged pins and
+allowlist; the unexpected-assumption probe was rejected. Final normal/ASan native
+checks each passed **8/8 suites and 25/25 transport cases**, without sanitizer
+reports. [Proof evidence](../proofs/PROGRESS.md) and
+[native evidence](../engine/A10B_REGRESSIONS.md) record the actual commands,
+versions, source/executable hashes and limitations.
+
+The exact-real result does not prove compiled nonnegativity under epsilon margins,
+scheduler correctness, IEEE error bounds or PDE/front accuracy. Native diagnostics,
+no-clipping behavior, solver, contracts and B-owned files are unchanged. No new
+training, hosted-model, installed-app, benchmark or accuracy study is claimed.
+A9's original failure and about 0.40191 mg/L refined front maximum error remain
+explicit. The front/threshold accuracy study is the separate next task and has
+not been started here. B can incorporate these owned records into shared status.
+
 The dated entries below preserve status and evidence at each milestone. In
 particular, the A3/A4 health-only worker statements describe those deliveries;
 A8 later added capabilities, storage rollout and selected-control derivatives.
