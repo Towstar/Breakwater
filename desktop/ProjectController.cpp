@@ -30,11 +30,16 @@ bool ProjectController::setPipeParameters(const QString& routeId, const QJsonObj
     } catch (const std::exception&) { return false; }
 }
 QJsonObject ProjectController::capturedRun() const {
-    if (!run_ || run_->revision != revision_ || run_->result.time_h.empty()) return {};
-    return {{"run_id", run_->id}, {"snapshot_id", run_->id}, {"physical_hash", networkHash()},
-        {"numerical_revision", static_cast<qint64>(revision_)}, {"horizon_h", run_->result.time_h.back()},
-        {"network", network_json(project_.network)}, {"controls", QJsonArray{}}, {"historical", false},
+    const auto captured = capturedForecast();
+    if (!captured || captured->result.time_h.empty()) return {};
+    return {{"run_id", captured->id}, {"snapshot_id", captured->id}, {"physical_hash", captured->physical_hash},
+        {"numerical_revision", static_cast<qint64>(captured->revision)}, {"horizon_h", captured->config.horizon_h},
+        {"sample_step_h", captured->config.step_h},
+        {"network", network_json(captured->network)}, {"controls", QJsonArray{}}, {"historical", false},
         {"volume_feasible", run_->validation.feasible}};
+}
+std::shared_ptr<const CapturedForecast> ProjectController::capturedForecast() const {
+    return !busy_ && run_ && run_->revision == revision_ ? run_ : nullptr;
 }
 std::size_t ProjectController::sampleIndex() const {
     return run_ ? static_cast<std::size_t>(std::llround(forecast_fraction_ * static_cast<double>(run_->result.time_h.size() - 1))) : 0;
@@ -234,28 +239,34 @@ bool ProjectController::load(const QUrl& url) {
     undo_.push_back(before); redo_.clear(); emit changed(); return true;
 }
 void ProjectController::forecast() {
+    forecastWithConfig({});
+}
+void ProjectController::forecastWithConfig(SimulationConfig configuration) {
     if (busy_) return;
     if (!draftIssues().empty()) { summary_ = "Fix draft issues before forecasting."; emit changed(); return; }
-    busy_ = true; approved_ = false; summary_ = "Calculating native forecast..."; emit changed();
+    busy_ = true; run_.reset(); approved_ = false; summary_ = "Calculating native forecast..."; emit changed();
     const auto generation = ++job_generation_; const auto revision = revision_; const auto network = project_.network;
+    const auto physicalHash = networkHash();
     auto* watcher = new QFutureWatcher<JobResult>(this);
-    connect(watcher, &QFutureWatcher<JobResult>::finished, this, [this, watcher, generation, revision] {
-        const auto outcome = watcher->result(); watcher->deleteLater();
+    connect(watcher, &QFutureWatcher<JobResult>::finished, this, [this, watcher, generation, revision, network, configuration, physicalHash] {
+        auto outcome = watcher->result(); watcher->deleteLater();
         if (generation != job_generation_ || revision != revision_) return;
         busy_ = false;
         if (!outcome.error.isEmpty()) { summary_ = outcome.error; emit changed(); return; }
-        run_ = StoredRun{outcome.result, outcome.validation, QUuid::createUuid().toString(QUuid::WithoutBraces), revision};
+        run_ = std::make_shared<const CapturedForecast>(CapturedForecast{network, configuration,
+            std::move(outcome.result), std::move(outcome.validation),
+            QUuid::createUuid().toString(QUuid::WithoutBraces), physicalHash, revision});
         forecast_fraction_ = 0.0;
-        summary_ = QString("%1 | Nominal 3 h volume forecast | Cost %2 synthetic units | Quality not evaluated\n")
-            .arg(outcome.validation.feasible ? "PASS" : "FAIL").arg(outcome.result.cost, 0, 'f', 2);
-        for (const auto& issue : outcome.validation.violations)
+        summary_ = QString("%1 | Nominal %2 h volume forecast | Cost %3 synthetic units | Quality not evaluated\n")
+            .arg(run_->validation.feasible ? "PASS" : "FAIL").arg(configuration.horizon_h).arg(run_->result.cost, 0, 'f', 2);
+        for (const auto& issue : run_->validation.violations)
             summary_ += q(issue.asset_id + ": " + issue.message) + (issue.time_h ? QString(" Limit reached at %1 h.").arg(*issue.time_h, 0, 'f', 5) : QString{}) + "\n";
-        if (outcome.validation.feasible) summary_ += "Remaining minimum headroom: " + QString::number(outcome.validation.minimum_headroom_m3, 'f', 2) + " m3.";
+        if (run_->validation.feasible) summary_ += "Remaining minimum headroom: " + QString::number(run_->validation.minimum_headroom_m3, 'f', 2) + " m3.";
         emit changed();
     });
-    watcher->setFuture(QtConcurrent::run([network] {
+    watcher->setFuture(QtConcurrent::run([network, configuration] {
         JobResult outcome;
-        try { const auto compiled = compile(network); outcome.result = simulate(compiled); outcome.validation = validate(compiled, outcome.result); }
+        try { const auto compiled = compile(network); outcome.result = simulate(compiled, configuration); outcome.validation = validate(compiled, outcome.result, configuration); }
         catch (const std::exception& e) { outcome.error = QString::fromUtf8(e.what()); }
         return outcome;
     }));

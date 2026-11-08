@@ -6,9 +6,12 @@ volume simulations and approval rules remain readable and authoritative.
 
 The repo worker implements **health, capabilities and storage_rollout** through A8's
 adopted project/wire mapping. Standalone private fixtures remain distinct from that
-format. The desktop adapter still uses legacy health only; its scientific-method
-negotiation and deployment of the mapper/package/runtime remain B's next increment.
-Installing packages does not establish execution verification. See
+format. B5 deploys the mapper/package and adds asynchronous capability negotiation
+and forward storage comparison against an immutable native forecast. Legacy health
+remains available. Selected-control derivatives are not yet exposed by the desktop.
+Installing packages does not establish execution verification; the desktop requires
+the same process's post-execution capabilities and clean exit. See
+[DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for setup and the desktop boundary, and
 [science/WORKER.md](../science/WORKER.md) for the implementation and actual evidence.
 
 The B4 native selected-pipe viewer calls `breakwater::transport` directly, outside the UI

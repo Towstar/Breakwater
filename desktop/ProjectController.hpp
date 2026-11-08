@@ -5,9 +5,20 @@
 #include <QVariantList>
 #include <QVariantMap>
 #include <functional>
-#include <optional>
+#include <memory>
 
 namespace breakwater::desktop {
+// Shared immutable numerical evidence. QML receives bounded display previews;
+// scientific jobs retain this handle instead of re-reading mutable editor state.
+struct CapturedForecast {
+    Network network;
+    SimulationConfig config;
+    SimulationResult result;
+    ValidationReport validation;
+    QString id, physical_hash;
+    quint64 revision = 0;
+};
+
 class ProjectController final : public QObject {
     Q_OBJECT
     Q_PROPERTY(QVariantList assets READ assets NOTIFY changed)
@@ -48,6 +59,9 @@ public:
     QJsonObject pipeParameters(const QString& routeId) const;
     bool setPipeParameters(const QString& routeId, const QJsonObject& parameters);
     QJsonObject capturedRun() const;
+    std::shared_ptr<const CapturedForecast> capturedForecast() const;
+    // C++ integration/test entry point; the normal UI retains its fixed defaults.
+    void forecastWithConfig(SimulationConfig configuration);
     bool restore(const QJsonObject& object);
     // Called only by the human-facing approval controller after stored validation.
     bool applyControlsForApproval(const std::vector<ControlValue>& controls, const QString& expectedHash);
@@ -73,7 +87,6 @@ signals:
     void changed();
     void cameraChanged();
 private:
-    struct StoredRun { SimulationResult result; ValidationReport validation; QString id; quint64 revision; };
     ProjectDocument project_;
     QString selected_id_;
     QString summary_ = "Synthetic constant-flow model. Healthy preview accumulates 8 m3/h in Tank A.";
@@ -81,7 +94,7 @@ private:
     quint64 revision_ = 0, job_generation_ = 0;
     bool busy_ = false, approved_ = false;
     double forecast_fraction_ = 0.0;
-    std::optional<StoredRun> run_;
+    std::shared_ptr<const CapturedForecast> run_;
     void edit(const std::function<void()>& mutation);
     void refresh(bool physics_changed);
     std::size_t sampleIndex() const;

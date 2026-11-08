@@ -108,8 +108,9 @@ Send a line such as:
 The repo worker now implements `capabilities` and `storage_rollout`, including
 selected-control derivatives, through the agreed science contract. See
 [science/WORKER.md](science/WORKER.md) for requests, limits and executed checks.
-The asynchronous desktop adapter still uses legacy health only. B must deploy the
-mapper/package and extend that adapter before exposing scientific operations in the UI.
+The asynchronous desktop adapter deploys the mapper/package and exposes forward
+storage comparison with process-local capability verification and clean-exit checks.
+Selected-control derivatives remain available through the worker, pending desktop UI.
 Standalone calculations also include [PyTorch rollout and gradient checks](science/README.md),
 [experimental PhysicsNeMo smoke](science/PHYSICSNEMO.md),
 [native benchmarks](engine/BENCHMARKS.md), and [Lean proofs](proofs/README.md).
@@ -121,6 +122,11 @@ comparison and guarded operator review. Its bounded JSON exports can be reopened
 read-only historical evidence; see [the pipe viewer guide](docs/PIPE_TRANSPORT.md). See
 [docs/SCIENCE_VALIDATION.md](docs/SCIENCE_VALIDATION.md) for proof scope and numerical
 limits, and [docs/STATUS.md](docs/STATUS.md) for executed evidence.
+
+The [desktop Science workflow](docs/DESKTOP_SCIENCE.md) now deploys a pinned local
+CPU Python/Torch runtime and compares an actual retained native forecast with the
+real worker. Run `scripts/Setup-ScientificWorker.ps1`, then `scripts/Start-Desktop.ps1`.
+Forward comparison is advisory; native feasibility and operator approval stay separate.
 
 ## Optional project-local Qt setup
 

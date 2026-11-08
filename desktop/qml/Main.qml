@@ -11,6 +11,8 @@ ApplicationWindow {
     required property var history
     required property var scientificWorker
     required property var pipeTransport
+    required property var storageScience
+    readonly property bool storageScienceVisible: showAgent && agentPanel.scienceVisible
     readonly property bool pipeTransportVisible: pipeTransportDialog.visible
     readonly property bool compactUi: Qt.application.arguments.indexOf("--compact-ui") >= 0
     property bool showAgent: false
@@ -53,6 +55,7 @@ ApplicationWindow {
         return Qt.vector3d(a.x + t * (b.x - a.x), 0, a.z + t * (b.z - a.z))
     }
     function openPipeTransport() { pipeTransportDialog.open() }
+    function openStorageScience() { showAgent = true; agentPanel.showScience() }
     function clickAsset(id) {
         if (connectMode) {
             if (connectionSource.length === 0) connectionSource = id
@@ -316,7 +319,7 @@ ApplicationWindow {
         }
         Rectangle {
             Layout.fillWidth: true; Layout.preferredHeight: app.showAgent ? Math.min(420, Math.round(app.height * 0.52)) : 196; color: "#172735"
-            AgentPanel { anchors.fill: parent; anchors.margins: 14; visible: app.showAgent; investigator: app.investigator; history: app.history; scientificWorker: app.scientificWorker }
+            AgentPanel { id: agentPanel; anchors.fill: parent; anchors.margins: 14; visible: app.showAgent; investigator: app.investigator; history: app.history; scientificWorker: app.scientificWorker; storageScience: app.storageScience }
             ColumnLayout {
                 visible: !app.showAgent
                 anchors.fill: parent; anchors.margins: 14; spacing: 5
