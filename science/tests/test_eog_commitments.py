@@ -212,5 +212,16 @@ class NativeCommitmentTests(unittest.TestCase):
             self.assertTrue(stream.dispatch(g.id, 0, 1)["accepted"])
             self.assertEqual(sum(t.busy for t in self.check(m, stream).trucks), 2)
 
+    def test_later_cancel_cannot_invalidate_a_verified_historical_control_prefix(self):
+        m = configured(); f = m.facilities[0]
+        cfg = experiment(m, duration=900, failures=(Failure(f.id, 300.125),))
+        with SyntheticStream(self.library, compile_experiment(m, cfg)) as stream:
+            stream.advance(350.125); self.assertTrue(stream.dispatch(f.id, 0, 1)["accepted"])
+            frozen = stream.control_history()
+            stream.advance(600)
+            with self.assertRaises(SyntheticError): stream.advance(900, cancelled=lambda: True)
+            self.assertEqual(stream.control_history(350.125), frozen)
+            with self.assertRaises(SyntheticError): stream.control_history()
+
 
 if __name__ == "__main__": unittest.main()
