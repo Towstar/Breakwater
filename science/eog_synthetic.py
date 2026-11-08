@@ -242,13 +242,14 @@ def seeded_experiment(model, *, start_unix, duration_s, seed, failure_count=None
 
 
 class SyntheticStream:
-    """Host-side plant owner. Analysis consumers receive only immutable View."""
+    """Host plant owner; analysis receives immutable observations/control facts."""
     def __init__(self, library, compiled):
         if type(compiled) is not Compiled:
             raise SyntheticError("invalid_parameter", "Synthetic stream needs the explicitly compiled scenario.")
         self._compiled = compiled
         self._native = NativePlant(library, compiled.native_input())
         self._rows = []; self._commands = []; self._elapsed = 0.0; self._next_sample = PERIOD_S
+        self._supported_elapsed = 0.0
         try: self._emit(self._native.snapshot(), 0)
         except BaseException: self._native.close(); raise
 
@@ -297,6 +298,7 @@ class SyntheticStream:
         self._elapsed = result["elapsed_s"]
         if result["status"] not in ("running", "completed"):
             raise SyntheticError("plant_" + result["status"], result["diagnostic"])
+        self._supported_elapsed = self._elapsed
         return result
 
     def advance(self, elapsed_s, cancelled=None):
@@ -330,7 +332,8 @@ class SyntheticStream:
         """
         from eog_commitments import Dispatch, History, MAX_CONTROLS, ShutIn
         cutoff = self._elapsed if cutoff_elapsed_s is None else _number(cutoff_elapsed_s, high=self._elapsed)
-        if self._native.snapshot()["status"] not in ("running", "completed"):
+        if (cutoff > self._supported_elapsed or (cutoff == self._elapsed and
+                self._native.snapshot()["status"] not in ("running", "completed"))):
             raise SyntheticError("plant_unavailable", "An unsupported/cancelled plant cannot publish a current valid history.")
         commands = []
         for command in self._commands:
@@ -380,6 +383,7 @@ class SyntheticStream:
 
     def reset(self):
         self._native.reset(); self._rows.clear(); self._commands.clear(); self._elapsed = 0.0; self._next_sample = PERIOD_S
+        self._supported_elapsed = 0.0
         self._emit(self._native.snapshot(), 0)
 
     def close(self): self._native.close()
