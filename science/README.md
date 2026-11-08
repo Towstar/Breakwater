@@ -11,6 +11,11 @@ A9 adds [bounded transport qualification](TRANSPORT_QUALIFICATION.md): independe
 cell-average references, spatial/temporal refinement, signed ledgers, declared gates
 and retained coarse-front failure evidence. It does not change native volume approval.
 
+F1 adds a separate [front/outlet/threshold characterization](FRONT_ACCURACY.md),
+with actual native execution, independent physical/semidiscrete references and
+explicit unresolved accuracy limits. [G1 numerical observation guidance](OBSERVATION_SEMANTICS.md)
+is ready for B's contract review; sensor runtime mappings remain subsequent work.
+
 A4 now adds a separate, actually executed PhysicsNeMo pipe smoke. Its larger pinned
 environment, training/evaluation commands and experimental scope are documented in
 [PHYSICSNEMO.md](PHYSICSNEMO.md). The A3 instructions below remain independently usable.

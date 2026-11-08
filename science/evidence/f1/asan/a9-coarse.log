@@ -1,0 +1,3 @@
+A9 FAILED: C:\Projects\Breakwater\.worktrees\person-a-front-accuracy\out\f1\attempt-07-asan\a9-coarse\report.json
+cases=45; gates=580; failures=1
+{"maximum": 1.35, "measured_orders": [0.2765063820077894, 0.20370157974971287], "minimum": 0.25, "name": "scheduled_inlet.space.refinement_order", "passed": false}

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="8"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="ETHAN-LAPTOP"
+	time="2"
+	timestamp="2026-11-07T23:14:28"
+	>
+	<testcase name="engine.benchmark_correctness" classname="engine.benchmark_correctness" time="0.0955764" status="run">
+		<properties/>
+		<system-out>canonical_incident candidates=100 verified=100 feasible=5 screen_passes=5 influence_passes=5 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+custom_24_tanks candidates=100 verified=100 feasible=23 screen_passes=23 influence_passes=23 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+{"benchmark_version":2,"status":"passed","method":"correctness_only","configuration":"RelWithDebInfo","checked_build":false,"cpp_standard":2020,"compiler":"MSVC 195136260","logical_processors_reported":16,"processor_identifier":"AMD64 Family 25 Model 80 Stepping 0, AuthenticAMD","steady_clock":true,"warmup_batches":2,"repeats":7,"calibration_target_ms":10,"maximum_iterations_per_sample":1024,"phase_order":"rotated per repetition","quantile":"p90 nearest rank; stddev population","notes":"Kernel setup excluded except explicitly timed influence_precompute. Dense/sparse have identical samples, writes and full-buffer checksum consumption. Affine avoids trajectories. Paired route-walk/influence sc...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.acceptance" classname="engine.acceptance" time="0.0740073" status="run">
+		<properties/>
+		<system-out>PASS healthy preview accumulates explicitly
+PASS baseline exact limit time and unclipped prediction
+PASS isolated downstream failure
+PASS mixed plan cost and inventory
+PASS capacity equality is permitted
+PASS generic renamed network and shared throughput
+PASS negative inventories remain visible
+PASS unknown nonfinite duplicate and unavailable controls rejected
+PASS draft and malformed topology rejected
+PASS independent validator catches corrupted trajectories and cost
+PASS nonfinite derived catalog prices are explicit invalid network parameters
+PASS independent cost overflow rejects finite infinite and NaN result costs
+PASS simulated cost overflow remains visible and fails independent validation
+PASS finite huge and zero costs validate independently of cached pricing
+PASS decimal horizon edge cases preserve interior samples and the exact endpoint
+PASS subnormal and neighboring horizons remain strictly covered
+PASS one-ULP shortened and extended results never satisfy requested-horizon validation
+PASS requested...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.search" classname="engine.search" time="0.0415461" status="run">
+		<properties/>
+		<system-out>PASS canonical explicit batch rejects bad plans and returns real mixed reference
+PASS small canonical grid agrees with exhaustive independent reference oracle
+PASS curtailment ranking includes savings on nonzero-cost source feed route
+PASS renamed colon IDs and unspecified settings remain intact
+PASS shared treatment and trucking limits screen aggregate arrivals
+PASS capacity equality and validator tolerance are respected
+PASS no axes evaluate one unchanged candidate and infeasible search is explicit
+PASS valid decimal and subnormal grids do not become false no-plan results
+PASS one-ULP final overflow never receives a recommendation
+PASS forecast work-limit errors precede candidate screening
+PASS equal cost results retain input order
+PASS exactly 10000 candidates accepted and larger requests rejected
+PASS grid product limit and four-control limit are enforced
+PASS unknown duplicate nonfinite out-of-bounds and unavailable controls rejected
+PASS source control cannot exceed its connected feed capacity
+PASS malf...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.control_influence" classname="engine.control_influence" time="0.846241" status="run">
+		<properties/>
+		<system-out>PASS large public batch and Cartesian search retain exhaustive reference rankings
+PASS precomputed rates and destination sums match route traversal across actual network shapes
+PASS nonzero source feed cost and partial defaults agree at the numeric screen
+PASS near-boundary predictions exercise the route-walk fallback
+PASS canonical and custom batch rankings agree with exhaustive native oracle
+PASS partial overrides keep other route and source settings fixed
+PASS close reference costs and ties preserve exact ranking across the result cutoff
+PASS shared destination equality and near-boundary rows match independent validation
+PASS storage equality and narrowed horizon preserve the reference feasibility decision
+PASS nonfinite baseline cost does not hide a finite overridden candidate
+PASS automatic influence dispatch rejects cost overflow but preserves finite repairs
+PASS reciprocal huge flows and zeroed overrides do not lose finite cancellation
+PASS changed costs topology and availability are rebuilt for each c...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.search_example" classname="engine.search_example" time="0.032112" status="run">
+		<properties/>
+		<system-out>SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=432 screen_survivors=39 constraint_rejections=393 numerical_rejections=0 reference_checks=5 reference_rejections=0
+candidate=352 reference_validated=true cost=4800 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=356 reference_validated=true cost=5280 synthetic_units minimum_headroom=10 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=22 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=110 m3
+  tank_b final=117 m3
+candidate=349 reference_validated=true cost=7350 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=15 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=281 reference_validated=true cost=8550 synt...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.search_infeasible_example" classname="engine.search_infeasible_example" time="0.0309604" status="run">
+		<properties/>
+		<system-out>SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=2 screen_survivors=0 constraint_rejections=2 numerical_rejections=0 reference_checks=0 reference_rejections=0
+NO_FEASIBLE_PLAN_FOUND among evaluated candidates; not a global infeasibility proof.
+</system-out>
+	</testcase>
+	<testcase name="engine.transport" classname="engine.transport" time="1.69265" status="run">
+		<properties/>
+		<system-out>PASS large finite concentration and mass do not overflow auxiliary norms
+PASS finite physical mass survives a concentration-sum overflow
+PASS disabled processes preserve a nonuniform field and exact output horizon
+PASS pure decay agrees with analytic solution and converges in time
+PASS one open Euler step balances signed faces source and old-state decay
+PASS one closed Euler step cancels internal faces with source and decay
+PASS variable event steps telescope the old-inventory source and decay ledger
+PASS constant field survives positive advection and diffusion
+PASS CFL one pure upwind advection shifts by one cell
+PASS closed diffusion cosine cell averages converge under mesh refinement
+PASS zero-flow Dirichlet diffusion records signed inlet mass loss
+PASS inlet half-cell diffusion CFL preserves first-cell positivity
+PASS open equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS closed equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS zero data zero coe...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.transport_example" classname="engine.transport_example" time="0.0262053" status="run">
+		<properties/>
+		<system-out>SYNTHETIC | fvm-upwind-euler-0.1.0 | single-pipe tracer reference
+cells=64 frames=41 substeps=136 maximum_cfl=0.9
+final_inventory_mg=1994.10774493 signed_inlet_exchange_mg=4533.10789803 outlet_exchange_mg=4276.15496538 decayed_mg=262.845187721
+maximum_mass_residual_mg=1.36887055523e-12 minimum_concentration_mg_l=0.189932938338 final_outlet_cell_mg_l=0.275066562435
+Scalar transport proxy; network-wide chemistry and learned model validation are separate work.
+</system-out>
+	</testcase>
+</testsuite>

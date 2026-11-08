@@ -1,0 +1,9 @@
+{
+  "variant": "normal",
+  "verified_revision": "4841c042d81eb43fe06871a89c4b096c778707b9",
+  "started_utc": "2026-11-08T05:14:28.5027258Z",
+  "finished_utc": "2026-11-08T05:15:54.9350984Z",
+  "elapsed_s": 86.4336054,
+  "registered_tests": 8,
+  "ctest_exit": 0
+}

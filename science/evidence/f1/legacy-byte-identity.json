@@ -1,0 +1,34 @@
+{
+  "status": "passed",
+  "baseline_verified_revision": "f50431088806927abaa823858ab5377276223972",
+  "a9": [
+    {
+      "name": "a9-coarse",
+      "baseline_command": [
+        "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-normal\\engine\\breakwater_transport_qualification_reference.exe"
+      ],
+      "baseline_executable_sha256": "745646b75432d884c3bb8c4c3234c566b459c70aef56947f6fa0de26da8e3f8d",
+      "baseline_stdout_sha256": "70002d1c014b48179e6e9ea89acf7ab69024cf955aff1ca698e616a0d9c8d272",
+      "matched_variants": {
+        "normal": "70002d1c014b48179e6e9ea89acf7ab69024cf955aff1ca698e616a0d9c8d272",
+        "asan": "70002d1c014b48179e6e9ea89acf7ab69024cf955aff1ca698e616a0d9c8d272"
+      },
+      "elapsed_s": 3.820824900001753
+    },
+    {
+      "name": "a9-refined",
+      "baseline_command": [
+        "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-normal\\engine\\breakwater_transport_qualification_reference.exe",
+        "--refined-inlet"
+      ],
+      "baseline_executable_sha256": "745646b75432d884c3bb8c4c3234c566b459c70aef56947f6fa0de26da8e3f8d",
+      "baseline_stdout_sha256": "933f388297e119f9426b46757a0e4b27bd5891a8b4f5c06baf47e8bc42802ef5",
+      "matched_variants": {
+        "normal": "933f388297e119f9426b46757a0e4b27bd5891a8b4f5c06baf47e8bc42802ef5",
+        "asan": "933f388297e119f9426b46757a0e4b27bd5891a8b4f5c06baf47e8bc42802ef5"
+      },
+      "elapsed_s": 3.537244600011036
+    }
+  ],
+  "f1_normal_asan_native_data_sha256": "14a086a64342931ea95a6c1d53f67d63e679c34720dc1d82cedb0aada5981477"
+}

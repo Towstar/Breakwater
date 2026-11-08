@@ -1,0 +1,221 @@
+{
+  "backtraceGraph" : 
+  {
+    "commands" : 
+    [
+      "add_test"
+    ],
+    "files" : 
+    [
+      "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/engine/CMakeLists.txt"
+    ],
+    "nodes" : 
+    [
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 34,
+        "parent" : 0
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 37,
+        "parent" : 2
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 40,
+        "parent" : 4
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 43,
+        "parent" : 6
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 44,
+        "parent" : 8
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 45,
+        "parent" : 10
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 48,
+        "parent" : 12
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 49,
+        "parent" : 14
+      }
+    ]
+  },
+  "kind" : "ctestInfo",
+  "tests" : 
+  [
+    {
+      "backtrace" : 1,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine/breakwater_benchmark.exe",
+        "--verify-only",
+        "--count",
+        "100"
+      ],
+      "name" : "engine.benchmark_correctness",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 3,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine/breakwater_engine_tests.exe"
+      ],
+      "name" : "engine.acceptance",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 5,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine/breakwater_search_tests.exe"
+      ],
+      "name" : "engine.search",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 7,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine/breakwater_control_influence_tests.exe"
+      ],
+      "name" : "engine.control_influence",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 9,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine/breakwater_search_example.exe"
+      ],
+      "name" : "engine.search_example",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 11,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine/breakwater_search_example.exe",
+        "--infeasible"
+      ],
+      "name" : "engine.search_infeasible_example",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 13,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine/breakwater_transport_tests.exe"
+      ],
+      "name" : "engine.transport",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 15,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine/breakwater_transport_example.exe"
+      ],
+      "name" : "engine.transport_example",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan/engine"
+        }
+      ]
+    }
+  ],
+  "version" : 
+  {
+    "major" : 1,
+    "minor" : 0
+  }
+}

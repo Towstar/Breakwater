@@ -1,0 +1,56 @@
+{
+  "status": "study_completed_accuracy_not_qualified",
+  "python_tests": 186,
+  "python_skips": 0,
+  "new_focused_tests": 59,
+  "ctests_per_build": 8,
+  "native_counts": {
+    "normal": {
+      "engine.acceptance": 22,
+      "engine.search": 22,
+      "engine.control_influence": 15,
+      "engine.transport": 25
+    },
+    "asan": {
+      "engine.acceptance": 22,
+      "engine.search": 22,
+      "engine.control_influence": 15,
+      "engine.transport": 25
+    }
+  },
+  "f1_cases_per_build": 22,
+  "asan_reports": 0,
+  "a9_refined": {
+    "cases": 45,
+    "gates": 580,
+    "status": "passed_both_builds"
+  },
+  "a9_coarse": {
+    "cases": 45,
+    "gates": 580,
+    "expected_failed_gates": 1,
+    "status": "known_failure_retained_both_builds"
+  },
+  "normal_asan_native_data_identical": true,
+  "legacy_a9_byte_identical_to_pre_f1": true,
+  "maximum_reference_disagreement_mg_l": 8.038014698286133e-14,
+  "maximum_mass_residual_mg": 1.1723955140041653e-11,
+  "failed_attempts": [
+    {
+      "attempt": "01",
+      "reason": "New oracle jump-side cancellation and Poisson weight roundoff; code corrected without relaxed tolerances"
+    },
+    {
+      "attempt": "08",
+      "reason": "Legacy comparison harness path-key separator lookup; corrected without product changes"
+    },
+    {
+      "attempt": "10",
+      "reason": "Direct RMS squaring underflowed tiny finite outlet errors; scaled norm and regression added"
+    },
+    {
+      "attempt": "13",
+      "reason": "Report helper expected one space before CTest padded elapsed times; corrected without numerical changes"
+    }
+  ]
+}
