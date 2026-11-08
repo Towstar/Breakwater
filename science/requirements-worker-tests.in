@@ -1,0 +1,4 @@
+# A8 offline Draft 2020-12 contract validation; not a worker runtime dependency.
+# Keep shared dependencies compatible with the executed A3/A4 environment.
+-c requirements-physicsnemo-win-cpu-py312.txt
+jsonschema==4.25.1

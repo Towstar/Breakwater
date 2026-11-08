@@ -163,3 +163,57 @@ Limitations and B handoff:
   integration. Public native interfaces and shared application schemas are unchanged.
 - Full setup, equations, thresholds, actual API and commands are in PHYSICSNEMO.md.
   Next A increments are measured performance (A5) and checked Lean algorithms (A6).
+
+## A8: agreed scientific worker integration — November 7, 2026
+
+Continued on `codex/person-a-engine` after the reviewed B history/contracts/viewer
+stack and A7 were merged. Public schema files were read/adopted; the feature changes
+only `science/`, preserving the B-owned adapter, packaging and native approval path.
+
+Delivered:
+
+- Self-contained stdlib health with its exact existing response shape, plus versioned
+  capability negotiation and lazy CPU float64 `storage_rollout` execution.
+- Explicit project-to-private-model unit/default/ID mapping, identity echo and strict
+  captured-network/control validation before Torch import. No feasibility verdict.
+- Tank-major indexed previews and optional selected-interior-control derivatives.
+  Full forward samples use no-grad; one-interval AD bounds backward work and is
+  checked against full-rollout AD and three finite-difference sizes.
+- Strict UTF-8 NDJSON framing, valid error IDs, finite data, bounded library output,
+  1 MiB publication including newline, preview reduction and explicit unsupported/
+  missing-runtime/work/output failures. No artifact or generic pipe/ML method.
+- Process-local execution verification switches only after successful checked and
+  size-bounded publication. A worker copied alone keeps installed health compatible
+  and reports scientific mapping unavailable.
+- Separate hash-locked schema test dependencies, constrained to the existing A4
+  runtime pins; no scientific runtime packages were upgraded.
+
+Actual checks in the pinned CPython 3.12.13 / Torch 2.15.0+cpu environment:
+
+1. `python -m unittest discover -s science/tests -v`: **69/69 passed**, 38.557 s,
+   including prior rollout/PhysicsNeMo regressions, 14 mapper groups and 16 actual
+   subprocess protocol tests. Stdlib `-S` and copied-single-file health checks pass.
+2. `science/verify_worker.py --native out/headless/engine/breakwater_rollout_reference.exe
+   --report out/a8-worker-verification.json`: **12 actual native cases**, all three
+   solvers, **290 real NDJSON requests**, **44 interior controls** and **132 central
+   finite-difference checks** passed. Offline request/response schemas passed using
+   jsonschema 4.25.1 / referencing 0.37.0.
+3. Maximum native/worker volume difference: `7.67386154621e-13 m3`. Maximum FD terminal
+   Jacobian/cost-gradient errors: `4.44836967262e-9 h` / `1.94024778466e-8` synthetic
+   units per m3/h, within documented tolerances. Forecast values remain unrounded.
+4. Maximum fixture response: 1,684 bytes; separate tests cover output-limit failure,
+   preview shrinking without derivative loss, bad frames, semantic-ID errors,
+   capability verification state, restart/isolation and explicit boundary failures.
+
+Source/native/schema/verification-lock hashes, versions, tolerances and actual final
+values are in [evidence/2026-11-07-worker-verification.json](evidence/2026-11-07-worker-verification.json).
+The IDs/fingerprints in that report are explicitly test provenance, not authenticated
+desktop run-store entries. Full commands, API scope and delivery boundary are in
+[WORKER.md](WORKER.md).
+
+Remaining B handoff: install the mapper/package with a compatible selected Python,
+extend its async adapter beyond health, and bind typed scientific responses to the
+captured run/generation. These steps are not claimed by this A-only increment.
+PhysicsNeMo remains A4's fixed-case experimental smoke; native FVM/volume validation
+and simulated approval remain authoritative. No new C++/Lean/PDE/quality guarantee
+is inferred from these Python checks.

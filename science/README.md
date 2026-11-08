@@ -3,7 +3,9 @@
 This is the standalone Person A science module. It implements a CPU `torch.float64`
 rollout for captured finite storage networks, with actual native-reference comparisons
 and continuous-control gradient checks. C++ remains the independent feasibility
-authority. The desktop, shared project schema and health-only worker are unchanged.
+authority. The desktop and shared project schema are unchanged. A8 now exposes
+capabilities and storage execution through the agreed scientific worker; see
+[WORKER.md](WORKER.md) for its protocol, actual checks and B deployment handoff.
 
 A4 now adds a separate, actually executed PhysicsNeMo pipe smoke. Its larger pinned
 environment, training/evaluation commands and experimental scope are documented in
@@ -134,8 +136,8 @@ Bounds/structure rejection is outside the differentiable calculation. Autograd d
 not establish gradients through boundary projection, max/min constraints, failed
 controls, discrete search or approvals. These gradients are not an optimizer or a
 learned model. There is no transport differentiation, PhysicsNeMo execution, network
-chemistry or quality qualification in A3. Worker method exposure waits for B3's agreed
-contract; package detection alone does not claim scientific execution by the worker.
+chemistry or quality qualification in A3. A8 adopts B3's agreed worker mapping in
+[WORKER.md](WORKER.md); package detection alone does not claim scientific execution.
 
 References: [official PyTorch installation](https://pytorch.org/get-started/locally/),
 [gradcheck mechanics](https://docs.pytorch.org/docs/stable/notes/gradcheck.html).
