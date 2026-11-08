@@ -180,6 +180,11 @@ void boundary_and_overflow() {
     f.s.oil_per_bbl = 1e308; f.facilities[0].already_shut_in = 1; Result overflow(f.s, f.p);
     check(!overflow.code && overflow.v.status == BWEOG_UNAVAILABLE && std::isnan(overflow.v.total_cost),
           "derived cost overflow unavailable");
+    Fixture tiny; tiny.facilities[0].repair_s = tiny.horizons[0].repair_s = 1e-300;
+    tiny.facilities[0].already_shut_in = 1; tiny.s.oil_per_bbl = 1e-300; tiny.s.gas_per_mcf = 0;
+    tiny.sync(); Result cost_underflow(tiny.s, tiny.p);
+    check(!cost_underflow.code && cost_underflow.v.status == BWEOG_UNAVAILABLE && std::isnan(cost_underflow.v.total_cost),
+          "positive stopped-duration revenue product must not become zero cost");
     Fixture empty; empty.facilities.clear(); empty.wells.clear(); empty.horizons.clear(); empty.sync();
     Result nothing(empty.s, empty.p); check(nothing.v.status == BWEOG_AVAILABLE, "empty active failure set");
 }

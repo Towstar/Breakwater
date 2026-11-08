@@ -1,0 +1,187 @@
+{
+  "runtime_source_commit": "a404df7fd19bf58f1867fcd49f225084750e7a62",
+  "qualification_source_commit": "7dceb86c8c65e853d8ff7fc7f83b83fd039bc67f",
+  "adopted_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "native_method": "eog-native-seconds-0.1.1",
+  "validator_method": "eog-rational-validation-0.1.0",
+  "worker_method": "eog-worker-0.2.1",
+  "source_files": {
+    "engine/src/eog_response.cpp": {
+      "executed_raw_sha256": "e54e14c5028242b890539082b83399829a0a4b33f60b21bd018c7b7dd3ed13e0",
+      "git_blob": "442e7484ff47d9cd2c21e863eeb967bae687deb1"
+    },
+    "engine/tests/eog_response_tests.cpp": {
+      "executed_raw_sha256": "e2fbc2e68b15ed8ad3ac9b5af606d22bcf060ed6e6d973da76c53ee6e9f5cc7c",
+      "git_blob": "898f58264e2ff2047ab3b5017fe80dcd14d35970"
+    },
+    "engine/include/breakwater/eog_response.h": {
+      "executed_raw_sha256": "0a2a45061f35b61ea91462bd30de700b0a8f6d95c36a40ade0cd9c1b07a362e0",
+      "git_blob": "a705915e10f23238d0ea80799146b68e13f8f206"
+    },
+    "engine/CMakeLists.txt": {
+      "executed_raw_sha256": "879d6cb3b91e9f6b39ad369a1f0b6f4b9cc1a8a330d984f26bbf9f12ae92bfb6",
+      "git_blob": "4c3178e54d770c993004cf017cd4c398c6848362"
+    },
+    "science/eog_plan_validator.py": {
+      "executed_raw_sha256": "b6b7a3aa1a9c365074f100d4b44d9d74137d3de1a93e3af6b1970a7d296e0488",
+      "git_blob": "4e82a4b7b1a6b1998102e0d34d63f30c3cc05017"
+    },
+    "science/eog_worker.py": {
+      "executed_raw_sha256": "312982b403f3473a3287a34c14be9517c8b729eb06f1e4dd7d3cac603106d154",
+      "git_blob": "8a85c8fcf72a6e19b9d497140a2a4c94da46d22f"
+    },
+    "science/qualify_eog_validation.py": {
+      "executed_raw_sha256": "dad2956988b4b148c2a7efe34480c902ec2fae8dcd171cf531af9095371db9ff",
+      "git_blob": "26c4189674098fe378a45a8bbc416dedf638f30f"
+    },
+    "science/tests/test_eog_plan_validator.py": {
+      "executed_raw_sha256": "ade322d62c6845c9523ec7baf9368fec15f46e54ba2a81453a5ca5a0dd8b9f87",
+      "git_blob": "4d6e5479a6cc6e6a6d26d61887e4fe4f1a12508b"
+    },
+    "science/tests/test_eog_worker.py": {
+      "executed_raw_sha256": "2de0417561c77d9537c45743e2a88f32433e50ea7d7ebf1c7cb7cb85222f3580",
+      "git_blob": "5e42f303fe8dbb014c7ed0b00253d356871d7ea9"
+    },
+    "science/tests/test_native_eog.py": {
+      "executed_raw_sha256": "7566b2966f6a4095065089dd70fcfa5ae22516cd43f4a98435bbbd5575ac7fc7",
+      "git_blob": "08b54bf4e6ece541710ec1ce538c8e4177dd22f2"
+    },
+    "science/eog_model.py": {
+      "executed_raw_sha256": "ce6555bfc00838047a9dc82e8112c09295a5210b5f60e933b0470d414e03d0a0",
+      "git_blob": "30c8caf0f19b5d5ed809c712e41b757d08872f9a"
+    },
+    "science/eog_observations.py": {
+      "executed_raw_sha256": "d28898347681cde3d3a0bad55d21bcf0c34c84fb5ffc001484b78083a2d9997c",
+      "git_blob": "f6ba3bcbeecd44e65098dd8bdc0813b5a06c0b72"
+    },
+    "science/eog_inputs.py": {
+      "executed_raw_sha256": "19ef11e9f5ff52f4403f4e99e79fdfcc6f6edb2c831bf4ec52dce6b506dbcc48",
+      "git_blob": "78de6b18e9bed0e100124c2ddbc2a6246217aaf9"
+    }
+  },
+  "contract_normalized_lf_sha256": {
+    "validate.py": "626deb9b5de0a722f3583adf8f1a28753880bb9d70cf75b78771dda1c7b2faec",
+    "common-v1.schema.json": "e4bc08c5ce5e6b608a64d94417740a74dc5e343df6e4349478697eb4f21cd6e7",
+    "analysis-request-v1.schema.json": "c9cf0408d5e6540900f55be2f27c91a90c48aff66316d8e76d89332b0b630eb2",
+    "analysis-response-v1.schema.json": "44c27baf998e8aced87befe3e80613fc0b9bb44c61abf1c075cb41b65ac76d20",
+    "capture-manifest-v1.schema.json": "77889d1e39ae260e8e58b7e116f21bc19d2f3ca4c281c433c8f97550d240aeae"
+  },
+  "native_library_sha256": {
+    "headless": "8ca884cb60469a303a5973e8a740c2e8a7dee9d0e4cdedf192d5bebd21bd8b2e",
+    "asan": "caf50c2846f49dfae270f56fb1a67dcd69e1c1c193fbe82715de46ca7bc8f7ef"
+  },
+  "asan_runtime_sha256": "7f901a239979c49b36a3b18ecd1843f551f94b5879585bded41a650c5b71f35f",
+  "environment": {
+    "python": "3.12.13 (main, May  4 2026, 21:19:41) [MSC v.1944 64 bit (AMD64)]",
+    "jsonschema": "4.25.1",
+    "referencing": "0.37.0",
+    "compiler": "MSVC 19.51.36260.0 x64",
+    "cmake": "4.3.1",
+    "configuration": "RelWithDebInfo; /fp:precise; ASan separate"
+  },
+  "results": {
+    "full_science": {
+      "passed": 354,
+      "total": 354,
+      "skips": 0,
+      "wall_s": 71.074
+    },
+    "native_headless": {
+      "passed": 11,
+      "total": 11,
+      "wall_s": 3.83
+    },
+    "native_asan": {
+      "passed": 11,
+      "total": 11,
+      "wall_s": 43.79
+    },
+    "native_response_assertions_per_mode": 6768,
+    "independent_generated_candidates": 360,
+    "checked_validator_methods": {
+      "passed": 20,
+      "total": 20,
+      "skips": 0,
+      "wall_s": 1.449
+    },
+    "checked_worker_methods": {
+      "passed": 18,
+      "total": 18,
+      "skips": 0,
+      "wall_s": 13.484
+    },
+    "checked_bridge_methods": {
+      "passed": 7,
+      "total": 7,
+      "skips": 0,
+      "wall_s": 0.036
+    },
+    "official_processes": {
+      "fresh_native_evaluations": 4,
+      "independent_validations": 4,
+      "forged_horizon_rejections": 4,
+      "facilities": 9,
+      "exact_agreement": true,
+      "fresh_native_matches_frozen_complete_trajectories": true
+    }
+  },
+  "retained_failure": "positive_cost_underflow_initial.json; corrected unavailable result in positive_cost_underflow_corrected.json",
+  "limits": [
+    "Shared capture/model parsing and declared model assumptions; separately coded causal reconstruction, IEEE reference arithmetic, costs and calendars.",
+    "No global optimality/held-out accuracy/calibrated onset or inspection timing claim.",
+    "No joined desktop/installed/replay/extended simulation/UI acceptance.",
+    "Earlier 352-test and native-0.1.0 logs are historical, not retargeted to the corrected source."
+  ],
+  "evidence_sha256": {
+    "asan-bridge-final.log": "d7e3d7719d7fe08b173b3228191b58256df3aad635a421cc59307d5da2b396f0",
+    "asan-build-final.log": "9aad42e736d4454545b26fbd87e9578f0f7dd7324fc5ed82a25b3d19aa75510c",
+    "asan-crosschecks-final.log": "85efe97049e4e5e44400196bbc53ebdb60f9565835988fc722410955dcb9801e",
+    "asan-ctest-final.log": "28d56613618843ffdf63588afbb3e03ad71a8b92fea06c209ef934b72b68a794",
+    "asan-native-crosschecks.log": "b8075ea50d67e6d773b1ae74a9bc2ff50be7091cbf586cbf9b0213b11eb3bb83",
+    "asan-runtime.txt": "534f0b963e39bb96bf543efbafda264c1d2166b4b6242a794a9238ee6d744aef",
+    "asan-worker-final.log": "510884a7ffaeb8738a612524cde2d50fba25bfa46e14451ae8f77e75e3ad1e1c",
+    "asan-worker.log": "b0733641632589a5d8d759b0f2417f8c4665ec2942553203687a8a31f0dbb0bd",
+    "final-real-worker.log": "5228bc3cd499803d063bd26b5b6b280a9a9c257d81f95f4594faf1c7f308aa21",
+    "full-science-final.log": "ff08266321ed8a4791ccac0349a32e6c0f441846eac46b1a7b29569206bf13fe",
+    "full-science.log": "5f50ed6c772977cccf8c665da59044e2298e148a7bf586921fea71e534c166d3",
+    "headless-build-final.log": "3099d567c043996133e18d5856d536c40d991a3f44ba8b63b75ffee35a7d54c5",
+    "headless-build.log": "e1d76e452187af52700eb36b2b86e75b5dfda4dfea86b55b70890673c5a48697",
+    "headless-ctest-final.log": "885e7db6a8ac4654cb88d38f0c500461eeac46954c3b54c986ee27b72353cd78",
+    "headless-ctest.log": "31d074601ccd89687342ff16148626a46988c6672c6e3dfae0d489cb7d4a0e04",
+    "initial-real-worker.log": "77ee011c875695e2cd5f65874c59b4319f1577d992e013c2408bb7c8b2e778f8",
+    "native-011-real-worker.log": "df5f52acd865a8c83b858018ab6d12e7c1bf6c51afef6bb0b8473411ba9bf834",
+    "positive_cost_underflow_corrected.json": "f9841f12dfc4fc7f0fd8c253c47138dc77becc0f7c9b08d57d627b71d9430cd6",
+    "positive_cost_underflow_initial.json": "10a33cc88e93e8937a10aa6a8ec0ee9d6335238314ee9fe44b6e352bd4a7ec88",
+    "README.md": "188eec2f3da2638b482db03cea33691916c25f805a024ddd5701c5d2d0732040",
+    "release-real-worker.log": "cbf74bbd577a990d015fbeed32165de22fef580dd9b0a0b0216f8cb1d3ef5d18",
+    "worker/1791460800/forged-horizon-request.json": "f21f656b9d520b6bc638dc7c9e917f0ea4b163573120378f3e6b06c6c68bb74f",
+    "worker/1791460800/forged-horizon-response.json": "8cb27e807f4d5f0580b540aea7c762cf00bde8fcfade83ba7de55544d4737157",
+    "worker/1791460800/itemized-audit.json": "c4155e912314e39e6f02bf7339e29d7b0f0cf902be7f8a5b05778111a9fb119d",
+    "worker/1791460800/native-evaluation-request.json": "f52595212a8029bd63d348186543fc32146993b6dfd803c1f85ef572c63c85c8",
+    "worker/1791460800/native-evaluation-response.json": "166653a35e4fb2af82bcc46c0008b8fde113caaf9c6c4d4305f934a2cd9a6b72",
+    "worker/1791460800/validate-request.json": "19fc518961864c88373b83c1cc11ba5d4e5024d084a046a738af9a79596b1320",
+    "worker/1791460800/validate-response.json": "22b287117986ad8ca10a9ef2022d62ced16be54add721b2669ffe90153b3601f",
+    "worker/1791516600/forged-horizon-request.json": "91eebecf59dfa4e5237213ee25f4548d989d638e953ab957c9be44f69ea72954",
+    "worker/1791516600/forged-horizon-response.json": "2c3455d7f3a74d2e899d5d57b1e997910fabd1e166bfce271250c7d8b46affa4",
+    "worker/1791516600/itemized-audit.json": "18b8f48baba19899c605395131d20a43882aa181c7a081dab28a3ee71fc4af72",
+    "worker/1791516600/native-evaluation-request.json": "e3fbe55a4d3fc4e5624003b0fdc03ab4a48fee4cdbae65b51ba2eb8deb442048",
+    "worker/1791516600/native-evaluation-response.json": "336bb107e386e8a8be170ffcf7e6870542b86319ef5f80b85209c365b94b524e",
+    "worker/1791516600/validate-request.json": "55e3043edcba662308311f7f4008d03402b096fde98f378f54efb33f70e6c4e7",
+    "worker/1791516600/validate-response.json": "dab2f0c00d7e9186cecf5cf8433080950747940b6b1f1f3bb2b784220b3af86a",
+    "worker/1791622800/forged-horizon-request.json": "0c7b2f5acff4f53e015e8cb3b6377787b5fb42220e60ed5c77b09083f37cedfd",
+    "worker/1791622800/forged-horizon-response.json": "ef2409c31ce777fbe06b4cb61f46dc35403d899e7395f185db40ad1c06a14e83",
+    "worker/1791622800/itemized-audit.json": "e3462b13d26741aa27a59eeb17c51a07b3dd8b5eac6d11f0194d834fd101adde",
+    "worker/1791622800/native-evaluation-request.json": "a99e933502548d5e39cf3bbbd61c0bfde5e7645f776a1e2e2623f40edcfd40d7",
+    "worker/1791622800/native-evaluation-response.json": "e11ee1855d0322e8841c80a6972fc5eb9d247b6758dfdaa2442ca0f0126f23c2",
+    "worker/1791622800/validate-request.json": "4fd64b92efa2f37336a1589deb6ecf4b757bb8265ee70c9393be7e0e2e4e9166",
+    "worker/1791622800/validate-response.json": "6938b3482695de6e79d5aa848c8ab96fe4bb3ac118ddffe5a422ae54dfb75df6",
+    "worker/1791646200/forged-horizon-request.json": "670bc20e93bd4957e191a906de9e5d9ffa1580d20ab54b48d7cc6b4aa14b036b",
+    "worker/1791646200/forged-horizon-response.json": "ca83794d998e7b00dd9405be6aa24c6ea0033239e17b1f47b0e4df7d8b8f80a9",
+    "worker/1791646200/itemized-audit.json": "2c34f1b9db4df705eed9f8f95d056e42b600ed32e46ec230271cd4e8b19be5cd",
+    "worker/1791646200/native-evaluation-request.json": "28487d49592325ab2a31d9f556f792f6c0df7400c270b7d680f83231e0e49300",
+    "worker/1791646200/native-evaluation-response.json": "288d6df00515248512d7e09112c1855f400d3eca3828a4a345b20b25a1be1b56",
+    "worker/1791646200/validate-request.json": "a48e5b0fa33d5042adcca089dd8fc3c2266e3bc16248c1c6d25b162d0461d5db",
+    "worker/1791646200/validate-response.json": "1c563741859f618156dc45423ba4e531b2c9432458c14b09b51a87daa827fbbd",
+    "worker/summary.json": "bee93d0005d1b0883644e08fbc277cb6ab9726e427b16f11ba85ee8323c36587"
+  }
+}

@@ -1,0 +1,86 @@
+{
+  "qualification": "independent_real_worker_recomputation",
+  "adopted_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "source_evaluator_method": "eog-native-seconds-0.1.1",
+  "cuts": [
+    {
+      "cutoff_unix": 1791460800,
+      "native_request_sha256": "9349ace7acfff0527745b1405699b2e51d7fe5bfd301ec06f481cd2d88b09a9c",
+      "native_response_sha256": "88a1771aa7e153545a585ebd1db8d72923c135ea3f67b4a5a410bde3c47e7dae",
+      "validation_status": "completed",
+      "fresh_native_matches_frozen_cost_outcome_crossings_trajectories": true,
+      "fresh_native_wall_s": 3.9016584000200965,
+      "matched_native_cost_outcome_shutdowns_exactly": true,
+      "forged_one_ulp_horizon_rejected": true,
+      "validated_facilities": 3,
+      "independent_cost": {
+        "truck_cost": 0.0,
+        "lost_revenue": 12120.031267547434,
+        "total": 12120.031267547434
+      },
+      "wall_s": 3.690713499963749,
+      "forged_wall_s": 3.781999300001189
+    },
+    {
+      "cutoff_unix": 1791516600,
+      "native_request_sha256": "b688f25ae1d5ad154c60d70fb0de1904157434f1311d93dc9ccb946995bb94f8",
+      "native_response_sha256": "6a90c3d538842895d11a1a96d1a5ac4a2b04f39351da4f69d540222c9de0a707",
+      "validation_status": "completed",
+      "fresh_native_matches_frozen_cost_outcome_crossings_trajectories": true,
+      "fresh_native_wall_s": 4.517974200018216,
+      "matched_native_cost_outcome_shutdowns_exactly": true,
+      "forged_one_ulp_horizon_rejected": true,
+      "validated_facilities": 1,
+      "independent_cost": {
+        "truck_cost": 0.0,
+        "lost_revenue": 7549.081166047441,
+        "total": 7549.081166047441
+      },
+      "wall_s": 4.153217800019775,
+      "forged_wall_s": 3.5967140000429936
+    },
+    {
+      "cutoff_unix": 1791622800,
+      "native_request_sha256": "3359757db08b35b7338c4f2a7bc42c56fdb4932bc0fc9c4cbe0f34925626339f",
+      "native_response_sha256": "031ea18c7db00f9e110c175eacc0c9afc1fa75e498134c02ff32c5cf70cf453d",
+      "validation_status": "completed",
+      "fresh_native_matches_frozen_cost_outcome_crossings_trajectories": true,
+      "fresh_native_wall_s": 4.610779599985108,
+      "matched_native_cost_outcome_shutdowns_exactly": true,
+      "forged_one_ulp_horizon_rejected": true,
+      "validated_facilities": 3,
+      "independent_cost": {
+        "truck_cost": 0.0,
+        "lost_revenue": 11900.563692064303,
+        "total": 11900.563692064303
+      },
+      "wall_s": 4.500777099980041,
+      "forged_wall_s": 4.46941419999348
+    },
+    {
+      "cutoff_unix": 1791646200,
+      "native_request_sha256": "56663d25f8cc32cfac365cb5dea91904410c246812174d727705190150daa04a",
+      "native_response_sha256": "5c7595bdb4283bc4b3400dbfcabecb698ff671b2f930f8c566b4c51581d471fb",
+      "validation_status": "completed",
+      "fresh_native_matches_frozen_cost_outcome_crossings_trajectories": true,
+      "fresh_native_wall_s": 5.291866900050081,
+      "matched_native_cost_outcome_shutdowns_exactly": true,
+      "forged_one_ulp_horizon_rejected": true,
+      "validated_facilities": 2,
+      "independent_cost": {
+        "truck_cost": 0.0,
+        "lost_revenue": 9970.447076341012,
+        "total": 9970.447076341012
+      },
+      "wall_s": 4.688664700021036,
+      "forged_wall_s": 4.9228426000336185
+    }
+  ],
+  "limitations": [
+    "Correlated official practice prefixes, not held-out qualification or calibrated onset uncertainty.",
+    "Shared capture/model parsing; independent causal reconstruction, arithmetic, calendars and economics.",
+    "No native DLL, detector state, evaluator trajectory or evaluator cost is passed to the validation worker."
+  ],
+  "fresh_native_library_sha256": "8ca884cb60469a303a5973e8a740c2e8a7dee9d0e4cdedf192d5bebd21bd8b2e",
+  "passed": true
+}
