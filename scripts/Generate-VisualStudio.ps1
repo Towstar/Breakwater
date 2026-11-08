@@ -1,5 +1,6 @@
 param(
     [string]$QtPrefix = '',
+    [string]$PythonExecutable = '',
     [switch]$Headless,
     [switch]$Build,
     [ValidateSet('Visual Studio 18 2026', 'Visual Studio 17 2022')]
@@ -16,6 +17,8 @@ $arguments = @('-S', $projectRoot, '-B', "$projectRoot\out\visual-studio", '-G',
     "-DBREAKWATER_BUILD_DESKTOP=$desktop", '-DBUILD_TESTING=ON')
 if ($EmbeddedDebugInfo) { $arguments += '-DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded' }
 if ($QtPrefix) { $arguments += "-DCMAKE_PREFIX_PATH=$QtPrefix" }
+if (-not $PythonExecutable) { $PythonExecutable = $env:BREAKWATER_PYTHON }
+if ($PythonExecutable) { $arguments += "-DPython3_EXECUTABLE=$PythonExecutable" }
 & cmake @arguments
 if ($LASTEXITCODE -ne 0) { throw 'Visual Studio project generation failed.' }
 # Preserve CMake's complete dependency graph, while making the solution available at repo root.

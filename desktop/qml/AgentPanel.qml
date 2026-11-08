@@ -10,9 +10,12 @@ ColumnLayout {
     required property var credentials
     required property var history
     required property var scientificWorker
+    required property var storageScience
+    readonly property bool scienceVisible: tabs.currentIndex === 3
     readonly property var reviewData: investigator.review || ({})
     readonly property var comparisonData: history.comparison || ({})
     spacing: 6
+    function showScience() { tabs.currentIndex = 3 }
     function number(value, digits) {
         return value !== undefined && value !== null && Number.isFinite(Number(value))
                 ? Number(value).toFixed(digits === undefined ? 2 : digits) : "—"
@@ -117,7 +120,7 @@ ColumnLayout {
     }
     PlainLabel {
         Layout.fillWidth: true; elide: Text.ElideRight; color: "#60d2d1"
-        text: tabs.currentIndex === 2 ? panel.history.status : tabs.currentIndex === 3 ? panel.scientificWorker.status : panel.investigator.status
+        text: tabs.currentIndex === 2 ? panel.history.status : tabs.currentIndex === 3 ? panel.storageScience.status : panel.investigator.status
     }
     RowLayout {
         Layout.fillWidth: true
@@ -126,11 +129,11 @@ ColumnLayout {
             TabButton { text: "Investigation"; onClicked: panel.history.showLive() }
             TabButton { text: "Comparison" }
             TabButton { text: "History"; onClicked: panel.history.refresh() }
-            TabButton { text: "Worker" }
+            TabButton { text: "Science" }
         }
         Item { Layout.fillWidth: true }
-        PlainLabel { text: panel.history.historical ? "HISTORICAL · READ ONLY" : "CURRENT SESSION"; color: panel.history.historical ? "#ffcf70" : "#9eb5c2"; font.pixelSize: 10 }
-        Button { visible: panel.history.historical; text: "Return to current"; onClicked: panel.history.showLive() }
+        PlainLabel { text: panel.scienceVisible ? "CURRENT NATIVE FORECAST · READ ONLY" : panel.history.historical ? "HISTORICAL · READ ONLY" : "CURRENT SESSION"; color: !panel.scienceVisible && panel.history.historical ? "#ffcf70" : "#9eb5c2"; font.pixelSize: 10 }
+        Button { visible: panel.history.historical && !panel.scienceVisible; text: "Return to current"; onClicked: panel.history.showLive() }
     }
     StackLayout {
         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 0
@@ -276,35 +279,7 @@ ColumnLayout {
                 Item { Layout.fillHeight: true }
             }
         }
-        RowLayout {
-            spacing: 30
-            ColumnLayout {
-                Layout.preferredWidth: Math.min(440, panel.width * 0.42); Layout.fillHeight: true; spacing: 9
-                SectionLabel { text: "SCIENTIFIC WORKER · HEALTH ONLY" }
-                PlainLabel { Layout.fillWidth: true; text: "Scientific execution is not implemented."; font.pixelSize: 16; font.bold: true; color: "#ffcf70"; wrapMode: Text.WordWrap }
-                PlainLabel { Layout.fillWidth: true; text: "Health checks start the configured Python worker and detect installed packages. Package detection does not run PyTorch, PhysicsNeMo, a learned model or a scientific simulation."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
-                RowLayout {
-                    Button { text: panel.scientificWorker.busy ? "Checking…" : "Check worker health"; enabled: !panel.scientificWorker.busy; onClicked: panel.scientificWorker.checkHealth() }
-                    Button { text: "Cancel check"; enabled: panel.scientificWorker.busy; onClicked: panel.scientificWorker.cancel() }
-                }
-                Item { Layout.fillHeight: true }
-            }
-            GridLayout {
-                Layout.fillWidth: true; Layout.alignment: Qt.AlignTop; columns: 2; columnSpacing: 22; rowSpacing: 12
-                PlainLabel { text: "Worker health"; color: "#9eb5c2" }
-                PlainLabel { text: panel.scientificWorker.readiness.health_status || "unchecked" }
-                PlainLabel { text: "Worker available"; color: "#9eb5c2" }
-                PlainLabel { text: panel.scientificWorker.readiness.worker_available ? "Yes · health protocol responded" : "No confirmed worker response" }
-                PlainLabel { text: "Python version"; color: "#9eb5c2" }
-                PlainLabel { text: panel.scientificWorker.readiness.python_version || "Not checked" }
-                PlainLabel { text: "PyTorch package"; color: "#9eb5c2" }
-                PlainLabel { text: panel.scientificWorker.readiness.torch_detected === undefined ? "Not checked" : panel.scientificWorker.readiness.torch_detected ? "Detected" : "Not detected" }
-                PlainLabel { text: "PhysicsNeMo package"; color: "#9eb5c2" }
-                PlainLabel { text: panel.scientificWorker.readiness.physicsnemo_detected === undefined ? "Not checked" : panel.scientificWorker.readiness.physicsnemo_detected ? "Detected" : "Not detected" }
-                PlainLabel { text: "Scientific execution"; color: "#9eb5c2" }
-                PlainLabel { text: "Not implemented"; color: "#ffcf70" }
-            }
-        }
+        StorageSciencePanel { scientificWorker: panel.scientificWorker; storageScience: panel.storageScience }
     }
     FileDialog { id: exportDialog; title: "Export investigation session"; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER session (*.json)"]; onAccepted: panel.history.exportSession(selectedFile) }
     FileDialog { id: importDialog; title: "Import historical investigation"; nameFilters: ["BREAKWATER session (*.json)"]; onAccepted: panel.history.importSession(selectedFile) }

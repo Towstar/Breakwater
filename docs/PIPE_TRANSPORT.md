@@ -18,7 +18,50 @@ nor hosted model access. PyTorch and PhysicsNeMo worker methods remain reserved.
 5. Choose **Run native transport**. Inspect the outlet trace, sampled time-distance
    field, signed mass ledger, CFL, minimum concentration and residual diagnostics.
 6. Use **Export JSON** for bounded native evidence. Save the project to retain route
-   parameters. Importing a transport-result JSON into the viewer is not implemented.
+   parameters. The result JSON and project file are separate formats.
+7. After restarting, choose **Pipe transport** in the sidebar and **Import JSON** to
+   reopen an exported native result, even without a current forecast or selected pipe.
+   Charts, the signed ledger, recorded parameters and provenance are available together.
+   Choose **Current calculation** to return to the current project's inputs and result.
+
+## Reopen historical native evidence
+
+Imported files are always displayed as **historical, unverified evidence with no approval**,
+including files whose IDs and hashes match the current project. Importing does not run
+the solver, verify authorship, change the network or pipe inputs, populate the authoritative
+run store, or restore a plan's approval. The file's feasibility and quality tags remain
+recorded claims. Recorded parameter fields are read-only. Current calculation inputs
+and jobs are unavailable in that view until **Current calculation** is selected.
+
+File reading, parsing and validation run outside the UI thread. The importer accepts
+local files up to 1 MiB with the existing native `result_version: 1` payload and supported
+native method version. It checks the exact documented field sets, bounded identities,
+parameter fingerprint, finite numeric types, array/ledger dimensions, ordered native
+indices and endpoints, cell-center positions, horizon and native/display budgets.
+Previews contain at most 256 time samples by 128 cell samples. Signed ledger entries
+and roundoff-sized negative predictions are preserved. These checks establish structural
+compatibility; they do not re-execute or authenticate the imported calculation.
+
+Malformed, oversized or unsupported files fail visibly while retaining the previous
+displayed evidence. Cancellation discards a pending import's publication, and a second
+job cannot overlap it. Project edits/reset can invalidate the hidden current calculation
+while the imported historical view remains clearly detached. Re-export preserves the
+original supported payload; reopening that copy is still historical and unverified.
+This increment does not automatically retain native quality results in SQLite: save
+the result JSON explicitly. Automatic investigation-session history remains separate.
+
+For a reproducible restart/render check, run the desktop executable with:
+
+```powershell
+breakwater.exe --import-pipe-evidence 'C:\path\native-result.json'
+# Optional: render the reopened evidence and exit.
+breakwater.exe --import-pipe-evidence 'C:\path\native-result.json' --screenshot 'C:\path\reopened.png'
+```
+
+The screenshot command waits for a successful import and a rendered frame. An import
+failure does not count as a passing smoke check.
+`ctest --test-dir out/visual-studio -C RelWithDebInfo -R desktop.pipe_evidence_smoke --output-on-failure`
+first runs its native-export fixture, then reopens that actual result in the desktop.
 
 The selected route uses the actual resolved captured controls. A source feed uses
 production minus curtailment; an unavailable pump carries zero flow. The UI never
