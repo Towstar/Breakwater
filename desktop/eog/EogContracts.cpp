@@ -436,6 +436,9 @@ QJsonObject agent_plan_schema() {
     for (const auto& field : result.value("required").toArray())
         if (!envelope.contains(field.toString())) required.append(field);
     result["required"] = required;
+    auto properties = result.value("properties").toObject();
+    for (const auto& field : envelope) properties.remove(field);
+    result["properties"] = properties;
     return result;
 }
 void validate_document(const QJsonObject& document, const QString& requestedKind, const QJsonObject& context) {

@@ -22,12 +22,13 @@ bool accepts(const QJsonObject& value, const QString& kind = {}, const QJsonObje
 class EogContractTests final : public QObject {
     Q_OBJECT
 private slots:
-    void agentPlanSchemaIsInlineAndOnlyEnvelopeFieldsAreOptional() {
+    void agentPlanSchemaIsInlineAndExcludesApplicationOwnedEnvelope() {
         const auto schema = eog::agent_plan_schema(), properties = schema.value("properties").toObject();
         QVERIFY(!QJsonDocument(schema).toJson().contains("\"$ref\""));
         QCOMPARE(schema.value("type"), QJsonValue("object")); QVERIFY(!schema.value("additionalProperties").toBool());
         QCOMPARE(schema.value("required").toArray(), (QJsonArray{"repair_deadlines", "truck_jobs", "well_shut_ins", "inspection_assets"}));
-        QCOMPARE(properties.size(), 8); QVERIFY(properties.contains("plan_hash"));
+        QCOMPARE(properties.size(), 4);
+        for (const auto* field : {"plan_id", "plan_hash", "context", "start_unix"}) QVERIFY(!properties.contains(QLatin1String(field)));
         const auto deadlines = properties.value("repair_deadlines").toObject();
         QCOMPARE(deadlines.value("minItems").toInt(), 1); QCOMPARE(deadlines.value("maxItems").toInt(), 256);
         QCOMPARE(deadlines.value("items").toObject().value("required").toArray(), (QJsonArray{"facility_id", "repair_elapsed_s"}));
@@ -40,8 +41,16 @@ private slots:
         QCOMPARE(trip.value("properties").toObject().value("arrival_elapsed_s").toObject().value("type"), QJsonValue("number"));
         const auto stop = properties.value("well_shut_ins").toObject().value("items").toObject();
         QCOMPARE(stop.value("required").toArray(), (QJsonArray{"well_id", "facility_id", "start_elapsed_s", "end_elapsed_s"}));
-        QCOMPARE(properties.value("plan_hash").toObject().value("pattern"), QJsonValue("^[0-9a-f]{64}$"));
-        QCOMPARE(load("common-v1.schema.json").value("$defs").toObject().value("plan").toObject().value("required").toArray().size(), 8);
+        const auto publicDefinitions = load("common-v1.schema.json").value("$defs").toObject();
+        const auto publicPlan = publicDefinitions.value("plan").toObject();
+        QCOMPARE(publicPlan.value("required").toArray().size(), 8);
+        QCOMPARE(publicPlan.value("properties").toObject().size(), 8);
+        for (const auto* field : {"plan_id", "plan_hash", "context", "start_unix"}) {
+            QVERIFY(publicPlan.value("properties").toObject().contains(QLatin1String(field)));
+            QVERIFY(publicPlan.value("required").toArray().contains(QLatin1String(field)));
+        }
+        QCOMPARE(publicPlan.value("properties").toObject().value("plan_hash").toObject().value("$ref"), QJsonValue("#/$defs/hash"));
+        QCOMPARE(publicDefinitions.value("hash").toObject().value("pattern"), QJsonValue("^[0-9a-f]{64}$"));
     }
     void sharedCorpus_data() {
         QTest::addColumn<QJsonObject>("document");

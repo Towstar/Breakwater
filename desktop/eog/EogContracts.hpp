@@ -14,6 +14,6 @@ QString dataset_identity(const QJsonObject& sourceHashes);
 QString capture_identity(const QJsonObject& manifest);
 QString plan_identity(const QJsonObject& plan);
 // Inline tool schema from the embedded public plan contract. Only the four
-// application-owned envelope fields are optional; numerical claims stay required.
+// application-owned envelope fields are excluded; numerical claims stay required.
 QJsonObject agent_plan_schema();
 } // namespace breakwater::desktop::eog

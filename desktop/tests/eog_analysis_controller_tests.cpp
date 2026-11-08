@@ -205,6 +205,8 @@ private slots:
             if (definition.value("name") == "evaluate_plan") exposed = definition.value("parameters").toObject().value("properties").toObject().value("plan").toObject();
         }
         QCOMPARE(exposed, agent_plan_schema()); QVERIFY(!QJsonDocument(exposed).toJson().contains("\"$ref\""));
+        for (const auto* field : {"plan_id", "plan_hash", "context", "start_unix"})
+            QVERIFY(!exposed.value("properties").toObject().contains(QLatin1String(field)));
         const auto evaluation = done.first().at(0).toJsonObject().value("result").toObject().value("evaluation").toObject();
         const auto actual = evaluation.value("plan").toObject();
         QVERIFY(!actual.value("plan_id").toString().isEmpty()); QCOMPARE(actual.value("plan_hash").toString(), plan_identity(actual));
@@ -214,16 +216,89 @@ private slots:
         QCOMPARE(continuation.value("result").toObject().value("result").toObject().value("evaluation").toObject().value("plan"), QJsonValue(actual));
         QVERIFY(!h.analysis.canReview()); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
     }
+    void initialContextCopiesBoundCapturedPolicyWithoutDerivedPlans() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const auto previousIdentity = h.dataset.datasetIdentity(), path = QDir(h.folder).filePath("ops.json");
+        auto ops = parse(QString::fromUtf8(bytes(path)));
+        ops["expected_repair_hours"] = QJsonObject{{"pump_failure", 9.25}};
+        ops["prices"] = QJsonObject{{"oil_per_bbl", 73.125}, {"gas_per_mcf", 4.75}};
+        ops["emergency_trucking"] = QJsonObject{{"truck_capacity_bbl", 333}, {"cost_per_trip", 4567}};
+        const auto rawOps = QJsonDocument(ops).toJson(); QVERIFY(write(path, rawOps));
+        h.dataset.loadFolder(QUrl::fromLocalFile(h.folder));
+        QTRY_VERIFY_WITH_TIMEOUT(!h.dataset.busy() && h.dataset.loaded() && h.dataset.datasetIdentity() != previousIdentity, 15000);
+        h.analysis.investigate("Inspect the captured policy; do not invent a candidate.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 1 && !h.analysis.busy(), 15000);
+        const auto user = parse(h.model.messages.at(1).toObject().value("content").toString());
+        const auto context = user.value("context").toObject(); QJsonObject copiedPolicy;
+        for (const auto* key : {"expected_repair_hours", "prices", "emergency_trucking"}) {
+            QCOMPARE(context.value(QLatin1String(key)), ops.value(QLatin1String(key)));
+            copiedPolicy[QLatin1String(key)] = context.value(QLatin1String(key));
+        }
+        QVERIFY(QJsonDocument(copiedPolicy).toJson(QJsonDocument::Compact).size() <= 8 * 1024);
+        for (const auto* key : {"repair_elapsed_s", "repair_deadlines", "truck_jobs", "well_shut_ins", "inspection_assets"})
+            QVERIFY(!context.contains(QLatin1String(key)));
+        QCOMPARE(h.providerCalls(), 0); QVERIFY(h.analysis.plans().isEmpty()); QVERIFY(!h.analysis.canReview()); QCOMPARE(bytes(path), rawOps);
+        QSignalSpy loaded(&h.history, &EogHistoryRepository::sessionLoaded); h.history.loadSession(h.analysis.sessionId());
+        QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        const auto manifest = loaded.first().first().toJsonObject().value("capture_manifest").toObject();
+        QCOMPARE(context.value("capture_id"), manifest.value("capture_id")); QCOMPARE(context.value("dataset_identity"), manifest.value("dataset_identity"));
+        QCOMPARE(manifest.value("captured_files").toObject().value("ops.json").toObject().value("sha256"),
+            QJsonValue(QString::fromLatin1(QCryptographicHash::hash(rawOps, QCryptographicHash::Sha256).toHex())));
+        QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+    }
+    void toolIdentityHintsFollowRenamedCaptureAndDoNotTranslateAllSentinel() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const auto previousIdentity = h.dataset.datasetIdentity(); const QString system("RENAMED-system"), tank = QString::fromUtf8("tank-\xe6\xb9\x96");
+        for (const auto* name : {"network.json", "ops.json", "telemetry.csv"}) {
+            const auto path = QDir(h.folder).filePath(name); auto content = bytes(path);
+            content.replace("CUSTOM-system", system.toUtf8()); content.replace("tank-Z", tank.toUtf8()); QVERIFY(write(path, content));
+        }
+        h.dataset.loadFolder(QUrl::fromLocalFile(h.folder));
+        QTRY_VERIFY_WITH_TIMEOUT(!h.dataset.busy() && h.dataset.loaded() && h.dataset.datasetIdentity() != previousIdentity, 15000);
+        h.model.respond = [step = 0, system, tank](const QJsonArray&) mutable {
+            switch (step++) {
+            case 0: return tool("invalid-all", "read_topology", {{"system_id", "all"}});
+            case 1: return tool("actual-system", "read_topology", {{"system_id", system}});
+            case 2: return tool("actual-observation", "read_observations", {{"asset_id", tank}, {"metric", "level_pct"}});
+            default: return final();
+            }
+        };
+        h.analysis.investigate("Use only identifiers from the renamed current capture.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 4 && !h.analysis.busy(), 15000);
+        QCOMPARE(h.providerCalls(), 0); QVERIFY(!h.analysis.canReview());
+        QVERIFY(QJsonDocument(h.model.definitions).toJson(QJsonDocument::Compact).size() <= 64 * 1024);
+        QMap<QString, QJsonObject> properties;
+        for (const auto& value : h.model.definitions) {
+            const auto function = value.toObject().value("function").toObject();
+            properties[function.value("name").toString()] = function.value("parameters").toObject().value("properties").toObject();
+        }
+        for (const auto* operation : {"detect", "search_plans"}) {
+            const auto ids = properties.value(QLatin1String(operation)).value("system_ids").toObject().value("items").toObject().value("enum").toArray();
+            QCOMPARE(ids, QJsonArray{system}); QVERIFY(!ids.contains("all")); QVERIFY(!ids.contains("CUSTOM-system"));
+        }
+        QCOMPARE(properties.value("read_topology").value("system_id").toObject().value("enum").toArray(), QJsonArray{system});
+        const auto observations = properties.value("read_observations");
+        const auto assetIds = observations.value("asset_id").toObject().value("enum").toArray();
+        QVERIFY(assetIds.contains(tank)); QVERIFY(!assetIds.contains("tank-Z"));
+        QVERIFY(observations.value("metric").toObject().value("enum").toArray().contains("level_pct"));
+        QCOMPARE(resultFor(h.model.messages, "invalid-all").value("error").toObject().value("code"), QJsonValue("unknown_system"));
+        QVERIFY(resultFor(h.model.messages, "actual-system").value("ok").toBool());
+        const auto observed = resultFor(h.model.messages, "actual-observation"); QVERIFY(observed.value("ok").toBool());
+        QCOMPARE(observed.value("result").toObject().value("asset_id"), QJsonValue(tank));
+        QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+    }
     void modelClaimsAreRejectedWithoutRepairingThem_data() {
         QTest::addColumn<QString>("claim");
-        for (const auto* name : {"hash", "context", "start", "controls", "missing_horizon"}) QTest::newRow(name) << QString::fromLatin1(name);
+        for (const auto* name : {"hash", "context", "historical_context", "start", "controls", "missing_horizon"}) QTest::newRow(name) << QString::fromLatin1(name);
     }
     void modelClaimsAreRejectedWithoutRepairingThem() {
         QFETCH(QString, claim); Harness h(fixtures_, worker_);
         QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        if (claim == "historical_context") h.dataset.setCursorUnix(h.dataset.firstUnix());
         auto proposal = plainProposal(h);
         if (claim == "hash") proposal["plan_hash"] = QString(64, '0');
         if (claim == "context") proposal["context"] = "historical_cursor";
+        if (claim == "historical_context") proposal["context"] = "snapshot_now";
         if (claim == "start") proposal["start_unix"] = h.dataset.firstUnix();
         if (claim == "controls") proposal["truck_jobs"] = "not-an-array";
         if (claim == "missing_horizon") proposal.remove("repair_deadlines");
@@ -236,6 +311,48 @@ private slots:
         QCOMPARE(h.providerCalls(), 0); QCOMPARE(done.size(), 0); QVERIFY(h.analysis.plans().isEmpty());
         const auto continuation = resultFor(h.model.messages, "bad-proposal"); QVERIFY(!continuation.value("ok").toBool());
         QCOMPARE(continuation.value("error").toObject().value("code"), QJsonValue("invalid_plan_proposal")); QVERIFY(!h.analysis.canReview());
+        const auto error = continuation.value("error").toObject();
+        QCOMPARE(error.value("expected_context"), QJsonValue(claim == "historical_context" ? "historical_cursor" : "snapshot_now"));
+        QCOMPARE(error.value("expected_start_unix").toDouble(), h.dataset.cursorUnix());
+        QString retainedSummary;
+        for (const auto& value : h.analysis.trace()) {
+            const auto row = value.toMap();
+            if (row.value("type") == "tool_result" && row.value("call_id") == "bad-proposal")
+                retainedSummary = row.value("summary").toString();
+        }
+        QVERIFY(!retainedSummary.isEmpty()); QVERIFY(retainedSummary.size() <= 4000);
+        QCOMPARE(parse(retainedSummary).value("error_code"), QJsonValue("invalid_plan_proposal"));
+        QSignalSpy loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        h.history.loadSession(h.analysis.sessionId()); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+        bool archived = false;
+        for (const auto& value : loaded.first().first().toJsonObject().value("agent_events").toArray()) {
+            const auto event = value.toObject().value("event").toObject();
+            if (event.value("type") == "tool_result" && event.value("call_id") == "bad-proposal")
+                archived = event.value("summary").toString() == retainedSummary;
+        }
+        QVERIFY(archived);
+    }
+    void invalidProposalHintIsBoundedAndDoesNotEchoSubmittedValues() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        auto proposal = plainProposal(h);
+        const QString canary("DO_NOT_ECHO_PRIVATE_PROPOSAL_CANARY"); proposal["plan_hash"] = canary;
+        h.model.respond = [step = 0, proposal](const QJsonArray&) mutable {
+            return step++ == 0 ? tool("invalid-shape", "evaluate_plan", {{"plan", proposal}}) : final();
+        };
+        h.analysis.investigate("A rejected proposal needs bounded schema correction guidance.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QCOMPARE(h.providerCalls(), 0); QVERIFY(h.analysis.plans().isEmpty()); QVERIFY(!h.analysis.canReview());
+        const auto error = resultFor(h.model.messages, "invalid-shape").value("error").toObject();
+        QCOMPARE(error.value("code"), QJsonValue("invalid_plan_proposal"));
+        QCOMPARE(error.value("expected_context"), QJsonValue("snapshot_now"));
+        QCOMPARE(error.value("expected_start_unix").toDouble(), h.dataset.cursorUnix());
+        const auto hint = error.value("message").toString(); QVERIFY(!hint.isEmpty()); QVERIFY(hint.size() <= 2000);
+        QVERIFY(hint.contains("no plan was retained")); QVERIFY(hint.contains("null/empty placeholders are invalid"));
+        for (const auto* field : {"repair_deadlines", "truck_jobs", "well_shut_ins", "inspection_assets",
+                                  "truck_id", "available_again_elapsed_s", "arrival_elapsed_s", "volume_bbl", "cost"})
+            QVERIFY2(hint.contains(QLatin1String(field)), field);
+        QVERIFY(!hint.contains(canary)); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
     }
     void manualDraftIsFreshUnhashedAndDoesNotChangeSelectedControls() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
