@@ -12,6 +12,7 @@ public:
     void checkpoint();
     void flush();
     void recordApproval(const QJsonObject& recommendation);
+    void setConfiguredModel(const QString& model) { model_ = model; }
 signals:
     void failed(const QString& message);
 private:

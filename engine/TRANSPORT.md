@@ -1,5 +1,10 @@
 # Single-pipe finite-volume reference
 
+The bounded A9 [qualification report](../science/TRANSPORT_QUALIFICATION.md) adds
+independent analytic/semidiscrete comparisons, separated error studies and explicit
+limits for tested regimes. It preserves the failed coarse inlet-front study; its
+refined mean-L1 pass does not qualify local peak accuracy or every accepted input.
+
 Include `breakwater/transport.hpp` and link `breakwater_engine`. This is a synthetic,
 cross-section-averaged scalar concentration model, separate from the tank-volume model:
 

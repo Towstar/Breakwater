@@ -6,6 +6,7 @@
 namespace breakwater::desktop::history { class SessionRepository; class HistoryController; class SessionRecorder; }
 
 namespace breakwater::desktop::agent {
+class NemotronClient;
 class AgentController final : public QObject {
     Q_OBJECT
     Q_PROPERTY(bool running READ running NOTIFY changed)
@@ -36,6 +37,7 @@ signals:
 private:
     ProjectController* project_;
     AgentOrchestrator* session_;
+    NemotronClient* owned_client_ = nullptr;
     QJsonObject recommendation_;
     bool applying_ = false;
     quint64 captured_revision_ = 0;
