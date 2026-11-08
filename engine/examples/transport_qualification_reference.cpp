@@ -213,6 +213,47 @@ std::vector<Case> cases(bool refined_inlet) {
     return all;
 }
 
+Case front_initial(const std::string& regime, const std::string& study,
+                   std::size_t cells, double cfl) {
+    auto c = base(regime, study, cells, cfl, 4.0, TransportBoundary::dirichlet_inlet);
+    c.config.output_step_h = .0125;
+    c.flow = {{0.0, .25 * c.pipe.area_m2}};
+    initialize_bump(c);
+    if (regime == "front_box") {
+        const double dx = c.pipe.length_m / static_cast<double>(cells);
+        for (std::size_t j = 0; j < cells; ++j) {
+            // Exact geometric overlap of the unit box with a cell, not clipping
+            // of a simulated concentration. No solver output is changed.
+            const double left = std::max(static_cast<double>(j) * dx, .125);
+            const double right = std::min(static_cast<double>(j + 1) * dx, .625);
+            c.initial[j] = std::max(0.0, right - left) / dx;
+        }
+    }
+    return c;
+}
+
+std::vector<Case> front_cases() {
+    std::vector<Case> all;
+    all.reserve(22);
+    for (const auto* regime : {"front_smooth", "front_box"}) {
+        for (const std::size_t cells : {64u, 128u, 256u, 512u})
+            all.push_back(front_initial(regime, "space", cells, .02));
+        for (const double cfl : {.4, .2, .1, .05})
+            all.push_back(front_initial(regime, "time", 128, cfl));
+    }
+    for (const std::size_t cells : {128u, 256u, 512u}) all.push_back(scheduled_inlet(cells));
+    for (const std::size_t cells : {128u, 256u, 512u}) {
+        auto c = scheduled_inlet(cells);
+        c.study = "extended_space";
+        c.id = id(c.regime, c.study, cells, c.config.cfl_safety);
+        c.config.horizon_h = 2.2;
+        c.config.output_step_h = .0125;
+        all.push_back(std::move(c));
+    }
+    if (all.size() != 22) throw std::logic_error("F1 matrix must contain exactly 22 cases.");
+    return all;
+}
+
 void result(std::ostream& out, const TransportResult& r) {
     out << "{\"solver_version\":"; string(out, r.solver_version);
     out << ",\"x_m\":"; numbers(out, r.x_m);
@@ -314,8 +355,9 @@ void rejections(std::ostream& out) {
 
 int main(int argc, char** argv) {
     const bool refined_inlet = argc == 2 && std::string(argv[1]) == "--refined-inlet";
-    if (argc != 1 && !refined_inlet) {
-        std::cerr << "Usage: breakwater_transport_qualification_reference [--refined-inlet] > transport-qualification.json\n";
+    const bool front_accuracy = argc == 2 && std::string(argv[1]) == "--front-accuracy";
+    if (argc != 1 && !refined_inlet && !front_accuracy) {
+        std::cerr << "Usage: breakwater_transport_qualification_reference [--refined-inlet|--front-accuracy] > transport-qualification.json\n";
         return 2;
     }
     try {
@@ -324,11 +366,11 @@ int main(int argc, char** argv) {
         out.imbue(std::locale::classic());
         out << std::setprecision(std::numeric_limits<double>::max_digits10)
             << "{\"fixture_version\":1,\"qualification_variant\":";
-        string(out, refined_inlet ? "refined_inlet" : "baseline");
+        string(out, front_accuracy ? "front_accuracy" : refined_inlet ? "refined_inlet" : "baseline");
         out << ",\"solver_version\":";
         string(out, transport_solver_version);
         out << ",\"cases\":[";
-        const auto all = cases(refined_inlet);
+        const auto all = front_accuracy ? front_cases() : cases(refined_inlet);
         for (std::size_t i = 0; i < all.size(); ++i) {
             if (i) out << ',';
             fixture(out, all[i]);

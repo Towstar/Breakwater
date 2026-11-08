@@ -1,0 +1,53 @@
+{
+  "study_version": 1,
+  "qualification_variant": "front_accuracy",
+  "native_arguments": ["--front-accuracy"],
+  "expected_case_count": 22,
+  "declaration": "Predeclared F1 characterization of the unchanged upwind/Euler solver. No application-wide accuracy qualification or solver correction. Existing A9 gates/configurations remain unchanged.",
+  "initial_pulses": {
+    "regimes": ["front_smooth", "front_box"],
+    "space_cells": [64, 128, 256, 512],
+    "space_cfl": 0.02,
+    "time_cells": 128,
+    "time_cfl": [0.4, 0.2, 0.1, 0.05],
+    "horizon_h": 4.0,
+    "output_step_h": 0.0125,
+    "velocity_m_h": 0.25,
+    "start_m": 0.125,
+    "width_m": 0.5
+  },
+  "scheduled_inlet": {
+    "cells": [128, 256, 512],
+    "cfl": 0.1,
+    "legacy_horizon_h": 0.6,
+    "legacy_output_step_h": 0.05,
+    "extended_horizon_h": 2.2,
+    "extended_output_step_h": 0.0125,
+    "velocity_knots": [[0.0, 0.4], [0.137, 0.0], [0.293, 0.7]],
+    "inlet_knots": [[0.0, 0.0], [0.11, 1.0], [0.29, 0.2], [0.47, 0.8], [0.63, 0.0]]
+  },
+  "geometry": {"length_m": 1.0, "area_m2": 0.2, "dispersion_m2_h": 0.0, "decay_per_h": 0.0},
+  "thresholds_mg_l": [0.1, 0.5, 0.9],
+  "observation_strides": [1, 2, 4],
+  "integrity": {
+    "reference_crosscheck_maximum_mg_l": 1e-10,
+    "reference_roundoff_multiplier": 128,
+    "reference_resolution_factor": 10,
+    "input_absolute_tolerance": 2e-13,
+    "ledger_absolute_tolerance_mg": 1e-9,
+    "ledger_relative_tolerance": 1e-10,
+    "minimum_concentration_tolerance_mg_l": 5e-12,
+    "maximum_concentration_tolerance_mg_l": 1e-10,
+    "cfl_tolerance": 1e-12,
+    "spatial_time_contamination_maximum": 0.05
+  },
+  "expected_rejections": {"substep_budget": "runtime_error", "output_frame_budget": "invalid_argument", "output_value_budget": "invalid_argument"},
+  "notes": [
+    "Characterization completion is distinct from accuracy qualification. No new product accuracy threshold is invented.",
+    "The outlet flux uses the last cell average as a face approximation. Compare it separately with the continuum last-cell average and point outlet.",
+    "First upward threshold crossings use sampled brackets, not unqualified interpolated timestamps. Repeated crossings and missing discharge are explicit.",
+    "Decimation selects original samples from one run and never changes its integration trajectory.",
+    "Scheduled inlet has no semidiscrete reference in this batch; its refinement remains coupled space/time.",
+    "Reference roundoff estimates and cross-checks are numerical evidence, not formal interval enclosures."
+  ]
+}
