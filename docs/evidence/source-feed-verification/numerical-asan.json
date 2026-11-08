@@ -1,0 +1,331 @@
+{
+  "started_utc": "2026-11-08T08:29:28.335469+00:00",
+  "status": "passed",
+  "command": [
+    "science/verify_source_feeds.py",
+    "--native",
+    "out/connection-repro/desktop-asan/engine/breakwater_source_feed_reference.exe",
+    "--output",
+    "out/connection-repro/attempt-20-source-feed-asan"
+  ],
+  "python": "3.12.13 (main, May  4 2026, 21:19:41) [MSC v.1944 64 bit (AMD64)]",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "cases": [
+    {
+      "id": "balanced",
+      "metrics": {
+        "sparse": {
+          "volume_max_error_m3": 3.410605131648481e-13,
+          "cost_error": 0.0,
+          "mass_residual_m3": 7.105427357601002e-15
+        },
+        "dense": {
+          "volume_max_error_m3": 3.410605131648481e-13,
+          "cost_error": 0.0,
+          "mass_residual_m3": 7.105427357601002e-15
+        },
+        "affine": {
+          "volume_max_error_m3": 0.0,
+          "cost_error": 0.0,
+          "mass_residual_m3": 1.4210854715202004e-14
+        },
+        "torch": {
+          "volume_max_error_m3": 3.410605131648481e-13
+        },
+        "worker": {
+          "volume_max_error_m3": 3.410605131648481e-13,
+          "cost_error": 0.0
+        }
+      }
+    },
+    {
+      "id": "asymmetric",
+      "metrics": {
+        "sparse": {
+          "volume_max_error_m3": 3.410605131648481e-13,
+          "cost_error": 0.0,
+          "mass_residual_m3": 3.552713678800501e-15
+        },
+        "dense": {
+          "volume_max_error_m3": 3.410605131648481e-13,
+          "cost_error": 0.0,
+          "mass_residual_m3": 3.552713678800501e-15
+        },
+        "affine": {
+          "volume_max_error_m3": 0.0,
+          "cost_error": 0.0,
+          "mass_residual_m3": 1.2878587085651816e-14
+        },
+        "torch": {
+          "volume_max_error_m3": 3.410605131648481e-13
+        },
+        "worker": {
+          "volume_max_error_m3": 3.410605131648481e-13,
+          "cost_error": 0.0
+        },
+        "analytic_gradient_max_error": 0.0,
+        "central_differences": [
+          {
+            "step_m3h": 0.002,
+            "maximum_error": 5.32054400537163e-11
+          },
+          {
+            "step_m3h": 0.0002,
+            "maximum_error": 5.647962098009884e-10
+          },
+          {
+            "step_m3h": 2e-05,
+            "maximum_error": 5.68070390727371e-09
+          }
+        ]
+      }
+    },
+    {
+      "id": "four_way",
+      "metrics": {
+        "sparse": {
+          "volume_max_error_m3": 1.7763568394002505e-14,
+          "cost_error": 0.0,
+          "mass_residual_m3": 1.1102230246251565e-15
+        },
+        "dense": {
+          "volume_max_error_m3": 1.7763568394002505e-14,
+          "cost_error": 0.0,
+          "mass_residual_m3": 1.1102230246251565e-15
+        },
+        "affine": {
+          "volume_max_error_m3": 3.552713678800501e-15,
+          "cost_error": 0.0,
+          "mass_residual_m3": 2.6645352591003757e-15
+        },
+        "torch": {
+          "volume_max_error_m3": 1.7763568394002505e-14
+        },
+        "worker": {
+          "volume_max_error_m3": 1.7763568394002505e-14,
+          "cost_error": 0.0
+        },
+        "analytic_gradient_max_error": 2.220446049250313e-16,
+        "central_differences": [
+          {
+            "step_m3h": 0.004,
+            "maximum_error": 2.5653923430013492e-12
+          },
+          {
+            "step_m3h": 0.0004,
+            "maximum_error": 3.654743174763553e-11
+          },
+          {
+            "step_m3h": 4e-05,
+            "maximum_error": 1.899380652758964e-10
+          }
+        ]
+      }
+    },
+    {
+      "id": "zero_share",
+      "metrics": {
+        "sparse": {
+          "volume_max_error_m3": 1.4921397450962104e-13,
+          "cost_error": 0.0,
+          "mass_residual_m3": 4.440892098500626e-15
+        },
+        "dense": {
+          "volume_max_error_m3": 1.4921397450962104e-13,
+          "cost_error": 0.0,
+          "mass_residual_m3": 4.440892098500626e-15
+        },
+        "affine": {
+          "volume_max_error_m3": 0.0,
+          "cost_error": 0.0,
+          "mass_residual_m3": 9.769962616701378e-15
+        },
+        "torch": {
+          "volume_max_error_m3": 1.4921397450962104e-13
+        },
+        "worker": {
+          "volume_max_error_m3": 1.4921397450962104e-13,
+          "cost_error": 0.0
+        },
+        "analytic_gradient_max_error": 0.0,
+        "central_differences": [
+          {
+            "step_m3h": 0.002,
+            "maximum_error": 1.0771827874123119e-11
+          },
+          {
+            "step_m3h": 0.0002,
+            "maximum_error": 9.958966984413564e-11
+          },
+          {
+            "step_m3h": 2e-05,
+            "maximum_error": 9.52240508667046e-10
+          }
+        ]
+      }
+    }
+  ],
+  "packages": {
+    "torch": "2.15.0+cpu",
+    "numpy": "2.5.4",
+    "nvidia-physicsnemo": "2.2.2",
+    "jsonschema": "4.25.1"
+  },
+  "native": "C:\\Projects\\Breakwater\\.worktrees\\feed-connection\\out\\connection-repro\\desktop-asan\\engine\\breakwater_source_feed_reference.exe",
+  "native_sha256": "2213fd467f70b9e28d086180babdb1cbcb590ffcc31b33b05480c41b1c15767e",
+  "native_exit": 0,
+  "worker_exit": 0,
+  "request_count": 24,
+  "elapsed_s": 5.8284709000145085,
+  "source_sha256": {
+    "contracts/include/breakwater/types.hpp": "5dae7f72927df09ec5ed0e7d1785bcbabac27513c9f702c07de4c9b06ab022c4",
+    "contracts/science/examples/capabilities-request.json": "d516b58422eb919228254f1cf6504895971dde190e74a7d3f6a2012f4b2f4e22",
+    "contracts/science/examples/capabilities-response.json": "0de1602f63e7f5c409f0ad83bcf3719d1cb81453850ff802928982101d0c9f9d",
+    "contracts/science/examples/health-request.json": "fad7794782a4be32a7082db505854e397d677c08727c863cad36f038fda475f8",
+    "contracts/science/examples/pipe-transport-request.json": "25ee3f43ce8711b1c4217845772d36ce0b435d6408a6372aa9bae6397daf137c",
+    "contracts/science/examples/pipe-transport-response.json": "fd78cee3241b490e21b9ff3319c3943155bfc1fcd31411e3be91a5f267f73733",
+    "contracts/science/examples/storage-rollout-request.json": "c96f00d0cc6d416c5f0e96bca96951f7d5190ccdbd276e940499d236050f724c",
+    "contracts/science/examples/storage-rollout-response.json": "001d43e098dea822f648fd8c3fc5f66bc95287be3c051b89a3a4ec0fcc5410d3",
+    "contracts/science/pipe-parameters-v1.schema.json": "70c92f92eb24be9c754c030ff6435cfe77eb07a6051054d8c24f788fbe99da74",
+    "contracts/science/request-v1.schema.json": "bc78e347b2f534aba15a3b7dcd1052305e00d1fa38fe90a70af9c19b11ff5c1c",
+    "contracts/science/response-v1.schema.json": "565a38871b02b2c50d400da4013add406846335dfbf376ad8b083cfa65936fd0",
+    "desktop/agent/AgentController.cpp": "0ad0c13c08e66bfef480618fc32dca630c9788f3d0c3144bdf5c8e9f4c9aa61c",
+    "desktop/agent/AgentController.hpp": "a4d4f20c77df110561210cb4fda21d6507c93448d90d59a593f794e1527fa217",
+    "desktop/agent/AgentOrchestrator.cpp": "b235b07442e0afefa6b9c035146a0f010e4243379e2a93c001fa01137060a174",
+    "desktop/agent/AgentOrchestrator.hpp": "1eda032ae5170200c5b14841f55bff68a2df7be62f9929ea2b4ffbf09e5cab4d",
+    "desktop/agent/CredentialSettings.cpp": "751710a4c74e1cb2074ca482b323983efeb7c5c4baa0c435b3958792b76ec84c",
+    "desktop/agent/CredentialSettings.hpp": "fe3d8bf0865da470a2253f0469eadbd0079d26befbbb359018c5828cec1bef8f",
+    "desktop/agent/live_smoke.cpp": "b3bc52657a7cfcc62ecb1b5bdb979dc49a7c2b3be662992a09a5e81c1e665e30",
+    "desktop/agent/ModelTransport.hpp": "4dbe548cc6e4f032ae10c71a8c577e5ff95a14a1bb054503e00dc2fb9f9dc98c",
+    "desktop/agent/NemotronClient.cpp": "f11d78b219f56229180e5fff717182397c2104f48f369730e2d1e9ec758c0689",
+    "desktop/agent/NemotronClient.hpp": "0765031750d2f0843f247cfc3eb7855b509dc95795506e1888b03f92c1ce1138",
+    "desktop/agent/SimulationGateway.cpp": "921c57a77b7136b55e82e20152b39a196d1ae0b36ccb1e2b4fe70dd73d370d22",
+    "desktop/agent/SimulationGateway.hpp": "c6a8964e93ade8373677cd78f03ff410f9cb2c41354e64d8cc1dbf5e551fd700",
+    "desktop/CMakeLists.txt": "4924d1ba04ed6374902cb4b6f473338c5e4b9c345f5c931b4649a7539c12f759",
+    "desktop/history/HistoryController.cpp": "431144b4b7e1e1a115b39a2ee47a17aee386e97ed0c52c553cc246eca136658d",
+    "desktop/history/HistoryController.hpp": "08b87b1b02f94bd1c9f656608231fbb1728c15aa79c67c416d3a66ddf35a686c",
+    "desktop/history/RehearsalArchiveCoordinator.hpp": "5e004156b21a06e5e7f196763512ebdd1e48835d1d709e6ac330040716f282e9",
+    "desktop/history/RehearsalEvidenceGuard.hpp": "5eef5318eb0b51888754f65fdb34da3c92659357f6f95fb6130cd741b242bd40",
+    "desktop/history/SessionRecorder.cpp": "5f43bf925b66c0c214b7e9a65b2041c412528360fadffffd1bc1f7850534c0c4",
+    "desktop/history/SessionRecorder.hpp": "b653976a1eeeda0eb5a050ea5d563cc150b81ab7199d59eee0fbc3d217cae147",
+    "desktop/history/SessionRepository.cpp": "633373dda52a5db7056c19231101ab3838c680492de6c910a9aa1b0363b958b8",
+    "desktop/history/SessionRepository.hpp": "e524c87c003b409a0da8271457f1894b4c783a1f218468c2ed362850bb35ce5f",
+    "desktop/main.cpp": "685e5e98d61d0c9a8b477b007a4284986633a9e481a610040bc724f82ad2c280",
+    "desktop/ProjectController.cpp": "6454e085cb0eb9a8f352ee5f865936ac88d67c5a0478b6fb784c9c9072ff6c54",
+    "desktop/ProjectController.hpp": "ff874b9f5aa4fbf1dbffeaacb0ba9e1cc867cc3f2de83bddba2bf2e3c53fac30",
+    "desktop/ProjectDocument.cpp": "fb0a109a4dba1143eed2f7e691416a57d99bbf42c7da75240f78fba11192b564",
+    "desktop/ProjectDocument.hpp": "13787e2a248faeb4da2c804ccadde95f4dd9fd027a8f737257c5f0de57d397b7",
+    "desktop/qml/AgentPanel.qml": "b43907e2621e2cdb0c7f2aa78d9995fc2cf23c4486c6df700520f6056732533a",
+    "desktop/qml/Equipment.qml": "394a798e14d9b11a6285ef7a200909cee7b2bbb42c42bb47e2588f6cf5370ee6",
+    "desktop/qml/Main.qml": "fef6948f89a619f363c7f169587d0c8962c7193fbc64bb71652218128b876c27",
+    "desktop/qml/PipeRoute.qml": "1669434c24749809ab2588a137e9ae52e819f5433b8b112dbf3b2819df19ed6f",
+    "desktop/qml/PipeTransportPanel.qml": "99e6c8eefca74ae35201b192140282db0d5d8b0dc93da9f4b9f4fabc1f3fa530",
+    "desktop/qml/SourceFeedDialog.qml": "789dd03a101660fd51d972b0b3e8e82df5e5278e72170a2a245491a4c4f857d3",
+    "desktop/qml/StorageSciencePanel.qml": "c2ac6b24ecca7666af86ff63d0ec83590c459c6cce44db1b98d7f3242e9eccc7",
+    "desktop/qml/TrajectoryChart.qml": "2842cafce9a67e6a5c70e73e3240a7abb8c6619aa57822b12b60af68fcf9e086",
+    "desktop/quality/PipeParameters.cpp": "af7a04b528e3e96978eec3a09da0eaa9af3ae1ccff20883384548604234f0f4a",
+    "desktop/quality/PipeParameters.hpp": "2ca9c6ec32f46f35a840ca408a9e968cd3bdee0bc6cd541c3c45790c15a23b76",
+    "desktop/quality/PipeTransportController.cpp": "8995ce5ee5ef71bbce4da2591827ee794d7b8c59e1d576805489eac4d30acc81",
+    "desktop/quality/PipeTransportController.hpp": "22a8bebe819842be2505135b44127660daf443af68027cf2fbaa02dcae7bf240",
+    "desktop/quality/PipeTransportEvidence.cpp": "929a7664d0baa30a7e26c6959a4897ba143a56fc4372abf4e3bdbbe2d7802e1a",
+    "desktop/quality/PipeTransportEvidence.hpp": "c14c803577fa5ad3e5b9b618e7e3095027bd251efa1ffe19885fd81c99e2b9a1",
+    "desktop/science/AgentSensitivityClient.cpp": "2fdbe6f49f88b478efc7900cef14028e378b6b0a60a93b9ced238be6b47d12ee",
+    "desktop/science/AgentSensitivityClient.hpp": "6c22c0dbf760bb2f8240e246de8e020a6631de28454f4041a4e647949d3070bb",
+    "desktop/science/PythonWorkerClient.cpp": "4158bde6a1908886130b5586620d2f208300d8c910f2479277f4a4dc2b4577b2",
+    "desktop/science/PythonWorkerClient.hpp": "aa5d101c2263f11858939aa75fa137cf4825335e99c39b81f3798180a150f7f9",
+    "desktop/science/StorageScienceAnalysis.cpp": "78463689493eb31ede8c57b183d06b7adc1d23be918294246d9b05a681a49a19",
+    "desktop/science/StorageScienceAnalysis.hpp": "54a69aa69db1831edc620c7f2b295c1ef7a7206c7e6c46e7c4d41c8f6c3c5e42",
+    "desktop/science/StorageScienceController.cpp": "ed6a3d936c01b28126cef607fc941f49faeda12c11a21e8ebe360acb44187e7d",
+    "desktop/science/StorageScienceController.hpp": "05123ba99b6896b104d886d1b654cb37205c4ae6d4958eca0ca03f0d91064ae1",
+    "desktop/science/StorageScienceEvidence.cpp": "46f33d7954fceb5f628c708ad4c436820b403bb5c6b18d390be49c0a5e3e334b",
+    "desktop/science/StorageScienceEvidence.hpp": "d8f45b8fa1185a46977622b57ff9842f86aa5529571975ea54954fa29c64b6f6",
+    "desktop/science/WorkerProtocol.cpp": "a218e8cc70b3a4c19e2fa6989e1a926487a7a93531e29a6e61a3cad4edd3c30f",
+    "desktop/science/WorkerProtocol.hpp": "1f5fbfc3791142a79c5837d5240c88e00c90ce9590eab04e662c674a3e90e902",
+    "desktop/tests/agent_gateway_tests.cpp": "3eeaa8b08f63e1b61745da7aa7e4ee423743966edb1cd51f1a19f9338219c9bf",
+    "desktop/tests/agent_orchestrator_tests.cpp": "b5e384fa27967aa7e2be38acf0f5688e8f5449f176edf37a4bace35c5b46aa88",
+    "desktop/tests/agent_science_tests.cpp": "33ebb792fa1205fce435b28750b27e96c5fdf9765e91fdfdf93a344e0254936c",
+    "desktop/tests/history_controller_tests.cpp": "98350ef35b1b3ea39291993fb3c093ea2ef1a3ea9e17fd76fac55414520e5f4a",
+    "desktop/tests/nemotron_client_tests.cpp": "f9b3164b56da8ddb16c6e908d96332f35e762ff01634882c0ea4cd56b4fbd123",
+    "desktop/tests/pipe_parameters_tests.cpp": "14fe93a3a3fdcadb911a8b9468a25e0cac6ea64116afa89ffe94225fd8822302",
+    "desktop/tests/pipe_transport_evidence_tests.cpp": "d382dd5a8b4d01e8602ec73d31a1346a4bf4a661cd2193d987e2c4e6c8cf0c27",
+    "desktop/tests/pipe_transport_tests.cpp": "9e3ad30ed936422428700f3badc77102f229523954b973741f0deb20fc674650",
+    "desktop/tests/project_tests.cpp": "1748218f747fafac635cc95611e3062941eaec3f5dafbf4a787d23deaa9e1177",
+    "desktop/tests/python_worker_tests.cpp": "3ba3e04c58a9c8f14785c83c948fd742ceb5fc122d027bcb9607b2e25b3db544",
+    "desktop/tests/session_repository_tests.cpp": "0d4dfd90ce5e4b3f64fb06fda23d84347279c38e7857e171be062d65949944ac",
+    "desktop/tests/storage_grid_cases.hpp": "e27054830f47e4c1c237524798dbc86578e132edb341d09be67cc143430dcfb3",
+    "desktop/tests/storage_science_evidence_tests.cpp": "6c4973b9bf5cae44c0bc62a4274457e25f4220dce60cbbf3329ea6b3e8033fb0",
+    "desktop/tests/storage_science_tests.cpp": "2606d8ec32401639ccb5886ac176ab4ac4943db8bb19132b1cbb4c9d7d174e12",
+    "desktop/tests/storage_worker_tests.cpp": "5310050c1abc7df0e82ecae775da24a7f669181f6980e00151dcd2772fb10fed",
+    "desktop/tests/worker_fixtures/storage_worker_fixture.py": "fd3f013005d897a976052e3af238bceda4cb190f1555030f0aa3523d949dbca8",
+    "desktop/tests/worker_fixtures/worker_fixture.py": "6b4ed274ff40a35178b0ce787cd265bb4ef90f9844e2920bc09778b0035c3e8c",
+    "engine/benchmarks/benchmark.cpp": "f97947850b8c97edec9b5a7b860caa0e9d5c99acd0e19bd987b14a433c79c9c6",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-environment-initial.json": "6bc49a63b35a65a1951b7a83bd55e9cf28060e93b65288b9769462d2133297cc",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-environment.json": "99cd87b209d8e6698c492874e8d3585fc282e3988ce0876d89ac2e237f2dfe40",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-release-initial.json": "379be249b8545a9dd24d8a44bf71ba05a945cd88086845bec8ec10683c5d9829",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-release.json": "3b9e6999b5772ad12274c80119d12e3192615650fe24e4d98d89dd512b93f052",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-threshold-environment.json": "cd6ece76cfe6360e0c0bdd2154b281c0762d59fd61c88284bdcd82d910cd492a",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-threshold.json": "c5589e3ade9e6a31ffa77362bd582060db8539dbb284d4cfb5f2b6e5e8f89ee3",
+    "engine/benchmarks/results/2026-11-07-msvc-environment.json": "babdcbf9b3c9f2f2ffcc43131f697fc79e68478ab21e4505be7006e04d2493b5",
+    "engine/benchmarks/results/2026-11-07-msvc-release.json": "74950863973a7c2b4862529445d104419c1f9e833e8b1bced7aeaf55b5721f55",
+    "engine/benchmarks/timing.hpp": "7059bbe2d12ae851d82088361481130a817ac644dbc8e29fdc23ff51e2469a63",
+    "engine/benchmarks/workloads.hpp": "e9725b1fd3a7866f6ca8c4d6c7c2a9dc1b585f13b4d9a893fc513dc49cc1ac57",
+    "engine/CMakeLists.txt": "c3df09407d117f664d50f2b446ef4906817e070ca7c664167b3f044f4766b2af",
+    "engine/examples/physicsnemo_transport_reference.cpp": "0bdf536321d236161a681b38e796047a559f655f1aadad5171d1453020e528a4",
+    "engine/examples/rollout_reference.cpp": "747d16ea6129bd92f50234da41201643dd27aff3ecafd89773762234d6285fd4",
+    "engine/examples/search_example.cpp": "c9cee5ef1aafb08a0b7e6632e14ff8db14b1f99af7f81d980a4cc5c5ff96d93c",
+    "engine/examples/source_feed_reference.cpp": "ec48ffc9039097ad2960a8fb006880ae3974744fd325ddd143f839e1ce57f807",
+    "engine/examples/transport_example.cpp": "64655a44657c378f90553dabe8f0f4802b060ac2dbd34e41aca7ddfbd6094769",
+    "engine/examples/transport_qualification_reference.cpp": "1bc97b0b367bc0d7b5103d63ae38f0618146012e87ea6e5a7331202176a99d54",
+    "engine/include/breakwater/engine.hpp": "5c337ca34644e633ba45b596ba0afd3c4b21f66b41aa17d1c1db5d3e8dee06bd",
+    "engine/include/breakwater/search.hpp": "10ec373ce4ed886f2baf1c53c7080d56426b9741ea4eccf6c1529cbcb08917e2",
+    "engine/include/breakwater/transport.hpp": "06819cc1c8d8e0ca2693a35ed1e5a9403fa6f34e372ff4c9dbe4d933648c67f2",
+    "engine/src/control_influence.hpp": "d9f4ee82a649817ff58445226649dcfd2917c0d990a1c4f97ec1d123d82833a4",
+    "engine/src/engine.cpp": "b286518f95d1dd619945ffc8c494ff400f3f764db4ffd3f51d58857902b5ba58",
+    "engine/src/forecast_kernels.hpp": "6e84fe8e54cf8ea5d232e8fcbd26f6c16d1f0bd3e878d8f4ffe8177bceccc809",
+    "engine/src/main.cpp": "c38ccd8105116cd143baaa5dabe9b7f04bec586fa2664138a9d27b83621fdb69",
+    "engine/src/scenario.cpp": "e4e1b9a904b0a2ae6cd35284d64001e41eefcd9b1155ce4ea4bd17c202bbf1e1",
+    "engine/src/search.cpp": "e627e5e764fb3abeb39ff12e2734812597e95143cfcd8054afc0648648152a39",
+    "engine/src/search_evaluation.hpp": "575c079599a4ca0af8472a9e9004417297511a25184c1cf4818ebe0ac701de3b",
+    "engine/src/search_kernel.hpp": "57ada2dbfbdc9a9e4602433acab9c4593141c44d252d0a716f665aaf60f0bf87",
+    "engine/src/storage_grid.hpp": "13a159dd7780f78cfdacc6b94a9e240576be71d921f9bfbf562fae4628318bf4",
+    "engine/src/transport.cpp": "627125aeb1e67e289c78b0aeb00bab50c61461d3012a187de06d8376b567c21c",
+    "engine/tests/control_influence_tests.cpp": "5f5bb5b5fe4c90a7678e32fe47b115a76f3cc7ef59536a3d2798d00ada954aec",
+    "engine/tests/engine_tests.cpp": "63cb01e821cb9873adc48422c2e154861984adbe4e69f6815675effe4bd1c6d5",
+    "engine/tests/search_tests.cpp": "f293fc9be5cd448bcf5d7f9deb6cd717b1d8edd1d0c9c934861bf1816001d488",
+    "engine/tests/source_feed_fixture.hpp": "a75e2b99e8cffb75ba837e4fb270ba8a2470c0b882ad193aa1bb360062bdea56",
+    "engine/tests/source_feed_tests.cpp": "8ae8170f7286f1675c98617f5ff9300a7ff0b22c6de1c6c18bf03d8b219cf07c",
+    "engine/tests/transport_tests.cpp": "40ea00c8f53bbea1e02960d97aa1697b55fc6e8f0c8042503d4149b0b2f4d9c6",
+    "science/a4_config.json": "210543e97fe288713239f81a44f4d96f95123f5adbf239fb20fe08f4e527b667",
+    "science/a9_transport_config.json": "a1aa821ad15004ebf0f8d3257a6054c37e8a35df73aef8ca666a30e52b9d720e",
+    "science/a9_transport_refined_config.json": "2c1e6d0d2ec320183dcd4041d00f51ce84d99191c0ffa060149b0a5632bddc01",
+    "science/breakwater_science/__init__.py": "b2eba03885b9ff0033110e023181cf425aa3023816955d6138949b6566d8ca8e",
+    "science/breakwater_science/front_reference.py": "ce7e84f7577c728f930c78f411d5de849324f56a3dd50b83d41cddde25944450",
+    "science/breakwater_science/rollout.py": "e25b65ebcb70de475c3a9777d74fed4ee90bbc4c4e4bfa655de7762b16312eb6",
+    "science/breakwater_science/transport_pinn.py": "d2be3d133f1b4a2a6a23d1aa3dda870a9bcbbd335618197098667e193700052d",
+    "science/breakwater_science/transport_reference.py": "8bfaa83ce71579e2f1c943170da8cca8307ad74852df0b0b68253de3ee09f197",
+    "science/f1_front_accuracy_config.json": "6d8d1ffdc8b6574241b2d006aeb697457a6e9f56cd83610164f7b76c6cc69d8a",
+    "science/physicsnemo_smoke.py": "69b98dacd237a26d1d56ae8351df4352a1ec78bbca08eb39d07094a23f5b4c2e",
+    "science/qualify_front_accuracy.py": "80232d167403eea700825c0ccbb2134aa67fba703ce08bf4b3f8385e4356f23c",
+    "science/qualify_transport.py": "0b8da8b6211dbdde6d96d1c1ec15bfac125278ecb63c857d7090b3fa1c19bb60",
+    "science/requirements-physicsnemo-win-cpu-py312.txt": "982cda6c10f169b101d04ed1e6e026d5bc703d0f2e15887e9e21840c1029fce5",
+    "science/requirements-win-cpu-py312.txt": "587ef90593e0fddcfa2881d1d027c1f470e12cf3fd02f2f2a6e2739d27c9b08f",
+    "science/requirements-worker-tests-win-py312.txt": "17183f19ccedfca07cb7dd7602117c96e567ecb38ebc48c0658c8d9604f3b0d3",
+    "science/storage_grid.py": "bd3bb89db64d857de0cb4eb90f61e18a60031467b485bd6fc007e480f3b72ffe",
+    "science/tests/test_front_accuracy.py": "dfdefaa57601612837bc37c2af457a126d69c8bbd125b3b0d783513d1795d568",
+    "science/tests/test_front_reference.py": "760d92d20d7ce02e47f819f4c1a57ea85d993106b5d29dea0865695b59ce7291",
+    "science/tests/test_physicsnemo.py": "070f42456f8fc3192b75b4f279abef15954cc021a6ac8b5e0545df694ec202f0",
+    "science/tests/test_rollout.py": "431586cf69caba4e9ff464ac5aba4b88d931499f27c65c5df512af66522402cc",
+    "science/tests/test_source_feed_verifier.py": "e4e9ca5755bf1ae73d763cae04870d3f9c1f8e0b2d0324184f7cf2ef969dd20b",
+    "science/tests/test_source_feeds.py": "63672cef6831bd7c018243a279b9b1f39cfb3ffe6c834c61530752a2574e761c",
+    "science/tests/test_transport_qualification.py": "253c7d7fd4f78074114f20356dbca8a60e286f14ec907f63ef3ce7a2f0f64bb4",
+    "science/tests/test_transport_reference.py": "5e3a692400aa250e0eab4b9a9dc168773dd62dab6725b1798805e098cff75a4f",
+    "science/tests/test_worker.py": "8762c1f6bbdcf00d8cfd26f6120abca031ec42a872581bf58dbd5e440f23e3cf",
+    "science/tests/test_worker_protocol.py": "e24ae66b639835350f30550947cbbe3f7074151344d63da23be9c9981a277a6c",
+    "science/tests/test_worker_storage.py": "73fe85ae6facfb0fec37eee4d886f62cdfba40be951fb6f8db268dda6d9d71bd",
+    "science/verify_rollout.py": "26b580dc726465cecc67b26565fbb226cef11fb2174f96d9fb0003a84c9d8847",
+    "science/verify_source_feeds.py": "6be63dfeee1da6228b1e0172716133a016723d64356d06549ea5e52b28476c6d",
+    "science/verify_worker.py": "d2d73f37bc79ea83f7dae6f73de38866121372dae5982e9975c5b1340a52adf7",
+    "science/worker.py": "4f76d58b838b8f60aa4fb3ac50fdb18884d0153fb73778dc960b792dd9bcb3d3",
+    "science/worker_storage.py": "7ebbc6583684bd84f4db5accc1d9885c76e6f3ce18de2d2ba04329816cf0c05d"
+  }
+}

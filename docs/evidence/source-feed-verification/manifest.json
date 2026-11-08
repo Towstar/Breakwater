@@ -1,0 +1,721 @@
+{
+  "source_revision": "675e926b7baf4db13b829d7d250114f44f339198",
+  "source_tree": "1f7dd906e58d78af0df27f37a401ae4a9aa04d5a",
+  "initial_base": "7f2bb7f598f960b60a1d9cc7cb362a7ff233db7f",
+  "integrated_main": "ce35c81f7fb38b64aa110bc36fc73c41c06e9f74",
+  "g1_accepted_commit": "f12a82701641f1b4fd3af9ebba579b79f1db3db4",
+  "coverage": {
+    "normal": {
+      "registered": [
+        "desktop.agent_gateway",
+        "desktop.agent_orchestrator",
+        "desktop.agent_science",
+        "desktop.history_controller",
+        "desktop.nemotron_client",
+        "desktop.pipe_evidence_smoke",
+        "desktop.pipe_parameters",
+        "desktop.pipe_transport",
+        "desktop.pipe_transport_evidence",
+        "desktop.project",
+        "desktop.python_worker",
+        "desktop.qml_smoke",
+        "desktop.science_evidence",
+        "desktop.scientific_history_compact",
+        "desktop.scientific_history_normal",
+        "desktop.session_repository",
+        "desktop.source_feed_qml",
+        "desktop.storage_science",
+        "desktop.storage_science_compact",
+        "desktop.storage_science_derivatives",
+        "desktop.storage_science_normal",
+        "desktop.storage_worker",
+        "engine.acceptance",
+        "engine.benchmark_correctness",
+        "engine.control_influence",
+        "engine.search",
+        "engine.search_example",
+        "engine.search_infeasible_example",
+        "engine.source_feeds",
+        "engine.transport",
+        "engine.transport_example"
+      ],
+      "initial_passed": [
+        "desktop.agent_gateway",
+        "desktop.agent_orchestrator",
+        "desktop.agent_science",
+        "desktop.history_controller",
+        "desktop.nemotron_client",
+        "desktop.pipe_evidence_smoke",
+        "desktop.pipe_parameters",
+        "desktop.pipe_transport",
+        "desktop.pipe_transport_evidence",
+        "desktop.project",
+        "desktop.python_worker",
+        "desktop.qml_smoke",
+        "desktop.session_repository",
+        "desktop.storage_science",
+        "desktop.storage_science_compact",
+        "desktop.storage_science_derivatives",
+        "desktop.storage_science_normal",
+        "desktop.storage_worker",
+        "engine.acceptance",
+        "engine.benchmark_correctness",
+        "engine.control_influence",
+        "engine.search",
+        "engine.search_example",
+        "engine.search_infeasible_example",
+        "engine.source_feeds",
+        "engine.transport",
+        "engine.transport_example"
+      ],
+      "final_affected_passed": [
+        "desktop.qml_smoke",
+        "desktop.science_evidence",
+        "desktop.scientific_history_compact",
+        "desktop.scientific_history_normal",
+        "desktop.source_feed_qml",
+        "desktop.storage_science_compact",
+        "desktop.storage_science_derivatives",
+        "desktop.storage_science_normal"
+      ],
+      "passing_coverage": 31,
+      "qt_logged_suites": {
+        "agent_gateway-results": 27,
+        "agent_orchestrator-results": 23,
+        "agent_science-results": 31,
+        "history_controller-results": 9,
+        "nemotron_client-results": 46,
+        "pipe_transport-results": 15,
+        "pipe_transport_evidence-results": 13,
+        "python_worker-results": 24,
+        "science_evidence-results": 44,
+        "session_repository-results": 14,
+        "source_feed_qml-results": 3,
+        "storage_science-results": 44,
+        "storage_worker-results": 123
+      },
+      "unrestricted_final_31_target_rerun": false
+    },
+    "asan": {
+      "registered": [
+        "desktop.agent_gateway",
+        "desktop.agent_orchestrator",
+        "desktop.agent_science",
+        "desktop.history_controller",
+        "desktop.nemotron_client",
+        "desktop.pipe_evidence_smoke",
+        "desktop.pipe_parameters",
+        "desktop.pipe_transport",
+        "desktop.pipe_transport_evidence",
+        "desktop.project",
+        "desktop.python_worker",
+        "desktop.qml_smoke",
+        "desktop.science_evidence",
+        "desktop.scientific_history_compact",
+        "desktop.scientific_history_normal",
+        "desktop.session_repository",
+        "desktop.source_feed_qml",
+        "desktop.storage_science",
+        "desktop.storage_science_compact",
+        "desktop.storage_science_derivatives",
+        "desktop.storage_science_normal",
+        "desktop.storage_worker",
+        "engine.acceptance",
+        "engine.benchmark_correctness",
+        "engine.control_influence",
+        "engine.search",
+        "engine.search_example",
+        "engine.search_infeasible_example",
+        "engine.source_feeds",
+        "engine.transport",
+        "engine.transport_example"
+      ],
+      "initial_passed": [
+        "desktop.agent_gateway",
+        "desktop.agent_orchestrator",
+        "desktop.agent_science",
+        "desktop.history_controller",
+        "desktop.nemotron_client",
+        "desktop.pipe_evidence_smoke",
+        "desktop.pipe_parameters",
+        "desktop.pipe_transport",
+        "desktop.pipe_transport_evidence",
+        "desktop.project",
+        "desktop.python_worker",
+        "desktop.qml_smoke",
+        "desktop.session_repository",
+        "desktop.storage_science",
+        "desktop.storage_science_compact",
+        "desktop.storage_science_derivatives",
+        "desktop.storage_science_normal",
+        "desktop.storage_worker",
+        "engine.acceptance",
+        "engine.benchmark_correctness",
+        "engine.control_influence",
+        "engine.search",
+        "engine.search_example",
+        "engine.search_infeasible_example",
+        "engine.source_feeds",
+        "engine.transport",
+        "engine.transport_example"
+      ],
+      "final_affected_passed": [
+        "desktop.qml_smoke",
+        "desktop.science_evidence",
+        "desktop.scientific_history_compact",
+        "desktop.scientific_history_normal",
+        "desktop.source_feed_qml",
+        "desktop.storage_science_compact",
+        "desktop.storage_science_derivatives",
+        "desktop.storage_science_normal"
+      ],
+      "passing_coverage": 31,
+      "qt_logged_suites": {
+        "agent_gateway-results": 27,
+        "agent_orchestrator-results": 23,
+        "agent_science-results": 31,
+        "history_controller-results": 9,
+        "nemotron_client-results": 46,
+        "pipe_transport-results": 15,
+        "pipe_transport_evidence-results": 13,
+        "python_worker-results": 24,
+        "science_evidence-results": 44,
+        "session_repository-results": 14,
+        "source_feed_qml-results": 3,
+        "storage_science-results": 44,
+        "storage_worker-results": 123
+      },
+      "unrestricted_final_31_target_rerun": false
+    }
+  },
+  "python": {
+    "tests": 210,
+    "failures": 0,
+    "skips": 0,
+    "elapsed_s": 102.052
+  },
+  "toolchain": {
+    "compiler": "MSVC 19.51.36260",
+    "qt": "6.12.0",
+    "python": "3.12.13",
+    "torch": "2.15.0+cpu",
+    "numpy": "2.5.4",
+    "nvidia-physicsnemo": "2.2.2",
+    "jsonschema": "4.25.1",
+    "builds": {
+      "normal": {
+        "cache": [
+          "BREAKWATER_BUILD_DESKTOP:BOOL=ON",
+          "BREAKWATER_ENABLE_ASAN:BOOL=OFF",
+          "BUILD_TESTING:BOOL=ON",
+          "CMAKE_BUILD_TYPE:STRING=RelWithDebInfo",
+          "CMAKE_CXX_COMPILER:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe",
+          "CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /EHsc",
+          "CMAKE_CXX_FLAGS_DEBUG:STRING=/Ob0 /Od /RTC1",
+          "CMAKE_CXX_FLAGS_MINSIZEREL:STRING=/O1 /Ob1 /DNDEBUG",
+          "CMAKE_CXX_FLAGS_RELEASE:STRING=/O2 /Ob2 /DNDEBUG",
+          "CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=/O2 /Ob1 /DNDEBUG",
+          "CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL:NO",
+          "CMAKE_MSVC_DEBUG_INFORMATION_FORMAT:UNINITIALIZED=Embedded",
+          "CMAKE_PREFIX_PATH:UNINITIALIZED=C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64",
+          "Python3_EXECUTABLE:UNINITIALIZED=C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+          "CMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1",
+          "CMAKE_CXX_FLAGS_DEBUG-ADVANCED:INTERNAL=1",
+          "CMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1",
+          "CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1",
+          "CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1",
+          "CMAKE_GENERATOR:INTERNAL=Ninja"
+        ],
+        "representative_compile_and_link_flags": [
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -std:c++20 -MD -Z7 /W4 /permissive- /EHsc /fp:precise /utf-8",
+          "LINK_FLAGS = /machine:x64",
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -MD -Z7",
+          "LINK_FLAGS = /machine:x64 /debug /INCREMENTAL:NO /subsystem:console",
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -std:c++20 -MD -Z7 /W4 /permissive- /EHsc /fp:precise /utf-8 -Zc:__cplusplus -permissive- -utf-8",
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -std:c++20 -MD -Z7 -Zc:__cplusplus -permissive- -utf-8 /W4 /permissive- /EHsc /fp:precise /utf-8",
+          "LINK_FLAGS = /machine:x64 /debug /INCREMENTAL:NO /subsystem:console /MANIFEST:NO /MANIFESTUAC:NO",
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -std:c++20 -MD -Z7 -Zc:__cplusplus -permissive- -utf-8 /W4 /permissive- /EHsc /fp:precise /utf-8 /bigobj"
+        ]
+      },
+      "asan": {
+        "cache": [
+          "BREAKWATER_BUILD_DESKTOP:BOOL=ON",
+          "BREAKWATER_ENABLE_ASAN:BOOL=ON",
+          "BUILD_TESTING:BOOL=ON",
+          "CMAKE_BUILD_TYPE:STRING=RelWithDebInfo",
+          "CMAKE_CXX_COMPILER:FILEPATH=C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe",
+          "CMAKE_CXX_FLAGS:STRING=/DWIN32 /D_WINDOWS /EHsc",
+          "CMAKE_CXX_FLAGS_DEBUG:STRING=/Ob0 /Od /RTC1",
+          "CMAKE_CXX_FLAGS_MINSIZEREL:STRING=/O1 /Ob1 /DNDEBUG",
+          "CMAKE_CXX_FLAGS_RELEASE:STRING=/O2 /Ob2 /DNDEBUG",
+          "CMAKE_CXX_FLAGS_RELWITHDEBINFO:STRING=/O2 /Ob1 /DNDEBUG",
+          "CMAKE_EXE_LINKER_FLAGS_RELWITHDEBINFO:STRING=/debug /INCREMENTAL:NO",
+          "CMAKE_MSVC_DEBUG_INFORMATION_FORMAT:UNINITIALIZED=Embedded",
+          "CMAKE_PREFIX_PATH:UNINITIALIZED=C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64",
+          "Python3_EXECUTABLE:UNINITIALIZED=C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+          "CMAKE_CXX_FLAGS-ADVANCED:INTERNAL=1",
+          "CMAKE_CXX_FLAGS_DEBUG-ADVANCED:INTERNAL=1",
+          "CMAKE_CXX_FLAGS_MINSIZEREL-ADVANCED:INTERNAL=1",
+          "CMAKE_CXX_FLAGS_RELEASE-ADVANCED:INTERNAL=1",
+          "CMAKE_CXX_FLAGS_RELWITHDEBINFO-ADVANCED:INTERNAL=1",
+          "CMAKE_GENERATOR:INTERNAL=Ninja"
+        ],
+        "representative_compile_and_link_flags": [
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -std:c++20 -MD -Z7 /W4 /permissive- /EHsc /fp:precise /utf-8 /fsanitize=address",
+          "LINK_FLAGS = /machine:x64",
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -MD -Z7",
+          "LINK_FLAGS = /machine:x64 /debug /INCREMENTAL:NO /subsystem:console /INCREMENTAL:NO",
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -std:c++20 -MD -Z7 /W4 /permissive- /EHsc /fp:precise /utf-8 /fsanitize=address -Zc:__cplusplus -permissive- -utf-8",
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -std:c++20 -MD -Z7 -Zc:__cplusplus -permissive- -utf-8 /W4 /permissive- /EHsc /fp:precise /utf-8 /fsanitize=address",
+          "LINK_FLAGS = /machine:x64 /debug /INCREMENTAL:NO /subsystem:console /MANIFEST:NO /MANIFESTUAC:NO /INCREMENTAL:NO",
+          "FLAGS = /DWIN32 /D_WINDOWS /EHsc /O2 /Ob1 /DNDEBUG -std:c++20 -MD -Z7 -Zc:__cplusplus -permissive- -utf-8 /W4 /permissive- /EHsc /fp:precise /utf-8 /fsanitize=address /bigobj"
+        ]
+      }
+    }
+  },
+  "executable_sha256": {
+    "out/connection-repro/desktop-normal/desktop/breakwater.exe": "95db482a0aa1510d53682244750f323605084be2f31231378ac3c5223efa7bb4",
+    "out/connection-repro/desktop-normal/engine/breakwater_source_feed_reference.exe": "53f65b3c2baf3cea7f98421973192206a1d72c324108fd71c7d57b2097203e13",
+    "out/connection-repro/desktop-asan/desktop/breakwater.exe": "a2a453458b07df3b000e62d83ddfd9547052da7191527b60820bb4ef739b866d",
+    "out/connection-repro/desktop-asan/engine/breakwater_source_feed_reference.exe": "2213fd467f70b9e28d086180babdb1cbcb590ffcc31b33b05480c41b1c15767e"
+  },
+  "source_sha256": {
+    "contracts/include/breakwater/types.hpp": "5dae7f72927df09ec5ed0e7d1785bcbabac27513c9f702c07de4c9b06ab022c4",
+    "desktop/CMakeLists.txt": "ec45aa41777fba8a8f96c92ddadfb6d58230a9007ab07dee8cbc3b48fa540342",
+    "desktop/ProjectController.cpp": "6454e085cb0eb9a8f352ee5f865936ac88d67c5a0478b6fb784c9c9072ff6c54",
+    "desktop/ProjectController.hpp": "ff874b9f5aa4fbf1dbffeaacb0ba9e1cc867cc3f2de83bddba2bf2e3c53fac30",
+    "desktop/ProjectDocument.cpp": "fb0a109a4dba1143eed2f7e691416a57d99bbf42c7da75240f78fba11192b564",
+    "desktop/ProjectDocument.hpp": "13787e2a248faeb4da2c804ccadde95f4dd9fd027a8f737257c5f0de57d397b7",
+    "desktop/agent/AgentController.cpp": "0ad0c13c08e66bfef480618fc32dca630c9788f3d0c3144bdf5c8e9f4c9aa61c",
+    "desktop/agent/AgentController.hpp": "a4d4f20c77df110561210cb4fda21d6507c93448d90d59a593f794e1527fa217",
+    "desktop/agent/AgentOrchestrator.cpp": "b235b07442e0afefa6b9c035146a0f010e4243379e2a93c001fa01137060a174",
+    "desktop/agent/AgentOrchestrator.hpp": "1eda032ae5170200c5b14841f55bff68a2df7be62f9929ea2b4ffbf09e5cab4d",
+    "desktop/agent/CredentialSettings.cpp": "751710a4c74e1cb2074ca482b323983efeb7c5c4baa0c435b3958792b76ec84c",
+    "desktop/agent/CredentialSettings.hpp": "fe3d8bf0865da470a2253f0469eadbd0079d26befbbb359018c5828cec1bef8f",
+    "desktop/agent/ModelTransport.hpp": "4dbe548cc6e4f032ae10c71a8c577e5ff95a14a1bb054503e00dc2fb9f9dc98c",
+    "desktop/agent/NemotronClient.cpp": "f11d78b219f56229180e5fff717182397c2104f48f369730e2d1e9ec758c0689",
+    "desktop/agent/NemotronClient.hpp": "0765031750d2f0843f247cfc3eb7855b509dc95795506e1888b03f92c1ce1138",
+    "desktop/agent/SimulationGateway.cpp": "921c57a77b7136b55e82e20152b39a196d1ae0b36ccb1e2b4fe70dd73d370d22",
+    "desktop/agent/SimulationGateway.hpp": "c6a8964e93ade8373677cd78f03ff410f9cb2c41354e64d8cc1dbf5e551fd700",
+    "desktop/agent/live_smoke.cpp": "b3bc52657a7cfcc62ecb1b5bdb979dc49a7c2b3be662992a09a5e81c1e665e30",
+    "desktop/history/HistoryController.cpp": "431144b4b7e1e1a115b39a2ee47a17aee386e97ed0c52c553cc246eca136658d",
+    "desktop/history/HistoryController.hpp": "08b87b1b02f94bd1c9f656608231fbb1728c15aa79c67c416d3a66ddf35a686c",
+    "desktop/history/RehearsalArchiveCoordinator.hpp": "5e004156b21a06e5e7f196763512ebdd1e48835d1d709e6ac330040716f282e9",
+    "desktop/history/RehearsalEvidenceGuard.hpp": "5eef5318eb0b51888754f65fdb34da3c92659357f6f95fb6130cd741b242bd40",
+    "desktop/history/SessionRecorder.cpp": "5f43bf925b66c0c214b7e9a65b2041c412528360fadffffd1bc1f7850534c0c4",
+    "desktop/history/SessionRecorder.hpp": "b653976a1eeeda0eb5a050ea5d563cc150b81ab7199d59eee0fbc3d217cae147",
+    "desktop/history/SessionRepository.cpp": "633373dda52a5db7056c19231101ab3838c680492de6c910a9aa1b0363b958b8",
+    "desktop/history/SessionRepository.hpp": "e524c87c003b409a0da8271457f1894b4c783a1f218468c2ed362850bb35ce5f",
+    "desktop/main.cpp": "685e5e98d61d0c9a8b477b007a4284986633a9e481a610040bc724f82ad2c280",
+    "desktop/qml/AgentPanel.qml": "b43907e2621e2cdb0c7f2aa78d9995fc2cf23c4486c6df700520f6056732533a",
+    "desktop/qml/Equipment.qml": "394a798e14d9b11a6285ef7a200909cee7b2bbb42c42bb47e2588f6cf5370ee6",
+    "desktop/qml/Main.qml": "e31e4b5093a0cb558a2125bd5d0619340e9f2c7d1d1a47a8416486f9c646714b",
+    "desktop/qml/PipeRoute.qml": "1669434c24749809ab2588a137e9ae52e819f5433b8b112dbf3b2819df19ed6f",
+    "desktop/qml/PipeTransportPanel.qml": "99e6c8eefca74ae35201b192140282db0d5d8b0dc93da9f4b9f4fabc1f3fa530",
+    "desktop/qml/SourceFeedDialog.qml": "670152d1f29c6f2e9d32cdc266588bd5ce93d5079dcbc553c6f70ac496e48dea",
+    "desktop/qml/StorageSciencePanel.qml": "c2ac6b24ecca7666af86ff63d0ec83590c459c6cce44db1b98d7f3242e9eccc7",
+    "desktop/qml/TrajectoryChart.qml": "2842cafce9a67e6a5c70e73e3240a7abb8c6619aa57822b12b60af68fcf9e086",
+    "desktop/quality/PipeParameters.cpp": "af7a04b528e3e96978eec3a09da0eaa9af3ae1ccff20883384548604234f0f4a",
+    "desktop/quality/PipeParameters.hpp": "2ca9c6ec32f46f35a840ca408a9e968cd3bdee0bc6cd541c3c45790c15a23b76",
+    "desktop/quality/PipeTransportController.cpp": "8995ce5ee5ef71bbce4da2591827ee794d7b8c59e1d576805489eac4d30acc81",
+    "desktop/quality/PipeTransportController.hpp": "22a8bebe819842be2505135b44127660daf443af68027cf2fbaa02dcae7bf240",
+    "desktop/quality/PipeTransportEvidence.cpp": "929a7664d0baa30a7e26c6959a4897ba143a56fc4372abf4e3bdbbe2d7802e1a",
+    "desktop/quality/PipeTransportEvidence.hpp": "c14c803577fa5ad3e5b9b618e7e3095027bd251efa1ffe19885fd81c99e2b9a1",
+    "desktop/science/AgentSensitivityClient.cpp": "2fdbe6f49f88b478efc7900cef14028e378b6b0a60a93b9ced238be6b47d12ee",
+    "desktop/science/AgentSensitivityClient.hpp": "6c22c0dbf760bb2f8240e246de8e020a6631de28454f4041a4e647949d3070bb",
+    "desktop/science/PythonWorkerClient.cpp": "4158bde6a1908886130b5586620d2f208300d8c910f2479277f4a4dc2b4577b2",
+    "desktop/science/PythonWorkerClient.hpp": "aa5d101c2263f11858939aa75fa137cf4825335e99c39b81f3798180a150f7f9",
+    "desktop/science/StorageScienceAnalysis.cpp": "78463689493eb31ede8c57b183d06b7adc1d23be918294246d9b05a681a49a19",
+    "desktop/science/StorageScienceAnalysis.hpp": "54a69aa69db1831edc620c7f2b295c1ef7a7206c7e6c46e7c4d41c8f6c3c5e42",
+    "desktop/science/StorageScienceController.cpp": "ed6a3d936c01b28126cef607fc941f49faeda12c11a21e8ebe360acb44187e7d",
+    "desktop/science/StorageScienceController.hpp": "05123ba99b6896b104d886d1b654cb37205c4ae6d4958eca0ca03f0d91064ae1",
+    "desktop/science/StorageScienceEvidence.cpp": "46f33d7954fceb5f628c708ad4c436820b403bb5c6b18d390be49c0a5e3e334b",
+    "desktop/science/StorageScienceEvidence.hpp": "d8f45b8fa1185a46977622b57ff9842f86aa5529571975ea54954fa29c64b6f6",
+    "desktop/science/WorkerProtocol.cpp": "a218e8cc70b3a4c19e2fa6989e1a926487a7a93531e29a6e61a3cad4edd3c30f",
+    "desktop/science/WorkerProtocol.hpp": "1f5fbfc3791142a79c5837d5240c88e00c90ce9590eab04e662c674a3e90e902",
+    "desktop/tests/agent_gateway_tests.cpp": "3eeaa8b08f63e1b61745da7aa7e4ee423743966edb1cd51f1a19f9338219c9bf",
+    "desktop/tests/agent_orchestrator_tests.cpp": "b5e384fa27967aa7e2be38acf0f5688e8f5449f176edf37a4bace35c5b46aa88",
+    "desktop/tests/agent_science_tests.cpp": "33ebb792fa1205fce435b28750b27e96c5fdf9765e91fdfdf93a344e0254936c",
+    "desktop/tests/history_controller_tests.cpp": "98350ef35b1b3ea39291993fb3c093ea2ef1a3ea9e17fd76fac55414520e5f4a",
+    "desktop/tests/nemotron_client_tests.cpp": "f9b3164b56da8ddb16c6e908d96332f35e762ff01634882c0ea4cd56b4fbd123",
+    "desktop/tests/pipe_parameters_tests.cpp": "14fe93a3a3fdcadb911a8b9468a25e0cac6ea64116afa89ffe94225fd8822302",
+    "desktop/tests/pipe_transport_evidence_tests.cpp": "d382dd5a8b4d01e8602ec73d31a1346a4bf4a661cd2193d987e2c4e6c8cf0c27",
+    "desktop/tests/pipe_transport_tests.cpp": "9e3ad30ed936422428700f3badc77102f229523954b973741f0deb20fc674650",
+    "desktop/tests/project_tests.cpp": "1748218f747fafac635cc95611e3062941eaec3f5dafbf4a787d23deaa9e1177",
+    "desktop/tests/python_worker_tests.cpp": "3ba3e04c58a9c8f14785c83c948fd742ceb5fc122d027bcb9607b2e25b3db544",
+    "desktop/tests/session_repository_tests.cpp": "0d4dfd90ce5e4b3f64fb06fda23d84347279c38e7857e171be062d65949944ac",
+    "desktop/tests/source_feed_qml_tests.cpp": "f47b322c830a766326f2ab6d75ceadf9bd028783f292edaa41a8d73197a52c95",
+    "desktop/tests/storage_grid_cases.hpp": "e27054830f47e4c1c237524798dbc86578e132edb341d09be67cc143430dcfb3",
+    "desktop/tests/storage_science_evidence_tests.cpp": "11b0afb54bc257cb2960fea32725f8c315b9b253ed0b4bd617558f53acc13d71",
+    "desktop/tests/storage_science_tests.cpp": "2606d8ec32401639ccb5886ac176ab4ac4943db8bb19132b1cbb4c9d7d174e12",
+    "desktop/tests/storage_worker_tests.cpp": "5310050c1abc7df0e82ecae775da24a7f669181f6980e00151dcd2772fb10fed",
+    "desktop/tests/worker_fixtures/storage_worker_fixture.py": "fd3f013005d897a976052e3af238bceda4cb190f1555030f0aa3523d949dbca8",
+    "desktop/tests/worker_fixtures/worker_fixture.py": "6b4ed274ff40a35178b0ce787cd265bb4ef90f9844e2920bc09778b0035c3e8c",
+    "engine/CMakeLists.txt": "c3df09407d117f664d50f2b446ef4906817e070ca7c664167b3f044f4766b2af",
+    "engine/benchmarks/benchmark.cpp": "f97947850b8c97edec9b5a7b860caa0e9d5c99acd0e19bd987b14a433c79c9c6",
+    "engine/benchmarks/timing.hpp": "7059bbe2d12ae851d82088361481130a817ac644dbc8e29fdc23ff51e2469a63",
+    "engine/benchmarks/workloads.hpp": "e9725b1fd3a7866f6ca8c4d6c7c2a9dc1b585f13b4d9a893fc513dc49cc1ac57",
+    "engine/examples/physicsnemo_transport_reference.cpp": "0bdf536321d236161a681b38e796047a559f655f1aadad5171d1453020e528a4",
+    "engine/examples/rollout_reference.cpp": "747d16ea6129bd92f50234da41201643dd27aff3ecafd89773762234d6285fd4",
+    "engine/examples/search_example.cpp": "c9cee5ef1aafb08a0b7e6632e14ff8db14b1f99af7f81d980a4cc5c5ff96d93c",
+    "engine/examples/source_feed_reference.cpp": "ec48ffc9039097ad2960a8fb006880ae3974744fd325ddd143f839e1ce57f807",
+    "engine/examples/transport_example.cpp": "64655a44657c378f90553dabe8f0f4802b060ac2dbd34e41aca7ddfbd6094769",
+    "engine/examples/transport_qualification_reference.cpp": "1bc97b0b367bc0d7b5103d63ae38f0618146012e87ea6e5a7331202176a99d54",
+    "engine/include/breakwater/engine.hpp": "5c337ca34644e633ba45b596ba0afd3c4b21f66b41aa17d1c1db5d3e8dee06bd",
+    "engine/include/breakwater/search.hpp": "10ec373ce4ed886f2baf1c53c7080d56426b9741ea4eccf6c1529cbcb08917e2",
+    "engine/include/breakwater/transport.hpp": "06819cc1c8d8e0ca2693a35ed1e5a9403fa6f34e372ff4c9dbe4d933648c67f2",
+    "engine/src/control_influence.hpp": "d9f4ee82a649817ff58445226649dcfd2917c0d990a1c4f97ec1d123d82833a4",
+    "engine/src/engine.cpp": "b286518f95d1dd619945ffc8c494ff400f3f764db4ffd3f51d58857902b5ba58",
+    "engine/src/forecast_kernels.hpp": "6e84fe8e54cf8ea5d232e8fcbd26f6c16d1f0bd3e878d8f4ffe8177bceccc809",
+    "engine/src/main.cpp": "c38ccd8105116cd143baaa5dabe9b7f04bec586fa2664138a9d27b83621fdb69",
+    "engine/src/scenario.cpp": "e4e1b9a904b0a2ae6cd35284d64001e41eefcd9b1155ce4ea4bd17c202bbf1e1",
+    "engine/src/search.cpp": "e627e5e764fb3abeb39ff12e2734812597e95143cfcd8054afc0648648152a39",
+    "engine/src/search_evaluation.hpp": "575c079599a4ca0af8472a9e9004417297511a25184c1cf4818ebe0ac701de3b",
+    "engine/src/search_kernel.hpp": "57ada2dbfbdc9a9e4602433acab9c4593141c44d252d0a716f665aaf60f0bf87",
+    "engine/src/storage_grid.hpp": "13a159dd7780f78cfdacc6b94a9e240576be71d921f9bfbf562fae4628318bf4",
+    "engine/src/transport.cpp": "627125aeb1e67e289c78b0aeb00bab50c61461d3012a187de06d8376b567c21c",
+    "engine/tests/control_influence_tests.cpp": "5f5bb5b5fe4c90a7678e32fe47b115a76f3cc7ef59536a3d2798d00ada954aec",
+    "engine/tests/engine_tests.cpp": "63cb01e821cb9873adc48422c2e154861984adbe4e69f6815675effe4bd1c6d5",
+    "engine/tests/search_tests.cpp": "f293fc9be5cd448bcf5d7f9deb6cd717b1d8edd1d0c9c934861bf1816001d488",
+    "engine/tests/source_feed_fixture.hpp": "a75e2b99e8cffb75ba837e4fb270ba8a2470c0b882ad193aa1bb360062bdea56",
+    "engine/tests/source_feed_tests.cpp": "8ae8170f7286f1675c98617f5ff9300a7ff0b22c6de1c6c18bf03d8b219cf07c",
+    "engine/tests/transport_tests.cpp": "40ea00c8f53bbea1e02960d97aa1697b55fc6e8f0c8042503d4149b0b2f4d9c6",
+    "science/breakwater_science/__init__.py": "b2eba03885b9ff0033110e023181cf425aa3023816955d6138949b6566d8ca8e",
+    "science/breakwater_science/front_reference.py": "ce7e84f7577c728f930c78f411d5de849324f56a3dd50b83d41cddde25944450",
+    "science/breakwater_science/rollout.py": "e25b65ebcb70de475c3a9777d74fed4ee90bbc4c4e4bfa655de7762b16312eb6",
+    "science/breakwater_science/transport_pinn.py": "d2be3d133f1b4a2a6a23d1aa3dda870a9bcbbd335618197098667e193700052d",
+    "science/breakwater_science/transport_reference.py": "8bfaa83ce71579e2f1c943170da8cca8307ad74852df0b0b68253de3ee09f197",
+    "science/evidence/f1/commands/check-legacy.py": "f9cef7e52e7750664daff927931c797cc1646d6161c3d843069caf68cebb453a",
+    "science/evidence/f1/commands/collect-evidence.py": "081afb64cbcf007c4bfcb3996dcc6bd58edf92b54f0ae1135bfa7a768d18d5e6",
+    "science/evidence/f1/commands/finalize-evidence.py": "9ef86d10ee8ee1f7a2e55b1b2b524591834378d9a6667696d46c349a5ff815ae",
+    "science/evidence/f1/commands/write-report.py": "d3aafdd6f735ed100f1e3ebd7e5d4aa4170ef23925a211180fe43baf8f3d54b9",
+    "science/evidence/f1/failed-attempt-01/front_reference.py": "74ecd2cc7e436f5a63a58984ad599eed6b080ae85911c9ce8db7d2f8cb81b9c1",
+    "science/evidence/f1/failed-attempt-01/test_front_reference.py": "c91e024462bbb2dffe99f32dd58a77f2c7ef3388675f48802e5b1abecba10241",
+    "science/evidence/f1/failed-attempt-08/check-legacy.py": "1d7fe60da35814ec395d432ea67c424d06c05d2a9b9eb5a47c26f55abefef19d",
+    "science/evidence/f1/failed-attempt-10/qualify_front_accuracy.py": "1bc84036300dd20427e16866941dfb1636db4dfcc2274fd91b69bf8cdf866682",
+    "science/evidence/f1/failed-attempt-10/test_front_accuracy.py": "d5ab8784f082b2b3186d3b175a28eca58b2c56d5a481f1a89516797cc6c8a3bd",
+    "science/evidence/f1/failed-attempt-13/write-report.py": "cc7511c78f625e49d916f67e769a801675b5a6387ef500e55b234f832f67f400",
+    "science/evidence/pr26-reconciliation/commands/collect.py": "de8940a995fa79e977dc9a04286d2afab01bfd02fda957e49c09e995972a70b2",
+    "science/evidence/pr26-reconciliation/commands/finalize.py": "28ba983a2c7af9c08afdf898c099e568706894305e71ce172bd3fc852117e427",
+    "science/evidence/pr26-reconciliation/commands/installed_checks.py": "362a424164dd93a02f42e4be48a85f92cb30fccee7fe2ce244cbf3063e2517bd",
+    "science/evidence/pr26-reconciliation/commands/report.py": "99bfc7db8b9d417dab2fbf806a79a94a01054b40029552624b9b5c4db301773f",
+    "science/evidence/pr26-reconciliation/commands/resolve_initial.py": "cef1acb0871a6e617edc3cc6170be9fe99c38322f71853a688932ec28519f89b",
+    "science/evidence/pr26-reconciliation/commands/run-science.py": "071147119ff39bf2b95a5fd020b7296986a29e9c2451f3d97735e7fb56bc65d5",
+    "science/evidence/pr26-reconciliation/failed-installed-attempt-05/installed_checks.py": "ce37e3c2f0b9812825724f5387787f5f02e512ab73493ec533896ded603b5910",
+    "science/physicsnemo_smoke.py": "69b98dacd237a26d1d56ae8351df4352a1ec78bbca08eb39d07094a23f5b4c2e",
+    "science/qualify_front_accuracy.py": "80232d167403eea700825c0ccbb2134aa67fba703ce08bf4b3f8385e4356f23c",
+    "science/qualify_transport.py": "0b8da8b6211dbdde6d96d1c1ec15bfac125278ecb63c857d7090b3fa1c19bb60",
+    "science/storage_grid.py": "bd3bb89db64d857de0cb4eb90f61e18a60031467b485bd6fc007e480f3b72ffe",
+    "science/tests/test_front_accuracy.py": "dfdefaa57601612837bc37c2af457a126d69c8bbd125b3b0d783513d1795d568",
+    "science/tests/test_front_reference.py": "760d92d20d7ce02e47f819f4c1a57ea85d993106b5d29dea0865695b59ce7291",
+    "science/tests/test_physicsnemo.py": "070f42456f8fc3192b75b4f279abef15954cc021a6ac8b5e0545df694ec202f0",
+    "science/tests/test_rollout.py": "431586cf69caba4e9ff464ac5aba4b88d931499f27c65c5df512af66522402cc",
+    "science/tests/test_source_feed_verifier.py": "e4e9ca5755bf1ae73d763cae04870d3f9c1f8e0b2d0324184f7cf2ef969dd20b",
+    "science/tests/test_source_feeds.py": "63672cef6831bd7c018243a279b9b1f39cfb3ffe6c834c61530752a2574e761c",
+    "science/tests/test_transport_qualification.py": "253c7d7fd4f78074114f20356dbca8a60e286f14ec907f63ef3ce7a2f0f64bb4",
+    "science/tests/test_transport_reference.py": "5e3a692400aa250e0eab4b9a9dc168773dd62dab6725b1798805e098cff75a4f",
+    "science/tests/test_worker.py": "8762c1f6bbdcf00d8cfd26f6120abca031ec42a872581bf58dbd5e440f23e3cf",
+    "science/tests/test_worker_protocol.py": "e24ae66b639835350f30550947cbbe3f7074151344d63da23be9c9981a277a6c",
+    "science/tests/test_worker_storage.py": "73fe85ae6facfb0fec37eee4d886f62cdfba40be951fb6f8db268dda6d9d71bd",
+    "science/verify_rollout.py": "26b580dc726465cecc67b26565fbb226cef11fb2174f96d9fb0003a84c9d8847",
+    "science/verify_source_feeds.py": "6be63dfeee1da6228b1e0172716133a016723d64356d06549ea5e52b28476c6d",
+    "science/verify_worker.py": "d2d73f37bc79ea83f7dae6f73de38866121372dae5982e9975c5b1340a52adf7",
+    "science/worker.py": "4f76d58b838b8f60aa4fb3ac50fdb18884d0153fb73778dc960b792dd9bcb3d3",
+    "science/worker_storage.py": "7ebbc6583684bd84f4db5accc1d9885c76e6f3ce18de2d2ba04329816cf0c05d"
+  },
+  "raw_log_sha256": {
+    "out/connection-repro/attempt-11-resumed-python/tests.log": "0d407fb227d64603a535a50ca6dee93f31805908e5c38798e2dd31f07459aaa3",
+    "out/connection-repro/attempt-13-normal-tests/tests.log": "f9b3037c7d6be0f3b1ccd0455ee6f468cfcdb1da5d59affc52f4eb547ca63e59",
+    "out/connection-repro/attempt-19-asan-tests/tests.log": "47ac04fefe469d2ebb58f4b7681d0799b137b4f23e03542709795002d07db8ae",
+    "out/connection-repro/attempt-30-normal-final-affected/tests.log": "d0e0300d15f8173665eac2f38e9b6d7084340743d027effea535713435e81dd4",
+    "out/connection-repro/attempt-31-asan-text-field-final/tests.log": "dde5e99660ca68fda662b4c7458d830473eebdc82d7977805c74bb860a2a8fca",
+    "out/connection-repro/attempt-17-ci-policy/tests.log": "63b9535c381adfa5289083a0584a43086087d00947ce2ab932367b4e65232742",
+    "out/connection-repro/desktop-normal/desktop/agent_gateway-results.txt": "59fe536a21ba139795bc7e68894c08d1919ca0622b8e44101fa3fae2b83c5a90",
+    "out/connection-repro/desktop-normal/desktop/agent_orchestrator-results.txt": "0f8870b87bfa08f2d1ed83a86ff2642281176d65f16b7e40b0384d9e8b12134f",
+    "out/connection-repro/desktop-normal/desktop/agent_science-results.txt": "9f78e07043d025cf4491b3837ea87ded41d62f69ed6038ed218c92f281cbeba9",
+    "out/connection-repro/desktop-normal/desktop/history_controller-results.txt": "e072271b76670421b191f4c3bdf1d4891cffc51336238d6bc685c7eed1e4cb50",
+    "out/connection-repro/desktop-normal/desktop/nemotron_client-results.txt": "6b1d43526411fb661138909ba7d4e6a252bd32843ae1ea8af35caf80323bf76a",
+    "out/connection-repro/desktop-normal/desktop/pipe_transport-results.txt": "f247c91799fd0ac293d5c5646a61ec8008e61427c2dbe15bec3d6a41fad2001c",
+    "out/connection-repro/desktop-normal/desktop/pipe_transport_evidence-results.txt": "eb8304d5494f513c2aad367c60e8d889109b366a61680ab44296323e56cf5bfa",
+    "out/connection-repro/desktop-normal/desktop/python_worker-results.txt": "d3807868448c73c28a76d96b1fee10f18014aab6afa4cda7e6339a18533fc51c",
+    "out/connection-repro/desktop-normal/desktop/science_evidence-results.txt": "4f627704014785f057d7e9b371441cb801c77dfc1cda5e3c178e8a00782393a4",
+    "out/connection-repro/desktop-normal/desktop/session_repository-results.txt": "0b5f102f9f0e4722c9bfcfcff421f9cb185ab943ef47a6ad9f4df79a8c496e8f",
+    "out/connection-repro/desktop-normal/desktop/source_feed_qml-results.txt": "c6bbbcc55f5cdf3fe1f59c77ae3e3de6bfb33dea6df234129fc174a7c41474b8",
+    "out/connection-repro/desktop-normal/desktop/storage_science-results.txt": "a02a4d81a0b3d8d698c09f7d216d75197be48879c3dbe88ce64cce020edcaa63",
+    "out/connection-repro/desktop-normal/desktop/storage_worker-results.txt": "5de47a1f1fbc328158edb1f123789dc361c0fd6a908064e191f3ec44d37f1ec7",
+    "out/connection-repro/desktop-asan/desktop/agent_gateway-results.txt": "81213d194994726eb518d8afde097f3c2d4fbf6b31340841ce20e970e3513c55",
+    "out/connection-repro/desktop-asan/desktop/agent_orchestrator-results.txt": "90a022f5c7d5a47d8f17485abad1e9291879874731352e00a6c923d0361874fe",
+    "out/connection-repro/desktop-asan/desktop/agent_science-results.txt": "72ee75326033a003b3c76f7c2015d878ae9a0d3c11d4669b7a15ab665862e9aa",
+    "out/connection-repro/desktop-asan/desktop/history_controller-results.txt": "86ec77a2391ca43886da0751eae0dc0ee9be8f66578c123317ea36021bcf3f0c",
+    "out/connection-repro/desktop-asan/desktop/nemotron_client-results.txt": "d949ae243debaea604a555fd105e965d7ab52061fa3fb23dffa3a6f336065963",
+    "out/connection-repro/desktop-asan/desktop/pipe_transport-results.txt": "17c5f533be2a82ced4684a65a8d561f5197a7fb35dc743ce02e547af8076d187",
+    "out/connection-repro/desktop-asan/desktop/pipe_transport_evidence-results.txt": "fea3de8aae89e627d591d9ec69416b365e6d1044c439e166e8c5490c38d0a958",
+    "out/connection-repro/desktop-asan/desktop/python_worker-results.txt": "4ca7082717796da5ddfef6a9fe69c263f2184816cb0102f4a248a87111b4f68a",
+    "out/connection-repro/desktop-asan/desktop/science_evidence-results.txt": "1f72cd2809388b7e8d9e712b6f0cb892890a3c339eb2eb357ba97639a05fabbc",
+    "out/connection-repro/desktop-asan/desktop/session_repository-results.txt": "4365bbe19749069f25ee63bca43999b65913faaf51d13bcddb7460387f0b4417",
+    "out/connection-repro/desktop-asan/desktop/source_feed_qml-results.txt": "d8d661eda8a93fc731118b079908224bbf50af31480f2db9c74afb975feb8394",
+    "out/connection-repro/desktop-asan/desktop/storage_science-results.txt": "c2a041356c4bb08761d06745c747792e4e01110ac927c2265749e992f212995f",
+    "out/connection-repro/desktop-asan/desktop/storage_worker-results.txt": "643bfe6715adff97c4d8244ec6238da7ff9855fec05a992bad1c90b7f7dd129c",
+    "out/connection-repro/attempt-14-source-feed-normal/report.json": "3b7dc6d3ea229b6ead677e6679013c1341810198355c63998406091c92a03dd2",
+    "out/connection-repro/attempt-20-source-feed-asan/report.json": "bb6f6285cc995ea3a777b34a39bdf0ec7e2e6ff0cd8156f4860c66329a45716e",
+    "out/connection-repro/attempt-32-final-install/verification.json": "d9dd3e127ab8d812aa68eceb7405e1d24f31acee10dc86d63474d336e11251a0"
+  },
+  "retained_attempts": [
+    {
+      "directory": "out/connection-repro/attempt-01-native-build",
+      "sha256": {
+        "build.log": "6a860c2c2474b8e8c7ccb2b889c938d244ed3a6214a5ddf6a23b4b30c8889419",
+        "configure.log": "1576bd3a15071d2e0c7616897698fe4d4a0d60add5738e755afc3aa307a091ad"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-02-qt-configure",
+      "sha256": {
+        "configure.log": "5b41adebac7628d1eb2b8efa68dd2bed81d6b465a60e139034c5658306a9bc34"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-03-python",
+      "sha256": {
+        "tests.log": "9cbce49f3972fc66f7d49e26c36ad982f70d9dbaf9dea9d0d1a5e0408b97d973"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-04-qt-build",
+      "sha256": {
+        "build.log": "cb16c49c1db3123a59b473400a51e69a13e3f320a64b8c18711cd7c0ff127a84"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-05-qt-build",
+      "sha256": {
+        "build.log": "6c2dbf9b58cfe85d032b380abebb64e7cf549933cfb883792fd102574c864a35"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-06-checkpoint-tests",
+      "sha256": {
+        "registration.log": "c360a26557d1947509d54a9e904daeb29ab42b091445b791f2fa34d4c2c0a523",
+        "tests.log": "0c7da002384bed05eee5554bf5378863b703187a23b11d73b6c3645edb3178a9"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-07-source-feed-verification",
+      "sha256": {
+        "failure.txt": "5df3bee3031d876385efdfd960c4bd8cabc54c3c16a6f3047b52ced2734635bb"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-08-source-feed-verification",
+      "sha256": {
+        "native.json": "d9f91eb9d9874c39feb04d7b76b88b8f59aa54955afb495e5f43de000719c139",
+        "native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report.json": "e582af7dc95cb9f1aff973e89ac543c25b72503b5750e379f45af04a80e8d74a",
+        "requests.ndjson": "bf39a851d483d7a721c7f672665972dc62f99ea280ed3630a123a8c89bf4175d",
+        "responses.ndjson": "e84f9c495255214c969946d75f315a8ef6472dd9ebb43f94251a862cc738c315",
+        "worker.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-09-source-feed-verification",
+      "sha256": {
+        "native.json": "d9f91eb9d9874c39feb04d7b76b88b8f59aa54955afb495e5f43de000719c139",
+        "native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report.json": "3ab4eb6d45e089e29fba717702a9ab8b7607ce86f19e8955271a9a2e643d3944",
+        "requests.ndjson": "bf39a851d483d7a721c7f672665972dc62f99ea280ed3630a123a8c89bf4175d",
+        "responses.ndjson": "e84f9c495255214c969946d75f315a8ef6472dd9ebb43f94251a862cc738c315",
+        "worker.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-10-resumed-build",
+      "sha256": {
+        "build.log": "c6c0aa04adc27c493b3fa269cb3800522caaf554116fe13adc2bb1438166e3dc"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-11-resumed-python",
+      "sha256": {
+        "tests.log": "0d407fb227d64603a535a50ca6dee93f31805908e5c38798e2dd31f07459aaa3"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-12-asan-build",
+      "sha256": {
+        "build.log": "9a2043cdea8e2a972f470ff5170a5a699f0b175d66838b7775ed3e186fde14f8",
+        "configure.log": "fe1e414d9d2204c9c4cb1cc0e4b33055d1d8800b7fe2fb55e14243fa084720b3"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-13-normal-tests",
+      "sha256": {
+        "build.log": "e0c9fc37518854f721246d9e3795d87abfe534ef8c374aff98e5973c9e4e3d0d",
+        "registration.json": "2444dff1863afbdf15111bffcfaae7b3597ba513cec6d907b8f82c96689cbfa3",
+        "tests.log": "f9b3037c7d6be0f3b1ccd0455ee6f468cfcdb1da5d59affc52f4eb547ca63e59"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-14-source-feed-normal",
+      "sha256": {
+        "native.json": "d9f91eb9d9874c39feb04d7b76b88b8f59aa54955afb495e5f43de000719c139",
+        "native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report.json": "3b7dc6d3ea229b6ead677e6679013c1341810198355c63998406091c92a03dd2",
+        "requests.ndjson": "bf39a851d483d7a721c7f672665972dc62f99ea280ed3630a123a8c89bf4175d",
+        "responses.ndjson": "e84f9c495255214c969946d75f315a8ef6472dd9ebb43f94251a862cc738c315",
+        "worker.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-15-legacy-cross-language",
+      "sha256": {
+        "rollout.json": "3db839947d9b03c089042c4743a94fa248e786a964e89f4753fe56d1eb9d04b3",
+        "rollout.log": "16fd940320c851e25d738c7c4ab2cc92118bbc4e612b273f44c87a8124875361",
+        "worker.json": "a7446c2f557b96c55a50ffe44a1945351a48cf03815e2ef3a88b993512b61f12",
+        "worker.log": "a10254319446a381bba836dd3c19319359fd379179df26df472678b1bbd58fa0"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-16-ci-policy",
+      "sha256": {
+        "tests.log": "fa220137dcf47b9062d0d84670fafd83874d557fe3e2412018cfacaa20472c09"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-17-ci-policy",
+      "sha256": {
+        "tests.log": "63b9535c381adfa5289083a0584a43086087d00947ce2ab932367b4e65232742"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-18-install-lint",
+      "sha256": {
+        "install.log": "0d02c28bf204bd5c0043afc991c0a906f2d9d39ac906407f1505a923289b2d1e",
+        "qmllint.log": "4dfef93fa07012fa4ac3ea966d5e00db5353553d58a880ff556ac872fe56560f"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-19-asan-tests",
+      "sha256": {
+        "registration.json": "62cb5d1e63ee8d56c09f49cc69d861cbdef2f52ce8585b0f5be2a2f0ca9ce247",
+        "tests.log": "47ac04fefe469d2ebb58f4b7681d0799b137b4f23e03542709795002d07db8ae"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-20-source-feed-asan",
+      "sha256": {
+        "native.json": "d9f91eb9d9874c39feb04d7b76b88b8f59aa54955afb495e5f43de000719c139",
+        "native.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "report.json": "bb6f6285cc995ea3a777b34a39bdf0ec7e2e6ff0cd8156f4860c66329a45716e",
+        "requests.ndjson": "bf39a851d483d7a721c7f672665972dc62f99ea280ed3630a123a8c89bf4175d",
+        "responses.ndjson": "e84f9c495255214c969946d75f315a8ef6472dd9ebb43f94251a862cc738c315",
+        "worker.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-21-interactive",
+      "sha256": {
+        "app.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "app.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "process-id.txt": "ce7003c2bed238f7b9b70423dc33686d8d965b498db65f6b9daaa422157a4c2d"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-22-interactive",
+      "sha256": {
+        "app.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "app.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "process-id.txt": "37b24b04bb031af789dcdf54f2b858e98fd22d267df98634468711a796701ea5"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-23-qml-regression",
+      "sha256": {
+        "build.log": "5635bbe8dd0a9a8209120262683c6950e86b3663c5561106bf686c6b1d6f344b",
+        "tests.log": "c78fbb60f451ae1172621be7f785795d5ec83399fc7436595e15001fc9506b29"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-24-interactive-split",
+      "sha256": {
+        "app.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "app.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "observed-invalid-total.png": "1581c186a23f82eb0ef0da4319ec85b5a4f16083e7e7fc04a6aae54008cb771f",
+        "observed-three-hour-forecast.png": "4dc6464b2b04d807b24a893b010aef9637467640da1b5be26a32b3bd9b157606",
+        "process-id.txt": "aee4d87463179c919214a3ad9211c6ad28c62f2208bdfb211d7dc2caeed99289"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-25-asan-corrected-affected",
+      "sha256": {
+        "build.log": "47c5dd98db037e05ec81937d0433a8b6c6cf2da9aa32f063652bcfa877ab0488",
+        "tests.log": "c968131cb9cf50b2673f93462b5b4917c59697da29be9fb8e75d14afe72f3e59"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-26-normal-corrected-affected",
+      "sha256": {
+        "tests.log": "538bd8e2d2372519acb9285aa265d2ed4ad789e93dca88d2736fe28ff5cb0801"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-27-editor-correction",
+      "sha256": {
+        "build.log": "f08cdcfd0337ec79b87116140210f357fcf134a528a7c4bddccb524f65b597ac",
+        "qml-results.txt": "d77bc5ae63af1fcc1812a9a4445cd222f025f76cd70ff8717bd3375f8e522af1",
+        "tests.log": "f431bb91aa6d6c9f0454e254eb99d7272c5070018dd6a2064dc8b33b32c1ffb6"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-28-qml-visual-regression",
+      "sha256": {
+        "build.log": "97d9838c8cce79c48228807caf17fa9e09b158e528dbe8bc728e5b867d355ce8",
+        "qt-results.txt": "45b433eb234a0a44ebc61797aff8736ce9df81b15392ca913e3d3718ff0f5f09",
+        "tests.log": "69096e63cb03266cc11b27b49206c09453043a224804dd4083a88cf0d36087e5"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-29-asan-final-affected",
+      "sha256": {
+        "build.log": "ba859c785ea9b27376a08bbab389d98c16e7120a70645527efd7824f666c43ab",
+        "tests.log": "e66e7d74a5f331fb922fbb03677e0634763f01273db9e5258cc17f85905a8bdf"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-30-normal-final-affected",
+      "sha256": {
+        "build-lint.log": "f25c4a52c3110130b5f6aabdf571c407353dc7c607adb4b7532744f69f8c9a56",
+        "registration.json": "44873a9a41c6980db2da230c605284f6ef18fc62be90d102f29334c2640bdac2",
+        "tests.log": "d0e0300d15f8173665eac2f38e9b6d7084340743d027effea535713435e81dd4"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-31-asan-text-field-final",
+      "sha256": {
+        "build.log": "86a3189d38d842e16cbde623b3a58cf9666d6be0dc275c994e9ed2b8cda328cf",
+        "registration.json": "70958a88a7fc2787714a3766d6ad34aac20b455a03e879ca2c01bca03c25f870",
+        "tests.log": "dde5e99660ca68fda662b4c7458d830473eebdc82d7977805c74bb860a2a8fca"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-32-final-install",
+      "sha256": {
+        "install.log": "7415272d1b257485b801b90ed41e2589fd9d80ab4de316b23734fbe192e5adae",
+        "requests.ndjson": "bf39a851d483d7a721c7f672665972dc62f99ea280ed3630a123a8c89bf4175d",
+        "responses.ndjson": "e84f9c495255214c969946d75f315a8ef6472dd9ebb43f94251a862cc738c315",
+        "verification.json": "d9dd3e127ab8d812aa68eceb7405e1d24f31acee10dc86d63474d336e11251a0",
+        "verification.log": "d9dd3e127ab8d812aa68eceb7405e1d24f31acee10dc86d63474d336e11251a0",
+        "verify.py": "1bcde884ec0199f3698497bebd365029b67d115d5ff0ec0d3bf4e107e9a43ec1",
+        "worker.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "directory": "out/connection-repro/attempt-33-final-connection",
+      "sha256": {
+        "app.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "app.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    }
+  ],
+  "log_format": "Committed text copies remove trailing whitespace. Raw originals remain in ignored out/; all original hashes retained.",
+  "limits": "All registered targets have passing coverage across complete and affected reruns. Initial failures/dependent omissions are preserved. Final editor manual creation/save-dialog acceptance is not claimed. No production PDE accuracy, new Lean audit or hosted model run is claimed."
+}

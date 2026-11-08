@@ -1,0 +1,14 @@
+{
+  "observed": [
+    "Installed startup loaded a saved v3 50/50 split; two source branches and 8+8 m3/h appeared.",
+    "Actual percentage editor opened; original SpinBox text-only synchronization failure was observed, then corrected with TextField and passing Qt keyboard regressions.",
+    "Cancel preserved the original 50/50 source configuration.",
+    "Actual native forecast passed at 3 h: Tank A104, Tank B90, new tank24 m3; cost0; no simulated approval clicked."
+  ],
+  "unverified": [
+    "New-connection creation through scene picking and Network selection was attempted but did not obtain an observed success. The real common QML connection/apply path is covered by the private Qt test.",
+    "Native Open-dialog selection could not be completed with the automation helper. It was cancelled. Actual dialogs Save/Open roundtrip remains unverified.",
+    "Final preview connection retry ended at user-input interruption; no further UI input was sent. Final TextField operator acceptance is automated Qt keyboard evidence, not an interactive workflow claim."
+  ],
+  "preservation": "Only dedicated installed test instances and temporary history DBs were used. The original running app, saved projects and root checkout were not replaced."
+}

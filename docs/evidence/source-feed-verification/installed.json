@@ -1,0 +1,32 @@
+{
+  "status": "passed",
+  "installed": "C:\\Projects\\Breakwater\\out\\source-feed-preview",
+  "python": "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Scripts\\python.exe",
+  "module_origins": {
+    "worker_storage": "C:\\Projects\\Breakwater\\out\\source-feed-preview\\share\\breakwater\\science\\worker_storage.py",
+    "breakwater_science": "C:\\Projects\\Breakwater\\out\\source-feed-preview\\share\\breakwater\\science\\breakwater_science\\__init__.py",
+    "rollout": "C:\\Projects\\Breakwater\\out\\source-feed-preview\\share\\breakwater\\science\\breakwater_science\\rollout.py"
+  },
+  "module_sha256": {
+    "worker.py": "4f76d58b838b8f60aa4fb3ac50fdb18884d0153fb73778dc960b792dd9bcb3d3",
+    "worker_storage.py": "7ebbc6583684bd84f4db5accc1d9885c76e6f3ce18de2d2ba04329816cf0c05d",
+    "storage_grid.py": "bd3bb89db64d857de0cb4eb90f61e18a60031467b485bd6fc007e480f3b72ffe",
+    "breakwater_science/__init__.py": "b2eba03885b9ff0033110e023181cf425aa3023816955d6138949b6566d8ca8e",
+    "breakwater_science/rollout.py": "e25b65ebcb70de475c3a9777d74fed4ee90bbc4c4e4bfa655de7762b16312eb6"
+  },
+  "executable_sha256": "95db482a0aa1510d53682244750f323605084be2f31231378ac3c5223efa7bb4",
+  "requests": 24,
+  "maximum_volume_error_m3": 4.547473508864641e-13,
+  "sqlite_integrity": {
+    "attempt-22-interactive": [
+      [
+        "ok"
+      ]
+    ],
+    "attempt-24-interactive-split": [
+      [
+        "ok"
+      ]
+    ]
+  }
+}

@@ -1,0 +1,99 @@
+Test project C:/Projects/Breakwater/.worktrees/feed-connection/out/connection-repro/desktop-asan
+      Start  1: engine.benchmark_correctness
+ 1/30 Test  #1: engine.benchmark_correctness ..........   Passed    1.78 sec
+      Start  2: engine.acceptance
+ 2/30 Test  #2: engine.acceptance .....................   Passed    0.89 sec
+      Start  3: engine.search
+ 3/30 Test  #3: engine.search .........................   Passed    0.44 sec
+      Start  4: engine.control_influence
+ 4/30 Test  #4: engine.control_influence ..............   Passed   17.95 sec
+      Start  5: engine.search_example
+ 5/30 Test  #5: engine.search_example .................   Passed    0.18 sec
+      Start  6: engine.search_infeasible_example
+ 6/30 Test  #6: engine.search_infeasible_example ......   Passed    0.06 sec
+      Start  7: engine.transport
+ 7/30 Test  #7: engine.transport ......................   Passed   16.85 sec
+      Start  8: engine.transport_example
+ 8/30 Test  #8: engine.transport_example ..............   Passed    0.16 sec
+      Start  9: engine.source_feeds
+ 9/30 Test  #9: engine.source_feeds ...................   Passed    0.18 sec
+      Start 10: desktop.project
+10/30 Test #10: desktop.project .......................   Passed    1.99 sec
+      Start 11: desktop.pipe_parameters
+11/30 Test #11: desktop.pipe_parameters ...............   Passed    0.20 sec
+      Start 12: desktop.nemotron_client
+12/30 Test #12: desktop.nemotron_client ...............   Passed    2.66 sec
+      Start 13: desktop.agent_gateway
+13/30 Test #13: desktop.agent_gateway .................   Passed    1.20 sec
+      Start 14: desktop.agent_orchestrator
+14/30 Test #14: desktop.agent_orchestrator ............   Passed   21.89 sec
+      Start 15: desktop.session_repository
+15/30 Test #15: desktop.session_repository ............   Passed    6.76 sec
+      Start 16: desktop.history_controller
+16/30 Test #16: desktop.history_controller ............   Passed    3.85 sec
+      Start 17: desktop.python_worker
+17/30 Test #17: desktop.python_worker .................   Passed    7.98 sec
+      Start 18: desktop.pipe_transport
+18/30 Test #18: desktop.pipe_transport ................   Passed    8.33 sec
+      Start 19: desktop.pipe_transport_evidence
+19/30 Test #19: desktop.pipe_transport_evidence .......   Passed    1.11 sec
+      Start 20: desktop.storage_worker
+20/30 Test #20: desktop.storage_worker ................   Passed  262.75 sec
+      Start 21: desktop.storage_science
+21/30 Test #21: desktop.storage_science ...............   Passed  188.09 sec
+      Start 22: desktop.science_evidence
+22/30 Test #22: desktop.science_evidence ..............***Failed    1.64 sec
+A crash occurred in C:\Projects\Breakwater\.worktrees\feed-connection\out\connection-repro\desktop-asan\desktop\breakwater_science_evidence_tests.exe.
+Function time: 62ms Total time: 66ms
+
+Exception address: 0x00007FF9FA31569A
+Exception code   : 0xe06d7363
+Nearby symbol    : RaiseException
+
+Stack:
+#  1: QTest::CrashHandler::prepareStackTrace() - 0x00007FF9CED7A280
+#  2: UnhandledExceptionFilter() - 0x00007FF9FA35F8B0
+#  3: strncpy() - 0x00007FF9FCDBC790
+#  4: _C_specific_handler() - 0x00007FF9FCD776A0
+#  5: _chkstk() - 0x00007FF9FCDBAAA0
+#  6: RtlWow64GetCurrentMachine() - 0x00007FF9FCD16330
+#  7: RtlRaiseException() - 0x00007FF9FCC69DB0
+#  8: RaiseException() - 0x00007FF9FA315610
+#  9: Unable to obtain symbol
+# 10: RtlCaptureContext2() - 0x00007FF9FCD76D40
+# 11: QTest::qRun() - 0x00007FF9CED5B940
+# 12: QTest::qExec() - 0x00007FF9CED58CA0
+# 13: main() - 0x00007FF7FF0B2970
+# 14: __scrt_common_main_seh() - 0x00007FF7FF2AA340
+# 15: BaseThreadInitThunk() - 0x00007FF9FCB6DD90
+# 16: RtlUserThreadStart() - 0x00007FF9FCD19C30
+
+
+      Start 23: desktop.agent_science
+23/30 Test #23: desktop.agent_science .................   Passed   19.09 sec
+      Start 24: desktop.storage_science_normal
+24/30 Test #24: desktop.storage_science_normal ........   Passed   13.57 sec
+      Start 25: desktop.storage_science_compact
+25/30 Test #25: desktop.storage_science_compact .......   Passed   13.04 sec
+      Start 26: desktop.storage_science_derivatives
+26/30 Test #26: desktop.storage_science_derivatives ...   Passed   13.35 sec
+      Start 27: desktop.qml_smoke
+27/30 Test #27: desktop.qml_smoke .....................   Passed    9.09 sec
+      Start 28: desktop.scientific_history_normal
+Failed test dependencies: desktop.science_evidence
+28/30 Test #28: desktop.scientific_history_normal .....***Not Run   0.00 sec
+      Start 29: desktop.scientific_history_compact
+Failed test dependencies: desktop.science_evidence
+29/30 Test #29: desktop.scientific_history_compact ....***Not Run   0.00 sec
+      Start 30: desktop.pipe_evidence_smoke
+30/30 Test #30: desktop.pipe_evidence_smoke ...........   Passed    9.48 sec
+
+90% tests passed, 3 tests failed out of 30
+
+Total Test time (real) = 624.67 sec
+
+The following tests FAILED:
+	 22 - desktop.science_evidence (Failed)
+	 28 - desktop.scientific_history_normal (Not Run)
+	 29 - desktop.scientific_history_compact (Not Run)
+Errors while running CTest

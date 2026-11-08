@@ -1,0 +1,177 @@
+********* Start testing of StorageWorkerTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : StorageWorkerTests::initTestCase()
+PASS   : StorageWorkerTests::legacyWorkerCannotSilentlyRunAllocatedNetwork()
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-third-tail-preview-2)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-third-tail-preview-256)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(one-ulp-tail-preview-2)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(one-ulp-tail-preview-256)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-endpoint-once-preview-2)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-endpoint-once-preview-256)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(partial-step-preview-2)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(partial-step-preview-256)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(smallest-positive-preview-2)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(smallest-positive-preview-256)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-budget-preview-2)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-budget-preview-256)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(exact-budget-preview-2)
+PASS   : StorageWorkerTests::exactGridAdmissionAndResponseValidation(exact-budget-preview-256)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(rounded-third-tail-preview-2)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(rounded-third-tail-preview-256)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(one-ulp-tail-preview-2)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(one-ulp-tail-preview-256)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(rounded-endpoint-once-preview-2)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(rounded-endpoint-once-preview-256)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(partial-step-preview-2)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(partial-step-preview-256)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(smallest-positive-preview-2)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(smallest-positive-preview-256)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(rounded-budget-preview-2)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(rounded-budget-preview-256)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(exact-budget-preview-2)
+PASS   : StorageWorkerTests::controlledPeerKeepsOriginalGrid(exact-budget-preview-256)
+PASS   : StorageWorkerTests::capabilitiesAreSeparateFromActualExecutionAndRestartResetsVerification()
+PASS   : StorageWorkerTests::roundedGridAdmissionMatchesTheNativeWorkPolicy(one-ULP-terminal-interval)
+PASS   : StorageWorkerTests::roundedGridAdmissionMatchesTheNativeWorkPolicy(rounded-final-multiple-once)
+PASS   : StorageWorkerTests::roundedGridAdmissionMatchesTheNativeWorkPolicy(ratio-underflow)
+PASS   : StorageWorkerTests::roundedGridAdmissionMatchesTheNativeWorkPolicy(larger-step)
+PASS   : StorageWorkerTests::roundedGridAdmissionMatchesTheNativeWorkPolicy(exact-update-limit)
+PASS   : StorageWorkerTests::roundedGridAdmissionMatchesTheNativeWorkPolicy(division-rounds-above-limit)
+PASS   : StorageWorkerTests::roundedGridAdmissionMatchesTheNativeWorkPolicy(terminal-interval-exceeds-limit)
+PASS   : StorageWorkerTests::roundedGridAdmissionMatchesTheNativeWorkPolicy(unrepresentable-work-count)
+PASS   : StorageWorkerTests::partialAndLargeValidFramesRemainResponsiveAndUsePerFrameLimits(fragmented)
+PASS   : StorageWorkerTests::partialAndLargeValidFramesRemainResponsiveAndUsePerFrameLimits(three-one-MiB-frames)
+PASS   : StorageWorkerTests::partialAndLargeValidFramesRemainResponsiveAndUsePerFrameLimits(unicode-warning-contract-limit)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(not_deployed)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(runtime_error)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(bad_capability_version)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(duplicate_methods)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(bad_limits)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(artifacts)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(preverified)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(post_unverified)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(post_version_drift)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(wrong_identity)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(wrong_tank)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(wrong_index)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(wrong_time)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(null_sample)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(wrong_shape)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(shortened_endpoint)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(extended_endpoint)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(missing_terminal_interval)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(duplicate_endpoint)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(wrong_provenance)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(derivatives)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(result_artifact)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(private_result)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(oversized_warning)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(wrong_id)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(wrong_protocol)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(invalid_utf8)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(oversized_frame)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(oversized_stderr)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(crash_after_storage)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(crash_after_exchange)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(trailing_noise)
+PASS   : StorageWorkerTests::rejectsPeerFaultsBeforePublishing(aggregate_limit)
+PASS   : StorageWorkerTests::duplicateCoalescedResponseCannotAdvanceAnotherRequest()
+PASS   : StorageWorkerTests::invalidPayloadsAreRejectedWithoutStartingScience()
+PASS   : StorageWorkerTests::derivativeAdmissionRequiresExplicitInteriorUniqueCatalogControls()
+PASS   : StorageWorkerTests::explicitDerivativeFixturesRetainOrderZerosSignsAndOpaqueIds()
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(missing_derivatives)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(derivative_id_order)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(derivative_id_foreign)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(derivative_id_extra)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(derivative_rows)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(derivative_columns)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(derivative_null)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(gradient_columns)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(gradient_string)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(gradient_null)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(derivative_extra)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(derivatives)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(result_artifact)
+PASS   : StorageWorkerTests::rejectsMalformedDerivativeEvidence(nonfinite-derivative-json)
+PASS   : StorageWorkerTests::terminalUlpBeyondTheWorkBudgetCannotStartTheWorker()
+PASS   : StorageWorkerTests::deadlinesRetireWithoutOverlappingOrPublishingLateAndDestructionDoesNotWait()
+PASS   : StorageWorkerTests::storageNeverInheritsModelCredentials()
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 1: clean exit, no overlap, no late publication; PIDs 33340/13076
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 2: clean exit, no overlap, no late publication; PIDs 18604/46052
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 3: clean exit, no overlap, no late publication; PIDs 45076/34352
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 4: clean exit, no overlap, no late publication; PIDs 34860/46616
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 5: clean exit, no overlap, no late publication; PIDs 38176/27816
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 6: clean exit, no overlap, no late publication; PIDs 43020/32396
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 7: clean exit, no overlap, no late publication; PIDs 42620/37348
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 8: clean exit, no overlap, no late publication; PIDs 31356/37380
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 9: clean exit, no overlap, no late publication; PIDs 38560/16156
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 10: clean exit, no overlap, no late publication; PIDs 32480/46624
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 11: clean exit, no overlap, no late publication; PIDs 23284/39720
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 12: clean exit, no overlap, no late publication; PIDs 29012/46332
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 13: clean exit, no overlap, no late publication; PIDs 30940/37632
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 14: clean exit, no overlap, no late publication; PIDs 37024/12044
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 15: clean exit, no overlap, no late publication; PIDs 46980/45452
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 16: clean exit, no overlap, no late publication; PIDs 29876/15788
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 17: clean exit, no overlap, no late publication; PIDs 44332/45776
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 18: clean exit, no overlap, no late publication; PIDs 42636/11032
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 19: clean exit, no overlap, no late publication; PIDs 39804/33636
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 20: clean exit, no overlap, no late publication; PIDs 4544/39188
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 21: clean exit, no overlap, no late publication; PIDs 6644/45592
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 22: clean exit, no overlap, no late publication; PIDs 45924/26484
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 23: clean exit, no overlap, no late publication; PIDs 7124/30096
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 24: clean exit, no overlap, no late publication; PIDs 42856/31660
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 25: clean exit, no overlap, no late publication; PIDs 33956/36792
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 26: clean exit, no overlap, no late publication; PIDs 43068/22504
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 27: clean exit, no overlap, no late publication; PIDs 44756/24724
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 28: clean exit, no overlap, no late publication; PIDs 42120/40524
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 29: clean exit, no overlap, no late publication; PIDs 43272/42968
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 30: clean exit, no overlap, no late publication; PIDs 37968/44464
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 31: clean exit, no overlap, no late publication; PIDs 21072/44796
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 32: clean exit, no overlap, no late publication; PIDs 31692/36492
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 33: clean exit, no overlap, no late publication; PIDs 40516/11640
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 34: clean exit, no overlap, no late publication; PIDs 30904/26392
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 35: clean exit, no overlap, no late publication; PIDs 16684/33132
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 36: clean exit, no overlap, no late publication; PIDs 43544/25636
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 37: clean exit, no overlap, no late publication; PIDs 30628/3328
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 38: clean exit, no overlap, no late publication; PIDs 22976/44920
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 39: clean exit, no overlap, no late publication; PIDs 44564/32124
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 40: clean exit, no overlap, no late publication; PIDs 45656/29652
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 41: clean exit, no overlap, no late publication; PIDs 40704/46400
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 42: clean exit, no overlap, no late publication; PIDs 18204/42736
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 43: clean exit, no overlap, no late publication; PIDs 46144/44320
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 44: clean exit, no overlap, no late publication; PIDs 30584/33544
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 45: clean exit, no overlap, no late publication; PIDs 46480/27352
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 46: clean exit, no overlap, no late publication; PIDs 45112/35076
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 47: clean exit, no overlap, no late publication; PIDs 41816/18084
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 48: clean exit, no overlap, no late publication; PIDs 12264/45644
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 49: clean exit, no overlap, no late publication; PIDs 40012/43868
+QINFO  : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication() Cancel/retry cycle 50: clean exit, no overlap, no late publication; PIDs 18880/32104
+PASS   : StorageWorkerTests::fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication()
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(canonical)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(renamed-custom)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(shortened-final-step)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(inherited-one-ULP-endpoint)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(ratio-underflow-large-step)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(renamed-rounded-budget)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(rounded-third-tail-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(rounded-third-tail-preview-256)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(one-ulp-tail-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(one-ulp-tail-preview-256)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(rounded-endpoint-once-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(rounded-endpoint-once-preview-256)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(partial-step-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(partial-step-preview-256)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(smallest-positive-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(smallest-positive-preview-256)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(rounded-budget-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(rounded-budget-preview-256)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(exact-budget-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(exact-budget-preview-256)
+PASS   : StorageWorkerTests::actualSelectedDerivativesMatchNativeFiniteDifferences(one-control-subset)
+PASS   : StorageWorkerTests::actualSelectedDerivativesMatchNativeFiniteDifferences(reordered-three-controls)
+PASS   : StorageWorkerTests::actualSelectedDerivativesMatchNativeFiniteDifferences(opaque-zero-price-columns)
+PASS   : StorageWorkerTests::actualSelectedDerivativesMatchNativeFiniteDifferences(negative-cost-gradient)
+PASS   : StorageWorkerTests::actualSelectedDerivativesMatchNativeFiniteDifferences(one-ulp-terminal-interval)
+PASS   : StorageWorkerTests::cleanupTestCase()
+Totals: 123 passed, 0 failed, 0 skipped, 0 blacklisted, 262350ms
+********* Finished testing of StorageWorkerTests *********
