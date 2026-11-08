@@ -1,0 +1,118 @@
+Window: "BREAKWATER | Synthetic fluid network workbench", App: breakwater.exe.
+	0 window (settable, string) BREAKWATER | Synthetic fluid network workbench Secondary Actions: Raise ID: QGuiApplication.Main_QMLTYPE_0
+		1 title bar (settable, string) Value: BREAKWATER | Synthetic fluid network workbench
+			2 menu bar System ID: MenuBar
+				275 menu item System
+			4 button Minimize
+			5 button Restore
+			6 button Close
+		7 tool bar (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50
+			8 text BREAKWATER ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Label_QMLTYPE_17
+			9 button (settable, string) Reset ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			10 button (settable, string) Pump failure ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			11 button (settable, string) Bad reroute ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			12 button (settable, string) Mixed plan ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			13 button (settable, string) Undo ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			14 button (disabled, settable, string) Redo ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			15 button (settable, string) Open ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			16 button (settable, string) Save ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			17 button (settable, string) Run forecast ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+		18 group (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl
+			19 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25
+				20 text EQUIPMENT ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				21 text Drag into the scene or click to add. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				22 text Storage tank ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				23 text Production source ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				24 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				25 text Tanker outlet ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				26 text Pump on route ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				27 button (settable, string) Connect equipment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Button_QMLTYPE_18
+				28 text NETWORK ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				159 list item (selectable, settable, string) Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					160 text Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				161 list item (selectable, settable, string) Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					162 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				163 list item (selectable, settable, string) Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					164 text Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				165 list item (selectable, settable, string) Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					166 text Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				167 list item (selectable, settable, string) Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					168 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				169 list item (selectable, settable, string) Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					170 text Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				41 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+				42 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+			43 button (settable, string) Nemotron investigator ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_18
+			44 button (settable, string) Pipe transport ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.openPipeEvidence
+			45 text PhysicsNeMo: not connected Lean proofs: standalone ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			171 text Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			172 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			173 text Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			174 text Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			175 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			176 text Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			52 text Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			53 text SYNTHETIC · Layout does not determine hydraulic flow ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			54 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25
+				55 text PROPERTIES ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				56 text Select equipment or a pipe ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				57 text ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				58 text NETWORK READY ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				59 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+				60 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+			90 text Using a key supplied by the launch configuration. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.PlainLabel
+			91 button (settable, string) API key settings ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.configureNemotronKey
+			92 edit (settable, string) Value: Our main transfer pump failed. Find a validated response for the next three hours at low modeled cost. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.TextField_QMLTYPE_2
+			93 button (settable, string) Investigate ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_18
+			94 button (disabled, settable, string) Cancel ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_18
+			95 button (disabled, settable, string) Review staged plan ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_18
+			96 text PyTorch executed. Returned samples agree with native within tolerance; approval remains separate. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.PlainLabel
+			97 tab (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.agentTabs
+				98 tab item (selectable, settable, string) History ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.agentTabs.TabButton_QMLTYPE_39
+				99 tab item (selectable, settable, string) Science ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.agentTabs.TabButton_QMLTYPE_39
+			100 text CURRENT NATIVE FORECAST · READ ONLY ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.PlainLabel
+			109 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel
+				110 text SCIENTIFIC WORKER · READ-ONLY STORAGE COMPARISON ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.SectionLabel
+				111 button (settable, string) Check health ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.checkScienceHealth
+				112 button (settable, string) Check capabilities ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.checkScienceCapabilities
+				113 button (settable, string) Compare with PyTorch ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.runStorageScience
+				114 button (disabled, settable, string) Cancel ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.cancelStorageScience
+				115 text PyTorch executed. Returned samples agree with native within tolerance; approval remains separate. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.storageScienceStatus
+				135 text Returned native / PyTorch samples agree within the declared tolerance. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.storageAgreement
+				136 text Native cost: 12780.0000 · PyTorch cost: 12780.0000 · Difference (PyTorch − native): 0.0000 synthetic units ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				137 text Tank ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				138 combo box (settable, string) Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.storageScienceTankSelector
+					139 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.storageScienceTankSelector.PlainLabel
+				140 text Native is authoritative for volume feasibility. Agreement grants no approval. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				157 text Native · dashed ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.Label_QMLTYPE_17_QML_29
+				158 text PyTorch · solid ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.Label_QMLTYPE_17_QML_29
+				143 text Stored volume · m³ ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.Label_QMLTYPE_17
+				144 text ALL TANKS · RETURNED SAMPLES · NUMERICAL DIFFERENCE ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.SectionLabel
+				145 text tank_a · max absolute error 0.0000 m³ · scaled error 0.0000 · within tolerance ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel_QML_37
+				146 text tank_b · max absolute error 0.0000 m³ · scaled error 0.0000 · within tolerance ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel_QML_37
+				147 text CAPTURED PROVENANCE ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.SectionLabel
+				148 text Run: 008d176c-1986-4461-96ca-8205926f845b Snapshot: 008d176c-1986-4461-96ca-8205926f845b Physical hash: 515fbf29ef2e7c3a00e94a2ee65bebd91c024f7811116055fec30c23748a29bc Numerical revision: 1 Horizon: 3.0000 h · Output step: 0.0250 h Implementation: torch-constant-flow-0.1.2+worker-v1 · dtype: float64 · device: cpu ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.storageScienceProvenance
+				149 text C++ remains authoritative for volume feasibility; this calculation supplies no feasible verdict. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel_QML_38
+				150 text Identity is echoed caller provenance, not verification that a native run exists or was approved. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel_QML_38
+				117 text LATEST WORKER PROBE / SESSION ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.SectionLabel
+				118 text Storage execution checked in this completed worker process. Native approval is separate. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				119 text Legacy health ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				120 text unchecked ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				121 text Python version ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				122 text Not checked ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				123 text PyTorch package ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				124 text Not checked ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				125 text PhysicsNeMo package ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				126 text Not checked ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				127 text Storage mapper deployed ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				128 text Implemented ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				129 text Storage execution ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				130 text Verified in the latest worker session ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				131 text Health is a compatibility check. Package detection and deployed code do not establish scientific execution. Execution verification is process-local and resets when the worker restarts. PhysicsNeMo route inference is unavailable. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				132 text This read-only comparison does not optimize controls, evaluate chemical quality or change feasibility and approval. Numerical edits invalidate the captured result. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.PlainLabel
+				133 scroll bar (settable, float) Value: 14.345991561181433 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.ScrollBar_QMLTYPE_26
+				134 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.storageSciencePanel.ScrollBar_QMLTYPE_26
+
+Document text: ```
+Our main transfer pump failed. Find a validated response for the next three hours at low modeled cost.
+```

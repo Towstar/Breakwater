@@ -1,0 +1,7 @@
+{
+    "error": {
+        "code": "runtime_unavailable",
+        "message": "Storage rollout modules are not deployed with this worker."
+    },
+    "status": "failed"
+}

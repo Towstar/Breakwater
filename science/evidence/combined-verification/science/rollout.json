@@ -1,0 +1,2349 @@
+{
+  "status": "passed",
+  "method_version": "torch-constant-flow-0.1.2",
+  "python_version": "3.12.13",
+  "torch_version": "2.15.0+cpu",
+  "device": "cpu",
+  "dtype": "float64",
+  "native_solver_version": "constant-flow-0.1.0",
+  "native_executable_sha256": "2f5cdefcaa81e30b365516c0bf43e55d45d31fa465fdf8d51cf47d864c056d4d",
+  "forward_tolerance": {
+    "absolute": 1e-09,
+    "relative": 1e-10
+  },
+  "gradient_tolerance": {
+    "absolute": 1e-06,
+    "relative": 0.0001
+  },
+  "objective": "sum((terminal_m3/100 m3)^2) + cost/10000 synthetic units",
+  "cases": [
+    {
+      "name": "healthy",
+      "input_sha256": "9f3fd95a7b12859a5478e7865b8daee321987943efd95ebccbfca1c246dca15f",
+      "samples": 121,
+      "tank_ids": [
+        "tank_a",
+        "tank_b"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 3.410605131648481e-13,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        104.00000000000034,
+        114.0
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:source_a:curtail",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": 0.03869999999999969,
+            "cost_gradient_units_per_m3h": 750.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 4.226549665808932e-13,
+                  "cost": 0.0,
+                  "terminal": 3.4223290867885225e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 3.679313798077288e-12,
+                  "cost": 0.0,
+                  "terminal": 2.985451885706425e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 3.3877380067881546e-11,
+                  "cost": 1.940247784659732e-08,
+                  "terminal": 2.9417637215090053e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:main_pump:flow",
+            "value_m3h": 27.5,
+            "objective_gradient_per_m3h": -0.03630000000000032,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0275,
+                "absolute_errors": {
+                  "objective": 2.370881269087022e-13,
+                  "cost": 0.0,
+                  "terminal": 1.872058064122939e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0027500000000000003,
+                "absolute_errors": {
+                  "objective": 1.7550613740091592e-12,
+                  "cost": 0.0,
+                  "terminal": 1.4868506426068961e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.000275,
+                "absolute_errors": {
+                  "objective": 1.758078405078578e-11,
+                  "cost": 0.0,
+                  "terminal": 1.4431646988555258e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:backup_pump:flow",
+            "value_m3h": 17.5,
+            "objective_gradient_per_m3h": -0.08820000000000022,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              0.0,
+              -2.9999999999999964
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0175,
+                "absolute_errors": {
+                  "objective": 1.9820256547120607e-13,
+                  "cost": 0.0,
+                  "terminal": 6.207478975284175e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00175,
+                "absolute_errors": {
+                  "objective": 4.266031972122164e-13,
+                  "cost": 0.0,
+                  "terminal": 1.8388401912261543e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00017500000000000003,
+                "absolute_errors": {
+                  "objective": 7.024492099105828e-12,
+                  "cost": 0.0,
+                  "terminal": 1.4019541083598597e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:bypass:flow",
+            "value_m3h": 12.5,
+            "objective_gradient_per_m3h": 0.051899999999999905,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              2.9999999999999964
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0125,
+                "absolute_errors": {
+                  "objective": 1.1261408472407197e-12,
+                  "cost": 0.0,
+                  "terminal": 3.7065461810925626e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00125,
+                "absolute_errors": {
+                  "objective": 1.0718467780002072e-11,
+                  "cost": 0.0,
+                  "terminal": 3.269668980010465e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.000125,
+                "absolute_errors": {
+                  "objective": 1.0557592300397545e-10,
+                  "cost": 0.0,
+                  "terminal": 3.2259812599022553e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:truck_route:flow",
+            "value_m3h": 11.0,
+            "objective_gradient_per_m3h": -0.012300000000000318,
+            "cost_gradient_units_per_m3h": 240.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.011,
+                "absolute_errors": {
+                  "objective": 5.499403016306914e-13,
+                  "cost": 5.289280124998186e-11,
+                  "terminal": 4.703659683968908e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0011,
+                "absolute_errors": {
+                  "objective": 3.0933623718087944e-12,
+                  "cost": 7.143796665332047e-10,
+                  "terminal": 2.427591461184875e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00011,
+                "absolute_errors": {
+                  "objective": 3.3823638334595785e-13,
+                  "cost": 5.900119504076429e-09,
+                  "terminal": 1.7710677369109362e-10
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "baseline",
+      "input_sha256": "92515d10289a128bab317676b3ef9f305d26b81e63d48dd4688a20a406dcb0fb",
+      "samples": 121,
+      "tank_ids": [
+        "tank_a",
+        "tank_b"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 7.673861546209082e-13,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": false,
+      "final_m3": [
+        235.99999999999923,
+        114.0
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:source_a:curtail",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": -0.010800000000000268,
+            "cost_gradient_units_per_m3h": 750.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 6.803689556189596e-13,
+                  "cost": 0.0,
+                  "terminal": 2.3802293469543656e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 5.4173193708706435e-12,
+                  "cost": 0.0,
+                  "terminal": 1.9433210596275785e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 5.278683393172834e-11,
+                  "cost": 1.940247784659732e-08,
+                  "terminal": 1.8996346717869983e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:backup_pump:flow",
+            "value_m3h": 17.5,
+            "objective_gradient_per_m3h": -0.08820000000000022,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              0.0,
+              -2.9999999999999964
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0175,
+                "absolute_errors": {
+                  "objective": 1.9820256547120607e-13,
+                  "cost": 0.0,
+                  "terminal": 6.207478975284175e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00175,
+                "absolute_errors": {
+                  "objective": 4.266031972122164e-13,
+                  "cost": 0.0,
+                  "terminal": 1.8388401912261543e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00017500000000000003,
+                "absolute_errors": {
+                  "objective": 4.4868414539323e-12,
+                  "cost": 0.0,
+                  "terminal": 1.4019541083598597e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:bypass:flow",
+            "value_m3h": 12.5,
+            "objective_gradient_per_m3h": 0.002399999999999944,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              2.9999999999999964
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0125,
+                "absolute_errors": {
+                  "objective": 1.4368645162576854e-12,
+                  "cost": 0.0,
+                  "terminal": 3.7065461810925626e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00125,
+                "absolute_errors": {
+                  "objective": 6.730407897670432e-12,
+                  "cost": 0.0,
+                  "terminal": 3.269668980010465e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.000125,
+                "absolute_errors": {
+                  "objective": 7.067925411607945e-11,
+                  "cost": 0.0,
+                  "terminal": 3.2259812599022553e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:truck_route:flow",
+            "value_m3h": 11.0,
+            "objective_gradient_per_m3h": -0.06180000000000028,
+            "cost_gradient_units_per_m3h": 240.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.011,
+                "absolute_errors": {
+                  "objective": 8.978026655448446e-13,
+                  "cost": 5.289280124998186e-11,
+                  "terminal": 3.218003641336509e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0011,
+                "absolute_errors": {
+                  "objective": 4.16792295121482e-12,
+                  "cost": 7.143796665332047e-10,
+                  "terminal": 1.4586731822419097e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00011,
+                "absolute_errors": {
+                  "objective": 3.458895669883333e-11,
+                  "cost": 5.900119504076429e-09,
+                  "terminal": 1.3398131493147503e-09
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "bad",
+      "input_sha256": "3d6242703ec07d6d22ad294f340ed43a1b7d53acba65fc2641c50bcf43ec926d",
+      "samples": 121,
+      "tank_ids": [
+        "tank_a",
+        "tank_b"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 6.821210263296962e-13,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": false,
+      "final_m3": [
+        80.0,
+        132.00000000000068
+      ],
+      "cost_units": 9030.0,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:source_a:curtail",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": -0.010800000000000268,
+            "cost_gradient_units_per_m3h": 750.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 6.803689556189596e-13,
+                  "cost": 0.0,
+                  "terminal": 2.3802293469543656e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 5.4173193708706435e-12,
+                  "cost": 0.0,
+                  "terminal": 1.9433210596275785e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 5.278683393172834e-11,
+                  "cost": 1.940247784659732e-08,
+                  "terminal": 1.8996346717869983e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:backup_pump:flow",
+            "value_m3h": 17.5,
+            "objective_gradient_per_m3h": -0.08820000000000022,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              0.0,
+              -2.9999999999999964
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0175,
+                "absolute_errors": {
+                  "objective": 1.9820256547120607e-13,
+                  "cost": 0.0,
+                  "terminal": 6.207478975284175e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00175,
+                "absolute_errors": {
+                  "objective": 4.266031972122164e-13,
+                  "cost": 0.0,
+                  "terminal": 1.8388401912261543e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00017500000000000003,
+                "absolute_errors": {
+                  "objective": 4.4868414539323e-12,
+                  "cost": 0.0,
+                  "terminal": 1.4019541083598597e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:bypass:flow",
+            "value_m3h": 12.5,
+            "objective_gradient_per_m3h": 0.002399999999999944,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              2.9999999999999964
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0125,
+                "absolute_errors": {
+                  "objective": 1.4368645162576854e-12,
+                  "cost": 0.0,
+                  "terminal": 3.7065461810925626e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00125,
+                "absolute_errors": {
+                  "objective": 6.730407897670432e-12,
+                  "cost": 0.0,
+                  "terminal": 3.269668980010465e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.000125,
+                "absolute_errors": {
+                  "objective": 7.067925411607945e-11,
+                  "cost": 0.0,
+                  "terminal": 3.2259812599022553e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:truck_route:flow",
+            "value_m3h": 11.0,
+            "objective_gradient_per_m3h": -0.06180000000000028,
+            "cost_gradient_units_per_m3h": 240.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.011,
+                "absolute_errors": {
+                  "objective": 8.978026655448446e-13,
+                  "cost": 5.289280124998186e-11,
+                  "terminal": 3.218003641336509e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0011,
+                "absolute_errors": {
+                  "objective": 4.16792295121482e-12,
+                  "cost": 7.143796665332047e-10,
+                  "terminal": 1.4586731822419097e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00011,
+                "absolute_errors": {
+                  "objective": 3.458895669883333e-11,
+                  "cost": 5.900119504076429e-09,
+                  "terminal": 1.3398131493147503e-09
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "mixed",
+      "input_sha256": "f69d8c57bd4f22227aaa9c308b9d916ed2601268f91ff575fed20facc59da6a0",
+      "samples": 121,
+      "tank_ids": [
+        "tank_a",
+        "tank_b"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 6.821210263296962e-13,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        80.0,
+        117.00000000000068
+      ],
+      "cost_units": 12780.0,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:source_a:curtail",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": -0.010800000000000268,
+            "cost_gradient_units_per_m3h": 750.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 6.803689556189596e-13,
+                  "cost": 0.0,
+                  "terminal": 2.3802293469543656e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 5.4173193708706435e-12,
+                  "cost": 0.0,
+                  "terminal": 1.9433210596275785e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 5.278683393172834e-11,
+                  "cost": 1.940247784659732e-08,
+                  "terminal": 1.8996346717869983e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:backup_pump:flow",
+            "value_m3h": 17.5,
+            "objective_gradient_per_m3h": -0.08820000000000022,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              0.0,
+              -2.9999999999999964
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0175,
+                "absolute_errors": {
+                  "objective": 1.9820256547120607e-13,
+                  "cost": 0.0,
+                  "terminal": 6.207478975284175e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00175,
+                "absolute_errors": {
+                  "objective": 4.266031972122164e-13,
+                  "cost": 0.0,
+                  "terminal": 1.8388401912261543e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00017500000000000003,
+                "absolute_errors": {
+                  "objective": 4.4868414539323e-12,
+                  "cost": 0.0,
+                  "terminal": 1.4019541083598597e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:bypass:flow",
+            "value_m3h": 12.5,
+            "objective_gradient_per_m3h": 0.002399999999999944,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              2.9999999999999964
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0125,
+                "absolute_errors": {
+                  "objective": 1.4368645162576854e-12,
+                  "cost": 0.0,
+                  "terminal": 3.7065461810925626e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00125,
+                "absolute_errors": {
+                  "objective": 6.730407897670432e-12,
+                  "cost": 0.0,
+                  "terminal": 3.269668980010465e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.000125,
+                "absolute_errors": {
+                  "objective": 7.067925411607945e-11,
+                  "cost": 0.0,
+                  "terminal": 3.2259812599022553e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:truck_route:flow",
+            "value_m3h": 11.0,
+            "objective_gradient_per_m3h": -0.06180000000000028,
+            "cost_gradient_units_per_m3h": 240.0,
+            "terminal_jacobian_h": [
+              -2.9999999999999964,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.011,
+                "absolute_errors": {
+                  "objective": 8.978026655448446e-13,
+                  "cost": 5.289280124998186e-11,
+                  "terminal": 3.218003641336509e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0011,
+                "absolute_errors": {
+                  "objective": 4.16792295121482e-12,
+                  "cost": 7.143796665332047e-10,
+                  "terminal": 1.4586731822419097e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00011,
+                "absolute_errors": {
+                  "objective": 3.458895669883333e-11,
+                  "cost": 5.900119504076429e-09,
+                  "terminal": 1.3398131493147503e-09
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "renamed_costed_interior",
+      "input_sha256": "6f4559727ef3644d9fd72260284dd15098645fb3c421e4ebf1b1ac59f9379d41",
+      "samples": 8,
+      "tank_ids": [
+        "asset:\"\\\n0",
+        "asset:\"\\\n1"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 4.263256414560601e-14,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        107.30000000000001,
+        117.89999999999996
+      ],
+      "cost_units": 4289.35,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:asset:\"\\\n2:curtail",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": 0.0031719999999999943,
+            "cost_gradient_units_per_m3h": 310.7,
+            "terminal_jacobian_h": [
+              -1.3,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 3.3866139059757217e-14,
+                  "cost": 2.8990143619012088e-12,
+                  "terminal": 4.2432724001173483e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 1.4376911119939884e-13,
+                  "cost": 2.8990143619012088e-12,
+                  "terminal": 5.259792601464142e-12
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 4.0010638031884316e-12,
+                  "cost": 3.0287310437415726e-09,
+                  "terminal": 2.231594908863599e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:route:\"\\\t3:flow",
+            "value_m3h": 17.5,
+            "objective_gradient_per_m3h": -0.033195499999999996,
+            "cost_gradient_units_per_m3h": 1.625,
+            "terminal_jacobian_h": [
+              0.0,
+              -1.3
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0175,
+                "absolute_errors": {
+                  "objective": 3.042011087472929e-14,
+                  "cost": 1.9749091251242135e-11,
+                  "terminal": 9.28812582401406e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00175,
+                "absolute_errors": {
+                  "objective": 4.00977862025087e-13,
+                  "cost": 6.236566818529354e-12,
+                  "terminal": 9.627632024944432e-12
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00017500000000000003,
+                "absolute_errors": {
+                  "objective": 2.938635446092519e-12,
+                  "cost": 7.733305107393562e-10,
+                  "terminal": 1.1519429854445207e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:route:\"\\\t4:flow",
+            "value_m3h": 12.5,
+            "objective_gradient_per_m3h": 0.005622499999999993,
+            "cost_gradient_units_per_m3h": 1.625,
+            "terminal_jacobian_h": [
+              -1.3,
+              1.3
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0125,
+                "absolute_errors": {
+                  "objective": 2.3496829482105852e-15,
+                  "cost": 2.1827872842550278e-11,
+                  "terminal": 1.1823875212257917e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00125,
+                "absolute_errors": {
+                  "objective": 2.011325134221309e-14,
+                  "cost": 5.820766091346741e-11,
+                  "terminal": 3.3650859876388495e-12
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.000125,
+                "absolute_errors": {
+                  "objective": 3.3549647435182628e-12,
+                  "cost": 7.8580342233181e-10,
+                  "terminal": 4.210964910100756e-11
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:route:\"\\\t5:flow",
+            "value_m3h": 11.0,
+            "objective_gradient_per_m3h": -0.017335500000000007,
+            "cost_gradient_units_per_m3h": 105.625,
+            "terminal_jacobian_h": [
+              -1.3,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.011,
+                "absolute_errors": {
+                  "objective": 3.847616669716558e-14,
+                  "cost": 2.1501023184100632e-11,
+                  "terminal": 1.1688428003253648e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0011,
+                "absolute_errors": {
+                  "objective": 2.643128771406822e-13,
+                  "cost": 5.986180440231692e-10,
+                  "terminal": 7.228440068729469e-12
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.00011,
+                "absolute_errors": {
+                  "objective": 3.16728587801407e-12,
+                  "cost": 2.295223566761706e-09,
+                  "terminal": 7.674483271102872e-11
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "branching_shared",
+      "input_sha256": "2166319184220d243c5c0b8d4fd530604374d6fd673f8e1290c5e2eb9e1ecdfe",
+      "samples": 13,
+      "tank_ids": [
+        "west",
+        "buffer",
+        "south"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 8.526512829121202e-14,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        105.39999999999993,
+        116.19999999999995,
+        102.70000000000005
+      ],
+      "cost_units": 687.1500000000001,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:production:curtail",
+            "value_m3h": 4.0,
+            "objective_gradient_per_m3h": -0.048464999999999994,
+            "cost_gradient_units_per_m3h": 18.9,
+            "terminal_jacobian_h": [
+              -2.7,
+              0.0,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.004,
+                "absolute_errors": {
+                  "objective": 5.305478278927467e-14,
+                  "cost": 2.1387336346379016e-12,
+                  "terminal": 2.589040093425865e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0004,
+                "absolute_errors": {
+                  "objective": 9.967443537206577e-13,
+                  "cost": 2.5365665123899817e-10,
+                  "terminal": 3.9892533720831125e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 4e-05,
+                "absolute_errors": {
+                  "objective": 2.1069604394519104e-12,
+                  "cost": 5.989946316731221e-10,
+                  "terminal": 2.885824912368662e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "source:secondary:curtail",
+            "value_m3h": 1.5,
+            "objective_gradient_per_m3h": -0.04530600000000001,
+            "cost_gradient_units_per_m3h": 6.75,
+            "terminal_jacobian_h": [
+              0.0,
+              -2.7,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0015,
+                "absolute_errors": {
+                  "objective": 6.619357839632301e-13,
+                  "cost": 6.487699266699565e-11,
+                  "terminal": 3.353006761130928e-11
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00015000000000000001,
+                "absolute_errors": {
+                  "objective": 2.4382926233634805e-12,
+                  "cost": 1.0913048242855439e-11,
+                  "terminal": 1.3774359430840377e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 1.5000000000000002e-05,
+                "absolute_errors": {
+                  "objective": 7.053197609296902e-11,
+                  "cost": 1.1357770723918748e-08,
+                  "terminal": 4.4483696726160815e-09
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:west_buffer:flow",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": -0.004238999999999989,
+            "cost_gradient_units_per_m3h": 1.35,
+            "terminal_jacobian_h": [
+              -2.7,
+              2.7,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 2.4391946795709885e-14,
+                  "cost": 1.297539853339913e-11,
+                  "terminal": 5.759837051755312e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 2.166448444251845e-12,
+                  "cost": 2.1826984664130578e-12,
+                  "terminal": 7.068257090736552e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 1.5743300760262535e-12,
+                  "cost": 7.600948759289849e-10,
+                  "terminal": 1.8511281396627055e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:west_south:flow",
+            "value_m3h": 6.0,
+            "objective_gradient_per_m3h": 0.012595499999999973,
+            "cost_gradient_units_per_m3h": 2.0250000000000004,
+            "terminal_jacobian_h": [
+              -2.7,
+              0.0,
+              2.7
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.006,
+                "absolute_errors": {
+                  "objective": 3.2308357378330044e-13,
+                  "cost": 3.2738256550146616e-12,
+                  "terminal": 7.918110611626616e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0006000000000000001,
+                "absolute_errors": {
+                  "objective": 2.70235223087667e-14,
+                  "cost": 3.2738256550146616e-12,
+                  "terminal": 7.477130026245504e-12
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 6.000000000000001e-05,
+                "absolute_errors": {
+                  "objective": 1.453275000340426e-12,
+                  "cost": 1.5190981805801584e-09,
+                  "terminal": 4.2196068861244385e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:buffer_south:flow",
+            "value_m3h": 10.0,
+            "objective_gradient_per_m3h": 0.017104499999999963,
+            "cost_gradient_units_per_m3h": 3.375,
+            "terminal_jacobian_h": [
+              0.0,
+              -2.7,
+              2.7
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.01,
+                "absolute_errors": {
+                  "objective": 1.018039819111749e-13,
+                  "cost": 5.9117155615240335e-12,
+                  "terminal": 5.786482404346316e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.001,
+                "absolute_errors": {
+                  "objective": 3.016441263437031e-13,
+                  "cost": 1.191438059322536e-10,
+                  "terminal": 1.857625164802812e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.0001,
+                "absolute_errors": {
+                  "objective": 8.085788982814535e-13,
+                  "cost": 5.4569682106375694e-12,
+                  "terminal": 1.3774315021919392e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:south_treat:flow",
+            "value_m3h": 10.0,
+            "objective_gradient_per_m3h": -0.06139799999999997,
+            "cost_gradient_units_per_m3h": 13.500000000000002,
+            "terminal_jacobian_h": [
+              0.0,
+              0.0,
+              -2.7
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.01,
+                "absolute_errors": {
+                  "objective": 2.078198724220215e-14,
+                  "cost": 1.0457412713549274e-11,
+                  "terminal": 2.029487689014786e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.001,
+                "absolute_errors": {
+                  "objective": 1.568536966978229e-13,
+                  "cost": 9.186074123590515e-11,
+                  "terminal": 4.3653969328261155e-12
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.0001,
+                "absolute_errors": {
+                  "objective": 4.728127611652866e-12,
+                  "cost": 1.1150422807304494e-09,
+                  "terminal": 1.3774315021919392e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:buffer_treat:flow",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": -0.04476600000000001,
+            "cost_gradient_units_per_m3h": 12.150000000000002,
+            "terminal_jacobian_h": [
+              0.0,
+              -2.7,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 4.4624026696027386e-14,
+                  "cost": 4.4853010194856324e-12,
+                  "terminal": 3.7125857943465235e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 1.4356710265062134e-12,
+                  "cost": 1.964295393008797e-11,
+                  "terminal": 7.068257090736552e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 2.709166224690307e-12,
+                  "cost": 7.775540211696352e-10,
+                  "terminal": 1.8511281396627055e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:west_truck:flow",
+            "value_m3h": 5.0,
+            "objective_gradient_per_m3h": -0.045224999999999994,
+            "cost_gradient_units_per_m3h": 51.300000000000004,
+            "terminal_jacobian_h": [
+              -2.7,
+              0.0,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.005,
+                "absolute_errors": {
+                  "objective": 1.4003381787475178e-13,
+                  "cost": 3.0745184176339535e-11,
+                  "terminal": 5.582201367815287e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0005,
+                "absolute_errors": {
+                  "objective": 3.760186606527327e-14,
+                  "cost": 1.4443202189795556e-10,
+                  "terminal": 1.857625164802812e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 5e-05,
+                "absolute_errors": {
+                  "objective": 1.7387549733349772e-12,
+                  "cost": 2.190795100887044e-09,
+                  "terminal": 1.3774315021919392e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:buffer_truck:flow",
+            "value_m3h": 5.0,
+            "objective_gradient_per_m3h": -0.040581000000000006,
+            "cost_gradient_units_per_m3h": 54.00000000000001,
+            "terminal_jacobian_h": [
+              0.0,
+              -2.7,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.005,
+                "absolute_errors": {
+                  "objective": 1.1593503934648197e-13,
+                  "cost": 2.638245177877252e-11,
+                  "terminal": 9.845457782375888e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0005,
+                "absolute_errors": {
+                  "objective": 2.2919721676117888e-12,
+                  "cost": 1.4006928950038855e-10,
+                  "terminal": 1.3774315021919392e-10
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 5e-05,
+                "absolute_errors": {
+                  "objective": 8.509221105512665e-12,
+                  "cost": 2.361041140375164e-09,
+                  "terminal": 1.3774315021919392e-10
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "one_tank_no_internal",
+      "input_sha256": "b94b5ea901220a5280fcce45d7507379cfb0a6a75efd0bcfad8dc296e7513721",
+      "samples": 44,
+      "tank_ids": [
+        "only"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 7.993605777301127e-15,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        3.749999999999992
+      ],
+      "cost_units": 27.75,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:source:curtail",
+            "value_m3h": 0.5,
+            "objective_gradient_per_m3h": -0.0014999999999999974,
+            "cost_gradient_units_per_m3h": 12.0,
+            "terminal_jacobian_h": [
+              -2.999999999999999
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.001,
+                "absolute_errors": {
+                  "objective": 2.0166160408230382e-16,
+                  "cost": 4.547473508864641e-13,
+                  "terminal": 5.586642259913788e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0001,
+                "absolute_errors": {
+                  "objective": 4.313606763450828e-14,
+                  "cost": 2.7966962079517543e-11,
+                  "terminal": 4.18589607420472e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 1e-05,
+                "absolute_errors": {
+                  "objective": 6.849835369054924e-13,
+                  "cost": 2.5624835586768313e-10,
+                  "terminal": 8.190146338904469e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:out:flow",
+            "value_m3h": 2.0,
+            "objective_gradient_per_m3h": -0.0019499999999999977,
+            "cost_gradient_units_per_m3h": 7.5,
+            "terminal_jacobian_h": [
+              -2.999999999999999
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.002,
+                "absolute_errors": {
+                  "objective": 7.814929259275516e-16,
+                  "cost": 6.039613253960852e-13,
+                  "terminal": 7.807088309164101e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0002,
+                "absolute_errors": {
+                  "objective": 3.8294888093926005e-14,
+                  "cost": 1.7479351299698465e-11,
+                  "terminal": 3.963851469279689e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 2e-05,
+                "absolute_errors": {
+                  "objective": 2.892586344060977e-14,
+                  "cost": 1.0629808144813069e-10,
+                  "terminal": 2.475486482467204e-11
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "zero_controls",
+      "input_sha256": "b6ab85aa9d223df377d402569da955ed0783768aabe5670feeeda0b28ab1bebf",
+      "samples": 2,
+      "tank_ids": [
+        "isolated"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        6.0
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "no_variable_controls",
+        "controls": []
+      }
+    },
+    {
+      "name": "capacity_equality",
+      "input_sha256": "7c0461eb7c5fb2bc4057c87519db524a8c9e60bd26f45a8535b0c4b0885353a9",
+      "samples": 8,
+      "tank_ids": [
+        "full"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 8.881784197001252e-16,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        10.0
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:source:curtail",
+            "value_m3h": 0.5,
+            "objective_gradient_per_m3h": -0.0036,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              -2.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.001,
+                "absolute_errors": {
+                  "objective": 5.629177679544739e-16,
+                  "cost": 0.0,
+                  "terminal": 2.2026824808563106e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0001,
+                "absolute_errors": {
+                  "objective": 2.137959947967616e-14,
+                  "cost": 0.0,
+                  "terminal": 1.354294454358751e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 1e-05,
+                "absolute_errors": {
+                  "objective": 7.342173743984937e-14,
+                  "cost": 0.0,
+                  "terminal": 1.3102408047416247e-11
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "unclipped_negative",
+      "input_sha256": "96abe0cbc9c66776283760994a4644b7acfd8b463c993fa490b8177621a6961a",
+      "samples": 9,
+      "tank_ids": [
+        "drains"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": false,
+      "final_m3": [
+        -5.0
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "route:out:flow",
+            "value_m3h": 1.0,
+            "objective_gradient_per_m3h": 0.0012000000000000001,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              -3.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.001,
+                "absolute_errors": {
+                  "objective": 1.3357370765021415e-16,
+                  "cost": 0.0,
+                  "terminal": 2.1938006966593093e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0001,
+                "absolute_errors": {
+                  "objective": 4.627374872168133e-16,
+                  "cost": 0.0,
+                  "terminal": 7.7982065249671e-13
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 1e-05,
+                "absolute_errors": {
+                  "objective": 8.052152694615344e-15,
+                  "cost": 0.0,
+                  "terminal": 8.550937735662956e-12
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "stored_tolerance",
+      "input_sha256": "92de1a090038dde261698218595db2b11eac885736ac253a9b646ba6909665e7",
+      "samples": 5,
+      "tank_ids": [
+        "tank"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 8.881784197001252e-16,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        3.999999999500001
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "route:out:flow",
+            "value_m3h": 1.0,
+            "objective_gradient_per_m3h": -0.001,
+            "cost_gradient_units_per_m3h": 0.0,
+            "terminal_jacobian_h": [
+              -1.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.001,
+                "absolute_errors": {
+                  "objective": 5.663872149064275e-16,
+                  "cost": 0.0,
+                  "terminal": 7.780442956573097e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0001,
+                "absolute_errors": {
+                  "objective": 5.938825820006599e-15,
+                  "cost": 0.0,
+                  "terminal": 6.771472271793755e-12
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 1e-05,
+                "absolute_errors": {
+                  "objective": 4.9306912719426776e-14,
+                  "cost": 0.0,
+                  "terminal": 3.78578279836006e-11
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "shared_destination_overload",
+      "input_sha256": "0ecb5ccb0cacc6a1d0b579d393bbd2130dfadcc95eceee93192e250092bd41e8",
+      "samples": 8,
+      "tank_ids": [
+        "west",
+        "buffer",
+        "south"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 2.842170943040401e-14,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": false,
+      "final_m3": [
+        103.59999999999998,
+        105.4,
+        102.7
+      ],
+      "cost_units": 207.675,
+      "gradients": {
+        "status": "passed",
+        "torch_gradcheck": true,
+        "controls": [
+          {
+            "id": "source:production:curtail",
+            "value_m3h": 4.0,
+            "objective_gradient_per_m3h": -0.016964999999999997,
+            "cost_gradient_units_per_m3h": 6.3,
+            "terminal_jacobian_h": [
+              -0.9,
+              0.0,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.004,
+                "absolute_errors": {
+                  "objective": 3.5426522826398354e-14,
+                  "cost": 3.0810909379397344e-12,
+                  "terminal": 1.4551693183761927e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0004,
+                "absolute_errors": {
+                  "objective": 1.2968411067237895e-12,
+                  "cost": 6.086775528046928e-11,
+                  "terminal": 5.183553586363132e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 4e-05,
+                "absolute_errors": {
+                  "objective": 1.5911615774966137e-11,
+                  "cost": 2.7403146418691904e-10,
+                  "terminal": 5.698892469041539e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "source:secondary:curtail",
+            "value_m3h": 1.5,
+            "objective_gradient_per_m3h": -0.016883999999999996,
+            "cost_gradient_units_per_m3h": 2.25,
+            "terminal_jacobian_h": [
+              0.0,
+              -0.9,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0015,
+                "absolute_errors": {
+                  "objective": 1.1622647289044608e-13,
+                  "cost": 1.530997550958091e-11,
+                  "terminal": 8.018807839960118e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00015000000000000001,
+                "absolute_errors": {
+                  "objective": 4.122882590884558e-13,
+                  "cost": 1.8584023209200495e-10,
+                  "terminal": 1.4550582960737302e-12
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 1.5000000000000002e-05,
+                "absolute_errors": {
+                  "objective": 5.508902362061363e-12,
+                  "cost": 1.8911427979162454e-09,
+                  "terminal": 8.511962246160465e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:west_buffer:flow",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": -0.0004410000000000038,
+            "cost_gradient_units_per_m3h": 0.45,
+            "terminal_jacobian_h": [
+              -0.9,
+              0.9,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 1.3972763918124187e-14,
+                  "cost": 3.0619395907649505e-12,
+                  "terminal": 2.334354931576854e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 2.228748869487207e-13,
+                  "cost": 3.862316022562595e-11,
+                  "terminal": 2.040290159044389e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 1.2803741953389819e-11,
+                  "cost": 3.7968367339047404e-10,
+                  "terminal": 2.856721526001138e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:west_south:flow",
+            "value_m3h": 6.0,
+            "objective_gradient_per_m3h": 0.0014445000000000033,
+            "cost_gradient_units_per_m3h": 0.675,
+            "terminal_jacobian_h": [
+              -0.9,
+              0.0,
+              0.9
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.006,
+                "absolute_errors": {
+                  "objective": 2.1457662036095115e-14,
+                  "cost": 1.0913492332065289e-12,
+                  "terminal": 9.133804823591163e-13
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0006000000000000001,
+                "absolute_errors": {
+                  "objective": 1.5549844398221602e-14,
+                  "cost": 1.0912382109040664e-12,
+                  "terminal": 2.5139890169612045e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 6.000000000000001e-05,
+                "absolute_errors": {
+                  "objective": 1.21969034264785e-11,
+                  "cost": 1.9056933808769827e-10,
+                  "terminal": 5.698892469041539e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:buffer_south:flow",
+            "value_m3h": 10.0,
+            "objective_gradient_per_m3h": 0.001975500000000007,
+            "cost_gradient_units_per_m3h": 1.125,
+            "terminal_jacobian_h": [
+              0.0,
+              -0.9,
+              0.9
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.01,
+                "absolute_errors": {
+                  "objective": 1.5642435263751864e-14,
+                  "cost": 1.0231815394945443e-12,
+                  "terminal": 3.4083846855992306e-14
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.001,
+                "absolute_errors": {
+                  "objective": 2.87664857212544e-14,
+                  "cost": 3.0240698833949864e-11,
+                  "terminal": 1.2755685396825811e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.0001,
+                "absolute_errors": {
+                  "objective": 1.1961642180230436e-11,
+                  "cost": 2.8603608370758593e-10,
+                  "terminal": 2.827619249856639e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:south_treat:flow",
+            "value_m3h": 10.0,
+            "objective_gradient_per_m3h": -0.018522000000000004,
+            "cost_gradient_units_per_m3h": 4.5,
+            "terminal_jacobian_h": [
+              0.0,
+              0.0,
+              -0.9
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.01,
+                "absolute_errors": {
+                  "objective": 3.4715286201247864e-14,
+                  "cost": 1.5916157281026244e-12,
+                  "terminal": 3.4083846855992306e-14
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.001,
+                "absolute_errors": {
+                  "objective": 3.4715286201247864e-14,
+                  "cost": 7.275957614183426e-12,
+                  "terminal": 1.2755685396825811e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 0.0001,
+                "absolute_errors": {
+                  "objective": 1.069285632260275e-11,
+                  "cost": 7.275957614183426e-12,
+                  "terminal": 2.827619249856639e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:buffer_treat:flow",
+            "value_m3h": 7.5,
+            "objective_gradient_per_m3h": -0.016703999999999997,
+            "cost_gradient_units_per_m3h": 4.050000000000001,
+            "terminal_jacobian_h": [
+              0.0,
+              -0.9,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.0075,
+                "absolute_errors": {
+                  "objective": 5.848793671603403e-14,
+                  "cost": 1.0311751452718454e-12,
+                  "terminal": 2.334354931576854e-12
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.00075,
+                "absolute_errors": {
+                  "objective": 6.816595898850863e-13,
+                  "cost": 6.547651310029323e-12,
+                  "terminal": 2.040290159044389e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 7.500000000000001e-05,
+                "absolute_errors": {
+                  "objective": 3.463174191864482e-12,
+                  "cost": 6.547651310029323e-12,
+                  "terminal": 2.8276203600796634e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:west_truck:flow",
+            "value_m3h": 5.0,
+            "objective_gradient_per_m3h": -0.015885,
+            "cost_gradient_units_per_m3h": 17.1,
+            "terminal_jacobian_h": [
+              -0.9,
+              0.0,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.005,
+                "absolute_errors": {
+                  "objective": 4.3680337125096e-15,
+                  "cost": 6.458833468059311e-12,
+                  "terminal": 3.4083846855992306e-14
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0005,
+                "absolute_errors": {
+                  "objective": 6.173568600775781e-13,
+                  "cost": 2.7647217848425498e-11,
+                  "terminal": 1.2755685396825811e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 5e-05,
+                "absolute_errors": {
+                  "objective": 1.7326765022751545e-13,
+                  "cost": 2.7647217848425498e-11,
+                  "terminal": 2.827619249856639e-10
+                }
+              }
+            ]
+          },
+          {
+            "id": "route:buffer_truck:flow",
+            "value_m3h": 5.0,
+            "objective_gradient_per_m3h": -0.015308999999999996,
+            "cost_gradient_units_per_m3h": 18.0,
+            "terminal_jacobian_h": [
+              0.0,
+              -0.9,
+              0.0
+            ],
+            "checks": [
+              {
+                "relative_step": 0.001,
+                "step_m3h": 0.005,
+                "absolute_errors": {
+                  "objective": 4.1099068592842514e-14,
+                  "cost": 5.002220859751105e-12,
+                  "terminal": 3.4083846855992306e-14
+                }
+              },
+              {
+                "relative_step": 0.0001,
+                "step_m3h": 0.0005,
+                "absolute_errors": {
+                  "objective": 3.141722992872076e-13,
+                  "cost": 2.773958840407431e-11,
+                  "terminal": 1.2755685396825811e-11
+                }
+              },
+              {
+                "relative_step": 1e-05,
+                "step_m3h": 5e-05,
+                "absolute_errors": {
+                  "objective": 3.422796768237646e-12,
+                  "cost": 5.975380190648139e-10,
+                  "terminal": 2.827619249856639e-10
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "name": "grid_short_quotient",
+      "input_sha256": "c992c6b0525b50e2b354bb1913385b2b929d6a326b0d270522e715bfa31b64ca",
+      "samples": 11,
+      "tank_ids": [
+        "grid-tank"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        0.5
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "no_variable_controls",
+        "controls": []
+      }
+    },
+    {
+      "name": "grid_duplicate_quotient",
+      "input_sha256": "e9a7feb8bf4fea8fbb6c994d02fe89f9c4459ff108633d4a9b769af050ce0d0d",
+      "samples": 4,
+      "tank_ids": [
+        "grid-tank"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        0.5
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "no_variable_controls",
+        "controls": []
+      }
+    },
+    {
+      "name": "grid_subnormal_horizon",
+      "input_sha256": "0b160ba01d3c0ec3b10160bbd59bf13b71b56d4097adff407f1bbc1851df575e",
+      "samples": 2,
+      "tank_ids": [
+        "grid-tank"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        0.5
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "no_variable_controls",
+        "controls": []
+      }
+    },
+    {
+      "name": "grid_update_limit",
+      "input_sha256": "585dcde3134bd0db28430c5cb97ce1adc3c17e57f8486b9e3ba77db13cd06a10",
+      "samples": 10001,
+      "tank_ids": [
+        "grid-tank"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        0.5
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "no_variable_controls",
+        "controls": []
+      }
+    },
+    {
+      "name": "grid_update_limit_rounded_quotient",
+      "input_sha256": "0a3e6c270c13a4e47f605ed2c323a5c4557163c84d2a6f83a89440608f779761",
+      "samples": 10001,
+      "tank_ids": [
+        "grid-tank"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": true,
+      "final_m3": [
+        0.5
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "no_variable_controls",
+        "controls": []
+      }
+    },
+    {
+      "name": "grid_requested_capacity_overflow",
+      "input_sha256": "5add5d0abf1fd3ebb4ed8405153b2e2f8412b4c788ad55e27cf93788dc6cb8b1",
+      "samples": 11,
+      "tank_ids": [
+        "capacity-tank"
+      ],
+      "forward_errors": {
+        "dense_reference": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "sparse": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        },
+        "affine": {
+          "volume_m3": 0.0,
+          "cost_units": 0.0
+        }
+      },
+      "native_feasible": false,
+      "final_m3": [
+        1013309916158361.8
+      ],
+      "cost_units": 0.0,
+      "gradients": {
+        "status": "no_variable_controls",
+        "controls": []
+      }
+    }
+  ],
+  "scope": "interior continuous controls only; native C++ decides feasibility"
+}

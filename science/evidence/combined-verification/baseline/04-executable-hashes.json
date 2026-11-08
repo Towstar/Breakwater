@@ -1,0 +1,12 @@
+[
+  {
+    "Algorithm": "SHA256",
+    "Hash": "7E2A788AF1FF2DAE321D97AF5CB576CD88623874E367FC257E922D745A96BF8D",
+    "Path": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\attempt-04-baseline\\breakwater_storage_science_tests.exe"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "0068F357556387A8541605F1DDCDD175D232D9F52723BC06696FDC8F6257AD16",
+    "Path": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\attempt-04-baseline\\breakwater_storage_worker_tests.exe"
+  }
+]

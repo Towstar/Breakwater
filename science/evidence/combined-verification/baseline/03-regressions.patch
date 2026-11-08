@@ -1,0 +1,195 @@
+diff --git a/desktop/tests/storage_science_tests.cpp b/desktop/tests/storage_science_tests.cpp
+index 0b7ebba..2d440dd 100644
+--- a/desktop/tests/storage_science_tests.cpp
++++ b/desktop/tests/storage_science_tests.cpp
+@@ -1,4 +1,5 @@
+ #include "science/StorageScienceController.hpp"
++#include "storage_grid_cases.hpp"
+ #include <QElapsedTimer>
+ #include <QFileInfo>
+ #include <QJsonArray>
+@@ -55,6 +56,8 @@ private slots:
+         QTest::newRow("shortened-final-step") << QString("mixed") << 0.95 << 0.3;
+         QTest::newRow("decimated-indices") << QString("mixed") << 3.0 << 0.002;
+         QTest::newRow("one-ulp-endpoint") << QString("mixed") << 0.00023685942255445778 << 2.7423807173145508e-08;
++        for (const auto& item : storage_grid_test::cases())
++            QTest::newRow(item.name) << QString("mixed") << item.horizon << item.step;
+     }
+     void realDesktopWorkerParity() {
+         QFETCH(QString, example); QFETCH(double, horizon); QFETCH(double, step);
+@@ -74,6 +77,11 @@ private slots:
+         const auto preview = result.value("preview").toObject(); const auto indices = preview.value("time_indices").toArray();
+         const auto times = preview.value("time_h").toArray();
+         QCOMPARE(indices.last().toInteger(), static_cast<qint64>(capture->result.time_h.size() - 1));
++        QCOMPARE(times.last().toDouble(), horizon);
++        for (const auto& item : storage_grid_test::cases()) if (item.horizon == horizon && item.step == step) {
++            QCOMPARE(capture->result.time_h, item.times);
++            QCOMPARE(indices.last().toInteger(), static_cast<qint64>(item.times.size() - 1));
++        }
+         for (qsizetype i = 0; i < indices.size(); ++i) QCOMPARE(times[i].toDouble(), capture->result.time_h[static_cast<std::size_t>(indices[i].toInteger())]);
+         QCOMPARE(project.document(), document); QCOMPARE(project.runId(), run); QCOMPARE(project.canApprove(), approval);
+         QVERIFY(worker.readiness().value("storage_execution_verified").toBool());
+diff --git a/desktop/tests/storage_worker_tests.cpp b/desktop/tests/storage_worker_tests.cpp
+index 60d6908..d862eae 100644
+--- a/desktop/tests/storage_worker_tests.cpp
++++ b/desktop/tests/storage_worker_tests.cpp
+@@ -1,6 +1,7 @@
+ #include "science/PythonWorkerClient.hpp"
+ #include "science/WorkerProtocol.hpp"
+ #include "ProjectDocument.hpp"
++#include "storage_grid_cases.hpp"
+ 
+ #include <QElapsedTimer>
+ #include <QFileInfo>
+@@ -74,6 +75,68 @@ private slots:
+     void initTestCase() {
+         if (python().isEmpty() || !QFileInfo(python()).isFile()) QSKIP("A configured Python interpreter is unavailable.");
+     }
++    void exactGridAdmissionAndResponseValidation_data() {
++        QTest::addColumn<double>("horizon"); QTest::addColumn<double>("step");
++        QTest::addColumn<QJsonArray>("fullTimes"); QTest::addColumn<int>("maximum");
++        for (const auto& item : storage_grid_test::cases()) {
++            QJsonArray times; for (const auto time : item.times) times.append(time);
++            for (const int maximum : {2, 256})
++                QTest::newRow(qPrintable(QString("%1-preview-%2").arg(item.name).arg(maximum)))
++                    << item.horizon << item.step << times << maximum;
++        }
++    }
++    void exactGridAdmissionAndResponseValidation() {
++        QFETCH(double, horizon); QFETCH(double, step); QFETCH(QJsonArray, fullTimes); QFETCH(int, maximum);
++        auto input = payload(horizon, step); input["preview"] = QJsonObject{{"max_times", maximum}};
++        QVERIFY2(protocol::forwardPayload(input), "An independently specified supported grid must be admitted.");
++        const auto count = std::min(fullTimes.size(), qsizetype{maximum});
++        QJsonArray times, indices, row;
++        for (qsizetype i = 0; i < count; ++i) {
++            const auto index = i * (fullTimes.size() - 1) / (count - 1);
++            times.append(fullTimes[index]); indices.append(index); row.append(80.0);
++        }
++        QJsonObject result{{"method", "storage_rollout"}, {"method_version", 1}, {"identity", input["identity"]},
++            {"provenance", QJsonObject{{"implementation", "torch_storage_float64"}, {"implementation_version", "independent-grid-oracle"},
++                {"dtype", "float64"}, {"device", "cpu"}, {"execution_status", "completed"}}},
++            {"time_h", times}, {"time_indices", indices}, {"tank_ids", QJsonArray{"tank_a", "tank_b"}},
++            {"volumes_m3", QJsonArray{row, row}}, {"cost", 0.0}, {"warnings", QJsonArray{}}};
++        QVERIFY2(protocol::storage(result, input), "The exact original horizon and fixed final index must validate.");
++        auto corrupt = result;
++        auto shortenedTimes = times, shortenedIndices = indices, shortenedRow = row;
++        shortenedTimes.removeLast(); shortenedIndices.removeLast(); shortenedRow.removeLast();
++        corrupt["time_h"] = shortenedTimes; corrupt["time_indices"] = shortenedIndices;
++        corrupt["volumes_m3"] = QJsonArray{shortenedRow, shortenedRow}; QVERIFY(!protocol::storage(corrupt, input));
++        corrupt = result; auto badTimes = times; badTimes.last() = times[times.size() - 2]; corrupt["time_h"] = badTimes;
++        QVERIFY(!protocol::storage(corrupt, input));
++        corrupt = result; badTimes = times; badTimes.last() = std::nextafter(horizon, 0.0); corrupt["time_h"] = badTimes;
++        QVERIFY(!protocol::storage(corrupt, input));
++        corrupt = result; auto badIndices = indices; badIndices.last() = fullTimes.size(); corrupt["time_indices"] = badIndices;
++        QVERIFY(!protocol::storage(corrupt, input));
++        corrupt = result; corrupt["tank_ids"] = QJsonArray{"tank_b", "tank_a"}; QVERIFY(!protocol::storage(corrupt, input));
++        corrupt = result; auto identity = input["identity"].toObject(); identity["volume_run_id"] = "forged";
++        corrupt["identity"] = identity; QVERIFY(!protocol::storage(corrupt, input));
++        auto excessive = payload(std::nextafter(1.0, INFINITY), .0001);
++        QVERIFY(!protocol::forwardPayload(excessive)); QVERIFY(!protocol::storage(result, excessive));
++    }
++    void controlledPeerKeepsOriginalGrid_data() { exactGridAdmissionAndResponseValidation_data(); }
++    void controlledPeerKeepsOriginalGrid() {
++        QFETCH(double, horizon); QFETCH(double, step); QFETCH(QJsonArray, fullTimes); QFETCH(int, maximum);
++        Environment restore("BREAKWATER_STORAGE_FIXTURE_MODE"); mode("valid");
++        auto input = payload(horizon, step); input["preview"] = QJsonObject{{"max_times", maximum}};
++        PythonWorkerClient client(python(), fixture());
++        QSignalSpy ready(&client, &PythonWorkerClient::storageReady), failed(&client, &PythonWorkerClient::failed);
++        client.runStorage(input); QTRY_VERIFY_WITH_TIMEOUT(!ready.isEmpty() || !failed.isEmpty(), 10000);
++        QCOMPARE(failed.size(), 0); QCOMPARE(ready.size(), 1);
++        const auto result = ready.first().first().toJsonObject().value("result").toObject();
++        const auto times = result["time_h"].toArray(), indices = result["time_indices"].toArray();
++        QCOMPARE(times.last().toDouble(), horizon); QCOMPARE(indices.last().toInteger(), fullTimes.size() - 1);
++        QCOMPARE(times.size(), std::min(qsizetype{maximum}, fullTimes.size()));
++        for (qsizetype i = 0; i < times.size(); ++i) {
++            const auto original = i * (fullTimes.size() - 1) / (times.size() - 1);
++            QCOMPARE(indices[i].toInteger(), original); QCOMPARE(times[i], fullTimes[original]);
++        }
++        compareNative(result, input);
++    }
+     void capabilitiesAreSeparateFromActualExecutionAndRestartResetsVerification() {
+         Environment restore("BREAKWATER_STORAGE_FIXTURE_MODE"); mode("valid");
+         PythonWorkerClient client(python(), fixture());
+@@ -171,21 +234,34 @@ private slots:
+     }
+     void actualWorkerMatchesNative_data() {
+         QTest::addColumn<double>("horizon"); QTest::addColumn<double>("step"); QTest::addColumn<bool>("renamed");
+-        QTest::newRow("canonical") << 3.0 << 0.025 << false;
+-        QTest::newRow("renamed-custom") << 3.0 << 0.025 << true;
+-        QTest::newRow("shortened-final-step") << 1.0 << 0.3 << false;
+-        QTest::newRow("inherited-one-ULP-endpoint") << 0.225 << 0.075 << true;
++        QTest::addColumn<int>("maximum");
++        QTest::newRow("canonical") << 3.0 << 0.025 << false << 256;
++        QTest::newRow("renamed-custom") << 3.0 << 0.025 << true << 256;
++        QTest::newRow("shortened-final-step") << 1.0 << 0.3 << false << 256;
++        QTest::newRow("inherited-one-ULP-endpoint") << 0.225 << 0.075 << true << 256;
++        for (const auto& item : storage_grid_test::cases()) for (const int maximum : {2, 256})
++            QTest::newRow(qPrintable(QString("%1-preview-%2").arg(item.name).arg(maximum)))
++                << item.horizon << item.step << false << maximum;
+     }
+     void actualWorkerMatchesNative() {
+-        QFETCH(double, horizon); QFETCH(double, step); QFETCH(bool, renamed);
++        QFETCH(double, horizon); QFETCH(double, step); QFETCH(bool, renamed); QFETCH(int, maximum);
+         PythonWorkerClient client(python(), worker()); QSignalSpy health(&client, &PythonWorkerClient::healthReady), ready(&client, &PythonWorkerClient::storageReady), failed(&client, &PythonWorkerClient::failed);
+         client.checkHealth(); QTRY_COMPARE_WITH_TIMEOUT(health.size(), 1, 10000);
+         if (!client.readiness().value("torch_detected").toBool()) QSKIP("Configured Python has no Torch runtime; fake protocol tests still execute.");
+-        const auto input = payload(horizon, step, renamed); client.runStorage(input);
++        auto input = payload(horizon, step, renamed); input["preview"] = QJsonObject{{"max_times", maximum}}; client.runStorage(input);
+         QTRY_VERIFY_WITH_TIMEOUT(!ready.isEmpty() || !failed.isEmpty(), 60000);
+         QCOMPARE(failed.size(), 0); QCOMPARE(ready.size(), 1); QVERIFY(client.readiness().value("storage_execution_verified").toBool());
+         const auto result = ready.first().first().toJsonObject().value("result").toObject(); compareNative(result, input);
+         QCOMPARE(input.value("horizon_h").toDouble(), horizon);
++        for (const auto& item : storage_grid_test::cases()) if (item.horizon == horizon && item.step == step) {
++            const auto times = result["time_h"].toArray(), indices = result["time_indices"].toArray();
++            QCOMPARE(times.last().toDouble(), horizon); QCOMPARE(indices.last().toInteger(), static_cast<qint64>(item.times.size() - 1));
++            QCOMPARE(times.size(), std::min(qsizetype{maximum}, static_cast<qsizetype>(item.times.size())));
++            for (qsizetype i = 0; i < times.size(); ++i) {
++                const auto original = static_cast<std::size_t>(i) * (item.times.size() - 1) / static_cast<std::size_t>(times.size() - 1);
++                QCOMPARE(indices[i].toInteger(), static_cast<qint64>(original)); QCOMPARE(times[i].toDouble(), item.times[original]);
++            }
++        }
+         if (horizon == 0.225) QVERIFY(result.value("time_h").toArray().last().toDouble() < horizon);
+     }
+ };
+diff --git a/science/tests/test_worker_storage.py b/science/tests/test_worker_storage.py
+index 6be7c27..f9e16dd 100644
+--- a/science/tests/test_worker_storage.py
++++ b/science/tests/test_worker_storage.py
+@@ -223,18 +223,29 @@ class StorageExecutionTests(unittest.TestCase):
+ 
+     def test_roundoff_and_subnormal_grids_keep_exact_requested_horizon(self):
+         cases = [
++            (.225, .075, [0.0, .075, .15, .22499999999999998, .225]),
+             (math.nextafter(.9, math.inf), .1, [0.0] + [index * .1 for index in range(1, 10)] + [math.nextafter(.9, math.inf)]),
+             (.30000000000000004, .1, [0.0, .1, .2, .30000000000000004]),
+-            (math.ulp(0.0), 1e308, [0.0, math.ulp(0.0)]),
++            (1.1, .3, [0.0, .3, .6, .8999999999999999, 1.1]),
++            (math.ulp(0.0), 24, [0.0, math.ulp(0.0)]),
++            (.0082, 8.2e-7, [index * 8.2e-7 for index in range(10000)] + [.0082]),
++            (1, .0001, [index * .0001 for index in range(10000)] + [1.0]),
+         ]
+         for horizon, step, times in cases:
+-            with self.subTest(horizon=horizon, step=step):
+-                request = payload(); request.update(horizon_h=horizon, step_h=step)
+-                result = storage_rollout(request)
+-                self.assertEqual(result["time_h"], times)
+-                self.assertEqual(result["time_indices"], list(range(len(times))))
+-                self.assertTrue(all(left < right for left, right in zip(times, times[1:])))
+-                self.assertEqual(result["identity"], request["identity"])
++            for maximum in (2, 256):
++                with self.subTest(horizon=horizon, step=step, maximum=maximum):
++                    request = payload(); request.update(horizon_h=horizon, step_h=step)
++                    request["preview"]["max_times"] = maximum
++                    result = storage_rollout(request)
++                    count = min(maximum, len(times))
++                    indices = [i * (len(times) - 1) // (count - 1) for i in range(count)]
++                    self.assertEqual(result["time_h"], [times[i] for i in indices])
++                    self.assertEqual(result["time_indices"], indices)
++                    self.assertEqual(result["time_h"][-1], horizon)
++                    self.assertEqual(result["time_indices"][-1], len(times) - 1)
++                    self.assertEqual(result["time_h"].count(horizon), 1)
++                    self.assertTrue(all(left < right for left, right in zip(result["time_h"], result["time_h"][1:])))
++                    self.assertEqual(result["identity"], request["identity"])
+ 
+     def test_one_ulp_tail_forward_and_derivatives_use_same_horizon(self):
+         horizon = math.nextafter(.9, math.inf)

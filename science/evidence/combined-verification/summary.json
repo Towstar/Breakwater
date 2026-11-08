@@ -1,0 +1,50 @@
+{
+  "status": "passed_with_explicit_ui_gaps",
+  "application_correction": "e1b28b869a5439151a7bc05e2b0fa357a62f65f5",
+  "verified_revision": "e1e6a230062a0911e99af64246860a462d79e1d0",
+  "complete_ctests": {
+    "normal": 24,
+    "asan": 24,
+    "failures": 0,
+    "skips": 0
+  },
+  "post_increment_affected_ctests": {
+    "normal": 2,
+    "asan": 2,
+    "controller_qt_rows": 25,
+    "worker_qt_rows": 85,
+    "failures": 0,
+    "skips": 0
+  },
+  "python_tests": 127,
+  "refined_transport": {
+    "cases": 45,
+    "gates": 580,
+    "normal": "passed",
+    "asan": "passed"
+  },
+  "coarse_expected_failures": [
+    {
+      "name": "scheduled_inlet.space.refinement_order",
+      "passed": false,
+      "measured_orders": [
+        0.2765063820077894,
+        0.20370157974971287
+      ],
+      "minimum": 0.25,
+      "maximum": 1.35
+    }
+  ],
+  "physicsnemo_gates": 12,
+  "physicsnemo_updates": 1800,
+  "lean_unique_propositions": 54,
+  "installed_app_executions": 16,
+  "actual_installed_worker_exchanges": 2,
+  "ui_elapsed_s": 584.505,
+  "ui_gaps": [
+    "Interactive save/load through native dialogs: filename focus/index targeting was unreliable; canceled without writing a project",
+    "Interactive native export and re-import of the interactively computed result: native export dialog targeting blocked; canceled"
+  ],
+  "interactive_cancellation": "Completion won the race before the Cancel action; cancellation inside the calculation was not observed",
+  "sanitizer_reports": 0
+}

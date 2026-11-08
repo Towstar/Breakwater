@@ -1,5 +1,24 @@
 # Implementation status
 
+## Combined verification — November 7, 2026
+
+- [Combined report](COMBINED_VERIFICATION.md): isolated baseline `1a537ed`, corrected
+  private desktop time-grid admission/validation, exact endpoint/identity regressions,
+  and unchanged public schemas, dependency pins and numerical thresholds.
+- Complete normal and MSVC ASan configurations each passed 24/24 CTests; Python
+  passed 127/127 without skips; refined transport passed 45 cases/580 gates in both
+  builds; PhysicsNeMo passed all 12 fixed-case gates after 1,800 updates; Lean audited
+  54 unique propositions with both rejection probes. The final post-exchange edit,
+  deletion and replacement regressions passed both affected suites in each build:
+  worker 85/0/0 and controller 25/0/0; application code/deadlines unchanged.
+- Local/relocated installed execution, missing dependencies, installed worker origins,
+  setup idempotence and SQLite integrity were checked. Interactive save/load and
+  native export dialogs remain unverified due to computer-use targeting problems;
+  completion won the interactive cancellation race. The coarse scheduled-inlet
+  refinement failure and 0.40191 mg/L front maximum-error limitation are preserved.
+- Hosted Nemotron, clean-machine acceptance, new physics and the front study remain
+  outside this run. Existing historical milestone reports below retain their scopes.
+
 ## PR #19 current-main reconciliation — November 7, 2026
 
 - Combined B5b's forward-only desktop storage path with merged #13/#18 and current

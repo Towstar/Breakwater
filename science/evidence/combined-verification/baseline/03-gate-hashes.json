@@ -1,0 +1,22 @@
+[
+  {
+    "Algorithm": "SHA256",
+    "Hash": "47BD0ADFDB6D67E7724E69C330C1E458EEEC4E95FC975B189DA994B01ECD6966",
+    "Path": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\desktop\\science\\WorkerProtocol.cpp"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "F40414FDD2D9E3F5A9359CADEE289EF14C2527D4E99149AC122CDF45BEA64418",
+    "Path": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\desktop\\tests\\worker_fixtures\\storage_worker_fixture.py"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "995226513CA14D8DCBAA543FDB2AF99F3ABA393CE008E5D25282E99636C836BC",
+    "Path": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\baseline-normal\\desktop\\breakwater_storage_worker_tests.exe"
+  },
+  {
+    "Algorithm": "SHA256",
+    "Hash": "7E2A788AF1FF2DAE321D97AF5CB576CD88623874E367FC257E922D745A96BF8D",
+    "Path": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\baseline-normal\\desktop\\breakwater_storage_science_tests.exe"
+  }
+]

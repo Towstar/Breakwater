@@ -1,0 +1,288 @@
+{
+  "method_version": "physicsnemo-pipe-pinn-0.1.1",
+  "config": {
+    "config_version": 1,
+    "seed": 20261107,
+    "threads": 1,
+    "adam_steps": 1800,
+    "learning_rate": 0.002,
+    "collocation_points": 256,
+    "initial_points": 64,
+    "initial_loss_weight": 10.0,
+    "training_time_limit_s": 120.0,
+    "thresholds": {
+      "native_fine_rmse_mg_l": 0.01,
+      "native_time_refinement_rmse_mg_l": 0.002,
+      "heldout_field_rmse_mg_l": 0.03,
+      "heldout_field_max_mg_l": 0.1,
+      "heldout_residual_rms_mg_l_h": 0.05,
+      "outlet_max_mg_l": 0.1,
+      "inventory_relative_error": 0.05,
+      "minimum_prediction_mg_l": -0.005,
+      "checkpoint_max_abs_mg_l": 1e-10
+    }
+  },
+  "config_sha256": "210543e97fe288713239f81a44f4d96f95123f5adbf239fb20fe08f4e527b667",
+  "started_utc": "2026-11-08T03:23:24.102348+00:00",
+  "python": "3.12.13",
+  "platform": "Windows-11-10.0.26300-SP0",
+  "torch": "2.15.0+cpu",
+  "physicsnemo": "2.2.2",
+  "numpy": "2.5.4",
+  "device": "cpu",
+  "dtype": "float64",
+  "cuda_build": null,
+  "model_args": {
+    "in_features": 2,
+    "out_features": 1,
+    "layer_size": 32,
+    "num_layers": 3,
+    "activation_fn": "tanh",
+    "weight_norm": false
+  },
+  "heldout_residual_seed": 20261108,
+  "heldout_residual_points": 512,
+  "physicsnemo_cache": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\attempt-06-science\\physicsnemo-smoke\\physicsnemo-cache",
+  "native_executable_sha256": "e26094b1d474f58f9c9c2242531a408ccf36b2a6967b4b9c97046d0dd82fc72e",
+  "status": "passed",
+  "scope": "fixed-case experimental smoke; no volume approval or cross-setting generalization",
+  "native_solver_version": "fvm-upwind-euler-0.1.0",
+  "native": {
+    "runs": [
+      {
+        "cells": 32,
+        "cfl_safety": 0.9,
+        "rmse_mg_l": 0.003077678210273643,
+        "max_error_mg_l": 0.00836028919815035,
+        "diagnostics": {
+          "substeps": 360,
+          "max_cfl_number": 0.9000000000000002,
+          "minimum_concentration_mg_l": 0.0017240163636179338,
+          "max_mass_balance_residual_mg": 1.1626614930434801e-13
+        },
+        "final_ledger_errors_mg": {
+          "inventory_mg": 0.5441749517448216,
+          "cumulative_inlet_mg": -2.5153639666972794,
+          "cumulative_outlet_mg": -3.1144920903115576,
+          "cumulative_decay_mg": 0.0549531718695313,
+          "cumulative_source_mg": 0.0
+        },
+        "max_mass_residual_mg": 9.741217914688618e-14
+      },
+      {
+        "cells": 64,
+        "cfl_safety": 0.9,
+        "rmse_mg_l": 0.0015738902779247543,
+        "max_error_mg_l": 0.004318147025258123,
+        "diagnostics": {
+          "substeps": 1400,
+          "max_cfl_number": 0.9000000000000031,
+          "minimum_concentration_mg_l": 0.0007992748012554594,
+          "max_mass_balance_residual_mg": 1.8539737321504145e-13
+        },
+        "final_ledger_errors_mg": {
+          "inventory_mg": 0.31755751857585324,
+          "cumulative_inlet_mg": -1.2657863218674485,
+          "cumulative_outlet_mg": -1.6024623152216009,
+          "cumulative_decay_mg": 0.019118474778373695,
+          "cumulative_source_mg": 0.0
+        },
+        "max_mass_residual_mg": 1.2255080602350196e-13
+      },
+      {
+        "cells": 128,
+        "cfl_safety": 0.9,
+        "rmse_mg_l": 0.0007963766833353869,
+        "max_error_mg_l": 0.0021947426973046857,
+        "diagnostics": {
+          "substeps": 5560,
+          "max_cfl_number": 0.9000000000000015,
+          "minimum_concentration_mg_l": 0.00038375661270251873,
+          "max_mass_balance_residual_mg": 3.990757016662756e-13
+        },
+        "final_ledger_errors_mg": {
+          "inventory_mg": 0.17097847715641024,
+          "cumulative_inlet_mg": -0.634922443675201,
+          "cumulative_outlet_mg": -0.8132900986001914,
+          "cumulative_decay_mg": 0.0073891777683599,
+          "cumulative_source_mg": 0.0
+        },
+        "max_mass_residual_mg": 3.6136776135135195e-13
+      },
+      {
+        "cells": 128,
+        "cfl_safety": 0.45,
+        "rmse_mg_l": 0.0007927404557768081,
+        "max_error_mg_l": 0.002178210783003509,
+        "diagnostics": {
+          "substeps": 11080,
+          "max_cfl_number": 0.45000000000000073,
+          "minimum_concentration_mg_l": 0.0003837815474390244,
+          "max_mass_balance_residual_mg": 3.7393707478965984e-13
+        },
+        "final_ledger_errors_mg": {
+          "inventory_mg": 0.17988677684155618,
+          "cumulative_inlet_mg": -0.6343887180104737,
+          "cumulative_outlet_mg": -0.8209275782220402,
+          "cumulative_decay_mg": 0.0066520833698930915,
+          "cumulative_source_mg": 0.0
+        },
+        "max_mass_residual_mg": 3.2680214939600524e-13
+      }
+    ],
+    "observed_spatial_orders": [
+      0.9675074287158076,
+      0.9828120814777929
+    ],
+    "time_refinement_rmse_mg_l": 9.224424872586808e-06
+  },
+  "gates": {
+    "native_spatial_refinement": true,
+    "native_fine_accuracy": true,
+    "native_time_sensitivity": true,
+    "heldout_field_rmse_mg_l": true,
+    "heldout_field_max_mg_l": true,
+    "heldout_residual_rms_mg_l_h": true,
+    "outlet_max_mg_l": true,
+    "inventory_relative_error": true,
+    "checkpoint_max_abs_mg_l": true,
+    "minimum_prediction_mg_l": true,
+    "training_loss_decreased": true,
+    "parameters_updated": true
+  },
+  "training": {
+    "steps": 1800,
+    "runtime_s": 42.483997499977704,
+    "parameter_count": 2241,
+    "parameter_update_l2": 2.8030270310306404,
+    "first_loss": 2.8652813210617705,
+    "history": [
+      {
+        "step": 0,
+        "total_loss": 2.8652813210617705,
+        "pde_loss": 0.1342747997096374,
+        "initial_loss": 0.2731006521352133
+      },
+      {
+        "step": 100,
+        "total_loss": 0.07689598458733835,
+        "pde_loss": 0.037590646810477774,
+        "initial_loss": 0.003930533777686058
+      },
+      {
+        "step": 200,
+        "total_loss": 0.035790780429650455,
+        "pde_loss": 0.02018233251381374,
+        "initial_loss": 0.0015608447915836715
+      },
+      {
+        "step": 300,
+        "total_loss": 0.014761001688525371,
+        "pde_loss": 0.010261173326472488,
+        "initial_loss": 0.0004499828362052883
+      },
+      {
+        "step": 400,
+        "total_loss": 0.012406912652873962,
+        "pde_loss": 0.008313528992783592,
+        "initial_loss": 0.0004093383660090371
+      },
+      {
+        "step": 500,
+        "total_loss": 0.010594565430448621,
+        "pde_loss": 0.007040470445538323,
+        "initial_loss": 0.0003554094984910299
+      },
+      {
+        "step": 600,
+        "total_loss": 0.00915904456086078,
+        "pde_loss": 0.006092070791402629,
+        "initial_loss": 0.00030669737694581515
+      },
+      {
+        "step": 700,
+        "total_loss": 0.008049695068341835,
+        "pde_loss": 0.005403432925207903,
+        "initial_loss": 0.00026462621431339316
+      },
+      {
+        "step": 800,
+        "total_loss": 0.0070918188898323915,
+        "pde_loss": 0.004845385485453789,
+        "initial_loss": 0.00022464334043786026
+      },
+      {
+        "step": 900,
+        "total_loss": 0.012048478519970485,
+        "pde_loss": 0.004372048552525154,
+        "initial_loss": 0.0007676429967445331
+      },
+      {
+        "step": 1000,
+        "total_loss": 0.0049887328241650505,
+        "pde_loss": 0.003539665931721222,
+        "initial_loss": 0.00014490668924438288
+      },
+      {
+        "step": 1100,
+        "total_loss": 0.0038452838500883414,
+        "pde_loss": 0.0028193278544420995,
+        "initial_loss": 0.00010259559956462419
+      },
+      {
+        "step": 1200,
+        "total_loss": 0.003277622562886489,
+        "pde_loss": 0.0024846359435121514,
+        "initial_loss": 7.929866193743379e-05
+      },
+      {
+        "step": 1300,
+        "total_loss": 0.002887286806374279,
+        "pde_loss": 0.0022936821759609685,
+        "initial_loss": 5.9360463041331095e-05
+      },
+      {
+        "step": 1400,
+        "total_loss": 0.0027438054432668583,
+        "pde_loss": 0.0021329288287499576,
+        "initial_loss": 6.108766145169006e-05
+      },
+      {
+        "step": 1500,
+        "total_loss": 0.002548556173934641,
+        "pde_loss": 0.002104143742323132,
+        "initial_loss": 4.444124316115089e-05
+      },
+      {
+        "step": 1600,
+        "total_loss": 0.0024172202306874118,
+        "pde_loss": 0.0020280712178644177,
+        "initial_loss": 3.891490128229941e-05
+      },
+      {
+        "step": 1700,
+        "total_loss": 0.002376781344035002,
+        "pde_loss": 0.0019380942249821805,
+        "initial_loss": 4.3868711905282155e-05
+      },
+      {
+        "step": 1799,
+        "total_loss": 0.002261996360907182,
+        "pde_loss": 0.001923795107233724,
+        "initial_loss": 3.3820125367345795e-05
+      }
+    ],
+    "training_data": "IC point samples and PDE residual only; no native/transient field targets"
+  },
+  "model_metrics": {
+    "heldout_field_rmse_mg_l": 0.003368866178858956,
+    "heldout_field_max_mg_l": 0.013569106530606057,
+    "heldout_residual_rms_mg_l_h": 0.043858047043096114,
+    "outlet_max_mg_l": 0.018011714399913892,
+    "inventory_relative_error": 0.010042200289561723,
+    "minimum_prediction_mg_l": 0.00017309089029402252,
+    "checkpoint_max_abs_mg_l": 0.0
+  },
+  "checkpoint_sha256": "af2cd376379206281bb5582b3ce823c804857d676aedd3f17abb3f80fea60a98",
+  "model_class": "physicsnemo.models.mlp.fully_connected.FullyConnected"
+}

@@ -1,0 +1,25 @@
+********* Start testing of StorageScienceTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : StorageScienceTests::initTestCase()
+PASS   : StorageScienceTests::realDesktopWorkerParity(mixed)
+PASS   : StorageScienceTests::realDesktopWorkerParity(overflowing-baseline)
+PASS   : StorageScienceTests::realDesktopWorkerParity(bad-downstream)
+PASS   : StorageScienceTests::realDesktopWorkerParity(shortened-final-step)
+PASS   : StorageScienceTests::realDesktopWorkerParity(decimated-indices)
+FAIL!  : StorageScienceTests::realDesktopWorkerParity(one-ulp-endpoint) 'failed.isEmpty()' returned FALSE. (The scientific worker returned inconsistent storage evidence.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_science_tests.cpp(72) : failure location
+FAIL!  : StorageScienceTests::realDesktopWorkerParity(rounded-third-tail) 'failed.isEmpty()' returned FALSE. (The scientific worker returned inconsistent storage evidence.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_science_tests.cpp(72) : failure location
+FAIL!  : StorageScienceTests::realDesktopWorkerParity(one-ulp-tail) 'failed.isEmpty()' returned FALSE. (The scientific worker returned inconsistent storage evidence.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_science_tests.cpp(72) : failure location
+FAIL!  : StorageScienceTests::realDesktopWorkerParity(rounded-endpoint-once) 'science.busy()' returned FALSE. ()
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_science_tests.cpp(69) : failure location
+PASS   : StorageScienceTests::realDesktopWorkerParity(partial-step)
+FAIL!  : StorageScienceTests::realDesktopWorkerParity(smallest-positive) 'science.busy()' returned FALSE. ()
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_science_tests.cpp(69) : failure location
+FAIL!  : StorageScienceTests::realDesktopWorkerParity(rounded-budget) 'science.busy()' returned FALSE. ()
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_science_tests.cpp(69) : failure location
+PASS   : StorageScienceTests::realDesktopWorkerParity(exact-budget)
+PASS   : StorageScienceTests::cleanupTestCase()
+Totals: 9 passed, 6 failed, 0 skipped, 0 blacklisted, 57840ms
+********* Finished testing of StorageScienceTests *********

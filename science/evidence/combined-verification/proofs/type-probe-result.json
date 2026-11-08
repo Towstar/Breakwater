@@ -1,0 +1,6 @@
+{
+  "expected_rejection": true,
+  "lean_exit": 1,
+  "diagnostic": "../out/verification/RejectNonProposition.lean:4:0: error: Audited algorithm does not have a proposition type: _private._stdin.0.VerificationNonPropositionProbe\r\n",
+  "prior_harness_issue": "Initial matcher omitted Lean module-private name prefix."
+}

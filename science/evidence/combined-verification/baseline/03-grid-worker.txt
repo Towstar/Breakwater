@@ -1,0 +1,86 @@
+********* Start testing of StorageWorkerTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+FAIL!  : StorageWorkerTests::controlledPeerKeepsOriginalGrid() Function not found: controlledPeerKeepsOriginalGrid
+PASS   : StorageWorkerTests::initTestCase()
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-third-tail-preview-2) 'protocol::storage(result, input)' returned FALSE. (The exact original horizon and fixed final index must validate.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(103) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-third-tail-preview-256) 'protocol::storage(result, input)' returned FALSE. (The exact original horizon and fixed final index must validate.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(103) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(one-ulp-tail-preview-2) 'protocol::storage(result, input)' returned FALSE. (The exact original horizon and fixed final index must validate.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(103) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(one-ulp-tail-preview-256) 'protocol::storage(result, input)' returned FALSE. (The exact original horizon and fixed final index must validate.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(103) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-endpoint-once-preview-2) 'protocol::forwardPayload(input)' returned FALSE. (An independently specified supported grid must be admitted.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(91) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-endpoint-once-preview-256) 'protocol::forwardPayload(input)' returned FALSE. (An independently specified supported grid must be admitted.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(91) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(partial-step-preview-2) '!protocol::storage(corrupt, input)' returned FALSE. ()
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(110) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(partial-step-preview-256) '!protocol::storage(corrupt, input)' returned FALSE. ()
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(110) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(smallest-positive-preview-2) 'protocol::forwardPayload(input)' returned FALSE. (An independently specified supported grid must be admitted.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(91) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(smallest-positive-preview-256) 'protocol::forwardPayload(input)' returned FALSE. (An independently specified supported grid must be admitted.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(91) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-budget-preview-2) 'protocol::forwardPayload(input)' returned FALSE. (An independently specified supported grid must be admitted.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(91) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(rounded-budget-preview-256) 'protocol::forwardPayload(input)' returned FALSE. (An independently specified supported grid must be admitted.)
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(91) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(exact-budget-preview-2) '!protocol::storage(corrupt, input)' returned FALSE. ()
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(110) : failure location
+FAIL!  : StorageWorkerTests::exactGridAdmissionAndResponseValidation(exact-budget-preview-256) '!protocol::storage(corrupt, input)' returned FALSE. ()
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(110) : failure location
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(canonical)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(renamed-custom)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(shortened-final-step)
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(inherited-one-ULP-endpoint) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(rounded-third-tail-preview-2) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(rounded-third-tail-preview-256) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(one-ulp-tail-preview-2) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(one-ulp-tail-preview-256) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(rounded-endpoint-once-preview-2) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(rounded-endpoint-once-preview-256) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(partial-step-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(partial-step-preview-256)
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(smallest-positive-preview-2) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(smallest-positive-preview-256) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(rounded-budget-preview-2) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+FAIL!  : StorageWorkerTests::actualWorkerMatchesNative(rounded-budget-preview-256) Compared values are not the same
+   Actual   (failed.size()): 1
+   Expected (0)            : 0
+C:\Projects\Breakwater\.worktrees\combined-verification\desktop\tests\storage_worker_tests.cpp(253) : failure location
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(exact-budget-preview-2)
+PASS   : StorageWorkerTests::actualWorkerMatchesNative(exact-budget-preview-256)
+PASS   : StorageWorkerTests::cleanupTestCase()
+Totals: 9 passed, 26 failed, 0 skipped, 0 blacklisted, 86932ms
+********* Finished testing of StorageWorkerTests *********
