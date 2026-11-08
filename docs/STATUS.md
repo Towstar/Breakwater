@@ -1,13 +1,16 @@
 # Implementation status
 
-## Current demo release candidate — November 8, 2026
+## Current merged demo build — November 8, 2026
 
-- Main `7418a2d` includes the branded desktop/industrial 3D workbench (PR #44)
-  and the input-preservation guard (PR #45). The recorded EOG console remains
+- Main `3116b3d8349beab729f8a1413cbbd9ff160e67ac` merges PR #55 after
+  PR #48 merged at `c5c12e82f7c4bf8da267394139263845f606acf4`. It includes
+  the branded desktop/industrial 3D workbench and input-preservation guard.
+  The recorded EOG console remains
   separate from the editable synthetic workbench; neither dispatches equipment.
-- PR #48 includes Ethan's exact search ancestry `65d8c4a` without changing his
-  numerical source. The final UI candidate is `28d873c`, with model runtime
-  `a23fb70`: installed joint-search
+- Merged PR #48 preserves Ethan's exact search ancestry `65d8c4a` without
+  changing his numerical source. The installed selector UI is `4f8e9ce`; its
+  application SHA256 is `02dc65934cc505a2923490ed316d44240205958f7dc07e7834807256e5f19c3e`.
+  The hosted model runtime remains `a23fb70`: installed joint-search
   packaging, bounded model summaries with complete local evidence, one bounded
   JSON-only final correction, trusted failure stages, and a four-minute overall
   investigation limit with a 60-second per-request default.
@@ -35,9 +38,16 @@
   sidebar repeat-click paths, exclusive navigation and the three popup X buttons.
   Exact compiled-object and installed-window evidence is retained in the
   [source-qualified search/UI record](EOG_SEARCH_INTEGRATION.md).
-- All six hosted jobs passed at preceding source `05f906f` in
+- All six jobs passed for PR #48 in
+  [run 42502837298](https://github.com/Towstar/Breakwater/actions/runs/42502837298).
+  Its original normal run retained a 63/64 timing failure; the unchanged retry
+  passed 64/64 in 449.90 s. The failure is not rewritten as a clean first run.
+- PR #55's [run 42505146391](https://github.com/Towstar/Breakwater/actions/runs/42505146391)
+  passed all six jobs: desktop normal 64/64 (542.51 s), ASan 64/64 (885.54 s).
+  Its selector-only source and installed normal/compact checks are recorded in
+  [EOG_SELECTOR_POLISH.md](EOG_SELECTOR_POLISH.md). These checks do not add a hosted rehearsal.
+  Earlier six-job source `05f906f` remains dated evidence in
   [run 42497354023](https://github.com/Towstar/Breakwater/actions/runs/42497354023).
-  Final-head CI and merge status are tracked in [PR #48](https://github.com/Towstar/Breakwater/pull/48).
 - **One new complete hosted joint-search rehearsal passed** at runtime `a23fb70`:
   11 actual HTTP exchanges, model-issued search with matching tool continuation,
   exact separate independent validation, grounded final references and current
@@ -62,9 +72,43 @@
   aggregate capacities; this candidate does not claim that later fix.
 - Software freeze is **11:30 a.m. Central**; recording and final Devpost completion
   are due before **noon**. Use [the demo runbook](DEMO_RUNBOOK.md) and
-  [the Devpost draft](DEVPOST_DRAFT.md). Public video and final submission remain
-  outstanding. Four optional PhysicsNeMo skips and physical/held-out/global
+  [the Devpost draft](DEVPOST_DRAFT.md). Registration was already submitted;
+  six gallery PNGs and captions are saved. The [demo video](https://youtu.be/Yc2tMHaC2Ck)
+  is saved and its Devpost embed was verified. YouTube visibility is currently
+  Unlisted; the user handles Public visibility and review. This agent has not
+  changed YouTube visibility or performed a final Submit action.
+  Four optional PhysicsNeMo skips and physical/held-out/global
   optimality limitations remain explicit.
+
+### Remaining Person B work after the demo
+
+The demo does not close the full [continuation roadmap](CONTINUATION_PLAN.md).
+G0/G1 and B's G2 editor/ingestion/replay are delivered. Preserve these dependencies:
+
+- **G3:** integrate A's seeded publisher, observation operators/residuals and
+  coverage rules into incident lifecycle, coherent immutable observed captures,
+  background native forecasts, bounded investigations and freshness-aware
+  simulated review. Generic telemetry still reports observation-to-forecast
+  mapping and forecast integration as unimplemented; the EOG recorded-CSV path
+  does not replace this. Replay does not reconstruct original receipt jitter.
+- **G4:** retain completed installed/relocated and native Qt checks, then close
+  clean-Windows setup and comprehensive manual save/open/export/in-flight-cancel
+  acceptance. Repeat canonical/custom approval/reset workflows for the telemetry
+  extension after G3. Older reviewed workbench rehearsals remain valid dated evidence.
+- **E1:** manual immutable-candidate selection and general forward Science remain
+  separate work. Agent stored-run sensitivities and scientific History are delivered.
+- **E2:** automatically retain bounded native pipe results in SQLite History with
+  detached reopening and visible storage failures. Existing manual JSON
+  export/import remains delivered and must stay readable.
+- Keep **D1/R1/M1** advisory detector contracts, scenario-comparison UI and
+  conditioned learned-quality interfaces gated on A's numerical/domain evidence.
+  New A-owned stateful/inspection/search changes require their own integration,
+  shared-contract review where applicable and fresh qualification.
+
+One joint-search pass is not three new search rehearsals or a reliability study.
+Hosted stopped-empty JSON recovery was not exercised by that passing run.
+Physical/onset/held-out qualification, optional PhysicsNeMo availability and
+manual OS/accessibility acceptance remain explicit limits.
 
 ## Historical branded desktop and hosted checkpoint — November 8, 2026
 

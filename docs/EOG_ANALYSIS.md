@@ -1,7 +1,9 @@
 # EOG analysis, advisory review and history
 
 Current delivery evidence is recorded in [STATUS](STATUS.md), the
-[native UI handoff](UI_OVERHAUL.md) and [hosted rehearsal packet](evidence/eog-live/README.md).
+[native UI handoff](UI_OVERHAUL.md) and [joint-search rehearsal packet](evidence/eog-search-integration/live/README.md).
+The earlier [worker-0.2.1 rehearsals](evidence/eog-live/README.md) remain dated
+search-unavailable evidence.
 The final dated verification paragraphs below preserve earlier checkpoints;
 their pending statements are superseded by those current records.
 
@@ -11,8 +13,9 @@ analysis, model explanation and operator review remain distinct evidence.
 
 ## Local provider configuration
 
-PR #40 and PR #41 supply the real version-1 provider for detection, candidate
-evaluation and separately computed independent validation.
+PR #40/#41 supply detection, candidate evaluation and separately computed
+independent validation. Merged PR #48 also packages A's bounded joint search;
+its supported operations retain the accepted version-1 public contract.
 Use the existing pinned Python environment, with its frozen schema dependencies:
 
 ```powershell
@@ -43,7 +46,10 @@ directory. Explicit local configuration takes precedence. Existence means config
 not executed or numerically qualified. A successful bound process exchange
 establishes execution only. Missing methods/evidence remain explicitly unavailable.
 
-Joint search remains unavailable. The independent validator reconstructs candidate
+Joint search is available for the whole captured network through `search_plans`.
+Use an empty `system_ids` list or every captured system; proper-subset search
+remains explicitly unavailable in this provider. Search reports its finite family,
+budget, completeness and unavailable candidates. The independent validator reconstructs candidate
 costs and constraints from causal observations without loading the native DLL or
 consuming its results. Parsing and fixed-rate/point-onset assumptions remain shared;
 this is implementation independence, not a real-number proof or physical validation.
@@ -63,7 +69,7 @@ cmake --build out/provider-normal --parallel 1
 cmake --install out/provider-normal --prefix C:/path/to/new/breakwater-install
 ```
 
-The install contains the production worker's eight modules, five adopted contract
+The install contains the production worker's nine modules (including `eog_search.py`), five adopted contract
 files, native library and verification runner. Supply the pinned external Python environment when
 launching; Python/Torch are not silently bundled. The offline inspection and
 qualification CLIs are excluded. A checked MSVC build stages and installs the ASan
@@ -72,6 +78,14 @@ Installed-prefix startup and actual process execution remain acceptance checks,
 not consequences inferred from a successful install command.
 
 ## Rehearsal runner
+
+[Attempt 10](evidence/eog-search-integration/live/README.md) completed an installed
+hosted joint search, matching continuation, exact separate independent validation,
+grounded final and archive export in 221.98 s at runtime `a23fb70`. It is one new
+search pass, not three; it used no JSON-format correction. The recorded practice
+cutoff was October 8, noon UTC. Its `best_found` search was incomplete, with 26
+numerically unavailable candidates. Earlier canonical/renamed worker-0.2.1 runs
+had no working search and are not relabeled as this newer runtime's qualification.
 
 `breakwater_eog_live_check` uses the same production desktop controller, worker,
 Nemotron transport and durable history. It never applies controls. Without
@@ -89,7 +103,8 @@ The archive must be new and outside the dataset; use a different archive name fo
 each session. Optional `--cutoff` selects an exact historical Unix timestamp.
 Optional `--objective` supplies operator intent without prescribing tool order.
 The fixed production limits still apply, including the 12-tool/three-refinement
-budget. The runner's outer deadline includes startup and evidence export.
+budget, a 240-second overall investigation limit and a 60-second default per
+HTTP request. The runner's outer deadline includes startup and evidence export.
 
 Exit 0 requires actual hosted model identity, model-issued/executed tools, a
 grounded final plan with successful independent exact-plan validation, current
@@ -119,7 +134,7 @@ preservation, references, source changes, bounds and failed/raced publication.
 ## Operator flow
 
 1. Open the three-file dataset in the EOG console and choose the analysis cutoff.
-2. Open **Investigate & history**. Run **Detect events**, **Search plans**, an
+2. Open **Investigate / history**. Run **Detect events**, **Search plans**, an
    explicit proposal, or **Ask Nemotron**. Loading, navigating and charting make
    no hosted or numerical request.
 3. Inspect original evidence, onset bounds, coverage, assumptions and limitations.
