@@ -79,7 +79,7 @@ agreed contracts and process adapter expose these standalone modules.
 These are **algorithm correctness proofs over exact real arithmetic**, for arbitrary
 valid finite graphs with fixed topology, external rates and route flows during the
 forecast. Lean/Mathlib versions and dependencies are pinned. The default build audits
-the transitive assumptions of 15 advertised theorems; the verifier also checks that
+the transitive assumptions of 21 advertised theorems; the verifier also checks that
 an intentionally unapproved assumption is rejected. Details, theorem names, C++
 mapping and executed evidence are in [proofs/README.md](../proofs/README.md).
 
@@ -89,8 +89,9 @@ mapping and executed evidence are in [proofs/README.md](../proofs/README.md).
 | Internal edge contributions sum to zero | Internal transfers preserve total stored volume; external terms account for net change |
 | Repeated constant-rate updates equal the affine trajectory, including a shortened last sample interval | Computing exact-real states directly instead of accumulating Euler steps |
 | Storage bounds at both endpoints imply storage bounds throughout the constant-rate interval | Screening storage over the entire forecast using endpoint bounds |
+| Full route recomputation equals the prepared control-column fold, including direct control-cost terms | Reusing captured baseline outputs and selected-control influence columns across candidates |
 
-The last result supplies a sufficient test for **storage bounds under these
+The endpoint-bound result supplies a sufficient test for **storage bounds under these
 assumptions**. It is not a proof that a candidate satisfies every application
 constraint: native validation separately checks controls, pump availability, route
 and shared-destination capacities, conservation, costs and run provenance. The proofs
@@ -112,8 +113,23 @@ sampled dense/sparse times were 1,110.62/143.15 ms. Affine screening took 2.63 m
 but omits sampled trajectories and has a different timing scope. These measurements
 are machine/workload-specific; see the benchmark report before comparing ratios.
 
-A possible future optimization is to precompute how selected controls change tank
-rates, destination totals and synthetic cost for a captured network, then evaluate
-candidates through those smaller affine maps. It would need its own equivalence
-proof, checked applicability conditions, native-reference validation and profiling.
-It is not implemented by A6.
+[A7 control influence](../engine/CONTROL_INFLUENCE.md), merged in PR #11, precomputes
+how selected controls change tank rates, destination totals and synthetic cost for
+one captured network. A checked equivalence proof relates its prepared-column fold
+to full route recomputation for arbitrary finite dimensions. The public APIs select
+it at 32 or more routes and 2,048 or more candidates; smaller workloads retain route
+walk. The map is rebuilt for each request, so changed topology, costs or availability
+cannot reuse an old map.
+
+Potential survivors recompute cost in the original operation order before ranking;
+near-boundary or unusable/nonfinite preparation uses the existing screen. Independent
+native validation remains required. Neither these floating-point guards nor cost
+ranking are formally proved by the exact-real equivalence theorem.
+
+The recorded A7 custom 24-tank/66-route measurements at 10,000 candidates were
+3.36940/1.54706 ms for paired route-walk/influence screens (**2.178x**), and
+7.84100/7.16745 ms for old/public full search (**1.094x**). Those paired screens use
+matching numeric-output consumption; their scope differs from the older A5 affine
+phase above. These committed component results were not rerun as integration timings.
+Small-workload totals did not show a reliable gain, and no universal speedup or
+zero-overhead guarantee is claimed. See [benchmark evidence](../engine/BENCHMARKS.md#a7-precomputed-control-influence).
