@@ -45,13 +45,22 @@ snapshot validation requires the registered network/configuration/hash context.
 - Numerical guidance: **recorded**, Person A commit `9941859`.
 - Exact G1 schema/DTO/validator implementation: reviewed and tested evidence belongs
   to the published G1 PR and its current head; see that PR for current check results.
-- Person A acceptance of the exact G1 contract: **pending** until explicitly recorded
-  in its PR conversation/review with the accepted commit or tree identity.
-- Shared A/B adoption baseline: **pending** until both use that same accepted commit.
+- Person A acceptance: **recorded at Ethan's request** for exact commit
+  `f12a82701641f1b4fd3af9ebba579b79f1db3db4`, tree
+  `8bea204cd22b55539304e2a7e306613787ebf8a3`, in
+  [the acceptance and fresh-check record](https://github.com/Towstar/Breakwater/pull/31#issuecomment-6719191863).
+  That session checked calibration, physical support, commands/measurements,
+  uncertainty and coverage; its fresh normal checks passed 3/3 targets and 164 Qt cases.
+- Formal GitHub approval: **recorded by Tow57** on November 8, 2026; PR #31 is
+  merged at `2bd7bb9e13f1f6788a57c4c49e6d7570293ad0eb`. The merged tree equals the
+  reviewed G1 tree. B adopts that baseline for the separate G2 workstream.
+- A's numerical publisher/mapper remains a separate implementation. Any dependent
+  publisher must use the accepted contracts. The separate source-feed extension
+  reserves project version 3; it does not change this telemetry-v2 envelope.
 
-Independent agent review is implementation review, not Person A signoff. Neither
-passing CI nor a merged earlier handoff substitutes for that signoff. Do not start
-dependent G2 mapping/publisher/editor/ingestion work while adoption remains pending.
+Independent agent review is implementation review, not a substitute for the
+recorded acceptance above. G2's B-owned editor/input/replay may now proceed on the
+accepted baseline. No numerical publisher, mapper or detector is certified by G1.
 
 ## Delivery boundary
 
