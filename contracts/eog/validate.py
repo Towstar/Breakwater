@@ -396,6 +396,10 @@ def validate_document(document, kind=None, context=None):
         require(selected is None or any(item["plan"]["plan_id"] == selected and item["feasible"]
                                        for item in evaluations), "unknown_plan",
                 "Selected plan must reference a retained feasible candidate.")
+        if selected is not None:
+            chosen = next(item for item in evaluations if item["plan"]["plan_id"] == selected)
+            require(chosen["cost"]["total"] == min(item["cost"]["total"] for item in evaluations if item["feasible"]),
+                    "nonminimal_selection", "Selected plan must have minimum declared cost among retained feasible candidates.")
         if request:
             require(search["candidate_limit"] == request["arguments"]["candidate_limit"] and
                     search["time_limit_s"] == request["arguments"]["time_limit_s"],
@@ -445,7 +449,7 @@ def verify_capture(directory, manifest):
         else:
             decode_document(raw)
     try:
-        rows = csv.reader(io.StringIO(telemetry.decode("utf-8", "strict"), newline=""), strict=True)
+        rows = csv.reader(io.StringIO(telemetry.decode("utf-8-sig", "strict"), newline=""), strict=True)
         require(next(rows, None) == ["timestamp", "ts_unix", "asset_id", "metric", "value"],
                 "invalid_csv", "Unexpected telemetry header.")
         count, first, previous, latest = 0, None, None, {}
@@ -469,6 +473,8 @@ def verify_capture(directory, manifest):
             require(count <= MAX_ROWS, "limit_exceeded", "CSV exceeds row budget.")
         require(count > 0 and first == manifest["source_first_unix"], "invalid_time",
                 "Captured CSV must retain the original first timestamp.")
+        require(manifest["cutoff_unix"] != manifest["source_now_unix"] or previous == manifest["source_now_unix"],
+                "invalid_time", "Untruncated CSV must retain the original final timestamp.")
         return {"rows": count, "first_unix": first, "last_unix": previous,
                 "capture_id": manifest["capture_id"]}
     except ContractError:

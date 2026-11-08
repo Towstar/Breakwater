@@ -314,6 +314,20 @@ class ContractTests(unittest.TestCase):
         value["result"]["search"]["evaluated_candidates"] = 10001
         self.reject(value)
 
+    def test_search_selects_lowest_retained_feasible_cost_and_allows_ties(self):
+        value = read("examples/search-plans-response.json")
+        cheaper = copy.deepcopy(value["result"]["evaluations"][0])
+        cheaper["plan"]["plan_id"] = "cheaper"
+        rehash_plan(cheaper["plan"])
+        cheaper["cost"] = {"truck_cost": 50, "lost_revenue": 0, "total": 50}
+        value["result"]["evaluations"].append(cheaper)
+        value["result"]["search"]["evaluated_candidates"] = 2
+        self.reject(value, code="nonminimal_selection")
+        value["result"]["selected_plan_id"] = "cheaper"
+        v.validate_document(value)
+        cheaper["cost"] = {"truck_cost": 100, "lost_revenue": 0, "total": 100}
+        v.validate_document(value)
+
     def test_json_parser_errors_and_limits(self):
         bad = [b'{"a":1,"a":2}', b'{"a":1,"\\u0061":2}', b'{"v":NaN}',
                b'{"v":Infinity}', b'{"v":1e9999}', b'{"v":"\xff"}',
@@ -389,6 +403,29 @@ class ContractTests(unittest.TestCase):
             with self.assertRaises(v.ContractError) as error:
                 v.verify_capture(folder, manifest)
             self.assertEqual(error.exception.code, "future_evidence")
+
+    def test_full_capture_requires_its_declared_final_timestamp(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            manifest = self.capture(folder, timestamps=(1000000000,))
+            manifest["source_now_unix"] += 300
+            manifest["cutoff_unix"] += 300
+            rehash_manifest(manifest)
+            with self.assertRaises(v.ContractError) as error:
+                v.verify_capture(folder, manifest)
+            self.assertEqual(error.exception.code, "invalid_time")
+
+    def test_capture_preserves_utf8_bom_hash_and_reader_compatibility(self):
+        with tempfile.TemporaryDirectory() as tmp:
+            folder = Path(tmp)
+            manifest = self.capture(folder)
+            raw = b"\xef\xbb\xbf" + (folder / "telemetry.csv").read_bytes()
+            (folder / "telemetry.csv").write_bytes(raw)
+            digest = hashlib.sha256(raw).hexdigest()
+            manifest["captured_files"]["telemetry.csv"] = {"size_bytes": len(raw), "sha256": digest}
+            manifest["source_hashes"]["telemetry.csv"] = digest
+            rehash_manifest(manifest)
+            self.assertEqual(v.verify_capture(folder, manifest)["rows"], 2)
 
     def test_actual_capture_malformed_duplicate_and_bad_clock(self):
         for suffix in ("duplicate", "timestamp", "nonfinite"):
