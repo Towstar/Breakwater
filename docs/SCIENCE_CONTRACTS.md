@@ -7,8 +7,9 @@ volume simulations and approval rules remain readable and authoritative.
 The repo worker implements **health, capabilities and storage_rollout** through A8's
 adopted project/wire mapping. Standalone private fixtures remain distinct from that
 format. B5 deploys the mapper/package and adds asynchronous capability negotiation
-and forward storage comparison against an immutable native forecast. Legacy health
-remains available. Selected-control derivatives are not yet exposed by the desktop.
+and storage comparison against an immutable native forecast. B5c exposes explicit
+selected-interior-control derivatives at unchanged captured values. Legacy health
+remains available; candidate/history science and automatic retention remain separate.
 Installing packages does not establish execution verification; the desktop requires
 the same process's post-execution capabilities and clean exit. See
 [DESKTOP_SCIENCE.md](DESKTOP_SCIENCE.md) for setup and the desktop boundary, and

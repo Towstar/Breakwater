@@ -55,6 +55,13 @@ PR #17 audit and fixes. Its P1 shortened-horizon counterexample was outside this
 original B conclusion. B's former one-ULP compatibility behavior is superseded by
 the corrected exact-endpoint grid, with explicit desktop/deployment regression checks.
 
+Later current-main review identified B-06/P1 in `NemotronClient::fromEnvironment`:
+an endpoint-only project `.env` could combine with a process/saved-user credential
+and redirect authenticated requests. The source-bound endpoint fix and nine synthetic
+destination/header regressions are included in B5c; both builds' 46 client tests pass.
+Explicit process URL overrides and same-file custom endpoint/key pairs remain supported.
+This finding belongs to incoming `dc348d8`, not the original frozen audit baseline.
+
 B5 closure: STATUS records 24/24 normal/full-desktop ASan suites, 32 real Python tests,
 290 worker/native requests, actual installed execution with original science sources
 unavailable, and explicit missing-runtime/module cases. B-01/B-04/B-05 fixes passed

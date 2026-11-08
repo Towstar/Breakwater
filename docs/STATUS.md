@@ -1,5 +1,67 @@
 # Implementation status
 
+## B5c selected-control sensitivities and current-main reconciliation — November 7, 2026
+
+- Integrated main `6966707`, including PR #17, PR #20's A9 qualification and
+  `dc348d8` native key settings. Preserved complete ancestry and resolved the
+  main/QML/status conflicts by retaining Science and credential settings together.
+  The preceding audit compatibility increment is delivered separately in PR #21.
+- Science now lists captured control values, units, bounds and eligibility reasons.
+  Users explicitly select strictly interior controls; the worker receives only those
+  IDs in native catalog order, at unchanged captured values. Fixed/boundary controls
+  and source feed-capacity boundaries cannot be selected. No values are perturbed,
+  implicitly selected or silently dropped; omitted controls remain captured constants.
+- Typed admission/publication checks enforce the requested derivative object, exact
+  ordered IDs, finite tank-by-control Jacobian/cost-gradient dimensions and no artifacts.
+  Controller checks independently bind mode, selected values, capture/config and job
+  generation. Selection changes retire sensitivities; independent forward results
+  survive. New capture/numerical edits/reset clear selection; layout/camera/quality
+  changes preserve matching evidence. No native control or approval action is invoked.
+- Evidence adds mode, selected controls/units, native solver version and the complete
+  derivative matrix. The UI displays one tank's rows using bounded lists, Jacobians in
+  hours and cost gradients in synthetic units per (m3/h). Forward agreement covers
+  returned trajectories/cost, not a runtime derivative or feasibility certification.
+- Review found and fixed **B-06/P1** in the incoming configuration loader: a project
+  endpoint-only `.env` could redirect a process/saved-user key. Endpoint now follows
+  the chosen credential source, with explicit process URL overrides preserved. Nine
+  synthetic regressions check actual mocked request destinations and bearer headers;
+  no actual key or credential file was inspected by the source reviewers.
+- Direct-root VS2022 and full desktop MSVC ASan builds passed. **25/25 CTest suites
+  passed in each** (264.98 s / 328.82 s). Both builds: scientific worker **80 passed**,
+  controller **35 passed**, Nemotron client **46 passed**, all zero failed/skipped.
+  Coverage includes native central differences at three scales, opaque/Unicode IDs,
+  subsets/order, signed/zero derivatives, malformed results, stale jobs, cancellation
+  and synchronous observer deletion. Normal build: four Qt-header warnings, zero errors.
+- Fresh Python discovery: **127 run, 123 passed, four optional PhysicsNeMo tests
+  skipped** (56.602 s). A9's refined matrix passed **45 cases/580 gates** with both
+  normal and ASan native exporters. The original coarse study retained its one failed
+  convergence gate and remains unqualified; local peak/threshold accuracy is not
+  established. The first ASan exporter launch outside the developer shell failed with
+  loader exit `0xC0000135`; the correctly initialized developer-shell run passed and
+  both attempt reports remain retained. No Lean/neural-training/performance run is claimed.
+- Actual 1440x900/1100x700 GUI checks showed captured curtailment 10/bypass 20,
+  Tank A [-3,-3] h, Tank B [0,+3] h and cost gradients [750,0], eligibility reasons,
+  scroll access and selection order. Layout preservation, sensitivity invalidation,
+  forward preservation and numerical/new-capture/reset clearing passed. Both private
+  QA apps closed cleanly; stderr logs were empty. GUI in-flight cancel still raced
+  completion; its automated checks passed. Earlier native save/reopen dialog gaps remain.
+- Relocated installed execution with science sources temporarily unavailable passed
+  seven real worker requests, exact-tail/overflow checks, selected derivatives and
+  deployed module origins. Missing grid helper still produces explicit unavailable
+  storage with valid legacy health. The installed desktop completed actual native/
+  Torch comparison plus selected derivatives, health and rendering. Source was restored
+  unchanged. Five invalid CLI selections returned exit 6 and saved no screenshot.
+- The replacement User-scope API key passed the rebuilt client's genuine hosted
+  tool-call/execution/result-continuation smoke against the configured Lightning model.
+  Only fixed sanitized outcome metadata was retained; no key/raw response was logged.
+- Root solution: **73 projects/204 dependency references**, all valid, including A9's
+  new exporter. Evidence: `out/b5c-*-tests.log`, per-suite `*-results.txt`,
+  `out/b5c-python-tests.log`, `out/b5c-qualification-*/report.json`,
+  `out/b5c-installed-science.json`, `out/b5c-source-hidden.log`, retained GUI reports
+  and `out/b5c-live-key-verification.json`. Independent scoped same-family reviews
+  covered protocol/controller/credential/A9 callers; remaining manual/release gates
+  are explicit. Next: bounded scientific retention/restoration and clean rehearsals.
+
 ## Person A audit-fix integration before B5c — November 7, 2026
 
 - Checked GitHub and merged PR #17 head `367dcf1` into B5b `9f8f550`, preserving both

@@ -4,10 +4,11 @@ Updated November 7, 2026. This is your active audit-first work plan. Coordinate 
 [Person A's plan](KICKOFF_PERSON_A.md). The steps below are planned work, not a claim
 that the comprehensive audit or next features have already been completed.
 
-Current workstream update: B5a/B5b runtime deployment and forward desktop comparison
-are implemented. Person A's audit/fixes through PR #17 (`367dcf1`) are integrated;
+Current workstream update: B5a/B5b deployment/forward comparison and B5c selected
+captured-control sensitivities are implemented. Person A's PR #17 audit fixes,
+PR #20 transport qualification and current main's native key settings are integrated;
 see [AUDIT_REPORT.md](AUDIT_REPORT.md) and the latest [STATUS.md](STATUS.md) evidence
-before starting B5c. The original audit and staged roadmap below remain intact.
+before the retention/release steps. The original audit and staged roadmap remain intact.
 Manual release-workflow gaps and scientific retention remain open.
 
 ## Role, baseline and ownership

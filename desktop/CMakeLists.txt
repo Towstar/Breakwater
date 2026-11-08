@@ -83,7 +83,7 @@ if(BUILD_TESTING)
           list(APPEND _science_args --compact-ui --science-example bad)
         elseif(_science_size STREQUAL "derivatives")
           list(APPEND _science_args --science-derivatives
-            --science-control source:source_a:curtail --science-control route:truck_route:flow)
+            --science-control source:source_a:curtail --science-control route:bypass:flow)
         endif()
         add_test(NAME desktop.storage_science_${_science_size} COMMAND breakwater ${_science_args})
         set_tests_properties(desktop.storage_science_${_science_size} PROPERTIES TIMEOUT 120

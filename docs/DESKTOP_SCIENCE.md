@@ -1,11 +1,12 @@
-# B5: desktop CPU storage comparison
+# B5: desktop CPU storage comparison and sensitivities
 
 The Science tab executes the actual Python worker's CPU float64 PyTorch storage
 rollout for a retained native forecast. It compares returned samples at their original
 native indices, reports differences and preserves finite negative/over-capacity values.
-Native C++ remains the feasibility/approval authority. This is forward-only analysis;
-selected derivatives, candidate/history science and automatic science retention are
-separate increments. The native pipe viewer remains independent of Python.
+Native C++ remains the feasibility/approval authority. B5c adds explicitly selected
+continuous-control derivatives at unchanged captured values. Candidate/history science
+and automatic science retention remain separate. The native pipe viewer is independent
+of Python.
 
 ## Local setup and launch
 
@@ -49,11 +50,33 @@ this machine's PowerShell 5 execution policy blocked its launch probe and was pr
 5. **Cancel** retires the job. Numerical edits, reset, deletion or a new native forecast
    retire prior science. Camera, selection, layout and independent pipe-parameter edits
    preserve a still-matching captured forecast. Selecting/charting tanks changes no controls.
+6. Scroll to **Selected-control sensitivities** and select the captured controls to
+   differentiate. Fixed/unavailable controls, values on a bound and source flows on
+   their feed-capacity boundary are disabled with a reason. No controls are preselected.
+7. Choose **Run selected sensitivities**. Inspect the selected tank's terminal-volume
+   Jacobian in **hours** and cost gradient in **synthetic units per (m3/h)**. Select
+   another tank to view its rows. Columns follow the displayed native catalog order.
+
+Only the selected controls are sent as overrides, at exactly their captured values;
+omitted controls remain captured constants. Changing a value requires editing the
+native network and running a fresh forecast. The UI never perturbs a boundary input,
+changes operating controls, or silently drops a requested derivative. For example,
+over a three-hour horizon a one-unit increase in an interior transfer from tank A
+to B has terminal-volume derivatives -3 h / +3 h with other controls fixed.
+
+Changing the selection retires pending/completed sensitivity evidence; an independent
+forward result remains viewable. A new capture clears selection. The complete validated
+matrix is retained, while the bounded list displays one tank's rows. Oversized results
+fail explicitly rather than truncating columns. Sensitivities do not differentiate
+through rejection, discrete search or operator approval.
 
 Agreement uses `1e-9 + 1e-10 * max(abs(native), abs(worker))`, separately in m3 and
 synthetic cost units. Scaled error at or below one is within that tolerance. The metric
-covers returned preview samples, not undisplayed worker samples or every feasibility
-constraint. Agreement is advisory and never stages/applies controls or grants approval.
+covers returned preview samples and cost, not undisplayed samples, derivatives or every
+feasibility constraint. Derivative checks enforce finite shapes, exact IDs/order and
+captured provenance; numerical derivative/native finite differences are regression
+checks, not a runtime feasibility verdict. Agreement is advisory and never stages/applies
+controls or grants approval.
 
 ## Process and identity boundary
 
@@ -63,6 +86,10 @@ finite dimensions and provenance are checked. A successful post-execution capabi
 flag belongs to that completed process; a fresh process starts unverified. Results are
 published only after stdin closes and the process exits successfully. Unexpected output,
 crashes, cancellation, deadlines or stale generations cannot publish late.
+
+Sensitivity evidence also binds analysis mode, selected IDs/values and job generation.
+Results include `analysis_mode`, `selected_controls`, `native_solver_version`, and
+the requested `derivatives` object. Forward results reject unrequested derivatives.
 
 Limits are 1 MiB per UTF-8 frame including newline, three MiB total for the storage
 exchange, and 64 KiB counted/discarded stderr. Health defaults to ten seconds; science
@@ -99,6 +126,15 @@ Science page and a rendered frame. `--compact-ui --science-example bad` exercise
 compact view and infeasible native predictions without treating agreement as approval.
 Report-write failure returns exit 7; execution/identity/comparison failure returns a
 nonzero exit. Test reports and screenshots are generated evidence, not project files.
+
+For the same actual-app check with explicit selected captured controls:
+
+```powershell
+.\scripts\Start-Desktop.ps1 -Wait -AppArguments @('--science-check','--science-derivatives','--science-control','source:source_a:curtail','--science-control','route:bypass:flow','--smoke','--science-report',(Join-Path $PWD 'out/storage-sensitivities.json'))
+```
+
+Missing, duplicate, unknown or ineligible selections fail explicitly. This mode supplies
+no alternative values: the displayed native mixed-plan capture remains the reference.
 
 CTest registers real Science render checks when the configured interpreter detects
 Torch; real tests still have to execute successfully. Missing-runtime skips are not

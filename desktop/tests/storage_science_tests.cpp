@@ -3,9 +3,11 @@
 #include <QFileInfo>
 #include <QJsonArray>
 #include <QProcess>
+#include <QPointer>
 #include <QSignalSpy>
 #include <QTimer>
 #include <QtTest>
+#include <algorithm>
 #include <cmath>
 #include <limits>
 
@@ -23,6 +25,51 @@ bool forecast(ProjectController& project, const QString& example = "mixed", Simu
     QElapsedTimer deadline; deadline.start();
     while (project.busy() && deadline.elapsed() < 10000) QTest::qWait(1);
     return static_cast<bool>(project.capturedForecast());
+}
+QVariantMap controlRow(const StorageScienceController& science, const QString& id) {
+    for (const auto& value : science.controls()) if (value.toMap().value("control_id").toString() == id) return value.toMap();
+    return {};
+}
+ProjectDocument sensitivityProject() {
+    ProjectDocument project;
+    project.network.assets = {{"tank:α", "West", AssetKind::tank, 1000, 100},
+        {"tank:β", "East", AssetKind::tank, 1000, 100},
+        {"prod:α", "Production", AssetKind::source, 0, 0, 20, 3, 10, 7},
+        {"plant:Ω", "Plant", AssetKind::treatment, 50, 0, 0, 0, 0, 5},
+        {"truck:υ", "Truck", AssetKind::trucking, 10, 0, 0, 0, 0, 11}};
+    project.network.routes = {{"feed:λ", "prod:α", "tank:α", 20, 20, false, true, 2},
+        {"transfer:μ", "tank:α", "tank:β", 12, 4, false, true, 1.5},
+        {"treat:west", "tank:α", "plant:Ω", 15, 6, false, true, 3},
+        {"treat:east", "tank:β", "plant:Ω", 20, 5, false, true, 4},
+        {"haul:υ", "tank:α", "truck:υ", 10, 1, false, true, 6},
+        {"failed:φ", "tank:α", "plant:Ω", 30, 0, true, false, 0}};
+    return project;
+}
+bool captureProject(ProjectController& project, const ProjectDocument& input, SimulationConfig config = {}) {
+    if (!project.restore(project_json(input))) return false;
+    project.forecastWithConfig(config);
+    QElapsedTimer deadline; deadline.start();
+    while (project.busy() && deadline.elapsed() < 10000) QTest::qWait(1);
+    return static_cast<bool>(project.capturedForecast());
+}
+QJsonObject controlledSensitivityResponse(const CapturedForecast& capture, const QStringList& controlIds) {
+    QJsonArray ids, values, columns, matrix, gradient;
+    for (const auto& id : controlIds) { columns.append(id); gradient.append(0.0); }
+    for (std::size_t i = 0; i < capture.result.tank_ids.size(); ++i) {
+        ids.append(QString::fromStdString(capture.result.tank_ids[i]));
+        values.append(QJsonArray{capture.result.volumes_m3[i].front(), capture.result.volumes_m3[i].back()});
+        QJsonArray row; for (qsizetype column = 0; column < controlIds.size(); ++column) row.append(0.0);
+        matrix.append(row);
+    }
+    return {{"status", "completed"}, {"result", QJsonObject{{"method", "storage_rollout"}, {"method_version", 1},
+        {"identity", QJsonObject{{"snapshot_id", capture.id}, {"volume_run_id", capture.id}, {"physical_hash", capture.physical_hash},
+            {"numerical_revision", static_cast<qint64>(capture.revision)}}},
+        {"time_h", QJsonArray{capture.result.time_h.front(), capture.result.time_h.back()}},
+        {"time_indices", QJsonArray{0, static_cast<qint64>(capture.result.time_h.size() - 1)}},
+        {"tank_ids", ids}, {"volumes_m3", values}, {"cost", capture.result.cost},
+        {"provenance", QJsonObject{{"implementation", "torch_storage_float64"}, {"implementation_version", "controlled-test-only"},
+            {"dtype", "float64"}, {"device", "cpu"}, {"execution_status", "completed"}}}, {"warnings", QJsonArray{}},
+        {"derivatives", QJsonObject{{"control_ids", columns}, {"terminal_volume_jacobian_h", matrix}, {"cost_gradient", gradient}}}}}};
 }
 }
 class StorageScienceTests final : public QObject {
@@ -48,6 +95,203 @@ private slots:
         QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000); QVERIFY(project.capturedForecast() != captured);
         project.reset(); QVERIFY(!project.capturedForecast());
         QCOMPARE(captured->result.time_h.back(), 0.95); QCOMPARE(captured->config.step_h, 0.3);
+    }
+    void capturedCatalogRejectsBoundariesFixedControlsAndFeedCapacityWithoutEditingValues() {
+        ProjectController project; QVERIFY(forecast(project));
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        const auto document = project.document(); const auto capture = project.capturedForecast();
+        const auto catalog = control_catalog(capture->network);
+        QCOMPARE(science.controls().size(), static_cast<qsizetype>(catalog.size()));
+        QVERIFY(science.selectedControlIds().isEmpty()); QVERIFY(!science.canRunSensitivities());
+        for (qsizetype i = 0; i < science.controls().size(); ++i) {
+            const auto row = science.controls()[i].toMap(); const auto& native = catalog[static_cast<std::size_t>(i)];
+            QCOMPARE(row.value("control_id").toString(), QString::fromStdString(native.id));
+            QCOMPARE(row.value("captured_value").toDouble(), native.value);
+            QCOMPARE(row.value("minimum").toDouble(), native.minimum); QCOMPARE(row.value("maximum").toDouble(), native.maximum);
+            QCOMPARE(row.value("unit").toString(), QString::fromStdString(native.unit)); QVERIFY(!row.value("selected").toBool());
+        }
+        QVERIFY(controlRow(science, "source:source_a:curtail").value("eligible").toBool());
+        for (const auto id : {"source:source_b:curtail", "route:main_pump:flow", "route:backup_pump:flow", "route:truck_route:flow"}) {
+            const auto row = controlRow(science, QLatin1String(id)); QVERIFY(!row.value("eligible").toBool());
+            QVERIFY(!row.value("reason").toString().isEmpty()); QVERIFY(!science.selectControl(QLatin1String(id), true));
+        }
+        QVERIFY(!science.selectControl("fabricated:control", true));
+        QVERIFY(science.selectControl("route:bypass:flow", true)); QVERIFY(science.selectControl("source:source_a:curtail", true));
+        QCOMPARE(science.selectedControlIds(), QStringList({"source:source_a:curtail", "route:bypass:flow"}));
+        QVERIFY(science.canRunSensitivities()); QCOMPARE(project.document(), document); QCOMPARE(project.capturedForecast(), capture); QVERIFY(project.canApprove());
+        auto feedBoundary = sensitivityProject(); feedBoundary.network.routes[0].capacity_m3h = 17;
+        QVERIFY(captureProject(project, feedBoundary)); QVERIFY(science.selectedControlIds().isEmpty());
+        const auto source = QStringLiteral("source:prod:α:curtail"); const auto boundary = controlRow(science, source);
+        QCOMPARE(boundary.value("captured_value").toDouble(), 3.0); QVERIFY(!boundary.value("eligible").toBool());
+        QVERIFY(boundary.value("reason").toString().contains("feed-capacity")); QVERIFY(!science.selectControl(source, true));
+        QVERIFY(science.canRun()); QVERIFY(!science.canRunSensitivities());
+        science.runSensitivities(); QVERIFY(!science.busy()); QVERIFY(science.result().isEmpty());
+    }
+    void realSelectedSensitivitiesRetainCapturedValuesCatalogOrderAndNativeCentralDifferences() {
+        ProjectController project; QVERIFY(captureProject(project, sensitivityProject(), {1.13, 0.07}));
+        const auto capture = project.capturedForecast(); const auto document = project.document(); const auto approval = project.canApprove();
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        const QString source = QStringLiteral("source:prod:α:curtail"), transfer = QStringLiteral("route:transfer:μ:flow"), haul = QStringLiteral("route:haul:υ:flow");
+        QVERIFY(science.selectControl(haul, true)); QVERIFY(science.selectControl(source, true)); QVERIFY(science.selectControl(transfer, true));
+        const QStringList expectedIds{source, transfer, haul}; QCOMPARE(science.selectedControlIds(), expectedIds);
+        QSignalSpy done(&science, &StorageScienceController::completed), failed(&science, &StorageScienceController::failed);
+        science.runSensitivities(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 70000); QVERIFY2(failed.isEmpty(), qPrintable(science.status()));
+        const auto result = QJsonObject::fromVariantMap(science.result());
+        QCOMPARE(result.value("analysis_mode").toString(), "sensitivities"); QCOMPARE(result.value("native_solver_version").toString(), QString::fromLatin1(solver_version));
+        QVERIFY(result.value("within_tolerance").toBool()); const auto selected = result.value("selected_controls").toArray();
+        const auto derivatives = result.value("derivatives").toObject();
+        const auto ids = derivatives.value("control_ids").toArray(), matrix = derivatives.value("terminal_volume_jacobian_h").toArray();
+        const auto gradient = derivatives.value("cost_gradient").toArray(); QCOMPARE(ids.size(), expectedIds.size());
+        for (qsizetype column = 0; column < ids.size(); ++column) {
+            const auto id = expectedIds[column]; const auto row = controlRow(science, id);
+            QCOMPARE(ids[column].toString(), id); QCOMPARE(selected[column].toObject().value("control_id").toString(), id);
+            QCOMPARE(selected[column].toObject().value("captured_value").toDouble(), row.value("captured_value").toDouble());
+            QCOMPARE(selected[column].toObject().value("unit").toString(), "m3/h");
+            const auto capturedValue = row.value("captured_value").toDouble();
+            for (const auto relative : {1e-3, 1e-4, 1e-5}) {
+                const auto epsilon = relative * std::max(1.0, std::abs(capturedValue));
+                const auto plus = simulate(compile(capture->network, std::vector<ControlValue>{{id.toStdString(), capturedValue + epsilon}}), capture->config, Solver::dense_reference);
+                const auto minus = simulate(compile(capture->network, std::vector<ControlValue>{{id.toStdString(), capturedValue - epsilon}}), capture->config, Solver::dense_reference);
+                for (qsizetype tank = 0; tank < matrix.size(); ++tank) {
+                    const auto expected = (plus.volumes_m3[static_cast<std::size_t>(tank)].back() - minus.volumes_m3[static_cast<std::size_t>(tank)].back()) / (2 * epsilon);
+                    const auto actual = matrix[tank].toArray()[column].toDouble();
+                    QVERIFY(std::abs(actual - expected) <= 1e-6 + 1e-4 * std::abs(expected));
+                }
+                const auto expected = (plus.cost - minus.cost) / (2 * epsilon);
+                QVERIFY(std::abs(gradient[column].toDouble() - expected) <= 1e-6 + 1e-4 * std::abs(expected));
+            }
+        }
+        QCOMPARE(science.sensitivityRows().size(), 3); science.selectTank(QStringLiteral("tank:β"));
+        const auto rows = science.sensitivityRows(); QCOMPARE(rows.size(), 3);
+        QCOMPARE(rows[0].toMap().value("terminal_volume_jacobian_h").toDouble(), 0.0);
+        QCOMPARE(rows[1].toMap().value("terminal_volume_jacobian_h").toDouble(), capture->config.horizon_h);
+        QCOMPARE(rows[2].toMap().value("terminal_volume_jacobian_h").toDouble(), 0.0);
+        QVERIFY(science.selectControl(transfer, false)); QVERIFY(science.result().isEmpty()); QVERIFY(science.sensitivityRows().isEmpty());
+        science.runSensitivities(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 2, 70000);
+        const auto subset = QJsonObject::fromVariantMap(science.result());
+        QCOMPARE(subset.value("derivatives").toObject().value("control_ids").toArray(), QJsonArray({source, haul}));
+        QCOMPARE(subset.value("worker_cost").toDouble(), result.value("worker_cost").toDouble());
+        QCOMPARE(subset.value("preview").toObject().value("worker_volumes_m3"), result.value("preview").toObject().value("worker_volumes_m3"));
+        QCOMPARE(project.document(), document); QCOMPARE(project.capturedForecast(), capture); QCOMPARE(project.canApprove(), approval); QVERIFY(approval);
+    }
+    void selectionChangesKeepIndependentForwardEvidenceAndRetirePendingSensitivities() {
+        ProjectController project; QVERIFY(forecast(project));
+        const auto document = project.document(); const auto capture = project.capturedForecast();
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        QVERIFY(science.selectControl("source:source_a:curtail", true));
+        QSignalSpy done(&science, &StorageScienceController::completed);
+        science.run(); QVERIFY(science.busy()); QVERIFY(science.selectControl("route:bypass:flow", true));
+        QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 70000);
+        const auto forward = science.result(); QCOMPARE(forward.value("analysis_mode").toString(), "forward");
+        QVERIFY(forward.value("selected_controls").toList().isEmpty()); QVERIFY(!forward.contains("derivatives")); QVERIFY(science.sensitivityRows().isEmpty());
+        QVERIFY(science.selectControl("route:bypass:flow", false)); QCOMPARE(science.result(), forward);
+        science.runSensitivities(); QVERIFY(science.busy());
+        QVERIFY(science.selectControl("route:bypass:flow", true));
+        QTRY_VERIFY_WITH_TIMEOUT(!science.busy() && !worker.busy(), 10000);
+        QVERIFY(science.result().isEmpty()); QCOMPARE(done.size(), 1);
+        QCOMPARE(science.selectedControlIds(), QStringList({"source:source_a:curtail", "route:bypass:flow"}));
+        science.runSensitivities(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 2, 70000);
+        QCOMPARE(science.result().value("analysis_mode").toString(), "sensitivities");
+        const auto sensitivity = science.result();
+        QVERIFY(!science.selectControl("route:truck_route:flow", true)); QCOMPARE(science.result(), sensitivity);
+        QCOMPARE(project.document(), document); QCOMPARE(project.capturedForecast(), capture); QVERIFY(project.canApprove());
+    }
+    void layoutQualityAndViewChangesPreserveSelectedSensitivitiesButNewForecastClearsSelection() {
+        ProjectController project; QVERIFY(forecast(project));
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        QVERIFY(science.selectControl("source:source_a:curtail", true)); QVERIFY(science.selectControl("route:bypass:flow", true));
+        const auto capture = project.capturedForecast(); const auto selection = science.selectedControlIds();
+        const auto hash = project.networkHash(); QSignalSpy done(&science, &StorageScienceController::completed);
+        science.runSensitivities();
+        project.moveAsset("tank_a", 320, 140); project.select("truck_route"); project.setCamera(45, -50, 800, 10, 0);
+        auto parameters = project.pipeParameters("truck_route"); parameters["length_m"] = 140;
+        QVERIFY(project.setPipeParameters("truck_route", parameters)); project.setForecastFraction(0.5);
+        QCOMPARE(project.capturedForecast(), capture); QCOMPARE(science.selectedControlIds(), selection);
+        QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 70000); QVERIFY(science.result().value("within_tolerance").toBool());
+        const auto result = science.result(); project.moveAsset("tank_b", 100, 160); science.selectTank("tank_b");
+        QCOMPARE(science.result(), result); QCOMPARE(science.selectedControlIds(), selection); QCOMPARE(project.networkHash(), hash); QVERIFY(project.canApprove());
+        project.forecast(); QVERIFY(science.selectedControlIds().isEmpty()); QVERIFY(science.controls().isEmpty()); QVERIFY(science.result().isEmpty());
+        QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000); QVERIFY(!science.controls().isEmpty()); QVERIFY(!science.canRunSensitivities());
+        QVERIFY(science.canRun()); QVERIFY(project.capturedForecast() != capture);
+    }
+    void numericalEditsAndResetRetireSensitivityResultsWithoutRestoringSelections() {
+        ProjectController project; QVERIFY(forecast(project));
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        QVERIFY(science.selectControl("source:source_a:curtail", true)); QSignalSpy done(&science, &StorageScienceController::completed);
+        science.runSensitivities(); project.select("truck_route"); project.editSelected("flow", "10");
+        QTRY_VERIFY_WITH_TIMEOUT(!science.busy() && !worker.busy(), 10000);
+        QVERIFY(science.result().isEmpty()); QVERIFY(science.selectedControlIds().isEmpty()); QCOMPARE(done.size(), 0); QVERIFY(!project.canApprove());
+        project.forecast(); QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000); QVERIFY(project.capturedForecast());
+        QVERIFY(science.selectedControlIds().isEmpty()); QVERIFY(science.selectControl("source:source_a:curtail", true));
+        const auto newRun = project.runId(); science.runSensitivities(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 70000);
+        QCOMPARE(science.result().value("run_id").toString(), newRun);
+        science.runSensitivities(); project.reset(); QTRY_VERIFY_WITH_TIMEOUT(!science.busy() && !worker.busy(), 10000);
+        QVERIFY(science.result().isEmpty()); QVERIFY(science.selectedControlIds().isEmpty()); QCOMPARE(done.size(), 1); QVERIFY(!project.canApprove());
+    }
+    void sensitivityCancellationLifetimeAndSynchronousSelectionCannotPublishRetiredResults() {
+        ProjectController project; QVERIFY(forecast(project));
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        QVERIFY(science.selectControl("source:source_a:curtail", true)); const auto document = project.document();
+        QSignalSpy done(&science, &StorageScienceController::completed);
+        const auto cancellation = connect(&worker, &PythonWorkerClient::storageReady, &science, [&] { science.cancel(); });
+        science.runSensitivities(); QTRY_VERIFY_WITH_TIMEOUT(!science.busy(), 70000);
+        QVERIFY(science.result().isEmpty()); QCOMPARE(done.size(), 0); QCOMPARE(science.selectedControlIds(), QStringList{"source:source_a:curtail"});
+        disconnect(cancellation);
+        bool retired = false;
+        connect(&science, &StorageScienceController::changed, &project, [&] {
+            if (!retired && !science.result().isEmpty()) { retired = true; QVERIFY(science.selectControl("source:source_a:curtail", false)); }
+        });
+        science.runSensitivities(); QTRY_VERIFY_WITH_TIMEOUT(retired, 70000); QVERIFY(science.result().isEmpty()); QCOMPARE(done.size(), 0);
+        auto* temporary = new StorageScienceController(&project, &worker); QVERIFY(temporary->selectControl("source:source_a:curtail", true));
+        temporary->runSensitivities(); QVERIFY(temporary->busy()); QElapsedTimer elapsed; elapsed.start(); delete temporary; QVERIFY(elapsed.elapsed() < 500);
+        QTRY_VERIFY_WITH_TIMEOUT(!worker.busy(), 10000); QCOMPARE(project.document(), document); QVERIFY(project.canApprove());
+    }
+    void controllerIndependentlyRejectsMalformedDerivativeOutput_data() {
+        QTest::addColumn<QString>("tamper");
+        for (const auto name : {"missing", "column-order", "unknown-control", "missing-tank", "missing-column", "null-jacobian", "string-gradient", "extra-field", "foreign-identity"})
+            QTest::newRow(name) << QString::fromLatin1(name);
+    }
+    void selectionRetirementAllowsSynchronousObserverDestruction() {
+        ProjectController project; QVERIFY(forecast(project)); const auto document = project.document();
+        PythonWorkerClient worker(python(), workerPath());
+        QPointer<StorageScienceController> science = new StorageScienceController(&project, &worker);
+        QVERIFY(science->selectControl("source:source_a:curtail", true));
+        bool deleteOnRetirement = false;
+        const auto observer = connect(&worker, &PythonWorkerClient::changed, &project, [&] {
+            if (deleteOnRetirement && science) delete science.data();
+        });
+        science->runSensitivities(); QVERIFY(science->busy()); deleteOnRetirement = true;
+        QVERIFY(science->selectControl("route:bypass:flow", true)); QVERIFY(science.isNull());
+        disconnect(observer); QTRY_VERIFY_WITH_TIMEOUT(!worker.busy(), 10000);
+        QCOMPARE(project.document(), document); QVERIFY(project.canApprove());
+    }
+    void controllerIndependentlyRejectsMalformedDerivativeOutput() {
+        QFETCH(QString, tamper);
+        ProjectController project; QVERIFY(forecast(project)); const auto document = project.document();
+        const auto capture = project.capturedForecast();
+        PythonWorkerClient worker(python(), workerPath()); StorageScienceController science(&project, &worker);
+        const QStringList ids{"source:source_a:curtail", "route:bypass:flow"};
+        for (const auto& id : ids) QVERIFY(science.selectControl(id, true));
+        auto response = controlledSensitivityResponse(*capture, ids), result = response.value("result").toObject();
+        auto derivative = result.value("derivatives").toObject();
+        if (tamper == "column-order") derivative["control_ids"] = QJsonArray{ids[1], ids[0]};
+        else if (tamper == "unknown-control") derivative["control_ids"] = QJsonArray{ids[0], "fabricated:control"};
+        else if (tamper == "missing-tank") derivative["terminal_volume_jacobian_h"] = QJsonArray{QJsonArray{0.0, 0.0}};
+        else if (tamper == "missing-column") derivative["terminal_volume_jacobian_h"] = QJsonArray{QJsonArray{0.0}, QJsonArray{0.0}};
+        else if (tamper == "null-jacobian") derivative["terminal_volume_jacobian_h"] = QJsonArray{QJsonArray{0.0, QJsonValue::Null}, QJsonArray{0.0, 0.0}};
+        else if (tamper == "string-gradient") derivative["cost_gradient"] = QJsonArray{0.0, "0"};
+        else if (tamper == "extra-field") derivative["native_approval"] = true;
+        result["derivatives"] = derivative;
+        if (tamper == "missing") result.remove("derivatives");
+        if (tamper == "foreign-identity") { auto identity = result.value("identity").toObject(); identity["volume_run_id"] = "foreign"; result["identity"] = identity; }
+        response["result"] = result;
+        QSignalSpy done(&science, &StorageScienceController::completed), failed(&science, &StorageScienceController::failed);
+        science.runSensitivities(); QVERIFY(science.busy());
+        // Deliberately bypass transport validation to exercise the controller's
+        // independent publication checks; these are not scientific worker traces.
+        worker.storageReady(response); worker.cancel();
+        QTRY_COMPARE_WITH_TIMEOUT(failed.size(), 1, 10000); QCOMPARE(failed.first().first().toString(), "science_comparison_invalid");
+        QCOMPARE(done.size(), 0); QVERIFY(science.result().isEmpty()); QCOMPARE(project.document(), document); QVERIFY(project.canApprove());
     }
     void realDesktopWorkerParity_data() {
         QTest::addColumn<QString>("example"); QTest::addColumn<double>("horizon"); QTest::addColumn<double>("step");
