@@ -1,4 +1,5 @@
 #include "science/StorageScienceController.hpp"
+#include "storage_grid_cases.hpp"
 #include <QElapsedTimer>
 #include <QFileInfo>
 #include <QJsonArray>
@@ -14,6 +15,13 @@ using namespace breakwater::desktop::science;
 #define BREAKWATER_TEST_PYTHON ""
 #endif
 namespace {
+class Environment final {
+public:
+    explicit Environment(const char* name) : name_(name), present_(qEnvironmentVariableIsSet(name)), prior_(qgetenv(name)) {}
+    ~Environment() { if (present_) qputenv(name_.constData(), prior_); else qunsetenv(name_.constData()); }
+private:
+    QByteArray name_; bool present_; QByteArray prior_;
+};
 QString python() { return QString::fromUtf8(BREAKWATER_TEST_PYTHON); }
 QString workerPath() { return QStringLiteral(BREAKWATER_SOURCE_DIR "/science/worker.py"); }
 bool forecast(ProjectController& project, const QString& example = "mixed", SimulationConfig config = {}) {
@@ -55,6 +63,8 @@ private slots:
         QTest::newRow("shortened-final-step") << QString("mixed") << 0.95 << 0.3;
         QTest::newRow("decimated-indices") << QString("mixed") << 3.0 << 0.002;
         QTest::newRow("one-ulp-endpoint") << QString("mixed") << 0.00023685942255445778 << 2.7423807173145508e-08;
+        for (const auto& item : storage_grid_test::cases())
+            QTest::newRow(item.name) << QString("mixed") << item.horizon << item.step;
     }
     void realDesktopWorkerParity() {
         QFETCH(QString, example); QFETCH(double, horizon); QFETCH(double, step);
@@ -74,6 +84,11 @@ private slots:
         const auto preview = result.value("preview").toObject(); const auto indices = preview.value("time_indices").toArray();
         const auto times = preview.value("time_h").toArray();
         QCOMPARE(indices.last().toInteger(), static_cast<qint64>(capture->result.time_h.size() - 1));
+        QCOMPARE(times.last().toDouble(), horizon);
+        for (const auto& item : storage_grid_test::cases()) if (item.horizon == horizon && item.step == step) {
+            QCOMPARE(capture->result.time_h, item.times);
+            QCOMPARE(indices.last().toInteger(), static_cast<qint64>(item.times.size() - 1));
+        }
         for (qsizetype i = 0; i < indices.size(); ++i) QCOMPARE(times[i].toDouble(), capture->result.time_h[static_cast<std::size_t>(indices[i].toInteger())]);
         QCOMPARE(project.document(), document); QCOMPARE(project.runId(), run); QCOMPARE(project.canApprove(), approval);
         QVERIFY(worker.readiness().value("storage_execution_verified").toBool());
@@ -149,6 +164,18 @@ private slots:
         science.run(); QTRY_VERIFY_WITH_TIMEOUT(retired, 70000);
         QVERIFY(!science.busy()); QVERIFY(science.result().isEmpty()); QCOMPARE(done.size(), 0);
         QVERIFY(!project.canApprove());
+    }
+    void finiteDisagreementIsVisibleWithoutApplyingControlsOrApproval() {
+        Environment restore("BREAKWATER_STORAGE_FIXTURE_MODE"); qputenv("BREAKWATER_STORAGE_FIXTURE_MODE", "finite_disagreement");
+        ProjectController project; QVERIFY(forecast(project, "bad")); QVERIFY(!project.canApprove());
+        const auto document = project.document(); const auto captured = project.capturedForecast();
+        PythonWorkerClient worker(python(), QStringLiteral(BREAKWATER_SOURCE_DIR "/desktop/tests/worker_fixtures/storage_worker_fixture.py"));
+        StorageScienceController science(&project, &worker); QSignalSpy done(&science, &StorageScienceController::completed);
+        science.run(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 15000);
+        QVERIFY(!science.result().value("within_tolerance").toBool());
+        QVERIFY(science.status().contains("disagreement")); QVERIFY(science.chart().value("available").toBool());
+        QCOMPARE(project.document(), document); QCOMPARE(project.capturedForecast(), captured); QVERIFY(!project.canApprove());
+        QCOMPARE(captured->result.volumes_m3[1].back(), 132.0);
     }
 };
 QTEST_GUILESS_MAIN(StorageScienceTests)

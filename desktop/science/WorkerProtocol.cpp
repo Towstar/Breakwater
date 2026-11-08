@@ -7,6 +7,7 @@
 #include <algorithm>
 #include <cmath>
 #include <stdexcept>
+#include <vector>
 
 namespace breakwater::desktop::science::protocol {
 namespace {
@@ -43,6 +44,19 @@ QJsonArray array(const QJsonValue& value, qsizetype minimum, qsizetype maximum) 
 void numbers(const QJsonValue& value, qsizetype count) {
     for (const auto& item : array(value, count, count)) (void)number(item);
 }
+std::vector<double> storageTimes(double horizon, double step) {
+    require(std::isfinite(horizon) && std::isfinite(step) && horizon > 0.0 && horizon <= 24.0 && step > 0.0);
+    // Reconstruct the bounded original grid independently of the worker/native
+    // result. Rounded division cannot decide admission, endpoints or indices.
+    std::vector<double> times{0.0};
+    for (int k = 1; k <= 10000; ++k) {
+        const double time = static_cast<double>(k) * step;
+        if (time >= horizon) { times.push_back(horizon); return times; }
+        require(time > times.back());
+        times.push_back(time);
+    }
+    throw std::invalid_argument("Storage forecasts support at most 10000 updates including the final partial interval.");
+}
 } // namespace
 
 bool forwardPayload(const QJsonObject& payload) {
@@ -51,10 +65,7 @@ bool forwardPayload(const QJsonObject& payload) {
         require(integer(payload.value("method_version"), 1, 1) == 1 && payload.value("identity").isObject());
         identity(payload.value("identity").toObject());
         const auto horizon = number(payload.value("horizon_h")), step = number(payload.value("step_h"));
-        const auto ratio = horizon / step;
-        require(horizon > 0.0 && horizon <= 24.0 && step > 0.0 && std::isfinite(ratio) && ratio > 0.0 && ratio <= 10000.0);
-        const auto updates = std::ceil(ratio);
-        require(updates <= 1.0 || (updates - 1.0) * step < horizon);
+        (void)storageTimes(horizon, step);
         require(payload.value("derivatives").isBool() && !payload.value("derivatives").toBool());
         require(payload.value("preview").isObject()); const auto preview = payload.value("preview").toObject();
         keys(preview, {"max_times"}); (void)integer(preview.value("max_times"), 2, 256);
@@ -119,12 +130,13 @@ bool storage(const QJsonObject& result, const QJsonObject& payload) {
         const auto maximum = payload.value("preview").toObject().value("max_times").toInt();
         const auto times = array(result.value("time_h"), 2, maximum), indices = array(result.value("time_indices"), times.size(), times.size());
         const auto horizon = payload.value("horizon_h").toDouble(), step = payload.value("step_h").toDouble();
-        const auto lastIndex = static_cast<qint64>(std::ceil(horizon / step));
+        const auto grid = storageTimes(horizon, step);
+        const auto lastIndex = static_cast<qint64>(grid.size() - 1);
         qint64 previousIndex = -1; double previousTime = -1.0;
         for (qsizetype i = 0; i < times.size(); ++i) {
             const auto index = integer(indices[i], 0, lastIndex);
             const auto time = number(times[i]);
-            require(index > previousIndex && time > previousTime && time == std::min(static_cast<double>(index) * step, horizon));
+            require(index > previousIndex && time > previousTime && time == grid[static_cast<std::size_t>(index)]);
             previousIndex = index; previousTime = time;
         }
         require(indices.first().toInteger() == 0 && indices.last().toInteger() == lastIndex);

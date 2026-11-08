@@ -1,7 +1,6 @@
 """Controlled scientific protocol peer. Values are test fixtures, not science evidence."""
 import ctypes
 import json
-import math
 import os
 from pathlib import Path
 import sys
@@ -78,10 +77,20 @@ def rollout(payload):
             cost += flow * target.get("cost_per_m3", 0.0)
         cost += flow * route["cost_per_m3"]
     horizon, step = payload["horizon_h"], payload["step_h"]
-    updates = math.ceil(horizon / step)
+    grid = [0.0]
+    for index in range(1, 10001):
+        rounded_multiple = index * step
+        if rounded_multiple >= horizon:
+            grid.append(horizon)
+            break
+        assert rounded_multiple > grid[-1]
+        grid.append(rounded_multiple)
+    else:
+        raise ValueError("Controlled fixture exceeded 10,000 updates")
+    updates = len(grid) - 1
     count = min(updates + 1, payload["preview"]["max_times"])
     indices = [index * updates // (count - 1) for index in range(count)]
-    times = [min(index * step, horizon) for index in indices]
+    times = [grid[index] for index in indices]
     return {"method": "storage_rollout", "method_version": 1, "identity": payload["identity"],
             "provenance": {"implementation": "torch_storage_float64", "implementation_version": "test-fixture-only",
                            "dtype": "float64", "device": "cpu", "execution_status": "completed"},
@@ -139,6 +148,8 @@ for raw in sys.stdin.buffer:
                 result["time_indices"][-1] -= 1
             elif MODE == "wrong_time":
                 result["time_h"][-1] -= 0.01
+            elif MODE == "finite_disagreement":
+                result["volumes_m3"][1][-1] += 1.0
             elif MODE == "null_sample":
                 result["volumes_m3"][0][0] = None
             elif MODE == "wrong_shape":
@@ -172,6 +183,8 @@ if MODE == "crash_after_exchange":
     os._exit(8)
 elif MODE == "hang_after_exchange":
     time.sleep(30)
+elif MODE == "valid_linger":
+    time.sleep(0.15)  # Let the lifecycle regression retain this process's original handle.
 elif MODE == "aggregate_limit":
     sys.stdout.buffer.write(b"\n")
     sys.stdout.buffer.flush()

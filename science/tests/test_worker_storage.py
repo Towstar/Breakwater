@@ -223,18 +223,29 @@ class StorageExecutionTests(unittest.TestCase):
 
     def test_roundoff_and_subnormal_grids_keep_exact_requested_horizon(self):
         cases = [
+            (.225, .075, [0.0, .075, .15, .22499999999999998, .225]),
             (math.nextafter(.9, math.inf), .1, [0.0] + [index * .1 for index in range(1, 10)] + [math.nextafter(.9, math.inf)]),
             (.30000000000000004, .1, [0.0, .1, .2, .30000000000000004]),
-            (math.ulp(0.0), 1e308, [0.0, math.ulp(0.0)]),
+            (1.1, .3, [0.0, .3, .6, .8999999999999999, 1.1]),
+            (math.ulp(0.0), 24, [0.0, math.ulp(0.0)]),
+            (.0082, 8.2e-7, [index * 8.2e-7 for index in range(10000)] + [.0082]),
+            (1, .0001, [index * .0001 for index in range(10000)] + [1.0]),
         ]
         for horizon, step, times in cases:
-            with self.subTest(horizon=horizon, step=step):
-                request = payload(); request.update(horizon_h=horizon, step_h=step)
-                result = storage_rollout(request)
-                self.assertEqual(result["time_h"], times)
-                self.assertEqual(result["time_indices"], list(range(len(times))))
-                self.assertTrue(all(left < right for left, right in zip(times, times[1:])))
-                self.assertEqual(result["identity"], request["identity"])
+            for maximum in (2, 256):
+                with self.subTest(horizon=horizon, step=step, maximum=maximum):
+                    request = payload(); request.update(horizon_h=horizon, step_h=step)
+                    request["preview"]["max_times"] = maximum
+                    result = storage_rollout(request)
+                    count = min(maximum, len(times))
+                    indices = [i * (len(times) - 1) // (count - 1) for i in range(count)]
+                    self.assertEqual(result["time_h"], [times[i] for i in indices])
+                    self.assertEqual(result["time_indices"], indices)
+                    self.assertEqual(result["time_h"][-1], horizon)
+                    self.assertEqual(result["time_indices"][-1], len(times) - 1)
+                    self.assertEqual(result["time_h"].count(horizon), 1)
+                    self.assertTrue(all(left < right for left, right in zip(result["time_h"], result["time_h"][1:])))
+                    self.assertEqual(result["identity"], request["identity"])
 
     def test_one_ulp_tail_forward_and_derivatives_use_same_horizon(self):
         horizon = math.nextafter(.9, math.inf)
