@@ -1,0 +1,7 @@
+{
+  "source": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-source",
+  "unavailable": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-source.unavailable",
+  "original_exists": false,
+  "interpreter": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\.tools\\science-cpu\\Scripts\\python.exe",
+  "scope": "Only disposable source export made unavailable; original checkout and other sessions preserved."
+}

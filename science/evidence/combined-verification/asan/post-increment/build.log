@@ -1,0 +1,3 @@
+[1/4] Automatic MOC and UIC for target breakwater_storage_science_tests
+[2/3] Building CXX object desktop\CMakeFiles\breakwater_storage_science_tests.dir\tests\storage_science_tests.cpp.obj
+[3/3] Linking CXX executable desktop\breakwater_storage_science_tests.exe

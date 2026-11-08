@@ -176,6 +176,8 @@ for raw in sys.stdin.buffer:
                 result["time_indices"][-1] -= 1
             elif MODE == "wrong_time":
                 result["time_h"][-1] -= 0.01
+            elif MODE == "finite_disagreement":
+                result["volumes_m3"][1][-1] += 1.0
             elif MODE == "shortened_endpoint":
                 result["time_h"][-1] = math.nextafter(request["payload"]["horizon_h"], -math.inf)
             elif MODE == "extended_endpoint":
@@ -243,10 +245,15 @@ for raw in sys.stdin.buffer:
         emit(response)
     if method == "storage_rollout" and MODE == "crash_after_storage":
         os._exit(7)
+phase_file = os.environ.get("BREAKWATER_STORAGE_FIXTURE_PHASEFILE")
+if phase_file:
+    Path(phase_file).write_text("exchange-complete")
 if MODE == "crash_after_exchange":
     os._exit(8)
 elif MODE == "hang_after_exchange":
     time.sleep(30)
+elif MODE == "valid_linger":
+    time.sleep(0.15)  # Let the lifecycle regression retain this process's original handle.
 elif MODE == "aggregate_limit":
     sys.stdout.buffer.write(b"\n")
     sys.stdout.buffer.flush()

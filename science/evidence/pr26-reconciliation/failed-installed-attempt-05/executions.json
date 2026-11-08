@@ -1,0 +1,41 @@
+[
+  {
+    "name": "local-sensitivities",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-05-installed\\local-sensitivities.sqlite",
+      "--smoke",
+      "--science-derivatives",
+      "--science-control",
+      "source:source_a:curtail",
+      "--science-control",
+      "route:bypass:flow",
+      "--screenshot",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-05-installed\\local-live.png",
+      "--science-check",
+      "--science-report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-05-installed\\local-sensitivities.json"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 9.733159800001886
+  },
+  {
+    "name": "local-history-normal",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\reconcile-install-local\\bin\\breakwater.exe",
+      "--history-db",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-05-installed\\local-history-normal.sqlite",
+      "--smoke",
+      "--import-session",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-05-installed\\local-persisted-session.json",
+      "--open-scientific-history",
+      "--screenshot",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-05-installed\\local-history-normal.png"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 1.9506158999865875
+  }
+]

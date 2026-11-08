@@ -1,0 +1,25 @@
+{
+  "scanned": [
+    "out\\verification\\attempt-09-asan\\agent_gateway-results.txt",
+    "out\\verification\\attempt-09-asan\\agent_orchestrator-results.txt",
+    "out\\verification\\attempt-09-asan\\build.log",
+    "out\\verification\\attempt-09-asan\\ctest.log",
+    "out\\verification\\attempt-09-asan\\ctest.xml",
+    "out\\verification\\attempt-09-asan\\history_controller-results.txt",
+    "out\\verification\\attempt-09-asan\\nemotron_client-results.txt",
+    "out\\verification\\attempt-09-asan\\pipe_transport-results.txt",
+    "out\\verification\\attempt-09-asan\\pipe_transport_evidence-results.txt",
+    "out\\verification\\attempt-09-asan\\python_worker-results.txt",
+    "out\\verification\\attempt-09-asan\\session_repository-results.txt",
+    "out\\verification\\attempt-09-asan\\storage_science-results.txt",
+    "out\\verification\\attempt-09-asan\\storage_worker-results.txt",
+    "out\\verification\\attempt-10-asan\\build.log",
+    "out\\verification\\attempt-10-asan\\ctest.log",
+    "out\\verification\\attempt-10-asan\\ctest.xml",
+    "out\\verification\\attempt-10-asan\\storage_science-results.txt",
+    "out\\verification\\attempt-10-asan\\storage_worker-results.txt",
+    "out\\verification\\attempt-06-science\\refined-asan\\native-stderr.txt"
+  ],
+  "reports": [],
+  "coverage": "Owned MSVC native targets; prebuilt Qt/Python/Torch outside established instrumentation"
+}

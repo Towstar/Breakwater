@@ -1,0 +1,1 @@
+../out/verification/RejectNonProposition.lean:4:0: error: Audited algorithm does not have a proposition type: _private._stdin.0.VerificationNonPropositionProbe

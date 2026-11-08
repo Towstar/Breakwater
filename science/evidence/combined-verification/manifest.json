@@ -1,0 +1,661 @@
+{
+  "collected_utc": "2026-11-08T04:05:50.025772+00:00",
+  "source_scope": "Literal verification worktree source bytes, excluding this generated report/evidence; documentation updates are recorded separately from tested application code.",
+  "baseline": "1a537ed202c38cbe52aa0fed990ea18c23d88d9e",
+  "revision": "e1e6a230062a0911e99af64246860a462d79e1d0",
+  "python": {
+    "executable": "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Scripts\\python.exe",
+    "base_prefix": "C:\\Projects\\Breakwater\\.tools\\python\\cpython-3.12.13-windows-x86_64-none",
+    "version": "3.12.13",
+    "architecture": "AMD64",
+    "platform": "Windows-11-10.0.26300-SP0",
+    "packages": {
+      "torch": "2.15.0+cpu",
+      "numpy": "2.5.4",
+      "nvidia-physicsnemo": "2.2.2",
+      "jsonschema": "4.25.1"
+    }
+  },
+  "sources": {
+    ".env.example": "fafc7eb29ccf7a1a3d9afb07538dde43aaae22c462697971fb34f74cef3090b9",
+    ".gitignore": "f736098be120fb0ab3ef849b1ac7e72aae2ee3656a60659111899e8eac930ce4",
+    "AGENTS.md": "c5513a7a8d31e1204d5f4a3feabbc1aacf34f546f86913ea6567d5d36555d7d7",
+    "Breakwater.slnx": "d65d9b570850b959ef369dc78047febe01edfc519124c30cfc7827f9e92c442e",
+    "CMakeLists.txt": "6d3935138916412e97e0c866d612b9a2dfb417ab44a80d1da33f8b64499f4aa2",
+    "CMakePresets.json": "e98a384982177d7a72f5bd505028181b91feadc21626acbf9e5c79591faa57da",
+    "For Dev Agents.md": "e041201be3223e5cc82623897e5796080b4ca1f0f2e7df477b2cfd0b51b2bf4d",
+    "README.md": "e6d9d8805010a00db4fb695ef12131f993c812814dba1588a6aaa720fdbd2611",
+    "contracts/README.md": "0bdc27bbfcc118828768c05bc0fb6983963e1b3def79e9c0a25655bb7dbd5315",
+    "contracts/include/breakwater/types.hpp": "d888f688e59effdb956e95fffdf9ec6792385da8a2e838c213fd4acfd142d03c",
+    "contracts/science/README.md": "c9f42bbc8122f14f33525dcba75b2a86ea066e2d6650a5635168f7b32e4395df",
+    "contracts/science/examples/capabilities-request.json": "d516b58422eb919228254f1cf6504895971dde190e74a7d3f6a2012f4b2f4e22",
+    "contracts/science/examples/capabilities-response.json": "0de1602f63e7f5c409f0ad83bcf3719d1cb81453850ff802928982101d0c9f9d",
+    "contracts/science/examples/health-request.json": "fad7794782a4be32a7082db505854e397d677c08727c863cad36f038fda475f8",
+    "contracts/science/examples/pipe-transport-request.json": "25ee3f43ce8711b1c4217845772d36ce0b435d6408a6372aa9bae6397daf137c",
+    "contracts/science/examples/pipe-transport-response.json": "fd78cee3241b490e21b9ff3319c3943155bfc1fcd31411e3be91a5f267f73733",
+    "contracts/science/examples/storage-rollout-request.json": "c96f00d0cc6d416c5f0e96bca96951f7d5190ccdbd276e940499d236050f724c",
+    "contracts/science/examples/storage-rollout-response.json": "001d43e098dea822f648fd8c3fc5f66bc95287be3c051b89a3a4ec0fcc5410d3",
+    "contracts/science/pipe-parameters-v1.schema.json": "70c92f92eb24be9c754c030ff6435cfe77eb07a6051054d8c24f788fbe99da74",
+    "contracts/science/request-v1.schema.json": "48c3487b59d303b77b6f187ca61565345bd19c03a4c76d96922fcdbdc1c6bbe0",
+    "contracts/science/response-v1.schema.json": "5d6e75a38a5c71ec8ce0ea9a79b75313358d3a9a2eb2d5fd13a2d96097c140c5",
+    "desktop/CMakeLists.txt": "111b6d4c1e43ed5406eecd40ff1d44d19136b2b2b40fcb6fe991e737d2e4e372",
+    "desktop/ProjectController.cpp": "4b848e6bf7f7cd78fc2a99cde7cab72ece181ce3967cbd3f65c9074247a76910",
+    "desktop/ProjectController.hpp": "0276bd9d5fa7c13f424d697d1b312837769cc7b93e5b0a75e07773c9227b70b9",
+    "desktop/ProjectDocument.cpp": "d2eb2a8b9fbf76e2db50ed966a93fc52b8fed741bfd0f7071c724f2daee8039f",
+    "desktop/ProjectDocument.hpp": "13787e2a248faeb4da2c804ccadde95f4dd9fd027a8f737257c5f0de57d397b7",
+    "desktop/agent/AgentController.cpp": "8b00fab0f9376142eac3d4d7479547a00b3046ef2694ebc6f56e9908e325953b",
+    "desktop/agent/AgentController.hpp": "ead183f9607edda6cf8cf999fbdca22fbe36b27a29e656edb523f74acb904767",
+    "desktop/agent/AgentOrchestrator.cpp": "56d6365a68ddcf1d31a917a97534902342c22fb0930f5826435274bb3fd43589",
+    "desktop/agent/AgentOrchestrator.hpp": "ba692e519d5b051424acfd1c52baec5ca06b155b8ebc1ba25cc7256fb360e3e4",
+    "desktop/agent/CredentialSettings.cpp": "751710a4c74e1cb2074ca482b323983efeb7c5c4baa0c435b3958792b76ec84c",
+    "desktop/agent/CredentialSettings.hpp": "fe3d8bf0865da470a2253f0469eadbd0079d26befbbb359018c5828cec1bef8f",
+    "desktop/agent/ModelTransport.hpp": "4dbe548cc6e4f032ae10c71a8c577e5ff95a14a1bb054503e00dc2fb9f9dc98c",
+    "desktop/agent/NemotronClient.cpp": "b0d2d5c2a9c10d99376cc1b70ff958b6a403d76be4b3c9210b661783617acba4",
+    "desktop/agent/NemotronClient.hpp": "2078399eadab24c8eb6e66424aa66da2375e5aa636ef6dfe10a9bb051dc9e0bd",
+    "desktop/agent/SimulationGateway.cpp": "6240f108d83a189cb2500795d3fdc34d1550c4724712980efb4b0dec53b7f0e9",
+    "desktop/agent/SimulationGateway.hpp": "470618b5ed67b4b279972431182c557488dffaca9ff95b5f0d1f98e534dae005",
+    "desktop/agent/live_smoke.cpp": "b3bc52657a7cfcc62ecb1b5bdb979dc49a7c2b3be662992a09a5e81c1e665e30",
+    "desktop/history/HistoryController.cpp": "0f72823a79951b9f8c262824bb50b57384d8aceb8415075a2b36575f82b1b924",
+    "desktop/history/HistoryController.hpp": "0442835a1467e446a6d15dcec4c14b954480b55dbd066b06932d6a65934e1a09",
+    "desktop/history/SessionRecorder.cpp": "5f43bf925b66c0c214b7e9a65b2041c412528360fadffffd1bc1f7850534c0c4",
+    "desktop/history/SessionRecorder.hpp": "b653976a1eeeda0eb5a050ea5d563cc150b81ab7199d59eee0fbc3d217cae147",
+    "desktop/history/SessionRepository.cpp": "f2ec14bcde4dbdc53edf849697672388e31494ec3ce195b7ea9f7fce60b342ed",
+    "desktop/history/SessionRepository.hpp": "566b705c8c971002eb0735efb20f1b09d4a0a9444399a6de00fa353493ba27da",
+    "desktop/main.cpp": "13b888b48c9c371bc20e29e9e5ba95d45c7917b50cccdc35de3199c1ad11e4d7",
+    "desktop/qml/AgentPanel.qml": "64a5e34dea379369686fc9103bc91a6288bbeb7b244184c3ea39eb863c193031",
+    "desktop/qml/Equipment.qml": "394a798e14d9b11a6285ef7a200909cee7b2bbb42c42bb47e2588f6cf5370ee6",
+    "desktop/qml/Main.qml": "c3bd534870f5f84ef2ff34f02051ea3823a74d777f94cde3b9299e4435194a0a",
+    "desktop/qml/PipeRoute.qml": "1669434c24749809ab2588a137e9ae52e819f5433b8b112dbf3b2819df19ed6f",
+    "desktop/qml/PipeTransportPanel.qml": "99e6c8eefca74ae35201b192140282db0d5d8b0dc93da9f4b9f4fabc1f3fa530",
+    "desktop/qml/StorageSciencePanel.qml": "d6ac4a37a1debec85091050b531022752c48fabf85b597403c8ed3ff1f5e34cc",
+    "desktop/qml/TrajectoryChart.qml": "2842cafce9a67e6a5c70e73e3240a7abb8c6619aa57822b12b60af68fcf9e086",
+    "desktop/quality/PipeParameters.cpp": "af7a04b528e3e96978eec3a09da0eaa9af3ae1ccff20883384548604234f0f4a",
+    "desktop/quality/PipeParameters.hpp": "2ca9c6ec32f46f35a840ca408a9e968cd3bdee0bc6cd541c3c45790c15a23b76",
+    "desktop/quality/PipeTransportController.cpp": "6de7fb89b6ad13a5c618338ad0abaff2e87090dd5d4ecc2d7becc5a5a39da791",
+    "desktop/quality/PipeTransportController.hpp": "22a8bebe819842be2505135b44127660daf443af68027cf2fbaa02dcae7bf240",
+    "desktop/quality/PipeTransportEvidence.cpp": "929a7664d0baa30a7e26c6959a4897ba143a56fc4372abf4e3bdbbe2d7802e1a",
+    "desktop/quality/PipeTransportEvidence.hpp": "c14c803577fa5ad3e5b9b618e7e3095027bd251efa1ffe19885fd81c99e2b9a1",
+    "desktop/science/PythonWorkerClient.cpp": "2c7bb2c63328d6e81b60e889d5d5dab3ff15b107fcbb8563b411c1c79ba6c9ce",
+    "desktop/science/PythonWorkerClient.hpp": "aa5d101c2263f11858939aa75fa137cf4825335e99c39b81f3798180a150f7f9",
+    "desktop/science/StorageScienceController.cpp": "db68ce213241713b494aa9f4b1398d80ad7b74f019502baad0b3080acf5fb3da",
+    "desktop/science/StorageScienceController.hpp": "e57209263dbd3355cc0f8ce0024d1c6302a6be4f2d64f0f858f1815c817a9407",
+    "desktop/science/WorkerProtocol.cpp": "128151165d06b57ad135a21d663d52505d2934e9393f7579fe8c20e3c47b82dc",
+    "desktop/science/WorkerProtocol.hpp": "aa684c83b746d727e8e9791e1e18ec04eb92c3b30b10966fc66cb901c9ad923b",
+    "desktop/tests/agent_gateway_tests.cpp": "b0e0b9d4dd59ad3e93bd469d93acf8f51e18e06d1abc3467fff9b0542182afc3",
+    "desktop/tests/agent_orchestrator_tests.cpp": "5357e840d1979039efaf373bdec47e9afca3b1fec0680813c4303a63b921adcc",
+    "desktop/tests/history_controller_tests.cpp": "1a2ca1bf97710d454422b4569794bc1254a5f95706ad43f6384c5fb2e37a1e28",
+    "desktop/tests/nemotron_client_tests.cpp": "699158a631f2afd428836916bec9f93c1c4bc1686ff146cc760ca4c60cb730f2",
+    "desktop/tests/pipe_parameters_tests.cpp": "14fe93a3a3fdcadb911a8b9468a25e0cac6ea64116afa89ffe94225fd8822302",
+    "desktop/tests/pipe_transport_evidence_tests.cpp": "d382dd5a8b4d01e8602ec73d31a1346a4bf4a661cd2193d987e2c4e6c8cf0c27",
+    "desktop/tests/pipe_transport_tests.cpp": "a4270c30a391835ad2bac693119973792f51c943db3efe31485c65aed3db97d5",
+    "desktop/tests/project_tests.cpp": "b6724fb16bd260e8c721dfb7f76a5957a9503050e88e3f59fa8fc915ae52880a",
+    "desktop/tests/python_worker_tests.cpp": "3ba3e04c58a9c8f14785c83c948fd742ceb5fc122d027bcb9607b2e25b3db544",
+    "desktop/tests/session_repository_tests.cpp": "0d4dfd90ce5e4b3f64fb06fda23d84347279c38e7857e171be062d65949944ac",
+    "desktop/tests/storage_grid_cases.hpp": "055df3fe894ef86cd9ce89de038864337de2cb762791601a02a76cce674d2460",
+    "desktop/tests/storage_science_tests.cpp": "358c96d443e56d08a11505ca052fc1c5dfb31cf61d674201310624668d37a65e",
+    "desktop/tests/storage_worker_tests.cpp": "1f60e2494eee9ef02d2d7f31e154787e9095776f084d52d530a177c83e917d5d",
+    "desktop/tests/worker_fixtures/storage_worker_fixture.py": "5dadf2d6365950d750a65be9d08f03b548ffaacb4d6700c315aa10bef58c5f2a",
+    "desktop/tests/worker_fixtures/worker_fixture.py": "6b4ed274ff40a35178b0ce787cd265bb4ef90f9844e2920bc09778b0035c3e8c",
+    "docs/AGENT_INTEGRATION.md": "d2a18750323a949c67a3313e8c613db2e071a0b28f9e1828f3c86efcb68843e0",
+    "docs/AUDIT_PERSON_B.md": "6729ee2973ac902e8b8a2783d986b147d711cac06bd6c20604c0df16ddba8142",
+    "docs/AUDIT_REPORT.md": "f34659e3c477660822a161544cdc116181a7dd1e719863cc47872f164097eaa1",
+    "docs/CONTINUATION_PLAN.md": "254cf7759230ff1d59710ad13a6a6336c371496827f515545349626de4a2cfa5",
+    "docs/DESKTOP_FOUNDATION.md": "6823e79f08ea8d8e1d13c8c5203a74896532488d3f614d2c0a6111975dc20908",
+    "docs/DESKTOP_SCIENCE.md": "6be632701d8932681b628ee0110a4b4f7164086f29fb8ceb7c482c257b6b0b87",
+    "docs/IMPLEMENTATION_PLAN.md": "f43c7fa738e7bb4808ab5e77a04d05681026570278ab3375ff7a8a079ec10fc6",
+    "docs/KICKOFF_PERSON_A.md": "23c2bd3755aeb50d872b3dd4af8f96b4826cb53ffa207f09d20316ce40e55fc1",
+    "docs/KICKOFF_PERSON_B.md": "9d5497920c3df31d1b02b1d89b1d0589e36bcc1554dacb00ba6b292b0934f8bf",
+    "docs/PARALLEL_WORK.md": "8b33347f1ea894cadc114457f276dd4d019da6f01079274eb9d51ceec1aa3e5b",
+    "docs/PIPE_TRANSPORT.md": "fccc7e8887c831042eef6ed2ae27c83130438d4ca3f28a51f5b0934fc8fc4648",
+    "docs/POST_A9_PLAN.md": "1dbcfdd70f79509fddc6b3b0ab6c101c28ab92ad08dc57631e2e0d3b81ee7b56",
+    "docs/SCIENCE_CONTRACTS.md": "ffaefd21e7b4dd226b4eb71fc16659f1ac9848b0ce3f513f086729fb4bf045f2",
+    "docs/SCIENCE_VALIDATION.md": "6a1b83e9931b17d2d9f8960be6d50c8c2c32cb76912b45b9245b774e267d7c24",
+    "docs/STATUS.md": "39a326f5a124ea60aade87a7705b6c1a469a3f5958eec3b01117b9bbc27d8077",
+    "engine/A10B_REGRESSIONS.md": "9245656428c28b2c1e63e5f8b34eaf86cc92ded626f8bf90df8862af99b3dd5d",
+    "engine/BENCHMARKS.md": "475a43728b366d93d61cdc115462d98598fc313aa952e547cc9ad05a649f6563",
+    "engine/CMakeLists.txt": "711ae2072c2cab74cd66f05a4eb13168fc8e59c2f615d5785342f906ff3f3096",
+    "engine/CONTROL_INFLUENCE.md": "fd435d8226c2e2eae53682d37230c3f03248b1b6b552e11ee81aa5cdca82be5d",
+    "engine/PROGRESS.md": "e6f44822de7e8a6f9bf27a9c1bb192505ff87fab00de0ef3d0f6ad725e2c5f20",
+    "engine/SEARCH.md": "77f7c31cbfba51ea0cc6123258c527902ff33ea91e5c1589591cbe13d885698c",
+    "engine/TRANSPORT.md": "b61d413127d7d35f281e13f67186d7ce3fd39964326412d13eafeaf4c1773b1e",
+    "engine/benchmarks/benchmark.cpp": "f97947850b8c97edec9b5a7b860caa0e9d5c99acd0e19bd987b14a433c79c9c6",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-environment-initial.json": "6bc49a63b35a65a1951b7a83bd55e9cf28060e93b65288b9769462d2133297cc",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-environment.json": "99cd87b209d8e6698c492874e8d3585fc282e3988ce0876d89ac2e237f2dfe40",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-release-initial.json": "379be249b8545a9dd24d8a44bf71ba05a945cd88086845bec8ec10683c5d9829",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-release.json": "3b9e6999b5772ad12274c80119d12e3192615650fe24e4d98d89dd512b93f052",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-threshold-environment.json": "cd6ece76cfe6360e0c0bdd2154b281c0762d59fd61c88284bdcd82d910cd492a",
+    "engine/benchmarks/results/2026-11-07-control-influence-msvc-threshold.json": "c5589e3ade9e6a31ffa77362bd582060db8539dbb284d4cfb5f2b6e5e8f89ee3",
+    "engine/benchmarks/results/2026-11-07-msvc-environment.json": "babdcbf9b3c9f2f2ffcc43131f697fc79e68478ab21e4505be7006e04d2493b5",
+    "engine/benchmarks/results/2026-11-07-msvc-release.json": "74950863973a7c2b4862529445d104419c1f9e833e8b1bced7aeaf55b5721f55",
+    "engine/benchmarks/run.ps1": "d4b3d3d0f6001acaa6b709ef7b4cd0f30729ac49fda88eeeec1027661255d67e",
+    "engine/benchmarks/timing.hpp": "7059bbe2d12ae851d82088361481130a817ac644dbc8e29fdc23ff51e2469a63",
+    "engine/benchmarks/workloads.hpp": "e9725b1fd3a7866f6ca8c4d6c7c2a9dc1b585f13b4d9a893fc513dc49cc1ac57",
+    "engine/evidence/a10b/asan-final.log": "9dc30662e64081f87351edfa9fdf129364fc24b89f2042d0c26a53f657c9616c",
+    "engine/evidence/a10b/asan-transport.log": "60e78f39e95ef3e88cdc6ba4f808aaa61055e792f488198d9e758adc934d63ca",
+    "engine/evidence/a10b/native-final.log": "2741a397123892b1cab4f01648461810c2cc6d9c3af33fe3f355f0f3dd0c5a10",
+    "engine/evidence/a10b/native-transport.log": "60e78f39e95ef3e88cdc6ba4f808aaa61055e792f488198d9e758adc934d63ca",
+    "engine/evidence/a10b/verification.json": "9025c2b80aba31e3028db732b8ebe8ffdfa4c06c12bd3c46f74e79ef510fabd3",
+    "engine/examples/physicsnemo_transport_reference.cpp": "0bdf536321d236161a681b38e796047a559f655f1aadad5171d1453020e528a4",
+    "engine/examples/rollout_reference.cpp": "747d16ea6129bd92f50234da41201643dd27aff3ecafd89773762234d6285fd4",
+    "engine/examples/search_example.cpp": "c9cee5ef1aafb08a0b7e6632e14ff8db14b1f99af7f81d980a4cc5c5ff96d93c",
+    "engine/examples/transport_example.cpp": "64655a44657c378f90553dabe8f0f4802b060ac2dbd34e41aca7ddfbd6094769",
+    "engine/examples/transport_qualification_reference.cpp": "6db17df6b57ccf20cf1522faf3beb724f9d696d2bca780563f2d30654d563031",
+    "engine/include/breakwater/engine.hpp": "c03aa5c91ce9fe71f7bb75a0030380b25dbd1e3170344ebe0e0454bfd7e13b16",
+    "engine/include/breakwater/search.hpp": "10ec373ce4ed886f2baf1c53c7080d56426b9741ea4eccf6c1529cbcb08917e2",
+    "engine/include/breakwater/transport.hpp": "06819cc1c8d8e0ca2693a35ed1e5a9403fa6f34e372ff4c9dbe4d933648c67f2",
+    "engine/src/control_influence.hpp": "ca772a4fc345becd92a1de320d95b76de63130c9d714e30c4b28eeaa76639aa8",
+    "engine/src/engine.cpp": "3349a7f4faf13d7305c8c8d981fc6235a9e77c9f46a00b467631b3f7b222e630",
+    "engine/src/forecast_kernels.hpp": "6e84fe8e54cf8ea5d232e8fcbd26f6c16d1f0bd3e878d8f4ffe8177bceccc809",
+    "engine/src/main.cpp": "c38ccd8105116cd143baaa5dabe9b7f04bec586fa2664138a9d27b83621fdb69",
+    "engine/src/scenario.cpp": "e4e1b9a904b0a2ae6cd35284d64001e41eefcd9b1155ce4ea4bd17c202bbf1e1",
+    "engine/src/search.cpp": "e627e5e764fb3abeb39ff12e2734812597e95143cfcd8054afc0648648152a39",
+    "engine/src/search_evaluation.hpp": "575c079599a4ca0af8472a9e9004417297511a25184c1cf4818ebe0ac701de3b",
+    "engine/src/search_kernel.hpp": "8e08ef9b6cf824dc41da1a5d05b89d820ce71c4e468ff55cf03f071cfdcf4768",
+    "engine/src/storage_grid.hpp": "13a159dd7780f78cfdacc6b94a9e240576be71d921f9bfbf562fae4628318bf4",
+    "engine/src/transport.cpp": "627125aeb1e67e289c78b0aeb00bab50c61461d3012a187de06d8376b567c21c",
+    "engine/tests/control_influence_tests.cpp": "5f5bb5b5fe4c90a7678e32fe47b115a76f3cc7ef59536a3d2798d00ada954aec",
+    "engine/tests/engine_tests.cpp": "63cb01e821cb9873adc48422c2e154861984adbe4e69f6815675effe4bd1c6d5",
+    "engine/tests/search_tests.cpp": "f293fc9be5cd448bcf5d7f9deb6cd717b1d8edd1d0c9c934861bf1816001d488",
+    "engine/tests/transport_tests.cpp": "40ea00c8f53bbea1e02960d97aa1697b55fc6e8f0c8042503d4149b0b2f4d9c6",
+    "proofs/Breakwater.lean": "99107a8d390a4309a124687a2d5316514b058115ba2f34c507f6ca42b0ed34a4",
+    "proofs/Breakwater/Affine.lean": "2c054e10408b198a3139cba1600df6db6d67f659ffbbbd093dfb81bd84f33f0e",
+    "proofs/Breakwater/Audit.lean": "01604d7fc3b3f5f738579a890bfab0e3bcb2c13970adb2d8ad196f5447b8be5c",
+    "proofs/Breakwater/ControlInfluence.lean": "b1ac86761bd1446c7cd758280249c48a66a768904a5148708d8fa775383a97dd",
+    "proofs/Breakwater/Graph.lean": "450835db5a8fc923d484ac518428ef969f76c62d10daf480756629cb0d924c92",
+    "proofs/Breakwater/Network.lean": "8fca5368b3bda552ef6401107dac607364e4061db4de3fb5b39422f6fec4122e",
+    "proofs/Breakwater/Transport.lean": "fee6a53db7f7b2c6f8cf8dff9e1537eb612db6b51357aff339b10b9739918bcd",
+    "proofs/Breakwater/TransportNonnegativity.lean": "7aef05e0227f66cab81bae3a76c699bb5ddd77c039b2a4e24a835a509bfa685d",
+    "proofs/FVM_MASS_BALANCE.md": "040d7241b03fff22214ecb69c77849ad6e00c369f01713dd5d12dc4751f13393",
+    "proofs/FVM_NONNEGATIVITY.md": "fb2118ae4633e6b584ffd2fea3ca2c11726fe3c8561558f10571bb99588d3dca",
+    "proofs/PROGRESS.md": "1754fbb2e9781bc6c7337c13e6c202282dcc5f6be3db388fc86839deec95a50a",
+    "proofs/README.md": "0cf39c9f170b77cab8476cb1a783584177967ccd92f99f589aa274e5a95fd9e8",
+    "proofs/evidence/2026-11-07-a10a-asan-transport.log": "aeee78d9e610b4667cae509dfc71e158a6a09a3f04f66c8349f211d21bcbaab1",
+    "proofs/evidence/2026-11-07-a10a-axiom-audit.log": "79b8cc55ffc0a9df01f05074af97fa419a3722e134b4e1a15bd79ef876257441",
+    "proofs/evidence/2026-11-07-a10a-lake-build.log": "64642a063f68a791c01b37599707a6d821b625b0e47e8ba7535d54249bca2d63",
+    "proofs/evidence/2026-11-07-a10a-native-transport.log": "d68ba60ce57ac463bbc4113efa00308d2e78c4b181ea24184cbc758e4242cc90",
+    "proofs/evidence/2026-11-07-a10a-native-verification.json": "0b9dd961b77d8a92064d2ec05127142eb28c8922537cc869432066e41105a047",
+    "proofs/evidence/2026-11-07-a10a-negative-audit.log": "b0ebfddfcd2a685ffe4c8c0331c55357621cb30ccaa0c2c982c482bec02932fa",
+    "proofs/evidence/2026-11-07-a10a-verification.json": "bd94bb3cd3ee6f9e0354581bb566fadf7e9680857d7e505f2e49123777b759e4",
+    "proofs/evidence/2026-11-07-axiom-audit.log": "d413dd77ddde1e33d173bb97df4f31663381cb88d6ee084927545fb0a4948fb0",
+    "proofs/evidence/2026-11-07-control-influence-axiom-audit.log": "39fa9d25201ee110311ad585c81b8b4ac879ac3d0e859a6abcf5cf43e06d9d2c",
+    "proofs/evidence/2026-11-07-control-influence-lake-build.log": "ee2ad79629e439b1d932791da5f0df02c0734808963dbb559721e46ae6667633",
+    "proofs/evidence/2026-11-07-control-influence-negative-audit.log": "b0ebfddfcd2a685ffe4c8c0331c55357621cb30ccaa0c2c982c482bec02932fa",
+    "proofs/evidence/2026-11-07-control-influence-verification.json": "a654ecff052db04595e495d2ec48d28511e18411b5aa2bc22e91b8919dfda4ba",
+    "proofs/evidence/2026-11-07-lake-build.log": "e6278689c2a8d0e706a0738854a426a6b2d70f250aaf3781d6a19f64bf33da96",
+    "proofs/evidence/2026-11-07-negative-audit.log": "b0ebfddfcd2a685ffe4c8c0331c55357621cb30ccaa0c2c982c482bec02932fa",
+    "proofs/evidence/2026-11-07-verification.json": "fb1d6e772eeadd1e6916d48e42d01c14c535e5aa7a2610935a44074eac358628",
+    "proofs/evidence/a10b-axiom-audit.log": "0c5bc2bb9da2ef8218407a83fa2a30a5935de8666f7fec4c2959bcbb60c847c3",
+    "proofs/evidence/a10b-lake-build.log": "6b2f7928b78a8bdeefe4d510d5c3dee72028473d7d73af79c40c3764a5708e9e",
+    "proofs/evidence/a10b-negative-audit.log": "b0ebfddfcd2a685ffe4c8c0331c55357621cb30ccaa0c2c982c482bec02932fa",
+    "proofs/evidence/a10b-verification.json": "994eedb49ad915e3c938ed3c3fca11d4d05dd3fc11e4242a12d59b1779e5678a",
+    "proofs/lake-manifest.json": "f343f0883098557180e3b592a4305211c5ab520ea91fc3ab428b9a9b8e027f6b",
+    "proofs/lakefile.toml": "6e54674dc06756eafec1f44bd9c316147eca8dd05e3563170fc5d698dbf3c26f",
+    "proofs/lean-toolchain": "27e73059e3a4d568450f74e39c2f79676c4f8d41373fff15170690f124e3bacd",
+    "proofs/verify.ps1": "658887a246b8618e26a81c6568c3c7f85a99d3c044d6b12a6451a68ae98fe5e8",
+    "scenarios/pump_failure.json": "189c28704d9a08cae61e4c0fb704246342119f176ac1ca6d3ebbc632fa671ef0",
+    "science/.python-version": "50b10393ce287fb4af7616d016dd16ac1a56412af4d2c74cde7ddc5ad5c78761",
+    "science/A001_HORIZON_FIX.md": "aaa82eec222e339a8f55b527ff08ddf9077f401acea12026e3c303522bf5f731",
+    "science/A002_COST_FIX.md": "fa9ebb199e221d8195a463da0e44135aa5189dce0a89fdca8d18be0023e15829",
+    "science/A003_RESIDUAL_FIX.md": "30492907944cef924c90313c54605718884ed31f42ef9a8519848e89e4c2eed3",
+    "science/A004_STATUS_FIX.md": "6996c88fb6d4400c48411f5181c2e4fcdcd5959f545b6f88064c8bf474c3ebeb",
+    "science/AUDIT_PERSON_A.md": "d5381b325804ea825e2af9c31762c5655bc484a58ade8b92aae85174e330247b",
+    "science/AUDIT_POST_A10A.md": "ad8319872901a80b55a339666fe8e1a44ed554b593de96c2f26e94e048e5079f",
+    "science/PHYSICSNEMO.md": "2984ece5a888fcd79b7b876cc0c2de1fcdaaa4ae9f386cdca278cd1d72ed9e8c",
+    "science/PROGRESS.md": "9ff0f5603f02928b9ba7409c470f1802588a30044da6ebfdc05e07c920ab9e4d",
+    "science/README.md": "a7bd4e1ca238a8d7da0faf5e1ebca087983520075397c881f0a5991494972736",
+    "science/TRANSPORT_QUALIFICATION.md": "d28e5eccadd02085d6e42aced775af2bb768b851428e9ff4ee63046b69d5da6a",
+    "science/WORKER.md": "eeb658e59d6b8ae243490ae0ad3a93d61dbdf52793d893108a136cefa2bccc71",
+    "science/a4_config.json": "210543e97fe288713239f81a44f4d96f95123f5adbf239fb20fe08f4e527b667",
+    "science/a9_transport_config.json": "a1aa821ad15004ebf0f8d3257a6054c37e8a35df73aef8ca666a30e52b9d720e",
+    "science/a9_transport_refined_config.json": "2c1e6d0d2ec320183dcd4041d00f51ce84d99191c0ffa060149b0a5632bddc01",
+    "science/breakwater_science/__init__.py": "b2eba03885b9ff0033110e023181cf425aa3023816955d6138949b6566d8ca8e",
+    "science/breakwater_science/rollout.py": "87647716ce6dfda1abb66707bed66468f01725cddf312f514ceaee4006579ba9",
+    "science/breakwater_science/transport_pinn.py": "d2be3d133f1b4a2a6a23d1aa3dda870a9bcbbd335618197098667e193700052d",
+    "science/breakwater_science/transport_reference.py": "8bfaa83ce71579e2f1c943170da8cca8307ad74852df0b0b68253de3ee09f197",
+    "science/evidence/2026-11-07-worker-verification.json": "1748dd5cb27acba5e609a10318b4f61e00f4f842923c187d9a616133a549af5b",
+    "science/evidence/post-a10a-audit/asan.log": "2b35ebb556255d3d7db3d266dd90bc77698f9228a26ec4a976799f20258ceed8",
+    "science/evidence/post-a10a-audit/lean-axiom-audit.log": "79b8cc55ffc0a9df01f05074af97fa419a3722e134b4e1a15bd79ef876257441",
+    "science/evidence/post-a10a-audit/lean-lake-build.log": "f3da41b4163b63818b5904cef710789c0f9d6eb259fd550b3997439926f89fa5",
+    "science/evidence/post-a10a-audit/lean-negative-audit.log": "b0ebfddfcd2a685ffe4c8c0331c55357621cb30ccaa0c2c982c482bec02932fa",
+    "science/evidence/post-a10a-audit/lean-verification.json": "3ee05dc26339d377a698a2084dca16e83a6143931717852076c7449a58e384f0",
+    "science/evidence/post-a10a-audit/native.log": "8c21cf989919b6effc99eef481f06aa0a87a265d1daf03eb5dc3972b86a83ca4",
+    "science/evidence/post-a10a-audit/python-tests.log": "16ded9873ee2770c6f2713c5e7cd60e9cbcaab9c5d9d52b43878a2aa3131cdef",
+    "science/evidence/post-a10a-audit/rollout.log": "16fd940320c851e25d738c7c4ab2cc92118bbc4e612b273f44c87a8124875361",
+    "science/evidence/post-a10a-audit/verification.json": "cd2c40448a4da7727cf28cb5b298bade095f9ab78bb82e1d84bf6843299adc2c",
+    "science/evidence/post-a10a-audit/worker.log": "a10254319446a381bba836dd3c19319359fd379179df26df472678b1bbd58fa0",
+    "science/physicsnemo_smoke.py": "69b98dacd237a26d1d56ae8351df4352a1ec78bbca08eb39d07094a23f5b4c2e",
+    "science/qualify_transport.py": "0b8da8b6211dbdde6d96d1c1ec15bfac125278ecb63c857d7090b3fa1c19bb60",
+    "science/requirements-physicsnemo-win-cpu-py312.txt": "982cda6c10f169b101d04ed1e6e026d5bc703d0f2e15887e9e21840c1029fce5",
+    "science/requirements-physicsnemo.in": "236e28ca0476e224c80965122a848bfc38b2493c5fe74129ba10f16bfe7ad49a",
+    "science/requirements-win-cpu-py312.txt": "587ef90593e0fddcfa2881d1d027c1f470e12cf3fd02f2f2a6e2739d27c9b08f",
+    "science/requirements-worker-tests-win-py312.txt": "17183f19ccedfca07cb7dd7602117c96e567ecb38ebc48c0658c8d9604f3b0d3",
+    "science/requirements-worker-tests.in": "4d5eed34e57678b9368a36b80bfd17e52bbb3225f6a7569334b6554554124f6a",
+    "science/requirements.in": "5dae3206456b731cf49938911fe522fd791ad97513236d939f75b0cb343ee0dd",
+    "science/storage_grid.py": "bd3bb89db64d857de0cb4eb90f61e18a60031467b485bd6fc007e480f3b72ffe",
+    "science/tests/test_physicsnemo.py": "070f42456f8fc3192b75b4f279abef15954cc021a6ac8b5e0545df694ec202f0",
+    "science/tests/test_rollout.py": "431586cf69caba4e9ff464ac5aba4b88d931499f27c65c5df512af66522402cc",
+    "science/tests/test_transport_qualification.py": "253c7d7fd4f78074114f20356dbca8a60e286f14ec907f63ef3ce7a2f0f64bb4",
+    "science/tests/test_transport_reference.py": "5e3a692400aa250e0eab4b9a9dc168773dd62dab6725b1798805e098cff75a4f",
+    "science/tests/test_worker.py": "8762c1f6bbdcf00d8cfd26f6120abca031ec42a872581bf58dbd5e440f23e3cf",
+    "science/tests/test_worker_protocol.py": "e24ae66b639835350f30550947cbbe3f7074151344d63da23be9c9981a277a6c",
+    "science/tests/test_worker_storage.py": "2beb22cfafd5d343cf09a59d41cf6d4cfcdc4465a9c86634fa12a05efeb23a7c",
+    "science/verify_rollout.py": "26b580dc726465cecc67b26565fbb226cef11fb2174f96d9fb0003a84c9d8847",
+    "science/verify_worker.py": "d2d73f37bc79ea83f7dae6f73de38866121372dae5982e9975c5b1340a52adf7",
+    "science/worker.py": "49e94ef172847867aaa391387df959e2322caeb9d5e32de83b73a295ddbadbc0",
+    "science/worker_storage.py": "150e35339b136b903208151f335a4df8a3156a48c5430e87f3a44e1c8feee546",
+    "scripts/Generate-VisualStudio.ps1": "3e72a375fa18d03a9361d6fe08e69003ef84c2bfd078ce94fa9ff858ee6621f0",
+    "scripts/Setup-ScientificWorker.ps1": "8aac970f2ff99091503b4e6ad5be4791fb8b39a0811ed1aa73635c3e310888f0",
+    "scripts/Start-Desktop.ps1": "b7e5b5c9c6b5fc7a354c2e221115ad576dcb572b18649ee4a73383f4d55ebb61",
+    "scripts/build.ps1": "762397a7c0bb7ab3061eacd2d7f24fd98f76603b2ef4ed0438f0535dc3480efe",
+    "scripts/install-qt.py": "c15b54b5f9a4208330edceb636f18c71299d635177f9e3ac16ce4f308a3ce481"
+  },
+  "executables": {
+    "normal": {
+      "out\\verified-normal\\desktop\\breakwater.exe": "72fcecd74430a1a928994d215cd65dfa79fe4f0e6ac55a16e06f4881184624a6",
+      "out\\verified-normal\\desktop\\breakwater_agent_gateway_tests.exe": "32108ecb7e6a7c3bfa2cf8f96af86e625c22da90a8ed45e4bcebc181c0a5ccc7",
+      "out\\verified-normal\\desktop\\breakwater_agent_orchestrator_tests.exe": "b5c40194ff7fe4697e915cf29be409f9f49d9146f31624947085971e3648412a",
+      "out\\verified-normal\\desktop\\breakwater_desktop_tests.exe": "82a3e0654e46ead025b68e9f5de362acb801734c96d941af08351e64e3d84add",
+      "out\\verified-normal\\desktop\\breakwater_history_controller_tests.exe": "ce4cf86e50a9ab5441e0cbb513c548df7e7b0f1c0f3f0e96a1d8fb2f02217dc3",
+      "out\\verified-normal\\desktop\\breakwater_nemotron_client_tests.exe": "347c3d471596b47bb24a9896583c7adc4c9c9b501947a57b901fa6fe34110bb1",
+      "out\\verified-normal\\desktop\\breakwater_nemotron_smoke.exe": "e87c950fdff08726f66cd0210c3fdd170dbadc20c3043ab9228393fac449f0bb",
+      "out\\verified-normal\\desktop\\breakwater_pipe_parameters_tests.exe": "d6a8f07e754c684172fa6097d10f2f21f3b28343e9fe08ea61d6155848a50c8f",
+      "out\\verified-normal\\desktop\\breakwater_pipe_transport_evidence_tests.exe": "1090c3db7b0c90be1b839f84da8ea4a17b90aef223ded6bfff37598a5775cfd5",
+      "out\\verified-normal\\desktop\\breakwater_pipe_transport_tests.exe": "d00a3ecfee63df5763ddcaeca36e158a4c7524952df7c666b39e1c13d14f0c73",
+      "out\\verified-normal\\desktop\\breakwater_python_worker_tests.exe": "8e360710527130935015a0606afd63f8dc2a8e497ca534a0f642e09199b21df8",
+      "out\\verified-normal\\desktop\\breakwater_session_repository_tests.exe": "1b3f20abe0a5e647893c8b0b0eb2082f34abf73a6be4fecc3a74aef9b07ee6b3",
+      "out\\verified-normal\\desktop\\breakwater_storage_science_tests.exe": "c774ba607b33ac69e9810f02783d7a844e01049e93870880d0ffa8c798c525fb",
+      "out\\verified-normal\\desktop\\breakwater_storage_worker_tests.exe": "19a1e6effbc04149ecba263135a37434c17241eb518050a64dcc14caade57a04",
+      "out\\verified-normal\\engine\\breakwater_benchmark.exe": "bfe88000bee7fb041caa8cfe5eb5a0e870911a74bef1cc10dbd4ab38aef6af61",
+      "out\\verified-normal\\engine\\breakwater_cli.exe": "c7f5c47c60066c10a9329913194161ab81e81c1c997d1d9d2b93ecbbdc6c4beb",
+      "out\\verified-normal\\engine\\breakwater_control_influence_tests.exe": "3262ad2804dbe003e5294fa1275d9522890e0c1e4a721605b7cccc50e238e67d",
+      "out\\verified-normal\\engine\\breakwater_engine_tests.exe": "93f83c6495c09202380bacae4b0cc0e08ef0807c33a1ab526e22ee1e26ce68e2",
+      "out\\verified-normal\\engine\\breakwater_physicsnemo_reference.exe": "e26094b1d474f58f9c9c2242531a408ccf36b2a6967b4b9c97046d0dd82fc72e",
+      "out\\verified-normal\\engine\\breakwater_rollout_reference.exe": "2f5cdefcaa81e30b365516c0bf43e55d45d31fa465fdf8d51cf47d864c056d4d",
+      "out\\verified-normal\\engine\\breakwater_search_example.exe": "269cefab7624b8f61e75e69dc47c528aa949ddabf95dd80d75449e38478b71c6",
+      "out\\verified-normal\\engine\\breakwater_search_tests.exe": "1f7bdce2b1748470c10ec29f4cc7d87656a97d5637ba228da8e73376f3436ac4",
+      "out\\verified-normal\\engine\\breakwater_transport_example.exe": "55cb9659a59fd1f874b6a55ef987047a37dffb6657d1ce0f0536519abdceed38",
+      "out\\verified-normal\\engine\\breakwater_transport_qualification_reference.exe": "3430d253c2c73a84dea1c8c3d3b5af892f6de7c745d827a1796d9d60c6ae8168",
+      "out\\verified-normal\\engine\\breakwater_transport_tests.exe": "9dddb0d24dc8525d865d0458ee95379e8f3811433e5577f14063a5227deb79af",
+      "out\\verified-normal\\CMakeFiles\\4.3.1-msvc1\\CompilerIdCXX\\CMakeCXXCompilerId.exe": "4fc85752b2acf99b77c46b426c33a901bbb7078aea58c7a36f59056539f75e84"
+    },
+    "asan": {
+      "out\\verified-asan\\desktop\\breakwater.exe": "1b96ec6fcc9abad86156b6d03420090ea163a1ae7a24d3fca720d9ba108301f0",
+      "out\\verified-asan\\desktop\\breakwater_agent_gateway_tests.exe": "99a4ee23f50c83062ae72cd4f2e76667b62b6151f35243508a8841edf43c1beb",
+      "out\\verified-asan\\desktop\\breakwater_agent_orchestrator_tests.exe": "0e82046d0a003d7d4a700f3d3a6de14e9eff0dbf5fe3edd44ccd2ebda119a44d",
+      "out\\verified-asan\\desktop\\breakwater_desktop_tests.exe": "f121c8afa92b7da4303e29315d3c7c4710f06716c567bae46b296310feeee1f1",
+      "out\\verified-asan\\desktop\\breakwater_history_controller_tests.exe": "aa2746188b53e46ed9c9caac1bfc26aac9851b39e46c5f5f3764a510ed5e7d63",
+      "out\\verified-asan\\desktop\\breakwater_nemotron_client_tests.exe": "1f8cc9dbf6b9d5027b126d0d347fd70c08ad10e8de1a871ef0c2f9874d27d94c",
+      "out\\verified-asan\\desktop\\breakwater_nemotron_smoke.exe": "2358f725170686d6eded42ad8c98bb58e5401c2ce506ef116a3076bdd8ae66cd",
+      "out\\verified-asan\\desktop\\breakwater_pipe_parameters_tests.exe": "a1c745493692ffe090252902c430e6eb24a1c2f0d3c07538c2b29d355ffbae43",
+      "out\\verified-asan\\desktop\\breakwater_pipe_transport_evidence_tests.exe": "9cfd497c7527a56ef60900c15ce60f28161dd70763fb4df8443308af4f05e20e",
+      "out\\verified-asan\\desktop\\breakwater_pipe_transport_tests.exe": "0cc017ca733682dd956b683213987c6c3ddcdfbdfdf21fe8c09ad7157561e7d5",
+      "out\\verified-asan\\desktop\\breakwater_python_worker_tests.exe": "2381ec8540e43fad6ec03d3165e9491649f475ad964868f5b2b8a6becda5c75c",
+      "out\\verified-asan\\desktop\\breakwater_session_repository_tests.exe": "1434caf4372f94e26c724484c87f72e989607a5427bb9de49274d1ff8b4c154a",
+      "out\\verified-asan\\desktop\\breakwater_storage_science_tests.exe": "e126c7fd2243dcad9e0994edf54ea2fe19ee6717ad9c0e0129d02dcf1070b53d",
+      "out\\verified-asan\\desktop\\breakwater_storage_worker_tests.exe": "a65c4e5aeae7cbc62f0ef251fb821da25dec8a290fa7390814fddc9033a933ea",
+      "out\\verified-asan\\engine\\breakwater_benchmark.exe": "5f0b49506e66756df2ef2d9663d3650bad512d9fdca003583a03a240fc385196",
+      "out\\verified-asan\\engine\\breakwater_cli.exe": "42914a7a56a90fc18f55b5137bda87c8d0b98e3d0e1aceb02c81304acf95876a",
+      "out\\verified-asan\\engine\\breakwater_control_influence_tests.exe": "b19e5768e228a621d29bcae84e2e860743c429317add1dac5406c547eec06d96",
+      "out\\verified-asan\\engine\\breakwater_engine_tests.exe": "3e6a84f25012330bc0a3e09a6ce05a40851d20d601389979f1c6df77aaee66a4",
+      "out\\verified-asan\\engine\\breakwater_physicsnemo_reference.exe": "9d27afa866d0192565012f7df05fba7e265f21bfbb449cd386c40f8a6ebaefc9",
+      "out\\verified-asan\\engine\\breakwater_rollout_reference.exe": "ed5ecb0e9fddc640517947c2448566d95a050951cbf6b485846918ed1d170ead",
+      "out\\verified-asan\\engine\\breakwater_search_example.exe": "df87a87e905017291c447e0944f7158e8281da6664bff6af2aabfdee2c905551",
+      "out\\verified-asan\\engine\\breakwater_search_tests.exe": "daec0a74b7afbd9f7728b4019a6991113d37560c1a8c312b43981b297da46c7a",
+      "out\\verified-asan\\engine\\breakwater_transport_example.exe": "689b0fbcc7b3e6851936c8985117a32ae569067d2db4b5bd3c881edb740b3d8e",
+      "out\\verified-asan\\engine\\breakwater_transport_qualification_reference.exe": "b1b1e1e9c587395b6fbdba7a6a3fac4a558b90d5ea3096b337373ae722b7ccb6",
+      "out\\verified-asan\\engine\\breakwater_transport_tests.exe": "1e863edef68ae40f0c7f5a0b9c9db8529d8db1038a20b36b14c98d2ee107e35d",
+      "out\\verified-asan\\CMakeFiles\\4.3.1-msvc1\\CompilerIdCXX\\CMakeCXXCompilerId.exe": "96695605926484b889266f2a15f60300608820236f1c219a655d035c376bf460"
+    }
+  },
+  "qt_results": {
+    "normal": {
+      "agent_gateway-results.txt": [
+        [
+          20,
+          0,
+          0,
+          0,
+          32
+        ]
+      ],
+      "agent_orchestrator-results.txt": [
+        [
+          17,
+          0,
+          0,
+          0,
+          1495
+        ]
+      ],
+      "history_controller-results.txt": [
+        [
+          6,
+          0,
+          0,
+          0,
+          710
+        ]
+      ],
+      "nemotron_client-results.txt": [
+        [
+          37,
+          0,
+          0,
+          0,
+          1998
+        ]
+      ],
+      "pipe_transport-results.txt": [
+        [
+          14,
+          0,
+          0,
+          0,
+          2521
+        ]
+      ],
+      "pipe_transport_evidence-results.txt": [
+        [
+          13,
+          0,
+          0,
+          0,
+          53
+        ]
+      ],
+      "python_worker-results.txt": [
+        [
+          24,
+          0,
+          0,
+          0,
+          11101
+        ]
+      ],
+      "session_repository-results.txt": [
+        [
+          14,
+          0,
+          0,
+          0,
+          516
+        ]
+      ],
+      "storage_science-results.txt": [
+        [
+          22,
+          0,
+          0,
+          0,
+          76862
+        ]
+      ],
+      "storage_worker-results.txt": [
+        [
+          85,
+          0,
+          0,
+          0,
+          134139
+        ]
+      ]
+    },
+    "asan": {
+      "agent_gateway-results.txt": [
+        [
+          20,
+          0,
+          0,
+          0,
+          1111
+        ]
+      ],
+      "agent_orchestrator-results.txt": [
+        [
+          17,
+          0,
+          0,
+          0,
+          3877
+        ]
+      ],
+      "history_controller-results.txt": [
+        [
+          6,
+          0,
+          0,
+          0,
+          2461
+        ]
+      ],
+      "nemotron_client-results.txt": [
+        [
+          37,
+          0,
+          0,
+          0,
+          2259
+        ]
+      ],
+      "pipe_transport-results.txt": [
+        [
+          14,
+          0,
+          0,
+          0,
+          7690
+        ]
+      ],
+      "pipe_transport_evidence-results.txt": [
+        [
+          13,
+          0,
+          0,
+          0,
+          805
+        ]
+      ],
+      "python_worker-results.txt": [
+        [
+          24,
+          0,
+          0,
+          0,
+          6651
+        ]
+      ],
+      "session_repository-results.txt": [
+        [
+          14,
+          0,
+          0,
+          0,
+          4941
+        ]
+      ],
+      "storage_science-results.txt": [
+        [
+          22,
+          0,
+          0,
+          0,
+          83255
+        ]
+      ],
+      "storage_worker-results.txt": [
+        [
+          85,
+          0,
+          0,
+          0,
+          134106
+        ]
+      ]
+    }
+  },
+  "registered_tests": {
+    "normal": [
+      "engine.benchmark_correctness",
+      "engine.acceptance",
+      "engine.search",
+      "engine.control_influence",
+      "engine.search_example",
+      "engine.search_infeasible_example",
+      "engine.transport",
+      "engine.transport_example",
+      "desktop.project",
+      "desktop.pipe_parameters",
+      "desktop.nemotron_client",
+      "desktop.agent_gateway",
+      "desktop.agent_orchestrator",
+      "desktop.session_repository",
+      "desktop.history_controller",
+      "desktop.python_worker",
+      "desktop.pipe_transport",
+      "desktop.pipe_transport_evidence",
+      "desktop.storage_worker",
+      "desktop.storage_science",
+      "desktop.storage_science_normal",
+      "desktop.storage_science_compact",
+      "desktop.qml_smoke",
+      "desktop.pipe_evidence_smoke"
+    ],
+    "asan": [
+      "engine.benchmark_correctness",
+      "engine.acceptance",
+      "engine.search",
+      "engine.control_influence",
+      "engine.search_example",
+      "engine.search_infeasible_example",
+      "engine.transport",
+      "engine.transport_example",
+      "desktop.project",
+      "desktop.pipe_parameters",
+      "desktop.nemotron_client",
+      "desktop.agent_gateway",
+      "desktop.agent_orchestrator",
+      "desktop.session_repository",
+      "desktop.history_controller",
+      "desktop.python_worker",
+      "desktop.pipe_transport",
+      "desktop.pipe_transport_evidence",
+      "desktop.storage_worker",
+      "desktop.storage_science",
+      "desktop.storage_science_normal",
+      "desktop.storage_science_compact",
+      "desktop.qml_smoke",
+      "desktop.pipe_evidence_smoke"
+    ]
+  },
+  "post_increment_qt_results": {
+    "normal": {
+      "storage_science-results.txt": [
+        [
+          25,
+          0,
+          0,
+          0,
+          81989
+        ]
+      ],
+      "storage_worker-results.txt": [
+        [
+          85,
+          0,
+          0,
+          0,
+          137656
+        ]
+      ]
+    },
+    "asan": {
+      "storage_science-results.txt": [
+        [
+          25,
+          0,
+          0,
+          0,
+          82241
+        ]
+      ],
+      "storage_worker-results.txt": [
+        [
+          85,
+          0,
+          0,
+          0,
+          148625
+        ]
+      ]
+    }
+  },
+  "runtime_executables": {
+    "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Scripts\\python.exe": "e6fe3bc93c6658088ba402ac3b3b16499fb12acf3b081929d68851267db6b103",
+    "C:\\Projects\\Breakwater\\.tools\\python\\cpython-3.12.13-windows-x86_64-none\\python.exe": "52f25fbbd13392fc8605ed40fadf644a40156d03f77efc83b5ae34b6449ea135",
+    "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\.tools\\science-cpu\\Scripts\\python.exe": "f1032280e8b145a2ac1fba92de103b5b979e08df8692628c5cc1de42a214d945",
+    "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\.tools\\uv-python\\cpython-3.12.13-windows-x86_64-none\\python.exe": "52f25fbbd13392fc8605ed40fadf644a40156d03f77efc83b5ae34b6449ea135",
+    "C:\\Projects\\Breakwater\\.tools\\lean-4.35.0-windows\\bin\\lean.exe": "ec7a472d1c12a09b0c0c718f7427c2be527b3f5f07810fdbe076c2507c7a91ea",
+    "C:\\Projects\\Breakwater\\.tools\\lean-4.35.0-windows\\bin\\lake.exe": "023feb24d3e7244fe671dba79f1cd1affc6c7a7cacfe497bf3675febb506578c"
+  },
+  "lean": {
+    "audited_count": 54,
+    "unique_count": 54,
+    "previous_37_preserved": true,
+    "names": [
+      "Breakwater.sparse_eq_dense",
+      "Breakwater.sparse_permuted_eq_dense",
+      "Breakwater.denseRate_total_zero",
+      "Breakwater.sparse_total_conserved",
+      "Breakwater.graphEuler_total_balance",
+      "Breakwater.Affine.repeatedEuler_closed_form",
+      "Breakwater.Affine.variableEuler_closed_form",
+      "Breakwater.Affine.timeSteps_sum",
+      "Breakwater.Affine.variableEuler_on_grid",
+      "Breakwater.Affine.scalar_endpoint_bounds",
+      "Breakwater.Affine.trajectory_bounds",
+      "Breakwater.Affine.trajectory_zero_horizon_bounds",
+      "Breakwater.network_rollout_affine",
+      "Breakwater.network_rollout_total_balance",
+      "Breakwater.network_interval_bounds",
+      "Breakwater.ControlInfluence.weightedFold_eq_sum",
+      "Breakwater.ControlInfluence.weighted_candidate_decomposition",
+      "Breakwater.ControlInfluence.precomputed_eq_direct",
+      "Breakwater.ControlInfluence.precomputed_zero_delta",
+      "Breakwater.ControlInfluence.precomputed_network_rate",
+      "Breakwater.ControlInfluence.precomputed_network_trajectory",
+      "Breakwater.Transport.inventory_eq_scale_sum",
+      "Breakwater.Transport.face_differences_telescope",
+      "Breakwater.Transport.euler_sum_balance",
+      "Breakwater.Transport.euler_inventory_balance",
+      "Breakwater.Transport.openFlux_inlet",
+      "Breakwater.Transport.openFlux_outlet",
+      "Breakwater.Transport.openFlux_interior",
+      "Breakwater.Transport.closedFlux_inlet",
+      "Breakwater.Transport.closedFlux_outlet",
+      "Breakwater.Transport.closedFlux_interior",
+      "Breakwater.Transport.open_euler_inventory_balance",
+      "Breakwater.Transport.closed_euler_inventory_balance",
+      "Breakwater.Transport.zero_flow_inlet_loss",
+      "Breakwater.Transport.rollout_residual_preserved",
+      "Breakwater.Transport.rollout_mass_residual_zero",
+      "Breakwater.Transport.rollout_inventory_balance",
+      "Breakwater.Transport.open_first_expansion",
+      "Breakwater.Transport.open_last_expansion",
+      "Breakwater.Transport.open_interior_expansion",
+      "Breakwater.Transport.closed_first_expansion",
+      "Breakwater.Transport.closed_last_expansion",
+      "Breakwater.Transport.closed_interior_expansion",
+      "Breakwater.Transport.dimensionless_numbers_nonnegative",
+      "Breakwater.Transport.open_budget_identity",
+      "Breakwater.Transport.closed_budget_identity",
+      "Breakwater.Transport.open_coefficient_bounds",
+      "Breakwater.Transport.closed_coefficient_bounds",
+      "Breakwater.Transport.open_euler_nonnegative",
+      "Breakwater.Transport.closed_euler_nonnegative",
+      "Breakwater.Transport.native_step_nonnegative",
+      "Breakwater.Transport.native_rollout_nonnegative",
+      "Breakwater.Transport.native_rollout_nonnegative_mass_balance",
+      "Breakwater.Transport.interior_only_bound_counterexample"
+    ]
+  }
+}

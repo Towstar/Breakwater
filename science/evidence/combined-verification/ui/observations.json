@@ -1,0 +1,30 @@
+{
+  "started_utc": "2026-11-08T03:30:52.341Z",
+  "finished_utc": "2026-11-08T03:40:36.846Z",
+  "elapsed_s": 584.505,
+  "budget_s": 900,
+  "observed": {
+    "mixed_terminal_m3": [
+      80,
+      117
+    ],
+    "mixed_cost": 12780,
+    "health_python": "3.12.13",
+    "capabilities_before_execution": "implemented, not verified",
+    "comparison": "both tanks agree; native/PyTorch costs 12780; float64 CPU provenance",
+    "layout_move": "Tank A moved; same run and scientific evidence retained",
+    "reset": "captured comparison retired",
+    "infeasible_terminal_m3": 132,
+    "infeasible_capacity_m3": 130,
+    "approval": "disabled for infeasible forecast",
+    "cancellation": "Completion won the race before the Cancel action; cancellation inside the calculation was not observed",
+    "native_transport": "backup_pump solver executed; field, outlet and mass ledger displayed",
+    "restarted_relocated_import": "Automatically reopened an authentic automated native export; banner historical, unverified file, no approval",
+    "compact": "1100x700 controls, warnings, 132/130 terminal volume and imported transport curves readable"
+  },
+  "unverified": [
+    "Interactive save/load through native dialogs: filename focus/index targeting was unreliable; canceled without writing a project",
+    "Interactive native export and re-import of the interactively computed result: native export dialog targeting blocked; canceled"
+  ],
+  "automated_rendering_is_not_interactive_workflow_evidence": true
+}

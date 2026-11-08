@@ -1,0 +1,11 @@
+{
+  "cmake": "cmake version 4.3.1-msvc1",
+  "ninja": "1.13.2",
+  "compiler": "-- The CXX compiler identification is MSVC 19.51.36260.0",
+  "vs_installation": "C:\\Program Files\\Microsoft Visual Studio\\18\\Community",
+  "windows_sdk": "10.0.26100.0\\",
+  "vctools": "14.51.36231",
+  "qt": "6.12.0",
+  "correction_commit": "e1b28b869a5439151a7bc05e2b0fa357a62f65f5",
+  "correction_tree": "aa9c122f65298b9a1e9c143faaebdec008deb394"
+}

@@ -1,0 +1,10 @@
+{
+  "status": "passed",
+  "installed_executions": 16,
+  "both_module_origins_verified": true,
+  "source_export_unavailable": true,
+  "sqlite_integrity": "ok",
+  "session_count": 0,
+  "setup_idempotent": true,
+  "harness_disposition": "Earlier row-count assertion incorrectly expected native file import to create a Nemotron session; integrity and historical file reopening are distinct checks."
+}

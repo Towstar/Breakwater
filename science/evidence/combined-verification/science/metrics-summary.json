@@ -1,0 +1,407 @@
+{
+  "cases_identical_normal_asan": true,
+  "max_mass_residual_mg": 5.115907697472721e-13,
+  "max_reference_roundoff_estimate_mg_l": 1.8370386625336843e-06,
+  "studies": [
+    {
+      "regime": "advection",
+      "study": "space",
+      "mode": null,
+      "scope": "spatial_with_measured_time_contamination",
+      "id": "advection.space.n128.cfl0.01",
+      "terminal": {
+        "mean_l1_mg_l": 0.011688965402666788,
+        "rms_mg_l": 0.017477856499272994,
+        "maximum_mg_l": 0.03671853564932104
+      },
+      "temporal": {
+        "mean_l1_mg_l": 0.00011357557739636517,
+        "rms_mg_l": 0.00016595427827654054,
+        "maximum_mg_l": 0.00035628560282152666
+      },
+      "spatial": {
+        "mean_l1_mg_l": 0.011802030725885043,
+        "rms_mg_l": 0.017642876825696173,
+        "maximum_mg_l": 0.037074821252142565
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 0.011688965402666788,
+        "rms_mg_l": 0.017477856499272994,
+        "maximum_mg_l": 0.03671853564932104
+      },
+      "orders": [
+        0.8901084320919308,
+        0.9436328757176977
+      ]
+    },
+    {
+      "regime": "advection",
+      "study": "time",
+      "mode": null,
+      "scope": "time_at_fixed_spatial_mesh",
+      "id": "advection.time.n64.cfl0.1",
+      "terminal": {
+        "mean_l1_mg_l": 0.020602014738219012,
+        "rms_mg_l": 0.030282096952760722,
+        "maximum_mg_l": 0.0646117795701946
+      },
+      "temporal": {
+        "mean_l1_mg_l": 0.0021170055792487374,
+        "rms_mg_l": 0.003013444467569479,
+        "maximum_mg_l": 0.006618621528098556
+      },
+      "spatial": {
+        "mean_l1_mg_l": 0.02268889736547257,
+        "rms_mg_l": 0.033255801074581225,
+        "maximum_mg_l": 0.07123040109829315
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 0.020602014738219012,
+        "rms_mg_l": 0.030282096952760722,
+        "maximum_mg_l": 0.0646117795701946
+      },
+      "orders": [
+        1.0422623302921008,
+        1.0223076877714334,
+        1.0117094490762362
+      ]
+    },
+    {
+      "regime": "closed_diffusion",
+      "study": "space",
+      "mode": null,
+      "scope": "spatial_with_measured_time_contamination",
+      "id": "closed_diffusion.space.n128.cfl0.01",
+      "terminal": {
+        "mean_l1_mg_l": 8.31575422726577e-07,
+        "rms_mg_l": 9.236248812823652e-07,
+        "maximum_mg_l": 1.3061044801254695e-06
+      },
+      "temporal": {
+        "mean_l1_mg_l": 2.571681434124229e-08,
+        "rms_mg_l": 2.856348192176423e-08,
+        "maximum_mg_l": 4.039182416315512e-08
+      },
+      "spatial": {
+        "mean_l1_mg_l": 8.572922370678193e-07,
+        "rms_mg_l": 9.521883632041294e-07,
+        "maximum_mg_l": 1.3464963008469333e-06
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 8.31575422726577e-07,
+        "rms_mg_l": 9.236248812823652e-07,
+        "maximum_mg_l": 1.3061044801254695e-06
+      },
+      "orders": [
+        1.9997358663167235,
+        1.9999339724715381
+      ]
+    },
+    {
+      "regime": "closed_diffusion",
+      "study": "time",
+      "mode": null,
+      "scope": "time_at_fixed_spatial_mesh",
+      "id": "closed_diffusion.time.n64.cfl0.1",
+      "terminal": {
+        "mean_l1_mg_l": 2.400733107495341e-06,
+        "rms_mg_l": 2.6662763308122793e-06,
+        "maximum_mg_l": 3.7695484884081587e-06
+      },
+      "temporal": {
+        "mean_l1_mg_l": 1.0282547577454212e-06,
+        "rms_mg_l": 1.1419892174013162e-06,
+        "maximum_mg_l": 1.6145302266235007e-06
+      },
+      "spatial": {
+        "mean_l1_mg_l": 3.4289878652407624e-06,
+        "rms_mg_l": 3.8082655482135954e-06,
+        "maximum_mg_l": 5.384078715031659e-06
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 2.400733107495341e-06,
+        "rms_mg_l": 2.6662763308122793e-06,
+        "maximum_mg_l": 3.7695484884081587e-06
+      },
+      "orders": [
+        0.9981882720772858,
+        0.9999410278242493,
+        0.9995477361280114
+      ]
+    },
+    {
+      "regime": "mixed_adr",
+      "study": "space",
+      "mode": 0.6,
+      "scope": "spatial_with_measured_time_contamination",
+      "id": "mixed_adr.space.mode0.6.n128.cfl0.01",
+      "terminal": {
+        "mean_l1_mg_l": 0.0002369786779674331,
+        "rms_mg_l": 0.00031518208676162144,
+        "maximum_mg_l": 0.000582336832980257
+      },
+      "temporal": {
+        "mean_l1_mg_l": 5.651892620099801e-08,
+        "rms_mg_l": 6.442415080943761e-08,
+        "maximum_mg_l": 9.688039936950332e-08
+      },
+      "spatial": {
+        "mean_l1_mg_l": 0.0002369300888102739,
+        "rms_mg_l": 0.0003151210482980909,
+        "maximum_mg_l": 0.0005822399525808875
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 0.0002369786779674331,
+        "rms_mg_l": 0.00031518208676162144,
+        "maximum_mg_l": 0.000582336832980257
+      },
+      "orders": [
+        0.9725051101343575,
+        0.9858936786693028
+      ]
+    },
+    {
+      "regime": "mixed_adr",
+      "study": "space",
+      "mode": 0.75,
+      "scope": "spatial_with_measured_time_contamination",
+      "id": "mixed_adr.space.mode0.75.n128.cfl0.01",
+      "terminal": {
+        "mean_l1_mg_l": 0.0007932228413332716,
+        "rms_mg_l": 0.0009486760574974542,
+        "maximum_mg_l": 0.0021062781493811356
+      },
+      "temporal": {
+        "mean_l1_mg_l": 1.81975174441981e-07,
+        "rms_mg_l": 2.2723785730557335e-07,
+        "maximum_mg_l": 4.056284642617314e-07
+      },
+      "spatial": {
+        "mean_l1_mg_l": 0.0007931832546199672,
+        "rms_mg_l": 0.0009485756325496173,
+        "maximum_mg_l": 0.002105872520916874
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 0.0007932228413332716,
+        "rms_mg_l": 0.0009486760574974542,
+        "maximum_mg_l": 0.0021062781493811356
+      },
+      "orders": [
+        0.9527717749620257,
+        0.9761037324408102
+      ]
+    },
+    {
+      "regime": "mixed_adr",
+      "study": "space",
+      "mode": 0.85,
+      "scope": "spatial_with_measured_time_contamination",
+      "id": "mixed_adr.space.mode0.85.n128.cfl0.01",
+      "terminal": {
+        "mean_l1_mg_l": 0.0010305770231407723,
+        "rms_mg_l": 0.0012548055213389647,
+        "maximum_mg_l": 0.002106047732914132
+      },
+      "temporal": {
+        "mean_l1_mg_l": 3.18100027283046e-07,
+        "rms_mg_l": 4.663440178721428e-07,
+        "maximum_mg_l": 1.0405702382254578e-06
+      },
+      "spatial": {
+        "mean_l1_mg_l": 0.0010308951231680552,
+        "rms_mg_l": 0.0012551405526248917,
+        "maximum_mg_l": 0.0021065372301250357
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 0.0010305770231407723,
+        "rms_mg_l": 0.0012548055213389647,
+        "maximum_mg_l": 0.002106047732914132
+      },
+      "orders": [
+        0.9812729992713471,
+        0.9899105883561138
+      ]
+    },
+    {
+      "regime": "mixed_adr",
+      "study": "time",
+      "mode": 0.75,
+      "scope": "time_at_fixed_spatial_mesh",
+      "id": "mixed_adr.time.mode0.75.n64.cfl0.1",
+      "terminal": {
+        "mean_l1_mg_l": 0.001561843847310741,
+        "rms_mg_l": 0.001860521005211516,
+        "maximum_mg_l": 0.004088370198482627
+      },
+      "temporal": {
+        "mean_l1_mg_l": 7.189505373797923e-06,
+        "rms_mg_l": 9.0110458155876e-06,
+        "maximum_mg_l": 1.6165690210012684e-05
+      },
+      "spatial": {
+        "mean_l1_mg_l": 0.0015602226970264609,
+        "rms_mg_l": 0.0018565507246790032,
+        "maximum_mg_l": 0.004072204508272614
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 0.001561843847310741,
+        "rms_mg_l": 0.001860521005211516,
+        "maximum_mg_l": 0.004088370198482627
+      },
+      "orders": [
+        1.0002721776059782,
+        1.0001147898235974,
+        1.0000148494114247
+      ]
+    },
+    {
+      "regime": "open_diffusion",
+      "study": "space",
+      "mode": null,
+      "scope": "spatial_with_measured_time_contamination",
+      "id": "open_diffusion.space.n128.cfl0.01",
+      "terminal": {
+        "mean_l1_mg_l": 1.319364598754405e-07,
+        "rms_mg_l": 1.4654364185485264e-07,
+        "maximum_mg_l": 2.072401031893989e-07
+      },
+      "temporal": {
+        "mean_l1_mg_l": 2.6925296088518304e-09,
+        "rms_mg_l": 2.990629914186129e-09,
+        "maximum_mg_l": 4.229311123538082e-09
+      },
+      "spatial": {
+        "mean_l1_mg_l": 1.3462898948429233e-07,
+        "rms_mg_l": 1.4953427176903852e-07,
+        "maximum_mg_l": 2.1146941431293698e-07
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 1.319364598754405e-07,
+        "rms_mg_l": 1.4654364185485264e-07,
+        "maximum_mg_l": 2.072401031893989e-07
+      },
+      "orders": [
+        1.9999226936795136,
+        1.9999807037978647
+      ]
+    },
+    {
+      "regime": "open_diffusion",
+      "study": "time",
+      "mode": null,
+      "scope": "time_at_fixed_spatial_mesh",
+      "id": "open_diffusion.time.n64.cfl0.1",
+      "terminal": {
+        "mean_l1_mg_l": 4.3082765692692903e-07,
+        "rms_mg_l": 4.785172007141195e-07,
+        "maximum_mg_l": 6.766745584974032e-07
+      },
+      "temporal": {
+        "mean_l1_mg_l": 1.0768044127057994e-07,
+        "rms_mg_l": 1.1959989684514277e-07,
+        "maximum_mg_l": 1.6912706057858884e-07
+      },
+      "spatial": {
+        "mean_l1_mg_l": 5.38508098197509e-07,
+        "rms_mg_l": 5.981170975592622e-07,
+        "maximum_mg_l": 8.45801619075992e-07
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 4.3082765692692903e-07,
+        "rms_mg_l": 4.785172007141195e-07,
+        "maximum_mg_l": 6.766745584974032e-07
+      },
+      "orders": [
+        0.9985720298924927,
+        0.9998503291127084,
+        0.9996433337217822
+      ]
+    },
+    {
+      "regime": "reaction_source",
+      "study": "time",
+      "mode": null,
+      "scope": "time_at_fixed_spatial_mesh",
+      "id": "reaction_source.time.n8.cfl0.0625",
+      "terminal": {
+        "mean_l1_mg_l": 0.008853983039737168,
+        "rms_mg_l": 0.008853983039737168,
+        "maximum_mg_l": 0.008853983039737168
+      },
+      "temporal": {
+        "mean_l1_mg_l": 0.008853983039737168,
+        "rms_mg_l": 0.008853983039737168,
+        "maximum_mg_l": 0.008853983039737168
+      },
+      "spatial": {
+        "mean_l1_mg_l": 0.0,
+        "rms_mg_l": 0.0,
+        "maximum_mg_l": 0.0
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 0.008853983039737168,
+        "rms_mg_l": 0.008853983039737168,
+        "maximum_mg_l": 0.008853983039737168
+      },
+      "orders": [
+        1.195418993378947,
+        1.084615889994841,
+        1.0397693234777885
+      ]
+    },
+    {
+      "regime": "scheduled_advection",
+      "study": "space",
+      "mode": null,
+      "scope": "spatial_with_measured_time_contamination",
+      "id": "scheduled_advection.space.n128.cfl0.01",
+      "terminal": {
+        "mean_l1_mg_l": 0.024157425335685656,
+        "rms_mg_l": 0.035349599756222885,
+        "maximum_mg_l": 0.07584417955481282
+      },
+      "temporal": {
+        "mean_l1_mg_l": 0.0002238582278571833,
+        "rms_mg_l": 0.0003181528807851976,
+        "maximum_mg_l": 0.0007040897292186488
+      },
+      "spatial": {
+        "mean_l1_mg_l": 0.02438128356354284,
+        "rms_mg_l": 0.035665438146550016,
+        "maximum_mg_l": 0.0765451481043351
+      },
+      "max_frame": {
+        "mean_l1_mg_l": 0.024157425335685656,
+        "rms_mg_l": 0.035349599756222885,
+        "maximum_mg_l": 0.07584417955481282
+      },
+      "orders": [
+        0.7916691554418921,
+        0.8802517670385839
+      ]
+    },
+    {
+      "regime": "scheduled_inlet",
+      "study": "space",
+      "mode": null,
+      "scope": "coupled_mesh_and_time",
+      "id": "scheduled_inlet.space.n512.cfl0.1",
+      "terminal": {
+        "mean_l1_mg_l": 0.01930304939440774,
+        "rms_mg_l": 0.06415866374126664,
+        "maximum_mg_l": 0.40190950750718935
+      },
+      "temporal": null,
+      "spatial": null,
+      "max_frame": {
+        "mean_l1_mg_l": 0.01930304939440774,
+        "rms_mg_l": 0.06415866374126664,
+        "maximum_mg_l": 0.40190950750718935
+      },
+      "orders": [
+        0.30748379518355534,
+        0.47971589422253397
+      ]
+    }
+  ]
+}

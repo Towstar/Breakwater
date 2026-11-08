@@ -1,0 +1,69 @@
+Window: "BREAKWATER | Synthetic fluid network workbench", App: breakwater.exe.
+	0 window (settable, string) BREAKWATER | Synthetic fluid network workbench Secondary Actions: Raise ID: QGuiApplication.Main_QMLTYPE_0
+		1 title bar (settable, string) Value: BREAKWATER | Synthetic fluid network workbench
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 tool bar (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60
+			8 text BREAKWATER ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Label_QMLTYPE_3
+			9 button (settable, string) Reset ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			10 button (settable, string) Pump failure ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			11 button (settable, string) Bad reroute ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			12 button (settable, string) Mixed plan ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			13 button (settable, string) Undo ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			14 button (disabled, settable, string) Redo ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			15 button (settable, string) Open ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			16 button (settable, string) Save ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			17 button (settable, string) Run forecast ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+		18 group (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl
+			19 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6
+				20 text EQUIPMENT ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				21 text Drag into the scene or click to add. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				22 text Storage tank ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				23 text Production source ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				24 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				25 text Tanker outlet ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				26 text Pump on route ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				27 button (settable, string) Connect equipment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Button_QMLTYPE_27
+				28 text NETWORK ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				116 list item (selectable, settable, string) Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					117 text Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				118 list item (selectable, settable, string) Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					119 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				120 list item (selectable, settable, string) Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					121 text Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				122 list item (selectable, settable, string) Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					123 text Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				41 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+				42 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+			43 button (settable, string) Nemotron investigator ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_27
+			44 button (settable, string) Pipe transport ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.openPipeEvidence
+			45 text PhysicsNeMo: not connected Lean proofs: standalone ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			124 text Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			125 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			126 text Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			127 text Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			128 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			129 text Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			52 text Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			53 text SYNTHETIC · Layout does not determine hydraulic flow ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			54 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6
+				55 text PROPERTIES ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				56 text Select equipment or a pipe ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				57 text ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				58 text NETWORK READY ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				59 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+				60 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+			61 text FORECAST / VALIDATION ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			62 text Run 845ed31c ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			63 button (disabled, settable, string) Approve simulated preview ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_27
+			64 text FAIL | Nominal 3 h volume forecast | Cost 9030.00 synthetic units | Quality not evaluated tank_b: Predicted volume exceeds capacity. Limit reached at 2.66667 h. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			130 text Tank A: 80.00 / 120 m³ ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_71
+			131 text Tank B: 132.00 / 130 m³ ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_71
+			67 text t = 3.000 h ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			68 slider (settable, float) Value: 1 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Slider_QMLTYPE_23
+			69 text 3.000 h ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+
+The focused UI element is 8 text BREAKWATER ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Label_QMLTYPE_3.

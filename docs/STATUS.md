@@ -1,5 +1,70 @@
 # Implementation status
 
+## Planned continuation: hypothetical sensors and detection — November 7, 2026
+
+- The user requested configurable **hypothetical sensors** and synthetic live
+  telemetry in addition to the remaining science/application work. The accepted
+  roadmap is now in CONTINUATION_PLAN.md and TELEMETRY_PLAN.md, with current
+  Person A/B kickoffs and ownership/dependency gates.
+- Planned: placed/typed sensors, synthetic publisher, common local ingestion/replay,
+  coherent observed snapshots, quality/freshness, physical residuals, incident
+  lifecycle and observation-driven forecasts with simulated approval guards.
+  Pressure/temperature/custom channels are initially observation/alarm-only.
+- Planned evaluation: rules and physical residuals, statistical shift monitoring,
+  and a bounded RBM comparison on held-out synthetic scenarios. No detector is
+  demonstrated optimal; no learned result authorizes control.
+- Retained next work: PR #26 review/merge/current-baseline checks, Windows CI,
+  manual/clean-machine/operator acceptance, front/outlet/threshold accuracy,
+  candidate-aware Science, automatic pipe history, scenario robustness and later
+  conditioned PhysicsNeMo. A10a/A10b, deployed storage science, derivatives and
+  scientific history below remain delivered rather than new assignments.
+- Sensor ingestion/detection, a physical-system adapter and an RBM implementation
+  are **not implemented or verified** by this documentation increment. No runtime,
+  sanitizer, model, training or proof execution is claimed here. Existing evidence
+  below retains its original source revision and scope.
+
+## PR #26 reconciliation with current main — November 7, 2026
+
+- [Reconciliation report](PR26_RECONCILIATION.md): merged `e057fa4` through
+  `f504310`, preserving selected-control sensitivities, automatic scientific-history
+  retention and immutable historical reopening. Application/contracts match main;
+  exact-grid, disagreement, 50-cycle and post-exchange retirement regressions remain.
+- Fresh complete normal/MSVC ASan builds each passed **28/28 CTests** (390.19 s /
+  439.93 s), including live selected sensitivities and scientific-history rendering.
+  Each build: worker **121**, controller **43**, science evidence **42**, zero
+  failures/skips; QML lint passed and no sanitizer report was found. Prebuilt
+  Qt/Python/Torch remain outside established ASan instrumentation coverage.
+- Full Python: **127/127**, no skips, PhysicsNeMo available. Native/PyTorch/worker:
+  **18 fixtures / 302 requests / 132 central differences**, unchanged tolerances.
+- Corrected installed acceptance: **16 app executions** across local/relocated
+  copies; actual selected derivatives, exact retained 121-sample native arrays,
+  historical reopening without Python, installed module origins, explicit missing
+  dependencies and SQLite integrity passed. An initial probe incorrectly expected
+  historical marking in stored canonical data; the failed harness attempt is retained.
+- No new interactive UI pass is claimed. Earlier native-dialog/cancellation gaps,
+  coarse qualification failure and front-accuracy limitation remain explicit in the
+  frozen combined report. No repeated PDE qualification/training/Lean run is claimed.
+  The local continuation plan remains untracked and excluded from the PR.
+
+## Combined verification — November 7, 2026
+
+- [Combined report](COMBINED_VERIFICATION.md): isolated baseline `1a537ed`, corrected
+  private desktop time-grid admission/validation, exact endpoint/identity regressions,
+  and unchanged public schemas, dependency pins and numerical thresholds.
+- Complete normal and MSVC ASan configurations each passed 24/24 CTests; Python
+  passed 127/127 without skips; refined transport passed 45 cases/580 gates in both
+  builds; PhysicsNeMo passed all 12 fixed-case gates after 1,800 updates; Lean audited
+  54 unique propositions with both rejection probes. The final post-exchange edit,
+  deletion and replacement regressions passed both affected suites in each build:
+  worker 85/0/0 and controller 25/0/0; application code/deadlines unchanged.
+- Local/relocated installed execution, missing dependencies, installed worker origins,
+  setup idempotence and SQLite integrity were checked. Interactive save/load and
+  native export dialogs remain unverified due to computer-use targeting problems;
+  completion won the interactive cancellation race. The coarse scheduled-inlet
+  refinement failure and 0.40191 mg/L front maximum-error limitation are preserved.
+- Hosted Nemotron, clean-machine acceptance, new physics and the front study remain
+  outside this run. Existing historical milestone reports below retain their scopes.
+
 ## Scientific history retention and ordered main integration — November 7, 2026
 
 - Merged PRs **#13 → #18 → #19 → #21 → #23**, with merge commits and complete

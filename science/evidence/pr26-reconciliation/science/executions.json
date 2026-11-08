@@ -1,0 +1,45 @@
+[
+  {
+    "name": "python-tests",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Scripts\\python.exe",
+      "-u",
+      "-m",
+      "unittest",
+      "discover",
+      "-s",
+      "science/tests",
+      "-v"
+    ],
+    "exit": 0,
+    "elapsed_s": 97.84465179999825
+  },
+  {
+    "name": "rollout",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Scripts\\python.exe",
+      "-u",
+      "science/verify_rollout.py",
+      "--native",
+      "out/reconcile-normal/engine/breakwater_rollout_reference.exe",
+      "--report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-03-science\\rollout.json"
+    ],
+    "exit": 0,
+    "elapsed_s": 5.442170200054534
+  },
+  {
+    "name": "worker",
+    "command": [
+      "C:\\Projects\\Breakwater\\.worktrees\\person-a-engine\\science\\.venv\\Scripts\\python.exe",
+      "-u",
+      "science/verify_worker.py",
+      "--native",
+      "out/reconcile-normal/engine/breakwater_rollout_reference.exe",
+      "--report",
+      "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\out\\verification\\reconciliation\\attempt-03-science\\worker.json"
+    ],
+    "exit": 0,
+    "elapsed_s": 8.454626699967775
+  }
+]

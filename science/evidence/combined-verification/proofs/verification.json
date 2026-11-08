@@ -1,0 +1,52 @@
+{
+  "status": "passed",
+  "started_utc": "2026-11-08T03:11:10.1116746Z",
+  "finished_utc": "2026-11-08T03:14:51.5976749Z",
+  "lean_version": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)",
+  "lake_version": "Lake version 5.0.0-src+eb6cafb (Lean version 4.35.0)",
+  "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+  "manifest_sha256": "f343f0883098557180e3b592a4305211c5ab520ea91fc3ab428b9a9b8e027f6b",
+  "audited_algorithm_theorems": 54,
+  "permitted_foundational_axioms": [
+    "propext",
+    "Classical.choice",
+    "Quot.sound"
+  ],
+  "warning_as_error": true,
+  "unapproved_assumption_probe_rejected": true,
+  "source_hashes": [
+    {
+      "path": "Breakwater.lean",
+      "sha256": "99107a8d390a4309a124687a2d5316514b058115ba2f34c507f6ca42b0ed34a4"
+    },
+    {
+      "path": "Breakwater/Affine.lean",
+      "sha256": "2c054e10408b198a3139cba1600df6db6d67f659ffbbbd093dfb81bd84f33f0e"
+    },
+    {
+      "path": "Breakwater/Audit.lean",
+      "sha256": "01604d7fc3b3f5f738579a890bfab0e3bcb2c13970adb2d8ad196f5447b8be5c"
+    },
+    {
+      "path": "Breakwater/ControlInfluence.lean",
+      "sha256": "b1ac86761bd1446c7cd758280249c48a66a768904a5148708d8fa775383a97dd"
+    },
+    {
+      "path": "Breakwater/Graph.lean",
+      "sha256": "450835db5a8fc923d484ac518428ef969f76c62d10daf480756629cb0d924c92"
+    },
+    {
+      "path": "Breakwater/Network.lean",
+      "sha256": "8fca5368b3bda552ef6401107dac607364e4061db4de3fb5b39422f6fec4122e"
+    },
+    {
+      "path": "Breakwater/Transport.lean",
+      "sha256": "fee6a53db7f7b2c6f8cf8dff9e1537eb612db6b51357aff339b10b9739918bcd"
+    },
+    {
+      "path": "Breakwater/TransportNonnegativity.lean",
+      "sha256": "7aef05e0227f66cab81bae3a76c699bb5ddd77c039b2a4e24a835a509bfa685d"
+    }
+  ],
+  "scope": "Exact-real finite-graph storage/control-influence, discrete FVM mass balance and conditional native-law nonnegativity; not IEEE floating-point or compiled nonnegativity, compiled memory safety, PDE accuracy, scheduling, or hydraulics."
+}

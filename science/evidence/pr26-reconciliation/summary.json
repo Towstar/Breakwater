@@ -1,0 +1,207 @@
+{
+  "status": "passed",
+  "ctests_per_build": 28,
+  "qt_counts": {
+    "normal": {
+      "agent_gateway-results": {
+        "passed": 22,
+        "failed": 0,
+        "skipped": 0
+      },
+      "agent_orchestrator-results": {
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0
+      },
+      "history_controller-results": {
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      "nemotron_client-results": {
+        "passed": 46,
+        "failed": 0,
+        "skipped": 0
+      },
+      "pipe_transport-results": {
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      },
+      "pipe_transport_evidence-results": {
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0
+      },
+      "python_worker-results": {
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      },
+      "science_evidence-results": {
+        "passed": 42,
+        "failed": 0,
+        "skipped": 0
+      },
+      "session_repository-results": {
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      },
+      "storage_science-results": {
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0
+      },
+      "storage_worker-results": {
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    "asan": {
+      "agent_gateway-results": {
+        "passed": 22,
+        "failed": 0,
+        "skipped": 0
+      },
+      "agent_orchestrator-results": {
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0
+      },
+      "history_controller-results": {
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0
+      },
+      "nemotron_client-results": {
+        "passed": 46,
+        "failed": 0,
+        "skipped": 0
+      },
+      "pipe_transport-results": {
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      },
+      "pipe_transport_evidence-results": {
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0
+      },
+      "python_worker-results": {
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0
+      },
+      "science_evidence-results": {
+        "passed": 42,
+        "failed": 0,
+        "skipped": 0
+      },
+      "session_repository-results": {
+        "passed": 14,
+        "failed": 0,
+        "skipped": 0
+      },
+      "storage_science-results": {
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0
+      },
+      "storage_worker-results": {
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0
+      }
+    }
+  },
+  "native_counts": {
+    "normal": {
+      "engine.acceptance": 22,
+      "engine.search": 22,
+      "engine.control_influence": 15,
+      "engine.transport": 25
+    },
+    "asan": {
+      "engine.acceptance": 22,
+      "engine.search": 22,
+      "engine.control_influence": 15,
+      "engine.transport": 25
+    }
+  },
+  "python_tests": 127,
+  "python_skips": 0,
+  "actual_worker_requests": 302,
+  "fixtures": 18,
+  "central_differences": 132,
+  "sanitizer_reports": 0,
+  "installed": {
+    "status": "passed",
+    "app_executions": 16,
+    "real_worker_requests": 6,
+    "source_export_unavailable": true,
+    "both_origins_installed": true,
+    "history": [
+      {
+        "installation": "local",
+        "result_id": "c53d92f1-ffd0-493a-84da-a4dbf4d05eb9",
+        "session_count": 1,
+        "integrity": "ok",
+        "full_native_samples": 121,
+        "derivatives": {
+          "control_ids": [
+            "source:source_a:curtail",
+            "route:bypass:flow"
+          ],
+          "cost_gradient": [
+            750,
+            0
+          ],
+          "terminal_volume_jacobian_h": [
+            [
+              -3,
+              -3
+            ],
+            [
+              0,
+              3
+            ]
+          ]
+        },
+        "reopened_exact": true,
+        "historical_actionable": false
+      },
+      {
+        "installation": "relocated",
+        "result_id": "38fe00f6-3edc-4f1a-a2a8-aa88acb6f38e",
+        "session_count": 1,
+        "integrity": "ok",
+        "full_native_samples": 121,
+        "derivatives": {
+          "control_ids": [
+            "source:source_a:curtail",
+            "route:bypass:flow"
+          ],
+          "cost_gradient": [
+            750,
+            0
+          ],
+          "terminal_volume_jacobian_h": [
+            [
+              -3,
+              -3
+            ],
+            [
+              0,
+              3
+            ]
+          ]
+        },
+        "reopened_exact": true,
+        "historical_actionable": false
+      }
+    ]
+  }
+}

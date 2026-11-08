@@ -253,6 +253,11 @@ int main() {
         {"decimal horizon edge cases preserve interior samples and the exact endpoint", [] {
             const auto c = compile(stationary_network());
             for (const auto solver : {Solver::dense_reference, Solver::sparse, Solver::affine}) {
+                const SimulationConfig rounded_third{.225, .075};
+                const auto rounded_run = simulate(c, rounded_third, solver);
+                require(rounded_run.time_h == std::vector<double>{0, .075, .15, .22499999999999998, .225},
+                        "Rounded third interior multiple or original endpoint was lost");
+                require(validate(c, rounded_run, rounded_third).feasible, "Exact rounded-third grid failed validation");
                 const SimulationConfig short_cfg{.9000000000000001, .1};
                 const auto short_run = simulate(c, short_cfg, solver);
                 require_covered_grid(short_run, short_cfg);

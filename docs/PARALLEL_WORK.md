@@ -9,6 +9,13 @@ The initial implementation is commit `59e5e4a`. Start from the latest `origin/ma
 which also includes these kickoff documents. Read STATUS.md to distinguish working
 components from planned integrations.
 
+**Current continuation, November 7, 2026:** follow the active section of
+[CONTINUATION_PLAN.md](CONTINUATION_PLAN.md) and
+[TELEMETRY_PLAN.md](TELEMETRY_PLAN.md). Main at e057fa4 already includes A10b,
+deployed storage comparison, selected sensitivities and scientific history.
+The next extension uses configurable hypothetical sensors and synthetic live
+telemetry. Hardware adapters and physical actuation are outside that increment.
+
 ## Separate working directories and branches
 
 Use separate clones on the two computers. Two sessions on one computer must also use
@@ -33,6 +40,17 @@ status first; preserve uncommitted changes and do not reset it to follow these i
 | `contracts/`, including shared C++ types and wire-schema documentation | B |
 | Root CMake/presets, `.gitignore`, scripts and `Breakwater.slnx` | B |
 | README, AGENTS and shared `docs/` | B |
+
+For the sensor extension, A owns observation/calibration mathematics, synthetic plant/
+sensor generation under science/ and scenarios/, physical residuals, uncertainty,
+sensor/fault detectability and detector comparisons. B owns sensor placement/editing,
+shared input/snapshot/event contracts, transport/lifecycle, telemetry storage/replay,
+incident/forecast integration, root launch wrappers, CI and release acceptance.
+
+A reviews B's G1 physical semantics, then can undertake F1 front accuracy while B
+handles G0/G1. Both adopt the same committed G1 contract before G2/G3. Only after a
+shared reviewed baseline should concurrent dependent implementations begin. A's D1
+RBM comparison is a separate evidence-based study, with no predetermined winner.
 
 Do not fix another person's files opportunistically. Report a problem with a small
 reproduction and request a change from its owner. A records progress/evidence inside
@@ -66,11 +84,10 @@ are not delivered by Git. Each machine needs its own supported environment.
    sole integrator for `main`; do not push feature work directly to `main`.
 2. Search, native transport and B's Nemotron/tool increment are merged. Follow
    CONTINUATION_PLAN.md for the next work rather than repeating the original milestones.
-3. A3–A8 source, B3 contracts and B4 native pipe viewing are integrated in the current
-   workstream. B5 adds deployed CPU storage execution and desktop forward comparison
-   using the adopted contract. A maintains numerical/scientific/proof implementations;
-   B owns the process boundary, display and approval separation. Selected derivatives
-   in the desktop, scientific retention and release rehearsals remain separate.
+3. Scientific worker deployment, native/PyTorch comparison, selected-control
+   sensitivities, scientific history and A10b are delivered. Coordinate current
+   verified PR #26 with its existing worktree before new integration work.
+   Use G0/G1 for the next common baseline; do not repeat delivered B5/A10 milestones.
 4. Merge complete increments through PRs, then update each person's own branch from
    `origin/main`. Rebase only unshared local work; merge main into an already shared
    branch so no force push is needed. Do not both cherry-pick and later merge the same work.

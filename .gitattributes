@@ -1,0 +1,6 @@
+# Keep verification records byte-for-byte so their recorded SHA-256 values survive checkout.
+science/evidence/combined-verification/** -text
+docs/COMBINED_VERIFICATION.md -text
+docs/STATUS.md -text whitespace=cr-at-eol
+science/evidence/pr26-reconciliation/** -text whitespace=-blank-at-eol,-blank-at-eof
+docs/PR26_RECONCILIATION.md -text whitespace=cr-at-eol

@@ -1,0 +1,9 @@
+Test project C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-normal
+    Start 19: desktop.storage_worker
+1/2 Test #19: desktop.storage_worker ...........   Passed  137.79 sec
+    Start 20: desktop.storage_science
+2/2 Test #20: desktop.storage_science ..........   Passed   82.45 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) = 220.26 sec

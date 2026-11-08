@@ -1,0 +1,92 @@
+[
+  {
+    "name": "rollout",
+    "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "arguments": [
+      "science/verify_rollout.py",
+      "--native",
+      "out/verified-normal/engine/breakwater_rollout_reference.exe",
+      "--report",
+      "out/verification/attempt-06-science/rollout.json"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 10.7125902
+  },
+  {
+    "name": "worker",
+    "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "arguments": [
+      "science/verify_worker.py",
+      "--native",
+      "out/verified-normal/engine/breakwater_rollout_reference.exe",
+      "--report",
+      "out/verification/attempt-06-science/worker.json"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 23.2223473
+  },
+  {
+    "name": "refined-normal",
+    "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "arguments": [
+      "science/qualify_transport.py",
+      "--native",
+      "out/verified-normal/engine/breakwater_transport_qualification_reference.exe",
+      "--config",
+      "science/a9_transport_refined_config.json",
+      "--output",
+      "out/verification/attempt-06-science/refined-normal"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 13.397945
+  },
+  {
+    "name": "refined-asan",
+    "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "arguments": [
+      "science/qualify_transport.py",
+      "--native",
+      "out/verified-asan/engine/breakwater_transport_qualification_reference.exe",
+      "--config",
+      "science/a9_transport_refined_config.json",
+      "--output",
+      "out/verification/attempt-06-science/refined-asan"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 83.3055887
+  },
+  {
+    "name": "coarse-original",
+    "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "arguments": [
+      "science/qualify_transport.py",
+      "--native",
+      "out/verified-normal/engine/breakwater_transport_qualification_reference.exe",
+      "--config",
+      "science/a9_transport_config.json",
+      "--output",
+      "out/verification/attempt-06-science/coarse-original"
+    ],
+    "exit": 1,
+    "expected_exit": 1,
+    "elapsed_s": 18.0590915
+  },
+  {
+    "name": "physicsnemo-smoke",
+    "executable": "C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe",
+    "arguments": [
+      "science/physicsnemo_smoke.py",
+      "--native",
+      "out/verified-normal/engine/breakwater_physicsnemo_reference.exe",
+      "--output",
+      "out/verification/attempt-06-science/physicsnemo-smoke"
+    ],
+    "exit": 0,
+    "expected_exit": 0,
+    "elapsed_s": 81.6700037
+  }
+]

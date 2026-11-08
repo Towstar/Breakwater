@@ -10,6 +10,12 @@ Preserve the scientific corrections and ownership principles in [For Dev Agents.
 
 The milestone delivers a functional foundation. Presentation polish, realistic hydraulic physics, extensive ML training, and a rehearsed demo remain later work.
 
+**Accepted continuation, November 7, 2026:** add configurable hypothetical sensors,
+synthetic live telemetry, observation-based incident detection and forecasting.
+Read [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md) for the current delivered baseline
+and complete next-step order, and [TELEMETRY_PLAN.md](TELEMETRY_PLAN.md) for scope and
+acceptance. The new sensor/telemetry features are planned, not implemented.
+
 ## Architecture and editor behavior
 
 ### Native application
@@ -149,6 +155,49 @@ Limit an agent session to 12 tool calls, three refinement rounds, and two minute
 
 Custom-network planning is a bounded heuristic capability: it may return no validated plan and makes no global-optimality claim. Without model access, manual editing, simulation, and validation remain available.
 
+## Hypothetical sensors and synthetic live telemetry
+
+This extension uses synthetic sensors placed on the editable facility. A continuously
+running synthetic plant supplies readings; no physical installation or hardware
+connection is required. Manual, Synthetic live, Replay and Historical modes must
+identify their source/time status clearly.
+
+- Place/configure sensors by type, units, asset/route attachment, source/channel,
+  calibration, physical measurement location, sample interval and freshness limits.
+- Support tank inventory/level, source/route flow, pump status and concentration
+  where a defined observation operator exists. Pressure/temperature and custom
+  channels initially provide display/history/alarms only.
+- Separate marker layout from physical sensor location. Level requires an explicit
+  level-volume relationship; scene geometry does not supply hydraulic geometry.
+- Keep nominal commands, synthetic truth, received observations, accepted observed
+  state and immutable forecast evidence separate. Measured flow never silently
+  replaces a commanded setpoint.
+- Use one bounded typed ingestion boundary for seeded synthetic streaming and replay.
+  Define clocks, duplicate/late readings, unit conversion, quality, age/skew, missing
+  data, redundancy and storage limits before implementation.
+- Combine sensor-quality checks, direct alarms and physical prediction/balance
+  residuals. Evaluate statistical drift methods and an RBM as candidate additions;
+  no detector is selected as optimal without held-out comparative evidence.
+- Compute discrepancies before assimilating their target measurements. Keep
+  synthetic ground-truth fault labels outside detector/model inputs. Detection
+  does not imply unique diagnosis or real-system qualification.
+- Forecast from frozen coherent observations using explicit constant-rate assumptions.
+  New state, changed sensor mappings and expiry retire dependent live eligibility;
+  layout-only movement preserves evidence. Native validation and fresh explicit
+  human approval apply only to simulated controls.
+
+Person A owns synthetic plant/sensor mathematics, observation mapping, residuals,
+uncertainty, numerical tests and detector studies. Person B owns public contracts,
+sensor editor, transport/lifecycle, persistence, event/forecast integration, Nemotron
+tools and delivery. B commits reviewed contracts before both adopt them. Keep the
+engine independent of Qt, Python and telemetry transports.
+
+Deliver G0 integration, G1 shared contract, G2 synthetic monitoring, G3 detection/
+forecasting and G4 release acceptance as separate tested increments. A's F1 front
+accuracy study can run alongside G0/G1. D1 learned-detector comparison, E1 candidate
+science, E2 automatic pipe history, R1 robustness and M1 conditioned PhysicsNeMo
+follow the dependencies in the continuation plan.
+
 ## Verification and delivery
 
 Deliver through four integration gates:
@@ -172,5 +221,14 @@ Required acceptance cases:
 - Missing credentials, malformed calls, fabricated run IDs, and skipped validation produce explicit failures.
 - Native checked builds pass MSVC AddressSanitizer.
 - Benchmarks measure 100, 1,000, and 10,000 candidates, separating sparse-kernel gains from endpoint-evaluation gains.
+- Hypothetical sensor configuration/attachment survives save/load and undo/redo;
+  layout-only moves preserve evidence while measurement-mapping changes retire it.
+- The synthetic publisher and replay use the same ingestion path on canonical and
+  custom networks. Pump delivery loss and rising inventory cause evidence-based
+  detection and a forecast from the actual observed snapshot, without oracle labels.
+- Noise, bias/drift, missing/stale/duplicate/reordered readings, clock/replay changes
+  and recovery have declared behavior. Report ambiguity/misses and false alarms.
+- Freshness, changed observations and numerical edits prevent stale approval; imported
+  telemetry/history cannot apply controls. No finite observation or prediction is clipped.
 
 **Defaults:** synthetic data, directed nonnegative flows, nominal three-hour volume feasibility, separate quality reporting, simulated approval, and no fixed event deadline. Full hydraulic modeling, freeform construction physics, and automatic topology redesign remain outside this foundation.

@@ -1,0 +1,3 @@
+PASS | 18 actual native cases | 3 solvers | CPU 2.15.0+cpu float64
+maximum_volume_error_m3=7.67386154621e-13; interior_controls_checked=44; steps_per_control=3
+Native feasibility remains independent; no gradients through bounds or discrete search.

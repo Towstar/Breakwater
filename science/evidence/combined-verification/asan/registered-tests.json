@@ -1,0 +1,861 @@
+{
+  "backtraceGraph" : 
+  {
+    "commands" : 
+    [
+      "add_test"
+    ],
+    "files" : 
+    [
+      "C:/Projects/Breakwater/.worktrees/combined-verification/engine/CMakeLists.txt",
+      "C:/Projects/Breakwater/.worktrees/combined-verification/desktop/CMakeLists.txt"
+    ],
+    "nodes" : 
+    [
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 34,
+        "parent" : 0
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 37,
+        "parent" : 2
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 40,
+        "parent" : 4
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 43,
+        "parent" : 6
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 44,
+        "parent" : 8
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 45,
+        "parent" : 10
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 48,
+        "parent" : 12
+      },
+      {
+        "file" : 0
+      },
+      {
+        "command" : 0,
+        "file" : 0,
+        "line" : 49,
+        "parent" : 14
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 53,
+        "parent" : 16
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 56,
+        "parent" : 18
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 20
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 22
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 24
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 26
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 28
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 30
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 32
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 34
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 36
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 63,
+        "parent" : 38
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 85,
+        "parent" : 40
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 85,
+        "parent" : 42
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 97,
+        "parent" : 44
+      },
+      {
+        "file" : 1
+      },
+      {
+        "command" : 0,
+        "file" : 1,
+        "line" : 104,
+        "parent" : 46
+      }
+    ]
+  },
+  "kind" : "ctestInfo",
+  "tests" : 
+  [
+    {
+      "backtrace" : 1,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine/breakwater_benchmark.exe",
+        "--verify-only",
+        "--count",
+        "100"
+      ],
+      "name" : "engine.benchmark_correctness",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 3,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine/breakwater_engine_tests.exe"
+      ],
+      "name" : "engine.acceptance",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 5,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine/breakwater_search_tests.exe"
+      ],
+      "name" : "engine.search",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 7,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine/breakwater_control_influence_tests.exe"
+      ],
+      "name" : "engine.control_influence",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 9,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine/breakwater_search_example.exe"
+      ],
+      "name" : "engine.search_example",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 11,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine/breakwater_search_example.exe",
+        "--infeasible"
+      ],
+      "name" : "engine.search_infeasible_example",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 13,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine/breakwater_transport_tests.exe"
+      ],
+      "name" : "engine.transport",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 15,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine/breakwater_transport_example.exe"
+      ],
+      "name" : "engine.transport_example",
+      "properties" : 
+      [
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/engine"
+        }
+      ]
+    },
+    {
+      "backtrace" : 17,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_desktop_tests.exe"
+      ],
+      "name" : "desktop.project",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 19,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_pipe_parameters_tests.exe"
+      ],
+      "name" : "desktop.pipe_parameters",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 30.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 21,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_nemotron_client_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/nemotron_client-results.txt,txt"
+      ],
+      "name" : "desktop.nemotron_client",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 60.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 23,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_agent_gateway_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/agent_gateway-results.txt,txt"
+      ],
+      "name" : "desktop.agent_gateway",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 60.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 25,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_agent_orchestrator_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/agent_orchestrator-results.txt,txt"
+      ],
+      "name" : "desktop.agent_orchestrator",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 60.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 27,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_session_repository_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/session_repository-results.txt,txt"
+      ],
+      "name" : "desktop.session_repository",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 60.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 29,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_history_controller_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/history_controller-results.txt,txt"
+      ],
+      "name" : "desktop.history_controller",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 60.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 31,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_python_worker_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/python_worker-results.txt,txt"
+      ],
+      "name" : "desktop.python_worker",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 60.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 33,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_pipe_transport_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/pipe_transport-results.txt,txt"
+      ],
+      "name" : "desktop.pipe_transport",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT",
+          "value" : 
+          [
+            "BREAKWATER_TEST_ARTIFACT_DIR=C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/test-artifacts"
+          ]
+        },
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "FIXTURES_SETUP",
+          "value" : 
+          [
+            "pipe_evidence"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 60.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 35,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_pipe_transport_evidence_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/pipe_transport_evidence-results.txt,txt"
+      ],
+      "name" : "desktop.pipe_transport_evidence",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 60.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 37,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_storage_worker_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/storage_worker-results.txt,txt"
+      ],
+      "name" : "desktop.storage_worker",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 180.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 39,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater_storage_science_tests.exe",
+        "-o",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/storage_science-results.txt,txt"
+      ],
+      "name" : "desktop.storage_science",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 180.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 41,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater.exe",
+        "--science-check",
+        "--smoke",
+        "--science-report",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/science-normal.json",
+        "--history-db",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/science-normal.sqlite"
+      ],
+      "name" : "desktop.storage_science_normal",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT",
+          "value" : 
+          [
+            "BREAKWATER_PYTHON=C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe"
+          ]
+        },
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 120.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 43,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater.exe",
+        "--science-check",
+        "--smoke",
+        "--science-report",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/science-compact.json",
+        "--history-db",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/science-compact.sqlite",
+        "--compact-ui",
+        "--science-example",
+        "bad"
+      ],
+      "name" : "desktop.storage_science_compact",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT",
+          "value" : 
+          [
+            "BREAKWATER_PYTHON=C:/Projects/Breakwater/.worktrees/person-a-engine/science/.venv/Scripts/python.exe"
+          ]
+        },
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 120.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 45,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater.exe",
+        "--smoke"
+      ],
+      "name" : "desktop.qml_smoke",
+      "properties" : 
+      [
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 30.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    },
+    {
+      "backtrace" : 47,
+      "command" : 
+      [
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/breakwater.exe",
+        "--import-pipe-evidence",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/test-artifacts/native-transport-evidence.json",
+        "--history-db",
+        "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop/test-artifacts/pipe-render.sqlite",
+        "--smoke"
+      ],
+      "name" : "desktop.pipe_evidence_smoke",
+      "properties" : 
+      [
+        {
+          "name" : "DEPENDS",
+          "value" : 
+          [
+            "desktop.pipe_transport"
+          ]
+        },
+        {
+          "name" : "ENVIRONMENT_MODIFICATION",
+          "value" : 
+          [
+            "PATH=path_list_prepend:C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin"
+          ]
+        },
+        {
+          "name" : "FIXTURES_REQUIRED",
+          "value" : 
+          [
+            "pipe_evidence"
+          ]
+        },
+        {
+          "name" : "TIMEOUT",
+          "value" : 30.0
+        },
+        {
+          "name" : "WORKING_DIRECTORY",
+          "value" : "C:/Projects/Breakwater/.worktrees/combined-verification/out/verified-asan/desktop"
+        }
+      ]
+    }
+  ],
+  "version" : 
+  {
+    "major" : 1,
+    "minor" : 0
+  }
+}

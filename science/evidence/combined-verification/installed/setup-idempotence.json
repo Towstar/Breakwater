@@ -1,0 +1,18 @@
+{
+  "passed": true,
+  "runtime": {
+    "python_executable": "C:\\Projects\\Breakwater\\.worktrees\\combined-verification\\.tools\\science-cpu\\Scripts\\python.exe",
+    "python_version": "3.12.13",
+    "architecture": "AMD64",
+    "torch_version": "2.15.0+cpu",
+    "numpy_version": "2.5.4",
+    "jsonschema_version": "4.25.1",
+    "dtype": "torch.float64",
+    "device": "cpu",
+    "cpu_matrix_result": 11.0,
+    "uv_version": "0.11.9",
+    "uv_archive_sha256": "facbf9637c373761a96fa63c537d6c46581d357a65af01eacfd8c6319e6fb14e",
+    "cpu_lock_sha256": "587ef90593e0fddcfa2881d1d027c1f470e12cf3fd02f2f2a6e2739d27c9b08f",
+    "worker_test_lock_sha256": "17183f19ccedfca07cb7dd7602117c96e567ecb38ebc48c0658c8d9604f3b0d3"
+  }
+}

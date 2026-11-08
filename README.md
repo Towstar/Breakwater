@@ -13,6 +13,10 @@ The original handoff is preserved in [For Dev Agents.md](For%20Dev%20Agents.md).
 The complete accepted roadmap is [docs/IMPLEMENTATION_PLAN.md](docs/IMPLEMENTATION_PLAN.md).
 The next increments and parallel ownership are in
 [docs/CONTINUATION_PLAN.md](docs/CONTINUATION_PLAN.md).
+The accepted next sensor milestone uses **hypothetical sensors and synthetic live
+telemetry**, with seeded streaming/replay, observed-state forecasts and evaluated
+fault detection. It is planned, not implemented; see
+[docs/TELEMETRY_PLAN.md](docs/TELEMETRY_PLAN.md).
 The base now includes native search, Nemotron tools, single-pipe transport,
 standalone differentiable storage and experimental PhysicsNeMo calculations,
 measured benchmarks, and checked Lean algorithm proofs.
@@ -149,6 +153,8 @@ Do not switch branches underneath the other developer's session.
 
 The shared baseline is now committed. Continue with the [parallel workflow](docs/PARALLEL_WORK.md)
 and separate copy/paste kickoffs for [Person A](docs/KICKOFF_PERSON_A.md) and
-[Person B](docs/KICKOFF_PERSON_B.md). A3–A8, B3 contracts and B4 native viewing are
-merged. Next is B's deployment and desktop integration of the implemented scientific
-worker methods, with proof maintenance remaining A-owned.
+[Person B](docs/KICKOFF_PERSON_B.md). A3–A10b, deployed storage comparison,
+selected-control sensitivities and immutable scientific history are delivered.
+Next: current integration/release gates, front accuracy, and the agreed sensor/
+synthetic-telemetry contract followed by monitoring and detection. Both workstreams
+adopt the same committed contract before dependent implementation.

@@ -1,0 +1,695 @@
+[1/1] C:\WINDOWS\system32\cmd.exe /C "cd /D C:\Projects\Breakwater\.worktrees\combined-verification\desktop && C:\Projects\Breakwater\.worktrees\combined-verification\out\reconcile-asan\.qt\bin\qt_setup_tool_path.bat C:/Projects/Breakwater/.tools/Qt/6.12.0/msvc2022_64/bin/qmllint.exe @C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-asan/desktop/.rcc/qmllint/breakwater.rsp"
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:223:61: Unqualified access [unqualified]
+                            contentItem: PlainLabel { text: modelData.label; elide: Text.ElideRight }
+
+                                                            ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                            contentItem: PlainLabel { text: <id>.modelData.label; elide: Text.ElideRight }
+
+                                                            ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:260:72: Unqualified access [unqualified]
+                            PlainLabel { Layout.fillWidth: true; text: modelData.objective || "Investigation"; elide: Text.ElideRight; font.bold: true }
+
+                                                                       ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                            PlainLabel { Layout.fillWidth: true; text: <id>.modelData.objective || "Investigation"; elide: Text.ElideRight; font.bold: true }
+
+                                                                       ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:261:73: Unqualified access [unqualified]
+                            PlainLabel { Layout.fillWidth: true; text: (modelData.status || "unknown") + " � " + (modelData.created_at || "") + "\nSession " + modelData.session_id; font.pixelSize: 10; wrapMode: Text.WrapAnywhere; color: "#9eb5c2" }
+
+                                                                        ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                            PlainLabel { Layout.fillWidth: true; text: (<id>.modelData.status || "unknown") + " � " + (modelData.created_at || "") + "\nSession " + modelData.session_id; font.pixelSize: 10; wrapMode: Text.WrapAnywhere; color: "#9eb5c2" }
+
+                                                                        ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:261:115: Unqualified access [unqualified]
+                            PlainLabel { Layout.fillWidth: true; text: (modelData.status || "unknown") + " � " + (modelData.created_at || "") + "\nSession " + modelData.session_id; font.pixelSize: 10; wrapMode: Text.WrapAnywhere; color: "#9eb5c2" }
+
+                                                                                                                  ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                            PlainLabel { Layout.fillWidth: true; text: (modelData.status || "unknown") + " � " + (<id>.modelData.created_at || "") + "\nSession " + modelData.session_id; font.pixelSize: 10; wrapMode: Text.WrapAnywhere; color: "#9eb5c2" }
+
+                                                                                                                  ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:261:160: Unqualified access [unqualified]
+                            PlainLabel { Layout.fillWidth: true; text: (modelData.status || "unknown") + " � " + (modelData.created_at || "") + "\nSession " + modelData.session_id; font.pixelSize: 10; wrapMode: Text.WrapAnywhere; color: "#9eb5c2" }
+
+                                                                                                                                                               ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                            PlainLabel { Layout.fillWidth: true; text: (modelData.status || "unknown") + " � " + (modelData.created_at || "") + "\nSession " + <id>.modelData.session_id; font.pixelSize: 10; wrapMode: Text.WrapAnywhere; color: "#9eb5c2" }
+
+                                                                                                                                                               ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:306:68: Unqualified access [unqualified]
+                        PlainLabel { Layout.fillWidth: true; text: modelData.control_id; wrapMode: Text.WrapAnywhere }
+
+                                                                   ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                        PlainLabel { Layout.fillWidth: true; text: <id>.modelData.control_id; wrapMode: Text.WrapAnywhere }
+
+                                                                   ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:307:57: Unqualified access [unqualified]
+                        PlainLabel { text: panel.number(modelData.before) + " ? " + panel.number(modelData.after); font.bold: true }
+
+                                                        ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                        PlainLabel { text: panel.number(<id>.modelData.before) + " ? " + panel.number(modelData.after); font.bold: true }
+
+                                                        ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:307:98: Unqualified access [unqualified]
+                        PlainLabel { text: panel.number(modelData.before) + " ? " + panel.number(modelData.after); font.bold: true }
+
+                                                                                                 ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                        PlainLabel { text: panel.number(modelData.before) + " ? " + panel.number(<id>.modelData.after); font.bold: true }
+
+                                                                                                 ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:308:82: Unqualified access [unqualified]
+                        PlainLabel { Layout.preferredWidth: 55; text: panel.unit(modelData.unit); color: "#9eb5c2" }
+
+                                                                                 ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                        PlainLabel { Layout.preferredWidth: 55; text: panel.unit(<id>.modelData.unit); color: "#9eb5c2" }
+
+                                                                                 ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:337:68: Unqualified access [unqualified]
+                        PlainLabel { Layout.fillWidth: true; text: modelData.control_id; wrapMode: Text.WrapAnywhere }
+
+                                                                   ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                        PlainLabel { Layout.fillWidth: true; text: <id>.modelData.control_id; wrapMode: Text.WrapAnywhere }
+
+                                                                   ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:338:57: Unqualified access [unqualified]
+                        PlainLabel { text: panel.number(modelData.before) + " ? " + panel.number(modelData.after) + " " + panel.unit(modelData.unit) }
+
+                                                        ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                        PlainLabel { text: panel.number(<id>.modelData.before) + " ? " + panel.number(modelData.after) + " " + panel.unit(modelData.unit) }
+
+                                                        ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:338:98: Unqualified access [unqualified]
+                        PlainLabel { text: panel.number(modelData.before) + " ? " + panel.number(modelData.after) + " " + panel.unit(modelData.unit) }
+
+                                                                                                 ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                        PlainLabel { text: panel.number(modelData.before) + " ? " + panel.number(<id>.modelData.after) + " " + panel.unit(modelData.unit) }
+
+                                                                                                 ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/AgentPanel.qml:338:134: Unqualified access [unqualified]
+                        PlainLabel { text: panel.number(modelData.before) + " ? " + panel.number(modelData.after) + " " + panel.unit(modelData.unit) }
+
+                                                                                                                                     ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                        PlainLabel { text: panel.number(modelData.before) + " ? " + panel.number(modelData.after) + " " + panel.unit(<id>.modelData.unit) }
+
+                                                                                                                                     ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:233:57: Member "position" not found on type "QQuick3DObject" [missing-property]
+                            if (node) { original = node.position; dragPosition = original; startWorld = app.groundPoint(mouse.x, mouse.y) }
+
+                                                        ^^^^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:251:57: Unqualified access [unqualified]
+                            if (moved && id.length > 0) controller.moveAsset(id, position.x, position.z)
+
+                                                        ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                            if (moved && id.length > 0) app.controller.moveAsset(id, position.x, position.z)
+
+                                                        ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:253:74: Unqualified access [unqualified]
+                            else if (pickedName.indexOf("route:") === 0) controller.select(pickedName.substring(6))
+
+                                                                         ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                            else if (pickedName.indexOf("route:") === 0) app.controller.select(pickedName.substring(6))
+
+                                                                         ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:254:34: Unqualified access [unqualified]
+                            else controller.select("")
+
+                                 ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                            else app.controller.select("")
+
+                                 ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:256:25: Unqualified access [unqualified]
+                        controller.setCamera(app.yaw, app.pitch, app.distance, cameraRig.x, cameraRig.z)
+
+                        ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        app.controller.setCamera(app.yaw, app.pitch, app.distance, cameraRig.x, cameraRig.z)
+
+                        ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:259:135: Unqualified access [unqualified]
+                    onWheel: function(wheel) { app.distance = Math.max(250, Math.min(1600, app.distance - wheel.angleDelta.y * 0.6)); controller.setCamera(app.yaw, app.pitch, app.distance, cameraRig.x, cameraRig.z) }
+
+                                                                                                                                      ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    onWheel: function(wheel) { app.distance = Math.max(250, Math.min(1600, app.distance - wheel.angleDelta.y * 0.6)); app.controller.setCamera(app.yaw, app.pitch, app.distance, cameraRig.x, cameraRig.z) }
+
+                                                                                                                                      ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:264:41: Member "kind" not found on type "QObject" [missing-property]
+                        if (drop.source.kind === "pump") {
+
+                                        ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:266:100: Unqualified access [unqualified]
+                            if (hit.objectHit && hit.objectHit.objectName.indexOf("route:") === 0) controller.attachPump(hit.objectHit.objectName.substring(6))
+
+                                                                                                   ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                            if (hit.objectHit && hit.objectHit.objectName.indexOf("route:") === 0) app.controller.attachPump(hit.objectHit.objectName.substring(6))
+
+                                                                                                   ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:269:29: Unqualified access [unqualified]
+                            controller.addAsset(drop.source.kind, point.x, point.z)
+
+                            ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                            app.controller.addAsset(drop.source.kind, point.x, point.z)
+
+                            ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:269:61: Member "kind" not found on type "QObject" [missing-property]
+                            controller.addAsset(drop.source.kind, point.x, point.z)
+
+                                                            ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:289:63: Unqualified access [unqualified]
+                        Label { Layout.fillWidth: true; text: controller.selected.label || "Select equipment or a pipe"; textFormat: Text.PlainText; font.pixelSize: 17; wrapMode: Text.WrapAnywhere }
+
+                                                              ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Label { Layout.fillWidth: true; text: app.controller.selected.label || "Select equipment or a pipe"; textFormat: Text.PlainText; font.pixelSize: 17; wrapMode: Text.WrapAnywhere }
+
+                                                              ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:290:63: Unqualified access [unqualified]
+                        Label { Layout.fillWidth: true; text: controller.selected.kind || ""; textFormat: Text.PlainText; color: "#60c6c9" }
+
+                                                              ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Label { Layout.fillWidth: true; text: app.controller.selected.kind || ""; textFormat: Text.PlainText; color: "#60c6c9" }
+
+                                                              ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:291:103: Unqualified access [unqualified]
+                        Button { objectName: "inspectPipeTransport"; Layout.fillWidth: true; visible: controller.selected.kind === "route"; enabled: app.pipeTransport.routeId.length > 0; text: "Inspect pipe transport"; onClicked: pipeTransportDialog.open() }
+
+                                                                                                      ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { objectName: "inspectPipeTransport"; Layout.fillWidth: true; visible: app.controller.selected.kind === "route"; enabled: app.pipeTransport.routeId.length > 0; text: "Inspect pipe transport"; onClicked: pipeTransportDialog.open() }
+
+                                                                                                      ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:292:72: Unqualified access [unqualified]
+                        TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
+
+                                                                       ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        TextField { Layout.fillWidth: true; visible: !!app.controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
+
+                                                                       ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:292:100: Unqualified access [unqualified]
+                        TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
+
+                                                                                                   ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && app.controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
+
+                                                                                                   ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:292:144: Unqualified access [unqualified]
+                        TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
+
+                                                                                                                                               ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: app.controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
+
+                                                                                                                                               ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:292:196: Unqualified access [unqualified]
+                        TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
+
+                                                                                                                                                                                                   ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: app.controller.editSelected("label", text) }
+
+                                                                                                                                                                                                   ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:295:43: Unqualified access [unqualified]
+                                const k = controller.selected.kind
+
+                                          ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                                const k = app.controller.selected.kind
+
+                                          ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:298:59: Unqualified access [unqualified]
+                                if (k === "route") return controller.selected.sourceDriven ? [{key:"capacity",name:"Route capacity (m�/h)"}] : [{key:"capacity",name:"Route capacity (m�/h)"},{key:"flow",name:"Setpoint (m�/h)"},{key:"cost",name:"Route cost / m�"}]
+
+                                                          ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                                if (k === "route") return app.controller.selected.sourceDriven ? [{key:"capacity",name:"Route capacity (m�/h)"}] : [{key:"capacity",name:"Route capacity (m�/h)"},{key:"flow",name:"Setpoint (m�/h)"},{key:"cost",name:"Route cost / m�"}]
+
+                                                          ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:305:47: Unqualified access [unqualified]
+                                Label { text: modelData.name; color: "#a7bbc7"; font.pixelSize: 12 }
+
+                                              ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                                Label { text: <id>.modelData.name; color: "#a7bbc7"; font.pixelSize: 12 }
+
+                                              ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:306:82: Unqualified access [unqualified]
+                                TextField { Layout.fillWidth: true; text: String(controller.selected[modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: controller.editSelected(modelData.key, text) }
+
+                                                                                 ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                                TextField { Layout.fillWidth: true; text: String(<id>.controller.selected[modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: controller.editSelected(modelData.key, text) }
+
+                                                                                 ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:306:102: Unqualified access [unqualified]
+                                TextField { Layout.fillWidth: true; text: String(controller.selected[modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: controller.editSelected(modelData.key, text) }
+
+                                                                                                     ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                                TextField { Layout.fillWidth: true; text: String(controller.selected[<id>.modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: controller.editSelected(modelData.key, text) }
+
+                                                                                                     ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:306:190: Unqualified access [unqualified]
+                                TextField { Layout.fillWidth: true; text: String(controller.selected[modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: controller.editSelected(modelData.key, text) }
+
+                                                                                                                                                                                             ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                                TextField { Layout.fillWidth: true; text: String(controller.selected[modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: <id>.controller.editSelected(modelData.key, text) }
+
+                                                                                                                                                                                             ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:306:214: Unqualified access [unqualified]
+                                TextField { Layout.fillWidth: true; text: String(controller.selected[modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: controller.editSelected(modelData.key, text) }
+
+                                                                                                                                                                                                                     ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                                TextField { Layout.fillWidth: true; text: String(controller.selected[modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: controller.editSelected(<id>.modelData.key, text) }
+
+                                                                                                                                                                                                                     ^^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:309:42: Unqualified access [unqualified]
+                        Label { visible: controller.selected.kind === "route" && !!controller.selected.sourceDriven; Layout.fillWidth: true; text: "Source-route flow follows production minus reduction."; wrapMode: Text.WordWrap; color: "#93aeba" }
+
+                                         ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Label { visible: app.controller.selected.kind === "route" && !!controller.selected.sourceDriven; Layout.fillWidth: true; text: "Source-route flow follows production minus reduction."; wrapMode: Text.WordWrap; color: "#93aeba" }
+
+                                         ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:309:84: Unqualified access [unqualified]
+                        Label { visible: controller.selected.kind === "route" && !!controller.selected.sourceDriven; Layout.fillWidth: true; text: "Source-route flow follows production minus reduction."; wrapMode: Text.WordWrap; color: "#93aeba" }
+
+                                                                                   ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Label { visible: controller.selected.kind === "route" && !!app.controller.selected.sourceDriven; Layout.fillWidth: true; text: "Source-route flow follows production minus reduction."; wrapMode: Text.WordWrap; color: "#93aeba" }
+
+                                                                                   ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:310:67: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
+
+                                                                  ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: app.controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
+
+                                                                  ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:310:108: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
+
+                                                                                                           ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !app.controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
+
+                                                                                                           ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:310:145: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
+
+                                                                                                                                                ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !app.controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
+
+                                                                                                                                                ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:310:203: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
+
+                                                                                                                                                                                                          ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: app.controller.attachPump(controller.selectedId) }
+
+                                                                                                                                                                                                          ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:310:225: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
+
+                                                                                                                                                                                                                                ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(app.controller.selectedId) }
+
+                                                                                                                                                                                                                                ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:311:47: Unqualified access [unqualified]
+                        CheckBox { visible: !!controller.selected.pump; checked: !!controller.selected.available; text: "Pump available"; onClicked: controller.editSelected("available", checked ? "true" : "false") }
+
+                                              ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        CheckBox { visible: !!app.controller.selected.pump; checked: !!controller.selected.available; text: "Pump available"; onClicked: controller.editSelected("available", checked ? "true" : "false") }
+
+                                              ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:311:84: Unqualified access [unqualified]
+                        CheckBox { visible: !!controller.selected.pump; checked: !!controller.selected.available; text: "Pump available"; onClicked: controller.editSelected("available", checked ? "true" : "false") }
+
+                                                                                   ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        CheckBox { visible: !!controller.selected.pump; checked: !!app.controller.selected.available; text: "Pump available"; onClicked: controller.editSelected("available", checked ? "true" : "false") }
+
+                                                                                   ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:311:150: Unqualified access [unqualified]
+                        CheckBox { visible: !!controller.selected.pump; checked: !!controller.selected.available; text: "Pump available"; onClicked: controller.editSelected("available", checked ? "true" : "false") }
+
+                                                                                                                                                     ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        CheckBox { visible: !!controller.selected.pump; checked: !!controller.selected.available; text: "Pump available"; onClicked: app.controller.editSelected("available", checked ? "true" : "false") }
+
+                                                                                                                                                     ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:312:69: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: !!controller.selected.pump; enabled: !!controller.selected.available; text: "Fail selected pump"; onClicked: controller.failSelectedPump() }
+
+                                                                    ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: !!app.controller.selected.pump; enabled: !!controller.selected.available; text: "Fail selected pump"; onClicked: controller.failSelectedPump() }
+
+                                                                    ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:312:106: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: !!controller.selected.pump; enabled: !!controller.selected.available; text: "Fail selected pump"; onClicked: controller.failSelectedPump() }
+
+                                                                                                         ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: !!controller.selected.pump; enabled: !!app.controller.selected.available; text: "Fail selected pump"; onClicked: controller.failSelectedPump() }
+
+                                                                                                         ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:312:176: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: !!controller.selected.pump; enabled: !!controller.selected.available; text: "Fail selected pump"; onClicked: controller.failSelectedPump() }
+
+                                                                                                                                                                               ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: !!controller.selected.pump; enabled: !!controller.selected.available; text: "Fail selected pump"; onClicked: app.controller.failSelectedPump() }
+
+                                                                                                                                                                               ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:313:69: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: !!controller.selected.kind; text: "Delete selected"; onClicked: controller.deleteSelected() }
+
+                                                                    ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: !!app.controller.selected.kind; text: "Delete selected"; onClicked: controller.deleteSelected() }
+
+                                                                    ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:313:131: Unqualified access [unqualified]
+                        Button { Layout.fillWidth: true; visible: !!controller.selected.kind; text: "Delete selected"; onClicked: controller.deleteSelected() }
+
+                                                                                                                                  ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Button { Layout.fillWidth: true; visible: !!controller.selected.kind; text: "Delete selected"; onClicked: app.controller.deleteSelected() }
+
+                                                                                                                                  ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:315:39: Unqualified access [unqualified]
+                        Label { text: controller.draftIssues.length ? "DRAFT NEEDS ATTENTION" : "NETWORK READY"; color: controller.draftIssues.length ? "#ffcf70" : "#60d2b1"; font.pixelSize: 11 }
+
+                                      ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Label { text: app.controller.draftIssues.length ? "DRAFT NEEDS ATTENTION" : "NETWORK READY"; color: controller.draftIssues.length ? "#ffcf70" : "#60d2b1"; font.pixelSize: 11 }
+
+                                      ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:315:121: Unqualified access [unqualified]
+                        Label { text: controller.draftIssues.length ? "DRAFT NEEDS ATTENTION" : "NETWORK READY"; color: controller.draftIssues.length ? "#ffcf70" : "#60d2b1"; font.pixelSize: 11 }
+
+                                                                                                                        ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Label { text: controller.draftIssues.length ? "DRAFT NEEDS ATTENTION" : "NETWORK READY"; color: app.controller.draftIssues.length ? "#ffcf70" : "#60d2b1"; font.pixelSize: 11 }
+
+                                                                                                                        ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:316:43: Unqualified access [unqualified]
+                        Repeater { model: controller.draftIssues; delegate: Label { required property string modelData; Layout.fillWidth: true; text: modelData; textFormat: Text.PlainText; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#e1b879" } }
+
+                                          ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        Repeater { model: app.controller.draftIssues; delegate: Label { required property string modelData; Layout.fillWidth: true; text: modelData; textFormat: Text.PlainText; wrapMode: Text.WordWrap; font.pixelSize: 11; color: "#e1b879" } }
+
+                                          ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:331:35: Unqualified access [unqualified]
+                    Label { text: controller.runId.length > 0 ? "Run " + controller.runId.substring(0, 8) : "No executed forecast"; color: "#91aab9"; font.pixelSize: 11 }
+
+                                  ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    Label { text: app.controller.runId.length > 0 ? "Run " + controller.runId.substring(0, 8) : "No executed forecast"; color: "#91aab9"; font.pixelSize: 11 }
+
+                                  ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:331:74: Unqualified access [unqualified]
+                    Label { text: controller.runId.length > 0 ? "Run " + controller.runId.substring(0, 8) : "No executed forecast"; color: "#91aab9"; font.pixelSize: 11 }
+
+                                                                         ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    Label { text: controller.runId.length > 0 ? "Run " + app.controller.runId.substring(0, 8) : "No executed forecast"; color: "#91aab9"; font.pixelSize: 11 }
+
+                                                                         ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:332:74: Unqualified access [unqualified]
+                    Button { text: "Approve simulated preview"; enabled: controller.canApprove; onClicked: controller.approve() }
+
+                                                                         ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    Button { text: "Approve simulated preview"; enabled: app.controller.canApprove; onClicked: controller.approve() }
+
+                                                                         ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:332:108: Unqualified access [unqualified]
+                    Button { text: "Approve simulated preview"; enabled: controller.canApprove; onClicked: controller.approve() }
+
+                                                                                                           ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    Button { text: "Approve simulated preview"; enabled: controller.canApprove; onClicked: app.controller.approve() }
+
+                                                                                                           ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:334:80: Unqualified access [unqualified]
+                Label { Layout.fillWidth: true; Layout.fillHeight: true; text: controller.summary; textFormat: Text.PlainText; wrapMode: Text.WordWrap; font.pixelSize: 13; color: "#d2e1e9"; elide: Text.ElideRight }
+
+                                                                               ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                Label { Layout.fillWidth: true; Layout.fillHeight: true; text: app.controller.summary; textFormat: Text.PlainText; wrapMode: Text.WordWrap; font.pixelSize: 13; color: "#d2e1e9"; elide: Text.ElideRight }
+
+                                                                               ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:338:32: Unqualified access [unqualified]
+                        model: controller.assets
+
+                               ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                        model: app.controller.assets
+
+                               ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:345:44: Unqualified access [unqualified]
+                    Label { text: "t = " + controller.forecastTimeH.toFixed(3) + " h"; Layout.preferredWidth: 95 }
+
+                                           ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    Label { text: "t = " + app.controller.forecastTimeH.toFixed(3) + " h"; Layout.preferredWidth: 95 }
+
+                                           ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:346:79: Unqualified access [unqualified]
+                    Slider { Layout.fillWidth: true; from: 0; to: 1; enabled: controller.runId.length > 0; value: controller.forecastFraction; onMoved: controller.forecastFraction = value }
+
+                                                                              ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    Slider { Layout.fillWidth: true; from: 0; to: 1; enabled: app.controller.runId.length > 0; value: controller.forecastFraction; onMoved: controller.forecastFraction = value }
+
+                                                                              ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:346:115: Unqualified access [unqualified]
+                    Slider { Layout.fillWidth: true; from: 0; to: 1; enabled: controller.runId.length > 0; value: controller.forecastFraction; onMoved: controller.forecastFraction = value }
+
+                                                                                                                  ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    Slider { Layout.fillWidth: true; from: 0; to: 1; enabled: controller.runId.length > 0; value: app.controller.forecastFraction; onMoved: controller.forecastFraction = value }
+
+                                                                                                                  ^^^^
+Warning: C:/Projects/Breakwater/.worktrees/combined-verification/desktop/qml/Main.qml:346:153: Unqualified access [unqualified]
+                    Slider { Layout.fillWidth: true; from: 0; to: 1; enabled: controller.runId.length > 0; value: controller.forecastFraction; onMoved: controller.forecastFraction = value }
+
+                                                                                                                                                        ^^^^^^^^^^
+Info: controller is a member of a parent element.
+      You can qualify the access with its id to avoid this warning.
+
+Suggested change:
+                    Slider { Layout.fillWidth: true; from: 0; to: 1; enabled: controller.runId.length > 0; value: controller.forecastFraction; onMoved: app.controller.forecastFraction = value }
+
+                                                                                                                                                        ^^^^

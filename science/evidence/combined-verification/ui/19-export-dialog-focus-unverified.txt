@@ -1,0 +1,323 @@
+Window: "BREAKWATER | Synthetic fluid network workbench", App: breakwater.exe.
+	0 window (settable, string) BREAKWATER | Synthetic fluid network workbench Secondary Actions: Raise ID: QGuiApplication.Main_QMLTYPE_0
+		423 dialog Export native pipe transport Secondary Actions: Raise
+			424 pane
+				425 tool bar Command Module ID: FolderBandModuleInner
+					426 button &Help Description: Get help. ID: HelpButton
+					427 split button Details Description: Change your view. ID: ViewControl
+						428 button View Slider Description: More options ID: SplitMenuButton
+					429 button Organize Description: Organize this folder's contents. ID: {7DDC1264-7E4D-4F74-BBC0-D191987C8D0F}
+					430 button New folder Description: Create a new folder. ID: {E44616AD-6DF1-4B94-85A4-E465AE8A19DB}
+				431 pane Control Host ID: ProperTreeHost
+					432 tree Navigation Pane ID: 100
+						433 scroll bar (settable, float) Vertical Value: 0 ID: NonClientVerticalScrollBar
+							434 button Line up ID: UpButton
+							435 thumb Position ID: ScrollbarThumb
+							436 button Page down ID: DownPageButton
+							437 button Line down ID: DownButton
+						438 tree item (selectable, settable, string) Desktop Value: Desktop
+							439 tree item (selectable, settable, string) Home Value: Home
+							440 tree item (selectable, settable, string) Gallery Value: Gallery
+							441 tree item (selectable, settable, string) Start of Quick Access - Desktop (pinned) Value: Start of Quick Access - Desktop (pinned)
+							442 tree item (selectable, settable, string) Downloads (pinned) Value: Downloads (pinned)
+							443 tree item (selectable, settable, string) Documents (pinned) Value: Documents (pinned)
+							444 tree item (selectable, settable, string) Pictures (pinned) Value: Pictures (pinned)
+							445 tree item (selectable, settable, string) Music (pinned) Value: Music (pinned)
+							446 tree item (selectable, settable, string) Videos (pinned) Value: Videos (pinned)
+							447 tree item (selectable, settable, string) Screenshots Value: Screenshots
+							448 tree item (selectable, settable, string) notes Value: notes
+							449 tree item (selectable, settable, string) ML Midterm Materials Value: ML Midterm Materials
+							450 tree item (selectable, settable, string) End of Quick Access - Fortran-To-Python Value: End of Quick Access - Fortran-To-Python
+							451 tree item (selectable, settable, string) OneDrive Value: OneDrive
+							452 tree item (selectable, settable, string) This PC Value: This PC
+							453 tree item (selectable, settable, string) Network Value: Network
+				454 pane Shell Folder View ID: listview
+					455 list Items View
+						456 scroll bar (settable, float) Horizontal Value: 0 ID: HorizontalScrollBar
+							457 button Column left ID: UpButton
+							458 thumb Position ID: ScrollbarThumb
+							459 button Page right ID: DownPageButton
+							460 button Column right ID: DownButton
+						461 header Header
+							462 split button Name ID: System.ItemNameDisplay
+								463 button Filter dropdown ID: DropDown
+							464 split button Date modified ID: System.DateModified
+								465 button Filter dropdown ID: DropDown
+							466 split button Type ID: System.ItemTypeText
+								467 button Filter dropdown ID: DropDown
+							468 split button Size ID: System.Size
+								469 button Filter dropdown ID: DropDown
+						470 list item (selectable, settable, string) instance.json Value: instance.json ID: 0
+							471 edit (settable, string) Name Value: instance.json ID: System.ItemNameDisplay
+							472 edit Date modified Value: ‎11/‎7/‎2026 ‏‎9:30 PM ID: System.DateModified
+							473 edit Type Value: JSON Source File ID: System.ItemTypeText
+							474 edit Size Value: 1 KB ID: System.Size
+				475 text File name: Description: File name: ID: SaveDialogLabel
+				476 combo box (settable, string) File name: ID: FileNameControlHost
+					477 edit (settable, string) File name: ID: 1001
+					478 button Open ID: DropDown
+				479 text Save as type: Description: Save as type: ID: SaveDialogLabel
+				480 combo box (settable, string) Save as type: Value: BREAKWATER transport result (*.json) ID: FileTypeControlHost
+					481 text (settable, string) Value: BREAKWATER transport result (*.json)
+					482 button Open ID: DropDown
+				483 tree Save Fields ID: SaveDialogPreviewMetadataInner
+				484 tree Application Controls ID: AppControlsModuleInner
+			485 tool bar
+				486 button Hide Folders
+			487 button Save ID: 1
+			488 button Cancel ID: 2
+			489 thumb (settable, float) Value: 0
+			490 pane ID: 40965
+				491 pane
+					492 tool bar Navigation buttons
+						493 button (disabled) Back (Alt + Left Arrow)
+						494 button (disabled) Forward (Alt + Right Arrow)
+						495 button (disabled) Recent locations
+				496 pane
+					497 tool bar Up band
+						498 button Up to "verification" (Alt + Up Arrow)
+				499 pane ID: 41477
+					500 progress bar Loading Value: 0
+						501 pane
+							502 tool bar Address: C:\Projects\Breakwater\.worktrees\combined-verification\out\verification\ui ID: 1001
+								503 split button All locations
+								504 split button ‎verification
+								505 menu item ‎ui
+						506 tool bar Address band
+							507 button Previous Locations
+							508 button Refresh "ui" (F5)
+				509 pane
+					510 pane
+						511 pane
+							512 edit (settable, string) Search Box Description: Search ui ID: SearchEditBox
+							513 button Search ID: SearchBoxSearchButton
+			514 title bar (settable, string) Value: Export native pipe transport
+				515 menu bar System ID: MenuBar
+					516 menu item System
+				517 button Close
+		1 title bar (settable, string) Value: BREAKWATER | Synthetic fluid network workbench
+			2 menu bar System ID: MenuBar
+				275 menu item System
+			4 button Minimize
+			5 button Restore
+			6 button Close
+		7 tool bar (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50
+			8 text BREAKWATER ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Label_QMLTYPE_17
+			9 button (settable, string) Reset ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			10 button (settable, string) Pump failure ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			11 button (settable, string) Bad reroute ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			12 button (settable, string) Mixed plan ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			13 button (settable, string) Undo ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			14 button (disabled, settable, string) Redo ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			15 button (settable, string) Open ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			16 button (settable, string) Save ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+			17 button (settable, string) Run forecast ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_50.Button_QMLTYPE_18
+		18 group (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl
+			19 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25
+				20 text EQUIPMENT ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				21 text Drag into the scene or click to add. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				22 text Storage tank ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				23 text Production source ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				24 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				25 text Tanker outlet ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				26 text Pump on route ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				27 button (settable, string) Connect equipment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Button_QMLTYPE_18
+				28 text NETWORK ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				320 list item (selectable, settable, string) Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					321 text Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				322 list item (selectable, settable, string) Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					323 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				324 list item (selectable, settable, string) Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					325 text Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				326 list item (selectable, settable, string) Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					327 text Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				328 list item (selectable, settable, string) Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					329 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				330 list item (selectable, settable, string) Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64
+					331 text Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ItemDelegate_QMLTYPE_33_QML_64.Label_QMLTYPE_17
+				41 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+				42 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+			43 button (settable, string) Nemotron investigator ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_18
+			44 button (settable, string) Pipe transport ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.openPipeEvidence
+			45 text PhysicsNeMo: not connected Lean proofs: standalone ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			332 text Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			333 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			334 text Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			335 text Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			336 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			337 text Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_67
+			52 text Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			53 text SYNTHETIC · Layout does not determine hydraulic flow ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			54 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25
+				55 text PROPERTIES ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				56 text backup_pump ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				57 text route ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				364 button (settable, string) Inspect pipe transport ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.inspectPipeTransport
+				365 text Route capacity (m³/h) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				366 edit (settable, string) Value: 35 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.TextField_QMLTYPE_2
+				367 text Setpoint (m³/h) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				368 edit (settable, string) Value: 35 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.TextField_QMLTYPE_2
+				369 text Route cost / m³ ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				370 edit (settable, string) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.TextField_QMLTYPE_2
+				371 check box (settable, string) Pump available ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.CheckBox_QMLTYPE_53
+				372 button (settable, string) Fail selected pump ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Button_QMLTYPE_18
+				373 button (settable, string) Delete selected ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Button_QMLTYPE_18
+				58 text NETWORK READY ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.Label_QMLTYPE_17
+				59 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+				60 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+			311 text FORECAST / VALIDATION ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			312 text Run 217a8f27 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			313 button (disabled, settable, string) Approve simulated preview ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_18
+			314 text FAIL | Nominal 3 h volume forecast | Cost 9030.00 synthetic units | Quality not evaluated tank_b: Predicted volume exceeds capacity. Limit reached at 2.66667 h. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			338 text Tank A: 80.00 / 120 m³ ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_71
+			339 text Tank B: 132.00 / 130 m³ ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17_QML_71
+			317 text t = 3.000 h ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+			318 slider (settable, float) Value: 1 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Slider_QMLTYPE_52
+			319 text 3.000 h ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_17
+		374 window (settable, string) Experimental pipe transport Secondary Actions: Raise ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel
+			375 text Experimental pipe transport ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.Label_QMLTYPE_17
+			376 text Drag the corner to resize · no simulated controls are changed ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			377 button (settable, string) Close ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.Button_QMLTYPE_18
+			378 text ↘ ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			379 text Current route: backup_pump ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			380 text NATIVE SCALAR REFERENCE · EXPERIMENTAL ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			381 text Current run ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			382 combo box (settable, string) Current forecast · 217a8f27 · current ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportRunSelector
+				383 text Current forecast · 217a8f27 · current ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportRunSelector.PlainLabel
+			384 button (settable, string) Run native transport ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.runPipeTransport
+			385 button (settable, string) Import JSON ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.importPipeEvidence
+			386 button (settable, string) Export JSON ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.exportPipeEvidence
+			387 button (disabled, settable, string) Cancel ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.cancelPipeTransport
+			388 text Native scalar reference complete. Quality is separate from volume approval. ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			389 tab (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportTabs
+				390 tab item (selectable, settable, string) Native results ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportTabs.TabButton_QMLTYPE_39
+				391 tab item (selectable, settable, string) Physical parameters ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportTabs.TabButton_QMLTYPE_39
+				392 tab item (selectable, settable, string) Provenance ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportTabs.TabButton_QMLTYPE_39
+			393 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25
+				398 text OUTLET CONCENTRATION · mg/L ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.SectionLabel
+				399 text SAMPLED TIME–DISTANCE FIELD · mg/L ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.SectionLabel
+				400 text 0.0000 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				401 text → ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				402 text 0.9996 mg/L ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				403 text Displayed samples · no interpolation or value clipping ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				404 text NATIVE MASS LEDGER · mg · FINAL STORED SAMPLE ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.SectionLabel
+				405 text Initial inventory ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				406 text 0.0000 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				407 text Final inventory ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				408 text 9856.3334 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				409 text Inlet exchange (+/−) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				410 text +105000.7409 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				411 text Outlet removed (−) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				412 text 92329.7703 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				413 text Source added (+) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				414 text 0.0000 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				415 text Decay removed (−) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				416 text 2814.6372 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				417 text Balance residual ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				418 text -2.73221e-11 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				419 text Peak absolute residual ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				420 text 4.17508e-11 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				421 text Native balance: final − initial − inlet + outlet − source + decay = residual. Outlet and decay rows show raw removed-mass totals. ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				422 text Substeps: 840 · Maximum CFL: 0.9000 · Minimum concentration: 0.0000 mg/L ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				395 text Synthetic scalar reference only. This profile does not establish network chemistry, pressure hydraulics, treatment performance or plan approval. ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.PlainLabel
+				396 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+				397 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_25.ScrollBar_QMLTYPE_26
+		423 dialog Export native pipe transport Secondary Actions: Raise
+			424 pane
+				425 tool bar Command Module ID: FolderBandModuleInner
+					426 button &Help Description: Get help. ID: HelpButton
+					427 split button Details Description: Change your view. ID: ViewControl
+						428 button View Slider Description: More options ID: SplitMenuButton
+					429 button Organize Description: Organize this folder's contents. ID: {7DDC1264-7E4D-4F74-BBC0-D191987C8D0F}
+					430 button New folder Description: Create a new folder. ID: {E44616AD-6DF1-4B94-85A4-E465AE8A19DB}
+				431 pane Control Host ID: ProperTreeHost
+					432 tree Navigation Pane ID: 100
+						433 scroll bar (settable, float) Vertical Value: 0 ID: NonClientVerticalScrollBar
+							434 button Line up ID: UpButton
+							435 thumb Position ID: ScrollbarThumb
+							436 button Page down ID: DownPageButton
+							437 button Line down ID: DownButton
+						438 tree item (selectable, settable, string) Desktop Value: Desktop
+							439 tree item (selectable, settable, string) Home Value: Home
+							440 tree item (selectable, settable, string) Gallery Value: Gallery
+							441 tree item (selectable, settable, string) Start of Quick Access - Desktop (pinned) Value: Start of Quick Access - Desktop (pinned)
+							442 tree item (selectable, settable, string) Downloads (pinned) Value: Downloads (pinned)
+							443 tree item (selectable, settable, string) Documents (pinned) Value: Documents (pinned)
+							444 tree item (selectable, settable, string) Pictures (pinned) Value: Pictures (pinned)
+							445 tree item (selectable, settable, string) Music (pinned) Value: Music (pinned)
+							446 tree item (selectable, settable, string) Videos (pinned) Value: Videos (pinned)
+							447 tree item (selectable, settable, string) Screenshots Value: Screenshots
+							448 tree item (selectable, settable, string) notes Value: notes
+							449 tree item (selectable, settable, string) ML Midterm Materials Value: ML Midterm Materials
+							450 tree item (selectable, settable, string) End of Quick Access - Fortran-To-Python Value: End of Quick Access - Fortran-To-Python
+							451 tree item (selectable, settable, string) OneDrive Value: OneDrive
+							452 tree item (selectable, settable, string) This PC Value: This PC
+							453 tree item (selectable, settable, string) Network Value: Network
+				454 pane Shell Folder View ID: listview
+					455 list Items View
+						456 scroll bar (settable, float) Horizontal Value: 0 ID: HorizontalScrollBar
+							457 button Column left ID: UpButton
+							458 thumb Position ID: ScrollbarThumb
+							459 button Page right ID: DownPageButton
+							460 button Column right ID: DownButton
+						461 header Header
+							462 split button Name ID: System.ItemNameDisplay
+								463 button Filter dropdown ID: DropDown
+							464 split button Date modified ID: System.DateModified
+								465 button Filter dropdown ID: DropDown
+							466 split button Type ID: System.ItemTypeText
+								467 button Filter dropdown ID: DropDown
+							468 split button Size ID: System.Size
+								469 button Filter dropdown ID: DropDown
+						470 list item (selectable, settable, string) instance.json Value: instance.json ID: 0
+							471 edit (settable, string) Name Value: instance.json ID: System.ItemNameDisplay
+							472 edit Date modified Value: ‎11/‎7/‎2026 ‏‎9:30 PM ID: System.DateModified
+							473 edit Type Value: JSON Source File ID: System.ItemTypeText
+							474 edit Size Value: 1 KB ID: System.Size
+				475 text File name: Description: File name: ID: SaveDialogLabel
+				476 combo box (settable, string) File name: ID: FileNameControlHost
+					477 edit (settable, string) File name: ID: 1001
+					478 button Open ID: DropDown
+				479 text Save as type: Description: Save as type: ID: SaveDialogLabel
+				480 combo box (settable, string) Save as type: Value: BREAKWATER transport result (*.json) ID: FileTypeControlHost
+					481 text (settable, string) Value: BREAKWATER transport result (*.json)
+					482 button Open ID: DropDown
+				483 tree Save Fields ID: SaveDialogPreviewMetadataInner
+				484 tree Application Controls ID: AppControlsModuleInner
+			485 tool bar
+				486 button Hide Folders
+			487 button Save ID: 1
+			488 button Cancel ID: 2
+			489 thumb (settable, float) Value: 0
+			490 pane ID: 40965
+				491 pane
+					492 tool bar Navigation buttons
+						493 button (disabled) Back (Alt + Left Arrow)
+						494 button (disabled) Forward (Alt + Right Arrow)
+						495 button (disabled) Recent locations
+				496 pane
+					497 tool bar Up band
+						498 button Up to "verification" (Alt + Up Arrow)
+				499 pane ID: 41477
+					500 progress bar Loading Value: 0
+						501 pane
+							502 tool bar Address: C:\Projects\Breakwater\.worktrees\combined-verification\out\verification\ui ID: 1001
+								503 split button All locations
+								504 split button ‎verification
+								505 menu item ‎ui
+						506 tool bar Address band
+							507 button Previous Locations
+							508 button Refresh "ui" (F5)
+				509 pane
+					510 pane
+						511 pane
+							512 edit (settable, string) Search Box Description: Search ui ID: SearchEditBox
+							513 button Search ID: SearchBoxSearchButton
+			514 title bar (settable, string) Value: Export native pipe transport
+				515 menu bar System ID: MenuBar
+					516 menu item System
+				517 button Close
+
+Document text: ```
+0
+```

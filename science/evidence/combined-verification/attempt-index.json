@@ -1,0 +1,30 @@
+{
+  "baseline": "1a537ed202c38cbe52aa0fed990ea18c23d88d9e",
+  "application_correction": "e1b28b869a5439151a7bc05e2b0fa357a62f65f5",
+  "full_attempt_root": "C:/Projects/Breakwater/.worktrees/combined-verification/out/verification",
+  "attempts": [
+    {"prefix":"attempt-01-baseline","result":"interrupted environment/compiler probe; no test result inferred"},
+    {"prefix":"attempt-02-baseline","result":"interrupted restricted build/runtime attempt; baseline source hashes retained"},
+    {"prefix":"attempt-03-baseline","result":"baseline mismatches reproduced in actual worker/client and controller; controller six failures; worker counts also include stale generated test registry and negative-test harness errors; Python 127 passed"},
+    {"prefix":"attempt-04-baseline","result":"baseline controlled-peer mismatch reproduced; raw 24 failing rows include four negative-test harness failures; original implementation/executable hashes retained"},
+    {"prefix":"attempt-05-normal / attempt-05-asan","result":"local runner forwarded an empty argument list; no build/test success claimed"},
+    {"prefix":"attempt-06-normal / attempt-06-asan","result":"fresh builds and QML lint succeeded; worker CTest timed out at unchanged 180 seconds; negative mutation and PID reuse harness defects preserved; other 23 CTests passed"},
+    {"prefix":"attempt-06-science","result":"127 Python tests, 18 cross-language fixtures/three solvers, 302 worker requests, refined normal+ASan 45/580 and PhysicsNeMo 12 gates passed; original coarse 45/580 retained one expected failure"},
+    {"prefix":"attempt-06-proofs / attempt-07-proofs","result":"Lean build and 54-proposition audit passed; both expected rejection diagnostics observed; private-name matcher corrected for ignored non-proposition probe"},
+    {"prefix":"attempt-06-setup-first / attempt-07-setup-second","result":"both setup executions passed; final pinned runtime metadata identical apart from timestamp"},
+    {"prefix":"attempt-06-package","result":"disposable source application build/install passed; missing Qt translation catalog warning recorded"},
+    {"prefix":"attempt-07-installed","result":"missing interpreter correctly failed with worker_start_failed; wrapper expected python_unavailable and stopped; files restored"},
+    {"prefix":"attempt-08-normal","result":"corrected exact-grid/peer tests and all 50 cancel/retry cycles passed; 31 Qt rows, no failures/skips"},
+    {"prefix":"attempt-09-normal / attempt-09-asan","result":"all 24 CTests passed in each build, zero failures/skips; worker 85 and controller 22 rows passed"},
+    {"prefix":"attempt-09-installed","result":"16 app runs and two real worker exchanges passed at local/relocated installations with source unavailable; module origins verified; integrity ok; wrapper's unjustified nonempty-session assertion removed and zero sessions explicitly reported"},
+    {"prefix":"ui","result":"584.505 second actual computer-use pass; native filename targeting blocked save/load/export, completion won cancellation race; screenshots and observations retained separately"},
+    {"prefix":"attempt-10-normal / attempt-10-asan","result":"both affected CTests passed in each build; worker 85 and controller 25 Qt rows, zero failures/skips; three additional post-exchange retirement cases passed; observed elapsed 220.26/231.47 seconds"},
+    {"prefix":"reporting helpers","result":"UTF-8 source collection and mistaken count of 18 app executions corrected; actual count is 16 app executions plus two worker exchanges; no numerical result or application code changed"}
+  ],
+  "final_affected_commands": [
+    "cmake --build out/verified-normal --target breakwater_storage_science_tests --parallel 2",
+    "ctest --test-dir out/verified-normal -R '^desktop.storage_(worker|science)$' --output-on-failure --output-junit C:/Projects/Breakwater/.worktrees/combined-verification/out/verification/attempt-10-normal/ctest.xml",
+    "cmake --build out/verified-asan --target breakwater_storage_science_tests --parallel 2",
+    "ctest --test-dir out/verified-asan -R '^desktop.storage_(worker|science)$' --output-on-failure --output-junit C:/Projects/Breakwater/.worktrees/combined-verification/out/verification/attempt-10-asan/ctest.xml"
+  ]
+}

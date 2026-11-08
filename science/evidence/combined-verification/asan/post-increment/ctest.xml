@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="ETHAN-LAPTOP"
+	time="231"
+	timestamp="2026-11-07T21:50:30"
+	>
+	<testcase name="desktop.storage_worker" classname="desktop.storage_worker" time="148.831" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.storage_science" classname="desktop.storage_science" time="82.6147" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

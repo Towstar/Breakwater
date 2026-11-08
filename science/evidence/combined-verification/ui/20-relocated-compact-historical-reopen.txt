@@ -1,0 +1,119 @@
+Window: "BREAKWATER | Synthetic fluid network workbench", App: breakwater.exe.
+	0 window (settable, string) BREAKWATER | Synthetic fluid network workbench Secondary Actions: Raise ID: QGuiApplication.Main_QMLTYPE_0
+		1 title bar (settable, string) Value: BREAKWATER | Synthetic fluid network workbench
+			2 menu bar System ID: MenuBar
+				3 menu item System
+			4 button Minimize
+			5 button Maximize
+			6 button Close
+		7 tool bar (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60
+			8 text BREAKWATER ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Label_QMLTYPE_3
+			9 button (settable, string) Reset ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			10 button (settable, string) Pump failure ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			11 button (settable, string) Bad reroute ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			12 button (settable, string) Mixed plan ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			13 button (disabled, settable, string) Undo ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			14 button (disabled, settable, string) Redo ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			15 button (settable, string) Open ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			16 button (settable, string) Save ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+			17 button (settable, string) Run forecast ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Button_QMLTYPE_27
+		18 group (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl
+			19 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6
+				20 text EQUIPMENT ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				21 text Drag into the scene or click to add. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				22 text Storage tank ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				23 text Production source ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				24 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				25 text Tanker outlet ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				26 text Pump on route ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				27 button (settable, string) Connect equipment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Button_QMLTYPE_27
+				28 text NETWORK ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				29 list item (selectable, settable, string) Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					30 text Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				31 list item (selectable, settable, string) Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					32 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				33 list item (selectable, settable, string) Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					34 text Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				35 list item (selectable, settable, string) Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					36 text Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				37 list item (selectable, settable, string) Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					38 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				39 list item (selectable, settable, string) Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64
+					40 text Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ItemDelegate_QMLTYPE_8_QML_64.Label_QMLTYPE_3
+				41 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+				42 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+			43 button (settable, string) Nemotron investigator ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_27
+			44 button (settable, string) Pipe transport ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.openPipeEvidence
+			45 text PhysicsNeMo: not connected Lean proofs: standalone ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			46 text Tank A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			47 text Tank B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			48 text Production A ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			49 text Production B ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			50 text Treatment ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			51 text Emergency trucking ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_67
+			52 text Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			53 text SYNTHETIC · Layout does not determine hydraulic flow ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			54 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6
+				55 text PROPERTIES ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				56 text Select equipment or a pipe ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				57 text ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				58 text NETWORK READY ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.Label_QMLTYPE_3
+				59 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+				60 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+			61 text FORECAST / VALIDATION ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			62 text No executed forecast ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			63 button (disabled, settable, string) Approve simulated preview ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Button_QMLTYPE_27
+			64 text Synthetic constant-flow model. Healthy preview accumulates 8 m3/h in Tank A. ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			65 text Tank A: 80.00 / 120 m³ ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_71
+			66 text Tank B: 114.00 / 130 m³ ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3_QML_71
+			67 text t = 0.000 h ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+			68 slider (disabled, settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Slider_QMLTYPE_23
+			69 text 3.000 h ID: QGuiApplication.Main_QMLTYPE_0.ApplicationWindowContentControl.Label_QMLTYPE_3
+		70 window (settable, string) Experimental pipe transport Secondary Actions: Raise ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel
+			71 text Experimental pipe transport ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.Label_QMLTYPE_3
+			72 text Drag the corner to resize · no simulated controls are changed ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			73 button (settable, string) Close ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.Button_QMLTYPE_27
+			74 text ↘ ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			75 text Recorded route: main_pump ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			76 text NATIVE SCALAR REFERENCE · EXPERIMENTAL ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			77 text Imported historical evidence · unverified file · no approval ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.importedPipeEvidenceBanner
+			78 button (settable, string) Import JSON ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.importPipeEvidence
+			79 button (settable, string) Current calculation ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.showCurrentPipeResult
+			80 button (settable, string) Export JSON ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.exportPipeEvidence
+			81 button (disabled, settable, string) Cancel ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.cancelPipeTransport
+			82 text Imported historical evidence. File contents are unverified and cannot approve a plan. ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.PlainLabel
+			83 tab (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportTabs
+				84 tab item (selectable, settable, string) Native results ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportTabs.TabButton_QMLTYPE_29
+				85 tab item (selectable, settable, string) Recorded parameters ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportTabs.TabButton_QMLTYPE_29
+				86 tab item (selectable, settable, string) Provenance ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.pipeTransportTabs.TabButton_QMLTYPE_29
+			87 pane (settable, string) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6
+				88 text OUTLET CONCENTRATION · mg/L ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.SectionLabel
+				89 text SAMPLED TIME–DISTANCE FIELD · mg/L ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.SectionLabel
+				90 text 0.2008 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				91 text → ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				92 text 1.0000 mg/L ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				93 text Displayed samples · no interpolation or value clipping ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				94 text NATIVE MASS LEDGER · mg · FINAL STORED SAMPLE ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.SectionLabel
+				95 text Initial inventory ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				96 text 10000.0000 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				97 text Final inventory ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				98 text 7268.4701 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				99 text Inlet exchange (+/−) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				100 text -164.8144 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				101 text Outlet removed (−) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				102 text 0.0000 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				103 text Source added (+) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				104 text 0.0000 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				105 text Decay removed (−) ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				106 text 2566.7155 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				107 text Balance residual ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				108 text +1.66533e-12 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				109 text Peak absolute residual ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				110 text 2.22045e-12 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				111 text Native balance: final − initial − inlet + outlet − source + decay = residual. Outlet and decay rows show raw removed-mass totals. ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				112 text Substeps: 120 · Maximum CFL: 0.0332 · Minimum concentration: 0.2008 mg/L ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				113 text Synthetic scalar reference only. This profile does not establish network chemistry, pressure hydraulics, treatment performance or plan approval. ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.PlainLabel
+				114 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+				115 scroll bar (settable, float) Value: 0 ID: QGuiApplication.Main_QMLTYPE_0.PipeTransportPanel.ScrollView_QMLTYPE_6.ScrollBar_QMLTYPE_7
+
+The focused UI element is 8 text BREAKWATER ID: QGuiApplication.Main_QMLTYPE_0.ToolBar_QMLTYPE_60.Label_QMLTYPE_3.

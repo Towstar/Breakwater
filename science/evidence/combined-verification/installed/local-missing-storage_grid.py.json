@@ -1,0 +1,7 @@
+{
+    "error": {
+        "code": "runtime_unavailable",
+        "message": "The configured scientific runtime or storage modules are unavailable."
+    },
+    "status": "failed"
+}

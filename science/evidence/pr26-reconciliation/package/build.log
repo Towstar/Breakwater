@@ -1,0 +1,72 @@
+[1/68] Running qmlimportscanner for breakwater
+[2/68] Populating .qmlls.build.ini file at C:/Projects/Breakwater/.worktrees/combined-verification/out/reconcile-source/out/package/.qt/.qmlls.build.ini
+[3/68] Generating qt.conf part for breakwater
+[4/68] Copying breakwater qml sources into build dir
+[5/68] Generating qt.conf file
+[6/68] Copying breakwater qml resources into build dir
+[7/68] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+[8/68] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[9/68] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[10/68] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[11/68] Linking CXX static library engine\breakwater_engine.lib
+[12/68] Automatic MOC and UIC for target breakwater_desktop_base
+[13/68] Running AUTOMOC file extraction for target breakwater_desktop_base
+[14/68] Running moc --collect-json for target breakwater_desktop_base
+[15/68] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\quality\PipeParameters.cpp.obj
+[16/68] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectDocument.cpp.obj
+[17/68] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\breakwater_desktop_base_autogen\mocs_compilation.cpp.obj
+[18/68] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectController.cpp.obj
+[19/68] Linking CXX static library desktop\breakwater_desktop_base.lib
+[20/68] Automatic MOC and UIC for target breakwater_agent
+[21/68] Running AUTOMOC file extraction for target breakwater_agent
+[22/68] Running moc --collect-json for target breakwater_agent
+[23/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\CredentialSettings.cpp.obj
+[24/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\AgentOrchestrator.cpp.obj
+[25/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\AgentController.cpp.obj
+[26/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\NemotronClient.cpp.obj
+[27/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\breakwater_agent_autogen\mocs_compilation.cpp.obj
+[28/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\agent\SimulationGateway.cpp.obj
+[29/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\history\SessionRecorder.cpp.obj
+[30/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\quality\PipeTransportEvidence.cpp.obj
+[31/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\history\HistoryController.cpp.obj
+[32/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\history\SessionRepository.cpp.obj
+[33/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\quality\PipeTransportController.cpp.obj
+[34/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\science\PythonWorkerClient.cpp.obj
+[35/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\science\WorkerProtocol.cpp.obj
+[36/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\science\StorageScienceEvidence.cpp.obj
+[37/68] Building CXX object desktop\CMakeFiles\breakwater_agent.dir\science\StorageScienceController.cpp.obj
+[38/68] Linking CXX static library desktop\breakwater_agent.lib
+[39/68] Automatic MOC and UIC for target breakwater
+[40/68] Running AUTOMOC file extraction for target breakwater
+[41/68] Running rcc for resource qmake_Breakwater
+[42/68] Generating .rcc/qmlcache/breakwater_qmlcache_loader.cpp
+[43/68] Running rcc for resource breakwater_raw_qml_0_extra_qmldirs
+[44/68] Running rcc for resource breakwater_raw_qml_0
+[45/68] Running moc --collect-json for target breakwater
+[46/68] Automatic QML type registration for target breakwater
+[47/68] Generating .rcc/qmlcache/breakwater_qml_Equipment_qml.cpp, .rcc/qmlcache/breakwater_qml_Equipment_qml.cpp.aotstats
+[48/68] Generating .rcc/qmlcache/breakwater_qml_PipeRoute_qml.cpp, .rcc/qmlcache/breakwater_qml_PipeRoute_qml.cpp.aotstats
+[49/68] Generating .rcc/qmlcache/breakwater_qml_TrajectoryChart_qml.cpp, .rcc/qmlcache/breakwater_qml_TrajectoryChart_qml.cpp.aotstats
+[50/68] Generating .rcc/qmlcache/breakwater_qml_PipeTransportPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_PipeTransportPanel_qml.cpp.aotstats
+[51/68] Generating .rcc/qmlcache/breakwater_qml_Main_qml.cpp, .rcc/qmlcache/breakwater_qml_Main_qml.cpp.aotstats
+[52/68] Generating .rcc/qmlcache/breakwater_qml_AgentPanel_qml.cpp, .rcc/qmlcache/breakwater_qml_AgentPanel_qml.cpp.aotstats
+[53/68] Generating .rcc/qmlcache/breakwater_qml_StorageSciencePanel_qml.cpp, .rcc/qmlcache/breakwater_qml_StorageSciencePanel_qml.cpp.aotstats
+[54/68] Building CXX object desktop\CMakeFiles\breakwater.dir\breakwater_autogen\mocs_compilation.cpp.obj
+[55/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_qmake_Breakwater.cpp.obj
+[56/68] Building CXX object desktop\CMakeFiles\breakwater.dir\breakwater_qmltyperegistrations.cpp.obj
+[57/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_Equipment_qml.cpp.obj
+[58/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_PipeRoute_qml.cpp.obj
+[59/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qmlcache_loader.cpp.obj
+[60/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_Main_qml.cpp.obj
+[61/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_breakwater_raw_qml_0.cpp.obj
+[62/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_breakwater_raw_qml_0_extra_qmldirs.cpp.obj
+[63/68] Building CXX object desktop\CMakeFiles\breakwater.dir\main.cpp.obj
+[64/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_TrajectoryChart_qml.cpp.obj
+[65/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_AgentPanel_qml.cpp.obj
+C:\Projects\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Projects\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Projects\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Projects\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[66/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_StorageSciencePanel_qml.cpp.obj
+[67/68] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_PipeTransportPanel_qml.cpp.obj
+[68/68] Linking CXX executable desktop\breakwater.exe

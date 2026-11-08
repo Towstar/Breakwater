@@ -1,0 +1,7 @@
+{
+    "error": {
+        "code": "worker_unavailable",
+        "message": "The configured scientific worker file is unavailable."
+    },
+    "status": "failed"
+}

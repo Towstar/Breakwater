@@ -1,0 +1,11 @@
+{
+  "integrity": [
+    [
+      "ok"
+    ]
+  ],
+  "row_counts": {
+    "sessions": 0
+  },
+  "scope": "Native forecasts and native-evidence file imports do not create Nemotron session records. No populated installed planning-history claim is made."
+}
