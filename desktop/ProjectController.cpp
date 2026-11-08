@@ -1,10 +1,13 @@
 #include "ProjectController.hpp"
+#include "telemetry/SensorProject.hpp"
+#include "telemetry/TelemetryContracts.hpp"
 #include <QtConcurrentRun>
 #include <QFile>
 #include <QFutureWatcher>
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QSaveFile>
+#include <QSet>
 #include <QUuid>
 #include <algorithm>
 #include <cmath>
@@ -17,6 +20,139 @@ struct JobResult { SimulationResult result; ValidationReport validation; QString
 }
 
 ProjectController::ProjectController(QObject* parent) : QObject(parent), project_(example_project()) {}
+QJsonObject ProjectController::editorDocument() const {
+    return telemetry::sensor_project_json(project_, sensor_configuration_, sensor_layout_);
+}
+QJsonObject ProjectController::sensorConfiguration() const {
+    if (!sensor_configuration_.isEmpty()) return sensor_configuration_;
+    auto result = telemetry::empty_sensor_configuration(project_);
+    result["configuration_id"] = "unconfigured";
+    return result;
+}
+QJsonObject ProjectController::sensorContext() const {
+    auto context = telemetry::sensor_project_context(project_);
+    context["configuration"] = sensorConfiguration();
+    return context;
+}
+QString ProjectController::sensorConfigurationHash() const {
+    return telemetry::sensor_semantic_hash(sensorConfiguration());
+}
+QVariantList ProjectController::sensorMarkers() const {
+    QVariantList rows;
+    for (const auto& value : sensor_configuration_.value("sensors").toArray()) {
+        const auto sensor = value.toObject(); const auto id = sensor.value("sensor_id").toString();
+        const auto position = sensor_layout_.contains(id) ? sensor_layout_.value(id).toObject() : telemetry::sensor_anchor(project_, sensor);
+        rows.append(QVariantMap{{"id", id}, {"label", sensor.value("label").toString()},
+            {"quantity", sensor.value("quantity").toString()}, {"unit", sensor.value("unit").toString()},
+            {"attachment_id", sensor.value("attachment").toObject().value("id").toString()},
+            {"x", position.value("x").toDouble()}, {"y", position.value("y").toDouble()}, {"z", position.value("z").toDouble()},
+            {"selected", selected_sensor_id_ == id}, {"enabled", sensor.value("enabled").toBool()}});
+    }
+    return rows;
+}
+QVariantMap ProjectController::selectedSensor() const {
+    for (const auto& value : sensor_configuration_.value("sensors").toArray()) {
+        auto sensor = value.toObject();
+        if (sensor.value("sensor_id") == selected_sensor_id_) {
+            sensor["marker"] = sensor_layout_.contains(selected_sensor_id_) ? sensor_layout_.value(selected_sensor_id_) : telemetry::sensor_anchor(project_, sensor);
+            return sensor.toVariantMap();
+        }
+    }
+    return {};
+}
+void ProjectController::selectSensor(const QString& id) {
+    selected_sensor_id_.clear();
+    for (const auto& value : sensor_configuration_.value("sensors").toArray())
+        if (value.toObject().value("sensor_id") == id) selected_sensor_id_ = id;
+    emit changed();
+}
+bool ProjectController::addSensor(const QString& quantity, const QString& attachmentId, const QVariantMap& fields) {
+    const auto id = QString::fromStdString(fresh_id("sensor_"));
+    const QMap<QString, QString> units{{"inventory", "m3"}, {"level", "m"}, {"source_flow", "m3/h"},
+        {"route_flow", "m3/h"}, {"pump_state", "state"}, {"concentration", "mg/L"},
+        {"pressure", "kPa"}, {"temperature", "degC"}, {"custom_numeric", "custom"}};
+    if (!units.contains(quantity)) { summary_ = "Choose a supported sensor quantity."; emit changed(); return false; }
+    const auto kind = (quantity == "route_flow" || quantity == "pump_state" || quantity == "concentration") ? "route" : "asset";
+    QJsonObject sensor{{"sensor_id", id}, {"label", quantity + " " + attachmentId}, {"quantity", quantity}, {"unit", units.value(quantity)},
+        {"source_id", "synthetic-publisher"}, {"channel_id", id}, {"attachment", QJsonObject{{"kind", kind}, {"id", attachmentId}}},
+        {"enabled", true}, {"expected_period_s", 1.0}, {"max_age_s", 5.0}, {"uncertainty_bound", 0.0},
+        {"group_id", id}, {"role", "primary"},
+        {"physical_support", QJsonObject{{"kind", "none"}, {"acquisition_window_s", 0.0}, {"delay_s", 0.0}}},
+        {"calibration", QJsonObject{{"calibration_id", id}, {"version", 1}, {"kind", "identity"}, {"error_bound", 0.0}}}};
+    const auto patch = QJsonObject::fromVariantMap(fields);
+    for (auto it = patch.begin(); it != patch.end(); ++it) sensor[it.key()] = it.value();
+    sensor["sensor_id"] = id;
+    return edit([&] {
+        if (sensor_configuration_.isEmpty()) sensor_configuration_ = telemetry::empty_sensor_configuration(project_);
+        auto sensors = sensor_configuration_.value("sensors").toArray(); sensors.append(sensor);
+        sensor_configuration_["sensors"] = sensors; sensor_layout_[id] = telemetry::sensor_anchor(project_, sensor);
+        selected_sensor_id_ = id;
+    });
+}
+bool ProjectController::configureSensor(const QString& id, const QVariantMap& fields) {
+    auto sensors = sensor_configuration_.value("sensors").toArray();
+    for (qsizetype i = 0; i < sensors.size(); ++i) {
+        auto sensor = sensors[i].toObject();
+        if (sensor.value("sensor_id") != id) continue;
+        const auto previousAttachment = sensor.value("attachment");
+        const auto previousCalibration = sensor.value("calibration").toObject();
+        const auto patch = QJsonObject::fromVariantMap(fields);
+        for (auto it = patch.begin(); it != patch.end(); ++it) {
+            if (it.value().isNull() && (it.key() == "instrument_min" || it.key() == "instrument_max")) sensor.remove(it.key());
+            else sensor[it.key()] = it.value();
+        }
+        if (sensor.value("sensor_id") != id) { summary_ = "Sensor identity is immutable; create another sensor to change it."; emit changed(); return false; }
+        auto calibration = sensor.value("calibration").toObject();
+        if (calibration != previousCalibration && calibration.value("version").isDouble() &&
+            std::isfinite(calibration.value("version").toDouble()) && calibration.value("version").toDouble() >= 1 &&
+            std::floor(calibration.value("version").toDouble()) == calibration.value("version").toDouble() &&
+            calibration.value("version").toDouble() <= previousCalibration.value("version").toDouble())
+            calibration["version"] = previousCalibration.value("version").toDouble() + 1.0;
+        sensor["calibration"] = calibration; sensors[i] = sensor;
+        if (sensor.value("role") == "primary") {
+            for (qsizetype other = 0; other < sensors.size(); ++other) {
+                auto peer = sensors[other].toObject();
+                if (other != i && peer.value("group_id") == sensor.value("group_id") && peer.value("role") == "primary") {
+                    peer["role"] = "redundant"; sensors[other] = peer;
+                }
+            }
+        }
+        return edit([&] {
+            sensor_configuration_["sensors"] = sensors;
+            if (sensor.value("attachment") != previousAttachment) sensor_layout_[id] = telemetry::sensor_anchor(project_, sensor);
+        });
+    }
+    return false;
+}
+bool ProjectController::deleteSensor(const QString& id) {
+    auto sensors = sensor_configuration_.value("sensors").toArray();
+    for (qsizetype i = 0; i < sensors.size(); ++i) if (sensors[i].toObject().value("sensor_id") == id) {
+        sensors.removeAt(i);
+        return edit([&] { sensor_configuration_["sensors"] = sensors; sensor_layout_.remove(id); if (selected_sensor_id_ == id) selected_sensor_id_.clear(); });
+    }
+    return false;
+}
+bool ProjectController::moveSensor(const QString& id, double x, double y, double z) {
+    if (!std::isfinite(x) || !std::isfinite(y) || !std::isfinite(z) || std::abs(x) > 10000 || std::abs(y) > 10000 || std::abs(z) > 10000) return false;
+    for (const auto& value : sensor_configuration_.value("sensors").toArray()) if (value.toObject().value("sensor_id") == id)
+        return edit([&] { sensor_layout_[id] = QJsonObject{{"x", x}, {"y", y}, {"z", z}}; });
+    return false;
+}
+void ProjectController::synchronizeSensorConfiguration() {
+    if (sensor_configuration_.isEmpty()) return;
+    sensor_configuration_["physical_hash"] = networkHash();
+    auto sensors = sensor_configuration_.value("sensors").toArray();
+    for (qsizetype i = 0; i < sensors.size(); ++i) {
+        auto sensor = sensors[i].toObject();
+        if (sensor.value("quantity") == "concentration") {
+            const auto route = sensor.value("attachment").toObject().value("id").toString();
+            if (!project_.pipe_parameters.contains(route)) throw std::invalid_argument("Concentration needs explicitly configured pipe transport geometry first.");
+            sensor["pipe_parameter_hash"] = quality::pipe_parameters_hash(project_.pipe_parameters.value(route));
+            sensors[i] = sensor;
+        }
+    }
+    sensor_configuration_["sensors"] = sensors;
+}
 QJsonObject ProjectController::pipeParameters(const QString& routeId) const {
     return quality::pipe_parameters_json(project_.pipe_parameters.value(routeId));
 }
@@ -25,8 +161,7 @@ bool ProjectController::setPipeParameters(const QString& routeId, const QJsonObj
     if (!exists) return false;
     try {
         const auto parsed = quality::parse_pipe_parameters(parameters);
-        edit([&] { project_.pipe_parameters[routeId] = parsed; });
-        return true;
+        return edit([&] { project_.pipe_parameters[routeId] = parsed; });
     } catch (const std::exception&) { return false; }
 }
 QJsonObject ProjectController::capturedRun() const {
@@ -110,17 +245,51 @@ void ProjectController::refresh(bool physical) {
     }
     emit changed();
 }
-void ProjectController::edit(const std::function<void()>& mutation) {
-    const auto before = document(); const auto previous_hash = networkHash();
-    mutation();
-    if (document() == before) { emit changed(); return; }
+bool ProjectController::edit(const std::function<void()>& mutation) {
+    const auto before = editorDocument(); const auto previous_hash = networkHash();
+    const auto previousSensorHash = sensorConfigurationHash();
+    const auto previousProject = project_; const auto previousConfiguration = sensor_configuration_, previousLayout = sensor_layout_;
+    const auto previousSelection = selected_id_, previousSensorSelection = selected_sensor_id_;
+    try {
+        mutation();
+        // Stored markers are world-space presentation coordinates. Follow layout-only
+        // attachment movement while retaining their configured visual offset.
+        for (const auto& value : sensor_configuration_.value("sensors").toArray()) {
+            const auto sensor = value.toObject(); const auto id = sensor.value("sensor_id").toString();
+            if (!previousLayout.contains(id) || sensor_layout_.value(id) != previousLayout.value(id)) continue;
+            const auto oldAnchor = telemetry::sensor_anchor(previousProject, sensor), newAnchor = telemetry::sensor_anchor(project_, sensor);
+            auto marker = sensor_layout_.value(id).toObject();
+            for (const auto* axis : {"x", "y", "z"}) marker[axis] = marker.value(axis).toDouble() + newAnchor.value(axis).toDouble() - oldAnchor.value(axis).toDouble();
+            sensor_layout_[id] = marker;
+        }
+        synchronizeSensorConfiguration();
+        if (!sensor_configuration_.isEmpty() && sensorConfigurationHash() != previousSensorHash)
+            sensor_configuration_["revision"] = previousConfiguration.isEmpty() ? 1.0 : previousConfiguration.value("revision").toDouble() + 1.0;
+        telemetry::validate_sensor_project(project_, sensor_configuration_, sensor_layout_);
+    } catch (const std::exception& e) {
+        project_ = previousProject; sensor_configuration_ = previousConfiguration; sensor_layout_ = previousLayout;
+        selected_id_ = previousSelection; selected_sensor_id_ = previousSensorSelection;
+        summary_ = QString::fromUtf8(e.what()); emit changed(); return false;
+    }
+    if (editorDocument() == before) { emit changed(); return true; }
     undo_.push_back(before); if (undo_.size() > 64) undo_.erase(undo_.begin()); redo_.clear();
     refresh(networkHash() != previous_hash);
+    if (sensorConfigurationHash() != previousSensorHash) emit sensorConfigurationChanged();
+    return true;
 }
 bool ProjectController::restore(const QJsonObject& object) {
     try {
-        const auto parsed = parse_project(object); const auto previous_hash = networkHash();
-        project_ = parsed; selected_id_.clear(); refresh(networkHash() != previous_hash); emit cameraChanged(); return true;
+        const bool wrapper = object.value("version") == 2;
+        const auto parsed = parse_project(wrapper ? object.value("project").toObject() : object);
+        const auto configuration = wrapper ? object.value("sensor_configuration").toObject() : QJsonObject{};
+        const auto layout = wrapper ? object.value("sensor_layout").toObject() : QJsonObject{};
+        if (wrapper) telemetry::validate_document(object, "project_v2", telemetry::sensor_project_context(parsed));
+        telemetry::validate_sensor_project(parsed, configuration, layout);
+        const auto previous_hash = networkHash(), previousSensorHash = sensorConfigurationHash();
+        project_ = parsed; sensor_configuration_ = configuration; sensor_layout_ = layout;
+        selected_id_.clear(); selected_sensor_id_.clear(); refresh(networkHash() != previous_hash); emit cameraChanged();
+        if (sensorConfigurationHash() != previousSensorHash) emit sensorConfigurationChanged();
+        return true;
     } catch (const std::exception& e) { summary_ = QString::fromUtf8(e.what()); emit changed(); return false; }
 }
 void ProjectController::select(const QString& id) { selected_id_ = id; emit changed(); }
@@ -188,6 +357,16 @@ void ProjectController::editSelected(const QString& field, const QString& value)
 }
 void ProjectController::deleteSelected() {
     const auto id = selected_id_.toStdString();
+    QSet<QString> removed{selected_id_};
+    for (const auto& route : project_.network.routes)
+        if (route.source_id == id || route.target_id == id) removed.insert(q(route.id));
+    for (const auto& value : sensor_configuration_.value("sensors").toArray()) {
+        const auto sensor = value.toObject();
+        if (removed.contains(sensor.value("attachment").toObject().value("id").toString())) {
+            summary_ = "Remove or reattach sensor " + sensor.value("label").toString() + " before deleting its equipment or route.";
+            emit changed(); return;
+        }
+    }
     edit([&] {
         std::erase_if(project_.network.assets, [&](const Asset& a) { return a.id == id; });
         std::erase_if(project_.network.routes, [&](const Route& r) { return r.id == id || r.source_id == id || r.target_id == id; });
@@ -204,19 +383,25 @@ void ProjectController::failSelectedPump() {
 }
 void ProjectController::undo() {
     if (undo_.empty()) return;
-    const auto current = document(), previous = undo_.back(); undo_.pop_back(); redo_.push_back(current); restore(previous);
+    const auto current = editorDocument(), previous = undo_.back(); undo_.pop_back(); redo_.push_back(current); restore(previous);
 }
 void ProjectController::redo() {
     if (redo_.empty()) return;
-    const auto current = document(), next = redo_.back(); redo_.pop_back(); undo_.push_back(current); restore(next);
+    const auto current = editorDocument(), next = redo_.back(); redo_.pop_back(); undo_.push_back(current); restore(next);
 }
 void ProjectController::reset() {
-    project_ = example_project(); selected_id_.clear(); undo_.clear(); redo_.clear(); refresh(true); emit cameraChanged();
+    const auto previousSensorHash = sensorConfigurationHash();
+    project_ = example_project(); sensor_configuration_ = {}; sensor_layout_ = {}; selected_sensor_id_.clear();
+    selected_id_.clear(); undo_.clear(); redo_.clear(); refresh(true); emit cameraChanged();
+    if (sensorConfigurationHash() != previousSensorHash) emit sensorConfigurationChanged();
     summary_ = "Healthy 3 h preview: main 44, backup 16 m3/h. Tank A accumulates 8 m3/h."; emit changed();
 }
 void ProjectController::loadExample(const QString& name) {
     try {
         auto p = example_project();
+        // Presets change operating conditions, not declared pipe measurement geometry.
+        for (auto it = project_.pipe_parameters.cbegin(); it != project_.pipe_parameters.cend(); ++it)
+            for (const auto& route : p.network.routes) if (q(route.id) == it.key()) p.pipe_parameters[it.key()] = it.value();
         if (name != "healthy") p.network = compile(main_pump_failure(p.network), incident_controls(name.toStdString())).network;
         edit([&] { project_ = p; selected_id_.clear(); }); emit cameraChanged();
     } catch (const std::exception& e) { summary_ = QString::fromUtf8(e.what()); emit changed(); }
@@ -225,18 +410,19 @@ bool ProjectController::save(const QUrl& url) {
     if (!url.isLocalFile()) { summary_ = "Choose a local JSON project file."; emit changed(); return false; }
     QSaveFile file(url.toLocalFile());
     if (!file.open(QIODevice::WriteOnly)) { summary_ = file.errorString(); emit changed(); return false; }
-    const auto bytes = QJsonDocument(document()).toJson(QJsonDocument::Indented);
+    const auto bytes = QJsonDocument(editorDocument()).toJson(QJsonDocument::Indented);
     if (file.write(bytes) != bytes.size() || !file.commit()) { summary_ = file.errorString(); emit changed(); return false; }
     summary_ = "Project saved."; emit changed(); return true;
 }
 bool ProjectController::load(const QUrl& url) {
     QFile file(url.toLocalFile());
     if (!url.isLocalFile() || !file.open(QIODevice::ReadOnly) || file.size() > 2 * 1024 * 1024) { summary_ = "Cannot read local project (limit 2 MiB)."; emit changed(); return false; }
-    QJsonParseError error; const auto json = QJsonDocument::fromJson(file.readAll(), &error);
-    if (error.error != QJsonParseError::NoError || !json.isObject()) { summary_ = "Invalid project JSON."; emit changed(); return false; }
-    const auto before = document();
-    if (!restore(json.object())) return false;
-    undo_.push_back(before); redo_.clear(); emit changed(); return true;
+    QJsonObject object;
+    try { object = telemetry::decode_document(file.readAll(), 2 * 1024 * 1024); }
+    catch (const std::exception& e) { summary_ = QString::fromUtf8(e.what()); emit changed(); return false; }
+    const auto before = editorDocument();
+    if (!restore(object)) return false;
+    undo_.push_back(before); if (undo_.size() > 64) undo_.erase(undo_.begin()); redo_.clear(); emit changed(); return true;
 }
 void ProjectController::forecast() {
     forecastWithConfig({});
@@ -279,7 +465,7 @@ bool ProjectController::applyControlsForApproval(const std::vector<ControlValue>
     if (networkHash() != expectedHash) return false;
     try {
         const auto candidate = compile(project_.network, controls).network;
-        edit([&] { project_.network = candidate; });
+        if (!edit([&] { project_.network = candidate; })) return false;
         summary_ = "Operator applied a validated simulated intervention. Computing the updated forecast.";
         emit changed();
         return true;
