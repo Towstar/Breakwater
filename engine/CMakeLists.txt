@@ -37,7 +37,16 @@ target_link_libraries(breakwater_eog_analytical PUBLIC breakwater_options)
 add_executable(breakwater_eog_analytical_example examples/eog_analytical_example.cpp)
 target_link_libraries(breakwater_eog_analytical_example PRIVATE breakwater_eog_analytical)
 
+# Private E3 seconds-based native computation; independent of Qt, Python and JSON.
+add_library(breakwater_eog_response SHARED src/eog_response.cpp include/breakwater/eog_response.h)
+target_compile_definitions(breakwater_eog_response PRIVATE BWEOG_BUILD)
+target_include_directories(breakwater_eog_response PUBLIC include)
+target_link_libraries(breakwater_eog_response PRIVATE breakwater_options)
+
 if(BUILD_TESTING)
+  add_executable(breakwater_eog_response_tests tests/eog_response_tests.cpp)
+  target_link_libraries(breakwater_eog_response_tests PRIVATE breakwater_eog_response breakwater_options)
+  add_test(NAME engine.eog_response COMMAND breakwater_eog_response_tests)
   add_executable(breakwater_eog_analytical_tests tests/eog_analytical_tests.cpp)
   target_link_libraries(breakwater_eog_analytical_tests PRIVATE breakwater_eog_analytical)
   add_test(NAME engine.eog_analytical COMMAND breakwater_eog_analytical_tests)
