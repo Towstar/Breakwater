@@ -43,7 +43,15 @@ target_compile_definitions(breakwater_eog_response PRIVATE BWEOG_BUILD)
 target_include_directories(breakwater_eog_response PUBLIC include)
 target_link_libraries(breakwater_eog_response PRIVATE breakwater_options)
 
+# Private extended synthetic plant: persistent events/fleet, independent of UI/wire.
+add_library(breakwater_eog_simulation src/eog_simulation.cpp include/breakwater/eog_simulation.hpp)
+target_include_directories(breakwater_eog_simulation PUBLIC include)
+target_link_libraries(breakwater_eog_simulation PUBLIC breakwater_options)
+
 if(BUILD_TESTING)
+  add_executable(breakwater_eog_simulation_tests tests/eog_simulation_tests.cpp)
+  target_link_libraries(breakwater_eog_simulation_tests PRIVATE breakwater_eog_simulation)
+  add_test(NAME engine.eog_simulation COMMAND breakwater_eog_simulation_tests)
   add_executable(breakwater_eog_response_tests tests/eog_response_tests.cpp)
   target_link_libraries(breakwater_eog_response_tests PRIVATE breakwater_eog_response breakwater_options)
   add_test(NAME engine.eog_response COMMAND breakwater_eog_response_tests)
