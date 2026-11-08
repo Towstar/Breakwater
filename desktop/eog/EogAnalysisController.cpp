@@ -31,6 +31,8 @@ bool compatiblePlans(const QJsonObject& a, const QJsonObject& b) {
 QJsonObject modelResponse(QJsonObject response) {
     // Full evidence is retained locally. The model receives plans, costs and
     // constraints, with bounded trajectory endpoints rather than every point.
+    // Reserve room for the surrounding tool-result envelope.
+    constexpr qsizetype modelResponseBudget = 255 * 1024;
     auto result = response.value("result").toObject();
     const auto compact = [](QJsonObject evaluation) {
         QJsonArray trajectories;
@@ -69,7 +71,7 @@ QJsonObject modelResponse(QJsonObject response) {
         result["evidence"] = retained; result["retained_evidence_count"] = all.size();
     }
     response["result"] = result;
-    if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > 256 * 1024 &&
+    if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > modelResponseBudget &&
         (result.contains("evaluation") || result.contains("evaluations"))) {
         // Presentation-only fallback. Exact plans/trajectories remain in the
         // registry/history; validate_plan resolves the retained ID, never this
@@ -83,7 +85,7 @@ QJsonObject modelResponse(QJsonObject response) {
             QJsonObject output{{"plan", identity}, {"truck_job_count", jobs.size()}, {"truck_trip_count", trips},
                 {"well_shut_in_count", plan.value("well_shut_ins").toArray().size()},
                 {"repair_deadline_count", plan.value("repair_deadlines").toArray().size()},
-                {"complete_evidence_in_local_history", true}};
+                {"complete_evidence_retained_locally", true}};
             for (const auto* key : {"feasible", "coverage", "outcome", "cost"}) output[key] = value.value(key);
             output["violation_count"] = value.value("violations").toArray().size();
             output["shutdown_count"] = value.value("shutdowns").toArray().size();
@@ -102,9 +104,9 @@ QJsonObject modelResponse(QJsonObject response) {
         brief["limitations_preview"] = limits; brief["full_limitation_count"] = allLimits.size();
         response["result"] = brief;
     }
-    if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > 256 * 1024)
+    if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > modelResponseBudget)
         return {{"request_id", response.value("request_id")}, {"operation", response.value("operation")},
-            {"status", response.value("status")}, {"detail", "Numerical evidence exceeds model output budget; retained in local history."}};
+            {"status", response.value("status")}, {"detail", "Numerical evidence exceeds model output budget; retained locally. History persistence is reported separately."}};
     return response;
 }
 }

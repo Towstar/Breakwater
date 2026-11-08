@@ -591,7 +591,7 @@ private slots:
         QVERIFY(!summary.isEmpty());
         for (const auto* key : {"cost", "coverage", "outcome", "feasible"}) QCOMPARE(summary.value(key), selected.value(key));
         QCOMPARE(summary.value("plan").toObject().value("plan_hash"), selected.value("plan").toObject().value("plan_hash"));
-        QVERIFY(summary.value("complete_evidence_in_local_history").toBool());
+        QVERIFY(summary.value("complete_evidence_retained_locally").toBool());
         QVERIFY(!summary.value("plan").toObject().contains("truck_jobs"));
         QCOMPARE(selected.value("limitations").toArray().size(), 64);
         QCOMPARE(selected.value("limitations").toArray().first().toString().size(), 2048);
