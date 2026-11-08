@@ -103,6 +103,39 @@ class EogWorkerTests(unittest.TestCase):
         self.assertEqual({k: result[k] for k in worker.BINDINGS}, {k: before[k] for k in worker.BINDINGS})
         self.assertEqual(self.request, before)
 
+    def test_actual_cumulative_inspection_process_retains_bound_raw_evidence(self):
+        rows = frame(self.model, 0) + sum((frame(self.model, t, received=2619)
+                                                for t in range(300, 6300, 300)), [])
+        text = "timestamp,ts_unix,asset_id,metric,value\n" + "".join(
+            f"{datetime.fromtimestamp(s.unix, timezone.utc).strftime('%Y-%m-%dT%H:%M:%SZ')},{s.unix},{s.asset_id},{s.metric},{s.value}\n"
+            for s in rows)
+        raw = text.encode("utf-8")
+        (self.folder / "telemetry.csv").write_bytes(raw)
+        request = copy.deepcopy(self.request)
+        manifest = request["capture_manifest"]
+        digest = hashlib.sha256(raw).hexdigest()
+        manifest["captured_files"]["telemetry.csv"] = {"sha256": digest, "size_bytes": len(raw)}
+        manifest["source_hashes"]["telemetry.csv"] = digest
+        manifest["source_now_unix"] = manifest["cutoff_unix"] = rows[-1].unix
+        manifest["dataset_identity"] = self.contract.dataset_identity(manifest["source_hashes"])
+        manifest["capture_id"] = self.contract.capture_identity(manifest)
+        for key in ("dataset_identity", "capture_id", "cutoff_unix"):
+            request[key] = manifest[key]
+        run = self.process(worker.encode_response(request))
+        self.assertEqual(run.returncode, 0, run.stderr.decode(errors="replace"))
+        response = json.loads(run.stdout)
+        self.contract.validate_document(response, context={"request": request})
+        self.assertEqual(response["status"], "completed", response["diagnostics"])
+        event, = response["result"]["events"]
+        self.assertEqual((event["category"], event["recommended_action"]), ("pipeline_leak", "field_inspection"))
+        self.assertIsNone(event["countdown_hours"])
+        self.assertTrue(event["threshold_version"].startswith("eog-detection-0.3.0:"))
+        self.assertTrue(any("meter bias" in s for s in event["limitations"]))
+        evidence = {s["evidence_id"]: s for s in response["result"]["evidence"]}
+        self.assertTrue(all(identifier in evidence for identifier in event["evidence_ids"]))
+        self.assertTrue(all(s["timestamp_unix"] <= request["cutoff_unix"] for s in evidence.values()))
+        self.assertTrue(any(s["metric"] == "receive_flow_bpd" and s["value"] == 2619 for s in evidence.values()))
+
     def test_runtime_only_reads_fixed_inputs_and_trusted_schemas(self):
         (self.folder / "answer_key.json").write_text("NOT VALID JSON; MUST NOT READ", encoding="utf-8")
         original = Path.open

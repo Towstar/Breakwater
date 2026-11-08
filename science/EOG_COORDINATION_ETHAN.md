@@ -27,7 +27,47 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: imported-model causal synthetic observations
+## Active execution checkpoint: inspection timeliness
+
+Current worktree/branch: `C:\Projects\Breakwater\.worktrees\person-a-eog-inspection`,
+`codex/person-a-eog-inspection`, stacked on #49. Frozen runtime **95a8bf1**,
+detector **0.3.0**, worker **0.3.3**, unchanged public **72cadd1**. No B-owned file
+or native numerical algorithm is edited. Exact evidence is in
+`science/evidence/eog-inspection/`, with frozen declarations/failed attempts in
+`EOG_INSPECTION_STUDY.md` and measured limits in `EOG_DETECTION_RESULTS.md`.
+
+The retained 5% path is supplemented by a bounded running-observation change
+score. Coherent observed off intervals preserve continuity without supplying
+discrepancy/recovery evidence; missing/fault/contradictory frames reset it. Old
+score expires after six hours. Cumulative recovery requires four actual healthy
+running samples and discards old positive evidence. Sensor-bias/physical-loss
+indistinguishability and unbounded physical onset are explicit.
+
+Actual final science **418/418**, zero skips/failures; focused **18/18**. Fresh
+generated cases and retained development families pass the declared four-hour
+3% loss bound, with no alarms in 9,856 healthy-only synthetic hours. Official
+practice keeps 23/23 matches/no unmatched/early alarms: leak delay improves to
+1h25m-3h10m, wear to 5h30m-6h05m. The first historical gate now passes; two later
+gates still fail for one ambiguous unrecovered inspection each. Recovery is not
+uniformly improved; the paired report preserves one additional 15-minute leak
+lag. Nine independent raw countdown/repair/revenue checks pass, plus four actual
+detect/four native no-action worker processes covering nine current failures.
+This is not global, held-out, physical or final installed/UI qualification.
+
+B integration: adopt the exact new A source before staging worker 0.3.3; existing
+module names/public schemas remain unchanged. PR #48 is still draft, latest
+inspected head **05f906f** (Windows fixture line-ending normalization only).
+PR #49's exact-head science job **128780171556**, run **42496462808**, fails on
+two unexpected class skips because `BREAKWATER_EOG_PLANT` is absent; the concrete
+build-target/environment request is recorded on #49. Native normal/ASan and Lean
+passed; desktop jobs were live at the preceding observation. Do not reclassify
+that hosted run as passing or retry unchanged prerequisites.
+
+Next: finite-extreme search arithmetic robustness, the exact B-owned simulation
+boundary/adoption, commitment-aware planning and final joined application checks.
+Inspection timeliness/physical onset remain limited; the full goal stays active.
+
+## Published checkpoint: imported-model causal synthetic observations
 
 Current branch/worktree: `codex/person-a-eog-synthetic-observations` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-synthetic-observations`. Runtime
