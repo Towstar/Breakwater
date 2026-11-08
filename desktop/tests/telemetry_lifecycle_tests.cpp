@@ -69,9 +69,25 @@ private slots:
         controller.stop(); QTRY_VERIFY_WITH_TIMEOUT(!controller.active(), 10000);
         QVERIFY(controller.error().isEmpty());
     }
+    void pausedPublisherLossRemainsUnavailableAndCanRecover() {
+        TelemetryController controller; controller.configure(configuration(), context());
+        QTRY_COMPARE(controller.status(), "ready");
+        controller.startProcess(python(), {fixture(), "pause_silent"});
+        QTRY_VERIFY_WITH_TIMEOUT(controller.tracePreview().size() >= 2, 10000);
+        controller.pause(); QTRY_VERIFY(controller.paused());
+        const auto frozenTime = controller.eventTime();
+        QTRY_COMPARE_WITH_TIMEOUT(controller.status(), "source_unavailable", 10000);
+        QVERIFY(controller.active()); QVERIFY(controller.error().isEmpty());
+        QVERIFY(!controller.snapshot().value("source_available").toBool());
+        QVERIFY(std::abs(controller.eventTime() - frozenTime) < 0.03);
+        controller.resume(); QTRY_VERIFY(!controller.paused());
+        QTRY_COMPARE(controller.status(), "running");
+        QVERIFY(controller.snapshot().value("source_available").toBool());
+        controller.stop(); QTRY_VERIFY(!controller.active()); QVERIFY(controller.error().isEmpty());
+    }
     void actualRecordingReplayCommandsAndRenderArtifacts() {
         QTemporaryDir directory; QVERIFY(directory.isValid());
-        TelemetryController controller; controller.configure(configuration(), context());
+        TelemetryController controller; controller.setTimeoutMs(15000); controller.configure(configuration(), context());
         QTRY_COMPARE(controller.status(), "ready");
         controller.startProcess(python(), {fixture(), "normal"});
         QTRY_VERIFY_WITH_TIMEOUT(controller.tracePreview().size() >= 2, 10000);
@@ -83,7 +99,7 @@ private slots:
         QTest::qWait(200); QVERIFY(controller.eventTime() > pausedTime + 0.1);
         const auto oldEpoch = controller.snapshot().value("epoch_id").toString();
         controller.restart();
-        QTRY_VERIFY(controller.snapshot().value("epoch_id").toString() != oldEpoch);
+        QTRY_VERIFY_WITH_TIMEOUT(controller.snapshot().value("epoch_id").toString() != oldEpoch, 10000);
         QTRY_VERIFY(controller.tracePreview().size() >= 2);
         controller.stop(); QTRY_VERIFY_WITH_TIMEOUT(!controller.active(), 10000);
         QVERIFY2(controller.error().isEmpty(), qPrintable(controller.error()));

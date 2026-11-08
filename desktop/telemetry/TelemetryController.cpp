@@ -217,7 +217,8 @@ public:
             rows[index] = row;
         }
         report["sensors"] = rows;
-        if (active_ && paused_) report["status"] = "paused";
+        // Local playback pause is not a heartbeat and cannot hide source loss.
+        if (active_ && paused_ && report.value("status").toString() == "running") report["status"] = "paused";
         if (!status_.isEmpty()) report["lifecycle_status"] = status_;
         if (!error_.isEmpty()) { report["error"] = error_; report["status"] = "fault"; }
         else if (!active_ || !started_ || !report.contains("status")) report["status"] = status_;
