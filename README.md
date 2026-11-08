@@ -4,6 +4,11 @@ Person B's native Nemotron tools and investigation panel are documented in
 [docs/AGENT_INTEGRATION.md](docs/AGENT_INTEGRATION.md), including local `.env`
 configuration, actual tool-call smoke commands, snapshot rules and approval staging.
 
+The [G1 telemetry contracts](contracts/telemetry/README.md) define sensor configuration,
+stream lifecycle, observed snapshots and incident evidence for the planned synthetic
+monitoring extension. They provide offline validation and test fixtures; shared
+[Person A/B adoption](docs/G1_REVIEW.md) precedes sensor/runtime development.
+
 Nemotron can inspect stored native runs and request local PyTorch control
 sensitivities, with complete scientific evidence retained in History. Native
 validation and explicit operator review govern simulated control changes.

@@ -1,0 +1,92 @@
+{
+  "verification_version": 1,
+  "passed": true,
+  "baseline": "7f2bb7f598f960b60a1d9cc7cb362a7ff233db7f",
+  "scope": "Implemented interfaces, validators and synthetic software fixtures only; no acquisition, publisher, detector, physical mapping or control application.",
+  "person_a_guidance_commit": "9941859b202d804b024d788b1238d94166b33309",
+  "person_a_exact_contract_adoption": "pending",
+  "shared_semantic_cases": 147,
+  "published_hash_vectors": 6,
+  "normal": {
+    "contract_ctest_targets_passed": 2,
+    "contract_ctest_seconds": 1.86,
+    "legacy_project_target_passed": 1,
+    "legacy_project_seconds": 0.48,
+    "qt_contract_cases_passed": 164,
+    "qt_failed": 0,
+    "qt_skipped": 0
+  },
+  "asan": {
+    "target_names": [
+      "desktop.project",
+      "desktop.telemetry_contracts",
+      "contracts.telemetry"
+    ],
+    "ctest_targets_passed": 3,
+    "ctest_seconds": 40.03,
+    "qt_contract_cases_passed": 164,
+    "qt_failed": 0,
+    "qt_skipped": 0,
+    "python_methods_passed": 19,
+    "python_skipped": 0,
+    "diagnostics_found": false,
+    "coverage_limit": "Prebuilt Qt/Python/Torch are outside established ASan instrumentation coverage."
+  },
+  "bounded_adversarial": {
+    "cases": 1317,
+    "python_accepted": 177,
+    "native_accepted": 177,
+    "mismatches": 0,
+    "unexpected_results": 0,
+    "python_internal_exceptions": 0,
+    "source_unchanged": true,
+    "binary_unchanged": true
+  },
+  "solution": {
+    "projects": 84,
+    "dependencies": 242,
+    "all_paths_resolve": true
+  },
+  "review": "Independent same-family source review, targeted post-fix probes and frozen bounded mutation audit; no remaining actionable finding. This is not Person A signoff or a full transcript audit.",
+  "source_sha256": {
+    "contracts/telemetry/validate.py": "1d8c6f6cec97600b41aea2a60021e0b7bacf6d854105b8d54cfb9da038060da3",
+    "desktop/telemetry/TelemetryContracts.cpp": "f4370f77f50903a38835fdb86067ac678597baef86a0f57775af913a5f49b386",
+    "contracts/include/breakwater/telemetry.hpp": "99666de5dc3268e75e88b57ea1d4000b55aa7b60c0ddf1dbf9b54c6d4844f75e",
+    "contracts/telemetry/common-v1.schema.json": "824f540bbb5a3eeef99f03b79fdb19fcdf22890e0017f5ce12e8013050eedc1d",
+    "contracts/telemetry/detection-event-v1.schema.json": "95b84036e35e86b1e4b8121a229fabcc75e94a47f84f6ccb721c52e21768e3eb",
+    "contracts/telemetry/examples/all-quantities-sensors.json": "44ab49c53f626b2a33320fafaf54459a9b034e472f01824a874947a1988eea49",
+    "contracts/telemetry/examples/canonical-project-v1.json": "ff89c0033dff7b06cc73a928b6ff849907fff2d785422138650a9bcb037e8873",
+    "contracts/telemetry/examples/canonical-sensors.json": "b4e15e6fad04b60300c9e0e26bd56b45463358ce5b3d91bca5b6812b7ecd8d7c",
+    "contracts/telemetry/examples/custom-sensors.json": "c666dd1d84e1f37c82c9a3f904ccc525b8ff3428dd4f9d96762427c9ffaf90f5",
+    "contracts/telemetry/examples/detection-event.json": "fe43862704999c6a66571ffbbc6057c519b649f781859f1dbe64564dd2cb4fbe",
+    "contracts/telemetry/examples/observed-snapshot.json": "8021ca6477ac686ad0246261dc6801864b5b5eb9e452e7ac13fecb54825d17d1",
+    "contracts/telemetry/examples/pause-command.json": "60acfd8d9dc116dd83f6127ede85f72305ed9cd83c57ff6c33dc21732e474893",
+    "contracts/telemetry/examples/project-v2.json": "1aed4e128fe31889101921bbafa47b06d443ebcb3aa3e494f14ac219154d7f82",
+    "contracts/telemetry/examples/readings.json": "510e87673fb6324bfda7aa6ea2c97f2b6f4de77e064ccdb1713f1e5b78f1c35d",
+    "contracts/telemetry/fixtures/hash-vectors.json": "64cb9cf90943b9832df42af9bdf76d3db2340dcd4458fc9713a3b60095c2b7e0",
+    "contracts/telemetry/fixtures/person-a-worked-examples.json": "1689c8df969e8cd49b259f7dcd62e374e3a5a93853e02f01a30c27bba1750690",
+    "contracts/telemetry/fixtures/validation-cases.json": "165a50a11facc4274f40f08def8682bc1845b1a5101dbcd0bdb0538908d9598a",
+    "contracts/telemetry/observed-snapshot-v1.schema.json": "17227b4ee9b7eec3a36590b6242b980cfe35ed225ad4418e1d85b7dfbc366ada",
+    "contracts/telemetry/project-v2.schema.json": "1a6816fba321c5b81c9d3af249972f83950315684a5bb20e3f0c7fcc353a4443",
+    "contracts/telemetry/sensor-configuration-v1.schema.json": "ef39a865c12966aeeefd6c3113604e9ac93b6e907ff79f507b89fc2a1489b4f9",
+    "contracts/telemetry/stream-command-v1.schema.json": "5b1d4d17ad70d0fdb4a1c6ff408e6ef82182656e41637bd47069a3875b3bac12",
+    "contracts/telemetry/stream-frame-v1.schema.json": "c715e6dc69123c942fab5854481a70fc0c8c4a6a5998bfbd9522db6d0874d927",
+    "desktop/telemetry/TelemetryContracts.hpp": "7042bbde9cb59697e24834d3378e6b2f4bd193ef31767b9407bf81ed8d831035",
+    "desktop/tests/telemetry_contract_check.cpp": "62a01ab889e2d90440ff4672bfcd5c7b6bc632a421a57616adb994fc0c429638",
+    "desktop/tests/telemetry_contract_tests.cpp": "b50c7f962420ba62fc3d38405fda2a911b8ae641a819f84f5ebe69165980b4b4",
+    "contracts/telemetry/tests/test_contracts.py": "41f19a91cc71018570373f3498f3790ac9c3ae14668c2d22ab927eea2cfbbf05",
+    "desktop/CMakeLists.txt": "933c2557b73217ac865b870e9e615190ef0f6ba1e26b8e06f99542c6daeac348",
+    "Breakwater.slnx": "f7c6f5b4a0f4b2194845d08caf814d3387726b314e68372a8b4ee0f1116fab55"
+  },
+  "local_log_sha256": {
+    "out/g1-normal-contract-tests-3.log": "a7aa7fffa2abb092af44a0d04b5b0373eb88a1289f31a4253196a41b48d5b673",
+    "out/g1-normal-legacy-tests.log": "e11c53b91059aac949f9911c43cab2bcac90488c9edab9158c8e3511cf55eb23",
+    "out/g1-asan-contract-tests.log": "47d966f435e8f8c661bfddcfefd455ba382fe0edde1392ff87b1448dbf9f5de0",
+    "out/g1-normal/desktop/telemetry_contracts-results.txt": "a5d33555634358301d809be848cfcc38b5f65112fe2bb340258248fd41f7eda8",
+    "out/g1-asan/desktop/telemetry_contracts-results.txt": "62d2fb88bc3ce7164c7769563433c112bc5f5dd21aa0bf21e8d357d58e525005",
+    "out/g1-adversarial/summary.json": "f5ec41c0345556487dfaac6abeac7e9a57c4e06b3f7454c1200f2f19314763ed",
+    "out/g1-solution-2.log": "8a00d54dc7c71697754ccfe72815c474f5ecf0176586c054cd1297043d07003d"
+  },
+  "native_normal_sha256": "84c69d437cb2b1cda941391e459ab35543e0d6d58aa12417e3b67aefa033165b",
+  "native_asan_sha256": "5c7f1c548531e42a1b7a3add5735d7fe6c01df0d60966cd4e2875bd5f62c6215"
+}

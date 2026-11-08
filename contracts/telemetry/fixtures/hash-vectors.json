@@ -1,0 +1,699 @@
+{
+  "hash_version": 1,
+  "vectors": [
+    {
+      "name": "canonical",
+      "configuration": {
+        "telemetry_version": 1,
+        "kind": "sensor_configuration",
+        "configuration_id": "canonical-monitoring",
+        "revision": 1,
+        "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+        "policy": {
+          "max_skew_s": 1.0,
+          "reorder_window_s": 2.0,
+          "future_allowance_s": 0.25,
+          "heartbeat_period_s": 1.0,
+          "source_timeout_s": 5.0
+        },
+        "sensors": [
+          {
+            "sensor_id": "tank-a-volume",
+            "label": "tank-a-volume",
+            "quantity": "inventory",
+            "unit": "m3",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-volume",
+            "attachment": {
+              "kind": "asset",
+              "id": "tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-volume",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "main-pump-feedback",
+            "label": "main-pump-feedback",
+            "quantity": "pump_state",
+            "unit": "state",
+            "source_id": "synthetic-publisher",
+            "channel_id": "main-pump-feedback",
+            "attachment": {
+              "kind": "route",
+              "id": "main_pump"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "main-pump-feedback",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          }
+        ]
+      },
+      "semantic_utf8": "{\"physical_hash\":\"d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071\",\"policy\":{\"future_allowance_s\":{\"$f64\":\"3fd0000000000000\"},\"heartbeat_period_s\":{\"$f64\":\"3ff0000000000000\"},\"max_skew_s\":{\"$f64\":\"3ff0000000000000\"},\"reorder_window_s\":{\"$f64\":\"4000000000000000\"},\"source_timeout_s\":{\"$f64\":\"4014000000000000\"}},\"sensors\":[{\"attachment\":{\"id\":\"main_pump\",\"kind\":\"route\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"main-pump-feedback\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"main-pump-feedback\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"pump_state\",\"role\":\"primary\",\"sensor_id\":\"main-pump-feedback\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"state\"},{\"attachment\":{\"id\":\"tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-volume\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-volume\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"inventory\",\"role\":\"primary\",\"sensor_id\":\"tank-a-volume\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"m3\"}],\"telemetry_version\":{\"$f64\":\"3ff0000000000000\"}}",
+      "sha256": "46fd33523ca177d05275c39ec946ae68aa51a425685f1103fbe15a63b47c2ca5"
+    },
+    {
+      "name": "all-quantities",
+      "configuration": {
+        "telemetry_version": 1,
+        "kind": "sensor_configuration",
+        "configuration_id": "all-quantities",
+        "revision": 1,
+        "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+        "policy": {
+          "max_skew_s": 1.0,
+          "reorder_window_s": 2.0,
+          "future_allowance_s": 0.25,
+          "heartbeat_period_s": 1.0,
+          "source_timeout_s": 5.0
+        },
+        "sensors": [
+          {
+            "sensor_id": "tank-a-volume",
+            "label": "tank-a-volume",
+            "quantity": "inventory",
+            "unit": "m3",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-volume",
+            "attachment": {
+              "kind": "asset",
+              "id": "tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-volume",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "main-pump-feedback",
+            "label": "main-pump-feedback",
+            "quantity": "pump_state",
+            "unit": "state",
+            "source_id": "synthetic-publisher",
+            "channel_id": "main-pump-feedback",
+            "attachment": {
+              "kind": "route",
+              "id": "main_pump"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "main-pump-feedback",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "tank-a-level",
+            "label": "tank-a-level",
+            "quantity": "level",
+            "unit": "m",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-level",
+            "attachment": {
+              "kind": "asset",
+              "id": "tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-level",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "tank-a-knots",
+              "version": 1,
+              "kind": "level_volume_piecewise_linear",
+              "error_bound": 0.2,
+              "knots": [
+                {
+                  "level_m": 0,
+                  "volume_m3": 0
+                },
+                {
+                  "level_m": 1,
+                  "volume_m3": 30
+                },
+                {
+                  "level_m": 2,
+                  "volume_m3": 80
+                }
+              ]
+            }
+          },
+          {
+            "sensor_id": "bypass-tracer",
+            "label": "bypass-tracer",
+            "quantity": "concentration",
+            "unit": "mg/L",
+            "source_id": "synthetic-publisher",
+            "channel_id": "bypass-tracer",
+            "attachment": {
+              "kind": "route",
+              "id": "bypass"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "bypass-tracer",
+            "role": "primary",
+            "physical_support": {
+              "kind": "interval_average",
+              "acquisition_window_s": 0,
+              "delay_s": 0,
+              "start_m": 0.125,
+              "end_m": 0.625
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            },
+            "pipe_parameter_hash": "a1a343c61057cc3b6bed4271e86b7ad7b55dd39c44008a76bf80a290e6302849"
+          },
+          {
+            "sensor_id": "source-a-meter",
+            "label": "source-a-meter",
+            "quantity": "source_flow",
+            "unit": "m3/h",
+            "source_id": "synthetic-publisher",
+            "channel_id": "source-a-meter",
+            "attachment": {
+              "kind": "asset",
+              "id": "source_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "source-a-meter",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "bypass-meter",
+            "label": "bypass-meter",
+            "quantity": "route_flow",
+            "unit": "m3/h",
+            "source_id": "synthetic-publisher",
+            "channel_id": "bypass-meter",
+            "attachment": {
+              "kind": "route",
+              "id": "bypass"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "bypass-meter",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "tank-a-pressure",
+            "label": "tank-a-pressure",
+            "quantity": "pressure",
+            "unit": "kPa",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-pressure",
+            "attachment": {
+              "kind": "asset",
+              "id": "tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-pressure",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "tank-a-temperature",
+            "label": "tank-a-temperature",
+            "quantity": "temperature",
+            "unit": "degC",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-temperature",
+            "attachment": {
+              "kind": "asset",
+              "id": "tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-temperature",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "tank-a-custom",
+            "label": "tank-a-custom",
+            "quantity": "custom_numeric",
+            "unit": "custom-units",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-custom",
+            "attachment": {
+              "kind": "asset",
+              "id": "tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-custom",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          }
+        ]
+      },
+      "semantic_utf8": "{\"physical_hash\":\"d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071\",\"policy\":{\"future_allowance_s\":{\"$f64\":\"3fd0000000000000\"},\"heartbeat_period_s\":{\"$f64\":\"3ff0000000000000\"},\"max_skew_s\":{\"$f64\":\"3ff0000000000000\"},\"reorder_window_s\":{\"$f64\":\"4000000000000000\"},\"source_timeout_s\":{\"$f64\":\"4014000000000000\"}},\"sensors\":[{\"attachment\":{\"id\":\"bypass\",\"kind\":\"route\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"bypass-meter\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"bypass-meter\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"route_flow\",\"role\":\"primary\",\"sensor_id\":\"bypass-meter\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"m3/h\"},{\"attachment\":{\"id\":\"bypass\",\"kind\":\"route\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"bypass-tracer\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"bypass-tracer\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"end_m\":{\"$f64\":\"3fe4000000000000\"},\"kind\":\"interval_average\",\"start_m\":{\"$f64\":\"3fc0000000000000\"}},\"pipe_parameter_hash\":\"a1a343c61057cc3b6bed4271e86b7ad7b55dd39c44008a76bf80a290e6302849\",\"quantity\":\"concentration\",\"role\":\"primary\",\"sensor_id\":\"bypass-tracer\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"mg/L\"},{\"attachment\":{\"id\":\"main_pump\",\"kind\":\"route\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"main-pump-feedback\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"main-pump-feedback\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"pump_state\",\"role\":\"primary\",\"sensor_id\":\"main-pump-feedback\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"state\"},{\"attachment\":{\"id\":\"source_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"source-a-meter\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"source-a-meter\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"source_flow\",\"role\":\"primary\",\"sensor_id\":\"source-a-meter\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"m3/h\"},{\"attachment\":{\"id\":\"tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-custom\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-custom\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"custom_numeric\",\"role\":\"primary\",\"sensor_id\":\"tank-a-custom\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"custom-units\"},{\"attachment\":{\"id\":\"tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"tank-a-knots\",\"error_bound\":{\"$f64\":\"3fc999999999999a\"},\"kind\":\"level_volume_piecewise_linear\",\"knots\":[{\"level_m\":{\"$f64\":\"0000000000000000\"},\"volume_m3\":{\"$f64\":\"0000000000000000\"}},{\"level_m\":{\"$f64\":\"3ff0000000000000\"},\"volume_m3\":{\"$f64\":\"403e000000000000\"}},{\"level_m\":{\"$f64\":\"4000000000000000\"},\"volume_m3\":{\"$f64\":\"4054000000000000\"}}],\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-level\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-level\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"level\",\"role\":\"primary\",\"sensor_id\":\"tank-a-level\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"m\"},{\"attachment\":{\"id\":\"tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-pressure\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-pressure\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"pressure\",\"role\":\"primary\",\"sensor_id\":\"tank-a-pressure\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"kPa\"},{\"attachment\":{\"id\":\"tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-temperature\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-temperature\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"temperature\",\"role\":\"primary\",\"sensor_id\":\"tank-a-temperature\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"degC\"},{\"attachment\":{\"id\":\"tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-volume\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-volume\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"inventory\",\"role\":\"primary\",\"sensor_id\":\"tank-a-volume\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"m3\"}],\"telemetry_version\":{\"$f64\":\"3ff0000000000000\"}}",
+      "sha256": "d45061e2d45e377c7501f8d1a080f2f9f1d84b6acdae4515305986d153276743"
+    },
+    {
+      "name": "renamed",
+      "configuration": {
+        "telemetry_version": 1,
+        "kind": "sensor_configuration",
+        "configuration_id": "renamed-monitoring",
+        "revision": 1,
+        "physical_hash": "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb",
+        "policy": {
+          "max_skew_s": 1.0,
+          "reorder_window_s": 2.0,
+          "future_allowance_s": 0.25,
+          "heartbeat_period_s": 1.0,
+          "source_timeout_s": 5.0
+        },
+        "sensors": [
+          {
+            "sensor_id": "tank-a-volume",
+            "label": "tank-a-volume",
+            "quantity": "inventory",
+            "unit": "m3",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-volume",
+            "attachment": {
+              "kind": "asset",
+              "id": "north_plant_tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-volume",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "main-pump-feedback",
+            "label": "main-pump-feedback",
+            "quantity": "pump_state",
+            "unit": "state",
+            "source_id": "synthetic-publisher",
+            "channel_id": "main-pump-feedback",
+            "attachment": {
+              "kind": "route",
+              "id": "north_line_main_pump"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "main-pump-feedback",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          }
+        ]
+      },
+      "semantic_utf8": "{\"physical_hash\":\"bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb\",\"policy\":{\"future_allowance_s\":{\"$f64\":\"3fd0000000000000\"},\"heartbeat_period_s\":{\"$f64\":\"3ff0000000000000\"},\"max_skew_s\":{\"$f64\":\"3ff0000000000000\"},\"reorder_window_s\":{\"$f64\":\"4000000000000000\"},\"source_timeout_s\":{\"$f64\":\"4014000000000000\"}},\"sensors\":[{\"attachment\":{\"id\":\"north_line_main_pump\",\"kind\":\"route\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"main-pump-feedback\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"main-pump-feedback\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"pump_state\",\"role\":\"primary\",\"sensor_id\":\"main-pump-feedback\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"state\"},{\"attachment\":{\"id\":\"north_plant_tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-volume\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-volume\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"inventory\",\"role\":\"primary\",\"sensor_id\":\"tank-a-volume\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"m3\"}],\"telemetry_version\":{\"$f64\":\"3ff0000000000000\"}}",
+      "sha256": "8d39ed157e2f4c007bcb928b23ab09dc346e1d91a347539616ad412fa91f7365"
+    },
+    {
+      "name": "labels-and-document-revision-not-semantic",
+      "configuration": {
+        "telemetry_version": 1,
+        "kind": "sensor_configuration",
+        "configuration_id": "display-document",
+        "revision": 2,
+        "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+        "policy": {
+          "max_skew_s": 1.0,
+          "reorder_window_s": 2.0,
+          "future_allowance_s": 0.25,
+          "heartbeat_period_s": 1.0,
+          "source_timeout_s": 5.0
+        },
+        "sensors": [
+          {
+            "sensor_id": "tank-a-volume",
+            "label": "Tank \"A\" é 🌊",
+            "quantity": "inventory",
+            "unit": "m3",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-volume",
+            "attachment": {
+              "kind": "asset",
+              "id": "tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-volume",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "main-pump-feedback",
+            "label": "main-pump-feedback",
+            "quantity": "pump_state",
+            "unit": "state",
+            "source_id": "synthetic-publisher",
+            "channel_id": "main-pump-feedback",
+            "attachment": {
+              "kind": "route",
+              "id": "main_pump"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "main-pump-feedback",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          }
+        ]
+      },
+      "semantic_utf8": "{\"physical_hash\":\"d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071\",\"policy\":{\"future_allowance_s\":{\"$f64\":\"3fd0000000000000\"},\"heartbeat_period_s\":{\"$f64\":\"3ff0000000000000\"},\"max_skew_s\":{\"$f64\":\"3ff0000000000000\"},\"reorder_window_s\":{\"$f64\":\"4000000000000000\"},\"source_timeout_s\":{\"$f64\":\"4014000000000000\"}},\"sensors\":[{\"attachment\":{\"id\":\"main_pump\",\"kind\":\"route\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"main-pump-feedback\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"main-pump-feedback\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"pump_state\",\"role\":\"primary\",\"sensor_id\":\"main-pump-feedback\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"state\"},{\"attachment\":{\"id\":\"tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-volume\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-volume\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"inventory\",\"role\":\"primary\",\"sensor_id\":\"tank-a-volume\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"m3\"}],\"telemetry_version\":{\"$f64\":\"3ff0000000000000\"}}",
+      "sha256": "46fd33523ca177d05275c39ec946ae68aa51a425685f1103fbe15a63b47c2ca5"
+    },
+    {
+      "name": "negative-zero-normalized",
+      "configuration": {
+        "telemetry_version": 1,
+        "kind": "sensor_configuration",
+        "configuration_id": "canonical-monitoring",
+        "revision": 1,
+        "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+        "policy": {
+          "max_skew_s": 1.0,
+          "reorder_window_s": 2.0,
+          "future_allowance_s": 0.25,
+          "heartbeat_period_s": 1.0,
+          "source_timeout_s": 5.0
+        },
+        "sensors": [
+          {
+            "sensor_id": "tank-a-volume",
+            "label": "tank-a-volume",
+            "quantity": "inventory",
+            "unit": "m3",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-volume",
+            "attachment": {
+              "kind": "asset",
+              "id": "tank_a"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "tank-a-volume",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": -0.0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "main-pump-feedback",
+            "label": "main-pump-feedback",
+            "quantity": "pump_state",
+            "unit": "state",
+            "source_id": "synthetic-publisher",
+            "channel_id": "main-pump-feedback",
+            "attachment": {
+              "kind": "route",
+              "id": "main_pump"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "main-pump-feedback",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          }
+        ]
+      },
+      "semantic_utf8": "{\"physical_hash\":\"d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071\",\"policy\":{\"future_allowance_s\":{\"$f64\":\"3fd0000000000000\"},\"heartbeat_period_s\":{\"$f64\":\"3ff0000000000000\"},\"max_skew_s\":{\"$f64\":\"3ff0000000000000\"},\"reorder_window_s\":{\"$f64\":\"4000000000000000\"},\"source_timeout_s\":{\"$f64\":\"4014000000000000\"}},\"sensors\":[{\"attachment\":{\"id\":\"main_pump\",\"kind\":\"route\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"main-pump-feedback\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"main-pump-feedback\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"pump_state\",\"role\":\"primary\",\"sensor_id\":\"main-pump-feedback\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"state\"},{\"attachment\":{\"id\":\"tank_a\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-volume\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-volume\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"inventory\",\"role\":\"primary\",\"sensor_id\":\"tank-a-volume\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"m3\"}],\"telemetry_version\":{\"$f64\":\"3ff0000000000000\"}}",
+      "sha256": "46fd33523ca177d05275c39ec946ae68aa51a425685f1103fbe15a63b47c2ca5"
+    },
+    {
+      "name": "unicode-reference-and-binary64-fraction",
+      "configuration": {
+        "telemetry_version": 1,
+        "kind": "sensor_configuration",
+        "configuration_id": "canonical-monitoring",
+        "revision": 1,
+        "physical_hash": "d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071",
+        "policy": {
+          "max_skew_s": 1.0,
+          "reorder_window_s": 2.0,
+          "future_allowance_s": 0.25,
+          "heartbeat_period_s": 1.0,
+          "source_timeout_s": 5.0
+        },
+        "sensors": [
+          {
+            "sensor_id": "tank-a-volume",
+            "label": "tank-a-volume",
+            "quantity": "inventory",
+            "unit": "m3",
+            "source_id": "synthetic-publisher",
+            "channel_id": "tank-a-volume",
+            "attachment": {
+              "kind": "asset",
+              "id": "井🌊"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.1,
+            "group_id": "tank-a-volume",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          },
+          {
+            "sensor_id": "main-pump-feedback",
+            "label": "main-pump-feedback",
+            "quantity": "pump_state",
+            "unit": "state",
+            "source_id": "synthetic-publisher",
+            "channel_id": "main-pump-feedback",
+            "attachment": {
+              "kind": "route",
+              "id": "main_pump"
+            },
+            "enabled": true,
+            "expected_period_s": 1,
+            "max_age_s": 5,
+            "uncertainty_bound": 0.2,
+            "group_id": "main-pump-feedback",
+            "role": "primary",
+            "physical_support": {
+              "kind": "none",
+              "acquisition_window_s": 0,
+              "delay_s": 0
+            },
+            "calibration": {
+              "calibration_id": "identity",
+              "version": 1,
+              "kind": "identity",
+              "error_bound": 0
+            }
+          }
+        ]
+      },
+      "semantic_utf8": "{\"physical_hash\":\"d5168d597428742316c0a829bb65a4b8929fe1aafcd775fbf25578a846740071\",\"policy\":{\"future_allowance_s\":{\"$f64\":\"3fd0000000000000\"},\"heartbeat_period_s\":{\"$f64\":\"3ff0000000000000\"},\"max_skew_s\":{\"$f64\":\"3ff0000000000000\"},\"reorder_window_s\":{\"$f64\":\"4000000000000000\"},\"source_timeout_s\":{\"$f64\":\"4014000000000000\"}},\"sensors\":[{\"attachment\":{\"id\":\"main_pump\",\"kind\":\"route\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"main-pump-feedback\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"main-pump-feedback\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"pump_state\",\"role\":\"primary\",\"sensor_id\":\"main-pump-feedback\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fc999999999999a\"},\"unit\":\"state\"},{\"attachment\":{\"id\":\"井🌊\",\"kind\":\"asset\"},\"calibration\":{\"calibration_id\":\"identity\",\"error_bound\":{\"$f64\":\"0000000000000000\"},\"kind\":\"identity\",\"version\":{\"$f64\":\"3ff0000000000000\"}},\"channel_id\":\"tank-a-volume\",\"enabled\":true,\"expected_period_s\":{\"$f64\":\"3ff0000000000000\"},\"group_id\":\"tank-a-volume\",\"max_age_s\":{\"$f64\":\"4014000000000000\"},\"physical_support\":{\"acquisition_window_s\":{\"$f64\":\"0000000000000000\"},\"delay_s\":{\"$f64\":\"0000000000000000\"},\"kind\":\"none\"},\"quantity\":\"inventory\",\"role\":\"primary\",\"sensor_id\":\"tank-a-volume\",\"source_id\":\"synthetic-publisher\",\"uncertainty_bound\":{\"$f64\":\"3fb999999999999a\"},\"unit\":\"m3\"}],\"telemetry_version\":{\"$f64\":\"3ff0000000000000\"}}",
+      "sha256": "62514c023d9dbe3e982b7eeca48ffb266c3b2ea2fb08b165f32f8eaeeea26d3a"
+    }
+  ]
+}

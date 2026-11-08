@@ -1,5 +1,38 @@
 # Implementation status
 
+## G1 telemetry interfaces and acceptance checks — November 8, 2026
+
+- Implemented [shared contracts](../contracts/telemetry/README.md), Qt-free DTOs,
+  strict native/Python validation, canonical/custom examples and a reserved
+  project-v2 envelope. Project-v1, existing worker/session formats and operating
+  controls are unchanged. No sensor editor, acquisition process, publisher,
+  physical mapper or detector is delivered by this increment.
+- Frozen local acceptance: **147 shared semantic cases**, **six byte/hash vectors**,
+  **164 Qt cases in both normal and ASan builds**, and **19 Python tests** with
+  the compiled differential checker and no skips. Legacy project checks also
+  passed in both builds. The ASan targeted run passed **3/3 CTests** in 40.03 s,
+  with no sanitizer diagnostic; prebuilt Qt/Python/Torch remain outside established
+  instrumentation coverage.
+- An independent same-family bounded audit passed **1,317 cases** with zero
+  native/Python acceptance, classification or hash mismatches, no unexpected
+  outcomes and no internal Python exception. Four independently reproduced review
+  defects were fixed and rechecked before publication. Details/source identities
+  are in [the G1 evidence manifest](evidence/g1-contract-verification.json).
+- Semantic snapshot validation requires registered network/configuration/hash
+  context. Direct measured/unit-converted values bind to their actual source,
+  quantity, attachment and canonical value; inferred mapping remains explicit.
+  Actual acquisition windows are retained. Receiver replay/freshness overrides
+  wire claims; all interchange snapshots/events remain non-actionable.
+- G0 [PR #29](https://github.com/Towstar/Breakwater/pull/29) passed all six hosted
+  jobs and is merged at `ce35c81`: native normal/ASan, desktop normal/ASan,
+  CPU science and pinned Lean audits. Desktop builds each passed **29/29 CTests**
+  in [run 42453712864](https://github.com/Towstar/Breakwater/actions/runs/42453712864).
+  G1's additional two targets are mandatory in its desktop CI registration.
+- [Person A review/adoption](G1_REVIEW.md) of the exact G1 contract is **pending**.
+  The written numerical guidance at `9941859` is incorporated as review input,
+  not relabeled as approval of the later wire format. Both workstreams must adopt
+  one explicitly accepted commit before G2.
+
 ## G0/G1 baseline after PR #27 and PR #28
 
 - Main `7f2bb7f` includes verified PR #27 and preserves Person A's merged PR #28
