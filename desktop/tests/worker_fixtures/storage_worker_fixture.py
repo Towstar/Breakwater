@@ -52,6 +52,8 @@ def caps(verified):
         result["methods"][2]["execution_verified"] = True
     elif MODE == "post_unverified":
         result["methods"][2]["execution_verified"] = False
+    elif MODE == "post_version_drift" and verified:
+        result["methods"][2]["method_version"] = 2
     return result
 
 

@@ -22,12 +22,13 @@ inline constexpr double constraint_tolerance = 1e-9;
 struct AssetRef { AssetKind kind; std::size_t slot; };
 struct SourceData {
     double production, curtailment, cost;
-    std::size_t feed_route = absent;
+    std::vector<std::size_t> feed_routes;
 };
 struct RouteData {
     std::size_t source_tank = absent, target_tank = absent;
     std::size_t source_slot = absent, destination_slot = absent;
     double setpoint = 0.0, capacity = 0.0, route_cost = 0.0, destination_cost = 0.0;
+    double source_fraction = 1.0;
 };
 enum class ControlKind { curtailment, route_flow };
 struct Binding { ControlDescriptor descriptor; ControlKind kind; std::size_t slot; };
@@ -60,7 +61,8 @@ struct Prepared {
             route.setpoint = r.setpoint_m3h; route.capacity = r.capacity_m3h; route.route_cost = r.cost_per_m3;
             if (source.kind == AssetKind::source) {
                 route.source_slot = source.slot;
-                sources[source.slot].feed_route = routes.size();
+                sources[source.slot].feed_routes.push_back(routes.size());
+                route.source_fraction = static_cast<double>(r.source_share_bps) / source_share_total;
             } else route.source_tank = source.slot;
             if (target.kind == AssetKind::tank) route.target_tank = target.slot;
             else {
@@ -93,8 +95,9 @@ struct Prepared {
             throw std::invalid_argument("Nonfinite, unavailable or out-of-bounds control: " + b.descriptor.id);
         if (b.kind == ControlKind::curtailment) {
             const auto& source = sources[b.slot];
-            if (source.production - value > routes[source.feed_route].capacity + constraint_tolerance)
-                throw std::invalid_argument("Curtailment value exceeds the connected feed route's capacity: " + b.descriptor.id);
+            for (const auto feed : source.feed_routes)
+                if ((source.production - value) * routes[feed].source_fraction > routes[feed].capacity + constraint_tolerance)
+                    throw std::invalid_argument("Curtailment value exceeds a connected feed route's capacity: " + b.descriptor.id);
         }
     }
 };
@@ -138,7 +141,8 @@ inline Screen screen_candidate(const Prepared& p, const CandidateSet& set, const
     for (std::size_t s = 0; s < p.sources.size(); ++s) hourly_cost += w.curtailments[s] * p.sources[s].cost;
     for (std::size_t r = 0; r < p.routes.size(); ++r) {
         const auto& route = p.routes[r];
-        const double q = route.source_slot != absent ? p.sources[route.source_slot].production - w.curtailments[route.source_slot] : w.setpoints[r];
+        const double q = route.source_slot != absent ?
+            (p.sources[route.source_slot].production - w.curtailments[route.source_slot]) * route.source_fraction : w.setpoints[r];
         hourly_cost += q * route.route_cost;
         if (route.source_tank != absent) { w.rates[route.source_tank] -= q; w.flow_magnitudes[route.source_tank] += q; }
         if (route.target_tank != absent) { w.rates[route.target_tank] += q; w.flow_magnitudes[route.target_tank] += q; }

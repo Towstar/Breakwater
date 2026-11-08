@@ -113,6 +113,21 @@ QJsonObject candidateArchive(ProjectController& project, QString& candidateId, Q
 class PipeTransportTests final : public QObject {
     Q_OBJECT
 private slots:
+    void sourceSplitTransportUsesBranchFlowAndRoundTripsHistoricalEvidence() {
+        ProjectController project; project.loadExample("healthy");
+        QVERIFY(project.setSourceFeeds("source_b", {{"tank_a", 2500}, {"tank_b", 7500}}, project.networkHash()));
+        project.forecast(); QTRY_VERIFY_WITH_TIMEOUT(!project.busy(), 10000); QVERIFY(project.capturedForecast());
+        project.select("feed_b"); PipeTransportController pipe(&project);
+        pipe.run(); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+        const auto result = QJsonObject::fromVariantMap(pipe.result()); QVERIFY(!result.isEmpty());
+        QCOMPARE(result.value("flow_m3h").toDouble(), 12.0);
+        comparePreview(result, reference(parse_pipe_parameters(project.pipeParameters("feed_b")), 12.0));
+        QTemporaryDir directory; QVERIFY(directory.isValid()); const auto path = directory.filePath("split-pipe.json");
+        QVERIFY(pipe.exportResult(QUrl::fromLocalFile(path)));
+        ProjectController reopened; PipeTransportController historical(&reopened);
+        historical.importResult(QUrl::fromLocalFile(path)); QTRY_VERIFY_WITH_TIMEOUT(!historical.busy(), 10000);
+        QVERIFY(historical.viewingImportedEvidence()); QCOMPARE(historical.result(), pipe.result()); QVERIFY(!reopened.canApprove());
+    }
     void manualCapturedRunMatchesNativeAndPreservesVolumeAuthority() {
         ProjectController project; QVERIFY(capture(project, "mixed"));
         project.select("truck_route");

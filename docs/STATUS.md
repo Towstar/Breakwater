@@ -1,5 +1,51 @@
 # Implementation status
 
+## Person A's exact G1 adoption
+
+At Ethan's request, A accepted G1 commit `f12a82701641f1b4fd3af9ebba579b79f1db3db4`
+in [PR #31](https://github.com/Towstar/Breakwater/pull/31#issuecomment-6719191863).
+Fresh isolated normal contract/project checks passed 3/3, including 164 Qt telemetry
+cases with no skips. [A's adoption record](../science/G1_CONTRACT_ADOPTION.md)
+keeps the interface acceptance distinct from future numerical mapping and G2.
+B can adopt that same revision independently of the source-feed fix and PR #30.
+PR #31 is now merged into main at `2bd7bb9`; the feature worktree reconciles that
+accepted G1 implementation without modifying its interfaces.
+
+## Explicit source-feed allocations — verified for review
+
+- Branch `codex/source-feed-connection` adds fixed percentage allocations from a
+  production source to multiple distinct tanks. The editor requires an explicit
+  total of 100%; curtailment scales every branch. Existing single-feed projects
+  retain their format and behavior; split projects use version 3, preserving G1's
+  reserved version-2 telemetry envelope. Storage-worker requests use method version
+  2. See [the allocation contract](../contracts/SOURCE_FEEDS.md).
+- Implementation `675e926` passes **210 Python tests without skips**, nine native
+  suites and all **31 registered targets** across full attempts and corrected
+  affected reruns in separate normal/MSVC ASan builds. The final affected reruns
+  pass **8/8** each; 416 logged Qt cases pass in each mode. No sanitizer report was
+  found; prebuilt Qt/Python/Torch are outside established instrumentation coverage.
+- Four fixed split cases pass independent affine expectations, three native
+  solvers, standalone Torch and 24 real-worker requests per build, with analytical
+  gradients and three central-difference sizes. All 18 legacy fixtures and 302
+  worker requests pass. An installed copy executes 24 split requests from its own
+  modules and both temporary history databases pass SQLite integrity checks.
+- The actual two-tank 50/50 preview displays 8+8 m³/h and a 104/90/24 m³ forecast.
+  Actual new-connection creation and native Save/Open-dialog acceptance remain
+  unverified; automated actual-QML tests cover connection, typing, invalid/empty
+  totals, Cancel and Apply. Initial fixture/editor failures are preserved. A fresh
+  unrestricted 31-target rerun was not repeated. See the [verification report](SOURCE_FEED_VERIFICATION.md)
+  and [operator instructions](SOURCE_FEED_SPLITS.md).
+- The disposable updated preview is in `out/source-feed-preview`; its launcher
+  uses the existing pinned interpreter and a separate history database. The original
+  running application and user installation were not replaced.
+- Failed attempts and raw local logs remain under `out/connection-repro/`; the
+  continuation note there is intentionally excluded from version control.
+- After G1 reconciliation, **33 targets** are registered per build. The added
+  telemetry targets pass **2/2** normal/ASan with 164 Qt cases and 19 Python/native
+  contract methods, zero skips. All 33 have passing coverage across the retained
+  attempts/reruns; the final logged Qt total is 580 per mode. See the report's
+  reconciliation addendum; no unrestricted 33-target rerun is claimed.
+
 ## G1 telemetry interfaces and acceptance checks — November 8, 2026
 
 - Implemented [shared contracts](../contracts/telemetry/README.md), Qt-free DTOs,
@@ -28,7 +74,8 @@
   CPU science and pinned Lean audits. Desktop builds each passed **29/29 CTests**
   in [run 42453712864](https://github.com/Towstar/Breakwater/actions/runs/42453712864).
   G1's additional two targets are mandatory in its desktop CI registration.
-- [Person A review/adoption](G1_REVIEW.md) of the exact G1 contract is **pending**.
+- At publication, [Person A review/adoption](G1_REVIEW.md) was pending; the exact
+  acceptance is now recorded in the dated adoption section above.
   The written numerical guidance at `9941859` is incorporated as review input,
   not relabeled as approval of the later wire format. Both workstreams must adopt
   one explicitly accepted commit before G2.

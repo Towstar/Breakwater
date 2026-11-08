@@ -1,0 +1,34 @@
+[1/34] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+[2/34] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[3/34] Running qmlimportscanner for breakwater_desktop_tests
+[4/34] Running qmlimportscanner for breakwater_telemetry_contract_tests
+[5/34] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[6/34] Running qmlimportscanner for breakwater_telemetry_contract_check
+[7/34] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[8/34] Linking CXX static library engine\breakwater_engine.lib
+[9/34] Automatic MOC and UIC for target breakwater_desktop_base
+[10/34] Running AUTOMOC file extraction for target breakwater_desktop_base
+[11/34] Running moc --collect-json for target breakwater_desktop_base
+[12/34] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\quality\PipeParameters.cpp.obj
+[13/34] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectDocument.cpp.obj
+[14/34] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\breakwater_desktop_base_autogen\mocs_compilation.cpp.obj
+[15/34] Building CXX object desktop\CMakeFiles\breakwater_desktop_base.dir\ProjectController.cpp.obj
+[16/34] Linking CXX static library desktop\breakwater_desktop_base.lib
+[17/34] Automatic MOC and UIC for target breakwater_telemetry
+[18/34] Running AUTOMOC file extraction for target breakwater_telemetry
+[19/34] Running moc --collect-json for target breakwater_telemetry
+[20/34] Building CXX object desktop\CMakeFiles\breakwater_telemetry.dir\breakwater_telemetry_autogen\mocs_compilation.cpp.obj
+[21/34] Automatic MOC and UIC for target breakwater_desktop_tests
+[22/34] Building CXX object desktop\CMakeFiles\breakwater_desktop_tests.dir\breakwater_desktop_tests_autogen\mocs_compilation.cpp.obj
+[23/34] Building CXX object desktop\CMakeFiles\breakwater_telemetry.dir\telemetry\TelemetryContracts.cpp.obj
+[24/34] Linking CXX static library desktop\breakwater_telemetry.lib
+[25/34] Automatic MOC and UIC for target breakwater_telemetry_contract_check
+[26/34] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_check.dir\breakwater_telemetry_contract_check_autogen\mocs_compilation.cpp.obj
+[27/34] Building CXX object desktop\CMakeFiles\breakwater_desktop_tests.dir\tests\project_tests.cpp.obj
+[28/34] Linking CXX executable desktop\breakwater_desktop_tests.exe
+[29/34] Automatic MOC and UIC for target breakwater_telemetry_contract_tests
+[30/34] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_tests.dir\breakwater_telemetry_contract_tests_autogen\mocs_compilation.cpp.obj
+[31/34] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_check.dir\tests\telemetry_contract_check.cpp.obj
+[32/34] Linking CXX executable desktop\breakwater_telemetry_contract_check.exe
+[33/34] Building CXX object desktop\CMakeFiles\breakwater_telemetry_contract_tests.dir\tests\telemetry_contract_tests.cpp.obj
+[34/34] Linking CXX executable desktop\breakwater_telemetry_contract_tests.exe

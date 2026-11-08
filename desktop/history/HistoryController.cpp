@@ -10,7 +10,7 @@ QString idOf(const QJsonObject& detail) { return detail.value("run").toObject().
 QJsonArray changes(const QJsonObject& snapshot, const QJsonObject& before, const QJsonObject& after) {
     QMap<QString, double> left, right;
     try {
-        const auto project = parse_project({{"version", 1}, {"network", snapshot.value("network")}, {"layout", QJsonObject{}}});
+        const auto project = parse_project({{"version", source_allocation_project_version}, {"network", snapshot.value("network")}, {"layout", QJsonObject{}}});
         for (const auto& control : control_catalog(project.network)) {
             left[QString::fromStdString(control.id)] = control.value;
             right[QString::fromStdString(control.id)] = control.value;

@@ -1,0 +1,9 @@
+Test project C:/Projects/Breakwater/.worktrees/feed-connection/out/connection-repro/desktop-normal
+    Start 25: desktop.telemetry_contracts
+1/2 Test #25: desktop.telemetry_contracts ......   Passed    1.29 sec
+    Start 26: contracts.telemetry
+2/2 Test #26: contracts.telemetry ..............   Passed    4.20 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   5.53 sec

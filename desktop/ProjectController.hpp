@@ -70,6 +70,10 @@ public:
     Q_INVOKABLE void addAsset(const QString& kind, double x = 0.0, double z = 0.0);
     Q_INVOKABLE void moveAsset(const QString& id, double x, double z);
     Q_INVOKABLE void connectAssets(const QString& source, const QString& target);
+    Q_INVOKABLE QVariantList sourceFeeds(const QString& source) const;
+    // Atomic configuration edit. Shares are keyed by receiving tank ID, in .01%.
+    // Existing routes cannot be removed through this setter; cancellation is inert.
+    Q_INVOKABLE bool setSourceFeeds(const QString& source, const QVariantMap& shares, const QString& expectedHash);
     Q_INVOKABLE void attachPump(const QString& route);
     Q_INVOKABLE void editSelected(const QString& field, const QString& value);
     Q_INVOKABLE void deleteSelected();

@@ -1,0 +1,20 @@
+test_all_optional_skips_are_not_executed_science (test_ci.ResultTests.test_all_optional_skips_are_not_executed_science) ... ok
+test_empty_discovery_is_not_a_pass (test_ci.ResultTests.test_empty_discovery_is_not_a_pass) ... ok
+test_known_optional_physicsnemo_skip_is_explicit (test_ci.ResultTests.test_known_optional_physicsnemo_skip_is_explicit) ... ok
+test_other_dependency_skip_fails_the_job (test_ci.ResultTests.test_other_dependency_skip_fails_the_job) ... ok
+test_real_failures_cannot_become_a_successful_report (test_ci.ResultTests.test_real_failures_cannot_become_a_successful_report) ... ok
+test_success_is_reported (test_ci.ResultTests.test_success_is_reported) ... ok
+test_actions_are_exact_pins_and_checkout_cannot_leave_credentials (test_ci.WorkflowTests.test_actions_are_exact_pins_and_checkout_cannot_leave_credentials) ... ok
+test_caches_exclude_credentials_and_only_restore_declared_tool_paths (test_ci.WorkflowTests.test_caches_exclude_credentials_and_only_restore_declared_tool_paths) ... ok
+test_desktop_uses_warp_with_actual_rhi (test_ci.WorkflowTests.test_desktop_uses_warp_with_actual_rhi) ... ok
+test_evidence_is_uploaded_even_after_failure_without_build_trees (test_ci.WorkflowTests.test_evidence_is_uploaded_even_after_failure_without_build_trees) ... ok
+test_failed_bootstrap_retains_real_metadata_without_claiming_tests_or_copying_secrets (test_ci.WorkflowTests.test_failed_bootstrap_retains_real_metadata_without_claiming_tests_or_copying_secrets) ... ok
+test_fork_pull_requests_run_without_secrets_or_write_token (test_ci.WorkflowTests.test_fork_pull_requests_run_without_secrets_or_write_token) ... ok
+test_heavy_jobs_require_both_native_modes (test_ci.WorkflowTests.test_heavy_jobs_require_both_native_modes) ... ok
+test_setup_evidence_precedes_dependencies_and_finishes_before_upload (test_ci.WorkflowTests.test_setup_evidence_precedes_dependencies_and_finishes_before_upload) ... ok
+test_windows_bootstrap_has_an_available_pin_separate_from_science (test_ci.WorkflowTests.test_windows_bootstrap_has_an_available_pin_separate_from_science) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 5.021s
+
+OK

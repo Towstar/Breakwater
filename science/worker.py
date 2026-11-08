@@ -159,7 +159,9 @@ def _storage_result(result, payload):
     if result["identity"] != payload.get("identity"):
         raise _WorkerError("identity_mismatch", "Storage result identity does not match the request.")
     if (result["method"] != "storage_rollout" or
-            not _version_one(result["method_version"])):
+            isinstance(result["method_version"], bool) or
+            not isinstance(result["method_version"], (int,float)) or
+            result["method_version"] not in (1,2) or result["method_version"] != payload.get("method_version")):
         raise _WorkerError("numerical_failure", "Storage result method does not match the request.")
     provenance = result["provenance"]
     if (not _keys(provenance, {"implementation", "implementation_version", "dtype",
@@ -291,7 +293,7 @@ class WorkerSession:
                 result = {"capability_version": 1, "methods": [
                     {"name": "health", "method_version": 1, "implemented": True, "execution_verified": True},
                     {"name": "capabilities", "method_version": 1, "implemented": True, "execution_verified": True},
-                    {"name": "storage_rollout", "method_version": 1, "implemented": deployed,
+                    {"name": "storage_rollout", "method_version": 2, "implemented": deployed,
                      "execution_verified": deployed and self.storage_execution_verified},
                     {"name": "pipe_transport", "method_version": 1, "implemented": False, "execution_verified": False}],
                     "max_line_bytes": MAX_LINE, "max_preview_times": 256,

@@ -1,0 +1,21 @@
+Test project C:/Projects/Breakwater/.worktrees/feed-connection/out/connection-repro/desktop-asan
+    Start 10: desktop.source_feed_qml
+1/8 Test #10: desktop.source_feed_qml ...............   Passed   15.93 sec
+    Start 23: desktop.science_evidence
+2/8 Test #23: desktop.science_evidence ..............   Passed   40.49 sec
+    Start 25: desktop.storage_science_normal
+3/8 Test #25: desktop.storage_science_normal ........   Passed   23.75 sec
+    Start 26: desktop.storage_science_compact
+4/8 Test #26: desktop.storage_science_compact .......   Passed   26.23 sec
+    Start 27: desktop.storage_science_derivatives
+5/8 Test #27: desktop.storage_science_derivatives ...   Passed   19.73 sec
+    Start 28: desktop.qml_smoke
+6/8 Test #28: desktop.qml_smoke .....................   Passed   14.99 sec
+    Start 29: desktop.scientific_history_normal
+7/8 Test #29: desktop.scientific_history_normal .....   Passed   15.16 sec
+    Start 30: desktop.scientific_history_compact
+8/8 Test #30: desktop.scientific_history_compact ....   Passed   13.04 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) = 169.38 sec

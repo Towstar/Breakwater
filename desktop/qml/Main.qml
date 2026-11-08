@@ -33,6 +33,7 @@ ApplicationWindow {
     palette.highlight: "#3db9bc"
     property bool connectMode: false
     property string connectionSource: ""
+    property string connectionError: ""
     property real yaw: 35
     property real pitch: -55
     property real distance: 720
@@ -57,10 +58,37 @@ ApplicationWindow {
     }
     function openPipeTransport() { pipeTransportDialog.open() }
     function openStorageScience() { showAgent = true; agentPanel.showScience() }
+    function assetLabel(id) {
+        const assets = controller.assets
+        for (let i=0; i<assets.length; ++i) if (assets[i].id===id) return assets[i].label
+        return id
+    }
+    function beginConnection() {
+        connectMode = !connectMode
+        connectionError = ""
+        connectionSource = connectMode && (controller.selected.kind==="source" || controller.selected.kind==="tank") ? controller.selectedId : ""
+    }
     function clickAsset(id) {
         if (connectMode) {
-            if (connectionSource.length === 0) connectionSource = id
-            else { controller.connectAssets(connectionSource, id); connectionSource = ""; connectMode = false }
+            connectionError = ""
+            if (connectionSource.length === 0) { connectionSource = id; controller.select(id) }
+            else {
+                const source = connectionSource
+                const feeds = controller.sourceFeeds(source)
+                const assets = controller.assets
+                let sourceKind = "", targetKind = ""
+                for (let i=0; i<assets.length; ++i) {
+                    if (assets[i].id===source) sourceKind = assets[i].kind
+                    if (assets[i].id===id) targetKind = assets[i].kind
+                }
+                if (source===id || (sourceKind==="source" && targetKind!=="tank") || (sourceKind==="tank" && targetKind==="source")) {
+                    connectionError = "Choose a different destination: production feeds go to tanks."
+                    return
+                }
+                if (sourceKind==="source" && feeds.length>0) sourceFeedDialog.begin(source,id)
+                else controller.connectAssets(source,id)
+                connectionSource = ""; connectMode = false
+            }
         } else controller.select(id)
     }
     Component.onCompleted: { yaw = controller.camera.yaw; pitch = controller.camera.pitch; distance = controller.camera.distance; cameraRig.x = controller.camera.x; cameraRig.z = controller.camera.z }
@@ -75,6 +103,7 @@ ApplicationWindow {
     FileDialog { id: openDialog; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.load(selectedFile) }
     FileDialog { id: saveDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.save(selectedFile) }
     PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
+    SourceFeedDialog { id: sourceFeedDialog; objectName: "sourceFeedEditor"; controller: app.controller }
 
     header: ToolBar {
         height: 64
@@ -145,7 +174,7 @@ ApplicationWindow {
                     }
                     Button {
                         Layout.fillWidth: true; text: app.connectMode ? "Cancel connection" : "Connect equipment"
-                        onClicked: { app.connectMode = !app.connectMode; app.connectionSource = "" }
+                        onClicked: app.beginConnection()
                     }
                     Label { text: "NETWORK"; font.pixelSize: 11; font.letterSpacing: 2; color: "#9eb5c2"; Layout.topMargin: 10 }
                     ListView {
@@ -154,7 +183,7 @@ ApplicationWindow {
                         delegate: ItemDelegate {
                             required property var modelData
                             width: ListView.view.width
-                            text: modelData.label; highlighted: modelData.selected
+                            text: modelData.label; highlighted: modelData.selected || app.connectionSource===modelData.id
                             contentItem: Label { text: parent.text; textFormat: Text.PlainText; elide: Text.ElideRight; verticalAlignment: Text.AlignVCenter }
                             onClicked: app.clickAsset(modelData.id)
                         }
@@ -273,7 +302,8 @@ ApplicationWindow {
                 }
                 Label {
                     anchors.left: parent.left; anchors.top: parent.top; anchors.margins: 14
-                    text: app.connectMode ? (app.connectionSource.length > 0 ? "Choose destination equipment" : "Choose source equipment") : "Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom"
+                    text: app.connectMode ? (app.connectionError.length>0 ? app.connectionError : app.connectionSource.length>0 ? "Choose destination for " + app.assetLabel(app.connectionSource) : "Choose source equipment") : "Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom"
+                    textFormat: Text.PlainText
                     color: app.connectMode ? "#ffcf70" : "#a1b6c5"; font.pixelSize: 12
                 }
                 Label { anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 14; text: "SYNTHETIC · Layout does not determine hydraulic flow"; color: "#88a0b0"; font.pixelSize: 11 }
@@ -306,7 +336,13 @@ ApplicationWindow {
                                 TextField { Layout.fillWidth: true; text: String(controller.selected[modelData.key] ?? ""); inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: controller.editSelected(modelData.key, text) }
                             }
                         }
-                        Label { visible: controller.selected.kind === "route" && !!controller.selected.sourceDriven; Layout.fillWidth: true; text: "Source-route flow follows production minus reduction."; wrapMode: Text.WordWrap; color: "#93aeba" }
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "source" && (controller.selected.feeds || []).length>0; text: "Edit feed split"; onClicked: sourceFeedDialog.begin(controller.selectedId,"") }
+                        Repeater {
+                            model: controller.selected.kind==="source" ? (controller.selected.feeds || []) : []
+                            delegate: Label { required property var modelData; Layout.fillWidth: true; text: modelData.label + ": " + (modelData.shareBps/100).toFixed(2) + "% · " + modelData.flow.toFixed(3) + " m³/h"; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: "#93aeba" }
+                        }
+                        Label { visible: controller.selected.kind === "route" && !!controller.selected.sourceDriven; Layout.fillWidth: true; text: "Feed: " + Number(controller.selected.sourceSharePercent || 0).toFixed(2) + "% · " + Number(controller.selected.flow || 0).toFixed(3) + " m³/h after reduction."; wrapMode: Text.WordWrap; color: "#93aeba" }
+                        Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !!controller.selected.sourceDriven; text: "Edit source feed split"; onClicked: sourceFeedDialog.begin(controller.selected.source,"") }
                         Button { Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
                         CheckBox { visible: !!controller.selected.pump; checked: !!controller.selected.available; text: "Pump available"; onClicked: controller.editSelected("available", checked ? "true" : "false") }
                         Button { Layout.fillWidth: true; visible: !!controller.selected.pump; enabled: !!controller.selected.available; text: "Fail selected pump"; onClicked: controller.failSelectedPump() }

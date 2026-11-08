@@ -38,7 +38,7 @@ std::vector<std::size_t> sampleIndices(std::size_t size, std::size_t maximum) {
     return result;
 }
 QJsonObject calculate(const QJsonObject& context, const QString& routeId, const PipeParameters& parameters, quint64 revision) {
-    const auto project = parse_project({{"version", project_version}, {"network", context.value("network")}, {"layout", QJsonObject{}}});
+    const auto project = parse_project({{"version", source_allocation_project_version}, {"network", context.value("network")}, {"layout", QJsonObject{}}});
     std::vector<ControlValue> controls;
     for (const auto& value : context.value("controls").toArray()) {
         const auto item = value.toObject();
@@ -47,9 +47,7 @@ QJsonObject calculate(const QJsonObject& context, const QString& routeId, const 
     const auto compiled = compile(project.network, controls);
     const auto route = std::find_if(compiled.network.routes.begin(), compiled.network.routes.end(), [&](const Route& r) { return QString::fromStdString(r.id) == routeId; });
     if (route == compiled.network.routes.end()) throw std::invalid_argument("The captured route no longer exists.");
-    double flow = route->available ? route->setpoint_m3h : 0.0;
-    for (const auto& asset : compiled.network.assets)
-        if (asset.id == route->source_id && asset.kind == AssetKind::source) flow = asset.inflow_m3h - asset.curtailment_m3h;
+    const double flow = route->available ? route_flow_m3h(compiled.network,*route) : 0.0;
     TransportConfig configuration;
     configuration.horizon_h = context.value("horizon_h").toDouble();
     configuration.output_step_h = parameters.output_step_h;

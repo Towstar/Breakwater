@@ -5,6 +5,7 @@
 #include <QJsonDocument>
 #include <QJsonArray>
 #include <QSaveFile>
+#include <QSet>
 #include <QUuid>
 #include <algorithm>
 #include <cmath>
@@ -78,8 +79,7 @@ QVariantList ProjectController::routes() const {
     QVariantList list;
     for (const auto& r : project_.network.routes) {
         const auto s = project_.positions.value(q(r.source_id)), d = project_.positions.value(q(r.target_id));
-        double rate = r.setpoint_m3h;
-        for (const auto& a : project_.network.assets) if (a.id == r.source_id && a.kind == AssetKind::source) rate = a.inflow_m3h - a.curtailment_m3h;
+        const double rate = route_flow_m3h(project_.network, r);
         list.append(QVariantMap{{"id", q(r.id)}, {"source", q(r.source_id)}, {"target", q(r.target_id)}, {"sx", s.x()}, {"sz", s.z()}, {"tx", d.x()}, {"tz", d.z()},
             {"flow", rate}, {"pump", r.has_pump}, {"available", r.available}, {"selected", selected_id_ == q(r.id)}});
     }
@@ -89,12 +89,13 @@ QVariantMap ProjectController::selected() const {
     for (const auto& a : project_.network.assets) if (q(a.id) == selected_id_) return {
         {"id", q(a.id)}, {"label", q(a.label)}, {"kind", q(kind_name(a.kind))}, {"capacity", a.capacity_m3},
         {"initial", a.initial_m3}, {"inflow", a.inflow_m3h}, {"curtailment", a.curtailment_m3h},
-        {"curtailment_max", a.curtailment_max_m3h}, {"cost", a.cost_per_m3}};
+        {"curtailment_max", a.curtailment_max_m3h}, {"cost", a.cost_per_m3}, {"feeds", sourceFeeds(q(a.id))}};
     for (const auto& r : project_.network.routes) if (q(r.id) == selected_id_) {
         bool source_driven = false;
         for (const auto& a : project_.network.assets) if (a.id == r.source_id) source_driven = a.kind == AssetKind::source;
         return {{"id", q(r.id)}, {"label", q(r.id)}, {"kind", "route"}, {"source", q(r.source_id)}, {"target", q(r.target_id)},
-            {"capacity", r.capacity_m3h}, {"flow", r.setpoint_m3h}, {"cost", r.cost_per_m3}, {"pump", r.has_pump}, {"available", r.available}, {"sourceDriven", source_driven}};
+            {"capacity", r.capacity_m3h}, {"flow", source_driven ? route_flow_m3h(project_.network,r) : r.setpoint_m3h}, {"cost", r.cost_per_m3}, {"pump", r.has_pump}, {"available", r.available}, {"sourceDriven", source_driven},
+            {"sourceSharePercent", static_cast<double>(r.source_share_bps)/100.0}};
     }
     return {};
 }
@@ -147,8 +148,13 @@ void ProjectController::connectAssets(const QString& source, const QString& targ
     for (const auto& a : project_.network.assets) { if (q(a.id) == source) s = &a; if (q(a.id) == target) d = &a; }
     if (!s || !d || source == target || !((s->kind == AssetKind::source && d->kind == AssetKind::tank) ||
         (s->kind == AssetKind::tank && d->kind != AssetKind::source))) { summary_ = "Connect source -> tank, or tank -> tank/treatment/trucking."; emit changed(); return; }
-    for (const auto& r : project_.network.routes) if (r.source_id == s->id && s->kind == AssetKind::source) {
-        summary_ = "Each source feeds exactly one tank. Delete its existing route first."; emit changed(); return;
+    if (s->kind == AssetKind::source) {
+        QVariantMap shares;
+        for (const auto& r : project_.network.routes) if (r.source_id == s->id) shares[q(r.target_id)] = static_cast<int>(r.source_share_bps);
+        if (shares.contains(target)) { selected_id_ = source; summary_ = "This production feed already exists. Use Edit feed split to change its allocation."; emit changed(); return; }
+        shares[target] = shares.isEmpty() ? static_cast<int>(source_share_total) : 0;
+        (void)setSourceFeeds(source,shares,networkHash());
+        return;
     }
     edit([&] {
         Route r; r.id = fresh_id("route_"); r.source_id = source.toStdString(); r.target_id = target.toStdString();
@@ -156,6 +162,55 @@ void ProjectController::connectAssets(const QString& source, const QString& targ
         r.setpoint_m3h = s->kind == AssetKind::source ? s->inflow_m3h - s->curtailment_m3h : 0.0;
         project_.network.routes.push_back(r); selected_id_ = q(r.id);
     });
+}
+QVariantList ProjectController::sourceFeeds(const QString& source) const {
+    QVariantList result;
+    const auto s = std::find_if(project_.network.assets.begin(),project_.network.assets.end(),[&](const Asset& a){return q(a.id)==source && a.kind==AssetKind::source;});
+    if (s==project_.network.assets.end()) return result;
+    for (const auto& r : project_.network.routes) if (r.source_id==s->id) {
+        QString label = q(r.target_id);
+        for (const auto& a : project_.network.assets) if(a.id==r.target_id) label=q(a.label);
+        result.append(QVariantMap{{"routeId",q(r.id)},{"targetId",q(r.target_id)},{"label",label},
+            {"shareBps",static_cast<int>(r.source_share_bps)},{"flow",route_flow_m3h(project_.network,r)},{"capacity",r.capacity_m3h}});
+    }
+    return result;
+}
+bool ProjectController::setSourceFeeds(const QString& source, const QVariantMap& shares, const QString& expectedHash) {
+    const auto fail=[&](const QString& message){summary_=message;emit changed();return false;};
+    if (expectedHash!=networkHash()) return fail("The network changed while editing feed shares. Reopen the split editor.");
+    const auto s=std::find_if(project_.network.assets.begin(),project_.network.assets.end(),[&](const Asset& a){return q(a.id)==source && a.kind==AssetKind::source;});
+    if(s==project_.network.assets.end() || shares.isEmpty() || shares.size()>128) return fail("Choose a production source and at least one receiving tank.");
+    QMap<QString,std::uint32_t> parsed;
+    std::uint64_t total=0;
+    for(auto it=shares.cbegin();it!=shares.cend();++it) {
+        const auto target=std::find_if(project_.network.assets.begin(),project_.network.assets.end(),[&](const Asset& a){return q(a.id)==it.key() && a.kind==AssetKind::tank;});
+        const auto type=it.value().metaType().id();
+        if(target==project_.network.assets.end() || (type!=QMetaType::Int && type!=QMetaType::UInt && type!=QMetaType::LongLong && type!=QMetaType::ULongLong && type!=QMetaType::Double))
+            return fail("Feed shares need existing tanks and numeric percentages with two decimal places.");
+        const double value=it.value().toDouble();
+        if(!std::isfinite(value) || value<0 || value>source_share_total || value!=std::floor(value)) return fail("Feed shares must lie between 0 and 100 percent in steps of 0.01 percent.");
+        parsed[it.key()]=static_cast<std::uint32_t>(value);total+=static_cast<std::uint32_t>(value);
+    }
+    if(total!=source_share_total) return fail("Feed shares must total exactly 100 percent. Values were not changed.");
+    QSet<QString> existing;
+    for(const auto& r:project_.network.routes) if(r.source_id==s->id) {
+        const auto id=q(r.target_id);
+        if(existing.contains(id) || !parsed.contains(id)) return fail("Keep every existing feed in the split; delete a pipe explicitly to remove it.");
+        existing.insert(id);
+    }
+    if(project_.network.routes.size()+static_cast<std::size_t>(parsed.size()-existing.size())>256) return fail("The network has reached its route limit.");
+    // Capture ID/rate before editing; route additions never invalidate the asset iterator.
+    const auto sourceId=s->id;const double capacity=s->inflow_m3h;
+    edit([&]{
+        for(auto& r:project_.network.routes) if(r.source_id==sourceId) r.source_share_bps=parsed[q(r.target_id)];
+        for(auto it=parsed.cbegin();it!=parsed.cend();++it) if(!existing.contains(it.key())) {
+            Route route;route.id=fresh_id("route_");route.source_id=sourceId;route.target_id=it.key().toStdString();
+            route.capacity_m3h=capacity;route.source_share_bps=it.value();
+            project_.network.routes.push_back(route);
+        }
+        selected_id_=source;
+    });
+    return true;
 }
 void ProjectController::attachPump(const QString& id) {
     edit([&] {

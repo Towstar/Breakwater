@@ -83,10 +83,10 @@ def _identity(value):
 class _Control:
     value: float
     maximum: float
-    feed: tuple[float, float] | None = None  # production, feed capacity
+    feed: tuple[tuple[float, float, float], ...] = ()  # production, capacity, fixed fraction per feed
 
 
-def _network(value):
+def _network(value, method_version=1):
     _object(value, {"assets", "routes"}, code="invalid_network")
     for key, limit in (("assets", 128), ("routes", 256)):
         if not isinstance(value[key], list):
@@ -123,15 +123,21 @@ def _network(value):
     if not any(asset["kind"] == "tank" for asset in assets):
         _fail("invalid_network", "A storage network requires at least one tank.")
     feeds = {asset["id"]: [] for asset in assets if asset["kind"] == "source"}
+    source_targets = set()
     route_fields = {"id", "source_id", "target_id", "capacity_m3h", "setpoint_m3h", "has_pump", "available", "cost_per_m3"}
     for item in value["routes"]:
         if not isinstance(item, dict) or not route_fields <= set(item):
             _fail("invalid_network", "Every route requires all documented wire fields.")
+        if method_version == 1 and "source_share_bps" in item:
+            _fail("invalid_network", "Source allocations require storage method version 2.")
         route = {key: _text(item[key], code="invalid_network", native=True)
                  for key in ("id", "source_id", "target_id")}
         if route["id"] in ids:
             _fail("invalid_network", "Asset and route IDs must be globally unique.")
         ids.add(route["id"])
+        share = _integer(item.get("source_share_bps",10000),0,10000,code="invalid_network")
+        if method_version == 2:
+            route["source_share_bps"] = share
         for key in ("capacity_m3h", "setpoint_m3h", "cost_per_m3"):
             route[key] = _number(item[key], code="invalid_network", nonnegative=True)
         for key in ("has_pump", "available"):
@@ -148,24 +154,32 @@ def _network(value):
                 route["cost_per_m3"] + target["cost_per_m3"]):
             _fail("invalid_network", "Combined route/destination control price must be finite.")
         if source["kind"] == "source":
+            pair=(source["id"],target["id"])
+            if pair in source_targets:
+                _fail("invalid_network", "Production feeds require distinct receiving tanks.")
+            source_targets.add(pair)
             feeds[source["id"]].append(route)
             if route["has_pump"] or not route["available"]:
                 _fail("invalid_network", "Production feed routes cannot have pumps or be unavailable.")
-            flow = source["inflow_m3h"] - source["curtailment_m3h"]
+            flow = (source["inflow_m3h"] - source["curtailment_m3h"])*(share/10000)
         else:
+            if share != 10000:
+                _fail("invalid_network", "Feed shares apply only to production-source routes.")
             flow = route["setpoint_m3h"]
         if not route["available"] and (not route["has_pump"] or route["setpoint_m3h"] != 0):
             _fail("invalid_network", "An unavailable pump must request zero flow.")
         if flow > route["capacity_m3h"] + 1e-9:
             _fail("invalid_network", "Captured route flow exceeds its capacity.")
         routes.append(route)
-    if any(len(items) != 1 for items in feeds.values()):
+    if method_version == 1 and any(len(items) != 1 for items in feeds.values()):
         _fail("invalid_network", "Each production source must feed exactly one tank.")
+    if any(not items or sum(r.get("source_share_bps",10000) for r in items)!=10000 for items in feeds.values()):
+        _fail("invalid_network", "Production feed shares must total exactly 100 percent.")
     catalog = {}
     for asset in assets:
         if asset["kind"] == "source":
             catalog[f"source:{asset['id']}:curtail"] = _Control(asset["curtailment_m3h"], asset["curtailment_max_m3h"],
-                (asset["inflow_m3h"], feeds[asset["id"]][0]["capacity_m3h"]))
+                tuple((asset["inflow_m3h"],r["capacity_m3h"],r.get("source_share_bps",10000)/10000) for r in feeds[asset["id"]]))
     for route in routes:
         if by_id[route["source_id"]]["kind"] == "tank":
             catalog[f"route:{route['id']}:flow"] = _Control(route["setpoint_m3h"],
@@ -176,8 +190,8 @@ def _network(value):
 def _validate(payload):
     _object(payload, {"method_version", "identity", "network", "controls", "horizon_h", "step_h", "derivatives", "preview"})
     if isinstance(payload["method_version"], bool) or not isinstance(payload["method_version"], (int, float)):
-        _fail("invalid_request", "method_version must be numeric version 1.")
-    if payload["method_version"] != 1:
+        _fail("invalid_request", "method_version must be numeric version 1 or 2.")
+    if payload["method_version"] not in (1,2):
         _fail("unsupported_version", "Unsupported storage method version.")
     identity = _identity(payload["identity"])
     horizon, step = _number(payload["horizon_h"]), _number(payload["step_h"])
@@ -189,7 +203,7 @@ def _validate(payload):
         _fail("invalid_request", "derivatives must be boolean.")
     _object(payload["preview"], {"max_times"}, code="invalid_parameters")
     preview = _integer(payload["preview"]["max_times"], 2, 256)
-    network, catalog = _network(payload["network"])
+    network, catalog = _network(payload["network"],payload["method_version"])
     controls = payload["controls"]
     if not isinstance(controls, list):
         _fail("invalid_controls", "Controls must be an array of selected overrides.")
@@ -205,10 +219,10 @@ def _validate(payload):
         descriptor = catalog[identifier]
         if not 0 <= value <= descriptor.maximum:
             _fail("invalid_controls", "Selected control lies outside its current availability or bounds.")
-        if descriptor.feed and descriptor.feed[0] - value > descriptor.feed[1] + 1e-9:
+        if any((production-value)*fraction > capacity+1e-9 for production,capacity,fraction in descriptor.feed):
             _fail("invalid_controls", "Selected curtailment exceeds the connected feed capacity.")
         if payload["derivatives"] and (not 0 < value < descriptor.maximum or
-                (descriptor.feed and descriptor.feed[0] - value >= descriptor.feed[1])):
+                any(fraction>0 and (production-value)*fraction >= capacity for production,capacity,fraction in descriptor.feed)):
             _fail("invalid_controls", "Derivatives require selected controls strictly inside their admissible two-sided domain.")
         overrides[identifier] = value
     return identity, network, overrides, horizon, step, preview
@@ -245,7 +259,7 @@ def storage_rollout(payload):
         samples = run.time_h.numel()
         count = min(samples, preview)
         indices = [i * (samples - 1) // (count - 1) for i in range(count)]
-        result = {"method": "storage_rollout", "method_version": 1, "identity": identity,
+        result = {"method": "storage_rollout", "method_version": int(payload["method_version"]), "identity": identity,
             "provenance": {"implementation": "torch_storage_float64",
                 "implementation_version": version + "+worker-v1", "dtype": "float64",
                 "device": "cpu", "execution_status": "completed"},

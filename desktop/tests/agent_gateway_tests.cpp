@@ -55,7 +55,7 @@ private slots:
         const auto baseline = gateway.execute("forecast_baseline", args(gateway));
         QVERIFY(baseline["ok"].toBool());
         const auto run = baseline["run"].toObject();
-        QCOMPARE(run["solver_version"].toString(), QStringLiteral("constant-flow-0.1.1"));
+        QCOMPARE(run["solver_version"].toString(), QString::fromLatin1(breakwater::solver_version));
         const auto details = gateway.runDetails(run["run_id"].toString());
         QCOMPARE(details["time_h"].toArray().last().toDouble(), horizon);
         QCOMPARE(details["volumes_m3"].toArray().first().toArray().last().toDouble(), 0.9 * flow + 0.125);

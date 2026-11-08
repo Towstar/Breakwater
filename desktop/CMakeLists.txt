@@ -42,7 +42,7 @@ target_link_libraries(breakwater PRIVATE breakwater_agent Qt6::QuickControls2 Qt
 get_filename_component(_qt_prefix "${Qt6_DIR}/../../.." ABSOLUTE)
 set_target_properties(breakwater PROPERTIES VS_DEBUGGER_ENVIRONMENT "PATH=${_qt_prefix}/bin;%PATH%")
 qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
-  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml qml/StorageSciencePanel.qml)
+  QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml qml/StorageSciencePanel.qml qml/SourceFeedDialog.qml)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
 # in a fresh parallel Visual Studio build. Qt creates that target at root deferral.
@@ -57,6 +57,13 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
 endif()
 
 if(BUILD_TESTING)
+  qt_add_executable(breakwater_source_feed_qml_tests tests/source_feed_qml_tests.cpp)
+  target_link_libraries(breakwater_source_feed_qml_tests PRIVATE breakwater_agent Qt6::QuickControls2 Qt6::Quick3D Qt6::Test)
+  target_compile_definitions(breakwater_source_feed_qml_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+  add_test(NAME desktop.source_feed_qml COMMAND breakwater_source_feed_qml_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/source_feed_qml-results.txt,txt")
+  set_tests_properties(desktop.source_feed_qml PROPERTIES TIMEOUT 30
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   qt_add_executable(breakwater_desktop_tests tests/project_tests.cpp)
   target_link_libraries(breakwater_desktop_tests PRIVATE breakwater_desktop_base Qt6::Test)
   target_compile_definitions(breakwater_desktop_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")

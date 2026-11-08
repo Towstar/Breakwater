@@ -1,0 +1,31 @@
+{
+  "accepted_commit": "f12a82701641f1b4fd3af9ebba579b79f1db3db4",
+  "accepted_tree": "8bea204cd22b55539304e2a7e306613787ebf8a3",
+  "decision": "Owner-requested Person A contract adoption, recorded by this session",
+  "pr_comment": "https://github.com/Towstar/Breakwater/pull/31#issuecomment-6719191863",
+  "fresh_checks": {
+    "ctests_passed": 3,
+    "ctest_elapsed_s": 3.97,
+    "qt_passed": 164,
+    "qt_failed": 0,
+    "qt_skipped": 0,
+    "native_python_comparator_required": true,
+    "fresh_asan_run": false
+  },
+  "source_sha256": {
+    "contracts/telemetry/validate.py": "1d8c6f6cec97600b41aea2a60021e0b7bacf6d854105b8d54cfb9da038060da3",
+    "contracts/telemetry/common-v1.schema.json": "824f540bbb5a3eeef99f03b79fdb19fcdf22890e0017f5ce12e8013050eedc1d",
+    "contracts/include/breakwater/telemetry.hpp": "99666de5dc3268e75e88b57ea1d4000b55aa7b60c0ddf1dbf9b54c6d4844f75e",
+    "desktop/telemetry/TelemetryContracts.cpp": "f4370f77f50903a38835fdb86067ac678597baef86a0f57775af913a5f49b386",
+    "docs/G1_REVIEW.md": "893cbff0d2e7818adfe0759be940181eae691fd3f22fd24e67bdd0073a40d5b0"
+  },
+  "comparator_sha256": "859ddc212dbb4f19e2269aa8ead826f6bb086eabe54336ba921344a2930db544",
+  "scope": "G1 interfaces/offline validation only; no numerical mapper, publisher, detector or G2 execution",
+  "log_format": "Compact text copies: trailing whitespace removed; raw originals retained locally.",
+  "raw_log_sha256": {
+    "configure.log": "5d024d63125a2389a5dcd55a4972ed45ee2a0044109184c3611b057316fccb00",
+    "build.log": "791dad2e5f834054914937a43f34b5afe06514e027beea645550fd658493d25e",
+    "tests.log": "fe33434de2057d8322e43f541a4a608fa3cd3d1ad2cd38b64969ad8e5cc8d300",
+    "qt-results.txt": "c851469be4b80cc9adef87fec89c64791ae105a3b0d4b67bd09883cb4923c695"
+  }
+}
