@@ -5,6 +5,7 @@
 #include "../src/search_kernel.hpp"
 #include "../src/control_influence.hpp"
 #include "../src/search_evaluation.hpp"
+#include "../src/storage_grid.hpp"
 
 #include <bit>
 #include <cstdint>
@@ -91,8 +92,7 @@ NumericBatch pack(const Network& network, const std::vector<CandidateControls>& 
 struct TrajectoryWorkspace {
     std::vector<double> time, state, rates, trajectory;
     TrajectoryWorkspace(const NumericBatch& data,SimulationConfig config) {
-        const auto steps=static_cast<std::size_t>(std::ceil(config.horizon_h/config.step_h));
-        for (std::size_t k=0;k<=steps;++k) time.push_back(std::min(static_cast<double>(k)*config.step_h,config.horizon_h));
+        time=detail::storage_sample_times(config);
         state.resize(data.tanks); rates.resize(data.tanks); trajectory.resize(data.tanks*time.size());
     }
     void rollout(const NumericBatch& data,std::size_t row,bool dense) {

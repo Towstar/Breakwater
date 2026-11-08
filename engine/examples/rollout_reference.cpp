@@ -230,6 +230,23 @@ std::vector<Case> cases() {
     auto overloaded = branching();
     for (auto& a : overloaded.assets) if (a.id == "shared") a.capacity_m3 = 8.0;
     result.push_back({"shared_destination_overload", std::move(overloaded), {}, {0.9, 0.13}});
+
+    // A-001 regressions: preserve every rounded requested interior multiple and
+    // finish at the exact requested horizon, including a one-ULP terminal tail.
+    Network stationary;
+    stationary.assets = {{"grid-tank", "Stationary grid fixture", AssetKind::tank, 1.0, .5}};
+    result.push_back({"grid_short_quotient", stationary, {}, {.9000000000000001, .1}});
+    result.push_back({"grid_duplicate_quotient", stationary, {}, {.30000000000000004, .1}});
+    result.push_back({"grid_subnormal_horizon", stationary, {}, {std::numeric_limits<double>::denorm_min(), 24.0}});
+    result.push_back({"grid_update_limit", stationary, {}, {1.0, .0001}});
+    result.push_back({"grid_update_limit_rounded_quotient", stationary, {}, {.0082, 8.2e-7}});
+
+    const double q = std::ldexp(1.0, 50);
+    Network high_flow;
+    high_flow.assets = {{"capacity-tank", "Requested endpoint overflow", AssetKind::tank, .9*q, 0.0},
+                       {"fixed-source", "Fixed source", AssetKind::source, 0.0, 0.0, q}};
+    high_flow.routes = {{"fixed-feed", "fixed-source", "capacity-tank", q, 0.0}};
+    result.push_back({"grid_requested_capacity_overflow", std::move(high_flow), {}, {.9000000000000001, .1}});
     return result;
 }
 } // namespace
