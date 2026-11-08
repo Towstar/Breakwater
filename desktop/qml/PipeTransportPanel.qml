@@ -20,9 +20,9 @@ Dialog {
     readonly property var fieldScale: bounds(preview.concentration_mg_l || [], true)
     parent: Overlay.overlay
     width: Math.min(preferredDialogWidth, parent.width - 236)
-    height: Math.min(preferredDialogHeight, parent.height - 48)
+    height: Math.min(preferredDialogHeight, parent.height - 96)
     x: 220 + Math.round((parent.width - 236 - width) / 2)
-    y: Math.round((parent.height - height) / 2)
+    y: 76 + Math.max(0, Math.round((parent.height - 96 - height) / 2))
     modal: false
     title: "Experimental pipe transport"
     closePolicy: Popup.CloseOnEscape
@@ -359,7 +359,7 @@ Dialog {
                 if (!pressed) return
                 const point = mapToItem(null, mouse.x, mouse.y)
                 dialog.preferredDialogWidth = Math.max(700, Math.min(dialog.parent.width - 236, startWidth + (point.x - startPoint.x) * 2))
-                dialog.preferredDialogHeight = Math.max(440, Math.min(dialog.parent.height - 48, startHeight + (point.y - startPoint.y) * 2))
+                dialog.preferredDialogHeight = Math.max(440, Math.min(dialog.parent.height - 96, startHeight + (point.y - startPoint.y) * 2))
             }
             PlainLabel { anchors.centerIn: parent; text: "↘"; color: Theme.muted; font.pixelSize: 18 }
         }

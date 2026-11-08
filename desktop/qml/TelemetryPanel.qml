@@ -8,9 +8,9 @@ Dialog {
     required property var telemetry
     parent: Overlay.overlay
     width: Math.min(920, parent ? parent.width - 236 : 920)
-    height: Math.min(720, parent ? parent.height - 36 : 720)
+    height: Math.min(720, parent ? parent.height - 96 : 720)
     x: 220 + Math.max(0, ((parent ? parent.width : 1156) - 236 - width) / 2)
-    y: Math.max(16, ((parent ? parent.height : 756) - height) / 2)
+    y: 76 + Math.max(0, ((parent ? parent.height : 816) - 96 - height) / 2)
     modal: false
     closePolicy: Popup.CloseOnEscape
     title: "Synthetic monitoring and replay"

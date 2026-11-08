@@ -10,9 +10,9 @@ Dialog {
     modal: false
     closePolicy: Popup.CloseOnEscape
     width: Math.min(960, parent ? parent.width - 236 : 960)
-    height: Math.min(760, parent ? parent.height - 32 : 760)
+    height: Math.min(760, parent ? parent.height - 96 : 760)
     x: 220 + Math.max(0, ((parent ? parent.width : 1196) - 236 - width) / 2)
-    y: Math.max(16, ((parent ? parent.height : 792) - height) / 2)
+    y: 76 + Math.max(0, ((parent ? parent.height : 856) - 96 - height) / 2)
     standardButtons: Dialog.Close
     font.family: Theme.fontFamily
     font.pixelSize: Theme.bodySize
