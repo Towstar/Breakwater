@@ -24,6 +24,13 @@ target_link_libraries(breakwater_physicsnemo_reference PRIVATE breakwater_engine
 add_executable(breakwater_transport_qualification_reference examples/transport_qualification_reference.cpp)
 target_link_libraries(breakwater_transport_qualification_reference PRIVATE breakwater_engine)
 
+# F1b is private, pure advection only, and never part of the production library.
+add_library(breakwater_front_experiment STATIC experimental/front_advection.cpp)
+target_link_libraries(breakwater_front_experiment PRIVATE breakwater_engine)
+target_include_directories(breakwater_front_experiment PUBLIC experimental)
+add_executable(breakwater_front_comparison_reference examples/front_comparison_reference.cpp)
+target_link_libraries(breakwater_front_comparison_reference PRIVATE breakwater_front_experiment breakwater_engine)
+
 add_executable(breakwater_benchmark benchmarks/benchmark.cpp)
 target_link_libraries(breakwater_benchmark PRIVATE breakwater_engine)
 target_compile_definitions(breakwater_benchmark PRIVATE
@@ -47,4 +54,7 @@ if(BUILD_TESTING)
   target_link_libraries(breakwater_transport_tests PRIVATE breakwater_engine)
   add_test(NAME engine.transport COMMAND breakwater_transport_tests)
   add_test(NAME engine.transport_example COMMAND breakwater_transport_example)
+  add_executable(breakwater_front_experiment_tests tests/front_experiment_tests.cpp)
+  target_link_libraries(breakwater_front_experiment_tests PRIVATE breakwater_front_experiment breakwater_engine)
+  add_test(NAME engine.front_experiment COMMAND breakwater_front_experiment_tests)
 endif()
