@@ -572,6 +572,9 @@ private slots:
         // Enlarge schema-valid protocol limitations, not numerical results. The
         // same bounded-output path also handles large retained action schedules.
         QTemporaryDir fixture; QVERIFY(fixture.isValid()); auto source = bytes(worker_);
+        // Windows checkouts may use CRLF. Normalize only this generated worker
+        // script before inserting the oversized protocol response fixture.
+        source.replace("\r\n", "\n");
         const QByteArray needle = R"("limitations": ["Exercise desktop contracts and retention only."])";
         QVERIFY(source.contains(needle));
         source.replace(needle, R"("limitations": [("Protocol-only large-response bound " + str(i) + " " + "x" * 2048)[:2048] for i in range(64)])");
