@@ -1,10 +1,39 @@
 # Implementation status
 
 Scope: shared base, native search, durable desktop investigations, science contracts,
-native selected-pipe viewing, and Person A's A3–A7 science/benchmark/proof increments.
-PRs #7, #8, #10 and #11 are merged; their complete histories are retained.
+native selected-pipe viewing, and Person A's A3–A8 science/benchmark/proof increments.
+PRs #7, #8, #10, #11 and #14 are merged; their complete histories are retained.
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
+
+## A8 scientific-worker integration — November 7, 2026
+
+- PR #14 merged at `5c773f7` without conflicts. The repo worker implements
+  `capabilities` and CPU float64 `storage_rollout`, with selected-interior-control
+  derivatives and bounded indexed previews. Legacy health remains compatible.
+- Native C++ retains feasibility/approval authority. Worker identity is echoed
+  provenance, not authentication of a native run. Python `pipe_transport` remains
+  explicitly unimplemented; the native viewer continues to use authoritative FVM.
+- The desktop adapter still uses health only, and the installer still copies only
+  `worker.py`. B's next step is deploying the mapper/package/runtime and extending
+  capability negotiation/result handling. A copied worker alone keeps health and
+  capabilities working and reports storage unavailable.
+- Fresh merged-main direct `Breakwater.slnx` MSVC x64 RelWithDebInfo build passed,
+  followed by **18/18 combined CTest suites** (17.26 s). The strict desktop worker
+  suite passed 24 cases with zero failures/skips against the merged worker. The
+  regenerated solution retains 66 projects/180 dependencies with no missing paths.
+- The complete merged-source Python suite passed **69/69 tests** (64.571 s) using
+  the pinned CPython 3.12.13 science environment. Pinned `lake build` completed
+  1,061 jobs; all **21 theorem audits** and the expected rejection of an unapproved
+  assumption passed. No new sanitizer run is implied by these normal-build checks.
+- Re-ran worker/native verification against the just-built Visual Studio exporter:
+  **290 real NDJSON requests**, 12 actual native fixtures, three solvers, 44 interior
+  controls and 132 finite-difference comparisons passed with offline schema checks.
+  Maximum volume difference remained `7.67386154621e-13 m3`.
+- Local logs: `out/pr14-visual-studio-build.log`, `out/pr14-ctest.log`,
+  `out/pr14-python-tests.log`, `out/pr14-lean-verify.log` and
+  `out/pr14-worker-verification.json`. The versioned component report and complete
+  scope are linked from [science/WORKER.md](../science/WORKER.md).
 
 ## A7 and desktop-stack integration — November 7, 2026
 
@@ -32,7 +61,7 @@ in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now deliv
   Local logs: `out/stack-visual-studio-build.log`, `out/stack-ctest.log` and
   `out/stack-asan.log`. The proof-source hashes remain identical to the fresh
   21-theorem verification above; the B stack changes no Lean sources or pins.
-- Current next science increment: implement the agreed `capabilities` and
+- At this checkpoint, the next science increment was implementing `capabilities` and
   `storage_rollout` methods in Person A's `science/` workstream, preserving legacy
   health and the published contract. Native volume approval remains authoritative;
   fixed-case PhysicsNeMo evidence does not supply arbitrary-route inference.
@@ -370,7 +399,8 @@ CMake 4.3.1, Visual Studio 2026. Dependency downloads/build products are ignored
 ## Planned, not implemented in this base
 
 - Animated replay, robust optimization and additional chart types.
-- Worker scientific methods beyond health and their desktop integration.
+- Deployment and desktop integration of the implemented scientific worker methods;
+  Python pipe transport remains reserved/unimplemented.
 - Qualified/generalized ML quality predictions and transport differentiation.
 - Custom SIMD/GPU kernels and sophisticated routing handles.
 

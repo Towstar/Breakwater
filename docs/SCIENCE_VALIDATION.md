@@ -71,8 +71,13 @@ through discrete candidate selection or active-bound projections.
 residual, bounded training, checkpoint reload and held-out native transport comparison.
 It is an experimental fixed-case smoke; its error gates do not qualify arbitrary
 edited networks, operating conditions or chemical quality. Native C++ remains the
-volume-feasibility authority. The scientific worker remains health-only until the
-agreed contracts and process adapter expose these standalone modules.
+volume-feasibility authority. The learned smoke remains separate from worker methods.
+
+[A8](../science/WORKER.md) exposes capability negotiation and CPU float64 storage
+rollout/selected-control derivatives through the agreed worker contract. Its indexed
+previews preserve the requested horizon and unclipped finite forecasts. The desktop
+adapter and installed scientific-package delivery remain B integration work; legacy
+health stays compatible. No Python pipe or generic PhysicsNeMo inference is advertised.
 
 ## Checked Lean algorithms
 
