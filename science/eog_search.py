@@ -449,6 +449,7 @@ def search(model, view, native, *, identity, clock_context, candidate_limit=1000
         "Already-shut or native-baseline zero-loss facilities receive no cost-increasing controls; other facilities remain in the complete cost/forecast context.",
         "Control seeds target the input shutdown inventory or one/four representable inventory steps below it; evaluation always uses the original input threshold, without feasibility tolerance or clipping.",
         "Full baseline/selected traces are retained; at most " + str(rules.retained_evaluations) + " evaluations are returned.",
+        "Only the selected plan is independently recomputed in this search; other retained native evaluations require their own validate_plan request.",
         "Inspection timing and physical onset uncertainty remain unqualified."]
     if reason: limitations.append("Termination: " + reason + ".")
     if counts["dropped_states"]: limitations.append("Frontier/state-key bound omitted " + str(counts["dropped_states"]) + " states; enumeration is incomplete.")
