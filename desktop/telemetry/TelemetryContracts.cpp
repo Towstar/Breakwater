@@ -128,7 +128,13 @@ private:
             if (bytes_[at_] == '}') { ++at_; return; }
             for (;;) {
                 whitespace(); const auto token = stringToken();
-                const auto key = QJsonDocument::fromJson(QByteArray("[") + token + ']').array().at(0).toString();
+                // The whole document has already passed syntax and UTF-8 checks.
+                // Ordinary protocol keys need no second JSON parse. Escaped
+                // spellings still use Qt's decoder so aliases remain identical.
+                const auto content = token.mid(1, token.size() - 2);
+                const auto key = content.contains('\\')
+                    ? QJsonDocument::fromJson(QByteArray("[") + token + ']').array().at(0).toString()
+                    : QString::fromUtf8(content);
                 require(!keysSeen.contains(key), "Duplicate telemetry object key."); keysSeen.insert(key);
                 whitespace(); require(bytes_[at_++] == ':'); parseValue(depth + 1); whitespace();
                 const auto delimiter = bytes_[at_++]; if (delimiter == '}') return; require(delimiter == ',');
