@@ -21,7 +21,7 @@ class Rules:
     inspection_samples: int = 4
     inspection_cumulative: bool = True
     inspection_drift_fraction: float = 0.015
-    inspection_score_threshold: float = 0.25
+    inspection_score_threshold: float = 0.175
     inspection_influence_fraction: float = 0.05
     inspection_window_s: int = 21600
     zero_flow_bpd: float = 5.0

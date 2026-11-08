@@ -32,7 +32,7 @@ class CumulativeInspectionTests(unittest.TestCase):
                     received = flow if category == "pump_degradation" else 2619
                     rows += frame(m, t, flow=flow, received=received)
                     score = max(Fraction(0), score + min(Fraction(3, 100), Fraction(5, 100)) - Fraction(15, 1000))
-                    if first is None and score > Fraction(1, 4):
+                    if first is None and score > Fraction(7, 40):
                         first = t
                 event, = self.episodes(m, rows)
                 self.assertEqual((event.category, event.first_evidence_unix, event.onset_unix, event.detected_unix),
@@ -145,9 +145,15 @@ class CumulativeInspectionTests(unittest.TestCase):
         self.assertEqual(detect(m, causal).events, ())
 
     def test_predeclared_small_loss_and_short_cycle_family(self):
-        rng = random.Random(2026110804)
-        for index in range(32):
-            n, o = inputs(prefix=f"small-deficiency/{index}/\u03b1")
+        self.small_loss_family(2026110804, 32)
+
+    def test_fresh_seed_small_loss_and_short_cycle_family(self):
+        self.small_loss_family(2026110806, 64)
+
+    def small_loss_family(self, seed, count):
+        rng = random.Random(seed)
+        for index in range(count):
+            n, o = inputs(prefix=f"small-deficiency/{seed}/{index}/\u03b1")
             nominal = rng.uniform(1000, 8000)
             n["systems"][0]["facilities"][0]["pump"]["max_flow_bpd"] = nominal
             n["systems"][0]["facilities"][0]["pipeline"]["max_bpd"] = nominal * 1.2
@@ -171,10 +177,16 @@ class CumulativeInspectionTests(unittest.TestCase):
                             self.assertLessEqual(events[0].detected_unix - onset, 4 * 3600)
 
     def test_predeclared_healthy_noisy_day_family(self):
-        rng = random.Random(2026110805)
-        for index in range(32):
+        self.healthy_family(2026110805, 32)
+
+    def test_fresh_seed_healthy_noisy_day_family(self):
+        self.healthy_family(2026110807, 64)
+
+    def healthy_family(self, seed, count):
+        rng = random.Random(seed)
+        for index in range(count):
             with self.subTest(index=index):
-                n, o = inputs(prefix=f"healthy-cycling/{index}")
+                n, o = inputs(prefix=f"healthy-cycling/{seed}/{index}")
                 nominal = rng.uniform(1000, 8000)
                 n["systems"][0]["facilities"][0]["pump"]["max_flow_bpd"] = nominal
                 n["systems"][0]["facilities"][0]["pipeline"]["max_bpd"] = nominal * 1.2
