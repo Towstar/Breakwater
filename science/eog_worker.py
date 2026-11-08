@@ -21,7 +21,7 @@ from eog_response import ResponseUnavailable, compile_context, evaluate
 from native_eog import NativeError, NativeEvaluator
 from eog_plan_validator import ValidationUnavailable, validate as independently_validate
 
-METHOD = "eog-worker-0.2.0"
+METHOD = "eog-worker-0.2.1"
 ADOPTED_CONTRACT = "72cadd1de7eed6666a60faff1d296e29c8f026ee"
 CONTRACT_HASHES = {
     "validate.py": "626deb9b5de0a722f3583adf8f1a28753880bb9d70cf75b78771dda1c7b2faec",

@@ -20,7 +20,8 @@ import math
 import operator
 
 METHOD = "eog-rational-validation-0.1.0"
-SUPPORTED_EVALUATOR = "eog-native-seconds-0.1.0"
+SUPPORTED_EVALUATOR = "eog-native-seconds-0.1.1"
+SUPPORTED_EVALUATORS = ("eog-native-seconds-0.1.0", SUPPORTED_EVALUATOR)
 
 
 class ValidationUnavailable(ValueError):
@@ -202,7 +203,7 @@ def reconstruct(model, view, arithmetic):
 
 def validate(model, view, plan, evaluator_method=SUPPORTED_EVALUATOR):
     """Recompute a prevalidated public candidate without evaluating it natively."""
-    _unavailable(evaluator_method != SUPPORTED_EVALUATOR, "unsupported_evaluator", "Independent validation supports the declared native seconds semantics only.")
+    _unavailable(evaluator_method not in SUPPORTED_EVALUATORS, "unsupported_evaluator", "Independent validation supports the declared native seconds semantics only.")
     arithmetic = Arithmetic()
     _unavailable(len(plan["truck_jobs"]) > 256 or len(plan["well_shut_ins"]) > 256 or
                  sum(len(j["trips"]) for j in plan["truck_jobs"]) > 16384,
@@ -341,6 +342,8 @@ def validate(model, view, plan, evaluator_method=SUPPORTED_EVALUATOR):
                              (w.gas_mcfd > 0 and model.gas_per_mcf > 0 and gas == 0) or (daily > 0 and revenue == 0)),
                              "numerical_unavailable", "Independent opportunity revenue underflows.")
                 cost = arithmetic.mul(duration, revenue)
+                _unavailable(duration > 0 and revenue > 0 and cost == 0, "numerical_unavailable",
+                             "Positive independent revenue loss underflows binary64; zero cost cannot be certified.")
                 facility_lost = arithmetic.add(facility_lost, cost)
                 losses.append({"well_id": w.id, "stopped_s": duration, "lost_revenue": cost})
             lost_total = arithmetic.add(lost_total, facility_lost)

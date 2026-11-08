@@ -199,6 +199,19 @@ class IndependentValidatorTests(unittest.TestCase):
         self.assertNotEqual(original.record["validation_id"], changed.record["validation_id"])
         self.assertGreater(changed.record["cost"]["total"], original.record["cost"]["total"])
 
+    def test_positive_loss_underflow_is_unavailable_for_both_method_revisions(self):
+        m = replace(model(), repair_hours=1e-300, oil_per_bbl=1e-300, gas_per_mcf=0)
+        v, p = baseline(m)
+        p["well_shut_ins"] = [{"facility_id": m.facilities[0].id, "well_id": w.id,
+                              "start_elapsed_s": 0, "end_elapsed_s": m.repair_hours * 3600} for w in m.facilities[0].wells]
+        exact = sum((Fraction(w.oil_bpd) * Fraction(m.oil_per_bbl) / 86400 * Fraction(m.repair_hours * 3600)
+                     for w in m.facilities[0].wells), Fraction())
+        self.assertGreater(exact, 0); self.assertEqual(float(exact), 0)
+        for method in ("eog-native-seconds-0.1.0", "eog-native-seconds-0.1.1"):
+            with self.assertRaises(ValidationUnavailable) as caught:
+                validate(m, v, p, method)
+            self.assertEqual(caught.exception.code, "numerical_unavailable")
+
     def test_nonadvancing_yard_return_and_extreme_late_call_are_invalid(self):
         m = model(); f = replace(m.facilities[0], cycle_min=math.ulp(0.0))
         m = replace(m, facilities=(f,))

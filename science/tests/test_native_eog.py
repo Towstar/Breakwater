@@ -42,7 +42,7 @@ class NativeEogExecutionTests(unittest.TestCase):
         snapshot, plan = fixtures()
         before = copy.deepcopy((snapshot, plan))
         result = self.native.evaluate(snapshot, plan)
-        self.assertEqual(result["method"], "eog-native-seconds-0.1.0")
+        self.assertEqual(result["method"], "eog-native-seconds-0.1.1")
         self.assertEqual(result["status"], "available")
         self.assertEqual(result["cost"], {"truck_cost": 0, "lost_revenue": 80, "total": 80})
         self.assertEqual(result["facilities"][0]["shutdown_s"], 4320)

@@ -1,6 +1,6 @@
 # Native EOG response evaluation and one-shot provider
 
-Continuation: worker 0.2.0 now also exposes the separately coded `validate_plan`
+Continuation: worker 0.2.1 now also exposes the separately coded `validate_plan`
 implementation described in `science/EOG_VALIDATION.md`. The E3 measurements
 below retain their original source scope. Joint search remains unavailable.
 

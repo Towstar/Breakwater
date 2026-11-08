@@ -1,9 +1,10 @@
 # Independently coded EOG plan validation
 
 `science/eog_plan_validator.py` implements the private numerical validator and
-`eog_worker.py` worker 0.2.0 exposes `validate_plan` through adopted public contract
+`eog_worker.py` worker 0.2.1 exposes `validate_plan` through adopted public contract
 **72cadd1de7eed6666a60faff1d296e29c8f026ee**. No public schema/DTO, desktop, root
-build or native evaluator source is changed by this increment. Search remains
+build is changed by this increment. A reproduced positive-cost underflow also
+adds a native limit guard and advances its numerical method to 0.1.1. Search remains
 explicitly unavailable until the next tested increment.
 
 ## Independence and model scope
@@ -43,10 +44,17 @@ never becomes a completed infeasible verdict or zero. Validation IDs include exa
 plan hash, model economics, causal evidence and method; analysis IDs also include
 request arguments to prevent reused request IDs aliasing different candidate results.
 
-The supported evaluator identifier is `eog-native-seconds-0.1.0`, checked by
+The supported evaluator identifiers are `eog-native-seconds-0.1.0` and 0.1.1, checked by
 `eog-rational-validation-0.1.0`. An unknown identifier is unavailable, not silently
 relabeled. The worker verifies the actual capture and validates the response against
 its original request. It preserves plan ID/hash and full requested horizon coverage.
+
+An exact-rational counterexample found that native 0.1.0 and the initial reference
+could multiply a positive per-second revenue by a tiny positive duration and report
+zero loss. Both now return unavailable for that unrepresentable positive product.
+Native 0.1.1 retains the C ABI layout and ordinary-case results; the method version
+changes, so previous numerical approvals must be retired. The validator can still
+recompute 0.1.0 plans, but it does not certify the reproduced zero-cost corner.
 
 ## Bounds and limitations
 
