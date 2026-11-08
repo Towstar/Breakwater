@@ -98,6 +98,29 @@ function Set-UpCiScience {
     Save-Report
 }
 
+function Set-UpCiEogProvider {
+    if (-not (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py'))) { return }
+    $native = Join-Path $buildRoot 'engine/breakwater_eog_response.dll'
+    $contracts = Join-Path $projectRoot 'contracts/eog'
+    if (-not (Test-Path -LiteralPath $native -PathType Leaf) -or
+        -not (Test-Path -LiteralPath (Join-Path $contracts 'validate.py') -PathType Leaf)) {
+        throw 'The real EOG worker requires the built native library and adopted local contracts.'
+    }
+    $env:BREAKWATER_EOG_NATIVE = $native
+    $env:BREAKWATER_EOG_CONTRACTS = $contracts
+    $report.toolchain.eog_provider = [ordered]@{
+        native_sha256 = (Get-FileHash -LiteralPath $native -Algorithm SHA256).Hash.ToLowerInvariant()
+        worker_sha256 = (Get-FileHash -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py') -Algorithm SHA256).Hash.ToLowerInvariant()
+        contracts = 'contracts/eog'; native_mode = $Mode
+    }
+    if ($Mode -eq 'asan') {
+        $asanRuntime = Join-Path (Split-Path -Parent $native) 'clang_rt.asan_dynamic-x86_64.dll'
+        if (-not (Test-Path -LiteralPath $asanRuntime -PathType Leaf)) { throw 'The checked EOG DLL lacks its staged matching ASan runtime.' }
+        $report.toolchain.eog_provider['asan_runtime_sha256'] = (Get-FileHash -LiteralPath $asanRuntime -Algorithm SHA256).Hash.ToLowerInvariant()
+    }
+    Save-Report
+}
+
 function Copy-CiBuildEvidence {
     if (-not (Test-Path -LiteralPath $buildRoot)) { return }
     foreach ($name in @('CMakeCache.txt', 'Testing/Temporary/LastTest.log', 'Testing/Temporary/LastTestsFailed.log')) {
@@ -147,6 +170,7 @@ try {
         }
         Invoke-CiStep 'configure' 'cmake' $configure
         Invoke-CiStep 'build' 'cmake' @('--build', $buildRoot, '--parallel', '2')
+        if ($Suite -eq 'desktop') { Set-UpCiEogProvider }
         Invoke-CiStep 'registered-tests' 'ctest' @('--test-dir', $buildRoot, '--show-only=json-v1')
         $registered = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'registered-tests.log') | ConvertFrom-Json
         if ($registered.tests.Count -eq 0) { throw 'CTest registered no tests.' }
@@ -180,6 +204,9 @@ try {
                     if ($required -notin $registered.tests.name) { throw "Required EOG contract check is missing: $required" }
                 }
             }
+            if (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py')) {
+                if ('desktop.eog_provider' -notin $registered.tests.name) { throw 'Required real desktop-to-EOG-provider check is missing.' }
+            }
         }
         Invoke-CiStep 'ctest' 'ctest' @('--test-dir', $buildRoot, '--output-on-failure', '--no-tests=error', '--output-junit', (Join-Path $artifactRoot 'ctest-results.xml'))
         [xml]$junit = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'ctest-results.xml')
@@ -199,6 +226,14 @@ try {
         $report.asan_scope = 'Owned C++ targets only; prebuilt Qt/Python/Torch are outside established instrumentation coverage.'
     } elseif ($Suite -eq 'science') {
         Set-UpCiScience
+        if (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py')) {
+            Enter-CiCompiler
+            Invoke-CiStep 'eog-native-configure' 'cmake' @('-S', $projectRoot, '-B', $buildRoot, '-G', 'Ninja',
+                '-DCMAKE_BUILD_TYPE=RelWithDebInfo', '-DBUILD_TESTING=OFF', '-DBREAKWATER_BUILD_DESKTOP=OFF',
+                '-DBREAKWATER_ENABLE_ASAN=OFF', '-DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded')
+            Invoke-CiStep 'eog-native-build' 'cmake' @('--build', $buildRoot, '--target', 'breakwater_eog_response', '--parallel', '2')
+            Set-UpCiEogProvider
+        }
         Invoke-CiStep 'science-tests' $script:ciSciencePython @('-B', (Join-Path $PSScriptRoot 'Run-PythonTests.py'), '--output', (Join-Path $artifactRoot 'science-results.json'))
         $report.science = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'science-results.json') | ConvertFrom-Json
     } else {

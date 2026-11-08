@@ -6,28 +6,61 @@ analysis, model explanation and operator review remain distinct evidence.
 
 ## Local provider configuration
 
-Use the existing pinned local Python environment. When Ethan supplies the real
-version-1 provider, configure its actual entry point in the launching process:
+PR #40 supplies the real version-1 provider for detection and candidate evaluation.
+Use the existing pinned Python environment, with its frozen schema dependencies:
 
 ```powershell
 $env:BREAKWATER_PYTHON = 'C:\path\to\Breakwater\.tools\science-cpu\Scripts\python.exe'
-$env:BREAKWATER_EOG_WORKER = 'C:\path\to\the\real\eog_worker.py'
-$env:BREAKWATER_EOG_EVALUATOR_METHOD = '<actual evaluator implementation identifier>'
+$env:BREAKWATER_EOG_WORKER = 'C:\path\to\Breakwater\science\eog_worker.py'
+$env:BREAKWATER_EOG_CONTRACTS = 'C:\path\to\Breakwater\contracts\eog'
+$env:BREAKWATER_EOG_NATIVE = 'C:\path\to\Breakwater\out\provider-normal\engine\breakwater_eog_response.dll'
+$env:BREAKWATER_EOG_EVALUATOR_METHOD = 'eog-response-0.1.0'
+& $env:BREAKWATER_PYTHON -m pip install --require-hashes -r .\science\requirements-eog.in
 ```
 
-The evaluator identifier must come from the provider's documented implementation;
+The example native path is the Ninja normal build; Visual Studio uses its actual
+configuration subdirectory. All startup paths must be absolute local paths. The
+desktop translates the contract/library configuration into trusted worker startup
+arguments; requests and model tools cannot select executable code or schemas.
+Direct worker invocation still requires explicit `--contracts-root` and
+`--native-library` flags; the worker CLI does not read those environment variables.
+
+The evaluator identifier comes from the provider's documented implementation;
 `method_version: 1` identifies the operation contract, not a numerical algorithm.
 Manual validation asks for this identifier explicitly. The model receives the
 locally configured identifier as context. The provider must check it.
 
-The default worker lookup checks an installed `share/breakwater/science/eog_worker.py`
-and the development source location. Existence means configured, not executed or
-numerically qualified. A successful, bound process exchange establishes protocol
-execution only. Missing methods or evidence remain explicitly unavailable.
+The default lookup checks the installed `share/breakwater/science/eog_worker.py`,
+`share/breakwater/contracts/eog` and the native DLL beside the application. Source
+and build paths are fallbacks only in the exact configured development executable
+directory. Explicit local configuration takes precedence. Existence means configured,
+not executed or numerically qualified. A successful bound process exchange
+establishes execution only. Missing methods/evidence remain explicitly unavailable.
+
+This provider revision returns unavailable for joint search and independent
+validation. Its evaluated candidate cannot acquire review eligibility or be called
+a validated minimum-cost recommendation. Detection retains the documented timing,
+onset and coverage limitations. These are real methods with bounded supported
+scope, separate from the protocol-only fixtures below.
 
 The test workers in `desktop/tests/eog_fixtures/` are protocol fixtures. They must
 not be configured as the application's production provider or described as a
 working detector, cost evaluator or independent numerical validator.
+
+Installation uses the normal CMake deployment:
+
+```powershell
+cmake --build out/provider-normal --parallel 1
+cmake --install out/provider-normal --prefix C:/path/to/new/breakwater-install
+```
+
+The install contains the production worker's seven modules, five adopted contract
+files and native library. Supply the pinned external Python environment when
+launching; Python/Torch are not silently bundled. The offline inspection and
+qualification CLIs are excluded. A checked MSVC build stages and installs the ASan
+runtime from its actual compiler directory; a normal build needs no ASan runtime.
+Installed-prefix startup and actual process execution remain acceptance checks,
+not consequences inferred from a successful install command.
 
 ## Operator flow
 
@@ -123,8 +156,12 @@ The later operator panes show readable truck schedules, well actions, itemized
 costs, independent validation/margins and original samples with units, timestamps,
 reported quality and qualifications. Large lists render lazily, exact JSON opens
 on demand, and session changes clear selected event evidence and old dialogs.
-The current normal run passed **18/18 EOG CTests**, **250 Qt cases**, zero skips
-(67.66 s). The corresponding ASan run remains pending. The first plan-details
+The current runs passed **18/18 EOG CTests**, **250 Qt cases per mode**, zero skips:
+normal 65.78 s and MSVC ASan 167.60 s. The first ASan bulk-history test exceeded
+its 15-second wait while completing all 102 separate durable writes at about
+19.7 seconds. Independent bounded-path review supports a 60-second fixture wait;
+write counts, pagination, heartbeats and production deadlines remain intact.
+The heartbeat count now resets at workload start. The first plan-details
 test failure is retained: its QObject-only lookup missed real visual ListView
 delegates; corrected discovery preserves all evidence and lazy-bound assertions.
 

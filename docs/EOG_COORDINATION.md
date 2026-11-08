@@ -115,3 +115,17 @@ The earlier `inspect_eog.py --report` overwrite issue remains reproducible at th
 head; the production worker does not invoke that CLI. Do not package the unsafe
 offline CLI. A retains its correction and the numerical search/validation track.
 
+The public B workflow is now [draft PR #42](https://github.com/Towstar/Breakwater/pull/42),
+head `9152dac9bdb537ffba829d0f8279bed721d5ceb8`. It preserves the accepted interface,
+published console ancestry and verified telemetry main. The additional local B
+provider connection executes genuine #40 processes: 72 focused Qt cases per mode
+pass normal/ASan, with the checked runtime staged from the actual compiler. Full
+CPU discovery executes all EOG cases with zero unexpected skips (326 passes and
+four explicitly optional PhysicsNeMo skips). Installed and hosted acceptance remain
+separate. The installed module set deliberately excludes the unsafe offline CLI.
+
+The newer [PR #41](https://github.com/Towstar/Breakwater/pull/41) is now available
+for exact-head review. It adds independent validation and corrects positive-cost
+underflow in the native evaluator, requiring the new native method identifier.
+Do not treat #40's ordinary-case execution as acceptance of that corrected source.
+

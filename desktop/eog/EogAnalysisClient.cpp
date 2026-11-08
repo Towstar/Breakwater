@@ -61,18 +61,51 @@ bool plainPath(const QString& path) {
     }
     return true;
 }
+bool developmentExecutable() {
+#if defined(BREAKWATER_DEVELOPMENT_BIN_DIR)
+    const auto actual = QFileInfo(QCoreApplication::applicationDirPath()).canonicalFilePath();
+    const auto development = QFileInfo(QString::fromUtf8(BREAKWATER_DEVELOPMENT_BIN_DIR)).canonicalFilePath();
+    return !development.isEmpty() && samePath(actual, development);
+#else
+    return false;
+#endif
+}
 QString defaultWorker() {
     const auto configured = qEnvironmentVariable("BREAKWATER_EOG_WORKER").trimmed();
     if (!configured.isEmpty()) return configured;
     const auto installed = QDir::cleanPath(QDir(QCoreApplication::applicationDirPath()).filePath("../share/breakwater/science/eog_worker.py"));
     if (QFileInfo(installed).isFile()) return installed;
-#if defined(BREAKWATER_EOG_WORKER_PATH) && defined(BREAKWATER_DEVELOPMENT_BIN_DIR)
-    const auto actual = QFileInfo(QCoreApplication::applicationDirPath()).canonicalFilePath();
-    const auto development = QFileInfo(QString::fromUtf8(BREAKWATER_DEVELOPMENT_BIN_DIR)).canonicalFilePath();
-    if (!development.isEmpty() && samePath(actual, development))
+#if defined(BREAKWATER_EOG_WORKER_PATH)
+    if (developmentExecutable())
         return QString::fromUtf8(BREAKWATER_EOG_WORKER_PATH);
 #endif
     return installed;
+}
+QStringList defaultProviderArguments() {
+    // These paths are trusted local startup configuration, never tool arguments.
+    const QDir bin(QCoreApplication::applicationDirPath());
+    auto contracts = qEnvironmentVariable("BREAKWATER_EOG_CONTRACTS").trimmed();
+    if (contracts.isEmpty()) {
+        contracts = QDir::cleanPath(bin.filePath("../share/breakwater/contracts/eog"));
+#if defined(BREAKWATER_EOG_CONTRACTS_PATH)
+        if (!QFileInfo(contracts).isDir() && developmentExecutable())
+            contracts = QString::fromUtf8(BREAKWATER_EOG_CONTRACTS_PATH);
+#endif
+    }
+    auto library = qEnvironmentVariable("BREAKWATER_EOG_NATIVE").trimmed();
+    if (library.isEmpty()) {
+#if defined(BREAKWATER_EOG_NATIVE_LIBRARY_NAME)
+        library = bin.filePath(QString::fromUtf8(BREAKWATER_EOG_NATIVE_LIBRARY_NAME));
+#else
+        library = bin.filePath("breakwater_eog_response.dll");
+#endif
+#if defined(BREAKWATER_EOG_NATIVE_LIBRARY_PATH)
+        if (!QFileInfo(library).isFile() && developmentExecutable())
+            library = QString::fromUtf8(BREAKWATER_EOG_NATIVE_LIBRARY_PATH);
+#endif
+    }
+    if (!absoluteLocal(contracts) || !absoluteLocal(library)) return {};
+    return {"--contracts-root", QDir::cleanPath(contracts), "--native-library", QDir::cleanPath(library)};
 }
 QString interpreter(QString value) {
     if (value.isEmpty()) value = qEnvironmentVariable("BREAKWATER_PYTHON").trimmed();
@@ -190,8 +223,15 @@ struct EogAnalysisClient::Job {
 };
 EogAnalysisClient::EogAnalysisClient(QString pythonExecutable, QString workerPath, QStringList workerArguments, QObject* parent)
     : QObject(parent), python_executable_(interpreter(std::move(pythonExecutable))),
-      worker_path_(workerPath.isEmpty() ? defaultWorker() : std::move(workerPath)),
-      worker_arguments_(std::move(workerArguments)) {
+      worker_path_(workerPath.isEmpty() ? defaultWorker() : workerPath), worker_arguments_(workerArguments) {
+    // Explicit command injection remains an exact fixture/qualification seam.
+    if (workerPath.isEmpty() && workerArguments.isEmpty()) {
+        worker_arguments_ = defaultProviderArguments();
+        if (worker_arguments_.isEmpty()) {
+            worker_path_.clear();
+            status_ = "EOG provider startup paths must be absolute local paths.";
+        }
+    }
     deadline_.setParent(this); deadline_.setSingleShot(true);
     connect(&deadline_, &QTimer::timeout, this, [this] { fail("worker_timeout", publicMessage("worker_timeout")); });
 }
