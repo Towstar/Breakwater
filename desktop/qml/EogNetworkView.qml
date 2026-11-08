@@ -58,6 +58,45 @@ Rectangle {
         }
         return count
     }
+    function placeLabels() {
+        // Fixed model order and a fixed candidate budget make presentation
+        // deterministic. Dense inputs beyond 256 labels retain their original
+        // visible positions rather than making frame work grow quadratically.
+        const placed = []
+        let changed = false
+        for (let i = 0; i < nodeLabels.count; ++i) {
+            const label = nodeLabels.itemAt(i) as SceneLabel
+            if (!label) continue
+            const p = label.projectedPoint
+            let offset = 0
+            if (overview && label.visible && label.width > 0 && label.height > 0
+                    && isFinite(p.x) && isFinite(p.y) && p.z > 0
+                    && p.x >= 0 && p.x <= view.width && p.y >= 0 && p.y <= view.height
+                    && placed.length < 256) {
+                const baseY = label.baseY, step = label.height + 5
+                let chosenY = baseY
+                for (let candidate = 0; candidate < 25; ++candidate) {
+                    const row = candidate === 0 ? 0 : Math.ceil(candidate / 2) * (candidate % 2 ? -1 : 1)
+                    const y = Math.max(8, Math.min(Math.max(8, height - label.height - 8), baseY + row * step))
+                    let collision = false
+                    for (let previous = 0; previous < placed.length; ++previous) {
+                        const box = placed[previous]
+                        if (label.x < box.x + box.width + 4 && label.x + label.width + 4 > box.x
+                                && y < box.y + box.height + 4 && y + label.height + 4 > box.y) {
+                            collision = true; break
+                        }
+                    }
+                    if (!collision) { chosenY = y; break }
+                }
+                offset = chosenY - baseY
+                placed.push({x: label.x, y: chosenY, width: label.width, height: label.height})
+            }
+            if (Math.abs(label.collisionOffsetY - offset) > 0.01) {
+                label.collisionOffsetY = offset; changed = true
+            }
+        }
+        return changed
+    }
     function observeFrame() {
         if (!visible || !eog.loaded || sceneNodes.length === 0 || width <= 0 || height <= 0) return
         if (renderedRevision !== sceneRevision) { renderedRevision = sceneRevision; renderedFrames = 0 }
@@ -69,6 +108,11 @@ Rectangle {
         }
         // Projection becomes available after a rendered frame; the next frame
         // must include actual positioned labels before acceptance reports ready.
+        if (placeLabels()) {
+            sceneReady = false
+            if (network.Window.window) network.Window.window.update()
+            return
+        }
         visibleSceneLabels = countVisibleLabels()
         sceneReady = renderedFrames >= 2 && visibleSceneLabels > 0
     }
@@ -193,15 +237,17 @@ Rectangle {
             }
             objectName: "eogLabel:" + modelData.id
             visible: network.projectionReady && network.visibleNode(modelData) && projectedPoint.z > 0
+            property real collisionOffsetY: 0
+            readonly property real baseY: Math.max(8, Math.min(Math.max(8, network.height - height - 8), projectedPoint.y + screenOffset.y))
             x: Math.max(8, Math.min(Math.max(8, network.width - width - 8), projectedPoint.x - width / 2 + screenOffset.x))
-            y: Math.max(8, Math.min(Math.max(8, network.height - height - 8), projectedPoint.y + screenOffset.y))
+            y: baseY + collisionOffsetY
             width: Math.min(180, implicitWidth)
             readonly property point leaderStart: Qt.point(projectedPoint.x - x, projectedPoint.y - y)
             readonly property point leaderEnd: Qt.point(Math.max(0, Math.min(width, leaderStart.x)), Math.max(0, Math.min(height, leaderStart.y)))
             Rectangle {
                 // A noninteractive screen-space leader keeps a separated label
                 // visibly associated with its unchanged projected equipment.
-                visible: network.overview && (sceneLabel.modelData.kind === "disposal" || sceneLabel.modelData.kind === "truck_yard") && width > 1
+                visible: network.overview && (sceneLabel.modelData.kind === "disposal" || sceneLabel.modelData.kind === "truck_yard" || Math.abs(sceneLabel.collisionOffsetY) > 1) && width > 1
                 x: sceneLabel.leaderStart.x; y: sceneLabel.leaderStart.y
                 width: Math.hypot(sceneLabel.leaderEnd.x - sceneLabel.leaderStart.x, sceneLabel.leaderEnd.y - sceneLabel.leaderStart.y)
                 height: 1; color: "#68727D"; opacity: 0.75; z: -1
