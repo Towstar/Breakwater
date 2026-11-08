@@ -155,6 +155,62 @@ int main() {
             require(result.diagnostics.candidates_evaluated == 1, "Empty grid must contain unchanged candidate");
             require(result.status == SearchStatus::no_feasible_plan_found && result.recommendations.empty(), "Baseline must not become a feasible plan");
         }},
+        {"valid decimal and subnormal grids do not become false no-plan results", [] {
+            const auto network = small_network();
+            for (const auto config : std::vector<SimulationConfig>{{.9000000000000001, .1},
+                    {.30000000000000004, .1}, {std::numeric_limits<double>::denorm_min(), 24.0}}) {
+                const SearchOptions options{config, 1};
+                const auto result = search_candidates(network, {}, options);
+                check_result(network, result, options);
+                require(result.recommendations.size() == 1 && result.diagnostics.reference_rejections == 0,
+                        "Supported forecast grid was mistaken for an exhausted feasible search");
+                const auto& times = result.recommendations[0].run.time_h;
+                require(times.back() == config.horizon_h, "Recommendation ends short of its requested horizon");
+                for (std::size_t i = 1; i < times.size(); ++i)
+                    require(times[i] > times[i - 1], "Recommendation has duplicate final time");
+                const std::vector<CandidateControls> batch(1);
+                const auto explicit_result = evaluate_candidates(network, batch, options);
+                check_result(network, explicit_result, options);
+                require(explicit_result.recommendations.size() == 1, "Explicit batch rejected a supported forecast grid");
+            }
+        }},
+        {"one-ULP final overflow never receives a recommendation", [] {
+            const double q = std::ldexp(1.0, 50);
+            Network network;
+            network.assets = {{"tank", "Tank", AssetKind::tank, .9 * q, 0.0},
+                              {"source", "Source", AssetKind::source, 0.0, 0.0, q}};
+            network.routes = {{"feed", "source", "tank", q, 0.0}};
+            const SearchOptions options{{.9000000000000001, .1}, 1};
+            const auto result = search_candidates(network, {}, options);
+            check_result(network, result, options);
+            require(result.recommendations.empty() && result.status == SearchStatus::no_feasible_plan_found,
+                    "Search recommended the one-ULP-short false-feasibility case");
+            const std::vector<CandidateControls> batch(1);
+            const auto explicit_result = evaluate_candidates(network, batch, options);
+            check_result(network, explicit_result, options);
+            require(explicit_result.recommendations.empty(), "Explicit batch recommended the false-feasibility case");
+        }},
+        {"forecast work-limit errors precede candidate screening", [] {
+            const auto stationary = small_network();
+            const auto infeasible = main_pump_failure(canonical_scenario());
+            const SimulationConfig maximum{1.0, .0001};
+            const SearchOptions maximum_options{maximum, 1};
+            const auto accepted = search_candidates(stationary, {}, maximum_options);
+            check_result(stationary, accepted, maximum_options);
+            require(accepted.recommendations.size() == 1 && accepted.recommendations[0].run.time_h.size() == 10001,
+                    "Search rejected or truncated the exact update cap");
+            const SearchOptions rounded_cap{{.0082, 8.2e-7}, 1};
+            const auto rounded_result = search_candidates(stationary, {}, rounded_cap);
+            check_result(stationary, rounded_result, rounded_cap);
+            require(rounded_result.recommendations.size() == 1 && rounded_result.recommendations[0].run.time_h.size() == 10001,
+                    "Search used rounded division instead of the actual interval cap");
+            const SearchOptions excessive{{std::nextafter(1.0, std::numeric_limits<double>::infinity()), .0001}, 1};
+            const std::vector<CandidateControls> batch(1);
+            for (const auto& network : {stationary, infeasible}) {
+                rejects([&] { (void)search_candidates(network, {}, excessive); });
+                rejects([&] { (void)evaluate_candidates(network, batch, excessive); });
+            }
+        }},
         {"equal cost results retain input order", [] {
             const auto network = small_network();
             const std::vector<SearchAxis> axes = {{"route:pump:out:flow", {5, 1, 3, 0}}};

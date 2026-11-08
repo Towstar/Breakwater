@@ -22,6 +22,17 @@ template<class Fn> void rejects(Fn fn) {
 bool has(const ValidationReport& r, const std::string& code, const std::string& asset) {
     return std::any_of(r.violations.begin(), r.violations.end(), [&](const Issue& i) { return i.code == code && i.asset_id == asset; });
 }
+Network stationary_network() {
+    return {{{"still", "Stationary tank", AssetKind::tank, 1.0, 0.5}}, {}};
+}
+void require_covered_grid(const SimulationResult& run, SimulationConfig config) {
+    require(run.time_h.size() >= 2 && run.time_h.size() <= 10001, "Sample grid exceeds the update bounds");
+    require(run.time_h.front() == 0.0 && run.time_h.back() == config.horizon_h,
+            "Accepted forecast does not exactly cover its requested horizon");
+    for (std::size_t k = 1; k < run.time_h.size(); ++k)
+        require(std::isfinite(run.time_h[k]) && run.time_h[k] > run.time_h[k - 1],
+                "Accepted forecast contains duplicate or nonincreasing timestamps");
+}
 }
 
 int main() {
@@ -90,6 +101,96 @@ int main() {
             run = simulate(c); run.cost = 123.0; require(has(validate(c, run), "cost_mismatch", ""), "False cost passed");
             run.time_h[3] = -1.0; require(!validate(c, run).feasible, "Malformed time passed");
             run = simulate(c, {1.0, 0.025}); require(!validate(c, run).feasible, "Shortened forecast passed a 3 h validation");
+        }},
+        {"decimal horizon edge cases preserve interior samples and the exact endpoint", [] {
+            const auto c = compile(stationary_network());
+            for (const auto solver : {Solver::dense_reference, Solver::sparse, Solver::affine}) {
+                const SimulationConfig short_cfg{.9000000000000001, .1};
+                const auto short_run = simulate(c, short_cfg, solver);
+                require_covered_grid(short_run, short_cfg);
+                require(short_run.time_h.size() == 11 && short_run.time_h[9] == .9,
+                        "One-ULP final interval dropped or shifted the preceding requested sample");
+                require(validate(c, short_run, short_cfg).feasible, "Stationary one-ULP-tail forecast should validate");
+                const SimulationConfig duplicate_cfg{.30000000000000004, .1};
+                const auto duplicate_run = simulate(c, duplicate_cfg, solver);
+                require_covered_grid(duplicate_run, duplicate_cfg);
+                require(duplicate_run.time_h.size() == 4 && duplicate_run.time_h[1] == .1 &&
+                            duplicate_run.time_h[2] == .2,
+                        "Duplicate-final fix changed preceding requested samples");
+                require(validate(c, duplicate_run, duplicate_cfg).feasible, "Valid decimal endpoint was rejected");
+            }
+        }},
+        {"subnormal and neighboring horizons remain strictly covered", [] {
+            const auto c = compile(stationary_network());
+            std::vector<SimulationConfig> configs = {{std::numeric_limits<double>::denorm_min(), 24.0},
+                {1e-308, 1e308}, {.25, 1.0}, {1.1, .3}};
+            for (const double horizon : {.1, .3, .9, 1.0}) {
+                configs.push_back({std::nextafter(horizon, 0.0), .1});
+                configs.push_back({horizon, .1});
+                configs.push_back({std::nextafter(horizon, std::numeric_limits<double>::infinity()), .1});
+            }
+            for (const auto config : configs) for (const auto solver : {Solver::dense_reference, Solver::sparse, Solver::affine}) {
+                const auto run = simulate(c, config, solver);
+                require_covered_grid(run, config);
+                require(validate(c, run, config).feasible, "Valid stationary edge-grid forecast was rejected");
+                if (config.step_h > config.horizon_h)
+                    require(run.time_h.size() == 2, "Step larger than horizon must retain both interval endpoints");
+            }
+        }},
+        {"one-ULP shortened and extended results never satisfy requested-horizon validation", [] {
+            const auto c = compile(stationary_network());
+            const SimulationConfig config{.9000000000000001, .1};
+            auto short_run = simulate(c, config);
+            short_run.time_h.pop_back();
+            short_run.volumes_m3[0].pop_back();
+            const auto short_validation = validate(c, short_run, config);
+            require(!short_validation.feasible && has(short_validation, "forecast_horizon", ""),
+                    "One-ULP-short result passed the original requested horizon");
+            auto extended_run = simulate(c, config);
+            extended_run.time_h.back() = std::nextafter(config.horizon_h, std::numeric_limits<double>::infinity());
+            const auto extended_validation = validate(c, extended_run, config);
+            require(!extended_validation.feasible && has(extended_validation, "forecast_horizon", ""),
+                    "One-ULP-extended result passed exact requested-horizon validation");
+        }},
+        {"requested-horizon overflow cannot be hidden by one-ULP-short sampling", [] {
+            const double q = std::ldexp(1.0, 50);
+            Network network;
+            network.assets = {{"tank", "Tank", AssetKind::tank, .9 * q, 0.0},
+                              {"source", "Source", AssetKind::source, 0.0, 0.0, q}};
+            network.routes = {{"feed", "source", "tank", q, 0.0}};
+            const auto c = compile(network);
+            const SimulationConfig config{.9000000000000001, .1};
+            double requested_endpoint = 0.0;
+            evaluate_endpoints(c, config.horizon_h, std::span(&requested_endpoint, 1));
+            require(requested_endpoint - c.capacity_m3[0] == .125, "False-feasibility fixture lost its requested-end overflow");
+            for (const auto solver : {Solver::dense_reference, Solver::sparse, Solver::affine}) {
+                const auto run = simulate(c, config, solver);
+                require_covered_grid(run, config);
+                require(run.volumes_m3[0].back() > c.capacity_m3[0], "Overflowing endpoint was clipped or omitted");
+                const auto validation = validate(c, run, config);
+                require(!validation.feasible && has(validation, "storage_capacity", "tank"),
+                        "Requested-end overflow incorrectly validated as feasible");
+            }
+        }},
+        {"actual interval count enforces the 10000-update boundary", [] {
+            const auto c = compile(stationary_network());
+            const SimulationConfig maximum{1.0, .0001};
+            for (const auto solver : {Solver::dense_reference, Solver::sparse, Solver::affine}) {
+                const auto run = simulate(c, maximum, solver);
+                require_covered_grid(run, maximum);
+                require(run.time_h.size() == 10001, "Exact update cap was truncated or rejected");
+                require(validate(c, run, maximum).feasible, "Exact update-cap forecast did not validate");
+                // The quotient rounds above 10000 although the 10000th rounded
+                // multiple is exactly the requested endpoint.
+                const SimulationConfig rounded_cap{.0082, 8.2e-7};
+                const auto rounded_run = simulate(c, rounded_cap, solver);
+                require_covered_grid(rounded_run, rounded_cap);
+                require(rounded_run.time_h.size() == 10001 && validate(c, rounded_run, rounded_cap).feasible,
+                        "Rounded division falsely rejected a valid exact-cap grid");
+                const SimulationConfig tail{std::nextafter(1.0, std::numeric_limits<double>::infinity()), .0001};
+                rejects([&] { (void)simulate(c, tail, solver); });
+                rejects([&] { (void)validate(c, run, tail); });
+            }
         }},
         {"random graph dense sparse affine agreement and internal conservation", [] {
             std::mt19937 random(42); std::uniform_real_distribution<double> q(0.0, 0.2);

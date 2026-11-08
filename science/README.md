@@ -75,9 +75,14 @@ test inputs**, not a replacement project/worker wire format.
   and a scalar synthetic `cost`. No feasibility verdict is supplied by Torch.
 
 All inputs are captured independently of later mutations to the input mapping.
-Time zero is the initial state. `ceil(horizon/step)` updates include the exact final
-horizon, including a shortened last interval. The supported horizon is `(0,24]` hours
-with at most 10,000 steps, 128 assets and 256 routes, matching the native base.
+Time zero is the initial state. Preserve each rounded float64 `k*step` strictly
+before the horizon, then append the exact requested horizon once. Count actual
+intervals, including a final partial interval, rather than using a rounded quotient.
+For example, `.9000000000000001/.1` retains `.9` and a one-ULP final interval;
+`.30000000000000004/.1` has no duplicate final sample. A positive subnormal horizon
+with a larger step gives `[0,horizon]`. The supported horizon is `(0,24]` hours with
+at most 10,000 updates, 128 assets and 256 routes, matching the native base.
+See [the A-001 fix](A001_HORIZON_FIX.md) for regressions and current verification.
 
 An incidence matrix over all routes maps nonnegative flows to storage rates:
 

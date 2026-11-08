@@ -96,6 +96,14 @@ The method retains the native 128-asset/256-route, 24-hour and 10,000-update lim
 Requests support at most 384 explicit control entries, subject to real catalog and
 uniqueness checks. Invalid/nonrepresentable grids and nonfinite outputs fail explicitly.
 
+Storage preserves each rounded float64 `k*step_h` strictly before the horizon,
+then appends the original horizon exactly once. A one-ULP terminal interval counts
+toward the 10,000-update limit; no interior sample is shifted to hide it. Division
+rounding does not determine the sample count. Even a positive subnormal horizon
+with a larger step has both endpoints. Publication independently reconstructs this
+grid and requires exact timestamps and original indices, including the final index.
+See [A-001 resolution](A001_HORIZON_FIX.md) for the native/Torch/worker checks.
+
 Previews contain every tank and at most the requested 2..256 times. They retain time
 zero, the exact horizon and original `time_indices`; values come from the full forward
 grid. If needed, publication reduces only preview times to fit the **1 MiB including
@@ -109,14 +117,14 @@ accept JSON numeric representations of one and reject booleans.
 
 ## Delivery boundary for Person B
 
-This increment changes only `science/`. The current desktop health adapter continues
-to work; it does not yet negotiate these science methods or publish their results.
+The current desktop health adapter continues to work; it does not yet negotiate
+these science methods or publish their results.
 B's installer currently copies only `worker.py`. That file remains self-contained:
 an installed copy still supports health/capabilities, truthfully reporting storage
 unavailable when its mapper is absent.
 
-To deploy science, B must additionally install `worker_storage.py` and the
-`breakwater_science` package beside it, select a Python environment with the pinned
+To deploy science, B must additionally install `worker_storage.py`, the standard-library
+`storage_grid.py` helper and the `breakwater_science` package beside it, select a Python environment with the pinned
 Torch runtime, and extend the asynchronous adapter for capability/result negotiation.
 The repo worker already has those modules beside it. Keep identity, staleness,
 timeouts/retirement, output bounds and independent volume approval in that adapter.

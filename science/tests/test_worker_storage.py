@@ -79,10 +79,8 @@ class ValidationTests(unittest.TestCase):
                 ("step_h", 1e-320, "work_limit")):
             request = payload(); request[key] = value
             self.assertRejectedBeforeRuntime(request, code)
-        request = payload(); request["horizon_h"] = 5e-324; request["step_h"] = 1e308
-        self.assertRejectedBeforeRuntime(request, "invalid_parameters")
-        request = payload(); request["horizon_h"] = .30000000000000004; request["step_h"] = .1
-        self.assertRejectedBeforeRuntime(request, "invalid_parameters")
+        request = payload(); request["horizon_h"] = math.nextafter(1.0, math.inf); request["step_h"] = .0001
+        self.assertRejectedBeforeRuntime(request, "work_limit")
         for preview in ({"max_times": 1}, {"max_times": True}, {"max_times": 257}, {"max_times": 2, "extra": 0}):
             request = payload(); request["preview"] = preview
             self.assertRejectedBeforeRuntime(request, "invalid_parameters")
@@ -186,6 +184,45 @@ class StorageExecutionTests(unittest.TestCase):
         self.assertNear(derivative["terminal_volume_jacobian_h"], [[-3, -3], [3, 0]])
         self.assertNear(derivative["cost_gradient"], [4.5, 15])
         self.assertNear(storage_rollout(payload())["cost"], 513)
+
+    def test_roundoff_and_subnormal_grids_keep_exact_requested_horizon(self):
+        cases = [
+            (math.nextafter(.9, math.inf), .1, [0.0] + [index * .1 for index in range(1, 10)] + [math.nextafter(.9, math.inf)]),
+            (.30000000000000004, .1, [0.0, .1, .2, .30000000000000004]),
+            (math.ulp(0.0), 1e308, [0.0, math.ulp(0.0)]),
+        ]
+        for horizon, step, times in cases:
+            with self.subTest(horizon=horizon, step=step):
+                request = payload(); request.update(horizon_h=horizon, step_h=step)
+                result = storage_rollout(request)
+                self.assertEqual(result["time_h"], times)
+                self.assertEqual(result["time_indices"], list(range(len(times))))
+                self.assertTrue(all(left < right for left, right in zip(times, times[1:])))
+                self.assertEqual(result["identity"], request["identity"])
+
+    def test_one_ulp_tail_forward_and_derivatives_use_same_horizon(self):
+        horizon = math.nextafter(.9, math.inf)
+        request = payload(derivatives=True)
+        request.update(horizon_h=horizon, step_h=.1)
+        request["controls"] = [{"control_id": "route:transfer:ab:flow", "value": 5}]
+        result = storage_rollout(request)
+        self.assertEqual(result["time_h"][-1], horizon)
+        self.assertEqual(result["derivatives"]["terminal_volume_jacobian_h"], [[-horizon], [horizon]])
+        self.assertNear([row[-1] for row in result["volumes_m3"]], [80 + 5 * horizon, 30])
+
+    def test_large_finite_source_retains_requested_endpoint_overflow(self):
+        flow = 2.0 ** 50
+        horizon = math.nextafter(.9, math.inf)
+        request = payload(); request.update(horizon_h=horizon, step_h=.1)
+        request["network"] = {"assets": [
+            {"id": "tank", "label": "Tank", "kind": "tank", "capacity_m3": .9 * flow, "initial_m3": 0},
+            {"id": "source", "label": "Source", "kind": "source", "inflow_m3h": flow}],
+            "routes": [{"id": "feed", "source_id": "source", "target_id": "tank", "capacity_m3h": flow,
+                        "setpoint_m3h": 0, "cost_per_m3": 0, "has_pump": False, "available": True}]}
+        result = storage_rollout(request)
+        self.assertEqual(result["time_h"][-1], horizon)
+        self.assertEqual(result["volumes_m3"][0][-1] - .9 * flow, .125)
+        self.assertNotIn("feasible", result)
 
     def test_preview_uses_real_frames_and_exact_shortened_horizon(self):
         request = payload(); request.update(horizon_h=1.1, step_h=.03)

@@ -2,6 +2,7 @@
 
 from concurrent.futures import ThreadPoolExecutor
 import copy
+import math
 from pathlib import Path
 import sys
 import unittest
@@ -90,6 +91,38 @@ class RolloutTests(unittest.TestCase):
         run = StorageModel(custom_network()).rollout(horizon_h=0.25, step_h=1.0)
         self.assertClose(run.time_h, [0.0, 0.25])
         self.assertClose(run.volumes_m3[:, -1], [81.5, 29.75])
+
+    def test_one_ulp_tail_preserves_regular_samples_and_exact_horizon(self):
+        horizon = math.nextafter(.9, math.inf)
+        run = StorageModel(custom_network()).rollout(horizon_h=horizon, step_h=.1)
+        self.assertEqual(run.time_h.tolist(), [0.0] + [index * .1 for index in range(1, 10)] + [horizon])
+        self.assertEqual(run.time_h[-2].item(), .9)
+        self.assertTrue(bool(torch.all(run.time_h[1:] > run.time_h[:-1])))
+
+    def test_rounding_up_the_quotient_does_not_duplicate_final_sample(self):
+        horizon = .30000000000000004
+        run = StorageModel(custom_network()).rollout(horizon_h=horizon, step_h=.1)
+        self.assertEqual(run.time_h.tolist(), [0.0, .1, .2, horizon])
+        self.assertTrue(bool(torch.all(run.time_h[1:] > run.time_h[:-1])))
+
+    def test_subnormal_horizon_and_overflowing_step_multiple_are_supported(self):
+        horizon = math.ulp(0.0)
+        for step in (24.0, 1e308):
+            with self.subTest(step=step):
+                run = StorageModel(custom_network()).rollout(horizon_h=horizon, step_h=step)
+                self.assertEqual(run.time_h.tolist(), [0.0, horizon])
+                self.assertEqual(run.volumes_m3.shape[1], 2)
+
+    def test_requested_horizon_excess_is_retained_at_large_finite_flow(self):
+        flow = 2.0 ** 50
+        network = {"assets": [
+            {"id": "tank", "kind": "tank", "capacity_m3": .9 * flow, "initial_m3": 0},
+            {"id": "source", "kind": "source", "inflow_m3h": flow}],
+            "routes": [{"id": "feed", "source_id": "source", "target_id": "tank", "capacity_m3h": flow}]}
+        horizon = math.nextafter(.9, math.inf)
+        run = StorageModel(network).rollout(horizon_h=horizon, step_h=.1)
+        self.assertEqual(run.time_h[-1].item(), horizon)
+        self.assertEqual(run.volumes_m3[0, -1].item() - .9 * flow, .125)
 
     def test_zero_control_static_network(self):
         model = StorageModel({"assets": [{"id": "alone", "kind": "tank",
@@ -292,6 +325,7 @@ class RolloutTests(unittest.TestCase):
             {"horizon_h": float("nan")}, {"horizon_h": float("inf")},
             {"step_h": 0.0}, {"step_h": -0.1}, {"step_h": float("nan")},
             {"step_h": float("inf")}, {"horizon_h": 1.0, "step_h": 1.0 / 10001.0},
+            {"horizon_h": math.nextafter(1.0, math.inf), "step_h": .0001},
         ]
         for config in configs:
             with self.subTest(config=config), self.assertRaises((ValueError, TypeError)):

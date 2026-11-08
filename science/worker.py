@@ -172,7 +172,24 @@ def _storage_result(result, payload):
     times, indices = result["time_h"], result["time_indices"]
     try:
         horizon, step = float(payload["horizon_h"]), float(payload["step_h"])
-        last_index = math.ceil(horizon / step)
+        if (not math.isfinite(horizon) or not math.isfinite(step) or
+                not 0 < horizon <= 24 or step <= 0 or horizon > 10000 * step):
+            raise ValueError("Unsupported captured sample grid")
+        # Independent publication check: reconstruct rounded requested multiples,
+        # then the exact horizon. Do not trust the mapper's returned last index or
+        # a rounded quotient, which can omit a one-ULP terminal interval.
+        expected_times = [0.0]
+        for ordinal in range(1, 10001):
+            sample = ordinal * step
+            if sample >= horizon:
+                expected_times.append(horizon)
+                break
+            if sample <= expected_times[-1]:
+                raise ValueError("Nonincreasing captured sample grid")
+            expected_times.append(sample)
+        else:
+            raise ValueError("Captured sample grid exceeds the update limit")
+        last_index = len(expected_times) - 1
         expected_tanks = [asset["id"] for asset in payload["network"]["assets"]
                           if asset["kind"] == "tank"]
         maximum = payload["preview"]["max_times"]
@@ -181,11 +198,12 @@ def _storage_result(result, payload):
     if (not isinstance(times, list) or not isinstance(indices, list) or
             not 2 <= len(times) <= min(256, maximum) or len(indices) != len(times) or
             any(not _number(value) for value in times) or
-            any(not _integer(index) or not 0 <= index <= 10000 for index in indices) or
+            any(not _integer(index) or not 0 <= index <= last_index for index in indices) or
             indices[0] != 0 or indices[-1] != last_index or
+            times[0] != 0.0 or times[-1] != horizon or
             any(left >= right for left, right in zip(indices, indices[1:])) or
             any(left >= right for left, right in zip(times, times[1:])) or
-            any(time != min(index * step, horizon) for time, index in zip(times, indices))):
+            any(time != expected_times[index] for time, index in zip(times, indices))):
         raise _WorkerError("numerical_failure", "Storage preview times/indices do not cover the requested horizon.")
     if result["tank_ids"] != expected_tanks:
         raise _WorkerError("identity_mismatch", "Storage result tank IDs do not match captured order.")
