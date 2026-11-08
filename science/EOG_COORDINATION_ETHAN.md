@@ -27,7 +27,55 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: causal known truck commitments
+## Final increment checkpoint: committed response evaluation
+
+Current branch/worktree: `codex/person-a-eog-committed-response`,
+`C:\Projects\Breakwater\.worktrees\person-a-eog-committed-response`, stacked
+on #52. Frozen runtime **2448fa0b7bc92bc5c8a408872b497c70c559b744**. Private
+native committed evaluator and independent rational validator are both **0.1.0**;
+existing native1.1, plant0.1.0, worker0.3.4 and public72cadd1 stay unchanged.
+Details: `science/EOG_COMMITTED_RESPONSE.md` and its retained evidence directory.
+
+The additive private ABI now accounts for occupied system/truck slots, future
+committed full loads and previously stopped wells. A call exactly at return is
+accepted; one ULP before is rejected. Known/new simultaneous loads need combined
+inventory. Future committed costs and future well losses are included, sunk
+costs excluded, and voluntary/automatic losses are unioned. A separately coded
+reference independently checks calendars, events, inventories and exact costs.
+The bridge copies normalized state and binds all three computational inputs.
+
+Actual normal/ASan native suites pass 14/14, including 43 new native checks per
+mode. Focused Python passes 14/14 in each mode, including 400 generated cases,
+60 unchanged-v1 comparisons and two actual persistent-plant suffix comparisons.
+The offline qualifier independently retains 400 matching native/reference
+comparisons (257 available, 143 invalid) plus three complete known-value cases.
+All three semantic payload files match byte for byte across normal/ASan.
+Full CPU science passes **453/453**, zero skips/failures, **224.143s**.
+Exact source/binary/payload identities are retained in the evidence manifest.
+
+This is caller-supplied post-event state, not yet authenticated Model/View/History
+compilation, commitment-aware optimization, a public worker operation or a new
+application mode. Shared simulation contract adoption and the earlier plant CI
+build/env request remain B-owned. Lucas should fold these scoped implemented and
+unavailable features into shared STATUS; A has not edited B-owned files.
+
+PR #48 was rechecked at **8bc6237c5dee9e4a600c74fb44dac06ec3ac3b59**: B now
+retains installed/render/panel and genuine joint-search evidence, explicitly
+qualified by its source. Its reported live rehearsal took 221.98s, compared
+12,120.03 no action with 4,171.97 selected mixed cost, and retained best_found
+with incomplete coverage/26 unavailable candidates. These are B's recorded
+results, not new A53 application acceptance. Latest-head CI42502837298 had native
+normal/ASan, Lean and CPU science successful, with desktop modes still running
+at this checkpoint. Do not turn pending gates into a passing merge claim.
+
+Ethan requested this be the last increment, then prioritized a fresh desktop
+compile and urgent parallel submission work. The parent session coordinates those
+additional tasks and eventual goal status. This increment starts no further
+scientific phase. The full durable goal remains unfinished. Outstanding work includes authenticated causal
+state compilation, stateful planning, public/application simulation modes and
+final joined installed/model/workbench acceptance.
+
+## Published checkpoint: causal known truck commitments
 
 Current branch/worktree: `codex/person-a-eog-commitments`,
 `C:\Projects\Breakwater\.worktrees\person-a-eog-commitments`, stacked on #51.
