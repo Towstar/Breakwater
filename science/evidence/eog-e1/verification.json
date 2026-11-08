@@ -1,0 +1,95 @@
+{
+  "evidence_version": 1,
+  "prepared_date": "2026-11-08",
+  "generated_utc": "2026-11-08T09:44:53.1117584Z",
+  "track": "Person A E0/E1 independent analytical fixtures",
+  "branch": "codex/person-a-eog-analysis",
+  "base_main": "2bd7bb9e13f1f6788a57c4c49e6d7570293ad0eb",
+  "g1_contract_head": "f12a82701641f1b4fd3af9ebba579b79f1db3db4",
+  "adopted_eog_contract_commit": null,
+  "source_binding": "SHA256 of exact tested working-copy bytes plus Git blob IDs; checkout line endings may differ. Report generated before feature commit.",
+  "numerical_sources": [
+    {
+      "path": "engine/CMakeLists.txt",
+      "sha256": "55d2acb43f7f4cbc91b059b72768f081376d350761533fb57dc92d624cfbf00d",
+      "git_blob_sha1": "b685a1164e930ac811cd5376efe26287015d7d21"
+    },
+    {
+      "path": "engine/include/breakwater/eog_analytical.hpp",
+      "sha256": "ab376b2b8336423bbe85b03d2b300e46cfd4e6d295160d05b1244855795e4be9",
+      "git_blob_sha1": "2eace56820d9adeaf9a7f37ad5fe61ecbbe2ce30"
+    },
+    {
+      "path": "engine/src/eog_analytical.cpp",
+      "sha256": "043f1c33c26b6d56893d94adfd2d48c215394b3bb0dfe4fab8fa19628ca23579",
+      "git_blob_sha1": "91a5fe4a7bf95fd533d1ec0613ef81a3a94ac091"
+    },
+    {
+      "path": "engine/tests/eog_analytical_tests.cpp",
+      "sha256": "74b87e11f9d26020bf9dd1dd63305dcbe40306e217838b5829bcf451cba2146f",
+      "git_blob_sha1": "81bd19c30b883958b565acec319a2657449a4d7c"
+    },
+    {
+      "path": "engine/examples/eog_analytical_example.cpp",
+      "sha256": "6616cc272d29362c4db3451766eceb5bd81e0405aae6efed762128d4ff79b860",
+      "git_blob_sha1": "d1c91aa1e9302ddf39da1527224eba9a813cf30e"
+    }
+  ],
+  "method_version": "eog-analytical-0.1.0",
+  "upstream_semantics_revision": "135ba4c8348357457420a1111df80ec1906bcbdb",
+  "compiler": "MSVC 19.51.36260.0 x64",
+  "cmake": "4.3.1-msvc1",
+  "configuration": "RelWithDebInfo; /O2 /fp:precise /Z7; separate /fsanitize=address build",
+  "commands": [
+    ".\\scripts\\build.ps1 -Preset headless -EmbeddedDebugInfo",
+    ".\\scripts\\build.ps1 -Preset asan -EmbeddedDebugInfo"
+  ],
+  "normal": {
+    "exit_code": 0,
+    "ctest_passed": 10,
+    "ctest_total": 10,
+    "seconds": 4.68,
+    "eog_cases_passed": 42,
+    "eog_cases_total": 42,
+    "log": "normal-build-tests.log",
+    "eog_log": "headless-eog-results.log"
+  },
+  "asan": {
+    "exit_code": 0,
+    "ctest_passed": 10,
+    "ctest_total": 10,
+    "seconds": 50.74,
+    "eog_cases_passed": 42,
+    "eog_cases_total": 42,
+    "diagnostics_in_executed_logs": 0,
+    "log": "asan-build-tests.log",
+    "eog_log": "asan-eog-results.log"
+  },
+  "random_oracles": {
+    "seed_no_action": 20261108,
+    "no_action_cases": 250,
+    "seed_scheduled": 44,
+    "scheduled_integral_cases": 300
+  },
+  "public_opening_example": {
+    "baseline_shutdown_after_h": 4.48,
+    "baseline_cost": 5016,
+    "one_truck_cost": 905,
+    "truck_arrival_h": 1.25,
+    "truck_free_h": 5.083333333333334,
+    "truck_final_bbl": 700,
+    "deliberate_well_stop_after_h": 2,
+    "deliberate_well_cost": 2000,
+    "deliberate_well_final_bbl": 733.3333333333334
+  },
+  "skipped_native_tests": 0,
+  "limitations": [
+    "No adopted EOG wire contract or production provider.",
+    "No detector, optimizer or independent plan validator delivered.",
+    "No full-week/hidden-network evaluation or confidence calibration.",
+    "No desktop, hosted-model, Python or Lean execution claimed.",
+    "Threshold-first tie policy proposed for joint review.",
+    "Late pickups after automatic shut-in explicitly unsupported.",
+    "Native ASan does not establish instrumentation of external toolchain/runtime dependencies."
+  ]
+}

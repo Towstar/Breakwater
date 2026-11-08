@@ -30,7 +30,18 @@ target_compile_definitions(breakwater_benchmark PRIVATE
   BREAKWATER_BENCH_CONFIGURATION="$<CONFIG>"
   BREAKWATER_BENCH_CHECKED=$<BOOL:${BREAKWATER_ENABLE_ASAN}>)
 
+# Private E1 analytical numerical increment; no EOG wire/desktop dependency.
+add_library(breakwater_eog_analytical src/eog_analytical.cpp include/breakwater/eog_analytical.hpp)
+target_include_directories(breakwater_eog_analytical PUBLIC include)
+target_link_libraries(breakwater_eog_analytical PUBLIC breakwater_options)
+add_executable(breakwater_eog_analytical_example examples/eog_analytical_example.cpp)
+target_link_libraries(breakwater_eog_analytical_example PRIVATE breakwater_eog_analytical)
+
 if(BUILD_TESTING)
+  add_executable(breakwater_eog_analytical_tests tests/eog_analytical_tests.cpp)
+  target_link_libraries(breakwater_eog_analytical_tests PRIVATE breakwater_eog_analytical)
+  add_test(NAME engine.eog_analytical COMMAND breakwater_eog_analytical_tests)
+  add_test(NAME engine.eog_analytical_example COMMAND breakwater_eog_analytical_example)
   add_test(NAME engine.benchmark_correctness COMMAND breakwater_benchmark --verify-only --count 100)
   add_executable(breakwater_engine_tests tests/engine_tests.cpp)
   target_link_libraries(breakwater_engine_tests PRIVATE breakwater_engine)

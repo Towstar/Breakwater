@@ -1,0 +1,71 @@
+**********************************************************************
+** Visual Studio 2026 Developer PowerShell v18.11.3
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+-- The CXX compiler identification is MSVC 19.51.36260.0
+-- Detecting CXX compiler ABI info
+-- Detecting CXX compiler ABI info - done
+-- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/18/Community/VC/Tools/MSVC/14.51.36231/bin/Hostx64/x64/cl.exe - skipped
+-- Detecting CXX compile features
+-- Detecting CXX compile features - done
+-- Configuring done (4.2s)
+-- Generating done (0.4s)
+-- Build files have been written to: C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/asan
+[1/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+[2/33] Building CXX object engine\CMakeFiles\breakwater_transport_example.dir\examples\transport_example.cpp.obj
+[3/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+[4/33] Building CXX object engine\CMakeFiles\breakwater_search_example.dir\examples\search_example.cpp.obj
+[5/33] Building CXX object engine\CMakeFiles\breakwater_cli.dir\src\main.cpp.obj
+[6/33] Building CXX object engine\CMakeFiles\breakwater_physicsnemo_reference.dir\examples\physicsnemo_transport_reference.cpp.obj
+[7/33] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_example.dir\examples\eog_analytical_example.cpp.obj
+[8/33] Building CXX object engine\CMakeFiles\breakwater_transport_qualification_reference.dir\examples\transport_qualification_reference.cpp.obj
+[9/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+[10/33] Building CXX object engine\CMakeFiles\breakwater_eog_analytical.dir\src\eog_analytical.cpp.obj
+[11/33] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+[12/33] Linking CXX static library engine\breakwater_eog_analytical.lib
+[13/33] Building CXX object engine\CMakeFiles\breakwater_rollout_reference.dir\examples\rollout_reference.cpp.obj
+[14/33] Linking CXX static library engine\breakwater_engine.lib
+[15/33] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_tests.dir\tests\eog_analytical_tests.cpp.obj
+[16/33] Building CXX object engine\CMakeFiles\breakwater_control_influence_tests.dir\tests\control_influence_tests.cpp.obj
+[17/33] Building CXX object engine\CMakeFiles\breakwater_engine_tests.dir\tests\engine_tests.cpp.obj
+[18/33] Building CXX object engine\CMakeFiles\breakwater_transport_tests.dir\tests\transport_tests.cpp.obj
+[19/33] Building CXX object engine\CMakeFiles\breakwater_search_tests.dir\tests\search_tests.cpp.obj
+[20/33] Linking CXX executable engine\breakwater_eog_analytical_example.exe
+[21/33] Linking CXX executable engine\breakwater_cli.exe
+[22/33] Linking CXX executable engine\breakwater_rollout_reference.exe
+[23/33] Linking CXX executable engine\breakwater_transport_example.exe
+[24/33] Linking CXX executable engine\breakwater_search_example.exe
+[25/33] Linking CXX executable engine\breakwater_physicsnemo_reference.exe
+[26/33] Linking CXX executable engine\breakwater_transport_qualification_reference.exe
+[27/33] Linking CXX executable engine\breakwater_eog_analytical_tests.exe
+[28/33] Linking CXX executable engine\breakwater_control_influence_tests.exe
+[29/33] Linking CXX executable engine\breakwater_engine_tests.exe
+[30/33] Linking CXX executable engine\breakwater_transport_tests.exe
+[31/33] Linking CXX executable engine\breakwater_search_tests.exe
+[32/33] Building CXX object engine\CMakeFiles\breakwater_benchmark.dir\benchmarks\benchmark.cpp.obj
+[33/33] Linking CXX executable engine\breakwater_benchmark.exe
+Test project C:/Projects/Breakwater/.worktrees/person-a-eog-analysis/out/asan
+      Start  1: engine.eog_analytical
+ 1/10 Test  #1: engine.eog_analytical ..............   Passed    0.79 sec
+      Start  2: engine.eog_analytical_example
+ 2/10 Test  #2: engine.eog_analytical_example ......   Passed    0.27 sec
+      Start  3: engine.benchmark_correctness
+ 3/10 Test  #3: engine.benchmark_correctness .......   Passed    2.49 sec
+      Start  4: engine.acceptance
+ 4/10 Test  #4: engine.acceptance ..................   Passed    1.36 sec
+      Start  5: engine.search
+ 5/10 Test  #5: engine.search ......................   Passed    0.37 sec
+      Start  6: engine.control_influence
+ 6/10 Test  #6: engine.control_influence ...........   Passed   20.95 sec
+      Start  7: engine.search_example
+ 7/10 Test  #7: engine.search_example ..............   Passed    0.23 sec
+      Start  8: engine.search_infeasible_example
+ 8/10 Test  #8: engine.search_infeasible_example ...   Passed    0.07 sec
+      Start  9: engine.transport
+ 9/10 Test  #9: engine.transport ...................   Passed   23.89 sec
+      Start 10: engine.transport_example
+10/10 Test #10: engine.transport_example ...........   Passed    0.23 sec
+
+100% tests passed, 0 tests failed out of 10
+
+Total Test time (real) =  50.74 sec
