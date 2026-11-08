@@ -73,8 +73,10 @@
 - Software freeze is **11:30 a.m. Central**; recording and final Devpost completion
   are due before **noon**. Use [the demo runbook](DEMO_RUNBOOK.md) and
   [the Devpost draft](DEVPOST_DRAFT.md). Registration was already submitted;
-  six gallery PNGs and captions are saved. User review and a public demo-video
-  link remain outstanding; this agent has not performed a final Submit action.
+  six gallery PNGs and captions are saved. The [demo video](https://youtu.be/Yc2tMHaC2Ck)
+  is saved and its Devpost embed was verified. YouTube visibility is currently
+  Unlisted; the user handles Public visibility and review. This agent has not
+  changed YouTube visibility or performed a final Submit action.
   Four optional PhysicsNeMo skips and physical/held-out/global
   optimality limitations remain explicit.
 

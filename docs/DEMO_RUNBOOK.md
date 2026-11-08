@@ -50,7 +50,7 @@ Current selector package evidence is in [EOG_SELECTOR_POLISH.md](EOG_SELECTOR_PO
 
 ## Before pressing Record
 
-Registration was already submitted. Six gallery PNGs and captions are saved; user review and the public video link remain pending. No final Submit action was performed by this agent. Do not expose API-key settings or approve/apply controls during the recording.
+Registration was already submitted. Six gallery PNGs and captions and the [demo video URL](https://youtu.be/Yc2tMHaC2Ck) are saved; the Devpost video embed was verified. YouTube is currently Unlisted, with Public visibility and final review left to the user. This agent did not change YouTube visibility or perform a final Submit action. Do not expose API-key settings or approve/apply controls during recording.
 
 Use one rehearsed dataset and a known cutoff. Confirm its labels/trend render, the local provider works, and the exact release opens both workspaces. Keep the archive used for fallback available. Hide unrelated windows and secret-bearing tabs. Do not show an answer key or pass it to the application.
 
