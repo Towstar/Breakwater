@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="7"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="13"
+	timestamp="2026-11-08T11:20:51"
+	>
+	<testcase name="desktop.eog_dataset" classname="desktop.eog_dataset" time="3.22753" status="run">
+		<properties/>
+		<system-out>Official input check NOT RUN: BREAKWATER_EOG_OFFICIAL_ROOT not supplied.
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_normal" classname="desktop.eog_analysis_normal" time="2.09019" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_normal" classname="desktop.eog_overview_normal" time="1.76436" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_normal" classname="desktop.eog_facility_normal" time="1.65928" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_compact" classname="desktop.eog_analysis_compact" time="1.7507" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_compact" classname="desktop.eog_overview_compact" time="1.62114" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_compact" classname="desktop.eog_facility_compact" time="1.82145" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>
