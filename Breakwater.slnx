@@ -142,6 +142,10 @@
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
   </Project>
+  <Project Path="out/visual-studio/engine/breakwater_transport_qualification_reference.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ef01abdd-8b54-3dc3-bad0-c6655380a751">
+    <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
+    <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
+  </Project>
   <Project Path="out/visual-studio/engine/breakwater_transport_tests.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="8d85273d-9f15-3fb7-8f6d-0af9d1d376ed">
     <BuildDependency Project="out/visual-studio/ZERO_CHECK.vcxproj" />
     <BuildDependency Project="out/visual-studio/engine/breakwater_engine.vcxproj" />
@@ -172,6 +176,7 @@
       <BuildDependency Project="out/visual-studio/engine/breakwater_search_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/desktop/breakwater_session_repository_tests.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_transport_example.vcxproj" />
+      <BuildDependency Project="out/visual-studio/engine/breakwater_transport_qualification_reference.vcxproj" />
       <BuildDependency Project="out/visual-studio/engine/breakwater_transport_tests.vcxproj" />
     </Project>
     <Project Path="out/visual-studio/INSTALL.vcxproj" Type="8bc9ceb8-8b4a-11d0-8d11-00a0c91bc942" Id="ba968ab3-18c4-3ec0-bd6d-5ba70d57aa2a">

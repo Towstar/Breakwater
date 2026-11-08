@@ -1,5 +1,10 @@
 # BREAKWATER continuation plan
 
+**Current continuation after PRs #17 and #20:** the Person A audit fixes and A9
+transport qualification are merged. Use [POST_A9_PLAN.md](POST_A9_PLAN.md) for the
+fresh integration checks, remaining B-stack review and ordered next increments.
+The execution sequence below is retained as historical context.
+
 **Current handoff after PR #14:** A3–A8 are merged, including `capabilities` and
 `storage_rollout` in the repo worker. The earlier execution sequence/checkpoints below
 are retained as history; do not restart A's worker mapping. B's next increment is

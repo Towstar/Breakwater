@@ -1,10 +1,46 @@
 # Implementation status
 
 Scope: shared base, native search, durable desktop investigations, science contracts,
-native selected-pipe viewing, and Person A's A3–A8 science/benchmark/proof increments.
-PRs #7, #8, #10, #11 and #14 are merged; their complete histories are retained.
+native selected-pipe viewing, Person A's A3–A9 increments and four audit fixes.
+PRs #7, #8, #10, #11, #14, #17 and #20 are merged; their histories are retained.
 The accepted plan and original handoff are preserved. The execution sequence remains
 in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now delivered.
+
+## Audit/A9 main integration — November 7, 2026
+
+- Merged #17 at `0d78ffa` and retargeted/merged #20 at `6966707`, with no conflicts.
+  Local main was fast-forwarded. The four A-owned audit findings are resolved;
+  A9 supplies bounded synthetic transport qualification. See the
+  [integration record and next-change plan](POST_A9_PLAN.md) for ownership,
+  acceptance criteria, commands and evidence paths.
+- Preserved dotenv/credential-support commit `dc348d8` and its application,
+  scripts, README and public template unchanged. Real `.env` files remain ignored
+  and untracked. No real key was read, changed or published by this integration.
+- Regenerated the root Visual Studio 2026 x64 solution: 67 projects, 183 build
+  dependencies, no missing/dangling references. The direct `Breakwater.slnx`
+  MSBuild passed. Combined normal CTest passed **18/18** (26.14 s); separate
+  full-desktop MSVC ASan build/CTest passed **18/18** (88.20 s), no sanitizer report.
+- Full integrated-source Python suite passed **127/127**, no skips (81.358 s).
+  Native/PyTorch/worker checks passed 18 cases across three native solvers,
+  **302 actual NDJSON requests**, 44 interior controls and 132 central differences;
+  maximum volume difference `7.67386154621e-13 m3`.
+- Actual fixed-case PhysicsNeMo model/residual/training/checkpoint smoke passed
+  **12/12 gates**, including 1,800 updates and zero checkpoint inference difference.
+  Held-out field RMSE `0.00336886618 mg/L`; this is experimental fixed-case evidence.
+- Refined transport qualification passed **45 cases / 580 gates** in normal and
+  MSVC ASan execution. The original coarse study reproduced its expected single
+  failed refinement gate; that configuration remains unqualified. Mean-error gates
+  do not qualify local peaks: refined scheduled-inlet maximum cell-average error
+  remains about `0.40191 mg/L`. See [A9 scope](../science/TRANSPORT_QUALIFICATION.md).
+- Pinned `lake build` passed (1,061 jobs), all **21 theorem assumption audits**
+  passed, and the deliberate unapproved-assumption probe was rejected. These are
+  exact-real finite-graph storage/control-influence algorithm proofs, not PDE,
+  IEEE, memory-safety or global-optimality guarantees.
+- Evidence is local under `out/post-a9/` and `out/a6-proofs/`. No new hosted-model
+  call, performance benchmark or installed-app acceptance run is claimed here.
+  Desktop scientific execution remains health-only on this main baseline; the
+  installed-worker/forward-comparison work is in the still-unmerged B stack
+  #13 → #18 → #19. Review that stack next rather than reimplementing it.
 
 ## Local Nemotron key setup — November 7, 2026
 
