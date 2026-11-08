@@ -1,5 +1,9 @@
 # Native EOG response evaluation and one-shot provider
 
+Continuation: worker 0.2.0 now also exposes the separately coded `validate_plan`
+implementation described in `science/EOG_VALIDATION.md`. The E3 measurements
+below retain their original source scope. Joint search remains unavailable.
+
 This A-owned increment adds `engine/include/breakwater/eog_response.h` and
 `engine/src/eog_response.cpp`: a private computational C ABI/DLL using binary64
 elapsed **seconds** throughout. It has no Qt, Python, JSON or model API dependency.
@@ -61,8 +65,8 @@ labels mapped to a bounded number of slots per system. Sequential delayed calls
 are an explicit application extension in the accepted contract; the official
 simple single-plan example calls its initial trucks at plan start.
 
-`search_plans` and `validate_plan` explicitly return unavailable. The native
-evaluation is not the independent validator. Fixed-rate forecasts stop at repair;
+`search_plans` explicitly returns unavailable. The native evaluation is not the
+independent validator; E4 validation is a separate module. Fixed-rate forecasts stop at repair;
 post-repair hysteresis, evolving simulation, long-run ledgers, desktop process/model
 adapters, installed packaging and UI acceptance remain open. Detection 0.2.2 adds
 private productive-well context; inspection rules are unchanged from frozen 0.2.1,

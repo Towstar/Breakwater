@@ -164,6 +164,44 @@ class EogWorkerTests(unittest.TestCase):
         self.assertEqual(result["status"], "unavailable")
         self.assertEqual(result["diagnostics"][0]["code"], "native_unavailable")
 
+    def test_independent_validation_needs_no_native_or_detector_execution(self):
+        request = self.evaluate_request(); request["operation"] = "validate_plan"
+        request["arguments"]["evaluator_method"] = "eog-native-seconds-0.1.0"
+        with patch.object(worker, "detect", side_effect=AssertionError("detector called")), \
+             patch.object(worker, "compile_context", side_effect=AssertionError("compiler called")), \
+             patch.object(worker, "evaluate", side_effect=AssertionError("evaluator called")), \
+             patch.object(worker, "NativeEvaluator", side_effect=AssertionError("native loaded")):
+            result = self.call(request)
+        self.assertEqual(result["status"], "completed", result["diagnostics"])
+        validation = result["result"]["validation"]
+        self.assertTrue(validation["independent"]); self.assertEqual(validation["cost"]["total"], 5016)
+        self.assertEqual(validation["plan_hash"], request["arguments"]["plan"]["plan_hash"])
+        self.assertEqual(validation["validated_horizons"], request["arguments"]["plan"]["repair_deadlines"])
+
+    def test_actual_independent_validation_process_and_forged_deadline(self):
+        request = self.evaluate_request(); request["operation"] = "validate_plan"
+        request["arguments"]["evaluator_method"] = "eog-native-seconds-0.1.0"
+        run = self.process(worker.encode_response(request))
+        self.assertEqual(run.returncode, 0, run.stderr)
+        result = self.contract.decode_document(run.stdout)
+        self.contract.validate_document(result, context={"request": request})
+        self.assertEqual(result["status"], "completed", result["diagnostics"])
+        self.assertEqual(result["result"]["validation"]["cost"]["total"], 5016)
+        request["arguments"]["plan"]["repair_deadlines"][0]["repair_elapsed_s"] += 1
+        request["arguments"]["plan"]["plan_hash"] = self.contract.plan_identity(request["arguments"]["plan"])
+        invalid = self.call(request)
+        self.assertEqual(invalid["status"], "completed", invalid["diagnostics"])
+        self.assertFalse(invalid["result"]["validation"]["feasible"])
+        self.assertIsNone(invalid["result"]["validation"]["cost"])
+        self.assertNotEqual(invalid["result"]["analysis_id"], result["result"]["analysis_id"])
+
+    def test_unknown_evaluator_cannot_be_relabeled_as_independent_validation(self):
+        request = self.evaluate_request(); request["operation"] = "validate_plan"
+        request["arguments"]["evaluator_method"] = "unknown-evaluator"
+        result = self.call(request)
+        self.assertEqual(result["status"], "unavailable")
+        self.assertEqual(result["diagnostics"][0]["code"], "unsupported_evaluator")
+
     def test_actual_native_noaction_and_forged_horizon(self):
         if not self.native:
             self.skipTest("Set BREAKWATER_EOG_NATIVE for actual native process qualification.")
