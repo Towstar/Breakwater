@@ -1,0 +1,93 @@
+{
+  "method": "eog-rational-validation-0.1.0",
+  "cutoff_unix": 1791460800,
+  "arithmetic_primitives": 3179,
+  "facilities": [
+    {
+      "facility_id": "S2_FACILITY_A",
+      "onset_unix": 1791453600,
+      "repair_s": 14400.0,
+      "initial_bbl": 681.8000000000001,
+      "final_bbl": 920.0,
+      "produced_bbl": 238.1999999999999,
+      "removed_bbl": 0.0,
+      "balance_residual_bbl": -1.8190353805411802e-14,
+      "well_losses": [
+        {
+          "well_id": "S2_WELL_A1",
+          "stopped_s": 4990.92031271431,
+          "lost_revenue": 1646.3105198189564
+        },
+        {
+          "well_id": "S2_WELL_A2",
+          "stopped_s": 4990.92031271431,
+          "lost_revenue": 1646.3105198189564
+        },
+        {
+          "well_id": "S2_WELL_A3",
+          "stopped_s": 4990.92031271431,
+          "lost_revenue": 2157.5332601837904
+        }
+      ]
+    },
+    {
+      "facility_id": "S2_FACILITY_B",
+      "onset_unix": 1791450000,
+      "repair_s": 10800.0,
+      "initial_bbl": 549.43,
+      "final_bbl": 644.0,
+      "produced_bbl": 94.57000000000005,
+      "removed_bbl": 0.0,
+      "balance_residual_bbl": 1.1556434160553107e-15,
+      "well_losses": [
+        {
+          "well_id": "S2_WELL_B1",
+          "stopped_s": 5670.135610246104,
+          "lost_revenue": 1949.1091160220983
+        },
+        {
+          "well_id": "S2_WELL_B2",
+          "stopped_s": 5670.135610246104,
+          "lost_revenue": 561.1071697639373
+        },
+        {
+          "well_id": "S2_WELL_B3",
+          "stopped_s": 5670.135610246104,
+          "lost_revenue": 1348.6260045203408
+        }
+      ]
+    },
+    {
+      "facility_id": "S2_FACILITY_C",
+      "onset_unix": 1791451800,
+      "repair_s": 12600.0,
+      "initial_bbl": 416.82,
+      "final_bbl": 552.0,
+      "produced_bbl": 135.18,
+      "removed_bbl": 0.0,
+      "balance_residual_bbl": 6.135116309842559e-16,
+      "well_losses": [
+        {
+          "well_id": "S2_WELL_C1",
+          "stopped_s": 4227.561290322579,
+          "lost_revenue": 557.8032258064515
+        },
+        {
+          "well_id": "S2_WELL_C2",
+          "stopped_s": 4227.561290322579,
+          "lost_revenue": 968.8161290322577
+        },
+        {
+          "well_id": "S2_WELL_C3",
+          "stopped_s": 4227.561290322579,
+          "lost_revenue": 1284.4153225806447
+        }
+      ]
+    }
+  ],
+  "calendars": [],
+  "limitations": [
+    "Independent code checks the declared binary64 fixed-rate model and point-onset assumption; it is not a real-arithmetic or hydraulic proof.",
+    "Causal archive/model parsing is shared infrastructure; detection, response compilation and native evaluation are not called."
+  ]
+}

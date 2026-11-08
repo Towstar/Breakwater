@@ -1,0 +1,66 @@
+{
+  "method": "eog-rational-validation-0.1.0",
+  "cutoff_unix": 1791646200,
+  "arithmetic_primitives": 3396,
+  "facilities": [
+    {
+      "facility_id": "S5_FACILITY_B",
+      "onset_unix": 1791642600,
+      "repair_s": 18000.0,
+      "initial_bbl": 447.15,
+      "final_bbl": 690.0,
+      "produced_bbl": 242.85000000000002,
+      "removed_bbl": 0.0,
+      "balance_residual_bbl": -1.0805488977741758e-14,
+      "well_losses": [
+        {
+          "well_id": "S5_WELL_B1",
+          "stopped_s": 5669.836046306635,
+          "lost_revenue": 1299.3374272786036
+        },
+        {
+          "well_id": "S5_WELL_B2",
+          "stopped_s": 5669.836046306635,
+          "lost_revenue": 1299.3374272786036
+        },
+        {
+          "well_id": "S5_WELL_B3",
+          "stopped_s": 5669.836046306635,
+          "lost_revenue": 1732.4499030381385
+        }
+      ]
+    },
+    {
+      "facility_id": "S5_FACILITY_C",
+      "onset_unix": 1791640800,
+      "repair_s": 16200.0,
+      "initial_bbl": 440.88,
+      "final_bbl": 552.0,
+      "produced_bbl": 111.12,
+      "removed_bbl": 0.0,
+      "balance_residual_bbl": 3.347478665252169e-15,
+      "well_losses": [
+        {
+          "well_id": "S5_WELL_C1",
+          "stopped_s": 8802.844595115186,
+          "lost_revenue": 2827.302517528315
+        },
+        {
+          "well_id": "S5_WELL_C2",
+          "stopped_s": 8802.844595115186,
+          "lost_revenue": 855.8321134139765
+        },
+        {
+          "well_id": "S5_WELL_C3",
+          "stopped_s": 8802.844595115186,
+          "lost_revenue": 1956.1876878033745
+        }
+      ]
+    }
+  ],
+  "calendars": [],
+  "limitations": [
+    "Independent code checks the declared binary64 fixed-rate model and point-onset assumption; it is not a real-arithmetic or hydraulic proof.",
+    "Causal archive/model parsing is shared infrastructure; detection, response compilation and native evaluation are not called."
+  ]
+}
