@@ -1,0 +1,111 @@
+{
+  "evidence_version": 1,
+  "manifest_checkout": "4aea2f2a3f36c276a530c342c44a2b79884db728",
+  "executed_science_checkout": "fef231e919d85f42f63e9e15a9109228283b9f29",
+  "requested_science_revision": "6613b66",
+  "adopted_a_source": "a420debc7b6518a348272f168d752c88fdd58221",
+  "science_identical_to_adopted_a": true,
+  "public_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "public_method_version": 1,
+  "public_method_version_meaning": "operation contract, not implementation identity",
+  "worker_method_declaration": "eog-worker-0.3.2",
+  "search_method_declaration": "eog-joint-search-0.1.2",
+  "worker_identity_attested_by_wire": false,
+  "native_exported_method": "eog-native-seconds-0.1.1",
+  "native_dll_sha256": "63b3e8bf7d3d4c5d41b3b01915eba850ca34a51bc8128c640233bc9a19cf0366",
+  "source_files": {
+    "science/eog_worker.py": {
+      "sha256": "3f0e3c71f3faa9f1738b3ce1ac5df908b43fa65b94d62d0a73d814bf52f048f8",
+      "bytes": 11948
+    },
+    "science/eog_search.py": {
+      "sha256": "09fa12c0634aa8cafcb27a6107d6c275cea848aae968f189ebfb876c0bdb22ed",
+      "bytes": 27500
+    },
+    "science/eog_plan_validator.py": {
+      "sha256": "1a20019c2142c87e41adc896ad8ed24850bc4476f009abff099e95848812dfc3",
+      "bytes": 25599
+    },
+    "science/native_eog.py": {
+      "sha256": "afe01bc97e439ad1033cf729ec3ba2444c43d17dd9528594c4aa45b442353c0b",
+      "bytes": 9992
+    },
+    "contracts/eog/validate.py": {
+      "sha256": "626deb9b5de0a722f3583adf8f1a28753880bb9d70cf75b78771dda1c7b2faec",
+      "bytes": 31443
+    },
+    "contracts/eog/common-v1.schema.json": {
+      "sha256": "e4bc08c5ce5e6b608a64d94417740a74dc5e343df6e4349478697eb4f21cd6e7",
+      "bytes": 21210
+    },
+    "contracts/eog/analysis-request-v1.schema.json": {
+      "sha256": "c9cf0408d5e6540900f55be2f27c91a90c48aff66316d8e76d89332b0b630eb2",
+      "bytes": 4156
+    },
+    "contracts/eog/analysis-response-v1.schema.json": {
+      "sha256": "44c27baf998e8aced87befe3e80613fc0b9bb44c61abf1c075cb41b65ac76d20",
+      "bytes": 6782
+    },
+    "contracts/eog/capture-manifest-v1.schema.json": {
+      "sha256": "77889d1e39ae260e8e58b7e116f21bc19d2f3ca4c281c433c8f97550d240aeae",
+      "bytes": 1817
+    }
+  },
+  "evidence_files": [
+    {
+      "file": "search-science-results.json",
+      "source": "out/search-science-results.json",
+      "sha256": "dc78aa85a14960bb17c1870e4c7a737dd2b3a071aa4a579921f7980c903b61a3",
+      "bytes": 1024
+    },
+    {
+      "file": "search-science-tests.log",
+      "source": "out/search-science-tests.log",
+      "sha256": "7ee43c61bed4b3ebbbe46838bce87978fc3ee0b9bea3199b5a47303657b64442",
+      "bytes": 61888
+    },
+    {
+      "file": "search-science-run.json",
+      "source": "out/search-science-run.json",
+      "sha256": "506187228bc04dc128456083681f54f08d40bd4ee3654b104143a8ccb0cb258f",
+      "bytes": 953
+    },
+    {
+      "file": "search-science-native-identity.json",
+      "source": "out/search-science-native-identity.json",
+      "sha256": "11ee42710f76787abee249c1b517e055d376dde147363a1ef61398608234d0f9",
+      "bytes": 414
+    },
+    {
+      "file": "focused-normal.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\search-focused-normal.log",
+      "sha256": "5badf631098747390d0c40ac38e757351bcc3f5897c40ed1b88a1d77c176d401",
+      "bytes": 1010
+    },
+    {
+      "file": "controller-normal.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\search-final-normal-controller.log",
+      "sha256": "f460771d588af0ced4a53523d992f73fb7b140e9e20a1cb8918107e68167db32",
+      "bytes": 467
+    },
+    {
+      "file": "finite-overflow-probe.log",
+      "source": "out\\review\\search-finite-overflow-probe.log",
+      "sha256": "48478ada1ea8ef87aa9f6872dfa1bafe1624fd7de818133a5c25eb387b6cccb9",
+      "bytes": 1364
+    },
+    {
+      "file": "focused-asan.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\search-focused-asan.log",
+      "sha256": "cf454bf964d1f1460498b67861b785a6b080813e7a41b9a6b9bc140dfc177e4d",
+      "bytes": 1010
+    },
+    {
+      "file": "controller-asan.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\search-final-asan-controller.log",
+      "sha256": "738674d94d540bf2fe4e137c4f0372e16831f128a0abfa2862b74ff3a2823bf4",
+      "bytes": 467
+    }
+  ],
+  "scope": "CPU science discovery, focused integration CTests, direct finite-overflow probe and native evaluator identity; not a hosted model transcript or full application workflow. Absolute paths in exact retained records are local build/interpreter/contracts provenance. Focused CTest/probe records were produced by the integration owner then retained unchanged; source paths never direct archive imports."
+}

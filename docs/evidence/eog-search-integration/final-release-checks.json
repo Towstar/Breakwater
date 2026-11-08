@@ -1,0 +1,275 @@
+{
+  "evidence_version": 1,
+  "record_status": "Checkpoint; subsequent source/final results require a new additive record",
+  "application_full_suite_source": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+  "latest_unqualified_followup": "a23fb7061e666cf76c6f3a15ad2390b5134504c6",
+  "historical_manifests": [
+    {
+      "file": "manifest.json",
+      "sha256": "76c1350897391c7d9d2f72d426c70926f67d29b3d0632c00d20665238443a5d0"
+    },
+    {
+      "file": "release-checks.json",
+      "sha256": "09d76c64027b34c28ceb16218167aa3da320b20b3644411026459c30fadabce3"
+    },
+    {
+      "file": "finalization-checks.json",
+      "sha256": "e0dc3c51f1362b4d309989956f7a627bfce7e2e899dd2dde5d6b6dce1375c348"
+    }
+  ],
+  "completed": [
+    {
+      "source": "b9d82443bdf90e9d828a0dee096973d9f3093e69",
+      "scope": "Historical full normal",
+      "passed": 63,
+      "failed": 1,
+      "total": 64,
+      "elapsed_s": 387.83,
+      "file": "full-normal-b9-failed.log",
+      "junit": "full-normal-b9-failed.xml",
+      "failure": "desktop.ui_overhaul_normal:outside_notice_escape_did_not_cancel_connection at DPR1.75; later0c0dbf4 fixes verification activation/focus setup"
+    },
+    {
+      "source": "b9d82443bdf90e9d828a0dee096973d9f3093e69",
+      "scope": "Historical full ASan",
+      "passed": 64,
+      "total": 64,
+      "elapsed_s": 936.22,
+      "file": "full-asan-b9.log",
+      "junit": "full-asan-b9.xml"
+    },
+    {
+      "source": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+      "scope": "Critical normal",
+      "passed": 5,
+      "total": 5,
+      "elapsed_s": 28.76,
+      "file": "release-critical-normal-a5.log"
+    },
+    {
+      "source": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+      "scope": "Critical ASan",
+      "passed": 5,
+      "total": 5,
+      "elapsed_s": 68.28,
+      "file": "release-critical-asan-a5.log"
+    },
+    {
+      "source": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+      "scope": "Full normal",
+      "passed": 64,
+      "total": 64,
+      "elapsed_s": 377.75,
+      "file": "full-normal-a5.log",
+      "junit": "full-normal-a5.xml",
+      "root_verified_exit_code": 0
+    },
+    {
+      "source": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+      "scope": "Visual Studio initial sandbox",
+      "passed": 23,
+      "failed": 2,
+      "total": 25,
+      "elapsed_s": 141.55,
+      "file": "vs-a5-sandbox-failed.log",
+      "junit": "vs-a5-sandbox-failed.xml",
+      "failure": "Actual mandatory os.link raises WinError5 in eog_live_cli and eog_cli; not skipped or relabeled as pass"
+    },
+    {
+      "source": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+      "scope": "Visual Studio same25 native rerun",
+      "passed": 25,
+      "total": 25,
+      "elapsed_s": 114.09,
+      "file": "vs-a5-native.log",
+      "junit": "vs-a5-native.xml",
+      "mandatory_hardlinks_exercised": true
+    }
+  ],
+  "current_bound": {
+    "loop_maximum_ms": 240000,
+    "transport_default_attempt_ms": 60000,
+    "maximum_tool_calls": 12,
+    "maximum_refinements": 3,
+    "maximum_model_requests": 13,
+    "maximum_final_format_corrections": 1
+  },
+  "hosted_json_smoke": {
+    "scope": "One fixed-object JSON-only protocol exchange, not EOG/search/concurrenttool qualification",
+    "passed": true,
+    "http_status": 200,
+    "duration_ms": 5887,
+    "retry_count": 0,
+    "logical_requests": 1,
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "whole_application_revision_attested": false,
+    "verification": "json-mode-smoke-verification.json",
+    "source": "json-mode-smoke.cpp",
+    "compile": "json-mode-smoke-compile-provenance.json"
+  },
+  "objective_correction": {
+    "attempts_01_through_07": "All actually received the default objective because a case-insensitive PowerShell local overwrote the parameter",
+    "first_verified_explicit_objective": "canonical-08",
+    "prior_ignored_explicit_objective_inference": "Unsupported; withdrawn",
+    "offline_propagation": "objective-propagation-v2.json",
+    "actual_arguments": "objective-arguments-08.json",
+    "archive_audit": "objective-harness-correction.json",
+    "live_outcome_projection_owner": "Separate rehearsal integration; no09result copied here"
+  },
+  "github_ci": {
+    "source_revision": "05f906f987ea6096012a992014a48a743cc7ba16",
+    "run_id": 42497354023,
+    "conclusion": "success",
+    "successful_jobs": 6,
+    "run": "ci-05f906f-runs.json",
+    "jobs": "ci-05f906f-jobs.json",
+    "later_a5_or_a23_hosted_ci_claim": false
+  },
+  "pending": [
+    "Latest fulla5ASan still running at this checkpoint; no pass inferred from progress.",
+    "Emptyexplicitstop follow-up bd3e3be/a23fb70 is source-reviewed, but focused execution not retained yet; no historical09finish_reason inference.",
+    "Live09 projection belongs to console integration; no complete strict hostedsearch gate claimed by this record.",
+    "NewAgentPanel spacing request is separate work and outside this source checkpoint."
+  ],
+  "scope": "Additive exact local logs/JUnit and fixed JSON hosted-smoke evidence, plus frozen objective audits, GitHub connector status projections and bounded source review. Paths describe provenance. No raw protected capture or credentials retained.",
+  "files": [
+    {
+      "file": "ci-05f906f-jobs.json",
+      "source": "GitHub connector fetch_workflow_run_jobs(Towstar/Breakwater,42497354023).structuredContent",
+      "sha256": "772e404e1353478bf3da786c87e8f203b2f5d979ea48270d0df754f57180ee52",
+      "bytes": 13250
+    },
+    {
+      "file": "ci-05f906f-runs.json",
+      "source": "GitHub connector fetch_commit_workflow_runs(Towstar/Breakwater,05f906f987ea6096012a992014a48a743cc7ba16).structuredContent",
+      "sha256": "b7a902f89bdace2cc44bc4163268e1dd37484bb6a34f1f51765eb2a27a488c98",
+      "bytes": 411
+    },
+    {
+      "file": "full-asan-b9.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\search-finalization-asan-full.log",
+      "sha256": "07f317d27e14c548dfb02ea9265327dbab6f5c6ef0525dbb600fd786dcc5263d",
+      "bytes": 8261
+    },
+    {
+      "file": "full-asan-b9.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-asan\\search-finalization-full.xml",
+      "sha256": "379b2c6057b62660f1e561f6e8233edabafcc2adace2dec93b270690042a3f8c",
+      "bytes": 26209
+    },
+    {
+      "file": "full-normal-a5.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\demo-final-normal-full.log",
+      "sha256": "8db1b117acf13481652e952824aa0d0f158fb647bcbe87bc0b460e74ad35ed68",
+      "bytes": 8261
+    },
+    {
+      "file": "full-normal-a5.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\demo-final-full.xml",
+      "sha256": "5923bdd32e5ef0510635ce4caaf7eca9a4d13aa270d9f4dc6088355e31a6efd5",
+      "bytes": 26219
+    },
+    {
+      "file": "full-normal-b9-failed.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\search-finalization-normal-full.log",
+      "sha256": "03a50a1a64d22dafb1bce9dac0d4f682082b36253472460e4bb7b452424664e4",
+      "bytes": 9751
+    },
+    {
+      "file": "full-normal-b9-failed.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\search-finalization-full.xml",
+      "sha256": "0f0d264096596c4894dfda192b17318699c49e154eb036c9a551d1f3753c320f",
+      "bytes": 26520
+    },
+    {
+      "file": "json-mode-smoke-compile-provenance.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\compile-provenance.json",
+      "sha256": "dcd264e3596697f31b75f16aec4efafddd14d6a09386d30022e38be01b48cd31",
+      "bytes": 3612
+    },
+    {
+      "file": "json-mode-smoke-stdout.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\hosted.stdout.json",
+      "sha256": "7c1fac4bbdf7e1b1374dbff8b25545761a0a30d18b7ce7786c7a8b3badc97365",
+      "bytes": 301
+    },
+    {
+      "file": "json-mode-smoke-verification.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\hosted-verification.json",
+      "sha256": "a0a9b6995dd5052bad37b3c4c182541eef637956e5bd3b72f87ee1472d91bb9e",
+      "bytes": 1063
+    },
+    {
+      "file": "json-mode-smoke.cpp",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\smoke.cpp",
+      "sha256": "afc43c8e76cbd32707279ea071db155a01e3f38157b617357541d964a7eb3da1",
+      "bytes": 4648
+    },
+    {
+      "file": "objective-arguments-08.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-live\\canonical-08\\objective-arguments.json",
+      "sha256": "60dd83deda25fc110cec7a62f67c7c26df29b5ff3e460d26da5849a9a8f6bd3a",
+      "bytes": 987
+    },
+    {
+      "file": "objective-harness-correction.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-live\\OBJECTIVE_CORRECTION.json",
+      "sha256": "3198af55c45b60235e20d0bb5cb55082dc1f2f0312fbcefb2d4fd6229d232be0",
+      "bytes": 4001
+    },
+    {
+      "file": "objective-propagation-v2.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-live\\objective-propagation-check-v2.json",
+      "sha256": "9bda73d0f55e6c6c1399874ce86d7e365e968ff37025a67ee0393c233188d63c",
+      "bytes": 491
+    },
+    {
+      "file": "release-critical-asan-a5.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-provider-review\\out\\provider-review\\demo-final-asan-focused.log",
+      "sha256": "617a974685ed4b10fd41f69dede85632e7797f147bd199a4ddc4c27aa5e92f59",
+      "bytes": 919
+    },
+    {
+      "file": "release-critical-normal-a5.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\demo-final-normal-focused.log",
+      "sha256": "462a16a0f3193bcaa3b8397e057d9eeffd8c373fa29b9bc196e746c322ad1cc4",
+      "bytes": 919
+    },
+    {
+      "file": "source-review-a5.json",
+      "source": "Read-only scoped source review at a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+      "sha256": "cd63cd4d4a4f56f5868451b41ca250e6c0c6ebaf2a2fc03da9c178ea3bdbe14f",
+      "bytes": 1947
+    },
+    {
+      "file": "vs-a5-build.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\demo-final-vs-build.log",
+      "sha256": "483cec022e8fa42221eb0e1235f0853e52e73a0218a95839d4e8ee687607fb52",
+      "bytes": 27402
+    },
+    {
+      "file": "vs-a5-native.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\demo-final-vs-native-tests.log",
+      "sha256": "65fb8f0a361c90a1969accd6e9842cb898c486ba5fe62528fdb0d39735977b61",
+      "bytes": 3225
+    },
+    {
+      "file": "vs-a5-native.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\ui-vs\\demo-final-vs-native.xml",
+      "sha256": "cd823bd4d7015ab27db546366607a2c3a90f5e6cb0f675092a26c0ca5f679bda",
+      "bytes": 10287
+    },
+    {
+      "file": "vs-a5-sandbox-failed.log",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\demo-final-vs-tests.log",
+      "sha256": "5ddff1523d7f991e3c2478e76fe4b199d05d0d281835875da1d47d5152429139",
+      "bytes": 10582
+    },
+    {
+      "file": "vs-a5-sandbox-failed.xml",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\ui-vs\\demo-final-vs.xml",
+      "sha256": "2aad8e468829153efd692262a2b7a5a56b01e938b89cd86a43e5873e838efe9b",
+      "bytes": 15331
+    }
+  ]
+}

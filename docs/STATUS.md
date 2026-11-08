@@ -1,6 +1,72 @@
 # Implementation status
 
-## Current integrated desktop and hosted evidence — November 8, 2026
+## Current demo release candidate — November 8, 2026
+
+- Main `7418a2d` includes the branded desktop/industrial 3D workbench (PR #44)
+  and the input-preservation guard (PR #45). The recorded EOG console remains
+  separate from the editable synthetic workbench; neither dispatches equipment.
+- PR #48 includes Ethan's exact search ancestry `65d8c4a` without changing his
+  numerical source. The final UI candidate is `28d873c`, with model runtime
+  `a23fb70`: installed joint-search
+  packaging, bounded model summaries with complete local evidence, one bounded
+  JSON-only final correction, trusted failure stages, and a four-minute overall
+  investigation limit with a 60-second per-request default.
+- This candidate also replaces the six stacked equipment actions with an icon
+  grid and accessible hover/focus labels. The Network list has a persistent
+  scrollbar and uses the full-height left sidebar, including with the investigator
+  drawer open. The four tool buttons track actual visibility with white active
+  outlines, close on a second click, and switch exclusively. Popups leave the
+  sidebar accessible and include top-right X controls. Sensor actions sit above
+  the form, monitoring/transport controls are grouped, and the investigator's
+  objective/actions and evidence columns adapt to compact windows.
+- At `a5bbbd5`, full combined checks passed **64/64 normal (377.75 s)** and
+  **64/64 ASan (996.96 s)**. Native Visual Studio checks passed **25/25 (114.09 s)**.
+  The later `a23fb70` model delta passed **7/7 normal (49.28 s)** and
+  **7/7 ASan (100.20 s)**. Panel increment `e8210a4` passed **25/25 normal
+  (226.14 s)** and **25/25 ASan (376.43 s)**. Its first VS compact drag check
+  failed; the final `28d873c` scoped VS checks, including both interaction sizes,
+  passed **9/9 (43.68 s)**. Keep those failures and source boundaries visible.
+  Final popup checks also passed **9/9 normal (41.35 s)** and **9/9 ASan
+  (89.46 s)**. The installed final bundle passed all nine existing interaction
+  gates in each size; its separate sixteen-check-per-size probe verifies panel
+  click routing, close controls, toolbar clearance and title insets.
+- Actual native-event probes separately exercise grid hover/keyboard labels,
+  overflow scrolling and selection without numerical changes, and all four
+  sidebar repeat-click paths, exclusive navigation and the three popup X buttons.
+  Exact compiled-object and installed-window evidence is retained in the
+  [source-qualified search/UI record](EOG_SEARCH_INTEGRATION.md).
+- All six hosted jobs passed at preceding source `05f906f` in
+  [run 42497354023](https://github.com/Towstar/Breakwater/actions/runs/42497354023).
+  Final-head CI and merge status are tracked in [PR #48](https://github.com/Towstar/Breakwater/pull/48).
+- **One new complete hosted joint-search rehearsal passed** at runtime `a23fb70`:
+  11 actual HTTP exchanges, model-issued search with matching tool continuation,
+  exact separate independent validation, grounded final references and current
+  advisory-review eligibility before historical export. It took **221.98 s**.
+  At the October 8 noon UTC practice cutoff, the bounded search compared baseline
+  **12,120.03** with selected mixed-plan cost **4,171.97**: one truck trip and three
+  well shut-ins. It reports `best_found`, incomplete search and 26 unavailable
+  numerical candidates; this is not global optimality or unseen-data accuracy.
+  No controls were applied. See the [sanitized full proof and all-attempt ledger](evidence/eog-search-integration/live/README.md).
+  This run did not use JSON correction; offline tests establish its one-attempt
+  bound. The earlier three canonical and renamed/topology-change sessions remain
+  dated worker-0.2.1 evidence, not three new joint-search passes.
+- Search rehearsal attempts 01–07 received the same default objective because of
+  a case-insensitive PowerShell driver variable collision. Earlier inferences that
+  the model ignored an explicit search request are withdrawn. Numerical/tool
+  outcomes remain real; attempt 08 verifies the corrected exact objective but its
+  final request timed out. Original artifacts remain unchanged. See the additive
+  [search integration evidence](EOG_SEARCH_INTEGRATION.md).
+- New A-owned PRs #47/#49/#50/#51 add stateful simulation, synthetic observations,
+  inspection changes and a finite-extreme search fix. They are separate from this
+  tested demo candidate. The current bounded search can fail safely for extreme
+  aggregate capacities; this candidate does not claim that later fix.
+- Software freeze is **11:30 a.m. Central**; recording and final Devpost completion
+  are due before **noon**. Use [the demo runbook](DEMO_RUNBOOK.md) and
+  [the Devpost draft](DEVPOST_DRAFT.md). Public video and final submission remain
+  outstanding. Four optional PhysicsNeMo skips and physical/held-out/global
+  optimality limitations remain explicit.
+
+## Historical branded desktop and hosted checkpoint — November 8, 2026
 
 - G2 telemetry, accepted EOG contracts, dataset console, investigation/history and
   actual provider/independent validator are integrated through PRs #35, #37, #33,

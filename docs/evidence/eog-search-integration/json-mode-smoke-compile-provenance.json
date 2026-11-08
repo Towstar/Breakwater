@@ -1,0 +1,53 @@
+{
+  "scope": "Compilation provenance only; authorized hosted execution is recorded separately in hosted-verification.json.",
+  "existing_runtime_objects": [
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater_agent.dir\\agent\\NemotronClient.cpp.obj",
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater_agent.dir\\agent\\CredentialSettings.cpp.obj"
+  ],
+  "hashes": [
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\smoke.cpp",
+      "sha256": "afc43c8e76cbd32707279ea071db155a01e3f38157b617357541d964a7eb3da1"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_agent_autogen\\RB4QDOGBQD\\moc_NemotronClient.cpp",
+      "sha256": "af4d8c3b9a2f436b9d5ad444b4615c47b4ca93a163258bd2abf5fe6690b83095"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_agent_autogen\\RB4QDOGBQD\\moc_ModelTransport.cpp",
+      "sha256": "2fc2c829f25b87433d7b8626bc09a505022858259d96bff606300a9f601e8e74"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_agent_autogen\\RB4QDOGBQD\\moc_CredentialSettings.cpp",
+      "sha256": "66357abd0e1b2932d19d978a5b3b557051827e5ef1fa0dff1ec9511aecf953b1"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater_agent.dir\\agent\\NemotronClient.cpp.obj",
+      "sha256": "297e37e10c231ba3d9b9d98684149e736a61d4ad65dee03930268cd768f36a7f"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater_agent.dir\\agent\\CredentialSettings.cpp.obj",
+      "sha256": "139ed7367a59c298737ed5b3cf6765a5e9ad1f8f51a38183a0d79f8ad2830425"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\smoke.obj",
+      "sha256": "0b625e418d6aa05ac6a44293ea90a55487efe3f11e169234633f14f844d35379"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\moc_NemotronClient.obj",
+      "sha256": "0f9e01c0a6865e385808938ae4cf5708d4edd0e0a302867ce31977c50ef6d898"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\moc_ModelTransport.obj",
+      "sha256": "5bc035879f9bc9b0b20189a1c808a5fdff24d3a563018d271c46fab09de616e1"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\moc_CredentialSettings.obj",
+      "sha256": "8f1cf9dcabfcfbc6526a73f8df6b4056a447a1186ca819934e23fdc6b6d301bf"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\json-mode-smoke\\json-mode-smoke.exe",
+      "sha256": "99589ce93bd7bb7a1493dfbcadc2a0a07b3973685ea6088d81a2af2da71fdbb4"
+    }
+  ]
+}

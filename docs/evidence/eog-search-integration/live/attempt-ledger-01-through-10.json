@@ -1,0 +1,586 @@
+{
+  "format": "breakwater-sanitized-live-search-ledger-v1",
+  "through_attempt": "canonical-10",
+  "complete_installed_live_search_pass_count": 1,
+  "attempts": [
+    {
+      "attempt": "canonical-01",
+      "runtime_source_commit": "fef231e919d85f42f63e9e15a9109228283b9f29",
+      "cutoff_unix": 1791646200,
+      "actual_objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": false,
+      "objective_history_classification": "recorded-default; override was lost by historical harness",
+      "exit_code": 3,
+      "generic_rehearsal_pass": false,
+      "strong_live_search_pass": false,
+      "elapsed_s": 122.5937385,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 7,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "read_topology",
+        "evaluate_plan",
+        "evaluate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [
+        "invalid_final"
+      ],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [],
+      "archive_sha256": "e201deaa240195a5185b0676d94b607ad003cd5814137269eaeadb3d0fe985d6"
+    },
+    {
+      "attempt": "canonical-02",
+      "runtime_source_commit": "fef231e919d85f42f63e9e15a9109228283b9f29",
+      "cutoff_unix": 1791646200,
+      "actual_objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": false,
+      "objective_history_classification": "recorded-default; override was lost by historical harness",
+      "exit_code": 0,
+      "generic_rehearsal_pass": true,
+      "strong_live_search_pass": false,
+      "elapsed_s": 98.4914326,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 6,
+      "tool_order": [
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [],
+      "archive_sha256": "b2a9f27a668e62b3dd21c545a7394e4297496f2b5e784ba3a6dade00f5afa3fb"
+    },
+    {
+      "attempt": "canonical-03",
+      "runtime_source_commit": "fef231e919d85f42f63e9e15a9109228283b9f29",
+      "cutoff_unix": 1791460800,
+      "actual_objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": false,
+      "objective_history_classification": "recorded-default; override was lost by historical harness",
+      "exit_code": 3,
+      "generic_rehearsal_pass": false,
+      "strong_live_search_pass": false,
+      "elapsed_s": 124.7293923,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 9,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "read_topology",
+        "search_plans",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "evaluate_plan"
+      ],
+      "terminal_failure_codes": [
+        "deadline_exceeded"
+      ],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [
+        {
+          "request_id": "6f9a7070-318d-4622-b729-61dc96bb74c5",
+          "selected_plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+          "plan_hash": "0f2b27de0ac28a35d68eecf5ebb0422e5ca3a448fc7ffbf41a21659927980430",
+          "matching_successful_tool_result": "call-3b060ac1-8cfa-4cf1-8a80-bfed45650e5f",
+          "matching_separate_validation": [
+            {
+              "request_id": "a3bffee2-20ef-4cfe-9716-1612afcd9bbe",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            },
+            {
+              "request_id": "63097da0-1627-4fb4-b689-0bbf2e5de7d5",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            }
+          ],
+          "baseline_cost": {
+            "lost_revenue": 12120.031267547434,
+            "total": 12120.031267547434,
+            "truck_cost": 0
+          },
+          "selected_cost": {
+            "lost_revenue": 3266.971701661354,
+            "total": 4171.971701661354,
+            "truck_cost": 905
+          },
+          "truck_jobs": 1,
+          "trips": 1,
+          "well_shut_ins": 3,
+          "repair_facilities": 3,
+          "outcome": "avoids_shutdown"
+        }
+      ],
+      "archive_sha256": "0a969ed9939ca9f6dc410ba0889b52ee0c5e5fbb4a3dbb06b0907b2eb9b5abe4"
+    },
+    {
+      "attempt": "canonical-04",
+      "runtime_source_commit": "fd170cfad46ef4a19c09e863c3f98da22dc672f0",
+      "cutoff_unix": 1791646200,
+      "actual_objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": false,
+      "objective_history_classification": "recorded-default; override was lost by historical harness",
+      "exit_code": 3,
+      "generic_rehearsal_pass": false,
+      "strong_live_search_pass": false,
+      "elapsed_s": 125.452615,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 7,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "search_plans",
+        "search_plans",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [
+        "deadline_exceeded"
+      ],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [
+        {
+          "request_id": "1d3fecb1-8788-49e3-b1e8-de679501853b",
+          "selected_plan_id": "plan-9dbf840d69a8cc498601ea04aaa92317",
+          "plan_hash": "8024f93269c3cab4bbbdf7808952ee18aff19b524ca0bfcd76ba915746d5c54c",
+          "matching_successful_tool_result": "call-48b7df1f-a53b-412a-99e9-89183d7b3f3f",
+          "matching_separate_validation": [
+            {
+              "request_id": "4ca99022-a5bd-4651-b39d-0a9cd1e7a086",
+              "validation_id": "validation-750ee7be5c62cc4eae559a0c4d1bc79c5e106ca6bcf568e9664ae5f720664a56",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            }
+          ],
+          "baseline_cost": {
+            "lost_revenue": 9970.447076341012,
+            "total": 9970.447076341012,
+            "truck_cost": 0
+          },
+          "selected_cost": {
+            "lost_revenue": 5640.4789076872385,
+            "total": 5640.4789076872385,
+            "truck_cost": 0
+          },
+          "truck_jobs": 0,
+          "trips": 0,
+          "well_shut_ins": 3,
+          "repair_facilities": 2,
+          "outcome": "automatic_shutdown"
+        }
+      ],
+      "archive_sha256": "75b98a6fa820232ab6d0a800da21afd3e7129059716b14aef8e822e4188c4633"
+    },
+    {
+      "attempt": "canonical-05",
+      "runtime_source_commit": "fd170cfad46ef4a19c09e863c3f98da22dc672f0",
+      "cutoff_unix": 1791646200,
+      "actual_objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": false,
+      "objective_history_classification": "recorded-default; override was lost by historical harness",
+      "exit_code": 3,
+      "generic_rehearsal_pass": false,
+      "strong_live_search_pass": false,
+      "elapsed_s": 72.7750945,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 5,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "evaluate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [
+        "invalid_final"
+      ],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [],
+      "archive_sha256": "85eaee86efa310424cbf4d92bbb66244cd3dfa8284dfd944ec4bb072289985c3"
+    },
+    {
+      "attempt": "canonical-06",
+      "runtime_source_commit": "81d6a28c9dc5499187ab4d141959c285317904ab",
+      "cutoff_unix": 1791646200,
+      "actual_objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": false,
+      "objective_history_classification": "recorded-default; override was lost by historical harness",
+      "exit_code": 3,
+      "generic_rehearsal_pass": false,
+      "strong_live_search_pass": false,
+      "elapsed_s": 67.5723946,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 5,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "evaluate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [
+        "response_invalid"
+      ],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [],
+      "archive_sha256": "e2a63bb1c39f80664a16c9a62f4eaf0737688856c00ee4cc7e48374a0c140f38"
+    },
+    {
+      "attempt": "canonical-07",
+      "runtime_source_commit": "b9d82443bdf90e9d828a0dee096973d9f3093e69",
+      "cutoff_unix": 1791646200,
+      "actual_objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": false,
+      "objective_history_classification": "recorded-default; override was lost by historical harness",
+      "exit_code": 0,
+      "generic_rehearsal_pass": true,
+      "strong_live_search_pass": false,
+      "elapsed_s": 159.9646846,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 7,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [],
+      "archive_sha256": "99f3beac50e292499168594a9897ac7b038ee604594de8a6ddc5cdfcf263e588"
+    },
+    {
+      "attempt": "canonical-08",
+      "runtime_source_commit": "b9d82443bdf90e9d828a0dee096973d9f3093e69",
+      "cutoff_unix": 1791460800,
+      "actual_objective": "Investigate the current pump failures across the whole captured network. Use search_plans to compare no-action, truck, well and mixed responses. Independently validate the exact provider-selected retained plan, then finish with concise grounded JSON advice and the search limitations.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": true,
+      "objective_history_classification": "explicit override, exact binding verified",
+      "exit_code": 3,
+      "generic_rehearsal_pass": false,
+      "strong_live_search_pass": false,
+      "elapsed_s": 174.9036352,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 9,
+      "tool_order": [
+        "detect",
+        "search_plans",
+        "search_plans",
+        "validate_plan",
+        "validate_plan",
+        "read_topology",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [
+        "timeout"
+      ],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [
+        {
+          "request_id": "cd215721-bb23-4fb5-a535-2a8e5d47fc09",
+          "selected_plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+          "plan_hash": "0f2b27de0ac28a35d68eecf5ebb0422e5ca3a448fc7ffbf41a21659927980430",
+          "matching_successful_tool_result": "call-2f4985d6-6639-4dae-8786-349fbaba2c51",
+          "matching_separate_validation": [
+            {
+              "request_id": "e9663a65-9a35-4c27-b9a9-cdf42a66a4cd",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            }
+          ],
+          "baseline_cost": {
+            "lost_revenue": 12120.031267547434,
+            "total": 12120.031267547434,
+            "truck_cost": 0
+          },
+          "selected_cost": {
+            "lost_revenue": 3266.971701661354,
+            "total": 4171.971701661354,
+            "truck_cost": 905
+          },
+          "truck_jobs": 1,
+          "trips": 1,
+          "well_shut_ins": 3,
+          "repair_facilities": 3,
+          "outcome": "avoids_shutdown"
+        }
+      ],
+      "archive_sha256": "0eaa2e12089ac4be17a1ab29ee1421892b53f9e09aef976cec07055306dedc90"
+    },
+    {
+      "attempt": "canonical-09",
+      "runtime_source_commit": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+      "cutoff_unix": 1791460800,
+      "actual_objective": "Investigate the current pump failures across the whole captured network. Use search_plans to compare no-action, truck, well and mixed responses. Independently validate the exact provider-selected retained plan, then finish with concise grounded JSON advice and the search limitations.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": true,
+      "objective_history_classification": "explicit override, exact binding verified",
+      "exit_code": 3,
+      "generic_rehearsal_pass": false,
+      "strong_live_search_pass": false,
+      "elapsed_s": 178.929524,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 12,
+      "tool_order": [
+        "detect",
+        "detect",
+        "detect",
+        "read_topology",
+        "search_plans",
+        "search_plans",
+        "validate_plan",
+        "evaluate_plan",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [
+        "response_invalid_empty"
+      ],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [
+        {
+          "request_id": "ec7aadc2-0e82-439a-be68-790ebeb28d34",
+          "selected_plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+          "plan_hash": "0f2b27de0ac28a35d68eecf5ebb0422e5ca3a448fc7ffbf41a21659927980430",
+          "matching_successful_tool_result": "call-7eecb337-875e-445c-a27c-f2f743681c94",
+          "matching_separate_validation": [
+            {
+              "request_id": "e29db42f-8c07-40f9-a193-766070d9e5c4",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            },
+            {
+              "request_id": "0dac4239-45dc-48c6-bd9a-d74018a7f8cf",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            },
+            {
+              "request_id": "9125ad31-3e1e-41de-8012-43bb50abf24e",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            }
+          ],
+          "baseline_cost": {
+            "lost_revenue": 12120.031267547434,
+            "total": 12120.031267547434,
+            "truck_cost": 0
+          },
+          "selected_cost": {
+            "lost_revenue": 3266.971701661354,
+            "total": 4171.971701661354,
+            "truck_cost": 905
+          },
+          "truck_jobs": 1,
+          "trips": 1,
+          "well_shut_ins": 3,
+          "repair_facilities": 3,
+          "outcome": "avoids_shutdown"
+        }
+      ],
+      "archive_sha256": "7ddddc92ee777ea05e2d2140b59ecaebddbb7f3eb5e74eff76f3c873060304d2"
+    },
+    {
+      "attempt": "canonical-10",
+      "runtime_source_commit": "a23fb7061e666cf76c6f3a15ad2390b5134504c6",
+      "cutoff_unix": 1791460800,
+      "actual_objective": "Investigate the current pump failures across the whole captured network. Use search_plans to compare no-action, truck, well and mixed responses. Independently validate the exact provider-selected retained plan, then finish with concise grounded JSON advice and the search limitations.",
+      "objective_matches_recorded_launch": true,
+      "explicit_requested_objective_proven": true,
+      "objective_history_classification": "explicit override; requested/prepared/argv/SQLite/archive exact binding verified",
+      "exit_code": 0,
+      "generic_rehearsal_pass": true,
+      "strong_live_search_pass": true,
+      "elapsed_s": 221.9803213,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 11,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "search_plans",
+        "search_plans",
+        "validate_plan",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "terminal_failure_codes": [],
+      "json_final_correction_codes": [],
+      "terminal_hosted_finish_reason": "UNKNOWN; public final completed, but the finish_reason wire field itself is not archived",
+      "source_inputs_unchanged": true,
+      "completed_searches": [
+        {
+          "request_id": "04f179f5-fd1f-4681-a906-f417dbc6df0a",
+          "selected_plan_id": "plan-2a4e845f62701d88af46643368bf6628",
+          "search": {
+            "action_time_resolution_s": null,
+            "candidate_limit": 100,
+            "complete": false,
+            "elapsed_s": 0.034485800002585165,
+            "evaluated_candidates": 100,
+            "optimality": "best_found",
+            "scope": "bounded_search",
+            "space_description": "eog-joint-search-0.1.2 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+            "time_limit_s": 30
+          },
+          "retained_evaluations": 8,
+          "matching_successful_tool_result": "call-aeddf526-aca1-4fd4-9924-125d25c3cf17",
+          "baseline_cost": {
+            "lost_revenue": 12120.031267547434,
+            "total": 12120.031267547434,
+            "truck_cost": 0
+          },
+          "selected_cost": {
+            "lost_revenue": 3266.971701661354,
+            "total": 4171.971701661354,
+            "truck_cost": 905
+          },
+          "matching_separate_validation": [
+            {
+              "request_id": "53c787ce-5157-43fa-86a7-b719241cd972",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            },
+            {
+              "request_id": "8368474e-d050-4218-ab2b-02039ba8677f",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            },
+            {
+              "request_id": "8ad0696f-84d8-4ed9-ac62-15ae6ef7ab3d",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            },
+            {
+              "request_id": "3a447fa6-eaca-4ff0-b460-970c8c7fc6df",
+              "validation_id": "validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2",
+              "evaluator_method": "eog-native-seconds-0.1.1",
+              "validator_method": "eog-rational-validation-0.1.0"
+            }
+          ],
+          "plan_hash": "0f2b27de0ac28a35d68eecf5ebb0422e5ca3a448fc7ffbf41a21659927980430",
+          "truck_jobs": 1,
+          "trips": 1,
+          "well_shut_ins": 3,
+          "repair_facilities": 3,
+          "matches_detected_failure_set": true,
+          "outcome": "avoids_shutdown",
+          "declared_limits": [
+            "Method eog-joint-search-0.1.2; finite policy family only, not global optimization over continuous actions.",
+            "Planning time excludes protected loading and the two causal snapshot preparations; it includes candidate evaluation and selected-plan validation.",
+            "All current failures are modeled together; no historical dispatch is assumed and evolving prior commitments are unsupported.",
+            "Already-shut or native-baseline zero-loss facilities receive no cost-increasing controls; other facilities remain in the complete cost/forecast context.",
+            "Control seeds target the input shutdown inventory or one/four representable inventory steps below it; evaluation always uses the original input threshold, without feasibility tolerance or clipping.",
+            "Full baseline/selected traces are retained; at most 8 evaluations are returned.",
+            "Available no-action/truck-only/well-only/mixed family leaders are retained when the result budget permits; small count/byte budgets may omit comparisons.",
+            "Only the selected plan is independently recomputed in this search; other retained native evaluations require their own validate_plan request.",
+            "Inspection timing and physical onset uncertainty remain unqualified.",
+            "Termination: candidate_limit.",
+            "26 candidate evaluations were numerically unavailable, not demonstrated infeasible.",
+            "Selected plan independently recomputed by eog-rational-validation-0.1.0; record validation-247aeef27cbbbc0b6e36fde942e60450b255b8c7ecf401f03a0fb563ae3219b2. Use validate_plan for the complete bound record; this is not operating approval."
+          ],
+          "nonzero_action_count": true,
+          "improves_retained_positive_baseline": true
+        }
+      ],
+      "archive_sha256": "b8e655ec14f3152cea58f042022d1c845e66408312240514796b9f2a8a7b23cd"
+    }
+  ],
+  "source_artifact_hashes_verified": 73,
+  "preserved_historical_artifacts": true,
+  "objective_harness_correction": {
+    "distinct_archived_objectives": 1,
+    "attempts": [
+      {
+        "attempt": "canonical-01",
+        "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+        "matches_launch": true
+      },
+      {
+        "attempt": "canonical-02",
+        "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+        "matches_launch": true
+      },
+      {
+        "attempt": "canonical-03",
+        "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+        "matches_launch": true
+      },
+      {
+        "attempt": "canonical-04",
+        "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+        "matches_launch": true
+      },
+      {
+        "attempt": "canonical-05",
+        "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+        "matches_launch": true
+      },
+      {
+        "attempt": "canonical-06",
+        "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+        "matches_launch": true
+      },
+      {
+        "attempt": "canonical-07",
+        "objective": "Investigate all current failures in this captured network. Compare the no-action baseline with useful coordinated truck and well options, accounting for shared resources, complete repair horizons and costs. Choose tools adaptively and validate the exact selected plan independently before recommending it. Explain search scope, unavailable evidence and remaining limitations. Keep all recommendations advisory; apply no controls.",
+        "matches_launch": true
+      }
+    ],
+    "correction": "The PowerShell Objective parameter was overwritten by the case-insensitive objective local variable. Earlier claims that the model ignored explicit supplied search objectives are unsupported."
+  },
+  "known_scope_limits": [
+    "Attempt10 is the first completed strong installed live-search pass; it used11successful hosted replies and no JSON-format correction. No reliability or repetition claim.",
+    "Attempts02 and07 passed generic hosted investigation gates without a completed search; they do not satisfy the stronger search rehearsal acceptance.",
+    "Attempts03,04,08,09 completed actual searches and separate exact selected-plan validation, but did not retain a grounded final.",
+    "Attempt09 response_invalid_empty proves empty public final/no tools at the transport check; the unretained finish_reason is UNKNOWN. The prospective explicit-stop recovery must not be reported as retrospective evidence.",
+    "Worker method versions are not explicit public wire identities; installed module/runtime SHA evidence pins implementation.",
+    "No controls applied; finite best-found searches do not prove global optimality, physical qualification or hosted reliability."
+  ]
+}

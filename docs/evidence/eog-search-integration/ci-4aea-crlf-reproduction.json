@@ -1,0 +1,12 @@
+{
+  "evidence_version": 1,
+  "scope": "In-memory line-ending reproduction of the generated protocol-worker insertion guard; no dataset or provider source files modified.",
+  "fixture": "desktop/tests/eog_fixtures/controller_worker_fixture.py",
+  "fixture_sha256": "17920c924274c84946eab1c680ed332ad5804b3a0693dfcdae1f14cb722358b6",
+  "expected_branch": "    elif operation == \"search_plans\": followed by LF",
+  "lf_contains_branch": true,
+  "crlf_contains_branch": false,
+  "normalized_crlf_contains_branch": true,
+  "fixed_revision": "05f906f987ea6096012a992014a48a743cc7ba16",
+  "scope_limit": "This verifies byte matching, not a rerun of GitHub Actions or the compiled follow-up test."
+}

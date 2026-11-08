@@ -1,0 +1,24 @@
+{
+  "evidence_version": 1,
+  "source_revision": "a5bbbd572d9bd9436acc5a16376fcfb484c1cbf0",
+  "baseline": "7418a2d7fa592ee283211b06420bf3b415cbdedb",
+  "scope": "Read-only review of consequential B UI, request/correction/budget, controller/history and CLI gating changes since the verified main baseline; relevant production callers and focused regression code inspected.",
+  "review_provenance": "Same-family review; reviewer coauthored Main.qml and portions of EogAnalysisController.cpp, so those portions include author self-review. A separate same-family agent reviewed the committed sidebar read-only.",
+  "consequential_new_findings": [],
+  "bounded_conclusion": "No additional consequential B-source defect found in this scope.",
+  "checked": [
+    "Separate JSON-only transport body and literal parser error classifications",
+    "Unchanged finite tool/refinement/request ceilings,240000ms loop and60000ms per-attempt transport defaults",
+    "Strict final-only correction, generation/cancel/deadline guards and no raw rejected-final persistence",
+    "Controller nonterminal retry then exact retained-plan grounding, sealing, current/history eligibility",
+    "Shared exact-ten-code recoverable CLI allowlist",
+    "Bounded model summary versus complete authoritative registry/history evidence",
+    "208px full-height sidebar, original mouse/key/drag handlers and scene viewport container structure"
+  ],
+  "limitations": [
+    "No source edits, builds or new execution performed by this review. Existing runtime logs are recorded separately.",
+    "No manual OS-driven complete workflow or exhaustive palette interaction claim.",
+    "Person A numerical algorithms and new inspection/stateful/robustness branches are outside this B review; the finite-extreme limitation remains in the frozen runtime.",
+    "No full hosted transcript audit or inference that JSON mode guarantees an adaptive-search result."
+  ]
+}

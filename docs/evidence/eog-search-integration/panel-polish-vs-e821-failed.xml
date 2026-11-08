@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-MSBuild"
+	tests="25"
+	failures="1"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="106"
+	timestamp="2026-11-08T10:49:09"
+	>
+	<testcase name="desktop.ui_overhaul_normal" classname="desktop.ui_overhaul_normal" time="3.34248" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2076,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_vis...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_compact" classname="desktop.ui_overhaul_compact" time="1.94905" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","actual_1_25h_forecast","nested_geometry_pick_and_click"],"code":"actual_drag_did_not_move","device_pixel_ratio":1.75,"elapsed_ms":768,"hosted_model_requests":"not_requested","observed":{},"passed":false,"phase":6,"window_height":700,"window_width":1100}
+</system-out>
+	</testcase>
+	<testcase name="desktop.nemotron_client" classname="desktop.nemotron_client" time="2.19838" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.agent_orchestrator" classname="desktop.agent_orchestrator" time="5.62702" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_contracts" classname="desktop.eog_contracts" time="0.107843" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="contracts.eog" classname="contracts.eog" time="1.06384" status="run">
+		<properties/>
+		<system-out>................................................
+----------------------------------------------------------------------
+Ran 48 tests in 0.772s
+
+OK
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_dataset" classname="desktop.eog_dataset" time="1.69639" status="run">
+		<properties/>
+		<system-out>Official input check NOT RUN: BREAKWATER_EOG_OFFICIAL_ROOT not supplied.
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_capture" classname="desktop.eog_capture" time="0.358559" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_client" classname="desktop.eog_analysis_client" time="18.0006" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_history" classname="desktop.eog_history" time="11.4166" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_investigator" classname="desktop.eog_investigator" time="3.90738" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_controller" classname="desktop.eog_analysis_controller" time="17.5433" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_provider" classname="desktop.eog_provider" time="8.42276" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_demo_input" classname="desktop.eog_demo_input" time="1.85595" status="run">
+		<properties/>
+		<system-out>test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes (__main__.EogDemoTests.test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes) ... ok
+test_destination_appearing_at_publication_is_not_overwritten_or_merged (__main__.EogDemoTests.test_destination_appearing_at_publication_is_not_overwritten_or_merged) ... ok
+test_deterministic_topology_rename_preserves_values_economics_and_all_references (__main__.EogDemoTests.test_deterministic_topology_rename_preserves_values_economics_and_all_references) ... ok
+test_every_system_disposal_and_retained_facility_operations_key_is_renamed (__main__.EogDemoTests.test_every_system_disposal_and_retained_facility_operations_key_is_renamed) ... ok
+test_external_source_change_before_publication_is_detected (__main__.EogDemoTests.test_external_source_change_before_publication_is_detected) ... ok
+test_negative_overflow_and_stale_acquisition_field_text_and_line_endings_are_exact (__main__.EogDemoTests.test_negative_overflow_and_stale_acquisition_field_text_and_line_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_live_cli" classname="desktop.eog_live_cli" time="2.55867" status="run">
+		<properties/>
+		<system-out>test_database_sidecar_names_cannot_be_used_as_archives (__main__.EogLiveCliTests.test_database_sidecar_names_cannot_be_used_as_archives) ... ok
+test_invalid_existing_and_in_source_archives_are_rejected (__main__.EogLiveCliTests.test_invalid_existing_and_in_source_archives_are_rejected) ... ok
+test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive (__main__.EogLiveCliTests.test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive) ... ok
+test_native_executable_and_inputs_are_required_without_skips (__main__.EogLiveCliTests.test_native_executable_and_inputs_are_required_without_skips) ... ok
+test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) ... ok
+test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives (__main__.EogLiveCliTests.test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives) ... ok
+test_source_database_paths_and_archive_database_co...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_cli" classname="desktop.eog_cli" time="6.26333" status="run">
+		<properties/>
+		<system-out>test_conflicting_workbench_operations_are_rejected (__main__.EogCliTests.test_conflicting_workbench_operations_are_rejected) ... ok
+test_facility_and_report_need_a_dataset (__main__.EogCliTests.test_facility_and_report_need_a_dataset) ... ok
+test_inputs_cannot_be_report_screenshot_or_database (__main__.EogCliTests.test_inputs_cannot_be_report_screenshot_or_database) ... ok
+test_legacy_report_writers_are_rejected (__main__.EogCliTests.test_legacy_report_writers_are_rejected) ... ok
+test_reports_cannot_overwrite_database_journals (__main__.EogCliTests.test_reports_cannot_overwrite_database_journals) ... ok
+test_reports_screenshot_and_database_are_distinct (__main__.EogCliTests.test_reports_screenshot_and_database_are_distinct) ... ok
+test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input) ... ok
+test_unknown_workspace_and_facility_are_rejected (__main__.EogCliTests.test_unknown_workspace_and_facility_are_rejected) ... ok
+
+---------...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_plan_chart" classname="desktop.eog_plan_chart" time="3.81747" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_plan_details" classname="desktop.eog_plan_details" time="4.62308" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_event_details" classname="desktop.eog_event_details" time="3.30702" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_normal" classname="desktop.eog_analysis_normal" time="1.55856" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_normal" classname="desktop.eog_overview_normal" time="1.38137" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_normal" classname="desktop.eog_facility_normal" time="1.37178" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_compact" classname="desktop.eog_analysis_compact" time="1.38857" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_compact" classname="desktop.eog_overview_compact" time="1.29318" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_compact" classname="desktop.eog_facility_compact" time="1.21" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

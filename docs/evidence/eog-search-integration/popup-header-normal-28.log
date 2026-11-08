@@ -1,0 +1,24 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/desk-normal
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/desk-normal
+    Start 12: desktop.ui_overhaul_normal
+1/9 Test #12: desktop.ui_overhaul_normal ...............   Passed    3.20 sec
+    Start 13: desktop.ui_overhaul_compact
+2/9 Test #13: desktop.ui_overhaul_compact ..............   Passed    3.23 sec
+    Start 22: desktop.pipe_transport
+3/9 Test #22: desktop.pipe_transport ...................   Passed    2.41 sec
+    Start 30: desktop.telemetry_lifecycle
+4/9 Test #30: desktop.telemetry_lifecycle ..............   Passed   25.09 sec
+    Start 31: desktop.sensor_editor_normal_smoke
+5/9 Test #31: desktop.sensor_editor_normal_smoke .......   Passed    1.28 sec
+    Start 32: desktop.telemetry_replay_normal_smoke
+6/9 Test #32: desktop.telemetry_replay_normal_smoke ....   Passed    1.51 sec
+    Start 33: desktop.sensor_editor_compact_smoke
+7/9 Test #33: desktop.sensor_editor_compact_smoke ......   Passed    1.39 sec
+    Start 34: desktop.telemetry_replay_compact_smoke
+8/9 Test #34: desktop.telemetry_replay_compact_smoke ...   Passed    1.91 sec
+    Start 45: desktop.pipe_evidence_smoke
+9/9 Test #45: desktop.pipe_evidence_smoke ..............   Passed    1.31 sec
+
+100% tests passed, 0 tests failed out of 9
+
+Total Test time (real) =  41.35 sec

@@ -1,0 +1,10 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/desk-normal
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-validation-review/out/desk-normal
+    Start 50: desktop.eog_investigator
+1/2 Test #50: desktop.eog_investigator ..........   Passed    2.75 sec
+    Start 51: desktop.eog_analysis_controller
+2/2 Test #51: desktop.eog_analysis_controller ...   Passed   18.30 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =  21.09 sec

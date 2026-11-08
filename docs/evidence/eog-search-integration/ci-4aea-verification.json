@@ -1,0 +1,116 @@
+{
+  "verification_version": 1,
+  "suite": "desktop",
+  "mode": "normal",
+  "status": "failed",
+  "started_utc": "2026-11-08T15:15:35.5638533Z",
+  "source_commit": "6c67052e77c3bd7b5da1891da842b26d57bc239a",
+  "source_tree": "061af5825da55e3d65be482f49aba17e96a5e332",
+  "working_tree_dirty": false,
+  "helper_sha256": {
+    "scripts/ci/Run-Checks.ps1": "035f36be1e08ef450037bfc810c91b5acca5dd6147f38a00f5dc32878abb2070",
+    "scripts/ci/Initialize-Compiler.ps1": "93b0c388ac52900c4b81e1623e079827fa0cc67f4a4f5f3b2251c64b9f000cd1",
+    "scripts/ci/Write-JobEvidence.ps1": "16dc4bf3138ea97b0709cf919a2e8138a8908ce9c84b59ac0f9d55aaf3800424",
+    "scripts/ci/Run-PythonTests.py": "34a1655586b94f6d8e37a9e1c7b642f54a1b809f23a14554acb29b3c3536cd1b",
+    "scripts/ci/requirements-win-py312.txt": "695c77a1fb88f2adb7c969e9c42a2c685023e272b1d07b5fbe1698918ff58c67",
+    ".github/workflows/windows-checks.yml": "506a6dec5cbd039ef15074bc1d0a9a6a3b2511b353bfe4370bca9ddf445c2df4"
+  },
+  "runner": {
+    "image": "win22",
+    "image_version": "20261101.353.1",
+    "os": "Microsoft Windows NT 10.0.20348.0"
+  },
+  "external_model_requests": "not_run",
+  "toolchain": {
+    "bootstrap": {
+      "python": "3.12.10",
+      "packages": {
+        "requests": "2.34.2",
+        "py7zr": "1.1.4",
+        "PyYAML": "6.0.3"
+      }
+    },
+    "bootstrap_path_length_before": 2906,
+    "compiler": "14.44.35229.0",
+    "visual_studio": "17.14.37827.9",
+    "bootstrap_path_length": 213,
+    "compiler_path_length": 1995,
+    "windows_sdk": "10.0.26100.0\\",
+    "cmake": "cmake version 3.31.6",
+    "ninja": "1.13.2",
+    "science": {
+      "python": "3.12.13",
+      "torch": "2.15.0+cpu",
+      "numpy": "2.5.4",
+      "device": "cpu",
+      "dtype": "torch.float64"
+    },
+    "qt": "6.12.0",
+    "eog_provider": {
+      "native_sha256": "cd207f88f0ae6bee5ac8cfbb7f214d296fad5ba3fade3cd38a4bd86219129dd0",
+      "worker_sha256": "f49928e6734e798460f6212fac6d7f8932ed7cd414645a2c57ce3d2e2ff5854a",
+      "contracts": "contracts/eog",
+      "native_mode": "normal"
+    }
+  },
+  "steps": [
+    {
+      "name": "bootstrap-venv",
+      "exit_code": 0,
+      "elapsed_s": 5.9366335
+    },
+    {
+      "name": "bootstrap-lock",
+      "exit_code": 0,
+      "elapsed_s": 4.5058963
+    },
+    {
+      "name": "bootstrap-versions",
+      "exit_code": 0,
+      "elapsed_s": 0.1051386
+    },
+    {
+      "name": "workflow-regressions",
+      "exit_code": 0,
+      "elapsed_s": 1.1060953
+    },
+    {
+      "name": "scientific-setup",
+      "exit_code": 0,
+      "elapsed_s": 14.2686303
+    },
+    {
+      "name": "scientific-runtime",
+      "exit_code": 0,
+      "elapsed_s": 4.6299363
+    },
+    {
+      "name": "qt-sdk",
+      "exit_code": 0,
+      "elapsed_s": 3.4377617
+    },
+    {
+      "name": "configure",
+      "exit_code": 0,
+      "elapsed_s": 14.4620502
+    },
+    {
+      "name": "build",
+      "exit_code": 0,
+      "elapsed_s": 366.0905222
+    },
+    {
+      "name": "registered-tests",
+      "exit_code": 0,
+      "elapsed_s": 0.7602721
+    },
+    {
+      "name": "ctest",
+      "exit_code": 8,
+      "elapsed_s": 536.2926906
+    }
+  ],
+  "failed_step": "ctest",
+  "failure_type": "System.Management.Automation.RuntimeException",
+  "finished_utc": "2026-11-08T15:31:31.4956655Z"
+}

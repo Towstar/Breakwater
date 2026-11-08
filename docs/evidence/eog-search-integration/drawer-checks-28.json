@@ -1,0 +1,26 @@
+{
+  "evidence_version": 1,
+  "source_revision": "28d873c0a328d5fbd956fdf3b1c75cdf49b7ccf9",
+  "scope": "Actual installed Ready-bundle normal/compact investigator-drawer frames; render/exit checks, not hosted investigation or manual OS workflow",
+  "release_completion_sha256": "c05ff9a1ae8fba379590bd9d7ee4f61e54a0bb0ac131eb5b3cb62822b2dfeb5a",
+  "files": [
+    {
+      "file": "drawer-normal-28.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\drawer-open-normal.png",
+      "sha256": "bcb177bebcf5fa025be40a42264d55c0b0ebba1fc731f7f09a0c1202f9ffa4d2",
+      "bytes": 418644
+    },
+    {
+      "file": "drawer-compact-28.png",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\drawer-open-compact.png",
+      "sha256": "2215411da6468622a6b0596bbd72a5c4d37e5bed05cf1ccb61ad4283213d5d6e",
+      "bytes": 362534
+    },
+    {
+      "file": "drawer-ready28-results.json",
+      "source": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-search-review\\out\\search-installed-ui-ready28\\drawer-render-results.json",
+      "sha256": "9d82f6d6698e190f7aeab55b0013b8539cd9b776b70b55d0f097d64d514fbcf7",
+      "bytes": 1088
+    }
+  ]
+}
