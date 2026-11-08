@@ -8,6 +8,8 @@
 #include "science/StorageScienceController.hpp"
 #include "telemetry/TelemetryController.hpp"
 #include "eog/EogDatasetController.hpp"
+#include "eog/EogAnalysisController.hpp"
+#include "agent/NemotronClient.hpp"
 #include <QGuiApplication>
 #include <QDir>
 #include <QElapsedTimer>
@@ -87,6 +89,10 @@ int main(int argc, char** argv) {
     if (startupWorkspace.isEmpty()) startupWorkspace = workbenchOperation ||
         (startupEogDataset.isEmpty() && (arguments.contains("--smoke") || arguments.contains("--screenshot")))
         ? "workbench" : "eog";
+    const bool eogAnalysisPanel = arguments.contains("--eog-analysis-panel");
+    if (arguments.count("--eog-analysis-panel") > 1 || (eogAnalysisPanel && startupWorkspace != "eog")) {
+        qCritical("--eog-analysis-panel requires the EOG workspace."); return 8;
+    }
     if (!startupEogDataset.isEmpty()) {
         const QFileInfo directory(startupEogDataset);
         if (!directory.isDir()) { qCritical("The EOG dataset must be a local directory."); return 8; }
@@ -170,6 +176,12 @@ int main(int argc, char** argv) {
     breakwater::desktop::history::HistoryController history(&repository);
     breakwater::desktop::agent::AgentController investigator(&controller);
     breakwater::desktop::agent::CredentialSettings credentials;
+    // EOG has separate provider processes, model conversation and history. The
+    // workbench investigator and its approval state retain their own ownership.
+    breakwater::desktop::eog::EogAnalysisClient eogClient;
+    breakwater::desktop::eog::EogHistoryRepository eogHistory(historyPath.isEmpty() ? QString{} : historyPath + ".eog.sqlite");
+    breakwater::desktop::agent::NemotronClient eogModel;
+    breakwater::desktop::eog::EogAnalysisController eogAnalysis(&eog, &eogClient, &eogHistory, &eogModel);
     investigator.setHistory(&repository, &history);
     breakwater::desktop::quality::PipeTransportController pipeTransport(&controller, &history);
     breakwater::desktop::science::PythonWorkerClient scientificWorker;
@@ -230,9 +242,11 @@ int main(int argc, char** argv) {
         {"history", QVariant::fromValue(&history)}, {"scientificWorker", QVariant::fromValue(&scientificWorker)},
         {"pipeTransport", QVariant::fromValue(&pipeTransport)}, {"storageScience", QVariant::fromValue(&storageScience)},
         {"credentials", QVariant::fromValue(&credentials)}, {"telemetry", QVariant::fromValue(&telemetry)},
-        {"eog", QVariant::fromValue(&eog)}, {"initialWorkspace", startupWorkspace}});
+        {"eog", QVariant::fromValue(&eog)}, {"eogAnalysis", QVariant::fromValue(&eogAnalysis)}, {"initialWorkspace", startupWorkspace}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
+    if (eogAnalysisPanel && !engine.rootObjects().isEmpty())
+        QMetaObject::invokeMethod(engine.rootObjects().front(), "openEogAnalysis");
     const auto workbenchBeforeEog = controller.editorDocument();
     bool startupEogPending = !startupEogDataset.isEmpty();
     if (!startupEogDataset.isEmpty()) {
@@ -365,6 +379,7 @@ int main(int argc, char** argv) {
             const bool scienceVisible = engine.rootObjects().front()->property("storageScienceVisible").toBool();
             const bool sensorPending = sensorEditorCheck && (!engine.rootObjects().front()->property("sensorEditorVisible").toBool()
                 || controller.sensorMarkers().isEmpty());
+            const bool eogAnalysisPending = eogAnalysisPanel && !engine.rootObjects().front()->property("eogAnalysisVisible").toBool();
             const bool telemetryPending = !startupTelemetryReplay.isEmpty() &&
                 (!engine.rootObjects().front()->property("telemetryVisible").toBool() || telemetry.tracePreview().isEmpty()
                     || engine.rootObjects().front()->property("telemetryTraceSamples").toInt() < 1 || telemetry.active());
@@ -379,7 +394,7 @@ int main(int argc, char** argv) {
                     !pipeDialogVisible));
             // An imported-evidence modal is the render target; scene labels behind
             // that modal are not a prerequisite for viewing its charts.
-            if (capture.isNull() || (!eogMode && pipeImportIndex < 0 && !scienceCheck && !scientificHistoryCheck && !labelsVisible) || eogPending || evidencePending || sciencePending || sensorPending || telemetryPending || scientificWorker.busy()) {
+            if (capture.isNull() || (!eogMode && pipeImportIndex < 0 && !scienceCheck && !scientificHistoryCheck && !labelsVisible) || eogPending || eogAnalysisPending || evidencePending || sciencePending || sensorPending || telemetryPending || scientificWorker.busy()) {
                 if (smokeElapsed.elapsed() >= (scienceCheck ? 90000 : 20000)) app.exit(capture.isNull() ? 3 : 5);
                 else if (window) window->requestUpdate();
                 return;
@@ -408,7 +423,9 @@ int main(int argc, char** argv) {
                     {"trend_samples", engine.rootObjects().front()->property("eogTrendSamples").toInt()},
                     {"trend_guides", engine.rootObjects().front()->property("eogTrendGuides").toInt()},
                     {"rendered_frame_ready", engine.rootObjects().front()->property("eogSceneReady").toBool()},
-                    {"workbench_unchanged", unchanged}, {"analysis_status", "unavailable"},
+                    {"workbench_unchanged", unchanged}, {"analysis_status", "not_requested"},
+                    {"provider_configured", eogClient.configured()}, {"provider_execution_verified", eogClient.executionVerified()},
+                    {"analysis_panel_visible", engine.rootObjects().front()->property("eogAnalysisVisible").toBool()},
                     {"hosted_model_requests", "not_run"}};
                 QSaveFile file(eogReport);
                 const auto bytes = QJsonDocument(report).toJson(QJsonDocument::Indented);

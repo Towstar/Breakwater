@@ -15,6 +15,7 @@ ApplicationWindow {
     required property var storageScience
     required property var telemetry
     required property var eog
+    required property var eogAnalysis
     required property string initialWorkspace
     property string workspace: initialWorkspace
     readonly property bool eogSceneReady: workspace === "eog" && eogPanel.datasetSceneReady
@@ -22,6 +23,7 @@ ApplicationWindow {
     readonly property bool eogTrendReady: workspace === "eog" && eogPanel.datasetTrendReady
     readonly property int eogTrendSamples: workspace === "eog" ? eogPanel.renderedTrendSamples : 0
     readonly property int eogTrendGuides: workspace === "eog" ? eogPanel.renderedTrendGuides : 0
+    readonly property bool eogAnalysisVisible: eogAnalysisDialog.visible
     readonly property bool sensorEditorVisible: sensorDialog.visible
     readonly property bool telemetryVisible: telemetryDialog.visible
     readonly property int telemetryTraceSamples: telemetryDialog.renderedNumericSamples
@@ -71,6 +73,7 @@ ApplicationWindow {
     function openStorageScience() { showAgent = true; agentPanel.showScience() }
     function openSensors() { sensorDialog.open() }
     function openTelemetry() { telemetryDialog.open() }
+    function openEogAnalysis() { eogAnalysisDialog.open() }
     function clickAsset(id) {
         if (connectMode) {
             if (connectionSource.length === 0) connectionSource = id
@@ -91,6 +94,7 @@ ApplicationWindow {
     PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
     SensorPanel { id: sensorDialog; controller: app.controller }
     TelemetryPanel { id: telemetryDialog; telemetry: app.telemetry }
+    EogAnalysisPanel { id: eogAnalysisDialog; analysis: app.eogAnalysis; eog: app.eog }
 
     header: ToolBar {
         height: 64
@@ -118,6 +122,7 @@ ApplicationWindow {
             Label { text: "EOG operator console"; color: "#c3d7e3" }
             Item { Layout.fillWidth: true }
             Label { text: "Recorded observations / advisory analysis"; color: "#9eb5c2"; Layout.maximumWidth: 280; elide: Text.ElideRight }
+            Button { objectName: "openEogAnalysis"; text: "Investigate / history"; onClicked: eogAnalysisDialog.open() }
             Button { objectName: "switchToWorkbench"; text: "Simulation workbench"; onClicked: app.workspace = "workbench" }
         }
     }
