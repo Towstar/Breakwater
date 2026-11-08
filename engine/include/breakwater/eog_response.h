@@ -104,6 +104,27 @@ BWEOG_API int bweog_evaluate(const bweog_snapshot*, const bweog_plan*, bweog_res
 BWEOG_API int bweog_get_result(const bweog_result*, bweog_result_view* out);
 BWEOG_API void bweog_destroy(bweog_result*);
 
+/* Additive private committed-state extension. V1 layouts/entry points above are
+ * unchanged. The initial snapshot is AFTER all events at decision time zero.
+ * Busy slots reserve [0, available_s); pending pickups are strictly after zero.
+ * Previously stopped eligible wells lose future revenue through repair. Costs
+ * cover future committed/new pickups and future lost revenue, never sunk costs.
+ * Caller authenticates/derives this initial state; this ABI grants no authority. */
+typedef struct { uint32_t system, truck; double available_s; } bweog_occupied;
+typedef struct { uint32_t facility, system, truck; double arrival_s; } bweog_pending;
+typedef struct {
+    uint32_t abi_version, struct_size;
+    const bweog_occupied* occupied;
+    const bweog_pending* pickups;
+    const uint32_t* stopped_wells;
+    uint32_t occupied_count, pickup_count, stopped_count;
+} bweog_commitments;
+BWEOG_API const char* bweog_committed_method(void);
+/* Separate extension layouts: 1 occupied, 2 pending, 3 commitments. */
+BWEOG_API uint32_t bweog_committed_layout_size(uint32_t layout_id);
+BWEOG_API int bweog_evaluate_committed(const bweog_snapshot*, const bweog_plan*,
+                                      const bweog_commitments*, bweog_result** out);
+
 #ifdef __cplusplus
 }
 #endif

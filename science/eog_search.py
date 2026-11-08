@@ -17,7 +17,7 @@ import time
 from eog_plan_validator import ValidationUnavailable, prepare, validate_prepared
 from eog_response import ResponseUnavailable, compile_context, evaluate
 
-METHOD = "eog-joint-search-0.1.2"
+METHOD = "eog-joint-search-0.1.3"
 
 
 class _PlanningDeadline(Exception):
@@ -146,7 +146,10 @@ def _local_policies(snapshot, fi, schedule, rules, check):
     check()
     f = snapshot["facilities"][fi]
     arrivals = sorted(t for job in schedule if job.facility == fi for t in _arrivals(snapshot, job))
-    capacity = snapshot["truck_capacity_bbl"]
+    # These are optimistic rational seed volumes, not evaluated inventories.
+    # Convert each finite load before multiplying: a legal binary64 load times
+    # a bounded integer count may overflow binary64 while the seed remains exact.
+    capacity = Fraction(snapshot["truck_capacity_bbl"])
     horizon = f["repair_s"]
     pivots = [horizon, *_pivot_times(arrivals, rules.prefix_pivots)]
     targets = [f["shutdown_bbl"]]
@@ -280,7 +283,7 @@ def _trip_counts(snapshot, fi, call, rules, check):
         removed += q * Fraction(f["repair_s"])
     def priority(count):
         check()
-        _, loss = _greedy(snapshot, fi, f["repair_s"], count * snapshot["truck_capacity_bbl"])
+        _, loss = _greedy(snapshot, fi, f["repair_s"], count * Fraction(snapshot["truck_capacity_bbl"]))
         return Fraction(snapshot["cost_per_trip"]) * count + loss, count
     return tuple(sorted(counts, key=priority))
 
@@ -311,7 +314,7 @@ def _estimate(snapshot, schedule, check):
     cost = Fraction(snapshot["cost_per_trip"]) * sum(j.trips for j in schedule)
     for fi, f in enumerate(snapshot["facilities"]):
         check()
-        removed = sum(j.trips for j in schedule if j.facility == fi) * snapshot["truck_capacity_bbl"]
+        removed = sum(j.trips for j in schedule if j.facility == fi) * Fraction(snapshot["truck_capacity_bbl"])
         _, loss = _greedy(snapshot, fi, f["repair_s"], removed)
         cost += loss
     try: return float(cost)

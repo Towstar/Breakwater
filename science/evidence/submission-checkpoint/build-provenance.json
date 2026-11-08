@@ -1,0 +1,123 @@
+{
+  "runtime_source": "325a168b4356157d10e25783e88e7381a4d5e850",
+  "documentation_head": "325a168b4356157d10e25783e88e7381a4d5e850",
+  "built_utc": "2026-11-08T17:33:01.1209415Z",
+  "executable": "C:\\Projects\\Breakwater\\out\\submission-final-latest\\bin\\breakwater.exe",
+  "executable_sha256": "e4e3a38151af178d05f0689a3fb1b75399c399e1135fbe0d832b2125f169a6b1",
+  "eog_native_sha256": "ea3b7677ee1912c7820398c122ead55969daade82bf6a88904765c056207b564",
+  "installed_calibration_sha256": "b6eb42add7fe8d6c8b601c8102dc4d1ca4e2f3ee51804a9f6bcbe0e86e5ceb8a",
+  "build": "MSVC 19.51 x64; Ninja; RelWithDebInfo; precise floating point; Qt 6.12.0",
+  "desktop_pipe_tests": {
+    "skipped": 0,
+    "actual_physicsnemo": true,
+    "failed": 0,
+    "passed": 16
+  },
+  "project_tests": {
+    "skipped": 0,
+    "failed": 0,
+    "passed": 13
+  },
+  "science_pre_test_split": {
+    "runtime_unchanged_by_test_relocation": true,
+    "skipped": 0,
+    "source": "25aa6147aed1dd405a326ac271a77cb4534459ac",
+    "failed": 0,
+    "passed": 459
+  },
+  "final_calibration_tests": {
+    "explicit_passed": 3,
+    "default_input": 3,
+    "explicit_real_runtime": 3
+  },
+  "python_environment": "Existing pinned local science venv; not bundled",
+  "hosted_model_on_this_rebuild": "not_run",
+  "remaining": "Public EOG planning is snapshot-based. A53 private committed-state evaluation does not finish authenticated history compilation, stateful optimization or evolving dispatch UI. No physical/held-out quality qualification or global-optimum claim.",
+  "source_files": [
+    {
+      "path": "desktop/ProjectController.cpp",
+      "git_blob": "2041df735d0ea679772d38254dc403dc6d66278e",
+      "file_sha256": "cc26d22469466a01ac3aecca3d6f5809d4e2a739b2ad11a812c2265a5fb026a6"
+    },
+    {
+      "path": "desktop/ProjectController.hpp",
+      "git_blob": "542b5f0eb8c6e4636b02f694cf23e73f9ca3ba0b",
+      "file_sha256": "8a0deb814deff987cb14a5a6772bce5b09b673fe0bf5f032b921a6ee064cbbb7"
+    },
+    {
+      "path": "desktop/quality/PipeTransportController.cpp",
+      "git_blob": "8791f8777aa6e0138fc1d5ff597022933913ca6c",
+      "file_sha256": "488bf5471230a86dfcdc948a06bed13abb338eefab87558e8262b7ade6265124"
+    },
+    {
+      "path": "desktop/quality/PipeTransportController.hpp",
+      "git_blob": "1223b4582880bfd73d2055e6ce2d8af37762cb1c",
+      "file_sha256": "541fd127caff2173bdf6065aad857bfa85033763bc6d1e8047c9eea89bdb1860"
+    },
+    {
+      "path": "desktop/qml/Main.qml",
+      "git_blob": "2582cdcae8de84088e5a51c101f888ebbe766e6b",
+      "file_sha256": "faca0d277530e4d72d644f4dac83e24fd3c5b7ce75841ee14cd5d8b029527516"
+    },
+    {
+      "path": "desktop/qml/PipeTransportPanel.qml",
+      "git_blob": "91862817d7c11e68d27f0dae269732a876d442ba",
+      "file_sha256": "e2299fe99b5dbf98136af27d54e28ff5c18eb5ef8feac74280ca17bbf85d1e7f"
+    },
+    {
+      "path": "desktop/tests/pipe_transport_tests.cpp",
+      "git_blob": "021111d1493d16f0a93b0e80cb114c3a74b770cc",
+      "file_sha256": "d3fb57fedf13e81ad4d3d95768140841856e8d8d7a0c0c0399db126e37a3a3bc"
+    },
+    {
+      "path": "desktop/CMakeLists.txt",
+      "git_blob": "b6351c751bab0459397fe4deb93e3b01ac314623",
+      "file_sha256": "cbc210a75e0ba77850ed51e65e3fb958b9bb8f2550a22231d1d6451bdae87f04"
+    },
+    {
+      "path": "science/transport_calibration.py",
+      "git_blob": "1e1b173fe92460c355c439f48d8de22775afd4ba",
+      "file_sha256": "b6eb42add7fe8d6c8b601c8102dc4d1ca4e2f3ee51804a9f6bcbe0e86e5ceb8a"
+    },
+    {
+      "path": "science/eog_worker.py",
+      "git_blob": "c962ab0cdb82c654eb94e39285bdbbf2ab2fdfcd",
+      "file_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2"
+    },
+    {
+      "path": "science/eog_search.py",
+      "git_blob": "bffcfc9045896036b842fe9023a1eafe22f39d11",
+      "file_sha256": "b741f3f96d5814b3b18e60fc081d2affc655235cec04639eae89cc56f6c016ef"
+    },
+    {
+      "path": "science/native_eog.py",
+      "git_blob": "8e536b9067969d03f6276394d1be1a70b95ede55",
+      "file_sha256": "aac1f649ed6c5900df12f749977e3f676846dabe857e0d52ded1a1760244e5bb"
+    },
+    {
+      "path": "engine/src/eog_response.cpp",
+      "git_blob": "e9cb015b98c5e40602e2e3cd45920b8004f3bd84",
+      "file_sha256": "d2823dbcad9c7e64dc3f3ad5cabd3de51bbdf80a8c0248704de9ea8018894e6b"
+    },
+    {
+      "path": "engine/include/breakwater/eog_response.h",
+      "git_blob": "bc42df63d1ba1ac61d5afaeb7849dfea382c2713",
+      "file_sha256": "72cd4b2e667fd1c1969635e6486cc4a0797be0827d0c4b85a80d76e139326ed5"
+    },
+    {
+      "path": "desktop/qml/EogDatasetPanel.qml",
+      "git_blob": "cb2187d916c267bb0a0c0bae82e1f518f2345373",
+      "file_sha256": "b7e665d0bde98406a37f465bd9bd73f0cfbc666526d10482943fdbfb96196d19"
+    }
+  ],
+  "calibration_qualified_runtime_source": "6c0c2a2152dfe854619524529beb9193bc5da959",
+  "calibration_qualified_executable_sha256": "90a328705d12855d4ef8f55455626912f0de0d732dfc5c849ed896cd6015314b",
+  "latest_selector_head": "7fda2671009f5ec57df680262b64b8ca040a741f",
+  "native_ui_checks": {
+    "compact": 9,
+    "normal": 9,
+    "initial_hidden_window_timeout_retained": true,
+    "failed_visible_checks": 0
+  },
+  "calibration_provider_sources_unchanged_after_qualified_run": true
+}

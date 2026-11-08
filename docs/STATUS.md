@@ -1,5 +1,59 @@
 # Implementation status
 
+## EOG model search scope correction
+
+Runtime `4654de4` removes the unsupported system-filter parameter from Nemotron's
+search tool and explicitly binds its declared whole-network scope to the provider.
+Filtered observations/detection remain available. Explicit malformed or narrower
+search scopes are rejected locally without a provider call or silent expansion.
+Controller tests passed 50/50 and investigator tests 66/66, with no skips. Two
+consecutive installed startup/render runs passed; an initial unisolated access
+violation and the passing previous-build control remain retained. A genuine
+hosted check completed detection and plan evaluation, then failed on the next
+model request with `transport_failed`; no complete hosted pass is claimed.
+Details: `docs/EOG_SEARCH_SCOPE_FIX.md`, `docs/evidence/eog-search-scope/`.
+
+## Experimental sparse tracer calibration — submission branch
+
+The isolated submission increment adds **Learn decay · PhysicsNeMo** to the
+workbench's experimental pipe panel. A real PhysicsNeMo 2.2.2 FullyConnected
+module fits one bounded, nonnegative first-order decay coefficient from 3–64
+observations of a closed, well-mixed tracer sample with a known initial
+concentration. A separately coded scalar log-space least-squares calculation and
+concentration-residual gate must agree before an estimate is offered. The user
+must explicitly apply it to the selected pipe; the existing numerical edit path
+invalidates old results/approval and requires a new native forecast. Native
+finite-volume transport remains authoritative.
+
+Implemented Python execution passed six focused tests with the actual installed
+PhysicsNeMo/PyTorch runtime, including three known positive coefficients,
+zero-decay behavior, malformed observations and rejection of a mismatched test.
+The first zero-decay optimizer tolerance failure is retained in
+`science/evidence/transport-calibration/`; tighter convergence tolerances passed.
+Combined runtime source `6c0c2a2152dfe854619524529beb9193bc5da959` compiled and
+installed on Ethan's Windows machine. The actual C++/worker/apply pipe suite
+passed **16/16**, including real PhysicsNeMo execution and forecast/approval
+invalidation; project regression passed **13/13**, both without skips. Full
+science discovery passed **459/459** at the pre-split test source `25aa614`;
+the final discovery layout has 456 default tests plus three explicit real-runtime
+qualification tests, which separately passed. Source-qualified evidence and
+installed screenshot results belong to `science/evidence/submission-checkpoint/`.
+
+The subsequent selector-only rebuild adopts PR #55 `7fda267`, with combined
+runtime `325a168b4356157d10e25783e88e7381a4d5e850`. All nine installed native UI
+gates passed in each of normal and compact sizes. Calibration/provider/numerical
+source is unchanged from the actual `6c0c2a2` GUI qualification. That real UI fit
+0.2000/h, explicitly applied it, required a fresh forecast, and completed native
+transport with a displayed peak tracer-balance residual of 1.47831e-13 mg. The
+same qualified UI searched and separately validated a truck-only plan costing
+1810 versus a 9970.45 no-action baseline; search remains bounded `best_found`.
+
+This is experimental parameter inference under the stated synthetic first-order
+model, not a general neural PDE surrogate or a qualified chemistry model. Flow,
+dispersion, unknown sources and uncertainty are not inferred. Missing
+PhysicsNeMo/PyTorch is explicitly unavailable. No EOG contract, simulated
+operating-plan application or automatic approval is added.
+
 ## Current demo release candidate — November 8, 2026
 
 - Main `7418a2d` includes the branded desktop/industrial 3D workbench (PR #44)

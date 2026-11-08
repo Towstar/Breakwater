@@ -1,0 +1,232 @@
+{
+  "scope": "Exact existing main/QML/resource/controller objects with out-only UI-probe replacement; not the installed executable.",
+  "source_revision": "4f8e9ce6f613a8abdc238af801a16024cb7e209d",
+  "inputs": [
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-dropdowns\\out\\selector-interaction-check\\SelectorCheck.obj",
+      "sha256": "2436187c8ee7df8f8266cfbd51a2236fff9349535be0c640aed07ffd1627a144"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_agent.lib",
+      "sha256": "1b586ec8abf1946946bfa3fb27e6cd03713731a3cc522cb61f4b1b2a79642ca4"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_desktop_base.lib",
+      "sha256": "57fad202d7b66048aec5e65bb1f24c51a44a652d4d64e3a57cd65f4f3fa98863"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_eog_contracts.lib",
+      "sha256": "580d666b506be25d88afc546a844ac5a905a2ca125d9450ac42513da5843a17d"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_eog_workflow.lib",
+      "sha256": "83cf6a2b67c73006a8730c28a6ec16d3fc9eb4ba2d22055019533e982dcecb9b"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_eog.lib",
+      "sha256": "85c56426d62dba29026cfab5f7b649b16a8d0cb1eac24d63e5a3b2a9bf9e6858"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_project_document.lib",
+      "sha256": "6371c83973bc58182e5dd84afd9e3d7a842f2130b4c3658ddf6bcbdecadd83e9"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_telemetry_runtime.lib",
+      "sha256": "07f88226e5c6d23e0e99254441c104a61d6b48e8adc8dac9de881f8f436f7f25"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\breakwater_telemetry.lib",
+      "sha256": "5422ecb6f42211907aac9b96445341a8a1b4d067c0380d1e47dddb04b0b83cc2"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater_eog_contracts_resources_1.dir\\.\\.qt\\rcc\\qrc_eog_contract_schemas_init.cpp.obj",
+      "sha256": "9f1c7d931025ab27157f27ba75dc300deb3f0237c209cec2dc8fe9d81c800854"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.qt\\rcc\\qrc_breakwater_raw_qml_0_extra_qmldirs.cpp.obj",
+      "sha256": "ce20d9b1dafe629de76adc0f54524183c7b537c8d0b2f61fa8cec5444783b699"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.qt\\rcc\\qrc_breakwater_raw_qml_0.cpp.obj",
+      "sha256": "d2096c8fa0162fde3a1b2edf662b8a7d0efeb9cb42ffcca2923ccb2eb821fe24"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.qt\\rcc\\qrc_breakwater_visual_assets.cpp.obj",
+      "sha256": "b72f916019c0c3b4ebd00d84562c4c3960c9f8ac302372ade0bbfbf01d3a6bda"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.qt\\rcc\\qrc_qmake_Breakwater.cpp.obj",
+      "sha256": "fa79b251dc94926df11c4d8b73de7f2c15bf5e9b596e7232ef02db3b0834dd8e"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_ActionButton_qml.cpp.obj",
+      "sha256": "8c17ef7b233082e263db9d1c6c67ae8d7a563624f197c1d324b1d766e2cbeaac"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_ActionFeedbackCard_qml.cpp.obj",
+      "sha256": "a6dc135d98e0865af55845b0b19353e2742d636d92545a91d9b953ccbedcff08"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_AgentPanel_qml.cpp.obj",
+      "sha256": "7841f742dae9aa292f7f76bcf4601f77cac0fcb1d2ddb0964a4ea22ff9408392"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_EogAnalysisPanel_qml.cpp.obj",
+      "sha256": "d29e8994ce81768f56d74c2aa0a3725735c4e56638cea0c6fba57021526b62c8"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_EogDatasetPanel_qml.cpp.obj",
+      "sha256": "3f792d268e262398279c967137080c4ee7173468b7fc1c0743d489c64a5ddfd7"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_EogEventDetails_qml.cpp.obj",
+      "sha256": "89fe15b64a2833f7815de32a4e81d97722ae70799b4fc765c739b778efe63720"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_EogNetworkView_qml.cpp.obj",
+      "sha256": "a118f71e944731a1fb3216135f4eff0e0d79222fef26f5eb744954f950441409"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_EogPlanChart_qml.cpp.obj",
+      "sha256": "e64f1bea4f6f57b791b096e1537f42b42e7d9fd8772bb48718065dc5e7faedb8"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_EogPlanDetails_qml.cpp.obj",
+      "sha256": "662bfe396dcd0c8c72654dc10894bc80d41d3cf5df453770ad8736254b01337e"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_EogTrendChart_qml.cpp.obj",
+      "sha256": "498110fedf77f55fdd95e6972e2be18359aa86cc09dbe2ecb4b6093956f4c82b"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_Equipment_qml.cpp.obj",
+      "sha256": "6400ef052c4b97b625674903fad3b62b226695700f10a91f5a7040e302399ac8"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_IndustrialEquipment_qml.cpp.obj",
+      "sha256": "6ef4ca74089a32921c63918f7db6402a4494153c97098a0d11977d6c0eb67166"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_IndustrialPipe_qml.cpp.obj",
+      "sha256": "cebbf6b1d1a2f90face071b8d1ecddcd0f60f3b9dcaa27c591345d504a4f353b"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_Main_qml.cpp.obj",
+      "sha256": "a36c9a72d413f2631c0a7faff8e6768a7b804cd34cfd79d4ef5031afd3a05254"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_PipeRoute_qml.cpp.obj",
+      "sha256": "1a44d13b938f3de5cc35e5ca84980082e1d26ee6d059018e058f0dc60f4f4876"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_PipeTransportPanel_qml.cpp.obj",
+      "sha256": "3e3b30efa5b05f30aace132b37540c9e97033b94c83a6fcd9030c875647661e0"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_SensorPanel_qml.cpp.obj",
+      "sha256": "99b9c1fc9913a6e957ba4a37097a74b95c3bd09f85da8040bcd64972c8297a74"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_SensorTraceChart_qml.cpp.obj",
+      "sha256": "3f9e096b0d6a62107f2f40e6e8d7e4941ce780ea5700754f7d5d15a88c87c868"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_StorageSciencePanel_qml.cpp.obj",
+      "sha256": "0429cbdd448ea98344469a71e146245a4b9f1893e818c0af74a363cdbc361151"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_TelemetryPanel_qml.cpp.obj",
+      "sha256": "25df943912b1531b96f39e9b5a584ad096d52dc642a84d930e260ff32e1b2041"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_Theme_qml.cpp.obj",
+      "sha256": "c9a5cf47fae2562b6f603896abd4ada1f1f4a26727c4087d3ef7942e93c07967"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qml_TrajectoryChart_qml.cpp.obj",
+      "sha256": "332f942e022a253545c25950fba93b3e6e603d7574f97234ff2e7433f374a27b"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\.rcc\\qmlcache\\breakwater_qmlcache_loader.cpp.obj",
+      "sha256": "4f994c4d22775387194b27f14ba1a9d62f842d4cf3b6056647225d9b158ae946"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\breakwater_autogen\\mocs_compilation.cpp.obj",
+      "sha256": "6271f7df065c7cb4b7f5d064cbcf02f435620205354e5ee3a2c8ec87a7edc3f3"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\breakwater_qmltyperegistrations.cpp.obj",
+      "sha256": "c1889e1e067f71e0c9716b2427fd808b78fa5b28a9274bd3cad52ad57afeac27"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\desktop\\CMakeFiles\\breakwater.dir\\main.cpp.obj",
+      "sha256": "287e34cadc38100e41c6fd4a88d238c21ae80e32e40b702538114259d86b1ccb"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-eog-validation-review\\out\\desk-normal\\engine\\breakwater_engine.lib",
+      "sha256": "836eb422d4d9b30315cd2d040bec931d6e7ae9cbc7b037c54f4c33c257fa351c"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Concurrent.lib",
+      "sha256": "a43aeec84565f033b84f9083a33eb28ce9c8635ff75d678231fa836587697e86"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Core.lib",
+      "sha256": "384bd58074f51930d0d39c37a07789a10c03423cda5af0bd1c96a015f4a6fe9a"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6EntryPoint.lib",
+      "sha256": "43c35d2f3ad659e175c9611a460c970328eb32bedfb206a991ee0c4b43266cb0"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Gui.lib",
+      "sha256": "62839a8d03cc38f1ad806d89563a772927ab7dc6a3aa3f2e713e11b7720fbb6a"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Network.lib",
+      "sha256": "de1e71cd0f25a83158998930ce914fa9258150487fbc5d038fc3756ac7c11f4f"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6OpenGL.lib",
+      "sha256": "d08b9ee2ab38886a9676851f7f84a4997d216d4d18d6575ba32eafe1b1d6b263"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Qml.lib",
+      "sha256": "697a17edbdafc665dec86273df6a86a991ad4cd6c6ac6e4369d9a44d737aa2e5"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Quick.lib",
+      "sha256": "cb02440f2d09e4390fe0d10856ddc62301b7ba02c5ae589dbe9a771a738cd0e8"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Quick3D.lib",
+      "sha256": "c8867b7b82efb90d365772b5e8723c6251b16213a37c39b46f2bd491f146d116"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Quick3DRuntimeRender.lib",
+      "sha256": "134b98d8f5c1dd86322037cfc34e242d24c1929de80ad833ba86d2796ea19118"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Quick3DUtils.lib",
+      "sha256": "f0a796462dd517acefaa037e0766f382cf65419f20bae345efec576692a5ddf0"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6QuickControls2.lib",
+      "sha256": "f47d37a86e344a94b5b3bd6e95fc2b24de261b6605076d1f694046d2a51574ce"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6ShaderTools.lib",
+      "sha256": "504ccede37f3933ed716419064f9402575387eb33a74781dd4801cae5a218fa1"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Sql.lib",
+      "sha256": "694fb120613d6bbb9523c894457dd6618bf2ba9795e4ffffef8115eed801151f"
+    },
+    {
+      "file": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\Qt\\6.12.0\\msvc2022_64\\lib\\Qt6Svg.lib",
+      "sha256": "3bc14e70fa3708beb8dfde59f74d5ea7193a5d78b4e697609c061fa76ce9d389"
+    }
+  ],
+  "exe_sha256": "a5b51b5406b0312dfda7fd2e9444eadd6f9b9812c4e323af438f650325839cd7",
+  "helper_source_sha256": "0591df3dfc1e1be972b3375f965e689909b0a4738ed86acf5f830fd6b2feea7e"
+}

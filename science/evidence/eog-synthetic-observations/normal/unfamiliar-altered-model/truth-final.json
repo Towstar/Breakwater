@@ -1,0 +1,127 @@
+{
+  "method": "eog-synthetic-events-0.1.0",
+  "elapsed_s": 86400.0,
+  "status": "completed",
+  "diagnostic": "",
+  "cost": {
+    "truck_cost": 0.0,
+    "lost_revenue": 0.0,
+    "total": 0.0
+  },
+  "completed_full_loads": 0,
+  "trace_count": 880,
+  "facilities": [
+    {
+      "volume_bbl": 444.6428850902162,
+      "inflow_bpd": 1314.0,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 2,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1314.0000000000002,
+      "pumped_bbl": 1572.1404328599683,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 3.979039320256561e-13,
+      "event_boundary_rounding_bbl": -1.1368683772161603e-13
+    },
+    {
+      "volume_bbl": 614.1716365152085,
+      "inflow_bpd": 1314.0,
+      "pump_flow_bpd": 2700.0,
+      "pump_status": 1,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1314.0,
+      "pumped_bbl": 1068.272067775974,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": 2.2737367544323206e-13,
+      "event_boundary_rounding_bbl": 0.0
+    },
+    {
+      "volume_bbl": 620.0493570009753,
+      "inflow_bpd": 1326.6607946424765,
+      "pump_flow_bpd": 0.0,
+      "pump_status": 0,
+      "automatic_shut_in": 0,
+      "produced_bbl": 1326.5766148970138,
+      "pumped_bbl": 1289.5487292642124,
+      "trucked_bbl": 0.0,
+      "lost_revenue": 0.0,
+      "balance_residual_bbl": -2.2737367544323206e-13,
+      "event_boundary_rounding_bbl": 0.0
+    }
+  ],
+  "wells": [
+    {
+      "producing": 1,
+      "water_bpd": 328.5,
+      "oil_bpd": 632.8,
+      "gas_mcfd": 1680.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 511.0,
+      "oil_bpd": 192.1,
+      "gas_mcfd": 504.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 474.50000000000006,
+      "oil_bpd": 440.6999999999999,
+      "gas_mcfd": 1176.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 328.5,
+      "oil_bpd": 632.8,
+      "gas_mcfd": 1680.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 511.0,
+      "oil_bpd": 192.1,
+      "gas_mcfd": 504.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 474.50000000000006,
+      "oil_bpd": 440.6999999999999,
+      "gas_mcfd": 1176.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 328.5,
+      "oil_bpd": 632.8,
+      "gas_mcfd": 1680.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 477.02177682807934,
+      "oil_bpd": 192.1,
+      "gas_mcfd": 504.0,
+      "lost_revenue": 0.0
+    },
+    {
+      "producing": 1,
+      "water_bpd": 521.1390178143971,
+      "oil_bpd": 440.6999999999999,
+      "gas_mcfd": 1176.0,
+      "lost_revenue": 0.0
+    }
+  ],
+  "trucks": [
+    {
+      "system": 0,
+      "truck": 0,
+      "busy": 0,
+      "available_again_s": 0.0
+    }
+  ]
+}

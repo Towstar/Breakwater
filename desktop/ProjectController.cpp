@@ -169,12 +169,12 @@ void ProjectController::synchronizeSensorConfiguration() {
 QJsonObject ProjectController::pipeParameters(const QString& routeId) const {
     return quality::pipe_parameters_json(project_.pipe_parameters.value(routeId));
 }
-bool ProjectController::setPipeParameters(const QString& routeId, const QJsonObject& parameters) {
+bool ProjectController::setPipeParameters(const QString& routeId, const QJsonObject& parameters, bool requireFreshForecast) {
     const bool exists = std::any_of(project_.network.routes.begin(), project_.network.routes.end(), [&](const Route& r) { return q(r.id) == routeId; });
     if (!exists) return false;
     try {
         const auto parsed = quality::parse_pipe_parameters(parameters);
-        return edit([&] { project_.pipe_parameters[routeId] = parsed; });
+        return edit([&] { project_.pipe_parameters[routeId] = parsed; }, requireFreshForecast);
     } catch (const std::exception&) { return false; }
 }
 QJsonObject ProjectController::capturedRun() const {
@@ -258,7 +258,7 @@ void ProjectController::refresh(bool physical) {
     }
     emit changed();
 }
-bool ProjectController::edit(const std::function<void()>& mutation) {
+bool ProjectController::edit(const std::function<void()>& mutation, bool requireFreshForecast) {
     const auto before = editorDocument(); const auto previous_hash = networkHash();
     const auto previousSensorHash = sensorConfigurationHash();
     const auto previousProject = project_; const auto previousConfiguration = sensor_configuration_, previousLayout = sensor_layout_;
@@ -287,7 +287,7 @@ bool ProjectController::edit(const std::function<void()>& mutation) {
     clearActionFeedback();
     if (editorDocument() == before) { emit changed(); return true; }
     undo_.push_back(before); if (undo_.size() > 64) undo_.erase(undo_.begin()); redo_.clear();
-    refresh(networkHash() != previous_hash);
+    refresh(requireFreshForecast || networkHash() != previous_hash);
     if (sensorConfigurationHash() != previousSensorHash) emit sensorConfigurationChanged();
     return true;
 }

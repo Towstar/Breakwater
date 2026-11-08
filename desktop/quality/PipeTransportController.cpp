@@ -5,6 +5,12 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QFutureWatcher>
+#include <QCoreApplication>
+#include <QDir>
+#include <QElapsedTimer>
+#include <QProcess>
+#include <QProcessEnvironment>
+#include <QRegularExpression>
 #include <QJsonDocument>
 #include <QSaveFile>
 #include <QUuid>
@@ -14,6 +20,44 @@
 
 namespace breakwater::desktop::quality {
 namespace {
+QJsonObject fitDecay(const QByteArray& request, const std::shared_ptr<std::atomic_bool>& cancelled) {
+    const auto python = qEnvironmentVariable("BREAKWATER_PYTHON").trimmed();
+    if (python.isEmpty()) return {{"status", "unavailable"}, {"message", "Configure BREAKWATER_PYTHON with PhysicsNeMo and PyTorch."}};
+    auto script = QDir(QCoreApplication::applicationDirPath()).absoluteFilePath("../share/breakwater/science/transport_calibration.py");
+#if defined(BREAKWATER_CALIBRATION_PATH) && defined(BREAKWATER_DEVELOPMENT_BIN_DIR)
+    if (!QFileInfo(script).isFile() && QFileInfo(QCoreApplication::applicationDirPath()).canonicalFilePath().compare(
+            QFileInfo(QString::fromUtf8(BREAKWATER_DEVELOPMENT_BIN_DIR)).canonicalFilePath(), Qt::CaseInsensitive) == 0)
+        script = QString::fromUtf8(BREAKWATER_CALIBRATION_PATH);
+#endif
+    if (!QFileInfo(script).isFile()) return {{"status", "unavailable"}, {"message", "The calibration worker is not installed."}};
+    QProcess process;
+    QProcessEnvironment environment;
+    for (const auto* name : {"SystemRoot", "WINDIR", "PATH", "PATHEXT", "TEMP", "TMP", "USERPROFILE", "LOCALAPPDATA"})
+        if (qEnvironmentVariableIsSet(name)) environment.insert(name, qEnvironmentVariable(name));
+    environment.insert("PYTHONDONTWRITEBYTECODE", "1");
+    environment.insert("PYTHONNOUSERSITE", "1");
+    process.setProcessEnvironment(environment);
+    process.start(python, {"-B", "-u", script});
+    if (!process.waitForStarted(5000)) return {{"status", "unavailable"}, {"message", "The configured Python could not start."}};
+    process.write(request); process.closeWriteChannel();
+    QElapsedTimer timer; timer.start();
+    QByteArray output; qsizetype errors = 0;
+    while (process.state() != QProcess::NotRunning) {
+        process.waitForFinished(100);
+        output += process.readAllStandardOutput(); errors += process.readAllStandardError().size();
+        if (cancelled->load() || timer.elapsed() > 45000 || output.size() > 65536 || errors > 65536) {
+            process.kill(); process.waitForFinished(5000);
+            return {{"status", "error"}, {"message", cancelled->load() ? "Calibration cancelled." : "Calibration exceeded its time or output budget."}};
+        }
+    }
+    if (process.exitStatus() != QProcess::NormalExit || process.exitCode() != 0)
+        return {{"status", "error"}, {"message", "The calibration worker failed."}};
+    QJsonParseError parse;
+    const auto document = QJsonDocument::fromJson(output, &parse);
+    if (parse.error != QJsonParseError::NoError || !document.isObject())
+        return {{"status", "error"}, {"message", "The calibration response was invalid."}};
+    return document.object();
+}
 QJsonObject readEvidence(const QString& path) {
     const QFileInfo info(path);
     if (!info.isFile() || info.size() <= 0 || info.size() > maximumPipeEvidenceBytes)
@@ -96,6 +140,9 @@ PipeTransportController::PipeTransportController(ProjectController* project, his
     if (history_) connect(history_, &history::HistoryController::changed, this, &PipeTransportController::refresh);
     refresh();
 }
+PipeTransportController::~PipeTransportController() {
+    if (calibration_cancel_) calibration_cancel_->store(true);
+}
 QJsonObject PipeTransportController::context(const QString& runId) const {
     if (!project_ || runId.isEmpty()) return {};
     return contexts_.value(runId);
@@ -154,6 +201,82 @@ void PipeTransportController::refresh() {
         binding_ = fingerprint;
         invalidate(route_.isEmpty() || selected_run_.isEmpty() ? "Select a pipe and capture a volume forecast." : "Ready for native scalar transport.");
     }
+    emit changed();
+}
+QString PipeTransportController::calibrationBinding() const {
+    if (!project_ || route_.isEmpty() || viewing_imported_) return {};
+    return project_->networkHash() + ":" + QString::number(project_->simulationRevision()) + ":" + route_ + ":" +
+        pipe_parameters_hash(parse_pipe_parameters(project_->pipeParameters(route_)));
+}
+bool PipeTransportController::canApplyCalibration() const {
+    return !busy_ && !calibration_busy_ && calibration_result_.value("status").toString() == "ok" &&
+        !calibration_binding_.isEmpty() && calibration_binding_ == calibrationBinding();
+}
+void PipeTransportController::discardCalibration() {
+    calibration_result_.clear(); calibration_binding_.clear(); emit changed();
+}
+void PipeTransportController::cancelCalibration() {
+    if (calibration_cancel_) calibration_cancel_->store(true);
+}
+void PipeTransportController::calibrateDecay(const QString& initial, const QString& observations) {
+    if (calibration_busy_ || busy_ || calibrationBinding().isEmpty()) return;
+    bool valid = false; const auto concentration = initial.toDouble(&valid);
+    if (!valid || !std::isfinite(concentration) || concentration <= 0 || observations.size() > 8192) {
+        calibration_status_ = "Enter a positive initial concentration and at most 64 observation rows."; emit changed(); return;
+    }
+    QJsonArray rows;
+    const auto lines = observations.split(QRegularExpression("[\\r\\n]+"), Qt::SkipEmptyParts);
+    for (const auto& line : lines) {
+        const auto fields = line.trimmed().split(QRegularExpression("[,;\\s]+"), Qt::SkipEmptyParts);
+        bool timeOk = false, valueOk = false;
+        const auto time = fields.size() == 2 ? fields[0].toDouble(&timeOk) : 0.0;
+        const auto value = fields.size() == 2 ? fields[1].toDouble(&valueOk) : 0.0;
+        if (!timeOk || !valueOk || !std::isfinite(time) || !std::isfinite(value)) {
+            calibration_status_ = "Each row must contain elapsed hours, concentration mg/L."; emit changed(); return;
+        }
+        rows.append(QJsonArray{time, value});
+    }
+    if (rows.size() < 3 || rows.size() > 64) {
+        calibration_status_ = "Enter 3–64 observation rows."; emit changed(); return;
+    }
+    const auto request = QJsonDocument(QJsonObject{{"initial_mg_l", concentration}, {"observations", rows}}).toJson(QJsonDocument::Compact) + '\n';
+    calibration_result_.clear(); calibration_binding_ = calibrationBinding();
+    const auto binding = calibration_binding_;
+    calibration_busy_ = true; calibration_status_ = "Fitting sparse observations with PhysicsNeMo (up to 45 seconds)…";
+    calibration_cancel_ = std::make_shared<std::atomic_bool>(false);
+    const auto cancelled = calibration_cancel_;
+    auto* watcher = new QFutureWatcher<QJsonObject>(this);
+    connect(watcher, &QFutureWatcher<QJsonObject>::finished, this, [this, watcher, binding, cancelled] {
+        const auto outcome = watcher->result(); watcher->deleteLater(); calibration_busy_ = false; calibration_cancel_.reset();
+        if (cancelled->load() || binding != calibrationBinding() || binding != calibration_binding_) {
+            calibration_result_.clear(); calibration_status_ = "Calibration cancelled or inputs changed. Fit again.";
+        } else {
+            const auto decay = outcome.value("decay_per_h"), oracle = outcome.value("reference_decay_per_h"), rmse = outcome.value("relative_rmse");
+            const bool accepted = outcome.value("status").toString() == "ok" && outcome.value("method").toString() == "physicsnemo-sparse-decay-calibration-0.1.0" &&
+                decay.isDouble() && oracle.isDouble() && rmse.isDouble() && std::isfinite(decay.toDouble()) && decay.toDouble() >= 0 && decay.toDouble() < 10 &&
+                std::isfinite(oracle.toDouble()) && oracle.toDouble() >= 0 && std::abs(decay.toDouble() - oracle.toDouble()) <= 1e-6 + 1e-5 * std::abs(oracle.toDouble()) &&
+                std::isfinite(rmse.toDouble()) && rmse.toDouble() >= 0 && rmse.toDouble() <= 0.05;
+            if (accepted) {
+                calibration_result_ = outcome.toVariantMap();
+                calibration_status_ = "PhysicsNeMo estimate passed the independent fit checks. Review before applying.";
+            } else {
+                calibration_result_.clear();
+                calibration_status_ = outcome.value("message").toString("The estimate failed its independent fit checks.");
+            }
+        }
+        emit changed();
+    });
+    watcher->setFuture(QtConcurrent::run([request, cancelled] { return fitDecay(request, cancelled); }));
+    emit changed();
+}
+void PipeTransportController::applyCalibration() {
+    if (!canApplyCalibration()) return;
+    auto parameters = project_->pipeParameters(route_);
+    parameters["decay_per_h"] = calibration_result_.value("decay_per_h").toDouble();
+    if (project_->setPipeParameters(route_, parameters, true)) {
+        calibration_status_ = "Decay applied to this pipe. Run a new native forecast and transport calculation.";
+        calibration_result_.clear(); calibration_binding_.clear();
+    } else calibration_status_ = "The parameter update was rejected.";
     emit changed();
 }
 void PipeTransportController::selectRun(const QString& id) {

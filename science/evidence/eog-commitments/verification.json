@@ -1,0 +1,243 @@
+{
+  "runtime_commit": "621c28de7e67af89ab6474f558763da3523a17b5",
+  "sources": {
+    "science/eog_commitments.py": {
+      "sha256": "94e5a5b5a00ec39bff5e64f331b787330ab0f155a0e589e078774a6cfa95f376",
+      "normalized_lf_sha256": "94e5a5b5a00ec39bff5e64f331b787330ab0f155a0e589e078774a6cfa95f376",
+      "git_blob": "3f41eedc3a527e96634d160593b06fd4601656a4",
+      "size_bytes": 9609
+    },
+    "science/eog_synthetic.py": {
+      "sha256": "0686891201793f6f57decd96519cfb6b14aa8a0d2f89ae8fa4cd4415466ae611",
+      "normalized_lf_sha256": "78bc97868a87701eebaecbf84785ee47e57035610ed6cf93e7773c4e2d482553",
+      "git_blob": "346a27979d0ee3c0a3553cb3d8586b842323bac2",
+      "size_bytes": 22943
+    },
+    "science/qualify_eog_commitments.py": {
+      "sha256": "37dedf111da611fb2363fddded0f945865b5f1b2775198905469dbd9d201695e",
+      "normalized_lf_sha256": "37dedf111da611fb2363fddded0f945865b5f1b2775198905469dbd9d201695e",
+      "git_blob": "31af539730b0084a2e900501a1ff548c62d9dc02",
+      "size_bytes": 4136
+    },
+    "science/tests/test_eog_commitments.py": {
+      "sha256": "3d7a4fef939583a9199b3a391f1a23fe2a54f63340774c2a48435887b229f8de",
+      "normalized_lf_sha256": "3d7a4fef939583a9199b3a391f1a23fe2a54f63340774c2a48435887b229f8de",
+      "git_blob": "6fb08acbdc922e76488d3fef5b00e91bbd8ecbf0",
+      "size_bytes": 13585
+    },
+    "science/tests/test_eog_synthetic.py": {
+      "sha256": "c468fd1ed2763abbb53ab5882a079b9fe68eb8aa51591b9cfcca6e10a5350134",
+      "normalized_lf_sha256": "e4fbc5510ca6f1a4abd71c2a06f345ea90b55a8ef876fd9ded2220f9aba15ef1",
+      "git_blob": "08b14ce914642c3de3a3953512f7a45291d3ba02",
+      "size_bytes": 14750
+    },
+    "science/tests/eog_test_fixtures.py": {
+      "sha256": "eb352fcbe8e17e1b2b6ba03b009db8d717a9d1d2d33115f8d59f3d272201e8f6",
+      "normalized_lf_sha256": "56e0750d0fa9f0296b3887525aa2a436bee331cdc1c9fe7ba9410cc8d55e3e81",
+      "git_blob": "e13a8069863bb83b7ffb54352c0e1d9bf4473b8c",
+      "size_bytes": 3375
+    },
+    "science/eog_model.py": {
+      "sha256": "ce6555bfc00838047a9dc82e8112c09295a5210b5f60e933b0470d414e03d0a0",
+      "normalized_lf_sha256": "30bc8b95c4560e04edf8dc637b99d9179f9c5d778db631f919b1418b79422fd4",
+      "git_blob": "30c8caf0f19b5d5ed809c712e41b757d08872f9a",
+      "size_bytes": 11327
+    },
+    "science/eog_observations.py": {
+      "sha256": "d28898347681cde3d3a0bad55d21bcf0c34c84fb5ffc001484b78083a2d9997c",
+      "normalized_lf_sha256": "f9ae4ff5acfcdf779675fbc3d8dae1a4c8b1c46ed44e1c07d66c9e62d4cf24cb",
+      "git_blob": "f6ba3bcbeecd44e65098dd8bdc0813b5a06c0b72",
+      "size_bytes": 15054
+    },
+    "science/native_eog_plant.py": {
+      "sha256": "1cd2d57a5393c64621bae03b16bdc7bf6108673c00f27e815cc83cfb1e2e7bf5",
+      "normalized_lf_sha256": "c37b33f3dd3948bee6ebad5dac3de604884d192011fee92d47ff282f1fa8ba06",
+      "git_blob": "4f35e692d2c2bd3504e85d2276be6692a1f92298",
+      "size_bytes": 12436
+    },
+    "engine/src/eog_simulation.cpp": {
+      "sha256": "1c553d5b8e6ba2b1f8903993694c2c942f240ef99b5226e24d30c537819f4b6b",
+      "normalized_lf_sha256": "3141c4894e4d601f50bd63cc5d8b83c67329d5f1c9302e999a5d5c91c8879b97",
+      "git_blob": "3dbaf1d24588d645efe7e554c9246bd74b2c441e",
+      "size_bytes": 25637
+    },
+    "engine/src/eog_simulation_c.cpp": {
+      "sha256": "c73e508135646bf9aa93a971049cee94b71253da02cac20c2ad035944a6a8ac2",
+      "normalized_lf_sha256": "777e1d5102ece112962e7dbf64398642013bef8a425214bd8839f6e18b42cee7",
+      "git_blob": "7574b1f5fca428fa6b67dd1fc676af1cd60d754b",
+      "size_bytes": 8400
+    },
+    "engine/include/breakwater/eog_simulation.hpp": {
+      "sha256": "6d29c2fce9232db3ec9dfb46e72fc1afe9e9546d30ba7c2102c213a50072b01e",
+      "normalized_lf_sha256": "6f6e1580b636ac162d5ab6a0d92a9536dbf6d899a24979541de2297ee79b9491",
+      "git_blob": "6884d6961cd45d6ed4d163f9b84c8a77e3c4b935",
+      "size_bytes": 4031
+    },
+    "engine/include/breakwater/eog_simulation.h": {
+      "sha256": "374a2f712d8b7acd6a920f535d156c9428966140b348fae6f2bc7c760c0cc29e",
+      "normalized_lf_sha256": "64b254ce631e1d7bde4731a5f44fd5bb3e73eb37eaf454c023d7787b11122888",
+      "git_blob": "ba795162743c59d11d8bfc8a587129021f62e957",
+      "size_bytes": 4243
+    }
+  },
+  "binaries": {
+    "headless": {
+      "path_at_execution": "C:\\Projects\\Breakwater\\.worktrees\\person-a-eog-synthetic-observations\\out\\headless\\engine\\breakwater_eog_plant.dll",
+      "sha256": "8482bb2ea64601597756a651cd0ec72da0349dd4e60587e4dcfaa7f7c3eaedfe"
+    },
+    "asan": {
+      "path_at_execution": "C:\\Projects\\Breakwater\\.worktrees\\person-a-eog-synthetic-observations\\out\\asan\\engine\\breakwater_eog_plant.dll",
+      "sha256": "65fca33af257438fb3df044a938175270e0f5eaebc736342c4c8fda6d80deab3"
+    }
+  },
+  "artifacts": {
+    "asan/after-first-repair.json": {
+      "sha256": "e55fb9798bafd6b264680822dcd77994bb289e00cefb9389e24463c188160cce",
+      "size_bytes": 10481
+    },
+    "asan/after-second-repair.json": {
+      "sha256": "654967e73e6173cfb3d91419ef42137d1090825e3f270e2e83c466e13e62c49a",
+      "size_bytes": 14874
+    },
+    "asan/before-return.json": {
+      "sha256": "222fcaf67a0ab9c525881024b02938bf02e5b296afa22f380571d170d54ba8d2",
+      "size_bytes": 10505
+    },
+    "asan/completed.json": {
+      "sha256": "fcb67bb42ffbac348a3e37ff8a011c55160ddc663e830d9c5a49cc4b9c716276",
+      "size_bytes": 18866
+    },
+    "asan/final-return.json": {
+      "sha256": "85add3c389e69d037a8945c9a55b7d32f2620d0cd4907611e6d15e2db1acc96d",
+      "size_bytes": 14879
+    },
+    "asan/first-dispatch.json": {
+      "sha256": "f6ef8440e78927f01427d9946dd624cefbb07c67429839e67cc9244c12a169f9",
+      "size_bytes": 10381
+    },
+    "asan/host-only-receipt.json": {
+      "sha256": "830261fd059e366a5920b387bed12568880c870012b315fbc85ed716ffc390b2",
+      "size_bytes": 3065
+    },
+    "asan/initial.json": {
+      "sha256": "87e20b79dc29389c83125b28a45f744eba34973b4b67570260d3ce5b83704bfb",
+      "size_bytes": 5961
+    },
+    "asan/model.json": {
+      "sha256": "d77a493e35db6236d5a27ef617e043de7b841a5adede12f1b647d7ea1acf0813",
+      "size_bytes": 2735
+    },
+    "asan/reset.json": {
+      "sha256": "87e20b79dc29389c83125b28a45f744eba34973b4b67570260d3ce5b83704bfb",
+      "size_bytes": 5961
+    },
+    "asan/sequential-job.json": {
+      "sha256": "a9c67543787d3d7a07fc870b845c911003fac3d581ee784938f13a509a2669a9",
+      "size_bytes": 10890
+    },
+    "asan/summary.json": {
+      "sha256": "cd112a397f935d938b388ab644384715a697c46688fd2a2896335e4a056f3954",
+      "size_bytes": 2318
+    },
+    "asan/well-command.json": {
+      "sha256": "d73678a62f42f6ddedee079a1493a1a2348dd781ca55711305cb992a17d63a90",
+      "size_bytes": 10483
+    },
+    "asan-focused.log": {
+      "sha256": "1ea4f535999b55c4ed8499d814f2b1bf27e490305b9abf02acce84f7a8a1b190",
+      "size_bytes": 2556
+    },
+    "asan-qualification.log": {
+      "sha256": "2cc49d05ecfa73a7a9791b7410ca6cced64fc705fdb10ce76299a3f24f3b889e",
+      "size_bytes": 1735
+    },
+    "earlier-438-full-science.json": {
+      "sha256": "9bd44949d22d7144032a9bbc4096892fbded65a75887c1e6595874aca642f7b9",
+      "size_bytes": 205
+    },
+    "earlier-438-full-science.log": {
+      "sha256": "7f0e2d130b15e6bb85b9b0c7028c503e54a5c3155f9ad7643c168bb95def452c",
+      "size_bytes": 71728
+    },
+    "full-science.json": {
+      "sha256": "0ae13f1c2648da45d0394ef4edc2d02e8dfa09018749a8c9c40352ca93782274",
+      "size_bytes": 205
+    },
+    "full-science.log": {
+      "sha256": "6e2e82e2c4db355841598489bc6e000e87a0ca884f86918969475b9addbd4068",
+      "size_bytes": 71927
+    },
+    "historical-cancellation-before-fix.log": {
+      "sha256": "9f2857e3da99594d9e33499b9ea22f21f6b6c66c04578640377146dbc926a385",
+      "size_bytes": 1358
+    },
+    "initial-normal-off-fixture-failure.log": {
+      "sha256": "8bdc9a96c1312f18979fdc991d4c46100c7464f370d801b0173e7673a4b1182b",
+      "size_bytes": 2852
+    },
+    "normal/after-first-repair.json": {
+      "sha256": "e55fb9798bafd6b264680822dcd77994bb289e00cefb9389e24463c188160cce",
+      "size_bytes": 10481
+    },
+    "normal/after-second-repair.json": {
+      "sha256": "654967e73e6173cfb3d91419ef42137d1090825e3f270e2e83c466e13e62c49a",
+      "size_bytes": 14874
+    },
+    "normal/before-return.json": {
+      "sha256": "222fcaf67a0ab9c525881024b02938bf02e5b296afa22f380571d170d54ba8d2",
+      "size_bytes": 10505
+    },
+    "normal/completed.json": {
+      "sha256": "fcb67bb42ffbac348a3e37ff8a011c55160ddc663e830d9c5a49cc4b9c716276",
+      "size_bytes": 18866
+    },
+    "normal/final-return.json": {
+      "sha256": "85add3c389e69d037a8945c9a55b7d32f2620d0cd4907611e6d15e2db1acc96d",
+      "size_bytes": 14879
+    },
+    "normal/first-dispatch.json": {
+      "sha256": "f6ef8440e78927f01427d9946dd624cefbb07c67429839e67cc9244c12a169f9",
+      "size_bytes": 10381
+    },
+    "normal/host-only-receipt.json": {
+      "sha256": "830261fd059e366a5920b387bed12568880c870012b315fbc85ed716ffc390b2",
+      "size_bytes": 3065
+    },
+    "normal/initial.json": {
+      "sha256": "87e20b79dc29389c83125b28a45f744eba34973b4b67570260d3ce5b83704bfb",
+      "size_bytes": 5961
+    },
+    "normal/model.json": {
+      "sha256": "d77a493e35db6236d5a27ef617e043de7b841a5adede12f1b647d7ea1acf0813",
+      "size_bytes": 2735
+    },
+    "normal/reset.json": {
+      "sha256": "87e20b79dc29389c83125b28a45f744eba34973b4b67570260d3ce5b83704bfb",
+      "size_bytes": 5961
+    },
+    "normal/sequential-job.json": {
+      "sha256": "a9c67543787d3d7a07fc870b845c911003fac3d581ee784938f13a509a2669a9",
+      "size_bytes": 10890
+    },
+    "normal/summary.json": {
+      "sha256": "8384cc6e8aa44d02e8351f4a80179ab1e966bd4f6cdc25274e5d693a8fcc85dd",
+      "size_bytes": 2318
+    },
+    "normal/well-command.json": {
+      "sha256": "d73678a62f42f6ddedee079a1493a1a2348dd781ca55711305cb992a17d63a90",
+      "size_bytes": 10483
+    },
+    "normal-focused.log": {
+      "sha256": "95a927dc63d42ef78eb840c65e47c4b526a323ef40f777b3072ac39f671215bd",
+      "size_bytes": 2556
+    },
+    "normal-qualification.log": {
+      "sha256": "a1503ef38676f6275cfc2a7f23359635825f00e7b7372544aa9de5b3248c1058",
+      "size_bytes": 1735
+    },
+    "summary.json": {
+      "sha256": "c95a6432f5fbbf9a919aed6d2ae000bcc13050cc582f296453bcb6dc5593e669",
+      "size_bytes": 7590
+    }
+  }
+}

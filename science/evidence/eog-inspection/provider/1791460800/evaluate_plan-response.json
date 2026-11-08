@@ -1,0 +1,127 @@
+{
+  "eog_version": 1,
+  "kind": "analysis_response",
+  "request_id": "qualification-evaluate-1791460800",
+  "operation": "evaluate_plan",
+  "method_version": 1,
+  "dataset_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+  "capture_id": "143b7d0a449ec51be11371adc32cdd08a27b91ab7f84197a69be27e85969286c",
+  "cutoff_unix": 1791460800,
+  "status": "completed",
+  "result": {
+    "evaluation": {
+      "plan": {
+        "plan_id": "no-action-1791460800",
+        "context": "historical_cursor",
+        "start_unix": 1791460800,
+        "repair_deadlines": [
+          {
+            "facility_id": "S2_FACILITY_A",
+            "repair_elapsed_s": 14400.0
+          },
+          {
+            "facility_id": "S2_FACILITY_B",
+            "repair_elapsed_s": 10800.0
+          },
+          {
+            "facility_id": "S2_FACILITY_C",
+            "repair_elapsed_s": 12600.0
+          }
+        ],
+        "truck_jobs": [],
+        "well_shut_ins": [],
+        "inspection_assets": [],
+        "plan_hash": "80894b029d5590e8b7f0772914b9b8f700afea65010fc984d4b6d3ac8daf04b1"
+      },
+      "feasible": true,
+      "coverage": "available",
+      "outcome": "automatic_shutdown",
+      "shutdowns": [
+        {
+          "facility_id": "S2_FACILITY_A",
+          "elapsed_s": 9409.07968728569
+        },
+        {
+          "facility_id": "S2_FACILITY_B",
+          "elapsed_s": 5129.864389753896
+        },
+        {
+          "facility_id": "S2_FACILITY_C",
+          "elapsed_s": 8372.43870967742
+        }
+      ],
+      "trajectories": [
+        {
+          "facility_id": "S2_FACILITY_A",
+          "tank_id": "S2_TANK_A",
+          "capacity_bbl": 1000.0,
+          "shutdown_volume_bbl": 920.0,
+          "elapsed_s": [
+            0.0,
+            9409.07968728569,
+            14400.0
+          ],
+          "volumes_bbl": [
+            681.8000000000001,
+            920.0,
+            920.0
+          ]
+        },
+        {
+          "facility_id": "S2_FACILITY_B",
+          "tank_id": "S2_TANK_B",
+          "capacity_bbl": 700.0,
+          "shutdown_volume_bbl": 644.0,
+          "elapsed_s": [
+            0.0,
+            5129.864389753896,
+            10800.0
+          ],
+          "volumes_bbl": [
+            549.43,
+            644.0,
+            644.0
+          ]
+        },
+        {
+          "facility_id": "S2_FACILITY_C",
+          "tank_id": "S2_TANK_C",
+          "capacity_bbl": 600.0,
+          "shutdown_volume_bbl": 552.0,
+          "elapsed_s": [
+            0.0,
+            8372.43870967742,
+            12600.0
+          ],
+          "volumes_bbl": [
+            416.82,
+            552.0,
+            552.0
+          ]
+        }
+      ],
+      "cost": {
+        "truck_cost": 0.0,
+        "lost_revenue": 12120.031267547434,
+        "total": 12120.031267547434
+      },
+      "fleet_occupancy": [],
+      "violations": [],
+      "assumptions": [
+        "Synthetic fixed-rate failed-pump forecast ends at each causal expected repair deadline.",
+        "All current pump failures share each system's whole snapshot fleet; prior scenario commitments are not modeled.",
+        "The facility inflow meter is authoritative for total future inflow. Per-well contributions are allocated in proportion to current measured well water; this explicit reconciliation retains the raw captured evidence.",
+        "Automatic shutdown never restarts wells before repair, including after a later pickup.",
+        "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+        "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+      ],
+      "limitations": [
+        "Method eog-response-0.1.0; native eog-native-seconds-0.1.1.",
+        "Fixed-rate response evaluation is not hydraulic simulation, independent validation, search or a calibrated uncertainty estimate.",
+        "All current failures must be declared; subset response contexts and evolving prior fleet commitments are not yet supported."
+      ]
+    },
+    "analysis_id": "analysis-603f64e0e4f1c139bdeb3146681fbb0687b69773827b5a1b188ec4f058c104f2"
+  },
+  "diagnostics": []
+}

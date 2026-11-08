@@ -53,12 +53,51 @@ say best_found; no continuous/global/held-out claim. Latest main 387b583 include
 B's provider integration; B reports normal/ASan 62/62 and installed startup in
 PR #43. PR #44 adds draft UI/model work. These B-owned reports are useful evidence
 but do not close the final joined search/simulation/application audit.
+Evidence SP: private native stateful plant af73a42, with source/binary-bound
+`science/evidence/eog-simulation/` and `engine/EOG_SIMULATION.md`: 12/12 native
+CTests normal/ASan, 57,498 synthetic checks per mode, 100 actual E3 comparisons,
+100 observation-partition comparisons and a corrected 31-day analytical cycle
+probe. This is not imported model/seeded sensor/application simulation acceptance.
+Evidence SO: runtime 78338aa / complete driver 1947638,
+`science/evidence/eog-synthetic-observations/`: native 13/13 normal/ASan, full science
+399/399 without skips, actual imported 15-facility and unfamiliar 3-facility seeded
+day runs, 67,626 exact file-roundtripped observations and six bounded pump-failure
+detections. Normal/checked truth/receipts match exactly; controlled replay carries
+busy trucks through repair. No leak/degradation or application qualification is implied.
+Evidence IT: detector 0.3.0 / worker 0.3.3, runtime 95a8bf1,
+`science/evidence/eog-inspection/`: 418/418 full science without skips, 18 focused
+methods, 896 generated 3% deficiency cases and 9,856 healthy-only synthetic hours.
+Official practice retains 23/23 matches, reduces leak delay to 1h25m-3h10m and wear
+to 5h30m-6h05m. First historical gate now passes; two ambiguous-recovery cuts still
+fail. Nine independent raw-input oracles and eight real detect/evaluate processes
+pass. Meter-bias ambiguity, failed candidates and worsened recovery remain explicit.
+Evidence SR: search 0.1.3 / worker 0.3.4, runtime 343d7e9,
+`science/evidence/eog-search-robustness/`: 425/425 full science without skips,
+seven finite-extreme regressions with actual normal/ASan DLLs, seven known-value
+cases and twelve real search/evaluate/independent processes. Exact selected
+costs/plan hashes remain identical on four practice cuts; impossible inventory
+and unrepresentable candidate costs remain rejected/unavailable respectively.
+Evidence KC: private commitments 0.1.0, runtime 621c28d,
+`science/evidence/eog-commitments/`: 439/439 full science, no skips; 14 focused
+methods normal/ASan; actual persistent native fleet agrees with independent
+known-control calendars in 32 varied scenarios and ten-stage replay/reset.
+Normal/checked complete payloads match exactly. This is scheduled commitment,
+not inventory/cost validation, stateful optimization or operating authority.
+
+Evidence CE: private committed evaluator/reference0.1.0, runtime2448fa0,
+`science/evidence/eog-committed-response/`: normal/ASan native14/14 with43new
+checks each; focused14/14 each; 400 exact generated comparisons (257available,
+143invalid),60legacy-v1 comparisons and two actual plant suffix comparisons.
+Accounts for occupied slots, pending full loads, prior well stops and future-only
+cost, with independent event/inventory/resource arithmetic. Raw post-event
+computational state remains caller-supplied; causal history compilation,
+stateful optimization and public/application integration are still open.
 
 | ID | Exact source / section | Class | Implementation / owner | Acceptance case | Actual evidence / revision | Status | Limitation / next action |
 |---|---|---|---|---|---|---|---|
 | I01 | S Files; R What you get | Rule | B capture, A provider | Read only the three allowed names; deny answer-key access | E3 fixed-name capture verification/loading; negative forbidden-file read test | Scoped pass | Science worker consumes only three captured names; B desktop capture/access audit remains |
 | I02 | S Files / Time range | Rule | B reader/capture; A verifier | First/last CSV timestamps define window/now | CR 40 tests and endpoint probe at e3190fb | Scoped pass | Verify actual importer and changing-source capture |
-| I03 | R How judging works; H Every folder | Rule | Both | Renamed/custom systems, prices, thresholds, fleets | E1 uses arbitrary constructed IDs | Partial | Unfamiliar file networks pending; no published judging set |
+| I03 | R How judging works; H Every folder | Rule | Both | Renamed/custom systems, prices, thresholds, fleets | E1 arbitrary IDs; SO actual altered-model fixed-file roundtrip changes IDs, rates, prices, thresholds, capacities and fleet | Partial | Unpublished judging set and final installed unfamiliar-network acceptance remain |
 | I04 | S telemetry; G Input acceptance | Rule + Chosen | B parser; A analysis | Reject malformed, duplicate, nonfinite, unknown inputs | D strict parser/model cases; E3 protected worker corruption/framing tests | Partial | B desktop/native parser agreement and installed path remain |
 | I05 | S telemetry; G causal acceptance | Rule + Chosen | Both | Historical cutoff excludes all later readings/tools | O 102 prefix oracles; E3 historical protected captures and future-identity invariance | Partial | Desktop/model tools and replay causality still need joined checks |
 | I06 | G Input acceptance | Chosen | B capture; A verifies | Mutation/corruption invalidates capture; exact hashes | CR hash checks; E3 tamper and verifier-to-loader mutation rejection | Partial | B atomic producer and application race acceptance remain |
@@ -66,8 +105,8 @@ but do not close the final joined search/simulation/application audit.
 | O02 | S telemetry noise; G observations | Chosen | Both | Preserve finite unusual readings; no hidden clipping | E1 conversion; O negative/over-range/status/negative-zero evidence retained | Partial | Actual file parser/charts and physical-state acceptance pending |
 | O03 | S five-minute telemetry; G policy | Chosen | A evidence; B displays | Explicit freshness, gap and cross-channel coherence | O versioned 300-second age/gap, zero default skew, boundary adversaries | Partial | Wire detector/provider and UI binding pending |
 | D01 | S Normal behavior; X section 2 | Rule | A | Normal stopped/running hysteresis creates no fault | E1 plus D sawtooth/noise families; no normal false alarms in tested cases | Scoped pass | Dataset/app playback integration still pending |
-| D02 | S Three problems; R What goes wrong | Chosen | A | Failure, degradation, leak from causal sensors | D full-week 23/23 presence; initial 16/23 failure retained | Experimental | Inspection delays 5-16h; historical cuts incomplete; no real-time qualification |
-| D03 | S Three problems; H Reading key | Rule | A | Onset uncertainty, causal resolution; degradation then failure separate | D method 0.2.1, explicit inspection onset uncertainty; timing/confusion reports | Partial | One early missed leak and unresolved/ambiguous recovery in causal cuts |
+| D02 | S Three problems; R What goes wrong | Chosen | A | Failure, degradation, leak from causal sensors | D + IT full-week 23/23 presence; frozen bounded score, fresh-seed/noise families and retained failed candidates | Experimental | Leak delay 1h25m-3h10m, wear 5h30m-6h05m; physical/held-out timeliness remains unqualified |
+| D03 | S Three problems; H Reading key | Rule | A | Onset uncertainty, causal resolution; degradation then failure separate | IT method 0.3.0; actual running evidence across coherent off intervals; explicit bias/physical ambiguity | Partial | First missed leak corrected; two ambiguous recovery cuts still fail; one leak recovery lags an additional 15m |
 | D04 | S Countdown; S Automatic shut-in | Rule | A | Failure predicts configured shutdown, not physical overflow | D nine raw-input oracles; E3 four actual bound detect processes | Scoped pass | Application countdown presentation and final integrated evidence remain |
 | D05 | S Automatic shut-in / Repairs | Rule | A | Already-tripped fault retains revenue until causal repair | D pre-trip productivity; E3 native known/unknown eligibility and current shut-in cases | Scoped pass | Evolving simulation and application costs remain |
 | D06 | S Repairs / Horizon | Rule | A | Remaining repair from onset plus captured duration | IV reconstructs causal onset and direct seconds independently; four one-ULP deadline claims rejected | Scoped pass | Physical-onset uncertainty and final application binding remain |
@@ -75,26 +114,26 @@ but do not close the final joined search/simulation/application audit.
 | T01 | S Plans / Trucks; X section 4 | Rule | A | Full loads, response/cycle, cost and sufficient inventory | E3/IV native full loads and independent 360 generated candidate checks, ordinary official no-action recomputation | Scoped pass | Joint search and integrated application remain |
 | T02 | S Plans / Trucks | Rule | A | Arrival strictly before repair; late pickup cannot undo trip | CR 72cadd1 clock; IV independently checks repair ties, one-ULP ordering, late pickups | Scoped pass | Supported binary64 model only; evolving scenario/order refinements remain |
 | T03 | S Shared trucks | Rule | A | Shared fleet, final return occupancy, sequential yard jobs | E3 native slots; IV separately coded pairwise resource checks and joint-facility cases | Scoped pass | Joint search and evolving prior commitments remain |
-| T04 | S Shared trucks; H reference actions | Rule | A/B | Now shares entire fleet; evolving simulation carries commitments | E1 explicit initial fixture fleet | Partial | Distinct context/stateful simulation pending |
+| T04 | S Shared trucks; H reference actions | Rule | A/B | Now shares entire fleet; evolving simulation carries commitments | JS snapshot context, SP persistent native calendars and KC causal accepted-control/independent return reconstruction across repairs | Partial | Committed-pickup/occupied-slot evaluator context, stateful planner and application mapping pending; snapshot search must not reset active jobs |
 | C01 | S Plans / Shut-in | Rule | A | Immediate/delayed per-well action lasts through repair | E3/IV per-well economics, delayed stops, automatic union and retained itemized audits | Scoped pass | Joint continuous-action search and application integration remain |
 | C02 | S Doing nothing | Rule | A/B semantics | Do-nothing can be cheapest valid outcome despite shutdown | Accepted 72cadd1 semantics; E3 actual native no-action worker costs | Scoped pass | Costed automatic outcome is supported; minimum-cost search remains |
 | C03 | R The decision; S Plans | Rule | A | Compare baseline, truck, well, mixed at same snapshot/horizon | JS real joint search with baseline and available family leaders retained by default; seven known-value fixtures and four official-prefix selections | Scoped pass | Finite family best_found; final client/history/installed comparison remains |
 | C04 | S Plans; G independent checks | Chosen | A | Recompute exact plan physics/cost/calendar independently | IV independent causal reconstruction, Fraction-rounded arithmetic, pairwise calendars, exact candidate/price binding; 360 generated cases and nine official-prefix failures | Scoped pass | Shared parser/model assumptions remain; not a proof or optimum; final integrated scope open |
-| C05 | G bounds; S Plans | Chosen | A | Bounded search, explicit best-found/enumerated scope | JS count/frontier/output/cooperative-time bounds, no unchecked selection on validation timeout, explicit complete versus unavailable | Scoped pass | Not continuous/global optimization; loading/preparation excluded from planning clock, outer process cancellation remains B-owned |
+| C05 | G bounds; S Plans | Chosen | A | Bounded search, explicit best-found/enumerated scope | JS/SR count/frontier/output/cooperative-time bounds, rational finite-extreme seed products, no unchecked selection on validation timeout, explicit complete versus unavailable | Scoped pass | Not continuous/global optimization; loading/preparation excluded from planning clock, outer process cancellation remains B-owned |
 | C06 | G coverage; CR R1/R3 | Chosen | B boundary; A recomputes | Full facility/repair horizon, exact fractional events | CR completeness; E3/IV independent full failure/horizon derivation and bound public records | Scoped pass | Joined application stale/coverage acceptance remains |
 | U01 | S Alerts view | Chosen | A ranking; B UI | All systems: failures by countdown, then revenue; inspections follow | D pure urgency tests and E3 all-system detect output | Partial | B alert-view ranking/render qualification remains |
-| U02 | R Suggestions / network, trends; G UI | Chosen | B | Dataset-driven 3D and channels; readable gaps/extrema/units | Handoff reports reader only, not fresh EOG render | Planned | Lucas implementation/render acceptance |
+| U02 | R Suggestions / network, trends; G UI | Chosen | B | Dataset-driven 3D and channels; readable gaps/extrema/units | B #44 merged as 7418a2d, actual dataset/render/DPI and installed evidence published | Partial | A's final joined search/simulation presentation audit remains |
 | U03 | G whole-application regression | Chosen | B | Async cutoff/dataset binding, cancellation, restart, bounded history | B PR #43 reports actual provider normal/ASan framing/cancellation/history tests at cc97f89 | Partial | Joined search/final simulation and independent application audit remain |
 | U04 | G model tools; P Nemotron | Chosen | B adapter, A methods | On-demand genuine tools with exact returned IDs; no load/seek call | B draft PR #44 reports genuine hosted exact-plan rehearsal at 6cfa3ee | Partial | Review exact published evidence and include joined search/remaining rehearsals |
 | U05 | G persistence/approval; A | Chosen | B | Evidence import/reopen has no operating authority; review != dispatch | B PR #43 reports no-DLL validation, advisory review/reopened-history authority rejection | Partial | Joined search/simulation history plus retained-workbench regression |
 | S01 | R record immutability; G Recorded replay | Chosen | B playback; A causal evidence | Play/pause/step/speed/seek; meaningful staleness preserved | No complete EOG UI evidence | Planned | CLI replay alone insufficient |
 | S02 | R Suggestions / what-if; G Counterfactual | Chosen | A trajectories; B application | Branch exact snapshot, animate inventories/events/trucks/costs | E3 exact snapshot/repair trajectories with full discrete breakpoints | Partial | Evolving/animated application path and independent checks remain |
-| S03 | G Extended synthetic simulation | Chosen | A core; B application | Seeded bounded cycles/failures/repairs/inflows; hidden truth isolated | No implementation | Planned | Agree additive simulation contract first |
-| S04 | G long-run acceptance | Chosen | A/B | Mass/revenue/load ledgers; resource conservation; event refinement | No long-run evidence | Planned | Include resets/cancellation/responsive application playback |
+| S03 | G Extended synthetic simulation | Chosen | A core; B application | Seeded bounded cycles/failures/repairs/inflows; hidden truth isolated | SP native core + SO imported Model/native ABI, explicit seeded initialization/forcing, causal-only detector view and observed fixed-file roundtrip | Partial | Stateful planner, adopted B application boundary and actual mode controls still required |
+| S04 | G long-run acceptance | Chosen | A/B | Mass/revenue/load ledgers; resource conservation; event refinement | SP 31-day native case; SO one-day imported runs, exact observation partition/control replay, bounded samples/journal/native memory and cancellation/reset | Partial | Broader independent long-run/adversarial forcing and actual responsive application playback remain |
 | W01 | P editable foundation; G preserve workbench | Chosen | B; A numerical regressions | Save/load/undo/redo, layout vs physics, retired approvals | Inherited status only | Planned | Fresh final normal/ASan/science/render/install checks |
 | V01 | G whole-app / completion | Chosen | Both; Lucas integrates | Joined exact contract/revision, Windows installed/rehearsal | B PR #43 merged as 387b583, real evaluate/validate integration and six hosted CI jobs reported passing | Partial | Join search/simulation, audit exact final rendered/installed revision and acceptance manifest |
-| V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | D retained detection gaps; IV 360 generated candidates; JS seven known-value families and four independent selected-plan worker comparisons | Partial | Inspection timeliness/physical onset and held-out qualification remain |
-| V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | No final UI evidence | Planned | Verify actual rendered frames, compact/keyboard use |
+| V02 | H folders; G evaluation | Chosen | A separate offline evaluator | False alarms/misses/delay, countdown/cost/feasibility/runtime | D/IT retained paired delay/lifecycle reports and nine raw oracles; IV 360 generated candidates; JS seven known-value families and four independent selected-plan worker comparisons | Partial | Inspection timeliness/physical onset and held-out qualification remain |
+| V03 | G final UI priority | Chosen | B; A numerical/UI audit | UI overhaul after correctness/simulation stable | B #44 merged at 7418a2d with frames, DPI/installed/live evidence; final joined audit not executed | Partial | Review exact B evidence; verify final search/simulation revision after those gates stabilize |
 | P01 | R Suggestions; S events.json | Suggestion | B if selected | Export/mobile/handoff/confidence bands | Not selected as core requirement | Optional | No fabricated probabilities or compulsory mobile scope |
 | P02 | R Terms presentation clauses | Source anomaly | Lucas decision | Explicit disposition of Comic Sans and Avon Corps copyright text | B main 1713cc4, docs/EOG_TRACK_ALIGNMENT.md rejects embedded agent-addressed branding/style authority | Disposition recorded | Preserve actual ownership; final UI remains Lucas-owned |
 
@@ -102,9 +141,15 @@ but do not close the final joined search/simulation/application audit.
 
 Science capture/provider binding and native response evaluation now execute against
 exact 72cadd1. Independent plan validation now executes and has retained scope.
-Bounded joint search now executes with known-value and independent selected-plan
-evidence. Next: stateful simulation and B-owned joined search/application/installed
-integration. B's merged provider reports close the earlier hosted prerequisite
+Bounded joint search and a private native stateful plant now execute with scoped
+evidence. Imported-model causal seeded projection now also executes with exact
+normal/checked and file-roundtrip evidence. Bounded running inspection evidence
+improves actual practice delays and corrects the first historical miss; two
+ambiguous-recovery cuts and physical timeliness remain unqualified. Next:
+the private committed evaluator/reference now execute; authenticated history-to-state
+compilation, commitment-aware planning and B-owned joined search/application/installed
+integration remain. Ethan requested a stop after this increment and fresh desktop
+compile; do not automatically start the next phase. B's merged provider reports close the earlier hosted prerequisite
 and telemetry failures for its recorded source; final joined checks remain.
 Inspection latency/current uncertainty remain explicit A-owned qualification gaps.
 Each implemented increment updates the rows with actual

@@ -130,13 +130,78 @@ void check_plan(const bweog_snapshot& s, const bweog_plan& p, bweog_result& r) {
     }
 }
 
+void check_commitments(const bweog_snapshot& s, const bweog_commitments& c) {
+    require(c.abi_version == 1 && c.struct_size == sizeof(c), "committed-state ABI mismatch");
+    require(c.occupied_count <= 16384 && c.pickup_count <= max_trips && c.stopped_count <= max_wells,
+            "committed-state size limit");
+    require(buffer(c.occupied, c.occupied_count) && buffer(c.pickups, c.pickup_count) &&
+            buffer(c.stopped_wells, c.stopped_count), "null committed-state buffer");
+    std::vector<double> reserved(64 * 256, -1);
+    for (uint32_t i = 0; i < c.occupied_count; ++i) {
+        const auto& b = c.occupied[i];
+        require(b.system < s.fleet_count && b.truck < s.fleets[b.system].trucks && positive(b.available_s),
+                "invalid occupied slot");
+        const auto key = b.system * 256 + b.truck;
+        require(reserved[key] < 0, "duplicate occupied slot"); reserved[key] = b.available_s;
+    }
+    std::vector<bool> stopped(s.well_count, false);
+    for (uint32_t i = 0; i < c.stopped_count; ++i) {
+        const auto w = c.stopped_wells[i];
+        require(w < s.well_count && s.wells[w].productive && !stopped[w], "invalid prior well stop");
+        stopped[w] = true;
+    }
+    std::vector<uint32_t> order(c.pickup_count), owner(64 * 256, BWEOG_NO_INDEX);
+    for (uint32_t i = 0; i < c.pickup_count; ++i) {
+        const auto& t = c.pickups[i];
+        require(t.facility < s.facility_count && t.system == s.facilities[t.facility].system &&
+                t.truck < s.fleets[t.system].trucks && positive(t.arrival_s) &&
+                t.arrival_s < s.facilities[t.facility].repair_s, "invalid pending pickup");
+        const auto key = t.system * 256 + t.truck;
+        require(reserved[key] > t.arrival_s, "pending pickup lacks an occupied return reservation");
+        require(owner[key] == BWEOG_NO_INDEX || owner[key] == t.facility, "one occupied job names multiple facilities");
+        owner[key] = t.facility; order[i] = i;
+    }
+    std::sort(order.begin(), order.end(), [&](uint32_t a, uint32_t b) {
+        const auto& x = c.pickups[a]; const auto& y = c.pickups[b];
+        return std::tie(x.system, x.truck, x.arrival_s) < std::tie(y.system, y.truck, y.arrival_s);
+    });
+    for (uint32_t i = 1; i < order.size(); ++i) {
+        const auto& a = c.pickups[order[i - 1]]; const auto& b = c.pickups[order[i]];
+        require(a.system != b.system || a.truck != b.truck || a.arrival_s < b.arrival_s,
+                "simultaneous pending pickups on one truck");
+    }
+}
+
+void check_committed_plan(const bweog_plan& p, const bweog_commitments& c, bweog_result& r) {
+    if (p.trip_count > max_trips - c.pickup_count) { violation(r, BWEOG_LIMIT); return; }
+    std::vector<double> free(64 * 256, 0);
+    for (uint32_t i = 0; i < c.occupied_count; ++i) free[c.occupied[i].system * 256 + c.occupied[i].truck] = c.occupied[i].available_s;
+    for (uint32_t j = 0; j < p.job_count; ++j) {
+        const auto& a = p.jobs[j];
+        if (a.called_s < free[a.system * 256 + a.truck]) violation(r, BWEOG_FLEET, a.facility, j, a.called_s);
+    }
+    for (uint32_t a = 0; a < p.stop_count; ++a) for (uint32_t i = 0; i < c.stopped_count; ++i)
+        if (p.stops[a].well == c.stopped_wells[i]) violation(r, BWEOG_STOP, p.stops[a].facility, a);
+}
+
 struct Arrival { double time; uint32_t job; };
-void evaluate_facility(const bweog_snapshot& s, const bweog_plan& p, uint32_t fi, bweog_result& r) {
+void evaluate_facility(const bweog_snapshot& s, const bweog_plan& p, uint32_t fi, bweog_result& r,
+                       const bweog_commitments* committed = nullptr) {
     const auto& f = s.facilities[fi];
     bweog_facility_result out{};
     out.facility = fi; out.first_point = static_cast<uint32_t>(r.points.size());
     std::vector<double> stops(f.well_count, infinity), times{0, f.repair_s};
     std::vector<Arrival> arrivals;
+    if (committed) {
+        for (uint32_t i = 0; i < committed->stopped_count; ++i) {
+            const auto w = committed->stopped_wells[i];
+            if (w >= f.first_well && w < f.first_well + f.well_count) stops[w - f.first_well] = 0;
+        }
+        for (uint32_t i = 0; i < committed->pickup_count; ++i) if (committed->pickups[i].facility == fi) {
+            const auto t = committed->pickups[i].arrival_s;
+            arrivals.push_back({t, BWEOG_NO_INDEX}); times.push_back(t);
+        }
+    }
     for (uint32_t i = 0; i < p.stop_count; ++i) if (p.stops[i].facility == fi) {
         stops[p.stops[i].well - f.first_well] = p.stops[i].start_s;
         times.push_back(p.stops[i].start_s);
@@ -292,3 +357,28 @@ int bweog_get_result(const bweog_result* r, bweog_result_view* out) {
     return 0;
 }
 void bweog_destroy(bweog_result* r) { delete r; }
+
+const char* bweog_committed_method(void) { return "eog-native-committed-seconds-0.1.0"; }
+uint32_t bweog_committed_layout_size(uint32_t id) {
+    const uint32_t sizes[] = {0, sizeof(bweog_occupied), sizeof(bweog_pending), sizeof(bweog_commitments)};
+    return id < sizeof(sizes) / sizeof(sizes[0]) ? sizes[id] : 0;
+}
+int bweog_evaluate_committed(const bweog_snapshot* s, const bweog_plan* p,
+                            const bweog_commitments* c, bweog_result** out) {
+    if (!out) { last_error = "null output"; return 1; }
+    *out = nullptr;
+    try {
+        last_error.clear(); require(s && p && c, "null input"); check_snapshot(*s); check_commitments(*s, *c);
+        auto r = std::make_unique<bweog_result>(); check_plan(*s, *p, *r);
+        if (r->status == BWEOG_AVAILABLE) check_committed_plan(*p, *c, *r);
+        if (r->status == BWEOG_AVAILABLE) {
+            for (uint32_t i = 0; i < s->facility_count && r->status == BWEOG_AVAILABLE; ++i)
+                evaluate_facility(*s, *p, i, *r, c);
+            r->truck_cost = static_cast<double>(p->trip_count + c->pickup_count) * s->cost_per_trip;
+            r->total = r->truck_cost + r->lost_revenue;
+            if (!nonnegative(r->total)) violation(*r, BWEOG_NUMERICAL);
+        }
+        *out = r.release(); return 0;
+    } catch (const std::invalid_argument& e) { last_error = e.what(); return 1; }
+    catch (...) { last_error = "allocation or internal committed evaluation failure"; return 2; }
+}

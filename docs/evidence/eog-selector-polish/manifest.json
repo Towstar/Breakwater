@@ -1,0 +1,129 @@
+{
+  "format": "breakwater-selector-polish-evidence-v1",
+  "source_commit": "4f8e9ce6f613a8abdc238af801a16024cb7e209d",
+  "scope": "QML-only selector styling; actual local normal/ASan checks and out-only native probe; no hosted requests.",
+  "normal_ctests": 7,
+  "asan_ctests": 7,
+  "dataset_qt_cases_per_mode": 24,
+  "native_probe_cases_per_size": 10,
+  "installed_ui_gates_per_size": 9,
+  "installed_modules_per_size": 25,
+  "artifacts_copied_byte_for_byte": true,
+  "files": [
+    {
+      "file": "normal-checks.log",
+      "size_bytes": 1141,
+      "sha256": "f25c59ee804cf3ad276df8003273878680566820f44af2bd9367622f651c0fb7"
+    },
+    {
+      "file": "asan-checks.log",
+      "size_bytes": 1141,
+      "sha256": "25ea7ece5dabefac002429669c01ee4402f67d493cb19acac00bd28cbc85f2d6"
+    },
+    {
+      "file": "normal-junit.xml",
+      "size_bytes": 1512,
+      "sha256": "535b378f79d562f44927ed05117f29cf43160c1b375b4e661017552991132703"
+    },
+    {
+      "file": "asan-junit.xml",
+      "size_bytes": 1513,
+      "sha256": "d69c68b73e8bf2389e26e2f3ce03ac9cb1537c1895d37e02d06d6d4146f16da1"
+    },
+    {
+      "file": "normal-dataset-results.txt",
+      "size_bytes": 1871,
+      "sha256": "3485650def0315c1620da3e3c53c132a935310d90e0ba10d3d3e17d5d78b0480"
+    },
+    {
+      "file": "asan-dataset-results.txt",
+      "size_bytes": 1872,
+      "sha256": "1e7b6687c80d8c15bbc3360d8daabaad9c87fe3d39c7429af39614894103cb0e"
+    },
+    {
+      "file": "native-probe-results.json",
+      "size_bytes": 4085,
+      "sha256": "93263e3284fb245e71c6c14fb330d88406f3efe85237e9063fa194220eda0a02"
+    },
+    {
+      "file": "native-probe-provenance.json",
+      "size_bytes": 16765,
+      "sha256": "b5dae1b584d6b37d63bc8dfd7b501b03c4830cbad650aae392c48c695fe99dc9"
+    },
+    {
+      "file": "native-probe-source.cpp",
+      "size_bytes": 6570,
+      "sha256": "0591df3dfc1e1be972b3375f965e689909b0a4738ed86acf5f830fd6b2feea7e"
+    },
+    {
+      "file": "normal-probe.stdout.json",
+      "size_bytes": 1013,
+      "sha256": "b44e8611465d3c293fc55829fa384cb33a0789507d5aa1eb2c209de0c09fd314"
+    },
+    {
+      "file": "normal-probe.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "compact-probe.stdout.json",
+      "size_bytes": 1013,
+      "sha256": "5c8cd250e8b900f5949d2fc38ea2f7d10386c7eb2a2624c17a7f5944f7b4ccd5"
+    },
+    {
+      "file": "compact-probe.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "installed-ui-results.json",
+      "size_bytes": 25470,
+      "sha256": "e170403434f9c8edeea190f351c36225d22171520508804454b814f49e8b8dde"
+    },
+    {
+      "file": "normal-installed.stdout.json",
+      "size_bytes": 2524,
+      "sha256": "9edcef31ac2a36651fde67d0e334407b245cd14cc79e175f211494995110198e"
+    },
+    {
+      "file": "normal-installed.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "compact-installed.stdout.json",
+      "size_bytes": 2524,
+      "sha256": "10211d239d72dc77ad0088faf66e3483b0f3c2bbd976fa878acf438757502364"
+    },
+    {
+      "file": "compact-installed.stderr.log",
+      "size_bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "file": "normal-installed.modules.json",
+      "size_bytes": 7747,
+      "sha256": "47ae8b61febb2f4e06fb441ad9fbc23c66a1bb61d93b1f89066e22ceffc1091e"
+    },
+    {
+      "file": "compact-installed.modules.json",
+      "size_bytes": 7747,
+      "sha256": "47ae8b61febb2f4e06fb441ad9fbc23c66a1bb61d93b1f89066e22ceffc1091e"
+    },
+    {
+      "file": "dropdown-normal.png",
+      "size_bytes": 467353,
+      "sha256": "dbe955794ad7fcfd7bd9c0bec7c87831f6cb7306c0f6cfd290cdf0d2a1e63337"
+    },
+    {
+      "file": "dropdown-compact.png",
+      "size_bytes": 329518,
+      "sha256": "52b35e3141263a10059e31e9a7247c0cfddc7f64b17cd9a2f516a646517fc3cc"
+    },
+    {
+      "file": "native-probe-compile.log",
+      "size_bytes": 335,
+      "sha256": "6918b22152181c9294d05d5e2a5881c064ffd0f8295570e812460b99fe5e98a8"
+    }
+  ]
+}

@@ -1,0 +1,158 @@
+{
+  "meta": {
+    "units": {
+      "volume": "bbl",
+      "rate": "bpd",
+      "gas_rate": "mcfd",
+      "pressure": "psi"
+    },
+    "timezone": "UTC"
+  },
+  "defaults": {
+    "tank_limits_pct": {
+      "warning": 83,
+      "shutdown": 91.25
+    }
+  },
+  "systems": [
+    {
+      "id": "unfamiliar/synthetic/β/71/system",
+      "center": [
+        31.9,
+        -102.3
+      ],
+      "truck_yard": [
+        31.8,
+        -102.2
+      ],
+      "disposal_site": {
+        "id": "unfamiliar/synthetic/β/71/disposal",
+        "lat": 31.9,
+        "lon": -102.3,
+        "pressure_psi": 1050
+      },
+      "facilities": [
+        {
+          "id": "unfamiliar/synthetic/β/71/facility:0",
+          "lat": 31.9,
+          "lon": -102.3,
+          "wells": [
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:0/well:0",
+              "baseline_water_bpd": 328.5,
+              "oil_bpd": 632.8,
+              "gas_mcfd": 1680.0
+            },
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:0/well:1",
+              "baseline_water_bpd": 511.0,
+              "oil_bpd": 192.1,
+              "gas_mcfd": 504.0
+            },
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:0/well:2",
+              "baseline_water_bpd": 474.5,
+              "oil_bpd": 440.69999999999993,
+              "gas_mcfd": 1176.0
+            }
+          ],
+          "tank": {
+            "id": "unfamiliar/synthetic/β/71/facility:0/tank",
+            "capacity_bbl": 1096.0
+          },
+          "pump": {
+            "id": "unfamiliar/synthetic/β/71/facility:0/pump",
+            "max_flow_bpd": 2700,
+            "start_level_pct": 65,
+            "stop_level_pct": 25
+          },
+          "pipeline": {
+            "id": "unfamiliar/synthetic/β/71/facility:0/pipe",
+            "max_bpd": 3000,
+            "max_pressure_psi": 1700
+          }
+        },
+        {
+          "id": "unfamiliar/synthetic/β/71/facility:1",
+          "lat": 31.9,
+          "lon": -102.3,
+          "wells": [
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:1/well:0",
+              "baseline_water_bpd": 328.5,
+              "oil_bpd": 632.8,
+              "gas_mcfd": 1680.0
+            },
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:1/well:1",
+              "baseline_water_bpd": 511.0,
+              "oil_bpd": 192.1,
+              "gas_mcfd": 504.0
+            },
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:1/well:2",
+              "baseline_water_bpd": 474.5,
+              "oil_bpd": 440.69999999999993,
+              "gas_mcfd": 1176.0
+            }
+          ],
+          "tank": {
+            "id": "unfamiliar/synthetic/β/71/facility:1/tank",
+            "capacity_bbl": 1096.0
+          },
+          "pump": {
+            "id": "unfamiliar/synthetic/β/71/facility:1/pump",
+            "max_flow_bpd": 2700,
+            "start_level_pct": 65,
+            "stop_level_pct": 25
+          },
+          "pipeline": {
+            "id": "unfamiliar/synthetic/β/71/facility:1/pipe",
+            "max_bpd": 3000,
+            "max_pressure_psi": 1700
+          }
+        },
+        {
+          "id": "unfamiliar/synthetic/β/71/facility:2",
+          "lat": 31.9,
+          "lon": -102.3,
+          "wells": [
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:2/well:0",
+              "baseline_water_bpd": 328.5,
+              "oil_bpd": 632.8,
+              "gas_mcfd": 1680.0
+            },
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:2/well:1",
+              "baseline_water_bpd": 511.0,
+              "oil_bpd": 192.1,
+              "gas_mcfd": 504.0
+            },
+            {
+              "id": "unfamiliar/synthetic/β/71/facility:2/well:2",
+              "baseline_water_bpd": 474.5,
+              "oil_bpd": 440.69999999999993,
+              "gas_mcfd": 1176.0
+            }
+          ],
+          "tank": {
+            "id": "unfamiliar/synthetic/β/71/facility:2/tank",
+            "capacity_bbl": 1096.0
+          },
+          "pump": {
+            "id": "unfamiliar/synthetic/β/71/facility:2/pump",
+            "max_flow_bpd": 2700,
+            "start_level_pct": 65,
+            "stop_level_pct": 25
+          },
+          "pipeline": {
+            "id": "unfamiliar/synthetic/β/71/facility:2/pipe",
+            "max_bpd": 3000,
+            "max_pressure_psi": 1700
+          }
+        }
+      ]
+    }
+  ]
+}

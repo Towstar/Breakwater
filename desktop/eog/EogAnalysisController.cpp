@@ -539,9 +539,9 @@ QJsonArray EogAnalysisController::toolDefinitions() const {
         tool("detect", "Execute the numerical causal detector for requested systems; an empty list means all systems. Response plans require the complete ongoing pump_failure facility set, not resolved or inspection events.", {{"system_ids", systems}}, {"system_ids"}),
         tool("evaluate_plan", "Evaluate explicit controls and captured-policy repair horizons for every ongoing pump_failure facility using the complete nested schema. Omit plan_id, plan_hash, context and start_unix entirely, not null, to bind the current capture; do not calculate a hash. Supply all four required arrays. Empty truck_jobs and well_shut_ins are a structural no-action baseline. Repair elapsed seconds equal captured repair hours * 3600 minus (cutoff - causal onset), not elapsed-since-onset or rounded countdown. No numerical actions or horizons are supplied automatically; no controls are applied.",
             {{"plan", agent_plan_schema()}}, {"plan"}),
-        tool("search_plans", "Execute bounded joint numerical search across the captured network. Use [] for all systems; the packaged provider returns system_scope_unavailable for a proper subset. Compare retained admissible costs including no action; disclose scope and limitations.",
-            {{"system_ids", systems}, {"candidate_limit", integer(1, 10000)}, {"time_limit_s", QJsonObject{{"type", "number"}, {"exclusiveMinimum", 0}, {"maximum", 60}}}},
-            {"system_ids", "candidate_limit", "time_limit_s"}),
+        tool("search_plans", "Execute bounded joint numerical search across ALL captured systems. Scope is fixed by this tool: it has no system_ids argument and cannot perform a filtered search. Inspect relevant returned facilities after the complete search. If the operator requires a strictly narrower search, report that limitation. Compare retained admissible costs including no action; disclose scope and limitations.",
+            {{"candidate_limit", integer(1, 10000)}, {"time_limit_s", QJsonObject{{"type", "number"}, {"exclusiveMinimum", 0}, {"maximum", 60}}}},
+            {"candidate_limit", "time_limit_s"}),
         tool("validate_plan", "Execute the independent validator on a retained exact plan. Use the actual plan_id returned by a completed evaluation and copy context.evaluator_method exactly; never guess either. Rejected proposals create no retained plan. eog-response-* is a wrapper version, not the numerical evaluator implementation.",
             {{"plan_id", string}, {"evaluator_method", string}}, {"plan_id", "evaluator_method"})};
     const auto addEnum = [&](const QStringList& names, const QString& property, QStringList values, bool arrayItems = false) {
@@ -564,7 +564,7 @@ QJsonArray EogAnalysisController::toolDefinitions() const {
     if (source_) {
         QStringList systemIds;
         if (source_->systems.size() <= 256) for (const auto& system : source_->systems) systemIds.append(system.id);
-        addEnum({"detect", "search_plans"}, "system_ids", systemIds, true);
+        addEnum({"detect"}, "system_ids", systemIds, true);
         addEnum({"read_topology"}, "system_id", systemIds);
         if (source_->assets.size() <= 256) addEnum({"read_observations"}, "asset_id", source_->assets.keys());
         QSet<QString> metricIds;
@@ -581,6 +581,34 @@ void EogAnalysisController::toolRequested(const QString& execution, const QStrin
         return;
     }
     auto numerical = arguments;
+    if (name == "search_plans") {
+        if (!source_) { completeTool(failure("capture_unavailable")); return; }
+        QString code;
+        QSet<QString> selected, known;
+        for (const auto& system : source_->systems) known.insert(system.id);
+        // The model tool declares a fixed whole-network scope. Bind its omitted
+        // provider-only field explicitly; malformed or narrower supplied scopes
+        // are still rejected, never coerced or silently widened.
+        if (!arguments.contains("system_ids")) numerical["system_ids"] = QJsonArray{};
+        const auto scope = numerical.value("system_ids");
+        if (!scope.isArray() || scope.toArray().size() > 256) code = "invalid_arguments";
+        else for (const auto& value : scope.toArray()) {
+            if (!value.isString() || value.toString().size() > 256 || selected.contains(value.toString())) { code = "invalid_arguments"; break; }
+            if (!known.contains(value.toString())) { code = "unknown_system"; break; }
+            selected.insert(value.toString());
+        }
+        if (code.isEmpty() && !selected.isEmpty() && selected != known) code = "system_scope_unavailable";
+        if (!code.isEmpty()) {
+            auto outcome = failure(code); auto error = outcome.value("error").toObject();
+            error["message"] = QStringLiteral(
+                "Search requires every captured system. To explicitly request the tool's whole-network search, retry search_plans "
+                "without system_ids; the application binds system_ids: [] for the provider. If the operator requires a strictly "
+                "narrower search, report that capability as unavailable. This rejected call ran no numerical search and its scope "
+                "was not expanded. Filtered detect and observation tools remain available.");
+            error["expected_system_ids"] = QJsonArray{};
+            outcome["error"] = error; completeTool(outcome); return;
+        }
+    }
     if (name == "evaluate_plan") {
         try {
             if (!arguments.value("plan").isObject()) throw std::invalid_argument("A plan object is required.");
@@ -624,7 +652,8 @@ void EogAnalysisController::investigate(const QString& objective) {
             {"cutoff_unix", cutoff_}, {"context", capture_->manifest().value("context")},
             {"system_count", source_->systems.size()}, {"facility_count", source_->facilities.size()},
             {"evaluator_method", qEnvironmentVariable("BREAKWATER_EOG_EVALUATOR_METHOD")},
-            {"constraints", "Only captured input is available. All output is advisory; no dispatch or sandbox control application exists."}};
+            {"constraints", "Only captured input is available. All output is advisory; no dispatch or sandbox control application exists."},
+            {"search_scope", QJsonObject{{"supported", "all_captured_systems"}, {"filter_available", false}}}};
         QJsonObject policy;
         for (const auto* key : {"expected_repair_hours", "prices", "emergency_trucking"}) {
             const auto value = source_->ops.value(QLatin1String(key)); if (!value.isObject()) continue;

@@ -1,0 +1,48 @@
+{
+  "executable": "C:\\Projects\\Breakwater\\out\\submission-final\\bin\\breakwater.exe",
+  "executable_sha256": "90A328705D12855D4EF8F55455626912F0DE0D732DFC5C849ED896CD6015314B",
+  "source_revision": "6c0c2a2152dfe854619524529beb9193bc5da959",
+  "route_id": "truck_route",
+  "calibration_kind": "closed_well_mixed_first_order_decay",
+  "initial_mg_l": 1.0,
+  "observations": [
+    {
+      "concentration_mg_l": 0.951229424500714,
+      "time_h": 0.25
+    },
+    {
+      "concentration_mg_l": 0.9048374180359595,
+      "time_h": 0.5
+    },
+    {
+      "concentration_mg_l": 0.8607079764250578,
+      "time_h": 0.75
+    },
+    {
+      "concentration_mg_l": 0.8187307530779818,
+      "time_h": 1
+    }
+  ],
+  "expected_decay_per_h": 0.2,
+  "displayed_decay_per_h": 0.2,
+  "displayed_independent_decay_per_h": 0.2,
+  "displayed_relative_rmse_percent": 6.08094E-14,
+  "physicsnemo_version": "2.2.2",
+  "actual_ui_fit": "passed",
+  "explicit_apply": "clicked_successfully",
+  "old_forecast_invalidated": true,
+  "native_transport_disabled_until_fresh_forecast": true,
+  "fresh_forecast": "PASS nominal3h minimumheadroom16m3",
+  "fresh_forecast_id_prefix": "03f9c7f4",
+  "native_transport": "complete",
+  "native_substeps": 120,
+  "native_max_cfl_displayed": 0.0357,
+  "native_final_inventory_mg_displayed": 148.1257,
+  "native_decay_removed_mg_displayed": 57.9443,
+  "native_peak_balance_residual_mg_displayed": 1.47831E-13,
+  "fit_screenshot": "C:\\Projects\\Breakwater\\out\\submission-ui-screens\\final-physicsnemo-calibration.jpg",
+  "native_screenshot": "C:\\Projects\\Breakwater\\out\\submission-ui-screens\\final-native-transport-after-calibration.jpg",
+  "hosted_model_requests": "not_run",
+  "controls_approved": "none",
+  "notes": "All results observed by driving the actual installed GUI through its production controls. Values here are displayed values, not invented full precision. This calibration estimates decay only under the displayed closed-test assumptions; native solver remains authoritative. Closing this temporary demonstration session does not persist its project parameters."
+}

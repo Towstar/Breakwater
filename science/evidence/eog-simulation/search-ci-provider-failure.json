@@ -1,0 +1,27 @@
+{
+  "repository": "Towstar/Breakwater",
+  "source_commit": "a420debc7b6518a348272f168d752c88fdd58221",
+  "workflow_run": 42491491720,
+  "job_id": 128765055136,
+  "artifact_id": 13622352092,
+  "artifact_name": "windows-desktop-normal",
+  "artifact_sha256": "707779de2781076df030e492cb5575662174bf9bb026cba1ff8deb2ae9c65820",
+  "ctest": {
+    "passed": 61,
+    "total": 62,
+    "seconds": 441.9,
+    "failed": "desktop.eog_provider"
+  },
+  "qt": {
+    "passed": 11,
+    "failed": 1,
+    "skipped": 0,
+    "seconds": 8.737
+  },
+  "actual": "completed",
+  "stale_expected": "unavailable",
+  "location": "desktop/tests/eog_provider_integration_tests.cpp:293",
+  "owner": "Lucas / Person B",
+  "request": "https://github.com/Towstar/Breakwater/pull/46#issuecomment-6723113570",
+  "disposition": "Update genuine search, exact independent-record review/history checks and installed module staging; do not regress search to unavailable."
+}

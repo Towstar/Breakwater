@@ -1,0 +1,33 @@
+{
+  "dataset_id": "synthetic-3557a2a80376b099bfe5",
+  "prices": {
+    "oil_per_bbl": 71.25,
+    "gas_per_mcf": 2.45
+  },
+  "expected_repair_hours": {
+    "pump_failure": 4.25
+  },
+  "emergency_trucking": {
+    "truck_capacity_bbl": 150,
+    "cost_per_trip": 905
+  },
+  "systems": {
+    "unfamiliar/synthetic/β/71/system": {
+      "emergency_fleet_size": 1,
+      "facilities": {
+        "unfamiliar/synthetic/β/71/facility:0": {
+          "response_min": 75,
+          "cycle_min": 230
+        },
+        "unfamiliar/synthetic/β/71/facility:1": {
+          "response_min": 75,
+          "cycle_min": 230
+        },
+        "unfamiliar/synthetic/β/71/facility:2": {
+          "response_min": 75,
+          "cycle_min": 230
+        }
+      }
+    }
+  }
+}

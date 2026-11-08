@@ -27,7 +27,248 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: bounded joint search
+## Final increment checkpoint: committed response evaluation
+
+Current branch/worktree: `codex/person-a-eog-committed-response`,
+`C:\Projects\Breakwater\.worktrees\person-a-eog-committed-response`, stacked
+on #52. Frozen runtime **2448fa0b7bc92bc5c8a408872b497c70c559b744**. Private
+native committed evaluator and independent rational validator are both **0.1.0**;
+existing native1.1, plant0.1.0, worker0.3.4 and public72cadd1 stay unchanged.
+Details: `science/EOG_COMMITTED_RESPONSE.md` and its retained evidence directory.
+
+The additive private ABI now accounts for occupied system/truck slots, future
+committed full loads and previously stopped wells. A call exactly at return is
+accepted; one ULP before is rejected. Known/new simultaneous loads need combined
+inventory. Future committed costs and future well losses are included, sunk
+costs excluded, and voluntary/automatic losses are unioned. A separately coded
+reference independently checks calendars, events, inventories and exact costs.
+The bridge copies normalized state and binds all three computational inputs.
+
+Actual normal/ASan native suites pass 14/14, including 43 new native checks per
+mode. Focused Python passes 14/14 in each mode, including 400 generated cases,
+60 unchanged-v1 comparisons and two actual persistent-plant suffix comparisons.
+The offline qualifier independently retains 400 matching native/reference
+comparisons (257 available, 143 invalid) plus three complete known-value cases.
+All three semantic payload files match byte for byte across normal/ASan.
+Full CPU science passes **453/453**, zero skips/failures, **224.143s**.
+Exact source/binary/payload identities are retained in the evidence manifest.
+
+This is caller-supplied post-event state, not yet authenticated Model/View/History
+compilation, commitment-aware optimization, a public worker operation or a new
+application mode. Shared simulation contract adoption and the earlier plant CI
+build/env request remain B-owned. Lucas should fold these scoped implemented and
+unavailable features into shared STATUS; A has not edited B-owned files.
+
+PR #48 was rechecked at **8bc6237c5dee9e4a600c74fb44dac06ec3ac3b59**: B now
+retains installed/render/panel and genuine joint-search evidence, explicitly
+qualified by its source. Its reported live rehearsal took 221.98s, compared
+12,120.03 no action with 4,171.97 selected mixed cost, and retained best_found
+with incomplete coverage/26 unavailable candidates. These are B's recorded
+results, not new A53 application acceptance. Latest-head CI42502837298 had native
+normal/ASan, Lean and CPU science successful, with desktop modes still running
+at this checkpoint. Do not turn pending gates into a passing merge claim.
+
+Ethan requested this be the last increment, then prioritized a fresh desktop
+compile and urgent parallel submission work. The parent session coordinates those
+additional tasks and eventual goal status. This increment starts no further
+scientific phase. The full durable goal remains unfinished. Outstanding work includes authenticated causal
+state compilation, stateful planning, public/application simulation modes and
+final joined installed/model/workbench acceptance.
+
+## Published checkpoint: causal known truck commitments
+
+Current branch/worktree: `codex/person-a-eog-commitments`,
+`C:\Projects\Breakwater\.worktrees\person-a-eog-commitments`, stacked on #51.
+Frozen runtime **621c28de7e67af89ab6474f558763da3523a17b5**. New private
+commitment method **0.1.0**; existing observation/noise and native plant methods
+remain **0.1.0**. Public EOG stays exact **72cadd1**; no worker operation/wire or
+native algorithm is changed. Details: `science/EOG_COMMITMENTS.md`.
+
+`SyntheticStream.control_history()` emits immutable accepted facts only, excluding
+seed, future schedules, full scenario identity and rejected diagnostics. Pure
+`reconstruct(Model, View, History)` independently rebuilds pickups/final-return
+reservations, with exact model/catalog/cutoff binding and fractional clocks. No
+native/file/label access, repair-based release or silently free unknown fleet.
+Scheduled pickups do not establish actual removal, cost, feasibility or authority.
+The caller must authenticate a complete live prefix; reopened numerical evidence
+cannot grant operating authority. Verified strictly older prefixes survive later
+cancellation, while unsupported current history remains unavailable.
+
+Actual full science **439/439**, no skips/failures; focused **14/14** normal and
+ASan. Thirty-two varied scenarios compare 64 accepted dispatches / 128 snapshots /
+256 truck states, and two real systems keep equal truck ordinals independent.
+Ten-stage actual normal/checked runs produce 12 byte-identical complete payloads,
+including controls, observations, reconstructed/native calendars and host receipt.
+Initial normal-off fixture and real historical-cancellation failures are retained.
+Evidence: `science/evidence/eog-commitments/` with pinned source/binary/payloads.
+
+B staging needs `eog_commitments.py` and changed `eog_synthetic.py` plus existing
+plant bridge/runtime. The shared additive simulation boundary remains unadopted;
+it must separate fractional decision clock from integer observation cutoff and
+authenticate live accepted history. Do not send the full host receipt to models.
+The existing plant CI target/env request on #49 remains needed; no B-owned path
+was edited. Next A step is occupied-slot/committed-pickup evaluator context and
+independent validation, then stateful planning. Application replay/what-if/mode
+controls and final installed/model/workbench/UI checks remain in the full goal.
+
+## Published checkpoint: search arithmetic robustness
+
+Current worktree/branch:
+`C:\Projects\Breakwater\.worktrees\person-a-eog-search-robustness`,
+`codex/person-a-eog-search-robustness`, stacked on #50. Frozen runtime
+**343d7e93d9aafae329ab3815dccf4ed275832d95**, search **0.1.3**, worker **0.3.4**;
+detector remains **0.3.0**, native **0.1.1** and exact public **72cadd1** unchanged.
+
+Reproduced finite `1e308` truck-capacity overflow in three seed helpers, direct
+native search and a real protected worker. Integer-count load products now stay
+rational before the existing rational seed relaxation. Native inventory/cost
+checks are unchanged: impossible full loads still reject, and unrepresentable
+candidate costs remain unavailable and prevent a complete enumeration claim.
+
+Actual full CPU science **425/425**, no skips/failures; seven new focused methods
+pass normal **3.026s** and with the inherited instrumented DLL **4.777s**. Seven
+known-value cases and twelve real search/fresh-native/no-DLL processes pass.
+All four official selected exact costs and plan hashes match the earlier 0.1.2
+record, covering nine failures and retaining best_found. Evidence is pinned in
+`science/evidence/eog-search-robustness/`; no installed/UI/hosted result is implied.
+
+B adoption needs changed `eog_search.py` / `eog_worker.py`, with no new module name
+or wire field. #48's documented finite-extreme limitation now has a reproduced
+A-owned fix. Adopt its exact source before updating packaged runtime evidence;
+do not relabel version-1 operation fields as worker implementation attestation.
+
+Next A groundwork: project only causally accepted operator controls, excluding
+seed/future forcing, and independently reconstruct per-truck pickups/return
+commitments with fractional elapsed clocks. Bind this to imported Model and
+causal View; do not pass the full synthetic provenance receipt to a planner or
+reuse recorded-now search as if busy trucks were free. Stateful planning and the
+shared B-owned simulation boundary, replay/what-if controls and final joined
+application/model/installed checks remain required. The full goal stays active.
+
+## Published checkpoint: inspection timeliness
+
+Current worktree/branch: `C:\Projects\Breakwater\.worktrees\person-a-eog-inspection`,
+`codex/person-a-eog-inspection`, stacked on #49. Frozen runtime **95a8bf1**,
+detector **0.3.0**, worker **0.3.3**, unchanged public **72cadd1**. No B-owned file
+or native numerical algorithm is edited. Exact evidence is in
+`science/evidence/eog-inspection/`, with frozen declarations/failed attempts in
+`EOG_INSPECTION_STUDY.md` and measured limits in `EOG_DETECTION_RESULTS.md`.
+
+The retained 5% path is supplemented by a bounded running-observation change
+score. Coherent observed off intervals preserve continuity without supplying
+discrepancy/recovery evidence; missing/fault/contradictory frames reset it. Old
+score expires after six hours. Cumulative recovery requires four actual healthy
+running samples and discards old positive evidence. Sensor-bias/physical-loss
+indistinguishability and unbounded physical onset are explicit.
+
+Actual final science **418/418**, zero skips/failures; focused **18/18**. Fresh
+generated cases and retained development families pass the declared four-hour
+3% loss bound, with no alarms in 9,856 healthy-only synthetic hours. Official
+practice keeps 23/23 matches/no unmatched/early alarms: leak delay improves to
+1h25m-3h10m, wear to 5h30m-6h05m. The first historical gate now passes; two later
+gates still fail for one ambiguous unrecovered inspection each. Recovery is not
+uniformly improved; the paired report preserves one additional 15-minute leak
+lag. Nine independent raw countdown/repair/revenue checks pass, plus four actual
+detect/four native no-action worker processes covering nine current failures.
+This is not global, held-out, physical or final installed/UI qualification.
+
+B integration: adopt the exact new A source before staging worker 0.3.3; existing
+module names/public schemas remain unchanged. PR #48 is still draft, latest
+inspected head **05f906f** (Windows fixture line-ending normalization only).
+PR #49's exact-head science job **128780171556**, run **42496462808**, fails on
+two unexpected class skips because `BREAKWATER_EOG_PLANT` is absent; the concrete
+build-target/environment request is recorded on #49. Native normal/ASan and Lean
+passed; desktop jobs were live at the preceding observation. Do not reclassify
+that hosted run as passing or retry unchanged prerequisites.
+
+Next: finite-extreme search arithmetic robustness, the exact B-owned simulation
+boundary/adoption, commitment-aware planning and final joined application checks.
+Inspection timeliness/physical onset remain limited; the full goal stays active.
+
+## Published checkpoint: imported-model causal synthetic observations
+
+Current branch/worktree: `codex/person-a-eog-synthetic-observations` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-synthetic-observations`. Runtime
+source **78338aa**, initial ABI/mapping d0c15f9; complete offline driver **1947638**.
+Latest accepted UI main **7418a2d** is merged as **be31979**. A-owned tested source
+is unchanged by that merge; the only root numerical-build-area change is B's
+Visual Studio tracking location, outside these Ninja checks. Public gate remains
+exact 72cadd1; native plant remains 0.1.0, private computational BWES ABI 1.
+
+The imported Model maps to a real persistent native plant through a checked C ABI,
+with explicit initialization, seeded schedules and 300-second causal projection.
+Future truth/seed/full receipt never enter `view()` or detector execution. Raw
+negative/noisy values and dropped-frame age/gaps are preserved. Bounded fractional
+control journals reproduce physical state/cost/fleet and observations; reset clears
+them. Unsupported future oil/gas changes reject rather than becoming unobserved
+economic assumptions. Details: `science/EOG_SYNTHETIC_OBSERVATIONS.md`.
+
+Final full science: **399/399**, zero failures/skips. Native normal/ASan: **13/13**
+each, 28 ABI and 57,498 synthetic checks. Checked Python: bridge 8/8 + final
+synthetic/control 14/14. Actual one-day official-model/unfamiliar-model runs emit
+56,355 / 11,271 samples, round-trip every sample/model/detector result through the
+fixed loader and match normal/checked bytes. All six injected failures are found
+within one acquisition interval; no extra inspection events. Original source
+hashes remain unchanged. Controlled fractional replay retains busy occupancy after
+repair and reproduces cost 9390.1683984375. This is explicit-control evidence, not
+an optimized plan, independent physical proof or application acceptance.
+
+B needs the new `breakwater_eog_plant` target/DLL, two Python modules and absolute
+`BREAKWATER_EOG_PLANT` test configuration; keep zero-unexpected-skip policy. A has
+not edited root CI, public contracts or desktop files. A-owned private numerical
+input/results are ready for exact-source mapping review; a shared simulation wire
+and operator controls remain B-owned and unadopted.
+
+B's new `codex/person-b-eog-search-integration` branch includes exact a420deb A
+source unchanged and now implements search client/model/history/packaging changes.
+Its source-only provenance note is `docs/EOG_SEARCH_INTEGRATION.md`; its final joined
+tests/installation still need evidence/review. Earlier #46 hosted stale assertion
+failure is preserved below and is not treated as fixed merely from a new branch.
+
+Next A correctness priority: inspection observability/latency and causal lifecycle
+qualification, then commitment-aware planning. Keep the replay/counterfactual/
+extended application and final installed/rendered/workbench acceptance in scope.
+The goal remains active; do not mark complete on these native/science checks.
+
+## Published checkpoint: native stateful synthetic plant
+
+Current branch/worktree: `codex/person-a-eog-simulation` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-simulation`. Corrected native
+source **af73a42**; latest accepted main **c1622b9** merged as **7323968** without
+changing tested engine source. This adopts Lucas's merge of #45. No B-owned
+desktop/contracts/root file is edited.
+
+Private `engine/include/breakwater/eog_simulation.hpp` / `src/eog_simulation.cpp`
+now implement bounded persistent pump cycling, repeated failures/repairs, explicit
+rate forcing, per-well through-repair shut-ins and full-load jobs on physical shared
+trucks. Final-return commitments survive repairs and later incidents. Input is
+copied; snapshots contain only current truth. No seeded observation projector or
+production simulation protocol is claimed. Details/limits: `engine/EOG_SIMULATION.md`.
+
+Actual final normal/ASan: **12/12 native CTests each**, **57,498 synthetic checks**
+per mode, including 100 observation-partition comparisons and 100 exact actual
+E3 cost/inventory comparisons. The original 31-day cycle error (2.58757e-5 bbl)
+failed and was corrected by algebraic event roots, without changing tolerance:
+final error 4.98283e-7 bbl, raw mass residual -8.54726e-7 bbl. Signed event-boundary
+rounding stays separately visible. Retained initial source/failures and pinned
+normal/checked evidence are in `science/evidence/eog-simulation/`.
+
+Search PR **#46** now targets main after #45 merged. Exact a420deb hosted run
+42491491720 passes native normal/ASan, Lean and science. Desktop normal passes
+61/62 CTests; actual Qt artifact 13622352092 proves its one failure is a stale
+search-unavailable expectation at eog_provider_integration_tests.cpp:293. B's
+concrete requested genuine search/review/history acceptance is recorded at:
+https://github.com/Towstar/Breakwater/pull/46#issuecomment-6723113570 .
+The B-owned source/assertions and installed eog_search.py staging remain B's work.
+
+Next: map real imported Model/IDs into this private native plant, add a seeded
+causal observation projector and qualify detector/planner isolation. Snapshot
+search must not ignore persistent commitments. Lucas must publish the additive
+application/simulation boundary before binding UI controls. B's #44 at e0b3da6
+publishes new installed/render/live evidence; it requires exact-source review and
+does not complete final joined search/simulation/UI acceptance. Goal stays active.
+
+## Published checkpoint: bounded joint search
 
 Current A branch/worktree: `codex/person-a-eog-search` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-search`. Runtime freeze **34fdf5d**,
