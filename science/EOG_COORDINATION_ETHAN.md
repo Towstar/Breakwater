@@ -72,6 +72,27 @@ qualification without hidden-label/endpoint leakage. Lucas integrates PR #34/#36
 and the new small numerical increment, and owns desktop/process/model/history/UI
 and shared status. Whole-application/replay/extended simulation/UI gates stay open.
 
+## Hosted integration check checkpoint
+
+PR #33 exact integration head f4e4c0f run
+https://github.com/Towstar/Breakwater/actions/runs/42472091130 is not green.
+Original Lean job 128709714117 failed at root CI line 196 downloading Lean from
+GitHub's error page, before proofs ran. A requested one bounded retry through the
+job connector; latest Lean job **128717105524 is live in build/audit** at the last
+inspection. Poll this specific run/job; do not restart because a first job-list
+lookup temporarily returned empty. No proof pass has been claimed.
+
+Original desktop ASan job 128709714451 timed out telemetry stream at 180.06 seconds,
+failed lifecycle at 58.17 seconds and skipped its two dependent replay smokes.
+EOG native/Python comparisons passed in that same job. The latest visible desktop
+ASan job 128717106747 also has a failure conclusion. B owns its root/desktop fix;
+PR #37 is a separate stream-validation optimization, not yet silently adopted.
+Detailed request: https://github.com/Towstar/Breakwater/pull/33#issuecomment-6720915421 .
+Native normal/ASan, desktop normal and CPU science jobs have passing conclusions
+for the inspected integration run; this does not make its failed matrix a pass.
+PR #38 head a157fb6 had Windows run **42475771332 in progress** at inspection.
+Recheck current heads/runs instead of treating this checkpoint as live state.
+
 ## Historical observation increment checkpoint
 
 Current A branch: `codex/person-a-eog-observations`, worktree
