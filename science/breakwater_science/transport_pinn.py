@@ -13,7 +13,7 @@ from collections.abc import Callable
 import numpy as np
 import torch
 
-METHOD_VERSION = "physicsnemo-pipe-pinn-0.1.0"
+METHOD_VERSION = "physicsnemo-pipe-pinn-0.1.1"
 MODEL_ARGS = dict(in_features=2, out_features=1, layer_size=32, num_layers=3,
                   activation_fn="tanh", weight_norm=False)
 
@@ -117,17 +117,35 @@ def predict(model, xt, case=CASE):
     return h * model(features)
 
 
+def _coordinate_gradient(value, coordinates):
+    # Constant outputs can have no graph, or a parameter-only graph in which
+    # coordinates are unused. Linear first derivatives can likewise be constant.
+    # Neither case requires detaching a genuine model-parameter dependency.
+    if not value.requires_grad:
+        return torch.zeros_like(coordinates)
+    gradient, = torch.autograd.grad(value, coordinates, torch.ones_like(value),
+                                    create_graph=True, allow_unused=True)
+    return torch.zeros_like(coordinates) if gradient is None else gradient
+
+
 def pde_residual(field: Callable, xt, case=CASE):
+    """Pointwise physical PDE residual, retaining trainable parameter gradients.
+
+    Coordinate AD is required even for evaluation under no_grad. Inference mode
+    cannot supply that graph and is rejected explicitly.
+    """
     _coordinates(xt)
-    coordinates = xt.detach().clone().requires_grad_(True)
-    c = field(coordinates)
-    if c.shape != (coordinates.shape[0], 1):
-        raise ValueError("Field must return [point,1] concentrations")
-    gradient, = torch.autograd.grad(c, coordinates, torch.ones_like(c), create_graph=True)
-    cx, ct = gradient[:, :1], gradient[:, 1:2]
-    second, = torch.autograd.grad(cx, coordinates, torch.ones_like(cx), create_graph=True)
-    cxx = second[:, :1]
-    return ct + case.velocity_m_h*cx - case.dispersion_m2_h*cxx + case.decay_per_h*c
+    if torch.is_inference_mode_enabled():
+        raise RuntimeError("PDE residual requires coordinate autograd; inference mode is unsupported.")
+    with torch.enable_grad():
+        coordinates = xt.detach().clone().requires_grad_(True)
+        c = field(coordinates)
+        if not isinstance(c, torch.Tensor) or c.shape != (coordinates.shape[0], 1):
+            raise ValueError("Field must return [point,1] concentrations")
+        gradient = _coordinate_gradient(c, coordinates)
+        cx, ct = gradient[:, :1], gradient[:, 1:2]
+        cxx = _coordinate_gradient(cx, coordinates)[:, :1]
+        return ct + case.velocity_m_h*cx - case.dispersion_m2_h*cxx + case.decay_per_h*c
 
 
 def predicted_cell_averages(model, cells, time_h, case=CASE):

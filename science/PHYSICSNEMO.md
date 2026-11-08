@@ -94,6 +94,14 @@ Autograd computes first time/spatial and second spatial derivatives in physical 
 The residual is implemented explicitly with Torch; this increment does not use or
 claim execution of the optional PhysicsNeMo Sym/PhysicsInformer package.
 
+The residual helper supports constant and affine pointwise fields, including
+coordinate-independent trainable parameters and zero spatial curvature. It returns
+zero for an absent coordinate derivative without detaching genuine parameter
+dependencies. Evaluation under `torch.no_grad()` temporarily enables coordinate AD;
+active `torch.inference_mode()` fails explicitly. Field and autograd errors propagate.
+Coordinate-dependent callables must retain their differentiable graph. See
+[A-003 resolution](A003_RESIDUAL_FIX.md) for analytic and actual neural-gradient tests.
+
 Let `h(x)=sin(pi*x/(2*L))`. The prediction is
 `c_theta=h(x)*MLP(2*h(x)-1, 2*t/T-1)`. This enforces the zero inlet and zero-gradient
 outlet without embedding `phi` or its exponential time decay. The network still has

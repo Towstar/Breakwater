@@ -5,10 +5,11 @@ November 8. Audited source: **`6fb8c29cf08399859ab41ea60771c31f4ec04e41`**,
 the clean main baseline, reviewed on **`codex/person-a-engine`** in a separate
 worktree. This report follows [the Person A kickoff](../docs/KICKOFF_PERSON_A.md).
 
-> Follow-up: A-001 and A-002 are fixed and regression-verified on `codex/person-a-engine`;
-> see [A001_HORIZON_FIX.md](A001_HORIZON_FIX.md) and [A002_COST_FIX.md](A002_COST_FIX.md).
-> The original audit below describes frozen commit `6fb8c29`. A-003 and A-004
-> remain open; the follow-ups do not claim completion of Person B's audit.
+> Follow-up: A-001, A-002 and A-003 are fixed and regression-verified on `codex/person-a-engine`;
+> see [A001_HORIZON_FIX.md](A001_HORIZON_FIX.md), [A002_COST_FIX.md](A002_COST_FIX.md)
+> and [A003_RESIDUAL_FIX.md](A003_RESIDUAL_FIX.md). The original audit below describes
+> frozen commit `6fb8c29`. A-004 remains open; these follow-ups do not claim
+> completion of Person B's audit.
 
 ## Result and gate
 
