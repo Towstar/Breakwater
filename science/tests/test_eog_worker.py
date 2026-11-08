@@ -98,6 +98,10 @@ class EogWorkerTests(unittest.TestCase):
         event = result["result"]["events"][0]
         self.assertEqual(event["recommended_action"], "plan_required")
         self.assertAlmostEqual(event["countdown_hours"], 4.48)
+        self.assertEqual(event["lost_revenue_per_hour"], 3300)
+        self.assertTrue(all(s["timestamp_unix"] <= 300 for s in result["result"]["evidence"]))
+        self.assertEqual({k: result[k] for k in worker.BINDINGS}, {k: before[k] for k in worker.BINDINGS})
+        self.assertEqual(self.request, before)
 
     def test_actual_cumulative_inspection_process_retains_bound_raw_evidence(self):
         rows = frame(self.model, 0) + sum((frame(self.model, t, received=2619)
@@ -131,10 +135,6 @@ class EogWorkerTests(unittest.TestCase):
         self.assertTrue(all(identifier in evidence for identifier in event["evidence_ids"]))
         self.assertTrue(all(s["timestamp_unix"] <= request["cutoff_unix"] for s in evidence.values()))
         self.assertTrue(any(s["metric"] == "receive_flow_bpd" and s["value"] == 2619 for s in evidence.values()))
-        self.assertEqual(event["lost_revenue_per_hour"], 3300)
-        self.assertTrue(all(s["timestamp_unix"] <= 300 for s in result["result"]["evidence"]))
-        self.assertEqual({k: result[k] for k in worker.BINDINGS}, {k: before[k] for k in worker.BINDINGS})
-        self.assertEqual(self.request, before)
 
     def test_runtime_only_reads_fixed_inputs_and_trusted_schemas(self):
         (self.folder / "answer_key.json").write_text("NOT VALID JSON; MUST NOT READ", encoding="utf-8")

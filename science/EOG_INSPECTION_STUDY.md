@@ -99,3 +99,23 @@ at seed 2026110808 and 128 healthy noisy days at 2026110809 before official
 execution. The independent score oracle will round each exact Fraction sum to
 binary64, so an exact mathematical tie is not silently substituted for the
 runtime's declared floating-point recurrence.
+
+The 0.15 candidate passes all original/refinement/fresh generated cases. The
+expiry fixture needed eight individually insufficient running samples rather than
+ten: binary64 accumulation of ten 1.5% increments is slightly above 0.15 and
+legitimately emits. The corrected fixture still fails if the two eight-frame
+groups are improperly joined across six hours. Retain its original failure.
+The first full discovery executes 417 methods: 416 pass, one fails because four
+assertions from the old worker fixture were accidentally left in the new test.
+Restore those assertions to the original test; do not remove its binding checks.
+
+First official 0.15 execution preserves all 23 matches/no unmatched alarms.
+Leak delays are 1h25m-3h10m; degradation delays are 5h30m-6h05m. Some recovery
+still requires a later long run because its four good frames reset on off cycles.
+Before the next official run, extend **only cumulative episodes' recovery** to
+four at/below-allowance running observations across completely observed coherent
+off intervals within the same six-hour window. Retain gap/contradiction/fault
+resets, original samples and non-running ambiguity. After recovery, discard old
+positive evidence while retaining its healthy suffix; a new episode cannot reuse
+old discrepancy. Add a generated short-cycle recovery case and rerun the full
+unchanged families and real worker. Physical repair is still not authenticated.
