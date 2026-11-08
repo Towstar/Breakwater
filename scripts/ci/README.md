@@ -8,6 +8,11 @@ they are not recorded as successful tests or silently skipped integrations.
 The workflow uses `windows-2022` for VS 2022 compatibility. The hosted image is a
 moving service image: `verification.json` records its image version and the actual
 MSVC/SDK/CMake/Ninja versions rather than claiming exact compiler-image pinning.
+The runner bootstrap uses actions/setup-python's Windows x64 CPython **3.12.10**
+for the Qt installer and workflow checks. That version is available in the official
+action manifest; 3.12.13 has no Windows x64 distribution there. This bootstrap does
+not select the scientific interpreter. The existing scientific setup separately
+downloads and verifies managed CPython **3.12.13** through the pinned uv setup.
 Qt 6.12.0 and its SDK metadata revision use the existing checked installer. Scientific
 CPython 3.12.13, Torch 2.15.0+cpu and NumPy 2.5.4 use the committed CPU hash locks.
 Lean 4.35.0 uses the official archive/hash already documented in `proofs/README.md`;
@@ -42,6 +47,10 @@ rewrite the tracked root solution. Evidence under `out/ci/<suite>-<mode>` includ
 step logs, toolchain/source/helper identities, CTest registration and JUnit reports,
 Qt case counts and copied render/history evidence. GitHub artifacts retain these
 even after a failing step. Full build trees and tool binaries are not uploaded.
+Each job initializes `job-start.json` immediately after checkout, before Python/tool
+setup, and always writes `job-finish.json` before artifact upload. A bootstrap
+failure therefore retains runner/run identity and failure outcome with tests marked
+not started; creating setup evidence never counts as executing tests.
 
 Desktop rendering uses D3D11 WARP via `QSG_RHI_BACKEND=d3d11` and
 `QSG_RHI_PREFER_SOFTWARE_RENDERER=1`; this retains the RHI needed by Quick 3D.

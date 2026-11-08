@@ -25,7 +25,7 @@ $report = [ordered]@{
     runner = [ordered]@{ image = $env:ImageOS; image_version = $env:ImageVersion; os = [Environment]::OSVersion.VersionString }
     external_model_requests = 'not_run'; toolchain = [ordered]@{}; steps = $script:ciSteps
 }
-foreach ($helper in @('scripts/ci/Run-Checks.ps1', 'scripts/ci/Initialize-Compiler.ps1', 'scripts/ci/Run-PythonTests.py', 'scripts/ci/requirements-win-py312.txt', '.github/workflows/windows-checks.yml')) {
+foreach ($helper in @('scripts/ci/Run-Checks.ps1', 'scripts/ci/Initialize-Compiler.ps1', 'scripts/ci/Write-JobEvidence.ps1', 'scripts/ci/Run-PythonTests.py', 'scripts/ci/requirements-win-py312.txt', '.github/workflows/windows-checks.yml')) {
     $report.helper_sha256[$helper] = (Get-FileHash -LiteralPath (Join-Path $projectRoot $helper) -Algorithm SHA256).Hash.ToLowerInvariant()
 }
 # Never enumerate process/user environments or load the developer's .env file.
@@ -79,7 +79,8 @@ function Set-UpCiBootstrap {
     if (-not $SkipDependencySetup) {
         Invoke-CiStep 'bootstrap-lock' $bootstrapPython @('-m', 'pip', 'install', '--require-hashes', '--only-binary=:all:', '-r', (Join-Path $PSScriptRoot 'requirements-win-py312.txt'))
     }
-    Invoke-CiStep 'bootstrap-versions' $bootstrapPython @('-B', '-c', 'import importlib.metadata as m; expected={"requests":"2.34.2","py7zr":"1.1.4","PyYAML":"6.0.3"}; actual={k:m.version(k) for k in expected}; assert actual==expected, actual; print(actual)')
+    Invoke-CiStep 'bootstrap-versions' $bootstrapPython @('-B', '-c', 'import importlib.metadata as m,json,platform; expected={"requests":"2.34.2","py7zr":"1.1.4","PyYAML":"6.0.3"}; actual={k:m.version(k) for k in expected}; assert actual==expected, actual; print(json.dumps({"python":platform.python_version(),"packages":actual}))')
+    $report.toolchain.bootstrap = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'bootstrap-versions.log') | ConvertFrom-Json
     Invoke-CiStep 'workflow-regressions' $bootstrapPython @('-B', '-m', 'unittest', 'discover', '-s', (Join-Path $PSScriptRoot 'tests'), '-v')
     $script:ciBootstrapPython = $bootstrapPython
 }

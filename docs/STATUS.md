@@ -32,6 +32,12 @@
   inherited PATH; its evidence remains in `out/ci-attempts/`. The corrected bounded
   process-local compiler bootstrap passed without changing user/system PATH.
   Independent same-family source review found no actionable G0 defect.
+- Hosted run `42452963600` exposed a setup-only failure: Actions has no Windows
+  build for bootstrap Python 3.12.13. The workflow now pins bootstrap 3.12.10;
+  the independently managed scientific Python remains 3.12.13. Setup metadata is
+  created before dependency installation so failures retain artifacts with tests
+  marked not started. All **15 updated workflow/result/evidence regressions** passed.
+  The failed run is retained and is not counted as a test or CI pass.
 
 ## Captured-run Nemotron sensitivities and live operator-reviewed evidence
 

@@ -1,7 +1,12 @@
 """Offline checks of the workflow trust boundary and test-result failure policy."""
 import importlib.util
 import io
+import json
+import os
 from pathlib import Path
+import shutil
+import subprocess
+import tempfile
 import unittest
 
 import yaml
@@ -63,6 +68,52 @@ class WorkflowTests(unittest.TestCase):
         self.assertEqual(env['QSG_RHI_BACKEND'], 'd3d11')
         self.assertEqual(env['QSG_RHI_PREFER_SOFTWARE_RENDERER'], '1')
         self.assertNotIn('QT_QUICK_BACKEND', env)
+
+    def test_windows_bootstrap_has_an_available_pin_separate_from_science(self):
+        for job in self.workflow['jobs'].values():
+            for step in job['steps']:
+                if step.get('uses', '').startswith('actions/setup-python@'):
+                    self.assertEqual(step['with']['python-version'], '3.12.10')
+        setup = (ROOT / 'scripts/Setup-ScientificWorker.ps1').read_text()
+        self.assertIn('cpython-3.12.13-windows-x86_64-none', setup)
+
+    def test_setup_evidence_precedes_dependencies_and_finishes_before_upload(self):
+        for name, job in self.workflow['jobs'].items():
+            steps = job['steps']
+            start = next(i for i, s in enumerate(steps) if s.get('name') == 'Initialize setup evidence')
+            finish = next(i for i, s in enumerate(steps) if s.get('name') == 'Record job outcome')
+            upload = next(i for i, s in enumerate(steps) if s.get('uses', '').startswith('actions/upload-artifact@'))
+            checkout = next(i for i, s in enumerate(steps) if s.get('uses', '').startswith('actions/checkout@'))
+            self.assertEqual(start, checkout + 1)
+            self.assertLess(finish, upload)
+            self.assertEqual(steps[finish]['if'], 'always()')
+            self.assertIn('-Outcome', steps[finish]['run'])
+            self.assertIn(f'-Suite {name}', steps[start]['run'])
+
+    def test_failed_bootstrap_retains_real_metadata_without_claiming_tests_or_copying_secrets(self):
+        # The fixture copies only this helper into an ignored temporary root.
+        # It simulates a job outcome; no package installation or product test runs.
+        with tempfile.TemporaryDirectory(prefix='job-evidence-', dir=ROOT / '.tools') as temporary:
+            root = Path(temporary)
+            helper = root / 'scripts/ci/Write-JobEvidence.ps1'
+            helper.parent.mkdir(parents=True)
+            shutil.copyfile(ROOT / 'scripts/ci/Write-JobEvidence.ps1', helper)
+            env = os.environ.copy()
+            env.update(NVIDIA_API_KEY='fixture-secret-that-must-not-be-exported', GITHUB_RUN_ID='fixture-run')
+            for args in ([], ['-Phase', 'finish', '-Outcome', 'failure']):
+                completed = subprocess.run([shutil.which('pwsh'), '-NoProfile', '-File', str(helper), '-Suite', 'native', *args],
+                                           env=env, capture_output=True, text=True, timeout=30)
+                self.assertEqual(completed.returncode, 0, completed.stderr)
+            report_root = root / 'out/ci/native-normal'
+            first = json.loads((report_root / 'job-start.json').read_text())
+            last = json.loads((report_root / 'job-finish.json').read_text())
+            self.assertEqual(first['job_outcome'], 'running')
+            self.assertEqual(last['job_outcome'], 'failure')
+            self.assertEqual(last['github']['run_id'], 'fixture-run')
+            self.assertEqual(last['test_execution_status'], 'not_started')
+            self.assertFalse(last['verification_available'])
+            self.assertFalse(last['ctest_results_available'])
+            self.assertNotIn('fixture-secret-that-must-not-be-exported', json.dumps(last))
 
 
 def result_for(*cases):

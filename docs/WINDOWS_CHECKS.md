@@ -9,6 +9,10 @@ The workflow uses `windows-2022`, full commit-SHA action references and
 `contents: read`. It does not receive an NVIDIA key or run hosted model rehearsals.
 Those production sessions remain separately recorded in DEMO_REHEARSAL.md.
 
+GitHub's bootstrap interpreter is pinned to Windows CPython 3.12.10, which its
+official setup-python manifest supplies. This only installs build/bootstrap tools;
+the scientific worker independently uses the committed managed CPython 3.12.13.
+
 ## Setup and execution
 
 Run from the repository root in PowerShell 7 on a Windows x64 machine with Visual
@@ -49,6 +53,9 @@ checks or unexpected skipped cases fail the job. Lean runs both the positive aud
 and the deliberately rejected-assumption probe using the unchanged proof script.
 
 Workflow artifacts retain evidence on failure as well as success, for 14 days.
+Each job writes setup metadata immediately after checkout and records its outcome
+before artifact upload. A dependency failure therefore retains an artifact with
+test execution explicitly marked not started rather than inventing test results.
 Prebuilt Qt/Python/Torch remain outside established ASan instrumentation coverage.
 Hosted-runner success does not close clean-machine/manual-dialog release acceptance.
 
