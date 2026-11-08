@@ -12,6 +12,20 @@ Dialog {
     height: Math.min(760, parent ? parent.height - 32 : 760)
     anchors.centerIn: parent
     standardButtons: Dialog.Close
+    font.family: Theme.fontFamily
+    font.pixelSize: Theme.bodySize
+    padding: 14
+    palette.window: Theme.surface
+    palette.base: Theme.raised
+    palette.button: Theme.raised
+    palette.buttonText: Theme.text
+    palette.text: Theme.text
+    palette.windowText: Theme.text
+    palette.placeholderText: Theme.muted
+    palette.highlight: Theme.text
+    palette.highlightedText: Theme.background
+    palette.mid: Theme.controlBorder
+    background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
     property bool creating: true
     property bool submitting: false
     property string problem: ""
@@ -128,30 +142,32 @@ Dialog {
     } }
     contentItem: ColumnLayout {
         spacing: 8
-        Label { Layout.fillWidth: true; text: "SYNTHETIC ONLY · Measurements stay separate from commands and native forecasts."; wrapMode: Text.WordWrap; color: "#60d2d1" }
+        Label { Layout.fillWidth: true; text: "SYNTHETIC ONLY · Measurements stay separate from commands and native forecasts."; wrapMode: Text.WordWrap; color: Theme.secondary }
         RowLayout {
             Layout.fillWidth: true; Layout.fillHeight: true
             ColumnLayout {
                 Layout.preferredWidth: 220; Layout.fillHeight: true
-                Button { text: "New sensor"; Layout.fillWidth: true; onClicked: panel.beginNew() }
+                ActionButton { text: "New sensor"; Layout.fillWidth: true; onClicked: panel.beginNew() }
                 ListView {
                     Layout.fillWidth: true; Layout.fillHeight: true; clip: true; model: controller.sensorMarkers
                     delegate: ItemDelegate {
+                        id: sensorRow
                         required property var modelData
                         width: ListView.view.width; highlighted: modelData.selected; text: modelData.label
-                        contentItem: Label { text: parent.text; textFormat: Text.PlainText; elide: Text.ElideRight }
+                        background: Rectangle { color: sensorRow.highlighted ? Theme.selected : sensorRow.hovered ? Theme.hover : "transparent"; border.color: sensorRow.activeFocus ? Theme.text : "transparent" }
+                        contentItem: Label { text: parent.text; textFormat: Text.PlainText; elide: Text.ElideRight; color: Theme.text; font.pixelSize: Theme.smallSize }
                         onClicked: { panel.creating = false; panel.problem = ""; controller.selectSensor(modelData.id); panel.populate() }
                     }
                 }
-                Button { text: "Delete sensor"; Layout.fillWidth: true; enabled: !panel.creating && controller.selectedSensorId.length > 0
+                ActionButton { text: "Delete sensor"; Layout.fillWidth: true; enabled: !panel.creating && controller.selectedSensorId.length > 0
                     onClicked: { if (controller.deleteSensor(controller.selectedSensorId)) panel.beginNew(); else panel.problem = controller.summary } }
             }
             ScrollView {
                 id: formScroll; Layout.fillWidth: true; Layout.fillHeight: true; clip: true; contentWidth: availableWidth
                 ColumnLayout {
                     width: formScroll.availableWidth; spacing: 8
-                    Label { text: panel.creating ? "PLACE A SENSOR" : "EDIT SENSOR"; color: "#60d2d1" }
-                    Label { Layout.fillWidth: true; text: panel.creating ? "A stable sensor ID is generated when placed." : "Sensor " + controller.selectedSensorId; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: "#a5bdc8" }
+                    Label { text: panel.creating ? "PLACE A SENSOR" : "EDIT SENSOR"; color: Theme.secondary; font.pixelSize: Theme.smallSize; font.bold: true }
+                    Label { Layout.fillWidth: true; text: panel.creating ? "A stable sensor ID is generated when placed." : "Sensor " + controller.selectedSensorId; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.secondary }
                     GridLayout {
                         columns: 2; Layout.fillWidth: true; columnSpacing: 12
                         Label { text: "Quantity" }
@@ -185,7 +201,7 @@ Dialog {
                         Label { text: "Instrument maximum" }
                         TextField { id: maximumField; Layout.fillWidth: true; placeholderText: "Optional" }
                     }
-                    Label { Layout.fillWidth: true; text: panel.quantity === "level" ? "Declare a level-volume table. Scene tank geometry supplies no physical calibration." : "Calibration metadata"; wrapMode: Text.WordWrap; color: "#a5bdc8" }
+                    Label { Layout.fillWidth: true; text: panel.quantity === "level" ? "Declare a level-volume table. Scene tank geometry supplies no physical calibration." : "Calibration metadata"; wrapMode: Text.WordWrap; color: Theme.secondary }
                     GridLayout {
                         columns: 2; Layout.fillWidth: true
                         Label { text: "Calibration ID" }
@@ -198,7 +214,7 @@ Dialog {
                     TextArea { id: knotsField; visible: panel.quantity === "level"; Layout.fillWidth: true; Layout.preferredHeight: 100
                         placeholderText: "At least two increasing level_m:volume_m3 lines\nUse independently declared physical calibration values."; wrapMode: TextEdit.NoWrap }
                     Label { visible: panel.quantity === "concentration"; Layout.fillWidth: true; wrapMode: Text.WordWrap
-                        text: "Concentration requires declared pipe transport geometry. Point observations remain explicitly unavailable for mapping."; color: "#ffcf70" }
+                        text: "Concentration requires declared pipe transport geometry. Point observations remain explicitly unavailable for mapping."; color: Theme.warning }
                     GridLayout {
                         columns: 2; Layout.fillWidth: true
                         Label { visible: panel.quantity === "concentration"; text: "Physical support" }
@@ -214,15 +230,15 @@ Dialog {
                         Label { text: "Declared delay (s)" }
                         TextField { id: delayField; Layout.fillWidth: true }
                     }
-                    Label { visible: panel.quantity === "pump_state"; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: "#a5bdc8"; text: "Feedback distinguishes commanded-off, running, delivery loss, unavailable and unknown. It does not set pump commands." }
-                    Label { visible: panel.genericAttachment; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: "#a5bdc8"; text: "Display/history only. Native storage/transport physics does not predict this channel; detection integration is a later increment." }
-                    Label { visible: !panel.creating; text: "Marker presentation coordinates (scene units)"; color: "#a5bdc8" }
+                    Label { visible: panel.quantity === "pump_state"; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.secondary; text: "Feedback distinguishes commanded-off, running, delivery loss, unavailable and unknown. It does not set pump commands." }
+                    Label { visible: panel.genericAttachment; Layout.fillWidth: true; wrapMode: Text.WordWrap; color: Theme.secondary; text: "Display/history only. Native storage/transport physics does not predict this channel; detection integration is a later increment." }
+                    Label { visible: !panel.creating; text: "Marker presentation coordinates (scene units)"; color: Theme.secondary }
                     RowLayout {
                         visible: !panel.creating; Layout.fillWidth: true
                         TextField { id: xField; Layout.fillWidth: true; placeholderText: "x" }
                         TextField { id: yField; Layout.fillWidth: true; placeholderText: "y" }
                         TextField { id: zField; Layout.fillWidth: true; placeholderText: "z" }
-                        Button { text: "Move marker"; onClicked: { try {
+                        ActionButton { text: "Move marker"; onClicked: { try {
                             if (!controller.moveSensor(controller.selectedSensorId, panel.number(xField.text, "x"), panel.number(yField.text, "y"), panel.number(zField.text, "z")))
                                 panel.problem = "Marker coordinates must lie within 10000 scene units."
                             else panel.problem = ""
@@ -231,7 +247,7 @@ Dialog {
                 }
             }
         }
-        Button { text: panel.creating ? "Place sensor" : "Save sensor configuration"; enabled: attachmentBox.count > 0; Layout.fillWidth: true; onClicked: panel.apply() }
-        Label { Layout.fillWidth: true; visible: panel.problem.length > 0; text: panel.problem; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: "#ffcf70" }
+        ActionButton { highlighted: true; text: panel.creating ? "Place sensor" : "Save sensor configuration"; enabled: attachmentBox.count > 0; Layout.fillWidth: true; onClicked: panel.apply() }
+        Label { Layout.fillWidth: true; visible: panel.problem.length > 0; text: panel.problem; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.warning }
     }
 }

@@ -5,6 +5,11 @@ import QtQuick.Layouts
 
 ColumnLayout {
     id: details
+    // Also loaded directly by the standalone evidence render tests. Keep these
+    // matching presentation tokens local; no application singleton is required.
+    readonly property color textColor: "#F3F3F3"
+    readonly property color secondaryColor: "#BBC2C9"
+    readonly property color errorColor: "#EB8585"
     required property var event
     // The unmodified eventEvidence() map: samples plus global qualifications.
     property var evidence: ({})
@@ -36,9 +41,11 @@ ColumnLayout {
         Layout.fillWidth: true
         textFormat: Text.PlainText
         wrapMode: Text.WrapAnywhere
-        color: "#d4e3ec"
+        font.family: "Segoe UI"
+        font.pixelSize: 13
+        color: details.textColor
     }
-    component Heading: TextLine { font.bold: true; color: "#9bb8c6" }
+    component Heading: TextLine { font.bold: true; font.pixelSize: 12; font.letterSpacing: 0.3; color: details.secondaryColor }
     component Records: ListView {
         id: recordsList
         required property var rows
@@ -66,7 +73,7 @@ ColumnLayout {
     TextLine { objectName: "eventCoverage"; text: "Coverage: " + details.value(details.record.coverage) + " · Recommended action: " + details.value(details.record.recommended_action) }
     TextLine { objectName: "eventOnset"; text: "Returned onset: " + details.timestamp(details.record.onset_unix) }
     TextLine { objectName: "eventOnsetBounds"; text: "Returned onset bounds: " + details.bounds() }
-    TextLine { text: "Onset metadata is returned evidence; missing bounds do not establish physical onset or calibrated confidence."; color: "#9bb8c6" }
+    TextLine { text: "Onset metadata is returned evidence; missing bounds do not establish physical onset or calibrated confidence."; color: details.secondaryColor }
     TextLine { objectName: "eventTimes"; text: "Updated: " + details.timestamp(details.record.updated_unix) + "\nEnd: " + details.timestamp(details.record.end_unix) }
     TextLine { objectName: "eventForecast"; text: "Shutdown countdown: " + details.number(details.record.countdown_hours, "h") + " · Lost revenue: " + details.number(details.record.lost_revenue_per_hour, "USD/h") }
     TextLine { objectName: "eventVersion"; text: "Threshold version: " + details.value(details.record.threshold_version) + " · Analysis request: " + details.value(details.context.analysis_request_id) }
@@ -74,7 +81,7 @@ ColumnLayout {
     Heading { text: "Source samples · " + details.samples.length + " returned (scroll to inspect all)" }
     Records { objectName: "evidenceRows"; rows: details.samples; describe: details.sample; rowEstimate: 104; maximumHeight: 280 }
     TextLine { visible: !details.samples.length; text: "No source samples returned for this selection. Missing evidence is unavailable." }
-    TextLine { text: "Values, timestamps, original units and reported quality are shown as returned. No clipping, conversion or additional fault diagnosis is performed."; color: "#9bb8c6" }
+    TextLine { text: "Values, timestamps, original units and reported quality are shown as returned. No clipping, conversion or additional fault diagnosis is performed."; color: details.secondaryColor }
 
     Heading { text: "Event limitations · " + (details.record.limitations || []).length + " returned" }
     Records { objectName: "eventLimitationRows"; rows: details.record.limitations || []; describe: function(item) { return details.value(item) } }
@@ -85,7 +92,7 @@ ColumnLayout {
     Heading { text: "Analysis limitations · " + (details.context.limitations || []).length + " returned" }
     Records { objectName: "analysisLimitationRows"; rows: details.context.limitations || []; describe: function(item) { return details.value(item) } }
     TextLine { visible: !(details.context.limitations || []).length; text: "No analysis limitations reported; this is not a qualification claim." }
-    CheckBox { id: advanced; objectName: "advancedDisclosure"; text: "Advanced · exact returned event and evidence" }
+    CheckBox { id: advanced; font.family: "Segoe UI"; font.pixelSize: 12; palette.windowText: details.textColor; palette.text: details.textColor; objectName: "advancedDisclosure"; text: "Advanced · exact returned event and evidence" }
     Loader {
         Layout.fillWidth: true
         active: advanced.checked
@@ -96,6 +103,12 @@ ColumnLayout {
             textFormat: TextEdit.PlainText
             wrapMode: TextEdit.WrapAnywhere
             font.family: "Consolas"
+            font.pixelSize: 12
+            color: details.textColor
+            selectionColor: "#F3F3F3"
+            selectedTextColor: "#0D0F11"
+            padding: 10
+            background: Rectangle { color: "#15181B"; radius: 4; border.color: "#333A42" }
             text: JSON.stringify({event: details.record, evidence: details.context}, null, 2)
         }
     }

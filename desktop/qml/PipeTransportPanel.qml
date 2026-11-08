@@ -53,26 +53,26 @@ Dialog {
         }
         return Number.isFinite(low) ? {low: low, high: high} : {low: 0, high: 0}
     }
-    component PlainLabel: Label { textFormat: Text.PlainText; color: "#d2e1e9"; font.pixelSize: 12 }
-    component SectionLabel: PlainLabel { font.pixelSize: 10; font.letterSpacing: 1; color: "#9eb5c2" }
+    component PlainLabel: Label { textFormat: Text.PlainText; color: Theme.text; font.pixelSize: Theme.bodySize }
+    component SectionLabel: PlainLabel { font.pixelSize: Theme.captionSize; font.letterSpacing: 1; color: Theme.secondary }
     onPreviewChanged: { outletPlot.requestPaint(); fieldPlot.requestPaint() }
 
     contentItem: ColumnLayout {
         spacing: 7
         RowLayout {
             Layout.fillWidth: true; spacing: 8
-            PlainLabel { Layout.fillWidth: true; text: (dialog.viewingImported ? "Recorded route: " + dialog.resultData.route_id : "Current route: " + (dialog.pipeTransport.routeId || "Select a pipe in the scene")); wrapMode: Text.WrapAnywhere; maximumLineCount: 2; elide: Text.ElideRight; font.pixelSize: 11 }
-            PlainLabel { text: "NATIVE SCALAR REFERENCE · EXPERIMENTAL"; color: "#ffcf70"; font.pixelSize: 10 }
+            PlainLabel { Layout.fillWidth: true; text: (dialog.viewingImported ? "Recorded route: " + dialog.resultData.route_id : "Current route: " + (dialog.pipeTransport.routeId || "Select a pipe in the scene")); wrapMode: Text.WrapAnywhere; maximumLineCount: 2; elide: Text.ElideRight; font.pixelSize: Theme.captionSize }
+            PlainLabel { text: "NATIVE SCALAR REFERENCE · EXPERIMENTAL"; color: Theme.warning; font.pixelSize: Theme.captionSize }
         }
         PlainLabel {
             objectName: "importedPipeEvidenceBanner"
             Layout.fillWidth: true; visible: dialog.viewingImported
             text: "Imported historical evidence · unverified file · no approval"
-            wrapMode: Text.WordWrap; color: "#ffcf70"; font.bold: true
+            wrapMode: Text.WordWrap; color: Theme.warning; font.bold: true
         }
         RowLayout {
             Layout.fillWidth: true; spacing: 8; visible: !dialog.viewingImported
-            PlainLabel { text: "Current run"; color: "#9eb5c2" }
+            PlainLabel { text: "Current run"; color: Theme.secondary }
             ComboBox {
                 id: runSelector
                 objectName: "pipeTransportRunSelector"
@@ -95,17 +95,17 @@ Dialog {
                     contentItem: PlainLabel { text: runOption.modelData.label + (runOption.modelData.historical ? " · historical" : " · current"); elide: Text.ElideRight }
                 }
             }
-            Button { objectName: "runPipeTransport"; text: "Run native transport"; highlighted: true; enabled: dialog.pipeTransport.canRun && !dialog.pipeTransport.busy && !dialog.viewingImported; onClicked: { transportTabs.currentIndex = 0; dialog.pipeTransport.run() } }
+            ActionButton { iconName: "play"; objectName: "runPipeTransport"; text: "Run native transport"; highlighted: true; enabled: dialog.pipeTransport.canRun && !dialog.pipeTransport.busy && !dialog.viewingImported; onClicked: { transportTabs.currentIndex = 0; dialog.pipeTransport.run() } }
         }
         RowLayout {
             Layout.fillWidth: true; spacing: 8
-            Button { objectName: "importPipeEvidence"; text: "Import JSON"; enabled: !dialog.pipeTransport.busy; onClicked: importDialog.open() }
-            Button { objectName: "showCurrentPipeResult"; text: "Current calculation"; visible: dialog.viewingImported; enabled: !dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.showCurrentResult() }
-            Button { objectName: "exportPipeEvidence"; text: "Export JSON"; enabled: dialog.hasResult && !dialog.pipeTransport.busy; onClicked: exportDialog.open() }
+            ActionButton { iconName: "arrow-down-to-line"; objectName: "importPipeEvidence"; text: "Import JSON"; enabled: !dialog.pipeTransport.busy; onClicked: importDialog.open() }
+            ActionButton { iconName: "rotate-ccw"; objectName: "showCurrentPipeResult"; text: "Current calculation"; visible: dialog.viewingImported; enabled: !dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.showCurrentResult() }
+            ActionButton { iconName: "arrow-up-from-line"; objectName: "exportPipeEvidence"; text: "Export JSON"; enabled: dialog.hasResult && !dialog.pipeTransport.busy; onClicked: exportDialog.open() }
             Item { Layout.fillWidth: true }
-            Button { objectName: "cancelPipeTransport"; text: "Cancel"; enabled: dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.cancel() }
+            ActionButton { iconName: "square"; objectName: "cancelPipeTransport"; text: "Cancel"; enabled: dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.cancel() }
         }
-        PlainLabel { Layout.fillWidth: true; text: dialog.pipeTransport.status; wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight; color: "#60d2d1" }
+        PlainLabel { Layout.fillWidth: true; text: dialog.pipeTransport.status; wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight; color: Theme.text }
         TabBar {
             id: transportTabs
             objectName: "pipeTransportTabs"
@@ -121,7 +121,7 @@ Dialog {
                 id: resultScroll; contentWidth: availableWidth; clip: true
                 ColumnLayout {
                     width: resultScroll.availableWidth; spacing: 9
-                    PlainLabel { Layout.fillWidth: true; visible: !dialog.hasResult; text: "Import a previously exported native result, or select a pipe and captured run to execute the native scalar reference. No profile is displayed yet."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
+                    PlainLabel { Layout.fillWidth: true; visible: !dialog.hasResult; text: "Import a previously exported native result, or select a pipe and captured run to execute the native scalar reference. No profile is displayed yet."; wrapMode: Text.WordWrap; color: Theme.secondary }
                     RowLayout {
                         Layout.fillWidth: true; visible: dialog.hasResult; spacing: 14
                         ColumnLayout {
@@ -129,7 +129,7 @@ Dialog {
                             SectionLabel { text: "OUTLET CONCENTRATION · mg/L" }
                             Rectangle {
                                 Layout.fillWidth: true; Layout.preferredHeight: Math.max(145, Math.min(230, dialog.height * 0.30))
-                                color: "#0e202d"; radius: 4
+                                color: Theme.surface; radius: 4
                                 Canvas {
                                     id: outletPlot
                                     objectName: "pipeOutletPlot"
@@ -159,15 +159,15 @@ Dialog {
                                         ctx.font = "10px sans-serif"; ctx.lineWidth = 1; ctx.textAlign = "right"; ctx.textBaseline = "middle"
                                         for (let i = 0; i <= 2; ++i) {
                                             const value = (low + (high - low) * i / 2) * magnitude, py = bottom - i / 2 * (bottom - top)
-                                            ctx.strokeStyle = "#2b4353"; ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke()
-                                            ctx.fillStyle = "#91aab9"; ctx.fillText(dialog.axisNumber(value), left - 7, py)
+                                            ctx.strokeStyle = Theme.divider; ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke()
+                                            ctx.fillStyle = Theme.muted; ctx.fillText(dialog.axisNumber(value), left - 7, py)
                                         }
-                                        ctx.strokeStyle = "#5ed8d0"; ctx.lineWidth = 2; ctx.beginPath()
+                                        ctx.strokeStyle = Theme.plotCandidate; ctx.lineWidth = 2; ctx.beginPath()
                                         for (let j = 0; j < values.length; ++j) {
                                             if (j === 0) ctx.moveTo(x(times[j]), y(values[j]))
                                             else ctx.lineTo(x(times[j]), y(values[j]))
                                         }
-                                        ctx.stroke(); ctx.fillStyle = "#91aab9"; ctx.textBaseline = "top"
+                                        ctx.stroke(); ctx.fillStyle = Theme.muted; ctx.textBaseline = "top"
                                         ctx.textAlign = "left"; ctx.fillText(dialog.number(start) + " h", left, bottom + 9)
                                         ctx.textAlign = "right"; ctx.fillText(dialog.number(end) + " h", right, bottom + 9)
                                     }
@@ -179,7 +179,7 @@ Dialog {
                             SectionLabel { text: "SAMPLED TIME–DISTANCE FIELD · mg/L" }
                             Rectangle {
                                 Layout.fillWidth: true; Layout.preferredHeight: Math.max(145, Math.min(230, dialog.height * 0.30))
-                                color: "#0e202d"; radius: 4
+                                color: Theme.surface; radius: 4
                                 Canvas {
                                     id: fieldPlot
                                     objectName: "pipeFieldPlot"
@@ -214,7 +214,7 @@ Dialog {
                                                 ctx.fillRect(x0, y0, x1 - x0 + 0.5, y1 - y0 + 0.5)
                                             }
                                         }
-                                        ctx.font = "10px sans-serif"; ctx.fillStyle = "#b1c7d3"; ctx.textAlign = "right"; ctx.textBaseline = "middle"
+                                        ctx.font = "10px sans-serif"; ctx.fillStyle = Theme.secondary; ctx.textAlign = "right"; ctx.textBaseline = "middle"
                                         ctx.fillText(dialog.number(firstT) + " h", left - 6, top + 2); ctx.fillText(dialog.number(lastT) + " h", left - 6, bottom - 2)
                                         ctx.textBaseline = "top"; ctx.textAlign = "left"; ctx.fillText(dialog.number(firstX) + " m", left, bottom + 9)
                                         ctx.textAlign = "right"; ctx.fillText(dialog.number(lastX) + " m", right, bottom + 9)
@@ -226,42 +226,42 @@ Dialog {
                     RowLayout {
                         Layout.fillWidth: true; visible: dialog.hasResult; spacing: 7
                         Rectangle { implicitWidth: 12; implicitHeight: 10; color: Qt.rgba(0.08, 0.22, 0.38, 1) }
-                        PlainLabel { text: dialog.number(dialog.fieldScale.low); font.pixelSize: 10 }
-                        PlainLabel { text: "→"; color: "#9eb5c2" }
+                        PlainLabel { text: dialog.number(dialog.fieldScale.low); font.pixelSize: Theme.captionSize }
+                        PlainLabel { text: "→"; color: Theme.secondary }
                         Rectangle { implicitWidth: 12; implicitHeight: 10; color: Qt.rgba(0.86, 0.71, 0.20, 1) }
-                        PlainLabel { text: dialog.number(dialog.fieldScale.high) + " mg/L"; font.pixelSize: 10 }
-                        PlainLabel { Layout.fillWidth: true; text: "Displayed samples · no interpolation or value clipping"; font.pixelSize: 10; color: "#9eb5c2"; wrapMode: Text.WordWrap }
+                        PlainLabel { text: dialog.number(dialog.fieldScale.high) + " mg/L"; font.pixelSize: Theme.captionSize }
+                        PlainLabel { Layout.fillWidth: true; text: "Displayed samples · no interpolation or value clipping"; font.pixelSize: Theme.captionSize; color: Theme.secondary; wrapMode: Text.WordWrap }
                     }
                     SectionLabel { visible: dialog.hasResult; text: "NATIVE MASS LEDGER · mg · FINAL STORED SAMPLE" }
                     GridLayout {
                         Layout.fillWidth: true; visible: dialog.hasResult; columns: 4; columnSpacing: 20; rowSpacing: 5
-                        PlainLabel { text: "Initial inventory"; color: "#9eb5c2" }
+                        PlainLabel { text: "Initial inventory"; color: Theme.secondary }
                         PlainLabel { text: dialog.number((dialog.preview.inventory_mg || [])[0]) }
-                        PlainLabel { text: "Final inventory"; color: "#9eb5c2" }
+                        PlainLabel { text: "Final inventory"; color: Theme.secondary }
                         PlainLabel { text: dialog.number(dialog.last(dialog.preview.inventory_mg)) }
-                        PlainLabel { text: "Inlet exchange (+/−)"; color: "#9eb5c2" }
+                        PlainLabel { text: "Inlet exchange (+/−)"; color: Theme.secondary }
                         PlainLabel { text: dialog.signed(dialog.preview.cumulative_inlet_mg) }
-                        PlainLabel { text: "Outlet removed (−)"; color: "#9eb5c2" }
+                        PlainLabel { text: "Outlet removed (−)"; color: Theme.secondary }
                         PlainLabel { text: dialog.number(dialog.last(dialog.preview.cumulative_outlet_mg)) }
-                        PlainLabel { text: "Source added (+)"; color: "#9eb5c2" }
+                        PlainLabel { text: "Source added (+)"; color: Theme.secondary }
                         PlainLabel { text: dialog.signed(dialog.preview.cumulative_source_mg) }
-                        PlainLabel { text: "Decay removed (−)"; color: "#9eb5c2" }
+                        PlainLabel { text: "Decay removed (−)"; color: Theme.secondary }
                         PlainLabel { text: dialog.number(dialog.last(dialog.preview.cumulative_decay_mg)) }
-                        PlainLabel { text: "Balance residual"; color: "#9eb5c2" }
+                        PlainLabel { text: "Balance residual"; color: Theme.secondary }
                         PlainLabel { text: dialog.signed(dialog.preview.mass_balance_residual_mg) }
-                        PlainLabel { text: "Peak absolute residual"; color: "#9eb5c2" }
+                        PlainLabel { text: "Peak absolute residual"; color: Theme.secondary }
                         PlainLabel { text: dialog.number(dialog.diagnostics.max_mass_balance_residual_mg) }
                     }
-                    PlainLabel { Layout.fillWidth: true; visible: dialog.hasResult; text: "Native balance: final − initial − inlet + outlet − source + decay = residual. Outlet and decay rows show raw removed-mass totals."; wrapMode: Text.WordWrap; font.pixelSize: 10; color: "#9eb5c2" }
-                    PlainLabel { Layout.fillWidth: true; visible: dialog.hasResult; text: "Substeps: " + (dialog.diagnostics.substeps ?? "—") + " · Maximum CFL: " + dialog.number(dialog.diagnostics.max_cfl_number) + " · Minimum concentration: " + dialog.number(dialog.diagnostics.minimum_concentration_mg_l) + " mg/L"; wrapMode: Text.WordWrap; font.pixelSize: 11 }
-                    PlainLabel { Layout.fillWidth: true; text: "Synthetic scalar reference only. This profile does not establish network chemistry, pressure hydraulics, treatment performance or plan approval."; wrapMode: Text.WordWrap; color: "#ffcf70"; font.pixelSize: 11 }
+                    PlainLabel { Layout.fillWidth: true; visible: dialog.hasResult; text: "Native balance: final − initial − inlet + outlet − source + decay = residual. Outlet and decay rows show raw removed-mass totals."; wrapMode: Text.WordWrap; font.pixelSize: Theme.captionSize; color: Theme.secondary }
+                    PlainLabel { Layout.fillWidth: true; visible: dialog.hasResult; text: "Substeps: " + (dialog.diagnostics.substeps ?? "—") + " · Maximum CFL: " + dialog.number(dialog.diagnostics.max_cfl_number) + " · Minimum concentration: " + dialog.number(dialog.diagnostics.minimum_concentration_mg_l) + " mg/L"; wrapMode: Text.WordWrap; font.pixelSize: Theme.captionSize }
+                    PlainLabel { Layout.fillWidth: true; text: "Synthetic scalar reference only. This profile does not establish network chemistry, pressure hydraulics, treatment performance or plan approval."; wrapMode: Text.WordWrap; color: Theme.warning; font.pixelSize: Theme.captionSize }
                 }
             }
             ScrollView {
                 id: parametersScroll; contentWidth: availableWidth; clip: true
                 ColumnLayout {
                     width: parametersScroll.availableWidth; spacing: 13
-                    PlainLabel { Layout.fillWidth: true; text: dialog.viewingImported ? "Recorded parameters from the imported file. These read-only values have not been applied to the current project. Choose Current calculation to return to the project's inputs." : "Physical pipe parameters are independent of the editor layout. Flow and horizon come from the selected stored numerical run."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
+                    PlainLabel { Layout.fillWidth: true; text: dialog.viewingImported ? "Recorded parameters from the imported file. These read-only values have not been applied to the current project. Choose Current calculation to return to the project's inputs." : "Physical pipe parameters are independent of the editor layout. Flow and horizon come from the selected stored numerical run."; wrapMode: Text.WordWrap; color: Theme.secondary }
                     GridLayout {
                         Layout.fillWidth: true; columns: dialog.width < 850 ? 1 : 2; columnSpacing: 24; rowSpacing: 10
                         Repeater {
@@ -272,7 +272,7 @@ Dialog {
                                 Layout.fillWidth: true; spacing: 8
                                 PlainLabel { Layout.preferredWidth: 150; text: parameterRow.modelData.label; wrapMode: Text.WordWrap }
                                 TextField { Layout.fillWidth: true; Layout.minimumWidth: 70; text: String(dialog.displayedParameters[parameterRow.modelData.key] ?? ""); enabled: !dialog.pipeTransport.busy && !dialog.viewingImported && dialog.pipeTransport.routeId.length > 0; inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: dialog.pipeTransport.setParameter(parameterRow.modelData.key, text) }
-                                PlainLabel { Layout.preferredWidth: 88; text: parameterRow.modelData.unit; color: "#9eb5c2" }
+                                PlainLabel { Layout.preferredWidth: 88; text: parameterRow.modelData.unit; color: Theme.secondary }
                             }
                         }
                     }
@@ -288,13 +288,13 @@ Dialog {
                             onActivated: dialog.pipeTransport.setParameter("boundary", currentValue)
                         }
                     }
-                    PlainLabel { Layout.fillWidth: true; text: dialog.viewingImported ? "Import checks the supported file structure and identities. It does not independently verify execution or establish a quality verdict." : "The native engine validates parameter values, numerical budgets and boundary compatibility. Changing a parameter requires a new transport calculation."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
+                    PlainLabel { Layout.fillWidth: true; text: dialog.viewingImported ? "Import checks the supported file structure and identities. It does not independently verify execution or establish a quality verdict." : "The native engine validates parameter values, numerical budgets and boundary compatibility. Changing a parameter requires a new transport calculation."; wrapMode: Text.WordWrap; color: Theme.secondary }
                 }
             }
             ScrollView {
                 contentWidth: availableWidth
                 TextArea {
-                    readOnly: true; selectByMouse: true; textFormat: TextEdit.PlainText; wrapMode: TextEdit.WrapAnywhere; font.pixelSize: 12
+                    readOnly: true; selectByMouse: true; textFormat: TextEdit.PlainText; wrapMode: TextEdit.WrapAnywhere; font.pixelSize: Theme.smallSize
                     text: !dialog.hasResult ? "No computed transport result. Provenance will be captured from the selected run and physical pipe parameters." :
                           "Quality status: " + dialog.resultData.quality_status + "\nContext: " + (dialog.viewingImported ? "imported external file · historical and unverified · no approval" : dialog.resultData.historical ? "historical evidence" : "current captured run") +
                           "\nVolume forecast: " + (dialog.resultData.volume_feasible === undefined ? "not recorded" : dialog.resultData.volume_feasible ? "reported feasible" : "reported infeasible") +
@@ -310,8 +310,8 @@ Dialog {
         implicitHeight: 44
         RowLayout {
             anchors.fill: parent; anchors.margins: 6; anchors.rightMargin: 30
-            PlainLabel { Layout.fillWidth: true; text: "Drag the corner to resize · no simulated controls are changed"; font.pixelSize: 10; color: "#8ca5b4" }
-            Button { text: "Close"; onClicked: dialog.close() }
+            PlainLabel { Layout.fillWidth: true; text: "Drag the corner to resize · no simulated controls are changed"; font.pixelSize: Theme.captionSize; color: Theme.muted }
+            ActionButton { iconName: "x"; text: "Close"; onClicked: dialog.close() }
         }
         MouseArea {
             id: resizeGrip
@@ -328,7 +328,7 @@ Dialog {
                 dialog.preferredDialogWidth = Math.max(700, Math.min(dialog.parent.width - 32, startWidth + (point.x - startPoint.x) * 2))
                 dialog.preferredDialogHeight = Math.max(440, Math.min(dialog.parent.height - 48, startHeight + (point.y - startPoint.y) * 2))
             }
-            PlainLabel { anchors.centerIn: parent; text: "↘"; color: "#8ca5b4"; font.pixelSize: 18 }
+            PlainLabel { anchors.centerIn: parent; text: "↘"; color: Theme.muted; font.pixelSize: 18 }
         }
     }
     FileDialog { id: importDialog; objectName: "importPipeEvidenceDialog"; title: "Import native pipe transport evidence"; fileMode: FileDialog.OpenFile; nameFilters: ["BREAKWATER transport result (*.json)"]; onAccepted: { transportTabs.currentIndex = 0; dialog.pipeTransport.importResult(selectedFile) } }

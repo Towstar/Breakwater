@@ -1,0 +1,10 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-provider-review/out/provider-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-eog-provider-review/out/provider-asan
+    Start 12: desktop.ui_overhaul_normal
+1/2 Test #12: desktop.ui_overhaul_normal .......   Passed   10.64 sec
+    Start 13: desktop.ui_overhaul_compact
+2/2 Test #13: desktop.ui_overhaul_compact ......   Passed   10.34 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =  21.00 sec

@@ -3,12 +3,56 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QTemporaryDir>
+#include <QSignalSpy>
+#include <limits>
 #include <QtTest>
 
 using namespace breakwater::desktop;
 class ProjectTests : public QObject {
     Q_OBJECT
 private slots:
+    void rejectedActionsHaveFreshFeedbackWithoutMutatingEvidence() {
+        ProjectController c; breakwater::SimulationConfig config; config.horizon_h = 1.25; c.forecastWithConfig(config);
+        QTRY_VERIFY_WITH_TIMEOUT(!c.busy(), 10000); QVERIFY(!c.runId().isEmpty());
+        const auto document = c.editorDocument(); const auto hash = c.networkHash(), run = c.runId();
+        const auto revision = c.simulationRevision(); const auto approval = c.canApprove();
+        QVERIFY(!c.canUndo()); QCOMPARE(c.forecastHorizonH(), 1.25);
+        QSignalSpy notices(&c, &ProjectController::actionFeedbackChanged);
+        c.connectAssets("source_a", "treatment");
+        QCOMPARE(c.actionFeedback().value("code").toString(), "connection.unsupported_types");
+        const auto first = c.actionFeedback().value("id").toString();
+        c.connectAssets("source_a", "treatment");
+        QVERIFY(c.actionFeedback().value("id").toString() != first); QCOMPARE(notices.size(), 2);
+        QVERIFY(!c.actionFeedback().value("model_changed").toBool());
+        c.connectAssets("tank_a", "tank_a"); QCOMPARE(c.actionFeedback().value("code").toString(), "connection.self");
+        c.connectAssets("deleted", "tank_a"); QCOMPARE(c.actionFeedback().value("code").toString(), "connection.missing_target");
+        c.connectAssets("source_a", "tank_b"); QCOMPARE(c.actionFeedback().value("code").toString(), "connection.source_already_connected");
+        c.attachPump({}); QCOMPARE(c.actionFeedback().value("code").toString(), "pump.choose_route");
+        QString sourceRoute;
+        for (const auto& value : c.routes()) if (value.toMap().value("source").toString() == "source_a") sourceRoute = value.toMap().value("id").toString();
+        if (sourceRoute.isEmpty()) for (const auto& route : parse_project(c.document()).network.routes) if (route.source_id == "source_a") sourceRoute = QString::fromStdString(route.id);
+        QVERIFY(!sourceRoute.isEmpty()); c.attachPump(sourceRoute);
+        QCOMPARE(c.actionFeedback().value("code").toString(), "pump.source_feed");
+        c.addAsset("tank", std::numeric_limits<double>::quiet_NaN(), 0);
+        QCOMPARE(c.actionFeedback().value("code").toString(), "placement.out_of_range");
+        c.select("tank_a"); c.editSelected("capacity", "NaN");
+        QCOMPARE(c.actionFeedback().value("code").toString(), "property.invalid_number");
+        QCOMPARE(c.actionFeedback().value("field").toString(), "capacity");
+        c.select({}); c.failSelectedPump(); QCOMPARE(c.actionFeedback().value("code").toString(), "pump.not_available");
+        c.deleteSelected(); QCOMPARE(c.actionFeedback().value("code").toString(), "delete.missing_selection");
+        QCOMPARE(c.editorDocument(), document); QCOMPARE(c.networkHash(), hash); QCOMPARE(c.simulationRevision(), revision);
+        QCOMPARE(c.runId(), run); QCOMPARE(c.canApprove(), approval); QVERIFY(!c.canUndo());
+    }
+    void validConnectionAndPumpAttachmentRetainUndoSemantics() {
+        ProjectController c; c.connectAssets("tank_a", "trucking");
+        QVERIFY(c.canUndo()); const auto route = c.selectedId(); QVERIFY(!route.isEmpty());
+        const auto before = c.networkHash(); c.attachPump(route); QVERIFY(c.selected().value("pump").toBool());
+        QVERIFY(c.networkHash() != before); const auto attached = c.editorDocument();
+        c.attachPump(route); QCOMPARE(c.actionFeedback().value("code").toString(), "pump.already_attached");
+        QCOMPARE(c.actionFeedback().value("severity").toString(), "info"); QCOMPARE(c.editorDocument(), attached);
+        c.undo(); QVERIFY(!c.selected().value("pump").toBool()); QCOMPARE(c.networkHash(), before);
+        c.reset(); QVERIFY(c.actionFeedback().isEmpty()); QCOMPARE(c.forecastHorizonH(), 0.0);
+    }
     void pipeParametersPersistWithoutChangingVolumeEvidence() {
         ProjectController controller; controller.loadExample("mixed"); controller.forecast();
         QTRY_VERIFY_WITH_TIMEOUT(!controller.busy(), 10000);
