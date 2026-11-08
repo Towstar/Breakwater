@@ -36,6 +36,10 @@ class ProjectController final : public QObject {
     Q_PROPERTY(double forecastFraction READ forecastFraction WRITE setForecastFraction NOTIFY changed)
     Q_PROPERTY(double forecastTimeH READ forecastTimeH NOTIFY changed)
     Q_PROPERTY(QVariantMap camera READ camera NOTIFY cameraChanged)
+    Q_PROPERTY(QVariantList sensorMarkers READ sensorMarkers NOTIFY changed)
+    Q_PROPERTY(QVariantMap selectedSensor READ selectedSensor NOTIFY changed)
+    Q_PROPERTY(QString selectedSensorId READ selectedSensorId NOTIFY changed)
+    Q_PROPERTY(QString sensorConfigurationHash READ sensorConfigurationHash NOTIFY sensorConfigurationChanged)
 public:
     explicit ProjectController(QObject* parent = nullptr);
     QVariantList assets() const;
@@ -56,6 +60,13 @@ public:
     QVariantMap camera() const;
     void setForecastFraction(double value);
     QJsonObject document() const { return project_json(project_); }
+    QJsonObject editorDocument() const;
+    QJsonObject sensorConfiguration() const;
+    QJsonObject sensorContext() const;
+    QString sensorConfigurationHash() const;
+    QVariantList sensorMarkers() const;
+    QVariantMap selectedSensor() const;
+    QString selectedSensorId() const { return selected_sensor_id_; }
     QJsonObject pipeParameters(const QString& routeId) const;
     bool setPipeParameters(const QString& routeId, const QJsonObject& parameters);
     QJsonObject capturedRun() const;
@@ -67,6 +78,11 @@ public:
     bool applyControlsForApproval(const std::vector<ControlValue>& controls, const QString& expectedHash);
 
     Q_INVOKABLE void select(const QString& id);
+    Q_INVOKABLE void selectSensor(const QString& id);
+    Q_INVOKABLE bool addSensor(const QString& quantity, const QString& attachmentId, const QVariantMap& fields = {});
+    Q_INVOKABLE bool configureSensor(const QString& id, const QVariantMap& fields);
+    Q_INVOKABLE bool deleteSensor(const QString& id);
+    Q_INVOKABLE bool moveSensor(const QString& id, double x, double y, double z);
     Q_INVOKABLE void addAsset(const QString& kind, double x = 0.0, double z = 0.0);
     Q_INVOKABLE void moveAsset(const QString& id, double x, double z);
     Q_INVOKABLE void connectAssets(const QString& source, const QString& target);
@@ -86,16 +102,20 @@ public:
 signals:
     void changed();
     void cameraChanged();
+    void sensorConfigurationChanged();
 private:
     ProjectDocument project_;
     QString selected_id_;
+    QString selected_sensor_id_;
+    QJsonObject sensor_configuration_, sensor_layout_;
     QString summary_ = "Synthetic constant-flow model. Healthy preview accumulates 8 m3/h in Tank A.";
     std::vector<QJsonObject> undo_, redo_;
     quint64 revision_ = 0, job_generation_ = 0;
     bool busy_ = false, approved_ = false;
     double forecast_fraction_ = 0.0;
     std::shared_ptr<const CapturedForecast> run_;
-    void edit(const std::function<void()>& mutation);
+    bool edit(const std::function<void()>& mutation);
+    void synchronizeSensorConfiguration();
     void refresh(bool physics_changed);
     std::size_t sampleIndex() const;
 };
