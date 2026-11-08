@@ -64,6 +64,9 @@ Visual Studio 2022 17.14 with the existing .NET 10 SDK is also supported locally
 That option migrates CMake's generated `.sln` to `.slnx` with `dotnet sln migrate`.
 The default generator remains Visual Studio 2026. Regenerate after pulling engine or
 desktop target changes; SDKs and generated project files are not delivered by Git.
+Visual Studio tracking files use short, project/configuration-specific paths below
+the build directory's `.t` folder to support nested checkouts. Tracking stays
+enabled; an explicitly supplied `CMAKE_VS_GLOBALS` `TLogLocation` takes precedence.
 
 If using the project-local SDK downloaded during development, omit `-QtPrefix`.
 The script detects `.tools/Qt/6.12.0/msvc2022_64` automatically.

@@ -2,6 +2,14 @@ cmake_minimum_required(VERSION 3.25)
 project(Breakwater VERSION 0.1.0 LANGUAGES CXX)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
+# Qt-generated utility targets repeat long project names in MSBuild tracking
+# paths. Keep tracking enabled while avoiding MAX_PATH in nested checkouts.
+if(CMAKE_GENERATOR MATCHES "^Visual Studio" AND
+   NOT "${CMAKE_VS_GLOBALS}" MATCHES "(^|;)TLogLocation=")
+  list(APPEND CMAKE_VS_GLOBALS
+    "TLogLocation=${CMAKE_BINARY_DIR}/.t/$(ProjectGuid)/$(Platform)/$(Configuration)/")
+endif()
+
 set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
