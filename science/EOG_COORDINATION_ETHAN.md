@@ -16,7 +16,7 @@ and performs the UI overhaul last.
 - A increment: https://github.com/Towstar/Breakwater/pull/34
 - Current causal observation increment: https://github.com/Towstar/Breakwater/pull/36
 - Current detection worktree: `C:\Projects\Breakwater\.worktrees\person-a-eog-detection`
-  on `codex/person-a-eog-detection`; its separate PR is published with this checkpoint.
+  on `codex/person-a-eog-detection`; PR https://github.com/Towstar/Breakwater/pull/38 .
 - Contract coordination: https://github.com/Towstar/Breakwater/pull/33
 - Numerical handoff: `science/EOG_E1_HANDOFF.md`.
 - Numerical contract review: `science/EOG_CONTRACT_REVIEW.md`.
@@ -35,6 +35,9 @@ Current A branch/worktree: `codex/person-a-eog-detection` in
 Current detector source is `78f1afe` after rule freezes at 37d8e77 / 2ba9b06.
 Only A-owned science files are authored; incoming desktop/root changes are the
 already-merged G2 baseline, not an ownership transfer.
+Publication head: `391290bb7ff14d245551ad469600a980e1b2d051` before this recovery
+pointer update. A34/A36 were updated with G2 main and the child merged their
+published ancestry, so PR #38's diff stays exclusively within science/.
 
 Implemented strict fixed-file loading, immutable EOG configuration, causal event
 lifecycles/countdowns/exposure, an offline CLI, and a separately invoked offline
