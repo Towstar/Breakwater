@@ -20,8 +20,9 @@ from eog_observations import ObservationError
 from eog_response import ResponseUnavailable, compile_context, evaluate
 from native_eog import NativeError, NativeEvaluator
 from eog_plan_validator import ValidationUnavailable, validate as independently_validate
+from eog_search import search as joint_search
 
-METHOD = "eog-worker-0.2.1"
+METHOD = "eog-worker-0.3.0"
 ADOPTED_CONTRACT = "72cadd1de7eed6666a60faff1d296e29c8f026ee"
 CONTRACT_HASHES = {
     "validate.py": "626deb9b5de0a722f3583adf8f1a28753880bb9d70cf75b78771dda1c7b2faec",
@@ -136,9 +137,23 @@ def handle(request, contract, native_library=None):
         elif request["operation"] == "validate_plan":
             checked = independently_validate(loaded.model, view, request["arguments"]["plan"], request["arguments"]["evaluator_method"])
             result = {"validation": checked.record}
+        elif request["operation"] == "search_plans":
+            selected = set(request["arguments"]["system_ids"])
+            known = {system.id for system in loaded.model.systems}
+            if selected - known:
+                raise InputError("unknown_system", "Search references an unknown captured system.")
+            if selected and selected != known:
+                raise ResponseUnavailable("system_scope_unavailable", "This provider supports all-system search; use an empty system_ids list or select every captured system.")
+            if native_library is None:
+                raise ResponseUnavailable("native_unavailable", "The native EOG response library was not configured.")
+            searched = joint_search(loaded.model, view, NativeEvaluator(native_library), identity=contract.plan_identity,
+                                    clock_context=manifest["context"], candidate_limit=request["arguments"]["candidate_limit"],
+                                    time_limit_s=request["arguments"]["time_limit_s"])
+            result = searched.result
         else:
-            raise ResponseUnavailable("operation_unavailable", "Joint search is not implemented by this worker revision.")
-        result["analysis_id"] = "analysis-" + _identity(({key: request[key] for key in BINDINGS}, request["arguments"], METHOD, loaded.model.fingerprint()))
+            raise ResponseUnavailable("operation_unavailable", "Unknown EOG operation.")
+        result["analysis_id"] = "analysis-" + _identity(({key: request[key] for key in BINDINGS}, request["arguments"], METHOD,
+                                                       loaded.model.fingerprint(), _identity(result)))
         response = _envelope(request, result=result)
     except (ResponseUnavailable, NativeError, ValidationUnavailable) as error:
         response = _envelope(request, "unavailable", code=error.code, message=str(error))
