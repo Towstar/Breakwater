@@ -224,3 +224,21 @@ captured run/generation. These steps are not claimed by this A-only increment.
 PhysicsNeMo remains A4's fixed-case experimental smoke; native FVM/volume validation
 and simulated approval remain authoritative. No new C++/Lean/PDE/quality guarantee
 is inferred from these Python checks.
+
+## A9 — bounded transport qualification (November 7, 2026)
+
+Added a private native exporter, independent analytic/semidiscrete references,
+declared gate configurations and a report command. The refined matrix passes
+45 cases / 580 gates in both normal MSVC and MSVC AddressSanitizer executions.
+Fresh existing native suites pass 8/8 in each build; the full Python suite passes
+127/127 tests without skips.
+
+The original coarse scheduled-inlet convergence failure is retained. Only that
+study's meshes were refined, with every gate, forcing and CFL unchanged. The
+refined mean-L1 pass does not qualify local peaks: its maximum cell-average error
+is still .40191 mg/L, and its mesh/time refinement remains coupled.
+
+See [TRANSPORT_QUALIFICATION.md](TRANSPORT_QUALIFICATION.md) for inventory, equations,
+measured convergence, uncertainty, exact commands, hashes and unsupported regimes.
+No native algorithm, public contract, B-owned file, Lean proof or learned-model
+training method changed in this increment.
