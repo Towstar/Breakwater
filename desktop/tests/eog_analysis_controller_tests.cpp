@@ -566,6 +566,9 @@ private slots:
         const QByteArray needle = R"("limitations": ["Exercise desktop contracts and retention only."])";
         QVERIFY(source.contains(needle));
         source.replace(needle, R"("limitations": [("Protocol-only large-response bound " + str(i) + " " + "x" * 2048)[:2048] for i in range(64)])");
+        const QByteArray branch = "    elif operation == \"search_plans\":\n";
+        QVERIFY(source.contains(branch));
+        source.replace(branch, branch + "        response[\"diagnostics\"] = [{\"code\": \"protocol_only_preview\", \"message\": \"\\u754c\" * 2048} for i in range(64)]\n");
         const auto scripted = fixture.filePath("large_protocol_fixture.py"); QVERIFY(write(scripted, source));
         Harness h(fixtures_, scripted); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
         QSignalSpy completed(&h.client, &EogAnalysisClient::completed), loaded(&h.history, &EogHistoryRepository::sessionLoaded);
@@ -579,6 +582,10 @@ private slots:
         const auto modelMessage = resultFor(h.model.messages, "search"); QVERIFY(modelMessage.value("ok").toBool());
         QVERIFY(QJsonDocument(modelMessage).toJson(QJsonDocument::Compact).size() <= 256 * 1024);
         const auto preview = modelMessage.value("result").toObject().value("result").toObject();
+        QCOMPARE(original.value("diagnostics").toArray().size(), 64);
+        const auto projectedResponse = modelMessage.value("result").toObject();
+        QCOMPARE(projectedResponse.value("diagnostics").toArray().size(), 4);
+        QCOMPARE(projectedResponse.value("full_diagnostic_count"), QJsonValue(64));
         QVERIFY(!preview.value("presentation").toString().isEmpty());
         QCOMPARE(preview.value("selected_plan_id"), wire.value("selected_plan_id"));
         QCOMPARE(preview.value("search"), wire.value("search"));

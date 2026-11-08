@@ -103,6 +103,9 @@ QJsonObject modelResponse(QJsonObject response) {
         for (const auto& value : allLimits) { if (limits.size() == 8) break; limits.append(value.toString().left(1024)); }
         brief["limitations_preview"] = limits; brief["full_limitation_count"] = allLimits.size();
         response["result"] = brief;
+        const auto allDiagnostics = response.value("diagnostics").toArray(); QJsonArray diagnostics;
+        for (const auto& value : allDiagnostics) { if (diagnostics.size() == 4) break; diagnostics.append(value); }
+        response["diagnostics"] = diagnostics; response["full_diagnostic_count"] = allDiagnostics.size();
     }
     if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > modelResponseBudget)
         return {{"request_id", response.value("request_id")}, {"operation", response.value("operation")},
