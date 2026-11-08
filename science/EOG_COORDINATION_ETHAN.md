@@ -27,7 +27,23 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: independent response validation
+## Input preservation correction on latest main
+
+User's latest-first instruction is fulfilled: `origin/main` at `387b583` was
+merged without conflicts into the ongoing search branch (`23b0251`). Latest main
+includes the joined real provider and independent validation; Lucas's #44 remains
+separate draft UI/model work. Search remains A's active next numerical increment.
+
+An isolated `codex/person-a-eog-report-guard` branch from that main resolves Lucas's
+offline CLI overwrite request in `docs/EOG_COORDINATION.md`. Resolved-path and
+hard-link report aliases reject before any success/failure report write. Actual
+14/14 input methods pass without skips, including source-byte preservation and
+three real hard links; initial sandbox link denial and successful permitted rerun
+are recorded in `science/EOG_REPORT_GUARD.md`. No official input was modified.
+Lucas owns main integration and shared STATUS; this correction does not transfer
+offline CLI packaging ownership or complete search/simulation/application goals.
+
+## Prior execution checkpoint: independent response validation
 
 Current branch/worktree: `codex/person-a-eog-validation` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-validation`, based on PR #40
