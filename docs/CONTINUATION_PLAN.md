@@ -10,6 +10,7 @@ selected captured-control derivatives are implemented in this workstream. Follow
 checks/limitations. Next are bounded scientific-evidence retention/restoration and the
 remaining manual/release rehearsals. Earlier plans below remain as history.
 
+
 PR #17's A-owned audit fixes are integrated before further features: exact requested
 horizons, finite independent costs and analytical residual edge cases. B packages the
 new grid helper and checks the corrected exact-endpoint grid independently. Follow

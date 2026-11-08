@@ -1,5 +1,14 @@
 # Implementation status
 
+## PR #23 ordered-stack reconciliation — November 7, 2026
+
+- Merged main after #13 → #18 → #19 → #21 into the B5c review branch. Both parents
+  are preserved. Runtime source, contracts, scientific source, scripts and the
+  73-project/204-dependency solution exactly match the previously tested B5c tree
+  `e4d48b4`; only shared handoff/status notes required reconciliation.
+- Credential source/endpoint pairing and selected-control safeguards remain intact.
+  Earlier reports below retain their original scope and dates; the ordered-stack
+  integration and scientific retention increment record their fresh gates separately.
 ## Final A10a integration check — November 7, 2026
 
 - Merged latest main `5545417` (PR #22, underlying `9b95ff9`) into the B5c
@@ -79,6 +88,15 @@
   covered protocol/controller/credential/A9 callers; remaining manual/release gates
   are explicit. Next: bounded scientific retention/restoration and clean rehearsals.
 
+## PR #21 current-main reconciliation — November 7, 2026
+
+- Integrated #19's merged baseline while preserving current key settings, all A-owned
+  sources and the complete deployed worker/grid package. The independent desktop
+  exact-horizon checks and native solver provenance 0.1.1 remain in this increment.
+- Retained the regenerated 73-project VS2022 solution and checked its complete graph.
+  Earlier test reports below keep their original scope; final combined-stack checks
+  remain the gate before further release claims.
+
 ## Person A audit-fix integration before B5c — November 7, 2026
 
 - Checked GitHub and merged PR #17 head `367dcf1` into B5b `9f8f550`, preserving both
@@ -127,7 +145,23 @@
 - Next implementation: B5c explicit selected-control derivatives. Automatic scientific
   retention and clean hosted rehearsals remain later work. No controls were applied.
 
+## PR #19 current-main reconciliation — November 7, 2026
+
+- Combined B5b's forward-only desktop storage path with merged #13/#18 and current
+  native key settings. The entry point and AgentPanel receive both science and
+  credential controllers; the installed worker retains its grid helper and package.
+- Regenerated the combined VS2022 solution. Final ordered-stack runtime checks remain
+  pending; no selected-control derivatives or scientific history are added here.
+## PR #18 current-main reconciliation — November 7, 2026
+
+- Integrated the merged historical-evidence baseline while preserving native key
+  settings and A's current sources. Added the newly required storage_grid.py helper
+  to deployment alongside worker_storage.py and the complete scientific package.
+- Regenerated the combined VS2022 solution. Runtime and installer verification of
+  the final ordered stack remains the integration gate; earlier reports below
+  retain their original scope and do not establish a fresh combined run.
 ## B5a/B5b local runtime and desktop storage integration — November 7, 2026
+
 
 - Merged the audit-first handoff at `6fb8c29` and froze `10cb8f7` for
   [AUDIT_PERSON_B.md](AUDIT_PERSON_B.md). Direct root MSBuild and normal/full-desktop
@@ -176,6 +210,16 @@
   science, automatic retention and clean hosted rehearsals remain separate. No new
   hosted calls or operating-control application ran in this increment.
 
+## PR #13 current-main reconciliation — November 7, 2026
+
+- Merged main `5545417` into the historical native-pipe evidence branch, preserving
+  both parents, Person A's audit/A9/A10a work and native credential settings.
+  Shared entry-point/QML changes retain both credential setup and read-only evidence
+  reopening; no B5 desktop storage feature is introduced in this increment.
+- Regenerated the VS2022 x64 solution against the combined source, retaining the B7
+  evidence test/render targets and A9 qualification exporter. Original status reports
+  below remain historical evidence. The final ordered-stack build and verification
+  are the integration gate; a new full suite or Lean run is not claimed here.
 ## PR #14 pull/review and next B5 plan — November 7, 2026
 
 - Pulled main `794c7cd`, including PR #14's `d4cae03` worker mapping. Reconciled the
@@ -261,6 +305,7 @@ in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now deliv
 
 ## Audit/A9 main integration — November 7, 2026 (upstream report)
 
+
 - Merged #17 at `0d78ffa` and retargeted/merged #20 at `6966707`, with no conflicts.
   Local main was fast-forwarded. The four A-owned audit findings are resolved;
   A9 supplies bounded synthetic transport qualification. See the
@@ -322,6 +367,7 @@ in [CONTINUATION_PLAN.md](CONTINUATION_PLAN.md); its A3–A6 items are now deliv
   Build/test/package output is local to `.worktrees/local-env/out/`.
 
 ## A8 scientific-worker integration — November 7, 2026 (upstream report)
+
 
 - PR #14 merged at `5c773f7` without conflicts. The repo worker implements
   `capabilities` and CPU float64 `storage_rollout`, with selected-interior-control
