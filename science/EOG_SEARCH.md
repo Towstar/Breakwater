@@ -1,8 +1,8 @@
 # Bounded joint response search
 
-Private numerical method **eog-joint-search-0.1.2**, worker **eog-worker-0.3.2**,
+Private numerical method **eog-joint-search-0.1.3**, worker **eog-worker-0.3.4**,
 native **eog-native-seconds-0.1.1** and independent validator
-**eog-rational-validation-0.1.0**. Runtime source is `34fdf5d`; accepted public
+**eog-rational-validation-0.1.0**. Current runtime source is `343d7e9`; accepted public
 contract remains exact `72cadd1de7eed6666a60faff1d296e29c8f026ee`.
 
 `search_plans` now executes native candidate evaluations and independently
@@ -10,6 +10,18 @@ recomputes the exact selected plan. All current failed facilities and their full
 causally derived repair horizons remain in every plan. Snapshot search assumes
 no previous dispatch; evolving synthetic commitments require a separate stateful
 simulation. No physical controls or operating approval result from selection.
+
+The 0.1.3 robustness follow-up forms aggregate truck volumes as exact rational
+products of each original finite binary64 load and its integer count before
+using the rational seed relaxation. Previously a valid finite load such as
+`1e308` overflowed during multiplication, then failed conversion to Fraction in
+prefix policies, trip priorities and schedule estimates. That also caused a real
+worker `provider_failed` response despite an available valid plan without trucks.
+The fix does not make those enormous loads feasible: the native evaluator still
+rejects insufficient inventory. Unrepresentable native costs remain unavailable,
+counted separately from invalid plans, and prevent a complete-family claim.
+Ordinary noninteger seed products now also avoid premature binary64 rounding;
+the separately versioned heuristic is not the authoritative physical calculation.
 
 Only empty/all `system_ids` are supported. An unknown ID is invalid input; a
 known proper subset explicitly returns `system_scope_unavailable`. The meaning
@@ -63,6 +75,22 @@ means a continuous/global optimum. Bounded results say `best_found`; an exhauste
 zero-cost lower bound can terminate without claiming family enumeration.
 
 ## Executed qualification and remaining scope
+
+Current 0.1.3 evidence is in `science/evidence/eog-search-robustness/`: **425/425**
+full pinned CPU science methods, zero failures/skips, 92.947s. All seven new
+regression methods pass with the actual normal DLL (3.026s) and actual ASan DLL
+(4.777s), including real search followed by separate no-DLL validation, subnormal
+load size, impossible inventory and genuinely unavailable candidate cost. These
+are focused executions of inherited binaries, not a new native build or benchmark.
+
+The tracked qualifier reruns all seven known-value cases and twelve real
+official-prefix processes at the same 3,000-candidate / 15-second bounds. Each
+selected plan's exact cost and plan hash match the earlier 0.1.2 record, and fresh
+native/no-DLL independent comparisons match exactly over nine current failures.
+Every official result still says best_found; no new optimum claim is inferred.
+Original pre-fix failures and exact runtime/source/binary identities are retained.
+
+The following original 0.1.2 evidence remains scoped to runtime `34fdf5d`:
 
 `science/evidence/eog-search/` retains exact source/binary/artifact identities,
 actual worker requests/responses, generated fixtures, itemized independent

@@ -27,7 +27,41 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: inspection timeliness
+## Active execution checkpoint: search arithmetic robustness
+
+Current worktree/branch:
+`C:\Projects\Breakwater\.worktrees\person-a-eog-search-robustness`,
+`codex/person-a-eog-search-robustness`, stacked on #50. Frozen runtime
+**343d7e93d9aafae329ab3815dccf4ed275832d95**, search **0.1.3**, worker **0.3.4**;
+detector remains **0.3.0**, native **0.1.1** and exact public **72cadd1** unchanged.
+
+Reproduced finite `1e308` truck-capacity overflow in three seed helpers, direct
+native search and a real protected worker. Integer-count load products now stay
+rational before the existing rational seed relaxation. Native inventory/cost
+checks are unchanged: impossible full loads still reject, and unrepresentable
+candidate costs remain unavailable and prevent a complete enumeration claim.
+
+Actual full CPU science **425/425**, no skips/failures; seven new focused methods
+pass normal **3.026s** and with the inherited instrumented DLL **4.777s**. Seven
+known-value cases and twelve real search/fresh-native/no-DLL processes pass.
+All four official selected exact costs and plan hashes match the earlier 0.1.2
+record, covering nine failures and retaining best_found. Evidence is pinned in
+`science/evidence/eog-search-robustness/`; no installed/UI/hosted result is implied.
+
+B adoption needs changed `eog_search.py` / `eog_worker.py`, with no new module name
+or wire field. #48's documented finite-extreme limitation now has a reproduced
+A-owned fix. Adopt its exact source before updating packaged runtime evidence;
+do not relabel version-1 operation fields as worker implementation attestation.
+
+Next A groundwork: project only causally accepted operator controls, excluding
+seed/future forcing, and independently reconstruct per-truck pickups/return
+commitments with fractional elapsed clocks. Bind this to imported Model and
+causal View; do not pass the full synthetic provenance receipt to a planner or
+reuse recorded-now search as if busy trucks were free. Stateful planning and the
+shared B-owned simulation boundary, replay/what-if controls and final joined
+application/model/installed checks remain required. The full goal stays active.
+
+## Published checkpoint: inspection timeliness
 
 Current worktree/branch: `C:\Projects\Breakwater\.worktrees\person-a-eog-inspection`,
 `codex/person-a-eog-inspection`, stacked on #49. Frozen runtime **95a8bf1**,
