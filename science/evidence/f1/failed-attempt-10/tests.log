@@ -1,0 +1,53 @@
+test_existing_attempt_is_not_overwritten (test_front_accuracy.CommandTests.test_existing_attempt_is_not_overwritten) ... Refusing to overwrite an existing F1 attempt directory
+ok
+test_invalid_config_is_retained_as_failed_attempt (test_front_accuracy.CommandTests.test_invalid_config_is_retained_as_failed_attempt) ... ok
+test_nonzero_native_exit_retains_raw_diagnostics (test_front_accuracy.CommandTests.test_nonzero_native_exit_retains_raw_diagnostics) ... ok
+test_changed_matrix_and_thresholds_rejected (test_front_accuracy.MatrixTests.test_changed_matrix_and_thresholds_rejected) ... ok
+test_declared_case_families_and_sizes (test_front_accuracy.MatrixTests.test_declared_case_families_and_sizes) ... ok
+test_legacy_a9_configs_unchanged (test_front_accuracy.MatrixTests.test_legacy_a9_configs_unchanged) ... ok
+test_metadata_matrix_validates_without_inventing_fields (test_front_accuracy.MatrixTests.test_metadata_matrix_validates_without_inventing_fields) ... ok
+test_missing_duplicate_foreign_case_ids_rejected (test_front_accuracy.MatrixTests.test_missing_duplicate_foreign_case_ids_rejected) ... ok
+test_missing_or_changed_budget_rejection_rejected (test_front_accuracy.MatrixTests.test_missing_or_changed_budget_rejection_rejected) ... ok
+test_predeclared_gates_are_not_relaxable (test_front_accuracy.MatrixTests.test_predeclared_gates_are_not_relaxable) ... ok
+test_wrong_method_variant_and_boolean_version_rejected (test_front_accuracy.MatrixTests.test_wrong_method_variant_and_boolean_version_rejected) ... ok
+test_bad_reference_check_cannot_fall_back (test_front_accuracy.NativeEvidenceTests.test_bad_reference_check_cannot_fall_back) ... ok
+test_corrupted_concentration_inventory_and_signed_ledger_rejected (test_front_accuracy.NativeEvidenceTests.test_corrupted_concentration_inventory_and_signed_ledger_rejected) ... ok
+test_forged_initial_averages_rejected (test_front_accuracy.NativeEvidenceTests.test_forged_initial_averages_rejected) ... ok
+test_invalid_diagnostics_work_cfl_and_provenance_rejected (test_front_accuracy.NativeEvidenceTests.test_invalid_diagnostics_work_cfl_and_provenance_rejected) ... ok
+test_malformed_nonfinite_boolean_and_clipped_field_rejected (test_front_accuracy.NativeEvidenceTests.test_malformed_nonfinite_boolean_and_clipped_field_rejected) ... ok
+test_missing_shifted_duplicate_output_times_rejected_exactly (test_front_accuracy.NativeEvidenceTests.test_missing_shifted_duplicate_output_times_rejected_exactly) ... ok
+test_shifted_or_reversed_cell_identity_rejected (test_front_accuracy.NativeEvidenceTests.test_shifted_or_reversed_cell_identity_rejected) ... ok
+test_well_shaped_parser_buffer_is_not_an_accuracy_verdict (test_front_accuracy.NativeEvidenceTests.test_well_shaped_parser_buffer_is_not_an_accuracy_verdict) ... ok
+test_wrong_forcing_geometry_and_selection_identity_rejected (test_front_accuracy.NativeEvidenceTests.test_wrong_forcing_geometry_and_selection_identity_rejected) ... ok
+test_wrong_litre_conversion_rejected (test_front_accuracy.NativeEvidenceTests.test_wrong_litre_conversion_rejected) ... ok
+test_boolean_sample_cannot_impersonate_exact_numeric_one (test_front_accuracy.ObservationTests.test_boolean_sample_cannot_impersonate_exact_numeric_one) ... ok
+test_crossing_returns_bracket_not_invented_exact_time (test_front_accuracy.ObservationTests.test_crossing_returns_bracket_not_invented_exact_time) ... ok
+test_decimation_uses_original_indices_and_retains_endpoint (test_front_accuracy.ObservationTests.test_decimation_uses_original_indices_and_retains_endpoint) ... ok
+test_endpoint_retained_when_stride_does_not_divide_grid (test_front_accuracy.ObservationTests.test_endpoint_retained_when_stride_does_not_divide_grid) ... ok
+test_exact_grid_retains_one_ulp_endpoint (test_front_accuracy.ObservationTests.test_exact_grid_retains_one_ulp_endpoint) ... ok
+test_initial_equality_and_repeated_crossings (test_front_accuracy.ObservationTests.test_initial_equality_and_repeated_crossings) ... ok
+test_invalid_trace_times_values_and_threshold_rejected (test_front_accuracy.ObservationTests.test_invalid_trace_times_values_and_threshold_rejected) ... ok
+test_missing_discharge_is_not_bridged (test_front_accuracy.ObservationTests.test_missing_discharge_is_not_bridged) ... ok
+test_no_crossing_and_unavailable_discharge_are_distinct (test_front_accuracy.ObservationTests.test_no_crossing_and_unavailable_discharge_are_distinct) ... ok
+test_norms_have_concentration_units_and_independent_values (test_front_accuracy.ObservationTests.test_norms_have_concentration_units_and_independent_values) ... ok
+test_norms_preserve_tiny_values_without_auxiliary_underflow (test_front_accuracy.ObservationTests.test_norms_preserve_tiny_values_without_auxiliary_underflow) ... FAIL
+test_paused_outlet_field_is_not_a_discharge_observation (test_front_accuracy.ObservationTests.test_paused_outlet_field_is_not_a_discharge_observation) ... ok
+test_reference_floor_marks_orders_unresolved (test_front_accuracy.ObservationTests.test_reference_floor_marks_orders_unresolved) ... ok
+test_sparse_observations_can_miss_a_pulse_honestly (test_front_accuracy.ObservationTests.test_sparse_observations_can_miss_a_pulse_honestly) ... ok
+
+======================================================================
+FAIL: test_norms_preserve_tiny_values_without_auxiliary_underflow (test_front_accuracy.ObservationTests.test_norms_preserve_tiny_values_without_auxiliary_underflow)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-front-accuracy\science\tests\test_front_accuracy.py", line 251, in test_norms_preserve_tiny_values_without_auxiliary_underflow
+    self.assertGreater(result["rms_mg_l"],0.)
+AssertionError: 0.0 not greater than 0.0
+
+----------------------------------------------------------------------
+Ran 35 tests in 0.444s
+
+FAILED (failures=1)
+F1 failed: C:\Users\EthanCochran\AppData\Local\Temp\tmputyjwosf\attempt\report.json
+'study_version'
+F1 failed: C:\Users\EthanCochran\AppData\Local\Temp\tmpirlxayz4\attempt\report.json
+Native execution failed (exit 7); raw evidence retained

@@ -5,6 +5,11 @@ independent analytic/semidiscrete comparisons, separated error studies and expli
 limits for tested regimes. It preserves the failed coarse inlet-front study; its
 refined mean-L1 pass does not qualify local peak accuracy or every accepted input.
 
+The separate [F1 study](../science/FRONT_ACCURACY.md) extends observation to front
+passage and the outlet without changing this solver. It reports field/point/peak
+and threshold-timing errors separately, including missed crossings and exceeded
+time-contamination targets. Completed characterization is not accuracy qualification.
+
 The A10a [checked mass-balance proofs](../proofs/FVM_MASS_BALANCE.md) formalize
 interior-face cancellation, one-step inventory balance and the variable-step signed
 ledger identity over exact reals. They do not certify PDE accuracy, positivity,

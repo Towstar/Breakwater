@@ -1,0 +1,9 @@
+{
+  "variant": "normal",
+  "verified_revision": "fffe5c342caf64725c6242215a8858280ca75441",
+  "started_utc": "2026-11-08T05:22:35.6579632Z",
+  "finished_utc": "2026-11-08T05:23:45.2072187Z",
+  "elapsed_s": 69.5502531,
+  "reused_native_checks": "attempt-06-normal",
+  "rationale": "Only F1 diagnostic norm and its test changed after native/A9 checks; compiled C++ and executable bytes are unchanged."
+}

@@ -1,0 +1,61 @@
+test_all_box_thresholds_cross_at_front_arrival (test_front_reference.PhysicalReferenceTests.test_all_box_thresholds_cross_at_front_arrival) ... ok
+test_box_partial_cell_averages_are_geometric (test_front_reference.PhysicalReferenceTests.test_box_partial_cell_averages_are_geometric) ... ok
+test_box_point_arrivals_use_right_continuous_time (test_front_reference.PhysicalReferenceTests.test_box_point_arrivals_use_right_continuous_time) ... FAIL
+test_initial_references_agree_with_split_quadrature (test_front_reference.PhysicalReferenceTests.test_initial_references_agree_with_split_quadrature) ... ok
+test_invalid_reference_domain_is_rejected (test_front_reference.PhysicalReferenceTests.test_invalid_reference_domain_is_rejected) ... ok
+test_invalid_source_schedule_and_threshold_are_rejected (test_front_reference.PhysicalReferenceTests.test_invalid_source_schedule_and_threshold_are_rejected) ... ok
+test_native_buffers_do_not_construct_reference (test_front_reference.PhysicalReferenceTests.test_native_buffers_do_not_construct_reference) ... ok
+test_no_crossing_before_horizon (test_front_reference.PhysicalReferenceTests.test_no_crossing_before_horizon) ... ok
+test_point_outlet_is_distinct_from_last_cell_average (test_front_reference.PhysicalReferenceTests.test_point_outlet_is_distinct_from_last_cell_average) ... ok
+test_reference_check_reports_uncertainty_not_formal_bound (test_front_reference.PhysicalReferenceTests.test_reference_check_reports_uncertainty_not_formal_bound) ... ok
+test_scheduled_displacement_and_pause (test_front_reference.PhysicalReferenceTests.test_scheduled_displacement_and_pause) ... ok
+test_scheduled_first_and_repeated_crossings (test_front_reference.PhysicalReferenceTests.test_scheduled_first_and_repeated_crossings) ... ok
+test_scheduled_mass_and_independent_spatial_quadrature (test_front_reference.PhysicalReferenceTests.test_scheduled_mass_and_independent_spatial_quadrature) ... ok
+test_smooth_initial_integral_and_litre_conversion (test_front_reference.PhysicalReferenceTests.test_smooth_initial_integral_and_litre_conversion) ... ok
+test_smooth_point_peak_and_exact_first_crossing (test_front_reference.PhysicalReferenceTests.test_smooth_point_peak_and_exact_first_crossing) ... ok
+test_translated_pulses_leave_pipe_without_mass_renormalization (test_front_reference.PhysicalReferenceTests.test_translated_pulses_leave_pipe_without_mass_renormalization) ... ok
+test_invalid_clock_and_count (test_front_reference.PoissonSemigroupTests.test_invalid_clock_and_count) ... ok
+test_kernel_is_never_renormalized (test_front_reference.PoissonSemigroupTests.test_kernel_is_never_renormalized) ... ok
+test_known_one_and_two_cell_convolution (test_front_reference.PoissonSemigroupTests.test_known_one_and_two_cell_convolution) ... ok
+test_semigroup_composes_with_open_escape (test_front_reference.PoissonSemigroupTests.test_semigroup_composes_with_open_escape) ... FAIL
+test_underflowing_zero_order_weight_does_not_erase_mode (test_front_reference.PoissonSemigroupTests.test_underflowing_zero_order_weight_does_not_erase_mode) ... ok
+test_zero_clock_is_identity (test_front_reference.PoissonSemigroupTests.test_zero_clock_is_identity) ... ok
+
+======================================================================
+FAIL: test_box_point_arrivals_use_right_continuous_time (test_front_reference.PhysicalReferenceTests.test_box_point_arrivals_use_right_continuous_time)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-front-accuracy\science\tests\test_front_reference.py", line 73, in test_box_point_arrivals_use_right_continuous_time
+    self.assertEqual(float(point_values(c, [1.], math.nextafter(1.5,0.))[0]), 0.)
+AssertionError: 1.0 != 0.0
+
+======================================================================
+FAIL: test_semigroup_composes_with_open_escape (test_front_reference.PoissonSemigroupTests.test_semigroup_composes_with_open_escape)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-front-accuracy\science\tests\test_front_reference.py", line 178, in test_semigroup_composes_with_open_escape
+    np.testing.assert_allclose(b,semidiscrete(c,1.),atol=8e-16,rtol=0)
+  File "C:\Projects\Breakwater\.worktrees\person-a-engine\science\.venv\Lib\site-packages\numpy\testing\_private\utils.py", line 1780, in assert_allclose
+    assert_array_compare(compare, actual, desired, err_msg=str(err_msg),
+  File "C:\Projects\Breakwater\.worktrees\person-a-engine\science\.venv\Lib\site-packages\numpy\testing\_private\utils.py", line 988, in assert_array_compare
+    raise AssertionError(msg)
+AssertionError: 
+Not equal to tolerance rtol=0, atol=8e-16
+
+Mismatched elements: 2 / 32 (6.25%)
+Mismatch at indices:
+ [11]: 0.4529608094869944 (ACTUAL), 0.4529608094869936 (DESIRED)
+ [23]: 0.9573669486062236 (ACTUAL), 0.9573669486062227 (DESIRED)
+Max absolute difference among violations: 8.8817842e-16
+Max relative difference among violations: 1.83827663e-15
+ ACTUAL: array([0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00,
+       3.354626e-04, 3.019164e-03, 1.375397e-02, 4.238011e-02,
+       9.963240e-02, 1.912361e-01, 3.133743e-01, 4.529608e-01,...
+ DESIRED: array([0.000000e+00, 0.000000e+00, 0.000000e+00, 0.000000e+00,
+       3.354626e-04, 3.019164e-03, 1.375397e-02, 4.238011e-02,
+       9.963240e-02, 1.912361e-01, 3.133743e-01, 4.529608e-01,...
+
+----------------------------------------------------------------------
+Ran 22 tests in 0.091s
+
+FAILED (failures=2)

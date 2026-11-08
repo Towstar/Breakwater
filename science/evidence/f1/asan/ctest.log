@@ -1,0 +1,21 @@
+Test project C:/Projects/Breakwater/.worktrees/person-a-front-accuracy/out/f1/asan
+    Start 1: engine.benchmark_correctness
+1/8 Test #1: engine.benchmark_correctness .......   Passed    0.97 sec
+    Start 2: engine.acceptance
+2/8 Test #2: engine.acceptance ..................   Passed    0.59 sec
+    Start 3: engine.search
+3/8 Test #3: engine.search ......................   Passed    0.15 sec
+    Start 4: engine.control_influence
+4/8 Test #4: engine.control_influence ...........   Passed   16.01 sec
+    Start 5: engine.search_example
+5/8 Test #5: engine.search_example ..............   Passed    0.06 sec
+    Start 6: engine.search_infeasible_example
+6/8 Test #6: engine.search_infeasible_example ...   Passed    0.06 sec
+    Start 7: engine.transport
+7/8 Test #7: engine.transport ...................   Passed   15.89 sec
+    Start 8: engine.transport_example
+8/8 Test #8: engine.transport_example ...........   Passed    0.05 sec
+
+100% tests passed, 0 tests failed out of 8
+
+Total Test time (real) =  33.79 sec

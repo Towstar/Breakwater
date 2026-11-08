@@ -1,0 +1,9 @@
+{
+  "variant": "asan",
+  "verified_revision": "4841c042d81eb43fe06871a89c4b096c778707b9",
+  "started_utc": "2026-11-08T05:14:28.8953969Z",
+  "finished_utc": "2026-11-08T05:16:55.4199714Z",
+  "elapsed_s": 146.525361,
+  "registered_tests": 8,
+  "ctest_exit": 0
+}

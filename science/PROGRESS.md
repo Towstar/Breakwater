@@ -1,5 +1,29 @@
 # Person A science evidence
 
+## G1 numerical guidance and F1 characterization — November 7, 2026
+
+[G1 observation semantics](OBSERVATION_SEMANTICS.md) supplies worked calibration,
+measurement-support, uncertainty and missing-coverage examples for B's contract
+review. It does not implement sensors or adopt a shared telemetry schema.
+
+[F1](FRONT_ACCURACY.md) completes 22 actual front/outlet/timing cases normally and
+under MSVC ASan. Native data are byte-identical across builds; both legacy A9 modes
+are byte-identical to the retained pre-F1 executable. Normal/ASan native suites
+passed 8/8; final Python passed 186/186 with no skips, including 59 new checks.
+Refined A9 passed 45 cases/580 gates in both; the original coarse failure remains.
+No numerical solver, API, pin, old threshold or proof changed.
+
+Accuracy remains unqualified: at N512 the extended inlet's saved outlet peak is
+0.610814 mg/L versus 1 mg/L continuous reference and it misses the 0.9 crossing.
+Six initial-pulse spatial runs exceed the predeclared 5% time-contamination target;
+separate spatial/temporal errors and all failed attempts are retained. A subsequent
+bounded advection-accuracy study is justified once required error budgets are agreed.
+
+B handoff: review the G1 physical semantics, publish/adopt the shared contract before
+G2 mappings, and incorporate these scoped results/limitations into shared STATUS.
+G2/G3/RBM implementation, new proofs and application/release acceptance are outside
+this increment. Earlier entries below preserve their original revisions and scopes.
+
 ## Post-A10a audit and A10b — November 7, 2026
 
 The [new audit](AUDIT_POST_A10A.md) froze `5545417`, checked prior A-001–A-004

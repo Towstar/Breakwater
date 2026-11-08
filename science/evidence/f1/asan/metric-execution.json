@@ -1,0 +1,9 @@
+{
+  "variant": "asan",
+  "verified_revision": "fffe5c342caf64725c6242215a8858280ca75441",
+  "started_utc": "2026-11-08T05:22:36.2279815Z",
+  "finished_utc": "2026-11-08T05:23:30.6112464Z",
+  "elapsed_s": 54.3843939,
+  "reused_native_checks": "attempt-07-asan",
+  "rationale": "Only F1 diagnostic norm and its test changed after native/A9 checks; compiled C++ and executable bytes are unchanged."
+}

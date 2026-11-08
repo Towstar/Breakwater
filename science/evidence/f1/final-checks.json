@@ -1,0 +1,8 @@
+{
+  "relative_links": "passed",
+  "source_hashes": "passed",
+  "compiled_solver_and_public_contracts_unchanged": true,
+  "predeclared_config_matches_first_native_measurement": true,
+  "local_continuation_plan_excluded": true,
+  "scope": "Read-only source/metadata checks after documentation; runtime code stays at the recorded verified commit."
+}
