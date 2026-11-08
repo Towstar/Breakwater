@@ -55,6 +55,7 @@ target_sources(breakwater_agent PRIVATE
 target_include_directories(breakwater_agent PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base Qt6::Network Qt6::Concurrent Qt6::Sql)
 target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_WORKER_PATH="${PROJECT_SOURCE_DIR}/science/worker.py")
+target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_CALIBRATION_PATH="${PROJECT_SOURCE_DIR}/science/transport_calibration.py")
 target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_DEVELOPMENT_BIN_DIR="$<TARGET_FILE_DIR:breakwater>")
 qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
@@ -260,6 +261,7 @@ endif()
 install(TARGETS breakwater RUNTIME DESTINATION bin)
 install(FILES "${PROJECT_SOURCE_DIR}/.env.example" DESTINATION bin)
 install(FILES "${PROJECT_SOURCE_DIR}/science/worker.py" DESTINATION share/breakwater/science)
+install(FILES "${PROJECT_SOURCE_DIR}/science/transport_calibration.py" DESTINATION share/breakwater/science)
 install(FILES "${PROJECT_SOURCE_DIR}/science/worker_storage.py" "${PROJECT_SOURCE_DIR}/science/storage_grid.py"
   DESTINATION share/breakwater/science)
 install(DIRECTORY "${PROJECT_SOURCE_DIR}/science/breakwater_science" DESTINATION share/breakwater/science

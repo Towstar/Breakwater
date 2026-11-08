@@ -1,0 +1,42 @@
+{
+  "request": {
+    "initial_mg_l": 1.0,
+    "observations": [
+      [
+        0.25,
+        0.951229424500714
+      ],
+      [
+        0.5,
+        0.9048374180359595
+      ],
+      [
+        0.75,
+        0.8607079764250578
+      ],
+      [
+        1.0,
+        0.8187307530779818
+      ]
+    ]
+  },
+  "result": {
+    "status": "ok",
+    "method": "physicsnemo-sparse-decay-calibration-0.1.0",
+    "decay_per_h": 0.20000000000000107,
+    "reference_decay_per_h": 0.20000000000000004,
+    "reference_difference_per_h": 1.0269562977782698e-15,
+    "relative_rmse": 6.080941944488118e-16,
+    "observations": 4,
+    "optimizer_evaluations": 16,
+    "input_sha256": "037f5a96f394e6282bf6bd87b05c7199e2ed7fed9d0110389cce4136728e9a84",
+    "physicsnemo_version": "2.2.2",
+    "assumption": "Closed well-mixed tracer sample; known initial concentration; first-order decay only.",
+    "quality_gate": "Independent log-space least-squares agreement and concentration RMSE \u22645% of initial.",
+    "forecast_authority": "Native finite-volume solver; estimate requires explicit application and a new forecast."
+  },
+  "exit_code": 0,
+  "elapsed_seconds": 19.30438669997966,
+  "stderr_bytes": 103,
+  "stderr_note": "CUDA unavailable warning; CPU execution selected explicitly."
+}
