@@ -113,6 +113,32 @@ QJsonObject candidateArchive(ProjectController& project, QString& candidateId, Q
 class PipeTransportTests final : public QObject {
     Q_OBJECT
 private slots:
+    void calibrationRejectsMalformedInputWithoutChangingProject() {
+        ProjectController project; QVERIFY(capture(project, "mixed")); project.select("truck_route");
+        PipeTransportController pipe(&project);
+        const auto document = project.document(); const auto revision = project.simulationRevision();
+        pipe.calibrateDecay("bad", "0.1, 1\n0.2, 0.9\n0.3, 0.8");
+        QVERIFY(!pipe.calibrationBusy()); QVERIFY(!pipe.canApplyCalibration());
+        pipe.calibrateDecay("1", "0.1, 1\ninvalid\n0.3, 0.8");
+        QVERIFY(!pipe.calibrationBusy()); QVERIFY(!pipe.canApplyCalibration());
+        pipe.applyCalibration();
+        QCOMPARE(project.document(), document); QCOMPARE(project.simulationRevision(), revision);
+    }
+    void actualPhysicsNeMoEstimateRequiresExplicitApply() {
+        if (!qEnvironmentVariableIsSet("BREAKWATER_CALIBRATION_TEST")) QSKIP("Explicit real PhysicsNeMo runtime test not requested.");
+        ProjectController project; QVERIFY(capture(project, "mixed")); project.select("truck_route");
+        PipeTransportController pipe(&project);
+        const auto before = project.pipeParameters("truck_route"); const auto revision = project.simulationRevision();
+        pipe.calibrateDecay("1", "0.25,0.951229424500714\n0.5,0.9048374180359595\n0.75,0.8607079764250578\n1.0,0.8187307530779818");
+        QVERIFY(pipe.calibrationBusy()); QTRY_VERIFY_WITH_TIMEOUT(!pipe.calibrationBusy(), 55000);
+        QVERIFY2(pipe.canApplyCalibration(), qPrintable(pipe.calibrationStatus()));
+        QCOMPARE(project.pipeParameters("truck_route"), before); QCOMPARE(project.simulationRevision(), revision);
+        QVERIFY(std::abs(pipe.calibrationResult().value("decay_per_h").toDouble() - 0.2) < 1e-6);
+        pipe.applyCalibration();
+        QVERIFY(std::abs(project.pipeParameters("truck_route").value("decay_per_h").toDouble() - 0.2) < 1e-6);
+        QVERIFY(project.simulationRevision() > revision); QVERIFY(!project.canApprove());
+        QVERIFY(!pipe.canApplyCalibration());
+    }
     void manualCapturedRunMatchesNativeAndPreservesVolumeAuthority() {
         ProjectController project; QVERIFY(capture(project, "mixed"));
         project.select("truck_route");
