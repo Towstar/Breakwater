@@ -3,8 +3,10 @@
 This increment adds a dataset-driven workspace alongside the existing editable
 simulation workbench. It consumes only network.json, ops.json and telemetry.csv.
 Detection, shutdown predictions, joint response search and EOG Nemotron tools are
-not connected in this increment. Their reviewed interface is PR #33; numerical
-implementation belongs to Person A.
+not connected in this increment. Both developers adopted interface revision
+`72cadd1de7eed6666a60faff1d296e29c8f026ee` from PR #33; numerical implementation
+belongs to Person A. See [EOG_COORDINATION.md](EOG_COORDINATION.md) for the recorded
+exact-revision acceptance and its scope.
 
 ## Open a dataset
 
@@ -60,6 +62,14 @@ These are scoped console checks, not a fresh full combined application acceptanc
 G2's separate full checks and later hosted runs retain their exact revisions.
 Prebuilt Qt/Python dependencies are outside native ASan instrumentation coverage.
 
+Isolated console delivery verification on November 8, 2026, at `36f619d`:
+fresh normal build and 6/6 scoped CTests passed in 13.73 seconds (24 Qt cases,
+8 executable CLI methods, four D3D11/WARP renders; no skips). The 14 original
+source/fixture blobs match `1a6e686` and `03cf07c` exactly. CI policy checks passed
+15/15. The regenerated Visual Studio solution resolves all 104 project paths and
+373 dependency references; generation used embedded debug information, with no
+Visual Studio compile or new ASan run in this isolated delivery check.
+
 The hard-link regression needs native Windows filesystem capabilities. An
 AppContainer sandbox denies link creation; retain that setup failure and execute
 the check in a permitted native environment rather than silently skipping it.
@@ -73,8 +83,9 @@ was verified separately; no answer key is an application input.
 
 ## Next integration boundary
 
-A causal capture producer is being added separately. It must retain raw bytes,
-freeze the cutoff, verify source hashes and own its private directory for the job
-lifetime. Production provider/client binding waits for Ethan's exact-contract
-numerical acceptance. Imported or reopened analysis remains historical evidence.
-
+Causal capture, production provider/client binding, analysis history and EOG
+model tools remain separate follow-up increments. A capture producer must retain
+raw bytes, freeze the cutoff, verify source hashes and own its private directory
+for the job lifetime. The shared interface adoption gate is satisfied; it does
+not establish a production provider or a validated numerical exchange. Imported
+or reopened analysis must remain historical evidence.
