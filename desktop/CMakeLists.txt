@@ -14,6 +14,7 @@ qt_add_library(breakwater_agent STATIC
   history/HistoryController.hpp history/HistoryController.cpp
   history/SessionRecorder.hpp history/SessionRecorder.cpp
   quality/PipeTransportController.hpp quality/PipeTransportController.cpp
+  quality/PipeTransportEvidence.hpp quality/PipeTransportEvidence.cpp
   science/PythonWorkerClient.hpp science/PythonWorkerClient.cpp)
 target_include_directories(breakwater_agent PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base Qt6::Network Qt6::Concurrent Qt6::Sql)
@@ -50,7 +51,7 @@ if(BUILD_TESTING)
   add_test(NAME desktop.pipe_parameters COMMAND breakwater_pipe_parameters_tests)
   set_tests_properties(desktop.pipe_parameters PROPERTIES TIMEOUT 30
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
-  foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker pipe_transport)
+  foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker pipe_transport pipe_transport_evidence)
     qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
     target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_agent Qt6::Test)
     target_compile_definitions(breakwater_${_suite}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
@@ -70,7 +71,16 @@ if(BUILD_TESTING)
   endif()
   add_test(NAME desktop.qml_smoke COMMAND breakwater --smoke)
   set_tests_properties(desktop.qml_smoke PROPERTIES TIMEOUT 30)
-  set_tests_properties(desktop.project desktop.qml_smoke PROPERTIES
+  # Reopen an actual native export produced by the controller suite, rather than
+  # treating a successful empty-scene render as an evidence-import check.
+  set(_pipe_evidence_dir "${CMAKE_CURRENT_BINARY_DIR}/test-artifacts")
+  set_tests_properties(desktop.pipe_transport PROPERTIES FIXTURES_SETUP pipe_evidence
+    ENVIRONMENT "BREAKWATER_TEST_ARTIFACT_DIR=${_pipe_evidence_dir}")
+  add_test(NAME desktop.pipe_evidence_smoke COMMAND breakwater
+    --import-pipe-evidence "${_pipe_evidence_dir}/native-transport-evidence.json"
+    --history-db "${_pipe_evidence_dir}/pipe-render.sqlite" --smoke)
+  set_tests_properties(desktop.pipe_evidence_smoke PROPERTIES FIXTURES_REQUIRED pipe_evidence TIMEOUT 30)
+  set_tests_properties(desktop.project desktop.qml_smoke desktop.pipe_evidence_smoke PROPERTIES
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
 endif()
 

@@ -114,7 +114,8 @@ Install the documented pinned science environment before running the full Python
 test suite; it includes Torch and optional PhysicsNeMo tests.
 
 Native pipe transport is connected to the desktop, alongside investigation history,
-comparison and guarded operator review. See
+comparison and guarded operator review. Its bounded JSON exports can be reopened as
+read-only historical evidence; see [the pipe viewer guide](docs/PIPE_TRANSPORT.md). See
 [docs/SCIENCE_VALIDATION.md](docs/SCIENCE_VALIDATION.md) for proof scope and numerical
 limits, and [docs/STATUS.md](docs/STATUS.md) for executed evidence.
 

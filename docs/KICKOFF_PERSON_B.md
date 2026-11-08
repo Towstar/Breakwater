@@ -53,7 +53,10 @@ Follow-up: the approved desktop-first increment implements investigation history
 comparisons/charts, operator review and a health-only QProcess adapter; see
 docs/DESKTOP_FOUNDATION.md and the latest docs/STATUS.md. Scientific worker methods and
 generalized learned pipe inference remain pending. B3 contracts/persistence and B4
-native viewing are now implemented; follow the updated next increment below.
+native viewing are now implemented. The B7 native-result reopen subincrement is also
+implemented: bounded result JSON reopens as historical, read-only evidence in the viewer.
+Automatic quality-result retention remains separate unfinished work. Follow the updated
+next increment below.
 
 Inspect the machine rather than assuming the original developer's SDKs are installed.
 .tools/ and out/ are ignored and will be absent in a fresh clone. Follow README for
@@ -107,8 +110,9 @@ otherwise report live integration unverified and continue the deterministic work
 
 Also cover selected-pipe parity, maximum output, wrong request IDs, missing Python,
 worker crashes/restarts and quality-result invalidation. Keep quality separate from
-volume approval. Update docs/STATUS.md with actual evidence. Follow B7 for durable
-evidence export/reopen after the native viewer and worker boundary; defer UI polish.
+volume approval. Update docs/STATUS.md with actual evidence. Preserve B7's native-result
+import/export and investigation retention. Continue automatic quality-result retention
+and release checks after the relevant worker boundary; defer UI polish.
 Push your feature branch and open a PR. You are the integration owner: review A's small
 increments, integrate agreed changes through PRs after relevant tests pass, and keep
 main runnable. Do not force-push or put feature work directly onto main.

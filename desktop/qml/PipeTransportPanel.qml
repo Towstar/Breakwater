@@ -13,6 +13,8 @@ Dialog {
     readonly property var resultData: pipeTransport.result || ({})
     readonly property var preview: resultData.preview || ({})
     readonly property var diagnostics: resultData.diagnostics || ({})
+    readonly property bool viewingImported: pipeTransport.viewingImportedEvidence
+    readonly property var displayedParameters: viewingImported ? (resultData.parameters || ({})) : pipeTransport.parameters
     readonly property bool hasResult: resultData.result_version === 1 && (preview.time_h || []).length > 0
     readonly property var outletScale: bounds(preview.outlet_mg_l || [], false)
     readonly property var fieldScale: bounds(preview.concentration_mg_l || [], true)
@@ -59,18 +61,24 @@ Dialog {
         spacing: 7
         RowLayout {
             Layout.fillWidth: true; spacing: 8
-            PlainLabel { Layout.fillWidth: true; text: "Route: " + (dialog.pipeTransport.routeId || "Select a pipe in the scene"); wrapMode: Text.WrapAnywhere; font.pixelSize: 11 }
+            PlainLabel { Layout.fillWidth: true; text: (dialog.viewingImported ? "Recorded route: " + dialog.resultData.route_id : "Current route: " + (dialog.pipeTransport.routeId || "Select a pipe in the scene")); wrapMode: Text.WrapAnywhere; maximumLineCount: 2; elide: Text.ElideRight; font.pixelSize: 11 }
             PlainLabel { text: "NATIVE SCALAR REFERENCE · EXPERIMENTAL"; color: "#ffcf70"; font.pixelSize: 10 }
         }
+        PlainLabel {
+            objectName: "importedPipeEvidenceBanner"
+            Layout.fillWidth: true; visible: dialog.viewingImported
+            text: "Imported historical evidence · unverified file · no approval"
+            wrapMode: Text.WordWrap; color: "#ffcf70"; font.bold: true
+        }
         RowLayout {
-            Layout.fillWidth: true; spacing: 8
-            PlainLabel { text: "Network run"; color: "#9eb5c2" }
+            Layout.fillWidth: true; spacing: 8; visible: !dialog.viewingImported
+            PlainLabel { text: "Current run"; color: "#9eb5c2" }
             ComboBox {
                 id: runSelector
                 objectName: "pipeTransportRunSelector"
                 Layout.fillWidth: true
                 model: dialog.pipeTransport.runs; textRole: "label"; valueRole: "run_id"
-                enabled: count > 0 && !dialog.pipeTransport.busy
+                enabled: count > 0 && !dialog.pipeTransport.busy && !dialog.viewingImported
                 currentIndex: {
                     const rows = dialog.pipeTransport.runs
                     for (let i = 0; i < rows.length; ++i) if (rows[i].run_id === dialog.pipeTransport.selectedRunId) return i
@@ -87,9 +95,15 @@ Dialog {
                     contentItem: PlainLabel { text: runOption.modelData.label + (runOption.modelData.historical ? " · historical" : " · current"); elide: Text.ElideRight }
                 }
             }
-            Button { objectName: "runPipeTransport"; text: "Run native transport"; highlighted: true; enabled: dialog.pipeTransport.canRun && !dialog.pipeTransport.busy; onClicked: { transportTabs.currentIndex = 0; dialog.pipeTransport.run() } }
-            Button { text: "Cancel"; enabled: dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.cancel() }
-            Button { text: "Export JSON"; enabled: dialog.hasResult && !dialog.pipeTransport.busy; onClicked: exportDialog.open() }
+            Button { objectName: "runPipeTransport"; text: "Run native transport"; highlighted: true; enabled: dialog.pipeTransport.canRun && !dialog.pipeTransport.busy && !dialog.viewingImported; onClicked: { transportTabs.currentIndex = 0; dialog.pipeTransport.run() } }
+        }
+        RowLayout {
+            Layout.fillWidth: true; spacing: 8
+            Button { objectName: "importPipeEvidence"; text: "Import JSON"; enabled: !dialog.pipeTransport.busy; onClicked: importDialog.open() }
+            Button { objectName: "showCurrentPipeResult"; text: "Current calculation"; visible: dialog.viewingImported; enabled: !dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.showCurrentResult() }
+            Button { objectName: "exportPipeEvidence"; text: "Export JSON"; enabled: dialog.hasResult && !dialog.pipeTransport.busy; onClicked: exportDialog.open() }
+            Item { Layout.fillWidth: true }
+            Button { objectName: "cancelPipeTransport"; text: "Cancel"; enabled: dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.cancel() }
         }
         PlainLabel { Layout.fillWidth: true; text: dialog.pipeTransport.status; wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight; color: "#60d2d1" }
         TabBar {
@@ -97,7 +111,7 @@ Dialog {
             objectName: "pipeTransportTabs"
             Layout.preferredWidth: 540
             TabButton { text: "Native results" }
-            TabButton { text: "Physical parameters" }
+            TabButton { text: dialog.viewingImported ? "Recorded parameters" : "Physical parameters" }
             TabButton { text: "Provenance" }
         }
         StackLayout {
@@ -107,7 +121,7 @@ Dialog {
                 id: resultScroll; contentWidth: availableWidth; clip: true
                 ColumnLayout {
                     width: resultScroll.availableWidth; spacing: 9
-                    PlainLabel { Layout.fillWidth: true; visible: !dialog.hasResult; text: "Select a stored run and execute the native scalar reference. The viewer displays actual transport output; no profile has been computed yet."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
+                    PlainLabel { Layout.fillWidth: true; visible: !dialog.hasResult; text: "Import a previously exported native result, or select a pipe and captured run to execute the native scalar reference. No profile is displayed yet."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
                     RowLayout {
                         Layout.fillWidth: true; visible: dialog.hasResult; spacing: 14
                         ColumnLayout {
@@ -132,15 +146,19 @@ Dialog {
                                         if (!times.length || values.length !== times.length) return
                                         const left = 62, right = width - 12, top = 16, bottom = height - 30
                                         const range = dialog.outletScale
-                                        const padding = Math.max((range.high - range.low) * 0.08, Math.abs(range.high) * 0.02, 1e-9)
-                                        const low = range.low - padding, high = range.high + padding
+                                        // Normalize before subtraction so opposite-sign finite extrema
+                                        // do not overflow. Bounds describe the axis, never alter samples.
+                                        const magnitude = Math.max(Math.abs(range.low), Math.abs(range.high), 1e-300)
+                                        const normalizedLow = range.low / magnitude, normalizedHigh = range.high / magnitude
+                                        const padding = Math.max((normalizedHigh - normalizedLow) * 0.08, 0.02)
+                                        const low = Math.max(-1, normalizedLow - padding), high = Math.min(1, normalizedHigh + padding)
                                         const start = Number(times[0]), end = Number(times[times.length - 1])
                                         if (!(end > start) || right <= left) return
                                         const x = function(t) { return left + (Number(t) - start) / (end - start) * (right - left) }
-                                        const y = function(v) { return bottom - (Number(v) - low) / (high - low) * (bottom - top) }
+                                        const y = function(v) { return bottom - (Number(v) / magnitude - low) / (high - low) * (bottom - top) }
                                         ctx.font = "10px sans-serif"; ctx.lineWidth = 1; ctx.textAlign = "right"; ctx.textBaseline = "middle"
                                         for (let i = 0; i <= 2; ++i) {
-                                            const value = low + (high - low) * i / 2, py = y(value)
+                                            const value = (low + (high - low) * i / 2) * magnitude, py = bottom - i / 2 * (bottom - top)
                                             ctx.strokeStyle = "#2b4353"; ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke()
                                             ctx.fillStyle = "#91aab9"; ctx.fillText(dialog.axisNumber(value), left - 7, py)
                                         }
@@ -182,14 +200,16 @@ Dialog {
                                         if (!(lastT > firstT) || right <= left) return
                                         const px = function(v) { return lastX > firstX ? left + (v - firstX) / (lastX - firstX) * (right - left) : left }
                                         const py = function(v) { return top + (v - firstT) / (lastT - firstT) * (bottom - top) }
-                                        const range = dialog.fieldScale, span = range.high - range.low
+                                        const range = dialog.fieldScale
+                                        const magnitude = Math.max(Math.abs(range.low), Math.abs(range.high), 1e-300)
+                                        const low = range.low / magnitude, span = range.high / magnitude - low
                                         for (let i = 0; i < times.length; ++i) {
-                                            const y0 = py(i === 0 ? firstT : (Number(times[i - 1]) + Number(times[i])) / 2)
-                                            const y1 = py(i === times.length - 1 ? lastT : (Number(times[i]) + Number(times[i + 1])) / 2)
+                                            const y0 = py(i === 0 ? firstT : Number(times[i - 1]) / 2 + Number(times[i]) / 2)
+                                            const y1 = py(i === times.length - 1 ? lastT : Number(times[i]) / 2 + Number(times[i + 1]) / 2)
                                             for (let j = 0; j < positions.length; ++j) {
-                                                const x0 = positions.length === 1 ? left : px(j === 0 ? firstX : (Number(positions[j - 1]) + Number(positions[j])) / 2)
-                                                const x1 = positions.length === 1 ? right : px(j === positions.length - 1 ? lastX : (Number(positions[j]) + Number(positions[j + 1])) / 2)
-                                                const shade = span > 0 ? (Number(field[i][j]) - range.low) / span : 0.5
+                                                const x0 = positions.length === 1 ? left : px(j === 0 ? firstX : Number(positions[j - 1]) / 2 + Number(positions[j]) / 2)
+                                                const x1 = positions.length === 1 ? right : px(j === positions.length - 1 ? lastX : Number(positions[j]) / 2 + Number(positions[j + 1]) / 2)
+                                                const shade = span > 0 ? (Number(field[i][j]) / magnitude - low) / span : 0.5
                                                 ctx.fillStyle = Qt.rgba(0.08 + 0.78 * shade, 0.22 + 0.49 * shade, 0.38 - 0.18 * shade, 1)
                                                 ctx.fillRect(x0, y0, x1 - x0 + 0.5, y1 - y0 + 0.5)
                                             }
@@ -241,7 +261,7 @@ Dialog {
                 id: parametersScroll; contentWidth: availableWidth; clip: true
                 ColumnLayout {
                     width: parametersScroll.availableWidth; spacing: 13
-                    PlainLabel { Layout.fillWidth: true; text: "Physical pipe parameters are independent of the editor layout. Flow and horizon come from the selected stored numerical run."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
+                    PlainLabel { Layout.fillWidth: true; text: dialog.viewingImported ? "Recorded parameters from the imported file. These read-only values have not been applied to the current project. Choose Current calculation to return to the project's inputs." : "Physical pipe parameters are independent of the editor layout. Flow and horizon come from the selected stored numerical run."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
                     GridLayout {
                         Layout.fillWidth: true; columns: dialog.width < 850 ? 1 : 2; columnSpacing: 24; rowSpacing: 10
                         Repeater {
@@ -251,7 +271,7 @@ Dialog {
                                 required property var modelData
                                 Layout.fillWidth: true; spacing: 8
                                 PlainLabel { Layout.preferredWidth: 150; text: parameterRow.modelData.label; wrapMode: Text.WordWrap }
-                                TextField { Layout.fillWidth: true; Layout.minimumWidth: 70; text: String(dialog.pipeTransport.parameters[parameterRow.modelData.key] ?? ""); enabled: !dialog.pipeTransport.busy && dialog.pipeTransport.routeId.length > 0; inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: dialog.pipeTransport.setParameter(parameterRow.modelData.key, text) }
+                                TextField { Layout.fillWidth: true; Layout.minimumWidth: 70; text: String(dialog.displayedParameters[parameterRow.modelData.key] ?? ""); enabled: !dialog.pipeTransport.busy && !dialog.viewingImported && dialog.pipeTransport.routeId.length > 0; inputMethodHints: Qt.ImhFormattedNumbersOnly; onEditingFinished: dialog.pipeTransport.setParameter(parameterRow.modelData.key, text) }
                                 PlainLabel { Layout.preferredWidth: 88; text: parameterRow.modelData.unit; color: "#9eb5c2" }
                             }
                         }
@@ -263,12 +283,12 @@ Dialog {
                             id: boundarySelector; Layout.preferredWidth: 260
                             model: [{label:"Dirichlet inlet",value:"dirichlet_inlet"},{label:"Closed · no flux",value:"closed_no_flux"}]
                             textRole: "label"; valueRole: "value"
-                            currentIndex: dialog.pipeTransport.parameters.boundary === "closed_no_flux" ? 1 : 0
-                            enabled: !dialog.pipeTransport.busy && dialog.pipeTransport.routeId.length > 0
+                            currentIndex: dialog.displayedParameters.boundary === "closed_no_flux" ? 1 : 0
+                            enabled: !dialog.pipeTransport.busy && !dialog.viewingImported && dialog.pipeTransport.routeId.length > 0
                             onActivated: dialog.pipeTransport.setParameter("boundary", currentValue)
                         }
                     }
-                    PlainLabel { Layout.fillWidth: true; text: "The native engine validates parameter values, numerical budgets and boundary compatibility. Changing a parameter requires a new transport calculation."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
+                    PlainLabel { Layout.fillWidth: true; text: dialog.viewingImported ? "Import checks the supported file structure and identities. It does not independently verify execution or establish a quality verdict." : "The native engine validates parameter values, numerical budgets and boundary compatibility. Changing a parameter requires a new transport calculation."; wrapMode: Text.WordWrap; color: "#9eb5c2" }
                 }
             }
             ScrollView {
@@ -276,12 +296,12 @@ Dialog {
                 TextArea {
                     readOnly: true; selectByMouse: true; textFormat: TextEdit.PlainText; wrapMode: TextEdit.WrapAnywhere; font.pixelSize: 12
                     text: !dialog.hasResult ? "No computed transport result. Provenance will be captured from the selected run and physical pipe parameters." :
-                          "Quality status: " + dialog.resultData.quality_status + "\nContext: " + (dialog.resultData.historical ? "historical evidence" : "current captured run") +
+                          "Quality status: " + dialog.resultData.quality_status + "\nContext: " + (dialog.viewingImported ? "imported external file · historical and unverified · no approval" : dialog.resultData.historical ? "historical evidence" : "current captured run") +
                           "\nVolume forecast: " + (dialog.resultData.volume_feasible === undefined ? "not recorded" : dialog.resultData.volume_feasible ? "reported feasible" : "reported infeasible") +
                           "\n\nRoute: " + dialog.resultData.route_id + "\nRun: " + dialog.resultData.run_id + "\nSnapshot: " + dialog.resultData.snapshot_id +
                           "\nPhysical hash: " + dialog.resultData.physical_hash + "\nParameter hash: " + dialog.resultData.parameter_hash + "\nNumerical revision: " + dialog.resultData.numerical_revision +
                           "\n\nMethod: " + dialog.resultData.method + "\nMethod version: " + dialog.resultData.method_version + "\nHorizon: " + dialog.number(dialog.resultData.horizon_h) + " h\nRoute flow: " + dialog.number(dialog.resultData.flow_m3h) + " m³/h" +
-                          "\n\nBounded preview: " + (dialog.preview.time_h || []).length + " time samples × " + (dialog.preview.x_m || []).length + " distance samples. Distance samples represent cell centers. Export JSON preserves this preview, parameters and diagnostics.\n\nThis is native scalar-reference evidence. It has no approval action and is separate from standalone learned-model experiments."
+                          "\n\nBounded preview: " + (dialog.preview.time_h || []).length + " time samples × " + (dialog.preview.x_m || []).length + " distance samples. Distance samples represent cell centers. Export JSON preserves this preview, parameters and diagnostics.\n\n" + (dialog.viewingImported ? "This imported file has not been independently re-executed. Its parameters and feasibility claim do not modify this project or restore approval. " : "") + "This is native scalar-reference evidence. It has no approval action and is separate from standalone learned-model experiments."
                 }
             }
         }
@@ -311,5 +331,6 @@ Dialog {
             PlainLabel { anchors.centerIn: parent; text: "↘"; color: "#8ca5b4"; font.pixelSize: 18 }
         }
     }
-    FileDialog { id: exportDialog; title: "Export native pipe transport"; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER transport result (*.json)"]; onAccepted: dialog.pipeTransport.exportResult(selectedFile) }
+    FileDialog { id: importDialog; objectName: "importPipeEvidenceDialog"; title: "Import native pipe transport evidence"; fileMode: FileDialog.OpenFile; nameFilters: ["BREAKWATER transport result (*.json)"]; onAccepted: { transportTabs.currentIndex = 0; dialog.pipeTransport.importResult(selectedFile) } }
+    FileDialog { id: exportDialog; objectName: "exportPipeEvidenceDialog"; title: "Export native pipe transport"; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER transport result (*.json)"]; onAccepted: dialog.pipeTransport.exportResult(selectedFile) }
 }

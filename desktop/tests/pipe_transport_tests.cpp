@@ -1,4 +1,5 @@
 #include "quality/PipeTransportController.hpp"
+#include "quality/PipeTransportEvidence.hpp"
 #include "agent/SimulationGateway.hpp"
 #include <QDir>
 #include <QElapsedTimer>
@@ -273,6 +274,103 @@ private slots:
             QCOMPARE(pipe.parameters(), parameters); QCOMPARE(pipe.result(), result);
         }
         QCOMPARE(project.document(), document); QCOMPARE(project.capturedRun(), captured); QVERIFY(project.canApprove());
+    }
+    void exportedNativeEvidenceReopensAfterRestartWithoutForecastOrApproval() {
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        const auto path = directory.filePath("native.json");
+        QVariantMap expected;
+        {
+            ProjectController source; QVERIFY(capture(source, "mixed")); source.select("main_pump");
+            PipeTransportController pipe(&source);
+            pipe.setParameter("initial_mg_l", "1"); pipe.setParameter("inlet_mg_l", "0");
+            pipe.run(); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000); expected = pipe.result();
+            QVERIFY(!expected.isEmpty());
+            QVERIFY(expected.value("preview").toMap().value("cumulative_inlet_mg").toList().last().toDouble() < 0.0);
+            QVERIFY(pipe.exportResult(QUrl::fromLocalFile(path)));
+            const auto artifactDirectory = qEnvironmentVariable("BREAKWATER_TEST_ARTIFACT_DIR");
+            if (!artifactDirectory.isEmpty()) {
+                QVERIFY(QDir().mkpath(artifactDirectory));
+                QVERIFY(pipe.exportResult(QUrl::fromLocalFile(QDir(artifactDirectory).filePath("native-transport-evidence.json"))));
+            }
+        }
+        ProjectController project; project.loadExample("healthy");
+        const auto document = project.document(), captured = project.capturedRun();
+        const auto revision = project.simulationRevision(); const auto hash = project.networkHash();
+        PipeTransportController reopened(&project); QVERIFY(!project.canApprove()); QVERIFY(!reopened.canRun());
+        reopened.importResult(QUrl::fromLocalFile(path)); QVERIFY(reopened.busy());
+        bool serviced = false; QTimer::singleShot(0, &project, [&] { serviced = true; });
+        QTRY_VERIFY(serviced); QTRY_VERIFY_WITH_TIMEOUT(!reopened.busy(), 10000);
+        QVERIFY(reopened.viewingImportedEvidence()); QCOMPARE(reopened.result(), expected);
+        QVERIFY(reopened.status().contains("unverified")); QVERIFY(!reopened.canRun());
+        QCOMPARE(project.document(), document); QCOMPARE(project.capturedRun(), captured);
+        QCOMPARE(project.simulationRevision(), revision); QCOMPARE(project.networkHash(), hash); QVERIFY(!project.canApprove());
+        const auto reexport = directory.filePath("copy.json"); QVERIFY(reopened.exportResult(QUrl::fromLocalFile(reexport)));
+        QFile original(path), copy(reexport); QVERIFY(original.open(QIODevice::ReadOnly)); QVERIFY(copy.open(QIODevice::ReadOnly));
+        QCOMPARE(copy.readAll(), original.readAll());
+        reopened.showCurrentResult(); QVERIFY(!reopened.viewingImportedEvidence()); QVERIFY(reopened.result().isEmpty());
+        QVERIFY(!project.canApprove());
+    }
+    void importedMatchingEvidenceRemainsDetachedThroughEditsAndReset() {
+        QTemporaryDir directory; QVERIFY(directory.isValid()); const auto path = directory.filePath("same-network.json");
+        ProjectController project; QVERIFY(capture(project, "mixed")); project.select("truck_route");
+        PipeTransportController pipe(&project); pipe.run(); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+        const auto current = pipe.result(); QVERIFY(!current.isEmpty()); QVERIFY(pipe.exportResult(QUrl::fromLocalFile(path)));
+        const auto document = project.document(), captured = project.capturedRun(); const auto revision = project.simulationRevision();
+        QVERIFY(project.canApprove());
+        pipe.importResult(QUrl::fromLocalFile(path)); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+        QVERIFY(pipe.viewingImportedEvidence()); QCOMPARE(pipe.result(), current); QVERIFY(!pipe.canRun());
+        pipe.run(); QVERIFY(!pipe.busy()); pipe.setParameter("length_m", "120");
+        QCOMPARE(project.document(), document); QCOMPARE(project.capturedRun(), captured); QCOMPARE(project.simulationRevision(), revision);
+        QVERIFY(project.canApprove());
+        pipe.showCurrentResult(); QVERIFY(!pipe.viewingImportedEvidence()); QCOMPARE(pipe.result(), current); QVERIFY(pipe.canRun());
+        pipe.importResult(QUrl::fromLocalFile(path)); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+        project.editSelected("flow", "10"); QVERIFY(!project.canApprove());
+        QVERIFY(pipe.viewingImportedEvidence()); QCOMPARE(pipe.result(), current); QVERIFY(!pipe.canRun());
+        project.reset(); QVERIFY(!project.canApprove());
+        QVERIFY(pipe.viewingImportedEvidence()); QCOMPARE(pipe.result(), current);
+        pipe.showCurrentResult(); QVERIFY(pipe.result().isEmpty()); QVERIFY(!pipe.canRun()); QVERIFY(!project.canApprove());
+    }
+    void rejectedImportsPreserveCurrentOrPreviouslyImportedEvidenceAtomically() {
+        QTemporaryDir directory; QVERIFY(directory.isValid()); const auto good = directory.filePath("good.json");
+        ProjectController project; QVERIFY(capture(project, "mixed")); project.select("truck_route");
+        PipeTransportController pipe(&project); pipe.run(); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+        const auto current = pipe.result(), document = project.document().toVariantMap();
+        QVERIFY(pipe.exportResult(QUrl::fromLocalFile(good)));
+        for (const bool imported : {false, true}) {
+            if (imported) { pipe.importResult(QUrl::fromLocalFile(good)); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000); }
+            for (const auto& name : {"missing.json", "malformed.json", "oversized.json", "wrong-version.json"}) {
+                const auto path = directory.filePath(QLatin1String(name));
+                if (QLatin1String(name) != "missing.json") {
+                    QFile file(path); QVERIFY(file.open(QIODevice::WriteOnly));
+                    if (QLatin1String(name) == "oversized.json") QVERIFY(file.write(QByteArray(maximumPipeEvidenceBytes + 1, ' ')) > maximumPipeEvidenceBytes);
+                    else if (QLatin1String(name) == "malformed.json") QCOMPARE(file.write("{broken"), 7);
+                    else { auto object = QJsonObject::fromVariantMap(current); object["result_version"] = 2; QVERIFY(file.write(QJsonDocument(object).toJson()) > 0); }
+                }
+                pipe.importResult(QUrl::fromLocalFile(path)); QVERIFY(pipe.busy()); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+                QCOMPARE(pipe.viewingImportedEvidence(), imported); QCOMPARE(pipe.result(), current);
+                QCOMPARE(project.document().toVariantMap(), document); QVERIFY(project.canApprove());
+            }
+            pipe.importResult(QUrl("https://example.invalid/evidence.json")); QVERIFY(!pipe.busy());
+            QCOMPARE(pipe.viewingImportedEvidence(), imported); QCOMPARE(pipe.result(), current); QVERIFY(project.canApprove());
+        }
+    }
+    void cancelledImportsCannotPublishLateOrOverwriteNativeEvidence() {
+        QTemporaryDir directory; QVERIFY(directory.isValid()); const auto path = directory.filePath("native.json");
+        ProjectController project; QVERIFY(capture(project, "mixed")); project.select("truck_route");
+        PipeTransportController pipe(&project); pipe.run(); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+        const auto current = pipe.result(); QVERIFY(pipe.exportResult(QUrl::fromLocalFile(path)));
+        pipe.importResult(QUrl::fromLocalFile(path)); QVERIFY(pipe.busy()); pipe.cancel();
+        pipe.importResult(QUrl::fromLocalFile(path)); pipe.run(); // Neither job may overlap the retiring import.
+        QVERIFY(pipe.busy()); QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+        QVERIFY(!pipe.viewingImportedEvidence()); QCOMPARE(pipe.result(), current); QVERIFY(pipe.canRun());
+        QVERIFY(pipe.status().contains("cancelled")); QVERIFY(project.canApprove());
+        QPointer<PipeTransportController> retired = new PipeTransportController(&project);
+        retired->importResult(QUrl::fromLocalFile(path)); QVERIFY(retired->busy()); delete retired.data(); QVERIFY(retired.isNull());
+        bool serviced = false; QTimer::singleShot(0, &project, [&] { serviced = true; }); QTRY_VERIFY(serviced);
+        pipe.importResult(QUrl::fromLocalFile(path)); QVERIFY(pipe.busy()); project.reset();
+        QTRY_VERIFY_WITH_TIMEOUT(!pipe.busy(), 10000);
+        QVERIFY(pipe.viewingImportedEvidence()); QCOMPARE(pipe.result(), current);
+        QVERIFY(project.capturedRun().isEmpty()); QVERIFY(!project.canApprove());
     }
 };
 QTEST_GUILESS_MAIN(PipeTransportTests)

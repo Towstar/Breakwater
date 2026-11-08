@@ -1,5 +1,48 @@
 # Implementation status
 
+## B7 native evidence reopen — November 7, 2026
+
+- Native transport JSON exports can be reopened after restart through the sidebar's
+  Pipe transport viewer, without a selected route or current forecast. Charts, signed
+  mass ledger, recorded parameters and provenance reuse the existing native display.
+- Imported files always remain historical, unverified evidence with no approval, even
+  when IDs/hashes match the current project. Their recorded settings are read-only and
+  never enter the authoritative run store. Current calculation is an explicit separate
+  view; numerical edits/reset invalidate that view without recategorizing the import.
+- Reading/parsing/validation run off the UI thread with a 1 MiB file cap, strict native
+  v1 fields/method, matching parameter fingerprint, finite data, ordered native sample
+  identities, bounded dimensions/ledgers and supported native diagnostics. Signed values
+  are preserved; chart arithmetic handles extreme finite values without data clipping.
+  Rejected or cancelled imports retain prior evidence and cannot publish late or overlap
+  another job. Re-export preserves the supported payload, without authenticating it.
+- Added a production `--import-pipe-evidence` path and a CTest render check that first
+  produces an actual native export through the controller, then reopens it in the app.
+  This check requires successful import and the visible evidence modal, independent of
+  scene labels behind that modal. Usage is in [PIPE_TRANSPORT.md](PIPE_TRANSPORT.md).
+- Final direct VS2022 normal and full desktop MSVC ASan checks: **19/19 CTest suites
+  passed** in each build. The controller suite reports **14 passed, 0 failed/skipped**;
+  structural evidence validation reports **13 passed, 0 failed/skipped**. Coverage
+  includes actual native export/reopen after object restart, signed inlet exchange,
+  mismatched/current identities, numerical edits/reset, malformed/oversized inputs,
+  cancelled/destroyed importers, preservation of prior evidence and approval separation.
+- Actual GUI checks at 1440×900 and 1100×700 verified charts/ledger, the persistent
+  historical banner, disabled recorded parameters/boundary, readable provenance,
+  compact scrolling to diagnostics, sidebar access without a forecast, and explicit
+  return to an empty current context without restoring approval. The original user
+  app remained untouched. Native file pickers opened, but computer-use tooling could
+  not target the filename field; picker-based import remains unverified. The production
+  CLI successfully reopened an actual export and rendered screenshots in both builds.
+- A separately crafted finite-extreme fixture (`±1e308`, not solver evidence) rendered
+  successfully without clipping or arithmetic overflow. The root solution retains
+  67 projects and 184 dependency references with no missing paths. Independent scoped
+  code review found no remaining actionable issue after the CLI/render fixes.
+- Final QML lint passed. A malformed file returned a failing CLI smoke exit and no
+  screenshot. The updated normal build used by the existing local launcher also passed
+  actual native-evidence reopen/render smoke; the original open app was preserved.
+- Scientific worker methods still await A's agreed mapping; health is unchanged. This
+  B7 subincrement does not automatically store native quality results in SQLite, complete
+  clean live-model rehearsals or qualify learned predictions. No new hosted calls ran.
+
 Scope: shared base, native search, Person B's agent/run store, single-pipe transport,
 and Person A's A3–A6 science, benchmark and proof increments, merged through PR #6.
 The accepted plan and original handoff are preserved. The execution sequence remains

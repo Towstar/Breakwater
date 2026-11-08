@@ -11,6 +11,7 @@ ApplicationWindow {
     required property var history
     required property var scientificWorker
     required property var pipeTransport
+    readonly property bool pipeTransportVisible: pipeTransportDialog.visible
     readonly property bool compactUi: Qt.application.arguments.indexOf("--compact-ui") >= 0
     property bool showAgent: false
     width: compactUi ? 1100 : 1440
@@ -51,6 +52,7 @@ ApplicationWindow {
         const t = -a.y / denominator
         return Qt.vector3d(a.x + t * (b.x - a.x), 0, a.z + t * (b.z - a.z))
     }
+    function openPipeTransport() { pipeTransportDialog.open() }
     function clickAsset(id) {
         if (connectMode) {
             if (connectionSource.length === 0) connectionSource = id
@@ -156,7 +158,8 @@ ApplicationWindow {
                         }
                     }
                     Button { Layout.fillWidth: true; text: "Nemotron investigator"; onClicked: app.showAgent = !app.showAgent }
-                    Label { text: "PhysicsNeMo: planned\nLean proofs: planned"; color: "#8ca5b4"; font.pixelSize: 11; lineHeight: 1.3 }
+                    Button { objectName: "openPipeEvidence"; Layout.fillWidth: true; text: "Pipe transport"; onClicked: pipeTransportDialog.open() }
+                    Label { text: "PhysicsNeMo: not connected\nLean proofs: standalone"; color: "#8ca5b4"; font.pixelSize: 11; lineHeight: 1.3 }
                 }
             }
 

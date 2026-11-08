@@ -22,6 +22,9 @@ portion of B5 and investigation-retention portion of B7 below. A's A3–A6 sourc
 boundary plus independent physical-parameter persistence. The worker remains health-only;
 the native pipe viewer is now implemented. Scientific worker method adoption is next.
 Hosted Nemotron access is verified; clean operator-review rehearsals remain incomplete.
+The B7 native-evidence subincrement now reopens bounded transport exports as historical,
+read-only evidence in the existing charts. Automatic quality-result retention is still
+separate unfinished work; investigation sessions already have SQLite history.
 
 The desktop now selects a pipe and captured forecast, executes authoritative native
 tracer transport, and displays its outlet trace, field and mass ledger. The next boundary
