@@ -27,7 +27,65 @@ The preparation commit did not activate a goal. Ethan explicitly invoked this fi
 on November 8; Goal mode is now active. This is not an executed detector, optimizer,
 simulation UI or integrated acceptance report.
 
-## Active execution checkpoint: native response provider
+## Active execution checkpoint: independent response validation
+
+Current branch/worktree: `codex/person-a-eog-validation` in
+`C:\Projects\Breakwater\.worktrees\person-a-eog-validation`, based on PR #40
+head `6581259f46edec8b8f9099c5fb815222cb625a53`. Initial source is 20489a6;
+corrected runtime/native source **a404df7**, qualification driver **7dceb86**.
+Published PR: https://github.com/Towstar/Breakwater/pull/41 ; measured evidence
+head `a7fd503bd66906b2c48f1382073bd3da1370b8bd` before this pointer update.
+Concrete B method/runtime/history requests:
+https://github.com/Towstar/Breakwater/pull/41#issuecomment-6721559452 .
+Provider cross-reference:
+https://github.com/Towstar/Breakwater/pull/40#issuecomment-6721560056 .
+
+`science/eog_plan_validator.py` independently reconstructs causal failures/onsets,
+productive wells, horizons, inventory and economics from Model/View. It does not
+import/call the detector, response compiler, native bridge/evaluator or files.
+It checks truck calendars pairwise and recomputes binary64 primitives using exact
+Fraction arithmetic followed by explicit rounding. Actual `validate_plan` workers
+run without a configured DLL. Worker is now **0.2.1**.
+
+An exact-rational boundary probe found positive loss underflowing to zero in native
+0.1.0 and the initial reference. Both are corrected to return unavailable; native
+method is now **eog-native-seconds-0.1.1**, same private C ABI. Method-based numerical
+results/approvals must be retired. Old ordinary plans may be independently
+recomputed, but the zero-cost corner is not certified. Counterexample and earlier
+logs remain retained; see `science/EOG_VALIDATION.md` and `science/evidence/eog-validation/`.
+
+Corrected evidence: **354/354** full CPU science tests, zero skips; normal and ASan
+native **11/11** CTests each; **6,768** native assertions per mode. Checked native
+cross-check/validator **20/20**, worker **18/18**, bridge **7/7**, zero skips.
+360 generated candidates plus joint/between-frame cases match exact native results.
+Four fresh native evaluations, four independent validations and four one-ULP forged
+deadline rejections execute through actual processes. Nine current official-prefix
+failures match exact costs/outcomes/crossings; fresh native 0.1.1 also matches frozen
+0.1.0 complete ordinary trajectories. Private per-well/mass/resource audits retained.
+
+Next: bounded joint search with known optima, shared fleet and sequential jobs;
+then evolving simulation/replay/long-run ledgers and joined application acceptance.
+Search remains explicitly unavailable. Inspection timing and physical-onset
+uncertainty remain unqualified. No public contract, desktop or root CI changes.
+
+B-owned CI/runtime request:
+https://github.com/Towstar/Breakwater/pull/40#issuecomment-6721439899 .
+Native method correction handoff:
+https://github.com/Towstar/Breakwater/pull/40#issuecomment-6721477295 .
+PR #40 exact 6581259 run **42478872117** ended with native normal/ASan, desktop
+normal and Lean passing; science failed on three unexpected EOG dependency skips
+(0 test failures/errors; four additional permitted PhysicsNeMo skips). Desktop
+ASan job **128726634345** failed stream timeout180.56 s / lifecycle77.28 s and
+skipped both dependent replay smokes (37/41 executed successfully). These are
+integration failures, not a passing matrix. Lucas owns the prerequisite/build/env
+and telemetry follow-up integration. Keep the skip gate; configure real execution.
+
+PR #37 exact 59ff937 run **42477239668** completed all six jobs successfully.
+A notified Lucas at
+https://github.com/Towstar/Breakwater/pull/37#issuecomment-6721326452 .
+That closes its watched run, not whole EOG acceptance or automatic branch adoption.
+
+## Previous execution checkpoint: native response provider
 
 Current A branch/worktree is `codex/person-a-eog-response` in
 `C:\Projects\Breakwater\.worktrees\person-a-eog-response`, stacked on PR #38
@@ -123,7 +181,7 @@ qualification without hidden-label/endpoint leakage. Lucas integrates PR #34/#36
 and the new small numerical increment, and owns desktop/process/model/history/UI
 and shared status. Whole-application/replay/extended simulation/UI gates stay open.
 
-## Hosted integration check checkpoint
+## Historical hosted integration checkpoint (superseded above)
 
 The bounded Lean retry **128717105524 completed successfully** in run 42472091130.
 The original setup failure remains retained; do not repeat the earlier "live" state.
@@ -230,7 +288,7 @@ was fast-forwarded into that branch before this delivery.
   fixtures, without consuming an unadopted wire representation. Lucas owns the
   contract fixes, reciprocal coordination note, application path and shared status.
 
-## Current preparation snapshot
+## Historical preparation snapshot
 
 | Item | Observed state / next action |
 |---|---|

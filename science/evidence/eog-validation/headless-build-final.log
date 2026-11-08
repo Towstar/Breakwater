@@ -1,0 +1,11 @@
+**********************************************************************
+** Visual Studio 2026 Developer PowerShell v18.11.3
+** Copyright (c) 2026 Microsoft Corporation
+**********************************************************************
+-- Configuring done (0.4s)
+-- Generating done (0.2s)
+-- Build files have been written to: C:/Projects/Breakwater/.worktrees/person-a-eog-validation/out/headless
+[1/4] Building CXX object engine\CMakeFiles\breakwater_eog_response_tests.dir\tests\eog_response_tests.cpp.obj
+[2/4] Building CXX object engine\CMakeFiles\breakwater_eog_response.dir\src\eog_response.cpp.obj
+[3/4] Linking CXX shared library engine\breakwater_eog_response.dll
+[4/4] Linking CXX executable engine\breakwater_eog_response_tests.exe

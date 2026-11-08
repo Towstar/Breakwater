@@ -1,0 +1,15 @@
+{
+  "source_checkpoint": "a404df7",
+  "native_method": "eog-native-seconds-0.1.1",
+  "positive_exact_loss": true,
+  "native_result": {
+    "status": "unavailable",
+    "code": "numerical_unavailable",
+    "cost": null
+  },
+  "independent_result": {
+    "status": "unavailable",
+    "code": "numerical_unavailable",
+    "cost": null
+  }
+}

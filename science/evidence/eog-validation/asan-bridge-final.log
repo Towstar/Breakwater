@@ -1,0 +1,12 @@
+test_actual_native_no_action_and_copy_lifetime (test_native_eog.NativeEogExecutionTests.test_actual_native_no_action_and_copy_lifetime) ... ok
+test_derived_overflow_and_underflow_are_unavailable (test_native_eog.NativeEogExecutionTests.test_derived_overflow_and_underflow_are_unavailable) ... ok
+test_full_trips_and_fleet (test_native_eog.NativeEogExecutionTests.test_full_trips_and_fleet) ... ok
+test_invalid_claim_is_structured_and_uncosted (test_native_eog.NativeEogExecutionTests.test_invalid_claim_is_structured_and_uncosted) ... ok
+test_native_snapshot_failure_is_not_zero_cost (test_native_eog.NativeEogExecutionTests.test_native_snapshot_failure_is_not_zero_cost) ... ok
+test_strict_bridge_fields_indices_and_numeric_values (test_native_eog.NativeEogExecutionTests.test_strict_bridge_fields_indices_and_numeric_values) ... ok
+test_explicit_library_required (test_native_eog.NativeEogInputTests.test_explicit_library_required) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 0.036s
+
+OK

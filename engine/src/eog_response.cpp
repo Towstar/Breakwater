@@ -235,7 +235,12 @@ void evaluate_facility(const bweog_snapshot& s, const bweog_plan& p, uint32_t fi
                 (gas == 0 && w.gas_mcfd > 0 && s.gas_per_mcf > 0) || (daily > 0 && revenue_s == 0)) {
                 violation(r, BWEOG_NUMERICAL, fi); return;
             }
-            out.lost_revenue += revenue_s * (f.repair_s - lost_from);
+            const double duration = f.repair_s - lost_from;
+            const double loss = revenue_s * duration;
+            if (revenue_s > 0 && duration > 0 && loss == 0) {
+                violation(r, BWEOG_NUMERICAL, fi); return;
+            }
+            out.lost_revenue += loss;
         }
     }
     if (!nonnegative(out.lost_revenue) || !std::isfinite(out.produced_bbl) ||
@@ -248,7 +253,7 @@ void evaluate_facility(const bweog_snapshot& s, const bweog_plan& p, uint32_t fi
 } // namespace
 
 uint32_t bweog_abi_version(void) { return BWEOG_ABI_VERSION; }
-const char* bweog_method(void) { return "eog-native-seconds-0.1.0"; }
+const char* bweog_method(void) { return "eog-native-seconds-0.1.1"; }
 const char* bweog_last_error(void) { return last_error.c_str(); }
 uint32_t bweog_layout_size(uint32_t id) {
     const uint32_t sizes[] = {0, sizeof(bweog_fleet), sizeof(bweog_well), sizeof(bweog_facility),
