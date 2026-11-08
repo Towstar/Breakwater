@@ -201,6 +201,64 @@ private slots:
         QTRY_COMPARE_WITH_TIMEOUT(h.operatorRecords.size(), 1, 15000);
         QCOMPARE(h.analysis.events().first().toMap().value("state"), state); // Acknowledge never clears a fault.
     }
+    void emptyDetectionRetainsGlobalQualification_data() {
+        QTest::addColumn<QString>("mode");
+        QTest::addColumn<QString>("expectedStatus");
+        QTest::addColumn<QString>("expectedCoverage");
+        QTest::newRow("partial-empty") << QStringLiteral("partial_empty_detect")
+            << QStringLiteral("completed") << QStringLiteral("partial");
+        QTest::newRow("unavailable") << QStringLiteral("unavailable_detect")
+            << QStringLiteral("unavailable") << QStringLiteral("unavailable");
+    }
+    void emptyDetectionRetainsGlobalQualification() {
+        QFETCH(QString, mode); QFETCH(QString, expectedStatus); QFETCH(QString, expectedCoverage);
+        Harness h(fixtures_, worker_, mode);
+        QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const auto source = h.dataset.capturedDataset(); const auto identity = h.dataset.datasetIdentity();
+        const auto cutoff = h.dataset.cursorUnix(); const auto raw = bytes(QDir(h.folder).filePath("telemetry.csv"));
+        QVERIFY(h.analysis.detectionDetails().isEmpty()); QVERIFY(h.analysis.lastOperation().isEmpty());
+        QSignalSpy done(&h.client, &EogAnalysisClient::completed), failed(&h.client, &EogAnalysisClient::failed);
+        h.analysis.detect(); QTRY_COMPARE_WITH_TIMEOUT(done.size(), 1, 15000);
+        QTRY_VERIFY_WITH_TIMEOUT(!h.analysis.busy(), 15000);
+        QCOMPARE(failed.size(), 0); QCOMPARE(h.providerCalls(), 1); QCOMPARE(h.model.requests, 0);
+        const auto details = h.analysis.detectionDetails(), last = h.analysis.lastOperation();
+        QCOMPARE(details.value("operation").toString(), QStringLiteral("detect"));
+        QCOMPARE(details.value("status").toString(), expectedStatus);
+        QCOMPARE(details.value("coverage").toString(), expectedCoverage);
+        QVERIFY(!details.value("request_id").toString().isEmpty());
+        QCOMPARE(last.value("request_id"), details.value("request_id"));
+        QCOMPARE(last.value("operation"), details.value("operation"));
+        QCOMPARE(last.value("status"), details.value("status"));
+        QCOMPARE(last.value("diagnostics"), details.value("diagnostics"));
+        if (expectedStatus == QStringLiteral("completed")) {
+            const auto assumptions = details.value("assumptions").toList();
+            const auto limitations = details.value("limitations").toList();
+            QCOMPARE(assumptions.size(), 1); QCOMPARE(limitations.size(), 1);
+            QCOMPARE(assumptions.first().toString(), QStringLiteral(
+                "Protocol-only assumption: recorded samples do not establish complete detector coverage."));
+            QCOMPARE(limitations.first().toString(), QStringLiteral(
+                "Protocol-only limitation: missing coverage is not evidence of healthy equipment."));
+            QVERIFY(details.value("diagnostics").toList().isEmpty());
+        } else {
+            const auto diagnostics = details.value("diagnostics").toList();
+            QCOMPARE(diagnostics.size(), 1);
+            const auto diagnostic = diagnostics.first().toMap();
+            QCOMPARE(diagnostic.value("code").toString(), QStringLiteral("protocol_only_detection_unavailable"));
+            QCOMPARE(diagnostic.value("message").toString(), QStringLiteral(
+                "Protocol-only fixture: detection is unavailable; no operational provider is exercised."));
+            QVERIFY(details.value("assumptions").toList().isEmpty());
+            QVERIFY(details.value("limitations").toList().isEmpty());
+        }
+        QVERIFY(h.analysis.events().isEmpty()); QVERIFY(h.analysis.plans().isEmpty());
+        QVERIFY(h.analysis.selectedPlanId().isEmpty()); QVERIFY(h.analysis.baselinePlanId().isEmpty());
+        QVERIFY(h.analysis.selectedValidation().isEmpty()); QVERIFY(!h.analysis.comparisonCompatible());
+        QVERIFY(!h.analysis.canReview()); h.analysis.recordReview("An empty diagnosis cannot justify a plan review.");
+        h.analysis.finishSession(); QVERIFY(drain(h.history));
+        QCOMPARE(h.operatorRecords.size(), 0); QVERIFY(!h.analysis.canReview());
+        QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+        QCOMPARE(h.dataset.capturedDataset(), source); QCOMPARE(h.dataset.datasetIdentity(), identity);
+        QCOMPARE(h.dataset.cursorUnix(), cutoff); QCOMPARE(bytes(QDir(h.folder).filePath("telemetry.csv")), raw);
+    }
     void exactSelectionValidationAndReviewDoNotMutateObservedData() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
         const auto source = h.dataset.capturedDataset(); const auto identity = h.dataset.datasetIdentity();
@@ -372,6 +430,47 @@ private slots:
         QVERIFY2(h.analysis.status().contains("rejected"), qPrintable(h.analysis.status()));
         QVERIFY(!h.analysis.summary().isEmpty()); QVERIFY(!h.analysis.canReview());
         h.analysis.recordReview(); QVERIFY(drain(h.history)); QCOMPARE(h.operatorRecords.size(), 0);
+    }
+    void inventedSourceObservationNeverPublishes_data() {
+        QTest::addColumn<bool>("throughModel");
+        QTest::newRow("manual-detection") << false;
+        QTest::newRow("model-tool") << true;
+    }
+    void inventedSourceObservationNeverPublishes() {
+        QFETCH(bool, throughModel);
+        Harness h(fixtures_, worker_, "wrong_source_value");
+        QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        QSignalSpy done(&h.client, &EogAnalysisClient::completed), failed(&h.client, &EogAnalysisClient::failed);
+        if (throughModel) {
+            h.model.respond = [step = 0](const QJsonArray&) mutable {
+                if (step++ == 0) return tool("source-mismatch", "detect", {{"system_ids", QJsonArray{}}});
+                auto message = final(); auto body = parse(message.value("content").toString());
+                body["summary"] = "Source evidence was rejected. No diagnosis or recommendation is available.";
+                message["content"] = QString::fromUtf8(QJsonDocument(body).toJson(QJsonDocument::Compact)); return message;
+            };
+            h.analysis.investigate("Use only actual captured observations.");
+            QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 30000);
+            const auto outcome = resultFor(h.model.messages, "source-mismatch");
+            QVERIFY(outcome.contains("ok")); QVERIFY(!outcome.value("ok").toBool());
+            QCOMPARE(outcome.value("error").toObject().value("code").toString(), "worker_response_invalid");
+            bool foundFailure = false;
+            for (const auto& value : h.analysis.trace()) {
+                const auto row = value.toMap();
+                if (row.value("type") == "tool_result" && row.value("call_id") == "source-mismatch") {
+                    foundFailure = true; QVERIFY(!row.value("ok").toBool());
+                }
+            }
+            QVERIFY(foundFailure);
+        } else {
+            h.analysis.detect(); QTRY_COMPARE_WITH_TIMEOUT(failed.size(), 1, 15000);
+            QCOMPARE(h.model.requests, 0);
+        }
+        QCOMPARE(failed.size(), 1); QCOMPARE(failed.first().first().toString(), "worker_response_invalid");
+        QCOMPARE(done.size(), 0); QCOMPARE(h.providerCalls(), 1);
+        QVERIFY(h.analysis.detectionDetails().isEmpty()); QVERIFY(h.analysis.lastOperation().isEmpty());
+        QVERIFY(h.analysis.events().isEmpty()); QVERIFY(h.analysis.plans().isEmpty());
+        QVERIFY(!h.analysis.providerVerified()); QVERIFY(!h.analysis.canReview());
+        QVERIFY(drain(h.history)); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
     }
     void tooLongObjectiveAndMissingProviderStayUnavailable() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);

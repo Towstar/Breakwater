@@ -124,6 +124,14 @@ def main():
         response["result"] = {"analysis_id": "protocol-only-detect", "events": [event],
             "evidence": [evidence], "assumptions": [], "coverage": "available",
             "limitations": ["Protocol-only fixture."]}
+        if mode == "partial_empty_detect":
+            response["result"].update(events=[], coverage="partial",
+                assumptions=["Protocol-only assumption: recorded samples do not establish complete detector coverage."],
+                limitations=["Protocol-only limitation: missing coverage is not evidence of healthy equipment."])
+        elif mode == "unavailable_detect":
+            response.update(status="unavailable", result=None, diagnostics=[{
+                "code": "protocol_only_detection_unavailable",
+                "message": "Protocol-only fixture: detection is unavailable; no operational provider is exercised."}])
     elif operation == "search_plans":
         response["result"] = {"analysis_id": "protocol-only-search",
             "evaluations": [evaluation(plan("protocol-only-no-action")), evaluation(plan("protocol-only-truck-plan", True))],
@@ -154,6 +162,10 @@ def main():
         response["result"] = {"analysis_id": "protocol-only-validate", "validation": validation}
     else:
         return 4
+    if mode == "wrong_source_value" and operation == "detect":
+        # Shape, IDs, timestamp and units still match the contract. Only a lookup
+        # against the actual captured observation can reject this invented value.
+        response["result"]["evidence"][0]["value"] += 1
     sys.stdout.buffer.write(json.dumps(response, ensure_ascii=False, allow_nan=False,
                                      separators=(",", ":")).encode("utf-8") + b"\n")
     sys.stdout.buffer.flush()

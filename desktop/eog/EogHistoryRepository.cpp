@@ -288,19 +288,6 @@ QJsonObject restoredRequest(QJsonObject request) {
     request["capture_directory"] = "C:/";
     return request;
 }
-void checkReferences(const QJsonArray& references, const CaptureEvidence& captured) {
-    for (const auto& value : references) {
-        const auto reference = value.toObject();
-        if (reference.value("value").isNull()) continue;
-        const auto found = captured.dataset->series.constFind(series_key(reference.value("asset_id").toString(), reference.value("metric").toString()));
-        require(found != captured.dataset->series.cend(), "Evidence references an absent captured channel.");
-        const auto time = static_cast<qint64>(reference.value("timestamp_unix").toDouble());
-        const auto sample = std::lower_bound(found->samples.cbegin(), found->samples.cend(), time,
-            [](const Sample& sample, qint64 timestamp) { return sample.timestamp < timestamp; });
-        require(sample != found->samples.cend() && sample->timestamp == time && sample->value == reference.value("value").toDouble(),
-                "Evidence value/time does not reference an actual captured observation.");
-    }
-}
 void checkAnalysis(const QJsonObject& archivedRequest, const QJsonObject& response, const QJsonObject& meta,
                    const CaptureEvidence& captured) {
     const auto request = restoredRequest(archivedRequest);
@@ -308,11 +295,7 @@ void checkAnalysis(const QJsonObject& archivedRequest, const QJsonObject& respon
     require(request.value("capture_manifest") == captured.manifest, "Analysis replaces the session's immutable capture.");
     validate_document(response, "analysis_response", {{"request", request}, {"assets", captured.assets}});
     (void)metadata(meta);
-    if (response.value("status") == "completed") {
-        const auto result = response.value("result").toObject();
-        if (response.value("operation") == "detect") checkReferences(result.value("evidence").toArray(), captured);
-        if (response.value("operation") == "validate_plan") checkReferences(result.value("validation").toObject().value("evidence").toArray(), captured);
-    }
+    validate_source_evidence(response, *captured.dataset);
 }
 void execute(QSqlQuery& query) { if (!query.exec()) reject("storage_error", "The EOG history database operation failed: " + query.lastError().text()); }
 void execute(QSqlDatabase& database, const QString& sql) { QSqlQuery query(database); if (!query.exec(sql)) reject("storage_error", "The EOG history database operation failed: " + query.lastError().text()); }

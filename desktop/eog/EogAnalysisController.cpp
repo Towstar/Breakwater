@@ -92,7 +92,9 @@ EogAnalysisController::EogAnalysisController(EogDatasetController* dataset, EogA
     connect(client_, &EogAnalysisClient::failed, this, [this](const QString& code, const QString&) {
         if (retiring_) return;
         pending_request_ = {}; status_ = "EOG analysis failed (" + code + "). No result is treated as success.";
-        if (!pending_execution_.isEmpty()) completeTool(failure(code)); emit changed();
+        if (!pending_execution_.isEmpty()) completeTool(failure(code));
+        else recordEvent({{"type", "failure"}, {"code", code}});
+        emit changed();
     });
     connect(history_, &EogHistoryRepository::ready, this, [this] { storage_status_ = "EOG evidence is retained locally."; refreshHistory(); emit changed(); });
     connect(history_, &EogHistoryRepository::failed, this, [this](const QString& operation, const QString&, const QString& code, const QString& message) {
@@ -165,6 +167,7 @@ bool EogAnalysisController::busy() const { return preparing_ || client_->busy() 
 void EogAnalysisController::clearEvidence() {
     responses_.clear(); evaluations_.clear(); validations_.clear(); validation_requests_.clear();
     event_rows_.clear(); event_requests_.clear(); selected_.clear(); baseline_.clear(); summary_.clear(); search_ = {}; historical_manifest_ = {}; trace_.clear(); operator_records_.clear();
+    detection_ = {}; last_operation_ = {};
 }
 void EogAnalysisController::retire(const QString& reason, bool clear) {
     ++generation_; if (cancellation_) cancellation_->store(true); preparing_ = false;
@@ -260,6 +263,12 @@ void EogAnalysisController::acceptResponse(const QJsonObject& response, const QJ
     const auto id = response.value("request_id").toString(), operation = response.value("operation").toString();
     if (retain) history_->appendAnalysis(session_id_, pending_request_, response, metadata);
     responses_[id] = response;
+    last_operation_ = {{"request_id", id}, {"operation", operation}, {"status", response.value("status")}, {"diagnostics", response.value("diagnostics")}};
+    if (operation == "detect") {
+        const auto result = response.value("result").toObject(); detection_ = last_operation_;
+        detection_["coverage"] = result.contains("coverage") ? result.value("coverage") : QJsonValue("unavailable");
+        detection_["assumptions"] = result.value("assumptions").toArray(); detection_["limitations"] = result.value("limitations").toArray();
+    }
     if (response.value("status") != "completed") { status_ = "Provider returned " + response.value("status").toString() + ". See retained diagnostics."; return; }
     const auto result = response.value("result").toObject();
     if (operation == "detect") for (const auto& value : result.value("events").toArray()) {
@@ -278,6 +287,7 @@ void EogAnalysisController::acceptResponse(const QJsonObject& response, const QJ
     }
     if (operation == "search_plans") {
         search_ = result.value("search").toObject(); const auto selected = result.value("selected_plan_id").toString();
+        search_["limitations"] = result.value("limitations");
         if (evaluations_.contains(selected)) selected_ = selected;
     }
     if (operation == "validate_plan") {
@@ -346,7 +356,11 @@ QVariantMap EogAnalysisController::eventEvidence(const QString& eventId) const {
 }
 void EogAnalysisController::finishSession() {
     if (busy() || historical_ || session_id_.isEmpty() || sealed_) return;
-    history_->finishSession(session_id_); sealed_ = true; status_ = "Session completed. Current validated advice can be reviewed; a new analysis starts a fresh session."; refreshHistory(); emit changed();
+    const bool noResponse = responses_.isEmpty();
+    history_->finishSession(session_id_, noResponse ? "failed" : "completed"); sealed_ = true;
+    if (noResponse) { review_disabled_ = true; status_ = "Session retained as failed; no valid provider response was published."; }
+    else status_ = "Session completed. Current validated advice can be reviewed; a new analysis starts a fresh session.";
+    refreshHistory(); emit changed();
 }
 void EogAnalysisController::cancel() {
     retire("EOG investigation cancelled. Completed evidence remains in history.", false); emit changed();

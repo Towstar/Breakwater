@@ -149,6 +149,15 @@ TaskResult validateResponse(QByteArray line, const QJsonObject& request, const Q
         result.response = decode_document(line);
         validate_document(result.response, "analysis_response", {{"request", request}, {"assets", assets}});
         verifyCapture(capture, token);
+        if (result.response.value("status") == "completed" &&
+            (result.response.value("operation") == "detect" || result.response.value("operation") == "validate_plan")) {
+            const auto captured = load_dataset(capture->directory(), token);
+            const auto files = capture->manifest().value("captured_files").toObject();
+            for (const auto* name : {"network.json", "ops.json", "telemetry.csv"})
+                if (captured->source_hashes.value(QLatin1String(name)) != files.value(QLatin1String(name)).toObject().value("sha256"))
+                    throw TaskFailure{"capture_changed"};
+            validate_source_evidence(result.response, *captured, token);
+        }
     } catch (const TaskFailure& failure) { result.error = failure.code; }
       catch (const std::exception&) { result.error = "worker_response_invalid"; }
       catch (...) { result.error = "worker_response_invalid"; }

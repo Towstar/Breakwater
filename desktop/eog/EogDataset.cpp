@@ -249,4 +249,33 @@ std::shared_ptr<const Dataset> load_dataset(const QString& input, const std::sha
     data->identity = QString::fromLatin1(QCryptographicHash::hash(identity, QCryptographicHash::Sha256).toHex());
     checkCancellation(cancelled); return data;
 }
+void validate_source_evidence(const QJsonObject& response, const Dataset& captured,
+                              const std::shared_ptr<std::atomic_bool>& cancelled) {
+    checkCancellation(cancelled);
+    if (response.value("status") != "completed") return;
+    const auto result = response.value("result").toObject();
+    QJsonArray references;
+    if (response.value("operation") == "detect") references = result.value("evidence").toArray();
+    else if (response.value("operation") == "validate_plan")
+        references = result.value("validation").toObject().value("evidence").toArray();
+    for (const auto& value : references) {
+        checkCancellation(cancelled);
+        const auto reference = value.toObject();
+        if (reference.value("value").isNull()) continue;
+        const auto time = reference.value("timestamp_unix").toDouble(-1);
+        const auto numeric = reference.value("value");
+        if (!reference.value("timestamp_unix").isDouble() || !std::isfinite(time) ||
+            time < 0 || time > 253402300799.0 || std::floor(time) != time ||
+            !numeric.isDouble() || !std::isfinite(numeric.toDouble()))
+            invalid("Invalid original EOG sample reference.");
+        const auto found = captured.series.constFind(series_key(reference.value("asset_id").toString(), reference.value("metric").toString()));
+        if (found == captured.series.cend()) invalid("Evidence references an absent captured channel.");
+        const auto timestamp = static_cast<qint64>(time);
+        const auto sample = std::lower_bound(found->samples.cbegin(), found->samples.cend(), timestamp,
+            [](const Sample& item, qint64 sought) { return item.timestamp < sought; });
+        if (sample == found->samples.cend() || sample->timestamp != timestamp || sample->value != numeric.toDouble())
+            invalid("Evidence value/time does not reference an actual captured observation.");
+    }
+    checkCancellation(cancelled);
+}
 } // namespace breakwater::desktop::eog

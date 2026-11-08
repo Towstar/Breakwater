@@ -35,6 +35,8 @@ class EogAnalysisController final : public QObject {
     Q_PROPERTY(QString selectedPlanJson READ selectedPlanJson NOTIFY changed)
     Q_PROPERTY(QVariantMap searchDetails READ searchDetails NOTIFY changed)
     Q_PROPERTY(QVariantMap evidenceContext READ evidenceContext NOTIFY changed)
+    Q_PROPERTY(QVariantMap detectionDetails READ detectionDetails NOTIFY changed)
+    Q_PROPERTY(QVariantMap lastOperation READ lastOperation NOTIFY changed)
 public:
     EogAnalysisController(EogDatasetController*, EogAnalysisClient*, EogHistoryRepository*,
                           agent::ModelTransport*, QObject* parent = nullptr);
@@ -62,6 +64,8 @@ public:
     QString selectedPlanJson() const;
     QVariantMap searchDetails() const { return search_.toVariantMap(); }
     QVariantMap evidenceContext() const { return (capture_ ? capture_->manifest() : historical_manifest_).toVariantMap(); }
+    QVariantMap detectionDetails() const { return detection_.toVariantMap(); }
+    QVariantMap lastOperation() const { return last_operation_.toVariantMap(); }
     Q_INVOKABLE void detect();
     Q_INVOKABLE void searchPlans();
     Q_INVOKABLE void evaluatePlan(const QString& json);
@@ -99,7 +103,7 @@ private:
     int request_count_ = 0;
     QString session_id_, status_ = "Run analysis explicitly. Loading or selecting data makes no model request.";
     QString storage_status_ = "Opening EOG history...", summary_, selected_, baseline_, pending_execution_, pending_name_, pending_history_id_;
-    QJsonObject pending_request_, search_, historical_manifest_;
+    QJsonObject pending_request_, search_, historical_manifest_, detection_, last_operation_;
     QMap<QString, QJsonObject> responses_, evaluations_, validations_, event_rows_;
     QMap<QString, QString> validation_requests_, event_requests_;
     QVariantList sessions_, trace_, operator_records_;

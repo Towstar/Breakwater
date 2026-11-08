@@ -21,6 +21,29 @@ def abrupt_exit():
         os.kill(os.getpid(), signal.SIGKILL)
 
 
+def source_sample(directory, mode):
+    """Return original evidence or one deliberate, shape-valid grounding error."""
+    with (directory / "telemetry.csv").open("r", encoding="utf-8-sig", newline="") as stream:
+        rows = list(csv.DictReader(stream))
+    selected = mode.removeprefix("validation_")
+    samples = [row for row in rows if row["metric"] == "level_pct"]
+    sample = samples[0] if selected in ("actual_negative", "actual_stale") else samples[-1]
+    evidence = {"evidence_id": "protocol-only-sample", "asset_id": sample["asset_id"],
+                "metric": sample["metric"], "timestamp_unix": int(sample["ts_unix"]),
+                "value": float(sample["value"]), "unit": "%", "quality": "good"}
+    if selected == "wrong_source_value":
+        evidence["value"] += 1
+    elif selected == "wrong_source_time":
+        evidence["timestamp_unix"] -= 1
+    elif selected == "absent_source_channel":
+        evidence.update(asset_id="pump-Z", metric="discharge_psi", unit="psi", value=1123)
+    elif selected == "actual_stale":
+        evidence["quality"] = "stale"
+    elif selected == "missing_sample":
+        evidence.update(value=None, quality="missing")
+    return evidence
+
+
 def main():
     mode = sys.argv[1] if len(sys.argv) > 1 else "valid"
     gate = Path(sys.argv[2]) if len(sys.argv) > 2 else None
@@ -50,18 +73,15 @@ def main():
             "violations": [], "minimum_shutdown_margin_bbl": 0,
             "evidence_ids": [], "evidence": [], "shutdowns": [],
             "validated_horizons": plan["repair_deadlines"]}}
+        if mode.startswith("validation_"):
+            validation = response["result"]["validation"]
+            sample = source_sample(Path(request["capture_directory"]), mode)
+            validation.update(evidence_ids=[sample["evidence_id"]], evidence=[sample])
     else:
-        directory = Path(request["capture_directory"])
-        with (directory / "telemetry.csv").open("r", encoding="utf-8-sig", newline="") as stream:
-            rows = list(csv.DictReader(stream))
-        sample = next(row for row in reversed(rows) if row["metric"] == "level_pct")
         response["result"] = {
             "analysis_id": "protocol-only-detection", "events": [], "assumptions": [],
             "coverage": "available", "limitations": ["Protocol-only fixture; no detector is implemented."],
-            "evidence": [{"evidence_id": "protocol-only-sample",
-                          "asset_id": sample["asset_id"], "metric": sample["metric"],
-                          "timestamp_unix": int(sample["ts_unix"]), "value": float(sample["value"]),
-                          "unit": "%", "quality": "good"}]}
+            "evidence": [source_sample(Path(request["capture_directory"]), mode)]}
     if mode == "unavailable":
         response.update(status="unavailable", result=None, diagnostics=[
             {"code": "provider_unavailable", "message": "Protocol-only fixture intentionally unavailable."}])

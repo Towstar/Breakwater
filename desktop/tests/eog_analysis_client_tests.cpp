@@ -54,11 +54,20 @@ struct CanaryEnvironment {
 class EogAnalysisClientTests final : public QObject {
     Q_OBJECT
     QString fixtureFolder_, worker_;
-    std::shared_ptr<const Capture> capture() const {
+    std::shared_ptr<const Capture> capture(bool omitChannel = false, bool extendClock = false) const {
         QTemporaryDir source;
         for (const auto* name : {"network.json", "ops.json", "telemetry.csv"})
             if (!QFile::copy(QDir(fixtureFolder_).filePath(name), source.filePath(name)))
                 throw std::runtime_error("Cannot copy EOG fixture");
+        if (omitChannel || extendClock) {
+            QFile file(source.filePath("telemetry.csv"));
+            if (!file.open(QIODevice::ReadOnly)) throw std::runtime_error("Cannot read grounding fixture");
+            const auto original = file.readAll(); file.close(); QByteArray telemetry;
+            for (const auto& line : original.split('\n'))
+                if (!line.isEmpty() && (!omitChannel || !line.contains(",pump-Z,discharge_psi,"))) telemetry += line + '\n';
+            if (extendClock) telemetry += "2026-10-05T00:15:00Z,1791159300,facility-Z,inflow_bpd,17.5\n";
+            if (!write(file.fileName(), telemetry)) throw std::runtime_error("Cannot write grounding fixture");
+        }
         const auto data = load_dataset(source.path());
         return prepare_capture(data, data->now_unix);
     }
@@ -125,6 +134,48 @@ private slots:
         QSignalSpy failure(&bad, &EogAnalysisClient::failed), badDone(&bad, &EogAnalysisClient::completed);
         QVERIFY(bad.start(input, lease, 15000)); QTRY_COMPARE_WITH_TIMEOUT(failure.size(), 1, 15000);
         QCOMPARE(failure.front().at(0).toString(), "worker_response_invalid"); QCOMPARE(badDone.size(), 0);
+    }
+    void originalSourceReferencesAreCheckedBeforePublication_data() {
+        QTest::addColumn<QString>("mode"); QTest::addColumn<bool>("validation");
+        QTest::addColumn<bool>("omitChannel"); QTest::addColumn<bool>("extendClock");
+        QTest::addColumn<bool>("valid"); QTest::addColumn<double>("expected"); QTest::addColumn<QString>("quality");
+        for (const bool validation : {false, true}) {
+            const QString prefix = validation ? "validation_" : "";
+            for (const auto& mode : {QStringLiteral("wrong_source_value"), QStringLiteral("wrong_source_time"), QStringLiteral("absent_source_channel")})
+                QTest::newRow(qPrintable(prefix + mode)) << prefix + mode << validation << (mode == "absent_source_channel") << false << false << 0.0 << QString{};
+            QTest::newRow(qPrintable(prefix + "actual_negative")) << prefix + "actual_negative" << validation << false << false << true << -2.0 << QString("good");
+            QTest::newRow(qPrintable(prefix + "actual_overflow")) << prefix + "actual_overflow" << validation << false << false << true << 104.0 << QString("good");
+            QTest::newRow(qPrintable(prefix + "actual_stale")) << prefix + "actual_stale" << validation << false << true << true << -2.0 << QString("stale");
+            QTest::newRow(qPrintable(prefix + "missing_sample")) << prefix + "missing_sample" << validation << true << false << true << 0.0 << QString("missing");
+        }
+    }
+    void originalSourceReferencesAreCheckedBeforePublication() {
+        QFETCH(QString, mode); QFETCH(bool, validation); QFETCH(bool, omitChannel); QFETCH(bool, extendClock);
+        QFETCH(bool, valid); QFETCH(double, expected); QFETCH(QString, quality);
+        const auto lease = capture(omitChannel, extendClock);
+        EogAnalysisClient client(python(), worker_, {mode});
+        QSignalSpy done(&client, &EogAnalysisClient::completed), failure(&client, &EogAnalysisClient::failed);
+        const auto input = validation ? validationRequest(lease) : request(lease);
+        QVERIFY(client.start(input, lease, 15000));
+        QTRY_VERIFY_WITH_TIMEOUT(!done.isEmpty() || !failure.isEmpty(), 15000);
+        if (!valid) {
+            QCOMPARE(done.size(), 0); QCOMPARE(failure.size(), 1);
+            QCOMPARE(failure.front().at(0).toString(), "worker_response_invalid");
+            QVERIFY(!client.executionVerified()); return;
+        }
+        QCOMPARE(failure.size(), 0); QCOMPARE(done.size(), 1); QVERIFY(client.executionVerified());
+        auto result = done.front().at(0).toJsonObject().value("result").toObject();
+        if (validation) result = result.value("validation").toObject();
+        const auto evidence = result.value("evidence").toArray().first().toObject();
+        QCOMPARE(evidence.value("quality").toString(), quality);
+        if (quality == "missing") QVERIFY(evidence.value("value").isNull());
+        else QCOMPARE(evidence.value("value").toDouble(), expected);
+        if (extendClock) QVERIFY(!load_dataset(lease->directory())->warnings.isEmpty());
+    }
+    void sourceEvidenceLookupHonorsCancellation() {
+        const auto lease = capture(); const auto data = load_dataset(lease->directory());
+        const auto token = std::make_shared<std::atomic_bool>(true);
+        QVERIFY_EXCEPTION_THROWN(validate_source_evidence({}, *data, token), std::runtime_error);
     }
     void cleanExitIsRequiredAndCancelRetiresOldCallbacks() {
         QTemporaryDir control; const auto gate = control.filePath("exit-gate");

@@ -105,11 +105,19 @@ QVariant sql(const QString& path, const QString& statement, const QVariantList& 
 class EogHistoryTests final : public QObject {
     Q_OBJECT
     QString fixture_;
-    std::shared_ptr<const Capture> capture() const {
+    std::shared_ptr<const Capture> capture(bool omitChannel = false, bool extendClock = false, bool originalReadings = false) const {
         QTemporaryDir source;
         for (const auto* name : {"network.json", "ops.json", "telemetry.csv"})
             if (!QFile::copy(QDir(fixture_).filePath(name), source.filePath(name))) throw std::runtime_error("Cannot copy history fixture.");
-        auto telemetry = bytes(source.filePath("telemetry.csv")); telemetry.replace(",104", ",80");
+        auto telemetry = bytes(source.filePath("telemetry.csv"));
+        if (!originalReadings) telemetry.replace(",104", ",80");
+        if (omitChannel) {
+            QByteArray retained;
+            for (const auto& line : telemetry.split('\n'))
+                if (!line.isEmpty() && !line.contains(",pump-Z,discharge_psi,")) retained += line + '\n';
+            telemetry = retained;
+        }
+        if (extendClock) telemetry += "2026-10-05T00:15:00Z,1791159300,facility-Z,inflow_bpd,17.5\n";
         if (!write(source.filePath("telemetry.csv"), telemetry)) throw std::runtime_error("Cannot write history fixture.");
         const auto data = load_dataset(source.path()); return prepare_capture(data, data->now_unix);
     }
@@ -119,6 +127,57 @@ private slots:
         QVERIFY(!path.isEmpty()); fixture_ = QFileInfo(path).absolutePath();
     }
 #ifdef Q_OS_WIN
+    void originalSamplesUseTheSameLookupForLiveAppendAndArchives() {
+        QTemporaryDir directory; const auto database = directory.filePath("source-references.sqlite"), session = id();
+        const auto lease = capture(true, true, true); const auto captured = load_dataset(lease->directory());
+        QVERIFY(!captured->warnings.isEmpty());
+        EogHistoryRepository repository(database); QSignalSpy ready(&repository, &EogHistoryRepository::ready);
+        QSignalSpy saved(&repository, &EogHistoryRepository::sessionSaved), failed(&repository, &EogHistoryRepository::failed);
+        QTRY_COMPARE(ready.size(), 1); repository.beginSession(session, "Original-source reference checks", lease); QTRY_COMPARE(saved.size(), 1);
+        const auto first = lease->manifest().value("source_first_unix"), cutoff = lease->manifest().value("cutoff_unix");
+        const QJsonArray samples{
+            QJsonObject{{"evidence_id", "fixture-tank-sample"}, {"asset_id", "tank-Z"}, {"metric", "level_pct"},
+                {"timestamp_unix", first}, {"value", -2}, {"unit", "%"}, {"quality", "stale"}},
+            QJsonObject{{"evidence_id", "actual-overflow"}, {"asset_id", "tank-Z"}, {"metric", "level_pct"},
+                {"timestamp_unix", first.toDouble() + 300}, {"value", 104}, {"unit", "%"}, {"quality", "stale"}},
+            QJsonObject{{"evidence_id", "actual-current"}, {"asset_id", "facility-Z"}, {"metric", "inflow_bpd"},
+                {"timestamp_unix", cutoff}, {"value", 17.5}, {"unit", "bpd"}, {"quality", "good"}},
+            QJsonObject{{"evidence_id", "absent-channel-missing"}, {"asset_id", "pump-Z"}, {"metric", "discharge_psi"},
+                {"timestamp_unix", cutoff}, {"value", QJsonValue::Null}, {"unit", "psi"}, {"quality", "missing"}}};
+        int failures = 0, retained = 0;
+        for (const auto& operation : {QStringLiteral("detect"), QStringLiteral("validate_plan")}) {
+            const auto input = request(lease, operation + "-grounding", operation); auto output = response(input);
+            auto result = output.value("result").toObject();
+            auto assessment = operation == "detect" ? result : result.value("validation").toObject();
+            assessment["evidence"] = samples;
+            if (operation == "validate_plan") assessment["evidence_ids"] = QJsonArray{"fixture-tank-sample", "actual-overflow", "actual-current", "absent-channel-missing"};
+            if (operation == "detect") result = assessment; else result["validation"] = assessment;
+            output["result"] = result;
+            for (const auto& mutation : {QStringLiteral("value"), QStringLiteral("time"), QStringLiteral("channel")}) {
+                auto bad = output, badResult = result, badAssessment = assessment; auto references = samples;
+                auto sample = references.first().toObject();
+                if (mutation == "value") sample["value"] = 999;
+                if (mutation == "time") sample["timestamp_unix"] = first.toDouble() + 1;
+                if (mutation == "channel") { sample["asset_id"] = "pump-Z"; sample["metric"] = "discharge_psi"; sample["unit"] = "psi"; }
+                references[0] = sample; badAssessment["evidence"] = references;
+                if (operation == "detect") badResult = badAssessment; else badResult["validation"] = badAssessment;
+                bad["result"] = badResult;
+                ++failures; repository.appendAnalysis(session, input, bad); QTRY_COMPARE(failed.size(), failures);
+                QCOMPARE(failed.back().at(2).toString(), "invalid_evidence");
+                QCOMPARE(sql(database, "SELECT count(*) FROM eog_analyses").toInt(), retained);
+            }
+            ++retained; repository.appendAnalysis(session, input, output); QTRY_COMPARE(saved.size(), retained + 1);
+        }
+        QCOMPARE(sql(database, "SELECT count(*) FROM eog_analyses").toInt(), 2);
+        repository.finishSession(session); QTRY_COMPARE(saved.size(), 4);
+        QSignalSpy exported(&repository, &EogHistoryRepository::archiveExported), imported(&repository, &EogHistoryRepository::archiveImported);
+        const auto path = QUrl::fromLocalFile(directory.filePath("original-samples.eog-session.json"));
+        repository.exportSession(session, path); QTRY_COMPARE(exported.size(), 1);
+        auto archive = QJsonDocument::fromJson(bytes(path.toLocalFile())).object(); archive["session_id"] = id();
+        const auto copied = QUrl::fromLocalFile(directory.filePath("copied-original-samples.eog-session.json"));
+        QVERIFY(write(copied.toLocalFile(), QJsonDocument(archive).toJson(QJsonDocument::Compact)));
+        repository.importSession(copied); QTRY_COMPARE(imported.size(), 1); QCOMPARE(failed.size(), 6);
+    }
     void completedEvidenceRoundTripsWithFullCaptureAndTrajectory() {
         QTemporaryDir directory; const auto database = directory.filePath("history.sqlite"), session = id(); const auto lease = capture();
         EogHistoryRepository repository(database); QSignalSpy ready(&repository, &EogHistoryRepository::ready);

@@ -40,4 +40,10 @@ inline constexpr qsizetype maximum_series = 65536;
 QString series_key(const QString& asset, const QString& metric);
 std::shared_ptr<const Dataset> load_dataset(const QString& folder,
                                           const std::shared_ptr<std::atomic_bool>& cancelled = {});
+// After response schema/asset/cutoff validation, require each nonmissing source
+// reference to name an exact original asset/metric/time/value tuple. Missing/null
+// evidence describes unavailable observations and does not assert a CSV row.
+// Call outside the UI thread; no values are clamped, interpolated or rounded.
+void validate_source_evidence(const QJsonObject& response, const Dataset& captured,
+                              const std::shared_ptr<std::atomic_bool>& cancelled = {});
 } // namespace breakwater::desktop::eog
