@@ -105,7 +105,44 @@ after a rejected model final. The corrected normal run passed **14/14 Qt cases**
 with zero skips. The isolated model loop passed **41/41 Qt cases**, and the history
 suite passed **13/13**. Original failed logs are retained under local `out/`.
 
-Chart tests initially reproduced an actual QML final-property name collision;
-the chart input was renamed before further render checks. Complete normal/ASan,
-render, packaging and production-provider/hosted EOG acceptance are still pending
-for this increment. Existing workbench rehearsals do not count as EOG rehearsals.
+Chart tests reproduced a QML final-property name collision and initialization
+ordering defect. Both were corrected. Exact checkpoint `7810985` then passed
+**16/16 scoped EOG CTests** in normal (46.07 s) and ASan (138.09 s) builds, with
+**212 Qt cases** per mode, zero skips and no sanitizer diagnostic. The executed
+checks include 48 Python/native contract methods, eight actual CLI methods,
+chart pixel regressions and six normal/compact application render checks.
+
+A subsequent independent same-family review reproduced a missing publication
+gate: shape-valid evidence with a wrong source value/time/channel could reach
+the UI before history rejected it. Commit `c15269a` moves the shared original-sample
+check into background client validation before publication. That corrected source
+gate passed **16/16 CTests**, **230 Qt cases** per mode, in normal (49.89 s) and
+ASan (188.59 s), with no skips or sanitizer diagnostic.
+
+The later operator panes show readable truck schedules, well actions, itemized
+costs, independent validation/margins and original samples with units, timestamps,
+reported quality and qualifications. Large lists render lazily, exact JSON opens
+on demand, and session changes clear selected event evidence and old dialogs.
+The current normal run passed **18/18 EOG CTests**, **250 Qt cases**, zero skips
+(67.66 s). The corresponding ASan run remains pending. The first plan-details
+test failure is retained: its QObject-only lookup missed real visual ListView
+delegates; corrected discovery preserves all evidence and lazy-bound assertions.
+
+Reproduce the scoped checks from a compiler-enabled shell with the pinned Qt/Python
+runtime and actual D3D11/WARP rendering:
+
+```powershell
+cmake --build out/eog-normal --parallel 1
+ctest --test-dir out/eog-normal -R '^(contracts\.eog|desktop\.eog_.*)$' --output-on-failure
+cmake --build out/eog-asan --parallel 1
+ctest --test-dir out/eog-asan -R '^(contracts\.eog|desktop\.eog_.*)$' --output-on-failure
+```
+
+Use native Windows execution for fixture hard links; a sandbox access denial is a
+setup failure, not a skip or numerical result. The ASan build instruments project
+code, including the chart/details harnesses; prebuilt Qt/Python are outside that
+instrumentation claim. Final combined sandbox/EOG, packaging and genuine
+production-provider/hosted EOG acceptance remain pending. PR #40 supplies real
+detection/evaluation for the next integration increment; search and independent
+validation remain unavailable. Existing workbench rehearsals do not count as EOG
+rehearsals, and presentation/protocol fixtures do not qualify numerical methods.

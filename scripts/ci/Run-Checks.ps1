@@ -112,6 +112,10 @@ function Copy-CiBuildEvidence {
         if (Test-Path -LiteralPath $evidence) { Copy-Item -LiteralPath $evidence -Destination (Join-Path $artifactRoot 'test-artifacts') -Recurse }
         $charts = Join-Path $desktop 'eog-plan-chart-artifacts'
         if (Test-Path -LiteralPath $charts) { Copy-Item -LiteralPath $charts -Destination (Join-Path $artifactRoot 'eog-plan-chart-artifacts') -Recurse }
+        $details = Join-Path $desktop 'eog-plan-details-artifacts'
+        if (Test-Path -LiteralPath $details) { Copy-Item -LiteralPath $details -Destination (Join-Path $artifactRoot 'eog-plan-details-artifacts') -Recurse }
+        $events = Join-Path $desktop 'eog-event-details-artifacts'
+        if (Test-Path -LiteralPath $events) { Copy-Item -LiteralPath $events -Destination (Join-Path $artifactRoot 'eog-event-details-artifacts') -Recurse }
     }
     foreach ($directory in @($buildRoot, $desktop)) {
         if (Test-Path -LiteralPath $directory) { Get-ChildItem -LiteralPath $directory -Filter '*.png' -File | Copy-Item -Destination $artifactRoot }
@@ -164,7 +168,7 @@ try {
             }
             if (Test-Path -LiteralPath (Join-Path $projectRoot 'desktop/eog/EogDataset.hpp')) {
                 foreach ($required in @('desktop.eog_dataset', 'desktop.eog_capture', 'desktop.eog_analysis_client', 'desktop.eog_history',
-                    'desktop.eog_investigator', 'desktop.eog_analysis_controller', 'desktop.eog_plan_chart',
+                    'desktop.eog_investigator', 'desktop.eog_analysis_controller', 'desktop.eog_plan_chart', 'desktop.eog_plan_details', 'desktop.eog_event_details',
                     'desktop.eog_analysis_normal', 'desktop.eog_analysis_compact',
                     'desktop.eog_cli', 'desktop.eog_overview_normal',
                     'desktop.eog_overview_compact', 'desktop.eog_facility_normal', 'desktop.eog_facility_compact')) {

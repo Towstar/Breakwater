@@ -67,7 +67,7 @@ qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
   QML_FILES qml/Main.qml qml/Equipment.qml qml/PipeRoute.qml qml/AgentPanel.qml qml/TrajectoryChart.qml qml/PipeTransportPanel.qml qml/StorageSciencePanel.qml
     qml/SensorPanel.qml qml/TelemetryPanel.qml qml/SensorTraceChart.qml
     qml/EogDatasetPanel.qml qml/EogNetworkView.qml qml/EogTrendChart.qml
-    qml/EogAnalysisPanel.qml qml/EogPlanChart.qml)
+    qml/EogAnalysisPanel.qml qml/EogPlanChart.qml qml/EogPlanDetails.qml qml/EogEventDetails.qml)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
 # in a fresh parallel Visual Studio build. Qt creates that target at root deferral.
@@ -297,14 +297,16 @@ if(BUILD_TESTING)
     set_tests_properties(desktop.eog_cli PROPERTIES TIMEOUT 180
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   endif()
-  qt_add_executable(breakwater_eog_plan_chart_tests tests/eog_plan_chart_tests.cpp)
-  target_link_libraries(breakwater_eog_plan_chart_tests PRIVATE Qt6::Quick Qt6::QuickControls2 Qt6::Test)
-  target_compile_definitions(breakwater_eog_plan_chart_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
-  add_test(NAME desktop.eog_plan_chart COMMAND breakwater_eog_plan_chart_tests
-    -o "${CMAKE_CURRENT_BINARY_DIR}/eog_plan_chart-results.txt,txt")
-  set_tests_properties(desktop.eog_plan_chart PROPERTIES TIMEOUT 120
-    ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1"
-    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  foreach(_eog_view plan_chart plan_details event_details)
+    qt_add_executable(breakwater_eog_${_eog_view}_tests tests/eog_${_eog_view}_tests.cpp)
+    target_link_libraries(breakwater_eog_${_eog_view}_tests PRIVATE breakwater_options Qt6::Quick Qt6::QuickControls2 Qt6::Test)
+    target_compile_definitions(breakwater_eog_${_eog_view}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    add_test(NAME desktop.eog_${_eog_view} COMMAND breakwater_eog_${_eog_view}_tests
+      -o "${CMAKE_CURRENT_BINARY_DIR}/eog_${_eog_view}-results.txt,txt")
+    set_tests_properties(desktop.eog_${_eog_view} PROPERTIES TIMEOUT 120
+      ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1"
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endforeach()
   foreach(_eog_size normal compact)
     set(_eog_analysis_args --workspace eog --eog-dataset "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render"
       --eog-analysis-panel --smoke --eog-report "${CMAKE_CURRENT_BINARY_DIR}/eog-analysis-${_eog_size}.json"

@@ -9,6 +9,17 @@ Dialog {
     required property var eog
     property string exportId: ""
     property var reviewSnapshot: ({})
+    property string selectedEventId: ""
+    property string eventSessionId: ""
+    readonly property var selectedEventEvidence: {
+        // Reading both properties makes the lookup follow restored/replaced
+        // evidence even when a provider reuses its event identifier.
+        const rows = analysis.events, session = analysis.sessionId
+        for (let i = 0; i < rows.length; ++i)
+            if (rows[i].event_id === selectedEventId)
+                return analysis.eventEvidence(selectedEventId)
+        return ({})
+    }
     parent: Overlay.overlay
     anchors.centerIn: parent
     width: Math.min(1160, parent ? parent.width - 28 : 1160)
@@ -20,6 +31,18 @@ Dialog {
     function utc(value) { return typeof value === "number" ? new Date(value * 1000).toISOString() : "unavailable" }
     function planIndex(id) { for (let i = 0; i < analysis.plans.length; ++i) if (analysis.plans[i].plan_id === id) return i; return -1 }
     onOpened: analysis.refreshHistory(0)
+    Connections {
+        target: panel.analysis
+        function onChanged() {
+            if (panel.eventSessionId !== panel.analysis.sessionId) {
+                panel.eventSessionId = panel.analysis.sessionId
+                panel.selectedEventId = ""
+                panel.reviewSnapshot = ({})
+                review.close()
+                editor.close()
+            }
+        }
+    }
     FileDialog {
         id: importDialog; nameFilters: ["EOG evidence (*.eog-session.json)"]
         onAccepted: panel.analysis.importHistory(selectedFile)
@@ -45,7 +68,10 @@ Dialog {
         standardButtons: Dialog.Cancel
         contentItem: ColumnLayout {
             Label { Layout.fillWidth: true; text: "Review records advice viewed. It performs no truck dispatch, well control, CSV modification or sandbox application."; wrapMode: Text.Wrap; color: "#e5bd72" }
-            ScrollView { Layout.fillWidth: true; Layout.fillHeight: true; TextArea { readOnly: true; text: panel.pretty(panel.reviewSnapshot); wrapMode: TextEdit.WrapAnywhere; selectByMouse: true; font.family: "Consolas" } }
+            ScrollView {
+                id: reviewScroll; Layout.fillWidth: true; Layout.fillHeight: true; contentWidth: availableWidth
+                EogPlanDetails { width: reviewScroll.availableWidth; evaluation: panel.reviewSnapshot.evaluation || ({}); validation: panel.reviewSnapshot.validation || ({}) }
+            }
             TextField { id: reviewNote; Layout.fillWidth: true; placeholderText: "Optional review note"; maximumLength: 4000 }
             Button {
                 text: "Record review of this exact plan"
@@ -59,6 +85,7 @@ Dialog {
         spacing: 8
         Label { Layout.fillWidth: true; text: (panel.analysis.historical ? "HISTORICAL · " : "CURRENT CAPTURE · ") + panel.analysis.status; textFormat: Text.PlainText; wrapMode: Text.Wrap; color: "#cde5ef" }
         Label { Layout.fillWidth: true; text: panel.analysis.storageStatus; textFormat: Text.PlainText; wrapMode: Text.Wrap; color: "#c7b484"; font.pixelSize: 12 }
+        Label { Layout.fillWidth: true; visible: (panel.analysis.lastOperation.diagnostics || []).length > 0; text: panel.pretty(panel.analysis.lastOperation); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: "#e5bd72"; font.pixelSize: 12 }
         Label { Layout.fillWidth: true; visible: panel.analysis.evidenceContext.capture_id !== undefined; text: "Capture " + (panel.analysis.evidenceContext.capture_id || "") + " · cutoff " + panel.utc(panel.analysis.evidenceContext.cutoff_unix) + " · " + (panel.analysis.evidenceContext.context || ""); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.pixelSize: 11; color: "#91afbe" }
         Flow {
             Layout.fillWidth: true; spacing: 6
@@ -88,24 +115,33 @@ Dialog {
                 id: eventScroll; clip: true; contentWidth: availableWidth
                 ColumnLayout {
                     width: eventScroll.availableWidth
+                    Label { Layout.fillWidth: true; visible: panel.analysis.detectionDetails.status !== undefined; text: "Detection " + (panel.analysis.detectionDetails.status || "unavailable") + " · coverage " + (panel.analysis.detectionDetails.coverage || "unavailable") + "\n" + panel.pretty({assumptions: panel.analysis.detectionDetails.assumptions || [], limitations: panel.analysis.detectionDetails.limitations || []}); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: "#e5c68b" }
                     Label { Layout.fillWidth: true; visible: panel.analysis.events.length === 0; text: "No completed detector events retained. An empty list before analysis does not establish a healthy network."; wrapMode: Text.Wrap }
-                    Repeater {
+                    ListView {
+                        id: alerts
+                        Layout.fillWidth: true
+                        Layout.preferredHeight: count ? Math.min(340, Math.max(140, count * 130)) : 0
+                        clip: true; spacing: 6
+                        ScrollBar.vertical: ScrollBar {}
                         model: panel.analysis.events
                         delegate: Frame {
                             required property var modelData
-                            Layout.fillWidth: true
-                            ColumnLayout {
-                                anchors.fill: parent
+                            width: alerts.width
+                            contentItem: ColumnLayout {
                                 Label { Layout.fillWidth: true; text: modelData.category + " · " + modelData.state + " · " + modelData.asset_id; textFormat: Text.PlainText; wrapMode: Text.Wrap; font.bold: true }
                                 Label { Layout.fillWidth: true; text: "Onset " + panel.utc(modelData.onset_unix) + " · shutdown countdown: " + (typeof modelData.countdown_hours === "number" ? modelData.countdown_hours.toFixed(3) + " h" : "unavailable") + " · exposure " + panel.money(modelData.lost_revenue_per_hour) + "/h · coverage " + modelData.coverage; textFormat: Text.PlainText; wrapMode: Text.Wrap }
                                 RowLayout {
-                                    Button { text: "Inspect evidence"; onClicked: evidence.text = panel.pretty(panel.analysis.eventEvidence(modelData.event_id)) }
+                                    Button { text: "Inspect evidence"; onClicked: panel.selectedEventId = modelData.event_id }
                                     Button { text: "Acknowledge"; enabled: !panel.analysis.historical && !panel.analysis.busy; onClicked: panel.analysis.acknowledge(modelData.event_id, "Reviewed in EOG console; acknowledgement does not clear the event.") }
                                 }
                             }
                         }
                     }
-                    TextArea { id: evidence; Layout.fillWidth: true; readOnly: true; selectByMouse: true; wrapMode: TextEdit.WrapAnywhere; font.family: "Consolas" }
+                    EogEventDetails {
+                        Layout.fillWidth: true
+                        event: panel.selectedEventEvidence.event || ({})
+                        evidence: panel.selectedEventEvidence
+                    }
                 }
             }
             ScrollView {
@@ -134,14 +170,16 @@ Dialog {
                         Layout.fillWidth: true; spacing: 6
                         Button { text: "Evaluate no action"; enabled: !panel.analysis.busy && !panel.analysis.historical && panel.analysis.selectedPlanId.length > 0; onClicked: panel.analysis.evaluateNoAction() }
                         Button { text: "Edit proposal"; enabled: !panel.analysis.busy && !panel.analysis.historical; onClicked: { planText.text = panel.analysis.selectedPlanJson; editor.open() } }
-                        Button { text: "Review validated advice"; enabled: panel.analysis.canReview; onClicked: { panel.reviewSnapshot = {plan: JSON.parse(panel.analysis.selectedPlanJson), validation_id: panel.analysis.selectedValidation.validation_id, plan_hash: panel.analysis.selectedValidation.plan_hash, validation: panel.analysis.selectedValidation, cost: panel.analysis.selectedEvaluation.cost}; reviewNote.text = ""; review.open() } }
+                        Button { text: "Review validated advice"; enabled: panel.analysis.canReview; onClicked: { panel.reviewSnapshot = {evaluation: panel.analysis.selectedEvaluation, validation_id: panel.analysis.selectedValidation.validation_id, plan_hash: panel.analysis.selectedValidation.plan_hash, validation: panel.analysis.selectedValidation}; reviewNote.text = ""; review.open() } }
                     }
                     RowLayout {
                         Layout.fillWidth: true
                         TextField { id: evaluator; Layout.fillWidth: true; maximumLength: 256; placeholderText: "Actual provider evaluator method ID (from provider documentation)" }
                         Button { text: "Independently validate"; enabled: !panel.analysis.busy && !panel.analysis.historical && evaluator.text.trim().length > 0 && panel.analysis.selectedPlanId.length > 0; onClicked: panel.analysis.validateSelected(evaluator.text.trim()) }
                     }
-                    TextArea { Layout.fillWidth: true; readOnly: true; selectByMouse: true; wrapMode: TextEdit.WrapAnywhere; text: panel.pretty({plan: panel.analysis.selectedEvaluation.plan || {}, fleet: panel.analysis.selectedEvaluation.fleet_occupancy || [], shutdowns: panel.analysis.selectedEvaluation.shutdowns || [], violations: panel.analysis.selectedEvaluation.violations || [], assumptions: panel.analysis.selectedEvaluation.assumptions || [], limitations: panel.analysis.selectedEvaluation.limitations || [], validation: panel.analysis.selectedValidation, search: panel.analysis.searchDetails}); font.family: "Consolas" }
+                    EogPlanDetails { Layout.fillWidth: true; evaluation: panel.analysis.selectedEvaluation; validation: panel.analysis.selectedValidation }
+                    Label { Layout.fillWidth: true; text: "Search coverage: " + (panel.analysis.searchDetails.optimality || "unavailable") + "\n" + (panel.analysis.searchDetails.space_description || "No completed search scope retained."); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: "#9eb9c8" }
+                    Label { Layout.fillWidth: true; text: (panel.analysis.searchDetails.limitations || []).join("\n"); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: "#e5bd72" }
                 }
             }
             ScrollView {

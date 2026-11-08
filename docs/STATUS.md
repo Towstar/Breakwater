@@ -1,5 +1,32 @@
 # Implementation status
 
+## Current local EOG desktop integration — November 8, 2026
+
+- The unpublished integration includes the dataset console,
+  causal captures, bounded process client, separate SQLite history, on-demand
+  Nemotron tools and explicit advisory review. It preserves the workbench and
+  shared accepted contract `72cadd1`.
+- `c15269a` moves original-sample value/time/channel validation before client
+  publication and shares it with history. Negative, overflowing, stale and missing
+  evidence retain their distinct semantics. The earlier source-gate run passed
+  **16/16** normal (49.89 s) and ASan (188.59 s), 230 Qt cases per mode, zero skips.
+- The later readable plan/event panes and global coverage regressions passed
+  **18/18** normal EOG CTests (67.66 s), **250 Qt cases**, zero skips, including
+  six actual application renders and lazy 4,096-row schedule/evidence views.
+  The matching ASan run remains pending. This is not full combined desktop acceptance.
+- Visual Studio's original MAX_PATH tracking failure is retained. `c85b0e7`
+  keeps tracking enabled with shorter per-project/configuration paths; the corrected
+  full build and 16 then-registered EOG checks passed. The newer solution resolves
+  120 projects / 463 dependencies; its new operator-view execution remains pending.
+- Ethan's PR #40 now delivers real detection and candidate evaluation; see
+  [coordination](EOG_COORDINATION.md) for exact source and reviewed evidence.
+  Desktop/installed provider integration and hosted EOG rehearsals remain pending.
+  Search and independent numerical validation remain unavailable in that revision.
+  Protocol-only workers do not qualify as working numerical methods.
+- Telemetry follow-up PR #37 is merged at `7653444` after all six hosted jobs
+  passed: desktop 38/38 and 659 Qt cases per mode, native 8/8 per mode, science
+  186 methods with four explicit optional skips, and pinned Lean audits.
+
 ## EOG exact-contract adoption — November 8, 2026
 
 - Ethan numerically accepts exact `72cadd1de7eed6666a60faff1d296e29c8f026ee`
@@ -20,7 +47,7 @@
   remain separate. No production EOG detector, optimizer or independent numerical
   plan validator is claimed by the contract increment.
 
-## Current Person B continuation — November 8, 2026
+## Historical G2 continuation checkpoints — November 8, 2026
 
 - G1 PR #31 is merged at `2bd7bb9`; exact contract `f12a827` has recorded Person A
   acceptance and formal GitHub approval. The historical pending-review statements
