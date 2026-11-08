@@ -1,0 +1,92 @@
+{
+  "evidence_version": 1,
+  "tested_source": "5c22cdb6bab44ae1a8ba5aa618a5c2680dbde74d",
+  "integration_commit": "740db4737681deabcc8de6c6b7b3c3c743d1ced7",
+  "wire_revision": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "native_method": "eog-native-seconds-0.1.1",
+  "toolchain": {
+    "compiler": "MSVC19.44.35219",
+    "qt": "6.12.0",
+    "python": "3.12.13",
+    "torch": "2.15.0+cpu",
+    "renderer": "D3D11/WARP"
+  },
+  "ctest": {
+    "normal": {
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 341.96
+    },
+    "asan": {
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "seconds": 641.29,
+      "sanitizer_diagnostics": 0
+    }
+  },
+  "science": {
+    "passed": true,
+    "tests_run": 354,
+    "tests_passed": 350,
+    "failures": 0,
+    "errors": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "skipped": [
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      }
+    ],
+    "unexpected_skips": []
+  },
+  "ci_policy_tests": 15,
+  "logs": [
+    {
+      "local_artifact": "out/provider-review/combined-final-normal-tests.log",
+      "sha256": "7a05c2adbe5965c250c798df64db2b41fc1853ccf079333608ec9de9610b6935"
+    },
+    {
+      "local_artifact": "out/provider-review/combined-final-asan-tests.log",
+      "sha256": "cb89d380d1cae25f0b67199dbed4097d92085637f8104cf4595487bd570d9843"
+    },
+    {
+      "local_artifact": "out/provider-review/final-science-results.json",
+      "sha256": "3957e081e48e11d21f54cd9d68ccfcd57227b3cf035f19fc8f2b1ee53a7672f0"
+    },
+    {
+      "local_artifact": "out/provider-review/final-ci-policy.log",
+      "sha256": "f5f47cf45a8b2ad62610d66b2bd10fb86aa2ad9125abc09415791803cc0c4df1"
+    },
+    {
+      "local_artifact": "out/provider-review/a41-verification.json",
+      "sha256": "14ba4b2912d62eda4e8a2cb6b4e3915c2ca206766eaf34fb77c635d24d6bad0b"
+    },
+    {
+      "local_artifact": "out/provider-review/a41-runtime-identity.json",
+      "sha256": "fd96f5038507cc14d26f464342d10059334fc6dca006b6ee0df75c0f9c21ed0a"
+    }
+  ],
+  "limitations": [
+    "Installed startup not yet verified at this checkpoint.",
+    "Hosted EOG rehearsals not accepted at this checkpoint.",
+    "Joint search is unavailable.",
+    "Independent implementation is not physical validation or a real-number proof.",
+    "Detection onset/timing qualification remains limited."
+  ],
+  "review": "Independent same-family source review; no cross-family review claimed."
+}
