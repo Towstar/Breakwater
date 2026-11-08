@@ -179,6 +179,9 @@ for raw in sys.stdin.buffer:
         emit(response)
     if method == "storage_rollout" and MODE == "crash_after_storage":
         os._exit(7)
+phase_file = os.environ.get("BREAKWATER_STORAGE_FIXTURE_PHASEFILE")
+if phase_file:
+    Path(phase_file).write_text("exchange-complete")
 if MODE == "crash_after_exchange":
     os._exit(8)
 elif MODE == "hang_after_exchange":

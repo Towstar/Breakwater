@@ -5,6 +5,7 @@
 #include <QJsonArray>
 #include <QProcess>
 #include <QSignalSpy>
+#include <QTemporaryDir>
 #include <QTimer>
 #include <QtTest>
 
@@ -176,6 +177,38 @@ private slots:
         QVERIFY(science.status().contains("disagreement")); QVERIFY(science.chart().value("available").toBool());
         QCOMPARE(project.document(), document); QCOMPARE(project.capturedForecast(), captured); QVERIFY(!project.canApprove());
         QCOMPARE(captured->result.volumes_m3[1].back(), 132.0);
+    }
+    void editsDeletionAndReplacementRetireAnExchangedResult_data() {
+        QTest::addColumn<QString>("change");
+        for (const auto* name : {"edit", "delete", "replacement"}) QTest::newRow(name) << QString::fromLatin1(name);
+    }
+    void editsDeletionAndReplacementRetireAnExchangedResult() {
+        QFETCH(QString, change);
+        Environment modeRestore("BREAKWATER_STORAGE_FIXTURE_MODE"), phaseRestore("BREAKWATER_STORAGE_FIXTURE_PHASEFILE");
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        qputenv("BREAKWATER_STORAGE_FIXTURE_MODE", "hang_after_exchange");
+        qputenv("BREAKWATER_STORAGE_FIXTURE_PHASEFILE", directory.filePath("exchanged.txt").toUtf8());
+        ProjectController project; QVERIFY(forecast(project));
+        const auto captured = project.capturedForecast();
+        const auto network = network_json(captured->network);
+        const auto times = captured->result.time_h; const auto volumes = captured->result.volumes_m3;
+        PythonWorkerClient worker(python(), QStringLiteral(BREAKWATER_SOURCE_DIR "/desktop/tests/worker_fixtures/storage_worker_fixture.py"));
+        worker.setTerminationGraceMs(25); StorageScienceController science(&project, &worker);
+        QSignalSpy done(&science, &StorageScienceController::completed), ready(&worker, &PythonWorkerClient::storageReady);
+        science.run(); QTRY_VERIFY_WITH_TIMEOUT(QFileInfo(directory.filePath("exchanged.txt")).isFile(), 10000);
+        // All three valid frames have been exchanged, but clean exit has not
+        // occurred. A numerical mutation must prevent their later publication.
+        QVERIFY(science.busy()); QCOMPARE(ready.size(), 0); QCOMPARE(done.size(), 0);
+        if (change == "edit") { project.select("bypass"); project.editSelected("flow", "19"); }
+        else if (change == "delete") { project.select("tank_b"); project.deleteSelected(); }
+        else project.forecast();
+        QTRY_VERIFY_WITH_TIMEOUT(!worker.busy() && !project.busy(), 10000);
+        QVERIFY(!science.busy()); QVERIFY(science.result().isEmpty());
+        QVERIFY(project.capturedForecast() != captured);
+        if (change != "replacement") QVERIFY(!project.canApprove());
+        QCOMPARE(network_json(captured->network), network);
+        QCOMPARE(captured->result.time_h, times); QCOMPARE(captured->result.volumes_m3, volumes);
+        QTest::qWait(100); QCOMPARE(ready.size(), 0); QCOMPARE(done.size(), 0);
     }
 };
 QTEST_GUILESS_MAIN(StorageScienceTests)
