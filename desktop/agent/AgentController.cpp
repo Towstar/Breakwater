@@ -1,6 +1,7 @@
 #include "AgentController.hpp"
 #include "NemotronClient.hpp"
 #include "history/SessionRecorder.hpp"
+#include "science/AgentSensitivityClient.hpp"
 #include <QDateTime>
 
 namespace breakwater::desktop::agent {
@@ -12,6 +13,10 @@ AgentController::AgentController(ProjectController* project, ModelTransport* tra
     }
     if (const auto* client = qobject_cast<NemotronClient*>(transport)) configured_model_ = client->configuredModelIdentifier();
     session_ = new AgentOrchestrator(transport, this);
+    session_->setSensitivityClient(new science::AgentSensitivityClient({}, {}, this));
+    connect(session_, &AgentOrchestrator::scientificEvidenceReady, this, [this](const QJsonObject& archive) {
+        if (repository_) repository_->saveSession(archive);
+    });
     connect(session_, &AgentOrchestrator::changed, this, &AgentController::changed);
     connect(project_, &ProjectController::changed, this, [this] {
         const auto gateway = session_->gateway();
@@ -32,6 +37,7 @@ AgentController::~AgentController() {
 void AgentController::setHistory(history::SessionRepository* repository, history::HistoryController* historyController) {
     if (!repository || recorder_) return;
     history_ = historyController;
+    repository_ = repository;
     recorder_ = new history::SessionRecorder(session_, repository, historyController, configured_model_, this);
     storage_status_ = "Saving investigation history automatically";
     connect(repository, &history::SessionRepository::failed, this, [this](const QString&, const QString& message) {

@@ -88,7 +88,8 @@ private slots:
             QVERIFY(!function["parameters"].toObject()["additionalProperties"].toBool(true));
         }
         QCOMPARE(names, QStringList({"get_network_state", "get_control_catalog", "forecast_baseline",
-            "simulate_candidates", "validate_run", "compare_runs", "request_approval", "search_interventions"}));
+            "simulate_candidates", "validate_run", "compare_runs", "get_sensitivity_catalog", "analyze_sensitivities",
+            "request_approval", "search_interventions"}));
     }
     void baselineUsesActualEngineEvidence() {
         SimulationGateway gateway(main_pump_failure(canonical_scenario()), "hash-incident");
@@ -302,6 +303,12 @@ private slots:
                 QCOMPARE(search["control_id"].toObject()["maxLength"].toInt(), 512);
                 QCOMPARE(properties["snapshot_id"].toObject()["maxLength"].toInt(), 256);
             }
+            if (function["name"] == "analyze_sensitivities") {
+                const auto ids = properties["control_ids"].toObject();
+                QCOMPARE(ids["minItems"].toInt(), 1); QCOMPARE(ids["maxItems"].toInt(), 8);
+                QVERIFY(ids["uniqueItems"].toBool()); QCOMPARE(ids["items"].toObject()["maxLength"].toInt(), 512);
+                QVERIFY(!properties.contains("values")); QVERIFY(!properties.contains("controls"));
+            }
         }
     }
     void runStoreAndBatchAreBounded() {
@@ -469,6 +476,157 @@ private slots:
         QCOMPARE(retained["time_h"].toArray().last().toDouble(), 1.5);
         QVERIFY(!retained["run"].toObject()["current"].toBool(true));
         QCOMPARE(gateway.runs().size(), 1);
+    }
+    void scientificCaptureUsesEffectiveControlsOriginalConfigAndImmutableArrays() {
+        const auto network = main_pump_failure(canonical_scenario());
+        breakwater::desktop::ProjectDocument document; document.network = network;
+        const auto incident_hash = breakwater::desktop::physics_hash(document);
+        SimulationGateway gateway(network, incident_hash, 0.95); inspect(gateway);
+        const QJsonArray overrides{QJsonObject{{"control_id", "source:source_a:curtail"}, {"value", 7.0}},
+            QJsonObject{{"control_id", "route:bypass:flow"}, {"value", 12.0}}};
+        const auto run = gateway.execute("simulate_candidates", batch(gateway, "interior", overrides))["runs"].toArray().first().toObject();
+        const auto id = run["run_id"].toString(); const auto snapshot = gateway.snapshot();
+        const auto before = gateway.runDetails(id);
+        const auto request = args(gateway, {{"run_id", id}, {"control_ids", QJsonArray{"source:source_a:curtail", "route:bypass:flow"}}});
+        const auto prepared = gateway.prepareSensitivity(request);
+        QVERIFY2(prepared.error.isEmpty(), qPrintable(QString::fromUtf8(QJsonDocument(prepared.error).toJson())));
+        QVERIFY(prepared.capture);
+        QCOMPARE(prepared.capture->id, id); QCOMPARE(prepared.capture->revision, quint64{0});
+        QCOMPARE(prepared.capture->config.horizon_h, 0.95); QCOMPARE(prepared.capture->config.step_h, 0.025);
+        QCOMPARE(prepared.capture->result.time_h.back(), 0.95);
+        QCOMPARE(prepared.capture->result.time_h.size(), static_cast<std::size_t>(before["time_h"].toArray().size()));
+        for (std::size_t i = 0; i < prepared.capture->result.time_h.size(); ++i)
+            QCOMPARE(prepared.capture->result.time_h[i], before["time_h"].toArray()[static_cast<qsizetype>(i)].toDouble());
+        for (std::size_t i = 0; i < prepared.capture->result.volumes_m3.size(); ++i) {
+            const auto values = before["volumes_m3"].toArray()[static_cast<qsizetype>(i)].toArray();
+            for (std::size_t j = 0; j < prepared.capture->result.volumes_m3[i].size(); ++j)
+                QCOMPARE(prepared.capture->result.volumes_m3[i][j], values[static_cast<qsizetype>(j)].toDouble());
+        }
+        document.network = prepared.capture->network;
+        QCOMPARE(prepared.capture->physical_hash, breakwater::desktop::physics_hash(document));
+        QVERIFY(prepared.capture->physical_hash != incident_hash);
+        QCOMPARE(prepared.controls, QJsonArray({QJsonObject{{"control_id", "source:source_a:curtail"}, {"value", 7.0}},
+            QJsonObject{{"control_id", "route:bypass:flow"}, {"value", 12.0}}}));
+        const auto catalog = control_catalog(prepared.capture->network);
+        for (const auto& control : catalog) {
+            if (control.id == "route:backup_pump:flow") QCOMPARE(control.value, 16.0);
+            if (control.id == "route:truck_route:flow") QCOMPARE(control.value, 0.0);
+        }
+        QCOMPARE(prepared.origin, QJsonObject({{"incident_snapshot_id", gateway.snapshotId()},
+            {"incident_physical_hash", incident_hash}, {"run_id", id}, {"effective_physical_hash", prepared.capture->physical_hash}}));
+        QCOMPARE(gateway.snapshot(), snapshot); QCOMPARE(gateway.runDetails(id), before);
+        QCOMPARE(errorCode(gateway.recommendation(id)), "validation_required"); QVERIFY(!gateway.stagedPlan()["ok"].toBool());
+        QCOMPARE(errorCode(gateway.execute("analyze_sensitivities", request)), "external_executor_required");
+        QCOMPARE(gateway.runDetails(id), before); QCOMPARE(gateway.snapshot(), snapshot);
+        gateway.invalidate();
+        QCOMPARE(errorCode(gateway.prepareSensitivity(request).error), "stale_snapshot");
+        // A retained capture remains immutable evidence after its gateway retires.
+        QCOMPARE(prepared.capture->network.assets[2].curtailment_m3h, 7.0);
+        QCOMPARE(prepared.capture->result.time_h.back(), 0.95);
+    }
+    void scientificCatalogReportsEffectiveEligibilityWithoutValidationOrStaging() {
+        SimulationGateway gateway(main_pump_failure(canonical_scenario()), "incident"); inspect(gateway);
+        const auto run = runCase(gateway, "mixed"); const auto id = run["run_id"].toString();
+        const auto before = gateway.runDetails(id);
+        const auto result = gateway.execute("get_sensitivity_catalog", args(gateway, {{"run_id", id}}));
+        QVERIFY(result["ok"].toBool()); QCOMPARE(result["run_id"].toString(), id);
+        QCOMPARE(result["snapshot_id"].toString(), gateway.snapshotId()); QCOMPARE(result["max_selected_controls"].toInt(), 8);
+        QCOMPARE(result["controls"].toArray().size(), 6);
+        QStringList actual_order;
+        for (const auto& value : result["controls"].toArray()) {
+            const auto item = value.toObject(); const auto control_id = item["control_id"].toString(); actual_order.append(control_id);
+            QCOMPARE(item["unit"].toString(), "m3/h");
+            const bool eligible = control_id == "source:source_a:curtail" || control_id == "route:bypass:flow";
+            QCOMPARE(item["eligible"].toBool(), eligible); QCOMPARE(item["reason"].toString().isEmpty(), eligible);
+            if (control_id == "source:source_a:curtail") QCOMPARE(item["captured_value"].toDouble(), 10.0);
+            if (control_id == "route:bypass:flow") QCOMPARE(item["captured_value"].toDouble(), 20.0);
+        }
+        QCOMPARE(actual_order, QStringList({"source:source_a:curtail", "source:source_b:curtail", "route:main_pump:flow",
+            "route:backup_pump:flow", "route:bypass:flow", "route:truck_route:flow"}));
+        for (const auto control_id : {"source:source_b:curtail", "route:main_pump:flow", "route:backup_pump:flow", "route:truck_route:flow"}) {
+            const auto prepared = gateway.prepareSensitivity(args(gateway, {{"run_id", id}, {"control_ids", QJsonArray{control_id}}}));
+            QVERIFY(!prepared.capture); QCOMPARE(errorCode(prepared.error), "invalid_sensitivity_control");
+        }
+        const auto reversed = gateway.prepareSensitivity(args(gateway, {{"run_id", id},
+            {"control_ids", QJsonArray{"route:bypass:flow", "source:source_a:curtail"}}}));
+        QCOMPARE(errorCode(reversed.error), "invalid_control_order");
+        QCOMPARE(gateway.runDetails(id), before); QCOMPARE(errorCode(gateway.recommendation(id)), "validation_required");
+        QVERIFY(!gateway.stagedPlan()["ok"].toBool());
+    }
+    void scientificPreparationRejectsMalformedForeignAndUnknownRequests() {
+        SimulationGateway first(main_pump_failure(canonical_scenario()), "first"), second(main_pump_failure(canonical_scenario()), "second");
+        const auto run = runCase(first, "mixed"), foreign = runCase(second, "mixed"); const auto id = run["run_id"].toString();
+        const auto valid = args(first, {{"run_id", id}, {"control_ids", QJsonArray{"source:source_a:curtail"}}});
+        const QList<QPair<QJsonObject, QString>> invalid{
+            {args(first, {{"run_id", id}}), "invalid_arguments"},
+            {args(first, {{"run_id", id}, {"control_ids", "wrong"}}), "invalid_arguments"},
+            {args(first, {{"run_id", id}, {"control_ids", QJsonArray{}}}), "resource_limit"},
+            {args(first, {{"run_id", id}, {"control_ids", QJsonArray{true}}}), "invalid_arguments"},
+            {args(first, {{"run_id", id}, {"control_ids", QJsonArray{QString(513, 'x')}}}), "invalid_arguments"},
+            {args(first, {{"run_id", id}, {"control_ids", QJsonArray{"invented"}}}), "invalid_control"},
+            {args(first, {{"run_id", id}, {"control_ids", QJsonArray{"source:source_a:curtail", "source:source_a:curtail"}}}), "invalid_control"},
+            {args(first, {{"run_id", "unknown"}, {"control_ids", QJsonArray{"source:source_a:curtail"}}}), "unknown_run"},
+            {args(first, {{"run_id", foreign["run_id"]}, {"control_ids", QJsonArray{"source:source_a:curtail"}}}), "unknown_run"}
+        };
+        for (const auto& row : invalid) {
+            const auto prepared = first.prepareSensitivity(row.first);
+            QVERIFY(!prepared.capture); QVERIFY(prepared.controls.isEmpty()); QVERIFY(prepared.origin.isEmpty());
+            QCOMPARE(errorCode(prepared.error), row.second);
+        }
+        auto changed = valid; changed["snapshot_id"] = second.snapshotId();
+        QCOMPARE(errorCode(first.prepareSensitivity(changed).error), "snapshot_mismatch");
+        changed = valid; changed["values"] = QJsonArray{11.0};
+        QCOMPARE(errorCode(first.prepareSensitivity(changed).error), "invalid_arguments");
+        changed = valid; changed["horizon_h"] = 24.0;
+        QCOMPARE(errorCode(first.prepareSensitivity(changed).error), "invalid_arguments");
+        QCOMPARE(errorCode(first.execute("get_sensitivity_catalog", args(first, {{"run_id", foreign["run_id"]}}))), "unknown_run");
+        QCOMPARE(errorCode(first.execute("get_sensitivity_catalog", args(first, {{"run_id", id}, {"extra", true}}))), "invalid_arguments");
+        QCOMPARE(first.runs().size(), 1); QVERIFY(!first.stagedPlan()["ok"].toBool());
+    }
+    void scientificSelectionHonorsEightColumnBudgetAndCustomUnicodeIds() {
+        Network chain;
+        for (int i = 0; i < 10; ++i) chain.assets.push_back({"tank:" + std::to_string(i), "Tank", AssetKind::tank, 500, 100});
+        QJsonArray eight, nine;
+        for (int i = 0; i < 9; ++i) {
+            const auto id = "link:" + std::to_string(i);
+            chain.routes.push_back({id, chain.assets[static_cast<std::size_t>(i)].id, chain.assets[static_cast<std::size_t>(i + 1)].id, 5, 1});
+            const auto control_id = QString::fromStdString("route:" + id + ":flow");
+            nine.append(control_id); if (i < 8) eight.append(control_id);
+        }
+        SimulationGateway gateway(chain, "chain");
+        const auto run_id = gateway.execute("forecast_baseline", args(gateway))["run"].toObject()["run_id"].toString();
+        const auto selected = gateway.prepareSensitivity(args(gateway, {{"run_id", run_id}, {"control_ids", eight}}));
+        QVERIFY(selected.error.isEmpty()); QCOMPARE(selected.controls.size(), 8);
+        QCOMPARE(errorCode(gateway.prepareSensitivity(args(gateway, {{"run_id", run_id}, {"control_ids", nine}})).error), "resource_limit");
+        Network unicode;
+        unicode.assets = {{"tank:α", "West", AssetKind::tank, 1000, 100}, {"tank:β", "East", AssetKind::tank, 1000, 100},
+            {"prod:λ", "Source", AssetKind::source, 0, 0, 10, 0, 5, 7}};
+        unicode.routes = {{"feed:φ", "prod:λ", "tank:α", 10, 10}, {"link:μ", "tank:α", "tank:β", 8, 2}};
+        SimulationGateway custom(unicode, "unicode", 1.3);
+        const QJsonArray overrides{QJsonObject{{"control_id", "source:prod:λ:curtail"}, {"value", 1.0}},
+            QJsonObject{{"control_id", "route:link:μ:flow"}, {"value", 3.0}}};
+        const auto custom_id = custom.execute("simulate_candidates", batch(custom, "custom", overrides))["runs"].toArray().first().toObject()["run_id"].toString();
+        const auto prepared = custom.prepareSensitivity(args(custom, {{"run_id", custom_id},
+            {"control_ids", QJsonArray{"source:prod:λ:curtail", "route:link:μ:flow"}}}));
+        QVERIFY(prepared.error.isEmpty()); QCOMPARE(prepared.controls, overrides);
+        QCOMPARE(prepared.capture->config.horizon_h, 1.3); QCOMPARE(prepared.capture->result.tank_ids.size(), std::size_t{2});
+        QCOMPARE(prepared.capture->network.assets.back().curtailment_m3h, 1.0);
+        const auto baseline = custom.execute("forecast_baseline", args(custom))["run"].toObject()["run_id"].toString();
+        const auto blocked = custom.prepareSensitivity(args(custom, {{"run_id", baseline}, {"control_ids", QJsonArray{"source:prod:λ:curtail"}}}));
+        QCOMPARE(errorCode(blocked.error), "invalid_sensitivity_control");
+    }
+    void scientificSelectionRejectsInteriorSourceOnFeedCapacityBoundary() {
+        Network network;
+        network.assets = {{"tank", "Tank", AssetKind::tank, 100, 10},
+            {"source", "Source", AssetKind::source, 0, 0, 20, 5, 10, 2}};
+        network.routes = {{"feed", "source", "tank", 15, 15}};
+        SimulationGateway gateway(network, "feed-boundary");
+        const auto id = gateway.execute("forecast_baseline", args(gateway))["run"].toObject()["run_id"].toString();
+        const auto catalog = gateway.execute("get_sensitivity_catalog", args(gateway, {{"run_id", id}}))["controls"].toArray();
+        QCOMPARE(catalog.size(), 1); QVERIFY(!catalog.first().toObject()["eligible"].toBool());
+        QVERIFY(catalog.first().toObject()["reason"].toString().contains("feed-capacity"));
+        const auto prepared = gateway.prepareSensitivity(args(gateway, {{"run_id", id}, {"control_ids", QJsonArray{"source:source:curtail"}}}));
+        QCOMPARE(errorCode(prepared.error), "invalid_sensitivity_control");
     }
 };
 

@@ -2,12 +2,16 @@
 #include "agent/AgentController.hpp"
 #include "agent/CredentialSettings.hpp"
 #include "history/HistoryController.hpp"
+#include "history/RehearsalArchiveCoordinator.hpp"
 #include "quality/PipeTransportController.hpp"
 #include "science/PythonWorkerClient.hpp"
 #include "science/StorageScienceController.hpp"
 #include <QGuiApplication>
+#include <QDir>
 #include <QElapsedTimer>
+#include <QFileInfo>
 #include <QImage>
+#include <QJsonArray>
 #include <QJsonDocument>
 #include <QSaveFile>
 #include <QQmlApplicationEngine>
@@ -20,11 +24,61 @@ int main(int argc, char** argv) {
     QCoreApplication::setApplicationName("BREAKWATER");
     QCoreApplication::setOrganizationName("Breakwater");
     const auto arguments = app.arguments();
+    QString startupProject, startupObjective, rehearsalArchive, startupHistory;
+    const auto singleValue = [&](const QString& name, QString& destination) {
+        if (!arguments.contains(name)) return true;
+        const auto index = arguments.indexOf(name);
+        if (arguments.count(name) != 1 || index + 1 >= arguments.size() ||
+            arguments[index + 1].startsWith("--") || arguments[index + 1].trimmed().isEmpty()) return false;
+        destination = arguments[index + 1];
+        return true;
+    };
+    const bool startupInvestigation = arguments.contains("--investigate");
+    if (!singleValue("--project", startupProject) || !singleValue("--objective", startupObjective) ||
+        !singleValue("--rehearsal-archive", rehearsalArchive) ||
+        (startupInvestigation && !singleValue("--history-db", startupHistory)) ||
+        arguments.count("--investigate") > 1 || startupObjective.size() > 4000 ||
+        (!startupObjective.isEmpty() && !startupInvestigation) ||
+        (startupInvestigation && startupObjective.trimmed().isEmpty()) ||
+        (!rehearsalArchive.isEmpty() && (!startupInvestigation || startupHistory.isEmpty())) ||
+        ((!startupProject.isEmpty() || startupInvestigation) && arguments.contains("--science-check")) ||
+        (startupInvestigation && (arguments.contains("--smoke") || arguments.contains("--screenshot") ||
+            arguments.contains("--import-session") || arguments.contains("--import-pipe-evidence") ||
+            arguments.contains("--open-scientific-history")))) {
+        qCritical("Invalid startup options. --investigate requires one explicit --objective; rehearsal export also requires --history-db. Do not combine live investigation with smoke/import/science modes.");
+        return 8;
+    }
+    if (!rehearsalArchive.isEmpty()) {
+        const auto archive = QFileInfo(rehearsalArchive);
+        const auto database = QFileInfo(startupHistory).absoluteFilePath();
+        bool reserved = false;
+        for (const auto suffix : {QString{}, QStringLiteral("-wal"), QStringLiteral("-shm"), QStringLiteral("-journal")})
+            reserved |= archive.absoluteFilePath().compare(database + suffix, Qt::CaseInsensitive) == 0;
+        if (archive.exists() || reserved || !QDir().mkpath(archive.absolutePath())) {
+            qCritical("The rehearsal archive must be a new local file separate from the history database and journals.");
+            return 8;
+        }
+        rehearsalArchive = archive.absoluteFilePath();
+    }
     QQuickStyle::setStyle("Basic");
     breakwater::desktop::ProjectController controller;
+    if (!startupProject.isEmpty()) {
+        const QFileInfo projectFile(startupProject);
+        if (!projectFile.isFile() || projectFile.size() > 2 * 1024 * 1024 ||
+            !controller.load(QUrl::fromLocalFile(projectFile.absoluteFilePath()))) {
+            qCritical("The startup project must be a readable project-v1 file no larger than 2 MiB.");
+            return 8;
+        }
+    } else if (startupInvestigation) controller.loadExample("baseline");
+    if (startupInvestigation && !controller.draftIssues().isEmpty()) {
+        qCritical("The startup project has draft issues; no investigation was started.");
+        return 8;
+    }
     const auto historyIndex = arguments.indexOf("--history-db");
     const auto historyPath = historyIndex >= 0 && historyIndex + 1 < arguments.size() ? arguments[historyIndex + 1] : QString{};
     breakwater::desktop::history::SessionRepository repository(historyPath);
+    bool historyReady = false;
+    QObject::connect(&repository, &breakwater::desktop::history::SessionRepository::ready, &app, [&] { historyReady = true; });
     breakwater::desktop::history::HistoryController history(&repository);
     breakwater::desktop::agent::AgentController investigator(&controller);
     breakwater::desktop::agent::CredentialSettings credentials;
@@ -84,6 +138,37 @@ int main(int argc, char** argv) {
         {"credentials", QVariant::fromValue(&credentials)}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
+    bool startupLaunched = false;
+    const auto rehearsalFailed = [&](const QString& code) {
+        if (!engine.rootObjects().isEmpty()) {
+            if (auto* window = qobject_cast<QQuickWindow*>(engine.rootObjects().front()))
+                window->setTitle("BREAKWATER | Rehearsal archive failed (" + code + ")");
+        }
+        qWarning("Approved rehearsal export failed (%s). Its database evidence was retained; no success is claimed.", qPrintable(code));
+    };
+    breakwater::desktop::history::RehearsalArchiveCoordinator rehearsal(controller, investigator, repository, rehearsalArchive,
+        [&] {
+            if (!engine.rootObjects().isEmpty()) {
+                if (auto* window = qobject_cast<QQuickWindow*>(engine.rootObjects().front()))
+                    window->setTitle("BREAKWATER | Approved rehearsal archived");
+            }
+            qInfo("Approved rehearsal evidence was exported after operator review and a fresh feasible native forecast.");
+        }, rehearsalFailed);
+    if (startupInvestigation) {
+        const auto startInvestigation = [&] {
+            if (startupLaunched || !historyReady || engine.rootObjects().isEmpty()) return;
+            startupLaunched = true;
+            rehearsal.begin();
+            engine.rootObjects().front()->setProperty("showAgent", true);
+            investigator.investigate(startupObjective);
+        };
+        QObject::connect(&repository, &breakwater::desktop::history::SessionRepository::ready, &app, startInvestigation);
+        QTimer::singleShot(0, &app, startInvestigation);
+        QObject::connect(&repository, &breakwater::desktop::history::SessionRepository::failed, &app,
+            [&](const QString&, const QString&) {
+                if (!startupLaunched) { qCritical("History is unavailable; no startup investigation was launched."); app.exit(9); }
+            });
+    }
     const auto importIndex = arguments.indexOf("--import-session");
     const bool scientificHistoryCheck = arguments.contains("--open-scientific-history");
     if (scientificHistoryCheck) {

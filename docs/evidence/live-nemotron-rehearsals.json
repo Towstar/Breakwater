@@ -1,0 +1,71 @@
+{
+  "verification_version": 1,
+  "passed": true,
+  "scope": "Internal consistency of retained live application evidence; not cryptographic execution authentication.",
+  "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+  "rehearsals": [
+    {
+      "role": "canonical",
+      "archive": "out\\agent-rehearsals\\canonical-7.json",
+      "passed": true,
+      "session_id": "f6229e58-9b78-4e96-a81d-13b4e370c370",
+      "selected_run_id": "4aa08a47-a8a1-4d19-a7f5-8a340f26d7a8",
+      "validation_id": "b85d9f04-071f-4acb-aee6-b73a5ced1847",
+      "native_runs": 6,
+      "selected_cost": 9030,
+      "tool_calls": 9,
+      "hosted_requests": 10,
+      "retries": 0,
+      "elapsed_ms": 53534,
+      "retained_scientific_results": [
+        "d4c4f795-e3f7-4942-860e-d90f0f69b7cb"
+      ]
+    },
+    {
+      "role": "canonical",
+      "archive": "out\\agent-rehearsals\\canonical-9.json",
+      "passed": true,
+      "session_id": "9f3dab16-d49e-4a66-8416-3dd7acb0260a",
+      "selected_run_id": "71588c9a-d400-41a4-9963-e208e45c9528",
+      "validation_id": "c0390e90-1bd5-4fef-a1d8-657f161a8a2c",
+      "native_runs": 4,
+      "selected_cost": 12780,
+      "tool_calls": 10,
+      "hosted_requests": 11,
+      "retries": 0,
+      "elapsed_ms": 38788,
+      "retained_scientific_results": []
+    },
+    {
+      "role": "canonical",
+      "archive": "out\\agent-rehearsals\\canonical-11.json",
+      "passed": true,
+      "session_id": "93209a10-04dc-4916-b9d5-9e5e4c34c635",
+      "selected_run_id": "b62f46a7-ec0c-42d4-a96f-d040dd7fa292",
+      "validation_id": "32d599b6-ed6b-4abb-becb-211709bbbfbe",
+      "native_runs": 6,
+      "selected_cost": 4800,
+      "tool_calls": 7,
+      "hosted_requests": 8,
+      "retries": 0,
+      "elapsed_ms": 39313,
+      "retained_scientific_results": []
+    },
+    {
+      "role": "edited",
+      "archive": "out\\agent-rehearsals\\edited-2.json",
+      "passed": true,
+      "session_id": "a149b062-6cd5-49ed-81d9-f973be9d2aa1",
+      "selected_run_id": "d42bf49d-c540-4940-829a-ac357dbb408a",
+      "validation_id": "21ee68fb-70c1-4d35-aad0-be0351915052",
+      "native_runs": 6,
+      "selected_cost": 4800,
+      "tool_calls": 8,
+      "hosted_requests": 9,
+      "retries": 0,
+      "elapsed_ms": 54912,
+      "retained_scientific_results": []
+    }
+  ],
+  "errors": []
+}

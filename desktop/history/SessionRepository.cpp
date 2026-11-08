@@ -359,6 +359,9 @@ public:
     void load(QString id) {
         perform([&] { available(); const auto archive = read(id); emit sessionLoaded(historical(archive)); emit operationCompleted("load", id); });
     }
+    void inspect(QString id) {
+        perform([&] { available(); emit sessionInspected(read(id)); emit operationCompleted("inspect", id); });
+    }
     void exportArchive(QString id, QUrl destination) {
         perform([&] {
             available();
@@ -404,6 +407,7 @@ signals:
     void ready();
     void sessionsListed(const QJsonArray& sessions);
     void sessionLoaded(const QJsonObject& archive);
+    void sessionInspected(const QJsonObject& archive);
     void sessionSaved(const QString& sessionId);
     void checkpointFailed(const QString& checkpointId, const QString& code, const QString& message);
     void operationCompleted(const QString& operation, const QString& sessionId);
@@ -478,6 +482,7 @@ SessionRepository::SessionRepository(QString databasePath, QObject* parent) : QO
     connect(worker_, &SessionRepositoryWorker::ready, this, &SessionRepository::ready, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::sessionsListed, this, &SessionRepository::sessionsListed, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::sessionLoaded, this, &SessionRepository::sessionLoaded, Qt::QueuedConnection);
+    connect(worker_, &SessionRepositoryWorker::sessionInspected, this, &SessionRepository::sessionInspected, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::sessionSaved, this, &SessionRepository::sessionSaved, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::checkpointFailed, this, &SessionRepository::checkpointFailed, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::operationCompleted, this, &SessionRepository::operationCompleted, Qt::QueuedConnection);
@@ -502,6 +507,7 @@ void SessionRepository::enqueueCheckpoint(std::function<QJsonObject()> capture, 
 }
 void SessionRepository::listSessions() { QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->list(); }, Qt::QueuedConnection); }
 void SessionRepository::loadSession(const QString& id) { QMetaObject::invokeMethod(worker_, [worker = worker_, id] { worker->load(id); }, Qt::QueuedConnection); }
+void SessionRepository::inspectSession(const QString& id) { QMetaObject::invokeMethod(worker_, [worker = worker_, id] { worker->inspect(id); }, Qt::QueuedConnection); }
 void SessionRepository::exportSession(const QString& id, const QUrl& url) { QMetaObject::invokeMethod(worker_, [worker = worker_, id, url] { worker->exportArchive(id, url); }, Qt::QueuedConnection); }
 void SessionRepository::importSession(const QUrl& url) { QMetaObject::invokeMethod(worker_, [worker = worker_, url] { worker->importArchive(url); }, Qt::QueuedConnection); }
 

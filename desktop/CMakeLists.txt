@@ -18,8 +18,11 @@ qt_add_library(breakwater_agent STATIC
   quality/PipeTransportEvidence.hpp quality/PipeTransportEvidence.cpp
   science/PythonWorkerClient.hpp science/PythonWorkerClient.cpp)
 target_sources(breakwater_agent PRIVATE
+  history/RehearsalEvidenceGuard.hpp history/RehearsalArchiveCoordinator.hpp
   science/WorkerProtocol.hpp science/WorkerProtocol.cpp
   science/StorageScienceEvidence.hpp science/StorageScienceEvidence.cpp
+  science/StorageScienceAnalysis.hpp science/StorageScienceAnalysis.cpp
+  science/AgentSensitivityClient.hpp science/AgentSensitivityClient.cpp
   science/StorageScienceController.hpp science/StorageScienceController.cpp)
 target_include_directories(breakwater_agent PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base Qt6::Network Qt6::Concurrent Qt6::Sql)
@@ -57,7 +60,7 @@ if(BUILD_TESTING)
   add_test(NAME desktop.pipe_parameters COMMAND breakwater_pipe_parameters_tests)
   set_tests_properties(desktop.pipe_parameters PROPERTIES TIMEOUT 30
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
-  foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker pipe_transport pipe_transport_evidence storage_worker storage_science science_evidence)
+  foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker pipe_transport pipe_transport_evidence storage_worker storage_science science_evidence agent_science)
     set(_suite_source "tests/${_suite}_tests.cpp")
     if(_suite STREQUAL "science_evidence")
       # Qt's generated VS import-scanner paths must fit Windows MAX_PATH.
@@ -76,7 +79,7 @@ if(BUILD_TESTING)
   find_package(Python3 3.12 QUIET COMPONENTS Interpreter)
   if(Python3_Interpreter_FOUND)
     file(TO_CMAKE_PATH "${Python3_EXECUTABLE}" _breakwater_test_python)
-    foreach(_worker_suite python_worker storage_worker storage_science science_evidence)
+    foreach(_worker_suite python_worker storage_worker storage_science science_evidence agent_science agent_orchestrator)
       target_compile_definitions(breakwater_${_worker_suite}_tests PRIVATE BREAKWATER_TEST_PYTHON="${_breakwater_test_python}")
     endforeach()
     execute_process(COMMAND "${Python3_EXECUTABLE}" -c "import importlib.util,sys; sys.exit(0 if importlib.util.find_spec('torch') else 1)"
@@ -98,11 +101,14 @@ if(BUILD_TESTING)
       endforeach()
     endif()
   else()
-    foreach(_worker_suite python_worker storage_worker storage_science science_evidence)
+    foreach(_worker_suite python_worker storage_worker storage_science science_evidence agent_science agent_orchestrator)
       target_compile_definitions(breakwater_${_worker_suite}_tests PRIVATE BREAKWATER_TEST_PYTHON="")
     endforeach()
   endif()
-  set_tests_properties(desktop.storage_worker desktop.storage_science desktop.science_evidence PROPERTIES TIMEOUT 180)
+  set_tests_properties(desktop.storage_worker desktop.storage_science desktop.science_evidence desktop.agent_science desktop.agent_orchestrator PROPERTIES TIMEOUT 180)
+  # These functional suites launch many real CPU interpreters; storage_worker
+  # measured 170.71 s for 121 cases on the development host.
+  set_tests_properties(desktop.storage_worker desktop.storage_science PROPERTIES TIMEOUT 360)
   add_test(NAME desktop.qml_smoke COMMAND breakwater --smoke)
   set_tests_properties(desktop.qml_smoke PROPERTIES TIMEOUT 30)
   # Reopen an actual native export produced by the controller suite, rather than

@@ -12,6 +12,12 @@ deployed storage comparison, selected-control sensitivities, immutable scientifi
 history, A10b and existing native transport/Nemotron/simulated review. Historical
 counts and archived proof/training results do not establish fresh combined acceptance.
 
+Current integration: PR #26 is already merged on main at `de06aa1`; this workstream
+incorporated it at `3b3127f` after feature source `ca84c0c`. Stored-run agent
+sensitivities and the four actual live review/export rehearsals are recorded in
+[STATUS.md](STATUS.md) and [DEMO_REHEARSAL.md](DEMO_REHEARSAL.md). Broader G4 release
+acceptance and manual candidate-forward Science remain separate; sensors are planned.
+
 You write desktop/, contracts/, root CMake/config/scripts/solution, README and shared
 docs/. A owns engine/, science/, proofs/, scenarios/ and their tests/build/locks.
 Review any source, but request A-owned changes with a minimal reproduction.
@@ -39,9 +45,10 @@ PR #26 now reconciles main `e057fa4` through `f504310` and preserves sensitiviti
 scientific history and the additional exact-grid/lifecycle regressions. See
 [PR26_RECONCILIATION.md](PR26_RECONCILIATION.md) for fresh 28/28 normal and ASan
 CTests, 127 Python tests without skips and installed sensitivity/history checks.
-Review and merge the existing PR after inspecting current remote status; do not
-restart its reconciliation, change its branch or overwrite that worktree. Manual
-workflow, clean-machine and release-rehearsal gaps remain explicit.
+That PR is now merged at `de06aa1` and incorporated here at `3b3127f`. Inspect later
+remote updates without restarting its reconciliation, changing its branch or
+overwriting that worktree. Validate the current resulting revision; broader manual
+workflow, clean-machine and release acceptance gaps remain explicit.
 
 Main already has the core rounded-multiple/exact-endpoint policy independently.
 Retain useful additional regressions/evidence while preserving current sensitivities,
@@ -129,7 +136,8 @@ synthetic publisher/replay and unavailable worker/model paths.
 Then deliver separately:
 
 - E1: Science for a selected immutable investigation candidate without applying
-  controls; reuse the deployed forward/selected-derivative worker and exact capture.
+  controls; extend the delivered agent stored-run sensitivities with the separately
+  scoped manual selection/general forward workflow, reusing the deployed worker.
 - E2: automatic native pipe-result History, bounded evidence and detached reopening;
   preserve existing JSON import/export and visible storage errors.
 - D1 support: A compares RBM/statistical/physical baselines. Publish a distinct
@@ -158,8 +166,9 @@ and solutions when appropriate; preserve credentials, pins and original handoff.
 
 ~~~text
 Continue BREAKWATER as Person B using docs/KICKOFF_PERSON_B.md.
-Inspect status, current remote/main and the active integration worktree before G0;
-review and merge the verified PR #26 without overwriting its worktree/evidence.
+Inspect status, current remote/main and the active integration worktree before G0.
+PR #26 is already merged at de06aa1 and incorporated at 3b3127f; preserve its
+worktree/evidence and validate the actual current revision and any later updates.
 Read the active continuation and hypothetical-telemetry plans. B5 comparison,
 selected sensitivities and scientific history are delivered; do not repeat them.
 After the integrated gate, publish G1 sensor/reading/snapshot/event contracts with A's

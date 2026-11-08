@@ -1,6 +1,7 @@
 #pragma once
 
 #include "breakwater/engine.hpp"
+#include "ProjectController.hpp"
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QString>
@@ -10,6 +11,14 @@
 #include <optional>
 
 namespace breakwater::desktop::agent {
+
+struct PreparedSensitivity {
+    std::shared_ptr<const CapturedForecast> capture;
+    QJsonArray controls;
+    QJsonObject origin;
+    // A complete bounded tool failure ({ok:false,error:{code,message}}).
+    QJsonObject error;
+};
 
 // A session owns one immutable physical snapshot. Invalidation is safe while a
 // numerical job is running; completed work remains available as evidence only.
@@ -28,6 +37,10 @@ public:
     QJsonArray runs() const;
     QJsonObject runDetails(const QString& runId) const;
     QJsonObject snapshot() const;
+    // Copies one immutable effective run away from the UI thread. The derived
+    // science capture uses its run ID as snapshot ID and revision zero; the
+    // original incident identities are retained separately in origin.
+    PreparedSensitivity prepareSensitivity(const QJsonObject& arguments) const;
     static QJsonArray toolDefinitions();
 
 private:

@@ -6,8 +6,41 @@ native indices, reports differences and preserves finite negative/over-capacity 
 Native C++ remains the feasibility/approval authority. B5c adds explicitly selected
 continuous-control derivatives at unchanged captured values. Completed forward and
 sensitivity results are now retained automatically in local History, including results
-that disagree with native. Agent-candidate science remains separate. The native pipe
+that disagree with native. Agent-candidate science uses a separate capture and worker
+lane with the same comparison and retention checks. The native pipe
 viewer is independent of Python.
+
+## Nemotron-selected scientific analysis
+
+The production investigator exposes `get_sensitivity_catalog(snapshot_id, run_id)`
+and `analyze_sensitivities(snapshot_id, run_id, control_ids)`. Nemotron can inspect a
+stored native baseline/candidate, select 1–8 eligible interior controls in native
+catalog order, execute actual CPU PyTorch derivatives at unchanged captured values,
+and use their directions when choosing later numerical experiments. Tool order and
+the final selected run remain model choices. Native simulation, independent validation,
+staging and explicit operator review retain their existing authority.
+
+Each analysis freezes the stored run's effective network including its overrides.
+Its capture uses that run ID as snapshot ID and revision zero; it never reads a
+later mutable editor state. The returned model summary (at most 256 KiB) contains
+native/worker sampled comparison, selected-control values and units, derivatives,
+provenance and limitations, with `advisory: true` and
+`validation_status: "not_performed"`. It contains no full rollout or credentials.
+The complete scientific DTO and original native trajectory are saved as a separate
+scientific History session. Matching `origin`/`agent_origin` fields bind the original
+incident snapshot/hash, effective network hash, native run, agent session and tool-call
+ID. Opening that evidence cannot stage or authorize the candidate.
+
+This increment adds stored-run agent sensitivities. Manual Science still uses the
+current `ProjectController` capture; a general investigation-candidate picker and
+candidate forward-comparison workflow remain separately scoped E1 work.
+
+The dedicated scientific worker keeps model requests and UI updates nonblocking;
+missing methods/runtime and rejected or timed-out responses become matched tool
+errors. Cancelling an investigation retires its scientific work and stops model
+continuation. Completed native runs remain available as evidence. Manual Science-tab
+selection and captures are independent. [DEMO_REHEARSAL.md](DEMO_REHEARSAL.md) describes
+operator-reviewed live runs and a read-only audit of their retained cross-references.
 
 ## Automatic scientific history
 

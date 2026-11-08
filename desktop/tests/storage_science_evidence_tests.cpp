@@ -94,6 +94,21 @@ bool rejects(const QJsonObject& result, const QJsonObject& archive) {
 class StorageScienceEvidenceTests final : public QObject {
     Q_OBJECT
 private slots:
+    void agentOriginIsBoundedAndBindsDerivedCapture() {
+        const auto native = capture(); const auto result = evidence(native, true);
+        auto archive = storage_science_archive(native, result);
+        const QJsonObject origin{{"incident_snapshot_id", QUuid::createUuid().toString(QUuid::WithoutBraces)},
+            {"incident_physical_hash", QString(64, 'b')}, {"run_id", native.id}, {"effective_physical_hash", native.physical_hash},
+            {"agent_session_id", QUuid::createUuid().toString(QUuid::WithoutBraces)}, {"tool_call_id", "provider-call-1"}};
+        archive["agent_origin"] = origin; QVERIFY(SessionRepository::validateArchive(archive));
+        for (const auto field : {"incident_snapshot_id", "incident_physical_hash", "run_id", "effective_physical_hash", "agent_session_id", "tool_call_id"}) {
+            auto malformed = archive; auto changed = origin; changed[field] = ""; malformed["agent_origin"] = changed;
+            QVERIFY(!SessionRepository::validateArchive(malformed));
+        }
+        auto malformed = archive; auto changed = origin; changed["unrecognized"] = "value"; malformed["agent_origin"] = changed;
+        QVERIFY(!SessionRepository::validateArchive(malformed));
+        malformed = archive; malformed["agent_origin"] = true; QVERIFY(!SessionRepository::validateArchive(malformed));
+    }
     void standaloneArchiveRoundTripsForwardAndSensitivities() {
         const auto native = capture();
         for (const bool derivatives : {false, true}) {

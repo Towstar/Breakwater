@@ -1,0 +1,161 @@
+{
+  "version": 1,
+  "network": {
+    "assets": [
+      {
+        "capacity_m3": 120,
+        "id": "north_plant_tank_a",
+        "initial_m3": 75,
+        "kind": "tank",
+        "label": "North plant Tank A"
+      },
+      {
+        "capacity_m3": 130,
+        "id": "north_plant_tank_b",
+        "initial_m3": 114,
+        "kind": "tank",
+        "label": "North plant Tank B"
+      },
+      {
+        "cost_per_m3": 250,
+        "curtailment_m3h": 0,
+        "curtailment_max_m3h": 15,
+        "id": "north_plant_source_a",
+        "inflow_m3h": 52,
+        "kind": "source",
+        "label": "North plant Production A"
+      },
+      {
+        "cost_per_m3": 250,
+        "curtailment_m3h": 0,
+        "curtailment_max_m3h": 0,
+        "id": "north_plant_source_b",
+        "inflow_m3h": 16,
+        "kind": "source",
+        "label": "North plant Production B"
+      },
+      {
+        "capacity_m3h": 60,
+        "cost_per_m3": 0,
+        "id": "north_plant_treatment",
+        "kind": "treatment",
+        "label": "North plant Treatment"
+      },
+      {
+        "capacity_m3h": 22,
+        "cost_per_m3": 80,
+        "id": "north_plant_trucking",
+        "kind": "trucking",
+        "label": "North plant Emergency trucking"
+      },
+      {
+        "capacity_m3": 180,
+        "id": "north_plant_buffer",
+        "initial_m3": 20,
+        "kind": "tank",
+        "label": "North buffer"
+      }
+    ],
+    "routes": [
+      {
+        "available": true,
+        "capacity_m3h": 52,
+        "cost_per_m3": 0,
+        "has_pump": false,
+        "id": "north_line_feed_a",
+        "setpoint_m3h": 52,
+        "source_id": "north_plant_source_a",
+        "target_id": "north_plant_tank_a"
+      },
+      {
+        "available": true,
+        "capacity_m3h": 16,
+        "cost_per_m3": 0,
+        "has_pump": false,
+        "id": "north_line_feed_b",
+        "setpoint_m3h": 16,
+        "source_id": "north_plant_source_b",
+        "target_id": "north_plant_tank_b"
+      },
+      {
+        "available": false,
+        "capacity_m3h": 55,
+        "cost_per_m3": 0,
+        "has_pump": true,
+        "id": "north_line_main_pump",
+        "setpoint_m3h": 0,
+        "source_id": "north_plant_tank_a",
+        "target_id": "north_plant_treatment"
+      },
+      {
+        "available": true,
+        "capacity_m3h": 35,
+        "cost_per_m3": 0,
+        "has_pump": true,
+        "id": "north_line_backup_pump",
+        "setpoint_m3h": 16,
+        "source_id": "north_plant_tank_b",
+        "target_id": "north_plant_treatment"
+      },
+      {
+        "available": true,
+        "capacity_m3h": 25,
+        "cost_per_m3": 0,
+        "has_pump": false,
+        "id": "north_line_bypass",
+        "setpoint_m3h": 0,
+        "source_id": "north_plant_tank_a",
+        "target_id": "north_plant_buffer"
+      },
+      {
+        "available": true,
+        "capacity_m3h": 22,
+        "cost_per_m3": 0,
+        "has_pump": false,
+        "id": "north_line_truck_route",
+        "setpoint_m3h": 0,
+        "source_id": "north_plant_tank_a",
+        "target_id": "north_plant_trucking"
+      }
+    ]
+  },
+  "layout": {
+    "positions": {
+      "north_plant_tank_a": {
+        "x": -100,
+        "z": 30
+      },
+      "north_plant_tank_b": {
+        "x": 100,
+        "z": 120
+      },
+      "north_plant_source_a": {
+        "x": -260,
+        "z": 30
+      },
+      "north_plant_source_b": {
+        "x": 210,
+        "z": 220
+      },
+      "north_plant_treatment": {
+        "x": 150,
+        "z": -130
+      },
+      "north_plant_trucking": {
+        "x": -180,
+        "z": -150
+      },
+      "north_plant_buffer": {
+        "x": -20,
+        "z": -150
+      }
+    },
+    "camera": {
+      "yaw": 35,
+      "pitch": -55,
+      "distance": 840,
+      "x": 0,
+      "z": 0
+    }
+  }
+}
