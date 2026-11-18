@@ -31,7 +31,7 @@ Node {
         materials: shell
     }
     Model {
-        visible: visual.showMarker
+        visible: visual.showMarker && (visual.kind === "tank" || visual.kind === "source" || visual.kind === "well" || visual.kind === "disposal" || visual.connectionState !== 0)
         source: "#Cylinder"; y: 0.8
         scale: Qt.vector3d(visual.selected ? 0.76 : 0.66, 0.018, visual.selected ? 0.76 : 0.66)
         materials: selection

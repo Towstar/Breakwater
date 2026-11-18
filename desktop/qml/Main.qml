@@ -48,6 +48,7 @@ ApplicationWindow {
     readonly property bool navigatorVisible: workspaceSettings.values.navigatorOpen && (!compactLayout || compactPane === "navigator")
     readonly property bool inspectorVisible: workspaceSettings.values.inspectorOpen && (!compactLayout || compactPane === "inspector")
     property bool topView: false
+    property bool siteGridVisible: true
     property bool fittedView: false
     property real fittedDistance: 720
     property real fitSpan: 800
@@ -317,6 +318,7 @@ ApplicationWindow {
                     MenuItem { text: "Network navigator"; checkable: true; checked: app.navigatorVisible; onTriggered: { workspaceSettings.setValue("navigatorOpen", true); app.compactPane = "navigator"; if (!app.compactLayout) workspaceSettings.setValue("navigatorOpen", !checked ? false : true) } }
                     MenuItem { text: "Equipment inspector"; checkable: true; checked: app.inspectorVisible; onTriggered: { workspaceSettings.setValue("inspectorOpen", true); app.compactPane = "inspector"; if (!app.compactLayout) workspaceSettings.setValue("inspectorOpen", checked) } }
                     MenuItem { text: "All equipment labels"; checkable: true; checked: workspaceSettings.values.allLabels; onTriggered: workspaceSettings.setValue("allLabels", checked) }
+                    MenuItem { text: "Layout grid"; visible: app.workspace === "workbench"; checkable: true; checked: app.siteGridVisible; onTriggered: app.siteGridVisible = checked }
                     MenuSeparator {}
                     MenuItem { text: "Low rendering quality"; checkable: true; checked: workspaceSettings.values.quality === 0; onTriggered: workspaceSettings.setValue("quality", 0) }
                     MenuItem { text: "Medium rendering quality"; checkable: true; checked: workspaceSettings.values.quality === 1; onTriggered: workspaceSettings.setValue("quality", 1) }
@@ -536,7 +538,7 @@ ApplicationWindow {
                     OrthographicCamera { id: planCamera; x: cameraRig.x; y: 30000; z: cameraRig.z; eulerRotation.x: -90; clipNear: 1; clipFar: 60000; horizontalMagnification: Math.max(0.01, view.width / app.fitSpan); verticalMagnification: Math.max(0.01, view.width / app.fitSpan) }
                     camera: app.topView ? planCamera : sceneCamera
                     IndustrialLighting { quality: app.sceneQuality }
-                    SiteGround { centerX: app.siteBounds.x; centerZ: app.siteBounds.z; spanX: app.siteBounds.width; spanZ: app.siteBounds.depth }
+                    SiteGround { id: siteGround; centerX: app.siteBounds.x; centerZ: app.siteBounds.z; spanX: app.siteBounds.width; spanZ: app.siteBounds.depth; showGrid: app.siteGridVisible; quality: app.sceneQuality }
                     ConnectionPreview { visible: app.connectMode && app.connectionSource.length > 0 && app.hoveredAssetId.length > 0; start: app.assetPosition(app.connectionSource); end: app.assetPosition(app.hoveredAssetId); allowed: app.hoveredConnection.allowed === true }
                     Repeater3D {
                         model: controller.routes
@@ -677,6 +679,7 @@ ApplicationWindow {
                     ActionButton { objectName: "sceneFit"; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network"; onClicked: app.frameScene(false) }
                     ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; tooltip: "Focus · Frame selected equipment"; onClicked: app.frameScene(true) }
                     ActionButton { objectName: "sceneTop"; iconName: "layers"; display: AbstractButton.IconOnly; text: app.topView ? "Isometric" : "Top"; tooltip: app.topView ? "Isometric · Return to perspective" : "Top · View the site from above"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
+                    ActionButton { objectName: "sceneGrid"; iconName: "grid-3x3"; display: AbstractButton.IconOnly; text: "Layout grid"; checked: app.siteGridVisible; tooltip: "Layout grid · " + siteGround.gridStep + " layout units; editor snaps to 20"; onClicked: app.siteGridVisible = !app.siteGridVisible }
                     ActionButton {
                         id: editMenuButton; objectName: "sceneEdit"; iconName: "pencil"; display: AbstractButton.IconOnly
                         text: controller.selectedIds.length > 1 ? "Edit " + controller.selectedIds.length + " assets" : "Edit"; tooltip: text + " · Selection and layout tools"; onClicked: editMenu.open()
@@ -723,6 +726,14 @@ ApplicationWindow {
                     anchors.left: parent.left; anchors.bottom: parent.bottom; anchors.leftMargin: 14; anchors.bottomMargin: 38
                     width: Math.min(360, parent.width - 28)
                     z: 20
+                }
+                SceneAxes {
+                    objectName: "workbenchOrientation"
+                    projector: view; focusPoint: Qt.vector3d(cameraRig.x, 0, cameraRig.z)
+                    viewState: [app.yaw, app.pitch, app.topView, app.distance, app.fittedDistance, app.fitSpan, cameraRig.x, cameraRig.z, view.width, view.height, app.sceneReady]
+                    gridVisible: app.siteGridVisible; gridStep: siteGround.gridStep
+                    anchors.left: parent.left; anchors.bottom: parent.bottom; anchors.margins: 14
+                    visible: !actionNotice.visible && scenePanel.width > 520 && scenePanel.height > 260
                 }
             }
 

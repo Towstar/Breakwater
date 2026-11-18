@@ -25,6 +25,11 @@ All examples are synthetic. Layout is schematic and supplies no hydraulic model.
    ranges use the visible list. The inspector shows editable simulation inputs, their units,
    displayed forecast inventory and route/pump state. Clearing selection opens
    the network overview and draft checks.
+8. Toggle **Layout grid** in the scene toolbar or View menu. It is a display
+   guide aligned with the editor's 20-unit steps, with coarser guides on large
+   sites. The orientation inset follows the camera's X/Y/Z axes. Paving, road
+   markings and equipment pads are schematic decoration; moving them does not
+   define hydraulics, physical clearances or truck travel times.
 
 ## Operations
 

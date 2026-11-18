@@ -21,7 +21,8 @@ Action icons come from Lucide, exact revision
 Source: https://github.com/lucide-icons/lucide/tree/53fab88ff9d1b48f4704b5b5b560d6b4d560bf4c/icons
 
 Scene controls additionally use `house`, `maximize`, `focus`, `layers`, `pencil`
-and `mouse` from that same pinned revision and license.
+and `mouse` from that same pinned revision and license. The layout-grid action
+uses `grid-3x3` from the same revision.
 
 For direct Qt Image use, icon strokes change only from `currentColor` to
 `#f3f3f3`. Native control icon tinting provides semantic states. Local names are
@@ -35,6 +36,11 @@ the upstream names except these documented mappings:
 
 All assets are bundled locally. No font, web runtime, remote image, or platform
 icon theme is required. Logo proportions and transparency remain unchanged.
+
+The layout guide uses Qt Quick 3D's `GridGeometry` from the existing pinned Qt
+6.12.0 SDK. The deployment scanner includes QtQuick3D.Helpers; its code remains
+under Qt's existing runtime licensing. API reference:
+https://doc.qt.io/qt-6/qml-qtquick3d-helpers-gridgeometry.html
 
 The portfolio site's gravel SVG texture, service lane, concrete pads, tank
 containment curbs, pipe supports and code-built industrial assemblies are original

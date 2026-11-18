@@ -34,6 +34,20 @@ through the existing dock action, with that size retained as a fourth native UI
 gate. All four layouts pass in both normal and ASan builds; the hosted rerun is
 reported separately from these local results.
 
+The industrial-yard pass adds neutral paving and gravel, a separate perimeter
+service lane, marked equipment foundations and grounded pump skids/supports.
+The optional world-aligned layout grid uses multiples of the existing 20-unit
+editor spacing and at most 65 lines per direction. A passive X/Y/Z orientation
+indicator and matching translucent Operations hints aid navigation. Unavailable
+routes suppress configured-direction arrows. These graphics do not supply
+physical geometry, clearance limits or travel times.
+
+Nine targeted desktop suites pass in each normal and ASan build. Local camera
+sweeps measure approximately 62.5 FPS for the default and 128-asset/256-route
+scenes; all 128 bodies remain pickable and numerical identity is unchanged.
+The first HUD prototype caused extra redraws; it is retained as an intermediate
+measurement, not a speedup claim. See [yard evidence](evidence/portfolio/yard-polish.json).
+
 Main remains `3116b3d`. PR56 ancestry and the bounded test-metadata compatibility
 patch are integrated on the isolated portfolio baseline. Draft PR58 contains the
 baseline; draft PR59 contains the desktop/offline increment. Both are conflict-free
