@@ -19,6 +19,7 @@
 #include <QElapsedTimer>
 #include <QFileInfo>
 #include <QImage>
+#include <QIcon>
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QSaveFile>
@@ -49,6 +50,7 @@ int main(int argc, char** argv) {
     QCoreApplication::setApplicationName("BREAKWATER");
     QCoreApplication::setOrganizationName("Breakwater");
     QCoreApplication::setApplicationVersion(BREAKWATER_APP_VERSION);
+    QGuiApplication::setWindowIcon(QIcon(":/breakwater/assets/breakwater.ico"));
     breakwater::desktop::runtime::configureBundledPython();
     const auto arguments = app.arguments();
     const bool uiOverhaulCheck = arguments.contains("--ui-overhaul-check");

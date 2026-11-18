@@ -5,6 +5,16 @@ without changes. SHA-256:
 `db1284fe6f6e3bb4845f16d99554722ae2a7e8ce47be85ef8354e430dcc21840`.
 The supplied PNG is reference artwork; it is not used as a background or redrawn.
 
+`breakwater.ico` exports only the supplied SVG's `icon` group, without its
+wordmark, on a graphite rounded tile for contrast in Windows light/dark surfaces.
+It contains 16, 20, 24, 32, 40, 48, 64, 128 and 256 pixel PNG frames. Regenerate
+it with `scripts/Generate-WindowsIcon.cpp`, linked against the pinned Qt
+Core/Gui/Svg libraries, using `desktop/assets/breakwater-logo.svg` as input.
+For MSVC use `/std:c++20 /MD /Zc:__cplusplus`; pass the logo path, ICO output
+path and an optional PNG preview path to the resulting generator executable.
+The original supplied SVG remains unchanged. The ICO is embedded both as a
+native Windows executable resource and as the running application's window icon.
+
 Action icons come from Lucide, exact revision
 `53fab88ff9d1b48f4704b5b5b560d6b4d560bf4c`, under the included
 `LUCIDE-LICENSE.txt` (ISC and the retained Feather/MIT notices).
