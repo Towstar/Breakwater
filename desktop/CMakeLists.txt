@@ -65,6 +65,11 @@ set_target_properties(breakwater_export_examples PROPERTIES WIN32_EXECUTABLE FAL
 
 qt_add_executable(breakwater WIN32 main.cpp verification/WorkbenchUiCheck.hpp verification/WorkbenchUiCheck.cpp
   verification/SceneBenchmark.hpp verification/SceneBenchmark.cpp)
+if(WIN32)
+  enable_language(RC)
+  target_sources(breakwater PRIVATE breakwater.rc)
+  set_property(SOURCE breakwater.rc PROPERTY OBJECT_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/breakwater.ico")
+endif()
 execute_process(COMMAND git describe --always --dirty WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
   OUTPUT_VARIABLE _breakwater_revision OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
 if(NOT _breakwater_revision)
@@ -93,6 +98,7 @@ file(GLOB _breakwater_action_icons CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR
 qt_add_resources(breakwater breakwater_visual_assets PREFIX /breakwater/assets
   BASE "${CMAKE_CURRENT_SOURCE_DIR}/assets"
   FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/breakwater-logo.svg"
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets/breakwater.ico"
     "${CMAKE_CURRENT_SOURCE_DIR}/assets/site-gravel.svg" ${_breakwater_action_icons})
 install(FILES assets/LUCIDE-LICENSE.txt assets/ASSET_SOURCES.md DESTINATION share/breakwater/licenses)
 

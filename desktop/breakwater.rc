@@ -1,0 +1,2 @@
+// Native executable/Explorer icon. Keep the first group as the application icon.
+101 ICON "assets/breakwater.ico"

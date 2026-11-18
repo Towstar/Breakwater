@@ -9,6 +9,10 @@ capture-bound analysis. See [PORTFOLIO_RELEASE](PORTFOLIO_RELEASE.md),
 [the walkthrough](PORTFOLIO_WALKTHROUGH.md) and
 [qualification evidence](evidence/portfolio/qualification.json).
 
+The Windows branding increment uses the supplied logo's symbol without its
+wordmark for the executable, title bar and taskbar icon. Nine native icon sizes
+cover 16–256 pixels; the full wordmark inside the application is unchanged.
+
 Main remains `3116b3d`. PR56 ancestry and the bounded test-metadata compatibility
 patch are integrated on the isolated portfolio baseline. Draft PR58 contains the
 baseline; draft PR59 contains the desktop/offline increment. Both are conflict-free
