@@ -10,6 +10,12 @@ The v0.2.0 portfolio candidate leads with **Sandbox**, the editable network
 workbench. **Operations** presents recorded observations and advisory analysis;
 EOG remains a supported dataset adapter. Neither workspace controls a plant.
 
+![Sandbox with a real baseline/candidate comparison](docs/images/portfolio/sandbox-comparison.jpg)
+
+![Operations displaying the self-authored recorded dataset](docs/images/portfolio/operations-overview.jpg)
+
+These are actual candidate screenshots. See the [capture notes and gallery](docs/images/portfolio/README.md).
+
 | Area | Available behavior | Boundary |
 |---|---|---|
 | Sandbox | Equipment/pipe editing, group transforms, undo/redo, native trajectories | Fixed flow/volume model; layout is schematic |
@@ -90,7 +96,8 @@ out/portfolio-desktop/desktop/breakwater_offline_check.exe "C:/ABSOLUTE/Breakwat
 - Home, Fit, Focus and Top change the view. Right-drag orbits, middle-drag pans,
   and the wheel zooms. Camera/pad/marker placement supplies no hydraulic geometry.
 - Forecast, Compare, Investigate, History and Science share a resizable results
-  dock. Repeated utility-button clicks close the corresponding tool.
+  dock. Drag its top edge upward to give charts and evidence more room. Repeated
+  utility-button clicks close the corresponding tool.
 - View contains panel visibility, low/medium/high quality, label and density
   preferences. These are local/versioned and separate from project files.
 

@@ -13,6 +13,7 @@ All examples are synthetic. Layout is schematic and supplies no hydraulic model.
    candidate. It makes zero hosted model requests and applies no controls.
 4. Use Compare to inspect compatible baseline/candidate costs, controls, margins
    and trajectories. This is best found within the displayed bounded grid.
+   Drag the top of the results dock upward for a larger chart and evidence view.
 5. Open **Review staged plan**. Inspect current/proposed controls, units, run ID,
    validation reference and margins. Only the explicit apply action changes
    simulated controls. Numerical/topology changes retire eligibility.

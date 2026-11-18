@@ -13,6 +13,8 @@ Main remains `3116b3d`. PR56 ancestry and the bounded test-metadata compatibilit
 patch are integrated on the isolated portfolio baseline. Draft PR58 contains the
 baseline; draft PR59 contains the desktop/offline increment. Both are conflict-free
 at the last GitHub check. Numerical/shared review is still required before main.
+Draft PR60 contains the large-scene performance increment. The delivery branch
+adds packaging, optional setup, media and the final recording/CI fixes.
 The unpublished observed-capture work and frozen hackathon application are preserved.
 Devpost is unchanged.
 
@@ -35,6 +37,16 @@ Executed locally:
 - Unicode-path relocation, isolated minimal Python, rendering, real local search,
   independent validation, archive export and nonactionable reopening pass without
   development PATH/worker variables or a supplied API key.
+- The clean `97be3c1` portable candidate passes all six isolated-process checks.
+  A manual desktop search, comparison and review also pass with no application
+  of controls. Actual screenshots are linked from the README.
+- The recorded-example menu's capture-retirement race was reproduced and fixed.
+  The complete bundled hosted archive reopens as historical evidence in all three
+  native UI layouts, in both normal and ASan builds, with current review disabled.
+- CI reporting retains the exact optional calibration skip while rejecting other
+  skipped dependencies and missing/failed/blacklisted cases. All 21 local helper
+  checks pass. The earlier reporting failures remain separate from the CTest
+  results; fresh GitHub runs are not assumed to have passed.
 - Controlled 100/125/150/200 percent Qt scaling captures and ten consecutive
   startup/render/shutdown checks pass. This is not an actual Windows display-
   settings or clean-machine result.

@@ -55,6 +55,7 @@ def verify(bundle, evidence):
             'import importlib.util,json,jsonschema,sys; assert sys.version_info[:3]==(3,12,13); assert importlib.util.find_spec("torch") is None; print(json.dumps({"python":"3.12.13","operations_ready":True,"torch_bundled":False}))'])
         app = bundle / "bin/breakwater.exe"
         run("sandbox-render", app, ["--smoke", "--screenshot", evidence / "sandbox.png", "--history-db", evidence / "sandbox.sqlite"])
+        run("recorded-ui", app, ["--workspace", "workbench", "--ui-overhaul-check"])
         for demo in ("operations", "renamed-topology"):
             dataset = bundle / "share/breakwater/examples" / demo
             run(demo + "-render", app, ["--workspace", "eog", "--eog-dataset", dataset, "--smoke",

@@ -175,13 +175,17 @@ ApplicationWindow {
     }
     Connections {
         target: app.eog
-        function onChanged() {
+        function onCompleted() {
             if (!String(app.pendingRecordedArchive).length || app.eog.busy) return
-            const archive = app.pendingRecordedArchive; app.pendingRecordedArchive = ""
+            // Loading must finish retiring the previous capture before import
+            // records its generation. Copy the URL before clearing the intent.
+            const archive = String(app.pendingRecordedArchive); app.pendingRecordedArchive = ""
             if (app.eog.loaded && app.eog.sourceFolder.toLowerCase() === String(app.portfolioExamples.operationsPath || "").toLowerCase()) {
                 app.eogAnalysis.importHistory(archive); app.openEogAnalysis(); app.operationsTab = 3; operationsAnalysis.showTab(2)
             }
         }
+        function onFailed() { app.pendingRecordedArchive = "" }
+        function onCancelled() { app.pendingRecordedArchive = "" }
     }
     function commitNumericField(field, value) {
         const assetId = controller.selectedId

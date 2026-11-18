@@ -1,0 +1,10 @@
+Internal ctest changing into directory: <workspace>/out/portfolio-desktop
+Test project <workspace>/out/portfolio-desktop
+    Start 15: desktop.workspace_settings
+1/2 Test #15: desktop.workspace_settings .......   Passed    0.20 sec
+    Start 16: desktop.editor_tools
+2/2 Test #16: desktop.editor_tools .............   Passed    0.40 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   0.62 sec

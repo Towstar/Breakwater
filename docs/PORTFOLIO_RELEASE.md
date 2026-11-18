@@ -47,6 +47,14 @@ Every UI increment is built and the exact executable is shown locally. Retain
 test counts, skips, source revision, machine/toolchain metadata and failed attempts.
 No previous component report becomes a rerun on the new combined source.
 
+Review is split into draft PR58 (baseline), PR59 (workspace), PR60 (large-scene
+performance), and the stacked delivery branch (portable runtime, optional setup,
+documentation and final integration fixes). Main is unchanged. The first desktop
+CI attempts completed their CTests but failed the final reporter on the explicitly
+optional tracer-fit skip. The corrected reporter retains that exact case/reason
+and still rejects unexpected skips, missing totals, failed and blacklisted cases.
+Its 21 local regression checks pass; fresh hosted CI outcomes remain separate.
+
 Executed counts, failures and source/runtime scope are in
 [`docs/evidence/portfolio/qualification.json`](evidence/portfolio/qualification.json).
 The initial normal suite's stale assertion and the minimum-window ASan failure
@@ -61,6 +69,19 @@ from 13.9 to 62.5 FPS after stopping hidden-label projection/repeated asset-list
 materialization and bounding overview detail. All 128 actual bodies remained
 pickable. Large overviews use the low rendering profile; close/default views
 retain industrial detail. These are local measurements, not hardware guarantees.
+
+The clean-source `97be3c1` portable candidate is 104,109,086 bytes compressed and
+passes six sanitized local checks with its isolated Python and no supplied key.
+Its source and bundle hashes are retained with the package metadata. Manual
+review then found the recorded-example menu could lose import intent during
+dataset retirement. Import now follows the explicit load-completed signal;
+normal/compact/minimum regression checks pass in normal and ASan builds. Final
+bundle verification also exercises this real historical recording path.
+
+The [actual application gallery](images/portfolio/README.md) shows the expanded
+evidence dock, native comparison, explicit review and self-authored Operations
+dataset. A fresh local Operations search and separate exact-plan validation ran
+through the packaged desktop; controls were left unapplied.
 
 ## UI and editor acceptance
 
