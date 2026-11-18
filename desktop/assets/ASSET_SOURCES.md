@@ -20,6 +20,9 @@ Action icons come from Lucide, exact revision
 `LUCIDE-LICENSE.txt` (ISC and the retained Feather/MIT notices).
 Source: https://github.com/lucide-icons/lucide/tree/53fab88ff9d1b48f4704b5b5b560d6b4d560bf4c/icons
 
+Scene controls additionally use `house`, `maximize`, `focus`, `layers`, `pencil`
+and `mouse` from that same pinned revision and license.
+
 For direct Qt Image use, icon strokes change only from `currentColor` to
 `#f3f3f3`. Native control icon tinting provides semantic states. Local names are
 the upstream names except these documented mappings:

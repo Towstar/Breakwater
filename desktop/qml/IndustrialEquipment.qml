@@ -140,7 +140,15 @@ Node {
             Part { source: "#Cylinder"; position: Qt.vector3d(-12, 31, 0); eulerRotation.z: 90; scale: Qt.vector3d(0.29, 0.62, 0.29); pickable: true }
             Part { source: "#Sphere"; position: Qt.vector3d(-44, 31, 0); scale: Qt.vector3d(0.09, 0.29, 0.29); materials: bright }
             Part { source: "#Cube"; position: Qt.vector3d(34, 26, 0); scale: Qt.vector3d(0.27, 0.29, 0.32); pickable: true }
-            Part { source: "#Cube"; position: Qt.vector3d(35, 31, 16.5); scale: Qt.vector3d(0.2, 0.12, 0.012); materials: window }
+            Repeater3D {
+                model: [-1, 1]
+                delegate: Part {
+                    required property var modelData
+                    source: "#Cube"; position: Qt.vector3d(35, 31, modelData * 16.6)
+                    scale: Qt.vector3d(0.2, 0.12, 0.012); materials: window
+                }
+            }
+            Part { source: "#Cube"; position: Qt.vector3d(48.2, 31, 0); scale: Qt.vector3d(0.012, 0.12, 0.25); materials: window }
             Repeater3D {
                 model: [-31, 30]
                 delegate: Node {

@@ -396,7 +396,7 @@ ApplicationWindow {
                             Keys.onReturnPressed: { if (modelData.kind === "pump") controller.attachPump(controller.selectedId); else controller.addAsset(modelData.kind, 0, 0) }
                             Image {
                                 anchors.centerIn: parent; width: 22; height: 22
-                                source: Theme.icon(({tank:"cylinder",source:"waves",treatment:"factory",trucking:"truck",pump:"gauge"})[modelData.kind])
+                                source: Theme.equipmentIcon(modelData.kind)
                                 sourceSize.width: 22; sourceSize.height: 22; fillMode: Image.PreserveAspectFit; Accessible.ignored: true
                             }
                             MouseArea {
@@ -444,12 +444,22 @@ ApplicationWindow {
                         flickableDirection: Flickable.VerticalFlick
                         model: controller.assets
                         delegate: ItemDelegate {
+                            id: networkAssetDelegate
                             required property var modelData
                             objectName: "networkAsset:" + modelData.id
                             width: ListView.view.width - networkScrollBar.width - 4
                             text: modelData.label; highlighted: modelData.selected
                             background: Rectangle { color: modelData.selected ? Theme.selected : parent.hovered ? Theme.hover : "transparent"; Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: 3; color: Theme.text; visible: modelData.selected } }
-                            contentItem: Label { text: parent.text; textFormat: Text.PlainText; elide: Text.ElideRight; verticalAlignment: Text.AlignVCenter; color: Theme.text; font.pixelSize: Theme.smallSize }
+                            contentItem: RowLayout {
+                                spacing: 10
+                                Image {
+                                    Layout.preferredWidth: 18; Layout.preferredHeight: 18
+                                    source: Theme.equipmentIcon(networkAssetDelegate.modelData.kind)
+                                    sourceSize.width: 18; sourceSize.height: 18
+                                    fillMode: Image.PreserveAspectFit; Accessible.ignored: true
+                                }
+                                Label { Layout.fillWidth: true; text: networkAssetDelegate.text; textFormat: Text.PlainText; elide: Text.ElideRight; verticalAlignment: Text.AlignVCenter; color: Theme.text; font.pixelSize: Theme.smallSize }
+                            }
                             onClicked: app.clickAsset(modelData.id, Qt.NoModifier, true)
                             MouseArea {
                                 anchors.fill: parent; cursorShape: Qt.PointingHandCursor
@@ -632,20 +642,16 @@ ApplicationWindow {
                         drop.acceptProposedAction()
                     }
                 }
-                Label {
-                    anchors.left: parent.left; anchors.top: parent.top; anchors.margins: 14; anchors.topMargin: 58; width: parent.width - 28; wrapMode: Text.WordWrap
-                    text: app.connectMode ? (app.connectionSource.length > 0 ? "Choose destination equipment" : "Choose source equipment") : "Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom"
-                    color: "#253B47"; font.pixelSize: Theme.smallSize
-                    background: Rectangle { color: "#DCE5E7"; opacity: 0.88; radius: 3 }
-                }
                 RowLayout {
+                    id: sceneToolbar
                     anchors.top: parent.top; anchors.left: parent.left; anchors.topMargin: 12; anchors.leftMargin: 12; spacing: 5
-                    ActionButton { text: "Home"; tooltip: "Restore saved perspective"; onClicked: app.restoreOrbit() }
-                    ActionButton { text: "Fit"; tooltip: "Frame the network"; onClicked: app.frameScene(false) }
-                    ActionButton { text: "Focus"; enabled: controller.selectedId.length > 0; tooltip: "Frame selected equipment"; onClicked: app.frameScene(true) }
-                    ActionButton { text: app.topView ? "Isometric" : "Top"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
+                    ActionButton { objectName: "sceneHome"; iconName: "house"; display: AbstractButton.IconOnly; text: "Home"; tooltip: "Home · Restore saved perspective"; onClicked: app.restoreOrbit() }
+                    ActionButton { objectName: "sceneFit"; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network"; onClicked: app.frameScene(false) }
+                    ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; tooltip: "Focus · Frame selected equipment"; onClicked: app.frameScene(true) }
+                    ActionButton { objectName: "sceneTop"; iconName: "layers"; display: AbstractButton.IconOnly; text: app.topView ? "Isometric" : "Top"; tooltip: app.topView ? "Isometric · Return to perspective" : "Top · View the site from above"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
                     ActionButton {
-                        id: editMenuButton; text: controller.selectedIds.length > 1 ? "Edit " + controller.selectedIds.length + " assets" : "Edit"; onClicked: editMenu.open()
+                        id: editMenuButton; objectName: "sceneEdit"; iconName: "pencil"; display: AbstractButton.IconOnly
+                        text: controller.selectedIds.length > 1 ? "Edit " + controller.selectedIds.length + " assets" : "Edit"; tooltip: text + " · Selection and layout tools"; onClicked: editMenu.open()
                         Menu {
                             id: editMenu; y: editMenuButton.height + 6
                             MenuItem { text: "Duplicate selection (Ctrl+D)"; enabled: controller.selectedIds.length > 0; onTriggered: controller.duplicateSelection() }
@@ -657,11 +663,31 @@ ApplicationWindow {
                             MenuItem { text: "Distribute along Z"; enabled: controller.selectedIds.length > 2; onTriggered: controller.alignSelection("z", true) }
                         }
                     }
-                    ActionButton { text: "Navigator"; visible: app.compactLayout; checked: app.navigatorVisible; onClicked: { workspaceSettings.setValue("navigatorOpen", true); app.compactPane = app.compactPane === "navigator" ? "" : "navigator" } }
-                    ActionButton { text: "Inspector"; visible: app.compactLayout; checked: app.inspectorVisible; onClicked: { workspaceSettings.setValue("inspectorOpen", true); app.compactPane = app.compactPane === "inspector" ? "" : "inspector" } }
+                    ActionButton { iconName: "panel-left"; display: AbstractButton.IconOnly; text: "Navigator"; visible: app.compactLayout; checked: app.navigatorVisible; onClicked: { workspaceSettings.setValue("navigatorOpen", true); app.compactPane = app.compactPane === "navigator" ? "" : "navigator" } }
+                    ActionButton { iconName: "settings-2"; display: AbstractButton.IconOnly; text: "Inspector"; visible: app.compactLayout; checked: app.inspectorVisible; onClicked: { workspaceSettings.setValue("inspectorOpen", true); app.compactPane = app.compactPane === "inspector" ? "" : "inspector" } }
+                    Pane {
+                        objectName: "mouseRecommendation"; Layout.leftMargin: 7; padding: 9
+                        background: Rectangle { color: "#B315191B"; radius: 6; border.color: "#26FFFFFF" }
+                        contentItem: RowLayout {
+                            spacing: 7
+                            Image { Layout.preferredWidth: 16; Layout.preferredHeight: 16; source: Theme.icon("mouse"); sourceSize.width: 16; sourceSize.height: 16; Accessible.ignored: true }
+                            Label { text: "Mouse recommended"; color: Theme.text; font.pixelSize: Theme.smallSize }
+                        }
+                    }
                 }
-                Label { anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 14; text: app.hoveredConnection.message || "SCHEMATIC SITE · Layout does not determine hydraulic flow"; color: "#253B47"; font.pixelSize: Theme.captionSize
-                    background: Rectangle { color: "#DCE5E7"; opacity: 0.9; radius: 3 }
+                Label {
+                    id: navigationHint
+                    objectName: "sceneNavigationHints"
+                    anchors.left: parent.left; anchors.top: sceneToolbar.bottom; anchors.leftMargin: 12; anchors.topMargin: 8
+                    width: Math.min(parent.width - 24, implicitWidth)
+                    padding: 8; wrapMode: Text.WordWrap
+                    text: app.connectMode ? (app.connectionSource.length > 0 ? "Choose destination equipment" : "Choose source equipment") : "Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom"
+                    color: Theme.text; font.pixelSize: Theme.smallSize
+                    background: Rectangle { color: "#B315191B"; radius: 6; border.color: "#26FFFFFF" }
+                }
+                Label { anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 14; width: Math.min(parent.width - 28, implicitWidth); padding: 7; elide: Text.ElideRight
+                    text: app.hoveredConnection.message || "SCHEMATIC SITE · Layout does not determine hydraulic flow"; textFormat: Text.PlainText; color: Theme.text; font.pixelSize: Theme.captionSize
+                    background: Rectangle { color: "#B315191B"; radius: 6; border.color: "#26FFFFFF" }
                 }
                 ActionFeedbackCard {
                     id: actionNotice
