@@ -6,6 +6,9 @@
 #include <QFile>
 #include <QJsonArray>
 #include <QJsonDocument>
+#include <QQmlExpression>
+#include <QQmlEngine>
+#include <QImage>
 #include <QQuickWindow>
 #include <QSGRendererInterface>
 #include <QTimer>
@@ -36,18 +39,31 @@ void startSceneBenchmark(QQuickWindow* window, ProjectController* project, QCore
         const auto percentile = [&](double fraction) { return sorted.empty() ? 0.0 : sorted[std::min(sorted.size() - 1, static_cast<std::size_t>(fraction * double(sorted.size() - 1)))]; };
         const auto fps = elapsed > 0 ? 1000.0 * double(samples->intervals.size()) / elapsed : 0;
         const int target = project->assets().size() > 48 ? 30 : 60;
-        const QJsonObject report{{"status", "measured"}, {"recorded_utc", QDateTime::currentDateTimeUtc().toString(Qt::ISODate)},
+        QQmlExpression picks(QQmlEngine::contextForObject(window), window, QStringLiteral(
+            "JSON.stringify((function(){let projected=0,pickable=0;for(const row of app.controller.assets){"
+            "const p=view.mapFrom3DScene(Qt.vector3d(row.x,28,row.z));"
+            "if(p.z>0&&p.x>=0&&p.y>=0&&p.x<view.width&&p.y<view.height){++projected;const hit=view.pick(p.x,p.y);"
+            "if(hit.objectHit&&hit.objectHit.objectName==='asset:'+row.id)++pickable}}"
+            "return {projected:projected,pickable:pickable}})())"));
+        const auto picked = QJsonDocument::fromJson(picks.evaluate().toString().toUtf8()).object();
+        QFile screenshot(output + ".png"); const auto picture = window->grabWindow();
+        const bool imageSaved = !picture.isNull() && screenshot.open(QIODevice::WriteOnly | QIODevice::NewOnly)
+            && picture.save(&screenshot, "PNG") && screenshot.flush();
+        const QJsonObject report{{"status", sorted.empty() ? "not_rendered" : "measured"}, {"recorded_utc", QDateTime::currentDateTimeUtc().toString(Qt::ISODate)},
             {"measurement", "continuous view-only camera sweep, 2.5 s warmup and 10 s sample"},
             {"frames", static_cast<int>(samples->intervals.size())}, {"elapsed_ms", elapsed}, {"fps", fps},
             {"frame_interval_p50_ms", percentile(0.5)}, {"frame_interval_p95_ms", percentile(0.95)},
             {"target_fps", target}, {"target_met", fps >= target}, {"assets", project->assets().size()}, {"routes", project->routes().size()},
+            {"effective_scene_quality", window->property("sceneQuality").toInt()}, {"detail_visible", window->property("detailedScene").toBool()},
+            {"actual_body_picks", picked}, {"screenshot_written", imageSaved},
             {"graphics_api", static_cast<int>(window->rendererInterface()->graphicsApi())},
             {"software_renderer_requested", qEnvironmentVariable("QSG_RHI_PREFER_SOFTWARE_RENDERER") == "1"},
             {"client_width", window->width()}, {"client_height", window->height()}, {"device_pixel_ratio", window->devicePixelRatio()},
             {"numerical_identity_unchanged", project->networkHash() == hash}};
         QFile file(output); const auto bytes = QJsonDocument(report).toJson(QJsonDocument::Indented);
         const bool saved = file.open(QIODevice::WriteOnly | QIODevice::NewOnly) && file.write(bytes) == bytes.size() && file.flush();
-        app->exit(saved && !sorted.empty() && project->networkHash() == hash ? 0 : 9);
+        app->exit(saved && imageSaved && !sorted.empty() && !picks.hasError() && picked.value("pickable").toInt() > 0
+            && project->networkHash() == hash ? 0 : 9);
     });
     animation->start();
 }

@@ -48,7 +48,6 @@ Node {
         id: simpleAssembly
         Node {
             Part { source: visual.kind === "tank" ? "#Cylinder" : "#Cube"; y: 28; scale: Qt.vector3d(0.46, 0.56, 0.46); pickable: true }
-            Part { source: "#Cube"; y: 3; scale: Qt.vector3d(0.62, 0.06, 0.62); materials: foundation }
         }
     }
 
