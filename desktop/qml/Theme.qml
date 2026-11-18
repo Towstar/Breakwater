@@ -28,4 +28,7 @@ QtObject {
     readonly property int captionSize: 11
     readonly property int cornerRadius: 4
     function icon(name) { return name.length ? "qrc:/breakwater/assets/icons/" + name + ".svg" : "" }
+    function equipmentIcon(kind) {
+        return icon(({tank:"cylinder",source:"waves",treatment:"factory",trucking:"truck",pump:"gauge"})[kind] || "boxes")
+    }
 }
