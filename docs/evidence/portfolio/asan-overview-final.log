@@ -1,0 +1,16 @@
+Internal ctest changing into directory: <source>/out/portfolio-desktop-asan
+Test project <source>/out/portfolio-desktop-asan
+    Start 18: desktop.ui_overhaul_compact
+1/5 Test #18: desktop.ui_overhaul_compact ......   Passed   12.60 sec
+    Start 19: desktop.ui_overhaul_minimum
+2/5 Test #19: desktop.ui_overhaul_minimum ......   Passed   12.94 sec
+    Start 48: desktop.qml_smoke
+3/5 Test #48: desktop.qml_smoke ................   Passed    8.80 sec
+    Start 66: desktop.eog_analysis_normal
+4/5 Test #66: desktop.eog_analysis_normal ......   Passed    8.87 sec
+    Start 69: desktop.eog_analysis_compact
+5/5 Test #69: desktop.eog_analysis_compact .....   Passed    9.14 sec
+
+100% tests passed, 0 tests failed out of 5
+
+Total Test time (real) =  52.37 sec

@@ -19,7 +19,7 @@ compatible. Historical/imported/recorded evidence never restores operating appro
 ## Integration and owners
 
 The starting main is `3116b3d8349beab729f8a1413cbbd9ff160e67ac`.
-The reviewed preview candidate is PR56 at `0314abaa7dab195267887efe8e06dd6938f4e8cc`.
+The preview candidate is PR56 at `0314abaa7dab195267887efe8e06dd6938f4e8cc`.
 Integrate its ancestry on an isolated branch; do not merge already-present PRs
 again. Preserve the unpublished observed-capture work separately. The bounded
 test-dataset metadata compatibility patch is adopted without modifying its source
@@ -34,18 +34,33 @@ end-to-end dispatch UI. Detector research limitations remain explicit.
 
 | Increment | Acceptance | State |
 |---|---|---|
-| Baseline | Ancestry merge; normal/ASan native and desktop; science; Lean | In progress |
-| Shell | Sandbox/Operations; responsive docks; common controls and dialogs | Planned |
-| Scene | Industrial ground/pads/supports/materials; camera and labels | Planned |
-| Editing | Atomic group selection/move/duplicate/align/delete; previews | Planned |
-| Evidence | Native trajectories; compatible comparisons; history/review clarity | Planned |
-| Offline | Self-authored examples; local search/validation; genuine recorded AI | Planned |
-| Science | Existing optional tracer fit with real-runtime qualification | Planned |
-| Delivery | Portable Windows build; clean-machine verification; docs/media | Planned |
+| Baseline | Ancestry merge; normal/ASan native and desktop; science; Lean | Integrated on isolated branches; local results retained; owner review pending |
+| Shell | Sandbox/Operations; responsive docks; common controls and dialogs | Implemented; normal/compact/minimum native UI checks pass |
+| Scene | Industrial ground/pads/supports/materials; camera and labels | Implemented; default and 128-asset overview measured locally |
+| Editing | Atomic group selection/move/duplicate/align/delete; previews | Implemented; backend and native-event checks pass |
+| Evidence | Native trajectories; compatible comparisons; history/review clarity | Implemented; historical-only reopening and exact validation verified |
+| Offline | Self-authored examples; local search/validation; genuine recorded AI | Implemented; real no-model walkthrough and four final hosted rehearsals pass |
+| Science | Existing optional tracer fit with real-runtime qualification | Real CPU environment, 23 worker checks, 3 qualification checks and desktop explicit-apply case pass |
+| Delivery | Portable Windows build; clean-machine verification; docs/media | Packaging/relocation implemented and tested locally; final clean Windows and public release gates pending |
 
 Every UI increment is built and the exact executable is shown locally. Retain
 test counts, skips, source revision, machine/toolchain metadata and failed attempts.
 No previous component report becomes a rerun on the new combined source.
+
+Executed counts, failures and source/runtime scope are in
+[`docs/evidence/portfolio/qualification.json`](evidence/portfolio/qualification.json).
+The initial normal suite's stale assertion and the minimum-window ASan failure
+remain recorded alongside their passing fixes. The final hosted round passed
+three canonical and one renamed/topology-changed investigation; all 16 attempts,
+including the six earlier incomplete investigations, remain archived. This is
+rehearsal evidence, not an LLM reliability or comparative superiority benchmark.
+
+On one Radeon 880M laptop at 1440×900 client size and 1.75 device pixel ratio,
+the default scene measured 62.5 FPS. The 128-asset/256-route overview improved
+from 13.9 to 62.5 FPS after stopping hidden-label projection/repeated asset-list
+materialization and bounding overview detail. All 128 actual bodies remained
+pickable. Large overviews use the low rendering profile; close/default views
+retain industrial detail. These are local measurements, not hardware guarantees.
 
 ## UI and editor acceptance
 

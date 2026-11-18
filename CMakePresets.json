@@ -4,8 +4,10 @@
     {"name":"native-base","hidden":true,"generator":"Ninja","cacheVariables":{"CMAKE_BUILD_TYPE":"RelWithDebInfo","BUILD_TESTING":"ON"}},
     {"name":"headless","inherits":"native-base","binaryDir":"${sourceDir}/out/headless","cacheVariables":{"BREAKWATER_BUILD_DESKTOP":"OFF"}},
     {"name":"desktop","inherits":"native-base","binaryDir":"${sourceDir}/out/desktop"},
+    {"name":"portfolio","inherits":"desktop","binaryDir":"${sourceDir}/out/portfolio-desktop"},
+    {"name":"portfolio-asan","inherits":"portfolio","binaryDir":"${sourceDir}/out/portfolio-desktop-asan","cacheVariables":{"BREAKWATER_ENABLE_ASAN":"ON"}},
     {"name":"asan","inherits":"headless","binaryDir":"${sourceDir}/out/asan","cacheVariables":{"BREAKWATER_ENABLE_ASAN":"ON"}}
   ],
-  "buildPresets":[{"name":"headless","configurePreset":"headless"},{"name":"desktop","configurePreset":"desktop"},{"name":"asan","configurePreset":"asan"}],
-  "testPresets":[{"name":"headless","configurePreset":"headless","output":{"outputOnFailure":true}},{"name":"desktop","configurePreset":"desktop","output":{"outputOnFailure":true}},{"name":"asan","configurePreset":"asan","output":{"outputOnFailure":true}}]
+  "buildPresets":[{"name":"headless","configurePreset":"headless"},{"name":"desktop","configurePreset":"desktop"},{"name":"portfolio","configurePreset":"portfolio"},{"name":"portfolio-asan","configurePreset":"portfolio-asan"},{"name":"asan","configurePreset":"asan"}],
+  "testPresets":[{"name":"headless","configurePreset":"headless","output":{"outputOnFailure":true}},{"name":"desktop","configurePreset":"desktop","output":{"outputOnFailure":true}},{"name":"portfolio","configurePreset":"portfolio","output":{"outputOnFailure":true}},{"name":"portfolio-asan","configurePreset":"portfolio-asan","output":{"outputOnFailure":true}},{"name":"asan","configurePreset":"asan","output":{"outputOnFailure":true}}]
 }

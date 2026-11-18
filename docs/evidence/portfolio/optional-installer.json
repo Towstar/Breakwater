@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "qualification": "not_run",
+  "started_utc": "2026-11-18T05:32:39.7551187Z",
+  "device": "cpu",
+  "lock_sha256": "962f4188f1d085c48b8de2f981e5d79598b0328dbffad3b8bf11388681b2c8eb",
+  "finished_utc": "2026-11-18T05:32:59.7308733Z"
+}

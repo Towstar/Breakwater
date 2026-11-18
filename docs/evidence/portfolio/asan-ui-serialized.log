@@ -1,0 +1,12 @@
+Internal ctest changing into directory: <source>/out/portfolio-desktop-asan
+Test project <source>/out/portfolio-desktop-asan
+    Start 17: desktop.ui_overhaul_normal
+    Test #17: desktop.ui_overhaul_normal .......   Passed   12.53 sec
+    Start 17: desktop.ui_overhaul_normal
+    Test #17: desktop.ui_overhaul_normal .......   Passed   12.26 sec
+    Start 17: desktop.ui_overhaul_normal
+1/1 Test #17: desktop.ui_overhaul_normal .......   Passed   12.31 sec
+
+100% tests passed, 0 tests failed out of 1
+
+Total Test time (real) =  37.12 sec

@@ -1,0 +1,55 @@
+name: Optional CPU Science qualification
+
+'on':
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: pwsh
+
+env:
+  NVIDIA_API_KEY: ''
+  PYTHONDONTWRITEBYTECODE: '1'
+  PYTHONNOUSERSITE: '1'
+
+jobs:
+  calibration:
+    runs-on: windows-2022
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Prepare setup evidence
+        run: |
+          New-Item -ItemType Directory -Force out/optional-science | Out-Null
+          [ordered]@{status='setup_pending';source_commit=(git rev-parse HEAD);runner=$env:ImageOS;image_version=$env:ImageVersion} | ConvertTo-Json | Set-Content out/optional-science/job.json
+      - uses: actions/cache@caa296126883cff596d87d8935842f9db880ef25 # v5
+        with:
+          path: |
+            .tools/uv
+            .tools/uv-python
+            .tools/uv-python-cache
+            .tools/uv-cache
+          key: windows-2022-optional-${{ hashFiles('scripts/Setup-ScientificWorker.ps1', 'scripts/Setup-OptionalScience.ps1', 'science/requirements-physicsnemo-win-cpu-py312.txt', 'science/requirements-worker-tests-win-py312.txt') }}
+      - name: Install and qualify the pinned real CPU runtime
+        run: ./scripts/Setup-OptionalScience.ps1
+      - name: Exercise the real optional worker methods
+        run: |
+          $env:PYTHONPATH = Join-Path $PWD 'science'
+          & ./.tools/science-physicsnemo/Scripts/python.exe -B -m unittest discover -s science/tests -p test_physicsnemo.py -v *> out/optional-science/worker-tests.log
+          if ($LASTEXITCODE -ne 0) { Get-Content out/optional-science/worker-tests.log -Tail 40; exit 1 }
+      - name: Retain actual outcomes and setup failures
+        if: always()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: optional-science-cpu
+          path: |
+            out/optional-science/
+            .tools/science-setup/*.log
+            .tools/science-setup/runtime.json
+          if-no-files-found: error
+          retention-days: 14

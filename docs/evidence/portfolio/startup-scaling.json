@@ -1,0 +1,86 @@
+[
+  {
+    "name": "scale-100",
+    "scale_requested": "1",
+    "exit_code": 0,
+    "elapsed_s": 2.3484553
+  },
+  {
+    "name": "scale-125",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.18371
+  },
+  {
+    "name": "scale-150",
+    "scale_requested": "1.5",
+    "exit_code": 0,
+    "elapsed_s": 2.2038167
+  },
+  {
+    "name": "scale-200",
+    "scale_requested": "2",
+    "exit_code": 0,
+    "elapsed_s": 2.1158114
+  },
+  {
+    "name": "restart-1",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.2335771
+  },
+  {
+    "name": "restart-2",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.3081803
+  },
+  {
+    "name": "restart-3",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.1622876
+  },
+  {
+    "name": "restart-4",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.4987153
+  },
+  {
+    "name": "restart-5",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.3099917
+  },
+  {
+    "name": "restart-6",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.0533118
+  },
+  {
+    "name": "restart-7",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.3649287
+  },
+  {
+    "name": "restart-8",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.575379
+  },
+  {
+    "name": "restart-9",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.4908761
+  },
+  {
+    "name": "restart-10",
+    "scale_requested": "1.25",
+    "exit_code": 0,
+    "elapsed_s": 2.7488905
+  }
+]

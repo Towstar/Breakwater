@@ -160,6 +160,9 @@ try {
             "-DBREAKWATER_ENABLE_ASAN=$(if ($Mode -eq 'asan') { 'ON' } else { 'OFF' })",
             "-DBREAKWATER_BUILD_DESKTOP=$(if ($Suite -eq 'desktop') { 'ON' } else { 'OFF' })")
         if ($Suite -eq 'desktop') {
+            foreach ($required in @('desktop.workspace_settings', 'desktop.editor_tools', 'desktop.ui_overhaul_minimum', 'desktop.portfolio_examples')) {
+                if ($required -notin $registered.tests.name) { throw "Required portfolio check is missing: $required" }
+            }
             Set-UpCiScience
             if (-not $SkipDependencySetup) {
                 Invoke-CiStep 'qt-sdk' $script:ciBootstrapPython @('-B', (Join-Path $projectRoot 'scripts/install-qt.py'))

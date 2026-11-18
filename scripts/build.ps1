@@ -1,5 +1,5 @@
 param(
-    [ValidateSet('headless','desktop','asan')][string]$Preset = 'headless',
+    [ValidateSet('headless','desktop','portfolio','asan','portfolio-asan')][string]$Preset = 'headless',
     [string]$QtPrefix = '',
     [switch]$NoTests,
     [switch]$EmbeddedDebugInfo

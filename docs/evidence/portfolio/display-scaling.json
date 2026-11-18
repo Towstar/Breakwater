@@ -1,0 +1,41 @@
+{
+  "method": "process-local Qt scaling overrides; not persistent Windows display settings",
+  "checks": [
+    {
+      "scale_percent": "100",
+      "png": "scale-100-corrected.png",
+      "physical_width": 1100,
+      "physical_height": 700,
+      "client_width": 1100,
+      "client_height": 700,
+      "effective_ratio": 1.0
+    },
+    {
+      "scale_percent": "125",
+      "png": "scale-125.png",
+      "physical_width": 1375,
+      "physical_height": 875,
+      "client_width": 1100,
+      "client_height": 700,
+      "effective_ratio": 1.25
+    },
+    {
+      "scale_percent": "150",
+      "png": "scale-150.png",
+      "physical_width": 1650,
+      "physical_height": 1050,
+      "client_width": 1100,
+      "client_height": 700,
+      "effective_ratio": 1.5
+    },
+    {
+      "scale_percent": "200",
+      "png": "scale-200.png",
+      "physical_width": 2200,
+      "physical_height": 1400,
+      "client_width": 1100,
+      "client_height": 700,
+      "effective_ratio": 2.0
+    }
+  ]
+}

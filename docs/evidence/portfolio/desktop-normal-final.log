@@ -1,0 +1,146 @@
+Internal ctest changing into directory: <source>/out/portfolio-desktop
+Test project <source>/out/portfolio-desktop
+      Start  1: engine.eog_committed
+ 1/70 Test  #1: engine.eog_committed .....................   Passed    0.03 sec
+      Start  2: engine.eog_plant_abi
+ 2/70 Test  #2: engine.eog_plant_abi .....................   Passed    0.03 sec
+      Start  3: engine.eog_simulation
+ 3/70 Test  #3: engine.eog_simulation ....................   Passed    0.05 sec
+      Start  4: engine.eog_response
+ 4/70 Test  #4: engine.eog_response ......................   Passed    0.03 sec
+      Start  5: engine.eog_analytical
+ 5/70 Test  #5: engine.eog_analytical ....................   Passed    0.03 sec
+      Start  6: engine.eog_analytical_example
+ 6/70 Test  #6: engine.eog_analytical_example ............   Passed    0.02 sec
+      Start  7: engine.benchmark_correctness
+ 7/70 Test  #7: engine.benchmark_correctness .............   Passed    0.06 sec
+      Start  8: engine.acceptance
+ 8/70 Test  #8: engine.acceptance ........................   Passed    0.04 sec
+      Start  9: engine.search
+ 9/70 Test  #9: engine.search ............................   Passed    0.02 sec
+      Start 10: engine.control_influence
+10/70 Test #10: engine.control_influence .................   Passed    0.54 sec
+      Start 11: engine.search_example
+11/70 Test #11: engine.search_example ....................   Passed    0.02 sec
+      Start 12: engine.search_infeasible_example
+12/70 Test #12: engine.search_infeasible_example .........   Passed    0.02 sec
+      Start 13: engine.transport
+13/70 Test #13: engine.transport .........................   Passed    1.36 sec
+      Start 14: engine.transport_example
+14/70 Test #14: engine.transport_example .................   Passed    0.03 sec
+      Start 15: desktop.workspace_settings
+15/70 Test #15: desktop.workspace_settings ...............   Passed    0.09 sec
+      Start 16: desktop.editor_tools
+16/70 Test #16: desktop.editor_tools .....................   Passed    0.37 sec
+      Start 17: desktop.ui_overhaul_normal
+17/70 Test #17: desktop.ui_overhaul_normal ...............   Passed    4.80 sec
+      Start 18: desktop.ui_overhaul_compact
+18/70 Test #18: desktop.ui_overhaul_compact ..............   Passed    4.70 sec
+      Start 19: desktop.project
+19/70 Test #19: desktop.project ..........................   Passed    0.50 sec
+      Start 20: desktop.pipe_parameters
+20/70 Test #20: desktop.pipe_parameters ..................   Passed    0.05 sec
+      Start 21: desktop.nemotron_client
+21/70 Test #21: desktop.nemotron_client ..................   Passed    2.14 sec
+      Start 22: desktop.agent_gateway
+22/70 Test #22: desktop.agent_gateway ....................   Passed    0.06 sec
+      Start 23: desktop.agent_orchestrator
+23/70 Test #23: desktop.agent_orchestrator ...............   Passed    6.55 sec
+      Start 24: desktop.session_repository
+24/70 Test #24: desktop.session_repository ...............   Passed    0.41 sec
+      Start 25: desktop.history_controller
+25/70 Test #25: desktop.history_controller ...............   Passed    0.86 sec
+      Start 26: desktop.python_worker
+26/70 Test #26: desktop.python_worker ....................   Passed    3.53 sec
+      Start 27: desktop.pipe_transport
+27/70 Test #27: desktop.pipe_transport ...................   Passed    2.49 sec
+      Start 28: desktop.pipe_transport_evidence
+28/70 Test #28: desktop.pipe_transport_evidence ..........   Passed    0.07 sec
+      Start 29: desktop.storage_worker
+29/70 Test #29: desktop.storage_worker ...................   Passed   95.37 sec
+      Start 30: desktop.storage_science
+30/70 Test #30: desktop.storage_science ..................   Passed   64.92 sec
+      Start 31: desktop.science_evidence
+31/70 Test #31: desktop.science_evidence .................   Passed   11.54 sec
+      Start 32: desktop.agent_science
+32/70 Test #32: desktop.agent_science ....................   Passed    8.97 sec
+      Start 33: desktop.sensor_editor
+33/70 Test #33: desktop.sensor_editor ....................   Passed    0.48 sec
+      Start 34: desktop.telemetry_stream
+34/70 Test #34: desktop.telemetry_stream .................   Passed    3.48 sec
+      Start 35: desktop.telemetry_lifecycle
+35/70 Test #35: desktop.telemetry_lifecycle ..............   Passed   22.60 sec
+      Start 36: desktop.sensor_editor_normal_smoke
+36/70 Test #36: desktop.sensor_editor_normal_smoke .......   Passed    1.31 sec
+      Start 37: desktop.telemetry_replay_normal_smoke
+37/70 Test #37: desktop.telemetry_replay_normal_smoke ....   Passed    1.19 sec
+      Start 38: desktop.sensor_editor_compact_smoke
+38/70 Test #38: desktop.sensor_editor_compact_smoke ......   Passed    1.12 sec
+      Start 39: desktop.telemetry_replay_compact_smoke
+39/70 Test #39: desktop.telemetry_replay_compact_smoke ...   Passed    1.23 sec
+      Start 40: desktop.telemetry_contracts
+40/70 Test #40: desktop.telemetry_contracts ..............   Passed    0.43 sec
+      Start 41: contracts.telemetry
+41/70 Test #41: contracts.telemetry ......................   Passed    1.02 sec
+      Start 42: desktop.eog_contracts
+42/70 Test #42: desktop.eog_contracts ....................   Passed    0.08 sec
+      Start 43: contracts.eog
+43/70 Test #43: contracts.eog ............................   Passed    0.98 sec
+      Start 44: desktop.storage_science_normal
+44/70 Test #44: desktop.storage_science_normal ...........   Passed    4.86 sec
+      Start 45: desktop.storage_science_compact
+45/70 Test #45: desktop.storage_science_compact ..........   Passed    4.36 sec
+      Start 46: desktop.storage_science_derivatives
+46/70 Test #46: desktop.storage_science_derivatives ......   Passed    5.14 sec
+      Start 47: desktop.qml_smoke
+47/70 Test #47: desktop.qml_smoke ........................   Passed    1.25 sec
+      Start 48: desktop.scientific_history_normal
+48/70 Test #48: desktop.scientific_history_normal ........   Passed    1.40 sec
+      Start 49: desktop.scientific_history_compact
+49/70 Test #49: desktop.scientific_history_compact .......   Passed    1.16 sec
+      Start 50: desktop.pipe_evidence_smoke
+50/70 Test #50: desktop.pipe_evidence_smoke ..............   Passed    1.25 sec
+      Start 51: desktop.portfolio_examples
+51/70 Test #51: desktop.portfolio_examples ...............   Passed    3.08 sec
+      Start 52: desktop.eog_dataset
+52/70 Test #52: desktop.eog_dataset ......................   Passed    1.86 sec
+      Start 53: desktop.eog_capture
+53/70 Test #53: desktop.eog_capture ......................   Passed    0.34 sec
+      Start 54: desktop.eog_analysis_client
+54/70 Test #54: desktop.eog_analysis_client ..............   Passed   11.41 sec
+      Start 55: desktop.eog_history
+55/70 Test #55: desktop.eog_history ......................   Passed    9.55 sec
+      Start 56: desktop.eog_investigator
+56/70 Test #56: desktop.eog_investigator .................   Passed    3.90 sec
+      Start 57: desktop.eog_analysis_controller
+57/70 Test #57: desktop.eog_analysis_controller ..........   Passed   16.34 sec
+      Start 58: desktop.eog_provider
+58/70 Test #58: desktop.eog_provider .....................   Passed    8.30 sec
+      Start 59: desktop.eog_demo_input
+59/70 Test #59: desktop.eog_demo_input ...................   Passed    1.48 sec
+      Start 60: desktop.eog_live_cli
+60/70 Test #60: desktop.eog_live_cli .....................   Passed    1.36 sec
+      Start 61: desktop.eog_cli
+61/70 Test #61: desktop.eog_cli ..........................   Passed    4.75 sec
+      Start 62: desktop.eog_plan_chart
+62/70 Test #62: desktop.eog_plan_chart ...................   Passed    3.65 sec
+      Start 63: desktop.eog_plan_details
+63/70 Test #63: desktop.eog_plan_details .................   Passed    4.46 sec
+      Start 64: desktop.eog_event_details
+64/70 Test #64: desktop.eog_event_details ................   Passed    3.29 sec
+      Start 65: desktop.eog_analysis_normal
+65/70 Test #65: desktop.eog_analysis_normal ..............   Passed    1.51 sec
+      Start 66: desktop.eog_overview_normal
+66/70 Test #66: desktop.eog_overview_normal ..............   Passed    1.56 sec
+      Start 67: desktop.eog_facility_normal
+67/70 Test #67: desktop.eog_facility_normal ..............   Passed    1.47 sec
+      Start 68: desktop.eog_analysis_compact
+68/70 Test #68: desktop.eog_analysis_compact .............   Passed    1.44 sec
+      Start 69: desktop.eog_overview_compact
+69/70 Test #69: desktop.eog_overview_compact .............   Passed    1.39 sec
+      Start 70: desktop.eog_facility_compact
+70/70 Test #70: desktop.eog_facility_compact .............   Passed    1.45 sec
+
+100% tests passed, 0 tests failed out of 70
+
+Total Test time (real) = 345.74 sec
