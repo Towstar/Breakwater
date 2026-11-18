@@ -58,7 +58,13 @@ Node {
             Part { source: "#Cylinder"; y: 40; scale: Qt.vector3d(0.51, 0.68, 0.51); pickable: true }
             Part { source: "#Cylinder"; y: 7; scale: Qt.vector3d(0.55, 0.03, 0.55); materials: dark }
             Part { source: "#Cone"; y: 76; scale: Qt.vector3d(0.53, 0.06, 0.53); materials: bright; pickable: true }
-            Part { source: "#Cylinder"; position: Qt.vector3d(-8, 81, 0); scale: Qt.vector3d(0.12, 0.035, 0.12); materials: dark }
+            Part { source: "#Cylinder"; position: Qt.vector3d(-8, 81, 0); scale: Qt.vector3d(0.06, 0.06, 0.06); materials: bright }
+            Part { source: "#Cylinder"; position: Qt.vector3d(-8, 84, 0); scale: Qt.vector3d(0.12, 0.025, 0.12); materials: dark }
+            Part { source: "#Cylinder"; position: Qt.vector3d(10, 79, 3); scale: Qt.vector3d(0.16, 0.025, 0.16); materials: bright }
+            Part { source: "#Cylinder"; position: Qt.vector3d(10, 80.7, 3); scale: Qt.vector3d(0.13, 0.015, 0.13); materials: dark }
+            // Side access cover, separate from the existing displayed sight gauge.
+            Part { source: "#Cylinder"; position: Qt.vector3d(0, 20, -25.8); eulerRotation.x: 90; scale: Qt.vector3d(0.18, 0.025, 0.18); materials: bright }
+            Part { source: "#Cube"; position: Qt.vector3d(0, 20, -27.5); scale: Qt.vector3d(0.07, 0.018, 0.016); materials: dark }
             Repeater3D {
                 model: [25, 49, 72]
                 delegate: Part { required property var modelData; source: "#Cylinder"; y: modelData; scale: Qt.vector3d(0.524, 0.012, 0.524); materials: bright }
@@ -69,12 +75,28 @@ Node {
             Part { source: "#Cube"; visible: visual.displayFill > 0; position: Qt.vector3d(0, 11 + 28 * visual.displayFill, 27.4); scale: Qt.vector3d(0.042, 0.56 * visual.displayFill, 0.012); materials: water }
             Repeater3D {
                 model: [-1, 1]
-                delegate: Part { required property var modelData; source: "#Cube"; position: Qt.vector3d(28, 36, modelData * 4); scale: Qt.vector3d(0.014, 0.65, 0.014); materials: dark }
+                delegate: Part { required property var modelData; source: "#Cube"; position: Qt.vector3d(28, 42, modelData * 4); scale: Qt.vector3d(0.016, 0.77, 0.016); materials: dark }
             }
             Repeater3D {
-                model: [12, 26, 40, 54, 68]
+                model: [12, 20, 28, 36, 44, 52, 60, 68, 76]
                 delegate: Part { required property var modelData; source: "#Cube"; position: Qt.vector3d(28, modelData, 0); scale: Qt.vector3d(0.015, 0.012, 0.09); materials: bright }
             }
+            // A compact service landing gives the ladder a clear destination.
+            // It is schematic hardware, with no clearance or safety qualification.
+            Part { source: "#Cube"; position: Qt.vector3d(31, 78.5, 0); scale: Qt.vector3d(0.24, 0.025, 0.24); materials: dark }
+            Repeater3D {
+                model: [-1, 1]
+                delegate: Node {
+                    required property real modelData
+                    z: modelData * 11
+                    Part { source: "#Cube"; position: Qt.vector3d(21, 87, 0); scale: Qt.vector3d(0.014, 0.17, 0.014); materials: bright }
+                    Part { source: "#Cube"; position: Qt.vector3d(42, 87, 0); scale: Qt.vector3d(0.014, 0.17, 0.014); materials: bright }
+                    Part { source: "#Cube"; position: Qt.vector3d(31.5, 95, 0); scale: Qt.vector3d(0.225, 0.014, 0.014); materials: marking }
+                    Part { source: "#Cube"; position: Qt.vector3d(31.5, 87, 0); scale: Qt.vector3d(0.225, 0.012, 0.012); materials: bright }
+                }
+            }
+            Part { source: "#Cube"; position: Qt.vector3d(42, 95, 0); scale: Qt.vector3d(0.014, 0.014, 0.235); materials: marking }
+            Part { source: "#Cube"; position: Qt.vector3d(42, 87, 0); scale: Qt.vector3d(0.012, 0.012, 0.235); materials: bright }
         }
     }
     Component {
@@ -84,12 +106,25 @@ Node {
             Part { source: "#Cube"; position: Qt.vector3d(9, 8, 0); scale: Qt.vector3d(0.3, 0.06, 0.24); materials: dark }
             Part { source: "#Cylinder"; position: Qt.vector3d(12, 17, 0); eulerRotation.z: 90; scale: Qt.vector3d(0.2, 0.3, 0.2); materials: dark; pickable: true }
             Repeater3D {
-                model: [3, 12, 21]
+                model: [3, 8, 13, 18, 23]
                 delegate: Part { required property var modelData; source: "#Cylinder"; position: Qt.vector3d(modelData, 17, 0); eulerRotation.z: 90; scale: Qt.vector3d(0.215, 0.018, 0.215); materials: bright }
             }
             Part { source: "#Cylinder"; position: Qt.vector3d(28, 17, 0); eulerRotation.z: 90; scale: Qt.vector3d(0.215, 0.026, 0.215); materials: dark }
             Part { source: "#Cube"; position: Qt.vector3d(12, 29, 0); scale: Qt.vector3d(0.12, 0.06, 0.13); materials: bright }
-            Part { source: "#Cube"; position: Qt.vector3d(-8, 14, 0); scale: Qt.vector3d(0.12, 0.12, 0.19); materials: marking }
+            Part { source: "#Cube"; position: Qt.vector3d(-8, 16, 0); scale: Qt.vector3d(0.15, 0.18, 0.22); materials: marking }
+            Repeater3D {
+                model: [-1, 0, 1]
+                delegate: Part { required property real modelData; source: "#Cube"; position: Qt.vector3d(-8 + modelData * 3.5, 20, 11.2); scale: Qt.vector3d(0.012, 0.07, 0.005); materials: dark }
+            }
+            Repeater3D {
+                model: [-1, 1]
+                delegate: Node {
+                    required property real modelData
+                    z: modelData * 12
+                    Part { source: "#Cylinder"; position: Qt.vector3d(-28, 6.7, 0); scale: Qt.vector3d(0.025, 0.02, 0.025); materials: bright }
+                    Part { source: "#Cylinder"; position: Qt.vector3d(28, 6.7, 0); scale: Qt.vector3d(0.025, 0.02, 0.025); materials: bright }
+                }
+            }
             Part { source: "#Sphere"; position: Qt.vector3d(-21, 15, 0); scale: Qt.vector3d(0.25, 0.25, 0.19); pickable: true }
             Part { source: "#Cylinder"; position: Qt.vector3d(-35, 15, 0); eulerRotation.z: 90; scale: Qt.vector3d(0.105, 0.14, 0.105); pickable: true }
             Part { source: "#Cylinder"; position: Qt.vector3d(-41, 15, 0); eulerRotation.z: 90; scale: Qt.vector3d(0.17, 0.025, 0.17); materials: bright; pickable: true }
@@ -136,6 +171,8 @@ Node {
         id: truckAssembly
         Node {
             scale: visual.kind === "truck_yard" ? Qt.vector3d(0.75, 0.75, 0.75) : Qt.vector3d(1, 1, 1)
+            PrincipledMaterial { id: rubber; baseColor: "#252D32"; roughness: 0.98 }
+            PrincipledMaterial { id: reflector; baseColor: "#B96455"; roughness: 0.6 }
             Part { source: "#Cube"; y: 12; scale: Qt.vector3d(0.97, 0.06, 0.34); materials: dark }
             Part { source: "#Cylinder"; position: Qt.vector3d(-12, 31, 0); eulerRotation.z: 90; scale: Qt.vector3d(0.29, 0.62, 0.29); pickable: true }
             Part { source: "#Sphere"; position: Qt.vector3d(-44, 31, 0); scale: Qt.vector3d(0.09, 0.29, 0.29); materials: bright }
@@ -149,15 +186,33 @@ Node {
                 }
             }
             Part { source: "#Cube"; position: Qt.vector3d(48.2, 31, 0); scale: Qt.vector3d(0.012, 0.12, 0.25); materials: window }
+            Part { source: "#Cube"; position: Qt.vector3d(48.4, 21, 0); scale: Qt.vector3d(0.012, 0.07, 0.17); materials: dark }
+            Part { source: "#Cube"; position: Qt.vector3d(49.5, 14.5, 0); scale: Qt.vector3d(0.04, 0.035, 0.37); materials: bright }
+            Part { source: "#Cube"; position: Qt.vector3d(-49, 13, 0); scale: Qt.vector3d(0.035, 0.03, 0.35); materials: dark }
             Repeater3D {
-                model: [-31, 30]
+                model: [-31, -15, 30]
                 delegate: Node {
                     required property var modelData
                     x: modelData
-                    Part { source: "#Cylinder"; position: Qt.vector3d(0, 9, -19); eulerRotation.x: 90; scale: Qt.vector3d(0.16, 0.065, 0.16); materials: foundation }
-                    Part { source: "#Cylinder"; position: Qt.vector3d(0, 9, 19); eulerRotation.x: 90; scale: Qt.vector3d(0.16, 0.065, 0.16); materials: foundation }
+                    Part { source: "#Cylinder"; position: Qt.vector3d(0, 9, -19); eulerRotation.x: 90; scale: Qt.vector3d(0.16, 0.065, 0.16); materials: rubber }
+                    Part { source: "#Cylinder"; position: Qt.vector3d(0, 9, 19); eulerRotation.x: 90; scale: Qt.vector3d(0.16, 0.065, 0.16); materials: rubber }
+                    Part { source: "#Cylinder"; position: Qt.vector3d(0, 9, -22.5); eulerRotation.x: 90; scale: Qt.vector3d(0.085, 0.012, 0.085); materials: bright }
+                    Part { source: "#Cylinder"; position: Qt.vector3d(0, 9, 22.5); eulerRotation.x: 90; scale: Qt.vector3d(0.085, 0.012, 0.085); materials: bright }
                 }
             }
+            Repeater3D {
+                model: [-1, 1]
+                delegate: Node {
+                    required property real modelData
+                    Part { source: "#Cube"; position: Qt.vector3d(48.8, 22, modelData * 11.5); scale: Qt.vector3d(0.015, 0.045, 0.055); materials: bright }
+                    Part { source: "#Cube"; position: Qt.vector3d(-51, 14, modelData * 12); scale: Qt.vector3d(0.012, 0.025, 0.05); materials: reflector }
+                    Part { source: "#Cube"; position: Qt.vector3d(41, 32, modelData * 18); scale: Qt.vector3d(0.014, 0.014, 0.065); materials: dark }
+                    Part { source: "#Cube"; position: Qt.vector3d(41, 32, modelData * 21); scale: Qt.vector3d(0.025, 0.075, 0.014); materials: window }
+                    Part { source: "#Cube"; position: Qt.vector3d(34, 13, modelData * 18); scale: Qt.vector3d(0.17, 0.018, 0.04); materials: bright }
+                }
+            }
+            Part { source: "#Cube"; position: Qt.vector3d(-12, 46, 0); scale: Qt.vector3d(0.48, 0.015, 0.08); materials: dark }
+            Part { source: "#Cylinder"; position: Qt.vector3d(-12, 47.5, 0); scale: Qt.vector3d(0.12, 0.025, 0.12); materials: bright }
             Repeater3D {
                 model: [-28, 8]
                 delegate: Part { required property var modelData; source: "#Cylinder"; position: Qt.vector3d(modelData, 31, 0); eulerRotation.z: 90; scale: Qt.vector3d(0.302, 0.015, 0.302); materials: dark }

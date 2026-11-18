@@ -1,0 +1,163 @@
+{
+  "scope": "Presentation-only equipment-service details; existing numerical, scientific, proof and contract source trees are unchanged.",
+  "implementation_base": "f98827b2e12078bb9b324a18896ff3aed4db9f2a",
+  "source_sha256": {
+    "desktop/qml/IndustrialEquipment.qml": "3b6380a853e07fbaa691a783e64e83dffbdc2e8935d74d21d89745ba0c5b2577",
+    "desktop/qml/IndustrialPipe.qml": "24a9cc9bde92f6c7d3b0f30e0eddb2eb0522aef22c51bd8a9efa36f204d085d6",
+    "desktop/qml/PipeRoute.qml": "9f3369c9f2a0ee8a3dbf85ccad483c337f08cf70f1706c1e490998134948b3ca"
+  },
+  "unchanged_source_trees": {
+    "engine": "ba875196320fd17f8e30cba39d190275f4121258",
+    "proofs": "0b3ef405663516a8f3a25333876d75052d9adf95",
+    "scenarios": "56f7199c6d305e166d9c62bb5499e521a43ec9f1",
+    "science": "1dfb35495fe964e51ca7b9b744177d873c998cf0",
+    "contracts": "a22ce07242024a1369da2bcefca621f9cf9a061d"
+  },
+  "checks": {
+    "normal_ctest_suites": 9,
+    "asan_ctest_suites": 9,
+    "normal_duration_seconds": 43.98,
+    "asan_duration_seconds": 129.92,
+    "layouts": [
+      "1440x900",
+      "1100x700",
+      "1008x672",
+      "960x540"
+    ],
+    "normal_log": "out/equipment-polish/checks-normal.log",
+    "asan_log": "out/equipment-polish/checks-asan.log",
+    "runtime_diagnostics": "No matching QML binding/reference/type or sanitizer errors in either targeted CTest log.",
+    "hosted_model_requests": "not_requested"
+  },
+  "toolchain": {
+    "qt": "6.12.0",
+    "compiler": "MSVC 19.44.35219.0",
+    "normal_build": "RelWithDebInfo",
+    "asan_enabled": true
+  },
+  "measurements": {
+    "before": {
+      "default": {
+        "actual_body_picks": {
+          "pickable": 6,
+          "projected": 6
+        },
+        "assets": 6,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": true,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 1,
+        "elapsed_ms": 9983.961,
+        "fps": 62.50024414157868,
+        "frame_interval_p50_ms": 16.6553,
+        "frame_interval_p95_ms": 18.0144,
+        "frames": 624,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T23:43:51Z",
+        "routes": 6,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 60,
+        "target_met": true
+      },
+      "maximum": {
+        "actual_body_picks": {
+          "pickable": 128,
+          "projected": 128
+        },
+        "assets": 128,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": false,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 0,
+        "elapsed_ms": 9985.701699999994,
+        "fps": 62.48934914608959,
+        "frame_interval_p50_ms": 16.6866,
+        "frame_interval_p95_ms": 17.7658,
+        "frames": 624,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T23:44:05Z",
+        "routes": 256,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 30,
+        "target_met": true
+      }
+    },
+    "after": {
+      "default": {
+        "actual_body_picks": {
+          "pickable": 6,
+          "projected": 6
+        },
+        "assets": 6,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": true,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 1,
+        "elapsed_ms": 9968.870400000009,
+        "fps": 62.4945430126165,
+        "frame_interval_p50_ms": 16.725,
+        "frame_interval_p95_ms": 18.441,
+        "frames": 623,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T23:49:36Z",
+        "routes": 6,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 60,
+        "target_met": true
+      },
+      "maximum": {
+        "actual_body_picks": {
+          "pickable": 128,
+          "projected": 128
+        },
+        "assets": 128,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": false,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 0,
+        "elapsed_ms": 9985.7201,
+        "fps": 62.48923400126146,
+        "frame_interval_p50_ms": 16.7078,
+        "frame_interval_p95_ms": 18.3628,
+        "frames": 624,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T23:49:52Z",
+        "routes": 256,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 30,
+        "target_met": true
+      }
+    }
+  },
+  "measurement_limits": [
+    "Local camera sweeps, not a hardware or field-performance guarantee.",
+    "After sweeps ran alongside compilation of the separate ASan build.",
+    "No numerical computation or operating controls were changed by these decorative details."
+  ],
+  "visual_evidence": [
+    "out/equipment-polish/performance-after-default.json.png",
+    "out/equipment-polish/performance-after-maximum.json.png",
+    "out/equipment-polish/asan/breakwater-ui-VrRRhF/12-layout-grid.png"
+  ],
+  "operating_authority": false
+}

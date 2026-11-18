@@ -30,6 +30,10 @@ All examples are synthetic. Layout is schematic and supplies no hydraulic model.
    sites. The orientation inset follows the camera's X/Y/Z axes. Paving, road
    markings and equipment pads are schematic decoration; moving them does not
    define hydraulics, physical clearances or truck travel times.
+9. Zoom in to inspect the tank ladder landings and access covers, pump guards,
+   tanker cab/wheel details and paired pipe joints with saddle supports. Decorative
+   hardware does not intercept equipment or pipe selection. Large overviews keep
+   simplified assemblies; the details do not introduce new operating controls.
 
 ## Operations
 
