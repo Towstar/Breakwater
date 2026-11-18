@@ -40,6 +40,10 @@ Executed locally:
 - The clean `97be3c1` portable candidate passes all six isolated-process checks.
   A manual desktop search, comparison and review also pass with no application
   of controls. Actual screenshots are linked from the README.
+- The final application-code candidate `6cb2587` passes seven isolated-process
+  checks, now including the complete historical recording through the UI.
+  [Exact package/source hashes and results](evidence/portfolio/candidate-6cb2587.json)
+  identify this binary separately from subsequent documentation commits.
 - The recorded-example menu's capture-retirement race was reproduced and fixed.
   The complete bundled hosted archive reopens as historical evidence in all three
   native UI layouts, in both normal and ASan builds, with current review disabled.

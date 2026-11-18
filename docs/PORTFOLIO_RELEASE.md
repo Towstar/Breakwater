@@ -78,6 +78,12 @@ dataset retirement. Import now follows the explicit load-completed signal;
 normal/compact/minimum regression checks pass in normal and ASan builds. Final
 bundle verification also exercises this real historical recording path.
 
+The final application-code candidate, clean commit `6cb2587`, passes all seven
+isolated-process checks, including the full recorded-archive UI regression. Its
+Windows ZIP is 104,110,029 bytes. The [candidate manifest](evidence/portfolio/candidate-6cb2587.json)
+links exact source/bundle hashes, build metadata and verification results. Later
+documentation commits do not relabel this binary's source revision.
+
 The [actual application gallery](images/portfolio/README.md) shows the expanded
 evidence dock, native comparison, explicit review and self-authored Operations
 dataset. A fresh local Operations search and separate exact-plan validation ran

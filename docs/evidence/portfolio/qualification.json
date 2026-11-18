@@ -282,5 +282,15 @@
     "clean_windows_vm": false,
     "metadata": "package-97be3c1.json",
     "verification": "bundle-check-97be3c1.json"
+  },
+  "final_application_candidate": {
+    "source_commit": "6cb258756bd0feb0cc7d6c37283ce9f0b7d6f24e",
+    "dirty": false,
+    "manifest": "candidate-6cb2587.json",
+    "isolated_checks_passed": 7,
+    "recorded_ui_observed_historical": true,
+    "recorded_events": 28,
+    "clean_windows_vm": false,
+    "scope": "Exact application-code candidate; later documentation commits do not relabel its source"
   }
 }
