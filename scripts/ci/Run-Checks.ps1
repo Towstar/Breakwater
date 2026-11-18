@@ -25,7 +25,7 @@ $report = [ordered]@{
     runner = [ordered]@{ image = $env:ImageOS; image_version = $env:ImageVersion; os = [Environment]::OSVersion.VersionString }
     external_model_requests = 'not_run'; toolchain = [ordered]@{}; steps = $script:ciSteps
 }
-foreach ($helper in @('scripts/ci/Run-Checks.ps1', 'scripts/ci/Initialize-Compiler.ps1', 'scripts/ci/Write-JobEvidence.ps1', 'scripts/ci/Run-PythonTests.py', 'scripts/ci/requirements-win-py312.txt', '.github/workflows/windows-checks.yml')) {
+foreach ($helper in @('scripts/ci/Run-Checks.ps1', 'scripts/ci/Initialize-Compiler.ps1', 'scripts/ci/Write-JobEvidence.ps1', 'scripts/ci/Run-PythonTests.py', 'scripts/ci/Read-QtResults.py', 'scripts/ci/requirements-win-py312.txt', '.github/workflows/windows-checks.yml')) {
     $report.helper_sha256[$helper] = (Get-FileHash -LiteralPath (Join-Path $projectRoot $helper) -Algorithm SHA256).Hash.ToLowerInvariant()
 }
 # Never enumerate process/user environments or load the developer's .env file.
@@ -223,13 +223,11 @@ try {
         $report.ctest = [ordered]@{ registered = $registered.tests.Count; executed = $junit.SelectNodes('//testcase').Count; skipped = $junit.SelectNodes('//testcase/skipped').Count }
         if ($report.ctest.executed -ne $report.ctest.registered -or $report.ctest.skipped -ne 0) { throw 'CTest did not execute every registered check without skips.' }
         if ($Suite -eq 'desktop') {
-            $qtCounts = @(Get-ChildItem -LiteralPath (Join-Path $buildRoot 'desktop') -Filter '*-results.txt' -File | ForEach-Object {
-                $match = [regex]::Match((Get-Content -Raw -LiteralPath $_.FullName), 'Totals:\s*(\d+) passed,\s*(\d+) failed,\s*(\d+) skipped')
-                if (-not $match.Success) { throw "Qt case totals missing from $($_.Name)." }
-                [ordered]@{ suite = $_.BaseName; passed = [int]$match.Groups[1].Value; failed = [int]$match.Groups[2].Value; skipped = [int]$match.Groups[3].Value }
-            })
-            $report.qt_suites = $qtCounts
-            if ($qtCounts.Count -lt 12 -or @($qtCounts | Where-Object { $_.failed -ne 0 -or $_.skipped -ne 0 }).Count -ne 0) { throw 'Required Qt suites were missing, failed or skipped.' }
+            Invoke-CiStep 'qt-results' $script:ciBootstrapPython @('-B', (Join-Path $PSScriptRoot 'Read-QtResults.py'),
+                (Join-Path $buildRoot 'desktop'), '--allow-optional-calibration')
+            $qtResults = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'qt-results.log') | ConvertFrom-Json
+            $report.qt_suites = $qtResults.qt_suites
+            $report.optional_calibration_skipped = $qtResults.optional_calibration_skipped
         }
         $testLog = Join-Path $buildRoot 'Testing/Temporary/LastTest.log'
         if ($Mode -eq 'asan' -and (Select-String -LiteralPath $testLog -Pattern '(ERROR|SUMMARY): AddressSanitizer|AddressSanitizer:DEADLYSIGNAL' -Quiet)) { throw 'An AddressSanitizer diagnostic was retained.' }
