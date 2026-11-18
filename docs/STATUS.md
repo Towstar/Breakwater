@@ -17,6 +17,23 @@ Scene polish adds equipment silhouettes in the Network list, icon-only camera/ed
 controls with named hover labels, translucent navigation hints and a mouse-use
 recommendation. The tanker cab has windows on both sides and its front face.
 
+The latest desktop polish increment adds a name/ID/type filter to Network and a
+dedicated equipment inspector. The inspector groups simulation inputs and units,
+shows raw displayed tank inventory separately from editable initial inventory,
+identifies route endpoints and pump availability, and supplies network counts
+when nothing is selected. Filtered list ranges include only visible matches;
+filtering itself does not change selection or numerical evidence. Optional science
+and proof scope information now lives in About instead of occupying navigator space.
+Eight targeted checks pass in each of normal and ASan builds, including native
+filter/evidence-preservation checks at normal, compact and minimum sizes.
+Live review caught a scrollbar overlapping its heading. A native geometry check
+reproduced it before the viewport anchoring and overflow-visibility fix.
+The later hosted run exposed a test click below the shortened inspector viewport
+at 1008×672. This is reproduced locally and corrected by opening the editing space
+through the existing dock action, with that size retained as a fourth native UI
+gate. All four layouts pass in both normal and ASan builds; the hosted rerun is
+reported separately from these local results.
+
 Main remains `3116b3d`. PR56 ancestry and the bounded test-metadata compatibility
 patch are integrated on the isolated portfolio baseline. Draft PR58 contains the
 baseline; draft PR59 contains the desktop/offline increment. Both are conflict-free
@@ -26,7 +43,9 @@ adds packaging, optional setup, media and the final recording/CI fixes.
 The complete draft review stack is [PR58](https://github.com/Towstar/Breakwater/pull/58)
 → [PR59](https://github.com/Towstar/Breakwater/pull/59)
 → [PR60](https://github.com/Towstar/Breakwater/pull/60)
-→ [PR61](https://github.com/Towstar/Breakwater/pull/61). Live GitHub checks remain
+→ [PR61](https://github.com/Towstar/Breakwater/pull/61)
+→ [PR62](https://github.com/Towstar/Breakwater/pull/62)
+→ [PR63](https://github.com/Towstar/Breakwater/pull/63). Live GitHub checks remain
 the authority for each published branch's current CI outcome.
 The unpublished observed-capture work and frozen hackathon application are preserved.
 Devpost is unchanged.
