@@ -5,13 +5,14 @@ Node {
     id: pad
     property string kind: "tank"
     property bool selected: false
+    property bool detailed: true
     readonly property real length: kind === "treatment" || kind === "trucking" || kind === "truck_yard" ? 130 : kind === "facility" ? 150 : 88
     readonly property real depth: kind === "facility" ? 116 : 88
     PrincipledMaterial { id: concrete; baseColor: "#B9B9AF"; roughness: 0.96 }
     PrincipledMaterial { id: curb; baseColor: pad.selected ? "#DCEEF4" : "#CAC9BE"; roughness: 0.9 }
     Model { source: "#Cube"; y: -1; scale: Qt.vector3d(pad.length / 100, 0.04, pad.depth / 100); materials: concrete; castsShadows: false }
     Repeater3D {
-        model: pad.kind === "tank" ? [-1, 1] : []
+        model: pad.detailed && pad.kind === "tank" ? [-1, 1] : []
         delegate: Node {
             required property int modelData
             Model { source: "#Cube"; y: 3; z: modelData * (pad.depth / 2 - 2); scale: Qt.vector3d(pad.length / 100, 0.06, 0.035); materials: curb }

@@ -92,7 +92,10 @@ ApplicationWindow {
     palette.light: Theme.raised
     palette.brightText: Theme.text
     Binding { target: Theme; property: "compactControls"; value: workspaceSettings.values.compactControls }
-    readonly property bool detailedScene: workspaceSettings.values.quality > 0 && (controller.assets.length < 48 || (fittedView ? fittedDistance : distance) < 1500)
+    readonly property int sceneAssetCount: controller.assets.length
+    readonly property int sceneSelectedCount: controller.selectedIds.length
+    readonly property bool detailedScene: workspaceSettings.values.quality > 0 && (sceneAssetCount < 48 || (fittedView ? fittedDistance : distance) < 1500)
+    readonly property int sceneQuality: detailedScene ? workspaceSettings.values.quality : 0
     readonly property var siteBounds: {
         let minX = -300, maxX = 300, minZ = -300, maxZ = 300
         for (const row of controller.assets) { minX = Math.min(minX, row.x); maxX = Math.max(maxX, row.x); minZ = Math.min(minZ, row.z); maxZ = Math.max(maxZ, row.z) }
@@ -482,7 +485,7 @@ ApplicationWindow {
                 Layout.fillWidth: true; Layout.fillHeight: true
                 View3D {
                     id: view; anchors.fill: parent
-                    environment: IndustrialEnvironment { quality: workspaceSettings.values.quality }
+                    environment: IndustrialEnvironment { quality: app.sceneQuality }
                     Node {
                         id: cameraRig
                         eulerRotation: Qt.vector3d(app.pitch, app.yaw, 0)
@@ -490,7 +493,7 @@ ApplicationWindow {
                     }
                     OrthographicCamera { id: planCamera; x: cameraRig.x; y: 30000; z: cameraRig.z; eulerRotation.x: -90; clipNear: 1; clipFar: 60000; horizontalMagnification: Math.max(0.01, view.width / app.fitSpan); verticalMagnification: Math.max(0.01, view.width / app.fitSpan) }
                     camera: app.topView ? planCamera : sceneCamera
-                    IndustrialLighting { quality: workspaceSettings.values.quality }
+                    IndustrialLighting { quality: app.sceneQuality }
                     SiteGround { centerX: app.siteBounds.x; centerZ: app.siteBounds.z; spanX: app.siteBounds.width; spanZ: app.siteBounds.depth }
                     ConnectionPreview { visible: app.connectMode && app.connectionSource.length > 0 && app.hoveredAssetId.length > 0; start: app.assetPosition(app.connectionSource); end: app.assetPosition(app.hoveredAssetId); allowed: app.hoveredConnection.allowed === true }
                     Repeater3D {
@@ -500,7 +503,7 @@ ApplicationWindow {
                             routeData: modelData; draggedIds: sceneMouse.draggedIds; dragDelta: sceneMouse.dragDelta; detailed: app.detailedScene
                         }
                     }
-                    Repeater3D { model: controller.assets; delegate: Equipment { required property var modelData; assetData: modelData; connectionState: app.connectMode && app.connectionSource.length ? (app.connectionSource === modelData.id ? 3 : controller.connectionEligibility(app.connectionSource, modelData.id).allowed ? 1 : 0) : 0; draggedIds: sceneMouse.draggedIds; dragDelta: sceneMouse.dragDelta; detailed: app.detailedScene } }
+                    Repeater3D { model: controller.assets; delegate: Equipment { required property var modelData; assetData: modelData; connectionState: app.connectMode && app.connectionSource.length ? (app.connectionSource === modelData.id ? 3 : controller.connectionEligibility(app.connectionSource, modelData.id).allowed ? 1 : 0) : 0; draggedIds: sceneMouse.draggedIds; dragDelta: sceneMouse.dragDelta; detailed: app.detailedScene || (controller.selectedIds.length <= 8 && modelData.selected) } }
                     Repeater3D {
                         model: controller.sensorMarkers
                         delegate: Model {
@@ -518,8 +521,11 @@ ApplicationWindow {
                     model: controller.assets
                     delegate: Label {
                         required property var modelData
+                        readonly property bool eligible: workspaceSettings.values.allLabels || modelData.selected
+                            || app.hoveredAssetId === modelData.id
+                            || (app.sceneSelectedCount === 0 && modelData.kind === "tank" && app.sceneAssetCount < 12)
                         property vector3d point: {
-                            if (!app.sceneReady) return Qt.vector3d(0, 0, 0)
+                            if (!app.sceneReady || !eligible) return Qt.vector3d(0, 0, 0)
                             const watchRotation = cameraRig.eulerRotation
                             const watchPosition = cameraRig.position
                             const watchDistance = sceneCamera.z + Number(app.topView) * planCamera.horizontalMagnification
@@ -528,8 +534,7 @@ ApplicationWindow {
                             return view.mapFrom3DScene(Qt.vector3d(modelData.x + delta.x, 108, modelData.z + delta.z))
                         }
                         x: point.x - width / 2; y: point.y
-                        visible: point.z > 0 && point.x > 0 && point.x < view.width && point.y > 80 && point.y < view.height - 20
-                            && (workspaceSettings.values.allLabels || modelData.selected || app.hoveredAssetId === modelData.id || (controller.selectedIds.length === 0 && modelData.kind === "tank" && controller.assets.length < 12))
+                        visible: eligible && point.z > 0 && point.x > 0 && point.x < view.width && point.y > 80 && point.y < view.height - 20
                         padding: 4
                         background: Rectangle { color: "#253139"; opacity: 0.9; radius: 3; border.color: modelData.selected ? "#DCECF2" : "#51616A" }
                         text: modelData.label; textFormat: Text.PlainText; font.pixelSize: 12; color: modelData.selected ? "#FFFFFF" : "#DCE5E9"

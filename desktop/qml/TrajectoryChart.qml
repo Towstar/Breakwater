@@ -56,7 +56,7 @@ Rectangle {
                 const left = 47, right = width - 12, top = 13, bottom = height - 24
                 const x = function(t) { return left + Number(t) / horizon * (right - left) }
                 const y = function(v) { return bottom - (Number(v) / magnitude - normalizedLow) / (normalizedHigh - normalizedLow) * (bottom - top) }
-                ctx.font = "11px Segoe UI"; ctx.lineWidth = 1; ctx.setLineDash([])
+                ctx.font = "11px 'Segoe UI'"; ctx.lineWidth = 1; ctx.setLineDash([])
                 ctx.textAlign = "right"; ctx.textBaseline = "middle"
                 for (let i = 0; i <= 2; ++i) {
                     const value = (normalizedLow + (normalizedHigh - normalizedLow) * i / 2) * magnitude, py = bottom - i / 2 * (bottom - top)
