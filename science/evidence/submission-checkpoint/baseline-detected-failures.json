@@ -1,0 +1,28 @@
+{
+  "executable": "C:\\Projects\\Breakwater\\out\\submission-latest\\bin\\breakwater.exe",
+  "executable_sha256": "95281F7411167FD84412762579B2FAE632972F71CFBA2A5214911A0972978717",
+  "source_revision": "4a9464949ac0d0f4ea07d7d570696bd61fb8d762",
+  "screenshot": "C:\\Projects\\Breakwater\\out\\submission-ui-screens\\detected-system-failures.jpg",
+  "capture_cutoff_unix": 1791646200,
+  "provider_execution": "verified_by_actual_desktop_detect_button",
+  "events_retained": 23,
+  "ongoing_pump_failures": [
+    {
+      "asset_id": "S5_PUMP_C",
+      "countdown_hours_displayed": 2.055,
+      "exposure_per_hour_displayed": 2306.25
+    },
+    {
+      "asset_id": "S5_PUMP_B",
+      "countdown_hours_displayed": 3.425,
+      "exposure_per_hour_displayed": 2750
+    }
+  ],
+  "coverage": "partial",
+  "hosted_requests": "not_run",
+  "session": "completed",
+  "session_database": "C:\\Projects\\Breakwater\\out\\submission-ui-screens\\failure-ui-history-2.sqlite.eog.sqlite",
+  "ui_process_exit_code": 0,
+  "screenshot_format": "native_sky_jpeg_unedited",
+  "notes": "The native installed UI was driven through actual Detect events and Finish session controls. No simulated controls or hosted model request were applied. Coverage is partial; timing qualification remains separate."
+}

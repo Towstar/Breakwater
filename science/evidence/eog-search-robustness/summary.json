@@ -1,0 +1,149 @@
+{
+  "runtime_commit": "343d7e93d9aafae329ab3815dccf4ed275832d95",
+  "failing_runtime_parent": "0085c264b675e8263b92defcaf1fc2d174f95f9d",
+  "regression_commit": "b457fbe",
+  "search_method": "eog-joint-search-0.1.3",
+  "worker_method": "eog-worker-0.3.4",
+  "detector_method": "eog-detection-0.3.0",
+  "adopted_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "checks": {
+    "full_science": {
+      "passed": true,
+      "tests_run": 425,
+      "tests_passed": 425,
+      "failures": 0,
+      "errors": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "skipped": [],
+      "unexpected_skips": [],
+      "seconds": 92.947
+    },
+    "normal_focused": {
+      "methods": 7,
+      "passed": 7,
+      "seconds": 3.026
+    },
+    "asan_focused": {
+      "methods": 7,
+      "passed": 7,
+      "seconds": 4.777
+    },
+    "known_cases": [
+      {
+        "case": "one-truck",
+        "expected_cost_or_infimum": 3,
+        "selected_total": 3.0,
+        "evaluated_candidates": 87,
+        "passed": true
+      },
+      {
+        "case": "shared-fleet",
+        "expected_cost_or_infimum": 13,
+        "selected_total": 13.0,
+        "evaluated_candidates": 562,
+        "passed": true
+      },
+      {
+        "case": "sequential-yard",
+        "expected_cost_or_infimum": 2,
+        "selected_total": 2.0,
+        "evaluated_candidates": 3000,
+        "passed": true
+      },
+      {
+        "case": "mixed",
+        "expected_cost_or_infimum": 2,
+        "selected_total": 2.0,
+        "evaluated_candidates": 125,
+        "passed": true
+      },
+      {
+        "case": "nine-economic-loads",
+        "expected_cost_or_infimum": 55,
+        "selected_total": 55.0,
+        "evaluated_candidates": 3000,
+        "passed": true
+      },
+      {
+        "case": "well-only",
+        "expected_cost_or_infimum": 24,
+        "selected_total": 24.0,
+        "evaluated_candidates": 23,
+        "passed": true
+      },
+      {
+        "case": "late-pickup",
+        "expected_cost_or_infimum": 2.8,
+        "selected_total": 2.8000000000000016,
+        "evaluated_candidates": 89,
+        "passed": true
+      }
+    ],
+    "official_real_processes": 12,
+    "official_current_failures": 9,
+    "comparison": [
+      {
+        "cutoff_unix": 1791460800,
+        "exact_selected_cost_preserved": true,
+        "exact_selected_plan_hash_preserved": true,
+        "selected_cost": {
+          "truck_cost": 1810.0,
+          "lost_revenue": 1296.4603465511495,
+          "total": 3106.4603465511495
+        },
+        "complete": false,
+        "optimality": "best_found"
+      },
+      {
+        "cutoff_unix": 1791516600,
+        "exact_selected_cost_preserved": true,
+        "exact_selected_plan_hash_preserved": true,
+        "selected_cost": {
+          "truck_cost": 1810.0,
+          "lost_revenue": 0.0,
+          "total": 1810.0
+        },
+        "complete": false,
+        "optimality": "best_found"
+      },
+      {
+        "cutoff_unix": 1791622800,
+        "exact_selected_cost_preserved": true,
+        "exact_selected_plan_hash_preserved": true,
+        "selected_cost": {
+          "truck_cost": 1810.0,
+          "lost_revenue": 1211.9269698545995,
+          "total": 3021.9269698545995
+        },
+        "complete": false,
+        "optimality": "best_found"
+      },
+      {
+        "cutoff_unix": 1791646200,
+        "exact_selected_cost_preserved": true,
+        "exact_selected_plan_hash_preserved": true,
+        "selected_cost": {
+          "truck_cost": 1810.0,
+          "lost_revenue": 0.0,
+          "total": 1810.0
+        },
+        "complete": false,
+        "optimality": "best_found"
+      }
+    ]
+  },
+  "regressions": [
+    "A finite 1e308-bbl truck load times a bounded count overflowed before Fraction conversion in priority, prefix and schedule seed paths.",
+    "Direct native search and the real worker now retain an independently checked plan without impossible loads; native inventory rejections remain exercised.",
+    "Smallest positive subnormal loads keep a finite selected plan.",
+    "Genuinely unrepresentable native candidate costs remain unavailable, counted and incompatible with a complete enumeration claim.",
+    "Exact-rational aggregate seed products are not a claim that corresponding native inventories/costs are representable or feasible."
+  ],
+  "limitations": [
+    "No native algorithm or public contract changed. Focused ASan executes inherited instrumented DLLs; Python/Torch are not established as instrumented.",
+    "Only selected plans are independently validated by search; each alternative requires its own validation.",
+    "Ordinary known fixtures and correlated practice cuts do not establish held-out, physical or continuous/global optimality.",
+    "Snapshot search still assumes no prior dispatch; stateful commitments and installed/model/UI acceptance remain open."
+  ]
+}

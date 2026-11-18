@@ -1,0 +1,19 @@
+********* Start testing of EogProviderIntegrationTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows server2022
+PASS   : EogProviderIntegrationTests::initTestCase()
+PASS   : EogProviderIntegrationTests::actualDetectionBindsItsCaptureAndLeavesSourcesUnchanged(custom-ascii)
+PASS   : EogProviderIntegrationTests::actualDetectionBindsItsCaptureAndLeavesSourcesUnchanged(renamed-unicode)
+PASS   : EogProviderIntegrationTests::defaultClientUsesTrustedLocalProviderPathsForRealEvaluation(trusted-environment-paths)
+PASS   : EogProviderIntegrationTests::defaultClientUsesTrustedLocalProviderPathsForRealEvaluation(exact-development-bin-fallback)
+PASS   : EogProviderIntegrationTests::defaultStartupPathsMustBeAbsoluteAndLocal(relative-contracts)
+PASS   : EogProviderIntegrationTests::defaultStartupPathsMustBeAbsoluteAndLocal(relative-library)
+PASS   : EogProviderIntegrationTests::defaultStartupPathsMustBeAbsoluteAndLocal(remote-library)
+PASS   : EogProviderIntegrationTests::historicalCaptureExcludesFutureObservationsWithoutChangingTheCurrentSource()
+PASS   : EogProviderIntegrationTests::actualIndependentValidationNeedsNoNativeLibraryAndRejectsForgedHorizon()
+FAIL!  : EogProviderIntegrationTests::onlyIndependentValidationEnablesAdvisoryReviewAndHistoryRemainsNonactionable() Compared values are not the same
+   Actual   (controller.lastOperation().value("status").toString()): "completed"
+   Expected ("unavailable")                                        : unavailable
+D:\a\Breakwater\Breakwater\desktop\tests\eog_provider_integration_tests.cpp(293) : failure location
+PASS   : EogProviderIntegrationTests::cleanupTestCase()
+Totals: 11 passed, 1 failed, 0 skipped, 0 blacklisted, 8737ms
+********* Finished testing of EogProviderIntegrationTests *********

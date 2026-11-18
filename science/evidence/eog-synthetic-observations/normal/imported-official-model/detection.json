@@ -1,0 +1,667 @@
+{
+  "method": "eog-detection-0.2.2",
+  "cutoff_unix": 1791849300,
+  "model_fingerprint": "aa434a0c887e37f091e805fc4111e819efb1f71c49606cd56fc467b49219aac5",
+  "evidence_fingerprint": "1ed3f6789048bb1f8a0d78964b48629f19e20433cb30103b3845ffce434de488",
+  "rules_fingerprint": "1b9a22b60b18d629d2e40c2428d06b19cd962d62bf1c954f6e9e080f8bdfbdff",
+  "events": [
+    {
+      "id": "eog-1711515b72a877d15a50dab558330bc9",
+      "system_id": "S2",
+      "facility_id": "S2_FACILITY_A",
+      "asset_id": "S2_PUMP_A",
+      "category": "pump_failure",
+      "state": "resolved",
+      "first_evidence_unix": 1791765300,
+      "detected_unix": 1791765300,
+      "onset_unix": 1791765300,
+      "onset_bounds": [
+        1791765000,
+        1791765300
+      ],
+      "updated_unix": 1791786900,
+      "end_unix": 1791786900,
+      "coverage": "available",
+      "countdown_hours": null,
+      "countdown_state": "not_applicable",
+      "repair_remaining_hours": null,
+      "hourly_revenue_exposure": null,
+      "observed_volume_bbl": null,
+      "forecast_volume_at_cutoff_bbl": null,
+      "assumed_inflow_bpd": null,
+      "recommended_action": "compare_responses",
+      "evidence": [
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_FACILITY_A",
+          "metric": "inflow_bpd",
+          "value": 2191.1577274101332
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_PUMP_A",
+          "metric": "flow_bpd",
+          "value": 0.0
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_PUMP_A",
+          "metric": "status",
+          "value": 0.0
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_TANK_A",
+          "metric": "level_pct",
+          "value": 62.605517051366796
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_WELL_A1",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_WELL_A1",
+          "metric": "water_bpd",
+          "value": 1095.988556906239
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_WELL_A2",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_WELL_A2",
+          "metric": "water_bpd",
+          "value": 648.5253448865047
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_WELL_A3",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791765000,
+          "asset_id": "S2_WELL_A3",
+          "metric": "water_bpd",
+          "value": 450.5428035556355
+        },
+        {
+          "unix": 1791765300,
+          "asset_id": "S2_PUMP_A",
+          "metric": "status",
+          "value": 2.0
+        },
+        {
+          "unix": 1791786900,
+          "asset_id": "S2_PUMP_A",
+          "metric": "flow_bpd",
+          "value": 3296.7960235353307
+        },
+        {
+          "unix": 1791786900,
+          "asset_id": "S2_PUMP_A",
+          "metric": "status",
+          "value": 1.0
+        }
+      ],
+      "assumptions": [
+        "Resolution is first coherent observed delivery/normal-off recovery, not a scheduled repair label."
+      ],
+      "limitations": [],
+      "productive_well_ids": null
+    },
+    {
+      "id": "eog-c5bb5e9905ae84417c169643fc8c1d16",
+      "system_id": "S1",
+      "facility_id": "S1_FACILITY_B",
+      "asset_id": "S1_PUMP_B",
+      "category": "pump_failure",
+      "state": "resolved",
+      "first_evidence_unix": 1791775500,
+      "detected_unix": 1791775500,
+      "onset_unix": 1791775500,
+      "onset_bounds": [
+        1791775200,
+        1791775500
+      ],
+      "updated_unix": 1791797100,
+      "end_unix": 1791797100,
+      "coverage": "available",
+      "countdown_hours": null,
+      "countdown_state": "not_applicable",
+      "repair_remaining_hours": null,
+      "hourly_revenue_exposure": null,
+      "observed_volume_bbl": null,
+      "forecast_volume_at_cutoff_bbl": null,
+      "assumed_inflow_bpd": null,
+      "recommended_action": "compare_responses",
+      "evidence": [
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_FACILITY_B",
+          "metric": "inflow_bpd",
+          "value": 2009.261091494557
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_PUMP_B",
+          "metric": "flow_bpd",
+          "value": 2986.7404352531967
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_PUMP_B",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_TANK_B",
+          "metric": "level_pct",
+          "value": 67.42525521106994
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_WELL_B1",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_WELL_B1",
+          "metric": "water_bpd",
+          "value": 1003.5943621555546
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_WELL_B2",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_WELL_B2",
+          "metric": "water_bpd",
+          "value": 599.39066215752
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_WELL_B3",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791775200,
+          "asset_id": "S1_WELL_B3",
+          "metric": "water_bpd",
+          "value": 400.96451734444383
+        },
+        {
+          "unix": 1791775500,
+          "asset_id": "S1_PUMP_B",
+          "metric": "status",
+          "value": 2.0
+        },
+        {
+          "unix": 1791797100,
+          "asset_id": "S1_PUMP_B",
+          "metric": "flow_bpd",
+          "value": 3011.504305722309
+        },
+        {
+          "unix": 1791797100,
+          "asset_id": "S1_PUMP_B",
+          "metric": "status",
+          "value": 1.0
+        }
+      ],
+      "assumptions": [
+        "Resolution is first coherent observed delivery/normal-off recovery, not a scheduled repair label."
+      ],
+      "limitations": [],
+      "productive_well_ids": null
+    },
+    {
+      "id": "eog-1f5531a5d593fce59496f8411e23c710",
+      "system_id": "S5",
+      "facility_id": "S5_FACILITY_B",
+      "asset_id": "S5_PUMP_B",
+      "category": "pump_failure",
+      "state": "ongoing",
+      "first_evidence_unix": 1791841800,
+      "detected_unix": 1791841800,
+      "onset_unix": 1791841800,
+      "onset_bounds": [
+        1791841500,
+        1791841800
+      ],
+      "updated_unix": 1791849300,
+      "end_unix": null,
+      "coverage": "available",
+      "countdown_hours": 3.921089592748863,
+      "countdown_state": "available",
+      "repair_remaining_hours": 3.9166666666666665,
+      "hourly_revenue_exposure": 2750.0,
+      "observed_volume_bbl": 413.1732386425651,
+      "forecast_volume_at_cutoff_bbl": 413.1732386425651,
+      "assumed_inflow_bpd": 1694.3867553714326,
+      "recommended_action": "compare_responses",
+      "evidence": [
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_FACILITY_B",
+          "metric": "inflow_bpd",
+          "value": 1702.730543732254
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_PUMP_B",
+          "metric": "flow_bpd",
+          "value": 2561.471676172225
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_PUMP_B",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_TANK_B",
+          "metric": "level_pct",
+          "value": 34.93360842041278
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_WELL_B1",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_WELL_B1",
+          "metric": "water_bpd",
+          "value": 848.418732506805
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_WELL_B2",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_WELL_B2",
+          "metric": "water_bpd",
+          "value": 508.39465975326783
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_WELL_B3",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791841500,
+          "asset_id": "S5_WELL_B3",
+          "metric": "water_bpd",
+          "value": 339.1908687054466
+        },
+        {
+          "unix": 1791841800,
+          "asset_id": "S5_PUMP_B",
+          "metric": "status",
+          "value": 2.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_FACILITY_B",
+          "metric": "inflow_bpd",
+          "value": 1694.3867553714326
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_PUMP_B",
+          "metric": "flow_bpd",
+          "value": 0.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_PUMP_B",
+          "metric": "status",
+          "value": 2.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_TANK_B",
+          "metric": "level_pct",
+          "value": 55.08976515234201
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_WELL_B1",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_WELL_B1",
+          "metric": "water_bpd",
+          "value": 846.7728803250852
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_WELL_B2",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_WELL_B2",
+          "metric": "water_bpd",
+          "value": 508.0089140292966
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_WELL_B3",
+          "metric": "status",
+          "value": 1.0
+        },
+        {
+          "unix": 1791849300,
+          "asset_id": "S5_WELL_B3",
+          "metric": "water_bpd",
+          "value": 338.6899500808923
+        }
+      ],
+      "assumptions": [
+        "Onset estimate uses the first observed fault feedback; it is not a hidden event label.",
+        "Pump delivery is assumed zero after compatible fault feedback; raw measured flow is retained."
+      ],
+      "limitations": [],
+      "productive_well_ids": [
+        "S5_WELL_B1",
+        "S5_WELL_B2",
+        "S5_WELL_B3"
+      ]
+    }
+  ],
+  "coverage": [
+    {
+      "facility_id": "S1_FACILITY_A",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S1_FACILITY_A",
+      "category": "pipeline_leak",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S1_FACILITY_A",
+      "category": "pump_degradation",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S1_FACILITY_B",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S1_FACILITY_B",
+      "category": "pipeline_leak",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S1_FACILITY_B",
+      "category": "pump_degradation",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S1_FACILITY_C",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S1_FACILITY_C",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S1_FACILITY_C",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S2_FACILITY_A",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S2_FACILITY_A",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S2_FACILITY_A",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S2_FACILITY_B",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S2_FACILITY_B",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S2_FACILITY_B",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S2_FACILITY_C",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S2_FACILITY_C",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S2_FACILITY_C",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S3_FACILITY_A",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S3_FACILITY_A",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S3_FACILITY_A",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S3_FACILITY_B",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S3_FACILITY_B",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S3_FACILITY_B",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S4_FACILITY_A",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S4_FACILITY_A",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S4_FACILITY_A",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S4_FACILITY_B",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S4_FACILITY_B",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S4_FACILITY_B",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S4_FACILITY_C",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S4_FACILITY_C",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S4_FACILITY_C",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S4_FACILITY_D",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S4_FACILITY_D",
+      "category": "pipeline_leak",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S4_FACILITY_D",
+      "category": "pump_degradation",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S5_FACILITY_A",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S5_FACILITY_A",
+      "category": "pipeline_leak",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S5_FACILITY_A",
+      "category": "pump_degradation",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S5_FACILITY_B",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S5_FACILITY_B",
+      "category": "pipeline_leak",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S5_FACILITY_B",
+      "category": "pump_degradation",
+      "state": "ambiguous",
+      "reason": "Normal off/fault/missing/short/noncontemporaneous evidence cannot establish inspection health or repair."
+    },
+    {
+      "facility_id": "S5_FACILITY_C",
+      "category": "pump_failure",
+      "state": "available",
+      "reason": "Current coherent failure-state channels."
+    },
+    {
+      "facility_id": "S5_FACILITY_C",
+      "category": "pipeline_leak",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    },
+    {
+      "facility_id": "S5_FACILITY_C",
+      "category": "pump_degradation",
+      "state": "available",
+      "reason": "Sustained running-flow evidence available."
+    }
+  ]
+}

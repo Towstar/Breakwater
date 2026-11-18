@@ -1,0 +1,37 @@
+{
+  "initial_attempt": {
+    "retained_provenance": "provenance.json",
+    "history": "default application history path",
+    "stdout_bytes": 0,
+    "create_no_window": true,
+    "stderr_bytes": 0,
+    "exit_code": -1073741819,
+    "source_revision": "4654de484b79821a01ca2e7d0ee36d506c066abc",
+    "status": "crash"
+  },
+  "new_build_retries": [
+    {
+      "folder": "attempt2",
+      "exit_code": 0
+    },
+    {
+      "folder": "attempt3",
+      "exit_code": 0
+    }
+  ],
+  "previous_build_control": {
+    "source_revision": "325a168b4356157d10e25783e88e7381a4d5e850",
+    "folder": "baseline325",
+    "exit_code": 0
+  },
+  "retry_configuration": {
+    "create_no_window": false,
+    "isolated_history": true,
+    "backend": "d3d11",
+    "prefer_software_renderer": true
+  },
+  "conclusion": "Two consecutive new-build renders and one prior-build control passed with identical visible-process/isolated-history configuration; both retry variables changed together, so the initial crash cause is not isolated.",
+  "hosted_model_requests": "not_run",
+  "user_existing_windows": "not_interacted_with",
+  "screenshot": "All retry/control PNGs viewed and visually consistent."
+}

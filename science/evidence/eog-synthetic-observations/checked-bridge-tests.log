@@ -1,0 +1,13 @@
+test_cancellation_callback_cannot_reenter_or_destroy_live_native_state (test_native_eog_plant.NativePlantTests.test_cancellation_callback_cannot_reenter_or_destroy_live_native_state) ... ok
+test_explicit_absolute_library_has_no_fallback (test_native_eog_plant.NativePlantTests.test_explicit_absolute_library_has_no_fallback) ... ok
+test_failure_rate_schedules_are_copied_and_never_returned (test_native_eog_plant.NativePlantTests.test_failure_rate_schedules_are_copied_and_never_returned) ... ok
+test_invalid_calls_preserve_clock_and_close_is_idempotent (test_native_eog_plant.NativePlantTests.test_invalid_calls_preserve_clock_and_close_is_idempotent) ... ok
+test_native_well_control_and_cancel_never_claim_completed_cost (test_native_eog_plant.NativePlantTests.test_native_well_control_and_cancel_never_claim_completed_cost) ... ok
+test_real_actions_final_return_and_whole_load_failure (test_native_eog_plant.NativePlantTests.test_real_actions_final_return_and_whole_load_failure) ... ok
+test_real_native_clock_copied_snapshot_trace_and_reset (test_native_eog_plant.NativePlantTests.test_real_native_clock_copied_snapshot_trace_and_reset) ... ok
+test_strict_shapes_types_flags_counts_and_native_values (test_native_eog_plant.NativePlantTests.test_strict_shapes_types_flags_counts_and_native_values) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 0.137s
+
+OK

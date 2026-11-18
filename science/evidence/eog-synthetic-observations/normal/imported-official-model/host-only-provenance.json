@@ -1,0 +1,213 @@
+{
+  "method": "eog-synthetic-observations-0.1.0",
+  "native_method": "eog-synthetic-events-0.1.0",
+  "model_fingerprint": "aa434a0c887e37f091e805fc4111e819efb1f71c49606cd56fc467b49219aac5",
+  "scenario_fingerprint": "d36f63747a87fdecfc75cc736d13d9976874f9d959f7ac4e5d7e7e54b359aa65",
+  "experiment": {
+    "start_unix": 1791762900,
+    "duration_s": 86400,
+    "seed": 941,
+    "initial": [
+      {
+        "facility_id": "S1_FACILITY_A",
+        "volume_bbl": 531.7601985780785,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S1_WELL_A1",
+          "S1_WELL_A2",
+          "S1_WELL_A3"
+        ]
+      },
+      {
+        "facility_id": "S1_FACILITY_B",
+        "volume_bbl": 615.7381024255262,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S1_WELL_B1",
+          "S1_WELL_B2",
+          "S1_WELL_B3"
+        ]
+      },
+      {
+        "facility_id": "S1_FACILITY_C",
+        "volume_bbl": 476.3556906073703,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S1_WELL_C1",
+          "S1_WELL_C2",
+          "S1_WELL_C3"
+        ]
+      },
+      {
+        "facility_id": "S2_FACILITY_A",
+        "volume_bbl": 572.7935870295308,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S2_WELL_A1",
+          "S2_WELL_A2",
+          "S2_WELL_A3"
+        ]
+      },
+      {
+        "facility_id": "S2_FACILITY_B",
+        "volume_bbl": 414.5300701055333,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S2_WELL_B1",
+          "S2_WELL_B2",
+          "S2_WELL_B3"
+        ]
+      },
+      {
+        "facility_id": "S2_FACILITY_C",
+        "volume_bbl": 329.2371704166934,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S2_WELL_C1",
+          "S2_WELL_C2",
+          "S2_WELL_C3"
+        ]
+      },
+      {
+        "facility_id": "S3_FACILITY_A",
+        "volume_bbl": 590.8564875149767,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S3_WELL_A1",
+          "S3_WELL_A2",
+          "S3_WELL_A3"
+        ]
+      },
+      {
+        "facility_id": "S3_FACILITY_B",
+        "volume_bbl": 463.4017158258133,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S3_WELL_B1",
+          "S3_WELL_B2",
+          "S3_WELL_B3"
+        ]
+      },
+      {
+        "facility_id": "S4_FACILITY_A",
+        "volume_bbl": 495.40217885443894,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S4_WELL_A1",
+          "S4_WELL_A2",
+          "S4_WELL_A3"
+        ]
+      },
+      {
+        "facility_id": "S4_FACILITY_B",
+        "volume_bbl": 445.49857413269325,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S4_WELL_B1",
+          "S4_WELL_B2",
+          "S4_WELL_B3"
+        ]
+      },
+      {
+        "facility_id": "S4_FACILITY_C",
+        "volume_bbl": 539.0210418905507,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S4_WELL_C1",
+          "S4_WELL_C2",
+          "S4_WELL_C3"
+        ]
+      },
+      {
+        "facility_id": "S4_FACILITY_D",
+        "volume_bbl": 322.92417288029196,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S4_WELL_D1",
+          "S4_WELL_D2",
+          "S4_WELL_D3"
+        ]
+      },
+      {
+        "facility_id": "S5_FACILITY_A",
+        "volume_bbl": 332.31375974504476,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S5_WELL_A1",
+          "S5_WELL_A2",
+          "S5_WELL_A3"
+        ]
+      },
+      {
+        "facility_id": "S5_FACILITY_B",
+        "volume_bbl": 404.6002975469044,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S5_WELL_B1",
+          "S5_WELL_B2",
+          "S5_WELL_B3"
+        ]
+      },
+      {
+        "facility_id": "S5_FACILITY_C",
+        "volume_bbl": 295.64112215397137,
+        "pump_running": false,
+        "productive_well_ids": [
+          "S5_WELL_C1",
+          "S5_WELL_C2",
+          "S5_WELL_C3"
+        ]
+      }
+    ],
+    "failures": [
+      {
+        "facility_id": "S1_FACILITY_B",
+        "start_s": 12392.125
+      },
+      {
+        "facility_id": "S2_FACILITY_A",
+        "start_s": 2135.125
+      },
+      {
+        "facility_id": "S5_FACILITY_B",
+        "start_s": 78700.125
+      }
+    ],
+    "rate_changes": [
+      {
+        "well_id": "S2_WELL_C3",
+        "elapsed_s": 74515.25,
+        "water_bpd": 419.3257848964604,
+        "oil_bpd": 370.0,
+        "gas_mcfd": 1350.0
+      },
+      {
+        "well_id": "S5_WELL_A3",
+        "elapsed_s": 18383.25,
+        "water_bpd": 474.72057417404454,
+        "oil_bpd": 490.0,
+        "gas_mcfd": 1800.0
+      }
+    ],
+    "noise": {
+      "level_pct_amplitude": 0.1,
+      "rate_relative_amplitude": 0.005,
+      "rate_absolute_bpd_amplitude": 0.0,
+      "pressure_psi_amplitude": 1.0,
+      "dropout_every": 0
+    },
+    "sample_limit": 2000000,
+    "point_limit": 262144,
+    "event_limit": 1000000,
+    "trip_limit": 16384,
+    "control_limit": 32768
+  },
+  "run_fingerprint": "54c891c8a0914398e7277b6fe99f9f4cb8c4b86f7ba698869f6e63fc2aac55a1",
+  "controls": [],
+  "limitations": [
+    "Explicit synthetic initialization/forcing, not recorded or predicted real operation.",
+    "Seeded bounded perturbations are declared assumptions, not the official noise-generating process.",
+    "Pressure offsets are placeholders; no hydraulic or calibrated confidence claim.",
+    "This receipt contains future truth; analysis receives only view()."
+  ]
+}

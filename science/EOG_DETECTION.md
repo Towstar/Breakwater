@@ -5,6 +5,53 @@ Person A increment following PR #36. Requirements revision:
 November 8, 2026. This is an initial deterministic detector with declared heuristics,
 not calibrated confidence or a production process/client integration.
 
+Current continuation: detector **0.3.0**, worker **0.3.3**, runtime **95a8bf1**.
+The older increment descriptions below retain their original scope. Real worker,
+native response/independent validation and search were implemented subsequently;
+this continuation changes inspection evidence only, within the adopted public
+72cadd1 contract. Current results are in `EOG_DETECTION_RESULTS.md` and exact
+declarations/failures in `EOG_INSPECTION_STUDY.md`.
+
+## Current bounded inspection change score
+
+The original four/900-second sustained 5% rule remains. With
+`Rules.inspection_cumulative=True`, each compatible running acquisition also
+contributes to `max(0, score + min(residual_fraction, 0.05) - 0.015)`. Emit only
+above **0.15**, after at least `inspection_samples` running samples and a span
+of at least `(inspection_samples - 1) * 300` seconds. Values are binary64;
+the independent Fraction oracle rounds each sum rather than replacing an exact
+runtime threshold tie with decimal arithmetic.
+
+For degradation the fraction is nominal minus measured pump flow, divided by
+nominal flow. For leak it is the existing normalized discrepancy multiplied by
+`leak_fraction`, retaining the absolute leak floor. The influence bound applies
+only to this declared statistic: original sensor values are never modified.
+Every candidate uses only its causal `View`, with no labels, files or future data.
+
+Keep at most `inspection_window_s` (default/max **21600 seconds**) of original
+frames, recomputing the positive-score suffix after expiry. Acquisition intervals
+must be exactly 300 seconds and satisfy a stricter caller gap policy. Compatible
+stopped/near-zero frames preserve continuity but add no discrepancy or healthy
+evidence; missing/unsupported/contradictory/fault frames reset the score.
+Normal stopping cannot emit or resolve an inspection.
+
+Cumulative episodes require four running frames at/below the 1.5% allowance for
+observed recovery. Those frames may span completely observed coherent off
+intervals within the same bounded window. Retain the actual intervening evidence;
+discard old positive-score evidence after recovery. Missing frames, faults and
+contradictions break recovery confirmation. Physical repair/onset is not
+authenticated by this heuristic. The existing strict path keeps its original
+half-threshold recovery behavior. All configurable parameters enter the rules
+fingerprint; disabling the cumulative path recovers the earlier decisions.
+
+The evidence cap is at most 73 retained five-minute frames per category, plus
+the current frame/recovery evidence, under default limits. Budget exhaustion
+elsewhere remains explicit. Persistent sensor bias cannot be distinguished from
+an equal loss using these channels alone; cumulative events disclose that
+limitation. There is no calibrated false-alarm, probability or physical-validity
+claim. The final official/worker and fresh generated results do not qualify the
+joined installed application.
+
 ## Implemented scope
 
 - `eog_model.py`: immutable numerical configuration from decoded official network

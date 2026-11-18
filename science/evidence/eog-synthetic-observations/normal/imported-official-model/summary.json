@@ -1,0 +1,65 @@
+{
+  "scenario_fingerprint": "d36f63747a87fdecfc75cc736d13d9976874f9d959f7ac4e5d7e7e54b359aa65",
+  "model_fingerprint": "aa434a0c887e37f091e805fc4111e819efb1f71c49606cd56fc467b49219aac5",
+  "seed": 941,
+  "duration_s": 86400,
+  "synthetic_start_unix": 1791762900,
+  "actual_first_sample_unix": 1791762900,
+  "actual_last_sample_unix": 1791849300,
+  "systems": 5,
+  "facilities": 15,
+  "channels": 195,
+  "samples": 56355,
+  "native_status": "completed",
+  "native_total_cost": {
+    "truck_cost": 0.0,
+    "lost_revenue": 19012.105138964915,
+    "total": 19012.105138964915
+  },
+  "maximum_abs_mass_residual_bbl": 5.684341886080801e-13,
+  "model_parameters_roundtrip_exactly": true,
+  "all_observations_roundtrip_exactly": true,
+  "detection_roundtrip_exactly": true,
+  "future_truth_change_preserves_prefix_and_detection": true,
+  "pump_failure_checks": [
+    {
+      "facility_id": "S1_FACILITY_B",
+      "truth_onset_elapsed_s": 12392.125,
+      "matched": true,
+      "observed_onset_unix": 1791775500,
+      "detected_unix": 1791775500,
+      "delay_s": 207.875
+    },
+    {
+      "facility_id": "S2_FACILITY_A",
+      "truth_onset_elapsed_s": 2135.125,
+      "matched": true,
+      "observed_onset_unix": 1791765300,
+      "detected_unix": 1791765300,
+      "delay_s": 264.875
+    },
+    {
+      "facility_id": "S5_FACILITY_B",
+      "truth_onset_elapsed_s": 78700.125,
+      "matched": true,
+      "observed_onset_unix": 1791841800,
+      "detected_unix": 1791841800,
+      "delay_s": 199.875
+    }
+  ],
+  "unmatched_pump_events": 0,
+  "false_inspection_events": 0,
+  "generated_file_hashes": {
+    "network.json": "54149d7cfc5ca94abd22bf7af632ebce5008cf33540bea5f4ad5ee5efa34de9a",
+    "ops.json": "e0bf0bf6dfb0dc2659d93e33717f067a4ac46be923e61d59ce84950c2a46f723",
+    "telemetry.csv": "f88d4edf78761eea3d02dd7ae5d49acdb00385578430b16b208c4d7e5f754475"
+  },
+  "wall_s": 1.7917125999811105,
+  "limitations": [
+    "Synthetic initialization, forcing and bounded noise; not a recreation of official observations or a real future.",
+    "No pipeline-leak/pump-degradation forcing is generated; this does not qualify their timeliness.",
+    "Detector sees integer acquisition times, not hidden fractional true onsets; onset/repair forecasts retain that uncertainty.",
+    "No evolving planner integration or application controls/installation are executed."
+  ],
+  "passed": true
+}

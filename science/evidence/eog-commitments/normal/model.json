@@ -1,0 +1,95 @@
+{
+  "systems": [
+    {
+      "id": "commitments/β/system",
+      "disposal_id": "commitments/β/disposal",
+      "disposal_pressure_psi": 1050.0,
+      "fleet_size": 2
+    }
+  ],
+  "facilities": [
+    {
+      "system_id": "commitments/β/system",
+      "id": "commitments/β/facility:0",
+      "tank_id": "commitments/β/facility:0/tank",
+      "pump_id": "commitments/β/facility:0/pump",
+      "pipeline_id": "commitments/β/facility:0/pipe",
+      "capacity_bbl": 800.0,
+      "warning_pct": 85.0,
+      "shutdown_pct": 92.0,
+      "start_pct": 70.0,
+      "stop_pct": 30.0,
+      "pump_flow_bpd": 2700.0,
+      "pipeline_max_bpd": 3000.0,
+      "response_min": 0.25,
+      "cycle_min": 3.0,
+      "wells": [
+        {
+          "id": "commitments/β/facility:0/well:0",
+          "baseline_water_bpd": 450.0,
+          "oil_bpd": 560.0,
+          "gas_mcfd": 2000.0,
+          "revenue_per_hour": 1650.0
+        },
+        {
+          "id": "commitments/β/facility:0/well:1",
+          "baseline_water_bpd": 700.0,
+          "oil_bpd": 170.0,
+          "gas_mcfd": 600.0,
+          "revenue_per_hour": 500.0
+        },
+        {
+          "id": "commitments/β/facility:0/well:2",
+          "baseline_water_bpd": 650.0,
+          "oil_bpd": 390.0,
+          "gas_mcfd": 1400.0,
+          "revenue_per_hour": 1150.0
+        }
+      ]
+    },
+    {
+      "system_id": "commitments/β/system",
+      "id": "commitments/β/facility:1",
+      "tank_id": "commitments/β/facility:1/tank",
+      "pump_id": "commitments/β/facility:1/pump",
+      "pipeline_id": "commitments/β/facility:1/pipe",
+      "capacity_bbl": 800.0,
+      "warning_pct": 85.0,
+      "shutdown_pct": 92.0,
+      "start_pct": 70.0,
+      "stop_pct": 30.0,
+      "pump_flow_bpd": 2700.0,
+      "pipeline_max_bpd": 3000.0,
+      "response_min": 0.25,
+      "cycle_min": 3.0,
+      "wells": [
+        {
+          "id": "commitments/β/facility:1/well:0",
+          "baseline_water_bpd": 450.0,
+          "oil_bpd": 560.0,
+          "gas_mcfd": 2000.0,
+          "revenue_per_hour": 1650.0
+        },
+        {
+          "id": "commitments/β/facility:1/well:1",
+          "baseline_water_bpd": 700.0,
+          "oil_bpd": 170.0,
+          "gas_mcfd": 600.0,
+          "revenue_per_hour": 500.0
+        },
+        {
+          "id": "commitments/β/facility:1/well:2",
+          "baseline_water_bpd": 650.0,
+          "oil_bpd": 390.0,
+          "gas_mcfd": 1400.0,
+          "revenue_per_hour": 1150.0
+        }
+      ]
+    }
+  ],
+  "repair_hours": 0.03333333333333333,
+  "truck_capacity_bbl": 150.0,
+  "cost_per_trip": 905.0,
+  "oil_per_bbl": 60.0,
+  "gas_per_mcf": 3.0
+}

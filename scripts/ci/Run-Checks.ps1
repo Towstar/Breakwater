@@ -101,15 +101,19 @@ function Set-UpCiScience {
 function Set-UpCiEogProvider {
     if (-not (Test-Path -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py'))) { return }
     $native = Join-Path $buildRoot 'engine/breakwater_eog_response.dll'
+    $plant = Join-Path $buildRoot 'engine/breakwater_eog_plant.dll'
     $contracts = Join-Path $projectRoot 'contracts/eog'
     if (-not (Test-Path -LiteralPath $native -PathType Leaf) -or
+        -not (Test-Path -LiteralPath $plant -PathType Leaf) -or
         -not (Test-Path -LiteralPath (Join-Path $contracts 'validate.py') -PathType Leaf)) {
         throw 'The real EOG worker requires the built native library and adopted local contracts.'
     }
     $env:BREAKWATER_EOG_NATIVE = $native
+    $env:BREAKWATER_EOG_PLANT = $plant
     $env:BREAKWATER_EOG_CONTRACTS = $contracts
     $report.toolchain.eog_provider = [ordered]@{
         native_sha256 = (Get-FileHash -LiteralPath $native -Algorithm SHA256).Hash.ToLowerInvariant()
+        plant_sha256 = (Get-FileHash -LiteralPath $plant -Algorithm SHA256).Hash.ToLowerInvariant()
         worker_sha256 = (Get-FileHash -LiteralPath (Join-Path $projectRoot 'science/eog_worker.py') -Algorithm SHA256).Hash.ToLowerInvariant()
         contracts = 'contracts/eog'; native_mode = $Mode
     }
@@ -234,7 +238,7 @@ try {
             Invoke-CiStep 'eog-native-configure' 'cmake' @('-S', $projectRoot, '-B', $buildRoot, '-G', 'Ninja',
                 '-DCMAKE_BUILD_TYPE=RelWithDebInfo', '-DBUILD_TESTING=OFF', '-DBREAKWATER_BUILD_DESKTOP=OFF',
                 '-DBREAKWATER_ENABLE_ASAN=OFF', '-DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded')
-            Invoke-CiStep 'eog-native-build' 'cmake' @('--build', $buildRoot, '--target', 'breakwater_eog_response', '--parallel', '2')
+            Invoke-CiStep 'eog-native-build' 'cmake' @('--build', $buildRoot, '--target', 'breakwater_eog_response', 'breakwater_eog_plant', '--parallel', '2')
             Set-UpCiEogProvider
         }
         Invoke-CiStep 'science-tests' $script:ciSciencePython @('-B', (Join-Path $PSScriptRoot 'Run-PythonTests.py'), '--output', (Join-Path $artifactRoot 'science-results.json'))

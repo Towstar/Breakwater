@@ -1,0 +1,25 @@
+{
+  "executable_sha256": "95281F7411167FD84412762579B2FAE632972F71CFBA2A5214911A0972978717",
+  "results": [
+    {
+      "screenshot": "C:\\Projects\\Breakwater\\out\\submission-ui-screens\\eog-failure-facility.png",
+      "name": "eog-failure-facility",
+      "exit_code": 0
+    },
+    {
+      "screenshot": "C:\\Projects\\Breakwater\\out\\submission-ui-screens\\eog-analysis-interface.png",
+      "name": "eog-analysis-interface",
+      "exit_code": 0
+    },
+    {
+      "screenshot": "C:\\Projects\\Breakwater\\out\\submission-ui-screens\\synthetic-workbench.png",
+      "name": "synthetic-workbench",
+      "exit_code": 0
+    }
+  ],
+  "executable": "C:\\Projects\\Breakwater\\out\\submission-latest\\bin\\breakwater.exe",
+  "capture_cutoff_unix": 1791646200,
+  "source_revision": "4a9464949ac0d0f4ea07d7d570696bd61fb8d762",
+  "notes": "Real application renders; failure facility selected from actual causal detector evidence. CLI render does not execute detection.",
+  "dataset": "C:\\Projects\\Breakwater\\.worktrees\\person-a-eog-inspection\\out\\inspection-provider\\1791646200\\capture"
+}

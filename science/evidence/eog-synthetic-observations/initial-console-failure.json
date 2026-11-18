@@ -1,0 +1,8 @@
+{
+  "phase": "Offline CLI stdout after successful UTF-8 payload and summary writes",
+  "error": "UnicodeEncodeError: cp1252 could not encode U+03B2 in a generated opaque ID",
+  "initial_payload_checks_passed": true,
+  "correction": "ASCII console JSON; UTF-8 payloads and original IDs preserved",
+  "corrected_source_commit": "d0c15f9",
+  "complete_qualification_commit": "1947638"
+}

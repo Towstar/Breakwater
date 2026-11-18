@@ -1,0 +1,23 @@
+test_independent_reference (test_transport_calibration.CalibrationInputTests.test_independent_reference) ... ok
+test_malformed_inputs (test_transport_calibration.CalibrationInputTests.test_malformed_inputs) ... ok
+test_unsupported_rate_rejected (test_transport_calibration.CalibrationInputTests.test_unsupported_rate_rejected) ... ok
+test_known_decay_recovery (test_transport_calibration.RealPhysicsNeMoCalibrationTests.test_known_decay_recovery) ... Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+ok
+test_mismatched_observations_rejected (test_transport_calibration.RealPhysicsNeMoCalibrationTests.test_mismatched_observations_rejected) ... ok
+test_zero_decay_and_reproducible_binding (test_transport_calibration.RealPhysicsNeMoCalibrationTests.test_zero_decay_and_reproducible_binding) ... FAIL
+
+======================================================================
+FAIL: test_zero_decay_and_reproducible_binding (test_transport_calibration.RealPhysicsNeMoCalibrationTests.test_zero_decay_and_reproducible_binding)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\submission-physicsnemo\science\tests\test_transport_calibration.py", line 60, in test_zero_decay_and_reproducible_binding
+    self.assertEqual(first["status"], "ok")
+AssertionError: 'rejected' != 'ok'
+- rejected
++ ok
+
+
+----------------------------------------------------------------------
+Ran 6 tests in 18.213s
+
+FAILED (failures=1)

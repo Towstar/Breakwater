@@ -1,0 +1,166 @@
+{
+  "qualification": "eog-synthetic-observations-0.1.0",
+  "input_raw_set_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+  "input_file_hashes": {
+    "network.json": "e8959b8633e76345e25f583aa3a4c46a3de1dde8ca25f95d96f3d10e2fce5c9f",
+    "ops.json": "644884bd3081a3af17065d03cb266c6467f27e1d3f935cb9e4aa48a4e02a9ed0",
+    "telemetry.csv": "4e5ffc0669ba3bc4fadfe50c0fcf2668bf6a380ca9d8a80a541f76a891dc013a"
+  },
+  "source_inputs_unchanged": true,
+  "native_library_sha256": "65fca33af257438fb3df044a938175270e0f5eaebc736342c4c8fda6d80deab3",
+  "cases": [
+    {
+      "scenario_fingerprint": "d36f63747a87fdecfc75cc736d13d9976874f9d959f7ac4e5d7e7e54b359aa65",
+      "model_fingerprint": "aa434a0c887e37f091e805fc4111e819efb1f71c49606cd56fc467b49219aac5",
+      "seed": 941,
+      "duration_s": 86400,
+      "synthetic_start_unix": 1791762900,
+      "actual_first_sample_unix": 1791762900,
+      "actual_last_sample_unix": 1791849300,
+      "systems": 5,
+      "facilities": 15,
+      "channels": 195,
+      "samples": 56355,
+      "native_status": "completed",
+      "native_total_cost": {
+        "truck_cost": 0.0,
+        "lost_revenue": 19012.105138964915,
+        "total": 19012.105138964915
+      },
+      "maximum_abs_mass_residual_bbl": 5.684341886080801e-13,
+      "model_parameters_roundtrip_exactly": true,
+      "all_observations_roundtrip_exactly": true,
+      "detection_roundtrip_exactly": true,
+      "future_truth_change_preserves_prefix_and_detection": true,
+      "pump_failure_checks": [
+        {
+          "facility_id": "S1_FACILITY_B",
+          "truth_onset_elapsed_s": 12392.125,
+          "matched": true,
+          "observed_onset_unix": 1791775500,
+          "detected_unix": 1791775500,
+          "delay_s": 207.875
+        },
+        {
+          "facility_id": "S2_FACILITY_A",
+          "truth_onset_elapsed_s": 2135.125,
+          "matched": true,
+          "observed_onset_unix": 1791765300,
+          "detected_unix": 1791765300,
+          "delay_s": 264.875
+        },
+        {
+          "facility_id": "S5_FACILITY_B",
+          "truth_onset_elapsed_s": 78700.125,
+          "matched": true,
+          "observed_onset_unix": 1791841800,
+          "detected_unix": 1791841800,
+          "delay_s": 199.875
+        }
+      ],
+      "unmatched_pump_events": 0,
+      "false_inspection_events": 0,
+      "generated_file_hashes": {
+        "network.json": "54149d7cfc5ca94abd22bf7af632ebce5008cf33540bea5f4ad5ee5efa34de9a",
+        "ops.json": "e0bf0bf6dfb0dc2659d93e33717f067a4ac46be923e61d59ce84950c2a46f723",
+        "telemetry.csv": "f88d4edf78761eea3d02dd7ae5d49acdb00385578430b16b208c4d7e5f754475"
+      },
+      "wall_s": 5.044311000034213,
+      "limitations": [
+        "Synthetic initialization, forcing and bounded noise; not a recreation of official observations or a real future.",
+        "No pipeline-leak/pump-degradation forcing is generated; this does not qualify their timeliness.",
+        "Detector sees integer acquisition times, not hidden fractional true onsets; onset/repair forecasts retain that uncertainty.",
+        "No evolving planner integration or application controls/installation are executed."
+      ],
+      "passed": true
+    },
+    {
+      "scenario_fingerprint": "3557a2a80376b099bfe5270dae7468ec737fa47395e858e2cfb25d2811c63ff2",
+      "model_fingerprint": "2ab1a7b760092f2ce0bdafca275db2676add8b9d492a73db87dd5748f2151ffa",
+      "seed": 942,
+      "duration_s": 86400,
+      "synthetic_start_unix": 1791762900,
+      "actual_first_sample_unix": 1791762900,
+      "actual_last_sample_unix": 1791849300,
+      "systems": 1,
+      "facilities": 3,
+      "channels": 39,
+      "samples": 11271,
+      "native_status": "completed",
+      "native_total_cost": {
+        "truck_cost": 0.0,
+        "lost_revenue": 0.0,
+        "total": 0.0
+      },
+      "maximum_abs_mass_residual_bbl": 3.979039320256561e-13,
+      "model_parameters_roundtrip_exactly": true,
+      "all_observations_roundtrip_exactly": true,
+      "detection_roundtrip_exactly": true,
+      "future_truth_change_preserves_prefix_and_detection": true,
+      "pump_failure_checks": [
+        {
+          "facility_id": "unfamiliar/synthetic/\u03b2/71/facility:0",
+          "truth_onset_elapsed_s": 79767.125,
+          "matched": true,
+          "observed_onset_unix": 1791842700,
+          "detected_unix": 1791842700,
+          "delay_s": 32.875
+        },
+        {
+          "facility_id": "unfamiliar/synthetic/\u03b2/71/facility:1",
+          "truth_onset_elapsed_s": 64244.125,
+          "matched": true,
+          "observed_onset_unix": 1791827400,
+          "detected_unix": 1791827400,
+          "delay_s": 255.875
+        },
+        {
+          "facility_id": "unfamiliar/synthetic/\u03b2/71/facility:2",
+          "truth_onset_elapsed_s": 7419.125,
+          "matched": true,
+          "observed_onset_unix": 1791770400,
+          "detected_unix": 1791770400,
+          "delay_s": 80.875
+        }
+      ],
+      "unmatched_pump_events": 0,
+      "false_inspection_events": 0,
+      "generated_file_hashes": {
+        "network.json": "1bb28699133c8ba2ccb18905e98bdce4ea6d11df9112ce02f2bcd2d5c870ab72",
+        "ops.json": "75a848d8f07c364a818d0776bcc7cd400aa52f65234688a3e869084b20d7c53b",
+        "telemetry.csv": "5948f2a0c7211b2f71be76e7c295ffdd08b9595d586d814440ab76dee0561adc"
+      },
+      "wall_s": 1.0792538999812678,
+      "limitations": [
+        "Synthetic initialization, forcing and bounded noise; not a recreation of official observations or a real future.",
+        "No pipeline-leak/pump-degradation forcing is generated; this does not qualify their timeliness.",
+        "Detector sees integer acquisition times, not hidden fractional true onsets; onset/repair forecasts retain that uncertainty.",
+        "No evolving planner integration or application controls/installation are executed."
+      ],
+      "passed": true
+    }
+  ],
+  "controlled_replay": {
+    "passed": true,
+    "exact_physical_state_cost_fleet_replay": true,
+    "exact_causal_observation_replay": true,
+    "exact_run_identity_replay": true,
+    "busy_commitment_survives_repair": true,
+    "cost": {
+      "truck_cost": 905.0,
+      "lost_revenue": 8485.1683984375,
+      "total": 9390.1683984375
+    },
+    "completed_full_loads": 1,
+    "limitations": [
+      "Explicit valid controls, not an optimizer result or physical operating approval.",
+      "Observation/query trace-count differences are outside physical replay identity; raw traces remain bounded."
+    ]
+  },
+  "limitations": [
+    "Known generated forcing is used only by this offline comparison; detector receives no labels/seed/future receipt.",
+    "The original official dataset is used for model import only; it is not relabeled as simulated reproduction.",
+    "The unrelated altered network is synthetic, not the unpublished judging dataset."
+  ],
+  "passed": true
+}

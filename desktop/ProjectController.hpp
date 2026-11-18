@@ -72,7 +72,7 @@ public:
     QVariantMap selectedSensor() const;
     QString selectedSensorId() const { return selected_sensor_id_; }
     QJsonObject pipeParameters(const QString& routeId) const;
-    bool setPipeParameters(const QString& routeId, const QJsonObject& parameters);
+    bool setPipeParameters(const QString& routeId, const QJsonObject& parameters, bool requireFreshForecast = false);
     QJsonObject capturedRun() const;
     std::shared_ptr<const CapturedForecast> capturedForecast() const;
     // C++ integration/test entry point; the normal UI retains its fixed defaults.
@@ -121,7 +121,7 @@ private:
     bool busy_ = false, approved_ = false;
     double forecast_fraction_ = 0.0;
     std::shared_ptr<const CapturedForecast> run_;
-    bool edit(const std::function<void()>& mutation);
+    bool edit(const std::function<void()>& mutation, bool requireFreshForecast = false);
     void reportAction(const QString& code, const QString& title, const QString& message,
                       const QStringList& assetIds = {}, const QString& field = {}, const QString& severity = "warning");
     void clearActionFeedback();

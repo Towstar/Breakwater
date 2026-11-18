@@ -1,0 +1,4682 @@
+[
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2389.323855245849
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 2004.2048965379513
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1792.819607982228
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1049.3310855199982
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1049.7221137921747
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1049.0768815182955
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1049.1351872070427
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1049.5071493145103
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1049.1851993508444
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_TANK_A",
+    "metric": "level_pct",
+    "value": 44.25879842340829
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_TANK_B",
+    "metric": "level_pct",
+    "value": 51.282718698289585
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_TANK_C",
+    "metric": "level_pct",
+    "value": 59.45848514516067
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_A1",
+    "metric": "water_bpd",
+    "value": 1002.6379499087523
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_A2",
+    "metric": "water_bpd",
+    "value": 800.4653135252623
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_A3",
+    "metric": "water_bpd",
+    "value": 599.504392660763
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_B1",
+    "metric": "water_bpd",
+    "value": 995.2394541041084
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_B2",
+    "metric": "water_bpd",
+    "value": 597.8689019160103
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_B3",
+    "metric": "water_bpd",
+    "value": 399.0710638003274
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_C1",
+    "metric": "water_bpd",
+    "value": 449.6458902686964
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_C2",
+    "metric": "water_bpd",
+    "value": 696.7195165752
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S1_WELL_C3",
+    "metric": "water_bpd",
+    "value": 650.8624196341774
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2192.396103560103
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1601.6653519925812
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1397.924363015427
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1000.8738514669413
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1000.2952575342354
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1000.7832053189246
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1000.2018383653318
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1000.6963589237032
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1000.2154706662845
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_TANK_A",
+    "metric": "level_pct",
+    "value": 57.1921293611457
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_TANK_B",
+    "metric": "level_pct",
+    "value": 59.15246377890595
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_TANK_C",
+    "metric": "level_pct",
+    "value": 54.84027986409442
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_A1",
+    "metric": "water_bpd",
+    "value": 1094.5024876221423
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_A2",
+    "metric": "water_bpd",
+    "value": 648.795984770395
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_A3",
+    "metric": "water_bpd",
+    "value": 450.5601837558106
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_B1",
+    "metric": "water_bpd",
+    "value": 401.6996822209965
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_B2",
+    "metric": "water_bpd",
+    "value": 650.0293076829117
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_B3",
+    "metric": "water_bpd",
+    "value": 547.5289378604984
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_C1",
+    "metric": "water_bpd",
+    "value": 598.6304117235544
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_C2",
+    "metric": "water_bpd",
+    "value": 449.0709243139015
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S2_WELL_C3",
+    "metric": "water_bpd",
+    "value": 348.403614993893
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1994.1703112037171
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1505.0807795234996
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 949.365292496836
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 950.0688687340222
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 950.5506058070486
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 949.339786885388
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_TANK_A",
+    "metric": "level_pct",
+    "value": 65.65000447301907
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_TANK_B",
+    "metric": "level_pct",
+    "value": 66.21395188700406
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_A1",
+    "metric": "water_bpd",
+    "value": 848.7003579028495
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_A2",
+    "metric": "water_bpd",
+    "value": 651.9685045492453
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_A3",
+    "metric": "water_bpd",
+    "value": 499.38928621626195
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_B1",
+    "metric": "water_bpd",
+    "value": 749.9477734549863
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_B2",
+    "metric": "water_bpd",
+    "value": 451.0856967453763
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S3_WELL_B3",
+    "metric": "water_bpd",
+    "value": 300.15867593991214
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1791.8751984895343
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1500.1633697656318
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 2101.704191646361
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_FACILITY_D",
+    "metric": "inflow_bpd",
+    "value": 1696.4689396302645
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1100.5660809513556
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1100.4444189069006
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1100.1802518191473
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PIPELINE_D",
+    "metric": "pressure_psi",
+    "value": 1100.8047729147331
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PIPELINE_D",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1100.7001613477491
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1100.9832583519794
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1099.2902042593303
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_D",
+    "metric": "discharge_psi",
+    "value": 1099.5922440970496
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_D",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_PUMP_D",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_TANK_A",
+    "metric": "level_pct",
+    "value": 61.92367229922628
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_TANK_B",
+    "metric": "level_pct",
+    "value": 63.55609706380319
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_TANK_C",
+    "metric": "level_pct",
+    "value": 59.792148951751436
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_TANK_D",
+    "metric": "level_pct",
+    "value": 42.95675779821546
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_A1",
+    "metric": "water_bpd",
+    "value": 448.5417048823577
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_A2",
+    "metric": "water_bpd",
+    "value": 721.3376386412139
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_A3",
+    "metric": "water_bpd",
+    "value": 629.0939849145723
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_B1",
+    "metric": "water_bpd",
+    "value": 648.1089202685484
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_B2",
+    "metric": "water_bpd",
+    "value": 497.8295094264058
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_B3",
+    "metric": "water_bpd",
+    "value": 350.7851997066802
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_C1",
+    "metric": "water_bpd",
+    "value": 1046.2675877258378
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_C2",
+    "metric": "water_bpd",
+    "value": 631.9298685703297
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_C3",
+    "metric": "water_bpd",
+    "value": 418.11000852998046
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_D1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_D1",
+    "metric": "water_bpd",
+    "value": 450.0968254733952
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_D2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_D2",
+    "metric": "water_bpd",
+    "value": 649.870790793049
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_D3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S4_WELL_D3",
+    "metric": "water_bpd",
+    "value": 602.3124648145625
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1906.3332393200944
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1705.0399840039574
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1302.6409839057567
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1019.7402020119216
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1019.9660665180033
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1019.1801724281479
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1019.5893431127975
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1019.9549845150159
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1019.5915520621446
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_TANK_A",
+    "metric": "level_pct",
+    "value": 39.05053517488275
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_TANK_B",
+    "metric": "level_pct",
+    "value": 53.97016872953006
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_TANK_C",
+    "metric": "level_pct",
+    "value": 49.350154013272444
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_A1",
+    "metric": "water_bpd",
+    "value": 799.0697960678872
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_A2",
+    "metric": "water_bpd",
+    "value": 626.3145615683356
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_A3",
+    "metric": "water_bpd",
+    "value": 474.0489506882758
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_B1",
+    "metric": "water_bpd",
+    "value": 852.1261847439641
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_B2",
+    "metric": "water_bpd",
+    "value": 508.8344853712233
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_B3",
+    "metric": "water_bpd",
+    "value": 341.01895926262677
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_C1",
+    "metric": "water_bpd",
+    "value": 323.62373215399293
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_C2",
+    "metric": "water_bpd",
+    "value": 517.8057587969954
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791762900,
+    "asset_id": "S5_WELL_C3",
+    "metric": "water_bpd",
+    "value": 453.75132538163956
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2389.312225722467
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1995.4405087757686
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1801.4103723779642
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1050.1182876824769
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1049.8626258187078
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1050.0339612734194
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1050.1198776093986
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1049.6957504323718
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1050.2381814720916
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_TANK_A",
+    "metric": "level_pct",
+    "value": 49.24714016134192
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_TANK_B",
+    "metric": "level_pct",
+    "value": 55.420815551091096
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_TANK_C",
+    "metric": "level_pct",
+    "value": 65.09103571571696
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_A1",
+    "metric": "water_bpd",
+    "value": 996.4435476833563
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_A2",
+    "metric": "water_bpd",
+    "value": 803.161878382962
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_A3",
+    "metric": "water_bpd",
+    "value": 602.2175352630284
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_B1",
+    "metric": "water_bpd",
+    "value": 1004.154322792054
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_B2",
+    "metric": "water_bpd",
+    "value": 597.4142390036047
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_B3",
+    "metric": "water_bpd",
+    "value": 399.2563915006852
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_C1",
+    "metric": "water_bpd",
+    "value": 449.4989585481197
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_C2",
+    "metric": "water_bpd",
+    "value": 700.9841351126257
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S1_WELL_C3",
+    "metric": "water_bpd",
+    "value": 647.6737058090691
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2191.1577274101332
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1605.970667447395
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1396.3705868461284
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1000.9373732446983
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 999.2650075484465
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 999.4318960994569
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 999.9883066133668
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 999.5239472224789
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 999.8308496247499
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_TANK_A",
+    "metric": "level_pct",
+    "value": 62.605517051366796
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_TANK_B",
+    "metric": "level_pct",
+    "value": 64.72681915225262
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_TANK_C",
+    "metric": "level_pct",
+    "value": 60.592365465596
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_A1",
+    "metric": "water_bpd",
+    "value": 1095.988556906239
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_A2",
+    "metric": "water_bpd",
+    "value": 648.5253448865047
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_A3",
+    "metric": "water_bpd",
+    "value": 450.5428035556355
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_B1",
+    "metric": "water_bpd",
+    "value": 401.28987245705605
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_B2",
+    "metric": "water_bpd",
+    "value": 650.7255921265872
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_B3",
+    "metric": "water_bpd",
+    "value": 552.3541580153768
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_C1",
+    "metric": "water_bpd",
+    "value": 597.3067248566196
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_C2",
+    "metric": "water_bpd",
+    "value": 449.38183994146266
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S2_WELL_C3",
+    "metric": "water_bpd",
+    "value": 348.9616414081794
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2009.4897633173912
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1501.6655917727105
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 999.6148994744332
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 3007.604349325815
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1000.4570652224427
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 2256.0733790445884
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1099.8131450184871
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 2988.7487261221945
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PUMP_A",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1100.7326112492178
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 2242.838004604263
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_PUMP_B",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_TANK_A",
+    "metric": "level_pct",
+    "value": 69.49125272817689
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_TANK_B",
+    "metric": "level_pct",
+    "value": 69.27908830038734
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_A1",
+    "metric": "water_bpd",
+    "value": 851.9412218277472
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_A2",
+    "metric": "water_bpd",
+    "value": 650.7197318267526
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_A3",
+    "metric": "water_bpd",
+    "value": 498.1001092334789
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_B1",
+    "metric": "water_bpd",
+    "value": 747.7731902402845
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_B2",
+    "metric": "water_bpd",
+    "value": 449.1024019886808
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S3_WELL_B3",
+    "metric": "water_bpd",
+    "value": 299.0967931403227
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1805.7432493600772
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1498.1542840761801
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 2109.9325159413825
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_FACILITY_D",
+    "metric": "inflow_bpd",
+    "value": 1707.855320103953
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1100.662931801689
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1099.0865853891582
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1100.3686238031275
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PIPELINE_D",
+    "metric": "pressure_psi",
+    "value": 1099.4414445299435
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PIPELINE_D",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1099.0523260728503
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1100.2069538211865
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1099.4624848793944
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_D",
+    "metric": "discharge_psi",
+    "value": 1100.2159583485336
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_D",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_PUMP_D",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_TANK_A",
+    "metric": "level_pct",
+    "value": 67.40599693807916
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_TANK_B",
+    "metric": "level_pct",
+    "value": 68.86688096870095
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_TANK_C",
+    "metric": "level_pct",
+    "value": 65.65025408623609
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_TANK_D",
+    "metric": "level_pct",
+    "value": 48.605336006427954
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_A1",
+    "metric": "water_bpd",
+    "value": 448.2453582662311
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_A2",
+    "metric": "water_bpd",
+    "value": 719.4593016301399
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_A3",
+    "metric": "water_bpd",
+    "value": 632.4209573018886
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_B1",
+    "metric": "water_bpd",
+    "value": 647.9737270894492
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_B2",
+    "metric": "water_bpd",
+    "value": 497.99134243862073
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_B3",
+    "metric": "water_bpd",
+    "value": 350.6331945234032
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_C1",
+    "metric": "water_bpd",
+    "value": 1046.3574482036756
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_C2",
+    "metric": "water_bpd",
+    "value": 626.9294059643782
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_C3",
+    "metric": "water_bpd",
+    "value": 421.8792713751032
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_D1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_D1",
+    "metric": "water_bpd",
+    "value": 450.27589033770266
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_D2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_D2",
+    "metric": "water_bpd",
+    "value": 648.1704290132012
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_D3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S4_WELL_D3",
+    "metric": "water_bpd",
+    "value": 597.4212063373707
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1894.0707227189912
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1694.1802995782962
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1299.667087153639
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1019.0677714133808
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1019.2029962399164
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1020.3728163867808
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1019.3905058992215
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1019.9535521793332
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1020.9394678135815
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_TANK_A",
+    "metric": "level_pct",
+    "value": 44.48993881351091
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_TANK_B",
+    "metric": "level_pct",
+    "value": 59.387421172885546
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_TANK_C",
+    "metric": "level_pct",
+    "value": 54.62368799821237
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_A1",
+    "metric": "water_bpd",
+    "value": 800.4246327371354
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_A2",
+    "metric": "water_bpd",
+    "value": 626.302199213254
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_A3",
+    "metric": "water_bpd",
+    "value": 474.3888458693827
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_B1",
+    "metric": "water_bpd",
+    "value": 854.1073521277145
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_B2",
+    "metric": "water_bpd",
+    "value": 509.91811937487563
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_B3",
+    "metric": "water_bpd",
+    "value": 341.64260987126823
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_C1",
+    "metric": "water_bpd",
+    "value": 323.96880007895453
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_C2",
+    "metric": "water_bpd",
+    "value": 522.4168973388142
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765000,
+    "asset_id": "S5_WELL_C3",
+    "metric": "water_bpd",
+    "value": 453.02457252378633
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2404.677743300709
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 2009.0838291898842
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1797.3719610833443
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1049.0956624297012
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1050.5349728122123
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1049.77398595202
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1049.9779882915275
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1050.8229861734178
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1050.4183384669059
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_TANK_A",
+    "metric": "level_pct",
+    "value": 49.89177346213651
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_TANK_B",
+    "metric": "level_pct",
+    "value": 56.01877359335544
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_TANK_C",
+    "metric": "level_pct",
+    "value": 65.70165209509294
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_A1",
+    "metric": "water_bpd",
+    "value": 1004.5167704491615
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_A2",
+    "metric": "water_bpd",
+    "value": 798.1017756591
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_A3",
+    "metric": "water_bpd",
+    "value": 599.8476156255871
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_B1",
+    "metric": "water_bpd",
+    "value": 999.4937275082123
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_B2",
+    "metric": "water_bpd",
+    "value": 600.7800542964816
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_B3",
+    "metric": "water_bpd",
+    "value": 400.39249165838396
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_C1",
+    "metric": "water_bpd",
+    "value": 449.7000185845841
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_C2",
+    "metric": "water_bpd",
+    "value": 700.0546046730524
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S1_WELL_C3",
+    "metric": "water_bpd",
+    "value": 646.9376930793336
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2203.090931481626
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1604.2954944353473
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1396.0665525615602
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1000.8525348762234
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1000.0250319751576
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1000.1536444796715
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 999.9682207549093
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_A",
+    "metric": "status",
+    "value": 2.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 999.1939863227865
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 999.0827488236521
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_TANK_A",
+    "metric": "level_pct",
+    "value": 63.31976018761367
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_TANK_B",
+    "metric": "level_pct",
+    "value": 65.60384052291857
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_TANK_C",
+    "metric": "level_pct",
+    "value": 61.42192530901687
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_A1",
+    "metric": "water_bpd",
+    "value": 1098.5979588118041
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_A2",
+    "metric": "water_bpd",
+    "value": 649.5024914939802
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_A3",
+    "metric": "water_bpd",
+    "value": 449.42508880334196
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_B1",
+    "metric": "water_bpd",
+    "value": 401.98515892321007
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_B2",
+    "metric": "water_bpd",
+    "value": 650.1993440812929
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_B3",
+    "metric": "water_bpd",
+    "value": 548.9854650083056
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_C1",
+    "metric": "water_bpd",
+    "value": 599.6716344705169
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_C2",
+    "metric": "water_bpd",
+    "value": 451.7314341108458
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S2_WELL_C3",
+    "metric": "water_bpd",
+    "value": 349.47868799506915
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2005.8318734498448
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1504.7097721597656
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1000.2257708410739
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 2993.3069897854407
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 999.2675699624253
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 2245.8454169813403
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1100.0070480680179
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 3000.9099599957876
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PUMP_A",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1100.8162086534019
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 2256.1784633665256
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_PUMP_B",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_TANK_A",
+    "metric": "level_pct",
+    "value": 69.118831989931
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_TANK_B",
+    "metric": "level_pct",
+    "value": 68.99188101516657
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_A1",
+    "metric": "water_bpd",
+    "value": 848.2159383218014
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_A2",
+    "metric": "water_bpd",
+    "value": 649.7709254790991
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_A3",
+    "metric": "water_bpd",
+    "value": 501.4789521233717
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_B1",
+    "metric": "water_bpd",
+    "value": 746.5048564206402
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_B2",
+    "metric": "water_bpd",
+    "value": 450.3876582950752
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S3_WELL_B3",
+    "metric": "water_bpd",
+    "value": 300.7344486063403
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1797.6696164103982
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1502.9046021334655
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 2096.8853513659496
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_FACILITY_D",
+    "metric": "inflow_bpd",
+    "value": 1694.4295783123468
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1099.0726745428015
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1099.9107635213577
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1100.4262151660052
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PIPELINE_D",
+    "metric": "pressure_psi",
+    "value": 1099.8578239174878
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PIPELINE_D",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1100.3881366666662
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1100.434052083012
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1100.0019571493297
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_D",
+    "metric": "discharge_psi",
+    "value": 1099.5405055219446
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_D",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_PUMP_D",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_TANK_A",
+    "metric": "level_pct",
+    "value": 68.25975645899935
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_TANK_B",
+    "metric": "level_pct",
+    "value": 69.56043645421524
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_TANK_C",
+    "metric": "level_pct",
+    "value": 66.38025684597427
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_TANK_D",
+    "metric": "level_pct",
+    "value": 49.372959696309024
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_A1",
+    "metric": "water_bpd",
+    "value": 451.32451213900436
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_A2",
+    "metric": "water_bpd",
+    "value": 722.4559080485527
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_A3",
+    "metric": "water_bpd",
+    "value": 633.0503475277593
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_B1",
+    "metric": "water_bpd",
+    "value": 647.0940274756595
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_B2",
+    "metric": "water_bpd",
+    "value": 499.1993811635227
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_B3",
+    "metric": "water_bpd",
+    "value": 350.29171962308584
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_C1",
+    "metric": "water_bpd",
+    "value": 1054.9549398318034
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_C2",
+    "metric": "water_bpd",
+    "value": 629.5172840742063
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_C3",
+    "metric": "water_bpd",
+    "value": 420.3246488304171
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_D1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_D1",
+    "metric": "water_bpd",
+    "value": 449.44999857373807
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_D2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_D2",
+    "metric": "water_bpd",
+    "value": 648.1013787726915
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_D3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S4_WELL_D3",
+    "metric": "water_bpd",
+    "value": 597.6215023279215
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1891.1445099847424
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1704.3916123174643
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1303.637792217993
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1020.9111471559297
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1019.615434837403
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1019.5574103986532
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1019.5817440539198
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1019.9455552361323
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1019.0628389811358
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_TANK_A",
+    "metric": "level_pct",
+    "value": 45.34122752220033
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_TANK_B",
+    "metric": "level_pct",
+    "value": 60.163655559049424
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_TANK_C",
+    "metric": "level_pct",
+    "value": 55.2193774720383
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_A1",
+    "metric": "water_bpd",
+    "value": 801.7886141998796
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_A2",
+    "metric": "water_bpd",
+    "value": 623.8541548267392
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_A3",
+    "metric": "water_bpd",
+    "value": 474.9765666041121
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_B1",
+    "metric": "water_bpd",
+    "value": 846.4503586302274
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_B2",
+    "metric": "water_bpd",
+    "value": 508.0241582823107
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_B3",
+    "metric": "water_bpd",
+    "value": 339.50397306706157
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_C1",
+    "metric": "water_bpd",
+    "value": 326.13885158352446
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_C2",
+    "metric": "water_bpd",
+    "value": 519.1260166596496
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791765300,
+    "asset_id": "S5_WELL_C3",
+    "metric": "water_bpd",
+    "value": 455.73460773234086
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2399.6846193985857
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 2008.5219738223811
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1802.1282827242428
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1099.3668579351843
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 3610.068111986405
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1100.574718176146
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 3002.5916360752335
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1050.302684826834
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1199.3409609758523
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 3605.036827593748
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_A",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1200.828359325062
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 3014.975138489773
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_B",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1049.7559580036914
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_TANK_A",
+    "metric": "level_pct",
+    "value": 42.88590247862226
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_TANK_B",
+    "metric": "level_pct",
+    "value": 41.5518514717011
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_TANK_C",
+    "metric": "level_pct",
+    "value": 44.54611517106075
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_A1",
+    "metric": "water_bpd",
+    "value": 995.5959294567193
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_A2",
+    "metric": "water_bpd",
+    "value": 796.698753473906
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_A3",
+    "metric": "water_bpd",
+    "value": 599.5857563897929
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_B1",
+    "metric": "water_bpd",
+    "value": 1003.9022312427048
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_B2",
+    "metric": "water_bpd",
+    "value": 599.318105330732
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_B3",
+    "metric": "water_bpd",
+    "value": 399.4569532358099
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_C1",
+    "metric": "water_bpd",
+    "value": 450.7892257770682
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_C2",
+    "metric": "water_bpd",
+    "value": 699.411953768725
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S1_WELL_C3",
+    "metric": "water_bpd",
+    "value": 651.8194928818442
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 2191.7561603515232
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1599.265736970391
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1469.9288240549213
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1000.349929068116
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1000.7130817701023
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 999.6285062947472
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 999.8653583964447
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 999.2386890132893
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1000.760974066381
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_TANK_A",
+    "metric": "level_pct",
+    "value": 65.46376579722282
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_TANK_B",
+    "metric": "level_pct",
+    "value": 47.73047411658168
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_TANK_C",
+    "metric": "level_pct",
+    "value": 47.48587144701226
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_A1",
+    "metric": "water_bpd",
+    "value": 1104.7506662701269
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_A2",
+    "metric": "water_bpd",
+    "value": 650.5785320515539
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_A3",
+    "metric": "water_bpd",
+    "value": 448.65307002683386
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_B1",
+    "metric": "water_bpd",
+    "value": 400.59594685405017
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_B2",
+    "metric": "water_bpd",
+    "value": 647.6575491280173
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_B3",
+    "metric": "water_bpd",
+    "value": 552.3726080296952
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_C1",
+    "metric": "water_bpd",
+    "value": 600.7860670019985
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_C2",
+    "metric": "water_bpd",
+    "value": 451.9948431427849
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S2_WELL_C3",
+    "metric": "water_bpd",
+    "value": 419.341376178634
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1992.0662893285237
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1501.4818219355598
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 950.9302143189112
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 950.4695098677611
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 950.3978272569885
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 949.0165413168503
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_TANK_A",
+    "metric": "level_pct",
+    "value": 47.85326915134366
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_TANK_B",
+    "metric": "level_pct",
+    "value": 40.50587366945808
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_A1",
+    "metric": "water_bpd",
+    "value": 853.5951581325126
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_A2",
+    "metric": "water_bpd",
+    "value": 647.7817780412922
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_A3",
+    "metric": "water_bpd",
+    "value": 499.9068058063125
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_B1",
+    "metric": "water_bpd",
+    "value": 753.1037236797684
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_B2",
+    "metric": "water_bpd",
+    "value": 448.3011752629167
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S3_WELL_B3",
+    "metric": "water_bpd",
+    "value": 299.0722504190633
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1801.719432430689
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1502.7015260915805
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 2105.854013890617
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_FACILITY_D",
+    "metric": "inflow_bpd",
+    "value": 1691.8916090996838
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1100.2980955662952
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1100.9582672235883
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1100.5914145512393
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PIPELINE_D",
+    "metric": "pressure_psi",
+    "value": 1149.8927913355567
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PIPELINE_D",
+    "metric": "receive_flow_bpd",
+    "value": 2547.9653556125977
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1099.1444202012967
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_A",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1099.1504386257582
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_B",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1099.2281128020188
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_C",
+    "metric": "status",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_D",
+    "metric": "discharge_psi",
+    "value": 1250.9630738613062
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_D",
+    "metric": "flow_bpd",
+    "value": 2556.05400424887
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_PUMP_D",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_TANK_A",
+    "metric": "level_pct",
+    "value": 47.02110574537713
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_TANK_B",
+    "metric": "level_pct",
+    "value": 38.01545579443421
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_TANK_C",
+    "metric": "level_pct",
+    "value": 53.30659842239411
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_TANK_D",
+    "metric": "level_pct",
+    "value": 30.17444825258885
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_A1",
+    "metric": "water_bpd",
+    "value": 450.01177368250086
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_A2",
+    "metric": "water_bpd",
+    "value": 717.5594743331303
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_A3",
+    "metric": "water_bpd",
+    "value": 630.6521170814797
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_B1",
+    "metric": "water_bpd",
+    "value": 651.8477471966019
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_B2",
+    "metric": "water_bpd",
+    "value": 501.0876867264282
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_B3",
+    "metric": "water_bpd",
+    "value": 350.63426501486396
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_C1",
+    "metric": "water_bpd",
+    "value": 1045.2117422127021
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_C2",
+    "metric": "water_bpd",
+    "value": 629.3202115837536
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_C3",
+    "metric": "water_bpd",
+    "value": 418.9309265218104
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_D1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_D1",
+    "metric": "water_bpd",
+    "value": 449.6730503879228
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_D2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_D2",
+    "metric": "water_bpd",
+    "value": 652.246755223613
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_D3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S4_WELL_D3",
+    "metric": "water_bpd",
+    "value": 601.9639163995191
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_FACILITY_A",
+    "metric": "inflow_bpd",
+    "value": 1892.8973005597409
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_FACILITY_B",
+    "metric": "inflow_bpd",
+    "value": 1694.3867553714326
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_FACILITY_C",
+    "metric": "inflow_bpd",
+    "value": 1293.571132523442
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PIPELINE_A",
+    "metric": "pressure_psi",
+    "value": 1069.0293962843791
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PIPELINE_A",
+    "metric": "receive_flow_bpd",
+    "value": 2849.7304853976875
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PIPELINE_B",
+    "metric": "pressure_psi",
+    "value": 1019.9756112145612
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PIPELINE_B",
+    "metric": "receive_flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PIPELINE_C",
+    "metric": "pressure_psi",
+    "value": 1069.6367447307211
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PIPELINE_C",
+    "metric": "receive_flow_bpd",
+    "value": 1948.7914039492275
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_A",
+    "metric": "discharge_psi",
+    "value": 1170.6647767433417
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_A",
+    "metric": "flow_bpd",
+    "value": 2848.3690900551455
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_A",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_B",
+    "metric": "discharge_psi",
+    "value": 1019.0375618171524
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_B",
+    "metric": "flow_bpd",
+    "value": 0.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_B",
+    "metric": "status",
+    "value": 2.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_C",
+    "metric": "discharge_psi",
+    "value": 1170.5034225551976
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_C",
+    "metric": "flow_bpd",
+    "value": 1944.4163774442911
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_PUMP_C",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_TANK_A",
+    "metric": "level_pct",
+    "value": 33.676834421816956
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_TANK_B",
+    "metric": "level_pct",
+    "value": 55.08976515234201
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_TANK_C",
+    "metric": "level_pct",
+    "value": 32.02246207127166
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_A1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_A1",
+    "metric": "water_bpd",
+    "value": 799.6761381090688
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_A2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_A2",
+    "metric": "water_bpd",
+    "value": 627.7699938608181
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_A3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_A3",
+    "metric": "water_bpd",
+    "value": 474.70059209480775
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_B1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_B1",
+    "metric": "water_bpd",
+    "value": 846.7728803250852
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_B2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_B2",
+    "metric": "water_bpd",
+    "value": 508.0089140292966
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_B3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_B3",
+    "metric": "water_bpd",
+    "value": 338.6899500808923
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_C1",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_C1",
+    "metric": "water_bpd",
+    "value": 324.8595039134741
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_C2",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_C2",
+    "metric": "water_bpd",
+    "value": 518.2705004950217
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_C3",
+    "metric": "status",
+    "value": 1.0
+  },
+  {
+    "unix": 1791849300,
+    "asset_id": "S5_WELL_C3",
+    "metric": "water_bpd",
+    "value": 454.0900321299937
+  }
+]

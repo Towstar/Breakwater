@@ -1,0 +1,635 @@
+{
+  "study_version": 1,
+  "runtime_commit": "95a8bf18d8eeae266418be3c323c67cbb6f84f2e",
+  "specification_commit": "135ba4c8348357457420a1111df80ec1906bcbdb",
+  "adopted_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "detector_method": "eog-detection-0.3.0",
+  "worker_method": "eog-worker-0.3.3",
+  "declarations": [
+    "777dd7f",
+    "1dcce7e",
+    "4e867df",
+    "a17c452"
+  ],
+  "source_hashes": {
+    "network.json": "e8959b8633e76345e25f583aa3a4c46a3de1dde8ca25f95d96f3d10e2fce5c9f",
+    "ops.json": "644884bd3081a3af17065d03cb266c6467f27e1d3f935cb9e4aa48a4e02a9ed0",
+    "telemetry.csv": "4e5ffc0669ba3bc4fadfe50c0fcf2668bf6a380ca9d8a80a541f76a891dc013a"
+  },
+  "offline_label_sha256": "24872a1b427e7c0556f398cb2ad705d2264772cd20e774ab745e990d99e2710d",
+  "full_science": {
+    "passed": true,
+    "tests_run": 418,
+    "tests_passed": 418,
+    "failures": 0,
+    "errors": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "skipped": [],
+    "unexpected_skips": []
+  },
+  "focused": {
+    "methods": 18,
+    "failed": 0,
+    "seconds": 23.819
+  },
+  "generated": {
+    "small_loss_configuration_seeds": [
+      {
+        "seed": 2026110804,
+        "configurations": 32
+      },
+      {
+        "seed": 2026110806,
+        "configurations": 64
+      },
+      {
+        "seed": 2026110808,
+        "configurations": 128
+      }
+    ],
+    "healthy_day_configuration_seeds": [
+      {
+        "seed": 2026110805,
+        "configurations": 32
+      },
+      {
+        "seed": 2026110807,
+        "configurations": 64
+      },
+      {
+        "seed": 2026110809,
+        "configurations": 128
+      }
+    ],
+    "small_loss_cases": 1344,
+    "small_loss_fault_cases": 896,
+    "healthy_only_hours": 9856,
+    "healthy_only_false_inspections": 0,
+    "small_loss_fraction": 0.03,
+    "small_loss_meter_noise_fraction": 0.01,
+    "healthy_day_meter_noise_fraction": 0.025,
+    "maximum_allowed_fault_delay_s": 14400,
+    "fresh_final_small_loss_configurations": 128,
+    "fresh_final_healthy_days": 128,
+    "limitations": "Finite declared synthetic families; independent uniform noise is not a measured physical guarantee. Seeds used for threshold refinement become development data."
+  },
+  "full_week_comparison": [
+    {
+      "reference_id": "EVENT_1",
+      "category": "pipeline_leak",
+      "baseline_detection_delay_s": 27600,
+      "candidate_detection_delay_s": 7200,
+      "baseline_resolution_error_s": 7200,
+      "candidate_resolution_error_s": 7200
+    },
+    {
+      "reference_id": "EVENT_10",
+      "category": "pipeline_leak",
+      "baseline_detection_delay_s": 48300,
+      "candidate_detection_delay_s": 9600,
+      "baseline_resolution_error_s": 4200,
+      "candidate_resolution_error_s": 4200
+    },
+    {
+      "reference_id": "EVENT_11",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_12",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_13",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_14",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_15",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_16",
+      "category": "pipeline_leak",
+      "baseline_detection_delay_s": 38700,
+      "candidate_detection_delay_s": 10500,
+      "baseline_resolution_error_s": 21600,
+      "candidate_resolution_error_s": 22500
+    },
+    {
+      "reference_id": "EVENT_17",
+      "category": "pipeline_leak",
+      "baseline_detection_delay_s": 18900,
+      "candidate_detection_delay_s": 5100,
+      "baseline_resolution_error_s": 12600,
+      "candidate_resolution_error_s": 12600
+    },
+    {
+      "reference_id": "EVENT_18",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_19",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_2",
+      "category": "pump_degradation",
+      "baseline_detection_delay_s": 40200,
+      "candidate_detection_delay_s": 19800,
+      "baseline_resolution_error_s": 15900,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_20",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_21",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_22",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_23",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_3",
+      "category": "pump_degradation",
+      "baseline_detection_delay_s": 57600,
+      "candidate_detection_delay_s": 19800,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_4",
+      "category": "pipeline_leak",
+      "baseline_detection_delay_s": 32400,
+      "candidate_detection_delay_s": 11400,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_5",
+      "category": "pump_degradation",
+      "baseline_detection_delay_s": 50700,
+      "candidate_detection_delay_s": 21900,
+      "baseline_resolution_error_s": 21600,
+      "candidate_resolution_error_s": 21600
+    },
+    {
+      "reference_id": "EVENT_6",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    },
+    {
+      "reference_id": "EVENT_7",
+      "category": "pump_degradation",
+      "baseline_detection_delay_s": 43800,
+      "candidate_detection_delay_s": 21300,
+      "baseline_resolution_error_s": 21600,
+      "candidate_resolution_error_s": 21600
+    },
+    {
+      "reference_id": "EVENT_8",
+      "category": "pump_degradation",
+      "baseline_detection_delay_s": 57000,
+      "candidate_detection_delay_s": 21300,
+      "baseline_resolution_error_s": 21600,
+      "candidate_resolution_error_s": 21600
+    },
+    {
+      "reference_id": "EVENT_9",
+      "category": "pump_failure",
+      "baseline_detection_delay_s": 0,
+      "candidate_detection_delay_s": 0,
+      "baseline_resolution_error_s": 0,
+      "candidate_resolution_error_s": 0
+    }
+  ],
+  "official_cuts": [
+    {
+      "cutoff_unix": 1791762900,
+      "gate_passed": true,
+      "by_category": {
+        "pipeline_leak": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_degradation": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_failure": {
+          "truth": 13,
+          "predicted": 13,
+          "matched": 13,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "lifecycle_confusion": [
+        {
+          "truth": "resolved",
+          "predicted": "resolved",
+          "count": 23
+        }
+      ],
+      "unresolved_inspections": []
+    },
+    {
+      "cutoff_unix": 1791460800,
+      "gate_passed": true,
+      "by_category": {
+        "pipeline_leak": {
+          "truth": 3,
+          "predicted": 3,
+          "matched": 3,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_degradation": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_failure": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "lifecycle_confusion": [
+        {
+          "truth": "ongoing",
+          "predicted": "ongoing",
+          "count": 6
+        },
+        {
+          "truth": "resolved",
+          "predicted": "resolved",
+          "count": 7
+        }
+      ],
+      "unresolved_inspections": [
+        {
+          "asset_id": "S3_PUMP_A",
+          "category": "pump_degradation",
+          "coverage": "available",
+          "recommended_action": "field_inspection"
+        },
+        {
+          "asset_id": "S4_PUMP_C",
+          "category": "pump_degradation",
+          "coverage": "available",
+          "recommended_action": "field_inspection"
+        },
+        {
+          "asset_id": "S5_PIPELINE_B",
+          "category": "pipeline_leak",
+          "coverage": "available",
+          "recommended_action": "field_inspection"
+        }
+      ]
+    },
+    {
+      "cutoff_unix": 1791516600,
+      "gate_passed": false,
+      "by_category": {
+        "pipeline_leak": {
+          "truth": 3,
+          "predicted": 3,
+          "matched": 3,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_degradation": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_failure": {
+          "truth": 7,
+          "predicted": 7,
+          "matched": 7,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "lifecycle_confusion": [
+        {
+          "truth": "ongoing",
+          "predicted": "ongoing",
+          "count": 2
+        },
+        {
+          "truth": "resolved",
+          "predicted": "ongoing",
+          "count": 1
+        },
+        {
+          "truth": "resolved",
+          "predicted": "resolved",
+          "count": 12
+        }
+      ],
+      "unresolved_inspections": [
+        {
+          "asset_id": "S4_PUMP_C",
+          "category": "pump_degradation",
+          "coverage": "ambiguous",
+          "recommended_action": "unavailable"
+        },
+        {
+          "asset_id": "S5_PIPELINE_B",
+          "category": "pipeline_leak",
+          "coverage": "available",
+          "recommended_action": "field_inspection"
+        }
+      ]
+    },
+    {
+      "cutoff_unix": 1791622800,
+      "gate_passed": false,
+      "by_category": {
+        "pipeline_leak": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_degradation": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_failure": {
+          "truth": 11,
+          "predicted": 11,
+          "matched": 11,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "lifecycle_confusion": [
+        {
+          "truth": "ongoing",
+          "predicted": "ongoing",
+          "count": 3
+        },
+        {
+          "truth": "resolved",
+          "predicted": "ongoing",
+          "count": 1
+        },
+        {
+          "truth": "resolved",
+          "predicted": "resolved",
+          "count": 17
+        }
+      ],
+      "unresolved_inspections": [
+        {
+          "asset_id": "S2_PIPELINE_C",
+          "category": "pipeline_leak",
+          "coverage": "ambiguous",
+          "recommended_action": "field_inspection"
+        }
+      ]
+    },
+    {
+      "cutoff_unix": 1791646200,
+      "gate_passed": true,
+      "by_category": {
+        "pipeline_leak": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_degradation": {
+          "truth": 5,
+          "predicted": 5,
+          "matched": 5,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        },
+        "pump_failure": {
+          "truth": 13,
+          "predicted": 13,
+          "matched": 13,
+          "false_positive": 0,
+          "missed": 0,
+          "precision": 1.0,
+          "recall": 1.0
+        }
+      },
+      "lifecycle_confusion": [
+        {
+          "truth": "ongoing",
+          "predicted": "ongoing",
+          "count": 2
+        },
+        {
+          "truth": "resolved",
+          "predicted": "resolved",
+          "count": 21
+        }
+      ],
+      "unresolved_inspections": []
+    }
+  ],
+  "provider": {
+    "qualification": "offline_real_worker_fixed_input",
+    "adopted_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+    "source_hashes": {
+      "network.json": "e8959b8633e76345e25f583aa3a4c46a3de1dde8ca25f95d96f3d10e2fce5c9f",
+      "ops.json": "644884bd3081a3af17065d03cb266c6467f27e1d3f935cb9e4aa48a4e02a9ed0",
+      "telemetry.csv": "4e5ffc0669ba3bc4fadfe50c0fcf2668bf6a380ca9d8a80a541f76a891dc013a"
+    },
+    "dataset_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+    "source_first_unix": 1791158400,
+    "source_now_unix": 1791762900,
+    "native_library_sha256": "62a789d5ec4249559ac5b108b03929506bae8e49a0fc654ced2ce23268b76466",
+    "cuts": [
+      {
+        "cutoff_unix": 1791460800,
+        "capture_id": "143b7d0a449ec51be11371adc32cdd08a27b91ab7f84197a69be27e85969286c",
+        "detect_status": "completed",
+        "event_count": 13,
+        "evaluate_status": "completed",
+        "feasible": true,
+        "outcome": "automatic_shutdown",
+        "cost": {
+          "truck_cost": 0.0,
+          "lost_revenue": 12120.031267547434,
+          "total": 12120.031267547434
+        },
+        "facility_count": 3,
+        "detect_wall_s": 5.486632900021505,
+        "evaluate_wall_s": 5.290494000015315
+      },
+      {
+        "cutoff_unix": 1791516600,
+        "capture_id": "1b375bcceb65e4b1419eebf56060eb5279ca086db7038f0dc4627d440eb3c4d2",
+        "detect_status": "completed",
+        "event_count": 15,
+        "evaluate_status": "completed",
+        "feasible": true,
+        "outcome": "automatic_shutdown",
+        "cost": {
+          "truck_cost": 0.0,
+          "lost_revenue": 7549.081166047441,
+          "total": 7549.081166047441
+        },
+        "facility_count": 1,
+        "detect_wall_s": 8.205149999994319,
+        "evaluate_wall_s": 6.152451700007077
+      },
+      {
+        "cutoff_unix": 1791622800,
+        "capture_id": "0420ecaa014cd70bae6ec10eb73f810d57ed8835082ef30fe071641112b6e793",
+        "detect_status": "completed",
+        "event_count": 21,
+        "evaluate_status": "completed",
+        "feasible": true,
+        "outcome": "automatic_shutdown",
+        "cost": {
+          "truck_cost": 0.0,
+          "lost_revenue": 11900.563692064303,
+          "total": 11900.563692064303
+        },
+        "facility_count": 3,
+        "detect_wall_s": 8.168894600006752,
+        "evaluate_wall_s": 7.7641819000127725
+      },
+      {
+        "cutoff_unix": 1791646200,
+        "capture_id": "29169bcbbeac283f7989c14310aca572b608a31d26cc50d9ac786ac9672fe78a",
+        "detect_status": "completed",
+        "event_count": 23,
+        "evaluate_status": "completed",
+        "feasible": true,
+        "outcome": "automatic_shutdown",
+        "cost": {
+          "truck_cost": 0.0,
+          "lost_revenue": 9970.447076341012,
+          "total": 9970.447076341012
+        },
+        "facility_count": 2,
+        "detect_wall_s": 8.368558699963614,
+        "evaluate_wall_s": 8.052269999985583
+      }
+    ],
+    "limitations": [
+      "No answer-key access, independent plan validation, held-out accuracy or installed application acceptance.",
+      "Fixture generator is not the B-owned atomic desktop capture producer.",
+      "Wall times include protected capture verification/loading/process startup; they are not optimized benchmarks."
+    ],
+    "passed": true
+  },
+  "limitations": [
+    "Official practice labels were available earlier; no held-out network qualification.",
+    "Two historical lifecycle gates still fail; stopped data does not authenticate hidden repair.",
+    "Some recovery errors worsen; the paired table retains every old/new value. Recovery is not uniformly improved.",
+    "Persistent sensor gain bias and an equal physical loss are observationally indistinguishable.",
+    "No new native/ASan/Lean, installed/rendered application or hosted-model acceptance is claimed."
+  ]
+}

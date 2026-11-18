@@ -1,0 +1,28 @@
+{
+  "runtime_source": "4654de484b79821a01ca2e7d0ee36d506c066abc",
+  "executable": "C:\\Projects\\Breakwater\\out\\submission-eog-search-fixed\\bin\\breakwater.exe",
+  "executable_sha256": "4b7ea4f36f8e277a76567e31d1cf9b13871addfde9fea1b7f5e3b728a6161021",
+  "built_utc": "2026-11-08T18:17:28.5553295Z",
+  "controller": {
+    "failed": 0,
+    "passed": 50,
+    "skipped": 0
+  },
+  "investigator": {
+    "failed": 0,
+    "passed": 66,
+    "skipped": 0
+  },
+  "model_search_scope": "fixed all captured systems; no model filter parameter",
+  "provider_scope": "application binds system_ids=[] only when model omits field",
+  "explicit_invalid_scope": "null, malformed, duplicate, unknown or proper subset rejected without provider execution",
+  "hosted_verification": "Incomplete: real detect and evaluate_plan succeeded; third model request failed with transport_failed. No search_plans call, no independent validation or grounded final occurred.",
+  "public_provider_contract": "unchanged",
+  "numerical_source": "unchanged",
+  "startup_checks": {
+    "old_build_control_passes": 1,
+    "initial_crash_cause": "not isolated",
+    "initial_crash_exit": -1073741819,
+    "consecutive_new_build_passes": 2
+  }
+}
