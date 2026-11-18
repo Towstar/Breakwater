@@ -141,7 +141,7 @@ Rectangle {
         }
         camera: eogCamera
         IndustrialLighting { quality: network.renderQuality }
-        SiteGround { centerX: network.sceneBounds.center_x || 0; centerZ: network.sceneBounds.center_z || 0; spanX: Math.max(900, (network.sceneBounds.width || 600) * 1.3); spanZ: Math.max(700, (network.sceneBounds.depth || 400) * 1.3); showLane: false }
+        SiteGround { centerX: network.sceneBounds.center_x || 0; centerZ: network.sceneBounds.center_z || 0; spanX: Math.max(900, (network.sceneBounds.width || 600) * 1.3); spanZ: Math.max(700, (network.sceneBounds.depth || 400) * 1.3); showLane: false; quality: network.renderQuality }
         Repeater3D {
             model: network.sceneRoutes
             delegate: Node {
@@ -279,17 +279,24 @@ Rectangle {
         onWheel: function(wheel) { network.zoomFactor = Math.max(0.45, Math.min(3, network.zoomFactor - wheel.angleDelta.y / 120 * 0.10)) }
     }
     Label {
-        anchors.left: parent.left; anchors.top: parent.top; anchors.margins: 10; width: Math.max(0, parent.width - 20)
+        anchors.left: parent.left; anchors.top: parent.top; anchors.margins: 10; width: Math.min(implicitWidth, Math.max(0, parent.width - 20))
         text: network.overview ? "SYSTEMS · select a facility to inspect equipment · right-drag to orbit"
                                : "FACILITY · select equipment · right-drag to orbit · scroll to zoom"
-        wrapMode: Text.Wrap; color: "#253B47"; font.pixelSize: 10; padding: 3
-        background: Rectangle { color: "#DCE5E7"; opacity: 0.88; radius: 3 }
+        wrapMode: Text.Wrap; color: Theme.text; font.pixelSize: 10; padding: 7
+        background: Rectangle { color: "#B315191B"; border.color: "#26FFFFFF"; radius: 6 }
     }
     Label {
-        anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 10; width: Math.max(0, parent.width - 20)
+        anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 10; width: Math.min(implicitWidth, Math.max(0, parent.width - 116))
         text: network.overview ? "Pipe: water connection · dashed: truck access · travel times from ops.json"
                                : "Schematic equipment and topology · raw observations remain unchanged"
-        horizontalAlignment: Text.AlignRight; wrapMode: Text.Wrap; color: "#253B47"; font.pixelSize: 10; padding: 3
-        background: Rectangle { color: "#DCE5E7"; opacity: 0.88; radius: 3 }
+        horizontalAlignment: Text.AlignRight; wrapMode: Text.Wrap; color: Theme.text; font.pixelSize: 10; padding: 7
+        background: Rectangle { color: "#B315191B"; border.color: "#26FFFFFF"; radius: 6 }
+    }
+    SceneAxes {
+        objectName: "operationsOrientation"
+        projector: view; focusPoint: rig.position
+        viewState: [network.yaw, network.pitch, network.zoomFactor, network.sceneRevision, network.projectionReady, view.width, view.height]
+        anchors.left: parent.left; anchors.bottom: parent.bottom; anchors.margins: 10
+        visible: network.width > 520 && network.height > 260 && network.eog.loaded
     }
 }

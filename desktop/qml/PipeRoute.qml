@@ -32,12 +32,12 @@ Node {
         delegate: Node {
             required property real modelData
             position: Qt.vector3d(route.sx + route.dx * modelData, 0, route.sz + route.dz * modelData)
-            Model { source: "#Cube"; y: 1; scale: Qt.vector3d(0.14, 0.025, 0.14); materials: PrincipledMaterial { baseColor: "#A9ABA2"; roughness: 0.95 } }
+            Model { source: "#Cube"; y: -1; scale: Qt.vector3d(0.18, 0.04, 0.18); materials: PrincipledMaterial { baseColor: "#AEBBBC"; roughness: 0.95 } }
             Model { source: "#Cube"; y: 4; scale: Qt.vector3d(0.025, 0.07, 0.025); materials: PrincipledMaterial { baseColor: "#74828A"; metalness: 0.25; roughness: 0.6 } }
         }
     }
     Model {
-        visible: route.length > 0.01 && route.routeData.flow > 0
+        visible: route.length > 0.01 && route.routeData.available && route.routeData.flow > 0
         objectName: "route:" + route.routeData.id
         source: "#Cone"
         position: Qt.vector3d(route.sx + route.dx * 0.62, 8, route.sz + route.dz * 0.62)
@@ -45,6 +45,12 @@ Node {
         scale: Qt.vector3d(0.16, 0.22, 0.16)
         pickable: true
         materials: PrincipledMaterial { baseColor: route.pipeColor; roughness: 0.7 }
+    }
+    SitePad {
+        visible: route.routeData.pump && (route.detailed || route.routeData.selected)
+        kind: "pump"; selected: route.routeData.selected; detailed: route.detailed
+        position: Qt.vector3d((route.sx + route.tx) / 2, 0, (route.sz + route.tz) / 2)
+        eulerRotation.y: Math.atan2(-route.dz, route.dx) * 180 / Math.PI
     }
     IndustrialEquipment {
         visible: route.routeData.pump

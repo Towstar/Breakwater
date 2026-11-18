@@ -1,0 +1,214 @@
+{
+  "scope": "Presentation-only industrial yard and navigation pass; numerical, scientific and proof implementations are unchanged.",
+  "implementation_base": "688da702e2ea93c9769138cbeabd2ec57b9c9cd0",
+  "checks": {
+    "normal_ctest_suites": 9,
+    "asan_ctest_suites": 9,
+    "normal_log": "out/yard-revamp/checks-final-normal.log",
+    "asan_log": "out/yard-revamp/checks-final-asan.log",
+    "layouts": [
+      "normal",
+      "compact",
+      "1008x672",
+      "960x540"
+    ],
+    "source_directory": "out/yard-revamp"
+  },
+  "grid": {
+    "base_layout_step": 20,
+    "maximum_lines_per_axis": 65,
+    "editor_ground_plane_y": 0,
+    "world_aligned": true,
+    "operating_authority": false
+  },
+  "measurements": {
+    "before": {
+      "default": {
+        "actual_body_picks": {
+          "pickable": 6,
+          "projected": 6
+        },
+        "assets": 6,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": true,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 1,
+        "elapsed_ms": 9986.067100000017,
+        "fps": 62.48706259944908,
+        "frame_interval_p50_ms": 16.7177,
+        "frame_interval_p95_ms": 18.1154,
+        "frames": 624,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T20:21:59Z",
+        "routes": 6,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 60,
+        "target_met": true
+      },
+      "maximum": {
+        "actual_body_picks": {
+          "pickable": 128,
+          "projected": 128
+        },
+        "assets": 128,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": false,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 0,
+        "elapsed_ms": 9977.187700000008,
+        "fps": 62.542674224721615,
+        "frame_interval_p50_ms": 16.7069,
+        "frame_interval_p95_ms": 18.3317,
+        "frames": 624,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T20:22:13Z",
+        "routes": 256,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 30,
+        "target_met": true
+      }
+    },
+    "after": {
+      "default": {
+        "actual_body_picks": {
+          "pickable": 6,
+          "projected": 6
+        },
+        "assets": 6,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": true,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 1,
+        "elapsed_ms": 9996.97969999999,
+        "fps": 112.83407927696413,
+        "frame_interval_p50_ms": 9.0352,
+        "frame_interval_p95_ms": 16.2772,
+        "frames": 1128,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T20:33:02Z",
+        "routes": 6,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 60,
+        "target_met": true
+      },
+      "maximum": {
+        "actual_body_picks": {
+          "pickable": 128,
+          "projected": 128
+        },
+        "assets": 128,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": false,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 0,
+        "elapsed_ms": 9990.918899999999,
+        "fps": 111.30107361796323,
+        "frame_interval_p50_ms": 10.9175,
+        "frame_interval_p95_ms": 16.3558,
+        "frames": 1112,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T20:33:16Z",
+        "routes": 256,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 30,
+        "target_met": true
+      }
+    },
+    "after-final": {
+      "default": {
+        "actual_body_picks": {
+          "pickable": 6,
+          "projected": 6
+        },
+        "assets": 6,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": true,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 1,
+        "elapsed_ms": 9987.812199999995,
+        "fps": 62.47614467560777,
+        "frame_interval_p50_ms": 16.6821,
+        "frame_interval_p95_ms": 18.0648,
+        "frames": 624,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T20:37:54Z",
+        "routes": 6,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 60,
+        "target_met": true
+      },
+      "maximum": {
+        "actual_body_picks": {
+          "pickable": 128,
+          "projected": 128
+        },
+        "assets": 128,
+        "client_height": 900,
+        "client_width": 1440,
+        "detail_visible": false,
+        "device_pixel_ratio": 1.75,
+        "effective_scene_quality": 0,
+        "elapsed_ms": 9983.16920000001,
+        "fps": 62.50520125412674,
+        "frame_interval_p50_ms": 16.7119,
+        "frame_interval_p95_ms": 18.0188,
+        "frames": 624,
+        "graphics_api": 4,
+        "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+        "numerical_identity_unchanged": true,
+        "recorded_utc": "2026-11-18T20:38:08Z",
+        "routes": 256,
+        "screenshot_written": true,
+        "software_renderer_requested": false,
+        "status": "measured",
+        "target_fps": 30,
+        "target_met": true
+      }
+    }
+  },
+  "measurement_notes": [
+    "Same local Windows D3D11 session, 1440x900 client and 1.75 DPR; software renderer not requested.",
+    "2.5-second warmup and 10-second view-only camera sweep; local measurements, not hardware guarantees.",
+    "The intermediate after measurement includes extra HUD-triggered renders and is not a speedup result. after-final coalesces HUD updates."
+  ],
+  "source_sha256": {
+    "desktop/qml/SiteGround.qml": "a1f4eafcd61776e17ac8464f0ebae214cc468e8b41490d31bd87e538187a2e47",
+    "desktop/qml/SitePad.qml": "1e8ed5646f0659e5eebda7a4456ad99bce13e03d1a6a4f13eda8a0d6c1c26fb9",
+    "desktop/qml/IndustrialLighting.qml": "31255177a6f27e3eb1e79d6c17b49d09b0bb1fbc7076cbf5083c95deb6bf47b0",
+    "desktop/qml/IndustrialEquipment.qml": "a3bca2467aa3a0f514f3a2dcd9f6a780dbedb57fd7b055df30167278db8be170",
+    "desktop/qml/IndustrialPipe.qml": "8f9c2ab5a11317fc8987cbb07e57c89ea23348ffe5f184b49acb85b35ca6b30a",
+    "desktop/qml/PipeRoute.qml": "9e6e8b343fc770508c6e2966dd42f6a5392186b68046f414f0f2c75bcb494d40",
+    "desktop/qml/SceneAxes.qml": "4c5d4c0d314237d5d40922534e8856de78a0d97628f5adcfcb8674de1f12f9da",
+    "desktop/qml/Main.qml": "2efb416bc6376eef211f23686aa8653543c1761d537301b89f01efb8b61b0902",
+    "desktop/qml/EogNetworkView.qml": "745c2b7ce9a7f8d6220c0dda271941c1e1e6a5612fb95fb374e04879e61014bf",
+    "desktop/assets/site-gravel.svg": "c1a614429b75ddd801c2df795754e675fe9e0a12fbd3247eabf2a5f3780d5acf",
+    "desktop/assets/icons/grid-3x3.svg": "d882f40d8e5e5951724b2024def98c169d689cb56bfce777f870c04327327179",
+    "desktop/verification/WorkbenchUiCheck.cpp": "cd6d5671f10e2dc79078a8aaf0c109d50f6ce34d2a6bd8e0b58f7c9b8cecae88",
+    "desktop/CMakeLists.txt": "33166e1ff90f7209f8ce88c06692e63a8a5d2d1eff746f9fdf3f811a7db398a4"
+  }
+}

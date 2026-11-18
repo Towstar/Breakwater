@@ -93,7 +93,7 @@ qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
     qml/Theme.qml qml/ActionButton.qml qml/ActionFeedbackCard.qml
     qml/IndustrialEquipment.qml qml/IndustrialPipe.qml qml/AppComboBox.qml qml/DialogHeading.qml
     qml/EogAnalysisView.qml qml/IndustrialEnvironment.qml qml/IndustrialLighting.qml
-    qml/SiteGround.qml qml/SitePad.qml qml/ConnectionPreview.qml qml/ForecastPanel.qml qml/DialogFooter.qml qml/AssetInspector.qml)
+    qml/SiteGround.qml qml/SitePad.qml qml/ConnectionPreview.qml qml/ForecastPanel.qml qml/DialogFooter.qml qml/AssetInspector.qml qml/SceneAxes.qml)
 file(GLOB _breakwater_action_icons CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/*.svg")
 qt_add_resources(breakwater breakwater_visual_assets PREFIX /breakwater/assets
   BASE "${CMAKE_CURRENT_SOURCE_DIR}/assets"

@@ -385,7 +385,17 @@ class Check final : public QObject {
             case 38:
                 require(item("equipmentLabel")->property("text").toString() == "Tank A"
                     && item("numericProperty_capacity")->isVisible(), "inspector_equipment_fields_missing");
-                preserved(); snapshot("11-tank-inspector.png"); finish(true, "ok"); return;
+                preserved(); snapshot("11-tank-inspector.png");
+                require(eval("siteGround.gridStep >= 20 && siteGround.gridStep % 20 === 0 && siteGround.gridColumns <= 65 && siteGround.gridRows <= 65 && siteGround.gridCenterX % siteGround.gridStep === 0 && siteGround.gridCenterZ % siteGround.gridStep === 0").toBool(),
+                    "layout_grid_not_bounded_or_world_aligned");
+                click(item("sceneGrid")); break;
+            case 39:
+                require(!window_->property("siteGridVisible").toBool() && !item("sceneGrid")->property("checked").toBool(), "grid_did_not_hide");
+                preserved(); click(item("sceneGrid")); break;
+            case 40:
+                require(window_->property("siteGridVisible").toBool() && item("sceneGrid")->property("checked").toBool(), "grid_did_not_restore");
+                preserved(); passed("world_aligned_bounded_grid_toggle_preserves_numerical_evidence");
+                snapshot("12-layout-grid.png"); finish(true, "ok"); return;
             default: throw std::runtime_error("invalid_phase");
             }
             ++phase_;
