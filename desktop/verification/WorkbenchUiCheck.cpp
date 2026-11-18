@@ -363,12 +363,22 @@ class Check final : public QObject {
                     if (route.value("pump").toBool()) { controller_->select(route.value("id").toString()); break; }
                 }
                 break;
-            case 37:
+            case 37: {
+                auto* bar = item("propertyInspectorScrollBar"); auto* panel = item("assetInspector");
+                const auto origin = bar->mapToItem(panel, QPointF(0, 0));
+                const bool mirrored = bar->parentItem() && bar->parentItem()->property("mirrored").toBool();
+                observed_["inspector_scrollbar"] = QJsonObject{{"x", origin.x()}, {"height", bar->height()},
+                    {"panel_width", panel->width()}, {"panel_height", panel->height()}, {"size", bar->property("size").toDouble()}};
+                require((mirrored ? origin.x() < panel->width() * 0.2 : origin.x() > panel->width() * 0.8)
+                    && bar->height() > panel->height() * 0.8,
+                    "inspector_scrollbar_not_at_viewport_edge");
+                require(bar->isVisible() == (bar->property("size").toDouble() < 1.0), "inspector_scrollbar_visibility_wrong");
                 require(controller_->selected().value("pump").toBool() && item("inspectorPumpState")->isVisible()
                     && item("inspectorPumpState")->property("text").toString() == (controller_->selected().value("available").toBool() ? "Pump available" : "Pump unavailable"),
                     "inspector_pump_state_missing");
                 preserved(); passed("inspector_route_state_preserves_numerical_evidence");
                 snapshot("10-route-inspector.png"); controller_->select("tank_a"); break;
+            }
             case 38:
                 require(item("equipmentLabel")->property("text").toString() == "Tank A"
                     && item("numericProperty_capacity")->isVisible(), "inspector_equipment_fields_missing");

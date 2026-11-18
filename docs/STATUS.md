@@ -26,6 +26,8 @@ filtering itself does not change selection or numerical evidence. Optional scien
 and proof scope information now lives in About instead of occupying navigator space.
 Eight targeted checks pass in each of normal and ASan builds, including native
 filter/evidence-preservation checks at normal, compact and minimum sizes.
+Live review caught a scrollbar overlapping its heading. A native geometry check
+reproduced it before the viewport anchoring and overflow-visibility fix.
 
 Main remains `3116b3d`. PR56 ancestry and the bounded test-metadata compatibility
 patch are integrated on the isolated portfolio baseline. Draft PR58 contains the

@@ -38,12 +38,17 @@ Pane {
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical: ScrollBar {
             id: propertyScrollBar; objectName: "propertyInspectorScrollBar"
+            parent: inspectorScroll
+            x: inspectorScroll.mirrored ? 0 : inspectorScroll.width - width
+            y: inspectorScroll.topPadding; height: inspectorScroll.availableHeight
+            visible: size < 1.0
             policy: ScrollBar.AsNeeded; active: true; interactive: true
             width: 10; padding: 1; minimumSize: 0.12
             background: Rectangle { color: Theme.background; border.color: Theme.divider; radius: 4 }
             contentItem: Rectangle { implicitWidth: 8; implicitHeight: 32; radius: 3; color: propertyScrollBar.pressed ? Theme.text : propertyScrollBar.hovered ? Theme.secondary : Theme.controlBorder }
         }
         ColumnLayout {
+            x: inspectorScroll.mirrored ? 12 : 0
             width: Math.max(0, inspectorScroll.availableWidth - 12); spacing: 8
             RowLayout {
                 Layout.fillWidth: true
