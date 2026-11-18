@@ -15,6 +15,11 @@ baseline; draft PR59 contains the desktop/offline increment. Both are conflict-f
 at the last GitHub check. Numerical/shared review is still required before main.
 Draft PR60 contains the large-scene performance increment. The delivery branch
 adds packaging, optional setup, media and the final recording/CI fixes.
+The complete draft review stack is [PR58](https://github.com/Towstar/Breakwater/pull/58)
+→ [PR59](https://github.com/Towstar/Breakwater/pull/59)
+→ [PR60](https://github.com/Towstar/Breakwater/pull/60)
+→ [PR61](https://github.com/Towstar/Breakwater/pull/61). Live GitHub checks remain
+the authority for each published branch's current CI outcome.
 The unpublished observed-capture work and frozen hackathon application are preserved.
 Devpost is unchanged.
 

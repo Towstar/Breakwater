@@ -48,6 +48,11 @@ Evidence lives in `out/ci/<suite>-<mode>/`: step logs, verification metadata,
 registered/executed test counts and test reports. Desktop evidence includes Qt
 case totals and retained charts/history fixtures. Python evidence names every
 skip; only the declared optional PhysicsNeMo test class may skip in the CPU lane.
+The desktop lane also records the one exact
+`PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply` skip with
+the reason `Explicit real PhysicsNeMo runtime test not requested.` The real
+optional-runtime fit runs separately; a different case/reason or any failed or
+blacklisted Qt case is rejected by `scripts/ci/Read-QtResults.py`.
 Missing Torch/schema dependencies, zero tests, missing expected desktop science
 checks or unexpected skipped cases fail the job. Lean runs both the positive audit
 and the deliberately rejected-assumption probe using the unchanged proof script.

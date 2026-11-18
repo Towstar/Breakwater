@@ -34,14 +34,16 @@ their original source/runtime scope.
 
 ## Build and run on Windows
 
-Use Visual Studio 2022 with Desktop C++, CMake/Ninja, PowerShell 7 and the pinned
+Use Visual Studio 2022 with Desktop C++, CMake/Ninja, PowerShell 7, a 64-bit
+bootstrap Python 3.12 interpreter, and the pinned
 Qt 6.12.0 MSVC 2022 x64 SDK. Qt Quick, Quick Controls, Quick 3D, SVG, SQL, Network
 and Qt Test are used. The repository's installer records the exact Qt archives.
 
 ```powershell
 # Project-local setup. Does not change registry/PATH permanently.
-python -m pip install --require-hashes -r scripts/ci/requirements-win-py312.txt
-python scripts/install-qt.py
+python -m venv .tools/ci-bootstrap
+& ./.tools/ci-bootstrap/Scripts/python.exe -m pip install --require-hashes -r scripts/ci/requirements-win-py312.txt
+& ./.tools/ci-bootstrap/Scripts/python.exe scripts/install-qt.py
 ./scripts/Setup-ScientificWorker.ps1
 
 # In a VS developer PowerShell, or after the compiler bootstrap:
