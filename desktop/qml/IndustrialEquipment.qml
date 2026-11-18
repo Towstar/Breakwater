@@ -11,17 +11,19 @@ Node {
     property bool selected: false
     property bool abnormal: false
     property bool showMarker: true
+    property bool detailed: true
+    property int connectionState: 0
     property real fillFraction: NaN
     readonly property real displayFill: isFinite(fillFraction) ? Math.max(0, Math.min(1, fillFraction)) : 0
 
-    PrincipledMaterial { id: shell; baseColor: visual.abnormal ? "#eb8585" : "#a6b0b8"; metalness: 0.38; roughness: 0.56 }
+    PrincipledMaterial { id: shell; baseColor: visual.abnormal ? "#C27366" : "#89A1AC"; metalness: 0.2; roughness: 0.64 }
     PrincipledMaterial { id: bright; baseColor: "#d4dade"; metalness: 0.48; roughness: 0.42 }
     PrincipledMaterial { id: dark; baseColor: "#3c474f"; metalness: 0.28; roughness: 0.64 }
-    PrincipledMaterial { id: foundation; baseColor: "#293137"; metalness: 0.05; roughness: 0.94 }
+    PrincipledMaterial { id: foundation; baseColor: "#697273"; metalness: 0.05; roughness: 0.94 }
     PrincipledMaterial { id: marking; baseColor: "#a7997d"; metalness: 0.28; roughness: 0.62 }
     PrincipledMaterial { id: window; baseColor: "#17242c"; metalness: 0.18; roughness: 0.3 }
     PrincipledMaterial { id: water; baseColor: visual.abnormal ? "#eb8585" : "#789ba7"; metalness: 0.12; roughness: 0.42 }
-    PrincipledMaterial { id: selection; baseColor: visual.selected ? "#edf1f3" : "#354149"; roughness: 0.8 }
+    PrincipledMaterial { id: selection; baseColor: visual.connectionState === 1 ? "#819C89" : visual.connectionState === 3 ? "#BCA771" : visual.selected ? "#E2F2F6" : "#747E7C"; roughness: 0.8 }
 
     component Part: Model {
         objectName: visual.pickName
@@ -35,12 +37,19 @@ Node {
         materials: selection
     }
     Loader3D {
-        sourceComponent: visual.kind === "tank" ? tankAssembly
+        sourceComponent: !visual.detailed ? simpleAssembly : visual.kind === "tank" ? tankAssembly
             : visual.kind === "pump" ? pumpAssembly
             : visual.kind === "source" || visual.kind === "well" || visual.kind === "disposal" ? wellAssembly
             : visual.kind === "treatment" ? treatmentAssembly
             : visual.kind === "trucking" || visual.kind === "truck_yard" ? truckAssembly
             : visual.kind === "pipeline" ? pipelineAssembly : facilityAssembly
+    }
+    Component {
+        id: simpleAssembly
+        Node {
+            Part { source: visual.kind === "tank" ? "#Cylinder" : "#Cube"; y: 28; scale: Qt.vector3d(0.46, 0.56, 0.46); pickable: true }
+            Part { source: "#Cube"; y: 3; scale: Qt.vector3d(0.62, 0.06, 0.62); materials: foundation }
+        }
     }
 
     Component {

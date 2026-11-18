@@ -7,10 +7,10 @@ Dialog {
     id: panel
     required property var telemetry
     parent: Overlay.overlay
-    width: Math.min(920, parent ? parent.width - 236 : 920)
-    height: Math.min(720, parent ? parent.height - 96 : 720)
-    x: 220 + Math.max(0, ((parent ? parent.width : 1156) - 236 - width) / 2)
-    y: 76 + Math.max(0, ((parent ? parent.height : 816) - 96 - height) / 2)
+    width: Math.min(920, parent ? parent.width - 32 : 920)
+    height: Math.min(720, parent ? parent.height - 32 : 720)
+    x: Math.max(16, ((parent ? parent.width : width + 32) - width) / 2)
+    y: Math.max(16, ((parent ? parent.height : height + 32) - height) / 2)
     modal: false
     closePolicy: Popup.CloseOnEscape
     title: "Synthetic monitoring and replay"
@@ -29,16 +29,8 @@ Dialog {
     palette.highlightedText: Theme.background
     palette.mid: Theme.controlBorder
     background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
-    header: Rectangle {
-        implicitHeight: 54
-        color: Theme.surface
-        Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider }
-        RowLayout {
-            anchors.fill: parent; anchors.leftMargin: 14; anchors.rightMargin: 12; spacing: 12
-            Label { Layout.fillWidth: true; text: panel.title; color: Theme.text; font.pixelSize: 18; font.weight: Font.DemiBold }
-            ActionButton { objectName: "telemetryPanelClose"; iconName: "x"; text: "Close"; tooltip: "Close"; display: AbstractButton.IconOnly; Layout.preferredWidth: 36; onClicked: panel.close() }
-        }
-    }
+    header: DialogHeading { owner: panel; closeName: "telemetryPanelClose" }
+    footer: DialogFooter { owner: panel }
     property string notice: ""
     property string selectedSensorId: ""
     readonly property int renderedNumericSamples: traceChart.visible ? traceChart.numericSampleCount : 0
@@ -157,7 +149,7 @@ Dialog {
                 Layout.fillWidth: true
                 spacing: 8
                 ActionButton { text: panel.telemetry.paused ? "Resume" : "Pause"; enabled: panel.telemetry.active; onClicked: panel.telemetry.paused ? panel.telemetry.resume() : panel.telemetry.pause() }
-                ComboBox {
+                AppComboBox {
                     id: speed
                     width: 112
                     model: ["0.25×", "0.5×", "1×", "2×", "4×"]
@@ -190,7 +182,7 @@ Dialog {
                 contentItem: ColumnLayout {
                 spacing: 10
             Label { text: "SENSOR OBSERVATIONS"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
-            ComboBox {
+            AppComboBox {
                 id: sensorChoice
                 Layout.fillWidth: true
                 model: panel.telemetry.sensors

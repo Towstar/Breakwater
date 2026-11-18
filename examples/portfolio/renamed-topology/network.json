@@ -1,0 +1,118 @@
+{
+  "meta": {
+    "units": {
+      "volume": "bbl",
+      "rate": "bpd",
+      "gas_rate": "mcfd",
+      "pressure": "psi"
+    },
+    "timezone": "UTC"
+  },
+  "defaults": {
+    "tank_limits_pct": {
+      "warning": 85,
+      "shutdown": 92
+    }
+  },
+  "systems": [
+    {
+      "id": "DELTA/α",
+      "center": [
+        31.9,
+        -102.3
+      ],
+      "truck_yard": [
+        31.897,
+        -102.30199999999999
+      ],
+      "disposal_site": {
+        "id": "DELTA/α_DISPOSAL",
+        "lat": 31.909,
+        "lon": -102.292,
+        "pressure_psi": 1050
+      },
+      "facilities": [
+        {
+          "id": "DELTA/α/STATION-1",
+          "lat": 31.9,
+          "lon": -102.3,
+          "wells": [
+            {
+              "id": "DELTA/α/STATION-1_WELL_1",
+              "baseline_water_bpd": 450,
+              "oil_bpd": 560,
+              "gas_mcfd": 2000
+            },
+            {
+              "id": "DELTA/α/STATION-1_WELL_2",
+              "baseline_water_bpd": 700,
+              "oil_bpd": 170,
+              "gas_mcfd": 600
+            },
+            {
+              "id": "DELTA/α/STATION-1_WELL_3",
+              "baseline_water_bpd": 650,
+              "oil_bpd": 390,
+              "gas_mcfd": 1400
+            }
+          ],
+          "tank": {
+            "id": "DELTA/α/STATION-1_TANK",
+            "capacity_bbl": 800
+          },
+          "pump": {
+            "id": "DELTA/α/STATION-1_PUMP",
+            "max_flow_bpd": 2700,
+            "start_level_pct": 70,
+            "stop_level_pct": 30
+          },
+          "pipeline": {
+            "id": "DELTA/α/STATION-1_PIPE",
+            "max_bpd": 3000,
+            "max_pressure_psi": 1700
+          }
+        },
+        {
+          "id": "DELTA/α/STATION-2",
+          "lat": 31.904999999999998,
+          "lon": -102.29599999999999,
+          "wells": [
+            {
+              "id": "DELTA/α/STATION-2_WELL_1",
+              "baseline_water_bpd": 450,
+              "oil_bpd": 560,
+              "gas_mcfd": 2000
+            },
+            {
+              "id": "DELTA/α/STATION-2_WELL_2",
+              "baseline_water_bpd": 700,
+              "oil_bpd": 170,
+              "gas_mcfd": 600
+            },
+            {
+              "id": "DELTA/α/STATION-2_WELL_3",
+              "baseline_water_bpd": 650,
+              "oil_bpd": 390,
+              "gas_mcfd": 1400
+            }
+          ],
+          "tank": {
+            "id": "DELTA/α/STATION-2_TANK",
+            "capacity_bbl": 800
+          },
+          "pump": {
+            "id": "DELTA/α/STATION-2_PUMP",
+            "max_flow_bpd": 2700,
+            "start_level_pct": 70,
+            "stop_level_pct": 30
+          },
+          "pipeline": {
+            "id": "DELTA/α/STATION-2_PIPE",
+            "max_bpd": 3000,
+            "max_pressure_psi": 1700
+          }
+        }
+      ]
+    }
+  ]
+}

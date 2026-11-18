@@ -109,6 +109,32 @@ void adaptiveModel(FakeModel& model, bool skipValidation = false) {
 class OrchestratorTests : public QObject {
     Q_OBJECT
 private slots:
+    void localSearchUsesRealNumericsWithoutAnyModelRequestsOrAutomaticApplication() {
+        ProjectController project; project.loadExample("baseline");
+        const auto before = project.editorDocument(); const auto hash = project.networkHash();
+        FakeModel model; model.silent = true; AgentController controller(&project, &model);
+        controller.searchLocally(); QTRY_VERIFY_WITH_TIMEOUT(!controller.running(), 20000);
+        QCOMPARE(model.requests, 0); QVERIFY(controller.localOnly());
+        const auto result = controller.recommendation();
+        QCOMPARE(result.value("source_mode").toString(), "local_native");
+        QCOMPARE(result.value("status").toString(), "validated_recommendation");
+        QVERIFY(controller.runs().size() >= 2); QVERIFY(controller.canApprove());
+        QVERIFY(!controller.review().value("validation_id").toString().isEmpty());
+        QCOMPARE(project.editorDocument(), before); QCOMPARE(project.networkHash(), hash);
+        for (const auto& value : controller.events()) QVERIFY(value.toMap().value("type").toString() != "model_request");
+        project.moveAsset("tank_a", 180, 100); QVERIFY(controller.canApprove());
+        project.reset(); QVERIFY(!controller.canApprove());
+    }
+    void localSearchIsRetainedAndReopensAsNonactionableHistory() {
+        QTemporaryDir directory; history::SessionRepository repository(directory.filePath("local.sqlite"));
+        history::HistoryController history(&repository); ProjectController project; project.loadExample("baseline");
+        FakeModel model; model.silent = true; AgentController controller(&project, &model); controller.setHistory(&repository, &history);
+        controller.searchLocally(); QTRY_VERIFY_WITH_TIMEOUT(!controller.running(), 20000);
+        const auto id = controller.recommendation().value("session_id").toString(); QVERIFY(!id.isEmpty());
+        QTRY_VERIFY_WITH_TIMEOUT(history.runs().size() >= 2, 20000);
+        QTest::qWait(100); history.loadSession(id); QTRY_VERIFY_WITH_TIMEOUT(history.historical(), 20000);
+        QVERIFY(history.runs().size() >= 2); QVERIFY(!controller.canApprove()); QCOMPARE(model.requests, 0);
+    }
     void rehearsalCoordinatorExportsApprovedSearchFromEmptyInitialForecast_data() {
         QTest::addColumn<bool>("editDuringForecast");
         QTest::newRow("approved-search-export") << false;

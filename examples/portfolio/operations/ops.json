@@ -1,0 +1,38 @@
+{
+  "dataset_id": "breakwater-portfolio-local-v1",
+  "prices": {
+    "oil_per_bbl": 60,
+    "gas_per_mcf": 3
+  },
+  "expected_repair_hours": {
+    "pump_failure": 6
+  },
+  "emergency_trucking": {
+    "truck_capacity_bbl": 150,
+    "cost_per_trip": 905
+  },
+  "systems": {
+    "NORTH": {
+      "emergency_fleet_size": 2,
+      "facilities": {
+        "NORTH_PAD_A": {
+          "response_min": 75,
+          "cycle_min": 230
+        },
+        "NORTH_PAD_B": {
+          "response_min": 75,
+          "cycle_min": 230
+        }
+      }
+    },
+    "SOUTH": {
+      "emergency_fleet_size": 2,
+      "facilities": {
+        "SOUTH_PAD_A": {
+          "response_min": 75,
+          "cycle_min": 230
+        }
+      }
+    }
+  }
+}

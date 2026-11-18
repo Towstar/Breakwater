@@ -14,7 +14,13 @@ ColumnLayout {
     readonly property bool scienceVisible: tabs.currentIndex === 3
     readonly property var reviewData: investigator.review || ({})
     readonly property var comparisonData: history.comparison || ({})
+    readonly property bool dialogOpen: keyDialog.visible || reviewDialog.visible || changesDialog.visible
+    property bool embedded: false
+    property string currentNetworkHash: ""
+    function applyHistoryFilter() { history.setFilter(matchNetwork.checked ? currentNetworkHash : "", sessionQuery.text) }
+    onCurrentNetworkHashChanged: Qt.callLater(applyHistoryFilter)
     spacing: 8
+    function showTab(index) { tabs.currentIndex = index; if (index === 2) history.refresh() }
     function showScience() { tabs.currentIndex = 3 }
     function number(value, digits) {
         return value !== undefined && value !== null && Number.isFinite(Number(value))
@@ -38,23 +44,7 @@ ColumnLayout {
     }
     component PlainLabel: Label { textFormat: Text.PlainText; color: Theme.text; font.pixelSize: Theme.bodySize }
     component SectionLabel: PlainLabel { color: Theme.secondary; font.pixelSize: Theme.captionSize; font.letterSpacing: 1 }
-    component DialogHeading: Rectangle {
-        id: headingBar
-        required property string heading
-        signal closeRequested()
-        implicitHeight: 48; color: Theme.surface
-        Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider }
-        RowLayout {
-            anchors.fill: parent; anchors.margins: 6; anchors.leftMargin: 14; anchors.rightMargin: 8; spacing: 12
-            PlainLabel { Layout.fillWidth: true; text: headingBar.heading; font.weight: Font.DemiBold; elide: Text.ElideRight }
-            ActionButton {
-                iconName: "x"; text: "Close"; display: AbstractButton.IconOnly
-                Layout.preferredWidth: 32; Layout.preferredHeight: 32
-                tooltip: "Close " + headingBar.heading; accessibleName: tooltip
-                onClicked: headingBar.closeRequested()
-            }
-        }
-    }
+
     Connections {
         target: panel.history
         function onChanged() {
@@ -66,7 +56,7 @@ ColumnLayout {
         id: keyDialog
         objectName: "nemotronKeyDialog"
         title: "NVIDIA API key"
-        header: DialogHeading { heading: keyDialog.title; onCloseRequested: keyDialog.close() }
+        header: DialogHeading { owner: keyDialog }
         modal: true
         anchors.centerIn: Overlay.overlay
         width: Math.min(460, panel.width - 28)
@@ -108,10 +98,11 @@ ColumnLayout {
     }
 
     RowLayout {
+        visible: !panel.embedded || tabs.currentIndex === 0
         Layout.fillWidth: true; spacing: 12
         ColumnLayout {
             Layout.fillWidth: true; spacing: 3
-            SectionLabel { text: "NEMOTRON INVESTIGATOR"; font.bold: true }
+            SectionLabel { text: panel.investigator.localOnly ? "LOCAL NATIVE SEARCH" : "NEMOTRON INVESTIGATOR"; font.bold: true }
             PlainLabel {
                 Layout.fillWidth: true; elide: Text.ElideRight; font.pixelSize: Theme.captionSize
                 text: panel.credentials.status
@@ -128,6 +119,7 @@ ColumnLayout {
     }
 
     GridLayout {
+        visible: !panel.embedded || tabs.currentIndex === 0
         Layout.fillWidth: true; columns: panel.width < 1100 ? 1 : 2; columnSpacing: 12; rowSpacing: 8
         TextField {
             id: objective; objectName: "investigationObjective"; Layout.fillWidth: true; Layout.minimumWidth: 0
@@ -138,6 +130,10 @@ ColumnLayout {
         }
         RowLayout {
             Layout.fillWidth: panel.width < 1100; spacing: 8
+            ActionButton { iconName: "git-compare-arrows"; objectName: "localNativeSearch"; text: "Local search"; tooltip: "Real native finite-grid search; no API key or model request. Up to four available controls, flow first, at most six values each."
+                enabled: panel.investigator.localSearchAvailable
+                onClicked: { panel.history.showLive(); tabs.currentIndex = 0; panel.investigator.searchLocally() }
+            }
             ActionButton { iconName: "workflow";
                 id: investigateButton; text: "Investigate"; highlighted: true
                 enabled: !panel.investigator.running && objective.text.trim().length > 0
@@ -159,7 +155,7 @@ ColumnLayout {
     RowLayout {
         Layout.fillWidth: true; spacing: 12
         TabBar {
-            id: tabs; objectName: "agentTabs"; Layout.preferredWidth: 510; Layout.maximumWidth: panel.width * 0.6
+            id: tabs; objectName: "agentTabs"; visible: !panel.embedded; Layout.preferredWidth: 510; Layout.maximumWidth: panel.width * 0.6
             spacing: 4
             TabButton { text: "Investigation"; onClicked: panel.history.showLive() }
             TabButton { text: "Comparison" }
@@ -254,7 +250,7 @@ ColumnLayout {
                 RowLayout {
                     Layout.fillWidth: true
                     PlainLabel { text: "Tank"; color: Theme.secondary }
-                    ComboBox {
+                    AppComboBox {
                         id: tankSelector; Layout.preferredWidth: 205
                         model: panel.history.tanks; textRole: "label"; valueRole: "id"; enabled: count > 0
                         currentIndex: {
@@ -294,8 +290,14 @@ ColumnLayout {
                     Layout.fillWidth: true
                     SectionLabel { text: "SAVED SESSIONS · " + panel.history.sessions.length }
                     Item { Layout.fillWidth: true }
-                    ActionButton { iconName: "history"; text: "Refresh"; enabled: !panel.history.busy; onClicked: panel.history.refresh() }
+                    ActionButton { iconName: "history"; text: "Refresh"; enabled: !panel.history.busy; onClicked: panel.applyHistoryFilter() }
                 }
+                RowLayout {
+                    Layout.fillWidth: true
+                    TextField { id: sessionQuery; Layout.fillWidth: true; placeholderText: "Search objective, status or session"; maximumLength: 256; onEditingFinished: panel.applyHistoryFilter() }
+                    CheckBox { id: matchNetwork; text: "Current network"; onToggled: panel.applyHistoryFilter() }
+                }
+                PlainLabel { text: "Most recent 500 matching sessions · stored evidence only"; font.pixelSize: Theme.captionSize; color: Theme.muted }
                 ListView {
                     id: sessionList; Layout.fillWidth: true; Layout.fillHeight: true; clip: true; spacing: 6
                     model: panel.history.sessions; ScrollBar.vertical: ScrollBar {}
@@ -338,7 +340,7 @@ ColumnLayout {
         x: Math.round((parent.width - width) / 2); y: Math.round((parent.height - height) / 2)
         width: Math.min(760, parent.width - 48); height: Math.min(610, parent.height - 60)
         modal: true; title: "Review staged simulated plan"; closePolicy: Popup.CloseOnEscape
-        header: DialogHeading { heading: reviewDialog.title; onCloseRequested: reviewDialog.close() }
+        header: DialogHeading { owner: reviewDialog }
         contentItem: ScrollView {
             id: reviewScroll; contentWidth: availableWidth
             ColumnLayout {
@@ -373,7 +375,8 @@ ColumnLayout {
         x: Math.round((parent.width - width) / 2); y: Math.round((parent.height - height) / 2)
         width: Math.min(720, parent.width - 48); height: Math.min(430, parent.height - 80)
         modal: true; title: "Baseline → candidate control changes"; standardButtons: Dialog.Close
-        header: DialogHeading { heading: changesDialog.title; onCloseRequested: changesDialog.close() }
+        header: DialogHeading { owner: changesDialog }
+        footer: DialogFooter { owner: changesDialog }
         contentItem: ScrollView {
             id: changesScroll; contentWidth: availableWidth
             ColumnLayout {

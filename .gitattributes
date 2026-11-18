@@ -13,3 +13,7 @@ desktop/telemetry/** -text whitespace=cr-at-eol
 desktop/tests/telemetry_contract*.cpp -text whitespace=cr-at-eol
 docs/G1_REVIEW.md -text whitespace=cr-at-eol
 docs/evidence/g1-contract-verification.json -text whitespace=cr-at-eol
+
+# Portfolio input identities and retained traces are byte-bound across platforms.
+examples/portfolio/** -text whitespace=cr-at-eol
+docs/evidence/portfolio/** -text whitespace=cr-at-eol

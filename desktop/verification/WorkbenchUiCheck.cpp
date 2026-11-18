@@ -60,8 +60,8 @@ class Check final : public QObject {
         auto* result = find(window_->contentItem(), name, byText);
         require(result, "ui_item_missing"); return result;
     }
-    void mouse(QEvent::Type type, QPointF point, Qt::MouseButton button, Qt::MouseButtons held) {
-        QMouseEvent event(type, point, point, point, button, held, Qt::NoModifier);
+    void mouse(QEvent::Type type, QPointF point, Qt::MouseButton button, Qt::MouseButtons held, Qt::KeyboardModifiers modifiers = Qt::NoModifier) {
+        QMouseEvent event(type, point, point, point, button, held, modifiers);
         QCoreApplication::sendEvent(window_, &event);
     }
     void click(QPointF point) {
@@ -69,6 +69,11 @@ class Check final : public QObject {
         mouse(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::NoButton);
     }
     void click(QQuickItem* target) { click(target->mapToScene(QPointF(target->width()/2, target->height()/2))); }
+    void controlClick(QQuickItem* target) {
+        const auto point = target->mapToScene(QPointF(target->width()/2, target->height()/2));
+        mouse(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
+        mouse(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::NoButton, Qt::ControlModifier);
+    }
     void key(int code, Qt::KeyboardModifiers modifiers = Qt::NoModifier, const QString& text = {}) {
         QKeyEvent press(QEvent::KeyPress, code, modifiers, text), release(QEvent::KeyRelease, code, modifiers, text);
         QCoreApplication::sendEvent(window_, &press); QCoreApplication::sendEvent(window_, &release);
@@ -150,18 +155,31 @@ class Check final : public QObject {
                 require(data["name"] == "asset:tank_a" && data["ancestor"].toBool() && data["depth"].toInt() >= 2, "nested_tank_pick_failed");
                 tank_ = {data["x"].toDouble(), data["y"].toDouble()}; click(tank_); passed("nested_geometry_pick_and_click"); break;
             }
-            case 3:
+            case 3: {
                 require(controller_->selectedId() == "tank_a", "actual_click_did_not_select");
+                if (window_->property("compactLayout").toBool() && !window_->property("inspectorVisible").toBool()) {
+                    click(item("Inspector", true)); return;
+                }
+                if (window_->height() < 620 && eval("workspaceSettings.values.dockOpen").toBool()) {
+                    click(item("Toggle results", true)); return;
+                }
+                // Opening a compact pane changes the viewport. Pick the actual
+                // current projection before testing the next physical gesture.
+                const auto point = eval("(function(){let a;for(const row of app.controller.assets)if(row.id==='tank_a')a=row;const p=view.mapFrom3DScene(Qt.vector3d(a.x,40,a.z));return view.mapToItem(null,p.x,p.y)})()").toPointF();
+                tank_ = point;
                 capacity_ = controller_->selected().value("capacity").toDouble();
                 mouse(QEvent::MouseButtonPress, tank_, Qt::LeftButton, Qt::LeftButton); break;
+            }
             case 4:
                 mouse(QEvent::MouseMove, tank_ + QPointF(38, 16), Qt::NoButton, Qt::LeftButton); break;
             case 5:
                 mouse(QEvent::MouseButtonRelease, tank_ + QPointF(38, 16), Qt::LeftButton, Qt::NoButton); break;
             case 6:
                 require(tankPosition() != position_, "actual_drag_did_not_move"); preserved();
+                snapshot("04-inspector-before-entry.png");
                 passed("layout_drag_preserves_hash_run_approval"); enter("NaN"); break;
             case 7:
+                observed_["entry"] = focusObservation();
                 require(controller_->actionFeedback().value("code") == "property.invalid_number", "keyboard_invalid_commit_not_rejected");
                 require(item("numericRejection_capacity")->isVisible()
                     && item("numericRejection_capacity")->property("text").toString().contains("NaN")
@@ -245,7 +263,52 @@ class Check final : public QObject {
             case 16:
                 require(changes_ == 1 && controller_->simulationRevision() == revision_ + 1
                     && controller_->selected().value("capacity").toDouble() == capacity_ + 2, "unedited_focus_loss_recommitted");
-                passed("edited_focus_loss_once_unedited_focus_loss_no_commit"); finish(true, "ok"); return;
+                passed("edited_focus_loss_once_unedited_focus_loss_no_commit");
+                controller_->reset();
+                if (window_->property("compactLayout").toBool()) click(item("Navigator", true));
+                break;
+            case 17:
+                click(item("networkAsset:tank_a")); break;
+            case 18:
+                controlClick(item("networkAsset:tank_b")); break;
+            case 19:
+                require(controller_->selectedIds().size() == 2, "native_control_click_not_additive");
+                hash_ = controller_->networkHash();
+                key(Qt::Key_D, Qt::ControlModifier); break;
+            case 20:
+                require(controller_->assets().size() == 8 && controller_->selectedIds().size() == 2
+                    && controller_->networkHash() != hash_, "native_duplicate_shortcut_failed");
+                key(Qt::Key_Z, Qt::ControlModifier); break;
+            case 21:
+                require(controller_->assets().size() == 6 && controller_->networkHash() == hash_, "duplicate_undo_not_atomic");
+                passed("native_multiselect_duplicate_atomic_undo");
+                click(item("openSensorEditor")); break;
+            case 22:
+                require(window_->property("sensorEditorVisible").toBool() && item("openSensorEditor")->property("checked").toBool(), "sensor_toggle_highlight_missing");
+                key(Qt::Key_D, Qt::ControlModifier);
+                require(controller_->assets().size() == 6, "dialog_stole_scene_shortcut");
+                snapshot("05-sensor-editor.png"); click(item("sensorPanelClose")); break;
+            case 23:
+                require(!window_->property("sensorEditorVisible").toBool() && !item("openSensorEditor")->property("checked").toBool(), "sensor_close_did_not_clear_highlight");
+                click(item("openTelemetry")); break;
+            case 24:
+                require(window_->property("telemetryVisible").toBool() && item("openTelemetry")->property("checked").toBool(), "monitoring_toggle_highlight_missing");
+                snapshot("06-monitoring.png"); click(item("telemetryPanelClose")); break;
+            case 25:
+                require(!window_->property("telemetryVisible").toBool(), "monitoring_close_failed");
+                click(item("openPipeEvidence")); break;
+            case 26:
+                require(window_->property("pipeTransportVisible").toBool() && item("openPipeEvidence")->property("checked").toBool(), "pipe_toggle_highlight_missing");
+                snapshot("07-pipe-evidence.png"); click(item("pipeTransportClose")); break;
+            case 27:
+                require(!window_->property("pipeTransportVisible").toBool(), "pipe_close_failed");
+                click(item("toggleInvestigator")); break;
+            case 28:
+                require(window_->property("showAgent").toBool() && item("toggleInvestigator")->property("checked").toBool(), "investigator_toggle_highlight_missing");
+                snapshot("08-investigation-dock.png"); click(item("toggleInvestigator")); break;
+            case 29:
+                require(!window_->property("showAgent").toBool() && !item("toggleInvestigator")->property("checked").toBool(), "repeated_investigator_click_did_not_close");
+                passed("native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle"); finish(true, "ok"); return;
             default: throw std::runtime_error("invalid_phase");
             }
             ++phase_;
@@ -254,6 +317,7 @@ class Check final : public QObject {
 public:
     Check(QQuickWindow* window, ProjectController* controller, QCoreApplication* app)
         : QObject(app), window_(window), controller_(controller), app_(app) {
+        if (qEnvironmentVariable("BREAKWATER_UI_MINIMUM") == "1") window->resize(960, 540);
         elapsed_.start(); timer_.setInterval(100);
         connect(controller, &ProjectController::changed, this, [this] { ++changes_; });
         connect(&timer_, &QTimer::timeout, this, [this] { tick(); }); timer_.start();

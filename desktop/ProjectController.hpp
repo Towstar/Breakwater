@@ -25,6 +25,8 @@ class ProjectController final : public QObject {
     Q_PROPERTY(QVariantList routes READ routes NOTIFY changed)
     Q_PROPERTY(QVariantMap selected READ selected NOTIFY changed)
     Q_PROPERTY(QString selectedId READ selectedId NOTIFY changed)
+    Q_PROPERTY(QStringList selectedIds READ selectedIds NOTIFY changed)
+    Q_PROPERTY(quint64 editorRevision READ editorRevision NOTIFY changed)
     Q_PROPERTY(QStringList draftIssues READ draftIssues NOTIFY changed)
     Q_PROPERTY(QString summary READ summary NOTIFY changed)
     Q_PROPERTY(bool busy READ busy NOTIFY changed)
@@ -36,6 +38,8 @@ class ProjectController final : public QObject {
     Q_PROPERTY(double forecastFraction READ forecastFraction WRITE setForecastFraction NOTIFY changed)
     Q_PROPERTY(double forecastTimeH READ forecastTimeH NOTIFY changed)
     Q_PROPERTY(double forecastHorizonH READ forecastHorizonH NOTIFY changed)
+    Q_PROPERTY(QVariantList forecastTanks READ forecastTanks NOTIFY changed)
+    Q_PROPERTY(QVariantMap forecastDetails READ forecastDetails NOTIFY changed)
     Q_PROPERTY(QVariantMap actionFeedback READ actionFeedback NOTIFY actionFeedbackChanged)
     Q_PROPERTY(QVariantMap camera READ camera NOTIFY cameraChanged)
     Q_PROPERTY(QVariantList sensorMarkers READ sensorMarkers NOTIFY changed)
@@ -48,6 +52,8 @@ public:
     QVariantList routes() const;
     QVariantMap selected() const;
     QString selectedId() const { return selected_id_; }
+    QStringList selectedIds() const { return selected_ids_; }
+    quint64 editorRevision() const { return editor_revision_; }
     QStringList draftIssues() const;
     QString summary() const { return summary_; }
     bool busy() const { return busy_; }
@@ -60,6 +66,9 @@ public:
     double forecastFraction() const { return forecast_fraction_; }
     double forecastTimeH() const;
     double forecastHorizonH() const { return run_ ? run_->config.horizon_h : 0.0; }
+    QVariantList forecastTanks() const;
+    QVariantMap forecastDetails() const;
+    Q_INVOKABLE QVariantMap forecastChart(const QString& tankId) const;
     QVariantMap actionFeedback() const { return action_feedback_; }
     QVariantMap camera() const;
     void setForecastFraction(double value);
@@ -82,6 +91,12 @@ public:
     bool applyControlsForApproval(const std::vector<ControlValue>& controls, const QString& expectedHash);
 
     Q_INVOKABLE void select(const QString& id);
+    Q_INVOKABLE void selectAssets(const QStringList& ids, const QString& primary = {});
+    Q_INVOKABLE void toggleAssetSelection(const QString& id, bool additive = false);
+    Q_INVOKABLE bool moveSelection(double dx, double dz, quint64 expectedRevision);
+    Q_INVOKABLE bool duplicateSelection();
+    Q_INVOKABLE bool alignSelection(const QString& axis, bool distribute = false);
+    Q_INVOKABLE QVariantMap connectionEligibility(const QString& source, const QString& target) const;
     Q_INVOKABLE void selectSensor(const QString& id);
     Q_INVOKABLE bool addSensor(const QString& quantity, const QString& attachmentId, const QVariantMap& fields = {});
     Q_INVOKABLE bool configureSensor(const QString& id, const QVariantMap& fields);
@@ -111,6 +126,8 @@ signals:
 private:
     ProjectDocument project_;
     QString selected_id_;
+    QStringList selected_ids_;
+    quint64 editor_revision_ = 0;
     QString selected_sensor_id_;
     QVariantMap action_feedback_;
     quint64 action_feedback_sequence_ = 0;

@@ -1,5 +1,8 @@
 #include "ProjectController.hpp"
+#include "WorkspaceSettings.hpp"
+#include "LocalRuntime.hpp"
 #include "verification/WorkbenchUiCheck.hpp"
+#include "verification/SceneBenchmark.hpp"
 #include "agent/AgentController.hpp"
 #include "agent/CredentialSettings.hpp"
 #include "history/HistoryController.hpp"
@@ -22,6 +25,7 @@
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
+#include <QScreen>
 #include <QTimer>
 #include <QTemporaryDir>
 #include <memory>
@@ -44,10 +48,12 @@ int main(int argc, char** argv) {
     QGuiApplication app(argc, argv);
     QCoreApplication::setApplicationName("BREAKWATER");
     QCoreApplication::setOrganizationName("Breakwater");
+    QCoreApplication::setApplicationVersion(BREAKWATER_APP_VERSION);
+    breakwater::desktop::runtime::configureBundledPython();
     const auto arguments = app.arguments();
     const bool uiOverhaulCheck = arguments.contains("--ui-overhaul-check");
     QString startupProject, startupObjective, rehearsalArchive, startupHistory, startupTelemetryReplay;
-    QString startupWorkspace, startupEogDataset, startupEogFacility, eogReport;
+    QString startupWorkspace, startupEogDataset, startupEogFacility, eogReport, benchmarkOutput;
     const auto singleValue = [&](const QString& name, QString& destination) {
         if (!arguments.contains(name)) return true;
         const auto index = arguments.indexOf(name);
@@ -57,6 +63,14 @@ int main(int argc, char** argv) {
         return true;
     };
     const bool startupInvestigation = arguments.contains("--investigate");
+    if (!singleValue("--scene-benchmark", benchmarkOutput)) return 8;
+    const bool benchmark = !benchmarkOutput.isEmpty();
+    if (benchmark) {
+        if (!QDir::isAbsolutePath(benchmarkOutput) || QFileInfo::exists(benchmarkOutput)) return 8;
+        for (const auto* flag : {"--ui-overhaul-check", "--investigate", "--smoke", "--screenshot", "--science-check", "--import-session",
+                 "--eog-dataset", "--eog-analysis-panel", "--workspace", "--worker-health", "--agent-panel", "--sensor-editor-check", "--telemetry-replay"})
+            if (arguments.contains(QLatin1String(flag))) return 8;
+    }
     if (!singleValue("--workspace", startupWorkspace) ||
         !singleValue("--eog-dataset", startupEogDataset) ||
         !singleValue("--eog-facility", startupEogFacility) ||
@@ -97,9 +111,7 @@ int main(int argc, char** argv) {
         (!eogReport.isEmpty() && !arguments.contains("--smoke") && !arguments.contains("--screenshot"))) {
         qCritical("EOG input cannot be combined with workbench operations; an EOG render report requires a dataset and smoke/screenshot mode."); return 8;
     }
-    if (startupWorkspace.isEmpty()) startupWorkspace = workbenchOperation ||
-        (startupEogDataset.isEmpty() && (arguments.contains("--smoke") || arguments.contains("--screenshot")))
-        ? "workbench" : "eog";
+    if (startupWorkspace.isEmpty()) startupWorkspace = startupEogDataset.isEmpty() ? "workbench" : "eog";
     const bool eogAnalysisPanel = arguments.contains("--eog-analysis-panel");
     if (arguments.count("--eog-analysis-panel") > 1 || (eogAnalysisPanel && startupWorkspace != "eog")) {
         qCritical("--eog-analysis-panel requires the EOG workspace."); return 8;
@@ -181,7 +193,7 @@ int main(int argc, char** argv) {
     }
     const auto historyIndex = arguments.indexOf("--history-db");
     std::unique_ptr<QTemporaryDir> uiCheckStorage;
-    if (uiOverhaulCheck) {
+    if (uiOverhaulCheck || benchmark) {
         uiCheckStorage = std::make_unique<QTemporaryDir>();
         if (!uiCheckStorage->isValid()) return 8;
     }
@@ -254,14 +266,27 @@ int main(int argc, char** argv) {
                     writeReport({{"status", "unavailable"}, {"error", QJsonObject{{"code", code}, {"message", message}}}});
             });
     }
+    std::unique_ptr<QTemporaryDir> preferenceStorage;
+    if (uiOverhaulCheck || benchmark || arguments.contains("--smoke") || arguments.contains("--screenshot"))
+        preferenceStorage = std::make_unique<QTemporaryDir>();
+    breakwater::desktop::WorkspaceSettings workspaceSettings(preferenceStorage ? preferenceStorage->filePath("workspace.ini") : QString{});
     QQmlApplicationEngine engine;
     engine.setInitialProperties({{"controller", QVariant::fromValue(&controller)}, {"investigator", QVariant::fromValue(&investigator)},
         {"history", QVariant::fromValue(&history)}, {"scientificWorker", QVariant::fromValue(&scientificWorker)},
         {"pipeTransport", QVariant::fromValue(&pipeTransport)}, {"storageScience", QVariant::fromValue(&storageScience)},
         {"credentials", QVariant::fromValue(&credentials)}, {"telemetry", QVariant::fromValue(&telemetry)},
-        {"eog", QVariant::fromValue(&eog)}, {"eogAnalysis", QVariant::fromValue(&eogAnalysis)}, {"initialWorkspace", startupWorkspace}});
+        {"eog", QVariant::fromValue(&eog)}, {"eogAnalysis", QVariant::fromValue(&eogAnalysis)}, {"initialWorkspace", startupWorkspace},
+        {"workspaceSettings", QVariant::fromValue(&workspaceSettings)},
+        {"availableClientSize", app.primaryScreen() ? app.primaryScreen()->availableGeometry().size() - QSize(16, 56) : QSize(1440, 900)},
+        {"buildInfo", QString("%1 · %2").arg(BREAKWATER_APP_VERSION, BREAKWATER_SOURCE_REVISION)},
+        {"portfolioExamples", breakwater::desktop::runtime::exampleFiles(QString::fromUtf8(BREAKWATER_EXAMPLE_DIRECTORY), QString::fromUtf8(BREAKWATER_RUNTIME_DEV_BIN))}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
+    if (benchmark) {
+        auto* window = engine.rootObjects().isEmpty() ? nullptr : qobject_cast<QQuickWindow*>(engine.rootObjects().front());
+        if (!window) return 8;
+        breakwater::desktop::startSceneBenchmark(window, &controller, &app, benchmarkOutput);
+    }
     if (uiOverhaulCheck) {
         auto* window = engine.rootObjects().isEmpty() ? nullptr : qobject_cast<QQuickWindow*>(engine.rootObjects().front());
         if (!window) return 8;

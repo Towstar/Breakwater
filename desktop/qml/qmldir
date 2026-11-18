@@ -1,0 +1,2 @@
+# Source-file Qt tests use the same singleton as the compiled Breakwater module.
+singleton Theme 1.0 Theme.qml

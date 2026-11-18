@@ -33,6 +33,7 @@ class EogAnalysisController final : public QObject {
     Q_PROPERTY(QVariantMap baselineEvaluation READ baselineEvaluation NOTIFY changed)
     Q_PROPERTY(QVariantMap selectedValidation READ selectedValidation NOTIFY changed)
     Q_PROPERTY(QString selectedPlanJson READ selectedPlanJson NOTIFY changed)
+    Q_PROPERTY(QString selectedEvaluatorMethod READ selectedEvaluatorMethod NOTIFY changed)
     Q_PROPERTY(QVariantMap searchDetails READ searchDetails NOTIFY changed)
     Q_PROPERTY(QVariantMap evidenceContext READ evidenceContext NOTIFY changed)
     Q_PROPERTY(QVariantMap detectionDetails READ detectionDetails NOTIFY changed)
@@ -62,6 +63,7 @@ public:
     QVariantMap baselineEvaluation() const { return evaluations_.value(baseline_).toVariantMap(); }
     QVariantMap selectedValidation() const;
     QString selectedPlanJson() const;
+    QString selectedEvaluatorMethod() const;
     QVariantMap searchDetails() const { return search_.toVariantMap(); }
     QVariantMap evidenceContext() const { return (capture_ ? capture_->manifest() : historical_manifest_).toVariantMap(); }
     QVariantMap detectionDetails() const { return detection_.toVariantMap(); }
@@ -81,6 +83,7 @@ public:
     Q_INVOKABLE void acknowledge(const QString& eventId, const QString& note = {});
     Q_INVOKABLE QVariantMap eventEvidence(const QString& eventId) const;
     Q_INVOKABLE void refreshHistory(int offset = 0);
+    Q_INVOKABLE void setHistoryFilter(bool currentDataset, const QString& query = {}, bool matchCutoff = false);
     Q_INVOKABLE void openHistory(const QString& id);
     Q_INVOKABLE void returnToLive();
     Q_INVOKABLE void exportHistory(const QString& id, const QUrl& destination);
@@ -105,6 +108,8 @@ private:
     QString session_id_, status_ = "Run analysis explicitly. Loading or selecting data makes no model request.";
     QString storage_status_ = "Opening EOG history...", summary_, selected_, baseline_, pending_execution_, pending_name_, pending_history_id_;
     QJsonObject pending_request_, search_, historical_manifest_, detection_, last_operation_;
+    bool history_current_dataset_ = true, history_match_cutoff_ = false;
+    QString history_query_;
     QMap<QString, QJsonObject> responses_, evaluations_, validations_, event_rows_;
     QMap<QString, QString> validation_requests_, event_requests_;
     QVariantList sessions_, trace_, operator_records_;

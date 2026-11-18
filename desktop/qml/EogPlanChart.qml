@@ -28,7 +28,7 @@ ColumnLayout {
     Component.onCompleted: refresh()
     RowLayout {
         Layout.fillWidth: true
-        ComboBox {
+        AppComboBox {
             font.family: "Segoe UI"; font.pixelSize: 13
             palette.window: "#15181B"; palette.base: "#15181B"; palette.button: "#1D2125"
             palette.text: "#F3F3F3"; palette.buttonText: "#F3F3F3"; palette.windowText: "#F3F3F3"

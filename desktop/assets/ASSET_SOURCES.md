@@ -22,3 +22,9 @@ the upstream names except these documented mappings:
 
 All assets are bundled locally. No font, web runtime, remote image, or platform
 icon theme is required. Logo proportions and transparency remain unchanged.
+
+The portfolio site's gravel SVG texture, service lane, concrete pads, tank
+containment curbs, pipe supports and code-built industrial assemblies are original
+repository artwork. They use Qt geometry and locally authored vector shapes, with
+no downloaded model, texture pack, aerial imagery or external font. They are
+schematic presentation; placement supplies no numerical hydraulic geometry.

@@ -6,7 +6,7 @@ Button {
     property string iconName: ""
     property string tooltip: text
     property string accessibleName: text
-    implicitHeight: 36
+    implicitHeight: Theme.controlHeight
     implicitWidth: Math.max(display === AbstractButton.IconOnly ? 36 : 64, implicitContentWidth + leftPadding + rightPadding)
     leftPadding: 10
     rightPadding: 10
@@ -30,7 +30,7 @@ Button {
     ToolTip.delay: activeFocus ? 0 : 450
     ToolTip.text: tooltip
     background: Rectangle {
-        implicitHeight: 36
+        implicitHeight: Theme.controlHeight
         radius: Theme.cornerRadius
         color: !control.enabled ? Theme.surface
             : control.highlighted ? (control.down ? Theme.primaryPressed : control.hovered ? Theme.primaryHover : Theme.text)

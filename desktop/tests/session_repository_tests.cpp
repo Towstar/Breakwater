@@ -66,6 +66,28 @@ QString failure(QSignalSpy& spy) { return spy.last().first().toString(); }
 class SessionRepositoryTests : public QObject {
     Q_OBJECT
 private slots:
+    void historyFiltersUseBoundLiteralQueries() {
+        QTemporaryDir directory; SessionRepository repository(directory.filePath("filters.sqlite"));
+        QSignalSpy ready(&repository, &SessionRepository::ready), saved(&repository, &SessionRepository::sessionSaved),
+            listed(&repository, &SessionRepository::sessionsListed), errors(&repository, &SessionRepository::failed);
+        QVERIFY(received(ready));
+        auto first = fixture(), second = fixture();
+        first["objective"] = "Pump failure review"; second["objective"] = "Healthy network review";
+        repository.saveSession(first); repository.saveSession(second); QVERIFY(received(saved, 2));
+        repository.listSessions({}, "PUMP"); QVERIFY(received(listed));
+        auto rows = listed.takeFirst().first().value<QJsonArray>(); QCOMPARE(rows.size(), 1);
+        QCOMPARE(rows.first().toObject()["session_id"], first["session_id"]);
+        repository.listSessions(first["snapshot"].toObject()["physical_hash"].toString()); QVERIFY(received(listed));
+        QCOMPARE(listed.takeFirst().first().value<QJsonArray>().size(), 2);
+        repository.listSessions(QString(64, '0')); QVERIFY(received(listed));
+        QVERIFY(listed.takeFirst().first().value<QJsonArray>().isEmpty());
+        repository.listSessions({}, "' OR 1=1 --"); QVERIFY(received(listed));
+        QVERIFY(listed.takeFirst().first().value<QJsonArray>().isEmpty());
+        repository.listSessions({}, QString(257, 'a')); QVERIFY(received(errors));
+        QCOMPARE(failure(errors), "invalid_request");
+        repository.listSessions(); QVERIFY(received(listed));
+        QCOMPARE(listed.takeFirst().first().value<QJsonArray>().size(), 2);
+    }
     void fullEvidenceRoundTripAndHistoricalRead() {
         QTemporaryDir directory; QVERIFY(directory.isValid());
         SessionRepository repository(directory.filePath("sessions.sqlite"));

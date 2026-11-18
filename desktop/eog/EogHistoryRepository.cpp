@@ -468,14 +468,34 @@ public:
             execute(query); touch(id); transaction.commit(); emit recorded(id, recordId); emit saved(id);
         });
     }
-    void list(int offset) {
+    void list(int offset, const QString& dataset, const QString& text, qint64 cutoff) {
         perform("list", {}, [&] {
             available(); require(offset >= 0 && offset <= 1000000, "History page offset exceeds its bound.");
-            QSqlQuery query(database_); query.prepare("SELECT session_id,capture_id,objective,status,created_at,updated_at FROM eog_sessions ORDER BY updated_at DESC,session_id ASC LIMIT 101 OFFSET ?");
-            query.addBindValue(offset); execute(query);
-            QJsonArray values; while (query.next()) values.append(QJsonObject{{"session_id", query.value(0).toString()}, {"capture_id", query.value(1).toString()},
+            require(text.size() <= 256 && cutoff >= -1 && cutoff <= 253402300799LL, "History filters exceed their bounds.");
+            require(dataset.isEmpty() || (dataset.size() == 64 && std::all_of(dataset.cbegin(), dataset.cend(), [](QChar c) { return QStringLiteral("0123456789abcdef").contains(c); })), "Choose an actual dataset identity.");
+            auto token = json({{"dataset_identity", dataset}}); token = token.mid(1, token.size() - 2);
+            const auto cutoffToken = QByteArray("\"cutoff_unix\":") + QByteArray::number(cutoff) + ',';
+            QSqlQuery query(database_); query.prepare(
+                "SELECT s.session_id,s.capture_id,s.objective,s.status,s.created_at,s.updated_at,c.manifest,"
+                "(SELECT count(*) FROM eog_analyses a WHERE a.session_id=s.session_id) "
+                "FROM eog_sessions s JOIN eog_captures c ON c.capture_id=s.capture_id "
+                "WHERE (?='' OR instr(CAST(c.manifest AS TEXT),?)>0) "
+                "AND (?='' OR instr(lower(s.session_id||' '||s.objective),lower(?))>0) "
+                "AND (?=-1 OR instr(CAST(c.manifest AS TEXT),?)>0) "
+                "ORDER BY s.updated_at DESC,s.session_id ASC LIMIT 101 OFFSET ?");
+            query.addBindValue(sqlText(dataset)); query.addBindValue(QString::fromUtf8(token));
+            query.addBindValue(sqlText(text)); query.addBindValue(sqlText(text));
+            query.addBindValue(cutoff); query.addBindValue(QString::fromUtf8(cutoffToken)); query.addBindValue(offset); execute(query);
+            QJsonArray values; while (query.next()) {
+                const auto bytes = query.value(6).toByteArray(); require(bytes.size() <= jsonLimit, "A retained capture manifest is oversized.");
+                QJsonParseError error; const auto manifest = QJsonDocument::fromJson(bytes, &error);
+                require(error.error == QJsonParseError::NoError && manifest.isObject(), "A retained capture manifest is malformed.");
+                values.append(QJsonObject{{"session_id", query.value(0).toString()}, {"capture_id", query.value(1).toString()},
                 {"objective", query.value(2).toString()}, {"status", query.value(3).toString()}, {"created_at", query.value(4).toString()},
-                {"updated_at", query.value(5).toString()}, {"historical", true}, {"actionable", false}});
+                {"updated_at", query.value(5).toString()}, {"historical", true}, {"actionable", false},
+                {"dataset_identity", manifest.object().value("dataset_identity")}, {"cutoff_unix", manifest.object().value("cutoff_unix")},
+                {"retained_analyses", query.value(7).toInt()}});
+            }
             const bool more = values.size() > 100; if (more) values.removeLast();
             emit listed(values, more ? offset + 100 : -1);
         });
@@ -768,7 +788,9 @@ void EogHistoryRepository::finishSession(const QString& id, const QString& statu
     QMetaObject::invokeMethod(worker_, [worker = worker_, id, status] { worker->finish(id, status); }, Qt::QueuedConnection);
 }
 void EogHistoryRepository::retireSession(const QString& id) { QMetaObject::invokeMethod(worker_, [worker = worker_, id] { worker->retire(id); }, Qt::QueuedConnection); }
-void EogHistoryRepository::listSessions(int offset) { QMetaObject::invokeMethod(worker_, [worker = worker_, offset] { worker->list(offset); }, Qt::QueuedConnection); }
+void EogHistoryRepository::listSessions(int offset, const QString& dataset, const QString& query, qint64 cutoff) {
+    QMetaObject::invokeMethod(worker_, [worker = worker_, offset, dataset, query, cutoff] { worker->list(offset, dataset, query, cutoff); }, Qt::QueuedConnection);
+}
 void EogHistoryRepository::loadSession(const QString& id) { QMetaObject::invokeMethod(worker_, [worker = worker_, id] { worker->load(id); }, Qt::QueuedConnection); }
 void EogHistoryRepository::exportSession(const QString& id, const QUrl& destination) { QMetaObject::invokeMethod(worker_, [worker = worker_, id, destination] { worker->exportArchive(id, destination); }, Qt::QueuedConnection); }
 void EogHistoryRepository::importSession(const QUrl& source) { QMetaObject::invokeMethod(worker_, [worker = worker_, source] { worker->importArchive(source); }, Qt::QueuedConnection); }

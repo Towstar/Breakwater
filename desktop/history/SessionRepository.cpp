@@ -344,10 +344,19 @@ public:
         }, checkpointId)) return;
         (void)save(std::move(archive), checkpointId);
     }
-    void list() {
+    void list(const QString& physicalHash, const QString& search) {
         perform([&] {
             available(); QSqlQuery query(database_);
-            if (!query.exec("SELECT session_id, checkpoint_sequence, created_at, updated_at, status, objective, snapshot_id, physical_hash FROM sessions ORDER BY updated_at DESC, session_id"))
+            if (search.size() > 256 || (!physicalHash.isEmpty() &&
+                (physicalHash.size() != 64 || std::any_of(physicalHash.cbegin(), physicalHash.cend(), [](QChar c) {
+                    return !((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'));
+                })))) reject("invalid_request", "The history filter is invalid.");
+            query.prepare("SELECT session_id, checkpoint_sequence, created_at, updated_at, status, objective, snapshot_id, physical_hash FROM sessions "
+                "WHERE (COALESCE(?, '') = '' OR physical_hash = ?) AND (COALESCE(?, '') = '' OR instr(lower(objective || ' ' || session_id || ' ' || status), lower(?)) > 0) "
+                "ORDER BY updated_at DESC, session_id LIMIT 500");
+            query.addBindValue(physicalHash); query.addBindValue(physicalHash);
+            query.addBindValue(search); query.addBindValue(search);
+            if (!query.exec())
                 reject("storage_failed", "Session history could not be listed.");
             QJsonArray rows;
             while (query.next()) rows.append(QJsonObject{{"session_id", query.value(0).toString()}, {"checkpoint_sequence", query.value(1).toLongLong()},
@@ -505,7 +514,9 @@ void SessionRepository::enqueueCheckpoint(std::function<QJsonObject()> capture, 
         worker->capture(std::move(capture), checkpointId);
     }, Qt::QueuedConnection);
 }
-void SessionRepository::listSessions() { QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->list(); }, Qt::QueuedConnection); }
+void SessionRepository::listSessions(const QString& physicalHash, const QString& query) {
+    QMetaObject::invokeMethod(worker_, [worker = worker_, physicalHash, query] { worker->list(physicalHash, query); }, Qt::QueuedConnection);
+}
 void SessionRepository::loadSession(const QString& id) { QMetaObject::invokeMethod(worker_, [worker = worker_, id] { worker->load(id); }, Qt::QueuedConnection); }
 void SessionRepository::inspectSession(const QString& id) { QMetaObject::invokeMethod(worker_, [worker = worker_, id] { worker->inspect(id); }, Qt::QueuedConnection); }
 void SessionRepository::exportSession(const QString& id, const QUrl& url) { QMetaObject::invokeMethod(worker_, [worker = worker_, id, url] { worker->exportArchive(id, url); }, Qt::QueuedConnection); }

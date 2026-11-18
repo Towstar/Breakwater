@@ -540,7 +540,9 @@ private slots:
         QVERIFY(system.contains("[] means all systems")); QVERIFY(system.contains("Repeated observation reads do not correct invalid detector arguments"));
         QVERIFY(system.contains("no prescribed tool order")); QVERIFY(system.contains("category pump_failure"));
         QVERIFY(system.contains("state ongoing")); QVERIFY(system.contains("null or empty placeholders are not omission"));
-        QVERIFY(system.contains("minus (context.cutoff_unix - onset_unix)")); QVERIFY(system.contains("exact context.evaluator_method"));
+        QVERIFY(system.contains("minus (context.cutoff_unix - onset_unix)"));
+        QVERIFY(system.contains("evaluation's exact evaluator_method"));
+        QVERIFY(!system.contains("context.evaluator_method"));
         QVERIFY(system.contains("context.expected_repair_hours.pump_failure"));
         QVERIFY(system.contains("read the captured ops with read_topology rather than guessing"));
         QVERIFY(!system.contains("configured-evaluator-method"));

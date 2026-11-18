@@ -17,6 +17,8 @@ class AgentController final : public QObject {
     Q_PROPERTY(bool canApprove READ canApprove NOTIFY changed)
     Q_PROPERTY(QVariantMap review READ review NOTIFY changed)
     Q_PROPERTY(QString storageStatus READ storageStatus NOTIFY changed)
+    Q_PROPERTY(bool localOnly READ localOnly NOTIFY changed)
+    Q_PROPERTY(bool localSearchAvailable READ localSearchAvailable NOTIFY changed)
 public:
     explicit AgentController(ProjectController* project, ModelTransport* transport = nullptr, QObject* parent = nullptr);
     ~AgentController() override;
@@ -29,7 +31,10 @@ public:
     bool canApprove() const;
     QVariantMap review() const;
     QString storageStatus() const { return storage_status_; }
+    bool localOnly() const { return session_->localOnly(); }
+    bool localSearchAvailable() const { return !running() && project_->draftIssues().isEmpty(); }
     Q_INVOKABLE void investigate(const QString& objective);
+    Q_INVOKABLE void searchLocally();
     Q_INVOKABLE void cancel() { session_->cancel(); }
     Q_INVOKABLE bool approvePlan();
 signals:

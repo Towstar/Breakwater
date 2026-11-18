@@ -6,6 +6,8 @@ import QtQuick.Dialogs
 Pane {
     id: panel
     required property var eog
+    property int renderQuality: 1
+    property bool condensed: false
     readonly property bool datasetSceneReady: eog.loaded && network.sceneReady
     readonly property int visibleSceneLabels: network.visibleSceneLabels
     readonly property bool datasetTrendReady: selectedTrend.chartReady
@@ -38,63 +40,9 @@ Pane {
             + "\nRecorded " + utc(row.event_unix) + " · age " + number(row.age_s, 0) + " s"
             + (row.stale ? "\nLast value retained as evidence; unavailable as a fresh measurement." : "")
     }
-    component DatasetChoice: ComboBox {
-        id: choice
+    component DatasetChoice: AppComboBox {
         Layout.fillWidth: true; Layout.minimumWidth: 0; Layout.preferredWidth: 180
-        Layout.preferredHeight: 40; implicitHeight: 40
-        leftPadding: 12; rightPadding: 38; topPadding: 8; bottomPadding: 8
-        hoverEnabled: true; font.family: Theme.fontFamily; font.pixelSize: Theme.bodySize
         textRole: "label"; valueRole: "id"
-        contentItem: Label {
-            text: choice.displayText; textFormat: Text.PlainText
-            elide: Text.ElideRight; verticalAlignment: Text.AlignVCenter
-            font: choice.font; color: choice.enabled ? Theme.text : Theme.muted
-        }
-        indicator: Image {
-            x: choice.width - width - 12; y: (choice.height - height) / 2
-            width: 16; height: 16; sourceSize.width: 16; sourceSize.height: 16
-            source: Theme.icon("chevron-down"); opacity: choice.enabled ? 1 : 0.45
-            Accessible.ignored: true
-        }
-        background: Rectangle {
-            implicitWidth: 180; implicitHeight: 40; radius: Theme.cornerRadius
-            color: choice.down || choice.popup.visible ? Theme.selected : choice.hovered ? Theme.hover : Theme.raised
-            border.width: choice.visualFocus ? 2 : 1
-            border.color: choice.visualFocus || choice.popup.visible ? Theme.text : choice.hovered ? Theme.controlBorder : Theme.divider
-        }
-        delegate: ItemDelegate {
-            id: choiceRow
-            required property var modelData
-            required property int index
-            width: ListView.view ? ListView.view.width : 180
-            height: 38; leftPadding: 10; rightPadding: 20
-            text: modelData.label; highlighted: choice.highlightedIndex === index
-            hoverEnabled: true
-            contentItem: Label {
-                text: choiceRow.text; textFormat: Text.PlainText; elide: Text.ElideRight
-                verticalAlignment: Text.AlignVCenter; color: Theme.text
-                font.family: Theme.fontFamily; font.pixelSize: Theme.bodySize
-                font.weight: choice.currentIndex === choiceRow.index ? Font.DemiBold : Font.Normal
-            }
-            background: Rectangle {
-                radius: 3
-                color: choiceRow.highlighted ? Theme.selected : choiceRow.hovered ? Theme.hover
-                    : choice.currentIndex === choiceRow.index ? Theme.raised : Theme.surface
-                border.width: choiceRow.visualFocus ? 1 : 0; border.color: Theme.text
-            }
-        }
-        popup: Popup {
-            y: choice.height + 6; width: choice.width; padding: 4
-            implicitHeight: Math.min(contentItem.implicitHeight + topPadding + bottomPadding, 280)
-            contentItem: ListView {
-                clip: true; implicitHeight: contentHeight
-                model: choice.popup.visible ? choice.delegateModel : null
-                currentIndex: choice.highlightedIndex; highlightMoveDuration: 0
-                boundsBehavior: Flickable.StopAtBounds
-                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
-            }
-            background: Rectangle { color: Theme.surface; border.color: Theme.controlBorder; radius: Theme.cornerRadius }
-        }
     }
     FolderDialog {
         id: folder
@@ -171,7 +119,7 @@ Pane {
         ColumnLayout {
             width: scroll.availableWidth; spacing: 8
             ColumnLayout {
-                id: dashboardHeader
+                id: dashboardHeader; visible: !panel.condensed
                 Layout.fillWidth: true; spacing: 6
                 RowLayout {
                     Layout.fillWidth: true; spacing: 8
@@ -263,14 +211,14 @@ Pane {
             GridLayout {
                 id: evidenceGrid
                 Layout.fillWidth: true; visible: panel.eog.loaded
-                Layout.preferredHeight: Math.max(300, Math.min(540, panel.availableHeight - dashboardHeader.implicitHeight - 12))
+                Layout.preferredHeight: panel.condensed ? Math.max(160, panel.availableHeight - 12) : Math.max(300, Math.min(540, panel.availableHeight - dashboardHeader.implicitHeight - 12))
                 columns: panel.width < 900 ? 1 : 2
                 columnSpacing: 10; rowSpacing: 8
-                EogNetworkView {
+                EogNetworkView { renderQuality: panel.renderQuality;
                     id: network
                     eog: panel.eog
                     Layout.fillWidth: true; Layout.fillHeight: true
-                    Layout.preferredWidth: 620; Layout.minimumHeight: 200
+                    Layout.preferredWidth: 620; Layout.minimumHeight: panel.condensed ? 120 : 200
                 }
                 ColumnLayout {
                     Layout.fillWidth: true; Layout.fillHeight: true

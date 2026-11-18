@@ -96,7 +96,10 @@ void HistoryController::setLiveSession(const QJsonObject& archive) {
         status_ = archive.value("status").toString() + " · current session"; emit changed();
     }
 }
-void HistoryController::refresh() { if (repository_) repository_->listSessions(); }
+void HistoryController::refresh() { if (repository_) repository_->listSessions(filter_hash_, filter_query_); }
+void HistoryController::setFilter(const QString& physicalHash, const QString& query) {
+    filter_hash_ = physicalHash; filter_query_ = query; refresh();
+}
 void HistoryController::loadSession(const QString& id) { if (repository_ && !id.isEmpty()) { busy_ = true; repository_->loadSession(id); emit changed(); } }
 void HistoryController::showLive() {
     const bool reset = historical_ || selectedSessionId() != live_.value("session_id").toString();

@@ -49,6 +49,7 @@ public:
     void setLiveSession(const QJsonObject& archive);
     QJsonObject selectedArchive() const { return archive_; }
     Q_INVOKABLE void refresh();
+    Q_INVOKABLE void setFilter(const QString& physicalHash, const QString& query);
     Q_INVOKABLE void loadSession(const QString& id);
     Q_INVOKABLE void showLive();
     Q_INVOKABLE void selectRuns(const QString& baseline, const QString& candidate);
@@ -65,6 +66,7 @@ private:
     QVariantList sessions_;
     QString baseline_, candidate_, tank_, status_ = "History ready";
     QString scientific_result_, scientific_tank_;
+    QString filter_hash_, filter_query_;
     bool historical_ = false, busy_ = false, manual_selection_ = false;
     QJsonObject detail(const QString& runId) const;
     void defaultSelection(bool reset);

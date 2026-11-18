@@ -11,6 +11,7 @@
 #include <QUuid>
 #include <algorithm>
 #include <cmath>
+#include <limits>
 
 namespace breakwater::desktop {
 namespace {
@@ -74,6 +75,7 @@ QVariantMap ProjectController::selectedSensor() const {
     return {};
 }
 void ProjectController::selectSensor(const QString& id) {
+    selected_id_.clear(); selected_ids_.clear();
     selected_sensor_id_.clear();
     for (const auto& value : sensor_configuration_.value("sensors").toArray())
         if (value.toObject().value("sensor_id") == id) selected_sensor_id_ = id;
@@ -194,6 +196,41 @@ std::size_t ProjectController::sampleIndex() const {
 }
 double ProjectController::forecastTimeH() const { return run_ ? run_->result.time_h[sampleIndex()] : 0.0; }
 QString ProjectController::runId() const { return run_ ? run_->id : QString{}; }
+QVariantList ProjectController::forecastTanks() const {
+    QVariantList tanks;
+    const auto capture = capturedForecast(); if (!capture) return tanks;
+    for (const auto& asset : capture->network.assets) if (asset.kind == AssetKind::tank)
+        tanks.append(QVariantMap{{"id", q(asset.id)}, {"label", q(asset.label)}, {"capacity_m3", asset.capacity_m3}});
+    return tanks;
+}
+QVariantMap ProjectController::forecastDetails() const {
+    const auto capture = capturedForecast(); if (!capture) return {};
+    QVariantList controls;
+    for (const auto& control : control_catalog(capture->network))
+        controls.append(QVariantMap{{"control_id", q(control.id)}, {"value", control.value}, {"unit", q(control.unit)}});
+    return {{"run_id", capture->id}, {"physical_hash", capture->physical_hash}, {"horizon_h", capture->config.horizon_h},
+        {"feasible", capture->validation.feasible}, {"cost", capture->result.cost},
+        {"minimum_headroom_m3", capture->validation.minimum_headroom_m3},
+        {"validation_source", "Native independent validator; retained with this run"}, {"controls", controls}};
+}
+QVariantMap ProjectController::forecastChart(const QString& tankId) const {
+    const auto capture = capturedForecast(); if (!capture) return {{"available", false}};
+    const auto found = std::find(capture->result.tank_ids.cbegin(), capture->result.tank_ids.cend(), tankId.toStdString());
+    if (found == capture->result.tank_ids.cend()) return {{"available", false}};
+    const auto index = static_cast<std::size_t>(std::distance(capture->result.tank_ids.cbegin(), found));
+    double capacity = 0;
+    for (const auto& asset : capture->network.assets) if (q(asset.id) == tankId) capacity = asset.capacity_m3;
+    double low = 0, high = capacity; QVariantList points;
+    for (std::size_t i = 0; i < capture->result.time_h.size(); ++i) {
+        const auto volume = capture->result.volumes_m3[index][i];
+        low = std::min(low, volume); high = std::max(high, volume);
+        points.append(QVariantMap{{"time_h", capture->result.time_h[i]}, {"volume_m3", volume}});
+    }
+    if (!(high > low)) high = low + 1;
+    return {{"available", true}, {"run_id", capture->id}, {"tank_id", tankId}, {"horizon_h", capture->config.horizon_h},
+        {"capacity_m3", capacity}, {"y_min", low}, {"y_max", high},
+        {"series", QVariantList{QVariantMap{{"label", "Native forecast"}, {"reference", false}, {"points", points}}}}};
+}
 bool ProjectController::canApprove() const { return run_ && run_->revision == revision_ && run_->validation.feasible && !approved_; }
 QVariantMap ProjectController::camera() const { return {{"yaw", project_.camera_yaw}, {"pitch", project_.camera_pitch}, {"distance", project_.camera_distance}, {"x", project_.camera_x}, {"z", project_.camera_z}}; }
 void ProjectController::setCamera(double yaw, double pitch, double distance, double x, double z) {
@@ -218,7 +255,7 @@ QVariantList ProjectController::assets() const {
             {"x", position.x()}, {"z", position.z()}, {"capacity", a.capacity_m3}, {"volume", volume},
             {"fill", a.capacity_m3 > 0.0 ? std::clamp(volume / a.capacity_m3, 0.0, 1.0) : 0.0},
             {"violated", a.kind == AssetKind::tank && (volume < -1e-9 || volume > a.capacity_m3 + 1e-9)},
-            {"selected", selected_id_ == q(a.id)}});
+            {"selected", selected_ids_.contains(q(a.id)) || selected_id_ == q(a.id)}});
     }
     return list;
 }
@@ -252,6 +289,11 @@ QStringList ProjectController::draftIssues() const {
     return out;
 }
 void ProjectController::refresh(bool physical) {
+    ++editor_revision_;
+    selected_ids_.removeIf([&](const QString& id) { return !project_.positions.contains(id); });
+    if (project_.positions.contains(selected_id_)) {
+        if (!selected_ids_.contains(selected_id_)) selected_ids_ = {selected_id_};
+    } else selected_ids_.clear();
     if (physical) {
         ++revision_; ++job_generation_; run_.reset(); approved_ = false; busy_ = false; forecast_fraction_ = 0.0;
         summary_ = "Numerical revision changed. Run a new forecast; previous approval is cleared.";
@@ -263,6 +305,7 @@ bool ProjectController::edit(const std::function<void()>& mutation, bool require
     const auto previousSensorHash = sensorConfigurationHash();
     const auto previousProject = project_; const auto previousConfiguration = sensor_configuration_, previousLayout = sensor_layout_;
     const auto previousSelection = selected_id_, previousSensorSelection = selected_sensor_id_;
+    const auto previousSelections = selected_ids_;
     try {
         mutation();
         // Stored markers are world-space presentation coordinates. Follow layout-only
@@ -281,7 +324,7 @@ bool ProjectController::edit(const std::function<void()>& mutation, bool require
         telemetry::validate_sensor_project(project_, sensor_configuration_, sensor_layout_);
     } catch (const std::exception& e) {
         project_ = previousProject; sensor_configuration_ = previousConfiguration; sensor_layout_ = previousLayout;
-        selected_id_ = previousSelection; selected_sensor_id_ = previousSensorSelection;
+        selected_id_ = previousSelection; selected_sensor_id_ = previousSensorSelection; selected_ids_ = previousSelections;
         reportAction("edit.rejected", "Property needs attention", QString::fromUtf8(e.what()), {selected_id_}); return false;
     }
     clearActionFeedback();
@@ -307,7 +350,100 @@ bool ProjectController::restore(const QJsonObject& object) {
         return true;
     } catch (const std::exception& e) { summary_ = QString::fromUtf8(e.what()); emit changed(); return false; }
 }
-void ProjectController::select(const QString& id) { selected_id_ = id; emit changed(); }
+void ProjectController::select(const QString& id) {
+    selected_id_ = id; selected_sensor_id_.clear();
+    selected_ids_ = project_.positions.contains(id) ? QStringList{id} : QStringList{};
+    emit changed();
+}
+void ProjectController::selectAssets(const QStringList& ids, const QString& primary) {
+    QStringList selected;
+    for (const auto& id : ids)
+        if (project_.positions.contains(id) && !selected.contains(id)) selected.append(id);
+    selected_ids_ = selected; selected_sensor_id_.clear();
+    selected_id_ = selected.contains(primary) ? primary : selected.isEmpty() ? QString{} : selected.last();
+    emit changed();
+}
+void ProjectController::toggleAssetSelection(const QString& id, bool additive) {
+    if (!project_.positions.contains(id)) return;
+    auto ids = selected_ids_;
+    if (ids.contains(id) && !additive) ids.removeAll(id); else if (!ids.contains(id)) ids.append(id);
+    selectAssets(ids, ids.contains(id) ? id : QString{});
+}
+bool ProjectController::moveSelection(double dx, double dz, quint64 expectedRevision) {
+    if (expectedRevision != editor_revision_) {
+        reportAction("placement.stale", "Layout changed during the drag", "The move was cancelled. Start the drag again on the current document.", selected_ids_); return false;
+    }
+    if (selected_ids_.isEmpty()) return false;
+    const auto shiftX = std::round(dx / 20) * 20, shiftZ = std::round(dz / 20) * 20;
+    QMap<QString, QVector3D> positions;
+    for (const auto& id : selected_ids_) {
+        const auto before = project_.positions.value(id);
+        const auto x = before.x() + shiftX, z = before.z() + shiftZ;
+        if (!std::isfinite(x) || !std::isfinite(z) || std::abs(x) > 10000 || std::abs(z) > 10000) {
+            reportAction("placement.out_of_range", "Group move is outside the work area", "Every selected asset must remain within the 10,000-unit layout bounds. Nothing moved.", selected_ids_); return false;
+        }
+        positions[id] = QVector3D(static_cast<float>(x), 0, static_cast<float>(z));
+    }
+    return edit([&] { for (auto it = positions.cbegin(); it != positions.cend(); ++it) project_.positions[it.key()] = it.value(); });
+}
+bool ProjectController::duplicateSelection() {
+    if (selected_ids_.isEmpty()) return false;
+    const QSet<QString> selected(selected_ids_.cbegin(), selected_ids_.cend());
+    std::size_t internalRoutes = 0;
+    for (const auto& route : project_.network.routes)
+        if (selected.contains(q(route.source_id)) && selected.contains(q(route.target_id))) ++internalRoutes;
+    if (project_.network.assets.size() + static_cast<std::size_t>(selected.size()) > 128 || project_.network.routes.size() + internalRoutes > 256) {
+        reportAction("duplicate.limit", "Selection exceeds editor limits", "Duplicate within 128 assets and 256 routes. Nothing was copied.", selected_ids_); return false;
+    }
+    for (const auto& id : selected_ids_) {
+        const auto point = project_.positions.value(id) + QVector3D(80, 0, 80);
+        if (std::abs(point.x()) > 10000 || std::abs(point.z()) > 10000) {
+            reportAction("placement.out_of_range", "Duplicate would leave the work area", "Move the selection inward before duplicating. Nothing was copied.", selected_ids_); return false;
+        }
+    }
+    return edit([&] {
+        QMap<QString, QString> copies; QStringList created;
+        const auto assets = project_.network.assets;
+        const auto routes = project_.network.routes;
+        for (const auto& asset : assets) if (selected.contains(q(asset.id))) {
+            auto copy = asset; copy.id = fresh_id("asset_");
+            copy.label = (q(asset.label).left(250) + " copy").toStdString();
+            copies[q(asset.id)] = q(copy.id); created.append(q(copy.id));
+            project_.positions[q(copy.id)] = project_.positions.value(q(asset.id)) + QVector3D(80, 0, 80);
+            project_.network.assets.push_back(copy);
+        }
+        for (const auto& route : routes) if (copies.contains(q(route.source_id)) && copies.contains(q(route.target_id))) {
+            auto copy = route; copy.id = fresh_id("route_");
+            copy.source_id = copies.value(q(route.source_id)).toStdString();
+            copy.target_id = copies.value(q(route.target_id)).toStdString();
+            project_.network.routes.push_back(copy);
+            if (project_.pipe_parameters.contains(q(route.id))) project_.pipe_parameters[q(copy.id)] = project_.pipe_parameters.value(q(route.id));
+        }
+        selected_ids_ = created; selected_id_ = created.last(); selected_sensor_id_.clear();
+    });
+}
+bool ProjectController::alignSelection(const QString& axis, bool distribute) {
+    if ((axis != "x" && axis != "z") || selected_ids_.size() < (distribute ? 3 : 2)) return false;
+    auto ids = selected_ids_;
+    const auto coordinate = [&](const QString& id) { const auto p = project_.positions.value(id); return axis == "x" ? p.x() : p.z(); };
+    std::sort(ids.begin(), ids.end(), [&](const QString& a, const QString& b) { return coordinate(a) != coordinate(b) ? coordinate(a) < coordinate(b) : a < b; });
+    const double start = coordinate(ids.first()), end = coordinate(ids.last());
+    const auto anchor = coordinate(selected_id_);
+    QMap<QString, QVector3D> positions;
+    double previous = -std::numeric_limits<double>::infinity();
+    for (qsizetype i = 0; i < ids.size(); ++i) {
+        const auto value = !distribute ? anchor : i == 0 ? start : i == ids.size() - 1 ? end
+            : std::round((start + (end - start) * static_cast<double>(i) / static_cast<double>(ids.size() - 1)) / 20) * 20;
+        if (distribute && value <= previous) {
+            reportAction("alignment.collapsed", "Not enough space to distribute", "Separate the outside assets before distributing on the 20-unit grid. Nothing moved.", selected_ids_); return false;
+        }
+        previous = value;
+        auto point = project_.positions.value(ids[i]);
+        if (axis == "x") point.setX(static_cast<float>(value)); else point.setZ(static_cast<float>(value));
+        positions[ids[i]] = point;
+    }
+    return edit([&] { for (auto it = positions.cbegin(); it != positions.cend(); ++it) project_.positions[it.key()] = it.value(); });
+}
 void ProjectController::addAsset(const QString& kind_string, double x, double z) {
     const auto kind = parse_kind(kind_string.toStdString());
     if (!kind) { reportAction("equipment.unsupported_kind", "Choose supported equipment", "Use the equipment palette. Pumps attach to routes leaving a storage tank."); return; }
@@ -332,25 +468,32 @@ void ProjectController::moveAsset(const QString& id, double x, double z) {
     }
     edit([&] { project_.positions[id] = QVector3D(static_cast<float>(std::round(x / 20.0) * 20.0), 0, static_cast<float>(std::round(z / 20.0) * 20.0)); });
 }
-void ProjectController::connectAssets(const QString& source, const QString& target) {
-    if (project_.network.routes.size() >= 256) { reportAction("connection.limit", "Route limit reached", "This editor supports 256 routes. Remove an unused route before adding another.", {source, target}); return; }
+QVariantMap ProjectController::connectionEligibility(const QString& source, const QString& target) const {
+    const auto reject = [](const QString& code, const QString& title, const QString& message) {
+        return QVariantMap{{"allowed", false}, {"code", code}, {"title", title}, {"message", message}};
+    };
+    if (project_.network.routes.size() >= 256) return reject("connection.limit", "Route limit reached", "This editor supports 256 routes. Remove an unused route before adding another.");
     const Asset* s = nullptr; const Asset* d = nullptr;
-    for (const auto& a : project_.network.assets) { if (q(a.id) == source) s = &a; if (q(a.id) == target) d = &a; }
-    if (!s || !d) { reportAction("connection.missing_target", "Target no longer exists", "Choose existing source and destination equipment. No route was added.", {source, target}); return; }
-    if (source == target) { reportAction("connection.self", "Choose a different destination", "An asset cannot connect to itself. No route was added.", {source}); return; }
-    if (!((s->kind == AssetKind::source && d->kind == AssetKind::tank) ||
-        (s->kind == AssetKind::tank && d->kind != AssetKind::source))) {
-        reportAction("connection.unsupported_types", "Connection not supported",
-            "Connect source -> tank, or tank -> tank/treatment/trucking. These are the supported connections in this model; no route was added.", {source, target}); return;
+    for (const auto& asset : project_.network.assets) { if (q(asset.id) == source) s = &asset; if (q(asset.id) == target) d = &asset; }
+    if (!s || !d) return reject("connection.missing_target", "Target no longer exists", "Choose existing source and destination equipment. No route was added.");
+    if (source == target) return reject("connection.self", "Choose a different destination", "An asset cannot connect to itself. No route was added.");
+    if (!((s->kind == AssetKind::source && d->kind == AssetKind::tank) || (s->kind == AssetKind::tank && d->kind != AssetKind::source)))
+        return reject("connection.unsupported_types", "Connection not supported", "Connect source -> tank, or tank -> tank/treatment/trucking. These are the supported connections in this model; no route was added.");
+    for (const auto& route : project_.network.routes) if (route.source_id == s->id && s->kind == AssetKind::source)
+        return reject("connection.source_already_connected", "Source already connected", "Each source feeds exactly one tank. Delete its existing route first; no connection was replaced.");
+    return {{"allowed", true}, {"code", "connection.available"}, {"title", "Connect equipment"}, {"message", "Click to add this directed connection."}};
+}
+void ProjectController::connectAssets(const QString& source, const QString& target) {
+    const auto eligibility = connectionEligibility(source, target);
+    if (!eligibility.value("allowed").toBool()) {
+        reportAction(eligibility.value("code").toString(), eligibility.value("title").toString(), eligibility.value("message").toString(), {source, target}); return;
     }
-    for (const auto& r : project_.network.routes) if (r.source_id == s->id && s->kind == AssetKind::source) {
-        reportAction("connection.source_already_connected", "Source already connected", "Each source feeds exactly one tank. Delete its existing route first; no connection was replaced.", {source, target}); return;
-    }
+    const auto s = std::find_if(project_.network.assets.cbegin(), project_.network.assets.cend(), [&](const Asset& asset) { return q(asset.id) == source; });
     edit([&] {
-        Route r; r.id = fresh_id("route_"); r.source_id = source.toStdString(); r.target_id = target.toStdString();
-        r.capacity_m3h = s->kind == AssetKind::source ? s->inflow_m3h : 25.0;
-        r.setpoint_m3h = s->kind == AssetKind::source ? s->inflow_m3h - s->curtailment_m3h : 0.0;
-        project_.network.routes.push_back(r); selected_id_ = q(r.id);
+        Route route; route.id = fresh_id("route_"); route.source_id = source.toStdString(); route.target_id = target.toStdString();
+        route.capacity_m3h = s->kind == AssetKind::source ? s->inflow_m3h : 25.0;
+        route.setpoint_m3h = s->kind == AssetKind::source ? s->inflow_m3h - s->curtailment_m3h : 0.0;
+        project_.network.routes.push_back(route); selected_id_ = q(route.id);
     });
 }
 void ProjectController::attachPump(const QString& id) {
@@ -394,24 +537,21 @@ void ProjectController::editSelected(const QString& field, const QString& value)
 }
 void ProjectController::deleteSelected() {
     if (selected().isEmpty()) { reportAction("delete.missing_selection", "Select equipment or a route", "Choose an existing item before deleting. The document is unchanged."); return; }
-    const auto id = selected_id_.toStdString();
-    QSet<QString> removed{selected_id_};
+    QSet<QString> removed(selected_ids_.cbegin(), selected_ids_.cend());
+    removed.insert(selected_id_);
     for (const auto& route : project_.network.routes)
-        if (route.source_id == id || route.target_id == id) removed.insert(q(route.id));
+        if (removed.contains(q(route.source_id)) || removed.contains(q(route.target_id))) removed.insert(q(route.id));
     for (const auto& value : sensor_configuration_.value("sensors").toArray()) {
         const auto sensor = value.toObject();
         if (removed.contains(sensor.value("attachment").toObject().value("id").toString())) {
-            reportAction("delete.sensor_attached", "Sensor still attached", "Remove or reattach sensor " + sensor.value("label").toString() + " before deleting its equipment or route.", {selected_id_}); return;
+            reportAction("delete.sensor_attached", "Sensor still attached", "Remove or reattach sensor " + sensor.value("label").toString() + " before deleting its equipment or route.", selected_ids_.isEmpty() ? QStringList{selected_id_} : selected_ids_); return;
         }
     }
     edit([&] {
-        std::erase_if(project_.network.assets, [&](const Asset& a) { return a.id == id; });
-        std::erase_if(project_.network.routes, [&](const Route& r) { return r.id == id || r.source_id == id || r.target_id == id; });
-        for (auto it = project_.pipe_parameters.begin(); it != project_.pipe_parameters.end();) {
-            const bool exists = std::any_of(project_.network.routes.begin(), project_.network.routes.end(), [&](const Route& r) { return q(r.id) == it.key(); });
-            if (!exists) it = project_.pipe_parameters.erase(it); else ++it;
-        }
-        project_.positions.remove(selected_id_); selected_id_.clear();
+        std::erase_if(project_.network.assets, [&](const Asset& asset) { return removed.contains(q(asset.id)); });
+        std::erase_if(project_.network.routes, [&](const Route& route) { return removed.contains(q(route.id)); });
+        for (const auto& id : removed) { project_.positions.remove(id); project_.pipe_parameters.remove(id); }
+        selected_id_.clear(); selected_ids_.clear();
     });
 }
 void ProjectController::failSelectedPump() {
