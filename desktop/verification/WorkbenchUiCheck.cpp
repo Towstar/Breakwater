@@ -308,7 +308,20 @@ class Check final : public QObject {
                 snapshot("08-investigation-dock.png"); click(item("toggleInvestigator")); break;
             case 29:
                 require(!window_->property("showAgent").toBool() && !item("toggleInvestigator")->property("checked").toBool(), "repeated_investigator_click_did_not_close");
-                passed("native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle"); finish(true, "ok"); return;
+                passed("native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle");
+                eval("app.openRecordedInvestigation()"); break;
+            case 30:
+                observed_["recording"] = QJsonDocument::fromJson(eval(QStringLiteral(
+                    "JSON.stringify({loaded:app.eog.loaded,loading:app.eog.busy,"
+                    "folder_matches:app.eog.sourceFolder===String(app.portfolioExamples.operationsPath),"
+                    "pending:String(app.pendingRecordedArchive).length>0,"
+                    "historical:app.eogAnalysis.historical,status:app.eogAnalysis.status,"
+                    "storage:app.eogAnalysis.storageStatus,trace:app.eogAnalysis.trace.length})")).toString().toUtf8()).object();
+                if (!eval("app.eogAnalysis.historical").toBool()) return;
+                require(eval("app.eog.loaded && app.eogAnalysis.trace.length > 0 && app.eogAnalysis.plans.length > 0 && app.eogAnalysis.summary.length > 0 && !app.eogAnalysis.canReview").toBool(),
+                    "recorded_investigation_not_historical_grounded_evidence");
+                snapshot("09-recorded-investigation.png");
+                passed("bundled_hosted_recording_reopens_historical_without_review_authority"); finish(true, "ok"); return;
             default: throw std::runtime_error("invalid_phase");
             }
             ++phase_;

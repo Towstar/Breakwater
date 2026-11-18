@@ -1,0 +1,270 @@
+{
+  "passed": true,
+  "qt_suites": [
+    {
+      "suite": "agent_gateway-results",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "agent_orchestrator-results",
+      "passed": 25,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "agent_science-results",
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "editor_tools-results",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_analysis_client-results",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_analysis_controller-results",
+      "passed": 50,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_capture-results",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_contracts-results",
+      "passed": 71,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_dataset-results",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_event_details-results",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_history-results",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_investigator-results",
+      "passed": 66,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_plan_chart-results",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_plan_details-results",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_provider-results",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "history_controller-results",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "nemotron_client-results",
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "pipe_transport-results",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 1,
+      "blacklisted": 0,
+      "skip_reasons": [
+        "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+      ],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "pipe_transport_evidence-results",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "python_worker-results",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "science_evidence-results",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "sensor_editor-results",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "session_repository-results",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "storage_science-results",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "storage_worker-results",
+      "passed": 121,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "telemetry_contracts-results",
+      "passed": 176,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "telemetry_lifecycle-results",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "telemetry_stream-results",
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "workspace_settings-results",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    }
+  ],
+  "problems": [],
+  "optional_calibration_skipped": 1
+}

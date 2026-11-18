@@ -1,0 +1,296 @@
+{
+  "source_baseline": "27dba57",
+  "workspace_commit": "b19bd76",
+  "math_trees_unchanged_from_tested_baseline": {
+    "engine": "ba875196320fd17f8e30cba39d190275f4121258",
+    "science": "1dfb35495fe964e51ca7b9b744177d873c998cf0",
+    "proofs": "0b3ef405663516a8f3a25333876d75052d9adf95",
+    "scenarios": "56f7199c6d305e166d9c62bb5499e521a43ec9f1"
+  },
+  "test_scope_note": "Full normal run passed 70/70. A subsequently added minimum-size case and changed UI/settings passed targeted reruns. Full ASan initially passed 70/71; the one minimum-window interaction was fixed and all nine relevant reruns passed. Latest overview-only regressions are recorded separately. No failed run is relabeled as an all-green full rerun.",
+  "native_normal": {
+    "passed": 14,
+    "failed": 0
+  },
+  "native_asan": {
+    "passed": 14,
+    "failed": 0
+  },
+  "desktop_normal_full": {
+    "passed": 70,
+    "registered": 70,
+    "failed": 0
+  },
+  "desktop_asan_initial_full": {
+    "passed": 70,
+    "registered": 71,
+    "failed": 1,
+    "remaining_failure": "minimum-size UI test, fixed in subsequent reruns"
+  },
+  "desktop_ui_final_normal": {
+    "passed": 7,
+    "registered": 7,
+    "failed": 0
+  },
+  "desktop_ui_final_asan": {
+    "passed": 9,
+    "registered": 9,
+    "failed": 0
+  },
+  "science_cpu": {
+    "run": 458,
+    "passed": 454,
+    "failed": 0,
+    "explicit_optional_physicsnemo_skips": 4
+  },
+  "optional_physicsnemo": {
+    "run": 23,
+    "passed": 23,
+    "skipped": 0
+  },
+  "calibration_qualification": {
+    "run": 3,
+    "passed": 3
+  },
+  "desktop_actual_calibration": {
+    "qt_total_passed": 3,
+    "includes_init_cleanup": true,
+    "actual_fit_cases": 1,
+    "explicit_apply_boundary_verified": true
+  },
+  "lean": {
+    "verified": true,
+    "assumption_audits": 54
+  },
+  "ci_helper_tests": {
+    "run": 21,
+    "passed": 21
+  },
+  "hosted_rehearsals": {
+    "all_attempts": 16,
+    "final_round_canonical_passed": 3,
+    "final_round_renamed_passed": 1,
+    "prior_failures_retained": true,
+    "report": "hosted-rehearsals.json"
+  },
+  "performance": {
+    "hardware": "AMD Radeon(TM) 880M Graphics",
+    "backend": "D3D11",
+    "client": [
+      1440,
+      900
+    ],
+    "device_pixel_ratio": 1.75,
+    "default_fps": 62.48951685779386,
+    "maximum_fps": 62.48969771209594,
+    "maximum_assets": 128,
+    "maximum_routes": 256,
+    "maximum_body_picks": 128,
+    "default_quality": 1,
+    "overview_quality": 0,
+    "scope": "10 second camera sweep after 2.5 second warmup on one laptop; no cross-hardware guarantee"
+  },
+  "scaling": "100/125/150/200 percent verified from captured pixel dimensions using process-local Qt overrides, not persistent Windows settings",
+  "portable": "Prototype relocation, no development PATH/worker variables/API key, isolated minimal Python, real search/independent validation/export/reopen passed. Clean Windows account/VM remains pending.",
+  "pending_release_gates": [
+    "Ethan numerical/shared review",
+    "both owners GPLv3 agreement",
+    "complete deployed-dependency notices and corresponding-source delivery review",
+    "clean Windows account/VM verification",
+    "GitHub CI outcome on published branches"
+  ],
+  "artifacts": [
+    {
+      "file": "desktop-normal-final.log",
+      "sha256": "805f393212e1126a1aa014953050200f8a6872a1cb60e0eefd20dcfd7d54ecbb",
+      "source_sha256": "265db2eb0a526c6478963e1ac964fd1860695cfbbd7b1f312c7248ff04c528d6",
+      "local_paths_sanitized": true
+    },
+    {
+      "file": "desktop-normal-final.xml",
+      "sha256": "fdd612303f8ff116f236f6b482903d94d43359a02abf806d1528a78519448e20",
+      "source_sha256": "fdd612303f8ff116f236f6b482903d94d43359a02abf806d1528a78519448e20",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "desktop-asan-full.log",
+      "sha256": "b7a1060827362500f6b2aad0c1931fe9de6ffeac1cd31675ca24f4081a027f90",
+      "source_sha256": "23cd318c600ce37927b9b8a1c51288d7bfdc8bc364d1353e987723ce89be0637",
+      "local_paths_sanitized": true
+    },
+    {
+      "file": "desktop-asan.xml",
+      "sha256": "4b328aa12391b378b26f2703f3040eb5671d2e16655e4c6a60e31fd6bea809ab",
+      "source_sha256": "4b328aa12391b378b26f2703f3040eb5671d2e16655e4c6a60e31fd6bea809ab",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "acceptance-ui-final.log",
+      "sha256": "2612bcf4d7dba34cea752e3cb8f16786d96882603b2506c7d4fc4743b57e8e20",
+      "source_sha256": "a56a5281dfba8a70dd372069787d5c98838ff31a1a3bb50dec941f6dcb82e5ef",
+      "local_paths_sanitized": true
+    },
+    {
+      "file": "asan-ui-final.log",
+      "sha256": "2974302463ade34a1b463173794798fbce9cd08b304f4733922485b1be23010b",
+      "source_sha256": "da4304221c385f4e15ab934cdf54bd52528e909f8b691261e38843086642e61b",
+      "local_paths_sanitized": true
+    },
+    {
+      "file": "ci-helper-tests.log",
+      "sha256": "90e336bfdf86ddb9cfa54eec878e94c7de994da0956ebad136b6ee49f0eba135",
+      "source_sha256": "90e336bfdf86ddb9cfa54eec878e94c7de994da0956ebad136b6ee49f0eba135",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "hosted-smoke.log",
+      "sha256": "6a503f30725276173309f36c5004ee83bd4a7142f3d127ad8ea65b03d4a2cecd",
+      "source_sha256": "6a503f30725276173309f36c5004ee83bd4a7142f3d127ad8ea65b03d4a2cecd",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "display-scaling.json",
+      "sha256": "427a1c35506d33815b96fddefff666502512efea1d1f0e5ed1bcdfcbce4e90ad",
+      "source_sha256": "427a1c35506d33815b96fddefff666502512efea1d1f0e5ed1bcdfcbce4e90ad",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "startup-scaling.json",
+      "sha256": "745627fe5900dfc124643d05484a0fc4488f0906e544f504dea2f002555df15a",
+      "source_sha256": "745627fe5900dfc124643d05484a0fc4488f0906e544f504dea2f002555df15a",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "performance-default.json",
+      "sha256": "eec99af949c004a3aa8a0a9dc6375dc398ae351f1fd7f1dbcf0756f797bb8193",
+      "source_sha256": "eec99af949c004a3aa8a0a9dc6375dc398ae351f1fd7f1dbcf0756f797bb8193",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "performance-maximum.json",
+      "sha256": "d5eec75b9e34762877b2f6070c800179498edd4f3f5bfc81d041cad707c0ce29",
+      "source_sha256": "d5eec75b9e34762877b2f6070c800179498edd4f3f5bfc81d041cad707c0ce29",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "performance-maximum-lod.json",
+      "sha256": "611a74ef1b2185b53de8b08a61f363b9b4612f59c7948f86baee7ea57dbf8075",
+      "source_sha256": "611a74ef1b2185b53de8b08a61f363b9b4612f59c7948f86baee7ea57dbf8075",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "performance-default-final.json",
+      "sha256": "86021ea0ec85c9b0332d48b0f25f1f45eb7196b97fbf9b31090326bd343021c4",
+      "source_sha256": "86021ea0ec85c9b0332d48b0f25f1f45eb7196b97fbf9b31090326bd343021c4",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "performance-maximum-final.json",
+      "sha256": "74920d3d6bc02568dfbeaa54590a8a331d04c92ccc561009003cc88c1453f8a5",
+      "source_sha256": "74920d3d6bc02568dfbeaa54590a8a331d04c92ccc561009003cc88c1453f8a5",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "performance-maximum-cached.json",
+      "sha256": "f2eb04fb2655c69b230953a88d1c48de46444b952ed4536b07fa423e68aa157f",
+      "source_sha256": "f2eb04fb2655c69b230953a88d1c48de46444b952ed4536b07fa423e68aa157f",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "desktop-calibration.txt",
+      "sha256": "97be4ec143c3f957725f8dcb4e6a6241adc7cc0ed2e5ec5e9dc18636f7981dcd",
+      "source_sha256": "97be4ec143c3f957725f8dcb4e6a6241adc7cc0ed2e5ec5e9dc18636f7981dcd",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "calibration-qualification.log",
+      "sha256": "f3e69ec40e408f0b7a472d985371681ec51300352ba78e4c69c31c502cc71f8a",
+      "source_sha256": "f3e69ec40e408f0b7a472d985371681ec51300352ba78e4c69c31c502cc71f8a",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "physicsnemo-tests.log",
+      "sha256": "4d71446c27fdc240578f28eed5a1586ee051993f401304e7edb43bea73a866a7",
+      "source_sha256": "4d71446c27fdc240578f28eed5a1586ee051993f401304e7edb43bea73a866a7",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "science-unrestricted-results.json",
+      "sha256": "a2c0988c1b9b2d26dbc3d984f10e7e006c62c26b46f60f06c778d9f6f0c804ff",
+      "source_sha256": "a2c0988c1b9b2d26dbc3d984f10e7e006c62c26b46f60f06c778d9f6f0c804ff",
+      "local_paths_sanitized": false
+    },
+    {
+      "file": "lean-cached-retry.log",
+      "sha256": "ca3cd6d001a78cc1349423c2ba302cb9abf9e5f1165374b79c61df4b94c8aae0",
+      "source_sha256": "339e7b2a3cc6f4c3190f062c39e1a36ce2b3bc486f4192346b4a4f26f19f1584",
+      "local_paths_sanitized": true
+    },
+    {
+      "file": "python-relocation-check.log",
+      "sha256": "ee476a0dde05df745b646763deff9ba49c3a4ffe9bb79bab352036be8f112c93",
+      "source_sha256": "ee476a0dde05df745b646763deff9ba49c3a4ffe9bb79bab352036be8f112c93",
+      "local_paths_sanitized": false
+    }
+  ],
+  "performance_commit": "4ea282f",
+  "latest_overview_checks": {
+    "normal": {
+      "passed": 6,
+      "failed": 0
+    },
+    "asan_serial_normal_repeats": 3,
+    "asan_remaining": {
+      "passed": 5,
+      "failed": 0
+    },
+    "prior_overlap_failure_retained": "asan-overview-regressions.log"
+  },
+  "qualification_state": "locally qualified; external review/distribution gates pending",
+  "recorded_menu_regression": {
+    "initial_normal_failed": 1,
+    "failure": "Empty trace reproduced after loading the recording; import intent overlapped capture retirement",
+    "fixed_normal_layouts_passed": 3,
+    "fixed_asan_layouts_passed": 3,
+    "historical_review_disabled": true,
+    "scope": "Final QML change, actual bundled archive through the real controller/repository"
+  },
+  "qt_report_policy": {
+    "helper_tests_passed": 21,
+    "retained_normal_suites": 29,
+    "retained_asan_suites": 29,
+    "known_optional_skip": 1,
+    "scope": "Retained suite files include focused reruns; this is not a new full CTest run"
+  },
+  "manual_desktop": {
+    "source_commit": "97be3c1c607a33d30441a346b3307dad7c84079e",
+    "sandbox_local_search_and_review": true,
+    "sandbox_controls_applied": false,
+    "operations_search_and_exact_validation": true,
+    "operations_baseline_usd": 11726,
+    "operations_candidate_usd": 1810,
+    "operations_validation_margin_bbl": 14.75,
+    "hosted_requests_requested": false,
+    "gallery": "../../images/portfolio/README.md"
+  },
+  "clean_source_candidate": {
+    "source_commit": "97be3c1c607a33d30441a346b3307dad7c84079e",
+    "dirty": false,
+    "zip_bytes": 104109086,
+    "zip_sha256": "e488bcbc2fb4a247219db25f94694ad949f2e40dd37f933ef5d4658e2d7a36cc",
+    "isolated_checks_passed": 6,
+    "clean_windows_vm": false,
+    "metadata": "package-97be3c1.json",
+    "verification": "bundle-check-97be3c1.json"
+  },
+  "final_application_candidate": {
+    "source_commit": "6cb258756bd0feb0cc7d6c37283ce9f0b7d6f24e",
+    "dirty": false,
+    "manifest": "candidate-6cb2587.json",
+    "isolated_checks_passed": 7,
+    "recorded_ui_observed_historical": true,
+    "recorded_events": 28,
+    "clean_windows_vm": false,
+    "scope": "Exact application-code candidate; later documentation commits do not relabel its source"
+  }
+}

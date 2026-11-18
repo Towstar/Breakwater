@@ -179,6 +179,9 @@ try {
         $registered = Get-Content -Raw -LiteralPath (Join-Path $artifactRoot 'registered-tests.log') | ConvertFrom-Json
         if ($registered.tests.Count -eq 0) { throw 'CTest registered no tests.' }
         if ($Suite -eq 'desktop') {
+            foreach ($required in @('desktop.workspace_settings', 'desktop.editor_tools', 'desktop.ui_overhaul_minimum', 'desktop.portfolio_examples')) {
+                if ($required -notin $registered.tests.name) { throw "Required portfolio check is missing: $required" }
+            }
             foreach ($required in @('desktop.qml_smoke', 'desktop.storage_worker', 'desktop.storage_science', 'desktop.agent_science', 'desktop.science_evidence', 'desktop.scientific_history_normal', 'desktop.scientific_history_compact', 'desktop.pipe_evidence_smoke')) {
                 if ($required -notin $registered.tests.name) { throw "Required desktop check is missing: $required" }
             }

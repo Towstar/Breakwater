@@ -1,0 +1,42 @@
+{
+  "status": "passed",
+  "clean_machine": false,
+  "environment": "sanitized local Windows process, not a clean VM",
+  "api_key_supplied": false,
+  "steps": [
+    {
+      "name": "isolated-python",
+      "exit_code": 0,
+      "elapsed_s": 0.26600000000325963
+    },
+    {
+      "name": "sandbox-render",
+      "exit_code": 0,
+      "elapsed_s": 1.9060000000172295
+    },
+    {
+      "name": "operations-render",
+      "exit_code": 0,
+      "elapsed_s": 1.922000000020489
+    },
+    {
+      "name": "operations-offline",
+      "exit_code": 0,
+      "elapsed_s": 1.4689999999827705
+    },
+    {
+      "name": "renamed-topology-render",
+      "exit_code": 0,
+      "elapsed_s": 1.952999999979511
+    },
+    {
+      "name": "renamed-topology-offline",
+      "exit_code": 0,
+      "elapsed_s": 1.4530000000377186
+    }
+  ],
+  "started_utc": "2026-11-18T05:31:22.827246+00:00",
+  "inputs": "bundle manifest unchanged",
+  "hosted_model_requests": 0,
+  "finished_utc": "2026-11-18T05:31:35.548342+00:00"
+}

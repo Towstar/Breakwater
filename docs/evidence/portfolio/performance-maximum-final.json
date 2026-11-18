@@ -1,0 +1,27 @@
+{
+    "actual_body_picks": {
+        "pickable": 128,
+        "projected": 128
+    },
+    "assets": 128,
+    "client_height": 900,
+    "client_width": 1440,
+    "detail_visible": false,
+    "device_pixel_ratio": 1.75,
+    "effective_scene_quality": 0,
+    "elapsed_ms": 9969.974,
+    "fps": 17.051197926895295,
+    "frame_interval_p50_ms": 33.1212,
+    "frame_interval_p95_ms": 366.3901,
+    "frames": 170,
+    "graphics_api": 4,
+    "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+    "numerical_identity_unchanged": true,
+    "recorded_utc": "2026-11-18T06:01:55Z",
+    "routes": 256,
+    "screenshot_written": true,
+    "software_renderer_requested": false,
+    "status": "measured",
+    "target_fps": 30,
+    "target_met": false
+}

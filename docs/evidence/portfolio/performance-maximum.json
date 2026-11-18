@@ -1,0 +1,20 @@
+{
+    "assets": 128,
+    "client_height": 900,
+    "client_width": 1440,
+    "device_pixel_ratio": 1.75,
+    "elapsed_ms": 9888.544799999996,
+    "fps": 13.854414655632652,
+    "frame_interval_p50_ms": 43.3029,
+    "frame_interval_p95_ms": 396.7132,
+    "frames": 137,
+    "graphics_api": 4,
+    "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+    "numerical_identity_unchanged": true,
+    "recorded_utc": "2026-11-18T05:49:18Z",
+    "routes": 256,
+    "software_renderer_requested": false,
+    "status": "measured",
+    "target_fps": 30,
+    "target_met": false
+}

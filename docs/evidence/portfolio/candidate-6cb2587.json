@@ -1,0 +1,19 @@
+{
+  "source_commit": "6cb258756bd0feb0cc7d6c37283ce9f0b7d6f24e",
+  "zip_bytes": 104110029,
+  "clean_windows_vm": false,
+  "verification": "bundle-check-6cb2587.json",
+  "package": "package-6cb2587.json",
+  "files": [
+    {
+      "name": "Breakwater-windows-x64.zip",
+      "bytes": 104110029,
+      "sha256": "47263a37aa09fa2824aded2c09cd58e62f833662dd86a63ab450ae83e52f77b2"
+    },
+    {
+      "name": "Breakwater-source.zip",
+      "bytes": 18274591,
+      "sha256": "9e8fdb07c1d542a1619190a9cfccb7993ce9c508fd41cdca1ab4a2c373ed433e"
+    }
+  ]
+}

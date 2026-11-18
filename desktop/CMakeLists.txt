@@ -111,12 +111,14 @@ endif()
 if(BUILD_TESTING)
   qt_add_executable(breakwater_workspace_settings_tests tests/workspace_settings_tests.cpp)
   target_link_libraries(breakwater_workspace_settings_tests PRIVATE breakwater_desktop_base Qt6::Test)
-  add_test(NAME desktop.workspace_settings COMMAND breakwater_workspace_settings_tests)
+  add_test(NAME desktop.workspace_settings COMMAND breakwater_workspace_settings_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/workspace_settings-results.txt,txt")
   set_tests_properties(desktop.workspace_settings PROPERTIES
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   qt_add_executable(breakwater_editor_tools_tests tests/editor_tools_tests.cpp)
   target_link_libraries(breakwater_editor_tools_tests PRIVATE breakwater_desktop_base Qt6::Test)
-  add_test(NAME desktop.editor_tools COMMAND breakwater_editor_tools_tests)
+  add_test(NAME desktop.editor_tools COMMAND breakwater_editor_tools_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/editor_tools-results.txt,txt")
   set_tests_properties(desktop.editor_tools PROPERTIES
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   foreach(_ui_size normal compact minimum)

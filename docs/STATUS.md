@@ -1,29 +1,81 @@
 # Implementation status
 
-## Active: v0.2.0 portfolio release, November 17, 2026
+## Active: v0.2.0 portfolio candidate, November 18, 2026
 
-Follow [PORTFOLIO_RELEASE.md](PORTFOLIO_RELEASE.md). The hackathon deadline has
-passed. Current work is an isolated integration of main `3116b3d` and the PR56
-preview `0314aba`, then a Sandbox-led UI/industrial scene refresh, atomic editor
-tools, clearer retained evidence, optional Science and portable Windows delivery.
-The UI, hosted rehearsals and packaging are not yet qualified on this integration.
+The Sandbox-led desktop, daylight industrial scene, responsive results docks,
+atomic group editor, forecast charts, filtered evidence history and offline local
+investigation are implemented. Operations retains the EOG adapter and read-only
+capture-bound analysis. See [PORTFOLIO_RELEASE](PORTFOLIO_RELEASE.md),
+[the walkthrough](PORTFOLIO_WALKTHROUGH.md) and
+[qualification evidence](evidence/portfolio/qualification.json).
 
-Normal and ASan native builds each passed all 14 registered tests on this machine
-(MSVC 19.44.35219, VS 2022 17.14.36623.8). Desktop/science/Lean acceptance is in
-progress. A sandbox restriction prevented one science file-alias test from creating
-a hard link; the unrestricted rerun is retained separately. Missing optional
-PhysicsNeMo is not a successful calibration qualification.
+Main remains `3116b3d`. PR56 ancestry and the bounded test-metadata compatibility
+patch are integrated on the isolated portfolio baseline. Draft PR58 contains the
+baseline; draft PR59 contains the desktop/offline increment. Both are conflict-free
+at the last GitHub check. Numerical/shared review is still required before main.
+Draft PR60 contains the large-scene performance increment. The delivery branch
+adds packaging, optional setup, media and the final recording/CI fixes.
+The complete draft review stack is [PR58](https://github.com/Towstar/Breakwater/pull/58)
+→ [PR59](https://github.com/Towstar/Breakwater/pull/59)
+→ [PR60](https://github.com/Towstar/Breakwater/pull/60)
+→ [PR61](https://github.com/Towstar/Breakwater/pull/61). Live GitHub checks remain
+the authority for each published branch's current CI outcome.
+The unpublished observed-capture work and frozen hackathon application are preserved.
+Devpost is unchanged.
 
-The bounded official test-metadata parser compatibility patch is adopted without
-changing numerical identity or using onset annotations as observations. The
-science CI job now requires and records both native response and plant libraries.
-Ethan's numerical review remains a main-integration checkpoint.
+Executed locally:
 
-PR26/27, scientific worker execution, sensitivity tools, scientific history, G1/G2,
-EOG recorded-data analysis, search and selector polish are delivered ancestors,
-not new work. Generic observed-state forecasting and evolving fleet dispatch remain
-unfinished. Public release/licensing agreement and all clean-machine/hosted gates
-are pending. Devpost is unchanged.
+- Native normal 14/14 and native ASan 14/14 pass.
+- Full normal desktop/native CTest run: 70/70 pass. Later minimum/UI/settings
+  checks: 7/7 pass. Full ASan initially passed 70/71; its minimum-window input
+  check was corrected, then all 9 affected checks passed. Final overview-only
+  changes are verified separately. Failed attempts are retained, not relabeled.
+- CPU science: 458 run, 454 pass, four explicit optional PhysicsNeMo skips.
+  Engine/science/proofs/scenarios trees remain identical to that tested baseline.
+- Real optional CPU PhysicsNeMo: 23/23 pass; calibration qualification: 3/3 pass.
+  The real desktop fit case verifies that parameters stay staged until explicit
+  application, which retires old approval.
+- Pinned Lean build/negative-assumption checks and 54 assumption audits pass.
+- Four final hosted Nemotron investigations pass, three canonical and one renamed
+  network. All 16 attempts are retained, including six prior incomplete sessions.
+  A bundled genuine recording is historical and restores no authority.
+- Unicode-path relocation, isolated minimal Python, rendering, real local search,
+  independent validation, archive export and nonactionable reopening pass without
+  development PATH/worker variables or a supplied API key.
+- The clean `97be3c1` portable candidate passes all six isolated-process checks.
+  A manual desktop search, comparison and review also pass with no application
+  of controls. Actual screenshots are linked from the README.
+- The final application-code candidate `6cb2587` passes seven isolated-process
+  checks, now including the complete historical recording through the UI.
+  [Exact package/source hashes and results](evidence/portfolio/candidate-6cb2587.json)
+  identify this binary separately from subsequent documentation commits.
+- The recorded-example menu's capture-retirement race was reproduced and fixed.
+  The complete bundled hosted archive reopens as historical evidence in all three
+  native UI layouts, in both normal and ASan builds, with current review disabled.
+- CI reporting retains the exact optional calibration skip while rejecting other
+  skipped dependencies and missing/failed/blacklisted cases. All 21 local helper
+  checks pass. The earlier reporting failures remain separate from the CTest
+  results; fresh GitHub runs are not assumed to have passed.
+- Controlled 100/125/150/200 percent Qt scaling captures and ten consecutive
+  startup/render/shutdown checks pass. This is not an actual Windows display-
+  settings or clean-machine result.
+- Default and maximum-editor overview measurements reach 62.5 FPS on a Radeon
+  880M at 1.75 DPR. All 128 maximum-fixture equipment bodies remain pickable.
+
+The earlier preview access violation was not reproduced in these successful
+startup/render/shutdown checks. Its historical failed attempt remains recorded;
+no unsupported root-cause claim is made. One later native-event test overlapped
+another test window; serialized repetitions are retained separately.
+
+Public binary release is pending Ethan's shared/numerical review, both owners'
+GPLv3 agreement, complete notices/corresponding-source review, clean Windows
+account/VM verification and the published branch CI results. Local candidate
+packaging does not constitute a public release. See [LICENSING](LICENSING.md)
+and [clean Windows checks](CLEAN_WINDOWS_CHECK.md).
+
+Generic observed-state forecasting, commitment-aware fleet dispatch and broader
+numerical/field accuracy work remain future increments. The existing simulation,
+scientific methods and stand-alone proofs keep their documented scope.
 
 ## Historical handoffs and component-qualified evidence
 
