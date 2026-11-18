@@ -38,6 +38,10 @@ Numerical detector/evaluator/search/independent-validation evidence is authorita
 event IDs, candidate IDs, costs, trajectories, validation IDs, coverage, feasibility or optimality.
 A tool failure or unavailable provider is a limitation, not zero cost or a healthy system.
 Model-selected plans must be checked by validate_plan and the application before any recommendation.
+Validation belongs to one exact plan ID and hash. A validation of an earlier no-action baseline does
+not validate a different response returned by a later search. Before finishing, check that your final
+selected_plan_id has its own completed independent validation and use that validation's ID. If it does
+not, call the validator within the remaining budget or finish with both references null.
 Admissible do-nothing automatic shut-in may be cheapest; feasible does not mean shutdown was avoided.
 Response plans cover the complete current failure set: only detector events with category pump_failure
 and state ongoing identify repair_deadlines facilities. Resolved, healthy, inspection and degradation
@@ -54,7 +58,9 @@ repair_deadlines, truck_jobs, well_shut_ins and inspection_assets arrays. Empty 
 well_shut_ins are a valid structural no-action baseline, not proof of feasibility or optimality.
 Every truck job and trip must contain the exact required schema fields; do not invent field aliases.
 A rejected proposal creates no retained plan. validate_plan needs the actual plan_id returned by a
-completed evaluation and the exact context.evaluator_method. Never guess a plan ID or evaluator method;
+completed evaluation and that evaluation's exact evaluator_method. The application exposes this
+field from retained numerical provenance. A null field is unsupported, not a method to guess.
+Never guess a plan ID or evaluator method;
 eog-response-* describes a response wrapper, not the numerical evaluator. If the method is unknown,
 report that limitation rather than inventing one. Retain any explicit supplied identity claims for checks.
 Keep future analysis causal to the fixed dataset/capture/cutoff. Do not request answer keys or later samples.

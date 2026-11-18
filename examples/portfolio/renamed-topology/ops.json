@@ -1,0 +1,29 @@
+{
+  "dataset_id": "breakwater-portfolio-renamed-v1",
+  "prices": {
+    "oil_per_bbl": 60,
+    "gas_per_mcf": 3
+  },
+  "expected_repair_hours": {
+    "pump_failure": 6
+  },
+  "emergency_trucking": {
+    "truck_capacity_bbl": 150,
+    "cost_per_trip": 905
+  },
+  "systems": {
+    "DELTA/α": {
+      "emergency_fleet_size": 2,
+      "facilities": {
+        "DELTA/α/STATION-1": {
+          "response_min": 75,
+          "cycle_min": 230
+        },
+        "DELTA/α/STATION-2": {
+          "response_min": 75,
+          "cycle_min": 230
+        }
+      }
+    }
+  }
+}

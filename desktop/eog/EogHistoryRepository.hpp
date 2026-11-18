@@ -28,7 +28,7 @@ public:
                           const QString& note = {});
     void finishSession(const QString& id, const QString& status = QStringLiteral("completed"));
     void retireSession(const QString& id);
-    void listSessions(int offset = 0);
+    void listSessions(int offset = 0, const QString& dataset = {}, const QString& query = {}, qint64 cutoff = -1);
     void loadSession(const QString& id);
     void exportSession(const QString& id, const QUrl& destination);
     void importSession(const QUrl& source);

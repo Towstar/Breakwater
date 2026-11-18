@@ -23,7 +23,7 @@ public:
     explicit AgentOrchestrator(ModelTransport* transport, QObject* parent = nullptr);
     ~AgentOrchestrator() override;
     void setSensitivityClient(science::AgentSensitivityClient* client);
-    void start(std::shared_ptr<SimulationGateway> gateway, const QString& objective, AgentLimits limits = {});
+    void start(std::shared_ptr<SimulationGateway> gateway, const QString& objective, AgentLimits limits = {}, bool localOnly = false);
     void cancel();
     void invalidate();
     bool running() const { return running_; }
@@ -31,6 +31,7 @@ public:
     QString sessionId() const { return session_id_; }
     QVariantList events() const { return events_; }
     QJsonObject result() const { return result_; }
+    bool localOnly() const { return local_only_; }
     std::shared_ptr<SimulationGateway> gateway() const { return gateway_; }
 signals:
     void changed();
@@ -54,6 +55,12 @@ private:
     bool running_ = false, awaiting_model_ = false, executing_tool_ = false;
     bool network_seen_ = false, controls_seen_ = false;
     bool recording_cancel_metadata_ = false;
+    bool local_only_ = false;
+    int local_step_ = 0;
+    QJsonArray local_catalog_;
+    QJsonObject local_last_;
+    QString local_baseline_, local_selected_;
+    void advanceLocal();
     void requestModel();
     void receive(const QJsonObject& message);
     void nextTool();

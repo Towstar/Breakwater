@@ -9,10 +9,10 @@ Dialog {
     title: "Sensor editor"
     modal: false
     closePolicy: Popup.CloseOnEscape
-    width: Math.min(960, parent ? parent.width - 236 : 960)
-    height: Math.min(760, parent ? parent.height - 96 : 760)
-    x: 220 + Math.max(0, ((parent ? parent.width : 1196) - 236 - width) / 2)
-    y: 76 + Math.max(0, ((parent ? parent.height : 856) - 96 - height) / 2)
+    width: Math.min(960, parent ? parent.width - 32 : 960)
+    height: Math.min(760, parent ? parent.height - 32 : 760)
+    x: Math.max(16, ((parent ? parent.width : width + 32) - width) / 2)
+    y: Math.max(16, ((parent ? parent.height : height + 32) - height) / 2)
     standardButtons: Dialog.Close
     font.family: Theme.fontFamily
     font.pixelSize: Theme.bodySize
@@ -28,16 +28,8 @@ Dialog {
     palette.highlightedText: Theme.background
     palette.mid: Theme.controlBorder
     background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
-    header: Rectangle {
-        implicitHeight: 54
-        color: Theme.surface
-        Rectangle { anchors.left: parent.left; anchors.right: parent.right; anchors.bottom: parent.bottom; height: 1; color: Theme.divider }
-        RowLayout {
-            anchors.fill: parent; anchors.leftMargin: 14; anchors.rightMargin: 12; spacing: 12
-            Label { Layout.fillWidth: true; text: panel.title; color: Theme.text; font.pixelSize: 18; font.weight: Font.DemiBold }
-            ActionButton { objectName: "sensorPanelClose"; iconName: "x"; text: "Close"; tooltip: "Close"; display: AbstractButton.IconOnly; Layout.preferredWidth: 36; onClicked: panel.close() }
-        }
-    }
+    header: DialogHeading { owner: panel; closeName: "sensorPanelClose" }
+    footer: DialogFooter { owner: panel }
     property bool creating: true
     property bool submitting: false
     property string problem: ""
@@ -160,7 +152,7 @@ Dialog {
             ActionButton { text: "New sensor"; iconName: "gauge"; onClicked: panel.beginNew() }
             ActionButton { text: "Delete sensor"; iconName: "trash-2"; enabled: !panel.creating && controller.selectedSensorId.length > 0
                 onClicked: { if (controller.deleteSensor(controller.selectedSensorId)) panel.beginNew(); else panel.problem = controller.summary } }
-            ComboBox {
+            AppComboBox {
                 Layout.fillWidth: true; Layout.minimumWidth: 140
                 model: controller.sensorMarkers; textRole: "label"; valueRole: "id"
                 displayText: currentIndex >= 0 ? currentText : (count ? "Select a saved sensor" : "No saved sensors")
@@ -185,11 +177,11 @@ Dialog {
                         id: identityGrid
                         columns: formScroll.availableWidth < 600 ? 1 : 2; Layout.fillWidth: true; columnSpacing: 18; rowSpacing: 8
                         Label { text: "Quantity" }
-                        ComboBox { id: quantityBox; Layout.fillWidth: true; model: panel.quantities; enabled: panel.creating }
+                        AppComboBox { id: quantityBox; Layout.fillWidth: true; model: panel.quantities; enabled: panel.creating }
                         Label { text: "Attachment kind"; visible: panel.genericAttachment }
-                        ComboBox { id: attachmentKindBox; visible: panel.genericAttachment; Layout.fillWidth: true; model: ["asset", "route"] }
+                        AppComboBox { id: attachmentKindBox; visible: panel.genericAttachment; Layout.fillWidth: true; model: ["asset", "route"] }
                         Label { text: "Equipment / route" }
-                        ComboBox { id: attachmentBox; Layout.fillWidth: true; model: panel.attachmentChoices; textRole: "label"; valueRole: "id" }
+                        AppComboBox { id: attachmentBox; Layout.fillWidth: true; model: panel.attachmentChoices; textRole: "label"; valueRole: "id" }
                         Label { text: "Label" }
                         TextField { id: labelField; Layout.fillWidth: true; placeholderText: "Uses quantity and attachment when blank" }
                         Label { text: "Custom unit"; visible: panel.quantity === "custom_numeric" }
@@ -211,7 +203,7 @@ Dialog {
                         Label { text: "Redundancy group" }
                         TextField { id: groupField; Layout.fillWidth: true; placeholderText: "Independent group when blank" }
                         Label { text: "Group role" }
-                        ComboBox { id: roleBox; Layout.fillWidth: true; model: ["primary", "redundant"] }
+                        AppComboBox { id: roleBox; Layout.fillWidth: true; model: ["primary", "redundant"] }
                         Label { text: "Instrument minimum" }
                         TextField { id: minimumField; Layout.fillWidth: true; placeholderText: "Optional; measurements are retained beyond this" }
                         Label { text: "Instrument maximum" }
@@ -234,7 +226,7 @@ Dialog {
                     GridLayout {
                         columns: formScroll.availableWidth < 600 ? 1 : 2; Layout.fillWidth: true; columnSpacing: 18; rowSpacing: 8
                         Label { visible: panel.quantity === "concentration"; text: "Physical support" }
-                        ComboBox { id: supportBox; visible: panel.quantity === "concentration"; Layout.fillWidth: true; model: ["cell_average", "interval_average", "point_unavailable"] }
+                        AppComboBox { id: supportBox; visible: panel.quantity === "concentration"; Layout.fillWidth: true; model: ["cell_average", "interval_average", "point_unavailable"] }
                         Label { visible: panel.quantity === "concentration" && supportBox.currentText === "cell_average"; text: "Zero-based cell index" }
                         TextField { id: cellField; visible: panel.quantity === "concentration" && supportBox.currentText === "cell_average"; Layout.fillWidth: true }
                         Label { visible: panel.quantity === "concentration" && supportBox.currentText !== "cell_average"; text: "Physical start / point (m)" }

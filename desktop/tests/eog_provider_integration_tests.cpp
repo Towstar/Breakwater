@@ -139,6 +139,36 @@ public:
     void request(const QJsonArray&, const QJsonArray&) override { ++requests; emit requestFailed("unexpected_model_request", "Manual provider checks make no hosted model request."); }
     void cancel() override {}
 };
+class ProvenanceModel final : public agent::ModelTransport {
+public:
+    int requests = 0;
+    QString method, plan, validation;
+    void request(const QJsonArray& messages, const QJsonArray&) override {
+        ++requests;
+        QJsonObject reply{{"role", "assistant"}};
+        const auto call = [&](const QString& name, const QJsonObject& arguments) {
+            reply["tool_calls"] = QJsonArray{QJsonObject{{"id", QString("provenance-%1").arg(requests)}, {"type", "function"},
+                {"function", QJsonObject{{"name", name}, {"arguments", QString::fromUtf8(QJsonDocument(arguments).toJson(QJsonDocument::Compact))}}}}};
+        };
+        if (requests == 1) call("search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}});
+        else {
+            const auto envelope = QJsonDocument::fromJson(messages.last().toObject().value("content").toString().toUtf8()).object();
+            const auto result = envelope.value("result").toObject().value("result").toObject();
+            if (requests == 2) {
+                const auto evaluation = result.value("evaluations").toArray().first().toObject();
+                plan = evaluation.value("plan").toObject().value("plan_id").toString();
+                method = evaluation.value("evaluator_method").toString();
+                call("validate_plan", {{"plan_id", plan}, {"evaluator_method", method}});
+            } else {
+                validation = result.value("validation").toObject().value("validation_id").toString();
+                reply["content"] = QString::fromUtf8(QJsonDocument(QJsonObject{{"summary", "Real provider evidence with copied evaluator provenance."},
+                    {"selected_plan_id", plan}, {"validation_id", validation}, {"event_ids", QJsonArray{}}}).toJson(QJsonDocument::Compact));
+            }
+        }
+        QTimer::singleShot(0, this, [this, reply] { emit replyReady(reply); });
+    }
+    void cancel() override {}
+};
 }
 
 class EogProviderIntegrationTests final : public QObject {
@@ -149,6 +179,27 @@ private slots:
         QVERIFY2(QFileInfo(worker()).isFile(), "The real EOG provider is required, not a protocol fixture.");
         QVERIFY2(QFileInfo(nativeLibrary()).isFile(), "The matching native response DLL is required.");
         QVERIFY(QFileInfo(QDir(contracts()).filePath("validate.py")).isFile());
+    }
+    void modelCopiesActualNumericalProvenanceWithoutChangingStoredWireEvidence() {
+        Inputs inputs; QTemporaryDir storage;
+        EogDatasetController dataset; EogAnalysisClient client(python(), worker(), providerArguments());
+        EogHistoryRepository history(storage.filePath("provenance.sqlite")); ProvenanceModel model;
+        EogAnalysisController controller(&dataset, &client, &history, &model);
+        QSignalSpy ready(&history, &EogHistoryRepository::ready), done(&client, &EogAnalysisClient::completed),
+            failures(&client, &EogAnalysisClient::failed);
+        dataset.loadFolder(QUrl::fromLocalFile(inputs.directory.path()));
+        QTRY_VERIFY_WITH_TIMEOUT(dataset.loaded() && ready.size() == 1, 15000);
+        controller.investigate("Inspect the real provider's supported response evidence and validate its exact plan.");
+        QTRY_VERIFY_WITH_TIMEOUT(model.requests == 3 && !controller.busy(), 30000);
+        QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 2);
+        QCOMPARE(model.method, "eog-native-seconds-0.1.1");
+        QCOMPARE(controller.selectedEvaluatorMethod(), model.method);
+        QVERIFY2(controller.canReview(), qPrintable(controller.status()));
+        QVERIFY(!model.validation.isEmpty());
+        const auto raw = done.first().first().toJsonObject().value("result").toObject().value("evaluations").toArray();
+        QVERIFY(!raw.isEmpty());
+        for (const auto& value : raw) QVERIFY(!value.toObject().contains("evaluator_method"));
+        QCOMPARE(inputs.currentHashes(), inputs.hashes);
     }
     void actualDetectionBindsItsCaptureAndLeavesSourcesUnchanged_data() {
         QTest::addColumn<QString>("prefix");

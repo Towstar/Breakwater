@@ -1,0 +1,177 @@
+{
+  "meta": {
+    "units": {
+      "volume": "bbl",
+      "rate": "bpd",
+      "gas_rate": "mcfd",
+      "pressure": "psi"
+    },
+    "timezone": "UTC"
+  },
+  "defaults": {
+    "tank_limits_pct": {
+      "warning": 85,
+      "shutdown": 92
+    }
+  },
+  "systems": [
+    {
+      "id": "NORTH",
+      "center": [
+        31.9,
+        -102.3
+      ],
+      "truck_yard": [
+        31.897,
+        -102.30199999999999
+      ],
+      "disposal_site": {
+        "id": "NORTH_DISPOSAL",
+        "lat": 31.909,
+        "lon": -102.292,
+        "pressure_psi": 1050
+      },
+      "facilities": [
+        {
+          "id": "NORTH_PAD_A",
+          "lat": 31.9,
+          "lon": -102.3,
+          "wells": [
+            {
+              "id": "NORTH_PAD_A_WELL_1",
+              "baseline_water_bpd": 450,
+              "oil_bpd": 560,
+              "gas_mcfd": 2000
+            },
+            {
+              "id": "NORTH_PAD_A_WELL_2",
+              "baseline_water_bpd": 700,
+              "oil_bpd": 170,
+              "gas_mcfd": 600
+            },
+            {
+              "id": "NORTH_PAD_A_WELL_3",
+              "baseline_water_bpd": 650,
+              "oil_bpd": 390,
+              "gas_mcfd": 1400
+            }
+          ],
+          "tank": {
+            "id": "NORTH_PAD_A_TANK",
+            "capacity_bbl": 800
+          },
+          "pump": {
+            "id": "NORTH_PAD_A_PUMP",
+            "max_flow_bpd": 2700,
+            "start_level_pct": 70,
+            "stop_level_pct": 30
+          },
+          "pipeline": {
+            "id": "NORTH_PAD_A_PIPE",
+            "max_bpd": 3000,
+            "max_pressure_psi": 1700
+          }
+        },
+        {
+          "id": "NORTH_PAD_B",
+          "lat": 31.904999999999998,
+          "lon": -102.29599999999999,
+          "wells": [
+            {
+              "id": "NORTH_PAD_B_WELL_1",
+              "baseline_water_bpd": 450,
+              "oil_bpd": 560,
+              "gas_mcfd": 2000
+            },
+            {
+              "id": "NORTH_PAD_B_WELL_2",
+              "baseline_water_bpd": 700,
+              "oil_bpd": 170,
+              "gas_mcfd": 600
+            },
+            {
+              "id": "NORTH_PAD_B_WELL_3",
+              "baseline_water_bpd": 650,
+              "oil_bpd": 390,
+              "gas_mcfd": 1400
+            }
+          ],
+          "tank": {
+            "id": "NORTH_PAD_B_TANK",
+            "capacity_bbl": 800
+          },
+          "pump": {
+            "id": "NORTH_PAD_B_PUMP",
+            "max_flow_bpd": 2700,
+            "start_level_pct": 70,
+            "stop_level_pct": 30
+          },
+          "pipeline": {
+            "id": "NORTH_PAD_B_PIPE",
+            "max_bpd": 3000,
+            "max_pressure_psi": 1700
+          }
+        }
+      ]
+    },
+    {
+      "id": "SOUTH",
+      "center": [
+        31.945,
+        -102.3
+      ],
+      "truck_yard": [
+        31.942,
+        -102.30199999999999
+      ],
+      "disposal_site": {
+        "id": "SOUTH_DISPOSAL",
+        "lat": 31.954,
+        "lon": -102.292,
+        "pressure_psi": 1050
+      },
+      "facilities": [
+        {
+          "id": "SOUTH_PAD_A",
+          "lat": 31.945,
+          "lon": -102.3,
+          "wells": [
+            {
+              "id": "SOUTH_PAD_A_WELL_1",
+              "baseline_water_bpd": 450,
+              "oil_bpd": 560,
+              "gas_mcfd": 2000
+            },
+            {
+              "id": "SOUTH_PAD_A_WELL_2",
+              "baseline_water_bpd": 700,
+              "oil_bpd": 170,
+              "gas_mcfd": 600
+            },
+            {
+              "id": "SOUTH_PAD_A_WELL_3",
+              "baseline_water_bpd": 650,
+              "oil_bpd": 390,
+              "gas_mcfd": 1400
+            }
+          ],
+          "tank": {
+            "id": "SOUTH_PAD_A_TANK",
+            "capacity_bbl": 800
+          },
+          "pump": {
+            "id": "SOUTH_PAD_A_PUMP",
+            "max_flow_bpd": 2700,
+            "start_level_pct": 70,
+            "stop_level_pct": 30
+          },
+          "pipeline": {
+            "id": "SOUTH_PAD_A_PIPE",
+            "max_bpd": 3000,
+            "max_pressure_psi": 1700
+          }
+        }
+      ]
+    }
+  ]
+}

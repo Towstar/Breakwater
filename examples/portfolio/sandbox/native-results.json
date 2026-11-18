@@ -1,0 +1,38 @@
+{
+    "bad-reroute": {
+        "cost_synthetic": 9030,
+        "feasible": false,
+        "final_m3": {
+            "tank_a": 80,
+            "tank_b": 132.00000000000068
+        },
+        "horizon_h": 3
+    },
+    "healthy": {
+        "cost_synthetic": 0,
+        "feasible": true,
+        "final_m3": {
+            "tank_a": 104.00000000000034,
+            "tank_b": 114
+        },
+        "horizon_h": 3
+    },
+    "mixed-response": {
+        "cost_synthetic": 12780,
+        "feasible": true,
+        "final_m3": {
+            "tank_a": 80,
+            "tank_b": 117.00000000000068
+        },
+        "horizon_h": 3
+    },
+    "pump-failure": {
+        "cost_synthetic": 0,
+        "feasible": false,
+        "final_m3": {
+            "tank_a": 235.99999999999923,
+            "tank_b": 114
+        },
+        "horizon_h": 3
+    }
+}

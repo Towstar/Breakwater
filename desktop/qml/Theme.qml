@@ -2,6 +2,8 @@ pragma Singleton
 import QtQuick
 
 QtObject {
+    property bool compactControls: false
+    readonly property int controlHeight: compactControls ? 30 : 36
     readonly property color background: "#0D0F11"
     readonly property color surface: "#15181B"
     readonly property color raised: "#1D2125"

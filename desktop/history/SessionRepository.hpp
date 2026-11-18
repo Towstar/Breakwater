@@ -22,7 +22,7 @@ public:
     // The capture must use immutable data and thread-safe non-QObject accessors.
     // It runs on the history worker and is drained before repository destruction.
     void enqueueCheckpoint(std::function<QJsonObject()> capture, QString checkpointId = {});
-    void listSessions();
+    void listSessions(const QString& physicalHash = {}, const QString& query = {});
     void loadSession(const QString& sessionId);
     // C++ evidence checkpoint inspection; does not select historical UI state or
     // restore approval. The caller must retain its own live authority checks.

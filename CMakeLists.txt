@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.25)
-project(Breakwater VERSION 0.1.0 LANGUAGES CXX)
+project(Breakwater VERSION 0.2.0 LANGUAGES CXX)
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 # Qt-generated utility targets repeat long project names in MSBuild tracking

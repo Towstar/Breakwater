@@ -122,6 +122,29 @@ class EogHistoryTests final : public QObject {
         const auto data = load_dataset(source.path()); return prepare_capture(data, data->now_unix);
     }
 private slots:
+    void filteredHistoryUsesDatasetCutoffAndLiteralSearchBeforePagination() {
+        QTemporaryDir directory; const auto lease = capture(); const auto other = capture(true, true);
+        EogHistoryRepository repository(directory.filePath("filtered.sqlite"));
+        QSignalSpy ready(&repository, &EogHistoryRepository::ready), saved(&repository, &EogHistoryRepository::sessionSaved);
+        QSignalSpy pages(&repository, &EogHistoryRepository::sessionsListed), failures(&repository, &EogHistoryRepository::failed);
+        QTRY_COMPARE(ready.size(), 1);
+        const auto north = id(), south = id(), custom = id();
+        repository.beginSession(north, "North response", lease); QTRY_COMPARE(saved.size(), 1);
+        repository.beginSession(south, "South response", lease); QTRY_COMPARE(saved.size(), 2);
+        repository.beginSession(custom, "Other dataset", other); QTRY_COMPARE(saved.size(), 3);
+        const auto requestValue = request(lease, "filter-detect");
+        repository.appendAnalysis(north, requestValue, response(requestValue), {}); QTRY_COMPARE(saved.size(), 4);
+        repository.listSessions(); QTRY_COMPARE(pages.size(), 1); QCOMPARE(pages.last()[0].toJsonArray().size(), 3);
+        const auto dataset = lease->manifest().value("dataset_identity").toString();
+        repository.listSessions(0, dataset); QTRY_COMPARE(pages.size(), 2); QCOMPARE(pages.last()[0].toJsonArray().size(), 2);
+        repository.listSessions(0, dataset, "North"); QTRY_COMPARE(pages.size(), 3);
+        const auto row = pages.last()[0].toJsonArray().first().toObject(); QCOMPARE(row.value("session_id").toString(), north);
+        QCOMPARE(row.value("retained_analyses").toInt(), 1); QCOMPARE(row.value("dataset_identity").toString(), dataset);
+        repository.listSessions(0, {}, {}, qint64(other->manifest().value("cutoff_unix").toDouble()));
+        QTRY_COMPARE(pages.size(), 4); QCOMPARE(pages.last()[0].toJsonArray().size(), 1);
+        repository.listSessions(0, {}, "' OR 1=1 --"); QTRY_COMPARE(pages.size(), 5); QVERIFY(pages.last()[0].toJsonArray().isEmpty());
+        QVERIFY(failures.isEmpty()); repository.listSessions(0, {}, QString(257, 'x')); QTRY_COMPARE(failures.size(), 1);
+    }
     void initTestCase() {
         const auto path = QFINDTESTDATA("eog_fixtures/render/network.json");
         QVERIFY(!path.isEmpty()); fixture_ = QFileInfo(path).absolutePath();

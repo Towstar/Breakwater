@@ -7,6 +7,7 @@
 #include <QUuid>
 #include <QtConcurrentRun>
 #include <algorithm>
+#include <cmath>
 
 namespace breakwater::desktop::agent {
 namespace {
@@ -83,7 +84,7 @@ void AgentOrchestrator::event(const QString& type, QJsonObject fields) {
     if (guard) emit changed();
 }
 
-void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const QString& objective, AgentLimits limits) {
+void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const QString& objective, AgentLimits limits, bool localOnly) {
     const QPointer<AgentOrchestrator> guard(this);
     const auto afterCancel = generation_ + (running_ ? 1 : 0);
     cancel();
@@ -101,9 +102,10 @@ void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const 
     tool_calls_ = refinement_rounds_ = request_rounds_ = 0;
     awaiting_model_ = executing_tool_ = false;
     network_seen_ = controls_seen_ = false;
-    elapsed_.start(); running_ = true; status_ = "Investigating";
+    local_only_ = localOnly; local_step_ = 0; local_catalog_ = {}; local_last_ = {}; local_baseline_.clear(); local_selected_.clear();
+    elapsed_.start(); running_ = true; status_ = local_only_ ? "Running local native search" : "Investigating";
     const auto epoch = generation_;
-    event("agent_started", {{"objective", objective_}, {"horizon_h", gateway_ ? gateway_->horizonH() : 0.0}});
+    event("agent_started", {{"objective", objective_}, {"source_mode", local_only_ ? "local_native" : "hosted"}, {"horizon_h", gateway_ ? gateway_->horizonH() : 0.0}});
     if (!guard || generation_ != epoch || !running_) return;
     if (!gateway_ || !gateway_->isCurrent() || objective_.isEmpty()) { fail("invalid_request", "A current snapshot and an operator objective are required."); return; }
     messages_.append(QJsonObject{{"role", "system"}, {"content", QString::fromUtf8(instructions)}});
@@ -113,10 +115,60 @@ void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const 
     requestModel();
 }
 
+void AgentOrchestrator::advanceLocal() {
+    if (local_step_ > 0 && !local_last_.value("ok").toBool()) {
+        fail("local_tool_failed", local_last_.value("error").toObject().value("message").toString("The local numerical tool failed.")); return;
+    }
+    QString name;
+    QJsonObject arguments{{"snapshot_id", gateway_->snapshotId()}};
+    switch (local_step_++) {
+    case 0: name = "get_network_state"; arguments = {}; break;
+    case 1: name = "get_control_catalog"; arguments = {}; break;
+    case 2: name = "forecast_baseline"; break;
+    case 3: name = "validate_run"; arguments["run_id"] = local_baseline_; break;
+    case 4: {
+        QJsonArray axes;
+        // A documented local heuristic, never a model-issued request. Prefer
+        // available flow actuators, then reductions, in the native catalog order.
+        for (const bool flow : {true, false}) for (const auto& value : local_catalog_) {
+            const auto control = value.toObject();
+            if (axes.size() == 4 || !control.value("available").toBool() || (control.value("quantity") == "flow_rate") != flow) continue;
+            const double low = control.value("minimum").toDouble(), high = control.value("maximum").toDouble();
+            std::vector<double> values{low, std::lerp(low, high, 0.25), std::lerp(low, high, 0.5), std::lerp(low, high, 0.75), high, control.value("value").toDouble()};
+            std::sort(values.begin(), values.end()); values.erase(std::unique(values.begin(), values.end()), values.end());
+            QJsonArray grid; for (const auto candidate : values) grid.append(candidate);
+            axes.append(QJsonObject{{"control_id", control.value("control_id")}, {"values", grid}});
+        }
+        name = "search_interventions"; arguments["axes"] = axes; arguments["result_limit"] = 3; break;
+    }
+    case 5: {
+        const auto results = local_last_.value("runs").toArray();
+        if (!results.isEmpty()) local_selected_ = results.first().toObject().value("run_id").toString();
+        if (!local_selected_.isEmpty()) { name = "validate_run"; arguments["run_id"] = local_selected_; break; }
+        [[fallthrough]];
+    }
+    case 7: {
+        const QJsonObject final{{"selected_run_id", local_selected_.isEmpty() ? QJsonValue(QJsonValue::Null) : QJsonValue(local_selected_)},
+            {"explanation", local_selected_.isEmpty()
+                ? "Local native finite search found no validated response on the chosen grid. This does not establish global infeasibility. Completed baseline evidence is retained. No hosted model was used."
+                : "Local native finite search selected the lowest-cost returned response on a grid of up to four available controls (flow actuators first), with up to six values per axis including current operation. Independent validation and explicit operator review are required. This is a finite-grid result, not a global optimum. No hosted model was used."}};
+        finish({{"content", QString::fromUtf8(QJsonDocument(final).toJson(QJsonDocument::Compact))}}); return;
+    }
+    case 6: name = "request_approval"; arguments["run_id"] = local_selected_; break;
+    default: fail("local_search_state", "Local search state was invalid."); return;
+    }
+    if (tool_calls_ >= limits_.toolCalls) { fail("tool_limit", "Local search reached its tool budget."); return; }
+    const auto id = "local-" + QUuid::createUuid().toString(QUuid::WithoutBraces);
+    seen_call_ids_.insert(id);
+    pending_calls_ = QJsonArray{QJsonObject{{"id", id}, {"type", "function"},
+        {"function", QJsonObject{{"name", name}, {"arguments", QString::fromUtf8(QJsonDocument(arguments).toJson(QJsonDocument::Compact))}}}}};
+    nextTool();
+}
 void AgentOrchestrator::requestModel() {
     if (!running_) return;
     if (!gateway_->isCurrent()) { invalidate(); return; }
     if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
+    if (local_only_) { advanceLocal(); return; }
     if (++request_rounds_ > limits_.toolCalls + 1) { fail("request_limit", "Investigation reached its model-request limit."); return; }
     const auto callsLeft = std::max(0, limits_.toolCalls - tool_calls_);
     const auto refinementsLeft = std::max(0, limits_.refinementRounds - refinement_rounds_);
@@ -230,6 +282,11 @@ void AgentOrchestrator::completeTool(quint64 generation, const std::shared_ptr<S
     messages_.append(QJsonObject{{"role", "tool"}, {"tool_call_id", id},
         {"content", QString::fromUtf8(QJsonDocument(outcome).toJson(QJsonDocument::Compact))}});
     const auto run = outcome.value("run").toObject();
+    if (local_only_) {
+        local_last_ = outcome;
+        if (name == "get_control_catalog") local_catalog_ = outcome.value("controls").toArray();
+        if (name == "forecast_baseline") local_baseline_ = run.value("run_id").toString();
+    }
     if (outcome.value("ok").toBool() && name == "get_network_state") network_seen_ = true;
     if (outcome.value("ok").toBool() && name == "get_control_catalog") controls_seen_ = true;
     QJsonObject fields{{"tool_name", name}, {"tool_call_id", id}, {"duration_ms", elapsed_.elapsed() - started},
@@ -320,6 +377,7 @@ void AgentOrchestrator::finish(const QJsonObject& message) {
         result_["status"] = "validated_recommendation";
     } else { fail("invalid_recommendation", "Selected run ID must be a stored ID or null."); return; }
     result_["session_id"] = session_id_;
+    result_["source_mode"] = local_only_ ? "local_native" : "hosted";
     result_["objective"] = objective_;
     result_["explanation"] = final.value("explanation");
     result_["actionable"] = gateway_->isCurrent() && result_.value("ok").toBool();

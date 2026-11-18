@@ -7,6 +7,7 @@ Rectangle {
     id: chartRoot
     objectName: "trajectoryChart"
     required property var chart
+    property string emptyText: "Select a stored run and tank to inspect its trajectory."
     function isReference(series) { return series.reference === true || series.label === "Baseline" }
     color: Theme.surface; radius: 4
     onChartChanged: plot.requestPaint()
@@ -91,7 +92,7 @@ Rectangle {
     Label {
         anchors.centerIn: parent; width: parent.width - 30
         visible: !chartRoot.chart.available
-        text: "Select a stored run and tank to inspect its trajectory."
+        text: chartRoot.emptyText
         textFormat: Text.PlainText; wrapMode: Text.WordWrap; horizontalAlignment: Text.AlignHCenter
         color: Theme.muted; font.pixelSize: Theme.smallSize
     }

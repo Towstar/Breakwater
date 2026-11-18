@@ -12,7 +12,7 @@ qt_add_library(breakwater_telemetry STATIC
 target_include_directories(breakwater_telemetry PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_telemetry PUBLIC breakwater_project_document Qt6::Core)
 
-qt_add_library(breakwater_desktop_base STATIC ProjectController.cpp ProjectController.hpp)
+qt_add_library(breakwater_desktop_base STATIC ProjectController.cpp ProjectController.hpp WorkspaceSettings.cpp WorkspaceSettings.hpp)
 target_include_directories(breakwater_desktop_base PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_desktop_base PUBLIC breakwater_telemetry Qt6::Quick Qt6::Concurrent)
 
@@ -59,8 +59,21 @@ target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_CALIBRATION_PATH=
 target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_DEVELOPMENT_BIN_DIR="$<TARGET_FILE_DIR:breakwater>")
 qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
+qt_add_executable(breakwater_export_examples verification/export_examples.cpp)
+target_link_libraries(breakwater_export_examples PRIVATE breakwater_desktop_base)
+set_target_properties(breakwater_export_examples PROPERTIES WIN32_EXECUTABLE FALSE)
 
-qt_add_executable(breakwater WIN32 main.cpp verification/WorkbenchUiCheck.hpp verification/WorkbenchUiCheck.cpp)
+qt_add_executable(breakwater WIN32 main.cpp verification/WorkbenchUiCheck.hpp verification/WorkbenchUiCheck.cpp
+  verification/SceneBenchmark.hpp verification/SceneBenchmark.cpp)
+execute_process(COMMAND git describe --always --dirty WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+  OUTPUT_VARIABLE _breakwater_revision OUTPUT_STRIP_TRAILING_WHITESPACE ERROR_QUIET)
+if(NOT _breakwater_revision)
+  set(_breakwater_revision "source-archive")
+endif()
+target_compile_definitions(breakwater PRIVATE
+  BREAKWATER_APP_VERSION="${PROJECT_VERSION}" BREAKWATER_SOURCE_REVISION="${_breakwater_revision}"
+  BREAKWATER_EXAMPLE_DIRECTORY="${PROJECT_SOURCE_DIR}/examples/portfolio"
+  BREAKWATER_RUNTIME_DEV_BIN="$<TARGET_FILE_DIR:breakwater>")
 find_package(Qt6 6.12 REQUIRED COMPONENTS Svg)
 target_link_libraries(breakwater PRIVATE breakwater_agent breakwater_telemetry_runtime breakwater_eog_workflow Qt6::QuickControls2 Qt6::Quick3D)
 target_link_libraries(breakwater PRIVATE Qt6::Svg)
@@ -73,11 +86,14 @@ qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
     qml/EogDatasetPanel.qml qml/EogNetworkView.qml qml/EogTrendChart.qml
     qml/EogAnalysisPanel.qml qml/EogPlanChart.qml qml/EogPlanDetails.qml qml/EogEventDetails.qml
     qml/Theme.qml qml/ActionButton.qml qml/ActionFeedbackCard.qml
-    qml/IndustrialEquipment.qml qml/IndustrialPipe.qml)
+    qml/IndustrialEquipment.qml qml/IndustrialPipe.qml qml/AppComboBox.qml qml/DialogHeading.qml
+    qml/EogAnalysisView.qml qml/IndustrialEnvironment.qml qml/IndustrialLighting.qml
+    qml/SiteGround.qml qml/SitePad.qml qml/ConnectionPreview.qml qml/ForecastPanel.qml qml/DialogFooter.qml)
 file(GLOB _breakwater_action_icons CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/*.svg")
 qt_add_resources(breakwater breakwater_visual_assets PREFIX /breakwater/assets
   BASE "${CMAKE_CURRENT_SOURCE_DIR}/assets"
-  FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/breakwater-logo.svg" ${_breakwater_action_icons})
+  FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/breakwater-logo.svg"
+    "${CMAKE_CURRENT_SOURCE_DIR}/assets/site-gravel.svg" ${_breakwater_action_icons})
 install(FILES assets/LUCIDE-LICENSE.txt assets/ASSET_SOURCES.md DESTINATION share/breakwater/licenses)
 
 # Qt 6.12's statistics target can precede the executable's QML cache generation
@@ -93,15 +109,28 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
 endif()
 
 if(BUILD_TESTING)
-  foreach(_ui_size normal compact)
+  qt_add_executable(breakwater_workspace_settings_tests tests/workspace_settings_tests.cpp)
+  target_link_libraries(breakwater_workspace_settings_tests PRIVATE breakwater_desktop_base Qt6::Test)
+  add_test(NAME desktop.workspace_settings COMMAND breakwater_workspace_settings_tests)
+  set_tests_properties(desktop.workspace_settings PROPERTIES
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  qt_add_executable(breakwater_editor_tools_tests tests/editor_tools_tests.cpp)
+  target_link_libraries(breakwater_editor_tools_tests PRIVATE breakwater_desktop_base Qt6::Test)
+  add_test(NAME desktop.editor_tools COMMAND breakwater_editor_tools_tests)
+  set_tests_properties(desktop.editor_tools PROPERTIES
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  foreach(_ui_size normal compact minimum)
     set(_ui_args --workspace workbench --ui-overhaul-check)
-    if(_ui_size STREQUAL "compact")
+    if(NOT _ui_size STREQUAL "normal")
       list(APPEND _ui_args --compact-ui)
     endif()
     add_test(NAME desktop.ui_overhaul_${_ui_size} COMMAND breakwater ${_ui_args})
     set_tests_properties(desktop.ui_overhaul_${_ui_size} PROPERTIES TIMEOUT 45
       ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1"
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    if(_ui_size STREQUAL "minimum")
+      set_property(TEST desktop.ui_overhaul_minimum APPEND PROPERTY ENVIRONMENT "BREAKWATER_UI_MINIMUM=1")
+    endif()
   endforeach()
   qt_add_executable(breakwater_desktop_tests tests/project_tests.cpp)
   target_link_libraries(breakwater_desktop_tests PRIVATE breakwater_desktop_base Qt6::Test)
@@ -268,6 +297,12 @@ install(DIRECTORY "${PROJECT_SOURCE_DIR}/science/breakwater_science" DESTINATION
   FILES_MATCHING PATTERN "*.py" PATTERN "__pycache__" EXCLUDE)
 qt_generate_deploy_qml_app_script(TARGET breakwater OUTPUT_SCRIPT deploy_script NO_UNSUPPORTED_PLATFORM_ERROR)
 install(SCRIPT ${deploy_script})
+file(GLOB _breakwater_worker_modules CONFIGURE_DEPENDS "${PROJECT_SOURCE_DIR}/science/*.py")
+install(FILES ${_breakwater_worker_modules} DESTINATION share/breakwater/science)
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/contracts/eog" DESTINATION share/breakwater/contracts
+  PATTERN "__pycache__" EXCLUDE PATTERN "tests" EXCLUDE PATTERN "examples" EXCLUDE PATTERN "fixtures" EXCLUDE)
+install(TARGETS breakwater_eog_response breakwater_eog_plant RUNTIME DESTINATION bin LIBRARY DESTINATION bin)
+install(DIRECTORY "${PROJECT_SOURCE_DIR}/examples/portfolio/" DESTINATION share/breakwater/examples)
 
 # Read-only challenge input and presentation stay separate from the simulator.
 qt_add_library(breakwater_eog STATIC
@@ -310,12 +345,25 @@ qt_add_library(breakwater_eog_workflow STATIC
 target_include_directories(breakwater_eog_workflow PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_eog_workflow PUBLIC breakwater_eog breakwater_agent)
 qt_add_executable(breakwater_eog_live_check eog/live_check.cpp)
+qt_add_executable(breakwater_offline_check verification/offline_check.cpp)
+target_link_libraries(breakwater_offline_check PRIVATE breakwater_eog_workflow)
+set_target_properties(breakwater_offline_check PROPERTIES WIN32_EXECUTABLE FALSE)
+install(TARGETS breakwater_offline_check RUNTIME DESTINATION bin)
 target_link_libraries(breakwater_eog_live_check PRIVATE breakwater_eog_workflow)
 add_dependencies(breakwater_eog_live_check breakwater_eog_response)
 if(TARGET breakwater_eog_provider_runtime)
   add_dependencies(breakwater_eog_live_check breakwater_eog_provider_runtime)
 endif()
 if(BUILD_TESTING)
+  if(Python3_Interpreter_FOUND)
+    add_test(NAME desktop.portfolio_examples COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/portfolio_examples_tests.py"
+      "$<TARGET_FILE:breakwater_export_examples>" "$<TARGET_FILE:breakwater_offline_check>"
+      "${PROJECT_SOURCE_DIR}/examples/portfolio")
+    set_tests_properties(desktop.portfolio_examples PROPERTIES TIMEOUT 240
+      ENVIRONMENT "BREAKWATER_PYTHON=${Python3_EXECUTABLE};BREAKWATER_EOG_NATIVE=$<TARGET_FILE:breakwater_eog_response>;BREAKWATER_EOG_CONTRACTS=${PROJECT_SOURCE_DIR}/contracts/eog;BREAKWATER_EOG_WORKER=${PROJECT_SOURCE_DIR}/science/eog_worker.py"
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endif()
   qt_add_executable(breakwater_eog_dataset_tests tests/eog_dataset_tests.cpp)
   target_link_libraries(breakwater_eog_dataset_tests PRIVATE breakwater_eog Qt6::Test)
   add_test(NAME desktop.eog_dataset COMMAND breakwater_eog_dataset_tests
@@ -380,6 +428,11 @@ if(BUILD_TESTING)
     qt_add_executable(breakwater_eog_${_eog_view}_tests tests/eog_${_eog_view}_tests.cpp)
     target_link_libraries(breakwater_eog_${_eog_view}_tests PRIVATE breakwater_options Qt6::Quick Qt6::QuickControls2 Qt6::Test)
     target_compile_definitions(breakwater_eog_${_eog_view}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+    if(_eog_view STREQUAL "plan_chart")
+      qt_add_resources(breakwater_eog_plan_chart_tests eog_chart_style
+        PREFIX /breakwater/assets BASE "${CMAKE_CURRENT_SOURCE_DIR}/assets"
+        FILES "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/chevron-down.svg")
+    endif()
     add_test(NAME desktop.eog_${_eog_view} COMMAND breakwater_eog_${_eog_view}_tests
       -o "${CMAKE_CURRENT_BINARY_DIR}/eog_${_eog_view}-results.txt,txt")
     set_tests_properties(desktop.eog_${_eog_view} PROPERTIES TIMEOUT 120

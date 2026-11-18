@@ -6,10 +6,13 @@ Node {
     required property var routeData
     property string draggedId: ""
     property vector3d draggedPosition: Qt.vector3d(0, 0, 0)
-    readonly property real sx: draggedId === routeData.source ? draggedPosition.x : routeData.sx
-    readonly property real sz: draggedId === routeData.source ? draggedPosition.z : routeData.sz
-    readonly property real tx: draggedId === routeData.target ? draggedPosition.x : routeData.tx
-    readonly property real tz: draggedId === routeData.target ? draggedPosition.z : routeData.tz
+    property var draggedIds: []
+    property vector3d dragDelta: Qt.vector3d(0, 0, 0)
+    property bool detailed: true
+    readonly property real sx: draggedIds.indexOf(routeData.source) >= 0 ? routeData.sx + dragDelta.x : draggedId === routeData.source ? draggedPosition.x : routeData.sx
+    readonly property real sz: draggedIds.indexOf(routeData.source) >= 0 ? routeData.sz + dragDelta.z : draggedId === routeData.source ? draggedPosition.z : routeData.sz
+    readonly property real tx: draggedIds.indexOf(routeData.target) >= 0 ? routeData.tx + dragDelta.x : draggedId === routeData.target ? draggedPosition.x : routeData.tx
+    readonly property real tz: draggedIds.indexOf(routeData.target) >= 0 ? routeData.tz + dragDelta.z : draggedId === routeData.target ? draggedPosition.z : routeData.tz
     readonly property real dx: tx - sx
     readonly property real dz: tz - sz
     readonly property real length: Math.sqrt(dx * dx + dz * dz)
@@ -20,8 +23,18 @@ Node {
         pickName: "route:" + route.routeData.id
         span: route.length
         tint: route.pipeColor
+        fittings: route.detailed
         position: Qt.vector3d((route.sx + route.tx) / 2, 8, (route.sz + route.tz) / 2)
         rotation: route.direction
+    }
+    Repeater3D {
+        model: route.detailed && route.length > 90 ? [0.25, 0.75] : []
+        delegate: Node {
+            required property real modelData
+            position: Qt.vector3d(route.sx + route.dx * modelData, 0, route.sz + route.dz * modelData)
+            Model { source: "#Cube"; y: 1; scale: Qt.vector3d(0.14, 0.025, 0.14); materials: PrincipledMaterial { baseColor: "#A9ABA2"; roughness: 0.95 } }
+            Model { source: "#Cube"; y: 4; scale: Qt.vector3d(0.025, 0.07, 0.025); materials: PrincipledMaterial { baseColor: "#74828A"; metalness: 0.25; roughness: 0.6 } }
+        }
     }
     Model {
         visible: route.length > 0.01 && route.routeData.flow > 0
@@ -40,6 +53,7 @@ Node {
         eulerRotation.y: Math.atan2(-route.dz, route.dx) * 180 / Math.PI
         scale: Qt.vector3d(0.8, 0.8, 0.8)
         selected: route.routeData.selected; abnormal: !route.routeData.available
+        detailed: route.detailed || route.routeData.selected
         showMarker: false
     }
 }

@@ -56,7 +56,7 @@ ScrollView {
         RowLayout {
             Layout.fillWidth: true; visible: panel.historicalView; spacing: 8
             PlainLabel { text: "Saved result"; color: Theme.secondary }
-            ComboBox {
+            AppComboBox {
                 id: historicalScienceSelector
                 objectName: "historicalScienceResultSelector"
                 Layout.fillWidth: true
@@ -108,7 +108,7 @@ ScrollView {
         RowLayout {
             Layout.fillWidth: true; visible: panel.hasResult; spacing: 10
             PlainLabel { text: "Tank"; color: Theme.secondary }
-            ComboBox {
+            AppComboBox {
                 id: scienceTankSelector
                 objectName: "storageScienceTankSelector"
                 Layout.preferredWidth: 240; Layout.maximumWidth: panel.width * 0.5

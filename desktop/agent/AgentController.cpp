@@ -67,6 +67,16 @@ void AgentController::investigate(const QString& objective) {
     session_->start(std::make_shared<SimulationGateway>(project.network, project_->networkHash()), objective);
     if (history_) history_->showLive();
 }
+void AgentController::searchLocally() {
+    if (running() || !project_->draftIssues().isEmpty()) return;
+    if (recorder_) { recorder_->flush(); recorder_->setConfiguredModel("local-native-finite-search"); }
+    recommendation_ = {};
+    const auto project = parse_project(project_->document());
+    captured_revision_ = project_->simulationRevision();
+    session_->start(std::make_shared<SimulationGateway>(project.network, project_->networkHash()),
+        "Local native finite search: at most four available controls, flow controls first, up to six values per axis including the current value. Preserve unspecified controls. No hosted model requests.", {}, true);
+    if (history_) history_->showLive();
+}
 
 bool AgentController::canApprove() const {
     if (running() || !recommendation_.isEmpty()) return false;

@@ -5,6 +5,7 @@
 #include <QFutureWatcher>
 #include <QJsonDocument>
 #include <QSet>
+#include <QRegularExpression>
 #include <QUuid>
 #include <QtConcurrent>
 #include <algorithm>
@@ -28,6 +29,17 @@ bool compatiblePlans(const QJsonObject& a, const QJsonObject& b) {
     };
     return a.value("context") == b.value("context") && a.value("start_unix") == b.value("start_unix") && horizons(a) == horizons(b);
 }
+QString evaluatorIdentity(const QJsonObject& evaluation) {
+    // v1 retains implementation provenance in a bounded limitation string.
+    // This is a presentation hint; independent validation still checks the
+    // explicitly supplied identity and exact retained plan on every request.
+    static const QRegularExpression pattern(QStringLiteral("^Method eog-response-[0-9]+\\.[0-9]+\\.[0-9]+; native (eog-native-seconds-0\\.1\\.[01])\\.$"));
+    QSet<QString> methods;
+    for (const auto& value : evaluation.value("limitations").toArray()) {
+        const auto match = pattern.match(value.toString()); if (match.hasMatch()) methods.insert(match.captured(1));
+    }
+    return methods.size() == 1 ? *methods.cbegin() : QString{};
+}
 QJsonObject modelResponse(QJsonObject response) {
     // Full evidence is retained locally. The model receives plans, costs and
     // constraints, with bounded trajectory endpoints rather than every point.
@@ -35,6 +47,8 @@ QJsonObject modelResponse(QJsonObject response) {
     constexpr qsizetype modelResponseBudget = 255 * 1024;
     auto result = response.value("result").toObject();
     const auto compact = [](QJsonObject evaluation) {
+        const auto method = evaluatorIdentity(evaluation);
+        evaluation["evaluator_method"] = method.isEmpty() ? QJsonValue(QJsonValue::Null) : QJsonValue(method);
         QJsonArray trajectories;
         for (const auto& value : evaluation.value("trajectories").toArray()) {
             auto row = value.toObject(); const auto times = row.value("elapsed_s").toArray(), volumes = row.value("volumes_bbl").toArray();
@@ -87,6 +101,7 @@ QJsonObject modelResponse(QJsonObject response) {
                 {"repair_deadline_count", plan.value("repair_deadlines").toArray().size()},
                 {"complete_evidence_retained_locally", true}};
             for (const auto* key : {"feasible", "coverage", "outcome", "cost"}) output[key] = value.value(key);
+            output["evaluator_method"] = value.value("evaluator_method");
             output["violation_count"] = value.value("violations").toArray().size();
             output["shutdown_count"] = value.value("shutdowns").toArray().size();
             return output;
@@ -165,7 +180,13 @@ EogAnalysisController::EogAnalysisController(EogDatasetController* dataset, EogA
             }
         }
         operator_records_ = archive.value("operator_records").toArray().toVariantList();
-        status_ = "Historical evidence. Imported or reopened plans cannot restore current review eligibility."; emit changed();
+        int completed = 0;
+        for (const auto& value : archive.value("analyses").toArray())
+            if (value.toObject().value("response").toObject().value("status") == "completed") ++completed;
+        status_ = archive.value("status") == "interrupted"
+            ? QString("Interrupted session. Recovered %1 completed analysis records. Historical evidence cannot authorize current review.").arg(completed)
+            : "Historical evidence. Imported or reopened plans cannot restore current review eligibility.";
+        emit changed();
     });
     connect(&investigator_, &EogInvestigator::changed, this, &EogAnalysisController::changed);
     connect(&investigator_, &EogInvestigator::toolRequested, this, &EogAnalysisController::toolRequested);
@@ -323,6 +344,9 @@ void EogAnalysisController::evaluateNoAction() {
     plan["plan_hash"] = plan_identity(plan);
     runOperation("evaluate_plan", {{"plan", plan}});
 }
+QString EogAnalysisController::selectedEvaluatorMethod() const {
+    return evaluatorIdentity(evaluations_.value(selected_));
+}
 void EogAnalysisController::validateSelected(const QString& evaluatorMethod) {
     if (busy() || historical_ || sealed_ || !evaluations_.contains(selected_)) return;
     if (evaluatorMethod.trimmed().isEmpty() || evaluatorMethod.size() > 256) {
@@ -437,7 +461,14 @@ void EogAnalysisController::finishSession() {
 void EogAnalysisController::cancel() {
     retire("EOG investigation cancelled. Completed evidence remains in history.", false); emit changed();
 }
-void EogAnalysisController::refreshHistory(int offset) { history_->listSessions(offset); }
+void EogAnalysisController::refreshHistory(int offset) {
+    history_->listSessions(offset, history_current_dataset_ && dataset_->loaded() ? dataset_->datasetIdentity() : QString{},
+        history_query_, history_match_cutoff_ && dataset_->loaded() ? qint64(dataset_->cursorUnix()) : -1);
+}
+void EogAnalysisController::setHistoryFilter(bool currentDataset, const QString& query, bool matchCutoff) {
+    if (query.size() > 256) return;
+    history_current_dataset_ = currentDataset; history_query_ = query.trimmed(); history_match_cutoff_ = matchCutoff; refreshHistory();
+}
 void EogAnalysisController::openHistory(const QString& id) { retire("Opening historical evidence...", true); pending_history_id_ = id; history_->loadSession(id); emit changed(); }
 void EogAnalysisController::returnToLive() { retire("Current dataset selected. Run a fresh analysis before reviewing advice.", true); emit changed(); }
 void EogAnalysisController::exportHistory(const QString& id, const QUrl& destination) { history_->exportSession(id, destination); }
@@ -542,7 +573,7 @@ QJsonArray EogAnalysisController::toolDefinitions() const {
         tool("search_plans", "Execute bounded joint numerical search across ALL captured systems. Scope is fixed by this tool: it has no system_ids argument and cannot perform a filtered search. Inspect relevant returned facilities after the complete search. If the operator requires a strictly narrower search, report that limitation. Compare retained admissible costs including no action; disclose scope and limitations.",
             {{"candidate_limit", integer(1, 10000)}, {"time_limit_s", QJsonObject{{"type", "number"}, {"exclusiveMinimum", 0}, {"maximum", 60}}}},
             {"candidate_limit", "time_limit_s"}),
-        tool("validate_plan", "Execute the independent validator on a retained exact plan. Use the actual plan_id returned by a completed evaluation and copy context.evaluator_method exactly; never guess either. Rejected proposals create no retained plan. eog-response-* is a wrapper version, not the numerical evaluator implementation.",
+        tool("validate_plan", "Execute the independent validator on a retained exact plan. Use the actual plan_id and evaluator_method from its completed evaluation. The application exposes evaluator_method from retained numerical provenance; null means unsupported. Never guess either. Rejected proposals create no retained plan. eog-response-* is a wrapper version, not the numerical evaluator implementation.",
             {{"plan_id", string}, {"evaluator_method", string}}, {"plan_id", "evaluator_method"})};
     const auto addEnum = [&](const QStringList& names, const QString& property, QStringList values, bool arrayItems = false) {
         if (values.isEmpty() || values.size() > 256) return;
@@ -623,7 +654,7 @@ void EogAnalysisController::toolRequested(const QString& execution, const QStrin
                 "called_elapsed_s, response_min, cycle_min, trips, available_again_elapsed_s. Trip fields: arrival_elapsed_s, volume_bbl, cost. "
                 "Well-shut-in fields: well_id, facility_id, start_elapsed_s, end_elapsed_s. Empty action arrays are a structural baseline. "
                 "Repair horizons must come from captured policy and causal onset for all ongoing pump failures. "
-                "After a successful evaluation, validate only its returned plan_id with context.evaluator_method; do not guess identifiers.");
+                "After a successful evaluation, validate only its returned plan_id with that evaluation's evaluator_method; do not guess identifiers.");
             error["expected_context"] = capture_->manifest().value("context");
             error["expected_start_unix"] = cutoff_;
             outcome["error"] = error; completeTool(outcome); return;
@@ -651,7 +682,6 @@ void EogAnalysisController::investigate(const QString& objective) {
         QJsonObject context{{"session_id", session_id_}, {"dataset_identity", source_->identity}, {"capture_id", capture_->manifest().value("capture_id")},
             {"cutoff_unix", cutoff_}, {"context", capture_->manifest().value("context")},
             {"system_count", source_->systems.size()}, {"facility_count", source_->facilities.size()},
-            {"evaluator_method", qEnvironmentVariable("BREAKWATER_EOG_EVALUATOR_METHOD")},
             {"constraints", "Only captured input is available. All output is advisory; no dispatch or sandbox control application exists."},
             {"search_scope", QJsonObject{{"supported", "all_captured_systems"}, {"filter_available", false}}}};
         QJsonObject policy;

@@ -19,10 +19,10 @@ Dialog {
     readonly property var outletScale: bounds(preview.outlet_mg_l || [], false)
     readonly property var fieldScale: bounds(preview.concentration_mg_l || [], true)
     parent: Overlay.overlay
-    width: Math.min(preferredDialogWidth, parent.width - 236)
-    height: Math.min(preferredDialogHeight, parent.height - 96)
-    x: 220 + Math.round((parent.width - 236 - width) / 2)
-    y: 76 + Math.max(0, Math.round((parent.height - 96 - height) / 2))
+    width: Math.min(preferredDialogWidth, parent.width - 32)
+    height: Math.min(preferredDialogHeight, parent.height - 32)
+    x: Math.max(16, Math.round((parent.width - width) / 2))
+    y: Math.max(16, Math.round((parent.height - height) / 2))
     modal: false
     title: "Experimental pipe transport"
     closePolicy: Popup.CloseOnEscape
@@ -97,7 +97,7 @@ Dialog {
         RowLayout {
             Layout.fillWidth: true; spacing: 8; visible: !dialog.viewingImported
             PlainLabel { Layout.preferredWidth: 76; text: "Current run"; color: Theme.secondary; font.pixelSize: Theme.smallSize }
-            ComboBox {
+            AppComboBox {
                 id: runSelector
                 objectName: "pipeTransportRunSelector"
                 Layout.fillWidth: true; Layout.minimumWidth: 0
@@ -311,7 +311,7 @@ Dialog {
                     RowLayout {
                         Layout.fillWidth: true; spacing: 12
                         PlainLabel { text: "Boundary condition"; Layout.preferredWidth: 150 }
-                        ComboBox {
+                        AppComboBox {
                             id: boundarySelector; Layout.preferredWidth: 260
                             model: [{label:"Dirichlet inlet",value:"dirichlet_inlet"},{label:"Closed · no flux",value:"closed_no_flux"}]
                             textRole: "label"; valueRole: "value"
@@ -401,8 +401,8 @@ Dialog {
             onPositionChanged: function(mouse) {
                 if (!pressed) return
                 const point = mapToItem(null, mouse.x, mouse.y)
-                dialog.preferredDialogWidth = Math.max(700, Math.min(dialog.parent.width - 236, startWidth + (point.x - startPoint.x) * 2))
-                dialog.preferredDialogHeight = Math.max(440, Math.min(dialog.parent.height - 96, startHeight + (point.y - startPoint.y) * 2))
+                dialog.preferredDialogWidth = Math.max(700, Math.min(dialog.parent.width - 32, startWidth + (point.x - startPoint.x) * 2))
+                dialog.preferredDialogHeight = Math.max(440, Math.min(dialog.parent.height - 32, startHeight + (point.y - startPoint.y) * 2))
             }
             PlainLabel { anchors.centerIn: parent; text: "↘"; color: Theme.muted; font.pixelSize: 18 }
         }

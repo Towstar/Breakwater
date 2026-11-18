@@ -7,6 +7,7 @@ import QtQuick3D
 Rectangle {
     id: network
     required property var eog
+    property int renderQuality: 1
     readonly property bool overview: eog.sceneMode === "overview"
     readonly property var sceneNodes: eog.sceneNodes
     readonly property var sceneRoutes: eog.sceneRoutes
@@ -131,10 +132,7 @@ Rectangle {
 
     View3D {
         id: view; anchors.fill: parent
-        environment: SceneEnvironment {
-            backgroundMode: SceneEnvironment.Color; clearColor: "#11171c"
-            antialiasingMode: SceneEnvironment.MSAA; antialiasingQuality: SceneEnvironment.Medium
-        }
+        environment: IndustrialEnvironment { quality: network.renderQuality }
         Node {
             id: rig
             position: Qt.vector3d(network.sceneBounds.center_x || 0, 0, network.sceneBounds.center_z || 0)
@@ -142,14 +140,8 @@ Rectangle {
             PerspectiveCamera { id: eogCamera; z: network.distance; clipNear: 1; clipFar: Math.max(8000, network.fitDistance * 8) }
         }
         camera: eogCamera
-        DirectionalLight { eulerRotation: Qt.vector3d(-50, -30, 0); brightness: 1.3; ambientColor: "#9099a1" }
-        Model {
-            source: "#Rectangle"
-            position: Qt.vector3d(network.sceneBounds.center_x || 0, -1, network.sceneBounds.center_z || 0)
-            eulerRotation.x: -90
-            scale: Qt.vector3d(Math.max(12, (network.sceneBounds.width || 600) / 80), Math.max(8, (network.sceneBounds.depth || 400) / 80), 1)
-            materials: PrincipledMaterial { baseColor: "#263139"; roughness: 1 }
-        }
+        IndustrialLighting { quality: network.renderQuality }
+        SiteGround { centerX: network.sceneBounds.center_x || 0; centerZ: network.sceneBounds.center_z || 0; spanX: Math.max(900, (network.sceneBounds.width || 600) * 1.3); spanZ: Math.max(700, (network.sceneBounds.depth || 400) * 1.3); showLane: false }
         Repeater3D {
             model: network.sceneRoutes
             delegate: Node {
@@ -211,7 +203,9 @@ Rectangle {
                 readonly property bool abnormal: isFinite(fraction) && (fraction < 0 || fraction > 1)
                 position: Qt.vector3d(modelData.x, 0, modelData.z)
                 visible: network.visibleNode(modelData)
+                SitePad { kind: equipment.kind; selected: equipment.modelData.selected }
                 IndustrialEquipment {
+                    detailed: network.renderQuality > 0 || equipment.modelData.selected
                     kind: equipment.kind
                     pickName: "eog-asset:" + equipment.modelData.id
                     selected: equipment.modelData.selected
@@ -256,7 +250,8 @@ Rectangle {
             }
             text: modelData.label || modelData.id
             textFormat: Text.PlainText; elide: Text.ElideMiddle; horizontalAlignment: Text.AlignHCenter
-            color: modelData.selected ? "#edf1f3" : "#c8d1d8"; font.pixelSize: 12
+            color: modelData.selected ? "#FFFFFF" : "#E2EAF0"; font.pixelSize: 12
+            padding: 3; background: Rectangle { color: "#293940"; opacity: 0.9; radius: 3 }
     }
     Repeater {
         id: nodeLabels
@@ -287,12 +282,14 @@ Rectangle {
         anchors.left: parent.left; anchors.top: parent.top; anchors.margins: 10; width: Math.max(0, parent.width - 20)
         text: network.overview ? "SYSTEMS · select a facility to inspect equipment · right-drag to orbit"
                                : "FACILITY · select equipment · right-drag to orbit · scroll to zoom"
-        wrapMode: Text.Wrap; color: "#b7cbd5"; font.pixelSize: 10
+        wrapMode: Text.Wrap; color: "#253B47"; font.pixelSize: 10; padding: 3
+        background: Rectangle { color: "#DCE5E7"; opacity: 0.88; radius: 3 }
     }
     Label {
         anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 10; width: Math.max(0, parent.width - 20)
         text: network.overview ? "Pipe: water connection · dashed: truck access · travel times from ops.json"
                                : "Schematic equipment and topology · raw observations remain unchanged"
-        horizontalAlignment: Text.AlignRight; wrapMode: Text.Wrap; color: "#94aebb"; font.pixelSize: 10
+        horizontalAlignment: Text.AlignRight; wrapMode: Text.Wrap; color: "#253B47"; font.pixelSize: 10; padding: 3
+        background: Rectangle { color: "#DCE5E7"; opacity: 0.88; radius: 3 }
     }
 }
