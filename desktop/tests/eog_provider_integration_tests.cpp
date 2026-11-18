@@ -308,7 +308,7 @@ private slots:
         QCOMPARE(controller.selectedPlanId(), selectedId); QVERIFY(!controller.baselinePlanId().isEmpty());
         QCOMPARE(searched.value("search").toObject().value("candidate_limit"), QJsonValue(256));
         QCOMPARE(searched.value("search").toObject().value("time_limit_s"), QJsonValue(15));
-        QVERIFY(searched.value("search").toObject().value("space_description").toString().contains("eog-joint-search-0.1.2"));
+        QVERIFY(searched.value("search").toObject().value("space_description").toString().contains("eog-joint-search-0.1.3"));
         QVERIFY(evaluations.size() <= 8); QVERIFY(!searched.value("limitations").toArray().isEmpty());
         // Search's private selected-plan check does not publish a complete
         // validation record or enable desktop advisory review by itself.
