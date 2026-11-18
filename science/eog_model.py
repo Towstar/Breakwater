@@ -128,7 +128,18 @@ class Model:
 def compile_model(network, ops):
     """Compile the supported official network/ops dictionaries, without I/O."""
     _object(network, ("meta", "defaults", "systems"))
-    _object(network["meta"], ("units", "timezone"))
+    metadata = _object(network["meta"], ("units", "timezone"), ("demo_note", "demo_failure_onsets"))
+    # The published test set includes descriptive fixture annotations. Validate
+    # their bounded shape, but never compile them into observations or physics.
+    if "demo_note" in metadata and (type(metadata["demo_note"]) is not str or len(metadata["demo_note"]) > 4096):
+        raise ModelError("invalid_shape", "Demo note must be bounded text.")
+    if "demo_failure_onsets" in metadata:
+        annotations = metadata["demo_failure_onsets"]
+        if (type(annotations) is not dict or len(annotations) > 256 or
+                any(type(asset) is not str or not 1 <= len(asset) <= 512 or
+                    type(stamp) is not str or not 1 <= len(stamp) <= 64
+                    for asset, stamp in annotations.items())):
+            raise ModelError("invalid_shape", "Demo onset annotations must be a bounded text mapping.")
     if network["meta"]["units"] != {"volume": "bbl", "rate": "bpd", "gas_rate": "mcfd", "pressure": "psi"} or network["meta"]["timezone"] != "UTC":
         raise ModelError("unsupported_units", "EOG input units must be bbl/bpd/mcfd/psi with UTC timestamps.")
     _object(network["defaults"], ("tank_limits_pct",))

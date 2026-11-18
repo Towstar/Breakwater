@@ -1,0 +1,241 @@
+{
+  "runtime_commit": "621c28de7e67af89ab6474f558763da3523a17b5",
+  "initial_implementation": "b571b5fc23b43d4ba1896a9e21abe478887b1d26",
+  "method": "eog-causal-commitments-0.1.0",
+  "public_eog_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "native_method": "eog-synthetic-events-0.1.0",
+  "observations_method": "eog-synthetic-observations-0.1.0",
+  "checks": {
+    "full_science": {
+      "passed": true,
+      "tests_run": 439,
+      "tests_passed": 439,
+      "failures": 0,
+      "errors": 0,
+      "expected_failures": 0,
+      "unexpected_successes": 0,
+      "skipped": [],
+      "unexpected_skips": [],
+      "seconds": 85.762
+    },
+    "focused_normal": {
+      "passed": 14,
+      "seconds": 0.43
+    },
+    "focused_asan": {
+      "passed": 14,
+      "seconds": 0.855
+    },
+    "generated_seed": 2026110810,
+    "generated_scenarios": 32,
+    "generated_accepted_dispatches": 64,
+    "generated_calendar_snapshots": 128,
+    "generated_truck_comparisons": 256,
+    "normal": {
+      "qualification": "offline_actual_native_commitment_comparison",
+      "checks": [
+        {
+          "case": "initial",
+          "elapsed_s": 0.0,
+          "controls": 0,
+          "scheduled_pickups": 0,
+          "busy_trucks": 0,
+          "passed": true
+        },
+        {
+          "case": "first-dispatch",
+          "elapsed_s": 350.125,
+          "controls": 1,
+          "scheduled_pickups": 1,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "well-command",
+          "elapsed_s": 375.25,
+          "controls": 2,
+          "scheduled_pickups": 1,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "after-first-repair",
+          "elapsed_s": 450.0,
+          "controls": 2,
+          "scheduled_pickups": 1,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "before-return",
+          "elapsed_s": 545.1249999999999,
+          "controls": 2,
+          "scheduled_pickups": 1,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "sequential-job",
+          "elapsed_s": 545.125,
+          "controls": 3,
+          "scheduled_pickups": 2,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "after-second-repair",
+          "elapsed_s": 650.0,
+          "controls": 3,
+          "scheduled_pickups": 2,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "final-return",
+          "elapsed_s": 740.125,
+          "controls": 3,
+          "scheduled_pickups": 2,
+          "busy_trucks": 0,
+          "passed": true
+        },
+        {
+          "case": "completed",
+          "elapsed_s": 900.0,
+          "controls": 3,
+          "scheduled_pickups": 2,
+          "busy_trucks": 0,
+          "passed": true
+        },
+        {
+          "case": "reset",
+          "elapsed_s": 0.0,
+          "controls": 0,
+          "scheduled_pickups": 0,
+          "busy_trucks": 0,
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "native_library_sha256": "8482bb2ea64601597756a651cd0ec72da0349dd4e60587e4dcfaa7f7c3eaedfe",
+      "limitations": [
+        "Synthetic known controls only; history caller authenticity is not established by these types.",
+        "Ledger output is scheduled resource commitment, not independent inventory/cost validation or operating approval.",
+        "No stateful optimization, public simulation wire, installed/model/UI acceptance or physical qualification."
+      ]
+    },
+    "asan": {
+      "qualification": "offline_actual_native_commitment_comparison",
+      "checks": [
+        {
+          "case": "initial",
+          "elapsed_s": 0.0,
+          "controls": 0,
+          "scheduled_pickups": 0,
+          "busy_trucks": 0,
+          "passed": true
+        },
+        {
+          "case": "first-dispatch",
+          "elapsed_s": 350.125,
+          "controls": 1,
+          "scheduled_pickups": 1,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "well-command",
+          "elapsed_s": 375.25,
+          "controls": 2,
+          "scheduled_pickups": 1,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "after-first-repair",
+          "elapsed_s": 450.0,
+          "controls": 2,
+          "scheduled_pickups": 1,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "before-return",
+          "elapsed_s": 545.1249999999999,
+          "controls": 2,
+          "scheduled_pickups": 1,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "sequential-job",
+          "elapsed_s": 545.125,
+          "controls": 3,
+          "scheduled_pickups": 2,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "after-second-repair",
+          "elapsed_s": 650.0,
+          "controls": 3,
+          "scheduled_pickups": 2,
+          "busy_trucks": 1,
+          "passed": true
+        },
+        {
+          "case": "final-return",
+          "elapsed_s": 740.125,
+          "controls": 3,
+          "scheduled_pickups": 2,
+          "busy_trucks": 0,
+          "passed": true
+        },
+        {
+          "case": "completed",
+          "elapsed_s": 900.0,
+          "controls": 3,
+          "scheduled_pickups": 2,
+          "busy_trucks": 0,
+          "passed": true
+        },
+        {
+          "case": "reset",
+          "elapsed_s": 0.0,
+          "controls": 0,
+          "scheduled_pickups": 0,
+          "busy_trucks": 0,
+          "passed": true
+        }
+      ],
+      "passed": true,
+      "native_library_sha256": "65fca33af257438fb3df044a938175270e0f5eaebc736342c4c8fda6d80deab3",
+      "limitations": [
+        "Synthetic known controls only; history caller authenticity is not established by these types.",
+        "Ledger output is scheduled resource commitment, not independent inventory/cost validation or operating approval.",
+        "No stateful optimization, public simulation wire, installed/model/UI acceptance or physical qualification."
+      ]
+    },
+    "byte_equal_payloads": [
+      "after-first-repair.json",
+      "after-second-repair.json",
+      "before-return.json",
+      "completed.json",
+      "final-return.json",
+      "first-dispatch.json",
+      "host-only-receipt.json",
+      "initial.json",
+      "model.json",
+      "reset.json",
+      "sequential-job.json",
+      "well-command.json"
+    ]
+  },
+  "scope": [
+    "Accepted live controls only; seed/future incidents/forcing/rejection diagnostics are excluded from History.",
+    "Resource reservations are reconstructed without native/file/label access and bound to Model/View/History.",
+    "Scheduled pickups are not executed-volume or charged-cost evidence, a plan validation, an optimizer or operating authority.",
+    "The caller authenticates the complete free-start history; no public simulation protocol or installed acceptance is supplied.",
+    "Later terminal state does not invalidate strictly earlier verified historical control prefixes; unsupported current history remains unavailable.",
+    "Focused ASan executes inherited instrumented native DLLs; no new native build or Python/Torch instrumentation is claimed."
+  ]
+}

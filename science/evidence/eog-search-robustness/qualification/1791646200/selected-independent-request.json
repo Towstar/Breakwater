@@ -1,0 +1,99 @@
+{
+  "eog_version": 1,
+  "kind": "analysis_request",
+  "request_id": "selected-independent-1791646200",
+  "operation": "validate_plan",
+  "method_version": 1,
+  "dataset_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+  "capture_id": "29169bcbbeac283f7989c14310aca572b608a31d26cc50d9ac786ac9672fe78a",
+  "cutoff_unix": 1791646200,
+  "capture_directory": "C:\\Projects\\Breakwater\\.worktrees\\person-a-eog-inspection\\out\\inspection-provider\\1791646200\\capture",
+  "capture_manifest": {
+    "eog_version": 1,
+    "kind": "capture_manifest",
+    "dataset_identity": "5767e9be5ec375436d44396539525481af6cce2fffaaf4ed404f15fef310a0e8",
+    "source_hashes": {
+      "network.json": "e8959b8633e76345e25f583aa3a4c46a3de1dde8ca25f95d96f3d10e2fce5c9f",
+      "ops.json": "644884bd3081a3af17065d03cb266c6467f27e1d3f935cb9e4aa48a4e02a9ed0",
+      "telemetry.csv": "4e5ffc0669ba3bc4fadfe50c0fcf2668bf6a380ca9d8a80a541f76a891dc013a"
+    },
+    "captured_files": {
+      "network.json": {
+        "sha256": "e8959b8633e76345e25f583aa3a4c46a3de1dde8ca25f95d96f3d10e2fce5c9f",
+        "size_bytes": 16345
+      },
+      "ops.json": {
+        "sha256": "644884bd3081a3af17065d03cb266c6467f27e1d3f935cb9e4aa48a4e02a9ed0",
+        "size_bytes": 1645
+      },
+      "telemetry.csv": {
+        "sha256": "e747ff3b81dfa4c9d4b03a6fc6e7b09f944db674a29a5cbd847d6d5f6df051f5",
+        "size_bytes": 18885154
+      }
+    },
+    "source_first_unix": 1791158400,
+    "source_now_unix": 1791762900,
+    "cutoff_unix": 1791646200,
+    "context": "historical_cursor",
+    "sample_period_s": 300,
+    "max_age_s": 300,
+    "capture_id": "29169bcbbeac283f7989c14310aca572b608a31d26cc50d9ac786ac9672fe78a"
+  },
+  "arguments": {
+    "plan": {
+      "context": "historical_cursor",
+      "start_unix": 1791646200,
+      "repair_deadlines": [
+        {
+          "facility_id": "S5_FACILITY_B",
+          "repair_elapsed_s": 18000.0
+        },
+        {
+          "facility_id": "S5_FACILITY_C",
+          "repair_elapsed_s": 16200.0
+        }
+      ],
+      "truck_jobs": [
+        {
+          "job_id": "job-616fe46f406102f336031ea048ed8e8f",
+          "truck_id": "truck-bb9adc03f35308bf-1",
+          "system_id": "S5",
+          "facility_id": "S5_FACILITY_B",
+          "called_elapsed_s": 3600.0,
+          "response_min": 90.0,
+          "cycle_min": 235.0,
+          "available_again_elapsed_s": 23100.0,
+          "trips": [
+            {
+              "arrival_elapsed_s": 9000.0,
+              "volume_bbl": 150.0,
+              "cost": 905.0
+            }
+          ]
+        },
+        {
+          "job_id": "job-2cf8606c3e91558ea12efe90a72692c8",
+          "truck_id": "truck-bb9adc03f35308bf-2",
+          "system_id": "S5",
+          "facility_id": "S5_FACILITY_C",
+          "called_elapsed_s": 0.0,
+          "response_min": 100.0,
+          "cycle_min": 250.0,
+          "available_again_elapsed_s": 21000.0,
+          "trips": [
+            {
+              "arrival_elapsed_s": 6000.0,
+              "volume_bbl": 150.0,
+              "cost": 905.0
+            }
+          ]
+        }
+      ],
+      "well_shut_ins": [],
+      "inspection_assets": [],
+      "plan_id": "plan-dd6c03a01b3864eabaf43b4bc43a1e98",
+      "plan_hash": "186c4242a009b6f56954897d87495c735adbc6c67ef34584904320918c66c89b"
+    },
+    "evaluator_method": "eog-native-seconds-0.1.1"
+  }
+}

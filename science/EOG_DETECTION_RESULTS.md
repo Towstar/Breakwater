@@ -1,4 +1,66 @@
-# EOG detection checkpoint and limitations
+# EOG detection results and limitations
+
+## Current inspection timeliness checkpoint
+
+November 8, 2026; runtime **95a8bf18d8eeae266418be3c323c67cbb6f84f2e**,
+detector **eog-detection-0.3.0**, worker **eog-worker-0.3.3**. Public EOG remains
+exact 72cadd1. This changes the causal inspection heuristic, not native physics.
+`EOG_INSPECTION_STUDY.md` retains declarations, failed generated candidates and
+the frozen refinement before official execution. Evidence:
+`science/evidence/eog-inspection/`.
+
+The existing sustained 5% path remains. A bounded running-observation score adds
+sensitivity to smaller sustained discrepancies, suspending across completely
+observed coherent off intervals and expiring after six hours. It is a heuristic,
+not a probability or a unique physical diagnosis. Persistent sensor gain bias
+and a corresponding physical loss can yield identical observations; that
+counterexample remains tested and visible in cumulative event limitations.
+
+| Official full-week category | Matched / labelled | Previous delay | Current delay |
+|---|---:|---|---|
+| Pipeline leak | 5/5 | 5h15m-13h25m | **1h25m-3h10m** |
+| Pump degradation | 5/5 | 11h10m-16h | **5h30m-6h05m** |
+| Pump failure | 13/13 | 0 in the practice cases | 0 in the same cases |
+
+There are no unmatched or early matched alarms, and all final-cutoff lifecycles
+match. The October 8 12:00 historical gate now passes without its previous missed
+leak; October 10 15:30 still passes. October 9 03:30 and October 10 09:00 still
+fail: each retains one physically repaired but observationally unresolved
+inspection, with ambiguous current coverage. Neither hidden label endpoints nor
+the expected repair duration are substituted for observed recovery.
+
+Recovery is not uniformly improved: one wear recovery changes from 4h25m late
+to the labelled endpoint, but pipeline EVENT_16 changes from 6h late to 6h15m
+late. Three wear cases still wait six hours for running evidence. All paired
+values are retained in `summary.json`; the old presence/lifecycle gate is unchanged.
+Physical onset remains unbounded, the practice cuts are correlated, and timely
+or unseen-network inspection qualification remains incomplete.
+
+Actual final checks:
+
+- **418/418** full pinned CPU science methods, **zero skips/failures**, 89.169s;
+  includes actual CPU PhysicsNeMo and the real new cumulative-inspection worker.
+- **18/18** focused methods, 23.819s. The generated families include 224 unfamiliar
+  configurations, 896 isolated 3% deficiency cases, continuous/short-cycle modes,
+  and 224 additional healthy noisy days. All deficiencies emit within the declared
+  four-hour bound; 9,856 healthy-only synthetic hours have no inspection alarms.
+  The final fresh-seed groups contain 128 configurations and 128 healthy days;
+  development seeds used for threshold refinement are identified explicitly.
+- **9/9** independently reconstructed raw-input countdown/remaining-repair/revenue
+  cases pass on the four final causal cuts, without importing the detector or labels.
+- Four real protected-capture **detect** and four real native **evaluate_plan**
+  processes complete under the adopted contract, covering nine ongoing failures.
+  All report framing/bindings pass. These no-action evaluations are not new
+  independent plan validation or cheapest-plan evidence.
+
+The initial 0.25 and 0.175 latency failures, two original fixture errors, the
+expiry fixture's binary64 threshold tie, and an initial 416/417 full run with
+misplaced worker-test assertions remain retained. Restoring the original binding
+assertions and correcting the new fixture yields the final 418/418 result.
+No native source was changed. No new native/ASan/Lean, installed/rendered
+application or hosted-model acceptance is established by this increment.
+
+## Historical 0.2.1 checkpoint
 
 Ethan / Person A, November 8, 2026. Current detector: `eog-detection-0.2.1`.
 Official inputs/labels: `135ba4c8348357457420a1111df80ec1906bcbdb`.

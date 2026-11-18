@@ -1,0 +1,33 @@
+setUpClass (test_eog_committed_response.CommittedNativeTests) ... ERROR
+test_exact_return_boundary_and_one_ulp_early (test_eog_committed_response.CommittedPureTests.test_exact_return_boundary_and_one_ulp_early) ... ok
+test_known_future_cost_and_volume_without_native_or_files (test_eog_committed_response.CommittedPureTests.test_known_future_cost_and_volume_without_native_or_files) ... ok
+test_prior_stop_preserves_future_opportunity_cost (test_eog_committed_response.CommittedPureTests.test_prior_stop_preserves_future_opportunity_cost) ... ok
+
+======================================================================
+ERROR: setUpClass (test_eog_committed_response.CommittedNativeTests)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-committed-response\science\native_eog.py", line 97, in __init__
+    self._lib = C.CDLL(str(path))
+                ^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Breakwater\.tools\python\cpython-3.12.13-windows-x86_64-none\Lib\ctypes\__init__.py", line 379, in __init__
+    self._handle = _dlopen(self._name, mode)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: Could not find module 'C:\Projects\Breakwater\.worktrees\person-a-eog-committed-response\out\asan\engine\breakwater_eog_response.dll' (or one of its dependencies). Try using the full path with constructor syntax.
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-committed-response\science\tests\test_eog_committed_response.py", line 89, in setUpClass
+    cls.native = NativeCommittedEvaluator(path); cls.legacy = NativeEvaluator(path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-committed-response\science\native_eog_committed.py", line 48, in __init__
+    super().__init__(library)
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-committed-response\science\native_eog.py", line 101, in __init__
+    raise NativeError("native_unavailable", "Native EOG library could not be loaded.") from error
+native_eog.NativeError: Native EOG library could not be loaded.
+
+----------------------------------------------------------------------
+Ran 3 tests in 0.033s
+
+FAILED (errors=1)

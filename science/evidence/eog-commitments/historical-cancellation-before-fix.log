@@ -1,0 +1,17 @@
+test_later_cancel_cannot_invalidate_a_verified_historical_control_prefix (test_eog_commitments.NativeCommitmentTests.test_later_cancel_cannot_invalidate_a_verified_historical_control_prefix) ... ERROR
+
+======================================================================
+ERROR: test_later_cancel_cannot_invalidate_a_verified_historical_control_prefix (test_eog_commitments.NativeCommitmentTests.test_later_cancel_cannot_invalidate_a_verified_historical_control_prefix)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-commitments\science\tests\test_eog_commitments.py", line 223, in test_later_cancel_cannot_invalidate_a_verified_historical_control_prefix
+    self.assertEqual(stream.control_history(350.125), frozen)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-commitments\science\eog_synthetic.py", line 334, in control_history
+    raise SyntheticError("plant_unavailable", "An unsupported/cancelled plant cannot publish a current valid history.")
+eog_synthetic.SyntheticError: An unsupported/cancelled plant cannot publish a current valid history.
+
+----------------------------------------------------------------------
+Ran 1 test in 0.022s
+
+FAILED (errors=1)

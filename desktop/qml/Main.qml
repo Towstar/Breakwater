@@ -310,7 +310,7 @@ ApplicationWindow {
                     ActionButton { objectName: "openSensorEditor"; Layout.fillWidth: true; iconName: "gauge"; text: "Sensors"; checked: sensorDialog.visible; onClicked: app.toggleWorkbenchPanel("sensors") }
                     ActionButton { objectName: "openTelemetry"; Layout.fillWidth: true; iconName: "activity"; text: "Local monitoring"; checked: telemetryDialog.visible; onClicked: app.toggleWorkbenchPanel("telemetry") }
                     ActionButton { objectName: "openPipeEvidence"; Layout.fillWidth: true; iconName: "waves"; text: "Pipe transport"; checked: pipeTransportDialog.visible; onClicked: app.toggleWorkbenchPanel("pipe") }
-                    Label { text: "PhysicsNeMo: not connected\nLean proofs: standalone"; color: Theme.muted; font.pixelSize: Theme.captionSize; lineHeight: 1.3 }
+                    Label { text: "PhysicsNeMo: tracer calibration tool\nLean proofs: standalone"; color: Theme.muted; font.pixelSize: Theme.captionSize; lineHeight: 1.3 }
                 }
             }
 

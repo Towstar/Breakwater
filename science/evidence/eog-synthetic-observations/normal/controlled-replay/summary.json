@@ -1,0 +1,17 @@
+{
+  "passed": true,
+  "exact_physical_state_cost_fleet_replay": true,
+  "exact_causal_observation_replay": true,
+  "exact_run_identity_replay": true,
+  "busy_commitment_survives_repair": true,
+  "cost": {
+    "truck_cost": 905.0,
+    "lost_revenue": 8485.1683984375,
+    "total": 9390.1683984375
+  },
+  "completed_full_loads": 1,
+  "limitations": [
+    "Explicit valid controls, not an optimizer result or physical operating approval.",
+    "Observation/query trace-count differences are outside physical replay identity; raw traces remain bounded."
+  ]
+}

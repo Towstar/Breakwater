@@ -1,0 +1,16 @@
+{
+  "source_revision": "4654de484b79821a01ca2e7d0ee36d506c066abc",
+  "executable": "C:\\Projects\\Breakwater\\out\\submission-eog-search-fixed\\bin\\breakwater.exe",
+  "executable_sha256": "4B7EA4F36F8E277A76567E31D1CF9B13871ADDFDE9FEA1B7F5E3B728A6161021",
+  "exit_code": 0,
+  "hosted_model_requests": "not_run",
+  "isolated_history": true,
+  "create_no_window": false,
+  "backend": "d3d11_warp",
+  "screenshot": "C:\\Projects\\Breakwater\\out\\eog-scope-verification\\smoke\\attempt3\\eog-scope-fixed.png",
+  "report": "C:\\Projects\\Breakwater\\out\\eog-scope-verification\\smoke\\attempt3\\eog-scope-fixed.json",
+  "provider_configured": true,
+  "workbench_unchanged": true,
+  "rendered_frame_ready": true,
+  "analysis_panel_visible": true
+}

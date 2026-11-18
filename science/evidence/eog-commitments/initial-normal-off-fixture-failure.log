@@ -1,0 +1,25 @@
+test_bad_unknown_incomplete_and_future_inputs_are_explicit (test_eog_commitments.CommitmentTests.test_bad_unknown_incomplete_and_future_inputs_are_explicit) ... ok
+test_fractional_return_half_open_boundary_and_sequential_yard_job (test_eog_commitments.CommitmentTests.test_fractional_return_half_open_boundary_and_sequential_yard_job) ... ok
+test_history_and_result_are_immutable_and_do_not_authorize_actions (test_eog_commitments.CommitmentTests.test_history_and_result_are_immutable_and_do_not_authorize_actions) ... ok
+test_identity_cutoff_catalog_and_work_bounds (test_eog_commitments.CommitmentTests.test_identity_cutoff_catalog_and_work_bounds) ... ok
+test_independent_system_fleets_and_well_facts_do_not_release_trucks (test_eog_commitments.CommitmentTests.test_independent_system_fleets_and_well_facts_do_not_release_trucks) ... ok
+test_reconstruction_needs_no_native_files_or_future_observations (test_eog_commitments.CommitmentTests.test_reconstruction_needs_no_native_files_or_future_observations) ... ok
+test_unrepresentable_calendar_never_becomes_free_or_zero_cost (test_eog_commitments.CommitmentTests.test_unrepresentable_calendar_never_becomes_free_or_zero_cost) ... ok
+test_cancelled_native_run_cannot_publish_healthy_history (test_eog_commitments.NativeCommitmentTests.test_cancelled_native_run_cannot_publish_healthy_history) ... ok
+test_future_truth_rejected_attempts_and_fractional_controls_do_not_leak (test_eog_commitments.NativeCommitmentTests.test_future_truth_rejected_attempts_and_fractional_controls_do_not_leak) ... ok
+test_native_repair_does_not_release_truck_and_exact_return_allows_next_job (test_eog_commitments.NativeCommitmentTests.test_native_repair_does_not_release_truck_and_exact_return_allows_next_job) ... FAIL
+test_seeded_accepted_dispatches_match_actual_native_calendars (test_eog_commitments.NativeCommitmentTests.test_seeded_accepted_dispatches_match_actual_native_calendars) ... ok
+
+======================================================================
+FAIL: test_native_repair_does_not_release_truck_and_exact_return_allows_next_job (test_eog_commitments.NativeCommitmentTests.test_native_repair_does_not_release_truck_and_exact_return_allows_next_job)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Projects\Breakwater\.worktrees\person-a-eog-commitments\science\tests\test_eog_commitments.py", line 140, in test_native_repair_does_not_release_truck_and_exact_return_allows_next_job
+    stream.advance(450); self.assertEqual(stream.truth()["facilities"][0]["pump_status"], 1)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: 0 != 1
+
+----------------------------------------------------------------------
+Ran 11 tests in 0.311s
+
+FAILED (failures=1)

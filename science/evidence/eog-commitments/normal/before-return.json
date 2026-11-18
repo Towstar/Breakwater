@@ -1,0 +1,389 @@
+{
+  "history": {
+    "model_fingerprint": "b9e58f736c91bc0b8a4b3cc62337f8062b74c72d1eb111798473011081c64288",
+    "start_unix": 1791762900,
+    "cutoff_elapsed_s": 545.1249999999999,
+    "complete_from_free_start": true,
+    "commands": [
+      {
+        "elapsed_s": 350.125,
+        "facility_id": "commitments/β/facility:0",
+        "truck": 0,
+        "trips": 1
+      },
+      {
+        "elapsed_s": 375.25,
+        "well_id": "commitments/β/facility:0/well:0"
+      }
+    ]
+  },
+  "ledger": {
+    "method": "eog-causal-commitments-0.1.0",
+    "model_fingerprint": "b9e58f736c91bc0b8a4b3cc62337f8062b74c72d1eb111798473011081c64288",
+    "observation_fingerprint": "07b0c34a30e57d43cdf1108408d820c5bec2360d599dd54de97f1a98c7350b18",
+    "history_fingerprint": "0657e869de4fff40fb595f8a5309cc4c532d8c4b74470574e323b796516070a6",
+    "fingerprint": "eb3d39e8790d8b0d8ce45e2abf106b8938284950052258b784e5c50a98d8f460",
+    "start_unix": 1791762900,
+    "cutoff_elapsed_s": 545.1249999999999,
+    "observation_cutoff_unix": 1791763445,
+    "trucks": [
+      {
+        "system_id": "commitments/β/system",
+        "truck": 0,
+        "busy": true,
+        "available_again_elapsed_s": 545.125
+      },
+      {
+        "system_id": "commitments/β/system",
+        "truck": 1,
+        "busy": false,
+        "available_again_elapsed_s": 0.0
+      }
+    ],
+    "scheduled_pickups": [
+      {
+        "command_index": 0,
+        "facility_id": "commitments/β/facility:0",
+        "system_id": "commitments/β/system",
+        "truck": 0,
+        "arrival_elapsed_s": 365.125,
+        "volume_bbl": 150.0,
+        "cost": 905.0
+      }
+    ],
+    "limitations": [
+      "Caller must authenticate a complete accepted-control prefix from an initially free fleet; these types grant no operating authority.",
+      "Scheduled pickups are known commitments, not proof of actual pickup inventory, execution, charged cost or future feasibility.",
+      "Only final return releases a truck; repair neither cancels a job nor makes a busy truck available.",
+      "Observation freshness/health and future forecasts require separate causal analysis; a calendar alone cannot establish them."
+    ]
+  },
+  "actual_native_trucks": [
+    {
+      "system": 0,
+      "truck": 0,
+      "busy": 1,
+      "available_again_s": 545.125
+    },
+    {
+      "system": 0,
+      "truck": 1,
+      "busy": 0,
+      "available_again_s": 0.0
+    }
+  ],
+  "causal_observations": [
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0",
+      "metric": "inflow_bpd",
+      "value": 1791.311836047641
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0",
+      "metric": "inflow_bpd",
+      "value": 1804.2296139128016
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/tank",
+      "metric": "level_pct",
+      "value": 50.0268140591424
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/tank",
+      "metric": "level_pct",
+      "value": 50.776702050622795
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/pump",
+      "metric": "status",
+      "value": 0.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/pump",
+      "metric": "status",
+      "value": 0.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/pump",
+      "metric": "flow_bpd",
+      "value": 0.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/pump",
+      "metric": "flow_bpd",
+      "value": 0.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/pump",
+      "metric": "discharge_psi",
+      "value": 1049.7870101954172
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/pump",
+      "metric": "discharge_psi",
+      "value": 1050.8705028690476
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/pipe",
+      "metric": "receive_flow_bpd",
+      "value": 0.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/pipe",
+      "metric": "receive_flow_bpd",
+      "value": 0.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/pipe",
+      "metric": "pressure_psi",
+      "value": 1050.7951993845538
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/pipe",
+      "metric": "pressure_psi",
+      "value": 1049.1868541723406
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/well:0",
+      "metric": "water_bpd",
+      "value": 450.6520924694698
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/well:0",
+      "metric": "water_bpd",
+      "value": 448.7634399101636
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/well:0",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/well:0",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/well:1",
+      "metric": "water_bpd",
+      "value": 696.7710952129806
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/well:1",
+      "metric": "water_bpd",
+      "value": 701.3409084862196
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/well:1",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/well:1",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/well:2",
+      "metric": "water_bpd",
+      "value": 648.141277644339
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/well:2",
+      "metric": "water_bpd",
+      "value": 652.592739058807
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:0/well:2",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:0/well:2",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1",
+      "metric": "inflow_bpd",
+      "value": 1807.143270039441
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1",
+      "metric": "inflow_bpd",
+      "value": 1808.895344608409
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/tank",
+      "metric": "level_pct",
+      "value": 49.934187214184185
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/tank",
+      "metric": "level_pct",
+      "value": 50.71522293602549
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/pump",
+      "metric": "status",
+      "value": 0.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/pump",
+      "metric": "status",
+      "value": 0.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/pump",
+      "metric": "flow_bpd",
+      "value": 0.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/pump",
+      "metric": "flow_bpd",
+      "value": 0.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/pump",
+      "metric": "discharge_psi",
+      "value": 1049.987385877796
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/pump",
+      "metric": "discharge_psi",
+      "value": 1050.4158407454859
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/pipe",
+      "metric": "receive_flow_bpd",
+      "value": 0.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/pipe",
+      "metric": "receive_flow_bpd",
+      "value": 0.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/pipe",
+      "metric": "pressure_psi",
+      "value": 1049.66746454805
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/pipe",
+      "metric": "pressure_psi",
+      "value": 1049.7478517551233
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/well:0",
+      "metric": "water_bpd",
+      "value": 452.18982912730047
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/well:0",
+      "metric": "water_bpd",
+      "value": 449.88076570954786
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/well:0",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/well:0",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/well:1",
+      "metric": "water_bpd",
+      "value": 700.1862103049168
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/well:1",
+      "metric": "water_bpd",
+      "value": 703.1796287101164
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/well:1",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/well:1",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/well:2",
+      "metric": "water_bpd",
+      "value": 649.0831078722446
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/well:2",
+      "metric": "water_bpd",
+      "value": 653.1681939887309
+    },
+    {
+      "unix": 1791762900,
+      "asset_id": "commitments/β/facility:1/well:2",
+      "metric": "status",
+      "value": 1.0
+    },
+    {
+      "unix": 1791763200,
+      "asset_id": "commitments/β/facility:1/well:2",
+      "metric": "status",
+      "value": 1.0
+    }
+  ]
+}

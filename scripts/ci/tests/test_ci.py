@@ -15,6 +15,9 @@ ROOT = Path(__file__).resolve().parents[3]
 SPEC = importlib.util.spec_from_file_location('ci_science', ROOT / 'scripts/ci/Run-PythonTests.py')
 SCIENCE = importlib.util.module_from_spec(SPEC)
 SPEC.loader.exec_module(SCIENCE)
+QT_SPEC = importlib.util.spec_from_file_location('ci_qt', ROOT / 'scripts/ci/Read-QtResults.py')
+QT = importlib.util.module_from_spec(QT_SPEC)
+QT_SPEC.loader.exec_module(QT)
 
 
 class WorkflowTests(unittest.TestCase):
@@ -165,6 +168,54 @@ class ResultTests(unittest.TestCase):
         report = SCIENCE.summarize(result_for(MissingTorch()))
         self.assertFalse(report['passed'])
         self.assertEqual(len(report['unexpected_skips']), 1)
+
+
+class QtResultTests(unittest.TestCase):
+    def summarize(self, *, skip=None, failed=0, blacklisted=0, allow=True, count=12):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for i in range(count):
+                name = 'pipe_transport-results' if i == 0 else f'suite-{i}-results'
+                reason = f'SKIP   : {skip}\n' if skip and i == 0 else ''
+                (root / f'{name}.txt').write_text(
+                    reason + f'Totals: 3 passed, {failed} failed, {bool(reason):d} skipped, '
+                    f'{blacklisted} blacklisted, 1ms\n', encoding='utf-8')
+            return QT.summarize(root, allow)
+
+    def test_exact_optional_calibration_skip_is_retained(self):
+        report = self.summarize(skip=QT.OPTIONAL_CALIBRATION[1])
+        self.assertTrue(report['passed'])
+        self.assertEqual(report['optional_calibration_skipped'], 1)
+        self.assertEqual(report['qt_suites'][0]['skipped'], 1)
+
+    def test_optional_qualification_cannot_skip_its_real_case(self):
+        self.assertFalse(self.summarize(skip=QT.OPTIONAL_CALIBRATION[1], allow=False)['passed'])
+
+    def test_other_missing_dependency_or_changed_reason_is_a_failure(self):
+        for reason in ('StorageTests::actualTorch() Torch unavailable',
+                       QT.OPTIONAL_CALIBRATION[1] + ' changed'):
+            with self.subTest(reason=reason):
+                self.assertFalse(self.summarize(skip=reason)['passed'])
+
+    def test_failures_blacklists_and_missing_suites_remain_failures(self):
+        self.assertTrue(self.summarize()['passed'])
+        for kwargs in ({'failed': 1}, {'blacklisted': 1}, {'count': 11}):
+            with self.subTest(kwargs=kwargs):
+                self.assertFalse(self.summarize(**kwargs)['passed'])
+
+    def test_missing_duplicate_and_unaccounted_totals_fail(self):
+        with tempfile.TemporaryDirectory() as temporary:
+            root = Path(temporary)
+            for i in range(11):
+                (root / f'other-{i}-results.txt').write_text(
+                    'Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted\n', encoding='utf-8')
+            path = root / 'suite-results.txt'
+            for text in ('', 'Totals: 3 passed, 0 failed, 1 skipped, 0 blacklisted',
+                         'Totals: 3 passed, 0 failed, 0 skipped, 0 blacklisted\n' * 2):
+                path.write_text(text, encoding='utf-8')
+                report = QT.summarize(root, True)
+                self.assertFalse(report['passed'])
+                self.assertTrue(any('suite-results.txt:' in item for item in report['problems']))
 
 
 if __name__ == '__main__':

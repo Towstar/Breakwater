@@ -57,6 +57,30 @@ class EogModelTests(unittest.TestCase):
         n["meta"]["timezone"] = "local"
         self.reject(n, o, "unsupported_units")
 
+    def test_published_demo_annotations_do_not_influence_model_or_identity(self):
+        n, o = inputs()
+        before = compile_model(n, o)
+        n["meta"]["demo_note"] = "Descriptive fixture metadata only."
+        n["meta"]["demo_failure_onsets"] = {"unknown/future/asset": "2099-01-01T00:00:00Z"}
+        after = compile_model(n, o)
+        self.assertEqual(after, before)
+        self.assertEqual(after.fingerprint(), before.fingerprint())
+        self.assertEqual(after.channels(), before.channels())
+        n["meta"]["units"]["volume"] = "m3"
+        self.reject(n, o, "unsupported_units")
+
+    def test_annotation_shapes_are_bounded_and_unknown_metadata_still_rejected(self):
+        for key, value in (("demo_note", {}), ("demo_note", "x" * 4097),
+                           ("demo_failure_onsets", []), ("demo_failure_onsets", {"": "timestamp"}),
+                           ("demo_failure_onsets", {"asset": 0}),
+                           ("demo_failure_onsets", {"asset": "x" * 65}),
+                           ("demo_failure_onsets", {str(i): "stamp" for i in range(257)}),
+                           ("answer_key", {})):
+            with self.subTest(key=key, value_type=type(value).__name__):
+                n, o = inputs()
+                n["meta"][key] = value
+                self.reject(n, o, "invalid_shape")
+
     def test_nonfinite_bool_and_string_economics_rejected(self):
         for value in (math.nan, math.inf, -1, True, "60", 10 ** 1000):
             n, o = inputs()

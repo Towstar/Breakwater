@@ -1,0 +1,9 @@
+test_known_decay_recovery (__main__.RealPhysicsNeMoCalibrationTests.test_known_decay_recovery) ... Warp CUDA warning: Could not find or load the NVIDIA CUDA driver. GPU execution will not be available.
+ok
+test_mismatched_observations_rejected (__main__.RealPhysicsNeMoCalibrationTests.test_mismatched_observations_rejected) ... ok
+test_zero_decay_and_reproducible_binding (__main__.RealPhysicsNeMoCalibrationTests.test_zero_decay_and_reproducible_binding) ... ok
+
+----------------------------------------------------------------------
+Ran 3 tests in 25.988s
+
+OK

@@ -141,6 +141,7 @@ Dialog {
             TabButton { text: "Native results"; font.pixelSize: Theme.smallSize; implicitHeight: 36 }
             TabButton { text: dialog.viewingImported ? "Recorded parameters" : "Physical parameters"; font.pixelSize: Theme.smallSize; implicitHeight: 36 }
             TabButton { text: "Provenance"; font.pixelSize: Theme.smallSize; implicitHeight: 36 }
+            TabButton { text: "Learn decay · PhysicsNeMo"; font.pixelSize: Theme.smallSize; implicitHeight: 36 }
         }
         Rectangle {
             Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 0
@@ -333,6 +334,48 @@ Dialog {
                           "\nPhysical hash: " + dialog.resultData.physical_hash + "\nParameter hash: " + dialog.resultData.parameter_hash + "\nNumerical revision: " + dialog.resultData.numerical_revision +
                           "\n\nMethod: " + dialog.resultData.method + "\nMethod version: " + dialog.resultData.method_version + "\nHorizon: " + dialog.number(dialog.resultData.horizon_h) + " h\nRoute flow: " + dialog.number(dialog.resultData.flow_m3h) + " m³/h" +
                           "\n\nBounded preview: " + (dialog.preview.time_h || []).length + " time samples × " + (dialog.preview.x_m || []).length + " distance samples. Distance samples represent cell centers. Export JSON preserves this preview, parameters and diagnostics.\n\n" + (dialog.viewingImported ? "This imported file has not been independently re-executed. Its parameters and feasibility claim do not modify this project or restore approval. " : "") + "This is native scalar-reference evidence. It has no approval action and is separate from standalone learned-model experiments."
+                }
+            }
+            ScrollView {
+                id: calibrationScroll
+                objectName: "pipeCalibrationPanel"
+                contentWidth: availableWidth; clip: true
+                ColumnLayout {
+                    width: calibrationScroll.availableWidth; spacing: 12
+                    SectionLabel { text: "SPARSE TRACER CALIBRATION · EXPERIMENTAL" }
+                    PlainLabel { Layout.fillWidth: true; text: "Estimate a pipe's first-order decay rate from a closed, well-mixed tracer test. Enter known elapsed hours and measured concentrations. The sample must have no inflow, dilution or additional source. This fits decay only; it does not identify flow or dispersion."; wrapMode: Text.WordWrap; color: Theme.secondary }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        PlainLabel { text: "Initial test concentration" }
+                        TextField { id: calibrationInitial; objectName: "calibrationInitial"; text: "1.0"; Layout.preferredWidth: 130; enabled: !dialog.pipeTransport.calibrationBusy; onTextEdited: dialog.pipeTransport.discardCalibration() }
+                        PlainLabel { text: "mg/L"; color: Theme.secondary }
+                        Item { Layout.fillWidth: true }
+                    }
+                    PlainLabel { Layout.fillWidth: true; text: "One observation per line: elapsed hours, concentration mg/L. Use 3–64 increasing positive times. Example: 0.25, 0.951229"; wrapMode: Text.WordWrap; color: Theme.secondary }
+                    TextArea {
+                        id: calibrationObservations
+                        objectName: "calibrationObservations"
+                        Layout.fillWidth: true; Layout.preferredHeight: 116
+                        placeholderText: "0.25, 0.951229\n0.50, 0.904837\n0.75, 0.860708"
+                        selectByMouse: true; wrapMode: TextEdit.NoWrap; font.pixelSize: Theme.bodySize
+                        enabled: !dialog.pipeTransport.calibrationBusy
+                        onTextChanged: dialog.pipeTransport.discardCalibration()
+                    }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        ActionButton { objectName: "estimatePipeDecay"; text: "Estimate with PhysicsNeMo"; iconName: "play"; highlighted: true; enabled: !dialog.viewingImported && dialog.pipeTransport.routeId.length > 0 && !dialog.pipeTransport.calibrationBusy && !dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.calibrateDecay(calibrationInitial.text, calibrationObservations.text) }
+                        ActionButton { text: "Cancel fit"; iconName: "square"; enabled: dialog.pipeTransport.calibrationBusy; onClicked: dialog.pipeTransport.cancelCalibration() }
+                        Item { Layout.fillWidth: true }
+                    }
+                    PlainLabel { objectName: "calibrationStatus"; Layout.fillWidth: true; text: dialog.pipeTransport.calibrationStatus; wrapMode: Text.WordWrap; color: Theme.secondary }
+                    PlainLabel {
+                        objectName: "calibrationEstimate"
+                        Layout.fillWidth: true; visible: dialog.pipeTransport.calibrationResult.status === "ok"
+                        text: "Estimated decay: " + dialog.number(dialog.pipeTransport.calibrationResult.decay_per_h) + " /h\nIndependent estimate: " + dialog.number(dialog.pipeTransport.calibrationResult.reference_decay_per_h) + " /h · concentration RMSE: " + dialog.number(100 * (dialog.pipeTransport.calibrationResult.relative_rmse || 0)) + "% of initial\nPhysicsNeMo " + (dialog.pipeTransport.calibrationResult.physicsnemo_version || "") + " · " + (dialog.pipeTransport.calibrationResult.observations || 0) + " observations"
+                        wrapMode: Text.WordWrap; color: Theme.text
+                    }
+                    ActionButton { objectName: "applyPipeDecay"; text: "Apply estimate to selected pipe"; iconName: "check"; enabled: dialog.pipeTransport.canApplyCalibration; onClicked: dialog.pipeTransport.applyCalibration() }
+                    PlainLabel { Layout.fillWidth: true; text: "An estimate must agree with an independent log-space fit and have concentration RMSE ≤5% of the initial value. This is a bounded synthetic-model estimate, with no calibrated uncertainty or chemistry certification. Applying changes the numerical revision and requires a new native forecast. It never approves or applies an operating plan."; wrapMode: Text.WordWrap; color: Theme.warning; font.pixelSize: Theme.smallSize }
                 }
             }
         }

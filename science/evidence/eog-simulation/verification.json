@@ -1,0 +1,162 @@
+{
+  "runtime_commit": "af73a4287034bef214f983269358a6c0115ec7c6",
+  "initial_failing_runtime_commit": "68686c185644e5d6a57e32f00e51974fff3aba26",
+  "latest_main": "c1622b9478986c220a4cd09022d512125a2e6523",
+  "method": "eog-synthetic-events-0.1.0",
+  "adopted_eog_contract": "72cadd1de7eed6666a60faff1d296e29c8f026ee",
+  "scope": "Private native subsystem only; no new public protocol or imported/seeded/desktop simulation acceptance.",
+  "official_source": {
+    "repository": "nihaal419/HackUTD-ZeroDay",
+    "commit": "135ba4c8348357457420a1111df80ec1906bcbdb",
+    "spec_blob": "84f4cacf31358151c1e5bfbcb56b43988cf1903e"
+  },
+  "toolchain": {
+    "compiler": "MSVC 19.51.36260.0 x64",
+    "cmake": "4.3.1",
+    "configuration": "RelWithDebInfo",
+    "fp": "/fp:precise, no fast math",
+    "debug_information": "Embedded"
+  },
+  "checks": {
+    "normal_ctest": {
+      "passed": 12,
+      "total": 12,
+      "seconds": 3.56
+    },
+    "asan_ctest": {
+      "passed": 12,
+      "total": 12,
+      "seconds": 26.15
+    },
+    "synthetic_assertions_per_mode": 57498,
+    "observation_partition_cases": 100,
+    "actual_native_e3_comparisons": 100,
+    "cycle_horizon_days": 31,
+    "initial_cycle_error_bbl": 2.587568596368328e-05,
+    "final_cycle_error_bbl": 4.982825956290071e-07,
+    "final_raw_mass_residual_bbl": -8.547259469082746e-07,
+    "signed_event_boundary_rounding_bbl": 6.997918831075367e-07
+  },
+  "sources": {
+    "engine/CMakeLists.txt": {
+      "sha256": "649ea3c3e5675d5cb8065187db682b249ae4a0e6d0b258ac4ef667aac611eafa",
+      "size_bytes": 5316,
+      "normalized_lf_sha256": "86485a7038930d22dab9fbb0441a806f0ae4ac0a7e3f96daa1e1199826a93d1c",
+      "git_blob": "9b7b67a3f0874020a2cc6b94cc4fc6022bd3eb1d"
+    },
+    "engine/include/breakwater/eog_simulation.hpp": {
+      "sha256": "6f6e1580b636ac162d5ab6a0d92a9536dbf6d899a24979541de2297ee79b9491",
+      "size_bytes": 3931,
+      "normalized_lf_sha256": "6f6e1580b636ac162d5ab6a0d92a9536dbf6d899a24979541de2297ee79b9491",
+      "git_blob": "6884d6961cd45d6ed4d163f9b84c8a77e3c4b935"
+    },
+    "engine/src/eog_simulation.cpp": {
+      "sha256": "3141c4894e4d601f50bd63cc5d8b83c67329d5f1c9302e999a5d5c91c8879b97",
+      "size_bytes": 25237,
+      "normalized_lf_sha256": "3141c4894e4d601f50bd63cc5d8b83c67329d5f1c9302e999a5d5c91c8879b97",
+      "git_blob": "3dbaf1d24588d645efe7e554c9246bd74b2c441e"
+    },
+    "engine/tests/eog_simulation_tests.cpp": {
+      "sha256": "7974fbd3c042d72bd6d76f148635d7492df9e846a685ed9eb74d14e2db741fb0",
+      "size_bytes": 18085,
+      "normalized_lf_sha256": "7974fbd3c042d72bd6d76f148635d7492df9e846a685ed9eb74d14e2db741fb0",
+      "git_blob": "3307c8db6b8100b6ed8e9ac1cbb4d25985c82b27"
+    },
+    "engine/src/eog_response.cpp": {
+      "sha256": "e54e14c5028242b890539082b83399829a0a4b33f60b21bd018c7b7dd3ed13e0",
+      "size_bytes": 16268,
+      "normalized_lf_sha256": "d9a6b8b02df680ab18aa0a75da317d8ba640cde1498064a298bb666a9c2ac735",
+      "git_blob": "442e7484ff47d9cd2c21e863eeb967bae687deb1"
+    },
+    "engine/include/breakwater/eog_response.h": {
+      "sha256": "0a2a45061f35b61ea91462bd30de700b0a8f6d95c36a40ade0cd9c1b07a362e0",
+      "size_bytes": 4541,
+      "normalized_lf_sha256": "8810d7e9c716a249aca0685c213a501dcb60b6197c5cd8c9a02178d2820575f3",
+      "git_blob": "a705915e10f23238d0ea80799146b68e13f8f206"
+    }
+  },
+  "binaries": {
+    "out/headless/engine/breakwater_eog_simulation.lib": {
+      "sha256": "a5d3bec568ce67d11bfdd2dc3822fb1556e479b97a07c93df009487e67a0b9c3",
+      "size_bytes": 2563542
+    },
+    "out/headless/engine/breakwater_eog_simulation_tests.exe": {
+      "sha256": "c0e760efa2e69729db6155c1196b3d991370475f176d63d8dfb5ad6969a989ca",
+      "size_bytes": 272896
+    },
+    "out/headless/engine/breakwater_eog_response.dll": {
+      "sha256": "5888302f3f1d7869a5d0bcbbe41202215365227db0c1bd4efbe4d4921db7981b",
+      "size_bytes": 131072
+    },
+    "out/asan/engine/breakwater_eog_simulation.lib": {
+      "sha256": "877cdd0e3274a0c1c66ec643c1bb95d8fad8c335775816609353078b1e062d1c",
+      "size_bytes": 3343302
+    },
+    "out/asan/engine/breakwater_eog_simulation_tests.exe": {
+      "sha256": "2d213356a82a1fc48f838936651f299bae95c1c134a0bd8ca05a68cbde7b6611",
+      "size_bytes": 421376
+    },
+    "out/asan/engine/breakwater_eog_response.dll": {
+      "sha256": "296c2ee7022bbbfdf04f0b56a98f91eb04395676c49dd4ebed5c3fab6786874f",
+      "size_bytes": 182784
+    },
+    "installed_msvc_asan_runtime": {
+      "sha256": "7f901a239979c49b36a3b18ecd1843f551f94b5879585bded41a650c5b71f35f",
+      "size_bytes": 1881912
+    }
+  },
+  "artifacts": {
+    "algebraic-root-probe.log": {
+      "sha256": "1a9b1b493bacc9839a1ecd11483b88a8db8d0c9eb12656bcb64466517309afa6",
+      "size_bytes": 86
+    },
+    "asan-build-ctest.log": {
+      "sha256": "57eee7614874c62e9b91d233ec2a7e5a59e06b4d086f5264c0c0701e5b8a6ba1",
+      "size_bytes": 2312
+    },
+    "asan-last-test.log": {
+      "sha256": "55b28e9a89a1b4e2d48e07de8739de3bae38f259cd03096653fec9a691c23bfc",
+      "size_bytes": 22931
+    },
+    "initial-month-drift.log": {
+      "sha256": "7da1968c8e360832b5d6ca56fe5e3a9c759541bffa51364aa37f1be3f1b469fb",
+      "size_bytes": 219
+    },
+    "initial-month-failed-ctest.log": {
+      "sha256": "614d63195087f7f9f917aed7d718da5840eaf8d6fe9585a2c99aa1638a814e2e",
+      "size_bytes": 2479
+    },
+    "initial-native-tests.log": {
+      "sha256": "77470d751ec81751e3be3fda1ee9ddc0f77d30d14c46088cbc85992736fde95d",
+      "size_bytes": 22838
+    },
+    "normal-build-ctest.log": {
+      "sha256": "145f70b1b0a76a73ed9cbab27accdf6c6a8c353971bd49099881b2db32ae178f",
+      "size_bytes": 2320
+    },
+    "normal-last-test.log": {
+      "sha256": "6054cce4a23c4d35e7730d0e1c8ab444e38f1de3385c71c11f8a78f01b201bdf",
+      "size_bytes": 23048
+    },
+    "README.md": {
+      "sha256": "6c840dbfa08fc249184f69a18b4d6f9639b14e609bd66656b8ddc51413a47719",
+      "size_bytes": 3835
+    },
+    "rejected-predecessor-time-probe.log": {
+      "sha256": "3e6bcd7053f6465f22099601e7dd3d38093ae397e08ba75b2e2e9d9c54a8aec7",
+      "size_bytes": 161
+    },
+    "search-ci-provider-failure.json": {
+      "sha256": "5b2e16490a08f067754e1d28d5ecdfbc8a9d1673c2d60c55a5b648a1c91d10d7",
+      "size_bytes": 931
+    },
+    "search-ci-provider-failure.txt": {
+      "sha256": "f44064aad4cf978b389cc31e6cb25e092de318ab9c1acbc89dd2a03836d692b8",
+      "size_bytes": 1870
+    },
+    "separate-phase-ledger-probe.log": {
+      "sha256": "1a9b1b493bacc9839a1ecd11483b88a8db8d0c9eb12656bcb64466517309afa6",
+      "size_bytes": 86
+    }
+  }
+}

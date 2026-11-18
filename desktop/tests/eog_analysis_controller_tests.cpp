@@ -277,14 +277,20 @@ private slots:
         QCOMPARE(h.providerCalls(), 0); QVERIFY(!h.analysis.canReview());
         QVERIFY(QJsonDocument(h.model.definitions).toJson(QJsonDocument::Compact).size() <= 64 * 1024);
         QMap<QString, QJsonObject> properties;
+        QJsonObject searchParameters;
         for (const auto& value : h.model.definitions) {
             const auto function = value.toObject().value("function").toObject();
-            properties[function.value("name").toString()] = function.value("parameters").toObject().value("properties").toObject();
+            const auto parameters = function.value("parameters").toObject();
+            properties[function.value("name").toString()] = parameters.value("properties").toObject();
+            if (function.value("name") == "search_plans") searchParameters = parameters;
         }
-        for (const auto* operation : {"detect", "search_plans"}) {
-            const auto ids = properties.value(QLatin1String(operation)).value("system_ids").toObject().value("items").toObject().value("enum").toArray();
-            QCOMPARE(ids, QJsonArray{system}); QVERIFY(!ids.contains("all")); QVERIFY(!ids.contains("CUSTOM-system"));
-        }
+        const auto detectorScope = properties.value("detect").value("system_ids").toObject();
+        const auto ids = detectorScope.value("items").toObject().value("enum").toArray();
+        QCOMPARE(ids, QJsonArray{system}); QVERIFY(!ids.contains("all")); QVERIFY(!ids.contains("CUSTOM-system"));
+        QVERIFY(detectorScope.value("maxItems").toInt() > 0);
+        QVERIFY(!searchParameters.isEmpty());
+        QVERIFY(!properties.value("search_plans").contains("system_ids"));
+        QVERIFY(!searchParameters.value("required").toArray().contains("system_ids"));
         QCOMPARE(properties.value("read_topology").value("system_id").toObject().value("enum").toArray(), QJsonArray{system});
         const auto observations = properties.value("read_observations");
         const auto assetIds = observations.value("asset_id").toObject().value("enum").toArray();
@@ -295,6 +301,116 @@ private slots:
         const auto observed = resultFor(h.model.messages, "actual-observation"); QVERIFY(observed.value("ok").toBool());
         QCOMPARE(observed.value("result").toObject().value("asset_id"), QJsonValue(tank));
         QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+    }
+    void modelSearchWithoutFilterBindsDeclaredAllSystemProviderScope() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        h.model.respond = [step = 0](const QJsonArray&) mutable {
+            return step++ == 0 ? tool("unfiltered-search", "search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}}) : final();
+        };
+        QSignalSpy completed(&h.client, &EogAnalysisClient::completed);
+        h.analysis.investigate("Search the complete captured network using the unfiltered search capability.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QCOMPARE(h.providerCalls(), 1); QCOMPARE(completed.size(), 1);
+        QVERIFY(resultFor(h.model.messages, "unfiltered-search").value("ok").toBool());
+        QVERIFY(drain(h.history)); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+        QSignalSpy loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        h.history.loadSession(h.analysis.sessionId()); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        const auto analyses = loaded.first().first().toJsonObject().value("analyses").toArray();
+        QCOMPARE(analyses.size(), 1);
+        const auto request = analyses.first().toObject().value("request").toObject();
+        QCOMPARE(request.value("operation"), QJsonValue("search_plans"));
+        QCOMPARE(request.value("arguments").toObject().value("system_ids"), QJsonValue(QJsonArray{}));
+        bool retainedUnfilteredCall = false;
+        for (const auto& value : h.analysis.trace()) {
+            const auto event = value.toMap();
+            if (event.value("type") == "tool_call" && event.value("call_id") == "unfiltered-search") {
+                QVERIFY(!event.value("arguments").toMap().contains("system_ids")); retainedUnfilteredCall = true;
+            }
+        }
+        QVERIFY(retainedUnfilteredCall);
+    }
+    void modelSearchRejectsKnownSubsetThenAcceptsExplicitAllRetry() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const auto previousIdentity = h.dataset.datasetIdentity();
+        auto network = QJsonDocument::fromJson(bytes(QDir(h.folder).filePath("network.json"))).object();
+        auto systems = network.value("systems").toArray();
+        auto secondBytes = QJsonDocument(systems.first().toObject()).toJson(QJsonDocument::Compact);
+        secondBytes.replace("CUSTOM-system", "SECOND-system"); secondBytes.replace("-Z", "-Y");
+        systems.append(QJsonDocument::fromJson(secondBytes).object()); network["systems"] = systems;
+        QVERIFY(write(QDir(h.folder).filePath("network.json"), QJsonDocument(network).toJson()));
+        auto ops = QJsonDocument::fromJson(bytes(QDir(h.folder).filePath("ops.json"))).object();
+        auto operations = ops.value("systems").toObject();
+        auto secondOps = QJsonDocument(operations.value("CUSTOM-system").toObject()).toJson(QJsonDocument::Compact);
+        secondOps.replace("-Z", "-Y"); operations["SECOND-system"] = QJsonDocument::fromJson(secondOps).object(); ops["systems"] = operations;
+        QVERIFY(write(QDir(h.folder).filePath("ops.json"), QJsonDocument(ops).toJson()));
+        const auto lines = bytes(QDir(h.folder).filePath("telemetry.csv")).split('\n');
+        QByteArray csv;
+        for (qsizetype index = 0; index < lines.size(); ++index) {
+            if (lines[index].trimmed().isEmpty()) continue;
+            csv += lines[index] + '\n';
+            if (index) { auto duplicated = lines[index]; duplicated.replace("-Z", "-Y"); csv += duplicated + '\n'; }
+        }
+        QVERIFY(write(QDir(h.folder).filePath("telemetry.csv"), csv));
+        h.dataset.loadFolder(QUrl::fromLocalFile(h.folder));
+        QTRY_VERIFY_WITH_TIMEOUT(!h.dataset.busy() && h.dataset.loaded() && h.dataset.datasetIdentity() != previousIdentity, 15000);
+        QCOMPARE(h.dataset.systems().size(), 2);
+        // This provider is protocol-only; this test asserts scope and dispatch,
+        // not full-network numerical coverage or optimization correctness.
+        h.model.respond = [step = 0](const QJsonArray&) mutable {
+            switch (step++) {
+            case 0: return tool("subset-search", "search_plans", {{"system_ids", QJsonArray{"CUSTOM-system"}}, {"candidate_limit", 32}, {"time_limit_s", 5}});
+            case 1: return tool("all-search", "search_plans", {{"system_ids", QJsonArray{}}, {"candidate_limit", 32}, {"time_limit_s", 5}});
+            default: return final();
+            }
+        };
+        QSignalSpy completed(&h.client, &EogAnalysisClient::completed);
+        h.analysis.investigate("Search all systems explicitly after any unsupported subset request.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 3 && !h.analysis.busy(), 15000);
+        QCOMPARE(h.providerCalls(), 1); QCOMPARE(completed.size(), 1);
+        const auto rejected = resultFor(h.model.messages, "subset-search"); QVERIFY(!rejected.value("ok").toBool());
+        const auto error = rejected.value("error").toObject();
+        QCOMPARE(error.value("code"), QJsonValue("system_scope_unavailable"));
+        QCOMPARE(error.value("expected_system_ids"), QJsonValue(QJsonArray{}));
+        QVERIFY(error.value("message").toString().contains("[]"));
+        QVERIFY(resultFor(h.model.messages, "all-search").value("ok").toBool());
+        QVERIFY(drain(h.history)); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+        QSignalSpy loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        h.history.loadSession(h.analysis.sessionId()); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        const auto analyses = loaded.first().first().toJsonObject().value("analyses").toArray();
+        QCOMPARE(analyses.size(), 1);
+        const auto request = analyses.first().toObject().value("request").toObject();
+        QCOMPARE(request.value("operation"), QJsonValue("search_plans"));
+        QCOMPARE(request.value("arguments").toObject().value("system_ids"), QJsonValue(QJsonArray{}));
+        bool retainedSubset = false;
+        for (const auto& value : h.analysis.trace()) {
+            const auto event = value.toMap();
+            if (event.value("type") == "tool_call" && event.value("call_id") == "subset-search") {
+                QCOMPARE(event.value("arguments").toMap().value("system_ids").toList(), QVariantList{QString("CUSTOM-system")});
+                retainedSubset = true;
+            }
+        }
+        QVERIFY(retainedSubset);
+    }
+    void malformedOrUnknownSearchScopeNeverStartsProvider_data() {
+        QTest::addColumn<QJsonValue>("scope");
+        QTest::newRow("explicit-null-is-not-omission") << QJsonValue(QJsonValue::Null);
+        QTest::newRow("string-all-is-not-an-array") << QJsonValue("all");
+        QTest::newRow("non-string-system-id") << QJsonValue(QJsonArray{true});
+        QTest::newRow("unknown-system-id") << QJsonValue(QJsonArray{"UNKNOWN-system"});
+        QTest::newRow("duplicate-system-id") << QJsonValue(QJsonArray{"CUSTOM-system", "CUSTOM-system"});
+    }
+    void malformedOrUnknownSearchScopeNeverStartsProvider() {
+        QFETCH(QJsonValue, scope);
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        h.model.respond = [step = 0, scope](const QJsonArray&) mutable {
+            return step++ == 0 ? tool("invalid-scope", "search_plans", {{"system_ids", scope}, {"candidate_limit", 32}, {"time_limit_s", 5}}) : final();
+        };
+        h.analysis.investigate("Reject malformed or unknown system scope without provider execution.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QCOMPARE(h.providerCalls(), 0);
+        const auto rejected = resultFor(h.model.messages, "invalid-scope"); QVERIFY(!rejected.value("ok").toBool());
+        QVERIFY(!rejected.value("error").toObject().value("code").toString().isEmpty());
+        QVERIFY(!h.analysis.canReview());
     }
     void modelClaimsAreRejectedWithoutRepairingThem_data() {
         QTest::addColumn<QString>("claim");
