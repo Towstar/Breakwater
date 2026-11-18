@@ -18,8 +18,13 @@ All examples are synthetic. Layout is schematic and supplies no hydraulic model.
    validation reference and margins. Only the explicit apply action changes
    simulated controls. Numerical/topology changes retire eligibility.
 6. Ctrl-click or marquee-select assets, move the group, duplicate with Ctrl+D,
-   align/distribute in the inspector, and undo. Layout moves preserve numerical
+   use the scene Edit menu to align/distribute, and undo. Layout moves preserve numerical
    identity; duplication changes topology and retires approval.
+7. Filter Network by equipment name, ID or type. Equipment hidden by the filter
+   remains in the scene, and an existing selection stays selected. Shift-click
+   ranges use the visible list. The inspector shows editable simulation inputs, their units,
+   displayed forecast inventory and route/pump state. Clearing selection opens
+   the network overview and draft checks.
 
 ## Operations
 

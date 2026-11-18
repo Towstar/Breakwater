@@ -74,6 +74,11 @@ class Check final : public QObject {
         mouse(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::ControlModifier);
         mouse(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::NoButton, Qt::ControlModifier);
     }
+    void shiftClick(QQuickItem* target) {
+        const auto point = target->mapToScene(QPointF(target->width()/2, target->height()/2));
+        mouse(QEvent::MouseButtonPress, point, Qt::LeftButton, Qt::LeftButton, Qt::ShiftModifier);
+        mouse(QEvent::MouseButtonRelease, point, Qt::LeftButton, Qt::NoButton, Qt::ShiftModifier);
+    }
     void key(int code, Qt::KeyboardModifiers modifiers = Qt::NoModifier, const QString& text = {}) {
         QKeyEvent press(QEvent::KeyPress, code, modifiers, text), release(QEvent::KeyRelease, code, modifiers, text);
         QCoreApplication::sendEvent(window_, &press); QCoreApplication::sendEvent(window_, &release);
@@ -321,7 +326,53 @@ class Check final : public QObject {
                 require(eval("app.eog.loaded && app.eogAnalysis.trace.length > 0 && app.eogAnalysis.plans.length > 0 && app.eogAnalysis.summary.length > 0 && !app.eogAnalysis.canReview").toBool(),
                     "recorded_investigation_not_historical_grounded_evidence");
                 snapshot("09-recorded-investigation.png");
-                passed("bundled_hosted_recording_reopens_historical_without_review_authority"); finish(true, "ok"); return;
+                passed("bundled_hosted_recording_reopens_historical_without_review_authority");
+                eval("app.workspace='workbench'; app.compactPane='navigator'; workspaceSettings.setValue('navigatorOpen',true)");
+                controller_->select("source_b");
+                { SimulationConfig config; config.horizon_h = 1.25; controller_->forecastWithConfig(config); }
+                break;
+            case 31:
+                if (controller_->busy()) return;
+                require(controller_->canApprove() && !controller_->runId().isEmpty(), "filter_forecast_unavailable");
+                hash_ = controller_->networkHash(); run_ = controller_->runId(); revision_ = controller_->simulationRevision();
+                click(item("networkFilter")); key(Qt::Key_A, Qt::ControlModifier); key(Qt::Key_unknown, Qt::NoModifier, "_A"); break;
+            case 32:
+                require(eval("JSON.stringify(app.filteredNetworkAssets.map(row=>row.id))").toString() == "[\"tank_a\",\"source_a\"]",
+                    "filter_name_id_type_or_case_wrong");
+                require(controller_->selectedId() == "source_b", "filter_changed_hidden_selection"); preserved();
+                key(Qt::Key_D, Qt::ControlModifier);
+                require(controller_->assets().size() == 6, "filter_input_stole_scene_shortcut");
+                click(item("networkAsset:tank_a")); break;
+            case 33:
+                require(controller_->selectedId() == "tank_a", "filtered_asset_click_failed");
+                eval("networkAssetList.positionViewAtIndex(1,ListView.Contain)"); break;
+            case 34:
+                shiftClick(item("networkAsset:source_a")); break;
+            case 35:
+                require(controller_->selectedIds().size() == 2 && controller_->selectedIds().contains("tank_a")
+                    && controller_->selectedIds().contains("source_a"), "filtered_range_selected_hidden_asset");
+                preserved(); click(item("clearNetworkFilter")); break;
+            case 36:
+                require(item("networkFilter")->property("text").toString().isEmpty()
+                    && eval("app.filteredNetworkAssets.length").toInt() == 6 && controller_->selectedIds().size() == 2,
+                    "clear_filter_changed_selection_or_did_not_restore_list");
+                preserved(); passed("native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges");
+                eval("app.compactPane='inspector'; workspaceSettings.setValue('inspectorOpen',true)");
+                for (const auto& row : controller_->routes()) {
+                    const auto route = row.toMap();
+                    if (route.value("pump").toBool()) { controller_->select(route.value("id").toString()); break; }
+                }
+                break;
+            case 37:
+                require(controller_->selected().value("pump").toBool() && item("inspectorPumpState")->isVisible()
+                    && item("inspectorPumpState")->property("text").toString() == (controller_->selected().value("available").toBool() ? "Pump available" : "Pump unavailable"),
+                    "inspector_pump_state_missing");
+                preserved(); passed("inspector_route_state_preserves_numerical_evidence");
+                snapshot("10-route-inspector.png"); controller_->select("tank_a"); break;
+            case 38:
+                require(item("equipmentLabel")->property("text").toString() == "Tank A"
+                    && item("numericProperty_capacity")->isVisible(), "inspector_equipment_fields_missing");
+                preserved(); snapshot("11-tank-inspector.png"); finish(true, "ok"); return;
             default: throw std::runtime_error("invalid_phase");
             }
             ++phase_;

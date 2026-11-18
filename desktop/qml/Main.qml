@@ -94,6 +94,10 @@ ApplicationWindow {
     Binding { target: Theme; property: "compactControls"; value: workspaceSettings.values.compactControls }
     readonly property int sceneAssetCount: controller.assets.length
     readonly property int sceneSelectedCount: controller.selectedIds.length
+    readonly property var filteredNetworkAssets: {
+        const query = networkFilter.text.trim().toLowerCase()
+        return controller.assets.filter(row => !query || [row.label, row.id, row.kind, Theme.equipmentName(row.kind)].some(value => String(value).toLowerCase().includes(query)))
+    }
     readonly property bool detailedScene: workspaceSettings.values.quality > 0 && (sceneAssetCount < 48 || (fittedView ? fittedDistance : distance) < 1500)
     readonly property int sceneQuality: detailedScene ? workspaceSettings.values.quality : 0
     readonly property var siteBounds: {
@@ -209,7 +213,7 @@ ApplicationWindow {
         } else {
             const keys = modifiers || Qt.NoModifier
             if (fromList && (keys & Qt.ShiftModifier) && listSelectionAnchor.length) {
-                const rows = controller.assets, a = rows.findIndex(row => row.id === listSelectionAnchor), b = rows.findIndex(row => row.id === id)
+                const rows = app.filteredNetworkAssets, a = rows.findIndex(row => row.id === listSelectionAnchor), b = rows.findIndex(row => row.id === id)
                 if (a >= 0 && b >= 0) controller.selectAssets(controller.selectedIds.concat(rows.slice(Math.min(a, b), Math.max(a, b) + 1).map(row => row.id)), id)
                 else controller.toggleAssetSelection(id, true)
             } else if (keys & Qt.ControlModifier) controller.toggleAssetSelection(id)
@@ -264,6 +268,7 @@ ApplicationWindow {
             Label { text: "Breakwater " + app.buildInfo; font.pixelSize: 19; font.weight: Font.DemiBold }
             Label { Layout.fillWidth: true; text: "An editable fluid-network sandbox and recorded-data investigation workspace. Local numerical tools retain the evidence behind every result."; wrapMode: Text.Wrap; color: Theme.secondary }
             Label { Layout.fillWidth: true; text: "Synthetic and advisory. Scene arrangement does not determine hydraulics. Optional Science and hosted Nemotron have separate runtime requirements."; wrapMode: Text.Wrap; color: Theme.muted }
+            Label { Layout.fillWidth: true; text: "PhysicsNeMo: optional tracer fit. Lean proofs: standalone algorithm checks."; wrapMode: Text.Wrap; color: Theme.muted; font.pixelSize: Theme.smallSize }
         }
     }
     header: ToolBar {
@@ -435,14 +440,38 @@ ApplicationWindow {
                             onClicked: { app.connectMode = !app.connectMode; app.connectionSource = "" }
                         }
                     }
-                    Label { text: "NETWORK"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.4; font.bold: true; color: Theme.secondary }
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { Layout.fillWidth: true; text: "NETWORK"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.4; font.bold: true; color: Theme.secondary }
+                        Label { objectName: "networkFilterCount"; text: networkFilter.text.trim().length ? app.filteredNetworkAssets.length + " / " + app.sceneAssetCount : String(app.sceneAssetCount); color: Theme.muted; font.family: Theme.monoFamily; font.pixelSize: Theme.captionSize }
+                    }
+                    TextField {
+                        id: networkFilter; objectName: "networkFilter"
+                        Layout.fillWidth: true; implicitHeight: Theme.controlHeight; rightPadding: 32
+                        placeholderText: "Filter equipment"; selectByMouse: true
+                        Accessible.name: "Filter equipment"
+                        Accessible.description: "Filter by name, ID or type. Filtering leaves scene selection unchanged."
+                        ActionButton {
+                            objectName: "clearNetworkFilter"
+                            anchors.right: parent.right; anchors.rightMargin: 3; anchors.verticalCenter: parent.verticalCenter
+                            width: 26; height: 26; implicitWidth: 26; implicitHeight: 26
+                            visible: networkFilter.text.length > 0; iconName: "x"; icon.width: 13; icon.height: 13
+                            text: "Clear equipment filter"; display: AbstractButton.IconOnly
+                            onClicked: { networkFilter.clear(); networkFilter.forceActiveFocus() }
+                        }
+                    }
                     ListView {
                         id: networkAssetList
                         objectName: "networkAssetList"
                         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 48
                         clip: true; spacing: 4; boundsBehavior: Flickable.StopAtBounds
                         flickableDirection: Flickable.VerticalFlick
-                        model: controller.assets
+                        model: app.filteredNetworkAssets
+                        Label {
+                            anchors.centerIn: parent; width: parent.width - 16; visible: networkAssetList.count === 0
+                            text: app.sceneAssetCount ? "No equipment matches.\nClear or change the filter." : "No equipment yet."
+                            horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.smallSize
+                        }
                         delegate: ItemDelegate {
                             id: networkAssetDelegate
                             required property var modelData
@@ -486,7 +515,6 @@ ApplicationWindow {
                         ActionButton { objectName: "openTelemetry"; Layout.fillWidth: true; iconName: "activity"; text: "Local monitoring"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: telemetryDialog.visible; onClicked: app.toggleWorkbenchPanel("telemetry") }
                         ActionButton { objectName: "openPipeEvidence"; Layout.fillWidth: true; iconName: "waves"; text: "Pipe transport"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: pipeTransportDialog.visible; onClicked: app.toggleWorkbenchPanel("pipe") }
                     }
-                    Label { text: "PhysicsNeMo: optional tracer fit\nLean proofs: standalone"; color: Theme.muted; font.pixelSize: Theme.captionSize; lineHeight: 1.3 }
                 }
             }
 
@@ -698,75 +726,16 @@ ApplicationWindow {
                 }
             }
 
-            Rectangle {
+            AssetInspector {
+                id: inspectorView
                 visible: app.inspectorVisible
-                Layout.preferredWidth: 286; Layout.minimumWidth: 286; Layout.fillHeight: true; color: Theme.surface
-                ScrollView {
-                    id: inspectorScroll
-                    anchors.fill: parent; anchors.margins: 14; contentWidth: availableWidth; clip: true
-                    ColumnLayout {
-                        width: inspectorScroll.availableWidth; spacing: 10
-                        Label { text: controller.selectedIds.length > 1 ? "PRIMARY ASSET · " + controller.selectedIds.length + " SELECTED" : "ASSET PROPERTIES"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.4; font.bold: true; color: Theme.secondary }
-                        Label { Layout.fillWidth: true; text: controller.selected.label || "Select equipment or a pipe"; textFormat: Text.PlainText; font.pixelSize: 19; font.weight: Font.DemiBold; wrapMode: Text.WrapAnywhere }
-                        Label { Layout.fillWidth: true; visible: controller.selectedIds.length > 1; text: "Fields below edit the primary asset. Use Edit in the scene toolbar for group actions."; wrapMode: Text.Wrap; color: Theme.secondary; font.pixelSize: Theme.smallSize }
-                        Label { Layout.fillWidth: true; text: controller.selected.kind || ""; textFormat: Text.PlainText; color: Theme.secondary }
-                        ActionButton { objectName: "inspectPipeTransport"; iconName: "waves"; Layout.fillWidth: true; visible: controller.selected.kind === "route"; enabled: app.pipeTransport.routeId.length > 0; text: "Inspect pipe transport"; onClicked: pipeTransportDialog.open() }
-                        TextField { Layout.fillWidth: true; visible: !!controller.selected.kind && controller.selected.kind !== "route"; text: controller.selected.label || ""; onEditingFinished: controller.editSelected("label", text) }
-                        Repeater {
-                            model: {
-                                const k = controller.selected.kind
-                                if (k === "tank") return [{key:"capacity",name:"Capacity (m³)"},{key:"initial",name:"Initial inventory (m³)"}]
-                                if (k === "source") return [{key:"inflow",name:"Production (m³/h)"},{key:"curtailment_max",name:"Max reduction (m³/h)"},{key:"curtailment",name:"Reduction (m³/h)"},{key:"cost",name:"Reduction cost / m³"}]
-                                if (k === "route") return controller.selected.sourceDriven ? [{key:"capacity",name:"Route capacity (m³/h)"}] : [{key:"capacity",name:"Route capacity (m³/h)"},{key:"flow",name:"Setpoint (m³/h)"},{key:"cost",name:"Route cost / m³"}]
-                                if (k === "treatment" || k === "trucking") return [{key:"capacity",name:"Throughput (m³/h)"},{key:"cost",name:"Cost / m³"}]
-                                return []
-                            }
-                            delegate: ColumnLayout {
-                                id: numericRow
-                                required property var modelData
-                                readonly property var rejection: app.rejectedNumericFields[modelData.key] || ({})
-                                Layout.fillWidth: true; spacing: 3
-                                Label { text: modelData.name; color: numericRow.rejection.message ? Theme.error : Theme.secondary; font.pixelSize: Theme.smallSize }
-                                TextField {
-                                    objectName: "numericProperty_" + numericRow.modelData.key
-                                    property bool pendingUserCommit: false
-                                    Layout.fillWidth: true
-                                    text: String(controller.selected[numericRow.modelData.key] ?? "")
-                                    inputMethodHints: Qt.ImhFormattedNumbersOnly
-                                    Accessible.name: numericRow.modelData.name
-                                    Accessible.description: numericRow.rejection.message || ""
-                                    onTextEdited: pendingUserCommit = true
-                                    // Preserve native Return handling, but distinguish an
-                                    // explicit retry from focus leaving after that commit.
-                                    Keys.onReturnPressed: function(event) { pendingUserCommit = true; event.accepted = false }
-                                    Keys.onEnterPressed: function(event) { pendingUserCommit = true; event.accepted = false }
-                                    onEditingFinished: {
-                                        if (!pendingUserCommit) return
-                                        pendingUserCommit = false
-                                        app.commitNumericField(numericRow.modelData.key, text)
-                                    }
-                                }
-                                Label {
-                                    objectName: "numericRejection_" + numericRow.modelData.key
-                                    Layout.fillWidth: true; visible: !!numericRow.rejection.message
-                                    text: "Not applied: “" + String(numericRow.rejection.input || "") + "”. "
-                                        + numericRow.rejection.message + "\nAccepted value: "
-                                        + String(controller.selected[numericRow.modelData.key] ?? "unavailable")
-                                    textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere
-                                    color: Theme.error; font.pixelSize: Theme.bodySize
-                                }
-                            }
-                        }
-                        Label { visible: controller.selected.kind === "route" && !!controller.selected.sourceDriven; Layout.fillWidth: true; text: "Source-route flow follows production minus reduction."; wrapMode: Text.WordWrap; color: Theme.secondary }
-                        ActionButton { iconName: "gauge"; Layout.fillWidth: true; visible: controller.selected.kind === "route" && !controller.selected.sourceDriven && !controller.selected.pump; text: "Attach pump"; onClicked: controller.attachPump(controller.selectedId) }
-                        CheckBox { visible: !!controller.selected.pump; checked: !!controller.selected.available; text: "Pump available"; onClicked: controller.editSelected("available", checked ? "true" : "false") }
-                        ActionButton { iconName: "triangle-alert"; Layout.fillWidth: true; visible: !!controller.selected.pump; enabled: !!controller.selected.available; text: "Fail selected pump"; onClicked: controller.failSelectedPump() }
-                        ActionButton { iconName: "trash-2"; Layout.fillWidth: true; visible: !!controller.selected.kind; text: "Delete selected"; onClicked: controller.deleteSelected() }
-                        Rectangle { Layout.fillWidth: true; height: 1; color: Theme.divider }
-                        Label { text: controller.draftIssues.length ? "NETWORK ISSUES · " + controller.draftIssues.length : "NETWORK READY TO FORECAST"; color: controller.draftIssues.length ? Theme.warning : Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
-                        Repeater { model: controller.draftIssues; delegate: Label { required property string modelData; Layout.fillWidth: true; text: modelData; textFormat: Text.PlainText; wrapMode: Text.WordWrap; font.pixelSize: Theme.bodySize; color: Theme.warning } }
-                    }
-                }
+                Layout.preferredWidth: 286; Layout.minimumWidth: 286; Layout.fillHeight: true
+                controller: app.controller
+                numericRejections: app.rejectedNumericFields
+                pipeTransportReady: app.pipeTransport.routeId.length > 0
+                onNumericCommitted: function(field, value) { app.commitNumericField(field, value) }
+                onPipeTransportRequested: pipeTransportDialog.open()
+                onFocusRequested: app.frameScene(true)
             }
         }
         Rectangle {
