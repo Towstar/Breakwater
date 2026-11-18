@@ -28,6 +28,11 @@ Eight targeted checks pass in each of normal and ASan builds, including native
 filter/evidence-preservation checks at normal, compact and minimum sizes.
 Live review caught a scrollbar overlapping its heading. A native geometry check
 reproduced it before the viewport anchoring and overflow-visibility fix.
+The later hosted run exposed a test click below the shortened inspector viewport
+at 1008×672. This is reproduced locally and corrected by opening the editing space
+through the existing dock action, with that size retained as a fourth native UI
+gate. All four layouts pass in both normal and ASan builds; the hosted rerun is
+reported separately from these local results.
 
 Main remains `3116b3d`. PR56 ancestry and the bounded test-metadata compatibility
 patch are integrated on the isolated portfolio baseline. Draft PR58 contains the

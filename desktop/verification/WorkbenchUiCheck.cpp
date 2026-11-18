@@ -165,7 +165,10 @@ class Check final : public QObject {
                 if (window_->property("compactLayout").toBool() && !window_->property("inspectorVisible").toBool()) {
                     click(item("Inspector", true)); return;
                 }
-                if (window_->height() < 620 && eval("workspaceSettings.values.dockOpen").toBool()) {
+                // Edit two successive fields in the expanded inspector. A
+                // short hosted desktop can clip the second field even above
+                // the old 620-pixel cutoff; use the real dock action for all sizes.
+                if (eval("workspaceSettings.values.dockOpen").toBool()) {
                     click(item("Toggle results", true)); return;
                 }
                 // Opening a compact pane changes the viewport. Pick the actual
@@ -392,6 +395,7 @@ public:
     Check(QQuickWindow* window, ProjectController* controller, QCoreApplication* app)
         : QObject(app), window_(window), controller_(controller), app_(app) {
         if (qEnvironmentVariable("BREAKWATER_UI_MINIMUM") == "1") window->resize(960, 540);
+        else if (qEnvironmentVariable("BREAKWATER_UI_SHORT") == "1") window->resize(1008, 672);
         elapsed_.start(); timer_.setInterval(100);
         connect(controller, &ProjectController::changed, this, [this] { ++changes_; });
         connect(&timer_, &QTimer::timeout, this, [this] { tick(); }); timer_.start();
