@@ -1,5 +1,6 @@
 #include "PipeTransportController.hpp"
 #include "PipeTransportEvidence.hpp"
+#include "history/EvidenceEnvelope.hpp"
 #include <QDateTime>
 #include <QCryptographicHash>
 #include <QFile>
@@ -142,6 +143,23 @@ PipeTransportController::PipeTransportController(ProjectController* project, his
 }
 PipeTransportController::~PipeTransportController() {
     if (calibration_cancel_) calibration_cancel_->store(true);
+}
+void PipeTransportController::setHistoryRepository(history::SessionRepository* repository) {
+    if (repository_==repository) return;
+    if (repository_) disconnect(repository_,nullptr,this,nullptr);
+    repository_=repository; pending_history_.clear();
+    history_status_=repository ? "Native pipe results are retained automatically. Limit: 256 records / 256 MiB.":"Automatic pipe history is unavailable. Manual export remains available.";
+    if (repository) {
+        connect(repository,&history::SessionRepository::sessionSaved,this,[this](const QString& id) {
+            if (!pending_history_.remove(id)) return;
+            history_status_="Native pipe evidence saved to History."; emit changed();
+        });
+        connect(repository,&history::SessionRepository::checkpointFailed,this,[this](const QString& id,const QString&,const QString& message) {
+            if (!pending_history_.remove(id)) return;
+            history_status_="Pipe history: "+message+" Manual result export remains available."; emit changed();
+        });
+    }
+    emit changed();
 }
 QJsonObject PipeTransportController::context(const QString& runId) const {
     if (!project_ || runId.isEmpty()) return {};
@@ -307,8 +325,17 @@ void PipeTransportController::run() {
     const auto epoch = ++generation_;
     result_.clear(); busy_ = true; retired_status_.clear(); status_ = "Calculating native scalar transport…";
     auto* watcher = new QFutureWatcher<QJsonObject>(this);
-    connect(watcher, &QFutureWatcher<QJsonObject>::finished, this, [this, watcher, epoch, binding] {
+    connect(watcher, &QFutureWatcher<QJsonObject>::finished, this, [this, watcher, epoch, binding, input] {
         const auto outcome = watcher->result(); watcher->deleteLater(); busy_ = false;
+        if (!outcome.contains("error") && epoch!=cancelled_generation_ && repository_) {
+            const auto id=outcome.value("result_id").toString(); pending_history_.insert(id); history_status_="Saving native pipe evidence…";
+            repository_->enqueueCheckpoint([outcome,input] {
+                return history::evidence_archive("pipe_transport",{{"result",outcome},{"source",input}},
+                    {{"snapshot_id",input.value("snapshot_id")},{"physical_hash",input.value("physical_hash")},
+                     {"network",input.value("network")},{"horizon_h",input.value("horizon_h")}},
+                    "Native pipe transport · "+outcome.value("route_id").toString(),outcome.value("result_id").toString(),outcome.value("created_at").toString());
+            },id);
+        }
         if (epoch == generation_ && binding == currentBinding()) {
             if (outcome.contains("error")) status_ = outcome.value("error").toString();
             else { result_ = outcome.toVariantMap(); status_ = "Native scalar reference complete. Quality is separate from volume approval."; }
@@ -329,7 +356,14 @@ void PipeTransportController::cancel() {
         status_ = "Import cancelled. Previous evidence is retained.";
         emit changed(); return;
     }
-    invalidate("Cancelled."); emit changed();
+    cancelled_generation_=generation_; invalidate("Cancelled."); emit changed();
+}
+bool PipeTransportController::showRetainedResult(const QVariantMap& result) {
+    if (busy_) return false;
+    const auto evidence=QJsonObject::fromVariantMap(result); QString error;
+    if (!validate_pipe_transport_evidence(evidence,&error)) { status_=error; emit changed(); return false; }
+    imported_result_=result; viewing_imported_=true; viewing_retained_=true;
+    status_="Retained historical native scalar evidence. Approval and operating controls are unavailable."; emit changed(); return true;
 }
 void PipeTransportController::importResult(const QUrl& source) {
     if (busy_) return;
@@ -348,6 +382,7 @@ void PipeTransportController::importResult(const QUrl& source) {
             else {
                 imported_result_ = outcome.value("evidence").toObject().toVariantMap();
                 viewing_imported_ = true;
+                viewing_retained_=false;
                 status_ = "Imported historical evidence. File contents are unverified and cannot approve a plan.";
             }
         }
@@ -361,7 +396,7 @@ void PipeTransportController::importResult(const QUrl& source) {
 }
 void PipeTransportController::showCurrentResult() {
     if (busy_ || !viewing_imported_) return;
-    viewing_imported_ = false; imported_result_.clear();
+    viewing_imported_ = false; viewing_retained_=false; imported_result_.clear();
     status_ = !result_.isEmpty() ? "Native scalar reference complete. Quality is separate from volume approval."
         : canRun() ? "Ready for native scalar transport." : "Select a pipe and capture a volume forecast.";
     emit changed();
@@ -375,7 +410,7 @@ bool PipeTransportController::exportResult(const QUrl& destination) {
     if (!file.open(QIODevice::WriteOnly) || file.write(bytes) != bytes.size() || !file.commit()) {
         status_ = "Cannot export transport evidence."; emit changed(); return false;
     }
-    status_ = viewing_imported_ ? "Imported historical evidence exported; file contents remain unverified."
+    status_ = viewing_retained_ ? "Retained historical evidence exported; no approval is restored." : viewing_imported_ ? "Imported historical evidence exported; file contents remain unverified."
         : "Native transport evidence exported."; emit changed(); return true;
 }
 

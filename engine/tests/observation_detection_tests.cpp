@@ -181,6 +181,15 @@ void held_out_two_topology_hour_qualification() {
         <<" captures, "<<physicalEvents<<" physical event updates, "<<coverageFailures<<" coverage failures\n";
     require(physicalEvents==0 && coverageFailures==0,"Held-out healthy qualification failed");
 }
+void planned_unavailable_zero_delivery_is_not_a_new_fault() {
+    Fixture f; f.design.routes[1].available=false; f.design.routes[1].setpoint_m3h=0;
+    ObservationDetector detector("planned-off",policy());
+    for (int t=0;t<40;++t) {
+        auto raw=f.raw(t,80+36.0*t/3600,0,"unavailable"); raw.commands[1].value=0;
+        const auto result=detector.observe(map_volume_state(f.design,f.configuration,raw));
+        require(result.events.empty(),"An intentionally unavailable zero-command route produced a new fault");
+    }
+}
 }
 int main() {
     try {
@@ -189,6 +198,7 @@ int main() {
         channel_variation_bound_does_not_cancel_opposing_transitions();
         unknown_temporal_model_coverage_gaps_and_new_epochs_remain_explicit();
         held_out_two_topology_hour_qualification();
-        std::cout<<"6 observation detector suites passed\n"; return 0;
+        planned_unavailable_zero_delivery_is_not_a_new_fault();
+        std::cout<<"7 observation detector suites passed\n"; return 0;
     } catch (const std::exception& error) { std::cerr<<error.what()<<'\n'; return 1; }
 }

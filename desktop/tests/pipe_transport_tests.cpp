@@ -6,6 +6,7 @@
 #include <QFile>
 #include <QJsonDocument>
 #include <QPointer>
+#include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QTimer>
 #include <QUuid>
@@ -113,6 +114,56 @@ QJsonObject candidateArchive(ProjectController& project, QString& candidateId, Q
 class PipeTransportTests final : public QObject {
     Q_OBJECT
 private slots:
+    void cancellationSuppressesRetentionWhileAnEditedSourceRemainsHistorical() {
+        QTemporaryDir directory; SessionRepository repository(directory.filePath("history.sqlite"));
+        QSignalSpy ready(&repository,&SessionRepository::ready),saved(&repository,&SessionRepository::sessionSaved),read(&repository,&SessionRepository::sessionLoaded);
+        QTRY_COMPARE(ready.size(),1);
+        ProjectController project; QVERIFY(capture(project,"healthy")); project.select("main_pump");
+        PipeTransportController pipe(&project); pipe.setHistoryRepository(&repository);
+        pipe.run(); pipe.cancel(); QTRY_VERIFY(!pipe.busy()); QTest::qWait(100); QVERIFY(saved.isEmpty()); QVERIFY(pipe.result().isEmpty());
+        const auto originalHash=project.networkHash(); pipe.run(); project.select("tank_a"); project.editSelected("capacity","125");
+        QTRY_VERIFY(!pipe.busy()); QTRY_COMPARE(saved.size(),1); QVERIFY(pipe.result().isEmpty()); QVERIFY(project.networkHash()!=originalHash);
+        repository.loadSession(saved.first().first().toString()); QTRY_COMPARE(read.size(),1);
+        const auto archive=read.first().first().value<QJsonObject>();
+        QCOMPARE(archive.value("snapshot").toObject().value("physical_hash"),QJsonValue(originalHash));
+        QVERIFY(archive.value("historical").toBool()); QVERIFY(!archive.value("actionable").toBool()); QVERIFY(!project.canApprove());
+    }
+    void automaticHistoryReopensAndStopsAtItsRecordLimitWithoutDeletingEvidence() {
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        SessionRepository repository(directory.filePath("history.sqlite"));
+        QSignalSpy ready(&repository,&SessionRepository::ready),saved(&repository,&SessionRepository::sessionSaved),
+            inspected(&repository,&SessionRepository::sessionInspected),errors(&repository,&SessionRepository::failed),listed(&repository,&SessionRepository::sessionsListed);
+        QTRY_COMPARE(ready.size(),1);
+        ProjectController project; QVERIFY(capture(project,"healthy")); project.select("main_pump");
+        PipeTransportController pipe(&project); pipe.setHistoryRepository(&repository);
+        pipe.setParameter("cells","4"); pipe.setParameter("output_step_h","3");
+        const auto document=project.document(); const auto revision=project.simulationRevision();
+        pipe.run(); QTRY_VERIFY(!pipe.busy()); QVERIFY(!pipe.result().isEmpty()); QTRY_COMPARE(saved.size(),1);
+        const auto id=pipe.result().value("result_id").toString(); repository.inspectSession(id); QTRY_COMPARE(inspected.size(),1);
+        const auto archive=inspected.first().first().value<QJsonObject>();
+        QString error; QVERIFY2(SessionRepository::validateArchive(archive,&error),qPrintable(error));
+        QCOMPARE(archive.value("archive_version"),QJsonValue(2)); QCOMPARE(archive.value("session_kind"),QJsonValue("pipe_transport"));
+        QCOMPARE(project.document(),document); QCOMPARE(project.simulationRevision(),revision);
+        for (int i=1;i<256;++i) {
+            auto copy=archive; const auto next=QUuid::createUuid().toString(QUuid::WithoutBraces); copy["session_id"]=next;
+            auto envelope=copy.value("evidence_envelopes").toArray().first().toObject(); auto payload=envelope.value("payload").toObject();
+            auto result=payload.value("result").toObject(); result["result_id"]=next; payload["result"]=result;
+            envelope["payload"]=payload; copy["evidence_envelopes"]=QJsonArray{envelope}; repository.saveSession(copy);
+        }
+        QTRY_COMPARE_WITH_TIMEOUT(saved.size(),256,60000); QVERIFY(errors.isEmpty());
+        pipe.run(); QTRY_VERIFY(!pipe.busy()); QTRY_VERIFY_WITH_TIMEOUT(!errors.isEmpty(),15000);
+        QCOMPARE(errors.last().first().toString(),QString("pipe_retention_limit"));
+        QVERIFY(pipe.historyStatus().contains("Manual")); QVERIFY(pipe.exportResult(QUrl::fromLocalFile(directory.filePath("manual.json"))));
+        repository.listSessions(); QTRY_COMPARE(listed.size(),1); QCOMPARE(listed.first().first().value<QJsonArray>().size(),256);
+        SessionRepository reopenedRepository(directory.filePath("history.sqlite"));
+        QSignalSpy reopenedReady(&reopenedRepository,&SessionRepository::ready),loaded(&reopenedRepository,&SessionRepository::sessionLoaded);
+        QTRY_COMPARE(reopenedReady.size(),1); reopenedRepository.loadSession(id); QTRY_COMPARE(loaded.size(),1);
+        const auto reopenedArchive=loaded.first().first().value<QJsonObject>();
+        ProjectController reopened; PipeTransportController historical(&reopened);
+        const auto result=reopenedArchive.value("evidence_envelopes").toArray().first().toObject().value("payload").toObject().value("result").toObject();
+        QVERIFY(historical.showRetainedResult(result.toVariantMap())); QVERIFY(historical.viewingImportedEvidence()); QVERIFY(!historical.canRun());
+        QVERIFY(reopened.capturedRun().isEmpty());
+    }
     void calibrationRejectsMalformedInputWithoutChangingProject() {
         ProjectController project; QVERIFY(capture(project, "mixed")); project.select("truck_route");
         PipeTransportController pipe(&project);

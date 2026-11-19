@@ -261,6 +261,7 @@ Dialog {
                 contentItem: ColumnLayout {
                     spacing: 10
                     Label { text: "INCIDENT EVIDENCE"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
+                    Label { Layout.fillWidth: true; wrapMode: Text.Wrap; text: panel.telemetry.evidenceStorageStatus; color: Theme.muted; font.pixelSize: Theme.captionSize }
                     Label {
                         objectName: "detectionSummary"; Layout.fillWidth: true; wrapMode: Text.Wrap
                         text: "Volume balance · " + panel.statusLabel(panel.telemetry.detection.balance_status || "waiting_for_samples")

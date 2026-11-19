@@ -13,6 +13,7 @@ ColumnLayout {
     required property var storageScience
     readonly property bool scienceVisible: tabs.currentIndex === 3
     readonly property var reviewData: investigator.review || ({})
+    signal openPipeEvidence(var evidence)
     readonly property var comparisonData: history.comparison || ({})
     readonly property bool dialogOpen: keyDialog.visible || reviewDialog.visible || changesDialog.visible
     property bool embedded: false
@@ -314,13 +315,40 @@ ColumnLayout {
                     PlainLabel { anchors.centerIn: parent; width: parent.width - 20; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap; visible: sessionList.count === 0; text: "No saved sessions yet. Investigation evidence and completed scientific comparisons are saved automatically."; color: Theme.muted }
                 }
             }
-            ColumnLayout {
-                Layout.preferredWidth: Math.min(405, panel.width * 0.39); Layout.fillHeight: true; spacing: 8
+            ScrollView {
+                id: selectedEvidenceScroll; objectName: "selectedEvidenceScroll"
+                Layout.preferredWidth: Math.min(405, panel.width * 0.39); Layout.fillHeight: true
+                contentWidth: availableWidth; clip: true
+                ScrollBar.vertical.policy: ScrollBar.AsNeeded
+                ColumnLayout {
+                width: selectedEvidenceScroll.availableWidth; spacing: 8
                 SectionLabel { text: "SELECTED EVIDENCE" }
                 PlainLabel { Layout.fillWidth: true; text: panel.history.selectedSessionId || "No session selected"; wrapMode: Text.WrapAnywhere; font.pixelSize: Theme.captionSize }
                 PlainLabel { Layout.fillWidth: true; text: panel.history.historical ? "Historical and imported sessions are read-only evidence. They cannot apply controls to the current network." : "Current investigation. Select stored runs in Comparison to inspect outcomes."; wrapMode: Text.WordWrap; color: panel.history.historical ? Theme.warning : Theme.secondary }
                 PlainLabel { text: panel.history.runs.length + " stored numerical runs" }
                 PlainLabel { text: panel.history.scientificEvidence.length + " stored scientific results" }
+                Repeater {
+                    model: panel.history.retainedEvidence || []
+                    ColumnLayout {
+                        required property var modelData
+                        Layout.fillWidth: true; spacing: 8
+                        PlainLabel { Layout.fillWidth: true; text: "RETAINED · " + modelData.kind.replace(/_/g," "); wrapMode: Text.Wrap; color: Theme.secondary }
+                        PlainLabel {
+                            Layout.fillWidth: true; wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize; color: Theme.muted
+                            text: modelData.kind === "pipe_transport"
+                                ? modelData.payload.result.route_id + " · " + modelData.payload.result.method_version + "\nSource run " + modelData.payload.result.run_id
+                                : modelData.kind === "observed_origin"
+                                    ? "OBSERVED · as of " + Number(modelData.payload.snapshot.captured_event_time_s).toFixed(2) + " s · expires " + Number(modelData.payload.snapshot.expires_event_time_s).toFixed(2) + " s"
+                                    : modelData.kind.indexOf("observation_") === 0
+                                        ? (modelData.payload.events || []).length + " event records · numerical witness retained · controls unavailable"
+                                        : "Immutable selected-candidate source retained with this scientific result."
+                        }
+                        ActionButton {
+                            objectName: "viewRetainedPipeHistory"; visible: modelData.kind === "pipe_transport"; text: "View retained pipe result"; iconName: "droplets"
+                            onClicked: panel.openPipeEvidence(modelData.payload.result)
+                        }
+                    }
+                }
                 ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: tabs.currentIndex = 3 }
                 RowLayout {
                     ActionButton { iconName: "git-compare-arrows"; text: "Compare runs"; enabled: panel.history.runs.length > 0; onClicked: tabs.currentIndex = 1 }
@@ -329,6 +357,7 @@ ColumnLayout {
                 }
                 PlainLabel { Layout.fillWidth: true; text: "Versioned session JSON includes captured state, stored runs, validation evidence, execution events and any retained scientific results."; wrapMode: Text.WordWrap; font.pixelSize: Theme.captionSize; color: Theme.muted }
                 Item { Layout.fillHeight: true }
+                }
             }
         }
         StorageSciencePanel { scientificWorker: panel.scientificWorker; storageScience: panel.storageScience; history: panel.history }

@@ -42,6 +42,8 @@ public:
     QVariantList scientificEvidence() const;
     QString selectedScientificResultId() const { return scientific_result_; }
     QVariantMap scientificResult() const;
+    Q_PROPERTY(QVariantList retainedEvidence READ retainedEvidence NOTIFY changed)
+    QVariantList retainedEvidence() const { return archive_.value("evidence_envelopes").toArray().toVariantList(); }
     QVariantList scientificTanks() const;
     QString selectedScientificTankId() const { return scientific_tank_; }
     QVariantMap scientificChart() const;

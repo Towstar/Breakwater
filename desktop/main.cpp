@@ -24,6 +24,9 @@
 #include <QJsonDocument>
 #include <QSaveFile>
 #include <limits>
+#include <QSet>
+#include <QUuid>
+#include "history/EvidenceEnvelope.hpp"
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
@@ -215,6 +218,35 @@ int main(int argc, char** argv) {
     const auto historyPath = uiCheckStorage ? uiCheckStorage->filePath("ui-check.sqlite")
         : historyIndex >= 0 && historyIndex + 1 < arguments.size() ? arguments[historyIndex + 1] : QString{};
     breakwater::desktop::history::SessionRepository repository(historyPath);
+    QSet<QString> pendingIncidentHistory;
+    QObject::connect(&repository,&breakwater::desktop::history::SessionRepository::ready,&telemetry,[&] {
+        telemetry.setEvidenceStorageStatus("Incident transitions and bounded updates are saved automatically to History.");
+    });
+    QObject::connect(&repository,&breakwater::desktop::history::SessionRepository::sessionSaved,&telemetry,[&](const QString& id) {
+        if (pendingIncidentHistory.remove(id)) telemetry.setEvidenceStorageStatus("Incident evidence saved to History.");
+    });
+    QObject::connect(&repository,&breakwater::desktop::history::SessionRepository::checkpointFailed,&telemetry,
+        [&](const QString& id,const QString&,const QString& message) {
+            if (pendingIncidentHistory.remove(id)) telemetry.setEvidenceStorageStatus("Incident history error: "+message+" Acquisition remains available.");
+        });
+    QObject::connect(&repository,&breakwater::desktop::history::SessionRepository::failed,&telemetry,
+        [&](const QString& code,const QString& message) {
+            if (code=="storage_unavailable" || code=="storage_corrupt" || code=="unsupported_database_version" || code.startsWith("migration_"))
+                telemetry.setEvidenceStorageStatus("Incident history unavailable: "+message);
+        });
+    QObject::connect(&telemetry,&breakwater::desktop::telemetry::TelemetryController::detectionEvidenceReady,&repository,
+        [&](const QJsonObject& evidence) {
+            const auto id=QUuid::createUuid().toString(QUuid::WithoutBraces); pendingIncidentHistory.insert(id);
+            telemetry.setEvidenceStorageStatus("Saving incident evidence…");
+            repository.enqueueCheckpoint([evidence,id] {
+                const auto context=evidence.value("context").toObject(),capture=evidence.value("snapshot").toObject();
+                const QJsonObject snapshot{{"snapshot_id",capture.value("snapshot_id")},{"physical_hash",context.value("physical_hash")},
+                    {"network",context.value("network")},{"horizon_h",3.0}};
+                const auto kind=evidence.value("evidence_kind").toString();
+                return breakwater::desktop::history::evidence_archive(kind,evidence,snapshot,
+                    kind=="observation_acknowledgement" ? "Observed incident acknowledgement":"Observed incident and pre-assimilation witness",id);
+            },id);
+        });
     bool historyReady = false;
     QObject::connect(&repository, &breakwater::desktop::history::SessionRepository::ready, &app, [&] { historyReady = true; });
     breakwater::desktop::history::HistoryController history(&repository);
@@ -231,6 +263,7 @@ int main(int argc, char** argv) {
     breakwater::desktop::science::PythonWorkerClient scientificWorker;
     breakwater::desktop::science::StorageScienceController storageScience(&controller, &scientificWorker);
     storageScience.setHistoryRepository(&repository);
+    pipeTransport.setHistoryRepository(&repository);
     const bool scienceCheck = arguments.contains("--science-check");
     const bool scienceDerivatives = scienceCheck && arguments.contains("--science-derivatives");
     QStringList scienceControls;

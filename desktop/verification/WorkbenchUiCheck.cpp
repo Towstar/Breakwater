@@ -33,6 +33,9 @@ class Check final : public QObject {
     QElapsedTimer outside_shortcut_setup_;
     bool outside_focus_settled_ = false, outside_escape_sent_ = false;
     QString hash_, run_, feedback_; quint64 revision_ = 0;
+    QString pipe_evidence_id_;
+    QRectF retained_button_rect_;
+    QElapsedTimer retained_viewer_wait_;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
     std::unique_ptr<QTemporaryDir> artifacts_;
     QVariant eval(const QString& source) {
@@ -121,7 +124,9 @@ class Check final : public QObject {
     void tick() {
         try {
             require(window_ && controller_, "ui_destroyed");
-            require(elapsed_.elapsed() < 24000, "ui_check_timeout");
+            // Includes actual native pipe execution, SQL retention/reload and
+            // the compact History-to-viewer action in addition to editor checks.
+            require(elapsed_.elapsed() < 32000, "ui_check_timeout");
             switch (phase_) {
             case 0: {
                 if (!window_->isVisible() || !window_->isExposed() || !window_->property("sceneReady").toBool()) return;
@@ -410,6 +415,55 @@ class Check final : public QObject {
             }
             case 42:
                 require(!window_->property("telemetryVisible").toBool(),"new_monitoring_close_failed");
+                controller_->loadExample("healthy"); controller_->forecast(); break;
+            case 43:
+                if (controller_->busy()) return;
+                require(controller_->canApprove(),"retained_pipe_source_forecast_missing");
+                hash_=controller_->networkHash(); run_=controller_->runId(); revision_=controller_->simulationRevision();
+                controller_->select("main_pump");
+                eval("app.pipeTransport.setParameter('cells','4'); app.pipeTransport.setParameter('output_step_h','3'); app.pipeTransport.run()"); break;
+            case 44:
+                if (eval("app.pipeTransport.busy").toBool() || eval("app.pipeTransport.historyStatus.indexOf('Saving')>=0").toBool()) return;
+                require(eval("app.pipeTransport.historyStatus.indexOf('saved')>=0").toBool(),"native_pipe_was_not_retained");
+                pipe_evidence_id_=eval("app.pipeTransport.result.result_id").toString(); require(!pipe_evidence_id_.isEmpty(),"retained_pipe_id_missing");
+                eval("app.history.loadSession(app.pipeTransport.result.result_id); app.openResults(3)"); break;
+            case 45: {
+                if (eval("app.history.busy").toBool()) return;
+                require(eval("app.history.historical && app.history.retainedEvidence.length===1 && app.history.retainedEvidence[0].kind==='pipe_transport'").toBool(),"retained_pipe_history_did_not_reopen");
+                auto* scroll=item("selectedEvidenceScroll"); auto* flick=scroll->property("contentItem").value<QQuickItem*>();
+                require(flick,"retained_history_scroll_unavailable");
+                auto* button=item("viewRetainedPipeHistory");
+                const auto offset=flick->property("contentY").toDouble()+button->mapToItem(flick,QPointF{}).y()-scroll->height()*0.4;
+                const auto maximum=std::max(0.0,flick->property("contentHeight").toDouble()-flick->height());
+                flick->setProperty("contentY",std::clamp(offset,0.0,maximum)); break;
+            }
+            case 46: {
+                auto* button=item("viewRetainedPipeHistory");
+                auto* flick=item("selectedEvidenceScroll")->property("contentItem").value<QQuickItem*>();
+                require(flick,"retained_history_scroll_unavailable");
+                const auto local=button->mapToItem(flick,QPointF{});
+                if (local.y()<0 || local.y()+button->height()>flick->height()) {
+                    const auto maximum=std::max(0.0,flick->property("contentHeight").toDouble()-flick->height());
+                    flick->setProperty("contentY",std::clamp(flick->property("contentY").toDouble()+local.y()-flick->height()*0.4,0.0,maximum));
+                    retained_button_rect_={}; return;
+                }
+                const QRectF rect(button->mapToScene(QPointF{}),QSizeF(button->width(),button->height()));
+                if (rect!=retained_button_rect_) { retained_button_rect_=rect; return; }
+                observed_["retained_pipe_button"]=QJsonObject{{"x",rect.x()},{"y",rect.y()},{"width",rect.width()},{"height",rect.height()},
+                    {"scroll_y",flick->property("contentY").toDouble()},{"viewport_height",flick->height()}};
+                snapshot("14-retained-pipe-history.png"); retained_viewer_wait_.start(); click(button); break;
+            }
+            case 47:
+                if (!window_->property("pipeTransportVisible").toBool() && retained_viewer_wait_.elapsed()<1000) return;
+                observed_["retained_pipe_open"]=QJsonObject{{"visible",window_->property("pipeTransportVisible").toBool()},
+                    {"imported",eval("app.pipeTransport.viewingImportedEvidence").toBool()},{"status",eval("app.pipeTransport.status").toString()}};
+                require(window_->property("pipeTransportVisible").toBool() && eval("app.pipeTransport.viewingImportedEvidence").toBool(),"retained_pipe_action_did_not_open_viewer");
+                require(eval("app.pipeTransport.result.result_id").toString()==pipe_evidence_id_ && !eval("app.investigator.canApprove").toBool(),"retained_pipe_identity_or_authority_changed");
+                preserved(); snapshot("15-retained-pipe-viewer.png");
+                passed("actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls");
+                click(item("pipeTransportClose")); break;
+            case 48:
+                require(!window_->property("pipeTransportVisible").toBool(),"retained_pipe_viewer_did_not_close");
                 finish(true,"ok"); return;
             default: throw std::runtime_error("invalid_phase");
             }

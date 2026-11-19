@@ -105,7 +105,7 @@ DetectionUpdate ObservationDetector::observe(const MappingResult& mapped) {
             if (!delivered) continue;
             const double error=command->value-*delivered;
             const auto flowBound=flow->bound+policy_.command_tracking_tolerance_m3h;
-            const bool stateOnly=std::abs(error)<=flowBound && (*label=="delivery_loss" || *label=="unavailable");
+            const bool stateOnly=command->value>flowBound && std::abs(error)<=flowBound && (*label=="delivery_loss" || *label=="unavailable");
             auto ids=flow->sensor_ids; ids.insert(ids.end(),feedback->sensor_ids.begin(),feedback->sensor_ids.end());
             observedPumps.insert("pump:"+state.attachment_id);
             condition("pump:"+state.attachment_id,"pump-delivery",state.attachment_id,mapped,stateOnly ? 1.0:error,

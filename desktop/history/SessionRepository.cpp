@@ -1,6 +1,8 @@
 #include "SessionRepository.hpp"
+#include "EvidenceEnvelope.hpp"
 #include "ProjectDocument.hpp"
 #include "science/StorageScienceEvidence.hpp"
+#include "telemetry/TelemetryContracts.hpp"
 
 #include <QDateTime>
 #include <QDir>
@@ -14,6 +16,7 @@
 #include <QSqlQuery>
 #include <QSqlRecord>
 #include <QStandardPaths>
+#include <QStorageInfo>
 #include <QUuid>
 #include <algorithm>
 #include <cmath>
@@ -23,7 +26,7 @@
 
 namespace breakwater::desktop::history {
 namespace {
-constexpr int database_version = 1;
+constexpr int database_version = 2;
 constexpr double maximum_sequence = 9007199254740991.0;
 struct RepositoryError { QString code; QString message; };
 [[noreturn]] void reject(const QString& code, const QString& message) { throw RepositoryError{code, message}; }
@@ -62,10 +65,11 @@ void inspectJson(const QJsonValue& value, int depth = 0) {
 }
 QJsonObject readJson(const QByteArray& bytes, const QString& code) {
     if (bytes.size() > SessionRepository::maximumArchiveBytes) reject(code, "The session archive exceeds 512 MiB.");
-    QJsonParseError error;
-    const auto document = QJsonDocument::fromJson(bytes, &error);
-    if (error.error != QJsonParseError::NoError || !document.isObject()) reject(code, "The session archive is not a valid JSON object.");
-    return document.object();
+    try {
+        // Preserve old UTF-8 BOM acceptance while rejecting duplicate keys,
+        // malformed Unicode, nonfinite values and excessive nesting.
+        return telemetry::decode_document(bytes.startsWith("\xef\xbb\xbf") ? bytes.mid(3):bytes,SessionRepository::maximumArchiveBytes);
+    } catch (const std::exception&) { reject(code,"The archive is not a strict, bounded JSON object."); }
 }
 QJsonObject historical(QJsonObject archive) {
     archive["historical"] = true;
@@ -77,6 +81,11 @@ QJsonObject historical(QJsonObject archive) {
     return archive;
 }
 void unchangedEvidence(const QJsonObject& previous, const QJsonObject& next) {
+    if (previous.value("archive_version")!=next.value("archive_version") || previous.value("session_kind")!=next.value("session_kind") ||
+        previous.value("evidence_envelopes")!=next.value("evidence_envelopes"))
+        reject("checkpoint_conflict","A checkpoint cannot replace its typed evidence or origin.");
+    if (previous.value("archive_version")==2 && previous.value("session_kind")!="observed_origin" && previous!=next)
+        reject("checkpoint_conflict","Completed retained evidence records are immutable.");
     if (previous.value("session_kind") == "scientific" && previous != next)
         reject("checkpoint_conflict", "Completed scientific history records are immutable.");
     if (previous.value("snapshot") != next.value("snapshot") || previous.value("created_at") != next.value("created_at") ||
@@ -107,7 +116,16 @@ void unchangedEvidence(const QJsonObject& previous, const QJsonObject& next) {
 }
 void checkArchive(const QJsonObject& archive) {
     inspectJson(archive);
-    require(finiteNumber(archive, "archive_version") == 1.0, "Unsupported session archive version.");
+    const auto archiveVersion=finiteNumber(archive,"archive_version");
+    require(archiveVersion==1 || archiveVersion==2,"Unsupported session archive version.");
+    if (archiveVersion==1) require(!archive.contains("evidence_envelopes") &&
+        (!archive.contains("session_kind") || archive.value("session_kind")=="scientific"),"V2 evidence cannot silently downgrade into v1.");
+    else {
+        const QSet<QString> allowed{"archive_version","session_id","session_kind","checkpoint_sequence","created_at","updated_at","status","objective",
+            "snapshot","model","runs","events","recommendation","approvals","actionable","current","historical","evidence_envelopes","scientific_evidence","scientific_evidence_version"};
+        for (auto i=archive.begin();i!=archive.end();++i) require(allowed.contains(i.key()),"Unknown v2 archive field.");
+        QString error; require(validate_evidence_envelope(archive,&error),error);
+    }
     const auto session = boundedText(archive, "session_id");
     require(!QUuid::fromString(session).isNull(), "Session IDs must be UUIDs.");
     const auto sequence = finiteNumber(archive, "checkpoint_sequence");
@@ -263,23 +281,42 @@ public:
             QSqlQuery version(database_);
             if (!version.exec("PRAGMA user_version") || !version.next()) reject("storage_corrupt", "The history database header could not be read.");
             const int schema_version = version.value(0).toInt(); version.finish();
-            if (schema_version != 0 && schema_version != database_version) reject("unsupported_database_version", "The session history database uses an unsupported schema version.");
+            if (schema_version < 0 || schema_version > database_version) reject("unsupported_database_version", "The session history database uses an unsupported schema version.");
             if (schema_version == 0) {
                 if (!database_.tables(QSql::Tables).isEmpty()) reject("unsupported_database_version", "An unversioned history database contains an unknown schema.");
                 transaction([&] {
                     execute("CREATE TABLE sessions (session_id TEXT PRIMARY KEY NOT NULL, checkpoint_sequence INTEGER NOT NULL CHECK(checkpoint_sequence > 0), created_at TEXT NOT NULL, updated_at TEXT NOT NULL, status TEXT NOT NULL, objective TEXT NOT NULL, snapshot_id TEXT NOT NULL, physical_hash TEXT NOT NULL, archive BLOB NOT NULL)");
                     execute("CREATE INDEX sessions_status_updated ON sessions(status, updated_at DESC)");
                     execute("CREATE INDEX sessions_updated ON sessions(updated_at DESC)");
-                    execute("PRAGMA user_version = 1");
+                    execute("ALTER TABLE sessions ADD COLUMN archive_version INTEGER NOT NULL DEFAULT 1 CHECK(archive_version IN (1,2))");
+                    execute("ALTER TABLE sessions ADD COLUMN record_kind TEXT NOT NULL DEFAULT 'investigation'");
+                    execute("PRAGMA user_version = 2");
                 });
             }
-            const QStringList expected{"session_id", "checkpoint_sequence", "created_at", "updated_at", "status", "objective", "snapshot_id", "physical_hash", "archive"};
+            QStringList expected{"session_id", "checkpoint_sequence", "created_at", "updated_at", "status", "objective", "snapshot_id", "physical_hash", "archive"};
+            if (schema_version!=1) expected.append({"archive_version","record_kind"});
             QSqlQuery columns(database_);
             if (!columns.exec("PRAGMA table_info(sessions)")) reject("storage_corrupt", "The history schema could not be inspected.");
             QStringList actual;
             while (columns.next()) actual.append(columns.value(1).toString());
             columns.finish();
             if (actual != expected) reject("unsupported_database_version", "The history table has an unknown or incomplete schema.");
+            if (schema_version==1) {
+                // SQLite's online VACUUM snapshot includes committed WAL data.
+                // Keep this sibling backup; migrate only inside a transaction.
+                QStorageInfo storage(QFileInfo(path_).absolutePath());
+                if (storage.isValid() && storage.bytesAvailable()<QFileInfo(path_).size()+8*1024*1024)
+                    reject("migration_space","History needs space for its v1 backup; native calculations remain available.");
+                const auto backup=path_+".v1-backup-"+QUuid::createUuid().toString(QUuid::Id128)+".sqlite";
+                QSqlQuery copy(database_); copy.prepare("VACUUM INTO ?"); copy.addBindValue(backup);
+                if (!copy.exec()) reject("migration_backup","Cannot create a consistent v1 history backup; migration was not attempted.");
+                copy.finish();
+                transaction([&] {
+                    execute("ALTER TABLE sessions ADD COLUMN archive_version INTEGER NOT NULL DEFAULT 1 CHECK(archive_version IN (1,2))");
+                    execute("ALTER TABLE sessions ADD COLUMN record_kind TEXT NOT NULL DEFAULT 'investigation'");
+                    execute("PRAGMA user_version = 2");
+                });
+            }
             execute("PRAGMA synchronous = FULL");
             transaction([&] {
                 QSqlQuery query(database_);
@@ -351,7 +388,7 @@ public:
                 (physicalHash.size() != 64 || std::any_of(physicalHash.cbegin(), physicalHash.cend(), [](QChar c) {
                     return !((c >= '0' && c <= '9') || (c >= 'a' && c <= 'f'));
                 })))) reject("invalid_request", "The history filter is invalid.");
-            query.prepare("SELECT session_id, checkpoint_sequence, created_at, updated_at, status, objective, snapshot_id, physical_hash FROM sessions "
+            query.prepare("SELECT session_id, checkpoint_sequence, created_at, updated_at, status, objective, snapshot_id, physical_hash, archive_version, record_kind FROM sessions "
                 "WHERE (COALESCE(?, '') = '' OR physical_hash = ?) AND (COALESCE(?, '') = '' OR instr(lower(objective || ' ' || session_id || ' ' || status), lower(?)) > 0) "
                 "ORDER BY updated_at DESC, session_id LIMIT 500");
             query.addBindValue(physicalHash); query.addBindValue(physicalHash);
@@ -361,7 +398,8 @@ public:
             QJsonArray rows;
             while (query.next()) rows.append(QJsonObject{{"session_id", query.value(0).toString()}, {"checkpoint_sequence", query.value(1).toLongLong()},
                 {"created_at", query.value(2).toString()}, {"updated_at", query.value(3).toString()}, {"status", query.value(4).toString()},
-                {"objective", query.value(5).toString()}, {"snapshot_id", query.value(6).toString()}, {"physical_hash", query.value(7).toString()}, {"historical", true}});
+                {"objective", query.value(5).toString()}, {"snapshot_id", query.value(6).toString()}, {"physical_hash", query.value(7).toString()},
+                {"archive_version",query.value(8).toInt()},{"session_kind",query.value(9).toString()},{"historical", true}});
             emit sessionsListed(rows); emit operationCompleted("list", {});
         });
     }
@@ -471,14 +509,28 @@ private:
     }
     void write(const QJsonObject& archive, QByteArray bytes = {}) {
         if (bytes.isEmpty()) bytes = serialized(archive);
+        const auto kind=archive.value("session_kind").toString("investigation");
+        if (kind=="pipe_transport") {
+            QSqlQuery existing(database_); existing.prepare("SELECT 1 FROM sessions WHERE session_id=?"); existing.addBindValue(archive.value("session_id").toString());
+            if (!existing.exec()) reject("storage_failed","Cannot inspect pipe retention identity.");
+            const bool known=existing.next(); existing.finish();
+            if (!known) {
+                QSqlQuery budget(database_);
+                if (!budget.exec("SELECT COUNT(*), COALESCE(SUM(length(archive)),0) FROM sessions WHERE record_kind='pipe_transport'") || !budget.next())
+                    reject("storage_failed","Cannot inspect the native pipe retention budget.");
+                if (budget.value(0).toLongLong()>=256 || budget.value(1).toLongLong()+bytes.size()>256LL*1024*1024)
+                    reject("pipe_retention_limit","Automatic pipe retention reached 256 records or 256 MiB. Earlier evidence is retained; manual export remains available.");
+            }
+        }
         const auto snapshot = archive.value("snapshot").toObject();
         QSqlQuery query(database_);
-        query.prepare("INSERT INTO sessions(session_id, checkpoint_sequence, created_at, updated_at, status, objective, snapshot_id, physical_hash, archive) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(session_id) DO UPDATE SET checkpoint_sequence=excluded.checkpoint_sequence, updated_at=excluded.updated_at, status=excluded.status, objective=excluded.objective, snapshot_id=excluded.snapshot_id, physical_hash=excluded.physical_hash, archive=excluded.archive");
+        query.prepare("INSERT INTO sessions(session_id, checkpoint_sequence, created_at, updated_at, status, objective, snapshot_id, physical_hash, archive, archive_version, record_kind) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?) ON CONFLICT(session_id) DO UPDATE SET checkpoint_sequence=excluded.checkpoint_sequence, updated_at=excluded.updated_at, status=excluded.status, objective=excluded.objective, snapshot_id=excluded.snapshot_id, physical_hash=excluded.physical_hash, archive=excluded.archive, archive_version=excluded.archive_version, record_kind=excluded.record_kind");
         query.addBindValue(archive.value("session_id").toString());
         query.addBindValue(static_cast<qint64>(archive.value("checkpoint_sequence").toDouble()));
         query.addBindValue(archive.value("created_at").toString()); query.addBindValue(archive.value("updated_at").toString());
         query.addBindValue(archive.value("status").toString()); query.addBindValue(archive.value("objective").toString());
         query.addBindValue(snapshot.value("snapshot_id").toString()); query.addBindValue(snapshot.value("physical_hash").toString()); query.addBindValue(bytes);
+        query.addBindValue(archive.value("archive_version").toInt()); query.addBindValue(kind);
         if (!query.exec()) reject("storage_failed", "The session checkpoint could not be written.");
     }
 };
