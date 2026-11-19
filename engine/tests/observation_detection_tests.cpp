@@ -24,6 +24,7 @@ struct Fixture {
     void add(std::string id,std::string quantity,std::string attachment,std::string unit) {
         dto::Sensor sensor; sensor.sensor_id=std::move(id); sensor.quantity=std::move(quantity); sensor.unit=std::move(unit);
         sensor.attachment.id=std::move(attachment); sensor.uncertainty_bound=0.0001;
+        sensor.attachment.kind=sensor.quantity=="route_flow" || sensor.quantity=="pump_state" ? "route":"asset";
         configuration.sensors.push_back(std::move(sensor));
     }
     dto::ObservedSnapshot raw(double t,double volume,double delivery=12,const std::string& state="running") const {
@@ -190,6 +191,45 @@ void planned_unavailable_zero_delivery_is_not_a_new_fault() {
         require(result.events.empty(),"An intentionally unavailable zero-command route produced a new fault");
     }
 }
+void dense_valid_sampling_reports_resource_limit_and_recovers_at_lower_rate() {
+    Fixture f; f.design.assets.clear(); f.design.routes.clear(); f.configuration.sensors.clear();
+    f.design.assets.push_back({"out","Outlet",AssetKind::treatment,10000});
+    for (int i=0;i<32;++i) {
+        const auto suffix=std::to_string(i),tank="tank-"+suffix,well="well-"+suffix,pump="pump-"+suffix;
+        f.design.assets.push_back({tank,tank,AssetKind::tank,10000,80});
+        f.design.assets.push_back({well,well,AssetKind::source,0,0,36,0,36});
+        f.design.routes.push_back({"feed-"+suffix,well,tank,100,36,false,true});
+        f.design.routes.push_back({pump,tank,"out",100,12,true,true});
+        f.add("v-"+suffix,"inventory",tank,"m3"); f.add("s-"+suffix,"source_flow",well,"m3/h");
+        f.add("q-"+suffix,"route_flow",pump,"m3/h"); f.add("p-"+suffix,"pump_state",pump,"state");
+    }
+    require(inspect_network(f.design).empty(),"Dense resource fixture is not a valid native network");
+    // 128 instruments at 6 Hz = 768 readings/s, below the ingress limit.
+    for (auto& sensor:f.configuration.sensors) sensor.expected_period_s=1.0/6;
+    ObservationDetector detector("resource",policy()); std::uint64_t sequence=0; DetectionUpdate update;
+    const auto sample=[&](double t) {
+        dto::ObservedSnapshot s; s.snapshot_id="dense-"+std::to_string(++sequence); s.physical_hash="design"; s.configuration_hash="configuration";
+        s.stream_id="dense"; s.epoch_id="one"; s.mode="synthetic_live"; s.captured_event_time_s=t;
+        for (const auto& c:control_catalog(f.design)) s.commands.push_back({c.id,c.value});
+        for (const auto& sensor:f.configuration.sensors) {
+            dto::Sample value; value.sensor_id=sensor.sensor_id; value.frame_sequence=sequence;
+            value.event_time_s=value.acquisition_start_s=value.acquisition_end_s=t;
+            value.reported_quality=value.receiver_status="good"; value.canonical_unit=value.original_unit=sensor.unit;
+            if (sensor.quantity=="inventory") value.canonical_value=80+24*t/3600;
+            else if (sensor.quantity=="source_flow") value.canonical_value=36.0;
+            else if (sensor.quantity=="route_flow") value.canonical_value=12.0;
+            else value.canonical_value=std::string("running");
+            value.original_value=value.canonical_value; s.samples.push_back(value);
+        }
+        auto result=detector.observe(map_volume_state(f.design,f.configuration,s));
+        require(result.window_point_count<=4096 && result.window_scalar_count<=32768,"Detector exceeded its retained numeric window budget");
+        require(result.events.empty(),"Resource exhaustion became a physical fault"); return result;
+    };
+    for (int i=0;i<=240;++i) update=sample(i/6.0);
+    require(update.balance_status=="window_resource_limit" && update.observed_window_s<30,"Dense input pretended to be ready or warm forever");
+    for (int t=41;t<=80;++t) update=sample(t);
+    require(update.balance_status=="available" && update.observed_window_s>=30,"Lower supported sampling rate did not recover a complete window");
+}
 }
 int main() {
     try {
@@ -199,6 +239,7 @@ int main() {
         unknown_temporal_model_coverage_gaps_and_new_epochs_remain_explicit();
         held_out_two_topology_hour_qualification();
         planned_unavailable_zero_delivery_is_not_a_new_fault();
-        std::cout<<"7 observation detector suites passed\n"; return 0;
+        dense_valid_sampling_reports_resource_limit_and_recovers_at_lower_rate();
+        std::cout<<"8 observation detector suites passed\n"; return 0;
     } catch (const std::exception& error) { std::cerr<<error.what()<<'\n'; return 1; }
 }

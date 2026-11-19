@@ -271,6 +271,9 @@ public:
             stream_.advance(event, received);
             const auto serial = source_serial_->load();
             const auto capture = stream_.captureObserved(registry, commands, revision, request);
+            auto diagnostics=capture.diagnostics; auto detector=monitor_.report(); detector.remove("events");
+            if (!monitor_error_.isEmpty()) detector["error"]=monitor_error_;
+            validate_detector_capture(detector,capture.document); diagnostics["detector"]=detector;
             QJsonArray events;
             for (const auto& value:monitor_.report().value("events").toArray()) {
                 const auto e=value.toObject(); bool matching=e.value("updated_event_time_s").toDouble()>-1 && e.value("updated_event_time_s").toDouble()<=event;
@@ -278,7 +281,7 @@ public:
                     matching=matching && e.value(QLatin1String(field))==capture.document.value(QLatin1String(field));
                 if (matching) events.append(e);
             }
-            emit observedCaptured(request, capture.document, capture.context, capture.diagnostics, capture.effective_network, events, requestGeneration, serial);
+            emit observedCaptured(request, capture.document, capture.context, diagnostics, capture.effective_network, events, requestGeneration, serial);
         } catch (const std::exception&) {
             emit observedRejected(request, requestGeneration, "capture_unavailable", "The observed capture context, epoch or bounded evidence is unavailable.");
         }

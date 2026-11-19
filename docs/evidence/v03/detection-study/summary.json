@@ -1,0 +1,31 @@
+{
+  "qualification_version": 1,
+  "detector_version": "bounded-volume-monitor-0.1.1",
+  "topologies": 2,
+  "seeds_per_topology": 10,
+  "seed_range": [2001,2010],
+  "uncertainty_scales": [1,10],
+  "cases": 400,
+  "captures": 480400,
+  "healthy_and_skew_hours": 80,
+  "target_failures": 0,
+  "false_native_activations_in_no_alert_cases": 0,
+  "coverage_classification_mismatches": 0,
+  "healthy_absolute_bound_checks": 1296360,
+  "healthy_absolute_bound_misses": 0,
+  "passed": true,
+  "presets": [
+    {"preset":"healthy","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":0,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"clock_skew","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":0,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"pump_loss","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":2,"native_worst_observable_latency_s":2,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":0,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":0},
+    {"preset":"unmetered_loss","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":12,"native_worst_observable_latency_s":3,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":13,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":14},
+    {"preset":"marginal_loss","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":30,"native_worst_observable_latency_s":3,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":31,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":30},
+    {"preset":"small_loss","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":0,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"drift","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":25,"native_worst_observable_latency_s":3,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":27,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":26},
+    {"preset":"stuck","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":13,"native_worst_observable_latency_s":3,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":14,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":15},
+    {"preset":"missing","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":4760,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"delayed","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":4760,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null}
+  ],
+  "baseline_parameters": {"ewma_lambda":0.2,"ewma_absolute_limit":1,"cusum_k":0.5,"cusum_h":5,"normalization":"declared absolute bound, not standard deviation"},
+  "scope":"Independent synthetic affine/step instruments at 1 Hz; correlated overlapping windows. No field accuracy, ARL probabilities, robust forecast guarantee or comparative model claim. Small faults below the declared bound remain explicitly unobservable."
+}

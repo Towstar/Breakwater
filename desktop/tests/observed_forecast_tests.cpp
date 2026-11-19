@@ -2,6 +2,7 @@
 #include "agent/ObservedInvestigationController.hpp"
 #include "history/SessionRecorder.hpp"
 #include "history/EvidenceEnvelope.hpp"
+#include "telemetry/ObservationMonitor.hpp"
 #include <QSignalSpy>
 #include <QFileInfo>
 #include <QTemporaryDir>
@@ -52,6 +53,7 @@ private slots:
         const auto capture=f.stream.captureObserved(f.context,f.commands,7,"renamed-capture");
         const auto g=SimulationGateway::fromObservation(capture,0.1); QVERIFY(g->advisoryOnly()); QVERIFY(g->observationsAvailable());
         const auto observations=g->execute("get_observations",{}); QCOMPARE(observations.value("observed_snapshot").toObject(),capture.document);
+        QCOMPARE(g->execute("get_detection_events",{}).value("detector").toObject().value("balance_status"),QJsonValue("not_captured"));
         const auto run=g->execute("forecast_baseline",{{"snapshot_id",g->snapshotId()}}).value("run").toObject();
         QVERIFY(!run.isEmpty()); QCOMPARE(run.value("tanks").toArray().first().toObject().value("initial_m3"),QJsonValue(91.25));
         QVERIFY(g->physicalHash()!=physics_hash(f.project)); QCOMPARE(project_json(f.project),original);
@@ -112,6 +114,23 @@ private slots:
         bounds[0]=row; capture.diagnostics["bounds"]=bounds;
         QVERIFY_THROWS_EXCEPTION(std::invalid_argument,SimulationGateway::fromObservation(capture));
     }
+    void detectorCoverageIsFrozenAndRejectsFutureForeignOrUnsupportedReports() {
+        Fixture f; f.begin(); auto capture=f.stream.captureObserved(f.context,f.commands,0,"coverage-report");
+        breakwater::desktop::telemetry::ObservationMonitor monitor; monitor.observe(capture);
+        auto report=monitor.report(); report.remove("events"); capture.diagnostics["detector"]=report;
+        const auto gateway=SimulationGateway::fromObservation(capture);
+        QCOMPARE(gateway->execute("get_detection_events",{}).value("detector").toObject(),report);
+        QCOMPARE(report.value("balance_status"),QJsonValue("temporal_model_unavailable"));
+        for (const auto& change:QList<QPair<QString,QJsonValue>>{{"as_of_s",101},{"stream_id","foreign"},{"window_scalars",32769},
+                {"window_points",4097},{"detector_version","unregistered"},{"mode","replay"}}) {
+            auto altered=capture; auto bad=report; bad[change.first]=change.second; altered.diagnostics["detector"]=bad;
+            QVERIFY_THROWS_EXCEPTION(std::invalid_argument,SimulationGateway::fromObservation(altered));
+            auto origin=gateway->observedOrigin(); auto mapping=origin.value("mapping").toObject(); mapping["detector"]=bad; origin["mapping"]=mapping;
+            const auto archive=evidence_archive("observed_origin",origin,gateway->snapshot(),"Invalid frozen coverage fixture");
+            QVERIFY(!SessionRepository::validateArchive(archive));
+        }
+        capture.diagnostics["detector"]="invalid"; QVERIFY_THROWS_EXCEPTION(std::invalid_argument,SimulationGateway::fromObservation(capture));
+    }
     void slowHistoryCoalescesIntermediateCheckpointsAndRetainsCompleteEvidence() {
         Fixture f; f.begin(); const auto capture=f.stream.captureObserved(f.context,f.commands,0,"slow-history");
         const auto g=SimulationGateway::fromObservation(capture);
@@ -171,6 +190,9 @@ private slots:
         QTRY_VERIFY_WITH_TIMEOUT(monitor.counters().value("readings_received").toInt()>=10,15000);
         monitor.pause(); QTRY_VERIFY(monitor.paused()); QSignalSpy captured(&monitor,&breakwater::desktop::telemetry::TelemetryController::observedCaptureReady);
         monitor.requestObservedCapture(); QTRY_COMPARE(captured.size(),1); QCOMPARE(monitor.observedCaptureDisposition(),QString("available"));
+        const auto coverage=monitor.capturedObservation()->diagnostics.value("detector").toObject();
+        QCOMPARE(coverage.value("balance_status"),QJsonValue("temporal_model_unavailable"));
+        QVERIFY(coverage.value("as_of_s").toDouble()<=monitor.capturedObservation()->document.value("captured_event_time_s").toDouble());
         QTemporaryDir directory; SessionRepository repository(directory.filePath("observed.sqlite")); HistoryController history(&repository);
         Model unused; ObservedInvestigationController investigation(&project,&monitor,&unused); investigation.setHistory(&repository,&history);
         investigation.searchLocally(); QTRY_VERIFY_WITH_TIMEOUT(!investigation.running(),20000); QTRY_VERIFY_WITH_TIMEOUT(investigation.canAcknowledge(),15000);
@@ -204,8 +226,10 @@ private slots:
         monitor.startProcess(QStringLiteral(BREAKWATER_TEST_PYTHON),{"-B",QStringLiteral(BREAKWATER_SOURCE_DIR "/science/telemetry_publisher.py"),
             "--preset","pump_loss","--seed","72","--onset-s","0.1","--recovery-s","100"});
         QTRY_VERIFY_WITH_TIMEOUT(!monitor.detection().value("events").toList().isEmpty(),15000);
-        monitor.pause(); QTRY_VERIFY(monitor.paused()); QSignalSpy captured(&monitor,&breakwater::desktop::telemetry::TelemetryController::observedCaptureReady);
-        monitor.requestObservedCapture(); QTRY_COMPARE(captured.size(),1); const auto source=monitor.capturedObservation(); QVERIFY(source);
+        // This fixture configures a 20-second lifecycle deadline. A checked
+        // worker can drain slower than QTest's unrelated five-second default.
+        monitor.pause(); QTRY_VERIFY_WITH_TIMEOUT(monitor.paused(),20000); QSignalSpy captured(&monitor,&breakwater::desktop::telemetry::TelemetryController::observedCaptureReady);
+        monitor.requestObservedCapture(); QTRY_COMPARE_WITH_TIMEOUT(captured.size(),1,20000); const auto source=monitor.capturedObservation(); QVERIFY(source);
         QVERIFY(!source->detection_events.isEmpty()); const auto events=source->detection_events;
         for (const auto& row:events) QVERIFY(row.toObject().value("updated_event_time_s").toDouble()<=source->document.value("captured_event_time_s").toDouble());
         auto future=*source; auto event=events.first().toObject(); event["updated_event_time_s"]=source->document.value("captured_event_time_s").toDouble()+1;
@@ -214,17 +238,25 @@ private slots:
         investigation.searchLocally(); QTRY_VERIFY_WITH_TIMEOUT(!investigation.running(),20000); QVERIFY2(investigation.canAcknowledge(),qPrintable(investigation.status()));
         QVERIFY(investigation.review().value("measurements").toList().size()>=10); QVERIFY(!investigation.canApprove());
         const auto recommendation=investigation.recommendation(); const auto runs=investigation.runs();
-        monitor.setRate(4); QTRY_COMPARE(monitor.rate(),4.0); monitor.resume(); QTRY_VERIFY(!monitor.paused());
+        // Exercise expiry at the acquisition's real-time rate. Lifecycle rate
+        // changes have their own tests; accelerated input can outrun an ASan
+        // receiver and correctly leave the subsequent capture unavailable.
+        monitor.resume(); QTRY_VERIFY_WITH_TIMEOUT(!monitor.paused(),20000);
         QTRY_COMPARE_WITH_TIMEOUT(monitor.observedCaptureDisposition(),QString("expired"),10000);
         QVERIFY(!investigation.canAcknowledge()); QVERIFY(!investigation.acknowledgePlan());
         QCOMPARE(investigation.recommendation(),recommendation); QCOMPARE(investigation.runs(),runs); QCOMPARE(source->detection_events,events);
         QCOMPARE(project.editorDocument(),document); QVERIFY(project.capturedRun().isEmpty());
-        monitor.pause(); QTRY_VERIFY(monitor.paused()); monitor.requestObservedCapture(); QTRY_COMPARE(captured.size(),2);
+        monitor.pause(); QTRY_VERIFY_WITH_TIMEOUT(monitor.paused(),20000); monitor.requestObservedCapture(); QTRY_COMPARE_WITH_TIMEOUT(captured.size(),2,20000);
+        QCOMPARE(monitor.observedCaptureDisposition(),QString("available"));
         QVERIFY(!investigation.canAcknowledge());
-        investigation.searchLocally(); QTRY_VERIFY_WITH_TIMEOUT(!investigation.running(),20000); QVERIFY(investigation.canAcknowledge());
+        investigation.searchLocally(); QTRY_VERIFY_WITH_TIMEOUT(!investigation.running(),20000);
+        QVERIFY2(investigation.canAcknowledge(),qPrintable(QString::fromUtf8(QJsonDocument(QJsonObject{
+            {"status",investigation.status()},{"capture_disposition",monitor.observedCaptureDisposition()},
+            {"capture",QJsonObject::fromVariantMap(monitor.observedCaptureDiagnostics())},
+            {"events",QJsonArray::fromVariantList(investigation.events())}}).toJson(QJsonDocument::Compact))));
         project.select("tank_a"); project.editSelected("capacity","121");
         QVERIFY(!investigation.canAcknowledge()); QVERIFY(!investigation.acknowledgePlan());
-        monitor.stop(); QTRY_VERIFY(!monitor.active()); QCOMPARE(unused.requests,0);
+        monitor.stop(); QTRY_VERIFY_WITH_TIMEOUT(!monitor.active(),20000); QCOMPARE(unused.requests,0);
     }
 };
 QTEST_GUILESS_MAIN(ObservedForecastTests)

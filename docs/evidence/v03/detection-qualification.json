@@ -1,0 +1,264 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "afc5ed6e43bafa5a1bef36866b2aa29b2f4f58c2",
+  "recorded_utc": "2026-11-19T07:08:44.819370+00:00",
+  "method": "bounded-volume-monitor-0.1.1",
+  "threshold_version": "absolute-bounds-0.1.0",
+  "checks": {
+    "normal": {
+      "observed_forecast": {
+        "passed": 12,
+        "failed": 0,
+        "skipped": 0
+      },
+      "evidence_v2": {
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0
+      },
+      "observed_ui_window_sizes_passed": 4,
+      "native_detector_suites_passed": 8
+    },
+    "asan": {
+      "observed_forecast": {
+        "passed": 12,
+        "failed": 0,
+        "skipped": 0
+      },
+      "evidence_v2": {
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0
+      },
+      "observed_ui_window_sizes_passed": 4,
+      "native_detector_suites_passed": 8
+    }
+  },
+  "study": {
+    "qualification_version": 1,
+    "detector_version": "bounded-volume-monitor-0.1.1",
+    "topologies": 2,
+    "seeds_per_topology": 10,
+    "seed_range": [
+      2001,
+      2010
+    ],
+    "uncertainty_scales": [
+      1,
+      10
+    ],
+    "cases": 400,
+    "captures": 480400,
+    "healthy_and_skew_hours": 80,
+    "target_failures": 0,
+    "false_native_activations_in_no_alert_cases": 0,
+    "coverage_classification_mismatches": 0,
+    "healthy_absolute_bound_checks": 1296360,
+    "healthy_absolute_bound_misses": 0,
+    "passed": true,
+    "presets": [
+      {
+        "preset": "healthy",
+        "cases": 40,
+        "observable_cases": 0,
+        "native_detected_cases": 0,
+        "native_worst_physical_latency_s": null,
+        "native_worst_observable_latency_s": null,
+        "coverage_unavailable_captures": 0,
+        "ewma_alarm_cases": 0,
+        "ewma_worst_physical_latency_s": null,
+        "cusum_alarm_cases": 0,
+        "cusum_worst_physical_latency_s": null
+      },
+      {
+        "preset": "clock_skew",
+        "cases": 40,
+        "observable_cases": 0,
+        "native_detected_cases": 0,
+        "native_worst_physical_latency_s": null,
+        "native_worst_observable_latency_s": null,
+        "coverage_unavailable_captures": 0,
+        "ewma_alarm_cases": 0,
+        "ewma_worst_physical_latency_s": null,
+        "cusum_alarm_cases": 0,
+        "cusum_worst_physical_latency_s": null
+      },
+      {
+        "preset": "pump_loss",
+        "cases": 40,
+        "observable_cases": 40,
+        "native_detected_cases": 40,
+        "native_worst_physical_latency_s": 2,
+        "native_worst_observable_latency_s": 2,
+        "coverage_unavailable_captures": 0,
+        "ewma_alarm_cases": 40,
+        "ewma_worst_physical_latency_s": 0,
+        "cusum_alarm_cases": 40,
+        "cusum_worst_physical_latency_s": 0
+      },
+      {
+        "preset": "unmetered_loss",
+        "cases": 40,
+        "observable_cases": 40,
+        "native_detected_cases": 40,
+        "native_worst_physical_latency_s": 12,
+        "native_worst_observable_latency_s": 3,
+        "coverage_unavailable_captures": 0,
+        "ewma_alarm_cases": 40,
+        "ewma_worst_physical_latency_s": 13,
+        "cusum_alarm_cases": 40,
+        "cusum_worst_physical_latency_s": 14
+      },
+      {
+        "preset": "marginal_loss",
+        "cases": 40,
+        "observable_cases": 40,
+        "native_detected_cases": 40,
+        "native_worst_physical_latency_s": 30,
+        "native_worst_observable_latency_s": 3,
+        "coverage_unavailable_captures": 0,
+        "ewma_alarm_cases": 40,
+        "ewma_worst_physical_latency_s": 31,
+        "cusum_alarm_cases": 40,
+        "cusum_worst_physical_latency_s": 30
+      },
+      {
+        "preset": "small_loss",
+        "cases": 40,
+        "observable_cases": 0,
+        "native_detected_cases": 0,
+        "native_worst_physical_latency_s": null,
+        "native_worst_observable_latency_s": null,
+        "coverage_unavailable_captures": 0,
+        "ewma_alarm_cases": 0,
+        "ewma_worst_physical_latency_s": null,
+        "cusum_alarm_cases": 0,
+        "cusum_worst_physical_latency_s": null
+      },
+      {
+        "preset": "drift",
+        "cases": 40,
+        "observable_cases": 40,
+        "native_detected_cases": 40,
+        "native_worst_physical_latency_s": 25,
+        "native_worst_observable_latency_s": 3,
+        "coverage_unavailable_captures": 0,
+        "ewma_alarm_cases": 40,
+        "ewma_worst_physical_latency_s": 27,
+        "cusum_alarm_cases": 40,
+        "cusum_worst_physical_latency_s": 26
+      },
+      {
+        "preset": "stuck",
+        "cases": 40,
+        "observable_cases": 40,
+        "native_detected_cases": 40,
+        "native_worst_physical_latency_s": 13,
+        "native_worst_observable_latency_s": 3,
+        "coverage_unavailable_captures": 0,
+        "ewma_alarm_cases": 40,
+        "ewma_worst_physical_latency_s": 14,
+        "cusum_alarm_cases": 40,
+        "cusum_worst_physical_latency_s": 15
+      },
+      {
+        "preset": "missing",
+        "cases": 40,
+        "observable_cases": 0,
+        "native_detected_cases": 0,
+        "native_worst_physical_latency_s": null,
+        "native_worst_observable_latency_s": null,
+        "coverage_unavailable_captures": 4760,
+        "ewma_alarm_cases": 0,
+        "ewma_worst_physical_latency_s": null,
+        "cusum_alarm_cases": 0,
+        "cusum_worst_physical_latency_s": null
+      },
+      {
+        "preset": "delayed",
+        "cases": 40,
+        "observable_cases": 0,
+        "native_detected_cases": 0,
+        "native_worst_physical_latency_s": null,
+        "native_worst_observable_latency_s": null,
+        "coverage_unavailable_captures": 4760,
+        "ewma_alarm_cases": 0,
+        "ewma_worst_physical_latency_s": null,
+        "cusum_alarm_cases": 0,
+        "cusum_worst_physical_latency_s": null
+      }
+    ],
+    "baseline_parameters": {
+      "ewma_lambda": 0.2,
+      "ewma_absolute_limit": 1,
+      "cusum_k": 0.5,
+      "cusum_h": 5,
+      "normalization": "declared absolute bound, not standard deviation"
+    },
+    "scope": "Independent synthetic affine/step instruments at 1 Hz; correlated overlapping windows. No field accuracy, ARL probabilities, robust forecast guarantee or comparative model claim. Small faults below the declared bound remain explicitly unobservable."
+  },
+  "normal_asan_export_bytes_identical": true,
+  "raw_export_sha256": {
+    "summary.json": "90cb2b7f3b81be3e797f1384500a7d76d4470581ecd3b0bd0f880f1789f12e43",
+    "cases.csv": "ed2a3fec9fc34a66baaabd7c88f9163a0ac7faa8371c58b097595e15704f17c8"
+  },
+  "retained_lf_sha256": {
+    "summary.json": "79a15ce6d326df2b50219411d7053a9ac75626747c79525dcf2658697f1dcde2",
+    "cases.csv": "ecacfdada00cb1352b8c4ee06c581063a3ac690b7d35b59b0569975000489a51"
+  },
+  "source_sha256": {
+    "desktop/agent/AgentOrchestrator.cpp": "9ce8054f2cec174fdd77b164029550ddd49986adb343d75fb14f600f0011cabe",
+    "desktop/agent/SimulationGateway.cpp": "bde0254f197b23142dd01a944d3335e46602e9e60d459ebfc2804087d56ff083",
+    "desktop/history/EvidenceEnvelope.cpp": "de008eb2c7b7e813b15d4dfd3dd280c71c855467a5d62701dc30f3f1b6da08a6",
+    "desktop/telemetry/ObservationMonitor.cpp": "17e967a697eda87251956bf9b482612b2ba1772cbd8a192a1dca5a8a47aa86db",
+    "desktop/telemetry/ObservationMonitor.hpp": "bbd5a56264a0d3095b937e135a50798d19cdfdfd39bdb693f23d6385bae706c7",
+    "desktop/telemetry/TelemetryController.cpp": "f3c4ffa59b61092a86d070e3125025af47c86d8588e4e6d2794a2c4b64ee8ec7",
+    "desktop/tests/observed_forecast_tests.cpp": "0247d200c1d2a5e1bdadfd50f819f102a30c27c7562a453a3ef231935dc79ed9",
+    "engine/CMakeLists.txt": "3ca0b5708a43f28b193f51aedcf7fe142e561c78883645955988e10c5588c378",
+    "engine/include/breakwater/observation_detection.hpp": "619b5417605dacfb8eb075158db0c1bbc7832d55ae4c19a044260c2b7cd22d70",
+    "engine/src/observation_detection.cpp": "da4c4cff93dd195d7257c904c078a72fc5eaf79211647298c32fa5709df782fb",
+    "engine/tests/observation_detection_tests.cpp": "0763ae77c1169e40d76ba9d6eacba492b19087a3d1dbc7ee2653a2614acb0ead",
+    "engine/examples/observation_qualification.cpp": "603a3de3dd9c90703f987711278cd359b9194264510963ea4bb43180f3398e89"
+  },
+  "ui_binaries_before_next_visual_increment": {
+    "normal": "79443533878da1b34e57986aa38689d1449b1637aeb3af5614f4c25886daec84",
+    "asan": "4392783c03fb761d350942af7d90d7b3087ddffcdc15352c724a7d0681cd4f1e"
+  },
+  "primary_logs": [
+    "out/v03/test-resource-qualification-initial.log",
+    "out/v03/detection-study-final-normal.log",
+    "out/v03/detection-study-final-asan.log",
+    "out/v03/test-detector-real-time-normal-and-labels.log",
+    "out/v03/test-detector-expiry-real-time-asan.log",
+    "out/v03/test-detector-final-normal.log",
+    "out/v03/test-detector-final-asan.log",
+    "out/v03/test-detector-ui-normal.log",
+    "out/v03/test-detector-ui-asan.log"
+  ],
+  "failed_attempts": [
+    "Initial ASan study hit the original 180-second CTest limit. The full study now has a bounded 900-second test allowance; numerical cases, thresholds and latency/clearing gates are unchanged. The final full exporter passes in both modes.",
+    "The initial ASan expiry fixture exceeded QTest's default five-second pause wait (6.7 seconds reported), despite configuring a 20-second lifecycle deadline. The fixture wait now matches that existing deadline; production timeouts are unchanged.",
+    "A subsequent 4x-input ASan reacquisition check denied advisory review. An isolated diagnostic case and full diagnostic rerun passed; no deterministic production defect was established. Final expiry testing uses real-time acquisition and explicitly requires a fresh available capture. Accelerated checked-build throughput is not qualified.",
+    "A direct diagnostic executable launch lacked the Qt runtime PATH and exited -1073741515 before any test ran. The corrected launch adds the pinned Qt bin path. CTest already supplies this path."
+  ],
+  "failed_logs": [
+    "out/v03/test-detection-qualification-asan.log",
+    "out/v03/test-detector-final-asan.log",
+    "out/v03/build-detector-expiry-diagnostic.log"
+  ],
+  "diagnostic_logs": [
+    "out/v03/detector-expiry-diagnostic.txt",
+    "out/v03/test-detector-expiry-full-diagnostic.log"
+  ],
+  "ui_scope": "Four window sizes at the current Windows DPR 1.75, using D3D11/WARP. These are the source-capture UI before the next separate visual increment, not four Windows scaling percentages.",
+  "self_review": "Checked calibration/measurement bounds and independent reference formulas, physical versus observable onset, explicit no-alert gates, temporal-model assumptions, pump command separation, resource scalar accounting/recovery, frozen source/time/method validation, old direct captures and nonactionable imports. Offline EWMA/CUSUM are descriptive comparators only. Not a formal owner review.",
+  "not_claimed": [
+    "Field accuracy or root-cause diagnosis",
+    "Robust forecast feasibility",
+    "Chemical sensor mapping",
+    "New hosted model results",
+    "Acceleration throughput qualification",
+    "Real Windows scaling or clean-VM acceptance",
+    "Public release or licensing consent"
+  ]
+}

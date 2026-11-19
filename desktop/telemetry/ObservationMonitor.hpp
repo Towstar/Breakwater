@@ -4,6 +4,8 @@
 #include <memory>
 
 namespace breakwater::desktop::telemetry {
+// Local retained diagnostic, separate from the unchanged G1 event/snapshot DTOs.
+void validate_detector_capture(const QJsonObject& report,const QJsonObject& snapshot);
 // Worker-thread only. No timers, database writes, model calls or control writes.
 class ObservationMonitor final {
 public:

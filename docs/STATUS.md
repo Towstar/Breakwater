@@ -60,6 +60,14 @@ history worker now coalesces intermediate checkpoints while preserving all final
 events and run evidence. Six backend suites and eight actual UI checks pass in
 both normal and ASan. See [observed workflow](OBSERVED_FORECAST.md) and
 [its executed evidence](evidence/v03/observed-forecast.json).
+The follow-up [observation qualification](OBSERVATION_QUALIFICATION.md) covers
+400 independent synthetic cases and 480,400 captures. Normal and ASan summaries
+and all case rows are byte-identical. All 200 observable cases meet the declared
+activation/clearing gates; 80 healthy/skew hours have no physical alerts, and
+missing/delayed/sub-bound cases retain explicit limits. Frozen detector coverage
+now accompanies model tools and observed history. Dense sampling reports a
+bounded-window resource limit instead of indefinite warmup. See
+[qualification evidence](evidence/v03/detection-qualification.json).
 Final qualification remains pending. These are local
 synthetic capabilities, not operational-monitoring claims.
 

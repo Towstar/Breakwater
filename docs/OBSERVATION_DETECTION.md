@@ -1,6 +1,6 @@
 # Bounded local volume detection
 
-`bounded-volume-monitor-0.1.0` runs on the acquisition worker. It consumes mapped
+`bounded-volume-monitor-0.1.1` runs on the acquisition worker. It consumes mapped
 measurements and a separate frozen command catalog. It does not consume the
 publisher's preset, seed, hidden fault truth or numerical future state.
 
@@ -43,3 +43,9 @@ topologies, ten held-out seeds per topology and one hour per seed. It reports
 physical event updates and missing coverage separately. Analytical fault/recovery,
 transition and debounce cases supplement the healthy study. This synthetic
 qualification does not establish field detection accuracy.
+
+The follow-up [400-case qualification](OBSERVATION_QUALIFICATION.md) records
+physical and observable onset, uncertainty coverage, clearing and offline
+EWMA/CUSUM comparisons. Captures now retain the detector's window/coverage
+context alongside events. Dense input that cannot fit a complete window reports
+`window_resource_limit`; empty events alone do not establish plant health.

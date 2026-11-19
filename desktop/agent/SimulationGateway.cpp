@@ -5,6 +5,7 @@
 #include "telemetry/TelemetryStream.hpp"
 #include "telemetry/ObservedMapping.hpp"
 #include "telemetry/TelemetryContracts.hpp"
+#include "telemetry/ObservationMonitor.hpp"
 
 #include <QDateTime>
 #include <QJsonDocument>
@@ -83,6 +84,9 @@ SimulationGateway::SimulationGateway(const Network& network, const QString& phys
 
 std::shared_ptr<SimulationGateway> SimulationGateway::fromObservation(const telemetry::ObservedEvidence& evidence,double horizon) {
     const auto& events=evidence.detection_events;
+    if (evidence.diagnostics.contains("detector") && !evidence.diagnostics.value("detector").isObject())
+        throw std::invalid_argument("Frozen detector coverage must be an object.");
+    telemetry::validate_detector_capture(evidence.diagnostics.value("detector").toObject(),evidence.document);
     const auto mapped=telemetry::map_volume_capture(evidence.document,evidence.context,evidence.diagnostics.value("source_available").toBool());
     if (mapped.document!=evidence.document || mapped.effective_network!=evidence.effective_network ||
         mapped.diagnostics.value("mapper_version")!=evidence.diagnostics.value("mapper_version") || events.size()>256)
@@ -307,8 +311,12 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
         if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed; start a new investigation.");
         if (advisoryOnly() && (name=="get_observations" || name=="get_detection_events")) {
             keys(args,{},{});
-            if (name=="get_detection_events") return {{"ok",true},{"snapshot_id",snapshot_id_},{"events",observed_origin_.value("events")},
-                {"scope","Frozen bounded symptom evidence. Acknowledgement is separate from clearing; no mechanical root cause is established."}};
+            if (name=="get_detection_events") {
+                auto detector=observed_origin_.value("mapping").toObject().value("detector").toObject();
+                if (detector.isEmpty()) detector={{"balance_status","not_captured"},{"temporal_model","unavailable"},{"actionable",false}};
+                return {{"ok",true},{"snapshot_id",snapshot_id_},{"events",observed_origin_.value("events")},{"detector",detector},
+                    {"scope","Frozen symptom evidence and detector coverage. Empty events do not establish a healthy plant or complete detection. Acknowledgement is separate from clearing; no mechanical root cause is established."}};
+            }
             return {{"ok",true},{"snapshot_id",snapshot_id_},{"observed_snapshot",observed_origin_.value("snapshot")},
                 {"registered_sensor_configuration",observed_origin_.value("context").toObject().value("configuration")},
                 {"mapping",observed_origin_.value("mapping")},{"effective_physical_hash",physical_hash_},
@@ -606,7 +614,7 @@ QJsonArray SimulationGateway::toolDefinitions(bool observed) {
         tool("search_interventions", "Run the real native finite search across at most four catalog control axes and 10000 combinations at the fixed snapshot/horizon. Finalists are independently dense-reference validated and stored; the result is best among evaluated candidates, not a global optimum. Empty axes evaluate unchanged operation once.", schema(search_args, {"snapshot_id", "axes"}))
     };
     if (observed) {
-        definitions.prepend(tool("get_detection_events","Read frozen, versioned symptom events associated with the observed capture. No root-cause diagnosis or authority is inferred.",schema({},{})));
+        definitions.prepend(tool("get_detection_events","Read frozen versioned symptom events and detector window/coverage/temporal status. Empty events do not establish health or complete detection. No root-cause diagnosis or authority is inferred.",schema({},{})));
         definitions.prepend(tool("get_observations","Read immutable sample references, measurements, frozen commands, calibration, uncertainty, coverage, assumptions and expiry. Required before concluding on an observed incident. Missing coverage means no numerical plan.",schema({},{})));
     }
     return definitions;

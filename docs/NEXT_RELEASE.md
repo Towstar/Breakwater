@@ -130,6 +130,13 @@ is authorized by this work.
   `OBSERVED_FORECAST.md` and its versioned evidence report.
 - Remaining numerical qualification, targeted polish and final delivery gates
   still require their separate increments.
+- The 400-case independent observation study passes in normal and ASan, with
+  byte-identical raw rows and summaries. It includes new seeds, uncertainty
+  scales, physical/observable onset, clearing and fixed offline EWMA/CUSUM
+  comparators. No-alert cases and coverage failures are checked separately.
+  Captures/model tools now preserve detector coverage and bounded-window counts;
+  dense acquisition reports resource exhaustion explicitly. See
+  `OBSERVATION_QUALIFICATION.md` and its source-bound evidence report.
 - The native investigation loop now has a structured final and one bounded
   format-only correction, matching the EOG completion policy. Native tool,
   refinement and deadline limits are unchanged. Strict final/tool JSON rejects

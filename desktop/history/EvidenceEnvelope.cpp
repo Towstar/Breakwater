@@ -2,6 +2,7 @@
 #include "ProjectDocument.hpp"
 #include "telemetry/ObservedMapping.hpp"
 #include "telemetry/TelemetryContracts.hpp"
+#include "telemetry/ObservationMonitor.hpp"
 #include "quality/PipeTransportEvidence.hpp"
 #include <QDateTime>
 #include <QJsonArray>
@@ -33,6 +34,8 @@ void observed(const QJsonObject& payload,const QJsonObject& snapshot,bool bindEf
     const auto context=payload.value("context").toObject(), document=payload.value("snapshot").toObject();
     (void)telemetry::parse_observed_snapshot(document,context);
     const auto mapping=payload.value("mapping").toObject();
+    require(!mapping.contains("detector") || mapping.value("detector").isObject(),"Frozen detector coverage must be an object.");
+    telemetry::validate_detector_capture(mapping.value("detector").toObject(),document);
     const auto result=telemetry::map_volume_capture(document,context,mapping.value("source_available").toBool());
     require(result.document==document && result.effective_network==payload.value("effective_network").toObject(),"Observed mapping differs from the retained measurements.");
     for (auto i=result.diagnostics.begin();i!=result.diagnostics.end();++i)
