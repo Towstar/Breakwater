@@ -4,6 +4,41 @@ Accepted direction: 17 November 2026. This is an implementation ledger, not a
 claim that the release gates have passed. Devpost and the frozen hackathon build
 are outside this work.
 
+## Active release-readiness pass
+
+The implemented application stack through PR66 (`0cfee72`) is followed by draft
+[PR67](https://github.com/Towstar/Breakwater/pull/67). Its clean binary candidate is
+`ad45d4538bc30fd9839fc79171ae1ae8dc71d399`. A real packaged-runner failure exposed
+missing bundled-Python initialization in the hosted CLI; it now reuses the shared
+desktop initializer and preserves explicit interpreter overrides. Numerical,
+scientific and proof implementations are unchanged in this readiness increment.
+
+All six Windows CI jobs pass at that exact source: native 14/14 normal and ASan,
+combined desktop/native 72/72 normal and ASan, CPU science and pinned Lean. The
+expanded helper suite passes 43 cases; the relocated package passes nine real
+credential-free checks. Real optional Science remains separately qualified in its
+actual CPU environment. See the [current evidence index](evidence/portfolio/release-readiness/README.md).
+
+Fresh hosted qualification is **incomplete**: two of three Operations runs and the
+renamed/topology-changed run pass. The remaining Operations run exhausted its
+bounded calls and returned an invalid JSON final. That final was rejected, all
+four archives were retained and no controls were applied. Earlier successful
+rehearsals below are not relabeled as passes on this final binary.
+
+The README and [seven-image gallery](images/portfolio/README.md) use actual final-
+candidate captures. A checksum-verified Windows/source kit with pending manual
+results is ready locally for clean-Windows review. No new simulation features,
+video or resume-writing deliverables are included in this pass. Documentation
+commits after `ad45d45` do not relabel the sealed binary or source ZIP.
+
+Main integration remains gated on Ethan's formal review of PR58. Public binary
+publication additionally requires his recorded GPLv3 agreement, completed
+dependency/source-delivery review and actual clean-Windows acceptance. The handoff
+helper checks archive/source consistency but always leaves those external gates
+pending. See [RELEASE_REVIEW](RELEASE_REVIEW.md),
+[DEPENDENCY_DISTRIBUTION](DEPENDENCY_DISTRIBUTION.md) and
+[CLEAN_WINDOWS_CHECK](CLEAN_WINDOWS_CHECK.md).
+
 ## Product
 
 Sandbox is the primary editable, synthetic constant-flow workbench. Operations
@@ -18,10 +53,11 @@ compatible. Historical/imported/recorded evidence never restores operating appro
 
 ## Integration and owners
 
-The starting main is `3116b3d8349beab729f8a1413cbbd9ff160e67ac`.
-The preview candidate is PR56 at `0314abaa7dab195267887efe8e06dd6938f4e8cc`.
-Integrate its ancestry on an isolated branch; do not merge already-present PRs
-again. Preserve the unpublished observed-capture work separately. The bounded
+The initial main was `3116b3d8349beab729f8a1413cbbd9ff160e67ac` and remains
+unchanged pending owner review. The earlier preview was PR56 at
+`0314abaa7dab195267887efe8e06dd6938f4e8cc`; its ancestry is already integrated
+on the isolated stack. Do not merge already-present PRs again. The unpublished
+observed-capture work remains separate. The bounded
 test-dataset metadata compatibility patch is adopted without modifying its source
 worktree; Ethan's numerical review remains required before main integration.
 
@@ -39,7 +75,7 @@ end-to-end dispatch UI. Detector research limitations remain explicit.
 | Scene | Industrial ground/pads/supports/materials; camera and labels | Implemented; default and 128-asset overview measured locally |
 | Editing | Atomic group selection/move/duplicate/align/delete; previews | Implemented; backend and native-event checks pass |
 | Evidence | Native trajectories; compatible comparisons; history/review clarity | Implemented; historical-only reopening and exact validation verified |
-| Offline | Self-authored examples; local search/validation; genuine recorded AI | Implemented; real no-model walkthrough and four final hosted rehearsals pass |
+| Offline | Self-authored examples; local search/validation; genuine recorded AI | Offline checks pass; final-candidate hosted round is 3/4, so its all-four gate is incomplete |
 | Science | Existing optional tracer fit with real-runtime qualification | Real CPU environment, 23 worker checks, 3 qualification checks and desktop explicit-apply case pass |
 | Delivery | Portable Windows build; clean-machine verification; docs/media | Packaging/relocation implemented and tested locally; final clean Windows and public release gates pending |
 
@@ -58,8 +94,8 @@ Its 21 local regression checks pass; fresh hosted CI outcomes remain separate.
 Executed counts, failures and source/runtime scope are in
 [`docs/evidence/portfolio/qualification.json`](evidence/portfolio/qualification.json).
 The initial normal suite's stale assertion and the minimum-window ASan failure
-remain recorded alongside their passing fixes. The final hosted round passed
-three canonical and one renamed/topology-changed investigation; all 16 attempts,
+remain recorded alongside their passing fixes. The earlier baseline's hosted round passed
+three canonical and one renamed/topology-changed investigation; all 16 earlier attempts,
 including the six earlier incomplete investigations, remain archived. This is
 rehearsal evidence, not an LLM reliability or comparative superiority benchmark.
 
@@ -78,7 +114,7 @@ dataset retirement. Import now follows the explicit load-completed signal;
 normal/compact/minimum regression checks pass in normal and ASan builds. Final
 bundle verification also exercises this real historical recording path.
 
-The final application-code candidate, clean commit `6cb2587`, passes all seven
+The earlier application-code candidate, clean commit `6cb2587`, passes all seven
 isolated-process checks, including the full recorded-archive UI regression. Its
 Windows ZIP is 104,110,029 bytes. The [candidate manifest](evidence/portfolio/candidate-6cb2587.json)
 links exact source/bundle hashes, build metadata and verification results. Later

@@ -1,0 +1,2 @@
+Executed actual get_network_state; snapshot 149cea48-0930-4acd-9aff-8e44e7d48cc6
+PASS: model nvidia/nemotron-3.5-lightning-30b-a3b issued a structured call, received its real result and continued.

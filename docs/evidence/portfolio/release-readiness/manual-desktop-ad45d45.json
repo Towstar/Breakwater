@@ -1,0 +1,59 @@
+{
+  "review": {
+    "status": "passed",
+    "run_id": "589e94c4-fae2-4b5b-90cb-37d85c8c4b7c",
+    "validation_id": "644e4fb1-46e9-46b9-8ec5-14d11f9961f3",
+    "observed_before_apply": true
+  },
+  "explicit_apply": {
+    "status": "passed",
+    "observed_state": "operator_applied",
+    "review_disabled_after_apply": true,
+    "scope": "self-authored synthetic Sandbox controls only"
+  },
+  "reset": {
+    "status": "passed",
+    "healthy_forecast": "PASS",
+    "headroom_m3": 16,
+    "run_prefix": "0d9e7f36",
+    "old_review_disabled": true
+  },
+  "open_dialog_cancel": {
+    "status": "passed",
+    "method": "Escape",
+    "forecast_run_unchanged": "0d9e7f36",
+    "healthy_headroom_m3": 16
+  },
+  "operations_search_validation": {
+    "status": "passed",
+    "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+    "cutoff_utc": "2026-11-16T12:00:00Z",
+    "plan_id": "plan-54eb4240fa314454f26d500784e87dc0",
+    "validation_id": "validation-59700bf892187f2dc2238c379394376c9d72dd5f48a32aa50610c37ef3d7e367",
+    "baseline_usd": 11726,
+    "candidate_usd": 1810,
+    "shutdown_margin_bbl": 14.75,
+    "controls_applied": false
+  },
+  "operations_finish": {
+    "status": "passed",
+    "observed_state": "Session completed",
+    "controls_applied": false
+  },
+  "historical_import": {
+    "status": "passed",
+    "archive": "live-round-2/run-2.eog-session.json",
+    "session_id": "9d99ed11-b398-4d3b-acac-20fbb0c23cc0",
+    "historical_label": true,
+    "review_disabled": true
+  },
+  "source_commit": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399",
+  "reviewer": "Codex Computer Use / self-check, not Ethan owner review",
+  "clean_windows_vm": false,
+  "windows_display_settings": "not changed",
+  "restart": {
+    "status": "passed",
+    "record": "restart-ad45d45.json",
+    "prior_close_auto_review": "rejected; user then approved restart"
+  }
+}

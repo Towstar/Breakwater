@@ -1,0 +1,738 @@
+{
+  "run_id": 44431840603,
+  "source_commit": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399",
+  "jobs": [
+    {
+      "id": 135250923991,
+      "name": "Native (asan)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135250924589,
+      "name": "Native (normal)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135251647651,
+      "name": "Desktop (normal)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135251647658,
+      "name": "Desktop (asan)",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135251647685,
+      "name": "Lean assumption audit",
+      "status": "completed",
+      "conclusion": "success"
+    },
+    {
+      "id": 135251647743,
+      "name": "Python science (CPU)",
+      "status": "completed",
+      "conclusion": "success"
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 14488830954,
+      "name": "windows-desktop-asan",
+      "size_in_bytes": 2598021,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14488830954",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14488830954/zip",
+      "expired": false,
+      "created_at": "2026-11-19T01:11:36Z",
+      "expires_at": "2026-12-03T01:11:35Z",
+      "updated_at": "2026-11-19T01:11:36Z",
+      "digest": "sha256:fc240dba58e584a9f8dca2528d2cb10f2eda3da5b47fdd57a787da5cdf96afad",
+      "workflow_run": {
+        "id": 44431840603,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/person-b-release-readiness",
+        "head_sha": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399"
+      }
+    },
+    {
+      "id": 14487851677,
+      "name": "windows-desktop-normal",
+      "size_in_bytes": 2597431,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14487851677",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14487851677/zip",
+      "expired": false,
+      "created_at": "2026-11-19T01:04:47Z",
+      "expires_at": "2026-12-03T01:04:46Z",
+      "updated_at": "2026-11-19T01:04:47Z",
+      "digest": "sha256:8d441fdec76d23120e3666e4dc4e7d1d6c3c13fb60514e4d0847751f9e95aaf3",
+      "workflow_run": {
+        "id": 44431840603,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/person-b-release-readiness",
+        "head_sha": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399"
+      }
+    },
+    {
+      "id": 14486428758,
+      "name": "windows-lean",
+      "size_in_bytes": 7478,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14486428758",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14486428758/zip",
+      "expired": false,
+      "created_at": "2026-11-19T00:50:59Z",
+      "expires_at": "2026-12-03T00:50:58Z",
+      "updated_at": "2026-11-19T00:50:59Z",
+      "digest": "sha256:772a7ce13e9d4e3645b2a53cb0c4b9ac7819d70f94f45ea199dcef8077ac5f4d",
+      "workflow_run": {
+        "id": 44431840603,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/person-b-release-readiness",
+        "head_sha": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399"
+      }
+    },
+    {
+      "id": 14486418871,
+      "name": "windows-science-cpu",
+      "size_in_bytes": 25954,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14486418871",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14486418871/zip",
+      "expired": false,
+      "created_at": "2026-11-19T00:51:20Z",
+      "expires_at": "2026-12-03T00:51:19Z",
+      "updated_at": "2026-11-19T00:51:20Z",
+      "digest": "sha256:9cc50c0ad51ee02f5001d510bd6737b2e9bb61389349ca02b1fd96467e4399ee",
+      "workflow_run": {
+        "id": 44431840603,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/person-b-release-readiness",
+        "head_sha": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399"
+      }
+    },
+    {
+      "id": 14486407701,
+      "name": "windows-native-asan",
+      "size_in_bytes": 21574,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14486407701",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14486407701/zip",
+      "expired": false,
+      "created_at": "2026-11-19T00:49:10Z",
+      "expires_at": "2026-12-03T00:49:09Z",
+      "updated_at": "2026-11-19T00:49:10Z",
+      "digest": "sha256:58d628a93291e76f4af0da63fa0044ebb6068fd18f313dc4624a6f9328e2800e",
+      "workflow_run": {
+        "id": 44431840603,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/person-b-release-readiness",
+        "head_sha": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399"
+      }
+    },
+    {
+      "id": 14486153951,
+      "name": "windows-native-normal",
+      "size_in_bytes": 21624,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14486153951",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14486153951/zip",
+      "expired": false,
+      "created_at": "2026-11-19T00:49:09Z",
+      "expires_at": "2026-12-03T00:49:09Z",
+      "updated_at": "2026-11-19T00:49:09Z",
+      "digest": "sha256:4e746cc077efa00d820dffccf9160011771a466911e564f995dd0364f1be0762",
+      "workflow_run": {
+        "id": 44431840603,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/person-b-release-readiness",
+        "head_sha": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399"
+      }
+    }
+  ],
+  "desktop_normal": {
+    "ctest_passed": 72,
+    "ctest_failed": 0,
+    "qt": {
+      "passed": true,
+      "qt_suites": [
+        {
+          "suite": "agent_gateway-results",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "agent_orchestrator-results",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "agent_science-results",
+          "passed": 31,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "editor_tools-results",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_analysis_client-results",
+          "passed": 43,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_analysis_controller-results",
+          "passed": 50,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_capture-results",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_contracts-results",
+          "passed": 71,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_dataset-results",
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_event_details-results",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_history-results",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_investigator-results",
+          "passed": 66,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_plan_chart-results",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_plan_details-results",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_provider-results",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "history_controller-results",
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "nemotron_client-results",
+          "passed": 62,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "pipe_transport-results",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 1,
+          "blacklisted": 0,
+          "skip_reasons": [
+            "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+          ],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "pipe_transport_evidence-results",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "python_worker-results",
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "science_evidence-results",
+          "passed": 43,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "sensor_editor-results",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "session_repository-results",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "storage_science-results",
+          "passed": 43,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "storage_worker-results",
+          "passed": 121,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "telemetry_contracts-results",
+          "passed": 176,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "telemetry_lifecycle-results",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "telemetry_stream-results",
+          "passed": 31,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "workspace_settings-results",
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        }
+      ],
+      "problems": [],
+      "optional_calibration_skipped": 1
+    },
+    "toolchain": [
+      "Version: 20261103.629",
+      "Microsoft Windows Server 2022",
+      "10.0.20348",
+      "Image: windows-2022",
+      "Version: 20261112.366.7",
+      "-- The CXX compiler identification is MSVC 19.44.35230.0"
+    ]
+  },
+  "desktop_asan": {
+    "ctest_passed": 72,
+    "ctest_failed": 0,
+    "qt": {
+      "passed": true,
+      "qt_suites": [
+        {
+          "suite": "agent_gateway-results",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "agent_orchestrator-results",
+          "passed": 25,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "agent_science-results",
+          "passed": 31,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "editor_tools-results",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_analysis_client-results",
+          "passed": 43,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_analysis_controller-results",
+          "passed": 50,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_capture-results",
+          "passed": 12,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_contracts-results",
+          "passed": 71,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_dataset-results",
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_event_details-results",
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_history-results",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_investigator-results",
+          "passed": 66,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_plan_chart-results",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_plan_details-results",
+          "passed": 10,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "eog_provider-results",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "history_controller-results",
+          "passed": 9,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "nemotron_client-results",
+          "passed": 62,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "pipe_transport-results",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 1,
+          "blacklisted": 0,
+          "skip_reasons": [
+            "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+          ],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "pipe_transport_evidence-results",
+          "passed": 13,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "python_worker-results",
+          "passed": 24,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "science_evidence-results",
+          "passed": 43,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "sensor_editor-results",
+          "passed": 17,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "session_repository-results",
+          "passed": 15,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "storage_science-results",
+          "passed": 43,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "storage_worker-results",
+          "passed": 121,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "telemetry_contracts-results",
+          "passed": 176,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "telemetry_lifecycle-results",
+          "passed": 27,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "telemetry_stream-results",
+          "passed": 31,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        },
+        {
+          "suite": "workspace_settings-results",
+          "passed": 5,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0,
+          "skip_reasons": [],
+          "unexpected_skips": []
+        }
+      ],
+      "problems": [],
+      "optional_calibration_skipped": 1
+    },
+    "toolchain": [
+      "Version: 20261103.629",
+      "Microsoft Windows Server 2022",
+      "10.0.20348",
+      "Image: windows-2022",
+      "Version: 20261112.366.7",
+      "-- The CXX compiler identification is MSVC 19.44.35230.0"
+    ]
+  },
+  "science": {
+    "run": 458,
+    "passed": 454,
+    "skipped": 4,
+    "failed": 0,
+    "skip_reasons": [
+      "test_actual_model_and_smooth_boundary_ansatz (test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz) ... skipped 'PhysicsNeMo is optional in the A3-only environment'",
+      "test_actual_optimizer_step_and_float64_mdlus_round_trip (test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip) ... skipped 'PhysicsNeMo is optional in the A3-only environment'",
+      "test_predicted_cell_averages_match_independent_32_point_quadrature (test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature) ... skipped 'PhysicsNeMo is optional in the A3-only environment'",
+      "test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss (test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss) ... skipped 'PhysicsNeMo is optional in the A3-only environment'"
+    ]
+  },
+  "lean": {
+    "assumption_audits": 54,
+    "build_jobs": 1063
+  }
+}

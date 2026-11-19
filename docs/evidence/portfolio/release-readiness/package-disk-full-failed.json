@@ -1,0 +1,12 @@
+{
+  "status": "failed",
+  "candidate_only": true,
+  "public_release_approved": false,
+  "source_commit": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399",
+  "dirty": false,
+  "started_utc": "2026-11-19T00:47:52.1551585Z",
+  "python": "3.12.13",
+  "torch_bundled": false,
+  "physicsnemo_bundled": false,
+  "finished_utc": "2026-11-19T00:49:04.9279628Z"
+}

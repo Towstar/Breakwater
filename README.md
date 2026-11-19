@@ -10,11 +10,21 @@ The v0.2.0 portfolio candidate leads with **Sandbox**, the editable network
 workbench. **Operations** presents recorded observations and advisory analysis;
 EOG remains a supported dataset adapter. Neither workspace controls a plant.
 
-![Sandbox with a real baseline/candidate comparison](docs/images/portfolio/sandbox-comparison.jpg)
+![Sandbox industrial workspace](docs/images/portfolio/01-sandbox-overview-ad45d45.jpg)
 
-![Operations displaying the self-authored recorded dataset](docs/images/portfolio/operations-overview.jpg)
+![Operations displaying the self-authored recorded dataset](docs/images/portfolio/05-operations-observations-ad45d45.jpg)
 
-These are actual candidate screenshots. See the [capture notes and gallery](docs/images/portfolio/README.md).
+These are unaltered captures of candidate `ad45d45`. The
+[seven-image gallery](docs/images/portfolio/README.md) also shows equipment detail,
+baseline/candidate trajectories, exact-plan review and a genuine historical
+Nemotron trace.
+
+The [current qualification record](docs/evidence/portfolio/release-readiness/README.md)
+binds this exact binary to six passing Windows CI jobs and nine passing portable
+checks. Its fresh hosted round passed two of three Operations investigations and
+the renamed-network investigation; the third Operations final was rejected for
+invalid JSON. The all-four hosted gate remains incomplete. Owner review, licensing
+and an actual clean Windows VM check remain pending before a public binary release.
 
 | Area | Available behavior | Boundary |
 |---|---|---|
