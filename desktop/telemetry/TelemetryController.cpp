@@ -271,7 +271,14 @@ public:
             stream_.advance(event, received);
             const auto serial = source_serial_->load();
             const auto capture = stream_.captureObserved(registry, commands, revision, request);
-            emit observedCaptured(request, capture.document, capture.context, capture.diagnostics, capture.effective_network, requestGeneration, serial);
+            QJsonArray events;
+            for (const auto& value:monitor_.report().value("events").toArray()) {
+                const auto e=value.toObject(); bool matching=e.value("updated_event_time_s").toDouble()>-1 && e.value("updated_event_time_s").toDouble()<=event;
+                for (const auto* field:{"physical_hash","configuration_hash","stream_id","epoch_id"})
+                    matching=matching && e.value(QLatin1String(field))==capture.document.value(QLatin1String(field));
+                if (matching) events.append(e);
+            }
+            emit observedCaptured(request, capture.document, capture.context, capture.diagnostics, capture.effective_network, events, requestGeneration, serial);
         } catch (const std::exception&) {
             emit observedRejected(request, requestGeneration, "capture_unavailable", "The observed capture context, epoch or bounded evidence is unavailable.");
         }
@@ -320,7 +327,7 @@ signals:
     void rejected(const QString& code, const QString& message);
     void exported(const QUrl& destination);
     void observedCaptured(const QString& request, const QJsonObject& document, const QJsonObject& context,
-                          const QJsonObject& diagnostics, const QJsonObject& effectiveNetwork, quint64 requestGeneration, quint64 sourceSerial);
+                          const QJsonObject& diagnostics, const QJsonObject& effectiveNetwork, const QJsonArray& events, quint64 requestGeneration, quint64 sourceSerial);
     void observedRejected(const QString& request, quint64 requestGeneration, const QString& code, const QString& message);
     void shutdownReady();
 private:
@@ -688,14 +695,14 @@ TelemetryController::TelemetryController(QObject* parent) : QObject(parent) {
     connect(worker_, &TelemetryIoWorker::detectionAcknowledged,this,&TelemetryController::detectionAcknowledged);
     connect(worker_, &TelemetryIoWorker::observedCaptured, this,
         [this](const QString& request, const QJsonObject& document, const QJsonObject& context,
-               const QJsonObject& diagnostics, const QJsonObject& effectiveNetwork, quint64 generation, quint64 sourceSerial) {
+               const QJsonObject& diagnostics, const QJsonObject& effectiveNetwork, const QJsonArray& events, quint64 generation, quint64 sourceSerial) {
             if (generation != observed_generation_ || request != observed_request_ || !observed_pending_) return;
             observed_pending_ = false; observed_request_.clear();
             if (sourceSerial != source_serial_->load()) {
                 observed_disposition_ = "retired"; emit observedCaptureChanged();
                 emit observedCaptureFailed(request, "capture_retired", "The source retired before the capture could be published."); return;
             }
-            observed_ = std::make_shared<const ObservedEvidence>(ObservedEvidence{document, context, diagnostics, effectiveNetwork});
+            observed_ = std::make_shared<const ObservedEvidence>(ObservedEvidence{document, context, diagnostics, effectiveNetwork, events});
             observed_source_serial_ = sourceSerial; observed_retired_ = false;
             observed_disposition_ = document.value("mode") == "synthetic_live" ? document.value("availability").toString() : "historical";
             emit observedCaptureChanged(); emit observedCaptureReady(request);

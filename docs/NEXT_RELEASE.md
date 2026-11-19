@@ -121,8 +121,15 @@ is authorized by this work.
   existing storage-Science cases pass in normal and ASan, including real CPU
   PyTorch forward/sensitivity execution and historical source retention without
   applying controls. See `HISTORY_V2.md` and `evidence/v03/stored-science.json`.
-- Observed forecasts/review, remaining qualification
-  and final delivery gates still require their separate increments.
+- Observed capture-to-native forecast/search, frozen observation/detection model
+  tools, v2 source retention and advisory acknowledgement are implemented in a
+  separate controller with no operating application action. Missing coverage is
+  an archived no-plan result; expiry, replacement, numerical edits, historical
+  selection and repeated acknowledgement are denied. A real slow-worker check
+  verifies checkpoint coalescing without losing final tool events. See
+  `OBSERVED_FORECAST.md` and its versioned evidence report.
+- Remaining numerical qualification, targeted polish and final delivery gates
+  still require their separate increments.
 - The native investigation loop now has a structured final and one bounded
   format-only correction, matching the EOG completion policy. Native tool,
   refinement and deadline limits are unchanged. Strict final/tool JSON rejects

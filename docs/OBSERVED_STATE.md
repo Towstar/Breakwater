@@ -1,8 +1,9 @@
 # Native observed-state mapping
 
-This increment implements the numerical and capture seams for the generic local
-monitoring path. It is separate from EOG's recorded-data analysis. The desktop
-monitoring page is not yet wired to a forecast/review workflow by this increment.
+The generic local monitoring path has numerical mapping and immutable capture,
+separate from EOG's recorded-data analysis. The desktop now connects this seam to
+[native forecast/search and advisory review](OBSERVED_FORECAST.md). The mapping
+rules below remain its numerical boundary; they supply no control authority.
 
 `bounded-observations-0.1.0` consumes validated G1 DTOs and has no Qt, Python,
 transport or model dependency. It copies the immutable snapshot, computes fresh

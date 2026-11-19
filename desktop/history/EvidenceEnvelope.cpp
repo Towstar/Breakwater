@@ -35,10 +35,13 @@ void observed(const QJsonObject& payload,const QJsonObject& snapshot,bool bindEf
     const auto mapping=payload.value("mapping").toObject();
     const auto result=telemetry::map_volume_capture(document,context,mapping.value("source_available").toBool());
     require(result.document==document && result.effective_network==payload.value("effective_network").toObject(),"Observed mapping differs from the retained measurements.");
-    require(result.diagnostics.value("mapper_version")==mapping.value("mapper_version"),"Unknown observation mapper version.");
+    for (auto i=result.diagnostics.begin();i!=result.diagnostics.end();++i)
+        require(mapping.value(i.key())==i.value(),"Observed mapping diagnostics differ from the retained measurements.");
     if (bindEffective) {
-        require(document.value("availability")=="available" && !result.effective_network.isEmpty(),"Observed investigation lacks usable frozen state.");
-        require(snapshot.value("network")==result.effective_network,"Observed investigation network differs from its effective capture.");
+        require(snapshot.value("numerical_revision")==document.value("numerical_revision"),"Observed numerical revision differs from its frozen source.");
+        if (document.value("availability")=="available")
+            require(!result.effective_network.isEmpty() && snapshot.value("network")==result.effective_network,"Observed investigation network differs from its effective capture.");
+        else require(result.effective_network.isEmpty() && snapshot.value("network")==context.value("network"),"Unavailable observed evidence cannot substitute a numerical network.");
     } else require(snapshot.value("network")==context.value("network"),"Detection archive design differs from its registry.");
 }
 void detection(const QJsonObject& payload,const QJsonObject& snapshot,bool acknowledgement) {
@@ -118,8 +121,16 @@ bool validate_evidence_envelope(const QJsonObject& archive,QString* error) {
             require(value.toObject().value("status")=="operator_acknowledged_advisory","Retained evidence cannot contain an operating application action.");
         if (kind=="observed_origin") {
             keys(payload,{"snapshot","context","mapping","effective_network","events"}); observed(payload,snapshot,true);
+            if (payload.value("snapshot").toObject().value("availability")!="available")
+                require(archive.value("runs").toArray().isEmpty() && archive.value("recommendation").toObject().value("selected_run_id").toString().isEmpty(),"Unavailable observed coverage cannot contain numerical plan evidence.");
             require(payload.value("events").isArray() && payload.value("events").toArray().size()<=256,"Invalid observed event count.");
-            for (const auto& event:payload.value("events").toArray()) (void)telemetry::parse_detection_event(event.toObject(),payload.value("context").toObject());
+            for (const auto& event:payload.value("events").toArray()) {
+                const auto e=event.toObject(),captured=payload.value("snapshot").toObject();
+                (void)telemetry::parse_detection_event(e,payload.value("context").toObject());
+                require(number(e.value("updated_event_time_s"))<=number(captured.value("captured_event_time_s")),"Observed event is newer than its capture.");
+                for (const auto* field:{"physical_hash","configuration_hash","stream_id","epoch_id"})
+                    require(e.value(QLatin1String(field))==captured.value(QLatin1String(field)),"Observed event source differs from its capture.");
+            }
         } else if (kind=="observation_detection" || kind=="observation_acknowledgement") detection(payload,snapshot,kind=="observation_acknowledgement");
         else if (kind=="pipe_transport") {
             keys(payload,{"result","source"}); const auto result=payload.value("result").toObject(),source=payload.value("source").toObject();

@@ -12,6 +12,7 @@ namespace breakwater::desktop::telemetry {
 // exactly G1 observed_snapshot; diagnostics are local presentation metadata.
 struct ObservedEvidence {
     QJsonObject document, context, diagnostics, effective_network;
+    QJsonArray detection_events; // Frozen on the acquisition worker, never a later UI report.
 };
 
 // Stateful, thread-confined monitoring only. The lifecycle adapter owns the

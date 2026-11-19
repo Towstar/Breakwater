@@ -1,0 +1,104 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "52a0672d00196dd77bcb9a471c8879a97fa8ba73",
+  "recorded_utc": "2026-11-19T06:19:01.030142+00:00",
+  "checks_per_mode": {
+    "observed_forecast_qt_cases": {
+      "passed": 11,
+      "failed": 0,
+      "skipped": 0
+    },
+    "evidence_v2_qt_cases": {
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0
+    },
+    "orchestrator_qt_cases": {
+      "passed": 34,
+      "failed": 0,
+      "skipped": 0
+    },
+    "repository_qt_cases": {
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0
+    },
+    "history_controller_qt_cases": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    "capture_qt_cases": {
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0
+    },
+    "native_ui_suites": 8,
+    "native_ui_window_sizes": 4
+  },
+  "source_sha256": {
+    "desktop/agent/ObservedInvestigationController.hpp": "d733f382366bd661b3f39584d45b644cf52d64514b87186f55b7f2c65d60e046",
+    "desktop/agent/ObservedInvestigationController.cpp": "500d3d5ab9edb35cc2f82ad04e46f03b5677aa6404296fbc3f8c4d474efe35fb",
+    "desktop/agent/SimulationGateway.cpp": "e589f2cb486acdb183a1fea8c207f64c8855743c7e3de9fc7c4fda093020d9ee",
+    "desktop/agent/AgentOrchestrator.cpp": "5a93cbbea7b90558192a37a03bcdd21dcfe1cc30f3046a71bdb195c74660edda",
+    "desktop/history/SessionRecorder.cpp": "ef9a06aeded9417bf4bf37ff4041a0ef5010b6b1b0c91589bd01b98a9b2997dc",
+    "desktop/history/SessionRepository.cpp": "532369e5d31bbd7c0a9ade0f48321861ffa62ca4bcfcae16ffd61150a6cd8a36",
+    "desktop/history/EvidenceEnvelope.cpp": "33f7447b144b5cec0a7fb185e46823f1a2c33d83e3cff48f68f059f4337070d8",
+    "desktop/telemetry/TelemetryController.cpp": "2b70760838c21d6bd640947374ca30ca67ca5264bba6007ad1e420ed12d31a48",
+    "desktop/qml/AgentPanel.qml": "0518ca26719328d1a4fd8e0785991b84e2f81518fa4bb496e355db51dddb5a87",
+    "desktop/qml/Main.qml": "06f36f6e09b6fd6f93d2a6a24b55353e0c2794dda4d587ee1849df3211ece2c0",
+    "desktop/tests/observed_forecast_tests.cpp": "7a7272bfe74197fb8c9ce893722469974a1c4da4ef1fd5efc0652e30d2a18965",
+    "desktop/tests/ObservedFixture.hpp": "40bea7c0b142cab1138b6c2ce04876fe8910d73558725f6f5aa88c7e80bba896",
+    "desktop/verification/WorkbenchUiCheck.cpp": "2fe2a7117ffe7ae7db84bf9d7e28541cd38c279caf50ecdbf02b14882afbd897"
+  },
+  "verified": [
+    "Real Python publisher -> paused immutable capture -> native search -> staged advisory review -> v2 history without control application",
+    "The observed controller has no control-application method; all results/archives remain nonactionable",
+    "Frozen events cannot be newer than the capture or belong to another stream/epoch/configuration",
+    "Expiry, replacement, numerical edits, selected-run mismatch, historical selection and repeated acknowledgement are denied",
+    "Layout edits preserve numerical eligibility; cancellation of a replacement cannot revive an earlier acknowledgement",
+    "Missing coverage blocks every numerical/scientific tool and retains a no-plan archive with no numerical runs",
+    "Negative/overrange measurements remain raw and unavailable where unsupported",
+    "Renamed assets with exchanged source-to-tank topology initialize the measured native state without editing the design",
+    "Substituted mapping bounds are rejected; observed failed pumps cannot be reenabled by candidates",
+    "An explicit fake model's selected tool order and matching tool-result continuations are preserved; observations must be inspected",
+    "A blocked SQL worker coalesces intermediate checkpoints into at most two writes while retaining every final event and selected-run reference",
+    "Actual source/search/review/acknowledgement UI actions plus existing editor/pipe/stored-Science checks pass four sizes in normal and ASan"
+  ],
+  "primary_logs": [
+    "out/v03/test-observed-backpressure-portfolio-desktop.log",
+    "out/v03/test-observed-backpressure-portfolio-desktop-asan.log",
+    "out/v03/test-observed-ui-final-normal.log",
+    "out/v03/test-observed-ui-final-asan.log"
+  ],
+  "initial_failures": [
+    "Initial test compilation found an ambiguous telemetry namespace; qualified the desktop type.",
+    "Renamed fixture initially retained an old pipe-parameter route key and raised an exception; the fixture now renames all dependent keys.",
+    "Initial ASan run exceeded the historical-load wait and its inherited 60-second suite limit. Added exact checkpoint completion/backpressure and a real slow-worker regression; the expanded functional suite has an explicit 180-second CTest limit.",
+    "A separate initial ASan capture shutdown assertion exceeded its 5-second wait by 250 ms. The unchanged assertion passes on the final run. Earlier failures remain retained."
+  ],
+  "failed_logs": [
+    "out/v03/build-observed-forecast-first-tests.log",
+    "out/v03/test-observed-forecast-first.log",
+    "out/v03/test-observed-forecast-diagnostic.log",
+    "out/v03/test-observed-forecast-backend-portfolio-desktop-asan.log"
+  ],
+  "ui_artifacts": "out/v03/observed-ui-{normal,asan}/breakwater-ui-*/17-observed-capture.png, 18-observed-native-response.png and 19-observed-advisory-review.png",
+  "ui_scaling_scope": "Four window sizes at the current real device pixel ratio (1.75), with D3D11/WARP render configuration. This is not a change of actual Windows scaling to four percentages.",
+  "github_check": {
+    "main": "3116b3d8349beab729f8a1413cbbd9ff160e67ac",
+    "all_system_search_commit": "4654de4 is already an ancestor of this branch",
+    "pr58_formal_reviews": 0,
+    "pr72_windows_ci": "success",
+    "pr73_windows_ci": "success",
+    "pr74_windows_ci": "success"
+  },
+  "self_review": "Checked source/generation retirement, preparation cancellation, failed-pump restrictions, no-coverage numerical rejection, model tool order and final grounding, frozen event identity/time, separate advisory review, exact SQL checkpoint acknowledgements/coalescing, historical denial and UI shortcut blocking. Not a formal owner review.",
+  "not_claimed": [
+    "New hosted Nemotron execution",
+    "Robust or field forecast/detection accuracy",
+    "Mechanical root-cause diagnosis",
+    "Clean-Windows VM or four-percentage Windows scaling acceptance",
+    "Release integration or licensing consent"
+  ]
+}

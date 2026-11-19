@@ -1,7 +1,9 @@
 # Local synthetic acquisition and receiver-timed replay
 
-This increment implements acquisition and immutable observed-state capture. It
-does not yet connect ongoing detection, forecasts or operating approval.
+Local acquisition and immutable observed-state capture now feed bounded symptom
+detection, durable incident history and an explicit
+[native forecast/advisory workflow](OBSERVED_FORECAST.md). No operating application
+action is available in observed monitoring.
 
 1. Start the desktop with an existing Python 3.12+ executable configured through
    `BREAKWATER_PYTHON` or the installed optional runtime. No Torch or model key is

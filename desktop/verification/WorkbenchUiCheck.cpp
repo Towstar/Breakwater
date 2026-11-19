@@ -1,5 +1,6 @@
 #include "WorkbenchUiCheck.hpp"
 #include "../ProjectController.hpp"
+#include "../history/HistoryController.hpp"
 #include <QCoreApplication>
 #include <QDir>
 #include <QElapsedTimer>
@@ -37,6 +38,8 @@ class Check final : public QObject {
     QRectF retained_button_rect_;
     QElapsedTimer retained_viewer_wait_;
     QElapsedTimer stored_source_wait_;
+    bool observed_only_=false;
+    QJsonObject observed_project_;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
     std::unique_ptr<QTemporaryDir> artifacts_;
     QVariant eval(const QString& source) {
@@ -113,7 +116,7 @@ class Check final : public QObject {
     void finish(bool ok, const QString& code) {
         if (done_) return;
         done_ = true; timer_.stop();
-        QJsonObject result{{"check", "ui_overhaul"}, {"passed", ok}, {"code", code},
+        QJsonObject result{{"check", observed_only_ ? "ui_observed_advisory":"ui_overhaul"}, {"passed", ok}, {"code", code},
             {"checks", checks_}, {"phase", phase_}, {"observed", observed_},
             {"device_pixel_ratio", window_ ? window_->devicePixelRatio() : 0.0},
             {"window_width", window_ ? window_->width() : 0}, {"window_height", window_ ? window_->height() : 0},
@@ -152,6 +155,10 @@ class Check final : public QObject {
                     require(artifacts_->isValid(), "evidence_directory_creation_failed"); artifacts_->setAutoRemove(false);
                 }
                 snapshot("01-workbench-ready.png");
+                if (observed_only_) {
+                    controller_->loadExample("monitoring"); observed_project_=controller_->editorDocument();
+                    eval("app.openTelemetry()"); phase_=52; break;
+                }
                 SimulationConfig config; config.horizon_h = 1.25; controller_->forecastWithConfig(config); break;
             }
             case 1:
@@ -483,6 +490,57 @@ class Check final : public QObject {
                 require(eval("app.storageScience.sourceMode==='forecast'").toBool(),"scientific_source_selector_did_not_restore_forecast");
                 preserved(); passed("native_source_selector_uses_immutable_stored_candidate_without_applying_controls");
                 finish(true,"ok"); return;
+            case 53:
+                if (eval("app.telemetry.status!=='ready'").toBool()) return;
+                require(eval("app.telemetry.bundledPublisher").toBool(),"observed_ui_python_publisher_unavailable");
+                eval("app.telemetry.startSynthetic('healthy',73)"); break;
+            case 54:
+                require(eval("app.telemetry.error.length===0").toBool(),"observed_ui_publisher_failed");
+                if (eval("(app.telemetry.counters.readings_received || 0)<10").toBool()) return;
+                eval("app.telemetry.pause()"); break;
+            case 55:
+                if (!eval("app.telemetry.paused").toBool()) return;
+                eval("app.telemetry.requestObservedCapture()"); break;
+            case 56: {
+                if (eval("app.telemetry.observedCaptureBusy || !app.telemetry.observedCapture.snapshot_id").toBool()) return;
+                require(eval("app.telemetry.observedCaptureDisposition==='available'").toBool(),"observed_ui_capture_unavailable");
+                auto* scroll=item("telemetryScroll"); auto* flick=scroll->property("contentItem").value<QQuickItem*>();
+                require(flick,"observed_ui_scroll_unavailable"); auto* button=item("openObservedInvestigation");
+                const auto maximum=std::max(0.0,flick->property("contentHeight").toDouble()-flick->height());
+                flick->setProperty("contentY",std::clamp(flick->property("contentY").toDouble()+button->mapToItem(flick,QPointF{}).y()-flick->height()*0.4,0.0,maximum));
+                break;
+            }
+            case 57:
+                snapshot("17-observed-capture.png"); click(item("openObservedInvestigation")); break;
+            case 58:
+                if (!window_->property("observedInvestigationVisible").toBool()) return;
+                require(item("observedInvestigationOrigin")->isVisible() && !eval("app.sceneKeysEnabled()").toBool(),"observed_dialog_origin_or_shortcut_gate_missing");
+                click(item("observedLocalSearch")); break;
+            case 59:
+                if (eval("app.observedInvestigator.running || !app.observedInvestigator.canAcknowledge").toBool()) return;
+                require(controller_->editorDocument()==observed_project_ && controller_->runId().isEmpty() && !controller_->canApprove(),"observed_search_modified_project");
+                snapshot("18-observed-native-response.png"); click(item("reviewObservedAdvisory")); break;
+            case 60:
+                if (!window_->property("observedAdvisoryReviewVisible").toBool()) return;
+                require(item("acknowledgeObservedAdvisory")->isEnabled(),"observed_review_acknowledgement_unavailable");
+                require(eval("app.observedInvestigator.review.measurements.length>=10 && app.observedInvestigator.review.validation_id.length>0").toBool(),"observed_review_evidence_missing");
+                snapshot("19-observed-advisory-review.png"); click(item("acknowledgeObservedAdvisory")); break;
+            case 61: {
+                auto* observedHistory=qobject_cast<history::HistoryController*>(window_->property("observedHistory").value<QObject*>());
+                require(observedHistory,"observed_history_unavailable");
+                if (window_->property("observedAdvisoryReviewVisible").toBool() || observedHistory->selectedArchive().value("approvals").toArray().size()!=1) return;
+                require(!eval("app.observedInvestigator.canAcknowledge || app.observedInvestigator.canApprove").toBool() &&
+                    controller_->editorDocument()==observed_project_ && controller_->runId().isEmpty() && !controller_->canApprove(),"observed_review_restored_operating_authority");
+                click(item("observedInvestigationClose")); break;
+            }
+            case 62:
+                require(!window_->property("observedInvestigationVisible").toBool(),"observed_dialog_close_failed");
+                eval("app.telemetry.stop()"); break;
+            case 63:
+                if (eval("app.telemetry.active").toBool()) return;
+                require(eval("app.telemetry.error.length===0").toBool(),"observed_ui_source_shutdown_failed");
+                passed("actual_python_capture_native_search_advisory_review_and_retention_without_control_application");
+                finish(true,"ok"); return;
             default: throw std::runtime_error("invalid_phase");
             }
             ++phase_;
@@ -491,6 +549,7 @@ class Check final : public QObject {
 public:
     Check(QQuickWindow* window, ProjectController* controller, QCoreApplication* app)
         : QObject(app), window_(window), controller_(controller), app_(app) {
+        observed_only_=qEnvironmentVariable("BREAKWATER_UI_OBSERVED_ONLY")=="1";
         if (qEnvironmentVariable("BREAKWATER_UI_MINIMUM") == "1") window->resize(960, 540);
         else if (qEnvironmentVariable("BREAKWATER_UI_SHORT") == "1") window->resize(1008, 672);
         elapsed_.start(); timer_.setInterval(100);

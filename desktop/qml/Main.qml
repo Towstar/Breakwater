@@ -8,6 +8,8 @@ ApplicationWindow {
     id: app
     required property var controller
     required property var investigator
+    required property var observedInvestigator
+    required property var observedHistory
     required property var credentials
     required property var history
     required property var scientificWorker
@@ -30,6 +32,8 @@ ApplicationWindow {
     readonly property bool eogAnalysisVisible: workspace === "eog" && operationsDockOpen
     readonly property bool sensorEditorVisible: sensorDialog.visible
     readonly property bool telemetryVisible: telemetryDialog.visible
+    readonly property bool observedInvestigationVisible: observedInvestigationDialog.visible
+    readonly property bool observedAdvisoryReviewVisible: !!observedAgentLoader.item && observedAgentLoader.item.advisoryReviewVisible
     readonly property int telemetryTraceSamples: telemetryDialog.renderedNumericSamples
     readonly property bool storageScienceVisible: showAgent && agentPanel.scienceVisible
     readonly property bool pipeTransportVisible: pipeTransportDialog.visible
@@ -120,7 +124,7 @@ ApplicationWindow {
     function sceneKeysEnabled() {
         const focus = app.activeFocusItem
         const textEditing = focus && typeof focus.selectAll === "function" && focus.text !== undefined
-        const blocked = [sensorDialog, telemetryDialog, pipeTransportDialog, aboutDialog, projectMenu, viewMenu, editMenu, exampleMenu].some(item => item && item.visible)
+        const blocked = [sensorDialog, telemetryDialog, observedInvestigationDialog, pipeTransportDialog, aboutDialog, projectMenu, viewMenu, editMenu, exampleMenu].some(item => item && item.visible)
         return app.workspace === "workbench" && !textEditing && !blocked && !(agentPanel && agentPanel.dialogOpen) && !(forecastPanel && forecastPanel.dialogOpen)
     }
     property bool connectMode: false
@@ -154,6 +158,7 @@ ApplicationWindow {
         pipeTransportDialog.close()
         sensorDialog.close()
         telemetryDialog.close()
+        observedInvestigationDialog.close()
     }
     function openPipeTransport() { closeWorkbenchPanels(); pipeTransportDialog.open() }
     function openStorageScience() { closeWorkbenchPanels(); openResults(4) }
@@ -162,7 +167,7 @@ ApplicationWindow {
     function toggleWorkbenchPanel(name) {
         const wasVisible = name === "investigator" ? showAgent
             : name === "sensors" ? sensorDialog.visible
-            : name === "telemetry" ? telemetryDialog.visible : pipeTransportDialog.visible
+            : name === "telemetry" ? (telemetryDialog.visible || observedInvestigationDialog.visible) : pipeTransportDialog.visible
         closeWorkbenchPanels()
         if (wasVisible) return
         if (name === "investigator") openResults(2)
@@ -255,7 +260,29 @@ ApplicationWindow {
     FileDialog { id: saveDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.save(selectedFile) }
     PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
     SensorPanel { id: sensorDialog; controller: app.controller }
-    TelemetryPanel { id: telemetryDialog; telemetry: app.telemetry }
+    TelemetryPanel {
+        id: telemetryDialog; telemetry: app.telemetry
+        onOpenInvestigation: { telemetryDialog.close(); observedInvestigationDialog.open() }
+    }
+    Dialog {
+        id: observedInvestigationDialog; objectName: "observedInvestigationDialog"; parent: Overlay.overlay
+        x: Math.max(16,(parent.width-width)/2); y: Math.max(16,(parent.height-height)/2)
+        width: Math.min(1120,parent.width-32); height: Math.min(780,parent.height-32)
+        title: "Observed forecast and advisory investigation"; modal: false; closePolicy: Popup.CloseOnEscape
+        padding: 14
+        background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
+        header: DialogHeading { owner: observedInvestigationDialog; closeName: "observedInvestigationClose" }
+        footer: DialogFooter { owner: observedInvestigationDialog }
+        contentItem: Loader {
+            id: observedAgentLoader
+            active: observedInvestigationDialog.visible
+            sourceComponent: AgentPanel {
+                investigator: app.observedInvestigator; history: app.observedHistory; credentials: app.credentials
+                scientificWorker: app.scientificWorker; storageScience: app.storageScience
+                currentNetworkHash: ""
+            }
+        }
+    }
 
 
     Dialog {
@@ -515,7 +542,7 @@ ApplicationWindow {
                         Layout.fillWidth: true; columns: app.height < 620 ? 2 : 1; columnSpacing: 6; rowSpacing: 4
                         ActionButton { objectName: "toggleInvestigator"; Layout.fillWidth: true; iconName: "workflow"; text: "Nemotron investigator"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: app.showAgent; onClicked: app.toggleWorkbenchPanel("investigator") }
                         ActionButton { objectName: "openSensorEditor"; Layout.fillWidth: true; iconName: "gauge"; text: "Sensors"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: sensorDialog.visible; onClicked: app.toggleWorkbenchPanel("sensors") }
-                        ActionButton { objectName: "openTelemetry"; Layout.fillWidth: true; iconName: "activity"; text: "Local monitoring"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: telemetryDialog.visible; onClicked: app.toggleWorkbenchPanel("telemetry") }
+                        ActionButton { objectName: "openTelemetry"; Layout.fillWidth: true; iconName: "activity"; text: "Local monitoring"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: telemetryDialog.visible || observedInvestigationDialog.visible; onClicked: app.toggleWorkbenchPanel("telemetry") }
                         ActionButton { objectName: "openPipeEvidence"; Layout.fillWidth: true; iconName: "waves"; text: "Pipe transport"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: pipeTransportDialog.visible; onClicked: app.toggleWorkbenchPanel("pipe") }
                     }
                 }

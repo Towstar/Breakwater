@@ -40,6 +40,20 @@ Do not reveal internal reasoning. Tools are optional and selected by you as usef
 Finish with a JSON object containing ONLY selected_run_id (an actual explicitly validated run ID, or null
 if no validated feasible plan was found) and explanation (a concise operational explanation and caveats).
 Do not include numerical fields in that final object; the application retrieves them from stored evidence.)";
+QString sessionInstructions(bool observed) {
+    auto text=QString::fromUtf8(instructions);
+    if (observed) text+=QStringLiteral(
+        "\nThis is an immutable OBSERVED ADVISORY session. Read get_observations before concluding. "
+        "Use get_detection_events when useful. Measurements, calibration/bounds, frozen commands, "
+        "coverage and expiry are distinct evidence. The effective numerical network holds measured "
+        "delivery and observed pump restrictions. It is separate from the design/editor network. "
+        "Missing coverage forbids numerical forecasts or plans: explain the missing evidence and select null. "
+        "Forecast feasibility is nominal only, not an uncertainty guarantee or mechanical diagnosis. "
+        "request_approval stages advisory review only. This session can never apply controls. "
+        "A human acknowledgement is separate from incident clearing and is unavailable for expired, "
+        "replayed, imported, superseded or mismatched evidence.");
+    return text;
+}
 }
 
 AgentOrchestrator::AgentOrchestrator(ModelTransport* transport, QObject* parent)
@@ -103,6 +117,7 @@ void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const 
     tool_calls_ = refinement_rounds_ = request_rounds_ = 0;
     awaiting_model_ = executing_tool_ = false;
     network_seen_ = controls_seen_ = false;
+    observations_seen_=false; local_observation_step_=0;
     final_correction_ = false;
     local_only_ = localOnly; local_step_ = 0; local_catalog_ = {}; local_last_ = {}; local_baseline_.clear(); local_selected_.clear();
     elapsed_.start(); running_ = true; status_ = local_only_ ? "Running local native search" : "Investigating";
@@ -110,7 +125,7 @@ void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const 
     event("agent_started", {{"objective", objective_}, {"source_mode", local_only_ ? "local_native" : "hosted"}, {"horizon_h", gateway_ ? gateway_->horizonH() : 0.0}});
     if (!guard || generation_ != epoch || !running_) return;
     if (!gateway_ || !gateway_->isCurrent() || objective_.isEmpty()) { fail("invalid_request", "A current snapshot and an operator objective are required."); return; }
-    messages_.append(QJsonObject{{"role", "system"}, {"content", QString::fromUtf8(instructions)}});
+    messages_.append(QJsonObject{{"role", "system"}, {"content", sessionInstructions(gateway_->advisoryOnly())}});
     messages_.append(QJsonObject{{"role", "user"}, {"content", QString("Objective: %1\nFixed snapshot: %2\nFixed horizon: %3 h\nLimits: %4 tool calls, %5 candidate batches, %6 ms.")
         .arg(objective_, gateway_->snapshotId()).arg(gateway_->horizonH()).arg(limits_.toolCalls).arg(limits_.refinementRounds).arg(limits_.durationMs)}});
     deadline_.start(limits_.durationMs);
@@ -118,15 +133,23 @@ void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const 
 }
 
 void AgentOrchestrator::advanceLocal() {
-    if (local_step_ > 0 && !local_last_.value("ok").toBool()) {
+    if (tool_calls_ > 0 && !local_last_.value("ok").toBool()) {
         fail("local_tool_failed", local_last_.value("error").toObject().value("message").toString("The local numerical tool failed.")); return;
     }
     QString name;
     QJsonObject arguments{{"snapshot_id", gateway_->snapshotId()}};
-    switch (local_step_++) {
+    if (gateway_->advisoryOnly() && local_observation_step_<2) {
+        name=local_observation_step_++==0 ? "get_observations":"get_detection_events"; arguments={};
+    } else switch (local_step_++) {
     case 0: name = "get_network_state"; arguments = {}; break;
     case 1: name = "get_control_catalog"; arguments = {}; break;
-    case 2: name = "forecast_baseline"; break;
+    case 2:
+        if (!gateway_->observationsAvailable()) {
+            const QJsonObject final{{"selected_run_id",QJsonValue::Null},{"explanation",
+                "Required observed coverage is unavailable. No numerical forecast, intervention search or scientific method ran. Inspect the retained missing/conflicting measurements and capture fresh coherent evidence. No hosted model was used."}};
+            finish({{"content",QString::fromUtf8(QJsonDocument(final).toJson(QJsonDocument::Compact))}}); return;
+        }
+        name = "forecast_baseline"; break;
     case 3: name = "validate_run"; arguments["run_id"] = local_baseline_; break;
     case 4: {
         QJsonArray axes;
@@ -175,14 +198,14 @@ void AgentOrchestrator::requestModel() {
     const auto callsLeft = std::max(0, limits_.toolCalls - tool_calls_);
     const auto refinementsLeft = std::max(0, limits_.refinementRounds - refinement_rounds_);
     QJsonArray tools;
-    if (!final_correction_ && callsLeft > 0) for (const auto& definition : SimulationGateway::toolDefinitions()) {
+    if (!final_correction_ && callsLeft > 0) for (const auto& definition : SimulationGateway::toolDefinitions(gateway_->advisoryOnly())) {
         const auto name = definition.toObject().value("function").toObject().value("name").toString();
         if (refinementsLeft == 0 && (name == "simulate_candidates" || name == "search_interventions")) continue;
         tools.append(definition);
     }
     auto messages = messages_;
     auto system = messages.first().toObject();
-    system["content"] = QString::fromUtf8(instructions) + QString(
+    system["content"] = sessionInstructions(gateway_->advisoryOnly()) + QString(
         "\nCurrent remaining budget: %1 total tool calls, %2 candidate refinement calls, %3 ms. "
         "Failed attempts also consume budget. Both simulate_candidates and search_interventions consume one refinement call. "
         "Use only the tools currently offered, and reserve calls for independent validation and staging if needed. "
@@ -294,6 +317,7 @@ void AgentOrchestrator::completeTool(quint64 generation, const std::shared_ptr<S
     }
     if (outcome.value("ok").toBool() && name == "get_network_state") network_seen_ = true;
     if (outcome.value("ok").toBool() && name == "get_control_catalog") controls_seen_ = true;
+    if (outcome.value("ok").toBool() && name == "get_observations") observations_seen_=true;
     QJsonObject fields{{"tool_name", name}, {"tool_call_id", id}, {"duration_ms", elapsed_.elapsed() - started},
         {"status", outcome.value("ok").toBool() ? "completed" : "failed"}, {"result", outcome}};
     if (!outcome.value("ok").toBool()) fields["error"] = outcome.value("error");
@@ -365,6 +389,7 @@ void AgentOrchestrator::startSensitivity(const QJsonObject& arguments, quint64 g
 
 void AgentOrchestrator::finish(const QJsonObject& message) {
     if (!network_seen_ || !controls_seen_) { fail("inspection_required", "The model must inspect the current network and controls before concluding."); return; }
+    if (gateway_->advisoryOnly() && !observations_seen_) { fail("inspection_required","The model must inspect frozen observations before concluding."); return; }
     QJsonObject final;
     try { final = telemetry::decode_document(message.value("content").toString().toUtf8(),64*1024); }
     catch (const std::exception&) { /* Only one bounded format correction is allowed below. */ }
@@ -396,7 +421,7 @@ void AgentOrchestrator::finish(const QJsonObject& message) {
     result_["source_mode"] = local_only_ ? "local_native" : "hosted";
     result_["objective"] = objective_;
     result_["explanation"] = final.value("explanation");
-    result_["actionable"] = gateway_->isCurrent() && result_.value("ok").toBool();
+    result_["actionable"] = !gateway_->advisoryOnly() && gateway_->isCurrent() && result_.value("ok").toBool();
     running_ = false; deadline_.stop(); status_ = result_.value("status").toString();
     event("recommendation_ready", {{"recommendation", result_}});
 }

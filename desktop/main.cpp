@@ -4,6 +4,7 @@
 #include "verification/WorkbenchUiCheck.hpp"
 #include "verification/SceneBenchmark.hpp"
 #include "agent/AgentController.hpp"
+#include "agent/ObservedInvestigationController.hpp"
 #include "agent/CredentialSettings.hpp"
 #include "history/HistoryController.hpp"
 #include "history/RehearsalArchiveCoordinator.hpp"
@@ -251,6 +252,9 @@ int main(int argc, char** argv) {
     QObject::connect(&repository, &breakwater::desktop::history::SessionRepository::ready, &app, [&] { historyReady = true; });
     breakwater::desktop::history::HistoryController history(&repository);
     breakwater::desktop::agent::AgentController investigator(&controller);
+    breakwater::desktop::history::HistoryController observedHistory(&repository);
+    breakwater::desktop::agent::ObservedInvestigationController observedInvestigator(&controller,&telemetry);
+    observedInvestigator.setHistory(&repository,&observedHistory);
     breakwater::desktop::agent::CredentialSettings credentials;
     // EOG has separate provider processes, model conversation and history. The
     // workbench investigator and its approval state retain their own ownership.
@@ -321,6 +325,7 @@ int main(int argc, char** argv) {
     breakwater::desktop::WorkspaceSettings workspaceSettings(preferenceStorage ? preferenceStorage->filePath("workspace.ini") : QString{});
     QQmlApplicationEngine engine;
     engine.setInitialProperties({{"controller", QVariant::fromValue(&controller)}, {"investigator", QVariant::fromValue(&investigator)},
+        {"observedInvestigator",QVariant::fromValue(&observedInvestigator)},{"observedHistory",QVariant::fromValue(&observedHistory)},
         {"history", QVariant::fromValue(&history)}, {"scientificWorker", QVariant::fromValue(&scientificWorker)},
         {"pipeTransport", QVariant::fromValue(&pipeTransport)}, {"storageScience", QVariant::fromValue(&storageScience)},
         {"credentials", QVariant::fromValue(&credentials)}, {"telemetry", QVariant::fromValue(&telemetry)},

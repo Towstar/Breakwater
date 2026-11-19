@@ -10,6 +10,8 @@
 #include <mutex>
 #include <optional>
 
+namespace breakwater::desktop::telemetry { struct ObservedEvidence; }
+
 namespace breakwater::desktop::agent {
 
 struct PreparedSensitivity {
@@ -25,6 +27,10 @@ struct PreparedSensitivity {
 class SimulationGateway final {
 public:
     SimulationGateway(const Network& network, const QString& physicalHash, double horizonH = 3.0);
+    static std::shared_ptr<SimulationGateway> fromObservation(const telemetry::ObservedEvidence& evidence, double horizonH = 3.0);
+    bool advisoryOnly() const { return !observed_origin_.isEmpty(); }
+    bool observationsAvailable() const { return !advisoryOnly() || observed_origin_.value("snapshot").toObject().value("availability")=="available"; }
+    QJsonObject observedOrigin() const { return observed_origin_; }
     QString snapshotId() const { return snapshot_id_; }
     QString physicalHash() const { return physical_hash_; }
     double horizonH() const { return config_.horizon_h; }
@@ -41,7 +47,7 @@ public:
     // science capture uses its run ID as snapshot ID and revision zero; the
     // original incident identities are retained separately in origin.
     PreparedSensitivity prepareSensitivity(const QJsonObject& arguments) const;
-    static QJsonArray toolDefinitions();
+    static QJsonArray toolDefinitions(bool observed = false);
 
 private:
     struct StoredRun {
@@ -68,6 +74,7 @@ private:
     bool network_inspected_ = false;
     bool controls_inspected_ = false;
     QString staged_run_id_;
+    QJsonObject observed_origin_; // Set once by the validated factory before publication.
 
     QJsonObject summary(const StoredRun& run) const;
     QJsonObject recommendationLocked(const QString& runId) const;

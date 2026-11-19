@@ -12,9 +12,12 @@ public:
     void checkpoint();
     void flush();
     void recordApproval(const QJsonObject& recommendation);
+    void recordAdvisoryAcknowledgement(const QJsonObject& recommendation);
     void setConfiguredModel(const QString& model) { model_ = model; }
+    bool pending() const { return capturing_ || pending_; }
 signals:
     void failed(const QString& message);
+    void pendingChanged();
 private:
     agent::AgentOrchestrator* session_;
     QPointer<SessionRepository> repository_;
@@ -23,9 +26,12 @@ private:
     QJsonArray approvals_;
     QJsonObject applied_;
     quint64 sequence_ = 0;
+    QString in_flight_id_;
+    quint64 in_flight_sequence_=0;
     bool capturing_ = false, pending_ = false;
     QJsonObject header();
     void publish(const QJsonObject& archive);
     static QJsonObject complete(QJsonObject header, const std::shared_ptr<agent::SimulationGateway>& gateway);
+    void recordReview(const QJsonObject& recommendation,const QString& status);
 };
 }
