@@ -1,0 +1,3168 @@
+{
+  "source_commit": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399",
+  "app_sha256": "fdbfe2e784687e3d736ba75bdab5aabc5b2a31c6b2483df0f155b0687981d3d9",
+  "windows_zip_sha256": "0222122b4644be922aa506bb71ab3fe573caa57dd8ade61078004301789c0344",
+  "source_zip_sha256": "20b61a6cd678a64fe03aa519b34e823efd1cdc2777fe0e7d824c0e3f238a78a3",
+  "bundle_manifest_sha256": "12de9d96d2155f99d4f34c7e3585acd9393f7642138a2622d76e843546770cb4",
+  "status": "inventory_recorded",
+  "distribution_review": "pending",
+  "owner_license_agreement": "pending",
+  "scope": "Actual sealed bundle inventory and upstream metadata; not a legal/source-delivery approval.",
+  "qt_runtime_files": {
+    "bin/Qt6Core.dll": "39175459c4837c8cc0f709a637fb6eadb25d696785109c8393559ec876f02703",
+    "bin/Qt6Gui.dll": "37c79b48b9cc2d9a03d21410c26fea683d236f9280f5c9aaab85d980759f2835",
+    "bin/Qt6LabsFolderListModel.dll": "ca3ed81888dc73b7e40e3cf2cbd5b57476989e1ae26bdc925b58d4ac865fff4f",
+    "bin/Qt6Network.dll": "9825558f184c64f639c4b8663650cee0ae8ffe01c18d98ff76f006a02389965f",
+    "bin/Qt6OpenGL.dll": "1e88ff2d5c02e817839c8be4257162e677e7b8335dee9128185cb5888ceebc67",
+    "bin/Qt6Qml.dll": "2572e315c36d8cea89a5becb910ddccdcf5d34e5421eef1e033187a99b68f84b",
+    "bin/Qt6QmlMeta.dll": "26110c74d4dacdf73c94326a554a9f866383487250cd058c0410b037eb205c17",
+    "bin/Qt6QmlModels.dll": "fd3f5e540705b7625292df7f12556ab96eb0c53769083b31bf59ced50639683b",
+    "bin/Qt6QmlWorkerScript.dll": "900ed9907ec695e8f8d0775ef7993dc40423b69513324d5bee434f2751755fe5",
+    "bin/Qt6Quick.dll": "6d9b5639e8cad3b01083fc7c8c838b09d9f2d04a38cc4c339ddc3973123d5fa8",
+    "bin/Qt6Quick3D.dll": "df831e9952e2e90ba74af94640f0f3248750b269d89d59b1cd09b41e38f963ee",
+    "bin/Qt6Quick3DHelpers.dll": "0fcc9bfaf710f22156fc5959eb8f5e711dee16c85293ce5563cfd338d7b553f0",
+    "bin/Qt6Quick3DHelpersImpl.dll": "bc2b6f449a081bdac03ce4fc5a6e0f7a9438e711721ae4d281d4c788eaaa5987",
+    "bin/Qt6Quick3DRuntimeRender.dll": "626fb5697b6616281e7ead611672b8a5dd77403b297f92707a0d9bb9abec7ada",
+    "bin/Qt6Quick3DUtils.dll": "1c6b12a24ae4f49f9010c61213d33d35fa0d8a9fe0b172d18d37587e87e31cef",
+    "bin/Qt6QuickControls2.dll": "6dc2413eb7a8138ef821a9886c7b5799d9a570968b1ba31848774f991aa89060",
+    "bin/Qt6QuickControls2Basic.dll": "04cab4012313cbe5f02f4d665078c939f1d702072494ae0542b01654cbb06356",
+    "bin/Qt6QuickControls2BasicStyleImpl.dll": "15f74454beddaf91b8ca1fd50e9d83cc3f236bbac1e4f3e338bdbf49897e6714",
+    "bin/Qt6QuickControls2FluentWinUI3.dll": "a2c9a49efe09ffb1231bf6a246762f0111f83aff90288410e4a94d742414935d",
+    "bin/Qt6QuickControls2FluentWinUI3StyleImpl.dll": "b3f280a485024b996179b3cc7e158850c4e6ad1529e093ded8202df3d5f69400",
+    "bin/Qt6QuickControls2Fusion.dll": "aeb750fb12c0866f23b1124b20ee94ad0ade99e39b62b6221c2cf88b4f19c53e",
+    "bin/Qt6QuickControls2FusionStyleImpl.dll": "c5e29b8b78ce33da48ce1085085d9081fda52aca195c337794c8ac832d2fc5c2",
+    "bin/Qt6QuickControls2Imagine.dll": "06b429e77b72a706f061b60ad8ccc6b3453f1130d23c635b3945e02c2c9baced",
+    "bin/Qt6QuickControls2ImagineStyleImpl.dll": "8cfe8c76928283e4e8abdfe57507b015b18c2c6b6470aedb8c8f4268c6110e01",
+    "bin/Qt6QuickControls2Impl.dll": "8d1281b8047295c0793902b68d5940ca7779b60bdc4e03281088a81e9cf66d05",
+    "bin/Qt6QuickControls2Material.dll": "1946c324ecc72571c3787f73b81b11e2db6e006c661b1dc7cf113069b48c3307",
+    "bin/Qt6QuickControls2MaterialStyleImpl.dll": "e80450d680b81dcda998c4df6d66ee5ed8ffd3555d77c34ec38b151f8af70749",
+    "bin/Qt6QuickControls2Universal.dll": "6bf7fae1d6de7f1e77e1c5321f6c3eeb1f7897f84c626d365cf0cf6df5bbd5c8",
+    "bin/Qt6QuickControls2UniversalStyleImpl.dll": "d4578a65a16bff93f7ed28354344ae8ff2c12eff20bf329abb7ec328a54ed230",
+    "bin/Qt6QuickControls2Windows.dll": "bcab1deb7d80fed15964c9ffccd39849c7ba3d3f49c58e99c0fca08261bb0391",
+    "bin/Qt6QuickControls2WindowsStyleImpl.dll": "af5ad839592ca7f79bf8f90c7b41d913cfa7b349ccbd52320505f31214c6cd2b",
+    "bin/Qt6QuickDialogs2.dll": "4ba12047b409ee219533bbb6f0c554f03ea017de3e68458f432279ba002b6123",
+    "bin/Qt6QuickDialogs2QuickImpl.dll": "e5d1195ce35bd0926ca8b1993f2896adc8207f3f87271792f9368d8dc27ff3fe",
+    "bin/Qt6QuickDialogs2Utils.dll": "acd4495b2d2517848254c6f7079736bc1c0d18b0f4ab8980871e197978f88ef0",
+    "bin/Qt6QuickEffects.dll": "d1531a4ab5867dbf862476d117e8b1f50f68b517ce0e930dfb122635d5521bf7",
+    "bin/Qt6QuickLayouts.dll": "f1defece7e4acd24582cb4216ffb3edc8bd81b650e2e3ef42b7cdf3148389302",
+    "bin/Qt6QuickNativeStyle.dll": "7f8e8dc707d8765a08adb61b972e8a626dd3c1983fa034a6665d21dc910c80a3",
+    "bin/Qt6QuickShapes.dll": "b6fb07b8b449337b4decf8fb574a882599a5c78c55bedf827f211fa7326173f1",
+    "bin/Qt6QuickTemplates2.dll": "94c70cf4d6a15720a2e2e2b41b4c99f85a3d0b6a758bdb12b18128fe3c26f4bc",
+    "bin/Qt6ShaderTools.dll": "b06a91ed773d1af8fecf54f8b98683a38b73fbfec776c714e080143aded64c90",
+    "bin/Qt6Sql.dll": "1d847a23da0f3dc568e3fb8a98fbb210ba122a3b7f3db51b5cc69a2edfae74a6",
+    "bin/Qt6Svg.dll": "cce84059f1857ff1859db7c4fe10334e603d9ca81eb4d5f0a22ca0ac515b340c"
+  },
+  "microsoft_runtime_files": {
+    "bin/vc_redist.x64.exe": "cc0ff0eb1dc3f5188ae6300faef32bf5beeba4bdd6e8e445a9184072096b713b"
+  },
+  "notice_file_count": 94,
+  "cpython_license_sha256": "886a0ead2d89030ee62dbff52b04e47ab91998341295bb9c56fb952b4e081c7a",
+  "python_packages": [
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "license_expression": "MIT",
+      "project_urls": [
+        "Documentation, https://www.attrs.org/",
+        "Changelog, https://www.attrs.org/en/stable/changelog.html",
+        "GitHub, https://github.com/python-attrs/attrs",
+        "Funding, https://github.com/sponsors/hynek",
+        "Tidelift, https://tidelift.com/subscription/pkg/pypi-attrs?utm_source=pypi-attrs&utm_medium=pypi"
+      ],
+      "homepage": null,
+      "license_files": [
+        "licenses/LICENSE"
+      ],
+      "metadata_sha256": "4cd40e690f23bf37cbcad34efd6758e062df1df07c86833f7e3ce95bf1fa38cc"
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.25.1",
+      "license_expression": "MIT",
+      "project_urls": [
+        "Homepage, https://github.com/python-jsonschema/jsonschema",
+        "Documentation, https://python-jsonschema.readthedocs.io/",
+        "Issues, https://github.com/python-jsonschema/jsonschema/issues/",
+        "Funding, https://github.com/sponsors/Julian",
+        "Tidelift, https://tidelift.com/subscription/pkg/pypi-jsonschema?utm_source=pypi-jsonschema&utm_medium=referral&utm_campaign=pypi-link",
+        "Changelog, https://github.com/python-jsonschema/jsonschema/blob/main/CHANGELOG.rst",
+        "Source, https://github.com/python-jsonschema/jsonschema"
+      ],
+      "homepage": null,
+      "license_files": [
+        "licenses/COPYING"
+      ],
+      "metadata_sha256": "31f83c1579e46e1af62269cefa5d83534ef155f3ee21914f7881bbd544bc125c"
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1",
+      "license_expression": "MIT",
+      "project_urls": [
+        "Documentation, https://jsonschema-specifications.readthedocs.io/",
+        "Homepage, https://github.com/python-jsonschema/jsonschema-specifications",
+        "Issues, https://github.com/python-jsonschema/jsonschema-specifications/issues/",
+        "Funding, https://github.com/sponsors/Julian",
+        "Tidelift, https://tidelift.com/subscription/pkg/pypi-jsonschema-specifications?utm_source=pypi-jsonschema-specifications&utm_medium=referral&utm_campaign=pypi-link",
+        "Source, https://github.com/python-jsonschema/jsonschema-specifications"
+      ],
+      "homepage": null,
+      "license_files": [
+        "licenses/COPYING"
+      ],
+      "metadata_sha256": "35abd41757f32b4ea24756920ded47b70173d77cbc052a5a6d3ab583b2e8d89d"
+    },
+    {
+      "name": "pip",
+      "version": "26.1",
+      "license_expression": "MIT",
+      "project_urls": [
+        "Changelog, https://pip.pypa.io/en/stable/news/",
+        "Documentation, https://pip.pypa.io",
+        "Homepage, https://pip.pypa.io/",
+        "Source, https://github.com/pypa/pip"
+      ],
+      "homepage": null,
+      "license_files": [
+        "licenses/LICENSE.txt",
+        "licenses/src/pip/_vendor/cachecontrol/LICENSE.txt",
+        "licenses/src/pip/_vendor/certifi/LICENSE",
+        "licenses/src/pip/_vendor/distlib/LICENSE.txt",
+        "licenses/src/pip/_vendor/distro/LICENSE",
+        "licenses/src/pip/_vendor/idna/LICENSE.md",
+        "licenses/src/pip/_vendor/msgpack/COPYING",
+        "licenses/src/pip/_vendor/packaging/LICENSE",
+        "licenses/src/pip/_vendor/packaging/LICENSE.APACHE",
+        "licenses/src/pip/_vendor/packaging/LICENSE.BSD",
+        "licenses/src/pip/_vendor/pkg_resources/LICENSE",
+        "licenses/src/pip/_vendor/platformdirs/LICENSE",
+        "licenses/src/pip/_vendor/pygments/LICENSE",
+        "licenses/src/pip/_vendor/pyproject_hooks/LICENSE",
+        "licenses/src/pip/_vendor/requests/LICENSE",
+        "licenses/src/pip/_vendor/resolvelib/LICENSE",
+        "licenses/src/pip/_vendor/rich/LICENSE",
+        "licenses/src/pip/_vendor/tomli/LICENSE",
+        "licenses/src/pip/_vendor/tomli_w/LICENSE",
+        "licenses/src/pip/_vendor/truststore/LICENSE",
+        "licenses/src/pip/_vendor/urllib3/LICENSE.txt"
+      ],
+      "metadata_sha256": "a2513472f5c5b0610f99edaa8ed106016d7da0f2646e59d5292de922279f97e1"
+    },
+    {
+      "name": "referencing",
+      "version": "0.37.0",
+      "license_expression": "MIT",
+      "project_urls": [
+        "Documentation, https://referencing.readthedocs.io/",
+        "Homepage, https://github.com/python-jsonschema/referencing",
+        "Issues, https://github.com/python-jsonschema/referencing/issues/",
+        "Funding, https://github.com/sponsors/Julian",
+        "Tidelift, https://tidelift.com/subscription/pkg/pypi-referencing?utm_source=pypi-referencing&utm_medium=referral&utm_campaign=pypi-link",
+        "Changelog, https://referencing.readthedocs.io/en/stable/changes/",
+        "Source, https://github.com/python-jsonschema/referencing"
+      ],
+      "homepage": null,
+      "license_files": [
+        "licenses/COPYING"
+      ],
+      "metadata_sha256": "c93b00e6ab1524fd60848376604c189a114374776475c25a31d57be47b29de6a"
+    },
+    {
+      "name": "rpds-py",
+      "version": "2026.9.1",
+      "license_expression": "MIT",
+      "project_urls": [
+        "Documentation, https://rpds.readthedocs.io/",
+        "Funding, https://github.com/sponsors/Julian",
+        "Homepage, https://github.com/crate-py/rpds",
+        "Issues, https://github.com/crate-py/rpds/issues/",
+        "Source, https://github.com/crate-py/rpds",
+        "Tidelift, https://tidelift.com/subscription/pkg/pypi-rpds-py?utm_source=pypi-rpds-py&utm_medium=referral&utm_campaign=pypi-link",
+        "Upstream, https://github.com/orium/rpds"
+      ],
+      "homepage": null,
+      "license_files": [
+        "licenses/LICENSE"
+      ],
+      "metadata_sha256": "778fb36890d26c5657d256db3e61a05a637468aa4cf607f8d1059c5079fcefd8"
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "license_expression": "PSF-2.0",
+      "project_urls": [
+        "Bug Tracker, https://github.com/python/typing_extensions/issues",
+        "Changes, https://github.com/python/typing_extensions/blob/main/CHANGELOG.md",
+        "Documentation, https://typing-extensions.readthedocs.io/",
+        "Home, https://github.com/python/typing_extensions",
+        "Q & A, https://github.com/python/typing/discussions",
+        "Repository, https://github.com/python/typing_extensions"
+      ],
+      "homepage": null,
+      "license_files": [
+        "licenses/LICENSE"
+      ],
+      "metadata_sha256": "b05084ca1d50879865178d9fff9fabeab61bdfb1f361bfbde95421ffc8f9be46"
+    }
+  ],
+  "qt_sbom": [
+    {
+      "file": "qtbase-6.12.0.spdx.json",
+      "sha256": "ec627100f721386be2a72e904af13f2ef3d52e2714aee3e25db279fc9464884d",
+      "packages": [
+        {
+          "name": "qtbase",
+          "versionInfo": "025bdad1+HEAD",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "syncqt",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "Bootstrap_Attribution_pcre2",
+          "versionInfo": "10.48",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "LicenseRef-BSD-3-Clause-with-PCRE2-Binary-Like-Packages-Exception",
+          "downloadLocation": "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.48/pcre2-10.48.tar.bz2"
+        },
+        {
+          "name": "Bootstrap_Attribution_pcre2-sljit",
+          "versionInfo": "10.48",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-2-Clause",
+          "downloadLocation": "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.48/pcre2-10.48.tar.bz2"
+        },
+        {
+          "name": "Bootstrap",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "moc",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "rcc",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "tracepointgen",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "tracegen",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "cmake_automoc_parser",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "EntryPointPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR BSD-3-Clause",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR BSD-3-Clause",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "BundledPcre2_Attribution_pcre2-sljit",
+          "versionInfo": "10.48",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-2-Clause",
+          "downloadLocation": "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.48/pcre2-10.48.tar.bz2"
+        },
+        {
+          "name": "BundledPcre2",
+          "versionInfo": "10.48",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "LicenseRef-BSD-3-Clause-with-PCRE2-Binary-Like-Packages-Exception",
+          "downloadLocation": "https://github.com/PCRE2Project/pcre2/releases/download/pcre2-10.48/pcre2-10.48.tar.bz2"
+        },
+        {
+          "name": "BundledZLIB",
+          "versionInfo": "1.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Zlib",
+          "downloadLocation": "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz"
+        },
+        {
+          "name": "ZlibPrivate",
+          "versionInfo": "1.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Zlib",
+          "downloadLocation": "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz"
+        },
+        {
+          "name": "Core_Attribution_unicode-character-database",
+          "versionInfo": "36",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Unicode-3.0",
+          "downloadLocation": "https://www.unicode.org/ucd/"
+        },
+        {
+          "name": "Core_Attribution_unicode-cldr",
+          "versionInfo": "v48.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Unicode-3.0",
+          "downloadLocation": "https://cldr.unicode.org/"
+        },
+        {
+          "name": "Core_Attribution_tlexpected",
+          "versionInfo": "41d3e1f48d682992a2230b2a715bca38b848b269",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "CC0-1.0",
+          "downloadLocation": "https://github.com/TartanLlama/expected/blob/41d3e1f48d682992a2230b2a715bca38b848b269/include/tl/expected.hpp"
+        },
+        {
+          "name": "Core_Attribution_siphash",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "CC0-1.0",
+          "downloadLocation": "https://raw.githubusercontent.com/veorq/SipHash/adcbf09b1684a718f594faa650ffc56bacdb0777/siphash24.c"
+        },
+        {
+          "name": "Core_Attribution_blake2",
+          "versionInfo": "ed1974ea83433eba7b2d95c5dcd9ac33cb847913",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "CC0-1.0 OR Apache-2.0",
+          "downloadLocation": "https://github.com/BLAKE2/BLAKE2/tree/ed1974ea83433eba7b2d95c5dcd9ac33cb847913"
+        },
+        {
+          "name": "Core_Attribution_md4",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "CC0-1.0",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Core_Attribution_md5",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "CC0-1.0",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Core_Attribution_sha1",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "LicenseRef-SHA1-Public-Domain",
+          "downloadLocation": "http://www.dominik-reichl.de/projects/csha1/"
+        },
+        {
+          "name": "Core_Attribution_sha3_endian",
+          "versionInfo": "1.0.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-2-Clause",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Core_Attribution_sha3_keccak",
+          "versionInfo": "3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "CC0-1.0",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Core_Attribution_rfc6234",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Core_Attribution_tinycbor",
+          "versionInfo": "7.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/intel/tinycbor/archive/v7.0/tinycbor-7.0.tar.gz"
+        },
+        {
+          "name": "Core_Attribution_doubleconversion",
+          "versionInfo": "3.4.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://github.com/google/double-conversion/releases/tag/v3.4.0"
+        },
+        {
+          "name": "Core_Attribution_easing",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "http://robertpenner.com/easing/"
+        },
+        {
+          "name": "Core_Attribution_tika-mimetypes",
+          "versionInfo": "c29724782854bb5a319f4a1940d0828a58ace3f9",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0",
+          "downloadLocation": "https://github.com/apache/tika/blob/c29724782854bb5a319f4a1940d0828a58ace3f9/tika-core/src/main/resources/org/apache/tika/mime/tika-mimetypes.xml"
+        },
+        {
+          "name": "Core",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "BundledLibpng",
+          "versionInfo": "1.6.58",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Libpng AND libpng-2.0",
+          "downloadLocation": "https://download.sourceforge.net/libpng/libpng-1.6.58.tar.xz"
+        },
+        {
+          "name": "PngPrivate",
+          "versionInfo": "1.6.58",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Libpng AND libpng-2.0",
+          "downloadLocation": "https://download.sourceforge.net/libpng/libpng-1.6.58.tar.xz"
+        },
+        {
+          "name": "BundledLibjpeg16bits",
+          "versionInfo": "3.2.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "IJG AND BSD-3-Clause",
+          "downloadLocation": "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.2.0/libjpeg-turbo-3.2.0.tar.gz"
+        },
+        {
+          "name": "BundledLibjpeg12bits",
+          "versionInfo": "3.2.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "IJG AND BSD-3-Clause",
+          "downloadLocation": "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.2.0/libjpeg-turbo-3.2.0.tar.gz"
+        },
+        {
+          "name": "BundledLibjpeg",
+          "versionInfo": "3.2.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "IJG AND BSD-3-Clause",
+          "downloadLocation": "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.2.0/libjpeg-turbo-3.2.0.tar.gz"
+        },
+        {
+          "name": "JpegPrivate",
+          "versionInfo": "3.2.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "IJG AND BSD-3-Clause",
+          "downloadLocation": "https://github.com/libjpeg-turbo/libjpeg-turbo/releases/download/3.2.0/libjpeg-turbo-3.2.0.tar.gz"
+        },
+        {
+          "name": "BundledFreetype_Attribution_freetype-zlib",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Zlib",
+          "downloadLocation": "http://www.freetype.org"
+        },
+        {
+          "name": "BundledFreetype_Attribution_freetype-bdf",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "http://www.freetype.org"
+        },
+        {
+          "name": "BundledFreetype_Attribution_freetype-pcf",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT AND MIT-open-group",
+          "downloadLocation": "http://www.freetype.org"
+        },
+        {
+          "name": "BundledFreetype",
+          "versionInfo": "2.14.3",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "FTL OR GPL-2.0-only",
+          "downloadLocation": "https://download.savannah.gnu.org/releases/freetype/freetype-2.14.3.tar.gz"
+        },
+        {
+          "name": "FreetypePrivate_Attribution_freetype-zlib",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Zlib",
+          "downloadLocation": "http://www.freetype.org"
+        },
+        {
+          "name": "FreetypePrivate_Attribution_freetype-bdf",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "http://www.freetype.org"
+        },
+        {
+          "name": "FreetypePrivate_Attribution_freetype-pcf",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT AND MIT-open-group",
+          "downloadLocation": "http://www.freetype.org"
+        },
+        {
+          "name": "FreetypePrivate",
+          "versionInfo": "2.14.3",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "FTL OR GPL-2.0-only",
+          "downloadLocation": "https://download.savannah.gnu.org/releases/freetype/freetype-2.14.3.tar.gz"
+        },
+        {
+          "name": "BundledHarfbuzz",
+          "versionInfo": "14.5.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/harfbuzz/harfbuzz/releases/tag/14.5.0"
+        },
+        {
+          "name": "HarfbuzzPrivate",
+          "versionInfo": "14.5.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/harfbuzz/harfbuzz/releases/tag/14.5.0"
+        },
+        {
+          "name": "Concurrent",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "Sql",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "Network_Attribution_zlib",
+          "versionInfo": "1.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Zlib",
+          "downloadLocation": "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz"
+        },
+        {
+          "name": "Network_Attribution_psl-data",
+          "versionInfo": "2026-05-14_08-35-31_UTC",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MPL-2.0",
+          "downloadLocation": "https://publicsuffix.org/list/public_suffix_list.dat"
+        },
+        {
+          "name": "Network_Attribution_libpsl",
+          "versionInfo": "664f3dc85259ec65e30248a61fa1c45b7b0e4c3f",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://github.com/rockdaboot/libpsl"
+        },
+        {
+          "name": "Network",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "Xml",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "DBus_Attribution_libdbus-1-headers",
+          "versionInfo": "1.13.12",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "AFL-2.1 OR GPL-2.0-or-later",
+          "downloadLocation": "https://www.freedesktop.org/wiki/Software/dbus/"
+        },
+        {
+          "name": "DBus",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "uic",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "qdbuscpp2xml",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "qdbusxml2cpp",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "qlalr",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "qvkgen",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "qtpaths",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "androiddeployqt",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "androidtestrunner",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "wasmdeployqt",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "windeployqt",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "harmonydeployqt",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "harmonyostestrunner",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "Gui_Attribution_rhi-miniengine-d3d12-mipmap",
+          "versionInfo": "0aa79bad78992da0b6a8279ddb9002c1753cb849",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/microsoft/DirectX-Graphics-Samples"
+        },
+        {
+          "name": "Gui_Attribution_opengl-headers",
+          "versionInfo": "Revision 27684",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://www.khronos.org/"
+        },
+        {
+          "name": "Gui_Attribution_opengl-es2-headers",
+          "versionInfo": "Revision 27673",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://www.khronos.org/"
+        },
+        {
+          "name": "Gui_Attribution_grayraster",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "FTL OR GPL-2.0-only",
+          "downloadLocation": "http://www.freetype.org"
+        },
+        {
+          "name": "Gui_Attribution_smooth-scaling-algorithm",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-2-Clause AND Imlib2",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Gui_Attribution_xserverhelper",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "X11 AND HPND",
+          "downloadLocation": "https://www.x.org/"
+        },
+        {
+          "name": "Gui_Attribution_aglfn",
+          "versionInfo": "1.7",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://github.com/adobe-type-tools/agl-aglfn"
+        },
+        {
+          "name": "Gui_Attribution_xsvg",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "HPND-sell-variant",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Gui_Attribution_vulkanmemoryallocator",
+          "versionInfo": "3.3.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/GPUOpen-LibrariesAndSDKs/VulkanMemoryAllocator"
+        },
+        {
+          "name": "Gui_Attribution_emoji-segmenter",
+          "versionInfo": "0.4.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0",
+          "downloadLocation": "https://github.com/google/emoji-segmenter/releases/tag/0.4.0"
+        },
+        {
+          "name": "Gui_Attribution_webgradients",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://webgradients.com/"
+        },
+        {
+          "name": "Gui_Attribution_icc-srgb-color-profile",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "LicenseRef-ICC-License",
+          "downloadLocation": "http://www.color.org/"
+        },
+        {
+          "name": "Gui_Attribution_d3d12memoryallocator",
+          "versionInfo": "v3.1.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/GPUOpen-LibrariesAndSDKs/D3D12MemoryAllocator"
+        },
+        {
+          "name": "Gui_Attribution_md4c",
+          "versionInfo": "0.5.3",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/mity/md4c/releases/tag/release-0.5.3"
+        },
+        {
+          "name": "Gui_Attribution_zlib",
+          "versionInfo": "1.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Zlib",
+          "downloadLocation": "https://github.com/madler/zlib/releases/download/v1.3.2/zlib-1.3.2.tar.gz"
+        },
+        {
+          "name": "Gui_Attribution_vulkan-xml-spec",
+          "versionInfo": "1.4.308",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0 OR MIT",
+          "downloadLocation": "https://www.khronos.org/"
+        },
+        {
+          "name": "Gui",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "OpenGL",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "Widgets",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "OpenGLWidgets",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "DeviceDiscoverySupportPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "FbSupportPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "TestInternalsPrivate_Attribution_cmake-runcmake-test-modules",
+          "versionInfo": "3.31.5",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://cmake.org/"
+        },
+        {
+          "name": "TestInternalsPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "Test_Attribution_catch2",
+          "versionInfo": "2.13.10",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSL-1.0",
+          "downloadLocation": "https://github.com/catchorg/Catch2"
+        },
+        {
+          "name": "Test_Attribution_cycle",
+          "versionInfo": "3.3.11",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "http://fftw.org/"
+        },
+        {
+          "name": "Test_Attribution_linuxperf",
+          "versionInfo": "7.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "GPL-2.0-only WITH Linux-syscall-note",
+          "downloadLocation": "https://www.kernel.org"
+        },
+        {
+          "name": "Test_Attribution_valgrind",
+          "versionInfo": "3.25.1",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-4-Clause",
+          "downloadLocation": "http://valgrind.org/"
+        },
+        {
+          "name": "Test",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "PrintSupport",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QPSQLDriverPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QODBCDriverPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QOCIDriverPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QSQLiteDriverPlugin_Attribution_sqlite",
+          "versionInfo": "3.53.4",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "blessing",
+          "downloadLocation": "https://www.sqlite.org/2026/sqlite-amalgamation-3530400.zip"
+        },
+        {
+          "name": "QSQLiteDriverPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QIBaseDriverPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QMimerSQLDriverPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QMinimalIntegrationPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QOffscreenIntegrationPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QWindowsIntegrationPlugin_Attribution_wintab",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "LicenseRef-Lcs-Telegraphics",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "QWindowsIntegrationPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QWindowsDirect2DIntegrationPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QICOPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QJpegPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QGifPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QTuioTouchPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QModernWindowsStylePlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QNLMNIPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QTlsBackendOpenSSLPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QSchannelBackendPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QTlsBackendCertOnlyPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "QtLibraryInfo",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "qmake",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "CMake",
+          "versionInfo": "4.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "CMake generator Ninja Multi-Config",
+          "versionInfo": "1.10.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Compiler MSVC",
+          "versionInfo": "19.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Linker MSVC",
+          "versionInfo": "14.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "GlobalConfig",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "GlobalConfigPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "Platform_Attribution_extra-cmake-modules",
+          "versionInfo": "5.84.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://api.kde.org/ecm/"
+        },
+        {
+          "name": "Platform_Attribution_kwin",
+          "versionInfo": "5.13.4",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://www.kde.org/"
+        },
+        {
+          "name": "Platform",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "PlatformCommonInternal",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "PlatformModuleInternal",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "PlatformPluginInternal",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "PlatformAppInternal",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "PlatformToolInternal",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "PlatformExampleInternal",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtbase.git@025bdad181de241e81bf853c8a2d7bf3d19261a9"
+        },
+        {
+          "name": "WrapAtomic",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "PostgreSQL",
+          "versionInfo": "9.6.16",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "ODBC",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Oracle",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "https://www.oracle.com"
+        },
+        {
+          "name": "Interbase",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "https://www.embarcadero.com/products/interbase"
+        },
+        {
+          "name": "Mimer",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        }
+      ]
+    },
+    {
+      "file": "qtdeclarative-6.12.0.spdx.json",
+      "sha256": "ba8a99e8717e57ab5c4bec4cdcaa0703b307e8c5a075bf47aa26128260f8fa1a",
+      "packages": [
+        {
+          "name": "qtdeclarative",
+          "versionInfo": "4332fbbb+HEAD",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlToolingSettingsPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlTypeRegistrarPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlIntegration",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "Qml_Attribution_masm",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-2-Clause",
+          "downloadLocation": "https://trac.webkit.org/wiki/JavaScriptCore"
+        },
+        {
+          "name": "Qml",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlPreviewPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlModels",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "modelsplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlCore",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtqmlcoreplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlNetwork",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlNetworkplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlWorkerScript",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "workerscriptplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlMeta",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlLocalStorage",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmllocalstorageplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlXmlListModel",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlxmllistmodelplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "quickwindow",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "Quick",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquick2plugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickLayouts_Attribution_yoga",
+          "versionInfo": "2.0.1",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/facebook/yoga/tree/v2.0.1"
+        },
+        {
+          "name": "QuickLayouts",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qquicklayoutsplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickParticles",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "particlesplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickEffects",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "effectsplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickShapesDesignHelpers",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickshapesdesignhelpersplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickShapes",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlshapesplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickVectorImageGeneratorPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickVectorImage",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qquickvectorimageplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickVectorImageHelpers",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qquickvectorimagehelpersplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickWidgets",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickTemplates2",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquicktemplates2plugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2Impl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2implplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickNativeStyle",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquicknativestyleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2BasicStyleImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2basicstyleimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2Basic",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2basicstyleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2FusionStyleImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2fusionstyleimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2Fusion",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2fusionstyleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2ImagineStyleImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2imaginestyleimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2Imagine",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2imaginestyleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2MaterialStyleImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2materialstyleimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2Material_Attribution_shadow_angular_material",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://angularjs.org/"
+        },
+        {
+          "name": "QuickControls2Material",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2materialstyleplugin_Attribution_shadow_angular_material",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://angularjs.org/"
+        },
+        {
+          "name": "qtquickcontrols2materialstyleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2UniversalStyleImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2universalstyleimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2Universal",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2universalstyleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2FluentWinUI3StyleImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2fluentwinui3styleimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2FluentWinUI3",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2fluentwinui3styleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2WindowsStyleImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2windowsstyleimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2Windows",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2windowsstyleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2Native",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2nativestyleplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControls2",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickcontrols2plugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsSynchronizer",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsSynchronizerplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsSettings",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlsettingsplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsQmlModels",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "labsmodelsplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsFolderListModel",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlfolderlistmodelplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsAnimation",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "labsanimationplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsPlatform",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsPlatformplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsWavefrontMesh",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlwavefrontmeshplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsStyleKitImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsStyleKitImplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsStyleKit",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsStyleKitplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "LabsSharedImage",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "sharedimageplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickDialogs2Utils",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickDialogs2QuickImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickdialogs2quickimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickDialogs2",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qtquickdialogsplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlCompiler",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlDomPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlLintPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmltcPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlFormatPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlaotstats",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlcachegen",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlLSPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "PacketProtocolPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQmlNativeDebugConnectorFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QDebugMessageServiceFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQmlProfilerServiceFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQmlDebuggerServiceFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQmlNativeDebugServiceFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQmlDebugServerFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QTcpServerConnectionFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QLocalClientConnectionFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQmlInspectorServiceFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQuickEventReplayServiceFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQuickProfilerAdapterFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QQmlPreviewServiceFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlLintQuickPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlLintQdsPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlLSQuickPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "quicktooling",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlDebugPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickTest",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickTestplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickTestUtilsPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControlsTestUtilsPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QuickControlsTestUtilsPrivateplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlDesignSupport",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "QmlDesignSupportplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmldom",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmllint",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmltc",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmltyperegistrar",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmljsrootgen",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlformat",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlcontextpropertydump",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlimportscanner",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlls",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qml_tool",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlprofiler",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlpreview",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlscene",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmltime",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmlplugindump",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmltestrunner",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "qmleasing",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "svgtoqml",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtdeclarative.git@4332fbbb4c340463dc8cee36dda0c85d932122d8"
+        },
+        {
+          "name": "CMake",
+          "versionInfo": "4.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "CMake generator Ninja Multi-Config",
+          "versionInfo": "1.10.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Compiler MSVC",
+          "versionInfo": "19.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Linker MSVC",
+          "versionInfo": "14.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        }
+      ]
+    },
+    {
+      "file": "qtquick3d-6.12.0.spdx.json",
+      "sha256": "1771f283d444b488f22aa008448fe42b17719e74ac6523bb6ea223d9f30e89e8",
+      "packages": [
+        {
+          "name": "qtquick3d",
+          "versionInfo": "a50a2ff+HEAD",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "BundledEmbree",
+          "versionInfo": "3.13.3",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0",
+          "downloadLocation": "https://www.embree.org/"
+        },
+        {
+          "name": "BundledOpenXR_Attribution_jsoncpp",
+          "versionInfo": "1.9.6",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/open-source-parsers/jsoncpp"
+        },
+        {
+          "name": "BundledOpenXR_Attribution_jnipp",
+          "versionInfo": "1.0.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/mitchdowd/jnipp"
+        },
+        {
+          "name": "BundledOpenXR",
+          "versionInfo": "1.1.61",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0",
+          "downloadLocation": "https://www.khronos.org/openxr/"
+        },
+        {
+          "name": "Quick3DUtils_Attribution_xatlas",
+          "versionInfo": "16ace528acd2cf1f16a7c0dde99c42c486488dbe",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/jpcy/xatlas"
+        },
+        {
+          "name": "Quick3DUtils_Attribution_meshoptimizer",
+          "versionInfo": "1.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://github.com/zeux/meshoptimizer"
+        },
+        {
+          "name": "Quick3DUtils",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DAssetImport",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DRuntimeRender_Attribution_fog",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://godotengine.org/"
+        },
+        {
+          "name": "Quick3DRuntimeRender_Attribution_closest-point-on-triangle",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0",
+          "downloadLocation": "https://github.com/RenderKit/embree/blob/master/tutorials/common/math/closest_point.h"
+        },
+        {
+          "name": "Quick3DRuntimeRender_Attribution_blue-noise-texture",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "CC0-1.0",
+          "downloadLocation": "https://momentsingraphics.de/BlueNoise.html"
+        },
+        {
+          "name": "Quick3DRuntimeRender_Attribution_tinyexr",
+          "versionInfo": "1.0.13",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://github.com/syoyo/tinyexr/releases/tag/v1.0.13"
+        },
+        {
+          "name": "Quick3DRuntimeRender",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3D",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "qquick3dplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DParticles",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "qtquick3dparticles3dplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DParticleEffects",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "qtquick3dparticleeffectsplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DAssetUtils",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "qtquick3dassetutilsplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "AssimpImporterPlugin_Attribution_assimp",
+          "versionInfo": "6.0.5",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://github.com/assimp/assimp/releases/tag/v6.0.5"
+        },
+        {
+          "name": "AssimpImporterPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "QQuick3DProfilerAdapterFactoryPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DEffects",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "qtquick3deffectplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DHelpersImpl",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "qtquick3dhelpersimplplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DHelpers_Attribution_proceduralsky",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://godotengine.org/"
+        },
+        {
+          "name": "Quick3DHelpers",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "qtquick3dhelpersplugin_Attribution_proceduralsky",
+          "versionInfo": "unknown",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "MIT",
+          "downloadLocation": "https://godotengine.org/"
+        },
+        {
+          "name": "qtquick3dhelpersplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DIblBaker",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DGlslParserPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DXr",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "Quick3DXrplugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "balsam",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "balsamui",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "meshdebug",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "shadergen",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "particleshadergen",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "instancer",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "shapegen",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "materialeditor",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "lightmapviewer",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtquick3d.git@a50a2ff960ca58d4b9f87b7e6a7ddae02e620426"
+        },
+        {
+          "name": "CMake",
+          "versionInfo": "4.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "CMake generator Ninja Multi-Config",
+          "versionInfo": "1.10.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Compiler MSVC",
+          "versionInfo": "19.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Linker MSVC",
+          "versionInfo": "14.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        }
+      ]
+    },
+    {
+      "file": "qtshadertools-6.12.0.spdx.json",
+      "sha256": "53510407e6228c666345323e96558f1e453079e4808a5505b8cc8a31d89d1905",
+      "packages": [
+        {
+          "name": "qtshadertools",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "git://code.qt.io/qt/qtshadertools.git"
+        },
+        {
+          "name": "BundledGlslang_Spirv",
+          "versionInfo": "16.3.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause AND LicenseRef-MIT-Khronos-old AND Apache-2.0 AND GPL-3.0-or-later WITH Bison-exception-2.2 AND AML-glslang",
+          "downloadLocation": "https://github.com/KhronosGroup/glslang"
+        },
+        {
+          "name": "BundledGlslang_Osdependent",
+          "versionInfo": "16.3.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause AND LicenseRef-MIT-Khronos-old AND Apache-2.0 AND GPL-3.0-or-later WITH Bison-exception-2.2 AND AML-glslang",
+          "downloadLocation": "https://github.com/KhronosGroup/glslang"
+        },
+        {
+          "name": "BundledGlslang_Glslang",
+          "versionInfo": "16.3.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause AND LicenseRef-MIT-Khronos-old AND Apache-2.0 AND GPL-3.0-or-later WITH Bison-exception-2.2 AND AML-glslang",
+          "downloadLocation": "https://github.com/KhronosGroup/glslang"
+        },
+        {
+          "name": "BundledSpirv_Cross",
+          "versionInfo": "1a6169566c73d3da552748fc372fe2bbb856e46e",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0 AND LicenseRef-MIT-Khronos-old",
+          "downloadLocation": "https://github.com/KhronosGroup/SPIRV-Cross"
+        },
+        {
+          "name": "ShaderTools",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtshadertools.git"
+        },
+        {
+          "name": "qsb",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qtshadertools.git"
+        },
+        {
+          "name": "CMake",
+          "versionInfo": "4.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "CMake generator Ninja Multi-Config",
+          "versionInfo": "1.10.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Compiler MSVC",
+          "versionInfo": "19.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Linker MSVC",
+          "versionInfo": "14.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        }
+      ]
+    },
+    {
+      "file": "qtsvg-6.12.0.spdx.json",
+      "sha256": "70ea12dda11f4b39772fd731c3fb50a7dd4ed72afc06800a88494d3904e11e36",
+      "packages": [
+        {
+          "name": "qtsvg",
+          "versionInfo": "883a585+HEAD",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "git://code.qt.io/qt/qtsvg.git@883a58532078d003cefef0a549bfe9f885ce41f5"
+        },
+        {
+          "name": "Svg",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtsvg.git@883a58532078d003cefef0a549bfe9f885ce41f5"
+        },
+        {
+          "name": "QSvgIconPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtsvg.git@883a58532078d003cefef0a549bfe9f885ce41f5"
+        },
+        {
+          "name": "QSvgPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtsvg.git@883a58532078d003cefef0a549bfe9f885ce41f5"
+        },
+        {
+          "name": "SvgWidgets",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qtsvg.git@883a58532078d003cefef0a549bfe9f885ce41f5"
+        },
+        {
+          "name": "CMake",
+          "versionInfo": "4.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "CMake generator Ninja Multi-Config",
+          "versionInfo": "1.10.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Compiler MSVC",
+          "versionInfo": "19.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Linker MSVC",
+          "versionInfo": "14.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        }
+      ]
+    },
+    {
+      "file": "qttools-6.12.0.spdx.json",
+      "sha256": "c8742b1c98b7edcb65f9be989d2dfc37b6dc507218dea0e28d9ff22d449bc6bd",
+      "packages": [
+        {
+          "name": "qttools",
+          "versionInfo": "613a6fb+HEAD",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "UiPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "UiTools",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "Tools",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "lconvert",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "lcheck",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "lrelease",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "lrelease-pro",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "lupdate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "lupdate-pro",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "ltext2id",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "linguist",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "Linguist",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "Designer",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "DesignerComponentsPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "designer",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "QAxWidgetPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "QQuickWidgetPlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "pixeltool",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "Help",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "assistant_Attribution_litehtml-gumbo",
+          "versionInfo": "0.10.1",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0 AND MIT",
+          "downloadLocation": "https://github.com/google/gumbo-parser"
+        },
+        {
+          "name": "assistant_Attribution_litehtml",
+          "versionInfo": "0.10",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSD-3-Clause",
+          "downloadLocation": "https://github.com/litehtml/litehtml"
+        },
+        {
+          "name": "assistant",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "qhelpgenerator",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "QHelpEnginePlugin",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "qdistancefieldgenerator",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "qtattributionsscanner",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "qtplugininfo",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "QDocCatchPrivate",
+          "versionInfo": "2.13.10",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "BSL-1.0",
+          "downloadLocation": "https://github.com/catchorg/Catch2"
+        },
+        {
+          "name": "QDocCatchConversionsPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "QDocCatchGeneratorsPrivate",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR LGPL-3.0-only OR GPL-2.0-only OR GPL-3.0-only",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "qdoc_Attribution_llvm_clang_typename_namespace",
+          "versionInfo": "16.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0 WITH LLVM-exception",
+          "downloadLocation": "https://github.com/llvm/llvm-project"
+        },
+        {
+          "name": "qdoc",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "qdbus",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "qdbusviewer",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "qtdiag",
+          "versionInfo": "6.12.0",
+          "licenseDeclared": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "licenseConcluded": "LicenseRef-Qt-Commercial OR GPL-3.0-only WITH Qt-GPL-exception-1.0",
+          "downloadLocation": "git://code.qt.io/qt/qttools.git@613a6fbf0a7998010ab2fda260b64066d66a021d"
+        },
+        {
+          "name": "CMake",
+          "versionInfo": "4.3.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "CMake generator Ninja Multi-Config",
+          "versionInfo": "1.10.2",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Compiler MSVC",
+          "versionInfo": "19.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "Linker MSVC",
+          "versionInfo": "14.44.35227.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "NOASSERTION",
+          "downloadLocation": "NOASSERTION"
+        },
+        {
+          "name": "WrapLibClang",
+          "versionInfo": "20.1.0",
+          "licenseDeclared": "NOASSERTION",
+          "licenseConcluded": "Apache-2.0 WITH LLVM-exception",
+          "downloadLocation": "https://github.com/llvm/llvm-project/releases"
+        }
+      ]
+    }
+  ],
+  "examples": {
+    "share/breakwater/examples/manifest.json": "2a74a1566ee7c5e8235976ae4dde53a217b78309f9f4c1a0a397b552d1b4badc",
+    "share/breakwater/examples/README.md": "e334975fac4b3f8a0b386904b0b85300fe22dc21d581954efe58e11621d9fa12",
+    "share/breakwater/examples/operations/network.json": "7420fc7dbb549ae2629fa81089243f38ee57f4911dc26723cac794bd021efe05",
+    "share/breakwater/examples/operations/ops.json": "cace2ef1085f5a7f5143cbb3d6c4102ac3331b01555c4761778c2df965a82369",
+    "share/breakwater/examples/operations/telemetry.csv": "3f15cfb15a191b83aa2fffcef84979c19585decf9d459a70e048e4f09be09633",
+    "share/breakwater/examples/recordings/nemotron-demo.eog-session.json": "41c533d623d472e48c6e0d14ab3cd5cb033058c7231181c62a3f86feeea50893",
+    "share/breakwater/examples/renamed-topology/network.json": "38b5c246a6b7fa5087643cfc680e1d3088b036ee76b53f50453062b2c98c5802",
+    "share/breakwater/examples/renamed-topology/ops.json": "0e4f78d7931c2c33d039324e85cb02c8aee083dcbdb0a82d59bbecfb3cc6c3c1",
+    "share/breakwater/examples/renamed-topology/telemetry.csv": "1a4ac89d38081a9a88545b3d215e2802e18d5a6a2dddebbfae8f6a8a6a13af20",
+    "share/breakwater/examples/sandbox/bad-reroute.json": "c09ced5a52ee2f338f8f5bb178ef30a9b57b848edbfe0c2f40a5c38903f8c0e8",
+    "share/breakwater/examples/sandbox/healthy.json": "0df013c8fcf222c99c2f7ce4e843e03f1858844a974205d6d9fda58d48ec3f7d",
+    "share/breakwater/examples/sandbox/mixed-response.json": "b22e69241d68b02ea9bdc3c3af62ff3d06b5038f4bc7ce6cea4a05280124e37b",
+    "share/breakwater/examples/sandbox/native-results.json": "bca6f71779d232583f484f5e17f2f3153f841421f1747a8e5b823ef688b089bd",
+    "share/breakwater/examples/sandbox/pump-failure.json": "a74538dee28a78cbb51f8627e79d48a7b2dbfc0a050d732bd8230241bdfe48eb"
+  },
+  "torch_bundled": false,
+  "physicsnemo_bundled": false,
+  "remaining_reviews": [
+    "Ethan GPLv3 agreement and approved root license",
+    "Applicable Qt/third-party license texts and corresponding-source delivery",
+    "Matching Microsoft runtime redistribution terms/notices",
+    "Actual clean-Windows acceptance"
+  ]
+}

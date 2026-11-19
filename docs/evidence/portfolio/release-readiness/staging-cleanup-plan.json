@@ -1,0 +1,16 @@
+{
+  "purpose": "Remove only verified regenerable staging duplicates to recover disk space",
+  "directories": [
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\portfolio-candidate-3658f41\\Breakwater",
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\Relocated app α\\Breakwater",
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\portfolio-candidate-3658f41\\source"
+  ],
+  "duplicate_files": [
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\handoff-preview-0cfee72\\Breakwater-windows-x64.zip",
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\handoff-preview-0cfee72\\Breakwater-source.zip",
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\Breakwater v0.2.0 VM handoff\\Breakwater-windows-x64.zip",
+    "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\Breakwater v0.2.0 VM handoff\\Breakwater-source.zip"
+  ],
+  "retained": "Original candidate Windows/source ZIPs and every qualification/startup-failure record",
+  "recorded_utc": "2026-11-19T00:52:23.2438909Z"
+}

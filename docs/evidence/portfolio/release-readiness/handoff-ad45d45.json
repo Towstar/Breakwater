@@ -1,0 +1,19 @@
+{
+  "handoff_version": 1,
+  "status": "prepared",
+  "source_commit": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399",
+  "app_sha256": "fdbfe2e784687e3d736ba75bdab5aabc5b2a31c6b2483df0f155b0687981d3d9",
+  "files": {
+    "Breakwater-windows-x64.zip": "0222122b4644be922aa506bb71ab3fe573caa57dd8ade61078004301789c0344",
+    "Breakwater-source.zip": "20b61a6cd678a64fe03aa519b34e823efd1cdc2777fe0e7d824c0e3f238a78a3",
+    "package.json": "a88d26a5edb9d779b09e7daf1cdffc988852f3702362ebd63a1a170970c5ba23",
+    "source-sha256.json": "4bb76e7e7a97f382009c2a82e542a20c4dc47ec95de9ad89a5414901a5ef7b2d",
+    "CLEAN_WINDOWS_CHECK.md": "efe4a20eb3c349e2e319740f87977b294473f9273ef5d395639f7a8fe88dad66",
+    "RELEASE_REVIEW.md": "4ee27675860adc9bfe6785efa0723add740667ae07c24d7899e5c2e08fd77e32"
+  },
+  "prepared_utc": "2026-11-19T00:55:16.613703+00:00",
+  "public_release_approved": false,
+  "clean_windows": "pending",
+  "owner_review": "pending",
+  "licensing_review": "pending"
+}

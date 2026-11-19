@@ -1,5 +1,33 @@
 # Actual candidate screenshots
 
+## Current candidate: ad45d45
+
+Seven unaltered native JPEG captures from the relocated Windows candidate,
+source `ad45d4538bc30fd9839fc79171ae1ae8dc71d399`, on November 18, 2026 local time.
+Each is 1442×931 pixels. No generated mockups, credentials or official challenge
+datasets are shown. See the [capture hashes and facts](../../evidence/portfolio/release-readiness/gallery-ad45d45.json)
+and [source-qualified results](../../evidence/portfolio/release-readiness/README.md).
+
+| Capture | What actually ran |
+|---|---|
+| [Sandbox overview](01-sandbox-overview-ad45d45.jpg) | Healthy synthetic six-asset/six-route network, industrial site and navigator. No forecast or control application. |
+| [Equipment close-up](02-equipment-closeup-ad45d45.jpg) | Tank A selected with Focus; tank access hardware, pipe joints, pumps and tanker detail. View selection changes no controls. |
+| [Native comparison](03-sandbox-comparison-ad45d45.jpg) | Actual failed-pump forecast, local finite-grid search and independent validation. Baseline headroom −116 m³; candidate headroom 6.25 m³ over three hours. The overflowing baseline is not clipped. Candidate cost 5,280 synthetic modeled units, not a claimed saving against the infeasible zero-control-cost baseline. |
+| [Exact-plan review](04-exact-plan-review-ad45d45.jpg) | Run and independent-validation IDs, current/proposed controls, m³/h units and headroom. Captured before application. A later explicit simulated apply and reset were checked separately. |
+| [Operations observations](05-operations-observations-ad45d45.jpg) | Self-authored NORTH/SOUTH dataset at 2026-11-16 12:00 UTC. Original-unit recorded measurements and a schematic 3D layout. Import starts no analysis. |
+| [Operations plans](06-operations-plans-ad45d45.jpg) | Fresh packaged local search and separate exact-plan validation. Modeled baseline $11,726, selected response $1,810, shutdown margin 14.75 bbl. These numbers belong only to this synthetic capture. No operating controls applied. |
+| [Hosted history trace](07-hosted-history-trace-ad45d45.jpg) | Genuine final-candidate hosted run 2, reopened as historical evidence: 9 model requests, 8 executed tools and 26 retained events. HTTP metadata/model identity are visible; imported history cannot restore review. Opening the archive makes no new model request. |
+
+![Sandbox overview](01-sandbox-overview-ad45d45.jpg)
+![Equipment detail](02-equipment-closeup-ad45d45.jpg)
+![Native comparison](03-sandbox-comparison-ad45d45.jpg)
+![Exact-plan review before application](04-exact-plan-review-ad45d45.jpg)
+![Operations observations](05-operations-observations-ad45d45.jpg)
+![Operations plan comparison](06-operations-plans-ad45d45.jpg)
+![Historical hosted trace](07-hosted-history-trace-ad45d45.jpg)
+
+## Earlier captures, retained with their original scope
+
 Captured from running portable candidates on November 18, 2026. The original
 gallery uses clean commit `97be3c1c607a33d30441a346b3307dad7c84079e`; the repaired
 recording capture explicitly uses `6cb258756bd0feb0cc7d6c37283ce9f0b7d6f24e`. These are

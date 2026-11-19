@@ -5,6 +5,13 @@ been established by sanitizing processes on the developer's machine.
 
 ## Prepared handoff
 
+The current prepared kit uses clean source `ad45d45`. Its immutable ZIP hashes
+and pending gates are in the
+[handoff record](evidence/portfolio/release-readiness/handoff-ad45d45.json) and
+[candidate manifest](evidence/portfolio/release-readiness/candidate-ad45d45.json).
+The local folder is `out/release-readiness/Breakwater v0.2.0 ad45d45 VM handoff`.
+It is prepared, not an executed clean-machine result.
+
 From a source checkout, stage an existing sealed candidate with the installed
 Python interpreter (the helper uses only the standard library):
 

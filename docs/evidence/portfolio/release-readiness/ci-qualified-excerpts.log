@@ -1,0 +1,69 @@
+## native-asan
+2026-11-19T00:47:44.3541369Z Version: 20261103.629
+2026-11-19T00:47:44.3545478Z Microsoft Windows Server 2022
+2026-11-19T00:47:44.3545927Z 10.0.20348
+2026-11-19T00:47:44.3547495Z Image: windows-2022
+2026-11-19T00:47:44.3547908Z Version: 20261112.366.7
+2026-11-19T00:48:08.1308089Z Ran 43 tests in 0.936s
+2026-11-19T00:48:17.5317548Z -- The CXX compiler identification is MSVC 19.44.35230.0
+2026-11-19T00:49:09.0066263Z 100% tests passed, 0 tests failed out of 14
+2026-11-19T00:49:09.0066735Z Total Test time (real) =  21.34 sec
+
+## native-normal
+2026-11-19T00:47:44.8648121Z Version: 20261103.629
+2026-11-19T00:47:44.8653629Z Microsoft Windows Server 2022
+2026-11-19T00:47:44.8654211Z 10.0.20348
+2026-11-19T00:47:44.8656132Z Image: windows-2022
+2026-11-19T00:47:44.8656666Z Version: 20261112.366.7
+2026-11-19T00:48:10.9062852Z Ran 43 tests in 1.277s
+2026-11-19T00:48:20.7447630Z -- The CXX compiler identification is MSVC 19.44.35230.0
+2026-11-19T00:49:08.2769778Z 100% tests passed, 0 tests failed out of 14
+2026-11-19T00:49:08.2770384Z Total Test time (real) =   3.36 sec
+
+## desktop-normal
+2026-11-19T00:49:17.4914068Z Version: 20261103.629
+2026-11-19T00:49:17.4920686Z Microsoft Windows Server 2022
+2026-11-19T00:49:17.4921334Z 10.0.20348
+2026-11-19T00:49:17.4923895Z Image: windows-2022
+2026-11-19T00:49:17.4924503Z Version: 20261112.366.7
+2026-11-19T00:49:47.6446936Z Ran 43 tests in 0.923s
+2026-11-19T00:51:02.5110494Z -- The CXX compiler identification is MSVC 19.44.35230.0
+2026-11-19T01:04:46.1733147Z 100% tests passed, 0 tests failed out of 72
+2026-11-19T01:04:46.1734866Z Total Test time (real) = 502.74 sec
+
+## desktop-asan
+2026-11-19T00:49:17.6804923Z Version: 20261103.629
+2026-11-19T00:49:17.6809162Z Microsoft Windows Server 2022
+2026-11-19T00:49:17.6809572Z 10.0.20348
+2026-11-19T00:49:17.6810987Z Image: windows-2022
+2026-11-19T00:49:17.6811434Z Version: 20261112.366.7
+2026-11-19T00:49:44.5285998Z Ran 43 tests in 0.826s
+2026-11-19T00:50:58.6428716Z -- The CXX compiler identification is MSVC 19.44.35230.0
+2026-11-19T01:11:34.7875153Z 100% tests passed, 0 tests failed out of 72
+2026-11-19T01:11:34.7877719Z Total Test time (real) = 955.40 sec
+
+## science-cpu
+2026-11-19T00:49:17.7487879Z Version: 20261111.635
+2026-11-19T00:49:17.7491119Z Microsoft Windows Server 2022
+2026-11-19T00:49:17.7491491Z 10.0.20348
+2026-11-19T00:49:17.7492660Z Image: windows-2022
+2026-11-19T00:49:17.7492957Z Version: 20261116.370.1
+2026-11-19T00:49:42.2502214Z Ran 43 tests in 0.705s
+2026-11-19T00:50:07.6230911Z -- The CXX compiler identification is MSVC 19.44.35230.0
+2026-11-19T00:50:44.1025536Z test_actual_model_and_smooth_boundary_ansatz (test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz) ... skipped 'PhysicsNeMo is optional in the A3-only environment'
+2026-11-19T00:50:44.1027345Z test_actual_optimizer_step_and_float64_mdlus_round_trip (test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip) ... skipped 'PhysicsNeMo is optional in the A3-only environment'
+2026-11-19T00:50:44.1029645Z test_predicted_cell_averages_match_independent_32_point_quadrature (test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature) ... skipped 'PhysicsNeMo is optional in the A3-only environment'
+2026-11-19T00:50:44.1030990Z test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss (test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss) ... skipped 'PhysicsNeMo is optional in the A3-only environment'
+2026-11-19T00:50:45.8010936Z test_nonfinite_negative_and_untyped_diagnostics_are_rejected (test_transport_qualification.QualificationEvidenceTests.test_nonfinite_negative_and_untyped_diagnostics_are_rejected) ... ok
+2026-11-19T00:51:18.6205436Z Ran 458 tests in 62.854s
+2026-11-19T00:51:18.6207665Z OK (skipped=4)
+
+## lean
+2026-11-19T00:49:18.2722545Z Version: 20261103.629
+2026-11-19T00:49:18.2727742Z Microsoft Windows Server 2022
+2026-11-19T00:49:18.2728285Z 10.0.20348
+2026-11-19T00:49:18.2730208Z Image: windows-2022
+2026-11-19T00:49:18.2730650Z Version: 20261112.366.7
+2026-11-19T00:50:48.2265422Z info: Breakwater/Audit.lean:144:0: BREAKWATER assumption audit passed for 54 algorithm theorems
+2026-11-19T00:50:48.2270335Z Build completed successfully (1063 jobs).
+2026-11-19T00:50:53.2226641Z BREAKWATER assumption audit passed for 54 algorithm theorems

@@ -1,0 +1,90 @@
+{
+  "record_version": 1,
+  "recorded_utc": "2026-11-19T01:21:03.250551+00:00",
+  "source_commit": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399",
+  "status": "prepared_with_pending_gates",
+  "public_release_approved": false,
+  "candidate": "candidate-ad45d45.json",
+  "windows_ci": "ci-windows-ad45d45.json",
+  "tests": {
+    "native_normal_ctest": 14,
+    "native_asan_ctest": 14,
+    "desktop_normal_ctest": 72,
+    "desktop_asan_ctest": 72,
+    "qt_cases_each_including_fixture_lifecycle": 1021,
+    "qt_explicit_optional_skips_each": 1,
+    "python_science_run": 458,
+    "python_science_passed": 454,
+    "python_science_optional_skips": 4,
+    "lean_algorithm_assumption_audits": 54,
+    "helper_tests_passed": 43,
+    "portable_checks_passed": 9,
+    "live_cli_cases_each": 7
+  },
+  "optional_science": {
+    "source_commit": "3658f419c39d787ec927b7f6f8de3f72e93a1614",
+    "qualification": "Actual local CPU PhysicsNeMo environment; not installed in basic bundle",
+    "worker_tests": 23,
+    "calibration_tests": 3,
+    "desktop_explicit_apply_case": 1,
+    "desktop_qt_totals_including_lifecycle": 3,
+    "unchanged_trees_at_candidate": {
+      "engine": "ba875196320fd17f8e30cba39d190275f4121258",
+      "science": "1dfb35495fe964e51ca7b9b744177d873c998cf0",
+      "proofs": "0b3ef405663516a8f3a25333876d75052d9adf95",
+      "scenarios": "56f7199c6d305e166d9c62bb5499e521a43ec9f1",
+      "contracts": "a22ce07242024a1369da2bcefca621f9cf9a061d",
+      "desktop/tests": "196281bb7c18f49e8b9c83bd5b61899b68fb67df"
+    }
+  },
+  "hosted": {
+    "protocol_smoke": "passed",
+    "smoke_source_commit": "3658f419c39d787ec927b7f6f8de3f72e93a1614",
+    "smoke_executable_unchanged_at_candidate": true,
+    "smoke_sha256": "af6d41a29c4adba5871d26d83f2c1e10ac1c6d6955b709c0731b56702a0035bd",
+    "initial_round": "4 startup failures before any model request; fixed bundled Python initialization",
+    "final_round": "live-round-2/verification.json",
+    "final_round_status": "incomplete",
+    "operations_passed": 2,
+    "operations_attempted": 3,
+    "renamed_topology_passed": 1,
+    "renamed_topology_attempted": 1,
+    "incomplete_run": "run-3",
+    "failure": "invalid_final_json_document",
+    "authority": "Rejected malformed final; retained numerical evidence and no controls applied",
+    "model_comparison_benchmark": false,
+    "automatic_success_hunting_reruns": 0
+  },
+  "performance": {
+    "default": "performance-default-ad45d45.json",
+    "maximum": "performance-maximum-ad45d45.json",
+    "scope": "One Radeon 880M laptop, D3D11 hardware, 1440x900 client, DPR 1.75; not a hardware guarantee"
+  },
+  "manual_desktop": "manual-desktop-ad45d45.json",
+  "gallery": "gallery-ad45d45.json",
+  "dependency_inventory": "dependency-inventory-ad45d45.json",
+  "handoff": "handoff-ad45d45.json",
+  "handoff_local_directory": "out/release-readiness/Breakwater v0.2.0 ad45d45 VM handoff",
+  "gates": {
+    "ethan_formal_pr58_review": "pending",
+    "ethan_gplv3_agreement": "pending",
+    "deployed_notices_and_corresponding_source_review": "pending",
+    "actual_clean_windows_vm": "pending",
+    "final_hosted_three_operations_plus_renamed": "not_met: 3 of 4 passed"
+  },
+  "original_failure_locations": [
+    "out/release-readiness/ci-helper-tests.log",
+    "out/release-readiness/live-round-1",
+    "out/portfolio-candidate-ad45d45",
+    "out/release-readiness/live-cli-asan-tests.log",
+    "out/release-readiness/live-cli-asan-workspace-temp.log",
+    "out/release-readiness/live-round-2"
+  ],
+  "limitations": [
+    "Synthetic fixed-rate/volume models; rendered geometry does not determine hydraulics",
+    "Finite best-found policy search, not global optimality or field accuracy qualification",
+    "Generic telemetry-to-forecast and evolving committed fleet dispatch remain separate",
+    "Standalone Lean assumptions do not prove the desktop or all numerical outcomes",
+    "Optional tracer fitting is bounded synthetic scalar decay, not calibrated field chemistry"
+  ]
+}

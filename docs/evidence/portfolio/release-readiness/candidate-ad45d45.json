@@ -1,0 +1,24 @@
+{
+  "source_commit": "ad45d4538bc30fd9839fc79171ae1ae8dc71d399",
+  "dirty": false,
+  "app_sha256": "fdbfe2e784687e3d736ba75bdab5aabc5b2a31c6b2483df0f155b0687981d3d9",
+  "files": [
+    {
+      "name": "Breakwater-windows-x64.zip",
+      "bytes": 104779250,
+      "sha256": "0222122b4644be922aa506bb71ab3fe573caa57dd8ade61078004301789c0344"
+    },
+    {
+      "name": "Breakwater-source.zip",
+      "bytes": 18440807,
+      "sha256": "20b61a6cd678a64fe03aa519b34e823efd1cdc2777fe0e7d824c0e3f238a78a3"
+    }
+  ],
+  "package": "package-ad45d45.json",
+  "verification": "portable-ad45d45.json",
+  "source_file_hashes_sha256": "4bb76e7e7a97f382009c2a82e542a20c4dc47ec95de9ad89a5414901a5ef7b2d",
+  "bundle_manifest_sha256": "12de9d96d2155f99d4f34c7e3585acd9393f7642138a2622d76e843546770cb4",
+  "clean_windows_vm": false,
+  "local_candidate_directory": "out/portfolio-candidate-ad45d45-retry1",
+  "relocated_app": "out/release-readiness/Relocated ad45d45 α/Breakwater/bin/breakwater.exe"
+}

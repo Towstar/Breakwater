@@ -7,7 +7,9 @@ atomic group editor, forecast charts, filtered evidence history and offline loca
 investigation are implemented. Operations retains the EOG adapter and read-only
 capture-bound analysis. See [PORTFOLIO_RELEASE](PORTFOLIO_RELEASE.md),
 [the walkthrough](PORTFOLIO_WALKTHROUGH.md) and
-[qualification evidence](evidence/portfolio/qualification.json).
+[current release-readiness evidence](evidence/portfolio/release-readiness/README.md).
+Earlier component-qualified reports remain available in
+[`qualification.json`](evidence/portfolio/qualification.json).
 
 The Windows branding increment uses the supplied logo's symbol without its
 wordmark for the executable, title bar and taskbar icon. Nine native icon sizes
@@ -76,7 +78,8 @@ The complete draft review stack is [PR58](https://github.com/Towstar/Breakwater/
 → [PR63](https://github.com/Towstar/Breakwater/pull/63)
 → [PR64](https://github.com/Towstar/Breakwater/pull/64)
 → [PR65](https://github.com/Towstar/Breakwater/pull/65)
-→ [PR66](https://github.com/Towstar/Breakwater/pull/66). Live GitHub checks remain
+→ [PR66](https://github.com/Towstar/Breakwater/pull/66)
+→ [PR67](https://github.com/Towstar/Breakwater/pull/67). Live GitHub checks remain
 the authority for each published branch's current CI outcome.
 The unpublished observed-capture work and frozen hackathon application are preserved.
 Devpost is unchanged.
@@ -94,8 +97,9 @@ Executed locally:
   The real desktop fit case verifies that parameters stay staged until explicit
   application, which retires old approval.
 - Pinned Lean build/negative-assumption checks and 54 assumption audits pass.
-- Four final hosted Nemotron investigations pass, three canonical and one renamed
-  network. All 16 attempts are retained, including six prior incomplete sessions.
+- The earlier baseline's four hosted Nemotron investigations pass, three canonical
+  and one renamed network. All 16 earlier attempts are retained, including six
+  prior incomplete sessions. Final-candidate results are recorded separately below.
   A bundled genuine recording is historical and restores no authority.
 - Unicode-path relocation, isolated minimal Python, rendering, real local search,
   independent validation, archive export and nonactionable reopening pass without
@@ -103,7 +107,7 @@ Executed locally:
 - The clean `97be3c1` portable candidate passes all six isolated-process checks.
   A manual desktop search, comparison and review also pass with no application
   of controls. Actual screenshots are linked from the README.
-- The final application-code candidate `6cb2587` passes seven isolated-process
+- The earlier application-code candidate `6cb2587` passes seven isolated-process
   checks, now including the complete historical recording through the UI.
   [Exact package/source hashes and results](evidence/portfolio/candidate-6cb2587.json)
   identify this binary separately from subsequent documentation commits.
@@ -127,7 +131,8 @@ another test window; serialized repetitions are retained separately.
 
 Public binary release is pending Ethan's shared/numerical review, both owners'
 GPLv3 agreement, complete notices/corresponding-source review, clean Windows
-account/VM verification and the published branch CI results. Local candidate
+account/VM verification and completion of the final hosted qualification gate.
+CI passes for the pinned `ad45d45` binary source. Local candidate
 packaging does not constitute a public release. See [LICENSING](LICENSING.md)
 and [clean Windows checks](CLEAN_WINDOWS_CHECK.md).
 
@@ -137,8 +142,42 @@ scientific methods and stand-alone proofs keep their documented scope.
 
 ### Release-readiness and retained future work
 
+The clean installed candidate is `ad45d4538bc30fd9839fc79171ae1ae8dc71d399`.
+All six jobs in [Windows run 44431840603](https://github.com/Towstar/Breakwater/actions/runs/44431840603)
+passed: 14/14 native CTests per configuration, 72/72 combined desktop/native
+CTests per configuration, 458 CPU science tests with four explicitly optional
+skips, and the pinned Lean build/54 assumption audits. Desktop Qt totals are
+1,021 passed and one explicitly optional real-PhysicsNeMo case skipped in each
+configuration, including fixture lifecycle cases. That real fit/apply case was
+executed separately with the actual optional CPU runtime and passed.
+
+The relocated Unicode/space-path package passes all nine credential-free checks,
+including both live-CLI configuration probes. Real default and 128-asset/256-route
+camera sweeps remain about 62.5 FPS on this laptop, with all bodies pickable.
+The seven current gallery images show this exact binary. Manual checks exercised
+comparison, exact review, explicit simulated application, disabled repeat apply,
+reset, open-dialog cancellation, actual Operations search/validation and
+nonactionable import of a genuine hosted archive. A manual restart remains
+pending; no clean-Windows result is inferred from these developer-machine checks.
+
+The final hosted round is **3/4, incomplete**. Operations runs 1 and 2 and the
+renamed/topology-changed run 4 passed, with real model-issued tool calls and
+grounded independent-validation references. Run 3 completed its numerical tool
+exchanges but returned `invalid_final_json_document` after using its bounded
+call budget. The malformed final was rejected and cannot authorize review.
+All four complete archives and the original failures are retained. No additional
+round was run to replace that outcome. The unchanged protocol-smoke executable
+passed at `3658f41`; its matching SHA is recorded rather than claiming a rerun.
+
+The [source/hash-qualified evidence index](evidence/portfolio/release-readiness/README.md)
+links the exact Windows/source archives, CI counts/skips, live traces, dependency
+inventory and prepared VM kit. The actual clean-Windows run, owner review,
+Ethan's GPLv3 agreement and final distribution/source-delivery review are pending.
+The user's earlier response about recorded consent was corrected: Ethan will
+review it. No owner consent is inferred and no main merge/public release occurred.
+
 PR66's complete six-job Windows pipeline passed at `0cfee72`. The readiness
-helper suite passes 37 checks, including 16 new archive/source consistency,
+helper suite initially passed 37 checks, including 16 new archive/source consistency,
 pending-authority and copy-failure cases. The initial helper-discovery attempt
 used a science interpreter without PyYAML; the successful full run uses the CI
 bootstrap environment. This does not relabel the earlier failed attempt.

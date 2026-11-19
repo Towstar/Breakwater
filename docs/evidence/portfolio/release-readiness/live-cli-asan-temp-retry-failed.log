@@ -1,0 +1,52 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-portfolio/out/portfolio-desktop-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-portfolio/out/portfolio-desktop-asan
+    Start 62: desktop.eog_live_cli
+1/1 Test #62: desktop.eog_live_cli .............***Failed    2.89 sec
+test_database_sidecar_names_cannot_be_used_as_archives (__main__.EogLiveCliTests.test_database_sidecar_names_cannot_be_used_as_archives) ... ok
+test_invalid_existing_and_in_source_archives_are_rejected (__main__.EogLiveCliTests.test_invalid_existing_and_in_source_archives_are_rejected) ... ok
+test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive (__main__.EogLiveCliTests.test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive) ... ok
+test_native_executable_and_inputs_are_required_without_skips (__main__.EogLiveCliTests.test_native_executable_and_inputs_are_required_without_skips) ... ok
+test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) ...
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv') ... ERROR
+test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives (__main__.EogLiveCliTests.test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives) ... ok
+test_source_database_paths_and_archive_database_collision_are_rejected (__main__.EogLiveCliTests.test_source_database_paths_and_archive_database_collision_are_rejected) ... ok
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-portfolio\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\cli-test-temp\\breakwater-eog-live-cli-r4tzkkct\\data\\network.json' -> 'C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\cli-test-temp\\breakwater-eog-live-cli-r4tzkkct\\network.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-portfolio\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\cli-test-temp\\breakwater-eog-live-cli-r4tzkkct\\data\\ops.json' -> 'C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\cli-test-temp\\breakwater-eog-live-cli-r4tzkkct\\ops.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-portfolio\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\cli-test-temp\\breakwater-eog-live-cli-r4tzkkct\\data\\telemetry.csv' -> 'C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-portfolio\\out\\release-readiness\\cli-test-temp\\breakwater-eog-live-cli-r4tzkkct\\telemetry.csv.sqlite'
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.716s
+
+FAILED (errors=3)
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   2.90 sec
+
+The following tests FAILED:
+	 62 - desktop.eog_live_cli (Failed)
+Errors while running CTest

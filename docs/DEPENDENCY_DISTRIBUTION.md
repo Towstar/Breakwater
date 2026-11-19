@@ -5,6 +5,12 @@ It is not both owners' license agreement or a completed distribution approval.
 The exact deployed files, hashes and retained metadata are provided by the sealed
 candidate's `files-sha256.json`, `verification/package.json` and Qt SBOM directory.
 
+The [actual ad45d45 inventory](evidence/portfolio/release-readiness/dependency-inventory-ad45d45.json)
+records 42 Qt runtime DLLs, seven installed Python package records, 94 notice files,
+runtime hashes and retained upstream source/license metadata. Its distribution
+review and owner agreement fields remain pending. Hash equality and notice
+presence alone do not complete the corresponding-source review.
+
 | Component | Pinned input / retained material | Distribution checkpoint |
 |---|---|---|
 | Breakwater application and native providers | Matching source ZIP, per-source-file SHA-256 map, CMake/lockfiles and build instructions | Ethan's numerical/shared review and GPLv3 consent remain required; add the approved root license after consent. |

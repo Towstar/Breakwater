@@ -1,0 +1,53 @@
+test_ci (unittest.loader._FailedTest.test_ci) ... ERROR
+test_optional_science (unittest.loader._FailedTest.test_optional_science) ... ERROR
+test_ambiguous_windows_archive_is_rejected (test_release_handoff.HandoffTests.test_ambiguous_windows_archive_is_rejected) ... ok
+test_changed_source_is_rejected (test_release_handoff.HandoffTests.test_changed_source_is_rejected) ... ok
+test_changed_windows_zip_is_rejected (test_release_handoff.HandoffTests.test_changed_windows_zip_is_rejected) ... ok
+test_copy_failure_never_produces_a_prepared_record (test_release_handoff.HandoffTests.test_copy_failure_never_produces_a_prepared_record) ... ok
+test_dirty_or_unqualified_candidate_is_rejected (test_release_handoff.HandoffTests.test_dirty_or_unqualified_candidate_is_rejected) ... ok
+test_duplicate_archive_path_is_rejected (test_release_handoff.HandoffTests.test_duplicate_archive_path_is_rejected) ... ok
+test_duplicate_json_keys_and_nonobjects_are_rejected (test_release_handoff.HandoffTests.test_duplicate_json_keys_and_nonobjects_are_rejected) ... ok
+test_existing_destination_is_preserved (test_release_handoff.HandoffTests.test_existing_destination_is_preserved) ... ok
+test_missing_source_file_is_rejected (test_release_handoff.HandoffTests.test_missing_source_file_is_rejected) ... ok
+test_nested_destination_is_rejected (test_release_handoff.HandoffTests.test_nested_destination_is_rejected) ... ok
+test_preserves_archives_and_keeps_all_external_gates_pending (test_release_handoff.HandoffTests.test_preserves_archives_and_keeps_all_external_gates_pending) ... ok
+test_unlisted_source_file_is_rejected (test_release_handoff.HandoffTests.test_unlisted_source_file_is_rejected) ... ok
+test_unsafe_archive_path_is_rejected_without_extraction (test_release_handoff.HandoffTests.test_unsafe_archive_path_is_rejected_without_extraction) ... ok
+test_unsafe_empty_archive_directory_is_rejected (test_release_handoff.HandoffTests.test_unsafe_empty_archive_directory_is_rejected) ... ok
+test_unsafe_or_ambiguous_manifest_paths_are_rejected (test_release_handoff.HandoffTests.test_unsafe_or_ambiguous_manifest_paths_are_rejected) ... ok
+test_wrong_packaged_executable_is_rejected (test_release_handoff.HandoffTests.test_wrong_packaged_executable_is_rejected) ... ok
+
+======================================================================
+ERROR: test_ci (unittest.loader._FailedTest.test_ci)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_ci
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\uv-python\cpython-3.12.13-windows-x86_64-none\Lib\unittest\loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\uv-python\cpython-3.12.13-windows-x86_64-none\Lib\unittest\loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-portfolio\scripts\ci\tests\test_ci.py", line 12, in <module>
+    import yaml
+ModuleNotFoundError: No module named 'yaml'
+
+
+======================================================================
+ERROR: test_optional_science (unittest.loader._FailedTest.test_optional_science)
+----------------------------------------------------------------------
+ImportError: Failed to import test module: test_optional_science
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\uv-python\cpython-3.12.13-windows-x86_64-none\Lib\unittest\loader.py", line 396, in _find_test_path
+    module = self._get_module_from_name(name)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\uv-python\cpython-3.12.13-windows-x86_64-none\Lib\unittest\loader.py", line 339, in _get_module_from_name
+    __import__(name)
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-portfolio\scripts\ci\tests\test_optional_science.py", line 5, in <module>
+    import yaml
+ModuleNotFoundError: No module named 'yaml'
+
+
+----------------------------------------------------------------------
+Ran 18 tests in 0.399s
+
+FAILED (errors=2)
