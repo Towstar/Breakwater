@@ -144,8 +144,18 @@ bool validate_evidence_envelope(const QJsonObject& archive,QString* error) {
             keys(payload,{"source_session_id","source_snapshot_id","source_run_id","source_physical_hash","effective_physical_hash","horizon_h","sample_step_h","numerical_revision","source_mode"});
             for (const auto* field:{"source_session_id","source_snapshot_id","source_run_id","source_physical_hash","source_mode"})
                 require(payload.value(QLatin1String(field)).isString() && !payload.value(QLatin1String(field)).toString().isEmpty() && payload.value(QLatin1String(field)).toString().size()<=256,"Invalid immutable science source identity.");
-            require(payload.value("horizon_h")==snapshot.value("horizon_h") && number(payload.value("sample_step_h"))>0 && nonnegative(payload.value("numerical_revision"))<=9007199254740991.0 &&
+            require(payload.value("horizon_h")==snapshot.value("horizon_h") && number(payload.value("sample_step_h"))>0 &&
+                !archive.value("scientific_evidence").toArray().isEmpty() &&
+                payload.value("sample_step_h")==archive.value("scientific_evidence").toArray().first().toObject().value("step_h") &&
+                nonnegative(payload.value("numerical_revision"))<=9007199254740991.0 &&
+                std::floor(number(payload.value("numerical_revision")))==number(payload.value("numerical_revision")) &&
+                payload.value("numerical_revision")==snapshot.value("numerical_revision") &&
                 payload.value("source_run_id")==snapshot.value("snapshot_id") && payload.value("effective_physical_hash")==snapshot.value("physical_hash"),"Invalid science source grid or effective identity.");
+            require(payload.value("source_mode")=="stored_candidate" || payload.value("source_mode")=="historical_candidate","Unsupported manual scientific source mode.");
+            for (const auto* name:{"source_physical_hash","effective_physical_hash"}) {
+                const auto hash=payload.value(QLatin1String(name)).toString();
+                require(hash.size()==64 && std::all_of(hash.begin(),hash.end(),[](QChar c) { return (c>='0' && c<='9') || (c>='a' && c<='f'); }),"Invalid manual scientific source hash.");
+            }
         } else require(false,"Unsupported evidence envelope kind.");
         if (error) error->clear(); return true;
     } catch (const std::exception& problem) { if (error) *error=QString::fromUtf8(problem.what()); return false; }

@@ -3,6 +3,7 @@
 #include "ProjectController.hpp"
 #include "PythonWorkerClient.hpp"
 #include "history/SessionRepository.hpp"
+#include "history/HistoryController.hpp"
 #include <QJsonArray>
 #include <QJsonObject>
 #include <QMap>
@@ -18,6 +19,8 @@ class StorageScienceController final : public QObject {
     Q_PROPERTY(QString status READ status NOTIFY changed)
     Q_PROPERTY(bool busy READ busy NOTIFY changed)
     Q_PROPERTY(bool canRun READ canRun NOTIFY changed)
+    Q_PROPERTY(QString sourceMode READ sourceMode NOTIFY changed)
+    Q_PROPERTY(QVariantMap sourceIdentity READ sourceIdentity NOTIFY changed)
     Q_PROPERTY(QVariantList controls READ controls NOTIFY changed)
     Q_PROPERTY(QStringList selectedControlIds READ selectedControlIds NOTIFY changed)
     Q_PROPERTY(bool canRunSensitivities READ canRunSensitivities NOTIFY changed)
@@ -33,7 +36,11 @@ public:
     explicit StorageScienceController(ProjectController* project, PythonWorkerClient* worker, QObject* parent = nullptr);
     ~StorageScienceController() override;
     QString status() const;
-    bool busy() const { return waiting_ || comparing_; }
+    bool busy() const { return waiting_ || comparing_ || source_loading_; }
+    QString sourceMode() const { return source_mode_; }
+    QVariantMap sourceIdentity() const { return stored_origin_.toVariantMap(); }
+    Q_INVOKABLE void setSourceMode(const QString& mode);
+    void setHistoryController(history::HistoryController* controller);
     bool canRun() const;
     QVariantList controls() const;
     QStringList selectedControlIds() const;
@@ -62,6 +69,13 @@ private:
     QPointer<ProjectController> project_;
     QPointer<PythonWorkerClient> worker_;
     QPointer<history::SessionRepository> repository_;
+    QPointer<history::HistoryController> history_controller_;
+    QString source_mode_="forecast",stored_binding_;
+    std::shared_ptr<const CapturedForecast> stored_capture_;
+    QJsonObject stored_origin_,job_origin_,pending_source_archive_;
+    QString pending_source_run_;
+    quint64 source_generation_=0;
+    bool source_loading_=false;
     QSet<QString> pending_history_ids_;
     QString history_status_ = "Scientific history is not configured.";
     QString history_saved_result_id_;
@@ -77,6 +91,9 @@ private:
     quint64 generation_ = 0;
     bool waiting_ = false, comparing_ = false, sensitivities_ = false;
     void refresh();
+    std::shared_ptr<const CapturedForecast> currentCapture() const;
+    void refreshStoredSource();
+    void captureStoredSource(QJsonObject archive,QString run,quint64 generation);
     void rebuildCatalog(const std::shared_ptr<const CapturedForecast>& capture);
     QJsonArray selectedControls() const;
     void begin(bool sensitivities);

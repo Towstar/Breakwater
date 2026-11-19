@@ -4,8 +4,9 @@ New archive version 2 keeps the existing native session fields and adds exactly
 one bounded `evidence_envelopes` item. An item has `envelope_version: 1`, a known
 `kind`, and a typed `payload`. It cannot authorize controls. Supported envelopes
 cover observed origins, detector witnesses/acknowledgements, native pipe results
-and a selected-candidate scientific origin. The latter two workflow integrations
-are tracked separately when not yet wired into the desktop.
+and a selected-candidate scientific origin. Native pipe retention and manual
+selected-candidate Science are connected to the desktop. Observed forecast/review
+integration remains a separate increment.
 
 G1 snapshots/events, project-v1/v2, the scientific worker protocol, EOG archives,
 native pipe-result-v1 and scientific-result-v1 remain unchanged. Legacy session-v1
@@ -61,3 +62,25 @@ forecast and without restoring approval.
 The original pipe result still reports `native_scalar_reference` and
 `fvm-upwind-euler-0.1.0`. Durable retention does not improve its documented transport
 accuracy or establish network chemistry, pressure hydraulics or treatment quality.
+
+## Manual Science on a stored candidate
+
+In Science, choose **Selected stored candidate** after selecting a run in Compare
+or History. The source is reconstructed on a background task from that run's
+original snapshot, complete overrides, numerical method and time grid. Its full
+trajectory and modeled cost must agree with an independent native reproduction
+before the scientific worker can run. The original stored samples are retained
+for comparison. This selection never applies the candidate's controls.
+
+Both current and historical candidates support a new CPU PyTorch forward
+comparison and eligible continuous-control sensitivities. The existing
+scientific-result-v1 document is unchanged. A manual-science-origin envelope
+retains the source session/snapshot/run, design and effective hashes, grid and
+source mode. Revision zero identifies this immutable derived source; it is not
+the editor's current numerical revision. No model tool-call ID is invented.
+
+Selecting another source or run retires pending work. Reconstruction is limited
+to one background task with the latest pending selection coalesced. Cancelled
+or superseded tasks cannot publish an earlier source. Historical evidence still
+cannot restore operating approval, and a scientific comparison is not a plan
+validation or feasibility verdict.

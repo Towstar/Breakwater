@@ -1,6 +1,8 @@
 #include "StorageScienceController.hpp"
 #include "StorageScienceAnalysis.hpp"
 #include "StorageScienceEvidence.hpp"
+#include "StoredCandidateScience.hpp"
+#include "history/EvidenceEnvelope.hpp"
 #include <QDateTime>
 #include <QFutureWatcher>
 #include <QJsonArray>
@@ -77,7 +79,63 @@ void StorageScienceController::setHistoryRepository(history::SessionRepository* 
     emit historyChanged();
 }
 bool StorageScienceController::canRun() const {
-    return project_ && worker_ && !busy() && !worker_->busy() && static_cast<bool>(project_->capturedForecast());
+    return project_ && worker_ && !busy() && !worker_->busy() && static_cast<bool>(currentCapture());
+}
+std::shared_ptr<const CapturedForecast> StorageScienceController::currentCapture() const {
+    return !project_ ? nullptr:source_mode_=="candidate" ? stored_capture_:project_->capturedForecast();
+}
+void StorageScienceController::setHistoryController(history::HistoryController* controller) {
+    if (history_controller_==controller) return;
+    if (history_controller_) disconnect(history_controller_,nullptr,this,nullptr);
+    history_controller_=controller; stored_binding_.clear();
+    if (controller) {
+        connect(controller,&history::HistoryController::changed,this,&StorageScienceController::refreshStoredSource);
+        connect(controller,&QObject::destroyed,this,[this] { stored_binding_.clear(); refreshStoredSource(); });
+    }
+    refreshStoredSource();
+}
+void StorageScienceController::setSourceMode(const QString& mode) {
+    if ((mode!="forecast" && mode!="candidate") || mode==source_mode_) return;
+    source_mode_=mode; ++source_generation_; pending_source_archive_={}; pending_source_run_.clear();
+    stored_binding_.clear(); stored_capture_.reset(); stored_origin_={};
+    retire("Scientific source changed. Select an immutable source before running.");
+    if (mode=="candidate") refreshStoredSource();
+    refresh(); emit changed();
+}
+void StorageScienceController::refreshStoredSource() {
+    if (source_mode_!="candidate") return;
+    const auto archive=history_controller_ ? history_controller_->selectedArchive():QJsonObject{};
+    const auto run=history_controller_ ? history_controller_->candidateRunId():QString{};
+    const auto snapshot=archive.value("snapshot").toObject();
+    const auto key=archive.value("session_id").toString()+":"+run+":"+snapshot.value("physical_hash").toString()+
+        (archive.value("historical").toBool() ? ":history":":live");
+    if (key==stored_binding_) return;
+    stored_binding_=key; ++source_generation_; stored_capture_.reset(); stored_origin_={};
+    retire("Reconstructing and independently checking the selected stored candidate…"); rebuildCatalog(nullptr);
+    pending_source_archive_=archive; pending_source_run_=run;
+    if (!source_loading_ && !run.isEmpty()) captureStoredSource(archive,run,source_generation_);
+    else if (run.isEmpty()) status_="Select a stored numerical candidate in Comparison or History.";
+    emit changed();
+}
+void StorageScienceController::captureStoredSource(QJsonObject archive,QString run,quint64 generation) {
+    source_loading_=true; pending_source_archive_={}; pending_source_run_.clear();
+    auto* watcher=new QFutureWatcher<StoredScienceSource>(this);
+    connect(watcher,&QFutureWatcher<StoredScienceSource>::finished,this,[this,watcher,generation] {
+        const auto source=watcher->result(); watcher->deleteLater(); source_loading_=false;
+        if (generation==source_generation_ && source_mode_=="candidate") {
+            stored_capture_=source.capture; stored_origin_=source.origin;
+            status_=source.capture ? "Immutable stored candidate ready. Science does not apply its controls.":source.error;
+            refresh();
+        } else if (source_mode_=="candidate" && !pending_source_run_.isEmpty()) {
+            captureStoredSource(pending_source_archive_,pending_source_run_,source_generation_);
+        }
+        emit changed();
+    });
+    watcher->setFuture(QtConcurrent::run([archive,run] {
+        try { return capture_stored_science(archive,run); }
+        catch (const std::exception& error) { return StoredScienceSource{nullptr,{},QString::fromUtf8(error.what())}; }
+        catch (...) { return StoredScienceSource{nullptr,{},"The stored candidate could not be reconstructed."}; }
+    }));
 }
 QVariantList StorageScienceController::controls() const {
     QVariantList rows;
@@ -105,7 +163,7 @@ QStringList StorageScienceController::selectedControlIds() const {
     return ids;
 }
 bool StorageScienceController::canRunSensitivities() const {
-    if (!canRun() || selected_controls_.isEmpty() || catalog_capture_ != project_->capturedForecast()) return false;
+    if (!canRun() || selected_controls_.isEmpty() || catalog_capture_ != currentCapture()) return false;
     for (const auto& id : selected_controls_) if (!ineligible_reasons_.contains(id) || !ineligible_reasons_.value(id).isEmpty()) return false;
     return true;
 }
@@ -140,7 +198,7 @@ bool StorageScienceController::selectControl(const QString& id, bool selected) {
     return true;
 }
 void StorageScienceController::refresh() {
-    const auto current = project_ ? project_->capturedForecast() : nullptr;
+    const auto current = currentCapture();
     if (current != catalog_capture_) rebuildCatalog(current);
     const QPointer<StorageScienceController> guard(this);
     if (captured_ && current != captured_)
@@ -148,7 +206,7 @@ void StorageScienceController::refresh() {
     if (guard) emit changed();
 }
 void StorageScienceController::retire(const QString& message) {
-    ++generation_; result_ = {}; tank_.clear(); captured_.reset(); job_controls_ = {}; status_ = message;
+    ++generation_; result_ = {}; tank_.clear(); captured_.reset(); job_controls_ = {}; job_origin_={}; status_ = message;
     const auto wasWaiting = waiting_; waiting_ = false;
     if (wasWaiting && worker_) worker_->cancel();
 }
@@ -160,7 +218,7 @@ void StorageScienceController::runSensitivities() {
 }
 void StorageScienceController::begin(bool sensitivities) {
     if (sensitivities ? !canRunSensitivities() : !canRun()) return;
-    captured_ = project_->capturedForecast();
+    captured_ = currentCapture(); job_origin_=source_mode_=="candidate" ? stored_origin_:QJsonObject{};
     sensitivities_ = sensitivities; job_controls_ = sensitivities ? selectedControls() : QJsonArray{};
     ++generation_; waiting_ = true; result_ = {}; tank_.clear();
     status_ = sensitivities ? "Calculating selected sensitivities at unchanged captured values…" : "Starting the captured native/PyTorch comparison…";
@@ -171,21 +229,24 @@ void StorageScienceController::begin(bool sensitivities) {
 }
 void StorageScienceController::cancel() {
     if (!busy()) return;
+    if (source_loading_) {
+        ++source_generation_; pending_source_archive_={}; pending_source_run_.clear(); stored_capture_.reset(); stored_origin_={};
+    }
     const QPointer<StorageScienceController> guard(this);
     retire(comparing_ ? "Cancelled. The bounded comparison is finishing." : "Scientific comparison cancelled.");
     if (guard) emit changed();
 }
 void StorageScienceController::accept(const QJsonObject& response) {
     if (!waiting_ || !captured_) return;
-    if (!project_ || project_->capturedForecast() != captured_) { refresh(); return; }
+    if (!project_ || currentCapture() != captured_) { refresh(); return; }
     waiting_ = false; comparing_ = true;
     status_ = "Comparing returned samples with the retained native trajectory…";
-    const auto captured = captured_; const auto epoch = generation_;
+    const auto captured = captured_; const auto epoch = generation_; const auto origin=job_origin_;
     const auto selected = job_controls_; const auto sensitivities = sensitivities_;
     auto* watcher = new QFutureWatcher<QJsonObject>(this);
-    connect(watcher, &QFutureWatcher<QJsonObject>::finished, this, [this, watcher, captured, epoch] {
+    connect(watcher, &QFutureWatcher<QJsonObject>::finished, this, [this, watcher, captured, epoch, origin] {
         const auto outcome = watcher->result(); watcher->deleteLater(); comparing_ = false;
-        if (epoch == generation_ && project_ && project_->capturedForecast() == captured) {
+        if (epoch == generation_ && project_ && currentCapture() == captured) {
             if (outcome.contains("error")) {
                 captured_.reset(); status_ = outcome.value("error").toString();
                 const auto message = status_; const QPointer<StorageScienceController> guard(this);
@@ -203,12 +264,16 @@ void StorageScienceController::accept(const QJsonObject& response) {
                 history_status_ = "Saving scientific evidence to History…";
                 // Retain the accepted immutable capture before any observer can
                 // edit/reset the project. Serialization and SQL stay off the UI.
-                repository_->enqueueCheckpoint([captured, evidence] { return storage_science_archive(*captured, evidence); },
+                repository_->enqueueCheckpoint([captured, evidence, origin] {
+                    auto archive=storage_science_archive(*captured,evidence);
+                    if (!origin.isEmpty()) { archive["archive_version"]=2; archive["evidence_envelopes"]=QJsonArray{history::envelope("manual_science_origin",origin)}; }
+                    return archive;
+                },
                     evidence.value("result_id").toString());
             }
             emit changed();
             if (guard) emit historyChanged();
-            if (guard && epoch == generation_ && project_ && project_->capturedForecast() == captured && !result_.isEmpty()) emit completed(evidence);
+            if (guard && epoch == generation_ && project_ && currentCapture() == captured && !result_.isEmpty()) emit completed(evidence);
             return;
         }
         if (status_ == "Cancelled. The bounded comparison is finishing.") status_ = "Scientific comparison cancelled.";

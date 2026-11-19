@@ -36,6 +36,7 @@ class Check final : public QObject {
     QString pipe_evidence_id_;
     QRectF retained_button_rect_;
     QElapsedTimer retained_viewer_wait_;
+    QElapsedTimer stored_source_wait_;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
     std::unique_ptr<QTemporaryDir> artifacts_;
     QVariant eval(const QString& source) {
@@ -126,7 +127,7 @@ class Check final : public QObject {
             require(window_ && controller_, "ui_destroyed");
             // Includes actual native pipe execution, SQL retention/reload and
             // the compact History-to-viewer action in addition to editor checks.
-            require(elapsed_.elapsed() < 32000, "ui_check_timeout");
+            require(elapsed_.elapsed() < 40000, "ui_check_timeout");
             switch (phase_) {
             case 0: {
                 if (!window_->isVisible() || !window_->isExposed() || !window_->property("sceneReady").toBool()) return;
@@ -464,6 +465,23 @@ class Check final : public QObject {
                 click(item("pipeTransportClose")); break;
             case 48:
                 require(!window_->property("pipeTransportVisible").toBool(),"retained_pipe_viewer_did_not_close");
+                eval("app.openResults(4)"); break;
+            case 49:
+                require(item("scienceSourceSelector")->isVisible(),"scientific_source_selector_missing");
+                click(item("scienceSourceSelector")); key(Qt::Key_Down); key(Qt::Key_Return); break;
+            case 50:
+                require(eval("app.storageScience.sourceMode==='candidate' && !app.storageScience.canRun").toBool(),"empty_stored_source_borrowed_current_forecast");
+                eval("app.investigator.searchLocally()"); break;
+            case 51:
+                if (eval("app.investigator.running").toBool()) return;
+                if (!stored_source_wait_.isValid()) stored_source_wait_.start();
+                if (eval("app.storageScience.busy || !app.storageScience.canRun").toBool() && stored_source_wait_.elapsed()<3000) return;
+                require(eval("app.storageScience.sourceMode==='candidate' && app.storageScience.canRun && app.storageScience.sourceIdentity.source_run_id===app.history.candidateRunId").toBool(),"selected_stored_science_source_did_not_reconstruct");
+                preserved(); snapshot("16-selected-candidate-science.png");
+                click(item("scienceSourceSelector")); key(Qt::Key_Home); key(Qt::Key_Return); break;
+            case 52:
+                require(eval("app.storageScience.sourceMode==='forecast'").toBool(),"scientific_source_selector_did_not_restore_forecast");
+                preserved(); passed("native_source_selector_uses_immutable_stored_candidate_without_applying_controls");
                 finish(true,"ok"); return;
             default: throw std::runtime_error("invalid_phase");
             }

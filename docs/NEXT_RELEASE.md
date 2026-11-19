@@ -117,5 +117,9 @@ is authorized by this work.
   ASan checks after the geometry/opening guard fix. Historical viewing preserves
   controls and cannot restore approval. See `HISTORY_V2.md` and
   `evidence/v03/history-v2.json`.
-- Observed forecasts/review, selected-candidate Science, remaining qualification
+- Selected-candidate manual Science is implemented. Six new Qt cases and all 43
+  existing storage-Science cases pass in normal and ASan, including real CPU
+  PyTorch forward/sensitivity execution and historical source retention without
+  applying controls. See `HISTORY_V2.md` and `evidence/v03/stored-science.json`.
+- Observed forecasts/review, remaining qualification
   and final delivery gates still require their separate increments.
