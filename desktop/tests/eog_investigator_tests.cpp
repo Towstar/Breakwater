@@ -44,6 +44,7 @@ class FakeTransport final : public ModelTransport {
 public:
     using ModelTransport::ModelTransport;
     std::function<QJsonObject(const QJsonArray&, int)> respond;
+    std::function<QString(int)> failureAt;
     QJsonObject metadata{{"configured_model", "nvidia/nemotron-3.5-lightning-30b-a3b"},
         {"response_model", "nvidia/nemotron-3.5-lightning-30b-a3b"}, {"http_status", 200}, {"duration_ms", 17}, {"retry_count", 1}};
     QList<QJsonArray> histories, toolLists;
@@ -53,10 +54,13 @@ public:
         histories.append(messages); toolLists.append(tools); const auto request = ++requests;
         const auto epoch = generation; active = true; emit requestStarted();
         if (epoch != generation || silent) return;
-        const auto reply = respond ? respond(messages, request) : finalReply();
-        QTimer::singleShot(0, this, [this, epoch, reply] {
+        const auto error = failureAt ? failureAt(request) : QString{};
+        const auto reply = error.isEmpty() ? (respond ? respond(messages, request) : finalReply()) : QJsonObject{};
+        QTimer::singleShot(0, this, [this, epoch, reply, error] {
             if (epoch != generation) return;
-            active = false; emit requestCompleted(metadata); emit replyReady(reply);
+            active = false; emit requestCompleted(metadata);
+            if (error.isEmpty()) emit replyReady(reply);
+            else emit requestFailed(error, "RAW_PARTIAL_RESPONSE_CANARY");
         });
     }
     void requestFinalJson(const QJsonArray& messages) override { ++finalRequests; request(messages, {}); }
@@ -400,6 +404,108 @@ private slots:
         QVERIFY(!correction.value("content").toString().contains("actual-validation"));
         QVERIFY(resultFor(model.histories.last(), "read-first").value("ok").toBool());
         QVERIFY(resultFor(model.histories.last(), "detect-second").value("ok").toBool());
+    }
+    void truncatedResponseUsesOnlyTheExistingFinalCorrection() {
+        FakeTransport model;
+        model.failureAt = [](int step) { return step == 2 ? QStringLiteral("response_truncated") : QString{}; };
+        model.respond = [](const QJsonArray&, int step) {
+            return step == 1 ? calls({call("actual-read", "read_topology")}) : finalReply();
+        };
+        EogInvestigator investigator(&model);
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString&, const QJsonObject&) { investigator.completeTool(execution, outcome()); });
+        QSignalSpy finished(&investigator, &EogInvestigator::finished), failed(&investigator, &EogInvestigator::failed),
+            corrections(&investigator, &EogInvestigator::finalCorrectionRequested), tools(&investigator, &EogInvestigator::toolRequested);
+        investigator.start("Use complete retained evidence only.", {}, definitions()); QTRY_COMPARE(finished.size(), 1);
+        QVERIFY(failed.isEmpty()); QCOMPARE(corrections.size(), 1); QCOMPARE(tools.size(), 1);
+        QCOMPARE(corrections.first().first().toString(), QString("response_truncated"));
+        QVERIFY(EogInvestigator::isFinalFormatCorrectionCode("final_format_rejected_response_truncated"));
+        QCOMPARE(model.requests, 3); QCOMPARE(model.finalRequests, 1); QVERIFY(model.toolLists.last().isEmpty());
+        QVERIFY(resultFor(model.histories.last(), "actual-read").value("ok").toBool());
+        QVERIFY(!QJsonDocument(model.histories.last()).toJson().contains("RAW_PARTIAL_RESPONSE_CANARY"));
+        QVERIFY(!QJsonDocument(QJsonArray::fromVariantList(investigator.events())).toJson().contains("RAW_PARTIAL_RESPONSE_CANARY"));
+    }
+    void truncationAndMalformedFinalShareOneCorrection_data() {
+        QTest::addColumn<int>("firstTruncation"); QTest::addColumn<bool>("secondTruncation");
+        QTest::newRow("two-truncations") << 1 << true;
+        QTest::newRow("truncation-then-malformed") << 1 << false;
+        QTest::newRow("malformed-then-truncation") << 2 << true;
+    }
+    void truncationAndMalformedFinalShareOneCorrection() {
+        QFETCH(int, firstTruncation); QFETCH(bool, secondTruncation);
+        FakeTransport model;
+        model.failureAt = [=](int step) {
+            return step == firstTruncation || (step == 2 && secondTruncation) ? QStringLiteral("response_truncated") : QString{};
+        };
+        model.respond = [](const QJsonArray&, int) { return QJsonObject{{"role", "assistant"}, {"content", "INVALID_FINAL_CANARY"}}; };
+        EogInvestigator investigator(&model);
+        QSignalSpy failed(&investigator, &EogInvestigator::failed), finished(&investigator, &EogInvestigator::finished),
+            corrections(&investigator, &EogInvestigator::finalCorrectionRequested), tools(&investigator, &EogInvestigator::toolRequested);
+        investigator.start("Do not add another retry.", {}, definitions()); QTRY_COMPARE(failed.size(), 1);
+        QCOMPARE(model.requests, 2); QCOMPARE(model.finalRequests, 1); QCOMPARE(corrections.size(), 1);
+        QCOMPARE(failed.first().first().toString(), secondTruncation ? QString("response_truncated") : QString("invalid_final"));
+        QVERIFY(finished.isEmpty()); QVERIFY(tools.isEmpty()); QVERIFY(investigator.result().isEmpty());
+    }
+    void otherTransportFailuresRemainTerminal() {
+        FakeTransport model; model.failureAt = [](int) { return QStringLiteral("http_failed"); };
+        EogInvestigator investigator(&model);
+        QSignalSpy failed(&investigator, &EogInvestigator::failed), corrections(&investigator, &EogInvestigator::finalCorrectionRequested);
+        investigator.start("Transport failures are not format errors.", {}, definitions()); QTRY_COMPARE(failed.size(), 1);
+        QCOMPARE(failed.first().first().toString(), QString("http_failed")); QCOMPARE(model.requests, 1);
+        QCOMPARE(model.finalRequests, 0); QVERIFY(corrections.isEmpty());
+    }
+    void truncatedCorrectionIsRetiredByReentrantCancelOrStale_data() {
+        QTest::addColumn<bool>("stale"); QTest::newRow("cancel") << false; QTest::newRow("stale") << true;
+    }
+    void truncatedCorrectionIsRetiredByReentrantCancelOrStale() {
+        QFETCH(bool, stale); FakeTransport model;
+        model.failureAt = [](int step) { return step == 1 ? QStringLiteral("response_truncated") : QString{}; };
+        EogInvestigator investigator(&model);
+        connect(&investigator, &EogInvestigator::finalCorrectionRequested, &investigator, [&] {
+            if (stale) investigator.invalidate(); else investigator.cancel();
+            investigator.start("Fresh investigation.", {}, definitions());
+        });
+        QSignalSpy failed(&investigator, &EogInvestigator::failed), finished(&investigator, &EogInvestigator::finished);
+        investigator.start("Retire this truncated investigation.", {}, definitions()); QTRY_COMPARE(finished.size(), 1);
+        QCOMPARE(failed.size(), 1); QCOMPARE(failed.first().first().toString(), stale ? QString("stale_capture") : QString("cancelled"));
+        QCOMPARE(model.requests, 2); QCOMPARE(model.finalRequests, 0); QVERIFY(investigator.finalRejectionReason().isEmpty());
+    }
+    void truncatedCorrectionKeepsOriginalDeadline() {
+        FakeTransport model; model.failureAt = [](int) { return QStringLiteral("response_truncated"); };
+        EogInvestigator investigator(&model);
+        connect(&investigator, &EogInvestigator::finalCorrectionRequested, &investigator, [&] { model.silent = true; });
+        QSignalSpy failed(&investigator, &EogInvestigator::failed), finished(&investigator, &EogInvestigator::finished);
+        EogInvestigationLimits limits; limits.durationMs = 100;
+        investigator.start("Keep the same deadline.", {}, definitions(), limits); QTRY_COMPARE_WITH_TIMEOUT(failed.size(), 1, 1000);
+        QCOMPARE(failed.first().first().toString(), QString("deadline_exceeded")); QCOMPARE(model.requests, 2);
+        QCOMPARE(model.finalRequests, 1); QCOMPARE(model.cancellations, 1); QVERIFY(finished.isEmpty());
+    }
+    void evidenceIndexIsRePresentedDuringCorrectionAndClearedOnRestart() {
+        FakeTransport model;
+        model.respond = [](const QJsonArray&, int step) {
+            if (step == 1) return calls({call("inspect", "read_topology")});
+            if (step == 2) return QJsonObject{{"role", "assistant"}, {"content", "INVALID_FINAL_CANARY"}};
+            return finalReply();
+        };
+        EogInvestigator investigator(&model);
+        const QJsonObject index{{"capture_id", "current-capture"}, {"selection_status", "no_validated_plan_in_index"},
+            {"plans", QJsonArray{QJsonObject{{"selected_plan_id", "original-unvalidated-plan"}, {"validation_id", QJsonValue::Null}}}},
+            {"event_ids", QJsonArray{"original-event"}}};
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString&, const QJsonObject&) {
+                investigator.completeTool(execution, {{"ok", true}, {"retained_evidence", index}});
+            });
+        QSignalSpy finished(&investigator, &EogInvestigator::finished);
+        investigator.start("Keep original references as data only.", {}, definitions()); QTRY_COMPARE(finished.size(), 1);
+        for (int i = 1; i < 3; ++i) {
+            const auto system = model.histories.at(i).first().toObject().value("content").toString();
+            QVERIFY(system.contains("current-capture")); QVERIFY(system.contains("original-unvalidated-plan"));
+            QVERIFY(system.contains("original-event"));
+        }
+        QVERIFY(investigator.result().value("selected_plan_id").isNull()); // No automatic reference repair/selection.
+        investigator.start("A different capture.", {}, definitions()); QTRY_COMPARE(finished.size(), 2);
+        QVERIFY(!QJsonDocument(model.histories.last()).toJson().contains("original-unvalidated-plan"));
+        QVERIFY(!QJsonDocument(model.histories.last()).toJson().contains("current-capture"));
     }
     void queuedFinalCorrectionIsRetiredByCancelOrStale_data() {
         QTest::addColumn<bool>("stale"); QTest::newRow("cancel") << false; QTest::newRow("stale") << true;

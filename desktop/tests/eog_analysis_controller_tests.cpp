@@ -203,6 +203,90 @@ private slots:
         for (const auto* value : {"same", "changed-method", "extra-plan-field", "new-generation"})
             QTest::newRow(value) << QString::fromLatin1(value);
     }
+    void retainedEvidenceIndexUsesOwnValidationAndCurrentCaptureOnly() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        adaptive(h.model); h.analysis.investigate("Copy exact references from retained evidence.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 6 && !h.analysis.busy(), 30000);
+        QVERIFY2(h.analysis.canReview(), qPrintable(h.analysis.status()));
+        const auto selected = h.analysis.selectedPlanId(); const auto validation = QJsonObject::fromVariantMap(h.analysis.selectedValidation());
+        const auto index = resultFor(h.model.messages, "validation").value("retained_evidence").toObject();
+        QCOMPARE(index.value("capture_id"), QJsonObject::fromVariantMap(h.analysis.evidenceContext()).value("capture_id"));
+        QCOMPARE(index.value("cutoff_unix").toDouble(), h.dataset.cursorUnix());
+        QCOMPARE(index.value("selection_status"), QJsonValue("validated_evidence_available"));
+        QCOMPARE(index.value("omitted_plan_count").toInt(), 0); QCOMPARE(index.value("omitted_event_count").toInt(), 0);
+        QCOMPARE(index.value("event_ids").toArray(), QJsonArray{"protocol-only-event"});
+        const auto plans = index.value("plans").toArray(); QCOMPARE(plans.size(), 2);
+        QCOMPARE(plans.first().toObject().value("selected_plan_id"), QJsonValue(selected));
+        for (const auto& value : plans) {
+            const auto row = value.toObject();
+            QVERIFY(row.value("evaluator_method").isNull()); // Never invent a native identity for a protocol fixture.
+            if (row.value("selected_plan_id") == selected) {
+                QCOMPARE(row.value("validation_id"), validation.value("validation_id"));
+                QCOMPARE(row.value("plan_hash"), validation.value("plan_hash"));
+                QCOMPARE(row.value("selection_eligibility"), QJsonValue("validated"));
+                QVERIFY(row.value("independent_validation").toBool()); QVERIFY(row.value("validation_feasible").toBool());
+            } else {
+                QVERIFY(row.value("validation_id").isNull()); QVERIFY(!row.value("independent_validation").toBool());
+            }
+        }
+        QVERIFY(h.model.messages.first().toObject().value("content").toString().contains(
+            QString::fromUtf8(QJsonDocument(index).toJson(QJsonDocument::Compact))));
+        QVERIFY(QJsonDocument(index).toJson(QJsonDocument::Compact).size() < 64 * 1024);
+        const auto session = h.analysis.sessionId(); QVERIFY(drain(h.history));
+        QSignalSpy loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        h.analysis.openHistory(session); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        QVERIFY(h.analysis.historical()); const auto requests = h.model.requests;
+        h.analysis.investigate("Historical evidence cannot resume a live recommendation.");
+        QCOMPARE(h.model.requests, requests); QVERIFY(!h.analysis.canReview());
+        h.analysis.returnToLive(); h.dataset.setCursorUnix(h.dataset.firstUnix());
+        h.model.respond = [step = 0](const QJsonArray&) mutable { return step++ == 0 ? tool("fresh-read", "read_topology") : final(); };
+        h.analysis.investigate("Inspect a fresh cutoff without importing old references.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == requests + 2 && !h.analysis.busy(), 15000);
+        const auto fresh = resultFor(h.model.messages, "fresh-read").value("retained_evidence").toObject();
+        QCOMPARE(fresh.value("cutoff_unix").toDouble(), h.dataset.firstUnix());
+        QVERIFY(fresh.value("capture_id") != index.value("capture_id"));
+        QVERIFY(fresh.value("plans").toArray().isEmpty()); QVERIFY(fresh.value("event_ids").toArray().isEmpty());
+        QCOMPARE(fresh.value("selection_status"), QJsonValue("no_validated_plan_in_index"));
+        QVERIFY(!QJsonDocument(h.model.messages).toJson().contains(validation.value("validation_id").toString().toUtf8()));
+    }
+    void unavailableDetectionDoesNotInventEvidenceIndexReferences() {
+        Harness h(fixtures_, worker_, "unavailable_detect");
+        QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        h.model.respond = [step = 0](const QJsonArray&) mutable {
+            return step++ == 0 ? tool("unavailable-detection", "detect", {{"system_ids", QJsonArray{}}}) : final();
+        };
+        h.analysis.investigate("Report missing coverage without invented references.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        const auto outcome = resultFor(h.model.messages, "unavailable-detection");
+        QCOMPARE(outcome.value("result").toObject().value("status"), QJsonValue("unavailable"));
+        const auto index = outcome.value("retained_evidence").toObject();
+        QVERIFY(index.value("plans").toArray().isEmpty()); QVERIFY(index.value("event_ids").toArray().isEmpty());
+        QCOMPARE(index.value("selection_status"), QJsonValue("no_validated_plan_in_index"));
+        QVERIFY(!h.analysis.canReview()); QVERIFY(h.analysis.selectedPlanId().isEmpty());
+    }
+    void evidenceIndexIsBoundedWithoutSelectingOrInventingValidation() {
+        QTemporaryDir fixture; QVERIFY(fixture.isValid()); auto source = bytes(worker_);
+        const QByteArray before = R"([evaluation(plan("protocol-only-no-action")), evaluation(plan("protocol-only-truck-plan", True))])";
+        QVERIFY(source.contains(before));
+        source.replace(before, R"([evaluation(plan("protocol-only-truck-plan", True))] + [evaluation(plan("protocol-only-extra-" + str(i), True)) for i in range(9)])");
+        const auto scripted = fixture.filePath("many_candidates_fixture.py"); QVERIFY(write(scripted, source));
+        Harness h(fixtures_, scripted); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        h.model.respond = [step = 0](const QJsonArray&) mutable {
+            return step++ == 0 ? tool("search", "search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}}) : final();
+        };
+        h.analysis.investigate("Present a bounded inventory without selecting references.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QCOMPARE(h.analysis.plans().size(), 10);
+        const auto index = resultFor(h.model.messages, "search").value("retained_evidence").toObject();
+        QCOMPARE(index.value("plans").toArray().size(), 8); QCOMPARE(index.value("omitted_plan_count").toInt(), 2);
+        QCOMPARE(index.value("selection_status"), QJsonValue("no_validated_plan_in_index"));
+        for (const auto& value : index.value("plans").toArray()) {
+            const auto row = value.toObject(); QVERIFY(row.value("validation_id").isNull());
+            QVERIFY(row.value("evaluator_method").isNull());
+            QCOMPARE(row.value("selection_eligibility"), QJsonValue("validation_unavailable"));
+        }
+        QVERIFY(!h.analysis.canReview()); QVERIFY(h.analysis.selectedPlanId().isEmpty());
+    }
     void validationReuseRequiresExactLiveArguments() {
         QFETCH(QString, variation);
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
