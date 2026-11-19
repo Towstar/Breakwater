@@ -11,7 +11,9 @@ Node {
     property color tint: "#8f9da6"
     property real diameter: 6.2
     property bool fittings: true
-    readonly property real joint: Math.max(0, span / 2 - Math.min(7, span * 0.12))
+    // Keep the schematic joint clear of a typical equipment shell. This offset
+    // is visual only and never changes the route endpoints or physical length.
+    readonly property real joint: Math.max(0, span / 2 - Math.min(34, span * 0.22))
 
     PrincipledMaterial { id: metal; baseColor: pipe.tint; metalness: 0.42; roughness: 0.48 }
     PrincipledMaterial { id: flange; baseColor: "#bac2c8"; metalness: 0.5; roughness: 0.48 }
@@ -28,22 +30,29 @@ Node {
             required property var modelData
             y: modelData * pipe.joint
             Model {
-                objectName: pipe.pickName; source: "#Cylinder"; pickable: true
-                scale: Qt.vector3d(pipe.diameter * 1.85 / 100, 0.024, pipe.diameter * 1.85 / 100)
-                materials: flange
-            }
-            Model {
-                source: "#Cylinder"; y: 1.5
-                scale: Qt.vector3d(pipe.diameter * 1.52 / 100, 0.008, pipe.diameter * 1.52 / 100)
+                source: "#Cylinder"
+                scale: Qt.vector3d(pipe.diameter * 1.62 / 100, 0.008, pipe.diameter * 1.62 / 100)
                 materials: gasket
             }
-            // Two visible bolt heads per joint, rather than an unbounded ring.
             Repeater3D {
                 model: [-1, 1]
                 delegate: Model {
                     required property var modelData
-                    source: "#Cylinder"; x: modelData * pipe.diameter * 0.65
-                    scale: Qt.vector3d(0.014, 0.038, 0.014)
+                    source: "#Cylinder"; y: modelData * 1.2
+                    scale: Qt.vector3d(pipe.diameter * 1.85 / 100, 0.016, pipe.diameter * 1.85 / 100)
+                    materials: flange
+                }
+            }
+            // Four bounded through-bolts make a paired joint readable up close.
+            // The tube retains picking; none of the joint decoration intercepts it.
+            Repeater3D {
+                model: [0, 90, 180, 270]
+                delegate: Model {
+                    required property real modelData
+                    source: "#Cylinder"
+                    x: Math.cos(modelData * Math.PI / 180) * pipe.diameter * 0.72
+                    z: Math.sin(modelData * Math.PI / 180) * pipe.diameter * 0.72
+                    scale: Qt.vector3d(0.018, 0.052, 0.018)
                     materials: gasket
                 }
             }

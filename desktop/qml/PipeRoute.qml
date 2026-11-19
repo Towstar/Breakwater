@@ -32,8 +32,19 @@ Node {
         delegate: Node {
             required property real modelData
             position: Qt.vector3d(route.sx + route.dx * modelData, 0, route.sz + route.dz * modelData)
-            Model { source: "#Cube"; y: -1; scale: Qt.vector3d(0.18, 0.04, 0.18); materials: PrincipledMaterial { baseColor: "#AEBBBC"; roughness: 0.95 } }
-            Model { source: "#Cube"; y: 4; scale: Qt.vector3d(0.025, 0.07, 0.025); materials: PrincipledMaterial { baseColor: "#74828A"; metalness: 0.25; roughness: 0.6 } }
+            eulerRotation.y: Math.atan2(-route.dz, route.dx) * 180 / Math.PI
+            PrincipledMaterial { id: supportSteel; baseColor: "#677982"; metalness: 0.3; roughness: 0.65 }
+            Model { source: "#Cube"; y: -1; scale: Qt.vector3d(0.24, 0.04, 0.26); materials: PrincipledMaterial { baseColor: "#AEBBBC"; roughness: 0.95 } }
+            Model { source: "#Cube"; y: 2.8; scale: Qt.vector3d(0.06, 0.036, 0.06); materials: supportSteel }
+            Model { source: "#Cube"; y: 4.5; scale: Qt.vector3d(0.09, 0.012, 0.15); materials: supportSteel }
+            Repeater3D {
+                model: [-1, 1]
+                delegate: Node {
+                    required property real modelData
+                    Model { source: "#Cube"; y: 7; z: modelData * 3.9; scale: Qt.vector3d(0.08, 0.05, 0.012); materials: supportSteel }
+                    Model { source: "#Cylinder"; y: 5.5; z: modelData * 6; scale: Qt.vector3d(0.018, 0.025, 0.018); materials: supportSteel }
+                }
+            }
         }
     }
     Model {

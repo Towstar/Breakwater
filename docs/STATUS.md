@@ -48,6 +48,20 @@ scenes; all 128 bodies remain pickable and numerical identity is unchanged.
 The first HUD prototype caused extra redraws; it is retained as an intermediate
 measurement, not a speedup claim. See [yard evidence](evidence/portfolio/yard-polish.json).
 
+The equipment-service pass refines the same native assemblies with paired pipe
+flanges and through-bolts, grounded saddle supports, tank ladder landings and
+access covers, pump coupling guards/fixings, and tanker axles, hubs, mirrors,
+steps and lights. Detailed fittings stay bounded and outside picking; existing
+equipment bodies and pipe tubes retain their selection identity. Large Sandbox
+overviews retain the simplified assemblies. These are schematic hardware details,
+not new control functions, pressure instruments or qualified access geometry.
+See [equipment-service evidence](evidence/portfolio/equipment-service.json).
+All nine targeted suites pass in both normal and ASan builds, including native
+editing/picking in four window sizes and Operations rendering. Local default and
+128-asset/256-route camera sweeps remain approximately 62.5 FPS, with all bodies
+pickable and numerical identity unchanged. No hosted investigation was requested
+for this presentation-only increment.
+
 Main remains `3116b3d`. PR56 ancestry and the bounded test-metadata compatibility
 patch are integrated on the isolated portfolio baseline. Draft PR58 contains the
 baseline; draft PR59 contains the desktop/offline increment. Both are conflict-free
@@ -59,7 +73,9 @@ The complete draft review stack is [PR58](https://github.com/Towstar/Breakwater/
 → [PR60](https://github.com/Towstar/Breakwater/pull/60)
 → [PR61](https://github.com/Towstar/Breakwater/pull/61)
 → [PR62](https://github.com/Towstar/Breakwater/pull/62)
-→ [PR63](https://github.com/Towstar/Breakwater/pull/63). Live GitHub checks remain
+→ [PR63](https://github.com/Towstar/Breakwater/pull/63)
+→ [PR64](https://github.com/Towstar/Breakwater/pull/64)
+→ [PR65](https://github.com/Towstar/Breakwater/pull/65). Live GitHub checks remain
 the authority for each published branch's current CI outcome.
 The unpublished observed-capture work and frozen hackathon application are preserved.
 Devpost is unchanged.
