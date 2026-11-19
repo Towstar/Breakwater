@@ -59,7 +59,14 @@ public:
     void acknowledgeEvent(const QString& id) {
         try {
             const auto event=monitor_.acknowledge(id,"local-operator",QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs));
-            if (!event.isEmpty()) emit detectionAcknowledged(event);
+            if (!event.isEmpty()) {
+                emit detectionAcknowledged(event);
+                if (!last_monitor_evidence_.isEmpty()) {
+                    auto evidence=last_monitor_evidence_; evidence["evidence_kind"]="observation_acknowledgement";
+                    evidence["events"]=QJsonArray{event}; evidence["balance_witness"]=QJsonArray{};
+                    emit detectionEvidence(evidence,source_serial_->load());
+                }
+            }
         } catch (const std::exception&) { reject("acknowledgement_invalid","The selected event is no longer available in this context."); }
     }
     void manual() { shutdownInput(); mode_ = "manual"; status_ = configuration_.isEmpty() ? "unconfigured" : "ready"; error_.clear(); }
@@ -357,6 +364,7 @@ private:
     QHash<QString,QPair<QString,double>> monitor_emitted_;
     QString monitor_error_;
     QString monitor_samples_;
+    QJsonObject last_monitor_evidence_;
     double monotonicS() const { return monotonic_.isValid() ? monotonic_.nsecsElapsed() / 1e9 : 0; }
     double elapsedPlayback() const { return active_ && started_ && !paused_ && !historical_ ? std::max(0.0,monotonicS()-base_monotonic_)*rate_ : 0; }
     double arrivalTime() const { return base_arrival_+elapsedPlayback(); }
@@ -405,7 +413,7 @@ private:
         historical_ = false;
         journal_replay_ = false; previous_receipt_ = {}; next_receipt_ = {}; base_arrival_=0;
         replay_footer_ = {}; replay_bytes_ = 0;
-        declared_hold_model_=false; monitor_.reset(); monitor_emitted_.clear(); monitor_error_.clear(); monitor_samples_.clear(); last_monitor_mono_=-1;
+        declared_hold_model_=false; monitor_.reset(); monitor_emitted_.clear(); monitor_error_.clear(); monitor_samples_.clear(); last_monitor_evidence_={}; last_monitor_mono_=-1;
     }
     void reject(const QString& code, const QString& message) { emit rejected(code, message); }
     void fail(const QString& code, const QString& message) {
@@ -441,6 +449,10 @@ private:
         try {
             const auto capture=stream_.captureObserved(monitor_registry_,monitor_commands_,monitor_revision_,freshId("monitor-"));
             const auto change=monitor_.observe(capture);
+            last_monitor_evidence_={{"evidence_kind","observation_detection"},{"evidence_version",1},
+                {"events",change.value("events")},{"snapshot",capture.document},{"context",capture.context},
+                {"mapping",capture.diagnostics},{"effective_network",capture.effective_network},
+                {"detector",monitor_.report()},{"balance_witness",change.value("balance_witness")},{"actionable",false}};
             monitor_error_.clear();
             QJsonArray retained;
             const auto eventTime=capture.document.value("captured_event_time_s").toDouble();
@@ -454,10 +466,8 @@ private:
             if (!retained.isEmpty()) {
                 // A bounded pre-assimilation witness is retained on transitions,
                 // and at most every ten seconds for ongoing event updates.
-                emit detectionEvidence(QJsonObject{{"evidence_kind","observation_detection"},{"evidence_version",1},
-                    {"events",retained},{"snapshot",capture.document},{"context",capture.context},
-                    {"mapping",capture.diagnostics},{"effective_network",capture.effective_network},
-                    {"detector",monitor_.report()},{"balance_witness",change.value("balance_witness")},{"actionable",false}},source_serial_->load());
+                auto evidence=last_monitor_evidence_; evidence["events"]=retained;
+                emit detectionEvidence(evidence,source_serial_->load());
             }
         } catch (const std::exception&) {
             // Do not turn an invalid/retired context into a zero observation or
@@ -670,7 +680,10 @@ TelemetryController::TelemetryController(QObject* parent) : QObject(parent) {
     });
     connect(worker_, &TelemetryIoWorker::exported, this, &TelemetryController::recordingExported);
     connect(worker_, &TelemetryIoWorker::detectionEvidence,this,[this](const QJsonObject& evidence,quint64 serial) {
-        if (serial==source_serial_->load()) emit detectionEvidenceReady(evidence);
+        // Retirement removes current eligibility, not completed historical
+        // evidence. The envelope carries its own exact source/epoch/context.
+        Q_UNUSED(serial);
+        emit detectionEvidenceReady(evidence);
     });
     connect(worker_, &TelemetryIoWorker::detectionAcknowledged,this,&TelemetryController::detectionAcknowledged);
     connect(worker_, &TelemetryIoWorker::observedCaptured, this,

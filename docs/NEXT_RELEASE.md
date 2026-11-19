@@ -7,7 +7,7 @@ author's review or licensing agreement.
 
 ## Baseline and preservation
 
-- Implementation branch: `codex/breakwater-next-foundation`, based on `0162656`.
+- Initial implementation branch: `codex/breakwater-next-foundation`, based on `0162656`.
 - Main was `3116b3d` at the initial GitHub check; PR58 had no formal review.
 - Keep the existing PR58–PR67 ancestry and dated evidence. Do not merge main,
   add a root license, tag or publish binaries before the release gates below.
@@ -98,8 +98,7 @@ is authorized by this work.
   No new hosted result is claimed. See `evidence/v03/nemotron-reliability.json`.
 - Native observation mathematics and receiver-thread immutable captures pass six
   focused CTest suites in normal and ASan builds. The final capture suite contains
-  nine Qt cases. The numerical mapper is connected to the capture seam, while
-  forecast/review UI and ongoing detection are still pending. See
+  nine Qt cases. The numerical mapper is connected to the capture seam. See
   `evidence/v03/observed-mapping.json` and `OBSERVED_STATE.md`.
 - Local acquisition/replay and the capture UI pass normal and ASan checks. Actual
   Python subprocess integration exercises pump loss, lifecycle acknowledgements,
@@ -109,7 +108,14 @@ is authorized by this work.
   was corrected and retained as regression evidence. PR68 and PR69 Windows CI
   passed. See `LOCAL_MONITORING.md` and `evidence/v03/local-acquisition.json`.
 - Bounded native detection and the acquisition-worker adapter are implemented;
-  see `OBSERVATION_DETECTION.md`. Verification and the exact retained evidence are
-  recorded with this increment. Observed forecasts/review, durable event history,
-  selected-candidate Science, automatic pipe history and final qualification are
-  still separate pending work.
+  see `OBSERVATION_DETECTION.md` and `evidence/v03/observation-detection.json`.
+- Version-2 typed evidence, v1 database backup/migration, durable detector/ack
+  retention and automatic native pipe history are implemented. Six v2 and fifteen
+  repository Qt cases pass per mode; pipe checks pass seventeen cases with one
+  explicit optional PhysicsNeMo skip. The full native History-to-pipe-viewer path
+  passes four window sizes in normal and ASan, plus three consecutive short-window
+  ASan checks after the geometry/opening guard fix. Historical viewing preserves
+  controls and cannot restore approval. See `HISTORY_V2.md` and
+  `evidence/v03/history-v2.json`.
+- Observed forecasts/review, selected-candidate Science, remaining qualification
+  and final delivery gates still require their separate increments.

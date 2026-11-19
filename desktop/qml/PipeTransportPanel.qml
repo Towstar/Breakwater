@@ -91,7 +91,7 @@ Dialog {
         PlainLabel {
             objectName: "importedPipeEvidenceBanner"
             Layout.fillWidth: true; visible: dialog.viewingImported
-            text: "Imported historical evidence · unverified file · no approval"
+            text: dialog.pipeTransport.viewingRetainedEvidence ? "Retained History evidence · historical · no approval" : "Imported historical evidence · unverified file · no approval"
             wrapMode: Text.WordWrap; color: Theme.warning; font.bold: true
         }
         RowLayout {
@@ -131,6 +131,7 @@ Dialog {
             ActionButton { iconName: "square"; objectName: "cancelPipeTransport"; text: "Cancel"; enabled: dialog.pipeTransport.busy; onClicked: dialog.pipeTransport.cancel() }
         }
         PlainLabel { Layout.fillWidth: true; text: dialog.pipeTransport.status; wrapMode: Text.WordWrap; maximumLineCount: 2; elide: Text.ElideRight; color: Theme.secondary; font.pixelSize: Theme.smallSize }
+        PlainLabel { Layout.fillWidth: true; text: dialog.pipeTransport.historyStatus; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.captionSize }
             }
         }
         TabBar {
@@ -328,12 +329,12 @@ Dialog {
                 TextArea {
                     readOnly: true; selectByMouse: true; textFormat: TextEdit.PlainText; wrapMode: TextEdit.WrapAnywhere; font.pixelSize: Theme.smallSize
                     text: !dialog.hasResult ? "No computed transport result. Provenance will be captured from the selected run and physical pipe parameters." :
-                          "Quality status: " + dialog.resultData.quality_status + "\nContext: " + (dialog.viewingImported ? "imported external file · historical and unverified · no approval" : dialog.resultData.historical ? "historical evidence" : "current captured run") +
+                          "Quality status: " + dialog.resultData.quality_status + "\nContext: " + (dialog.pipeTransport.viewingRetainedEvidence ? "reopened History · historical · no approval" : dialog.viewingImported ? "imported external file · historical and unverified · no approval" : dialog.resultData.historical ? "historical evidence" : "current captured run") +
                           "\nVolume forecast: " + (dialog.resultData.volume_feasible === undefined ? "not recorded" : dialog.resultData.volume_feasible ? "reported feasible" : "reported infeasible") +
                           "\n\nRoute: " + dialog.resultData.route_id + "\nRun: " + dialog.resultData.run_id + "\nSnapshot: " + dialog.resultData.snapshot_id +
                           "\nPhysical hash: " + dialog.resultData.physical_hash + "\nParameter hash: " + dialog.resultData.parameter_hash + "\nNumerical revision: " + dialog.resultData.numerical_revision +
                           "\n\nMethod: " + dialog.resultData.method + "\nMethod version: " + dialog.resultData.method_version + "\nHorizon: " + dialog.number(dialog.resultData.horizon_h) + " h\nRoute flow: " + dialog.number(dialog.resultData.flow_m3h) + " m³/h" +
-                          "\n\nBounded preview: " + (dialog.preview.time_h || []).length + " time samples × " + (dialog.preview.x_m || []).length + " distance samples. Distance samples represent cell centers. Export JSON preserves this preview, parameters and diagnostics.\n\n" + (dialog.viewingImported ? "This imported file has not been independently re-executed. Its parameters and feasibility claim do not modify this project or restore approval. " : "") + "This is native scalar-reference evidence. It has no approval action and is separate from standalone learned-model experiments."
+                          "\n\nBounded preview: " + (dialog.preview.time_h || []).length + " time samples × " + (dialog.preview.x_m || []).length + " distance samples. Distance samples represent cell centers. Export JSON preserves this preview, parameters and diagnostics.\n\n" + (dialog.viewingImported && !dialog.pipeTransport.viewingRetainedEvidence ? "This imported file has not been independently re-executed. Its parameters and feasibility claim do not modify this project or restore approval. " : "") + "This is native scalar-reference evidence. It has no approval action and is separate from standalone learned-model experiments."
                 }
             }
             ScrollView {

@@ -46,6 +46,7 @@ qt_add_library(breakwater_agent STATIC
   agent/AgentOrchestrator.hpp agent/AgentOrchestrator.cpp
   agent/AgentController.hpp agent/AgentController.cpp
   history/SessionRepository.hpp history/SessionRepository.cpp
+  history/EvidenceEnvelope.hpp history/EvidenceEnvelope.cpp
   history/HistoryController.hpp history/HistoryController.cpp
   history/SessionRecorder.hpp history/SessionRecorder.cpp
   quality/PipeTransportController.hpp quality/PipeTransportController.cpp
@@ -59,7 +60,7 @@ target_sources(breakwater_agent PRIVATE
   science/AgentSensitivityClient.hpp science/AgentSensitivityClient.cpp
   science/StorageScienceController.hpp science/StorageScienceController.cpp)
 target_include_directories(breakwater_agent PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
-target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base Qt6::Network Qt6::Concurrent Qt6::Sql)
+target_link_libraries(breakwater_agent PUBLIC breakwater_desktop_base breakwater_telemetry_runtime Qt6::Network Qt6::Concurrent Qt6::Sql)
 target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_WORKER_PATH="${PROJECT_SOURCE_DIR}/science/worker.py")
 target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_CALIBRATION_PATH="${PROJECT_SOURCE_DIR}/science/transport_calibration.py")
 target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_DEVELOPMENT_BIN_DIR="$<TARGET_FILE_DIR:breakwater>")
@@ -121,6 +122,12 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
 endif()
 
 if(BUILD_TESTING)
+  qt_add_executable(breakwater_evidence_v2_tests tests/evidence_v2_tests.cpp)
+  target_link_libraries(breakwater_evidence_v2_tests PRIVATE breakwater_agent Qt6::Test)
+  add_test(NAME desktop.evidence_v2 COMMAND breakwater_evidence_v2_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/evidence_v2-results.txt,txt")
+  set_tests_properties(desktop.evidence_v2 PROPERTIES TIMEOUT 180
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   qt_add_executable(breakwater_workspace_settings_tests tests/workspace_settings_tests.cpp)
   target_link_libraries(breakwater_workspace_settings_tests PRIVATE breakwater_desktop_base Qt6::Test)
   add_test(NAME desktop.workspace_settings COMMAND breakwater_workspace_settings_tests

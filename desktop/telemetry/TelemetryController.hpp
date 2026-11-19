@@ -35,6 +35,7 @@ class TelemetryController final : public QObject {
     Q_PROPERTY(QVariantMap counters READ counters NOTIFY changed)
     Q_PROPERTY(QVariantMap snapshot READ snapshot NOTIFY changed)
     Q_PROPERTY(QVariantMap detection READ detection NOTIFY changed)
+    Q_PROPERTY(QString evidenceStorageStatus READ evidenceStorageStatus NOTIFY changed)
     Q_PROPERTY(QVariantMap observedCapture READ observedCapture NOTIFY observedCaptureChanged)
     Q_PROPERTY(QVariantMap observedCaptureDiagnostics READ observedCaptureDiagnostics NOTIFY observedCaptureChanged)
     Q_PROPERTY(QString observedCaptureDisposition READ observedCaptureDisposition NOTIFY observedCaptureChanged)
@@ -58,6 +59,8 @@ public:
     QVariantMap counters() const { return snapshot_.value("counters").toMap(); }
     QVariantMap snapshot() const { return snapshot_; }
     QVariantMap detection() const { return snapshot_.value("detection").toMap(); }
+    QString evidenceStorageStatus() const { return evidence_storage_status_; }
+    void setEvidenceStorageStatus(const QString& status) { evidence_storage_status_=status; emit changed(); }
     Q_INVOKABLE void acknowledgeDetection(const QString& eventId);
     QVariantMap observedCapture() const;
     QVariantMap observedCaptureDiagnostics() const;
@@ -104,6 +107,7 @@ private:
     QVariantMap snapshot_{{"mode", "manual"}, {"status", "unconfigured"}, {"active", false}};
     QVariantList trace_preview_;
     QString publisher_executable_;
+    QString evidence_storage_status_="Durable incident history is not configured.";
     QStringList publisher_arguments_;
     bool publisher_configured_ = false, bundled_publisher_ = false, poll_pending_ = false;
     QJsonObject observed_registry_;

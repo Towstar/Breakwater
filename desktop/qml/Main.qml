@@ -768,7 +768,13 @@ ApplicationWindow {
                 onPressed: function(mouse) { originY = mapToItem(app.contentItem, 0, mouse.y).y; originHeight = workspaceSettings.values.dockHeight }
                 onPositionChanged: function(mouse) { if (pressed) workspaceSettings.setValue("dockHeight", Math.round(Math.max(160, Math.min(640, originHeight + originY - mapToItem(app.contentItem, 0, mouse.y).y)))) }
             }
-            AgentPanel { id: agentPanel; anchors.fill: parent; anchors.margins: 14; anchors.topMargin: 48; visible: app.showAgent && workspaceSettings.values.dockOpen; embedded: true; currentNetworkHash: app.controller.networkHash; investigator: app.investigator; history: app.history; scientificWorker: app.scientificWorker; storageScience: app.storageScience; credentials: app.credentials }
+            AgentPanel {
+                id: agentPanel; anchors.fill: parent; anchors.margins: 14; anchors.topMargin: 48
+                visible: app.showAgent && workspaceSettings.values.dockOpen; embedded: true
+                currentNetworkHash: app.controller.networkHash; investigator: app.investigator; history: app.history
+                scientificWorker: app.scientificWorker; storageScience: app.storageScience; credentials: app.credentials
+                onOpenPipeEvidence: evidence => { if (app.pipeTransport.showRetainedResult(evidence)) pipeTransportDialog.open() }
+            }
             ForecastPanel { id: forecastPanel; controller: app.controller; anchors.fill: parent; anchors.margins: 14; anchors.topMargin: 48; visible: !app.showAgent && workspaceSettings.values.dockOpen }
 
         }

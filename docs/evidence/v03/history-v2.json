@@ -1,0 +1,40 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "5593c2439ec881a2d53c214d3e5aced03b867f75",
+  "archive_version": 2,
+  "database_version": 2,
+  "checks_per_mode": {
+    "evidence_v2_qt_cases": {"passed": 6, "failed": 0, "skipped": 0},
+    "repository_qt_cases": {"passed": 15, "failed": 0, "skipped": 0},
+    "pipe_qt_cases": {"passed": 17, "failed": 0, "skipped": 1},
+    "optional_skip": "Explicit real PhysicsNeMo runtime test not requested",
+    "native_detector_suites": 7,
+    "native_ui_window_sizes": 4
+  },
+  "verified": [
+    "V1 SQLite backup retains its original archive bytes and schema before migration",
+    "V1 archives stay v1 on export; v2 cannot silently downgrade",
+    "Strict duplicate-key import rejection and witness/identity validation",
+    "V2 restart, export and historical reopening cannot grant operating authority",
+    "Record 257 is rejected while all earlier 256 pipe records remain and manual export succeeds",
+    "Cancellation suppresses automatic retention; a completed edited-source calculation remains historical",
+    "Actual native pipe execution, SQL retention/reload and History-to-viewer click in four window sizes",
+    "An intentionally unavailable zero-command pump is not a new delivery fault"
+  ],
+  "initial_ui_failure": "One ASan 1008x672 viewer-opening assertion failed. Added stable visible button geometry and a bounded asynchronous opening wait. The failed attempt is retained.",
+  "post_fix_short_window_asan": {"consecutive_passes": 3, "failed": 0, "run_policy": "until-fail:3; stop on any failure"},
+  "primary_logs": [
+    "out/v03/test-retention-final-portfolio-desktop.log",
+    "out/v03/test-retention-final-portfolio-desktop-asan.log",
+    "out/v03/test-pipe-retirement-normal.log",
+    "out/v03/test-pipe-retirement-asan.log",
+    "out/v03/test-retained-settled-normal.log",
+    "out/v03/test-retained-settled-asan.log",
+    "out/v03/test-retained-short-stability.log"
+  ],
+  "failed_attempt_log": "out/v03/test-retained-viewer-asan.log",
+  "ui_artifacts": "out/v03/retention-short/breakwater-ui-*/14-retained-pipe-history.png and 15-retained-pipe-viewer.png",
+  "live_restart": "The updated application reopened the three existing user sessions after migration; only the newest instance was selected for inspection.",
+  "self_review": "Checked backup/migration transaction boundaries, immutable envelopes and origin binding, strict JSON, pipe source flow reconstruction, retention limits, late/cancelled completions, retired event preservation and historical approval denial. Not a formal owner review.",
+  "not_claimed": ["Power-loss or actual clean-VM acceptance", "Field detection or transport accuracy", "New hosted Nemotron results", "Manual selected-candidate Science or observed forecast UI"]
+}

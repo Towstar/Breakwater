@@ -34,10 +34,17 @@ seam. The next increment now connects a seeded local stdlib publisher, independe
 plant, timed receiver journal, backwards-compatible raw replay and manual capture
 UI. Actual subprocess and normal/ASan UI checks pass; see
 [local monitoring](LOCAL_MONITORING.md) and
-[acquisition evidence](evidence/v03/local-acquisition.json). Detection,
-forecast/review UI and new history envelopes remain pending. Bounded native
+[acquisition evidence](evidence/v03/local-acquisition.json). Bounded native
 symptom detection is now connected to the acquisition worker and Local monitoring;
-see [detector scope](OBSERVATION_DETECTION.md). These are local
+see [detector scope](OBSERVATION_DETECTION.md). Version-2 history now retains
+incident witnesses, separate acknowledgements and native pipe results. Known v1
+databases receive a consistent sibling backup before transactional migration;
+legacy archives remain v1 on export. Pipe retention stops at 256 records/256 MiB
+without deleting prior evidence, and retained results reopen through History in
+the existing viewer. Normal/ASan checks, four actual UI layouts and the guarded
+short-window stability run pass. See [history format](HISTORY_V2.md) and
+[history evidence](evidence/v03/history-v2.json). Observed forecasts/review,
+selected-candidate manual Science and final qualification remain pending. These are local
 synthetic capabilities, not operational-monitoring claims.
 
 ## Active: v0.2.0 portfolio candidate, November 18, 2026
