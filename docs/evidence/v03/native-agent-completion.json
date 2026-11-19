@@ -1,0 +1,34 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "f366860d76ff52089dfff68402f2ad538c0a34bc",
+  "scope": "Native Sandbox/observed investigation loop; the preceding EOG reliability increment remains separate",
+  "checks_per_mode": {
+    "orchestrator_qt_cases": {"passed": 34, "failed": 0, "skipped": 0},
+    "gateway_qt_cases": {"passed": 27, "failed": 0, "skipped": 0},
+    "scientific_integration_qt_cases": {"passed": 31, "failed": 0, "skipped": 0}
+  },
+  "limits": {
+    "tool_calls": 12,
+    "candidate_refinement_calls": 3,
+    "deadline_ms": 120000,
+    "format_corrections": 1,
+    "model_request_limit": "configured tool-call limit plus two",
+    "final_bytes": 65536,
+    "tool_argument_bytes": 262144
+  },
+  "verified": [
+    "Exhausted tool budget uses the transport's structured JSON final path",
+    "Prose, duplicate keys, extra fields, wrong types and oversized finals receive at most one format-only correction",
+    "Correction cannot dispatch tools, loop, extend the deadline or survive cancellation",
+    "Corrected references still require actual independently validated feasible run evidence",
+    "Malformed prose/reasoning is neither fed back nor retained in session evidence",
+    "Duplicate tool-argument keys cannot become numerical inputs",
+    "Existing real native planning, review and scientific-tool integration checks remain passing"
+  ],
+  "primary_logs": [
+    "out/v03/test-native-completion-final-portfolio-desktop.log",
+    "out/v03/test-native-completion-final-portfolio-desktop-asan.log"
+  ],
+  "self_review": "Checked request/tool/refinement/deadline accounting, generation guards at the new correction event, strict parsing, no correction of ungrounded references and unchanged native independent validation. This is not a formal owner review.",
+  "not_claimed": ["New hosted Nemotron results", "A comparative model benchmark", "Observed forecast/review completion"]
+}

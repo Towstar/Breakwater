@@ -123,3 +123,9 @@ is authorized by this work.
   applying controls. See `HISTORY_V2.md` and `evidence/v03/stored-science.json`.
 - Observed forecasts/review, remaining qualification
   and final delivery gates still require their separate increments.
+- The native investigation loop now has a structured final and one bounded
+  format-only correction, matching the EOG completion policy. Native tool,
+  refinement and deadline limits are unchanged. Strict final/tool JSON rejects
+  duplicate keys. Correction cannot execute tools, bypass independent evidence,
+  extend deadlines or publish after cancellation. See
+  `evidence/v03/native-agent-completion.json` for focused checks.

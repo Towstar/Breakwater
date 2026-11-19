@@ -59,7 +59,7 @@ public:
     QJsonArray history;
     QJsonArray tools;
     QList<QJsonArray> toolsPerRequest;
-    int requests = 0, cancellations = 0, generation = 0;
+    int requests = 0, cancellations = 0, generation = 0, finalJsonRequests = 0;
     bool silent = false;
     bool metadataOnCancel = false;
     void request(const QJsonArray& messages, const QJsonArray& definitions) override {
@@ -73,6 +73,7 @@ public:
         ++generation; ++cancellations;
         if (metadataOnCancel) emit requestCompleted(QJsonObject{{"request_id", "cancelled-test-request"}, {"outcome", "cancelled"}, {"error_code", "cancelled"}, {"http_status", 0}});
     }
+    void requestFinalJson(const QJsonArray& messages) override { ++finalJsonRequests; request(messages,{}); }
 };
 
 void adaptiveModel(FakeModel& model, bool skipValidation = false) {
@@ -571,6 +572,89 @@ private slots:
         QCOMPARE(gateway->stagedPlan()["selected_run_id"].toString(), selected);
         QCOMPARE(gateway->runs().size(), 1);
         QCOMPARE(gateway->snapshot(), original);
+    }
+    void oneFormatCorrectionAfterExhaustedTools_data() {
+        QTest::addColumn<QString>("malformed");
+        QTest::newRow("prose") << "private reasoning must not be retained";
+        QTest::newRow("duplicate-key") << "{\"selected_run_id\":\"invented\",\"selected_run_id\":null,\"explanation\":\"Duplicate key\"}";
+        QTest::newRow("extra-field") << "{\"selected_run_id\":null,\"explanation\":\"No plan\",\"cost\":0}";
+        QTest::newRow("wrong-type") << "{\"selected_run_id\":7,\"explanation\":\"No plan\"}";
+        QTest::newRow("oversized") << QString(65537,'x');
+    }
+    void oneFormatCorrectionAfterExhaustedTools() {
+        QFETCH(QString,malformed); FakeModel model; int step=0;
+        model.respond=[&](const QJsonArray&)->QJsonObject {
+            if (step++==0) return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});
+            if (step==2) return {{"content",malformed}};
+            return conclusion();
+        };
+        AgentOrchestrator session(&model); const auto gateway=std::make_shared<SimulationGateway>(canonical_scenario(),"format-check");
+        session.start(gateway,"Inspect, then finish.",{2,1,10000});
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+        QCOMPARE(session.result().value("status").toString(),QString("no_validated_plan"));
+        QCOMPARE(model.requests,3); QCOMPARE(model.finalJsonRequests,2); QVERIFY(gateway->runs().isEmpty());
+        int corrections=0,executed=0;
+        for (const auto& row:session.events()) { const auto e=row.toMap(); corrections+=e.value("type")=="final_format_correction_requested"; executed+=e.value("type")=="tool_completed"; }
+        QCOMPARE(corrections,1); QCOMPARE(executed,2);
+        QVERIFY(!QJsonDocument(model.history).toJson().contains("private reasoning must not be retained"));
+        QVERIFY(!QJsonDocument(QJsonArray::fromVariantList(session.events())).toJson().contains("private reasoning must not be retained"));
+    }
+    void formatCorrectionCannotExecuteToolsOrLoop() {
+        for (const bool tools:{false,true}) {
+            FakeModel model; int step=0;
+            model.respond=[&](const QJsonArray&)->QJsonObject {
+                if (step++==0) return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});
+                if (step==2 || !tools) return {{"content","malformed"}};
+                return calls({call("extra","forecast_baseline",{{"snapshot_id","fake"}})});
+            };
+            AgentOrchestrator session(&model); const auto gateway=std::make_shared<SimulationGateway>(canonical_scenario(),"repair-bounds");
+            session.start(gateway,"Inspect."); QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+            QVERIFY(session.result().isEmpty()); QVERIFY(gateway->runs().isEmpty()); QCOMPARE(model.requests,3);
+            QCOMPARE(model.finalJsonRequests,1); QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),QString("invalid_recommendation"));
+        }
+    }
+    void repairedReferenceStillRequiresIndependentEvidence() {
+        FakeModel model; int step=0;
+        model.respond=[&](const QJsonArray&)->QJsonObject {
+            if (step++==0) return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});
+            return step==2 ? QJsonObject{{"content","bad final"}}:conclusion("invented");
+        };
+        AgentOrchestrator session(&model); session.start(std::make_shared<SimulationGateway>(canonical_scenario(),"strict-repair"),"Inspect.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000); QVERIFY(session.result().isEmpty()); QCOMPARE(model.requests,3);
+        QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),QString("ungrounded_recommendation"));
+    }
+    void formatCorrectionKeepsDeadlineAndCancellation() {
+        for (const bool cancelAtCorrection:{false,true}) {
+            FakeModel model; int step=0;
+            model.respond=[&](const QJsonArray&)->QJsonObject {
+                if (step++==0) return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});
+                model.silent=true; return {{"content","malformed"}};
+            };
+            AgentOrchestrator session(&model);
+            connect(&session,&AgentOrchestrator::activity,&session,[&](const QJsonObject& e) {
+                if (cancelAtCorrection && e.value("type")=="final_format_correction_requested") session.cancel();
+            });
+            session.start(std::make_shared<SimulationGateway>(canonical_scenario(),"repair-retirement"),"Inspect.",{12,3,100});
+            QTRY_VERIFY_WITH_TIMEOUT(!session.running(),2000); QVERIFY(session.result().isEmpty());
+            if (cancelAtCorrection) { QCOMPARE(model.requests,2); QCOMPARE(session.events().last().toMap().value("type").toString(),QString("agent_cancelled")); }
+            else { QCOMPARE(model.requests,3); QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),QString("deadline_exceeded")); }
+            emit model.replyReady(conclusion()); QVERIFY(session.result().isEmpty());
+        }
+    }
+    void duplicateToolArgumentsCannotBecomeNumericalInputs() {
+        FakeModel model; int step=0;
+        model.respond=[&](const QJsonArray& history)->QJsonObject {
+            if (step++==0) return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});
+            if (step==2) {
+                const auto id=resultFor(history,"state").value("snapshot_id").toString();
+                auto c=call("duplicate","forecast_baseline"); auto f=c.value("function").toObject();
+                f["arguments"]=QString("{\"snapshot_id\":\"%1\",\"snapshot_id\":\"%1\"}").arg(id); c["function"]=f; return calls({c});
+            }
+            return conclusion();
+        };
+        AgentOrchestrator session(&model); const auto gateway=std::make_shared<SimulationGateway>(canonical_scenario(),"duplicate-arguments");
+        session.start(gateway,"Inspect."); QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+        QVERIFY(gateway->runs().isEmpty()); QCOMPARE(resultFor(model.history,"duplicate").value("error").toObject().value("code").toString(),QString("invalid_arguments"));
     }
     void timeoutCancelAndLateResponseCannotLeakResults() {
         FakeModel model; model.silent = true;

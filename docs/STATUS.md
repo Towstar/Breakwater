@@ -16,6 +16,10 @@ same overall deadline. Strict plan/hash/final-reference checks remain in place.
 Focused normal and ASan checks pass. The normal CLI hard-link protection case
 first hit a sandbox restriction, then passed outside it. See
 [reliability evidence](evidence/v03/nemotron-reliability.json).
+The native investigation loop also uses the structured final path with one
+bounded format-only correction. This adds no numerical tools or time allowance;
+malformed JSON, cancellation and ungrounded references retain strict handling.
+See [native completion evidence](evidence/v03/native-agent-completion.json).
 
 No new hosted rehearsal is claimed. The preceding candidate's final rehearsal
 round remains 3/4. Main integration, licensing and actual clean-Windows acceptance
