@@ -1,4 +1,5 @@
 #include "EogAnalysisController.hpp"
+#include "../LocalRuntime.hpp"
 #include "agent/NemotronClient.hpp"
 #include <QCommandLineParser>
 #include <QCoreApplication>
@@ -252,6 +253,7 @@ private:
         for (const auto& operation : unavailable) unavailableNames.append(safeReference(operation));
         print({{"status", code == Passed ? "passed" : code == Incomplete ? "incomplete" : "failed"},
             {"code", reason}, {"exit_code", code}, {"archive_written", archived}, {"live_enabled", options_.live},
+            {"provider_configured", analysis_.providerConfigured()},
             {"model_identity", response_model_}, {"model_requests", model_requests_}, {"successful_model_replies", model_replies_},
             {"model_issued_tool_calls", model_issued_calls_}, {"executed_tools", executed_tools_}, {"tool_order", tool_order_},
             {"numeric_exchanges", numeric_exchanges_}, {"numeric_completed", numeric_completed_}, {"unavailable_exchanges", unavailable_exchanges_},
@@ -270,6 +272,7 @@ private:
 
 int main(int argc, char** argv) {
     QCoreApplication app(argc, argv);
+    runtime::configureBundledPython();
     QCoreApplication::setApplicationName("BREAKWATER");
     QCoreApplication::setOrganizationName("Breakwater");
     QCommandLineParser parser;

@@ -8,8 +8,12 @@ Ethan owns numerical/scientific meaning and its review.
 
 - Proposed numerical baseline: PR [58](https://github.com/Towstar/Breakwater/pull/58),
   head `b639161ab750413676669577320b77a4768e3cfc`, against main `3116b3d`.
-- Current application candidate: PR [66](https://github.com/Towstar/Breakwater/pull/66),
+- Visual application baseline: PR [66](https://github.com/Towstar/Breakwater/pull/66),
   source `0cfee7225943df166431aff4f672adcfb9b83782`.
+- Release preparation continues in PR [67](https://github.com/Towstar/Breakwater/pull/67).
+  Its installed live-check CLI adopts the existing bundled-Python initializer;
+  numerical/scientific implementations are unchanged. Final binary/source hashes
+  and qualification records identify its exact candidate separately.
 - The stack is **58 → 59 → 60 → 61 → 62 → 63 → 64 → 65 → 66**. Preserve merge
   ancestry and retarget each dependent PR after its parent reaches main.
 - PR56 and the numerical work through PR53 are already ancestors of the candidate.

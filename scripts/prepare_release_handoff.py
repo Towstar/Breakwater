@@ -155,7 +155,7 @@ def prepare(candidate, destination):
             "source_zip_sha256": checksums[source_zip.name], "app_sha256": package["app_sha256"],
             "reviewer": "", "recorded_utc": "", "vm": {}, "verification_report": "",
             "checks": {name: "not_run" for name in (
-                "fresh_windows_no_development_tools", "zip_hashes", "seven_automated_checks",
+                "fresh_windows_no_development_tools", "zip_hashes", "automated_bundle_checks",
                 "sandbox_forecast_search_comparison", "explicit_review_edit_reset",
                 "operations_import_search_validation", "history_restart_nonactionable_import",
                 "missing_optional_science", "file_dialog_cancel_keyboard",

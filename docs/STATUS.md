@@ -143,6 +143,16 @@ pending-authority and copy-failure cases. The initial helper-discovery attempt
 used a science interpreter without PyYAML; the successful full run uses the CI
 bootstrap environment. This does not relabel the earlier failed attempt.
 
+The first readiness package (`3658f41`) passed its seven isolated-process checks,
+but four hosted rehearsals stopped with `provider_unavailable` before making any
+model request. Its packaged live-check entry point omitted the shared bundled-
+Python initialization already used by the desktop/offline checker. The runner now
+uses that same initialization and reports configuration readiness explicitly.
+Two new credential-free package checks exercise bundled readiness and preservation
+of an invalid explicit interpreter override, without `--live` or an API key.
+The helper suite passes 43 cases after these additions. The original startup
+failures and source-qualified passing protocol smoke remain separate evidence.
+
 The readiness branch adds an owner review packet and a checksum-verified Windows/
 source handoff with a pending manual VM result template. It does not grant formal
 review, license consent or clean-machine acceptance. PR57's useful continuation

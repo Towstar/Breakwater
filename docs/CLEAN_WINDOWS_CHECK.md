@@ -57,7 +57,7 @@ Fill a **copy** of the pending result template, naming the reviewer, VM, source
 revision, exact archive hashes and generated verification report. Keep failures and
 not-run checks explicit. The automated verifier continues to describe sanitized
 processes even on a VM: actual VM identity and manual acceptance belong to this
-separate record. Neither `prepared` nor a seven-step developer-process pass means
+separate record. Neither `prepared` nor an automated developer-process pass means
 that clean-machine review or public release approval has occurred.
 
 Publish no binary until the ownership/license/notices/source-delivery and clean
