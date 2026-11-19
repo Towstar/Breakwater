@@ -439,13 +439,14 @@ private slots:
         QVERIFY(investigator.result().isEmpty());
         QVERIFY(!QJsonDocument(QJsonArray::fromVariantList(investigator.events())).toJson().contains("RAW_REJECTED_FINAL_CANARY"));
     }
-    void finalCorrectionCannotExceedExistingRequestBudget_data() {
-        QTest::addColumn<int>("toolBudget"); QTest::newRow("no-tools") << 0; QTest::newRow("one-consumed-tool") << 1;
+    void finalCorrectionUsesOneReservedTurn_data() {
+        QTest::addColumn<int>("toolBudget"); QTest::newRow("no-tools") << 0;
+        QTest::newRow("one-consumed-tool") << 1; QTest::newRow("all-twelve-tools") << 12;
     }
-    void finalCorrectionCannotExceedExistingRequestBudget() {
+    void finalCorrectionUsesOneReservedTurn() {
         QFETCH(int, toolBudget); FakeTransport model;
         model.respond = [toolBudget](const QJsonArray&, int step) {
-            if (toolBudget && step == 1) return calls({call("only-tool", "read_topology")});
+            if (step <= toolBudget) return calls({call("tool-" + QString::number(step), "read_topology")});
             return QJsonObject{{"role", "assistant"}, {"content", "RAW_REJECTED_FINAL_CANARY"}};
         };
         EogInvestigator investigator(&model);
@@ -453,9 +454,33 @@ private slots:
             [&](const QString& execution, const QString&, const QJsonObject&) { investigator.completeTool(execution, outcome()); });
         QSignalSpy failed(&investigator, &EogInvestigator::failed), corrections(&investigator, &EogInvestigator::finalCorrectionRequested);
         EogInvestigationLimits limits; limits.toolCalls = toolBudget;
-        investigator.start("Use the existing request budget.", {}, definitions(), limits); QTRY_COMPARE(failed.size(), 1);
-        QCOMPARE(failed.first().first().toString(), QString("invalid_final")); QCOMPARE(model.requests, toolBudget + 1);
-        QCOMPARE(model.finalRequests, 0); QVERIFY(corrections.isEmpty());
+        investigator.start("Use the reserved finalization budget.", {}, definitions(), limits); QTRY_COMPARE(failed.size(), 1);
+        QCOMPARE(failed.first().first().toString(), QString("invalid_final")); QCOMPARE(model.requests, toolBudget + 2);
+        QCOMPARE(model.finalRequests, 2); QCOMPARE(corrections.size(), 1);
+        QVERIFY(!QJsonDocument(model.histories.last()).toJson().contains("RAW_REJECTED_FINAL_CANARY"));
+    }
+    void malformedFinalAfterTwelveToolsCanFinishWithoutChangingTheirOrder() {
+        FakeTransport model;
+        model.respond = [](const QJsonArray& messages, int step) {
+            if (step <= 12) return calls({call("tool-" + QString::number(step), step % 2 ? "read_observations" : "read_topology")});
+            if (step == 13) return QJsonObject{{"role", "assistant"}, {"content", "RAW_REJECTED_FINAL_CANARY"}};
+            for (int i = 1; i <= 12; ++i)
+                if (!resultFor(messages, "tool-" + QString::number(i)).value("ok").toBool()) return QJsonObject{};
+            return finalReply();
+        };
+        EogInvestigator investigator(&model); QStringList order;
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString& name, const QJsonObject&) {
+                order.append(name); investigator.completeTool(execution, outcome());
+            });
+        QSignalSpy failed(&investigator, &EogInvestigator::failed), finished(&investigator, &EogInvestigator::finished),
+            corrections(&investigator, &EogInvestigator::finalCorrectionRequested);
+        investigator.start("Finish after preserving the actual selected tool order.", {}, definitions());
+        QTRY_COMPARE(finished.size(), 1); QVERIFY(failed.isEmpty());
+        QCOMPARE(model.requests, 14); QCOMPARE(model.finalRequests, 2); QCOMPARE(corrections.size(), 1); QCOMPARE(order.size(), 12);
+        for (int i = 0; i < order.size(); ++i) QCOMPARE(order[i], i % 2 ? QString("read_topology") : QString("read_observations"));
+        QVERIFY(model.toolLists.at(12).isEmpty()); QVERIFY(model.toolLists.at(13).isEmpty());
+        QVERIFY(!QJsonDocument(model.histories.last()).toJson().contains("RAW_REJECTED_FINAL_CANARY"));
     }
     void defaultAndMaximumDurationUseTheSharedFourMinuteBound() {
         using breakwater::desktop::eog::maximum_eog_investigation_duration_ms;

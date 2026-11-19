@@ -150,7 +150,7 @@ def main():
         evaluated = evaluation(proposed)
         validation = {"validation_id": "protocol-only-validation:" + proposed["plan_id"],
             "plan_id": proposed["plan_id"], "plan_hash": proposed["plan_hash"],
-            "evaluator_method": request["arguments"]["evaluator_method"],
+            "evaluator_method": "protocol-only-evaluator",
             "validator_method": "protocol-only-validator", "independent": True,
             "feasible": True, "coverage": "available", "outcome": evaluated["outcome"],
             "shutdowns": evaluated["shutdowns"], "cost": evaluated["cost"], "violations": [],

@@ -198,6 +198,58 @@ private slots:
         QVERIFY(!path.isEmpty()); fixtures_ = QFileInfo(path).absolutePath();
         worker_ = QFINDTESTDATA("eog_fixtures/controller_worker_fixture.py"); QVERIFY(!worker_.isEmpty());
     }
+    void validationReuseRequiresExactLiveArguments_data() {
+        QTest::addColumn<QString>("variation");
+        for (const auto* value : {"same", "changed-method", "extra-plan-field", "new-generation"})
+            QTest::newRow(value) << QString::fromLatin1(value);
+    }
+    void validationReuseRequiresExactLiveArguments() {
+        QFETCH(QString, variation);
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const int repetitions = variation == "new-generation" ? 2 : 1;
+        const int providersPerRun = variation == "changed-method" ? 3 : 2;
+        for (int repetition = 0; repetition < repetitions; ++repetition) {
+            h.model.respond = [step = 0, selected = QString{}, variation](const QJsonArray& messages) mutable {
+                switch (step++) {
+                case 0: return tool("search", "search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}});
+                case 1: {
+                    const auto response = resultFor(messages, "search").value("result").toObject();
+                    selected = response.value("result").toObject().value("selected_plan_id").toString();
+                    return tool("first-validation", "validate_plan", {{"plan_id", selected}, {"evaluator_method", "protocol-only-evaluator"}});
+                }
+                case 2: {
+                    QJsonObject arguments{{"plan_id", selected}, {"evaluator_method", "protocol-only-evaluator"}};
+                    if (variation == "changed-method") arguments["evaluator_method"] = "other-evaluator";
+                    if (variation == "extra-plan-field") arguments["plan"] = QJsonObject{};
+                    return tool("repeated-validation", "validate_plan", arguments);
+                }
+                default: return final();
+                }
+            };
+            const auto before = h.model.requests;
+            h.analysis.investigate("Keep exact independent validation references without redundant provider execution.");
+            QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == before + 4 && !h.analysis.busy(), 20000);
+            QCOMPARE(h.providerCalls(), (repetition + 1) * providersPerRun);
+            const auto original = resultFor(h.model.messages, "first-validation");
+            const auto repeated = resultFor(h.model.messages, "repeated-validation");
+            QVERIFY(original.value("ok").toBool());
+            const bool shouldReuse = variation == "same" || variation == "new-generation";
+            QCOMPARE(repeated.value("reused_validation").toBool(), shouldReuse);
+            if (shouldReuse) {
+                QCOMPARE(original.value("result"), repeated.value("result"));
+                bool marked = false;
+                for (const auto& value : h.analysis.trace()) {
+                    const auto row = value.toMap();
+                    if (row.value("type") == "tool_result" && row.value("call_id") == "repeated-validation") {
+                        marked = parse(row.value("summary").toString()).value("reused_validation").toBool();
+                        QCOMPARE(row.value("analysis_request_id").toString(), original.value("result").toObject().value("request_id").toString());
+                    }
+                }
+                QVERIFY(marked);
+            } else QVERIFY(!repeated.value("ok").toBool());
+            QVERIFY(drain(h.history)); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+        }
+    }
     void modelReceivesCompleteSchemaAndCanSubmitPlainUnhashedPlan() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
         const auto proposal = plainProposal(h);

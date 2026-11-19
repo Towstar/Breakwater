@@ -1,5 +1,26 @@
 # Implementation status
 
+## Active development: expanded v0.3.0, November 18, 2026
+
+The approved [next-release ledger](NEXT_RELEASE.md) covers both application and
+numerical work. Development starts from `0162656` on an isolated branch. The
+existing portfolio release candidate and original observed-capture worktree are
+preserved. Exact user-approved cleanup recovered 23.225 GiB of reproducible files
+and verified unpacked archive copies; archives and unique evidence remain.
+
+The first reliability increment reuses only an exact current completed validation,
+retaining its original provider request reference and explicitly marking reuse in
+the trace summary. Tool calls still consume budget. Twelve tool calls can now be
+followed by the normal structured final and one format-only correction, within the
+same overall deadline. Strict plan/hash/final-reference checks remain in place.
+Focused normal and ASan checks pass. The normal CLI hard-link protection case
+first hit a sandbox restriction, then passed outside it. See
+[reliability evidence](evidence/v03/nemotron-reliability.json).
+
+No new hosted rehearsal is claimed. The preceding candidate's final rehearsal
+round remains 3/4. Main integration, licensing and actual clean-Windows acceptance
+still need their recorded external gates. Later v0.3.0 features remain pending.
+
 ## Active: v0.2.0 portfolio candidate, November 18, 2026
 
 The Sandbox-led desktop, daylight industrial scene, responsive results docks,

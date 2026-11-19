@@ -111,6 +111,7 @@ private:
     bool history_current_dataset_ = true, history_match_cutoff_ = false;
     QString history_query_;
     QMap<QString, QJsonObject> responses_, evaluations_, validations_, event_rows_;
+    QMap<QString, QJsonObject> validation_arguments_;
     QMap<QString, QString> validation_requests_, event_requests_;
     QVariantList sessions_, trace_, operator_records_;
     void datasetChanged();

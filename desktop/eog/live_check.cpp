@@ -164,7 +164,7 @@ private:
     QJsonArray tool_order_;
     int model_requests_ = 0, model_replies_ = 0, model_issued_calls_ = 0;
     int numeric_exchanges_ = 0, numeric_completed_ = 0, unavailable_exchanges_ = 0, unsuccessful_exchanges_ = 0;
-    int executed_tools_ = 0, accepted_calls_ = 0, forced_exit_ = 0;
+    int executed_tools_ = 0, completed_tools_ = 0, reused_validations_ = 0, accepted_calls_ = 0, forced_exit_ = 0;
     bool history_ready_ = false, dataset_ready_ = false, started_ = false, settle_queued_ = false;
     bool finalizing_ = false, finished_ = false, model_identity_matches_ = true, gate_ = false;
 
@@ -201,7 +201,7 @@ private:
         QJsonObject final;
         QMap<QString, QString> calls;
         QSet<QString> results;
-        executed_tools_ = 0; tool_order_ = {};
+        executed_tools_ = completed_tools_ = reused_validations_ = 0; tool_order_ = {};
         for (const auto& value : analysis_.trace()) {
             const auto row = QJsonObject::fromVariantMap(value.toMap());
             const auto type = row.value("type").toString();
@@ -215,7 +215,13 @@ private:
             if (type == "tool_result" && calls.value(row.value("call_id").toString()) == row.value("name").toString() &&
                     !results.contains(row.value("call_id").toString())) {
                 results.insert(row.value("call_id").toString());
-                if (row.value("ok").toBool()) ++executed_tools_;
+                if (row.value("ok").toBool()) {
+                    ++completed_tools_;
+                    const auto summary = QJsonDocument::fromJson(row.value("summary").toString().toUtf8()).object();
+                    if (row.value("name") == "validate_plan" && summary.value("reused_validation") == true)
+                        ++reused_validations_;
+                    else ++executed_tools_;
+                }
             }
         }
         accepted_calls_ = calls.size();
@@ -255,7 +261,8 @@ private:
             {"code", reason}, {"exit_code", code}, {"archive_written", archived}, {"live_enabled", options_.live},
             {"provider_configured", analysis_.providerConfigured()},
             {"model_identity", response_model_}, {"model_requests", model_requests_}, {"successful_model_replies", model_replies_},
-            {"model_issued_tool_calls", model_issued_calls_}, {"executed_tools", executed_tools_}, {"tool_order", tool_order_},
+            {"model_issued_tool_calls", model_issued_calls_}, {"completed_tool_calls", completed_tools_},
+            {"executed_tools", executed_tools_}, {"reused_validation_calls", reused_validations_}, {"tool_order", tool_order_},
             {"numeric_exchanges", numeric_exchanges_}, {"numeric_completed", numeric_completed_}, {"unavailable_exchanges", unavailable_exchanges_},
             {"unsuccessful_exchanges", unsuccessful_exchanges_}, {"unavailable_operations", unavailableNames},
             {"grounded_review_eligible_final", gate_}, {"session_id", safeReference(session_)},
