@@ -52,7 +52,15 @@ the selected stored candidate without applying its controls, checks the original
 trajectory against native reproduction, and runs CPU PyTorch comparison and
 sensitivities with retained v2 source identity. Both current and historical
 selection paths are covered. See [selected Science evidence](evidence/v03/stored-science.json).
-Observed forecasts/review and final qualification remain pending. These are local
+Observed captures now feed a separate native forecast/search controller, real
+observation/detection model tools, v2 origin-aware retention and human advisory
+review. It has no control-application method. Missing coverage yields no numerical
+plan, and expiry/replacement/history cannot restore review eligibility. A slow
+history worker now coalesces intermediate checkpoints while preserving all final
+events and run evidence. Six backend suites and eight actual UI checks pass in
+both normal and ASan. See [observed workflow](OBSERVED_FORECAST.md) and
+[its executed evidence](evidence/v03/observed-forecast.json).
+Final qualification remains pending. These are local
 synthetic capabilities, not operational-monitoring claims.
 
 ## Active: v0.2.0 portfolio candidate, November 18, 2026

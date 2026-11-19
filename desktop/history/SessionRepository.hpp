@@ -40,6 +40,7 @@ signals:
     void sessionInspected(const QJsonObject& archive);
     void sessionSaved(const QString& sessionId);
     void checkpointFailed(const QString& checkpointId, const QString& code, const QString& message);
+    void checkpointFinished(const QString& checkpointId, quint64 sequence, bool success);
     void operationCompleted(const QString& operation, const QString& sessionId);
     void failed(const QString& code, const QString& message);
 

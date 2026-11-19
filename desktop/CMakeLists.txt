@@ -45,6 +45,7 @@ qt_add_library(breakwater_agent STATIC
   agent/SimulationGateway.hpp agent/SimulationGateway.cpp
   agent/AgentOrchestrator.hpp agent/AgentOrchestrator.cpp
   agent/AgentController.hpp agent/AgentController.cpp
+  agent/ObservedInvestigationController.hpp agent/ObservedInvestigationController.cpp
   history/SessionRepository.hpp history/SessionRepository.cpp
   history/EvidenceEnvelope.hpp history/EvidenceEnvelope.cpp
   history/HistoryController.hpp history/HistoryController.cpp
@@ -165,7 +166,7 @@ if(BUILD_TESTING)
   add_test(NAME desktop.pipe_parameters COMMAND breakwater_pipe_parameters_tests)
   set_tests_properties(desktop.pipe_parameters PROPERTIES TIMEOUT 30
     ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
-  foreach(_suite nemotron_client agent_gateway agent_orchestrator session_repository history_controller python_worker pipe_transport pipe_transport_evidence storage_worker storage_science stored_science science_evidence agent_science)
+  foreach(_suite nemotron_client agent_gateway agent_orchestrator observed_forecast session_repository history_controller python_worker pipe_transport pipe_transport_evidence storage_worker storage_science stored_science science_evidence agent_science)
     set(_suite_source "tests/${_suite}_tests.cpp")
     if(_suite STREQUAL "science_evidence")
       # Qt's generated VS import-scanner paths must fit Windows MAX_PATH.
@@ -252,7 +253,22 @@ if(BUILD_TESTING)
   endif()
   if(Python3_Interpreter_FOUND)
     file(TO_CMAKE_PATH "${Python3_EXECUTABLE}" _breakwater_test_python)
-    foreach(_worker_suite python_worker storage_worker storage_science stored_science science_evidence agent_science agent_orchestrator)
+    foreach(_observed_size normal compact short minimum)
+      set(_observed_args --workspace workbench --ui-overhaul-check)
+      if(NOT _observed_size STREQUAL "normal")
+        list(APPEND _observed_args --compact-ui)
+      endif()
+      add_test(NAME desktop.observed_advisory_${_observed_size} COMMAND breakwater ${_observed_args})
+      set_tests_properties(desktop.observed_advisory_${_observed_size} PROPERTIES TIMEOUT 60
+        ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1;BREAKWATER_UI_OBSERVED_ONLY=1;BREAKWATER_PYTHON=${_breakwater_test_python}"
+        ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+      if(_observed_size STREQUAL "minimum")
+        set_property(TEST desktop.observed_advisory_minimum APPEND PROPERTY ENVIRONMENT "BREAKWATER_UI_MINIMUM=1")
+      elseif(_observed_size STREQUAL "short")
+        set_property(TEST desktop.observed_advisory_short APPEND PROPERTY ENVIRONMENT "BREAKWATER_UI_SHORT=1")
+      endif()
+    endforeach()
+    foreach(_worker_suite python_worker storage_worker storage_science stored_science science_evidence agent_science agent_orchestrator observed_forecast)
       target_compile_definitions(breakwater_${_worker_suite}_tests PRIVATE BREAKWATER_TEST_PYTHON="${_breakwater_test_python}")
     endforeach()
     execute_process(COMMAND "${Python3_EXECUTABLE}" -c "import importlib.util,sys; sys.exit(0 if importlib.util.find_spec('torch') else 1)"
@@ -274,7 +290,7 @@ if(BUILD_TESTING)
       endforeach()
     endif()
   else()
-    foreach(_worker_suite python_worker storage_worker storage_science stored_science science_evidence agent_science agent_orchestrator)
+    foreach(_worker_suite python_worker storage_worker storage_science stored_science science_evidence agent_science agent_orchestrator observed_forecast)
       target_compile_definitions(breakwater_${_worker_suite}_tests PRIVATE BREAKWATER_TEST_PYTHON="")
     endforeach()
   endif()
@@ -282,6 +298,7 @@ if(BUILD_TESTING)
   # These functional suites launch many real CPU interpreters; storage_worker
   # measured 170.71 s for 121 cases on the development host.
   set_tests_properties(desktop.storage_worker desktop.storage_science PROPERTIES TIMEOUT 360)
+  set_tests_properties(desktop.observed_forecast PROPERTIES TIMEOUT 180)
   add_test(NAME desktop.qml_smoke COMMAND breakwater --smoke)
   set_tests_properties(desktop.qml_smoke PROPERTIES TIMEOUT 30)
   # Reopen an actual native export produced by the controller suite, rather than

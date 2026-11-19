@@ -11,16 +11,29 @@ ColumnLayout {
     required property var history
     required property var scientificWorker
     required property var storageScience
+    readonly property bool advisoryOnly: investigator.advisoryOnly === true
+    readonly property var observedSource: advisoryOnly ? investigator.sourceSummary : ({})
     readonly property bool scienceVisible: tabs.currentIndex === 3
     readonly property var reviewData: investigator.review || ({})
     signal openPipeEvidence(var evidence)
     readonly property var comparisonData: history.comparison || ({})
     readonly property bool dialogOpen: keyDialog.visible || reviewDialog.visible || changesDialog.visible
+    readonly property bool advisoryReviewVisible: advisoryOnly && reviewDialog.visible
     property bool embedded: false
     property string currentNetworkHash: ""
     function applyHistoryFilter() { history.setFilter(matchNetwork.checked ? currentNetworkHash : "", sessionQuery.text) }
     onCurrentNetworkHashChanged: Qt.callLater(applyHistoryFilter)
     spacing: 8
+    Frame {
+        visible: panel.advisoryOnly; Layout.fillWidth: true; padding: 9
+        background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+        contentItem: PlainLabel {
+            objectName: panel.advisoryOnly ? "observedInvestigationOrigin":""; wrapMode: Text.WrapAnywhere; color: Theme.secondary; font.pixelSize: Theme.captionSize
+            text: "OBSERVED ADVISORY · " + (panel.observedSource.status || "No capture")
+                + (panel.observedSource.snapshot_id ? " · as of " + panel.number(panel.observedSource.as_of_s) + " s · expires " + panel.number(panel.observedSource.expires_s) + " s\nCapture " + panel.observedSource.snapshot_id : "")
+                + "\nMeasurements stay separate from commands. This investigation cannot apply controls."
+        }
+    }
     function showTab(index) { tabs.currentIndex = index; if (index === 2) history.refresh() }
     function showScience() { tabs.currentIndex = 3 }
     function number(value, digits) {
@@ -123,25 +136,26 @@ ColumnLayout {
         visible: !panel.embedded || tabs.currentIndex === 0
         Layout.fillWidth: true; columns: panel.width < 1100 ? 1 : 2; columnSpacing: 12; rowSpacing: 8
         TextField {
-            id: objective; objectName: "investigationObjective"; Layout.fillWidth: true; Layout.minimumWidth: 0
-            text: "Our main transfer pump failed. Find a validated response for the next three hours at low modeled cost."
+            id: objective; objectName: panel.advisoryOnly ? "observedInvestigationObjective":"investigationObjective"; Layout.fillWidth: true; Layout.minimumWidth: 0
+            text: panel.advisoryOnly ? "Inspect these frozen observations and incident evidence. Find a nominally validated advisory response at low modeled cost, or explain missing coverage."
+                : "Our main transfer pump failed. Find a validated response for the next three hours at low modeled cost."
             placeholderText: "Operator objective"; maximumLength: 4000; enabled: !panel.investigator.running
             Accessible.name: "Operator objective"
             onAccepted: { if (investigateButton.enabled) investigateButton.clicked() }
         }
         RowLayout {
             Layout.fillWidth: panel.width < 1100; spacing: 8
-            ActionButton { iconName: "git-compare-arrows"; objectName: "localNativeSearch"; text: "Local search"; tooltip: "Real native finite-grid search; no API key or model request. Up to four available controls, flow first, at most six values each."
+            ActionButton { iconName: "git-compare-arrows"; objectName: panel.advisoryOnly ? "observedLocalSearch":"localNativeSearch"; text: "Local search"; tooltip: "Real native finite-grid search; no API key or model request. Up to four available controls, flow first, at most six values each."
                 enabled: panel.investigator.localSearchAvailable
                 onClicked: { panel.history.showLive(); tabs.currentIndex = 0; panel.investigator.searchLocally() }
             }
             ActionButton { iconName: "workflow";
                 id: investigateButton; text: "Investigate"; highlighted: true
-                enabled: !panel.investigator.running && objective.text.trim().length > 0
+                enabled: !panel.investigator.running && objective.text.trim().length > 0 && (!panel.advisoryOnly || panel.investigator.localSearchAvailable)
                 onClicked: { panel.history.showLive(); tabs.currentIndex = 0; panel.investigator.investigate(objective.text) }
             }
             ActionButton { iconName: "square"; text: "Cancel"; enabled: panel.investigator.running; onClicked: panel.investigator.cancel() }
-            ActionButton { iconName: "clipboard-check"; text: "Review staged plan"; enabled: !!panel.reviewData.run_id || panel.investigator.canApprove; onClicked: reviewDialog.open() }
+            ActionButton { iconName: "clipboard-check"; objectName: panel.advisoryOnly ? "reviewObservedAdvisory":"reviewStagedPlan"; text: "Review staged plan"; enabled: !!panel.reviewData.run_id || panel.investigator.canApprove; onClicked: reviewDialog.open() }
             Item { Layout.fillWidth: true; visible: panel.width < 1100 }
         }
     }
@@ -156,19 +170,19 @@ ColumnLayout {
     RowLayout {
         Layout.fillWidth: true; spacing: 12
         TabBar {
-            id: tabs; objectName: "agentTabs"; visible: !panel.embedded; Layout.preferredWidth: 510; Layout.maximumWidth: panel.width * 0.6
+            id: tabs; objectName: panel.advisoryOnly ? "observedAgentTabs":"agentTabs"; visible: !panel.embedded; Layout.preferredWidth: 510; Layout.maximumWidth: panel.width * 0.6
             spacing: 4
             TabButton { text: "Investigation"; onClicked: panel.history.showLive() }
             TabButton { text: "Comparison" }
             TabButton { text: "History"; onClicked: panel.history.refresh() }
-            TabButton { text: "Science" }
+            TabButton { text: "Science"; enabled: !panel.advisoryOnly; visible: !panel.advisoryOnly }
         }
         Item { Layout.fillWidth: true }
         PlainLabel {
             text: panel.scienceVisible && panel.storageScience.sourceMode === "candidate"
                 ? "STORED CANDIDATE · READ ONLY"
                 : panel.history.historical ? "HISTORICAL · READ ONLY"
-                : panel.scienceVisible ? "CURRENT NATIVE FORECAST · READ ONLY" : "CURRENT SESSION"
+                : panel.scienceVisible ? "CURRENT NATIVE FORECAST · READ ONLY" : panel.advisoryOnly ? "OBSERVED ADVISORY" : "CURRENT SESSION"
             color: panel.history.historical ? Theme.warning : Theme.secondary
             font.pixelSize: Theme.captionSize
         }
@@ -192,7 +206,9 @@ ColumnLayout {
                             padding: 0; color: Theme.text; background: null
                             text: {
                                 const r = panel.investigator.recommendation
-                                if (!r || !r.status) return "Start an investigation on the current network. Numerical tools execute the C++ engine; recommendations require stored validation evidence.\n\nSimulated controls change only after you review and apply a validated plan.\n\n" + panel.investigator.storageStatus
+                                if (!r || !r.status) return (panel.advisoryOnly
+                                    ? "Investigate the frozen observations explicitly. Missing coverage yields no numerical plan. Review records advisory acknowledgement only; no controls can be applied.\n\n"
+                                    : "Start an investigation on the current network. Numerical tools execute the C++ engine; recommendations require stored validation evidence.\n\nSimulated controls change only after you review and apply a validated plan.\n\n") + panel.investigator.storageStatus
                                 let summary = (r.explanation || "") + "\n\nRun: " + (r.selected_run_id || "none")
                                 if (r.ok) summary += "\nCost: " + panel.number(r.cost) + " synthetic units · Horizon: " + panel.number(r.horizon_h) + " h\nValidation: " + (r.validation_id || "none")
                                 return summary + "\nApproval: " + (r.approval_status || "unavailable") + "\n\nSynthetic model. Quality is not evaluated.\n" + panel.investigator.storageStatus
@@ -356,7 +372,7 @@ ColumnLayout {
                         }
                     }
                 }
-                ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: { panel.storageScience.setSourceMode("forecast"); tabs.currentIndex = 3 } }
+                ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; visible: !panel.advisoryOnly; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: { panel.storageScience.setSourceMode("forecast"); tabs.currentIndex = 3 } }
                 Flow {
                     Layout.fillWidth: true; spacing: 8
                     ActionButton { iconName: "git-compare-arrows"; text: "Compare runs"; enabled: panel.history.runs.length > 0; onClicked: tabs.currentIndex = 1 }
@@ -368,15 +384,18 @@ ColumnLayout {
                 }
             }
         }
-        StorageSciencePanel { scientificWorker: panel.scientificWorker; storageScience: panel.storageScience; history: panel.history }
+        Loader {
+            active: !panel.advisoryOnly
+            sourceComponent: StorageSciencePanel { scientificWorker: panel.scientificWorker; storageScience: panel.storageScience; history: panel.history }
+        }
     }
     FileDialog { id: exportDialog; title: "Export investigation session"; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER session (*.json)"]; onAccepted: panel.history.exportSession(selectedFile) }
     FileDialog { id: importDialog; title: "Import historical investigation"; nameFilters: ["BREAKWATER session (*.json)"]; onAccepted: panel.history.importSession(selectedFile) }
     Dialog {
-        id: reviewDialog; objectName: "reviewPlanDialog"; parent: Overlay.overlay
+        id: reviewDialog; objectName: panel.advisoryOnly ? "reviewObservedAdvisoryDialog":"reviewPlanDialog"; parent: Overlay.overlay
         x: Math.round((parent.width - width) / 2); y: Math.round((parent.height - height) / 2)
         width: Math.min(760, parent.width - 48); height: Math.min(610, parent.height - 60)
-        modal: true; title: "Review staged simulated plan"; closePolicy: Popup.CloseOnEscape
+        modal: true; title: panel.advisoryOnly ? "Review observed advisory response":"Review staged simulated plan"; closePolicy: Popup.CloseOnEscape
         header: DialogHeading { owner: reviewDialog }
         contentItem: ScrollView {
             id: reviewScroll; contentWidth: availableWidth
@@ -385,7 +404,13 @@ ColumnLayout {
                 PlainLabel { Layout.fillWidth: true; text: panel.reviewData.message || "No validated plan is staged."; wrapMode: Text.WordWrap; color: panel.reviewData.eligible ? Theme.text : Theme.warning }
                 PlainLabel { Layout.fillWidth: true; text: "Run: " + (panel.reviewData.run_id || "none") + "\nValidation: " + (panel.reviewData.validation_id || "none"); wrapMode: Text.WrapAnywhere; font.pixelSize: Theme.captionSize }
                 PlainLabel { Layout.fillWidth: true; text: "Forecast horizon: " + panel.number(panel.reviewData.horizon_h) + " h\nVerified cost: " + panel.number(panel.reviewData.cost) + " synthetic units\nMinimum storage headroom: " + panel.number(panel.reviewData.minimum_headroom_m3) + " m³"; wrapMode: Text.WordWrap }
-                SectionLabel { text: "CONTROL SETTINGS · CURRENT → PROPOSED" }
+                PlainLabel {
+                    visible: panel.advisoryOnly; Layout.fillWidth: true; wrapMode: Text.WrapAnywhere; font.pixelSize: Theme.captionSize; color: Theme.secondary
+                    text: "Observed origin: " + (panel.reviewData.snapshot_id || "none") + " · " + (panel.reviewData.status || "unavailable")
+                        + "\nAs of " + panel.number(panel.reviewData.as_of_s) + " s · expires " + panel.number(panel.reviewData.expires_s) + " s"
+                        + "\nDesign hash: " + (panel.reviewData.design_physical_hash || "none") + "\nEffective hash: " + (panel.reviewData.effective_physical_hash || "none")
+                }
+                SectionLabel { text: panel.advisoryOnly ? "CONTROL SETTINGS · FROZEN COMMAND → PROPOSED":"CONTROL SETTINGS · CURRENT → PROPOSED" }
                 Repeater {
                     model: panel.reviewData.controls || []
                     delegate: RowLayout {
@@ -396,14 +421,30 @@ ColumnLayout {
                         PlainLabel { Layout.preferredWidth: 55; text: panel.unit(modelData.unit); color: Theme.secondary }
                     }
                 }
+                SectionLabel { visible: panel.advisoryOnly; text: "MEASURED STATE · SEPARATE FROM COMMANDS" }
+                Repeater {
+                    model: panel.advisoryOnly ? panel.reviewData.measurements || []:[]
+                    delegate: PlainLabel {
+                        required property var modelData
+                        Layout.fillWidth: true; wrapMode: Text.WrapAnywhere; font.pixelSize: Theme.captionSize
+                        text: modelData.attachment_id + " · " + modelData.quantity + ": " + modelData.value + " " + panel.unit(modelData.unit)
+                            + " · absolute bound " + panel.number(modelData.absolute_bound,4)
+                    }
+                }
+                Repeater { model: panel.advisoryOnly ? panel.observedSource.assumptions || []:[]; delegate: PlainLabel { required property var modelData; Layout.fillWidth: true; text: String(modelData); wrapMode: Text.Wrap; color: Theme.secondary } }
                 SectionLabel { text: "MODEL LIMITATIONS" }
                 Repeater { model: panel.reviewData.warnings || []; delegate: PlainLabel { required property var modelData; Layout.fillWidth: true; text: String(modelData); wrapMode: Text.WordWrap; color: Theme.secondary } }
-                PlainLabel { Layout.fillWidth: true; text: "Applying changes only the simulated operating controls. Numerical or topology edits can make this plan ineligible while this dialog is open."; wrapMode: Text.WordWrap; color: Theme.secondary }
+                PlainLabel { Layout.fillWidth: true; text: panel.advisoryOnly ? "Acknowledgement records human advisory review only. No operating control, publisher command or incident clearing occurs. Expiry, replacement, edits or a mismatched run make review ineligible."
+                    : "Applying changes only the simulated operating controls. Numerical or topology edits can make this plan ineligible while this dialog is open."; wrapMode: Text.WordWrap; color: Theme.secondary }
             }
         }
         footer: DialogButtonBox {
             ActionButton { iconName: "square"; text: "Cancel"; DialogButtonBox.buttonRole: DialogButtonBox.RejectRole }
-            ActionButton { iconName: "check-check"; objectName: "applySimulatedControls"; text: "Apply simulated controls"; highlighted: true; enabled: panel.investigator.canApprove && !!panel.reviewData.eligible; DialogButtonBox.buttonRole: DialogButtonBox.ActionRole; onClicked: { if (panel.investigator.approvePlan()) reviewDialog.close() } }
+            ActionButton { iconName: "check-check"; objectName: panel.advisoryOnly ? "acknowledgeObservedAdvisory":"applySimulatedControls"; text: panel.advisoryOnly ? "Acknowledge advisory review":"Apply simulated controls"; highlighted: true
+                enabled: (panel.advisoryOnly ? panel.investigator.canAcknowledge:panel.investigator.canApprove) && !!panel.reviewData.eligible
+                DialogButtonBox.buttonRole: DialogButtonBox.ActionRole
+                onClicked: { if (panel.advisoryOnly ? panel.investigator.acknowledgePlan():panel.investigator.approvePlan()) reviewDialog.close() }
+            }
             onRejected: reviewDialog.close()
         }
     }

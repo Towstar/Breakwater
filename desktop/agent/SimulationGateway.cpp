@@ -2,8 +2,12 @@
 #include "ProjectDocument.hpp"
 #include "science/StorageScienceAnalysis.hpp"
 #include "breakwater/search.hpp"
+#include "telemetry/TelemetryStream.hpp"
+#include "telemetry/ObservedMapping.hpp"
+#include "telemetry/TelemetryContracts.hpp"
 
 #include <QDateTime>
+#include <QJsonDocument>
 #include <QSet>
 #include <QUuid>
 #include <algorithm>
@@ -77,6 +81,33 @@ SimulationGateway::SimulationGateway(const Network& network, const QString& phys
         throw std::invalid_argument("Agent snapshot needs a physical hash and a bounded network.");
 }
 
+std::shared_ptr<SimulationGateway> SimulationGateway::fromObservation(const telemetry::ObservedEvidence& evidence,double horizon) {
+    const auto& events=evidence.detection_events;
+    const auto mapped=telemetry::map_volume_capture(evidence.document,evidence.context,evidence.diagnostics.value("source_available").toBool());
+    if (mapped.document!=evidence.document || mapped.effective_network!=evidence.effective_network ||
+        mapped.diagnostics.value("mapper_version")!=evidence.diagnostics.value("mapper_version") || events.size()>256)
+        throw std::invalid_argument("Observed source differs from its registered immutable measurements.");
+    for (auto i=mapped.diagnostics.begin();i!=mapped.diagnostics.end();++i)
+        if (evidence.diagnostics.value(i.key())!=i.value()) throw std::invalid_argument("Observed mapping diagnostics are inconsistent.");
+    for (const auto& value:events) {
+        (void)telemetry::parse_detection_event(value.toObject(),evidence.context);
+        const auto e=value.toObject();
+        if (e.value("updated_event_time_s").toDouble()>evidence.document.value("captured_event_time_s").toDouble())
+            throw std::invalid_argument("Detection event is newer than the frozen observations.");
+        for (const auto* field:{"physical_hash","configuration_hash","stream_id","epoch_id"})
+            if (e.value(QLatin1String(field))!=evidence.document.value(QLatin1String(field)))
+                throw std::invalid_argument("Detection event belongs to another observation source.");
+    }
+    const auto network=mapped.effective_network.isEmpty() ? evidence.context.value("network").toObject():mapped.effective_network;
+    const auto project=parse_project({{"version",1},{"network",network},{"layout",QJsonObject{}}});
+    auto gateway=std::make_shared<SimulationGateway>(project.network,physics_hash(project),horizon);
+    gateway->observed_origin_={{"snapshot",evidence.document},{"context",evidence.context},{"mapping",evidence.diagnostics},
+        {"effective_network",evidence.effective_network},{"events",events}};
+    if (QJsonDocument(gateway->observed_origin_).toJson(QJsonDocument::Compact).size()>8*1024*1024)
+        throw std::invalid_argument("Observed source exceeds its 8 MiB evidence bound.");
+    return gateway;
+}
+
 void SimulationGateway::invalidate() { current_.store(false); }
 
 std::vector<ControlValue> SimulationGateway::parseControls(const QJsonArray& controls) const {
@@ -144,6 +175,7 @@ QJsonObject SimulationGateway::summary(const StoredRun& run) const {
 
 QJsonObject SimulationGateway::recommendationLocked(const QString& runId) const {
     if (!current_.load()) return failure("stale_snapshot", "The physical snapshot changed; start a new investigation.");
+    if (!observationsAvailable()) return failure("coverage_unavailable","Observed coverage is unavailable; no numerical plan can be recommended.");
     if (!network_inspected_ || !controls_inspected_) return failure("inspection_required", "Inspect the network and its control catalog before recommending a plan.");
     const auto it = runs_.find(runId);
     if (it == runs_.end()) return failure("unknown_run", "The run ID is not in this session's immutable run store.");
@@ -155,7 +187,7 @@ QJsonObject SimulationGateway::recommendationLocked(const QString& runId) const 
     result["selected_run_id"] = run.id;
     result["verified_feasible"] = true;
     result["verified_cost"] = run.result.cost;
-    result["approval_status"] = staged_run_id_ == run.id ? "pending_operator" : "advisory";
+    result["approval_status"] = staged_run_id_ == run.id ? (advisoryOnly() ? "pending_advisory_review":"pending_operator") : "advisory";
     if (!current_.load()) return failure("stale_snapshot", "The physical snapshot changed before the recommendation completed.");
     return result;
 }
@@ -203,13 +235,16 @@ QJsonObject SimulationGateway::runDetails(const QString& runId) const {
 }
 
 QJsonObject SimulationGateway::snapshot() const {
-    return {{"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h}, {"network", network_json(network_)}};
+    QJsonObject result{{"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h}, {"network", network_json(network_)}};
+    if (advisoryOnly()) result["numerical_revision"]=observed_origin_.value("snapshot").toObject().value("numerical_revision");
+    return result;
 }
 
 PreparedSensitivity SimulationGateway::prepareSensitivity(const QJsonObject& args) const {
     PreparedSensitivity prepared;
     try {
         if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed; start a new investigation.");
+        if (!observationsAvailable()) reject("coverage_unavailable","Observed coverage is unavailable; scientific inputs cannot be initialized.");
         keys(args, {"snapshot_id", "run_id", "control_ids"}, {"snapshot_id", "run_id", "control_ids"});
         if (string(args, "snapshot_id") != snapshot_id_)
             reject("snapshot_mismatch", "The requested snapshot is not this session's incident snapshot.");
@@ -270,13 +305,23 @@ PreparedSensitivity SimulationGateway::prepareSensitivity(const QJsonObject& arg
 QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& args) {
     try {
         if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed; start a new investigation.");
+        if (advisoryOnly() && (name=="get_observations" || name=="get_detection_events")) {
+            keys(args,{},{});
+            if (name=="get_detection_events") return {{"ok",true},{"snapshot_id",snapshot_id_},{"events",observed_origin_.value("events")},
+                {"scope","Frozen bounded symptom evidence. Acknowledgement is separate from clearing; no mechanical root cause is established."}};
+            return {{"ok",true},{"snapshot_id",snapshot_id_},{"observed_snapshot",observed_origin_.value("snapshot")},
+                {"registered_sensor_configuration",observed_origin_.value("context").toObject().value("configuration")},
+                {"mapping",observed_origin_.value("mapping")},{"effective_physical_hash",physical_hash_},
+                {"scope","Immutable synthetic observations; measurements and frozen commands are separate. Native forecasts are nominal, not uncertainty-certified. This session cannot apply controls."}};
+        }
         if (name == "get_network_state") {
             keys(args, {}, {});
             const auto issues = inspect_network(network_);
             { std::lock_guard lock(mutex_); network_inspected_ = true; }
             return {{"ok", true}, {"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h},
                 {"network", network_json(network_)}, {"draft_issues", issues_json(issues)},
-                {"capabilities", QJsonObject{{"native_simulation", true}, {"independent_validation", true}, {"search_interventions", true}}},
+                {"capabilities", QJsonObject{{"native_simulation", observationsAvailable()}, {"independent_validation", observationsAvailable()},
+                    {"search_interventions", observationsAvailable()},{"observed_advisory",advisoryOnly()}}},
                 {"model_limitations", QJsonArray{"Synthetic constant-flow network; geometry does not determine flow.", "Quality is not evaluated."}}};
         }
         if (name == "get_control_catalog") {
@@ -294,6 +339,7 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
         const QSet<QString> supported{"forecast_baseline", "simulate_candidates", "validate_run", "compare_runs", "search_interventions", "request_approval", "get_sensitivity_catalog", "analyze_sensitivities"};
         if (!supported.contains(name)) reject("unknown_tool", "This tool is not registered.");
         if (string(args, "snapshot_id") != snapshot_id_) reject("snapshot_mismatch", "The requested snapshot is not this session's incident snapshot.");
+        if (!observationsAvailable()) reject("coverage_unavailable","Required observed coverage is unavailable. Inspect observations; no numerical forecast or plan is eligible.");
         if (name == "analyze_sensitivities") {
             const auto prepared = prepareSensitivity(args);
             if (!prepared.error.isEmpty()) return prepared.error;
@@ -529,7 +575,7 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
     }
 }
 
-QJsonArray SimulationGateway::toolDefinitions() {
+QJsonArray SimulationGateway::toolDefinitions(bool observed) {
     const QJsonObject snapshot{{"snapshot_id", text_schema()}};
     const auto control = schema({{"control_id", text_schema(max_control_id_length)}, {"value", QJsonObject{{"type", "number"}, {"minimum", 0}}}}, {"control_id", "value"});
     const auto candidate = schema({{"candidate_id", text_schema()}, {"controls", QJsonObject{{"type", "array"}, {"maxItems", static_cast<int>(max_controls)}, {"items", control}}}}, {"candidate_id", "controls"});
@@ -547,7 +593,7 @@ QJsonArray SimulationGateway::toolDefinitions() {
     auto search_args = snapshot;
     search_args["axes"] = QJsonObject{{"type", "array"}, {"maxItems", static_cast<int>(max_search_controls)}, {"items", search_axis}};
     search_args["result_limit"] = QJsonObject{{"type", "integer"}, {"minimum", 1}, {"maximum", static_cast<int>(max_search_recommendations)}};
-    return {
+    QJsonArray definitions{
         tool("get_network_state", "Read the actual immutable incident topology, IDs, state, fixed planning horizon and capabilities. Required before recommending.", schema({}, {})),
         tool("get_control_catalog", "Read actual stable control IDs, units, snapshot values and bounds. Required before recommending; unspecified controls retain snapshot values.", schema({}, {})),
         tool("forecast_baseline", "Run the native baseline forecast from the incident snapshot. Preserve unclipped violations; explicit validate_run is still required for recommendations.", schema(snapshot, {"snapshot_id"})),
@@ -559,6 +605,11 @@ QJsonArray SimulationGateway::toolDefinitions() {
         tool("request_approval", "Stage an inspected, independently validated feasible run for human review. This does not approve or apply controls.", schema(run_args, {"snapshot_id", "run_id"})),
         tool("search_interventions", "Run the real native finite search across at most four catalog control axes and 10000 combinations at the fixed snapshot/horizon. Finalists are independently dense-reference validated and stored; the result is best among evaluated candidates, not a global optimum. Empty axes evaluate unchanged operation once.", schema(search_args, {"snapshot_id", "axes"}))
     };
+    if (observed) {
+        definitions.prepend(tool("get_detection_events","Read frozen, versioned symptom events associated with the observed capture. No root-cause diagnosis or authority is inferred.",schema({},{})));
+        definitions.prepend(tool("get_observations","Read immutable sample references, measurements, frozen commands, calibration, uncertainty, coverage, assumptions and expiry. Required before concluding on an observed incident. Missing coverage means no numerical plan.",schema({},{})));
+    }
+    return definitions;
 }
 
 } // namespace breakwater::desktop::agent

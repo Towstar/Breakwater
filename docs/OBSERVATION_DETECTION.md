@@ -33,8 +33,10 @@ Unchanged readings are not reparsed on every heartbeat.
 
 Local monitoring displays the window/coverage status, affected equipment,
 onset/update times, measured metric, absolute threshold, explanation and explicit
-acknowledgement. Automatic durable retention and observed forecasts are the next
-integration increment; this UI alone is not a retention or forecast claim.
+acknowledgement. Durable v2 history retains incident witnesses and separate
+acknowledgements. A frozen capture now supplies an explicit
+[native forecast/advisory investigation](OBSERVED_FORECAST.md); detection alone
+does not start a forecast, model request or control action.
 
 Qualification uses independent affine healthy references for two distinct
 topologies, ten held-out seeds per topology and one hour per seed. It reports

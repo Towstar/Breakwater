@@ -6,6 +6,7 @@ import QtQuick.Dialogs
 Dialog {
     id: panel
     required property var telemetry
+    signal openInvestigation()
     parent: Overlay.overlay
     width: Math.min(920, parent ? parent.width - 32 : 920)
     height: Math.min(720, parent ? parent.height - 32 : 720)
@@ -92,7 +93,7 @@ Dialog {
         }
     }
     contentItem: ScrollView {
-        id: scroll
+        id: scroll; objectName: "telemetryScroll"
         clip: true
         contentWidth: availableWidth
         ScrollBar.vertical.policy: ScrollBar.AsNeeded
@@ -253,6 +254,18 @@ Dialog {
                             Layout.fillWidth: true; wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize; color: Theme.warning
                             text: panel.statusLabel(modelData.code) + (modelData.attachment_id ? " · " + modelData.attachment_id : "")
                         }
+                    }
+                    Flow {
+                        Layout.fillWidth: true; spacing: 8
+                        ActionButton {
+                            objectName: "openObservedInvestigation"; iconName: "workflow"; text: "Forecast / advisory review"
+                            enabled: !!panel.capturedState.snapshot_id
+                            onClicked: panel.openInvestigation()
+                        }
+                    }
+                    Label {
+                        Layout.fillWidth: true; wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize; color: Theme.secondary
+                        text: "For a repeatable local investigation, pause synthetic input, then capture state. Its event clock stays frozen while heartbeats continue. Forecasts are nominal; review never applies controls."
                     }
                 }
             }

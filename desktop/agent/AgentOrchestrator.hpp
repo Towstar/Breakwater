@@ -54,10 +54,12 @@ private:
     int tool_calls_ = 0, refinement_rounds_ = 0, request_rounds_ = 0;
     bool running_ = false, awaiting_model_ = false, executing_tool_ = false;
     bool network_seen_ = false, controls_seen_ = false;
+    bool observations_seen_ = false;
     bool recording_cancel_metadata_ = false;
     bool local_only_ = false;
     bool final_correction_ = false;
     int local_step_ = 0;
+    int local_observation_step_ = 0;
     QJsonArray local_catalog_;
     QJsonObject local_last_;
     QString local_baseline_, local_selected_;

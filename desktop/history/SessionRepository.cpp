@@ -378,8 +378,10 @@ public:
             archive = producer();
             if (!checkpointId.isEmpty() && archive.value("session_id").toString() != checkpointId)
                 reject("invalid_request", "The checkpoint identity differs from its captured session.");
-        }, checkpointId)) return;
-        (void)save(std::move(archive), checkpointId);
+        }, checkpointId)) { emit checkpointFinished(checkpointId,0,false); return; }
+        const auto sequence=static_cast<quint64>(archive.value("checkpoint_sequence").toInteger());
+        const auto saved=save(std::move(archive), checkpointId);
+        emit checkpointFinished(checkpointId,sequence,saved);
     }
     void list(const QString& physicalHash, const QString& search) {
         perform([&] {
@@ -457,6 +459,7 @@ signals:
     void sessionInspected(const QJsonObject& archive);
     void sessionSaved(const QString& sessionId);
     void checkpointFailed(const QString& checkpointId, const QString& code, const QString& message);
+    void checkpointFinished(const QString& checkpointId, quint64 sequence, bool success);
     void operationCompleted(const QString& operation, const QString& sessionId);
     void failed(const QString& code, const QString& message);
 private:
@@ -546,6 +549,7 @@ SessionRepository::SessionRepository(QString databasePath, QObject* parent) : QO
     connect(worker_, &SessionRepositoryWorker::sessionInspected, this, &SessionRepository::sessionInspected, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::sessionSaved, this, &SessionRepository::sessionSaved, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::checkpointFailed, this, &SessionRepository::checkpointFailed, Qt::QueuedConnection);
+    connect(worker_, &SessionRepositoryWorker::checkpointFinished, this, &SessionRepository::checkpointFinished, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::operationCompleted, this, &SessionRepository::operationCompleted, Qt::QueuedConnection);
     connect(worker_, &SessionRepositoryWorker::failed, this, &SessionRepository::failed, Qt::QueuedConnection);
     QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->initialize(); }, Qt::QueuedConnection);

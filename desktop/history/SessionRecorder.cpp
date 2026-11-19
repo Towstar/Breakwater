@@ -1,4 +1,5 @@
 #include "SessionRecorder.hpp"
+#include "EvidenceEnvelope.hpp"
 #include <QDateTime>
 #include <QFutureWatcher>
 #include <QtConcurrentRun>
@@ -17,6 +18,11 @@ SessionRecorder::SessionRecorder(agent::AgentOrchestrator* session, SessionRepos
         else if (type == "agent_cancelled") status_ = "cancelled";
     });
     connect(session_, &agent::AgentOrchestrator::changed, this, &SessionRecorder::checkpoint);
+    if (repository) connect(repository,&SessionRepository::checkpointFinished,this,[this](const QString& id,quint64 sequence,bool success) {
+        if (!capturing_ || id!=in_flight_id_ || (sequence!=in_flight_sequence_ && !(sequence==0 && !success))) return;
+        capturing_=false; in_flight_id_.clear();
+        if (pending_) { pending_=false; checkpoint(); } else emit pendingChanged();
+    });
 }
 QJsonObject SessionRecorder::header() {
     return {{"archive_version", 1}, {"session_id", session_->sessionId()}, {"checkpoint_sequence", static_cast<qint64>(++sequence_)},
@@ -31,10 +37,14 @@ QJsonObject SessionRecorder::complete(QJsonObject archive, const std::shared_ptr
     QJsonArray runs;
     for (const auto& value : gateway->runs()) runs.append(gateway->runDetails(value.toObject().value("run_id").toString()));
     archive["runs"] = runs; archive["current"] = gateway->isCurrent();
+    if (gateway->advisoryOnly()) {
+        archive["archive_version"]=2; archive["session_kind"]="observed_origin"; archive["actionable"]=false;
+        archive["evidence_envelopes"]=QJsonArray{envelope("observed_origin",gateway->observedOrigin())};
+    }
     return archive;
 }
 void SessionRecorder::publish(const QJsonObject& archive) {
-    if (repository_) repository_->saveSession(archive);
+    if (repository_) repository_->enqueueCheckpoint([archive] { return archive; },archive.value("session_id").toString());
     if (history_ && archive.value("session_id").toString() == session_->sessionId()) history_->setLiveSession(archive);
 }
 void SessionRecorder::checkpoint() {
@@ -42,15 +52,20 @@ void SessionRecorder::checkpoint() {
     if (capturing_) { pending_ = true; return; }
     capturing_ = true;
     const auto metadata = header(); const auto gateway = session_->gateway();
+    in_flight_id_=metadata.value("session_id").toString(); in_flight_sequence_=static_cast<quint64>(metadata.value("checkpoint_sequence").toInteger());
     auto* watcher = new QFutureWatcher<QJsonObject>(this);
     connect(watcher, &QFutureWatcher<QJsonObject>::finished, this, [this, watcher] {
-        const auto archive = watcher->result(); watcher->deleteLater(); capturing_ = false;
-        if (!archive.isEmpty()) publish(archive); else emit failed("Unable to capture completed investigation evidence.");
-        if (pending_) { pending_ = false; checkpoint(); }
+        const auto archive = watcher->result(); watcher->deleteLater();
+        if (!archive.isEmpty() && repository_) { publish(archive); return; }
+        capturing_=false; in_flight_id_.clear();
+        const QPointer<SessionRecorder> guard(this); emit failed("Unable to capture completed investigation evidence.");
+        if (!guard) return;
+        if (pending_) { pending_=false; checkpoint(); } else emit pendingChanged();
     });
     watcher->setFuture(QtConcurrent::run([metadata, gateway] {
         try { return complete(metadata, gateway); } catch (...) { return QJsonObject{}; }
     }));
+    emit pendingChanged();
 }
 void SessionRecorder::flush() {
     if (!repository_ || !session_->gateway() || created_.isEmpty()) return;
@@ -58,10 +73,16 @@ void SessionRecorder::flush() {
     repository_->enqueueCheckpoint([metadata, gateway] { return complete(metadata, gateway); });
 }
 void SessionRecorder::recordApproval(const QJsonObject& recommendation) {
+    recordReview(recommendation,"operator_applied");
+}
+void SessionRecorder::recordAdvisoryAcknowledgement(const QJsonObject& recommendation) {
+    recordReview(recommendation,"operator_acknowledged_advisory");
+}
+void SessionRecorder::recordReview(const QJsonObject& recommendation,const QString& status) {
     applied_ = recommendation;
     approvals_.append(QJsonObject{{"timestamp", QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs)},
         {"run_id", recommendation.value("selected_run_id")}, {"validation_id", recommendation.value("validation_id")},
-        {"physical_hash", recommendation.value("physical_hash")}, {"controls", recommendation.value("controls")}, {"status", "operator_applied"}});
+        {"physical_hash", recommendation.value("physical_hash")}, {"controls", recommendation.value("controls")}, {"status", status}});
     checkpoint();
 }
 }

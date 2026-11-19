@@ -5,8 +5,9 @@ one bounded `evidence_envelopes` item. An item has `envelope_version: 1`, a know
 `kind`, and a typed `payload`. It cannot authorize controls. Supported envelopes
 cover observed origins, detector witnesses/acknowledgements, native pipe results
 and a selected-candidate scientific origin. Native pipe retention and manual
-selected-candidate Science are connected to the desktop. Observed forecast/review
-integration remains a separate increment.
+selected-candidate Science are connected to the desktop. The
+[observed forecast/advisory workflow](OBSERVED_FORECAST.md) now retains its exact
+source and separate acknowledgement in an observed-origin envelope.
 
 G1 snapshots/events, project-v1/v2, the scientific worker protocol, EOG archives,
 native pipe-result-v1 and scientific-result-v1 remain unchanged. Legacy session-v1
