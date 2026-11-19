@@ -42,6 +42,8 @@ Validation belongs to one exact plan ID and hash. A validation of an earlier no-
 not validate a different response returned by a later search. Before finishing, check that your final
 selected_plan_id has its own completed independent validation and use that validation's ID. If it does
 not, call the validator within the remaining budget or finish with both references null.
+Once that exact response has a completed validation, finish or investigate a different useful question.
+Repeating the same validation consumes tool budget; its unchanged retained result may be reused.
 Admissible do-nothing automatic shut-in may be cheapest; feasible does not mean shutdown was avoided.
 Response plans cover the complete current failure set: only detector events with category pump_failure
 and state ongoing identify repair_deadlines facilities. Resolved, healthy, inspection and degradation
@@ -132,6 +134,7 @@ QJsonObject sanitizedMetadata(const QJsonObject& metadata) {
 }
 QJsonObject outputSummary(const QJsonObject& outcome) {
     QJsonObject summary;
+    if (outcome.value("reused_validation") == true) summary["reused_validation"] = true;
     const auto result = outcome.value("result").toObject();
     for (const auto* key : {"request_id", "operation", "status"}) {
         const auto value = result.value(QLatin1String(key));
@@ -267,8 +270,13 @@ void EogInvestigator::requestModel() {
     if (!running_) return;
     if (elapsed_.elapsed() >= limits_.durationMs) { stop("deadline_exceeded", "The EOG investigation reached its overall deadline."); return; }
     if (!transport_) { stop("transport_unavailable", "The hosted model transport is unavailable."); return; }
-    if (++request_rounds_ > limits_.toolCalls + 1) { stop("request_limit", "The bounded model-request limit was reached."); return; }
+    if (++request_rounds_ > limits_.toolCalls + eog_finalization_request_allowance) {
+        stop("request_limit", "The bounded model-request limit was reached."); return;
+    }
     const auto remaining = limits_.toolCalls - tool_calls_, refinements = limits_.refinementRounds - refinement_rounds_;
+    // Exhausted tool execution always enters the existing structured final path.
+    // The extra turn is reserved for one format-only correction, not more tools.
+    if (remaining <= 0) json_final_phase_ = true;
     QJsonArray offered; offered_names_.clear();
     if (!json_final_phase_ && remaining > 0) for (const auto& item : tools_) {
         const auto name = item.toObject().value("function").toObject().value("name").toString();
@@ -434,7 +442,7 @@ void EogInvestigator::completeFinal(const QJsonObject& message) {
         // The stage is selected only from literals above. Never echo rejected
         // content, unknown fields/IDs or parser exception text into evidence.
         final_rejection_reason_ = QString::fromLatin1(stage);
-        if (!final_correction_used_ && request_rounds_ < limits_.toolCalls + 1) {
+        if (!final_correction_used_ && request_rounds_ < limits_.toolCalls + eog_finalization_request_allowance) {
             final_correction_used_ = json_final_phase_ = true;
             const auto correction = QStringLiteral(
                 "Final JSON formatting correction: the previous final failed the %1 check. "

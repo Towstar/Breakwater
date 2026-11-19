@@ -1,0 +1,73 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "01626560051271a54d1b7521ed2c47494a8283bf",
+  "recorded_utc": "2026-11-19T03:10:19.3156744Z",
+  "source_sha256": {
+    "desktop/eog/EogAnalysisController.cpp": "d5c55e0703724658513c4d8b98caefd6114856199ea2d720e708c2a7d98eb1d1",
+    "desktop/eog/EogAnalysisController.hpp": "eda99cda2935ac1fec43f3a35005b697cd6bc6f63d2176c4fd515217e7ef08f2",
+    "desktop/eog/EogInvestigator.cpp": "8345d9636a67ce99ff98d6ade830c31b85e1903f5dec61f3221ee3c76fe4b5dd",
+    "desktop/eog/EogInvestigator.hpp": "b2c46840295b0cc8252181fcb0ce6454f34fc1d112055f6e70b7f42ea718a0f7",
+    "desktop/eog/live_check.cpp": "e5fc53ac85765043c34aece7ec458e0c5886c9400666053a3c035a93198cf3d5",
+    "desktop/tests/eog_analysis_controller_tests.cpp": "79f3bb8f1a8ce216b6db60ba9ae4c3de8e42f20cc1763464cfbf8a63106a44a1",
+    "desktop/tests/eog_fixtures/controller_worker_fixture.py": "3e69a5b766dae5c3046dd3af75c1f04bfe12e71d6edd7d1dd5534bbe1324ca68",
+    "desktop/tests/eog_investigator_tests.cpp": "51737ab2770ffd7e6ac2a4fae1ce2602f7ea47c328063e3f5de440e631e1c8dd"
+  },
+  "checks": {
+    "normal": [
+      {
+        "suite": "nemotron_client",
+        "passed": 62,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "bc0e1bf3677ac193a1549ac25900a7b3525cff3bc9bf83105706af3b4dc75e73"
+      },
+      {
+        "suite": "eog_investigator",
+        "passed": 68,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "792abb0e4b6cc610ad0e52022dc744f770426beb77c9412e86c3935603c48f38"
+      },
+      {
+        "suite": "eog_analysis_controller",
+        "passed": 54,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "908e9ecd0a37fff95697c127aff522b9f1239f19c91095450e6ff4e55e53e9f5"
+      }
+    ],
+    "asan": [
+      {
+        "suite": "nemotron_client",
+        "passed": 62,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "1c866012f69317cf388b26dd670eb057bb2e329eef3ef52c3f5187ccfd464122"
+      },
+      {
+        "suite": "eog_investigator",
+        "passed": 68,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "b67806a254f40f8ce75d506e674abcf9db9dcfb9f5b7abe16c5277204630dbb8"
+      },
+      {
+        "suite": "eog_analysis_controller",
+        "passed": 54,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "221362cc8e7d8caba4bf69de0fbc8c885d02818884cf6d618ec56ef9d90caac1"
+      }
+    ]
+  },
+  "cli": {
+    "asan": "passed",
+    "asan_log": "out/v03/test-reliability-asan.log",
+    "normal_rerun_log": "out/v03/test-reliability-cli-normal-unrestricted.log",
+    "test_cases": 7,
+    "normal": "passed on unrestricted rerun after sandbox denied temporary hard links",
+    "normal_initial_failure_log": "out/v03/test-reliability-normal.log"
+  },
+  "hosted_requests": "not_run",
+  "self_review": "Checked exact plan/hash/method/capture/generation binding, imported-cache exclusion, budget/deadline limits, original provider references and unchanged EOG archive event shape. This is not Ethan formal review."
+}

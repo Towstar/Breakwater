@@ -236,7 +236,7 @@ EogAnalysisController::~EogAnalysisController() {
 }
 bool EogAnalysisController::busy() const { return preparing_ || client_->busy() || investigator_.running(); }
 void EogAnalysisController::clearEvidence() {
-    responses_.clear(); evaluations_.clear(); validations_.clear(); validation_requests_.clear();
+    responses_.clear(); evaluations_.clear(); validations_.clear(); validation_requests_.clear(); validation_arguments_.clear();
     event_rows_.clear(); event_requests_.clear(); selected_.clear(); baseline_.clear(); summary_.clear(); search_ = {}; historical_manifest_ = {}; trace_.clear(); operator_records_.clear();
     detection_ = {}; last_operation_ = {};
 }
@@ -389,6 +389,9 @@ void EogAnalysisController::acceptResponse(const QJsonObject& response, const QJ
     if (operation == "validate_plan") {
         const auto validation = result.value("validation").toObject(); const auto plan = validation.value("plan_id").toString();
         validations_[plan] = validation; validation_requests_[plan] = id;
+        // Imported archives never populate the live reuse cache. The request is
+        // captured before the provider continuation clears pending_request_.
+        if (retain) validation_arguments_[plan] = pending_request_.value("arguments").toObject();
     }
     status_ = "Retained " + operation + " evidence. Plan selection changes no operating controls.";
 }
@@ -661,9 +664,27 @@ void EogAnalysisController::toolRequested(const QString& execution, const QStrin
         }
     }
     if (name == "validate_plan") {
+        if (arguments.size() != 2 || !arguments.contains("plan_id") || !arguments.contains("evaluator_method")) {
+            completeTool(failure("invalid_arguments")); return;
+        }
         const auto plan = arguments.value("plan_id").toString();
         if (!evaluations_.contains(plan)) { completeTool(failure("unknown_plan")); return; }
         numerical.remove("plan_id"); numerical["plan"] = evaluations_.value(plan).value("plan");
+        // Validate even a duplicate's complete arguments before considering reuse.
+        // A changed method, explicit bad field, hash or capture cannot hit this cache.
+        const auto proposed = request("validate_plan", numerical);
+        try { validate_document(proposed, "analysis_request"); }
+        catch (const std::exception&) { completeTool(failure("invalid_arguments")); return; }
+        const auto retained = responses_.value(validation_requests_.value(plan));
+        const bool sameCapture = retained.value("capture_id") == proposed.value("capture_id") &&
+            retained.value("dataset_identity") == proposed.value("dataset_identity") &&
+            retained.value("cutoff_unix") == proposed.value("cutoff_unix");
+        if (!validationFor(plan).isEmpty() && validation_arguments_.contains(plan) &&
+            validation_arguments_.value(plan) == numerical && sameCapture &&
+            retained.value("operation") == "validate_plan" && retained.value("status") == "completed") {
+            completeTool({{"ok", true}, {"result", modelResponse(retained)}, {"reused_validation", true}});
+            return;
+        }
     }
     if (name != "detect" && name != "evaluate_plan" && name != "search_plans" && name != "validate_plan") {
         completeTool(failure("unsupported_tool")); return;
