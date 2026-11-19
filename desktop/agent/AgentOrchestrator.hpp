@@ -56,6 +56,7 @@ private:
     bool network_seen_ = false, controls_seen_ = false;
     bool recording_cancel_metadata_ = false;
     bool local_only_ = false;
+    bool final_correction_ = false;
     int local_step_ = 0;
     QJsonArray local_catalog_;
     QJsonObject local_last_;

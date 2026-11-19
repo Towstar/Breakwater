@@ -1,5 +1,6 @@
 #include "AgentOrchestrator.hpp"
 #include "science/AgentSensitivityClient.hpp"
+#include "telemetry/TelemetryContracts.hpp"
 #include <QDateTime>
 #include <QFutureWatcher>
 #include <QJsonDocument>
@@ -102,6 +103,7 @@ void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const 
     tool_calls_ = refinement_rounds_ = request_rounds_ = 0;
     awaiting_model_ = executing_tool_ = false;
     network_seen_ = controls_seen_ = false;
+    final_correction_ = false;
     local_only_ = localOnly; local_step_ = 0; local_catalog_ = {}; local_last_ = {}; local_baseline_.clear(); local_selected_.clear();
     elapsed_.start(); running_ = true; status_ = local_only_ ? "Running local native search" : "Investigating";
     const auto epoch = generation_;
@@ -169,11 +171,11 @@ void AgentOrchestrator::requestModel() {
     if (!gateway_->isCurrent()) { invalidate(); return; }
     if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     if (local_only_) { advanceLocal(); return; }
-    if (++request_rounds_ > limits_.toolCalls + 1) { fail("request_limit", "Investigation reached its model-request limit."); return; }
+    if (++request_rounds_ > limits_.toolCalls + 2) { fail("request_limit", "Investigation reached its model-request limit."); return; }
     const auto callsLeft = std::max(0, limits_.toolCalls - tool_calls_);
     const auto refinementsLeft = std::max(0, limits_.refinementRounds - refinement_rounds_);
     QJsonArray tools;
-    if (callsLeft > 0) for (const auto& definition : SimulationGateway::toolDefinitions()) {
+    if (!final_correction_ && callsLeft > 0) for (const auto& definition : SimulationGateway::toolDefinitions()) {
         const auto name = definition.toObject().value("function").toObject().value("name").toString();
         if (refinementsLeft == 0 && (name == "simulate_candidates" || name == "search_interventions")) continue;
         tools.append(definition);
@@ -190,7 +192,8 @@ void AgentOrchestrator::requestModel() {
         .arg(callsLeft).arg(refinementsLeft).arg(std::max<qint64>(0, limits_.durationMs - elapsed_.elapsed()));
     messages[0] = system;
     awaiting_model_ = true;
-    transport_->request(messages, tools);
+    if (tools.isEmpty()) transport_->requestFinalJson(messages);
+    else transport_->request(messages, tools);
 }
 
 void AgentOrchestrator::receive(const QJsonObject& message) {
@@ -201,6 +204,7 @@ void AgentOrchestrator::receive(const QJsonObject& message) {
     if (!callsValue.isUndefined() && !callsValue.isArray()) { fail("malformed_tool_calls", "Model returned malformed tool calls."); return; }
     const auto calls = callsValue.toArray();
     if (calls.isEmpty()) { finish(message); return; }
+    if (final_correction_) { fail("invalid_recommendation", "A format-only correction cannot request more tools."); return; }
     if (tool_calls_ + calls.size() > limits_.toolCalls) { fail("tool_limit", "Investigation reached its tool-call limit. Completed runs were retained."); return; }
     QSet<QString> batchIds;
     for (const auto& value : calls) {
@@ -234,11 +238,12 @@ void AgentOrchestrator::nextTool() {
     ++tool_calls_;
     event("tool_requested", {{"tool_name", name}, {"tool_call_id", id}});
     if (!guard || generation != generation_ || !running_ || gateway != gateway_) return;
-    QJsonParseError parseError;
-    const auto arguments = QJsonDocument::fromJson(function.value("arguments").toString().toUtf8(), &parseError);
+    QJsonObject arguments;
     QJsonObject rejected;
-    if (parseError.error != QJsonParseError::NoError || !arguments.isObject())
+    try { arguments = telemetry::decode_document(function.value("arguments").toString().toUtf8(),256*1024); }
+    catch (const std::exception&) {
         rejected = {{"ok", false}, {"error", QJsonObject{{"code", "invalid_arguments"}, {"message", "Tool arguments must be a JSON object."}}}};
+    }
     if ((name == "simulate_candidates" || name == "search_interventions") && ++refinement_rounds_ > limits_.refinementRounds)
         rejected = {{"ok", false}, {"error", QJsonObject{{"code", "refinement_limit"}, {"message", "Candidate refinement limit reached; inspect existing evidence or finish."}}}};
     if (!rejected.isEmpty()) {
@@ -250,12 +255,12 @@ void AgentOrchestrator::nextTool() {
     }
     executing_tool_ = true;
     const qint64 started = elapsed_.elapsed();
-    event("tool_started", {{"tool_name", name}, {"tool_call_id", id}, {"input_summary", arguments.object()}});
+    event("tool_started", {{"tool_name", name}, {"tool_call_id", id}, {"input_summary", arguments}});
     if (!guard || generation != generation_ || !running_ || gateway != gateway_) return;
     if (name == "search_interventions") event("search_started", {{"tool_name", name}, {"tool_call_id", id}});
     if (!guard || generation != generation_ || !running_ || gateway != gateway_) return;
     if (name == "analyze_sensitivities") {
-        startSensitivity(arguments.object(), generation, gateway, id, started);
+        startSensitivity(arguments, generation, gateway, id, started);
         return;
     }
     auto* watcher = new QFutureWatcher<QJsonObject>(this);
@@ -263,7 +268,7 @@ void AgentOrchestrator::nextTool() {
         const auto outcome = watcher->result(); watcher->deleteLater();
         completeTool(generation, gateway, id, name, started, outcome);
     });
-    watcher->setFuture(QtConcurrent::run([gateway, name, object = arguments.object()] {
+    watcher->setFuture(QtConcurrent::run([gateway, name, object = arguments] {
         try { return gateway->execute(name, object); }
         catch (...) { return QJsonObject{{"ok", false}, {"error", QJsonObject{{"code", "tool_failure"}, {"message", "Numerical tool failed."}}}}; }
     }));
@@ -360,12 +365,23 @@ void AgentOrchestrator::startSensitivity(const QJsonObject& arguments, quint64 g
 
 void AgentOrchestrator::finish(const QJsonObject& message) {
     if (!network_seen_ || !controls_seen_) { fail("inspection_required", "The model must inspect the current network and controls before concluding."); return; }
-    QJsonParseError error;
-    const auto parsed = QJsonDocument::fromJson(message.value("content").toString().toUtf8(), &error);
-    const auto final = parsed.object();
-    if (error.error != QJsonParseError::NoError || !parsed.isObject() || final.size() != 2 ||
+    QJsonObject final;
+    try { final = telemetry::decode_document(message.value("content").toString().toUtf8(),64*1024); }
+    catch (const std::exception&) { /* Only one bounded format correction is allowed below. */ }
+    if (final.size() != 2 || !(final.value("selected_run_id").isNull() || final.value("selected_run_id").isString()) ||
         !final.contains("selected_run_id") || !final.value("explanation").isString() ||
         final.value("explanation").toString().trimmed().isEmpty() || final.value("explanation").toString().size() > 12000) {
+        if (!local_only_ && !final_correction_) {
+            final_correction_=true;
+            // Do not archive or feed back the malformed prose/reasoning. Existing
+            // structured tool results remain the only numerical evidence.
+            messages_.append(QJsonObject{{"role","system"},{"content",
+                "One format-only correction remains. Return ONLY a JSON object with selected_run_id (an existing independently validated feasible run ID, or null) and explanation (1..12000 characters). Use retained tool evidence. Do not request tools, add fields or claim missing results."}});
+            const auto epoch=generation_; const QPointer<AgentOrchestrator> guard(this);
+            event("final_format_correction_requested");
+            if (guard && running_ && generation_==epoch) requestModel();
+            return;
+        }
         fail("invalid_recommendation", "Model did not return the required evidence reference and explanation."); return;
     }
     if (final.value("selected_run_id").isNull()) {
