@@ -34,8 +34,7 @@ seam. The next increment now connects a seeded local stdlib publisher, independe
 plant, timed receiver journal, backwards-compatible raw replay and manual capture
 UI. Actual subprocess and normal/ASan UI checks pass; see
 [local monitoring](LOCAL_MONITORING.md) and
-[acquisition evidence](evidence/v03/local-acquisition.json). Detection,
-forecast/review UI and new history envelopes remain pending. Bounded native
+[acquisition evidence](evidence/v03/local-acquisition.json). Bounded native
 symptom detection is now connected to the acquisition worker and Local monitoring;
 see [detector scope](OBSERVATION_DETECTION.md). Version-2 history now retains
 incident witnesses, separate acknowledgements and native pipe results. Known v1

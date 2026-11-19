@@ -98,8 +98,7 @@ is authorized by this work.
   No new hosted result is claimed. See `evidence/v03/nemotron-reliability.json`.
 - Native observation mathematics and receiver-thread immutable captures pass six
   focused CTest suites in normal and ASan builds. The final capture suite contains
-  nine Qt cases. The numerical mapper is connected to the capture seam, while
-  forecast/review UI and ongoing detection are still pending. See
+  nine Qt cases. The numerical mapper is connected to the capture seam. See
   `evidence/v03/observed-mapping.json` and `OBSERVED_STATE.md`.
 - Local acquisition/replay and the capture UI pass normal and ASan checks. Actual
   Python subprocess integration exercises pump loss, lifecycle acknowledgements,
