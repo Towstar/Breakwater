@@ -44,8 +44,9 @@ QString sessionInstructions(bool observed) {
     auto text=QString::fromUtf8(instructions);
     if (observed) text+=QStringLiteral(
         "\nThis is an immutable OBSERVED ADVISORY session. Read get_observations before concluding. "
-        "Use get_detection_events when useful. Measurements, calibration/bounds, frozen commands, "
-        "coverage and expiry are distinct evidence. The effective numerical network holds measured "
+        "Use get_detection_events when useful. An empty event list cannot establish health or complete "
+        "detector coverage; inspect the retained detector window/temporal status. Measurements, calibration/bounds, "
+        "frozen commands, coverage and expiry are distinct evidence. The effective numerical network holds measured "
         "delivery and observed pump restrictions. It is separate from the design/editor network. "
         "Missing coverage forbids numerical forecasts or plans: explain the missing evidence and select null. "
         "Forecast feasibility is nominal only, not an uncertainty guarantee or mechanical diagnosis. "

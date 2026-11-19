@@ -149,11 +149,16 @@ DetectionUpdate ObservationDetector::observe(const MappingResult& mapped) {
             window_.push_back(std::move(point));
             const auto cutoff=snapshot.captured_event_time_s-policy_.window_s;
             while (window_.size()>2 && window_[1].time_s<=cutoff) window_.pop_front();
-            std::size_t scalars=0;
-            for (const auto& [id,tank]:window_.back().tanks) scalars+=4+2*tank.channels.size();
-            while (window_.size()>maximum_window_points || window_.size()*scalars>maximum_window_scalars) window_.pop_front();
+            // Include each point's time and each tank's timing bound, as well as
+            // inventory/rate/channel values and their absolute bounds.
+            std::size_t scalars=1;
+            for (const auto& [id,tank]:window_.back().tanks) scalars+=5+2*tank.channels.size();
+            bool resourceLimited=false;
+            while (window_.size()>maximum_window_points || window_.size()*scalars>maximum_window_scalars) {
+                window_.pop_front(); resourceLimited=true;
+            }
             output.observed_window_s=window_.back().time_s-window_.front().time_s;
-            output.balance_status=output.observed_window_s<policy_.window_s ? "warming_up":"available";
+            output.balance_status=output.observed_window_s<policy_.window_s ? (resourceLimited ? "window_resource_limit":"warming_up"):"available";
             if (output.balance_status=="available") for (const auto& [tankId,last]:window_.back().tanks) {
                 const auto& first=window_.front().tanks.at(tankId);
                 double integrated=0,flowBound=0,quadrature=0,largest=0;
@@ -180,6 +185,12 @@ DetectionUpdate ObservationDetector::observe(const MappingResult& mapped) {
                     inventory ? sample_identity(snapshot,inventory->sensor_ids):std::string{},output.changed_events);
             }
         }
+    }
+    output.window_point_count=window_.size();
+    if (!window_.empty()) {
+        output.observed_window_s=window_.back().time_s-window_.front().time_s;
+        std::size_t scalars=1; for (const auto& [id,tank]:window_.back().tanks) scalars+=5+2*tank.channels.size();
+        output.window_scalar_count=window_.size()*scalars;
     }
     if (output.balance_status!="available" && output.balance_status!="unchanged_samples")
         for (auto& [key,state]:states_) if (key.starts_with("balance:")) state.above=state.below=0;

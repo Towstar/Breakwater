@@ -23,6 +23,8 @@ target_link_libraries(breakwater_physicsnemo_reference PRIVATE breakwater_engine
 # Private A9 regime/refinement fixtures, executed by science qualification tools.
 add_executable(breakwater_transport_qualification_reference examples/transport_qualification_reference.cpp)
 target_link_libraries(breakwater_transport_qualification_reference PRIVATE breakwater_engine)
+add_executable(breakwater_observation_qualification examples/observation_qualification.cpp)
+target_link_libraries(breakwater_observation_qualification PRIVATE breakwater_engine)
 
 add_executable(breakwater_benchmark benchmarks/benchmark.cpp)
 target_link_libraries(breakwater_benchmark PRIVATE breakwater_engine)
@@ -56,6 +58,9 @@ if(BUILD_TESTING)
   add_executable(breakwater_observation_detection_tests tests/observation_detection_tests.cpp)
   target_link_libraries(breakwater_observation_detection_tests PRIVATE breakwater_engine)
   add_test(NAME engine.observation_detection COMMAND breakwater_observation_detection_tests)
+  add_test(NAME engine.observation_qualification COMMAND breakwater_observation_qualification)
+  # The full 480,400-capture study is deliberately retained in checked builds.
+  set_tests_properties(engine.observation_qualification PROPERTIES TIMEOUT 900)
   add_executable(breakwater_observations_tests tests/observations_tests.cpp)
   target_link_libraries(breakwater_observations_tests PRIVATE breakwater_engine)
   add_test(NAME engine.observations COMMAND breakwater_observations_tests)

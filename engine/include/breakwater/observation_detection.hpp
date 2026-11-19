@@ -4,7 +4,7 @@
 #include <map>
 
 namespace breakwater::observations {
-inline constexpr const char* detector_version="bounded-volume-monitor-0.1.0";
+inline constexpr const char* detector_version="bounded-volume-monitor-0.1.1";
 struct DetectionPolicy {
     double window_s=30, maximum_gap_s=5, clock_bound_s=0.25;
     double command_tracking_tolerance_m3h=0.1;
@@ -30,6 +30,7 @@ struct DetectionUpdate {
     std::vector<BalanceStep> witness;
     std::string balance_status="unavailable";
     double observed_window_s=0;
+    std::size_t window_point_count=0,window_scalar_count=0;
 };
 class ObservationDetector {
 public:
