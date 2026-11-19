@@ -75,7 +75,8 @@ The complete draft review stack is [PR58](https://github.com/Towstar/Breakwater/
 → [PR62](https://github.com/Towstar/Breakwater/pull/62)
 → [PR63](https://github.com/Towstar/Breakwater/pull/63)
 → [PR64](https://github.com/Towstar/Breakwater/pull/64)
-→ [PR65](https://github.com/Towstar/Breakwater/pull/65). Live GitHub checks remain
+→ [PR65](https://github.com/Towstar/Breakwater/pull/65)
+→ [PR66](https://github.com/Towstar/Breakwater/pull/66). Live GitHub checks remain
 the authority for each published branch's current CI outcome.
 The unpublished observed-capture work and frozen hackathon application are preserved.
 Devpost is unchanged.
@@ -133,6 +134,32 @@ and [clean Windows checks](CLEAN_WINDOWS_CHECK.md).
 Generic observed-state forecasting, commitment-aware fleet dispatch and broader
 numerical/field accuracy work remain future increments. The existing simulation,
 scientific methods and stand-alone proofs keep their documented scope.
+
+### Release-readiness and retained future work
+
+PR66's complete six-job Windows pipeline passed at `0cfee72`. The readiness
+helper suite passes 37 checks, including 16 new archive/source consistency,
+pending-authority and copy-failure cases. The initial helper-discovery attempt
+used a science interpreter without PyYAML; the successful full run uses the CI
+bootstrap environment. This does not relabel the earlier failed attempt.
+
+The readiness branch adds an owner review packet and a checksum-verified Windows/
+source handoff with a pending manual VM result template. It does not grant formal
+review, license consent or clean-machine acceptance. PR57's useful continuation
+details are retained here without replacing newer portfolio evidence:
+
+- **G3:** generic sensor-quality/event integration, coherent observed captures,
+  observation-based native forecasts and freshness-aware review remain separate.
+  The recorded Operations adapter does not complete this pipeline.
+- **G4:** the prepared VM kit still requires actual clean-Windows execution and
+  comprehensive operator acceptance. Repeat extension-specific acceptance after G3.
+- **E1:** manual immutable-candidate selection and general forward Science remain
+  separate; stored-run agent sensitivities and scientific History are delivered.
+- **E2:** automatic bounded pipe-result retention in SQLite remains separate from
+  the delivered manual JSON export/import workflow.
+- **D1/R1/M1:** detector comparison, scenario comparison and conditioned learned
+  quality remain gated on numerical/domain evidence. Stateful fleet dispatch and
+  multifeed projects retain their own integration/review boundaries.
 
 ## Historical handoffs and component-qualified evidence
 

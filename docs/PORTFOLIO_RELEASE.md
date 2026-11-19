@@ -4,6 +4,22 @@ Accepted direction: 17 November 2026. This is an implementation ledger, not a
 claim that the release gates have passed. Devpost and the frozen hackathon build
 are outside this work.
 
+## Active release-readiness pass
+
+The implemented application work currently ends at PR66 (`0cfee72`). The readiness
+branch prepares the owner review packet, final qualification, current README/
+screenshots and a clean-Windows VM handoff. Its exact candidate and outcomes are
+recorded separately from the earlier package reports below. No new simulation
+features, video or resume-writing deliverables are included in this pass.
+
+Main integration remains gated on Ethan's formal review of PR58. Public binary
+publication additionally requires his recorded GPLv3 agreement, completed
+dependency/source-delivery review and actual clean-Windows acceptance. The handoff
+helper checks archive/source consistency but always leaves those external gates
+pending. See [RELEASE_REVIEW](RELEASE_REVIEW.md),
+[DEPENDENCY_DISTRIBUTION](DEPENDENCY_DISTRIBUTION.md) and
+[CLEAN_WINDOWS_CHECK](CLEAN_WINDOWS_CHECK.md).
+
 ## Product
 
 Sandbox is the primary editable, synthetic constant-flow workbench. Operations
@@ -78,7 +94,7 @@ dataset retirement. Import now follows the explicit load-completed signal;
 normal/compact/minimum regression checks pass in normal and ASan builds. Final
 bundle verification also exercises this real historical recording path.
 
-The final application-code candidate, clean commit `6cb2587`, passes all seven
+The earlier application-code candidate, clean commit `6cb2587`, passes all seven
 isolated-process checks, including the full recorded-archive UI regression. Its
 Windows ZIP is 104,110,029 bytes. The [candidate manifest](evidence/portfolio/candidate-6cb2587.json)
 links exact source/bundle hashes, build metadata and verification results. Later

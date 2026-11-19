@@ -15,6 +15,9 @@ license, installed Python package license metadata, and the Lucide/Feather icon
 notices. Torch and PhysicsNeMo are installed separately and are not in the basic
 bundle. Microsoft runtime and Qt third-party distribution notices must be
 checked against the actual deployed file inventory before public distribution.
+The review inventory is in [DEPENDENCY_DISTRIBUTION](DEPENDENCY_DISTRIBUTION.md);
+the concrete owner checklist is in [RELEASE_REVIEW](RELEASE_REVIEW.md). Neither
+document records Ethan's consent by itself.
 
 Before publishing:
 
