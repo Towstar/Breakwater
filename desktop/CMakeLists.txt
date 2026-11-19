@@ -191,6 +191,13 @@ if(BUILD_TESTING)
     set(Python3_EXECUTABLE "$ENV{BREAKWATER_PYTHON}")
   endif()
   find_package(Python3 3.12 QUIET COMPONENTS Interpreter)
+  if(WIN32 AND Python3_Interpreter_FOUND)
+    add_test(NAME desktop.scene_picking_warp COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/scene_benchmark_check.py" "$<TARGET_FILE:breakwater>"
+      "${CMAKE_CURRENT_BINARY_DIR}/test-artifacts")
+    set_tests_properties(desktop.scene_picking_warp PROPERTIES TIMEOUT 100
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+  endif()
   foreach(_suite sensor_editor telemetry_stream telemetry_lifecycle observed_capture local_publisher receiver_journal)
     qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
     target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_desktop_base breakwater_telemetry_runtime Qt6::Test)
