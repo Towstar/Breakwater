@@ -18,6 +18,7 @@ target_link_libraries(breakwater_desktop_base PUBLIC breakwater_telemetry Qt6::Q
 
 qt_add_library(breakwater_telemetry_runtime STATIC
   telemetry/ObservedMapping.hpp telemetry/ObservedMapping.cpp
+  telemetry/ObservationMonitor.hpp telemetry/ObservationMonitor.cpp
   telemetry/ReceiverJournal.hpp telemetry/ReceiverJournal.cpp
   telemetry/TelemetryStream.hpp telemetry/TelemetryStream.cpp
   telemetry/TelemetryController.hpp telemetry/TelemetryController.cpp)

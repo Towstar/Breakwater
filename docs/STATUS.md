@@ -35,7 +35,9 @@ plant, timed receiver journal, backwards-compatible raw replay and manual captur
 UI. Actual subprocess and normal/ASan UI checks pass; see
 [local monitoring](LOCAL_MONITORING.md) and
 [acquisition evidence](evidence/v03/local-acquisition.json). Detection,
-forecast/review UI and new history envelopes remain pending. These are local
+forecast/review UI and new history envelopes remain pending. Bounded native
+symptom detection is now connected to the acquisition worker and Local monitoring;
+see [detector scope](OBSERVATION_DETECTION.md). These are local
 synthetic capabilities, not operational-monitoring claims.
 
 ## Active: v0.2.0 portfolio candidate, November 18, 2026

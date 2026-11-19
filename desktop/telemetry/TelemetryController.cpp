@@ -3,6 +3,7 @@
 #include "LocalRuntime.hpp"
 #include "TelemetryStream.hpp"
 #include "ReceiverJournal.hpp"
+#include "ObservationMonitor.hpp"
 #include <QDateTime>
 #include <QElapsedTimer>
 #include <QFile>
@@ -48,6 +49,19 @@ public:
         if (retiring_.isEmpty()) emit shutdownReady();
     }
     void setTimeout(int milliseconds) { timeout_ms_ = std::clamp(milliseconds, 50, 30000); }
+    void monitorContext(const QJsonObject& registry,const QJsonArray& commands,quint64 revision) {
+        const bool changed=registry.isEmpty() || monitor_registry_.isEmpty() || revision!=monitor_revision_ || commands!=monitor_commands_ ||
+            registry.value("physical_hash")!=monitor_registry_.value("physical_hash") ||
+            sensor_semantic_hash(registry.value("configuration").toObject())!=sensor_semantic_hash(monitor_registry_.value("configuration").toObject());
+        monitor_registry_=registry; monitor_commands_=commands; monitor_revision_=revision;
+        if (changed) { monitor_.reset(declared_hold_model_); monitor_emitted_.clear(); monitor_samples_.clear(); last_monitor_mono_=-1; }
+    }
+    void acknowledgeEvent(const QString& id) {
+        try {
+            const auto event=monitor_.acknowledge(id,"local-operator",QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs));
+            if (!event.isEmpty()) emit detectionAcknowledged(event);
+        } catch (const std::exception&) { reject("acknowledgement_invalid","The selected event is no longer available in this context."); }
+    }
     void manual() { shutdownInput(); mode_ = "manual"; status_ = configuration_.isEmpty() ? "unconfigured" : "ready"; error_.clear(); }
     void configure(QJsonObject configuration, QJsonObject context) {
         try {
@@ -69,7 +83,7 @@ public:
             fail("configuration_invalid", QString::fromUtf8(exception.what()));
         }
     }
-    void startProcess(const QString& executable, const QStringList& arguments) {
+    void startProcess(const QString& executable, const QStringList& arguments,bool declaredHoldModel=false) {
         if (configuration_.isEmpty()) { reject("configuration_missing", "Place and configure sensors before starting local input."); return; }
         const QFileInfo program(executable);
         if (!program.isAbsolute() || !program.isFile()) { reject("publisher_missing", "Choose an existing absolute local publisher executable."); return; }
@@ -78,6 +92,7 @@ public:
         }
         if (retiring_.size() >= 4) { reject("publisher_retiring", "Wait for the previous local publisher to finish terminating."); return; }
         shutdownInput();
+        declared_hold_model_=declaredHoldModel; monitor_.reset(declared_hold_model_);
         error_.clear(); mode_ = "synthetic_live"; status_ = "starting";
         journal_.reset(configuration_hash_,configuration_.value("physical_hash").toString());
         journal_started_ = false; recording_format_ = "receiver_journal_v1";
@@ -259,6 +274,8 @@ public:
         report["mode"] = mode_; report["active"] = active_; report["paused"] = paused_;
         report["clock_rate"] = rate_; report["event_time_s"] = nowEvent();
         report["configuration_hash"] = configuration_hash_;
+        report["detection"] = monitor_.report();
+        if (!monitor_error_.isEmpty()) { auto detection=report.value("detection").toObject(); detection["error"]=monitor_error_; report["detection"]=detection; }
         report["recording_format"] = recording_format_;
         report["journal_bytes"] = journal_replay_ ? replay_bytes_ : journal_.size();
         report["journal_truncated"] = journal_replay_ ? replay_footer_.value("truncated").toBool() : journal_.truncated();
@@ -290,6 +307,8 @@ public:
         emit updated(report.toVariantMap(), preview.toVariantList());
     }
 signals:
+    void detectionEvidence(const QJsonObject& evidence,quint64 sourceSerial);
+    void detectionAcknowledged(const QJsonObject& event);
     void updated(const QVariantMap& report, const QVariantList& trace);
     void rejected(const QString& code, const QString& message);
     void exported(const QUrl& destination);
@@ -329,6 +348,15 @@ private:
     bool active_ = false, started_ = false, starting_ = false, paused_ = false, received_end_ = false;
     bool historical_ = false, awaiting_restart_ = false, read_scheduled_ = false, shutting_down_ = false;
     bool journal_replay_ = false,journal_started_ = false;
+    ObservationMonitor monitor_;
+    QJsonObject monitor_registry_;
+    QJsonArray monitor_commands_;
+    quint64 monitor_revision_=0;
+    bool declared_hold_model_=false;
+    double last_monitor_mono_=-1;
+    QHash<QString,QPair<QString,double>> monitor_emitted_;
+    QString monitor_error_;
+    QString monitor_samples_;
     double monotonicS() const { return monotonic_.isValid() ? monotonic_.nsecsElapsed() / 1e9 : 0; }
     double elapsedPlayback() const { return active_ && started_ && !paused_ && !historical_ ? std::max(0.0,monotonicS()-base_monotonic_)*rate_ : 0; }
     double arrivalTime() const { return base_arrival_+elapsedPlayback(); }
@@ -377,19 +405,66 @@ private:
         historical_ = false;
         journal_replay_ = false; previous_receipt_ = {}; next_receipt_ = {}; base_arrival_=0;
         replay_footer_ = {}; replay_bytes_ = 0;
+        declared_hold_model_=false; monitor_.reset(); monitor_emitted_.clear(); monitor_error_.clear(); monitor_samples_.clear(); last_monitor_mono_=-1;
     }
     void reject(const QString& code, const QString& message) { emit rejected(code, message); }
     void fail(const QString& code, const QString& message) {
         shutdownInput(); status_ = "fault"; error_ = code + ": " + message; emit rejected(code, message);
     }
-    bool acceptCore(const QJsonObject&, const QByteArray& line,const JournalReceipt* receipt=nullptr) {
+    bool acceptCore(const QJsonObject& frame, const QByteArray& line,const JournalReceipt* receipt=nullptr) {
         if (!stream_.ingest(line,receipt ? receipt->event_s : nowEvent(),receipt ? receipt->monotonic_s : receiverMonotonic(),
                             receipt ? receipt->utc : QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs))) {
             const auto report = stream_.report();
             const auto reason = report.value("error_code").toString() + ": " + report.value("error_message").toString();
             fail("stream_fault", reason); return false;
         }
+        if (frame.value("type")=="readings" || frame.value("type")=="heartbeat") updateMonitor();
         return true;
+    }
+    void updateMonitor() {
+        if (!started_ || !active_ || mode_=="manual" || monitor_registry_.isEmpty()) return;
+        const auto mono=receiverMonotonic();
+        if (last_monitor_mono_>=0 && mono-last_monitor_mono_<0.5) return;
+        last_monitor_mono_=mono;
+        const auto report=stream_.report();
+        QString signature=report.value("source_available").toBool() ? "available\n":"missing\n";
+        for (const auto& value:report.value("sensors").toArray()) {
+            const auto sensor=value.toObject();
+            signature+=sensor.value("sensor_id").toString()+":"+QString::number(sensor.value("frame_sequence").toInteger(-1))+":"+
+                sensor.value("status").toString()+":"+sensor.value("receiver_status").toString()+"\n";
+        }
+        // Heartbeats advance freshness but are not new measurements. Avoid
+        // repeatedly parsing a full capture for unchanged samples, especially
+        // when a slow checked build is draining a heartbeat backlog.
+        if (signature==monitor_samples_) return;
+        monitor_samples_=signature;
+        try {
+            const auto capture=stream_.captureObserved(monitor_registry_,monitor_commands_,monitor_revision_,freshId("monitor-"));
+            const auto change=monitor_.observe(capture);
+            monitor_error_.clear();
+            QJsonArray retained;
+            const auto eventTime=capture.document.value("captured_event_time_s").toDouble();
+            for (const auto& value:change.value("events").toArray()) {
+                const auto event=value.toObject(); const auto id=event.value("event_id").toString();
+                const auto status=event.value("status").toString(); const auto previous=monitor_emitted_.constFind(id);
+                if (previous==monitor_emitted_.cend() || previous->first!=status || eventTime-previous->second>=10) {
+                    retained.append(event); monitor_emitted_[id]={status,eventTime};
+                }
+            }
+            if (!retained.isEmpty()) {
+                // A bounded pre-assimilation witness is retained on transitions,
+                // and at most every ten seconds for ongoing event updates.
+                emit detectionEvidence(QJsonObject{{"evidence_kind","observation_detection"},{"evidence_version",1},
+                    {"events",retained},{"snapshot",capture.document},{"context",capture.context},
+                    {"mapping",capture.diagnostics},{"effective_network",capture.effective_network},
+                    {"detector",monitor_.report()},{"balance_witness",change.value("balance_witness")},{"actionable",false}},source_serial_->load());
+            }
+        } catch (const std::exception&) {
+            // Do not turn an invalid/retired context into a zero observation or
+            // physical alarm. Acquisition remains independently usable.
+            monitor_.reset(declared_hold_model_);
+            monitor_error_="Observed context unavailable; no physical conclusion can be drawn.";
+        }
     }
     bool acceptLive(const QByteArray& line) {
         QJsonObject frame;
@@ -416,7 +491,9 @@ private:
             if (started_ && (!awaiting_restart_ || frame.value("epoch_id").toString() == stream_.epochId() ||
                 frame.value("stream_id").toString() != stream_.streamId())) return acceptCore(frame, line);
             if (payload.value("mode").toString() != "synthetic_live") { fail("source_mode", "A local publisher must identify itself as synthetic live."); return false; }
-            if (awaiting_restart_) { source_serial_->fetch_add(1); stream_.beginEpoch("synthetic_live"); acknowledged_.clear(); }
+            if (awaiting_restart_) { source_serial_->fetch_add(1); stream_.beginEpoch("synthetic_live"); acknowledged_.clear();
+                monitor_.reset(declared_hold_model_); monitor_emitted_.clear(); monitor_error_.clear(); monitor_samples_.clear(); last_monitor_mono_=-1;
+            }
             started_ = true; starting_ = false; awaiting_restart_ = false; received_end_ = false;
             base_event_ = frame.value("event_time_s").toDouble(); base_monotonic_ = monotonicS();
             rate_ = payload.value("clock_rate").toDouble(); paused_ = payload.value("paused").toBool(); status_ = "running";
@@ -544,6 +621,7 @@ private:
         // Replay may ingest several frames during this tick. Use a new receive
         // timestamp after that work, never the older tick-start timestamp.
         if (started_) stream_.advance(nowEvent(), receiverMonotonic());
+        updateMonitor();
         if (stream_.faulted() && error_.isEmpty()) fail("stream_fault", stream_.report().value("error_message").toString());
     }
 };
@@ -591,6 +669,10 @@ TelemetryController::TelemetryController(QObject* parent) : QObject(parent) {
         emit failed(code, message);
     });
     connect(worker_, &TelemetryIoWorker::exported, this, &TelemetryController::recordingExported);
+    connect(worker_, &TelemetryIoWorker::detectionEvidence,this,[this](const QJsonObject& evidence,quint64 serial) {
+        if (serial==source_serial_->load()) emit detectionEvidenceReady(evidence);
+    });
+    connect(worker_, &TelemetryIoWorker::detectionAcknowledged,this,&TelemetryController::detectionAcknowledged);
     connect(worker_, &TelemetryIoWorker::observedCaptured, this,
         [this](const QString& request, const QJsonObject& document, const QJsonObject& context,
                const QJsonObject& diagnostics, const QJsonObject& effectiveNetwork, quint64 generation, quint64 sourceSerial) {
@@ -657,7 +739,10 @@ void TelemetryController::startSynthetic(const QString& preset,quint32 seed) {
     if (!syntheticPresets().contains(preset)) { emit failed("preset_invalid","Choose a supported local synthetic preset."); return; }
     auto arguments = publisher_arguments_;
     arguments.append({"--preset",preset,"--seed",QString::number(seed)});
-    startProcess(publisher_executable_,arguments);
+    retireObserved("source_replaced");
+    QMetaObject::invokeMethod(worker_,[worker=worker_,executable=publisher_executable_,arguments] {
+        worker->startProcess(executable,arguments,true);
+    },Qt::QueuedConnection);
 }
 void TelemetryController::manual() { retireObserved("manual_mode"); QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->manual(); }, Qt::QueuedConnection); }
 void TelemetryController::startReplay(const QUrl& recording) {
@@ -708,11 +793,16 @@ bool TelemetryController::setObservedCaptureContext(const QJsonObject& registry,
         retireObserved("project_context_changed");
     observed_registry_ = registry; observed_commands_ = commands; observed_revision_ = revision;
     observed_context_hash_ = identity; observed_context_set_ = true;
+    QMetaObject::invokeMethod(worker_,[worker=worker_,registry,commands,revision] { worker->monitorContext(registry,commands,revision); },Qt::QueuedConnection);
     if (!observed_ && !observed_pending_) observed_disposition_ = "ready";
     emit observedCaptureChanged(); return true;
 }
 void TelemetryController::clearObservedCaptureContext() {
     observed_context_set_=false; observed_registry_={}; observed_commands_={}; retireObserved("project_context_unavailable");
+    QMetaObject::invokeMethod(worker_,[worker=worker_] { worker->monitorContext({},{},0); },Qt::QueuedConnection);
+}
+void TelemetryController::acknowledgeDetection(const QString& eventId) {
+    QMetaObject::invokeMethod(worker_,[worker=worker_,eventId] { worker->acknowledgeEvent(eventId); },Qt::QueuedConnection);
 }
 QString TelemetryController::requestObservedCapture() {
     if (observed_pending_ || !observed_context_set_) {

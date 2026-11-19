@@ -108,5 +108,8 @@ is authorized by this work.
   left only the newest app open. A reproduced CPython stdin-lock shutdown failure
   was corrected and retained as regression evidence. PR68 and PR69 Windows CI
   passed. See `LOCAL_MONITORING.md` and `evidence/v03/local-acquisition.json`.
-- Detection, forecasts/review, history/scientific workflow and final qualification
-  remain pending implementation and verification.
+- Bounded native detection and the acquisition-worker adapter are implemented;
+  see `OBSERVATION_DETECTION.md`. Verification and the exact retained evidence are
+  recorded with this increment. Observed forecasts/review, durable event history,
+  selected-candidate Science, automatic pipe history and final qualification are
+  still separate pending work.

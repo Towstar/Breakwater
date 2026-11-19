@@ -78,6 +78,14 @@ private slots:
         const auto effective=parse_project({{"version",1},{"network",observation->effective_network},{"layout",QJsonObject{}}});
         QVERIFY(!effective.network.routes[1].available); QCOMPARE(effective.network.routes[1].setpoint_m3h,0.0);
         QVERIFY(f.project.network.routes[1].available); QCOMPARE(f.project.network.routes[1].setpoint_m3h,12.0);
+        QTRY_VERIFY_WITH_TIMEOUT(!controller.detection().value("events").toList().isEmpty(),10000);
+        const auto event=QJsonObject::fromVariantMap(controller.detection().value("events").toList().first().toMap());
+        QCOMPARE(event.value("detector_id"),QJsonValue("pump-delivery"));
+        QVERIFY(event.value("updated_event_time_s").toDouble()<=10.25);
+        (void)parse_detection_event(event,f.context);
+        controller.acknowledgeDetection(event.value("event_id").toString());
+        QTRY_VERIFY(!controller.detection().value("events").toList().first().toMap().value("acknowledgement").isNull());
+        QCOMPARE(controller.detection().value("events").toList().first().toMap().value("status").toString(),QString("active"));
         controller.pause(); QTRY_VERIFY(controller.paused());
         const auto paused=controller.eventTime(); QTest::qWait(120); QVERIFY(std::abs(controller.eventTime()-paused)<0.03);
         controller.setRate(2); QTRY_COMPARE(controller.rate(),2.0); controller.resume(); QTRY_VERIFY(!controller.paused());
