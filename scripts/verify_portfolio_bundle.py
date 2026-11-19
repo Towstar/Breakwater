@@ -23,6 +23,15 @@ def validate_live_cli_readiness(summary, provider_configured):
         raise RuntimeError("Packaged live CLI runtime/explicit-override readiness check did not pass.")
 
 
+def validate_observed_ui(summary):
+    required = "actual_python_capture_native_search_advisory_review_and_retention_without_control_application"
+    if (summary.get("check") != "ui_observed_advisory" or summary.get("passed") is not True
+            or summary.get("code") != "ok" or summary.get("phase") != 63
+            or summary.get("hosted_model_requests") != "not_requested"
+            or required not in summary.get("checks", [])):
+        raise RuntimeError("Packaged local publisher/capture/advisory check did not complete.")
+
+
 def verify(bundle, evidence):
     bundle = bundle.resolve(strict=True)
     evidence = evidence.resolve()
@@ -68,6 +77,11 @@ def verify(bundle, evidence):
         app = bundle / "bin/breakwater.exe"
         run("sandbox-render", app, ["--smoke", "--screenshot", evidence / "sandbox.png", "--history-db", evidence / "sandbox.sqlite"])
         run("recorded-ui", app, ["--workspace", "workbench", "--ui-overhaul-check"])
+        # Exercise the real installed stdlib publisher through the desktop, not
+        # the developer Python/SDK or a mocked telemetry source.
+        observed = run("observed-local-ui", app, ["--workspace", "workbench", "--ui-overhaul-check"],
+                       environment=dict(child_env, BREAKWATER_UI_OBSERVED_ONLY="1"))
+        validate_observed_ui(json.loads(observed.stdout))
         for demo in ("operations", "renamed-topology"):
             dataset = bundle / "share/breakwater/examples" / demo
             run(demo + "-render", app, ["--workspace", "eog", "--eog-dataset", dataset, "--smoke",

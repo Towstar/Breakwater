@@ -44,6 +44,28 @@ QJsonArray canonicalSearchAxes() {
 class AgentGatewayTests : public QObject {
     Q_OBJECT
 private slots:
+    void suggestedGridBoundsAndOmissionsDoNotCreateRuns() {
+        auto network=canonical_scenario();
+        for (auto& route:network.routes) if (route.id=="main_pump") { route.available=true; route.setpoint_m3h=44; }
+        SimulationGateway gateway(network,"grid-with-five-controls");
+        const auto before=gateway.snapshot();
+        const auto grid=gateway.execute("get_control_catalog",{}).value("initial_search_grid").toObject();
+        QCOMPARE(grid.value("axes").toArray().size(),4);
+        QCOMPARE(grid.value("omitted_available_control_ids").toArray(),QJsonArray{"source:source_a:curtail"});
+        QVERIFY(grid.value("combinations").toInteger()<=1296);
+        QVERIFY(gateway.runs().isEmpty()); QCOMPARE(gateway.snapshot(),before);
+        Network empty; empty.assets={{"tank","Tank",AssetKind::tank,100,50}};
+        SimulationGateway unchanged(empty,"no-adjustable-controls");
+        const auto unchangedGrid=unchanged.initialSearchGrid();
+        QVERIFY(unchangedGrid.value("axes").toArray().isEmpty());
+        QCOMPARE(unchangedGrid.value("combinations").toInteger(),1);
+        const auto searched=unchanged.execute("search_interventions",args(unchanged,{{"axes",unchangedGrid.value("axes")}}));
+        QVERIFY(searched.value("ok").toBool()); QCOMPARE(searched.value("diagnostics").toObject().value("candidates_evaluated").toInteger(),1);
+        auto malformed=canonical_scenario();
+        for (auto& route:malformed.routes) if (route.id=="backup_pump") route.capacity_m3h=std::numeric_limits<double>::quiet_NaN();
+        SimulationGateway invalid(malformed,"nonfinite-grid-bound");
+        QVERIFY(!invalid.execute("get_control_catalog",{}).value("ok").toBool()); QVERIFY(invalid.runs().isEmpty());
+    }
     void exactRequestedHorizonRejectsTailOverflowInPlanningTools() {
         const double flow = std::ldexp(1.0, 50), horizon = 0.9000000000000001;
         Network network;

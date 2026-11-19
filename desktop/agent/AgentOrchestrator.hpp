@@ -60,7 +60,6 @@ private:
     bool final_correction_ = false;
     int local_step_ = 0;
     int local_observation_step_ = 0;
-    QJsonArray local_catalog_;
     QJsonObject local_last_;
     QString local_baseline_, local_selected_;
     void advanceLocal();

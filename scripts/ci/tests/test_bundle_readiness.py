@@ -10,6 +10,22 @@ spec.loader.exec_module(bundle_check)
 
 
 class BundleReadinessTests(unittest.TestCase):
+    def observed_summary(self):
+        return dict(check="ui_observed_advisory", passed=True, code="ok", phase=63,
+                    hosted_model_requests="not_requested", checks=[
+                        "actual_python_capture_native_search_advisory_review_and_retention_without_control_application"])
+
+    def test_actual_observed_desktop_completion_is_required(self):
+        bundle_check.validate_observed_ui(self.observed_summary())
+        for field, value in (("check", "ui_overhaul"), ("passed", False), ("code", "ui_check_timeout"),
+                             ("phase", 59), ("hosted_model_requests", 1), ("checks", [])):
+            with self.subTest(field=field):
+                summary=self.observed_summary(); summary[field]=value
+                with self.assertRaises(RuntimeError):
+                    bundle_check.validate_observed_ui(summary)
+        with self.assertRaises(RuntimeError):
+            bundle_check.validate_observed_ui({})
+
     def summary(self, configured=True):
         return dict(code="live_not_enabled", exit_code=3, provider_configured=configured,
                     live_enabled=False, archive_written=False, model_requests=0,

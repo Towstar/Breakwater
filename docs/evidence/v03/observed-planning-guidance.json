@@ -1,0 +1,47 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "92119fbb9a7302d569a2044c3144128102307361",
+  "scope": "Optional catalog grid, missing-coverage tool offering and installed publisher verification",
+  "source_files_sha256": {
+    "desktop/agent/AgentOrchestrator.cpp": "d102b77acc05da551f5372c2dc8381e71384a38d6200ce37dab296ea3f480476",
+    "desktop/agent/AgentOrchestrator.hpp": "3b14b0295aa5a0c40cf2c370b865ca2cf1cf2327f93d5c2a299a0090df5c3bc8",
+    "desktop/agent/SimulationGateway.cpp": "ce7cf5a38de5a8462d19d189fcc309c510277c29f91a11cbf3472a6196acf8d7",
+    "desktop/agent/SimulationGateway.hpp": "6c2d5499f69683dda5e209ea920c359a9232841d89d1399acded09b40dc85d30",
+    "desktop/tests/agent_gateway_tests.cpp": "b5e3b7ab1455c0055b674d8cef0cf8d4a95da12af7c71bb2b9861d9f825965e8",
+    "desktop/tests/observed_forecast_tests.cpp": "ffc30e73d0e70c4cb5c8edf3c4948d5ee4bd7f685bb49a33d22080d01cfde857",
+    "scripts/verify_portfolio_bundle.py": "fabd09f177dabae9f88262d18c69ec1c30b82c64c2b7b16c0576206de1e35544",
+    "scripts/ci/tests/test_bundle_readiness.py": "852ae983f139eb498b2b965a4c6695e11eeee5fb831763cfa9166bb9031ec3d5"
+  },
+  "normal_checks": {
+    "gateway_qt_cases_passed": 28,
+    "orchestrator_qt_cases_passed": 34,
+    "observed_forecast_qt_cases_passed": 14,
+    "evidence_v2_qt_cases_passed": 6,
+    "repository_qt_cases_passed": 15,
+    "history_qt_cases_passed": 9,
+    "ci_helper_cases_passed": 44
+  },
+  "normal_logs": [
+    "out/v03/test-observed-planning-guard-normal.log",
+    "out/v03/test-observed-grid-fixture-normal.log",
+    "out/v03/test-observed-planning-ci-ready.log"
+  ],
+  "failure_and_rerun": "The six-suite guard run passed five suites. The malformed-grid fixture incorrectly changed source curtailment, omitted by the four-flow grid. It was corrected to change the included backup-flow bound; the gateway suite then passed all 28 cases. Prior restricted CI-helper invocations lacked PyYAML or the empty ignored .tools fixture root; all 44 passed with the existing bootstrap environment and fixture directory. Logs retained.",
+  "asan_status": "pending final focused run; previous full-suite binaries were built from baseline before this change",
+  "installed_bundle_status": "pending actual packaged execution",
+  "hosted_status": "No new hosted result claimed for this change. Prior 92119fb pump no-plan and missing-coverage zero-run attempts retained.",
+  "limits_unchanged": {
+    "tool_calls": 12,
+    "refinements": 3,
+    "deadline_ms": 120000,
+    "native_search_combinations": 10000
+  },
+  "semantics": [
+    "Reading the optional grid creates no runs or control changes",
+    "Shared local heuristic: at most four available controls, flow first; at most six values including current operation; explicit omissions",
+    "Missing coverage offers four inspection tools; gateway authority checks still reject unadvertised numerical calls",
+    "Model chooses tools and may alter grid; no fixed hosted sequence or automatic fallback",
+    "No approval, application or historical authority changes"
+  ],
+  "self_review": "Reviewed immutable source handling, bounded grid construction, finite input guards, unchanged local heuristic, model-selected order, independent native validation, and coverage denial. Self-review is not Ethan's formal review."
+}

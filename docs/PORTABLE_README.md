@@ -19,7 +19,10 @@ See [the walkthrough](PORTFOLIO_WALKTHROUGH.md) and
 and synthetic; layout supplies no pressure hydraulics or travel times.
 
 Double-click **Verify-Breakwater.cmd** for isolated rendering, real local search,
-independent validation and historical reopening checks. It writes logs and images
+independent validation and historical reopening checks. It also exercises the
+installed stdlib publisher through desktop acquisition, immutable capture,
+native search and advisory acknowledgement, without applying controls or using a
+model key/Torch. It writes logs and images
 to a new sibling verification folder. A clean Windows account/VM remains a
 separate release gate; sanitized developer-process tests do not establish it.
 
