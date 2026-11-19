@@ -27,7 +27,7 @@ public:
     TelemetryStream& operator=(const TelemetryStream&) = delete;
 
     void configure(const QJsonObject& configuration, const QJsonObject& context);
-    void beginEpoch(const QString& mode);
+    void beginEpoch(const QString& mode, bool receiptTimedReplay = false);
     bool ingest(const QByteArray& frame, double nowEventS, double receivedMonotonicS, const QString& receivedUtc);
     void advance(double nowEventS, double receivedMonotonicS);
 

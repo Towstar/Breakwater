@@ -33,6 +33,9 @@ Dialog {
     footer: DialogFooter { owner: panel }
     property string notice: ""
     property string selectedSensorId: ""
+    property string pendingRecordingKind: "journal"
+    readonly property var capturedState: telemetry.observedCapture || ({})
+    readonly property var captureDiagnostics: telemetry.observedCaptureDiagnostics || ({})
     readonly property int renderedNumericSamples: traceChart.visible ? traceChart.numericSampleCount : 0
     readonly property var selectedSensor: {
         for (const row of telemetry.sensors) if (row.sensor_id === selectedSensorId) return row
@@ -59,7 +62,12 @@ Dialog {
     Connections {
         target: panel.telemetry
         function onFailed(code, message) { panel.notice = code + ": " + message }
-        function onRecordingExported(destination) { panel.notice = "Raw G1 frames saved. Replay reconstructs event time; original arrival jitter is not recorded." }
+        function onObservedCaptureFailed(request, code, message) { panel.notice = code + ": " + message }
+        function onRecordingExported(destination) {
+            panel.notice = panel.pendingRecordingKind === "journal"
+                ? "Receiver-timed recording saved. A missing end or interrupted source remains marked as incomplete."
+                : "Raw event frames saved. This format does not retain original arrival timing."
+        }
     }
     FileDialog {
         id: replayDialog
@@ -73,10 +81,15 @@ Dialog {
     }
     FileDialog {
         id: saveDialog
+        property bool legacy: false
         fileMode: FileDialog.SaveFile
         defaultSuffix: "ndjson"
         nameFilters: ["Telemetry recording (*.ndjson)"]
-        onAccepted: panel.telemetry.exportRecording(selectedFile)
+        onAccepted: {
+            panel.pendingRecordingKind = legacy ? "g1" : "journal"
+            if (legacy) panel.telemetry.exportRecording(selectedFile)
+            else panel.telemetry.exportReceiverJournal(selectedFile)
+        }
     }
     contentItem: ScrollView {
         id: scroll
@@ -88,7 +101,7 @@ Dialog {
             spacing: 14
             Label {
                 Layout.fillWidth: true
-                text: "Hypothetical sensors only. Measurements stay separate from design controls. Detection and observation-based forecasts are not connected in this increment."
+                text: "Local synthetic measurements. Acquisition, frozen observations and commanded controls stay separate."
                 wrapMode: Text.Wrap
                 color: Theme.secondary
             }
@@ -98,17 +111,49 @@ Dialog {
                 contentItem: ColumnLayout {
                 spacing: 10
                 Label { text: "INPUT SOURCE"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
+                RowLayout {
+                    Layout.fillWidth: true; visible: panel.telemetry.bundledPublisher; spacing: 10
+                    Label { text: "Preset"; color: Theme.secondary }
+                    AppComboBox {
+                        id: presetChoice; objectName: "syntheticPreset"; Layout.fillWidth: true
+                        model: panel.telemetry.syntheticPresets
+                        displayText: currentText.replace(/_/g, " ")
+                        Accessible.name: "Local synthetic preset"
+                    }
+                    Label { text: "Seed"; color: Theme.secondary }
+                    TextField {
+                        id: seedInput; objectName: "syntheticSeed"; Layout.preferredWidth: 100; text: "1337"
+                        validator: IntValidator { bottom: 0; top: 2147483647 }
+                        selectByMouse: true; Accessible.name: "Local synthetic seed"
+                    }
+                }
                 Flow {
                 Layout.fillWidth: true; spacing: 8
                 ActionButton { text: "Manual"; onClicked: panel.telemetry.manual() }
                 ActionButton {
-                    text: "Start synthetic input"
+                    objectName: "startLocalInput"
+                    text: panel.telemetry.active && panel.telemetry.mode === "synthetic_live" ? "New synthetic epoch" : "Start synthetic input"
                     enabled: panel.telemetry.publisherConfigured && panel.telemetry.configurationHash.length > 0
-                    onClicked: { panel.notice = ""; panel.telemetry.startConfiguredPublisher() }
+                        && (!panel.telemetry.bundledPublisher || seedInput.acceptableInput)
+                    tooltip: "Starts a new local epoch with the chosen seed and preset. Pump loss needs an available pump."
+                    onClicked: {
+                        panel.notice = ""
+                        if (panel.telemetry.bundledPublisher) panel.telemetry.startSynthetic(presetChoice.currentText, Number(seedInput.text))
+                        else panel.telemetry.startConfiguredPublisher()
+                    }
                 }
                 ActionButton { text: "Open replay"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: replayDialog.open() }
                 ActionButton { text: "Historical view"; enabled: panel.telemetry.configurationHash.length > 0; onClicked: historicalDialog.open() }
-                ActionButton { text: "Save recording"; enabled: panel.telemetry.tracePreview.length > 0; onClicked: saveDialog.open() }
+                ActionButton {
+                    objectName: "saveTimedRecording"; text: "Save timed recording"
+                    enabled: panel.telemetry.mode === "synthetic_live" && panel.telemetry.tracePreview.length > 0
+                    onClicked: { saveDialog.legacy = false; saveDialog.open() }
+                }
+                ActionButton {
+                    text: "Export event frames"; enabled: panel.telemetry.tracePreview.length > 0
+                    onClicked: { saveDialog.legacy = true; saveDialog.open() }
+                    tooltip: "Compatibility export. It does not retain original receiver arrival timing."
+                }
                 }
                 }
             }
@@ -121,7 +166,7 @@ Dialog {
             Label {
                 Layout.fillWidth: true
                 visible: !panel.telemetry.publisherConfigured
-                text: "No local plant publisher is configured. A publisher may be supplied separately; recorded synthetic fixtures can be replayed now."
+                text: "Configure local Python to run the seeded plant, or open a recorded synthetic session."
                 wrapMode: Text.Wrap
                 color: Theme.warning
             }
@@ -134,7 +179,9 @@ Dialog {
             Label {
                 Layout.fillWidth: true
                 visible: panel.telemetry.mode === "replay" || panel.telemetry.mode === "historical"
-                text: "Event-time replay; original arrival jitter and receiver freshness classifications are not reconstructed."
+                text: panel.telemetry.snapshot.recording_format === "receiver_journal_v1"
+                    ? "Receiver-timed replay. Arrival delays and freshness follow the recording's playback clock; evidence stays read-only."
+                    : "Event-only replay. Original arrival delays and receiver freshness cannot be reconstructed from this format."
                 color: Theme.warning
                 wrapMode: Text.Wrap
             }
@@ -166,6 +213,46 @@ Dialog {
                 }
                 ActionButton { text: "Stop"; enabled: panel.telemetry.active; onClicked: panel.telemetry.stop() }
             }
+                }
+            }
+            Frame {
+                Layout.fillWidth: true; padding: 12
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                contentItem: ColumnLayout {
+                    spacing: 8
+                    RowLayout {
+                        Layout.fillWidth: true
+                        Label { text: "FROZEN OBSERVATION"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true; Layout.fillWidth: true }
+                        ActionButton {
+                            objectName: "captureObservedState"; text: panel.telemetry.observedCaptureBusy ? "Capturing…" : "Capture state"; iconName: "clipboard-check"
+                            enabled: panel.telemetry.mode !== "manual" && !panel.telemetry.observedCaptureBusy
+                            onClicked: { panel.notice = ""; panel.telemetry.requestObservedCapture() }
+                        }
+                    }
+                    Label {
+                        objectName: "observedCaptureSummary"; Layout.fillWidth: true; wrapMode: Text.Wrap
+                        color: panel.telemetry.observedCaptureDisposition === "available" ? Theme.text : Theme.secondary
+                        text: panel.capturedState.snapshot_id
+                            ? "OBSERVED · " + panel.statusLabel(panel.telemetry.observedCaptureDisposition) + " · captured "
+                                + Number(panel.capturedState.captured_event_time_s).toFixed(2) + " s · expires "
+                                + Number(panel.capturedState.expires_event_time_s).toFixed(2) + " s"
+                            : "Capture an immutable state to check calibration, coverage and measured delivery."
+                    }
+                    Label {
+                        Layout.fillWidth: true; wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize; color: Theme.muted
+                        text: panel.capturedState.snapshot_id
+                            ? (panel.capturedState.samples || []).length + " samples · " + (panel.captureDiagnostics.issues || []).length
+                                + " mapping issues. The design and commanded controls are unchanged."
+                            : "Project → Local monitoring example includes complete volume and pump feedback coverage."
+                    }
+                    Repeater {
+                        model: panel.captureDiagnostics.issues || []
+                        Label {
+                            required property var modelData
+                            Layout.fillWidth: true; wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize; color: Theme.warning
+                            text: panel.statusLabel(modelData.code) + (modelData.attachment_id ? " · " + modelData.attachment_id : "")
+                        }
+                    }
                 }
             }
             Label {
@@ -230,7 +317,7 @@ Dialog {
             }
             Label {
                 Layout.fillWidth: true
-                text: "Finite negative and out-of-range measurements are retained. Replay and historical evidence cannot authorize operating changes. No observation mapper or physical fault diagnosis is supplied here."
+                text: "Negative and out-of-range measurements are retained. Frozen observations and replay cannot authorize operating changes."
                 wrapMode: Text.Wrap
                 color: Theme.secondary
             }

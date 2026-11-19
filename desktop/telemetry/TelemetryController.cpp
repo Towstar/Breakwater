@@ -1,6 +1,8 @@
 #include "TelemetryController.hpp"
 #include "TelemetryContracts.hpp"
+#include "LocalRuntime.hpp"
 #include "TelemetryStream.hpp"
+#include "ReceiverJournal.hpp"
 #include <QDateTime>
 #include <QElapsedTimer>
 #include <QFile>
@@ -77,6 +79,8 @@ public:
         if (retiring_.size() >= 4) { reject("publisher_retiring", "Wait for the previous local publisher to finish terminating."); return; }
         shutdownInput();
         error_.clear(); mode_ = "synthetic_live"; status_ = "starting";
+        journal_.reset(configuration_hash_,configuration_.value("physical_hash").toString());
+        journal_started_ = false; recording_format_ = "receiver_journal_v1";
         stream_.configure(configuration_, context_); stream_.beginEpoch(mode_);
         auto* configurationFile = new QTemporaryFile(this);
         const auto configurationBytes = bytes(configuration_);
@@ -84,6 +88,14 @@ public:
             configurationFile->deleteLater(); fail("configuration_file", "Cannot create the local publisher configuration."); return;
         }
         configuration_file_ = configurationFile;
+        auto* contextFile = new QTemporaryFile(this);
+        // Only model inputs reach the independent generator, never hidden truth,
+        // operating permissions, credentials or mutable editor/layout objects.
+        const auto contextBytes = bytes({{"network",context_.value("network")},{"physical_hash",context_.value("physical_hash")}});
+        if (!contextFile->open() || contextFile->write(contextBytes) != contextBytes.size() || !contextFile->flush()) {
+            contextFile->deleteLater(); fail("configuration_file","Cannot create the local publisher model context."); return;
+        }
+        context_file_ = contextFile;
         executable_ = executable; arguments_ = arguments;
         process_ = new QProcess(this);
         auto* process = process_;
@@ -96,7 +108,10 @@ public:
             if (!value.isEmpty()) environment.insert(QString::fromLatin1(name), value);
         }
         environment.insert("PYTHONUNBUFFERED", "1");
+        environment.insert("PYTHONNOUSERSITE", "1");
+        environment.insert("PYTHONDONTWRITEBYTECODE", "1");
         environment.insert("BREAKWATER_TELEMETRY_CONFIGURATION_FILE", configurationFile->fileName());
+        environment.insert("BREAKWATER_TELEMETRY_CONTEXT_FILE", contextFile->fileName());
         environment.insert("BREAKWATER_TELEMETRY_CONFIGURATION_HASH", configuration_hash_);
         environment.insert("BREAKWATER_TELEMETRY_PHYSICAL_HASH", configuration_.value("physical_hash").toString());
         process->setProcessEnvironment(environment);
@@ -134,10 +149,16 @@ public:
         if (!candidate->open(QIODevice::ReadOnly) || candidate->size() <= 0 || candidate->size() > recordingLimit) {
             reject("recording_open", "Cannot open recording, or its size exceeds 32 MiB."); return;
         }
-        QJsonObject first;
+        QJsonObject first; bool timed=false; JournalReceipt initialReceipt;
         try {
-            const auto line = candidate->readLine(frameLimit + 1);
-            first = decode_document(line, frameLimit);
+            const auto line = candidate->readLine(journalLineLimit + 1);
+            first = decode_document(line, journalLineLimit);
+            timed = first.value("kind") == "receiver_journal";
+            if (timed) {
+                validate_journal_header(first,configuration_hash_,configuration_.value("physical_hash").toString());
+                initialReceipt = parse_journal_receipt(decode_document(candidate->readLine(journalLineLimit+1),journalLineLimit));
+                first = decode_document(initialReceipt.frame,frameLimit);
+            } else if (line.size()>frameLimit) throw std::invalid_argument("Legacy frame exceeds its bound.");
             validate_document(first, "stream_frame", context_);
             if (first.value("type").toString() != "start" || first.value("configuration_hash").toString() != configuration_hash_ ||
                 first.value("physical_hash") != configuration_.value("physical_hash"))
@@ -146,14 +167,18 @@ public:
         // The registered start is checked before replacing the current stream.
         shutdownInput();
         replay_ = std::move(candidate); replay_url_ = url; historical_ = historical;
+        journal_replay_ = timed; previous_receipt_ = initialReceipt; next_receipt_ = {};
+        replay_bytes_ = replay_->size(); replay_footer_ = {};
+        first_receipt_monotonic_ = initialReceipt.monotonic_s; base_arrival_ = 0;
+        recording_format_ = timed ? "receiver_journal_v1" : "g1_event_only";
         source_stream_ = first.value("stream_id").toString(); source_epoch_ = first.value("epoch_id").toString();
         replay_stream_ = freshId("replay-"); replay_epoch_ = freshId("epoch-");
         mode_ = historical ? "historical" : "replay"; status_ = "replaying"; error_.clear();
-        stream_.configure(configuration_, context_); stream_.beginEpoch(mode_);
-        base_event_ = first.value("event_time_s").toDouble(); base_monotonic_ = monotonicS();
+        stream_.configure(configuration_, context_); stream_.beginEpoch(mode_,timed);
+        base_event_ = timed ? initialReceipt.event_s : first.value("event_time_s").toDouble(); base_monotonic_ = monotonicS();
         rate_ = 1; paused_ = false; active_ = true; started_ = true;
         first = rekey(first);
-        if (!acceptCore(first, bytes(first))) return;
+        if (!acceptCore(first, bytes(first),timed ? &initialReceipt : nullptr)) return;
         readReplayNext();
     }
     void command(const QString& operation, double rate = 1) {
@@ -200,6 +225,18 @@ public:
             emit exported(destination);
         } catch (const std::exception& exception) { reject("recording_export", QString::fromUtf8(exception.what())); }
     }
+    void exportReceiverJournal(const QUrl& destination) {
+        if (!destination.isLocalFile() || mode_!="synthetic_live" || !journal_started_) {
+            reject("recording_path","A received local synthetic epoch and local output file are required for a timed journal."); return;
+        }
+        try {
+            const auto data=journal_.exportBytes(journalComplete(),!error_.isEmpty());
+            QSaveFile file(destination.toLocalFile());
+            if (!file.open(QIODevice::WriteOnly) || file.write(data)!=data.size() || !file.commit())
+                throw std::invalid_argument("Cannot atomically save the bounded receiver journal.");
+            emit exported(destination);
+        } catch (const std::exception& error) { reject("recording_export",QString::fromUtf8(error.what())); }
+    }
     void captureObserved(const QString& request, const QJsonObject& registry, const QJsonArray& commands,
                          quint64 revision, const QString& expectedStream, const QString& expectedEpoch, quint64 requestGeneration) {
         try {
@@ -208,7 +245,7 @@ public:
                 stream_.streamId() != expectedStream || stream_.epochId() != expectedEpoch)
                 throw std::invalid_argument("The requested acquisition epoch is no longer current.");
             // One receiver-clock instant, on the same thread as accepted input.
-            const auto event = nowEvent(), received = monotonicS();
+            const auto event = nowEvent(), received = receiverMonotonic();
             stream_.advance(event, received);
             const auto serial = source_serial_->load();
             const auto capture = stream_.captureObserved(registry, commands, revision, request);
@@ -222,6 +259,12 @@ public:
         report["mode"] = mode_; report["active"] = active_; report["paused"] = paused_;
         report["clock_rate"] = rate_; report["event_time_s"] = nowEvent();
         report["configuration_hash"] = configuration_hash_;
+        report["recording_format"] = recording_format_;
+        report["journal_bytes"] = journal_replay_ ? replay_bytes_ : journal_.size();
+        report["journal_truncated"] = journal_replay_ ? replay_footer_.value("truncated").toBool() : journal_.truncated();
+        report["journal_complete"] = journal_replay_ ? replay_footer_.value("complete").toBool() : journalComplete();
+        report["journal_termination"] = journal_replay_ ? replay_footer_.value("termination").toString("prefix") :
+            journal_.truncated() ? "size_limit" : !error_.isEmpty() ? "source_fault" : journalComplete() ? "received_end" : "prefix";
         if (!active_) report["source_available"] = false;
         auto rows = report.value("sensors").toArray();
         QHash<QString, QString> labels;
@@ -236,6 +279,7 @@ public:
         report["sensors"] = rows;
         // Local playback pause is not a heartbeat and cannot hide source loss.
         if (active_ && paused_ && report.value("status").toString() == "running") report["status"] = "paused";
+        if (active_ && (mode_=="replay" || mode_=="historical")) report["status"] = paused_ ? "paused" : "replaying";
         if (!status_.isEmpty()) report["lifecycle_status"] = status_;
         if (!error_.isEmpty()) { report["error"] = error_; report["status"] = "fault"; }
         else if (!active_ || !started_ || !report.contains("status")) report["status"] = status_;
@@ -255,6 +299,7 @@ signals:
     void shutdownReady();
 private:
     TelemetryStream stream_;
+    ReceiverJournal journal_;
     std::shared_ptr<std::atomic<quint64>> source_serial_;
     QJsonObject configuration_, context_;
     QString configuration_hash_, mode_ = "manual", status_ = "unconfigured", error_;
@@ -262,13 +307,19 @@ private:
     QTimer* tick_;
     QProcess* process_ = nullptr;
     QTemporaryFile* configuration_file_ = nullptr;
+    QTemporaryFile* context_file_ = nullptr;
     std::unique_ptr<QFile> replay_;
     QJsonObject next_replay_;
+    JournalReceipt previous_receipt_,next_receipt_;
     QUrl replay_url_;
     QString executable_, source_stream_, source_epoch_, replay_stream_, replay_epoch_;
     QStringList arguments_;
+    QString recording_format_ = "g1_event_only";
+    QJsonObject replay_footer_;
+    qint64 replay_bytes_ = 0;
     QString pending_request_, pending_operation_;
     double pending_deadline_ = 0, exit_deadline_ = 0, pending_rate_ = 1, base_event_ = 0, base_monotonic_ = 0, rate_ = 1;
+    double first_receipt_monotonic_ = 0,base_arrival_ = 0;
     QByteArray buffer_;
     QMap<quint64, QByteArray> acknowledged_;
     QSet<QProcess*> retiring_;
@@ -277,9 +328,24 @@ private:
     int timeout_ms_ = 5000;
     bool active_ = false, started_ = false, starting_ = false, paused_ = false, received_end_ = false;
     bool historical_ = false, awaiting_restart_ = false, read_scheduled_ = false, shutting_down_ = false;
+    bool journal_replay_ = false,journal_started_ = false;
     double monotonicS() const { return monotonic_.isValid() ? monotonic_.nsecsElapsed() / 1e9 : 0; }
-    double nowEvent() const { return base_event_ + (active_ && started_ && !paused_ && !historical_ ? std::max(0.0, monotonicS() - base_monotonic_) * rate_ : 0.0); }
-    void freezeClock() { base_event_ = nowEvent(); base_monotonic_ = monotonicS(); }
+    double elapsedPlayback() const { return active_ && started_ && !paused_ && !historical_ ? std::max(0.0,monotonicS()-base_monotonic_)*rate_ : 0; }
+    double arrivalTime() const { return base_arrival_+elapsedPlayback(); }
+    double nowEvent() const {
+        if (!journal_replay_) return base_event_+elapsedPlayback();
+        if (next_receipt_.frame.isEmpty()) return previous_receipt_.event_s;
+        const auto span=next_receipt_.monotonic_s-previous_receipt_.monotonic_s;
+        const auto fraction=span>0 ? std::clamp((first_receipt_monotonic_+arrivalTime()-previous_receipt_.monotonic_s)/span,0.0,1.0) : 1.0;
+        return std::lerp(previous_receipt_.event_s,next_receipt_.event_s,fraction);
+    }
+    double receiverMonotonic() const {
+        if (!journal_replay_) return monotonicS();
+        return next_receipt_.frame.isEmpty() ? previous_receipt_.monotonic_s :
+            std::clamp(first_receipt_monotonic_+arrivalTime(),previous_receipt_.monotonic_s,next_receipt_.monotonic_s);
+    }
+    void freezeClock() { const auto event=nowEvent(),arrival=arrivalTime(); base_event_=event; base_arrival_=arrival; base_monotonic_=monotonicS(); }
+    bool journalComplete() const { return mode_=="synthetic_live" && journal_started_ && received_end_ && !process_ && error_.isEmpty() && !journal_.truncated(); }
     void retiredFinished(QProcess* process) {
         if (!retiring_.remove(process)) return;
         process->deleteLater();
@@ -300,6 +366,7 @@ private:
             }
         }
         if (configuration_file_) { configuration_file_->deleteLater(); configuration_file_ = nullptr; }
+        if (context_file_) { context_file_->deleteLater(); context_file_ = nullptr; }
     }
     void shutdownInput() {
         freezeClock(); ++generation_; source_serial_->fetch_add(1); disposeProcess(); replay_.reset(); next_replay_ = {};
@@ -308,13 +375,16 @@ private:
         pending_operation_.clear(); stderr_bytes_ = 0;
         acknowledged_.clear(); exit_deadline_ = 0;
         historical_ = false;
+        journal_replay_ = false; previous_receipt_ = {}; next_receipt_ = {}; base_arrival_=0;
+        replay_footer_ = {}; replay_bytes_ = 0;
     }
     void reject(const QString& code, const QString& message) { emit rejected(code, message); }
     void fail(const QString& code, const QString& message) {
         shutdownInput(); status_ = "fault"; error_ = code + ": " + message; emit rejected(code, message);
     }
-    bool acceptCore(const QJsonObject&, const QByteArray& line) {
-        if (!stream_.ingest(line, nowEvent(), monotonicS(), QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs))) {
+    bool acceptCore(const QJsonObject&, const QByteArray& line,const JournalReceipt* receipt=nullptr) {
+        if (!stream_.ingest(line,receipt ? receipt->event_s : nowEvent(),receipt ? receipt->monotonic_s : receiverMonotonic(),
+                            receipt ? receipt->utc : QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs))) {
             const auto report = stream_.report();
             const auto reason = report.value("error_code").toString() + ": " + report.value("error_message").toString();
             fail("stream_fault", reason); return false;
@@ -336,6 +406,10 @@ private:
         catch (const std::exception& exception) { fail("frame_invalid", QString::fromUtf8(exception.what())); return false; }
         const auto type = frame.value("type").toString();
         const auto payload = frame.value("payload").toObject();
+        const bool newStart = type=="start" && (!started_ || (awaiting_restart_ && frame.value("epoch_id").toString()!=stream_.epochId() && frame.value("stream_id").toString()==stream_.streamId()));
+        if (newStart && awaiting_restart_) journal_.reset(configuration_hash_,configuration_.value("physical_hash").toString());
+        journal_.append({line,monotonicS(),newStart ? frame.value("event_time_s").toDouble() : nowEvent(),QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs)});
+        if (newStart) journal_started_=true;
         if (type == "start") {
             // Duplicate starts and old/unauthorized epochs go through the same
             // bounded identity policy without resetting the receiver clock.
@@ -410,11 +484,12 @@ private:
         }
     }
     QJsonObject rekey(QJsonObject frame) const {
+        const bool primary=frame.value("stream_id").toString()==source_stream_ && frame.value("epoch_id").toString()==source_epoch_;
+        if (!primary) return frame;
         frame["stream_id"] = replay_stream_; frame["epoch_id"] = replay_epoch_;
         const auto type = frame.value("type").toString();
         if (type == "start" || type == "heartbeat" || type == "ack") {
             auto payload = frame.value("payload").toObject();
-            payload["paused"] = paused_; payload["clock_rate"] = rate_;
             if (type == "start") payload["mode"] = "replay";
             frame["payload"] = payload;
         }
@@ -425,34 +500,50 @@ private:
         if (replay_->size() > recordingLimit || replay_->pos() > recordingLimit) { fail("recording_size", "The replay file grew beyond its 32 MiB limit."); return; }
         if (replay_->atEnd()) { finishReplay(); return; }
         try {
-            const auto line = replay_->readLine(frameLimit + 1);
-            next_replay_ = decode_document(line, frameLimit);
+            const auto limit=journal_replay_ ? journalLineLimit : frameLimit;
+            const auto line = replay_->readLine(limit + 1);
+            auto document = decode_document(line, limit);
+            if (journal_replay_ && document.value("type")=="journal_end") {
+                validate_journal_end(document);
+                if (!replay_->atEnd() || (document.value("complete").toBool() && !received_end_))
+                    throw std::invalid_argument("The journal completion footer conflicts with received evidence.");
+                replay_footer_ = document;
+                finishReplay(document.value("complete").toBool()); return;
+            }
+            if (journal_replay_) {
+                next_receipt_=parse_journal_receipt(document);
+                if (next_receipt_.monotonic_s<previous_receipt_.monotonic_s || next_receipt_.event_s<previous_receipt_.event_s)
+                    throw std::invalid_argument("Receiver journal clocks moved backwards.");
+                document=decode_document(next_receipt_.frame,frameLimit);
+            }
+            next_replay_ = document;
             validate_document(next_replay_, "stream_frame", context_);
-            if (next_replay_.value("stream_id").toString() != source_stream_ || next_replay_.value("epoch_id").toString() != source_epoch_ ||
-                next_replay_.value("type").toString() == "start") throw std::invalid_argument("Recording must contain one complete stream epoch.");
+            if (!journal_replay_ && (next_replay_.value("stream_id").toString() != source_stream_ || next_replay_.value("epoch_id").toString() != source_epoch_ ||
+                next_replay_.value("type").toString() == "start")) throw std::invalid_argument("Recording must contain one complete stream epoch.");
         } catch (const std::exception& exception) { fail("recording_invalid", QString::fromUtf8(exception.what())); }
     }
-    void finishReplay() { freezeClock(); source_serial_->fetch_add(1); active_ = false; replay_.reset(); next_replay_ = {}; status_ = received_end_ ? "replay_finished" : "replay_prefix_finished"; }
+    void finishReplay(bool declaredComplete=false) { freezeClock(); source_serial_->fetch_add(1); active_ = false; replay_.reset(); next_replay_ = {}; next_receipt_={}; status_ = (journal_replay_ ? declaredComplete : received_end_) ? "replay_finished" : "replay_prefix_finished"; }
     void tick() {
         const double mono = monotonicS();
         if ((starting_ || !pending_request_.isEmpty()) && mono > pending_deadline_) { fail("request_timeout", "Publisher start or lifecycle acknowledgement timed out."); return; }
         if (process_ && received_end_ && !active_ && mono > exit_deadline_) { fail("process_end_timeout", "Publisher did not exit after its end frame."); return; }
         if (replay_ && active_ && !paused_) {
             for (int budget = 0; budget < 16 && replay_ && !next_replay_.isEmpty(); ++budget) {
-                const double target = next_replay_.value("event_time_s").toDouble();
-                if (!historical_ && target > nowEvent()) break;
-                if (historical_) { base_event_ = std::max(base_event_, target); base_monotonic_ = mono; }
+                const double target = journal_replay_ ? next_receipt_.monotonic_s-first_receipt_monotonic_ : next_replay_.value("event_time_s").toDouble();
+                if (!historical_ && target > (journal_replay_ ? arrivalTime() : nowEvent())) break;
+                if (historical_) { if (journal_replay_) base_arrival_=target; else base_event_ = std::max(base_event_, target); base_monotonic_ = mono; }
                 const auto frame = rekey(next_replay_); next_replay_ = {};
-                if (!acceptCore(frame, bytes(frame))) return;
-                const bool end = frame.value("type").toString() == "end";
+                if (!acceptCore(frame, bytes(frame),journal_replay_ ? &next_receipt_ : nullptr)) return;
+                if (journal_replay_) { previous_receipt_=next_receipt_; next_receipt_={}; }
+                const bool end = frame.value("type").toString() == "end" && stream_.report().value("ended").toBool();
                 if (end) received_end_ = true;
-                if (end && !replay_->atEnd()) { fail("recording_after_end", "Recording contains data after its end frame."); return; }
+                if (!journal_replay_ && end && !replay_->atEnd()) { fail("recording_after_end", "Recording contains data after its end frame."); return; }
                 readReplayNext();
             }
         }
         // Replay may ingest several frames during this tick. Use a new receive
         // timestamp after that work, never the older tick-start timestamp.
-        if (started_) stream_.advance(nowEvent(), monotonicS());
+        if (started_) stream_.advance(nowEvent(), receiverMonotonic());
         if (stream_.faulted() && error_.isEmpty()) fail("stream_fault", stream_.report().value("error_message").toString());
     }
 };
@@ -471,6 +562,23 @@ TelemetryController::TelemetryController(QObject* parent) : QObject(parent) {
         }
     }
     publisher_configured_ = valid && QFileInfo(publisher_executable_).isAbsolute() && QFileInfo(publisher_executable_).isFile();
+    // Preserve every explicit override, including an invalid one. A deployed
+    // bundle never falls back to a developer checkout outside its own bin tree.
+    if (publisher_executable_.isEmpty() && arguments.isEmpty()) {
+        runtime::configureBundledPython();
+        const auto python = qEnvironmentVariable("BREAKWATER_PYTHON").trimmed();
+        auto script = QDir(QCoreApplication::applicationDirPath()).absoluteFilePath("../share/breakwater/science/telemetry_publisher.py");
+#if defined(BREAKWATER_TELEMETRY_PUBLISHER_PATH) && defined(BREAKWATER_TELEMETRY_DEVELOPMENT_BIN)
+        const auto actual = QFileInfo(QCoreApplication::applicationDirPath()).canonicalFilePath();
+        const auto development = QFileInfo(QString::fromUtf8(BREAKWATER_TELEMETRY_DEVELOPMENT_BIN)).canonicalFilePath();
+        if (!QFileInfo(script).isFile() && !development.isEmpty() && actual.compare(development,Qt::CaseInsensitive)==0)
+            script = QString::fromUtf8(BREAKWATER_TELEMETRY_PUBLISHER_PATH);
+#endif
+        if (QFileInfo(python).isAbsolute() && QFileInfo(python).isFile() && QFileInfo(script).isFile()) {
+            publisher_executable_ = python; publisher_arguments_ = {"-B",script};
+            publisher_configured_ = bundled_publisher_ = true;
+        }
+    }
     worker_ = new TelemetryIoWorker(source_serial_);
     worker_->moveToThread(&thread_);
     connect(&thread_, &QThread::started, worker_, &TelemetryIoWorker::initialize);
@@ -537,8 +645,19 @@ void TelemetryController::setTimeoutMs(int milliseconds) {
     QMetaObject::invokeMethod(worker_, [worker = worker_, milliseconds] { worker->setTimeout(milliseconds); }, Qt::QueuedConnection);
 }
 void TelemetryController::startConfiguredPublisher() {
-    if (!publisher_configured_) { emit failed("publisher_unavailable", "No local synthetic publisher is configured. Person A's plant publisher has not been supplied by this increment."); return; }
+    if (!publisher_configured_) { emit failed("publisher_unavailable", "Configure a local Python executable or a separate G1 synthetic publisher."); return; }
+    if (bundled_publisher_) { startSynthetic("healthy",1337); return; }
     startProcess(publisher_executable_, publisher_arguments_);
+}
+QStringList TelemetryController::syntheticPresets() const {
+    return {"healthy","pump_loss","unmetered_loss","drift","stuck","missing","delayed","reordered","mixed"};
+}
+void TelemetryController::startSynthetic(const QString& preset,quint32 seed) {
+    if (!bundled_publisher_ || !publisher_configured_) { emit failed("publisher_unavailable","The bundled local publisher needs a configured Python executable."); return; }
+    if (!syntheticPresets().contains(preset)) { emit failed("preset_invalid","Choose a supported local synthetic preset."); return; }
+    auto arguments = publisher_arguments_;
+    arguments.append({"--preset",preset,"--seed",QString::number(seed)});
+    startProcess(publisher_executable_,arguments);
 }
 void TelemetryController::manual() { retireObserved("manual_mode"); QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->manual(); }, Qt::QueuedConnection); }
 void TelemetryController::startReplay(const QUrl& recording) {
@@ -556,6 +675,9 @@ void TelemetryController::restart() { retireObserved("epoch_restart"); QMetaObje
 void TelemetryController::stop() { retireObserved("source_stopped"); QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->command("stop"); }, Qt::QueuedConnection); }
 void TelemetryController::exportRecording(const QUrl& destination) {
     QMetaObject::invokeMethod(worker_, [worker = worker_, destination] { worker->exportRecording(destination); }, Qt::QueuedConnection);
+}
+void TelemetryController::exportReceiverJournal(const QUrl& destination) {
+    QMetaObject::invokeMethod(worker_,[worker=worker_,destination] { worker->exportReceiverJournal(destination); },Qt::QueuedConnection);
 }
 QVariantMap TelemetryController::observedCapture() const { return observed_ ? observed_->document.toVariantMap() : QVariantMap{}; }
 QVariantMap TelemetryController::observedCaptureDiagnostics() const { return observed_ ? observed_->diagnostics.toVariantMap() : QVariantMap{}; }
@@ -588,6 +710,9 @@ bool TelemetryController::setObservedCaptureContext(const QJsonObject& registry,
     observed_context_hash_ = identity; observed_context_set_ = true;
     if (!observed_ && !observed_pending_) observed_disposition_ = "ready";
     emit observedCaptureChanged(); return true;
+}
+void TelemetryController::clearObservedCaptureContext() {
+    observed_context_set_=false; observed_registry_={}; observed_commands_={}; retireObserved("project_context_unavailable");
 }
 QString TelemetryController::requestObservedCapture() {
     if (observed_pending_ || !observed_context_set_) {

@@ -23,6 +23,7 @@
 #include <QJsonArray>
 #include <QJsonDocument>
 #include <QSaveFile>
+#include <limits>
 #include <QQmlApplicationEngine>
 #include <QQuickStyle>
 #include <QQuickWindow>
@@ -180,11 +181,23 @@ int main(int argc, char** argv) {
     QObject::connect(&telemetry, &breakwater::desktop::telemetry::TelemetryController::failed, &app,
         [&](const QString&, const QString&) { if (!startupTelemetryReplay.isEmpty()) app.exit(9); });
     QJsonObject telemetryConfiguration;
+    quint64 telemetryRevision=std::numeric_limits<quint64>::max();
     const auto configureTelemetry = [&] {
         const auto configuration = controller.sensorConfiguration();
-        if (configuration == telemetryConfiguration) return;
-        telemetryConfiguration = configuration;
-        telemetry.configure(configuration, controller.sensorContext());
+        if (configuration == telemetryConfiguration && telemetryRevision==controller.simulationRevision()) return;
+        if (configuration != telemetryConfiguration) {
+            telemetryConfiguration=configuration; telemetry.configure(configuration,controller.sensorContext());
+        }
+        telemetryRevision=controller.simulationRevision();
+        if (!configuration.value("sensors").toArray().isEmpty() && controller.draftIssues().isEmpty()) {
+          try {
+            auto registry=controller.sensorContext(); registry["configuration"]=configuration;
+            QJsonArray commands;
+            for (const auto& control:breakwater::control_catalog(breakwater::desktop::parse_project(controller.document()).network))
+                commands.append(QJsonObject{{"control_id",QString::fromStdString(control.id)},{"value",control.value},{"unit",QString::fromStdString(control.unit)}});
+            telemetry.setObservedCaptureContext(registry,controller.simulationRevision(),commands);
+          } catch (const std::exception&) { telemetry.clearObservedCaptureContext(); }
+        } else telemetry.clearObservedCaptureContext();
     };
     QObject::connect(&controller, &breakwater::desktop::ProjectController::sensorConfigurationChanged, &telemetry, configureTelemetry);
     QObject::connect(&controller, &breakwater::desktop::ProjectController::changed, &telemetry, configureTelemetry);

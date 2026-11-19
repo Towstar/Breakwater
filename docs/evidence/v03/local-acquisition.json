@@ -1,0 +1,77 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "cf7b1e3db72ab8adf3d547745d7883d81d0c1380",
+  "recorded_utc": "2026-11-19T04:11:35.8667971Z",
+  "source_sha256": {
+    "desktop/CMakeLists.txt": "5da9e4785f8ae0572c7630027591fbefb94effdad4505f88fc205fca182654bf",
+    "desktop/ProjectController.cpp": "ac1430ca605c743de0c612c1b342ec93a2ee94f8e4591089c29c2de99564d53b",
+    "desktop/main.cpp": "765bd04a7f70f80e04aff008963855aee683f4b65ee7e32485a43ae68a16d656",
+    "desktop/qml/Main.qml": "e3d5648ab2db35753d70b725d6ba633c8e6c3a08b65842cef5371926272c85f6",
+    "desktop/qml/TelemetryPanel.qml": "f975151fecaf93c42bf117e8f4f36731874a2c4ce285e4cb44b893d8cfe4127f",
+    "desktop/telemetry/SensorProject.cpp": "37ed5898e06ec602e1c2d021890f21425aab347fc68be0b09a081ddd92de9610",
+    "desktop/telemetry/SensorProject.hpp": "3f3ecf9eaf9c292a7610e6e6c1664d73f80d651a5340c7d555fc2fccdda4e6ce",
+    "desktop/telemetry/TelemetryController.cpp": "4e446503a00d1c54c0bb6f7f13b19b5e6235bf036096a90f750d51c662f1c5c3",
+    "desktop/telemetry/TelemetryController.hpp": "c9643d5b43ad32f4a254f5d18c814b7dd6cd313c93af0bc270b01850d111d480",
+    "desktop/telemetry/TelemetryStream.cpp": "90d3c0319ae3c2e72d65a4e62317a415119a85d975356c94e37b15fbd9b5b4dc",
+    "desktop/telemetry/TelemetryStream.hpp": "0f98a291caef1ead192e35a0fd49d7bf79e51d2ceab444b2a38acbebb47c1771",
+    "desktop/verification/WorkbenchUiCheck.cpp": "cc0041d9c25660889b3b8e5c1d1fc758e40ba91445b2a921be513a0dfff0dabd",
+    "docs/NEXT_RELEASE.md": "2e78e021c469f7a4f5341b971afd6b3da7354e7ad2242a2ee179d92a1b63678f",
+    "docs/STATUS.md": "ec6d08352df50c0e7cbd7a61ef5f394a820f78c108666b878f830f44086b4573",
+    "desktop/telemetry/ReceiverJournal.cpp": "d2c4b3a312803b44dea9ebc0aad4bc298f1b8714ec0da64f3d27609bc7c871a6",
+    "desktop/telemetry/ReceiverJournal.hpp": "429d5ba55efe1a5f2426073b9972f14ab255679c151a4e1545b8f8dab7dede2d",
+    "desktop/tests/local_publisher_tests.cpp": "f0641d845ca3c8de9c9d479d4332f0de9e2e9d8f57d0f5b88d9f7a0bc2632cdc",
+    "desktop/tests/receiver_journal_tests.cpp": "44d98720521b3d62244521131bece3f1ef1d919ef76f389785f414a08b1c7f0d",
+    "science/local_plant.py": "c3ab23883fc7ca41822793faf835e361965e3753836c8e78f97db79e35a121e8",
+    "science/telemetry_publisher.py": "2c8e6335ab256c4ae0915cbbb1b8f80fdf36a1142a7ab56d56d8866677cfe2ef",
+    "science/tests/test_local_plant.py": "bffd7350e9785f4fa128979fbcc8de7d836b04a152017d3e9212bbb72549d532",
+    "docs/LOCAL_MONITORING.md": "e17436ecc4410773508c0d7757cc53ed1b4e4860d3194fc5462782f051e08da1"
+  },
+  "checks": {
+    "normal": {
+      "receiver_journal": 13,
+      "sensor_editor": 17,
+      "ui_window_sizes": 4,
+      "telemetry_lifecycle": 27,
+      "local_publisher": 5,
+      "observed_capture": 9
+    },
+    "asan": {
+      "receiver_journal": 13,
+      "sensor_editor": 17,
+      "ui_window_sizes": 4,
+      "telemetry_lifecycle": 27,
+      "local_publisher": 5,
+      "observed_capture": 9
+    },
+    "python_stdlib_tests": 10
+  },
+  "primary_logs": [
+    "out/v03/test-acquisition-ui-normal.log",
+    "out/v03/test-acquisition-asan.log",
+    "out/v03/test-acquisition-ui-asan.log",
+    "out/v03/test-journal-final-portfolio-desktop.log",
+    "out/v03/test-journal-final-portfolio-desktop-asan.log",
+    "out/v03/test-local-plant-final.log"
+  ],
+  "initial_failure": {
+    "reproduction": "out/v03/publisher-stop-repro.py",
+    "symptom": "Child sent end but aborted in CPython shutdown while daemon BufferedReader held stdin lock",
+    "fix": "Bounded os.read command reader; regression retains parent stdin open until normal child exit",
+    "retained_failed_runs": [
+      "out/v03/test-acquisition-ui-normal.log",
+      "out/v03/test-acquisition-asan.log"
+    ]
+  },
+  "live_ui": {
+    "result": "Actual local stream, 10-sample available capture, zero mapping issues, no control edit",
+    "binary_source": "cf7b1e3-dirty acquisition implementation",
+    "older_instance": "ad45d45 closed after latest verification"
+  },
+  "hosted_requests": "not_run",
+  "ci": {
+    "pr69": "success, run 44451797057",
+    "pr68": "success, run 44449607336"
+  },
+  "scope": "Acquisition, receiver-timed replay and immutable mapping/capture UI. No ongoing detector, observed forecast or observed approval yet.",
+  "self_review": "Reviewed receipt scheduling, completion claims, bounds, clock domains, source retirement, child environment and immutable command separation. Not formal owner review."
+}

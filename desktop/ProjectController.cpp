@@ -83,17 +83,9 @@ void ProjectController::selectSensor(const QString& id) {
 }
 bool ProjectController::addSensor(const QString& quantity, const QString& attachmentId, const QVariantMap& fields) {
     const auto id = QString::fromStdString(fresh_id("sensor_"));
-    const QMap<QString, QString> units{{"inventory", "m3"}, {"level", "m"}, {"source_flow", "m3/h"},
-        {"route_flow", "m3/h"}, {"pump_state", "state"}, {"concentration", "mg/L"},
-        {"pressure", "kPa"}, {"temperature", "degC"}, {"custom_numeric", "custom"}};
-    if (!units.contains(quantity)) { summary_ = "Choose a supported sensor quantity."; emit changed(); return false; }
-    const auto kind = (quantity == "route_flow" || quantity == "pump_state" || quantity == "concentration") ? "route" : "asset";
-    QJsonObject sensor{{"sensor_id", id}, {"label", quantity + " " + attachmentId}, {"quantity", quantity}, {"unit", units.value(quantity)},
-        {"source_id", "synthetic-publisher"}, {"channel_id", id}, {"attachment", QJsonObject{{"kind", kind}, {"id", attachmentId}}},
-        {"enabled", true}, {"expected_period_s", 1.0}, {"max_age_s", 5.0}, {"uncertainty_bound", 0.0},
-        {"group_id", id}, {"role", "primary"},
-        {"physical_support", QJsonObject{{"kind", "none"}, {"acquisition_window_s", 0.0}, {"delay_s", 0.0}}},
-        {"calibration", QJsonObject{{"calibration_id", id}, {"version", 1}, {"kind", "identity"}, {"error_bound", 0.0}}}};
+    QJsonObject sensor;
+    try { sensor=telemetry::new_sensor_definition(quantity,attachmentId,id); }
+    catch (const std::exception& error) { summary_=QString::fromUtf8(error.what()); emit changed(); return false; }
     const auto patch = QJsonObject::fromVariantMap(fields);
     for (auto it = patch.begin(); it != patch.end(); ++it) sensor[it.key()] = it.value();
     sensor["sensor_id"] = id;
@@ -584,8 +576,22 @@ void ProjectController::loadExample(const QString& name) {
         // Presets change operating conditions, not declared pipe measurement geometry.
         for (auto it = project_.pipe_parameters.cbegin(); it != project_.pipe_parameters.cend(); ++it)
             for (const auto& route : p.network.routes) if (q(route.id) == it.key()) p.pipe_parameters[it.key()] = it.value();
-        if (name != "healthy") p.network = compile(main_pump_failure(p.network), incident_controls(name.toStdString())).network;
-        edit([&] { project_ = p; selected_id_.clear(); }); emit cameraChanged();
+        QJsonObject monitoring,markers;
+        if (name=="monitoring") {
+            // A declared example with instrument-noise margin, rather than
+            // silently clipping readings at the design's exact throughput limits.
+            p.network.routes[0].capacity_m3h=60; p.network.routes[1].capacity_m3h=25;
+            for (auto& asset:p.network.assets) if (asset.kind==AssetKind::treatment) asset.capacity_m3=70;
+            monitoring=telemetry::volume_sensor_configuration(p);
+            for (const auto& value:monitoring.value("sensors").toArray()) {
+                const auto sensor=value.toObject(); auto anchor=telemetry::sensor_anchor(p,sensor);
+                if (sensor.value("quantity")=="pump_state") anchor["x"]=anchor.value("x").toDouble()+12;
+                markers[sensor.value("sensor_id").toString()]=anchor;
+            }
+        } else if (name != "healthy") p.network = compile(main_pump_failure(p.network), incident_controls(name.toStdString())).network;
+        edit([&] { project_ = p; selected_id_.clear();
+            if (!monitoring.isEmpty()) { sensor_configuration_=monitoring; sensor_layout_=markers; selected_sensor_id_.clear(); }
+        }); emit cameraChanged();
     } catch (const std::exception& e) { summary_ = QString::fromUtf8(e.what()); emit changed(); }
 }
 bool ProjectController::save(const QUrl& url) {
