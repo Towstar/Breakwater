@@ -1,0 +1,27 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "d0284fc5fe558cd85b23627e0d3efe7bb532a0f1",
+  "method": "bounded-volume-monitor-0.1.0",
+  "checks": {
+    "normal": {"ctest_suites": 7, "failed": 0, "native_analytical_suites": 6, "capture_qt_cases": 9, "publisher_qt_cases": 5, "ui_window_sizes": 4},
+    "asan": {"ctest_suites": 7, "failed": 0, "native_analytical_suites": 6, "capture_qt_cases": 9, "publisher_qt_cases": 5, "ui_window_sizes": 4}
+  },
+  "healthy_qualification": {
+    "topologies": 2,
+    "held_out_seeds_per_topology": 10,
+    "healthy_hours_per_seed": 1,
+    "captures": 72020,
+    "physical_event_updates": 0,
+    "coverage_failures": 0,
+    "reference": "Independent explicit affine inventories and bounded instrument noise, not the runtime generator's state"
+  },
+  "regressions": ["Pump debounce counts relevant fresh samples; unrelated updates cannot create a streak", "Missing coverage breaks streaks and clears the integration window, not active incidents", "Opposing per-channel transitions cannot cancel their quadrature bounds", "Acknowledgement remains separate from clearing", "Native pump loss and residual/recovery use explicit analytical onset checks"],
+  "initial_failures": [
+    "Qualification test initially lacked the engine declaration include; corrected before execution",
+    "The first ASan adapter run delayed capture/manual commands while reparsing unchanged heartbeats; deduplicated sample/quality signatures, then all affected checks passed"
+  ],
+  "logs": ["out/v03/test-detector-ui-portfolio-desktop.log", "out/v03/test-detector-ui-portfolio-desktop-asan.log", "out/v03/test-detection-adapter-portfolio-desktop-asan.log"],
+  "self_review": "Checked clock domains, temporal assumptions, source/context retirement, sensor-specific debounce, resource bounds, witness reconstruction, acknowledgement and absence of model/actuator work per packet. This is not a formal owner review.",
+  "limitations": "Synthetic local evidence. Durable event retention, observed forecasts, offline EWMA/CUSUM comparison and broader fault qualification remain subsequent work.",
+  "hosted_requests": "not_run"
+}

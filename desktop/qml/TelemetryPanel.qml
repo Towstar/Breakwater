@@ -255,6 +255,69 @@ Dialog {
                     }
                 }
             }
+            Frame {
+                Layout.fillWidth: true; padding: 12
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                contentItem: ColumnLayout {
+                    spacing: 10
+                    Label { text: "INCIDENT EVIDENCE"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
+                    Label {
+                        objectName: "detectionSummary"; Layout.fillWidth: true; wrapMode: Text.Wrap
+                        text: "Volume balance · " + panel.statusLabel(panel.telemetry.detection.balance_status || "waiting_for_samples")
+                            + " · " + Number(panel.telemetry.detection.window_s || 0).toFixed(1) + " / 30 s"
+                        color: Theme.secondary
+                    }
+                    Label {
+                        Layout.fillWidth: true; wrapMode: Text.Wrap; visible: !!panel.telemetry.detection.error
+                        text: panel.telemetry.detection.error || ""; color: Theme.warning
+                    }
+                    Label {
+                        Layout.fillWidth: true; wrapMode: Text.Wrap; visible: (panel.telemetry.detection.events || []).length === 0
+                        text: "No detected physical symptom in the available evidence. Missing coverage or an unknown temporal model cannot establish a healthy balance."
+                        color: Theme.muted; font.pixelSize: Theme.captionSize
+                    }
+                    Repeater {
+                        model: panel.telemetry.detection.events || []
+                        Frame {
+                            required property var modelData
+                            Layout.fillWidth: true; padding: 10
+                            background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
+                            contentItem: ColumnLayout {
+                                spacing: 8
+                                RowLayout {
+                                    Layout.fillWidth: true
+                                    Label {
+                                        Layout.fillWidth: true; wrapMode: Text.Wrap; font.bold: true
+                                        text: panel.statusLabel(modelData.detector_id) + " · " + modelData.asset_ids.join(", ") + " · " + modelData.status
+                                        color: modelData.status === "active" ? Theme.warning : Theme.secondary
+                                    }
+                                    ActionButton {
+                                        text: modelData.acknowledgement ? "Acknowledged" : "Acknowledge"
+                                        enabled: !modelData.acknowledgement
+                                        onClicked: panel.telemetry.acknowledgeDetection(modelData.event_id)
+                                        tooltip: "Records operator acknowledgement. It does not clear the event or change controls."
+                                    }
+                                }
+                                Label {
+                                    Layout.fillWidth: true; wrapMode: Text.Wrap; color: Theme.secondary; font.pixelSize: Theme.captionSize
+                                    text: "Onset " + Number(modelData.onset_event_time_s).toFixed(2) + " s · updated "
+                                        + Number(modelData.updated_event_time_s).toFixed(2) + " s · diagnosis unresolved"
+                                }
+                                Repeater {
+                                    model: modelData.evidence
+                                    Label {
+                                        required property var modelData
+                                        Layout.fillWidth: true; wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize; color: Theme.secondary
+                                        text: panel.statusLabel(modelData.metric) + ": " + Number(modelData.value).toPrecision(5)
+                                            + " " + modelData.unit + " · absolute bound " + Number(modelData.threshold).toPrecision(5) + " " + modelData.unit
+                                    }
+                                }
+                                Label { Layout.fillWidth: true; wrapMode: Text.Wrap; text: modelData.explanation; color: Theme.muted; font.pixelSize: Theme.captionSize }
+                            }
+                        }
+                    }
+                }
+            }
             Label {
                 Layout.fillWidth: true
                 text: panel.telemetry.error.length > 0 ? panel.telemetry.error : panel.notice

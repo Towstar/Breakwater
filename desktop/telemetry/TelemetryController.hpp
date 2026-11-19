@@ -34,6 +34,7 @@ class TelemetryController final : public QObject {
     Q_PROPERTY(QVariantList tracePreview READ tracePreview NOTIFY changed)
     Q_PROPERTY(QVariantMap counters READ counters NOTIFY changed)
     Q_PROPERTY(QVariantMap snapshot READ snapshot NOTIFY changed)
+    Q_PROPERTY(QVariantMap detection READ detection NOTIFY changed)
     Q_PROPERTY(QVariantMap observedCapture READ observedCapture NOTIFY observedCaptureChanged)
     Q_PROPERTY(QVariantMap observedCaptureDiagnostics READ observedCaptureDiagnostics NOTIFY observedCaptureChanged)
     Q_PROPERTY(QString observedCaptureDisposition READ observedCaptureDisposition NOTIFY observedCaptureChanged)
@@ -56,6 +57,8 @@ public:
     QVariantList tracePreview() const { return trace_preview_; }
     QVariantMap counters() const { return snapshot_.value("counters").toMap(); }
     QVariantMap snapshot() const { return snapshot_; }
+    QVariantMap detection() const { return snapshot_.value("detection").toMap(); }
+    Q_INVOKABLE void acknowledgeDetection(const QString& eventId);
     QVariantMap observedCapture() const;
     QVariantMap observedCaptureDiagnostics() const;
     QString observedCaptureDisposition() const;
@@ -92,6 +95,8 @@ signals:
     void observedCaptureChanged();
     void observedCaptureReady(const QString& snapshotId);
     void observedCaptureFailed(const QString& requestId, const QString& code, const QString& message);
+    void detectionEvidenceReady(const QJsonObject& evidence);
+    void detectionAcknowledged(const QJsonObject& event);
 private:
     QThread thread_;
     TelemetryIoWorker* worker_ = nullptr;

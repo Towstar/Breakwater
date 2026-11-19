@@ -15,7 +15,7 @@ QJsonValue json(const breakwater::telemetry::Value& value) {
     return QString::fromStdString(std::get<std::string>(value));
 }
 }
-MappedCapture map_volume_capture(const QJsonObject& document,const QJsonObject& context,bool sourceAvailable) {
+observations::MappingResult native_volume_capture(const QJsonObject& document,const QJsonObject& context,bool sourceAvailable) {
     const auto captured=parse_observed_snapshot(document,context);
     const auto configuration=parse_sensor_configuration(context.value("configuration").toObject(),context);
     const auto project=parse_project({{"version",1},{"network",context.value("network")},{"layout",QJsonObject{}}});
@@ -26,6 +26,10 @@ MappedCapture map_volume_capture(const QJsonObject& document,const QJsonObject& 
         mapped.snapshot.expires_event_time_s=captured.captured_event_time_s;
         mapped.issues.push_back({"source_unavailable",{}, {}});
     }
+    return mapped;
+}
+MappedCapture map_volume_capture(const QJsonObject& document,const QJsonObject& context,bool sourceAvailable) {
+    const auto mapped=native_volume_capture(document,context,sourceAvailable);
     MappedCapture result; result.document=document;
     result.document["availability"]=QString::fromStdString(mapped.snapshot.availability);
     result.document["expires_event_time_s"]=mapped.snapshot.expires_event_time_s;
