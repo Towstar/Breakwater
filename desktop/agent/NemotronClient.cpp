@@ -249,7 +249,12 @@ void NemotronClient::requestImpl(const QJsonArray& messages, const QJsonArray& t
                      {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", jsonFinal ? 0.0 : 0.2}};
     // JSON-only output is requested separately from tool calling; no combined
     // tools/response_format behavior is assumed for the hosted endpoint.
-    if (jsonFinal) body.insert("response_format", QJsonObject{{"type", "json_object"}});
+    if (jsonFinal) {
+        body.insert("response_format", QJsonObject{{"type", "json_object"}});
+        // Final/correction turns can only format retained evidence. NVIDIA's
+        // concise/structured mode avoids spending this turn on more reasoning.
+        body.insert("chat_template_kwargs",QJsonObject{{"enable_thinking",false}});
+    }
     else if (!tools.isEmpty()) { body.insert("tools", tools); body.insert("tool_choice", "auto"); }
     payload_ = QJsonDocument(body).toJson(QJsonDocument::Compact);
     if (payload_.size() > maximumResponseBytes) {

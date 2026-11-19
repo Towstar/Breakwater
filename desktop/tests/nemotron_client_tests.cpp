@@ -149,6 +149,7 @@ private slots:
         const auto finalBody = QJsonDocument::fromJson(network.payloads[1]).object();
         QCOMPARE(finalBody, (QJsonObject{{"model", config.model}, {"messages", messages()}, {"stream", false},
             {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.0},
+            {"chat_template_kwargs",QJsonObject{{"enable_thinking",false}}},
             {"response_format", QJsonObject{{"type", "json_object"}}}}));
         QVERIFY(!finalBody.contains("tools")); QVERIFY(!finalBody.contains("tool_choice"));
         client.request(messages(), tools); QTRY_COMPARE(success.size(), 3);

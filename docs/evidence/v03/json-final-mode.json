@@ -1,0 +1,22 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+  "scope": "Disable thinking only during existing JSON final/correction requests",
+  "normal_log": "out/v03/test-json-final-normal.log",
+  "asan_log": "out/v03/test-json-final-asan.log",
+  "normal_suites_passed": 3,
+  "asan_suites_passed": 3,
+  "covered": [
+    "Exact ordinary request payload is identical before and after final mode",
+    "Final requests have JSON-object mode, temperature zero, thinking disabled and no tools",
+    "Existing cancellation, retry, parsing, metadata and credential protections",
+    "Both investigators retain their bounded correction and strict grounding checks"
+  ],
+  "limits_changed": false,
+  "prior_hosted_rounds": [
+    {"source": "92119fb", "passed": 4, "attempted": 4},
+    {"source": "62052b9", "passed": 3, "attempted": 4, "failure": "Empty final followed by invalid field set; no grounded plan"}
+  ],
+  "new_hosted_result": "Not yet run for this change",
+  "self_review": "Checked final-only payload placement, unchanged ordinary sampling/reasoning, no extra tools/requests/corrections/time, and continued independent-reference validation. Self-review is not owner approval."
+}
