@@ -1,12 +1,15 @@
 #include "breakwater/transport.hpp"
 
 #include <algorithm>
+#include <array>
 #include <cmath>
 #include <functional>
 #include <future>
 #include <iostream>
+#include <iomanip>
 #include <limits>
 #include <numeric>
+#include <numbers>
 #include <stdexcept>
 #include <utility>
 
@@ -237,6 +240,47 @@ int main() {
             }
             require(errors[1] < 0.4 * errors[0] && errors[2] < 0.4 * errors[1] && errors[2] < 1e-4,
                     "Closed diffusion does not show the expected refinement trend");
+        }},
+        {"closed dispersion decay and spatial source follow independent modal references", [] {
+            // c_t = D*c_xx - k*c + (s0+s1*cos(pi*x)), with no-flux ends.
+            // Reference coefficients come from the two exact modal ODEs, not
+            // native output buffers. The mesh study refines space/time together.
+            const auto run=[](std::size_t cells,double cfl,const char* study) {
+                constexpr double d=.03,k=.7,t=.4,pi=std::numbers::pi;
+                const auto mean=.6*std::exp(-k*t)+.25/k*(-std::expm1(-k*t));
+                const auto modal=[&](double lambda) { return .2*std::exp(-lambda*t)+.1/lambda*(-std::expm1(-lambda*t)); };
+                const auto continuous=modal(k+d*pi*pi);
+                const auto discrete=modal(k+4*d*std::pow(std::sin(pi/(2*cells)),2)*cells*cells);
+                PipeConfig p{1,.2,d,k,cells}; auto options=config(t,t,TransportBoundary::closed_no_flux); options.cfl_safety=cfl;
+                std::vector<double> initial(cells),source(cells),averages(cells);
+                for (std::size_t j=0;j<cells;++j) {
+                    averages[j]=(std::sin(pi*(j+1)/cells)-std::sin(pi*j/cells))*cells/pi;
+                    initial[j]=.6+.2*averages[j]; source[j]=.25+.1*averages[j];
+                }
+                const auto before=initial,sourceBefore=source;
+                const auto result=solve(p,initial,options,{{0,0}},{},source); check_result(p,options,result);
+                require(initial==before && source==sourceBefore,"Source refinement changed an input buffer");
+                std::array<double,3> error{};
+                for (std::size_t j=0;j<cells;++j) {
+                    const auto native=result.concentration_mg_l.back()[j];
+                    const auto continuumError=std::abs(native-(mean+continuous*averages[j]));
+                    error[0]+=continuumError/cells;
+                    error[1]+=std::abs(native-(mean+discrete*averages[j]))/cells;
+                    error[2]=std::max(error[2],continuumError);
+                }
+                std::cout<<std::setprecision(17)<<"SOURCE_REFERENCE,"<<study<<','<<cells<<','<<cfl<<','<<error[0]<<','<<error[1]<<','<<error[2]<<','<<result.diagnostics.max_mass_balance_residual_mg
+                    <<','<<result.diagnostics.substeps<<','<<result.diagnostics.substeps*cells<<'\n';
+                return error;
+            };
+            std::vector<double> errors;
+            for (const std::size_t cells:{16,32,64,128}) {
+                const auto error=run(cells,.01,"coupled_mesh"); errors.push_back(error[0]);
+                if (cells==128) require(error[0]<2e-5 && error[2]<3e-5,"Finest selected source-reference error exceeds its declared gate");
+            }
+            for (std::size_t i=1;i<errors.size();++i) require(errors[i]>0 && std::log2(errors[i-1]/errors[i])>1.8,"Coupled source-reference refinement is not near second order");
+            errors.clear();
+            for (const double cfl:{.8,.4,.2,.1}) errors.push_back(run(32,cfl,"fixed_mesh_time")[1]);
+            for (std::size_t i=1;i<errors.size();++i) require(errors[i]>0 && std::log2(errors[i-1]/errors[i])>.85,"Source-reference time refinement is not near first order");
         }},
         {"zero-flow Dirichlet diffusion records signed inlet mass loss", [] {
             auto p = pipe(2, 2, 0.5); p.dispersion_m2_h = 1;

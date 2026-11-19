@@ -142,6 +142,10 @@ is authorized by this work.
   Hardware sweeps identify the actual AMD adapter, meet default/dense targets,
   preserve numerical identity and pick all 128 dense bodies. Real Windows scale
   changes and clean-machine acceptance remain pending. See `WORKSPACE_CLARITY.md`.
+- Eight new exact closed scalar-reference runs cover coupled dispersion/decay/
+  spatial source and fixed-mesh time refinement. The native transport suite is
+  26/26 in both modes. The production method, contracts and F1/front limitations
+  remain unchanged; see `science/TRANSPORT_SOURCE_REFERENCE.md`.
 - The native investigation loop now has a structured final and one bounded
   format-only correction, matching the EOG completion policy. Native tool,
   refinement and deadline limits are unchanged. Strict final/tool JSON rejects

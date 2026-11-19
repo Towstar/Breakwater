@@ -75,6 +75,11 @@ hardware sweeps on the identified AMD Radeon 880M measure 62.49/62.41 FPS for
 default/dense scenes, with all 128 dense bodies picked and no label overlaps.
 Actual alternate Windows scale and clean-machine checks remain pending; the
 separate software-renderer probe is retained with its partial-picking result.
+An [additional transport reference](../science/TRANSPORT_SOURCE_REFERENCE.md)
+checks combined dispersion, decay and a spatially varying source against exact
+continuum/semidiscrete modal solutions. All 26 transport cases pass in normal and
+ASan, with identical eight-row reference data. Production solver/contracts and
+the earlier front/peak/threshold limits are unchanged.
 Final qualification remains pending. These are local
 synthetic capabilities, not operational-monitoring claims.
 

@@ -1,0 +1,149 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "40d52bf716b51d838015229b0cc6f592a5c54ca1",
+  "recorded_utc": "2026-11-19T21:01:43.780334+00:00",
+  "method": "fvm-upwind-euler-0.1.0",
+  "production_method_changed": false,
+  "native_cases_per_mode": {
+    "passed": 26,
+    "failed": 0,
+    "skipped": 0
+  },
+  "new_reference_runs": 8,
+  "normal_asan_numerical_rows_identical": true,
+  "physical_parameters": {
+    "length_m": 1,
+    "area_m2": 0.2,
+    "dispersion_m2_h": 0.03,
+    "decay_per_h": 0.7,
+    "horizon_h": 0.4,
+    "flow_m3h": 0,
+    "boundary": "closed_no_flux",
+    "initial": "0.6+0.2*cos(pi*x)",
+    "source_mg_l_h": "0.25+0.1*cos(pi*x)"
+  },
+  "predeclared_gates": {
+    "coupled_order_minimum": 1.8,
+    "finest_continuum_mean_l1_maximum_mg_l": 2e-05,
+    "finest_continuum_maximum_mg_l": 3e-05,
+    "time_order_minimum": 0.85
+  },
+  "coupled_mesh_time_orders": [
+    2.0048732816062294,
+    1.9997375963077308,
+    2.0002850590382093
+  ],
+  "fixed_mesh_time_orders": [
+    1.0036722175771349,
+    1.001488952116438,
+    1.0000595476723728
+  ],
+  "rows": [
+    {
+      "study": "coupled_mesh",
+      "cells": 16,
+      "cfl_safety": 0.01,
+      "continuum_mean_l1_mg_l": 3.177507832463969e-05,
+      "semidiscrete_time_mean_l1_mg_l": 1.1199009926118886e-05,
+      "continuum_max_mg_l": 5.9535036772917493e-05,
+      "max_mass_balance_residual_mg": 4.1300296516055823e-13,
+      "substeps": 643,
+      "cell_updates": 10288
+    },
+    {
+      "study": "coupled_mesh",
+      "cells": 32,
+      "cfl_safety": 0.01,
+      "continuum_mean_l1_mg_l": 7.916981579812396e-06,
+      "semidiscrete_time_mean_l1_mg_l": 2.894612996394777e-06,
+      "continuum_max_mg_l": 1.4975294866215183e-05,
+      "max_mass_balance_residual_mg": 1.878497357665765e-12,
+      "substeps": 2486,
+      "cell_updates": 79552
+    },
+    {
+      "study": "coupled_mesh",
+      "cells": 64,
+      "cfl_safety": 0.01,
+      "continuum_mean_l1_mg_l": 1.97960542151418e-06,
+      "semidiscrete_time_mean_l1_mg_l": 7.298352582970832e-07,
+      "continuum_max_mg_l": 3.7495850215285564e-06,
+      "max_mass_balance_residual_mg": 1.6120438317557273e-12,
+      "substeps": 9859,
+      "cell_updates": 630976
+    },
+    {
+      "study": "coupled_mesh",
+      "cells": 128,
+      "cfl_safety": 0.01,
+      "continuum_mean_l1_mg_l": 4.948035785346319e-07,
+      "semidiscrete_time_mean_l1_mg_l": 1.828492452293079e-07,
+      "continuum_max_mg_l": 9.37756949370705e-07,
+      "max_mass_balance_residual_mg": 1.9344525981068728e-11,
+      "substeps": 39350,
+      "cell_updates": 5036800
+    },
+    {
+      "study": "fixed_mesh_time",
+      "cells": 32,
+      "cfl_safety": 0.8,
+      "continuum_mean_l1_mg_l": 0.0002323410700508649,
+      "semidiscrete_time_mean_l1_mg_l": 0.00023234107005086144,
+      "continuum_max_mg_l": 0.0003894824220832538,
+      "max_mass_balance_residual_mg": 1.3322676295501878e-14,
+      "substeps": 32,
+      "cell_updates": 1024
+    },
+    {
+      "study": "fixed_mesh_time",
+      "cells": 32,
+      "cfl_safety": 0.4,
+      "continuum_mean_l1_mg_l": 0.00011587521204072491,
+      "semidiscrete_time_mean_l1_mg_l": 0.00011587521204072145,
+      "continuum_max_mg_l": 0.00018704039137995565,
+      "max_mass_balance_residual_mg": 3.9968028886505635e-14,
+      "substeps": 63,
+      "cell_updates": 2016
+    },
+    {
+      "study": "fixed_mesh_time",
+      "cells": 32,
+      "cfl_safety": 0.2,
+      "continuum_mean_l1_mg_l": 5.787784160873541e-05,
+      "semidiscrete_time_mean_l1_mg_l": 5.787784160873194e-05,
+      "continuum_max_mg_l": 8.62903488290101e-05,
+      "max_mass_balance_residual_mg": 1.9984014443252818e-14,
+      "substeps": 125,
+      "cell_updates": 4000
+    },
+    {
+      "study": "fixed_mesh_time",
+      "cells": 32,
+      "cfl_safety": 0.1,
+      "continuum_mean_l1_mg_l": 2.893772636634699e-05,
+      "semidiscrete_time_mean_l1_mg_l": 2.8937726366343522e-05,
+      "continuum_max_mg_l": 3.603231460846956e-05,
+      "max_mass_balance_residual_mg": 3.863576125695545e-13,
+      "substeps": 249,
+      "cell_updates": 7968
+    }
+  ],
+  "source_sha256": {
+    "engine/tests/transport_tests.cpp": "1fdf89d570ad5599f8fd02ef0dced886ec2856d35cd7ffa075fcdf9aa27112fb",
+    "engine/src/transport.cpp": "b56af9674f70cf692f260fc984783f7de11d6f75013a0586fbd747637f34824e",
+    "engine/include/breakwater/transport.hpp": "7626a27e6b0b1b5b220068a41f0e2107f7e96c8cc1163e11210c5a4d868b0988"
+  },
+  "csv_sha256": "ae8f1a95ceb4832af9a4c5c8a94fd91934f8842eee221ba3b85ba276bf44e8f5",
+  "primary_logs": [
+    "out/v03/transport-source-final-normal-detail.log",
+    "out/v03/transport-source-final-asan-detail.log"
+  ],
+  "scope": "Eight smooth closed scalar points using independent continuum and semidiscrete modal ODEs. Coupled mesh/time order is not isolated spatial order. No five-percent time-contamination or formal interval-enclosure claim.",
+  "preserved_limits": [
+    "Original F1 study is characterized_not_qualified",
+    "Nonsmooth-front maximum error and peak/threshold limitations remain",
+    "No research solver promotion",
+    "No field chemistry, pressure or concentration-observation integration",
+    "No approval or actuation changes"
+  ]
+}
