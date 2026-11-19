@@ -5,7 +5,16 @@ been established by sanitizing processes on the developer's machine.
 
 ## Prepared handoff
 
-The current prepared kit uses clean source `ad45d45`. Its immutable ZIP hashes
+The expanded v0.3 development candidate uses application source `c71249e`.
+Its private kit and exact ZIP/source/executable hashes are indexed by
+[the v0.3 verification record](evidence/v03/final-verification.json) and
+[current owner packet](RELEASE_REVIEW_V03.md). Real laptop scale checks and
+sanitized bundled-process checks passed; actual clean-machine acceptance is
+still pending. Use that exact kit for new acceptance, preserving the older one.
+
+### Earlier v0.2 handoff
+
+The earlier prepared kit uses clean source `ad45d45`. Its immutable ZIP hashes
 and pending gates are in the
 [handoff record](evidence/portfolio/release-readiness/handoff-ad45d45.json) and
 [candidate manifest](evidence/portfolio/release-readiness/candidate-ad45d45.json).

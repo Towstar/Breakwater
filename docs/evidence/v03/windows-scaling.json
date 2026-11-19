@@ -1,0 +1,40 @@
+{
+  "status": "passed",
+  "method": "Actual Windows Display scale selected through Settings; new installed app processes; no Qt scale environment override",
+  "display_resolution": "2880x1800",
+  "original_windows_scale_percent": 175,
+  "restored_windows_scale_percent": 175,
+  "restore_verified_by": "Observed Windows Display settings after selection",
+  "restored_utc": "2026-11-19T22:39:00.419982+00:00",
+  "clean_machine": false,
+  "runs": [
+    {
+      "windows_scale_percent": 100,
+      "device_pixel_ratio": 1.0,
+      "checks_passed": 2,
+      "source_commit": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+      "app_sha256": "3bff3cc798fa6522e83b137358061f7e01c7c59c468272828183b527d94fa9ab"
+    },
+    {
+      "windows_scale_percent": 125,
+      "device_pixel_ratio": 1.25,
+      "checks_passed": 2,
+      "source_commit": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+      "app_sha256": "3bff3cc798fa6522e83b137358061f7e01c7c59c468272828183b527d94fa9ab"
+    },
+    {
+      "windows_scale_percent": 150,
+      "device_pixel_ratio": 1.5,
+      "checks_passed": 2,
+      "source_commit": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+      "app_sha256": "3bff3cc798fa6522e83b137358061f7e01c7c59c468272828183b527d94fa9ab"
+    },
+    {
+      "windows_scale_percent": 200,
+      "device_pixel_ratio": 2.0,
+      "checks_passed": 2,
+      "source_commit": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+      "app_sha256": "3bff3cc798fa6522e83b137358061f7e01c7c59c468272828183b527d94fa9ab"
+    }
+  ]
+}

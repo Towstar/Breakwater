@@ -76,11 +76,19 @@ D3D11/WARP and pass their actual action/render checks. See the complete scope,
 checksums, raw reports and retained attempts in
 `evidence/v03/workspace-clarity.json`.
 
-## Remaining acceptance
+## Real Windows scaling and remaining acceptance
 
-These checks use the current real Windows scale of 175%. Opening/activating the
-Windows Display settings failed before any scale action, and an app update
-interrupted computer use. No 100/125/150/200% Windows-scale pass is claimed and no
-scale was changed. Those actual-scale checks and clean-Windows VM/account
-acceptance remain release gates. No root license, main integration or public
+The first attempt to open Settings was interrupted; that dated checkpoint remains
+in the component evidence. A later pass used actual Windows Display settings at
+100%, 125%, 150% and 200% on the 2880x1800 laptop display. At every scale, new
+installed `62052b9` app processes passed both editor and observed-publisher UI
+checks, including the compact advisory path. Actual DPRs were 1, 1.25, 1.5 and 2;
+all eight workflows passed with no Qt scale environment override. The original
+175% scale was restored and visibly verified. PR80 changes transport only; its
+private candidate also passed the complete bundle verifier at actual 200% scale.
+
+The [final verification index](evidence/v03/final-verification.json) binds these
+results to exact sources/binaries and retained logs. This remains laptop evidence.
+Actual clean-Windows VM/account acceptance, owner/licensing review and hosted
+completion remain release gates. No root license, main integration or public
 binary release is supplied by this visual increment.

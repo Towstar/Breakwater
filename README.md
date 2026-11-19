@@ -14,8 +14,14 @@ Unreleased v0.3 development adds seeded local acquisition, immutable observed
 captures, bounded symptom detection, native advisory forecasts, v2 evidence
 history and manual Science on stored candidates. See the
 [implementation ledger](docs/NEXT_RELEASE.md), [local monitoring](docs/LOCAL_MONITORING.md)
-and [workspace clarity checks](docs/WORKSPACE_CLARITY.md). Release qualification
-and the owner/licensing/clean-Windows gates remain pending.
+and [workspace clarity checks](docs/WORKSPACE_CLARITY.md). The
+[v0.3 review packet](docs/RELEASE_REVIEW_V03.md) binds the implemented candidate
+`c71249e` to normal/ASan checks, CPU science, real Windows scaling and private
+bundle verification. Hosted qualification remains incomplete: its fixed latest
+EOG round passed 2/4, with one additional canonical passing (3/5 overall); the
+observed pump case still missed a feasible native response. Owner/licensing and
+actual clean-Windows acceptance also remain pending. No v0.3 public binary has
+been released.
 
 ![Sandbox industrial workspace](docs/images/portfolio/01-sandbox-overview-ad45d45.jpg)
 

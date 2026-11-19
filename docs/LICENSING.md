@@ -17,7 +17,9 @@ bundle. Microsoft runtime and Qt third-party distribution notices must be
 checked against the actual deployed file inventory before public distribution.
 The review inventory is in [DEPENDENCY_DISTRIBUTION](DEPENDENCY_DISTRIBUTION.md);
 the concrete owner checklist is in [RELEASE_REVIEW](RELEASE_REVIEW.md). Neither
-document records Ethan's consent by itself.
+document records Ethan's consent by itself. Expanded v0.3 development has a
+separate [review packet](RELEASE_REVIEW_V03.md); its private candidate and source
+archives do not grant a release license or replace these distribution gates.
 
 Before publishing:
 
