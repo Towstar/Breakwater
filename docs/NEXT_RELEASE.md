@@ -96,6 +96,9 @@ is authorized by this work.
   68 investigator, 54 controller and 62 transport Qt cases in each mode, plus the
   seven CLI cases. The normal CLI hard-link case needed an unrestricted rerun.
   No new hosted result is claimed. See `evidence/v03/nemotron-reliability.json`.
-- Native observation mathematics and independent example tests are being written.
-  They are not wired into the desktop and are not yet qualified.
+- Native observation mathematics and receiver-thread immutable captures pass six
+  focused CTest suites in normal and ASan builds. The final capture suite contains
+  nine Qt cases. The numerical mapper is connected to the capture seam, while
+  forecast/review UI and ongoing detection are still pending. See
+  `evidence/v03/observed-mapping.json` and `OBSERVED_STATE.md`.
 - Later increments remain pending implementation and verification.

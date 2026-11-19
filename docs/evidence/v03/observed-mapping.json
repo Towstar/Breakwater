@@ -1,0 +1,93 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "ddc11d2094bd027aa57f73eef091c6c78835a027",
+  "recorded_utc": "2026-11-19T03:29:00.8782147Z",
+  "source_sha256": {
+    "engine/CMakeLists.txt": "08f7083f919a7220c910152676c6c92e29c2611b5404a541f1091a500ff273d0",
+    "engine/include/breakwater/observations.hpp": "f582e5184d915c998e4453e4e7d13488581a80bdad261213952823f35d2439bf",
+    "engine/src/observations.cpp": "96be06609cb6a2123e4443d0389b82fd3194aed9295c910c94d75dde2770a2eb",
+    "engine/tests/observations_tests.cpp": "9a5dd5a28ae1075cb27d4de4ef07866c82d7769b2bdf551758dc17660a146a93",
+    "desktop/CMakeLists.txt": "fee64086ea447153a1f463470ce1ccac524b9d06eaafdb7ca9b945f4f2b1d467",
+    "desktop/telemetry/ObservedMapping.hpp": "15984781960ef17a01ff919dd22d2dc75bc8d3dfb9c6a6faead4f8f16bb808f0",
+    "desktop/telemetry/ObservedMapping.cpp": "2ad5dd59a2c88fa7a41d7baf290c22490751330d437a955a7ade6d0a083bf463",
+    "desktop/telemetry/TelemetryController.cpp": "6899f199fb3d00761fd36171ae697222e2e481a04625326109213c8da940cab5",
+    "desktop/telemetry/TelemetryController.hpp": "af5065f07995f328dbe71d0a3b7da5fc43df1551db7ff21b86c49bccf879dbc2",
+    "desktop/telemetry/TelemetryStream.cpp": "18e7fdfaa5805a7261d10b3676cc2e0f47b4436de1a10ae9068220abe41e1ba6",
+    "desktop/telemetry/TelemetryStream.hpp": "e480c7126706087bd4988b58b705498229851a9ee57a53386d8ebeead676da00",
+    "desktop/tests/observed_capture_tests.cpp": "58fec8ba8f2a649c2215a46429d4df5caa9b2254a5b64bf38d475ef835d9d06a"
+  },
+  "checks": {
+    "normal": [
+      {
+        "suite": "observed_capture",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "1202e90decf1304760d5081d53df11506b66e5ca897726fba78ade5c03360b87"
+      },
+      {
+        "suite": "telemetry_stream",
+        "passed": 31,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "3ba558dea647ef9f58b19b8df5d0f5f96262009fdcc329b85f68abd2af390ca2"
+      },
+      {
+        "suite": "telemetry_lifecycle",
+        "passed": 27,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "623193a7715b2bab3ca9594b9a056d371cdd5f03cf19695f740949f139329781"
+      },
+      {
+        "suite": "telemetry_contracts",
+        "passed": 176,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "43cf249a912cab09c1cdae20f86928c9ce6b559c1e9eb5d5cdda7265638d79da"
+      }
+    ],
+    "asan": [
+      {
+        "suite": "observed_capture",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "bd11347a36c9a8191b2e42e770c3fdc8263aeff1cbc8a1639cbb465c6e71cc16"
+      },
+      {
+        "suite": "telemetry_stream",
+        "passed": 31,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "b10d4e6104deb389f4d05e43510fd805209ba4c40b6b51a7c8fbca59f9eb1bc1"
+      },
+      {
+        "suite": "telemetry_lifecycle",
+        "passed": 27,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "99c0f039cff41d9d4c5c12ff0ec11ff20216fcd21b12d4c5ad7478ef4a550875"
+      },
+      {
+        "suite": "telemetry_contracts",
+        "passed": 176,
+        "failed": 0,
+        "skipped": 0,
+        "log_sha256": "b514f09ef8006ad3571ca12c2af98689b05577ed43ed84a149a6d743d060f500"
+      }
+    ]
+  },
+  "native_observation_suites": 6,
+  "shared_schema_native_corpus": "passed in normal and ASan",
+  "primary_logs": [
+    "out/v03/test-observations-normal.log",
+    "out/v03/test-observations-asan.log",
+    "out/v03/test-observations-final-normal.log",
+    "out/v03/test-observations-final-asan.log"
+  ],
+  "original_prototype_patch_sha256": "be68019e4bcb3a523695bec444224f58866511d89e922e9c49c339dbd81ffc93",
+  "scope": "Native mapping and immutable receiver capture; no ongoing detector or forecast/review UI yet",
+  "self_review": "Checked G1 projection, raw versus derived values, calibration domain/bounds, feed conflicts, failed-pump restrictions, operation coverage and async source/generation retirement. Not a formal owner review.",
+  "hosted_requests": "not_run"
+}

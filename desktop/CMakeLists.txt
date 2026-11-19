@@ -17,6 +17,7 @@ target_include_directories(breakwater_desktop_base PUBLIC ${CMAKE_CURRENT_SOURCE
 target_link_libraries(breakwater_desktop_base PUBLIC breakwater_telemetry Qt6::Quick Qt6::Concurrent)
 
 qt_add_library(breakwater_telemetry_runtime STATIC
+  telemetry/ObservedMapping.hpp telemetry/ObservedMapping.cpp
   telemetry/TelemetryStream.hpp telemetry/TelemetryStream.cpp
   telemetry/TelemetryController.hpp telemetry/TelemetryController.cpp)
 target_include_directories(breakwater_telemetry_runtime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -168,7 +169,7 @@ if(BUILD_TESTING)
     set(Python3_EXECUTABLE "$ENV{BREAKWATER_PYTHON}")
   endif()
   find_package(Python3 3.12 QUIET COMPONENTS Interpreter)
-  foreach(_suite sensor_editor telemetry_stream telemetry_lifecycle)
+  foreach(_suite sensor_editor telemetry_stream telemetry_lifecycle observed_capture)
     qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
     target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_desktop_base breakwater_telemetry_runtime Qt6::Test)
     target_compile_definitions(breakwater_${_suite}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")

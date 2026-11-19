@@ -19,7 +19,19 @@ first hit a sandbox restriction, then passed outside it. See
 
 No new hosted rehearsal is claimed. The preceding candidate's final rehearsal
 round remains 3/4. Main integration, licensing and actual clean-Windows acceptance
-still need their recorded external gates. Later v0.3.0 features remain pending.
+still need their recorded external gates.
+
+The next increment implements a Qt-free native observed-volume mapper and a
+receiver-thread immutable capture seam, ported from the preserved prototype. It
+requires operation-specific coverage, propagates absolute calibration/measurement
+bounds, retains out-of-range raw evidence, rejects contradictory feed sensors and
+holds failed pump restrictions. Design and effective hashes remain separate.
+Normal and ASan checks pass: six native analytical suites, nine capture Qt cases,
+31 stream, 27 lifecycle and 176 contract Qt cases per mode, plus the shared offline
+schema/native fixture corpus. See [mapping scope](OBSERVED_STATE.md) and
+[mapping evidence](evidence/v03/observed-mapping.json). This is a tested integration
+seam; publisher, detection, forecast/review UI and new history envelopes are still
+pending and are not operational-monitoring claims.
 
 ## Active: v0.2.0 portfolio candidate, November 18, 2026
 

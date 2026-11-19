@@ -1,5 +1,7 @@
 #include "TelemetryStream.hpp"
 #include "TelemetryContracts.hpp"
+#include "ObservedMapping.hpp"
+#include "ProjectDocument.hpp"
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QJsonDocument>
@@ -9,6 +11,7 @@
 #include <algorithm>
 #include <cmath>
 #include <deque>
+#include <limits>
 #include <stdexcept>
 
 namespace breakwater::desktop::telemetry {
@@ -351,6 +354,99 @@ QJsonArray TelemetryStream::trace(int maximum) const {
     const auto count = maximum < 0 ? rows.size() : std::min(rows.size(), static_cast<std::size_t>(maximum));
     for (auto it = rows.end() - static_cast<std::ptrdiff_t>(count); it != rows.end(); ++it) result.append(it->sample);
     return result;
+}
+ObservedEvidence TelemetryStream::captureObserved(const QJsonObject& registry, const QJsonArray& commands,
+                                                 quint64 numericalRevision, const QString& snapshotId) const {
+    const auto& s = *state_;
+    if (!s.configured || !s.started || s.failed || s.stream.isEmpty() || s.epoch.isEmpty())
+        throw std::invalid_argument("A registered, unfaulted telemetry epoch is required for capture.");
+    if (numericalRevision > dto::maximum_sequence)
+        throw std::invalid_argument("Observed numerical revision exceeds the exact G1 integer limit.");
+    ObservedEvidence capture;
+    // Never retain caller-supplied clocks, previous frames, commands, or hidden
+    // plant truth as a registered project context.
+    for (const auto* key : {"project", "network", "physical_hash", "configuration", "pipe_parameters", "pipe_parameter_hashes"})
+        if (registry.contains(QLatin1String(key))) capture.context[QLatin1String(key)] = registry.value(QLatin1String(key));
+    const auto configuration = capture.context.value("configuration").toObject();
+    if (sensor_semantic_hash(configuration) != s.hash || capture.context.value("physical_hash") != s.configuration.value("physical_hash") ||
+        capture.context.value("network") != s.context.value("network"))
+        throw std::invalid_argument("Observed capture context differs from the registered acquisition context.");
+    const auto project = parse_project({{"version", 1}, {"network", capture.context.value("network")}, {"layout", QJsonObject{}}});
+    if (physics_hash(project) != capture.context.value("physical_hash"))
+        throw std::invalid_argument("Observed capture network does not match its physical hash.");
+    // Commands come from the frozen UI-owned network, not measured delivery.
+    const auto catalog = control_catalog(project.network);
+    if (catalog.size() > 512 || commands.size() != static_cast<qsizetype>(catalog.size()))
+        throw std::invalid_argument("Observed capture requires the complete bounded command catalog.");
+    QMap<QString, ControlDescriptor> controls;
+    for (const auto& control : catalog) controls.insert(QString::fromStdString(control.id), control);
+    QSet<QString> commandIds;
+    for (const auto& value : commands) {
+        const auto command = value.toObject(); const auto id = command.value("control_id").toString();
+        const auto found = controls.constFind(id);
+        if (found == controls.cend() || commandIds.contains(id) || !command.value("value").isDouble() ||
+            command.value("value").toDouble() != found->value || command.value("unit") != QString::fromStdString(found->unit))
+            throw std::invalid_argument("Observed commands differ from the captured project controls.");
+        commandIds.insert(id);
+    }
+    const auto reportNow = report();
+    QMap<QString, QJsonObject> rows;
+    for (const auto& value : reportNow.value("sensors").toArray()) rows.insert(value.toObject().value("sensor_id").toString(), value.toObject());
+    QJsonArray samples, required, missing, conflicting;
+    bool qualityGood = true;
+    double earliest = std::numeric_limits<double>::infinity(), latest = -earliest;
+    double expiry = std::numeric_limits<double>::infinity();
+    for (const auto& value : configuration.value("sensors").toArray()) {
+        const auto definition = value.toObject(); if (!definition.value("enabled").toBool()) continue;
+        const auto id = definition.value("sensor_id").toString(); required.append(id);
+        const auto row = rows.value(id);
+        // A reading accepted within the future allowance is still not causal at
+        // this capture time. Do not borrow an older history-only trace instead.
+        if (!row.contains("frame_sequence") || row.value("event_time_s").toDouble() > s.now) {
+            missing.append(id); qualityGood = false; continue;
+        }
+        QJsonObject sample;
+        for (const auto* key : {"sensor_id", "frame_sequence", "event_time_s", "acquisition_start_s", "acquisition_end_s",
+                "received_utc", "received_monotonic_s", "original_value", "original_unit", "canonical_value", "canonical_unit",
+                "reported_quality", "receiver_status"}) sample[QLatin1String(key)] = row.value(QLatin1String(key));
+        samples.append(sample);
+        const auto event = sample.value("event_time_s").toDouble();
+        earliest = std::min(earliest, event); latest = std::max(latest, event);
+        const auto sampleExpiry = event + definition.value("max_age_s").toDouble();
+        if (!std::isfinite(sampleExpiry)) throw std::invalid_argument("Observed sample expiry is not representable.");
+        expiry = std::min(expiry, sampleExpiry);
+        if (sample.value("receiver_status") == "inconsistent") conflicting.append(id);
+        if (sample.value("receiver_status") != "good" || sample.value("reported_quality") != "good") qualityGood = false;
+    }
+    const bool complete = !required.isEmpty() && missing.isEmpty();
+    const bool coherent = complete && latest - earliest <= s.decoded.policy.max_skew_s;
+    const bool sourceAvailable = reportNow.value("source_available").toBool();
+    if (!complete || !qualityGood || !coherent || !sourceAvailable || !std::isfinite(expiry)) expiry = s.now;
+    expiry = std::max(s.now, expiry);
+    capture.document = {{"telemetry_version", 1}, {"kind", "observed_snapshot"}, {"snapshot_id", snapshotId},
+        {"physical_hash", capture.context.value("physical_hash")}, {"numerical_revision", static_cast<qint64>(numericalRevision)},
+        {"configuration_hash", s.hash}, {"stream_id", s.stream}, {"epoch_id", s.epoch}, {"mode", s.mode},
+        {"captured_event_time_s", s.now}, {"expires_event_time_s", expiry}, {"samples", samples}, {"commands", commands},
+        {"derived_state", QJsonArray{}}, {"coverage", QJsonObject{{"required_sensor_ids", required}, {"missing_sensor_ids", missing}, {"conflicting_sensor_ids", conflicting}}},
+        {"assumptions", QJsonArray{"Coverage names all enabled acquisition sensors, not a complete native-forecast requirement set.",
+            "Observation-to-forecast mapping is unavailable; no derived native state or operating authority is supplied.",
+            "Replay receipt times belong to this receiver; original arrival jitter is not reconstructed."}},
+        {"availability", "unavailable"}, {"actionable", false}};
+    // Validate the exact strict projection, including original/canonical values,
+    // registered attachment/calibration identities, acquisition times and bounds.
+    (void)parse_observed_snapshot(capture.document, capture.context);
+    if (QJsonDocument(capture.document).toJson(QJsonDocument::Compact).size() > maximumDocumentBytes)
+        throw std::invalid_argument("Observed capture exceeds the G1 document byte limit.");
+    capture.diagnostics = {{"mapping_status", "unavailable"}, {"forecast_integration", "not_implemented"},
+        {"source_available", sourceAvailable}, {"raw_coverage_complete", complete}, {"raw_quality_good", qualityGood},
+        {"raw_coherent", coherent}, {"required_sensor_count", required.size()}, {"sample_count", samples.size()},
+        {"sample_skew_s", samples.isEmpty() ? QJsonValue(QJsonValue::Null) : QJsonValue(latest - earliest)},
+        {"max_skew_s", s.decoded.policy.max_skew_s}, {"actionable", false}};
+    const auto mapped = map_volume_capture(capture.document,capture.context,sourceAvailable);
+    capture.document = mapped.document;
+    capture.effective_network = mapped.effective_network;
+    for (auto it=mapped.diagnostics.begin();it!=mapped.diagnostics.end();++it) capture.diagnostics[it.key()]=it.value();
+    return capture;
 }
 QByteArray TelemetryStream::recording() const {
     if (state_->recordingTruncated) throw std::runtime_error("The bounded recording was truncated; restart a shorter recording before export.");
