@@ -1,4 +1,4 @@
-add_library(breakwater_engine src/engine.cpp src/scenario.cpp src/search.cpp src/transport.cpp
+add_library(breakwater_engine src/engine.cpp src/scenario.cpp src/search.cpp src/transport.cpp src/observations.cpp
   include/breakwater/engine.hpp include/breakwater/search.hpp include/breakwater/transport.hpp ../contracts/include/breakwater/types.hpp)
 target_include_directories(breakwater_engine PUBLIC include ../contracts/include)
 target_link_libraries(breakwater_engine PUBLIC breakwater_options)
@@ -53,6 +53,9 @@ target_include_directories(breakwater_eog_plant PUBLIC include)
 target_link_libraries(breakwater_eog_plant PRIVATE breakwater_eog_simulation)
 
 if(BUILD_TESTING)
+  add_executable(breakwater_observations_tests tests/observations_tests.cpp)
+  target_link_libraries(breakwater_observations_tests PRIVATE breakwater_engine)
+  add_test(NAME engine.observations COMMAND breakwater_observations_tests)
   add_executable(breakwater_eog_committed_tests tests/eog_committed_tests.cpp)
   target_link_libraries(breakwater_eog_committed_tests PRIVATE breakwater_eog_response breakwater_options)
   add_test(NAME engine.eog_committed COMMAND breakwater_eog_committed_tests)

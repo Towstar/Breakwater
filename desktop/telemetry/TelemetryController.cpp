@@ -33,7 +33,7 @@ QByteArray bytes(const QJsonObject& object) { return QJsonDocument(object).toJso
 class TelemetryIoWorker final : public QObject {
     Q_OBJECT
 public:
-    TelemetryIoWorker() {
+    explicit TelemetryIoWorker(std::shared_ptr<std::atomic<quint64>> sourceSerial) : source_serial_(std::move(sourceSerial)) {
         tick_ = new QTimer(this);
         tick_->setInterval(20);
         connect(tick_, &QTimer::timeout, this, [this] { tick(); });
@@ -200,6 +200,23 @@ public:
             emit exported(destination);
         } catch (const std::exception& exception) { reject("recording_export", QString::fromUtf8(exception.what())); }
     }
+    void captureObserved(const QString& request, const QJsonObject& registry, const QJsonArray& commands,
+                         quint64 revision, const QString& expectedStream, const QString& expectedEpoch, quint64 requestGeneration) {
+        try {
+            if (!started_ || mode_ == "manual" || (mode_ == "synthetic_live" && !active_) ||
+                expectedStream.isEmpty() || expectedEpoch.isEmpty() ||
+                stream_.streamId() != expectedStream || stream_.epochId() != expectedEpoch)
+                throw std::invalid_argument("The requested acquisition epoch is no longer current.");
+            // One receiver-clock instant, on the same thread as accepted input.
+            const auto event = nowEvent(), received = monotonicS();
+            stream_.advance(event, received);
+            const auto serial = source_serial_->load();
+            const auto capture = stream_.captureObserved(registry, commands, revision, request);
+            emit observedCaptured(request, capture.document, capture.context, capture.diagnostics, capture.effective_network, requestGeneration, serial);
+        } catch (const std::exception&) {
+            emit observedRejected(request, requestGeneration, "capture_unavailable", "The observed capture context, epoch or bounded evidence is unavailable.");
+        }
+    }
     void publish() {
         auto report = stream_.report();
         report["mode"] = mode_; report["active"] = active_; report["paused"] = paused_;
@@ -232,9 +249,13 @@ signals:
     void updated(const QVariantMap& report, const QVariantList& trace);
     void rejected(const QString& code, const QString& message);
     void exported(const QUrl& destination);
+    void observedCaptured(const QString& request, const QJsonObject& document, const QJsonObject& context,
+                          const QJsonObject& diagnostics, const QJsonObject& effectiveNetwork, quint64 requestGeneration, quint64 sourceSerial);
+    void observedRejected(const QString& request, quint64 requestGeneration, const QString& code, const QString& message);
     void shutdownReady();
 private:
     TelemetryStream stream_;
+    std::shared_ptr<std::atomic<quint64>> source_serial_;
     QJsonObject configuration_, context_;
     QString configuration_hash_, mode_ = "manual", status_ = "unconfigured", error_;
     QElapsedTimer monotonic_;
@@ -281,7 +302,7 @@ private:
         if (configuration_file_) { configuration_file_->deleteLater(); configuration_file_ = nullptr; }
     }
     void shutdownInput() {
-        freezeClock(); ++generation_; disposeProcess(); replay_.reset(); next_replay_ = {};
+        freezeClock(); ++generation_; source_serial_->fetch_add(1); disposeProcess(); replay_.reset(); next_replay_ = {};
         active_ = false; started_ = false; starting_ = false; paused_ = false; received_end_ = false;
         awaiting_restart_ = false; read_scheduled_ = false; buffer_.clear(); pending_request_.clear();
         pending_operation_.clear(); stderr_bytes_ = 0;
@@ -321,7 +342,7 @@ private:
             if (started_ && (!awaiting_restart_ || frame.value("epoch_id").toString() == stream_.epochId() ||
                 frame.value("stream_id").toString() != stream_.streamId())) return acceptCore(frame, line);
             if (payload.value("mode").toString() != "synthetic_live") { fail("source_mode", "A local publisher must identify itself as synthetic live."); return false; }
-            if (awaiting_restart_) { stream_.beginEpoch("synthetic_live"); acknowledged_.clear(); }
+            if (awaiting_restart_) { source_serial_->fetch_add(1); stream_.beginEpoch("synthetic_live"); acknowledged_.clear(); }
             started_ = true; starting_ = false; awaiting_restart_ = false; received_end_ = false;
             base_event_ = frame.value("event_time_s").toDouble(); base_monotonic_ = monotonicS();
             rate_ = payload.value("clock_rate").toDouble(); paused_ = payload.value("paused").toBool(); status_ = "running";
@@ -364,7 +385,7 @@ private:
             pending_request_.clear(); pending_operation_.clear();
         } else if (type == "end") {
             received_end_ = true;
-            if (!awaiting_restart_) { freezeClock(); active_ = false; status_ = "ended"; exit_deadline_ = monotonicS() + timeout_ms_ / 1000.0; }
+            if (!awaiting_restart_) { freezeClock(); source_serial_->fetch_add(1); active_ = false; status_ = "ended"; exit_deadline_ = monotonicS() + timeout_ms_ / 1000.0; }
         } else if (type == "error") { fail("publisher_error", "Publisher reported a versioned stream error."); return false; }
         return true;
     }
@@ -411,7 +432,7 @@ private:
                 next_replay_.value("type").toString() == "start") throw std::invalid_argument("Recording must contain one complete stream epoch.");
         } catch (const std::exception& exception) { fail("recording_invalid", QString::fromUtf8(exception.what())); }
     }
-    void finishReplay() { freezeClock(); active_ = false; replay_.reset(); next_replay_ = {}; status_ = received_end_ ? "replay_finished" : "replay_prefix_finished"; }
+    void finishReplay() { freezeClock(); source_serial_->fetch_add(1); active_ = false; replay_.reset(); next_replay_ = {}; status_ = received_end_ ? "replay_finished" : "replay_prefix_finished"; }
     void tick() {
         const double mono = monotonicS();
         if ((starting_ || !pending_request_.isEmpty()) && mono > pending_deadline_) { fail("request_timeout", "Publisher start or lifecycle acknowledgement timed out."); return; }
@@ -450,18 +471,39 @@ TelemetryController::TelemetryController(QObject* parent) : QObject(parent) {
         }
     }
     publisher_configured_ = valid && QFileInfo(publisher_executable_).isAbsolute() && QFileInfo(publisher_executable_).isFile();
-    worker_ = new TelemetryIoWorker;
+    worker_ = new TelemetryIoWorker(source_serial_);
     worker_->moveToThread(&thread_);
     connect(&thread_, &QThread::started, worker_, &TelemetryIoWorker::initialize);
     connect(&thread_, &QThread::finished, worker_, &QObject::deleteLater);
     connect(worker_, &TelemetryIoWorker::shutdownReady, worker_, [] { QThread::currentThread()->quit(); });
     connect(worker_, &TelemetryIoWorker::updated, this, [this](const QVariantMap& report, const QVariantList& trace) {
-        snapshot_ = report; trace_preview_ = trace; poll_pending_ = false; emit changed();
+        snapshot_ = report; trace_preview_ = trace; poll_pending_ = false; refreshObservedDisposition(); emit changed();
     });
     connect(worker_, &TelemetryIoWorker::rejected, this, [this](const QString& code, const QString& message) {
         emit failed(code, message);
     });
     connect(worker_, &TelemetryIoWorker::exported, this, &TelemetryController::recordingExported);
+    connect(worker_, &TelemetryIoWorker::observedCaptured, this,
+        [this](const QString& request, const QJsonObject& document, const QJsonObject& context,
+               const QJsonObject& diagnostics, const QJsonObject& effectiveNetwork, quint64 generation, quint64 sourceSerial) {
+            if (generation != observed_generation_ || request != observed_request_ || !observed_pending_) return;
+            observed_pending_ = false; observed_request_.clear();
+            if (sourceSerial != source_serial_->load()) {
+                observed_disposition_ = "retired"; emit observedCaptureChanged();
+                emit observedCaptureFailed(request, "capture_retired", "The source retired before the capture could be published."); return;
+            }
+            observed_ = std::make_shared<const ObservedEvidence>(ObservedEvidence{document, context, diagnostics, effectiveNetwork});
+            observed_source_serial_ = sourceSerial; observed_retired_ = false;
+            observed_disposition_ = document.value("mode") == "synthetic_live" ? document.value("availability").toString() : "historical";
+            emit observedCaptureChanged(); emit observedCaptureReady(request);
+        });
+    connect(worker_, &TelemetryIoWorker::observedRejected, this,
+        [this](const QString& request, quint64 generation, const QString& code, const QString& message) {
+            if (generation != observed_generation_ || request != observed_request_ || !observed_pending_) return;
+            observed_pending_ = false; observed_request_.clear();
+            if (!observed_) observed_disposition_ = "unavailable";
+            emit observedCaptureChanged(); emit observedCaptureFailed(request, code, message);
+        });
     poll_.setInterval(100);
     connect(&poll_, &QTimer::timeout, this, [this] {
         if (poll_pending_) return;
@@ -478,9 +520,17 @@ TelemetryController::~TelemetryController() {
     thread_.wait();
 }
 void TelemetryController::configure(const QJsonObject& configuration, const QJsonObject& context) {
+    QString identity;
+    try { identity = sensor_semantic_hash(configuration); } catch (const std::exception&) {}
+    if (identity != acquisition_hash_) {
+        retireObserved("configuration_changed");
+        acquisition_hash_ = identity;
+        if (identity != observed_context_hash_) observed_context_set_ = false;
+    }
     QMetaObject::invokeMethod(worker_, [worker = worker_, configuration, context] { worker->configure(configuration, context); }, Qt::QueuedConnection);
 }
 void TelemetryController::startProcess(const QString& executable, const QStringList& arguments) {
+    retireObserved("source_replaced");
     QMetaObject::invokeMethod(worker_, [worker = worker_, executable, arguments] { worker->startProcess(executable, arguments); }, Qt::QueuedConnection);
 }
 void TelemetryController::setTimeoutMs(int milliseconds) {
@@ -490,20 +540,81 @@ void TelemetryController::startConfiguredPublisher() {
     if (!publisher_configured_) { emit failed("publisher_unavailable", "No local synthetic publisher is configured. Person A's plant publisher has not been supplied by this increment."); return; }
     startProcess(publisher_executable_, publisher_arguments_);
 }
-void TelemetryController::manual() { QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->manual(); }, Qt::QueuedConnection); }
+void TelemetryController::manual() { retireObserved("manual_mode"); QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->manual(); }, Qt::QueuedConnection); }
 void TelemetryController::startReplay(const QUrl& recording) {
+    retireObserved("source_replaced");
     QMetaObject::invokeMethod(worker_, [worker = worker_, recording] { worker->startReplay(recording); }, Qt::QueuedConnection);
 }
 void TelemetryController::showHistorical(const QUrl& recording) {
+    retireObserved("source_replaced");
     QMetaObject::invokeMethod(worker_, [worker = worker_, recording] { worker->startReplay(recording, true); }, Qt::QueuedConnection);
 }
 void TelemetryController::pause() { QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->command("pause"); }, Qt::QueuedConnection); }
 void TelemetryController::resume() { QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->command("resume"); }, Qt::QueuedConnection); }
 void TelemetryController::setRate(double rate) { QMetaObject::invokeMethod(worker_, [worker = worker_, rate] { worker->command("set_rate", rate); }, Qt::QueuedConnection); }
-void TelemetryController::restart() { QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->command("restart"); }, Qt::QueuedConnection); }
-void TelemetryController::stop() { QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->command("stop"); }, Qt::QueuedConnection); }
+void TelemetryController::restart() { retireObserved("epoch_restart"); QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->command("restart"); }, Qt::QueuedConnection); }
+void TelemetryController::stop() { retireObserved("source_stopped"); QMetaObject::invokeMethod(worker_, [worker = worker_] { worker->command("stop"); }, Qt::QueuedConnection); }
 void TelemetryController::exportRecording(const QUrl& destination) {
     QMetaObject::invokeMethod(worker_, [worker = worker_, destination] { worker->exportRecording(destination); }, Qt::QueuedConnection);
+}
+QVariantMap TelemetryController::observedCapture() const { return observed_ ? observed_->document.toVariantMap() : QVariantMap{}; }
+QVariantMap TelemetryController::observedCaptureDiagnostics() const { return observed_ ? observed_->diagnostics.toVariantMap() : QVariantMap{}; }
+QString TelemetryController::observedCaptureDisposition() const {
+    if (observed_ && observed_source_serial_ != source_serial_->load()) return "retired";
+    return observed_disposition_;
+}
+void TelemetryController::retireObserved(const QString& reason) {
+    ++observed_generation_; observed_pending_ = false; observed_request_.clear();
+    observed_retired_ = static_cast<bool>(observed_);
+    observed_disposition_ = observed_ ? QStringLiteral("retired") : observed_context_set_ ? QStringLiteral("ready") : QStringLiteral("not_configured");
+    Q_UNUSED(reason);
+    emit observedCaptureChanged();
+}
+bool TelemetryController::setObservedCaptureContext(const QJsonObject& registry, quint64 revision, const QJsonArray& commands) {
+    QString identity;
+    try {
+        if (revision > breakwater::telemetry::maximum_sequence || !registry.value("network").isObject() ||
+            !registry.value("configuration").isObject() ||
+            QJsonDocument(registry).toJson(QJsonDocument::Compact).size() > maximumDocumentBytes)
+            throw std::invalid_argument("Invalid observed context.");
+        identity = sensor_semantic_hash(registry.value("configuration").toObject());
+    } catch (const std::exception&) {
+        emit observedCaptureFailed({}, "capture_context_invalid", "A bounded registered project and sensor context is required."); return false;
+    }
+    if (!observed_context_set_ || identity != observed_context_hash_ || revision != observed_revision_ ||
+        registry.value("physical_hash") != observed_registry_.value("physical_hash") || commands != observed_commands_)
+        retireObserved("project_context_changed");
+    observed_registry_ = registry; observed_commands_ = commands; observed_revision_ = revision;
+    observed_context_hash_ = identity; observed_context_set_ = true;
+    if (!observed_ && !observed_pending_) observed_disposition_ = "ready";
+    emit observedCaptureChanged(); return true;
+}
+QString TelemetryController::requestObservedCapture() {
+    if (observed_pending_ || !observed_context_set_) {
+        emit observedCaptureFailed({}, observed_pending_ ? "capture_busy" : "capture_context_missing", "Supply the current project context and wait for the pending capture."); return {};
+    }
+    const auto request = freshId("capture-");
+    observed_request_ = request; observed_pending_ = true; const auto generation = ++observed_generation_;
+    const auto registry = observed_registry_; const auto commands = observed_commands_; const auto revision = observed_revision_;
+    const auto stream = snapshot_.value("stream_id").toString(), epoch = snapshot_.value("epoch_id").toString();
+    emit observedCaptureChanged();
+    QMetaObject::invokeMethod(worker_, [worker = worker_, request, registry, commands, revision, stream, epoch, generation] {
+        worker->captureObserved(request, registry, commands, revision, stream, epoch, generation);
+    }, Qt::QueuedConnection);
+    return request;
+}
+void TelemetryController::cancelObservedCapture() { retireObserved("capture_cancelled"); }
+void TelemetryController::refreshObservedDisposition() {
+    if (!observed_ || observed_retired_) return;
+    const auto& document = observed_->document;
+    if (observed_source_serial_ != source_serial_->load() || snapshot_.value("stream_id") != document.value("stream_id").toVariant() ||
+        snapshot_.value("epoch_id") != document.value("epoch_id").toVariant() || configurationHash() != document.value("configuration_hash").toString() ||
+        (document.value("mode") == "synthetic_live" && (!active() || !snapshot_.value("source_available").toBool()))) {
+        retireObserved("source_retired"); return;
+    }
+    const auto next = document.value("mode") != "synthetic_live" ? QStringLiteral("historical") :
+        eventTime() > document.value("expires_event_time_s").toDouble() ? QStringLiteral("expired") : document.value("availability").toString();
+    if (next != observed_disposition_) { observed_disposition_ = next; emit observedCaptureChanged(); }
 }
 } // namespace breakwater::desktop::telemetry
 

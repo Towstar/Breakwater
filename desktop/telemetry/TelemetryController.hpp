@@ -1,15 +1,19 @@
 #pragma once
 
 #include <QObject>
+#include <QJsonArray>
 #include <QJsonObject>
 #include <QThread>
 #include <QTimer>
 #include <QUrl>
 #include <QVariantList>
 #include <QVariantMap>
+#include <atomic>
+#include <memory>
 
 namespace breakwater::desktop::telemetry {
 class TelemetryIoWorker;
+struct ObservedEvidence;
 
 // Acquisition has its own worker-thread lifecycle. These views contain evidence;
 // this object never writes project controls or constructs actionable forecasts.
@@ -28,6 +32,10 @@ class TelemetryController final : public QObject {
     Q_PROPERTY(QVariantList tracePreview READ tracePreview NOTIFY changed)
     Q_PROPERTY(QVariantMap counters READ counters NOTIFY changed)
     Q_PROPERTY(QVariantMap snapshot READ snapshot NOTIFY changed)
+    Q_PROPERTY(QVariantMap observedCapture READ observedCapture NOTIFY observedCaptureChanged)
+    Q_PROPERTY(QVariantMap observedCaptureDiagnostics READ observedCaptureDiagnostics NOTIFY observedCaptureChanged)
+    Q_PROPERTY(QString observedCaptureDisposition READ observedCaptureDisposition NOTIFY observedCaptureChanged)
+    Q_PROPERTY(bool observedCaptureBusy READ observedCaptureBusy NOTIFY observedCaptureChanged)
 public:
     explicit TelemetryController(QObject* parent = nullptr);
     ~TelemetryController() override;
@@ -44,6 +52,18 @@ public:
     QVariantList tracePreview() const { return trace_preview_; }
     QVariantMap counters() const { return snapshot_.value("counters").toMap(); }
     QVariantMap snapshot() const { return snapshot_; }
+    QVariantMap observedCapture() const;
+    QVariantMap observedCaptureDiagnostics() const;
+    QString observedCaptureDisposition() const;
+    bool observedCaptureBusy() const { return observed_pending_; }
+    std::shared_ptr<const ObservedEvidence> capturedObservation() const { return observed_; }
+
+    // C++ integration seam: the caller freezes the actual UI-owned registry,
+    // numerical revision and complete command catalog. No caller supplies samples.
+    // Existing acquisition does not enable capture until this context is set.
+    bool setObservedCaptureContext(const QJsonObject& registry, quint64 numericalRevision, const QJsonArray& commands);
+    Q_INVOKABLE QString requestObservedCapture();
+    Q_INVOKABLE void cancelObservedCapture();
 
     void configure(const QJsonObject& configuration, const QJsonObject& context);
     void startProcess(const QString& executable, const QStringList& arguments = {});
@@ -62,6 +82,9 @@ signals:
     void changed();
     void failed(const QString& code, const QString& message);
     void recordingExported(const QUrl& destination);
+    void observedCaptureChanged();
+    void observedCaptureReady(const QString& snapshotId);
+    void observedCaptureFailed(const QString& requestId, const QString& code, const QString& message);
 private:
     QThread thread_;
     TelemetryIoWorker* worker_ = nullptr;
@@ -71,5 +94,14 @@ private:
     QString publisher_executable_;
     QStringList publisher_arguments_;
     bool publisher_configured_ = false, poll_pending_ = false;
+    QJsonObject observed_registry_;
+    QJsonArray observed_commands_;
+    QString observed_context_hash_, acquisition_hash_, observed_request_, observed_disposition_ = "not_configured";
+    quint64 observed_revision_ = 0, observed_generation_ = 0, observed_source_serial_ = 0;
+    bool observed_context_set_ = false, observed_pending_ = false, observed_retired_ = false;
+    std::shared_ptr<const ObservedEvidence> observed_;
+    std::shared_ptr<std::atomic<quint64>> source_serial_ = std::make_shared<std::atomic<quint64>>(0);
+    void retireObserved(const QString& reason);
+    void refreshObservedDisposition();
 };
 } // namespace breakwater::desktop::telemetry
