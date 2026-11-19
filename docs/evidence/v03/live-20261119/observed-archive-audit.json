@@ -1,0 +1,335 @@
+{
+  "audit_version": 1,
+  "status": "passed",
+  "recorded_utc": "2026-11-19T23:29:53.858334+00:00",
+  "scope": "Retained observed checkpoints, not current actionable sessions; safety/identity audit is separate from hosted completion qualification.",
+  "runs": [
+    {
+      "revision": "92119fb",
+      "archive": "hosted-final-92119fb/observed/pump-fault-attempt-1-retained.json",
+      "sha256": "06763727731c2d583384f6419b4cade210ae2f1b8d7224b05a7650f8a0fb6a0a",
+      "bytes": 88213,
+      "session_id": "f81b4144-8fb8-43a8-9e47-fd0671705b6a",
+      "status": "completed",
+      "source_mode": "hosted",
+      "capture_id": "capture-0a158753-ffb4-4f0b-83f5-ac4ec306ca8b",
+      "coverage": "available",
+      "mapping_issues": [],
+      "stored_runs": 1,
+      "recommendation_status": "no_validated_plan",
+      "selected_run_id": null,
+      "model_requests": 13,
+      "failed_request_codes": [],
+      "executed_tool_order": [
+        "get_observations",
+        "get_observations",
+        "get_network_state",
+        "get_network_state",
+        "get_control_catalog",
+        "get_detection_events",
+        "forecast_baseline",
+        "search_interventions",
+        "search_interventions",
+        "search_interventions"
+      ],
+      "failed_tools": [
+        {
+          "name": "get_observations",
+          "code": "invalid_arguments"
+        },
+        {
+          "name": "get_network_state",
+          "code": "invalid_arguments"
+        },
+        {
+          "name": "search_interventions",
+          "code": "invalid_control"
+        },
+        {
+          "name": "search_interventions",
+          "code": "refinement_limit"
+        },
+        {
+          "name": "search_interventions",
+          "code": "refinement_limit"
+        }
+      ],
+      "advisory_acknowledgements": 0,
+      "operating_authority": false,
+      "credential_or_raw_reasoning_fields": 0,
+      "cost": null,
+      "cost_unit": null,
+      "minimum_headroom_m3": null,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/observed-92119fb-pump-fault-attempt-1-retained.json",
+        "sha256": "06763727731c2d583384f6419b4cade210ae2f1b8d7224b05a7650f8a0fb6a0a",
+        "bytes": 88213
+      }
+    },
+    {
+      "revision": "92119fb",
+      "archive": "hosted-final-92119fb/observed/missing-coverage-attempt-1-retained.json",
+      "sha256": "1c054183130a53c0eb5b0c590de7f87175a477991eb0ae1f50e5329cc6e28e42",
+      "bytes": 70971,
+      "session_id": "75181f55-2164-4655-887e-d487383d4187",
+      "status": "completed",
+      "source_mode": "hosted",
+      "capture_id": "capture-eae56a5b-cdbf-41b1-af87-66ef38ae9d58",
+      "coverage": "unavailable",
+      "mapping_issues": [
+        {
+          "attachment_id": "tank_a",
+          "code": "missing_or_unusable_inventory",
+          "sensor_id": ""
+        }
+      ],
+      "stored_runs": 0,
+      "recommendation_status": "no_validated_plan",
+      "selected_run_id": null,
+      "model_requests": 13,
+      "failed_request_codes": [],
+      "executed_tool_order": [
+        "get_observations",
+        "get_observations",
+        "get_network_state",
+        "get_network_state",
+        "get_network_state",
+        "get_detection_events",
+        "get_detection_events",
+        "get_control_catalog",
+        "forecast_baseline",
+        "validate_run",
+        "search_interventions",
+        "get_observations"
+      ],
+      "failed_tools": [
+        {
+          "name": "get_observations",
+          "code": "invalid_arguments"
+        },
+        {
+          "name": "get_network_state",
+          "code": "invalid_arguments"
+        },
+        {
+          "name": "get_network_state",
+          "code": "invalid_arguments"
+        },
+        {
+          "name": "get_detection_events",
+          "code": "invalid_arguments"
+        },
+        {
+          "name": "forecast_baseline",
+          "code": "coverage_unavailable"
+        },
+        {
+          "name": "validate_run",
+          "code": "coverage_unavailable"
+        },
+        {
+          "name": "search_interventions",
+          "code": "coverage_unavailable"
+        },
+        {
+          "name": "get_observations",
+          "code": "invalid_arguments"
+        }
+      ],
+      "advisory_acknowledgements": 0,
+      "operating_authority": false,
+      "credential_or_raw_reasoning_fields": 0,
+      "cost": null,
+      "cost_unit": null,
+      "minimum_headroom_m3": null,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/observed-92119fb-missing-coverage-attempt-1-retained.json",
+        "sha256": "1c054183130a53c0eb5b0c590de7f87175a477991eb0ae1f50e5329cc6e28e42",
+        "bytes": 70971
+      }
+    },
+    {
+      "revision": "c71249e",
+      "archive": "hosted-final-c71249e/observed/pump-fault-retained.json",
+      "sha256": "34b5bede624c1e6d15f5d73d7e5f3df2a9fe5c168f4dc4b937555c9537b6a854",
+      "bytes": 95656,
+      "session_id": "c0411abc-99a5-4517-a136-7737fd1588c6",
+      "status": "completed",
+      "source_mode": "hosted",
+      "capture_id": "capture-4e5ea60a-f004-4606-a778-6dcf1563e915",
+      "coverage": "available",
+      "mapping_issues": [],
+      "stored_runs": 1,
+      "recommendation_status": "no_validated_plan",
+      "selected_run_id": null,
+      "model_requests": 11,
+      "failed_request_codes": [],
+      "executed_tool_order": [
+        "get_observations",
+        "get_detection_events",
+        "get_network_state",
+        "get_control_catalog",
+        "forecast_baseline",
+        "search_interventions",
+        "simulate_candidates",
+        "simulate_candidates",
+        "validate_run",
+        "validate_run"
+      ],
+      "failed_tools": [
+        {
+          "name": "simulate_candidates",
+          "code": "invalid_arguments"
+        },
+        {
+          "name": "simulate_candidates",
+          "code": "invalid_arguments"
+        },
+        {
+          "name": "simulate_candidates",
+          "code": "refinement_limit"
+        },
+        {
+          "name": "search_interventions",
+          "code": "refinement_limit"
+        }
+      ],
+      "advisory_acknowledgements": 0,
+      "operating_authority": false,
+      "credential_or_raw_reasoning_fields": 0,
+      "cost": null,
+      "cost_unit": null,
+      "minimum_headroom_m3": null,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/observed-c71249e-pump-fault-retained.json",
+        "sha256": "34b5bede624c1e6d15f5d73d7e5f3df2a9fe5c168f4dc4b937555c9537b6a854",
+        "bytes": 95656
+      }
+    },
+    {
+      "revision": "c71249e",
+      "archive": "hosted-final-c71249e/observed/pump-fault-local-search-retained.json",
+      "sha256": "a354488a32f92f88c1328c8c462ef15da5cd231e21b593cfb42333d58c7ebb8d",
+      "bytes": 122196,
+      "session_id": "698993c2-9dae-4b68-99af-935f6991692f",
+      "status": "completed",
+      "source_mode": "local_native",
+      "capture_id": "capture-4e5ea60a-f004-4606-a778-6dcf1563e915",
+      "coverage": "available",
+      "mapping_issues": [],
+      "stored_runs": 4,
+      "recommendation_status": "validated_recommendation",
+      "selected_run_id": "0ee1ac89-f10c-4e9b-b971-7021527899c5",
+      "model_requests": 0,
+      "failed_request_codes": [],
+      "executed_tool_order": [
+        "get_observations",
+        "get_detection_events",
+        "get_network_state",
+        "get_control_catalog",
+        "forecast_baseline",
+        "validate_run",
+        "search_interventions",
+        "validate_run",
+        "request_approval"
+      ],
+      "failed_tools": [],
+      "advisory_acknowledgements": 1,
+      "operating_authority": false,
+      "credential_or_raw_reasoning_fields": 0,
+      "cost": 5280,
+      "cost_unit": "synthetic units",
+      "minimum_headroom_m3": 5.773699938223231,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/observed-c71249e-pump-fault-local-search-retained.json",
+        "sha256": "a354488a32f92f88c1328c8c462ef15da5cd231e21b593cfb42333d58c7ebb8d",
+        "bytes": 122196
+      }
+    },
+    {
+      "revision": "c71249e",
+      "archive": "hosted-final-c71249e/observed/missing-coverage-retained.json",
+      "sha256": "ecf7883462fed90d04ebf359a3008f49addf0ba99ebd7663c51a287391c3d511",
+      "bytes": 49890,
+      "session_id": "cb130e11-6a69-4b46-b07b-26da7eaf1f67",
+      "status": "failed",
+      "source_mode": "hosted",
+      "capture_id": "capture-76da35f1-6c3c-4b68-880c-b337703ed46a",
+      "coverage": "unavailable",
+      "mapping_issues": [
+        {
+          "attachment_id": "tank_a",
+          "code": "missing_or_unusable_inventory",
+          "sensor_id": ""
+        }
+      ],
+      "stored_runs": 0,
+      "recommendation_status": null,
+      "selected_run_id": null,
+      "model_requests": 2,
+      "failed_request_codes": [
+        "response_truncated"
+      ],
+      "executed_tool_order": [
+        "get_observations",
+        "get_detection_events",
+        "get_network_state",
+        "get_control_catalog"
+      ],
+      "failed_tools": [],
+      "advisory_acknowledgements": 0,
+      "operating_authority": false,
+      "credential_or_raw_reasoning_fields": 0,
+      "cost": null,
+      "cost_unit": null,
+      "minimum_headroom_m3": null,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/observed-c71249e-missing-coverage-retained.json",
+        "sha256": "ecf7883462fed90d04ebf359a3008f49addf0ba99ebd7663c51a287391c3d511",
+        "bytes": 49890
+      }
+    },
+    {
+      "revision": "c71249e",
+      "archive": "hosted-final-c71249e/observed/missing-coverage-local-search-retained.json",
+      "sha256": "d7169e2d12b4592dac552f9a55604fb5b49f16bdcf05dcbcdb920779117acace",
+      "bytes": 50063,
+      "session_id": "f585014d-81a6-4106-9f26-49ea74b813fb",
+      "status": "completed",
+      "source_mode": "local_native",
+      "capture_id": "capture-76da35f1-6c3c-4b68-880c-b337703ed46a",
+      "coverage": "unavailable",
+      "mapping_issues": [
+        {
+          "attachment_id": "tank_a",
+          "code": "missing_or_unusable_inventory",
+          "sensor_id": ""
+        }
+      ],
+      "stored_runs": 0,
+      "recommendation_status": "no_validated_plan",
+      "selected_run_id": null,
+      "model_requests": 0,
+      "failed_request_codes": [],
+      "executed_tool_order": [
+        "get_observations",
+        "get_detection_events",
+        "get_network_state",
+        "get_control_catalog"
+      ],
+      "failed_tools": [],
+      "advisory_acknowledgements": 0,
+      "operating_authority": false,
+      "credential_or_raw_reasoning_fields": 0,
+      "cost": null,
+      "cost_unit": null,
+      "minimum_headroom_m3": null,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/observed-c71249e-missing-coverage-local-search-retained.json",
+        "sha256": "d7169e2d12b4592dac552f9a55604fb5b49f16bdcf05dcbcdb920779117acace",
+        "bytes": 50063
+      }
+    }
+  ],
+  "note": "The follow-up pump search actually screened 16 coarse combinations and rejected all 16. The 750-point catalog hint and malformed candidate batches were not executed. Only a baseline trajectory was retained. Local search on the same capture found a feasible response. Do not treat unsupported model prose as numerical evidence."
+}

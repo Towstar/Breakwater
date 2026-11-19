@@ -1,0 +1,444 @@
+{
+  "audit_version": 1,
+  "recorded_utc": "2026-11-19T23:29:53.835336+00:00",
+  "scope": "All three Nov19 EOG rounds, one supplementary hosted canonical, and the zero-request setup failure",
+  "runs": [
+    {
+      "revision": "92119fbb9a7302d569a2044c3144128102307361",
+      "archive": "hosted-final-92119fb/eog/run-1.eog-session.json",
+      "sha256": "42d4b7bfda5d815f7e51363f2a3a70234ba2b7188e67e7a9625a48e4144434d6",
+      "bytes": 60903,
+      "dataset": "operations",
+      "session_id": "fe9dac62-e5ac-4ca5-989a-dcd9438594f9",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 12,
+      "model_requests": 13,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-92119fb-run-1.eog-session.json",
+        "sha256": "42d4b7bfda5d815f7e51363f2a3a70234ba2b7188e67e7a9625a48e4144434d6",
+        "bytes": 60903
+      }
+    },
+    {
+      "revision": "92119fbb9a7302d569a2044c3144128102307361",
+      "archive": "hosted-final-92119fb/eog/run-2.eog-session.json",
+      "sha256": "58fd75fb430beed1ec55ae8ec4f421d61db0346790f0f00e1c5d7bb37d17559b",
+      "bytes": 61140,
+      "dataset": "operations",
+      "session_id": "ccf754aa-c0db-443f-9708-376197f959f3",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 12,
+      "model_requests": 13,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-92119fb-run-2.eog-session.json",
+        "sha256": "58fd75fb430beed1ec55ae8ec4f421d61db0346790f0f00e1c5d7bb37d17559b",
+        "bytes": 61140
+      }
+    },
+    {
+      "revision": "92119fbb9a7302d569a2044c3144128102307361",
+      "archive": "hosted-final-92119fb/eog/run-3.eog-session.json",
+      "sha256": "90d72a989b8039bce0e36ebe88b70f61abb7542ebb1b7f55d00d96361a9377e8",
+      "bytes": 97082,
+      "dataset": "operations",
+      "session_id": "5b485d57-9f22-47ff-b0b7-f09af8798a4e",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 7,
+      "model_requests": 9,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "search_plans",
+        "validate_plan"
+      ],
+      "failure_codes": [
+        "final_format_rejected_json_document"
+      ],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-92119fb-run-3.eog-session.json",
+        "sha256": "90d72a989b8039bce0e36ebe88b70f61abb7542ebb1b7f55d00d96361a9377e8",
+        "bytes": 97082
+      }
+    },
+    {
+      "revision": "92119fbb9a7302d569a2044c3144128102307361",
+      "archive": "hosted-final-92119fb/eog/run-4.eog-session.json",
+      "sha256": "a5160c71ab3fedb7c1162d9278763074685343e77bb343b14b6ab7413f516c11",
+      "bytes": 51667,
+      "dataset": "renamed-topology",
+      "session_id": "ed1bc714-9fc9-4d04-a532-faacbf8f1534",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 10,
+      "model_requests": 11,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-92119fb-run-4.eog-session.json",
+        "sha256": "a5160c71ab3fedb7c1162d9278763074685343e77bb343b14b6ab7413f516c11",
+        "bytes": 51667
+      }
+    },
+    {
+      "revision": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+      "archive": "hosted-final-62052b9/eog/run-1.eog-session.json",
+      "sha256": "16439d3cb1356db02ef6109126355482c6bbc415cf37bf05971d73e3c70c508a",
+      "bytes": 27711,
+      "dataset": "operations",
+      "session_id": "c0ab9a0f-9c25-464b-9864-8b6db480cc1e",
+      "status": "incomplete",
+      "exit_code": 3,
+      "grounded_review_eligible_final": false,
+      "call_result_id_pairs": 1,
+      "model_requests": 3,
+      "tool_order": [
+        "detect"
+      ],
+      "failure_codes": [
+        "final_format_rejected_content_type",
+        "invalid_final_field_set"
+      ],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-62052b9-run-1.eog-session.json",
+        "sha256": "16439d3cb1356db02ef6109126355482c6bbc415cf37bf05971d73e3c70c508a",
+        "bytes": 27711
+      }
+    },
+    {
+      "revision": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+      "archive": "hosted-final-62052b9/eog/run-2.eog-session.json",
+      "sha256": "f13b8d6bec511db60ef0dbfa53039bfe07031719419d7e631b8f2f90df20bad9",
+      "bytes": 55418,
+      "dataset": "operations",
+      "session_id": "28eaa58a-c8c3-451b-ae28-9ba00c99f632",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 7,
+      "model_requests": 8,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-62052b9-run-2.eog-session.json",
+        "sha256": "f13b8d6bec511db60ef0dbfa53039bfe07031719419d7e631b8f2f90df20bad9",
+        "bytes": 55418
+      }
+    },
+    {
+      "revision": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+      "archive": "hosted-final-62052b9/eog/run-3.eog-session.json",
+      "sha256": "882cf49bb28265acc834dff0bbb4d0e163b9536a577672aa8de3e5608a6b88c0",
+      "bytes": 54249,
+      "dataset": "operations",
+      "session_id": "a0704a5e-6f3d-4ad6-8121-6575e76164be",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 6,
+      "model_requests": 7,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-62052b9-run-3.eog-session.json",
+        "sha256": "882cf49bb28265acc834dff0bbb4d0e163b9536a577672aa8de3e5608a6b88c0",
+        "bytes": 54249
+      }
+    },
+    {
+      "revision": "62052b91162fe405d9cdf8b97600488d2a7fad71",
+      "archive": "hosted-final-62052b9/eog/run-4.eog-session.json",
+      "sha256": "22414059d95d4ef669df40f420abae8099752d5611143d66c3917c3268ee57bd",
+      "bytes": 51740,
+      "dataset": "renamed-topology",
+      "session_id": "18a55305-8146-4730-a281-0828608652b0",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 10,
+      "model_requests": 11,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-62052b9-run-4.eog-session.json",
+        "sha256": "22414059d95d4ef669df40f420abae8099752d5611143d66c3917c3268ee57bd",
+        "bytes": 51740
+      }
+    },
+    {
+      "revision": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+      "archive": "hosted-final-c71249e/eog/run-1.eog-session.json",
+      "sha256": "be0db5174eba489163d75818c8f2532cbffd162355f6463673402772dd67a042",
+      "bytes": 55521,
+      "dataset": "operations",
+      "session_id": "78d8a89a-ced3-4479-bc08-887629e4299d",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 7,
+      "model_requests": 8,
+      "tool_order": [
+        "detect",
+        "evaluate_plan",
+        "read_topology",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-c71249e-run-1.eog-session.json",
+        "sha256": "be0db5174eba489163d75818c8f2532cbffd162355f6463673402772dd67a042",
+        "bytes": 55521
+      }
+    },
+    {
+      "revision": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+      "archive": "hosted-final-c71249e/eog/run-2.eog-session.json",
+      "sha256": "667c0b0decdf3258cc659c638f3de38d1285bec553c8a3adf86626f5dc644f6a",
+      "bytes": 51618,
+      "dataset": "operations",
+      "session_id": "6d1cc2c5-2dc3-4e8f-a57a-4087c91506e5",
+      "status": "incomplete",
+      "exit_code": 3,
+      "grounded_review_eligible_final": false,
+      "call_result_id_pairs": 4,
+      "model_requests": 6,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [
+        "final_format_rejected_json_document",
+        "ungrounded_final"
+      ],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-c71249e-run-2.eog-session.json",
+        "sha256": "667c0b0decdf3258cc659c638f3de38d1285bec553c8a3adf86626f5dc644f6a",
+        "bytes": 51618
+      }
+    },
+    {
+      "revision": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+      "archive": "hosted-final-c71249e/eog/run-3.eog-session.json",
+      "sha256": "2d9fd741fefa3463ea9d23a52b7b1d549fd94de07e008e9fc03761ef16d10b10",
+      "bytes": 56501,
+      "dataset": "operations",
+      "session_id": "a735b855-604b-4dec-bea1-a92ea859045e",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 8,
+      "model_requests": 9,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-c71249e-run-3.eog-session.json",
+        "sha256": "2d9fd741fefa3463ea9d23a52b7b1d549fd94de07e008e9fc03761ef16d10b10",
+        "bytes": 56501
+      }
+    },
+    {
+      "revision": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+      "archive": "hosted-final-c71249e/eog/run-4.eog-session.json",
+      "sha256": "491855a7efdb470c31bc713cd39e2e449f2cf12be3b1eb21d7e70aee4a77898e",
+      "bytes": 52966,
+      "dataset": "renamed-topology",
+      "session_id": "23e14732-a52d-4bbb-b154-3360c78dcd52",
+      "status": "incomplete",
+      "exit_code": 3,
+      "grounded_review_eligible_final": false,
+      "call_result_id_pairs": 12,
+      "model_requests": 14,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "read_observations",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [
+        "final_format_rejected_field_set",
+        "ungrounded_final"
+      ],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-c71249e-run-4.eog-session.json",
+        "sha256": "491855a7efdb470c31bc713cd39e2e449f2cf12be3b1eb21d7e70aee4a77898e",
+        "bytes": 52966
+      }
+    },
+    {
+      "revision": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+      "archive": "hosted-final-c71249e/supplementary-canonical-provider-ready/run-5.eog-session.json",
+      "sha256": "a19f87ec855176d0c0ac3013722ad2d7a7ed8aa325c5c780f29792f1cef8685f",
+      "bytes": 57924,
+      "dataset": "operations",
+      "session_id": "4d65d71e-9148-4a2f-946a-9915a3e7dbd3",
+      "status": "passed",
+      "exit_code": 0,
+      "grounded_review_eligible_final": true,
+      "call_result_id_pairs": 9,
+      "model_requests": 10,
+      "tool_order": [
+        "read_topology",
+        "detect",
+        "evaluate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "failure_codes": [],
+      "operator_records": 0,
+      "historical_nonactionable": true,
+      "credential_or_raw_reasoning_fields": 0,
+      "published": {
+        "path": "docs/evidence/v03/live-20261119/eog-c71249e-run-5.eog-session.json",
+        "sha256": "a19f87ec855176d0c0ac3013722ad2d7a7ed8aa325c5c780f29792f1cef8685f",
+        "bytes": 57924
+      }
+    }
+  ],
+  "zero_request_setup_failure": {
+    "source_commit": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+    "code": "provider_unavailable",
+    "model_requests": 0,
+    "archive_written": false,
+    "cause": "Local harness omitted the explicit provider Python interpreter; fixed once before the supplementary hosted attempt."
+  },
+  "status": "passed",
+  "note": "Archive safety/identity audit passed. This does not convert unsuccessful model completions into qualification passes."
+}

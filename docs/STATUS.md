@@ -1,6 +1,16 @@
 # Implementation status
 
-## Active development: expanded v0.3.0, November 18, 2026
+## Active development: expanded v0.3.0, November 19, 2026
+
+Implemented candidate: `c71249ee2dbef04480ee8ea52806b1808622e44a`, in the
+PR68 through PR80 stack. The [current review packet](RELEASE_REVIEW_V03.md) and
+[final verification index](evidence/v03/final-verification.json) supersede pending
+checkpoints in the dated component reports without replacing their history.
+The executable remains version 0.2.0 plus this source ID until a reviewed release.
+All six final-source Windows CI jobs pass: native 17/17 and desktop 86/86 in both
+normal and ASan, CPU science 464 passed with four explicit optional skips, and
+54 standalone Lean theorem audits. Actual runner/compiler versions, retained
+console-log hashes and artifact identities are in the verification index.
 
 The approved [next-release ledger](NEXT_RELEASE.md) covers both application and
 numerical work. Development starts from `0162656` on an isolated branch. The
@@ -21,9 +31,18 @@ bounded format-only correction. This adds no numerical tools or time allowance;
 malformed JSON, cancellation and ungrounded references retain strict handling.
 See [native completion evidence](evidence/v03/native-agent-completion.json).
 
-No new hosted rehearsal is claimed. The preceding candidate's final rehearsal
-round remains 3/4. Main integration, licensing and actual clean-Windows acceptance
-still need their recorded external gates.
+Three new source-qualified EOG hosted rounds passed 4/4 (`92119fb`), 3/4
+(`62052b9`) and 2/4 (`c71249e`). Exactly one supplementary hosted canonical on
+`c71249e` passed, making 3/5 on that source. A separate provider-configuration
+launch made zero model requests and is retained. Three canonical completions
+exist across four canonical attempts, but the newest renamed final was rejected.
+The newest observed pump investigation also missed a feasible response; native
+Local search on its same frozen source found and independently validated one,
+with advisory-only acknowledgement retained. Model prose claiming broader
+screening is not accepted as numerical evidence. Protocol smokes passed; strict
+plan/hash/final-reference gates remain intact. The hosted release gate is
+incomplete. The preceding portfolio candidate's dated 3/4 result is unchanged.
+Main integration, licensing and actual clean-Windows acceptance remain pending.
 
 The next increment implements a Qt-free native observed-volume mapper and a
 receiver-thread immutable capture seam, ported from the preserved prototype. It
@@ -73,8 +92,12 @@ placement, readable chart scales, native-forecast onboarding and guarded keyboar
 help. Five placement Qt cases and eight native UI suites pass per mode. Sequential
 hardware sweeps on the identified AMD Radeon 880M measure 62.49/62.41 FPS for
 default/dense scenes, with all 128 dense bodies picked and no label overlaps.
-Actual alternate Windows scale and clean-machine checks remain pending; the
-separate software-renderer probe is retained with its partial-picking result.
+Actual Windows scales 100/125/150/200 percent now pass installed editor and
+observed-publisher workflows (8/8), with no Qt scale override. Original 175 percent
+was restored. The private candidate's ten bundled checks pass without a supplied
+key/SDK/Torch; the preceding source also passed actual ZIP extraction/Unicode
+relocation. These laptop checks do not establish actual clean-Windows acceptance.
+The separate software-renderer probe retains its partial-picking failure.
 An [additional transport reference](../science/TRANSPORT_SOURCE_REFERENCE.md)
 checks combined dispersion, decay and a spatially varying source against exact
 continuum/semidiscrete modal solutions. All 26 transport cases pass in normal and

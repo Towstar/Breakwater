@@ -1,0 +1,1209 @@
+{
+  "verification_version": 1,
+  "recorded_utc": "2026-11-19T23:29:53.918359+00:00",
+  "application_source_commit": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+  "release_target": "0.3.0",
+  "executable_version": "0.2.0 + source ID",
+  "status": "implemented_review_candidate_with_incomplete_release_gates",
+  "public_release_approved": false,
+  "review_packet": "docs/RELEASE_REVIEW_V03.md",
+  "offline_evidence_auditor": {
+    "script": "scripts/verify_v03_evidence.py",
+    "script_sha256": "9d8af5273b3dd25c8f9e09daa0aca992459cce9fbb089a5a32c817c038591ba7",
+    "positive_archives": 19,
+    "negative_checks": {
+      "status": "passed",
+      "positive_real_archives": 19,
+      "rejected_corrupt_copies": [
+        {
+          "case": "changed-archive",
+          "exit_code": 1,
+          "result": {
+            "audit_status": "failed",
+            "error": "Archive size mismatch."
+          }
+        },
+        {
+          "case": "false-release-approval",
+          "exit_code": 1,
+          "result": {
+            "audit_status": "failed",
+            "error": "Audit cannot grant release qualification."
+          }
+        }
+      ],
+      "source": "scripts/verify_v03_evidence.py"
+    },
+    "interpretation": "Integrity/authority audit passed; this is not a hosted completion, owner approval, or release qualification."
+  },
+  "toolchain": {
+    "os": "Windows x64 developer laptop",
+    "compiler": "MSVC 19.44.35219.0",
+    "msvc_tools": "14.44.35207",
+    "vs_developer_powershell": "17.14.19",
+    "cmake": "3.31.6-msvc6",
+    "qt": "6.12.0",
+    "normal_build_type": "RelWithDebInfo",
+    "python": "3.12.13",
+    "torch": "2.15.0+cpu",
+    "cuda_available": false
+  },
+  "combined_local": {
+    "source_commit": "92119fbb9a7302d569a2044c3144128102307361",
+    "normal": {
+      "initial_passed": 84,
+      "initial_failed": 2,
+      "rerun_passed": 2,
+      "completed_unique_suites": 86,
+      "cause": "Restricted process denied os.link in two CLI fixtures; both failed suites passed with ordinary filesystem permissions.",
+      "initial_log": {
+        "local_path": "out/v03/test-final-normal.log",
+        "sha256": "2208db67d3f8f4f2146b4fc4c4b0f75988adc2b64e53e0c1d8c4f3a80cbcd83a"
+      },
+      "initial_junit": {
+        "local_path": "out/v03/final-normal-junit.xml",
+        "sha256": "26a7768470b6f8e1ea3c953b736d5b23193f974976f93a7faa2ed97b17498b85"
+      },
+      "rerun_log": {
+        "local_path": "out/v03/test-final-normal-hardlink-rerun.log",
+        "sha256": "33a2d77e9eed853b2774c23b7e183f88311663f6d24003ad67af69c34fbfdff5"
+      },
+      "rerun_junit": {
+        "local_path": "out/v03/final-normal-hardlink-rerun.xml",
+        "sha256": "dd33873d8aa905201c60b4ca72a3847e48416f4ff25672b4753d13c93f203362"
+      }
+    },
+    "asan": {
+      "passed_suites": 86,
+      "failed_suites": 0,
+      "elapsed_s": 1690.11,
+      "log": {
+        "local_path": "out/v03/test-final-asan.log",
+        "sha256": "5ff607208ce433f5feaa000592a61da4cb6e8334a455bdf90a4139f5d9fef275"
+      },
+      "junit": {
+        "local_path": "out/v03/final-asan-junit.xml",
+        "sha256": "9ffa5693c65860b835fffb584c62aca2b0240a08cce3ef84e521a0f46ba5ce1c"
+      }
+    }
+  },
+  "subsequent_focused": {
+    "62052b9": {
+      "normal_suites": 6,
+      "asan_suites": 6,
+      "qt_cases": {
+        "gateway": 28,
+        "orchestrator": 34,
+        "observed_forecast": 14,
+        "evidence_v2": 6,
+        "repository": 15,
+        "history_controller": 9
+      },
+      "normal_logs": [
+        {
+          "local_path": "out/v03/test-observed-planning-guard-normal.log",
+          "sha256": "c6bfbe64ced9b6478fffef14975694abc44ab228e6728b591598632208479b39"
+        },
+        {
+          "local_path": "out/v03/test-observed-grid-fixture-normal.log",
+          "sha256": "e4d28e6eb938ee01560da1140764a7bd89f755c539d3224438241ea78f21dad1"
+        }
+      ],
+      "normal_log_note": "The guard run retained an incorrectly targeted malformed-bound test failure; the corrected included-control fixture passed all 28 gateway cases.",
+      "asan_log": {
+        "local_path": "out/v03/test-observed-planning-final-asan.log",
+        "sha256": "ffc7ac5f977872a0f6e297d723ab2d9606cbbb95567c19306136f7dc075f09f1"
+      },
+      "ci_helpers": {
+        "passed": 44,
+        "log": {
+          "local_path": "out/v03/test-observed-planning-ci-ready.log",
+          "sha256": "4902918cb8e9fdd3c3f4164e1852ca4e12cf2a22e77431ec660e1022de00eaa9"
+        }
+      }
+    },
+    "c71249e": {
+      "normal_suites": 3,
+      "asan_suites": 3,
+      "qt_cases": {
+        "nemotron_client": 62,
+        "agent_orchestrator": 34,
+        "eog_investigator": 68
+      },
+      "normal_log": {
+        "local_path": "out/v03/test-json-final-normal.log",
+        "sha256": "1df8ab811e8a9b50c020281ed2597a3b748662ded4db2f0e11075bb556d97fe5"
+      },
+      "asan_log": {
+        "local_path": "out/v03/test-json-final-asan.log",
+        "sha256": "d0e5712e9af9e19211779a00e80ce9023e37959765976cf75742f067d65ae022"
+      }
+    }
+  },
+  "science": {
+    "tests_run": 468,
+    "passed": 464,
+    "failures": 0,
+    "errors": 0,
+    "explicit_optional_skips": [
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      }
+    ],
+    "log": {
+      "local_path": "out/v03/test-final-science-unrestricted.log",
+      "sha256": "15b4e6437283ef0e8f0486ee5fe62e640da1a2532b684cd5df99c6a0c294be0d"
+    },
+    "initial_restricted_failure": {
+      "local_path": "out/v03/test-final-science.log",
+      "sha256": "82737471ca317dbce5a7e478cb8c29ea43991507b9dcb124e3a8081f30076a7c"
+    },
+    "focused_hardlink_rerun": {
+      "local_path": "out/v03/test-final-science-hardlink-rerun.log",
+      "sha256": "65d6d056b644b12be89d6accac89a62ed13ba39616b901af7f2fdeba302361e5"
+    },
+    "scope": "Scientific implementation unchanged by the later desktop planning/transport increments; actual CPU discovery passed with ordinary filesystem access."
+  },
+  "windows_scaling": {
+    "report": "docs/evidence/v03/windows-scaling.json",
+    "checks_passed": 8,
+    "actual_windows_scales": [
+      100,
+      125,
+      150,
+      200
+    ],
+    "restored_scale_percent": 175,
+    "qt_scale_override": false,
+    "clean_machine": false,
+    "source_commit": "62052b91162fe405d9cdf8b97600488d2a7fad71"
+  },
+  "private_candidate": {
+    "source_commit": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+    "local_directory": "out/v03/portable-c71249e",
+    "report": "docs/evidence/v03/private-candidate-c71249e.json",
+    "verification": "docs/evidence/v03/private-candidate-c71249e-verification.json",
+    "passed_checks": 10,
+    "app_sha256": "59048bf93c797c9a23665069bd2400e7ba3f06db3664f6253577bb7e01d95165",
+    "windows_zip_sha256": "62d1fc30b32e99255018e3b4df1804ed4f9c5831f1ebd469ec16e4b14b92ea31",
+    "source_zip_sha256": "d2d3a69af2b028aa561f9964650f480e5a17dea7193755caf86688ba7d70c9a4",
+    "clean_machine": false,
+    "torch_bundled": false,
+    "physicsnemo_bundled": false,
+    "hosted_requests_in_bundle_check": 0,
+    "preceding_unicode_zip_relocation": "docs/evidence/v03/private-candidate-62052b9-relocation.json"
+  },
+  "hosted": {
+    "model": "nvidia/nemotron-3.5-lightning-30b-a3b",
+    "protocol_smoke_sources": [
+      "92119fb",
+      "c71249e"
+    ],
+    "eog_rounds": [
+      {
+        "source": "92119fb",
+        "passed": 4,
+        "attempts": 4
+      },
+      {
+        "source": "62052b9",
+        "passed": 3,
+        "attempts": 4
+      },
+      {
+        "source": "c71249e",
+        "fixed_round_passed": 2,
+        "fixed_round_attempts": 4,
+        "supplementary_passed": 1,
+        "supplementary_attempts": 1,
+        "total_passed": 3,
+        "total_attempts": 5
+      }
+    ],
+    "zero_request_setup_failure": {
+      "source_commit": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+      "code": "provider_unavailable",
+      "model_requests": 0,
+      "archive_written": false,
+      "cause": "Local harness omitted the explicit provider Python interpreter; fixed once before the supplementary hosted attempt."
+    },
+    "eog_archive_audit": "docs/evidence/v03/live-20261119/eog-archive-audit.json",
+    "observed_archive_audit": "docs/evidence/v03/live-20261119/observed-archive-audit.json",
+    "observed_pump_latest": "no_validated_plan; one baseline retained; coarse grid and malformed candidate arrays missed feasible native response",
+    "observed_pump_actual_search": {
+      "coarse_candidates_evaluated": 16,
+      "constraint_screen_rejections": 16,
+      "reference_checks": 0,
+      "catalog_hint_candidates_executed": 0,
+      "candidate_batches_executed": 0
+    },
+    "observed_missing_latest": "response_truncated; failed closed with zero numerical runs and zero approvals",
+    "native_same_pump_capture": "validated and advisory acknowledged; 5280 synthetic cost units; 5.773699938223231 m3 nominal headroom",
+    "native_same_missing_capture": "completed no_validated_plan with zero runs",
+    "all_case_qualification": "incomplete",
+    "comparative_model_benchmark": false,
+    "unsupported_model_prose_is_numerical_evidence": false
+  },
+  "restart_history": {
+    "status": "passed",
+    "source_commit": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+    "session_id": "698993c2-9dae-4b68-99af-935f6991692f",
+    "saved_sessions_visible": 15,
+    "stored_runs_reopened": 4,
+    "comparison_displayed": true,
+    "historical_read_only": true,
+    "restored_approval": false,
+    "project_context_backup": {
+      "local_path": "out/v03/observed-rehearsal-project-context.json",
+      "sha256": "fee162b76894021667e7eadecead6061bedefba4617f3aebc5bfdcb82a41abec"
+    },
+    "note": "Actual normal close and immediate reopen, publisher ended and all model work complete. Frozen project/configuration remained equal across both presets. Initial close-only action was rejected; combined close/reopen succeeded after evidence preservation. Native file-dialog targeting was unsuccessful and cancelled, not reported as a UI save."
+  },
+  "advisory_review_actor": "Automation exercised the authorized synthetic advisory acknowledgement. This is not an owner acceptance or licensing signoff.",
+  "limits": [
+    "No actuation; observed acknowledgement is advisory only.",
+    "No robust uncertainty-feasibility guarantee.",
+    "Production transport remains fvm-upwind-euler-0.1.0; F1/front/threshold limitations remain.",
+    "Standalone Lean assumptions do not prove the application.",
+    "ASan/WARP camera probe retained 5/6 picking failure despite passing functional UI suites.",
+    "Developer laptop isolation and actual DPI checks are not clean-VM acceptance."
+  ],
+  "external_gates": {
+    "formal_pr58_review": "pending; no formal reviews at Nov19 check",
+    "ethan_gplv3_consent": "pending",
+    "deployed_notices_and_corresponding_source_review": "pending",
+    "actual_clean_windows_acceptance": "pending",
+    "hosted_all_case_gate": "incomplete",
+    "main_integration": "not_performed",
+    "tag": "not_created",
+    "public_binary_release": "not_published"
+  },
+  "current_source_windows_ci": {
+    "status": "passed",
+    "source_commit": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+    "run_id": 44629036310,
+    "run_number": 111,
+    "url": "https://github.com/Towstar/Breakwater/actions/runs/44629036310",
+    "recorded_utc": "2026-11-19T23:28:26.832012+00:00",
+    "jobs": [
+      {
+        "id": 135930486508,
+        "name": "Native (asan)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44629036310/job/135930486508",
+        "runner_image": "windows-2022",
+        "runner_image_version": "20261116.370.1",
+        "console_log": {
+          "local_path": "out/v03/ci80-native-asan.log",
+          "sha256": "af9baabd9c2b89e78e3cf8b4f050a61ac031caae0d5e753fc03d12cfae06d87d",
+          "encoding": "UTF-8 decoded connector log, LF normalized"
+        },
+        "msvc_compiler": "19.44.35230.0",
+        "passed_ctest_suites": 17,
+        "failed_ctest_suites": 0,
+        "ctest_elapsed_s": 585.41
+      },
+      {
+        "id": 135930486909,
+        "name": "Native (normal)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44629036310/job/135930486909",
+        "runner_image": "windows-2022",
+        "runner_image_version": "20261112.366.7",
+        "console_log": {
+          "local_path": "out/v03/ci80-native-normal.log",
+          "sha256": "83665d562edcb8331ea8ee44675be4dca06c4ee71d9311b421785f9daa01ac5f",
+          "encoding": "UTF-8 decoded connector log, LF normalized"
+        },
+        "msvc_compiler": "19.44.35230.0",
+        "passed_ctest_suites": 17,
+        "failed_ctest_suites": 0,
+        "ctest_elapsed_s": 23.78
+      },
+      {
+        "id": 135936516554,
+        "name": "Desktop (asan)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44629036310/job/135936516554",
+        "runner_image": "windows-2022",
+        "runner_image_version": "20261112.366.7",
+        "console_log": {
+          "local_path": "out/v03/ci80-desktop-asan.log",
+          "sha256": "ec0c566d9c99d5230fe9b2c54f9053ed31e9a11aa2694ac3620035246523c98d",
+          "encoding": "UTF-8 decoded connector log, LF normalized"
+        },
+        "msvc_compiler": "19.44.35230.0",
+        "passed_ctest_suites": 86,
+        "failed_ctest_suites": 0,
+        "ctest_elapsed_s": 2141.79,
+        "qt_suites": [
+          {
+            "suite": "agent_gateway-results",
+            "passed": 28,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "agent_orchestrator-results",
+            "passed": 34,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "agent_science-results",
+            "passed": 31,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "editor_tools-results",
+            "passed": 15,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_analysis_client-results",
+            "passed": 43,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_analysis_controller-results",
+            "passed": 54,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_capture-results",
+            "passed": 12,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_contracts-results",
+            "passed": 71,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_dataset-results",
+            "passed": 24,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_event_details-results",
+            "passed": 8,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_history-results",
+            "passed": 15,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_investigator-results",
+            "passed": 68,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_plan_chart-results",
+            "passed": 10,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_plan_details-results",
+            "passed": 10,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_provider-results",
+            "passed": 13,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "evidence_v2-results",
+            "passed": 6,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "history_controller-results",
+            "passed": 9,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "label_placement-results",
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "local_publisher-results",
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "nemotron_client-results",
+            "passed": 62,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "observed_capture-results",
+            "passed": 9,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "observed_forecast-results",
+            "passed": 14,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "pipe_transport-results",
+            "passed": 17,
+            "failed": 0,
+            "skipped": 1,
+            "blacklisted": 0,
+            "skip_reasons": [
+              "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+            ],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "pipe_transport_evidence-results",
+            "passed": 13,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "python_worker-results",
+            "passed": 24,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "receiver_journal-results",
+            "passed": 13,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "science_evidence-results",
+            "passed": 43,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "sensor_editor-results",
+            "passed": 17,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "session_repository-results",
+            "passed": 15,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "storage_science-results",
+            "passed": 43,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "storage_worker-results",
+            "passed": 121,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "stored_science-results",
+            "passed": 6,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "telemetry_contracts-results",
+            "passed": 176,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "telemetry_lifecycle-results",
+            "passed": 27,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "telemetry_stream-results",
+            "passed": 31,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "workspace_settings-results",
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          }
+        ],
+        "optional_calibration_skipped": 1
+      },
+      {
+        "id": 135936516561,
+        "name": "Desktop (normal)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44629036310/job/135936516561",
+        "runner_image": "windows-2022",
+        "runner_image_version": "20261116.370.1",
+        "console_log": {
+          "local_path": "out/v03/ci80-desktop-normal.log",
+          "sha256": "843db5e9e64fd576572542c17c0d33650b95d70f2d908f1994556fb0894c7fe1",
+          "encoding": "UTF-8 decoded connector log, LF normalized"
+        },
+        "msvc_compiler": "19.44.35230.0",
+        "passed_ctest_suites": 86,
+        "failed_ctest_suites": 0,
+        "ctest_elapsed_s": 691.26,
+        "qt_suites": [
+          {
+            "suite": "agent_gateway-results",
+            "passed": 28,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "agent_orchestrator-results",
+            "passed": 34,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "agent_science-results",
+            "passed": 31,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "editor_tools-results",
+            "passed": 15,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_analysis_client-results",
+            "passed": 43,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_analysis_controller-results",
+            "passed": 54,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_capture-results",
+            "passed": 12,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_contracts-results",
+            "passed": 71,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_dataset-results",
+            "passed": 24,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_event_details-results",
+            "passed": 8,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_history-results",
+            "passed": 15,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_investigator-results",
+            "passed": 68,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_plan_chart-results",
+            "passed": 10,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_plan_details-results",
+            "passed": 10,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "eog_provider-results",
+            "passed": 13,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "evidence_v2-results",
+            "passed": 6,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "history_controller-results",
+            "passed": 9,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "label_placement-results",
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "local_publisher-results",
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "nemotron_client-results",
+            "passed": 62,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "observed_capture-results",
+            "passed": 9,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "observed_forecast-results",
+            "passed": 14,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "pipe_transport-results",
+            "passed": 17,
+            "failed": 0,
+            "skipped": 1,
+            "blacklisted": 0,
+            "skip_reasons": [
+              "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+            ],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "pipe_transport_evidence-results",
+            "passed": 13,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "python_worker-results",
+            "passed": 24,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "receiver_journal-results",
+            "passed": 13,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "science_evidence-results",
+            "passed": 43,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "sensor_editor-results",
+            "passed": 17,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "session_repository-results",
+            "passed": 15,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "storage_science-results",
+            "passed": 43,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "storage_worker-results",
+            "passed": 121,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "stored_science-results",
+            "passed": 6,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "telemetry_contracts-results",
+            "passed": 176,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "telemetry_lifecycle-results",
+            "passed": 27,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "telemetry_stream-results",
+            "passed": 31,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          },
+          {
+            "suite": "workspace_settings-results",
+            "passed": 5,
+            "failed": 0,
+            "skipped": 0,
+            "blacklisted": 0,
+            "skip_reasons": [],
+            "unexpected_skips": []
+          }
+        ],
+        "optional_calibration_skipped": 1
+      },
+      {
+        "id": 135936516652,
+        "name": "Lean assumption audit",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44629036310/job/135936516652",
+        "runner_image": "windows-2022",
+        "runner_image_version": "20261112.366.7",
+        "console_log": {
+          "local_path": "out/v03/ci80-lean.log",
+          "sha256": "381bf222de6934938833891433b6b232b0e111d135c19c097c1f413c89285c3b",
+          "encoding": "UTF-8 decoded connector log, LF normalized"
+        },
+        "standalone_algorithm_theorem_audits": 54
+      },
+      {
+        "id": 135936516656,
+        "name": "Python science (CPU)",
+        "status": "completed",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44629036310/job/135936516656",
+        "runner_image": "windows-2022",
+        "runner_image_version": "20261116.370.1",
+        "console_log": {
+          "local_path": "out/v03/ci80-science-cpu.log",
+          "sha256": "360a22944a02c7714ce9d006a0e1140eec765e649ec289223dc7afb90f0df0a0",
+          "encoding": "UTF-8 decoded connector log, LF normalized"
+        },
+        "msvc_compiler": "19.44.35230.0",
+        "python_science": {
+          "tests_run": 468,
+          "passed": 464,
+          "failures": 0,
+          "errors": 0,
+          "explicit_optional_physicsnemo_skips": 4,
+          "bootstrap_python": "3.12.10",
+          "science_python": "3.12.13",
+          "torch": "2.15.0+cpu"
+        }
+      }
+    ],
+    "artifacts": [
+      {
+        "id": 14585406227,
+        "name": "windows-desktop-asan",
+        "size_in_bytes": 2610846,
+        "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14585406227",
+        "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14585406227/zip",
+        "expired": false,
+        "created_at": "2026-11-19T23:25:26Z",
+        "expires_at": "2026-12-03T23:25:25Z",
+        "updated_at": "2026-11-19T23:25:26Z",
+        "digest": "sha256:bdf50bfcbc444db4e91e0ee0e6cc83e4e110f0702941d1852f949ff64710ca0d",
+        "workflow_run": {
+          "id": 44629036310,
+          "repository_id": 1449744374,
+          "head_repository_id": 1449744374,
+          "head_branch": "codex/breakwater-json-final-mode",
+          "head_sha": "c71249ee2dbef04480ee8ea52806b1808622e44a"
+        }
+      },
+      {
+        "id": 14582445479,
+        "name": "windows-native-asan",
+        "size_in_bytes": 24062,
+        "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14582445479",
+        "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14582445479/zip",
+        "expired": false,
+        "created_at": "2026-11-19T22:40:11Z",
+        "expires_at": "2026-12-03T22:40:09Z",
+        "updated_at": "2026-11-19T22:40:11Z",
+        "digest": "sha256:83771a0acab9cb0fe82b967c712f459645ee8c6275483b7dce4c92c34693fd72",
+        "workflow_run": {
+          "id": 44629036310,
+          "repository_id": 1449744374,
+          "head_repository_id": 1449744374,
+          "head_branch": "codex/breakwater-json-final-mode",
+          "head_sha": "c71249ee2dbef04480ee8ea52806b1808622e44a"
+        }
+      },
+      {
+        "id": 14582211020,
+        "name": "windows-science-cpu",
+        "size_in_bytes": 26663,
+        "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14582211020",
+        "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14582211020/zip",
+        "expired": false,
+        "created_at": "2026-11-19T22:42:47Z",
+        "expires_at": "2026-12-03T22:42:46Z",
+        "updated_at": "2026-11-19T22:42:47Z",
+        "digest": "sha256:023e88a57e01120043542a483bd5814d0bc59c16ba1e305122a8c9c6bea5a608",
+        "workflow_run": {
+          "id": 44629036310,
+          "repository_id": 1449744374,
+          "head_repository_id": 1449744374,
+          "head_branch": "codex/breakwater-json-final-mode",
+          "head_sha": "c71249ee2dbef04480ee8ea52806b1808622e44a"
+        }
+      },
+      {
+        "id": 14581738455,
+        "name": "windows-desktop-normal",
+        "size_in_bytes": 2610150,
+        "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14581738455",
+        "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14581738455/zip",
+        "expired": false,
+        "created_at": "2026-11-19T23:02:23Z",
+        "expires_at": "2026-12-03T23:02:22Z",
+        "updated_at": "2026-11-19T23:02:23Z",
+        "digest": "sha256:9661d17000658cdbfcfc0a17990797f09d730c95d1a792c6ee79a0ba4d421261",
+        "workflow_run": {
+          "id": 44629036310,
+          "repository_id": 1449744374,
+          "head_repository_id": 1449744374,
+          "head_branch": "codex/breakwater-json-final-mode",
+          "head_sha": "c71249ee2dbef04480ee8ea52806b1808622e44a"
+        }
+      },
+      {
+        "id": 14580529845,
+        "name": "windows-lean",
+        "size_in_bytes": 8810,
+        "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14580529845",
+        "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14580529845/zip",
+        "expired": false,
+        "created_at": "2026-11-19T22:43:02Z",
+        "expires_at": "2026-12-03T22:43:02Z",
+        "updated_at": "2026-11-19T22:43:02Z",
+        "digest": "sha256:c8bef7865fcd85538d522a146ca4b93edf6377b7e9690669da1084499c3a5213",
+        "workflow_run": {
+          "id": 44629036310,
+          "repository_id": 1449744374,
+          "head_repository_id": 1449744374,
+          "head_branch": "codex/breakwater-json-final-mode",
+          "head_sha": "c71249ee2dbef04480ee8ea52806b1808622e44a"
+        }
+      },
+      {
+        "id": 14580422915,
+        "name": "windows-native-normal",
+        "size_in_bytes": 24108,
+        "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14580422915",
+        "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14580422915/zip",
+        "expired": false,
+        "created_at": "2026-11-19T22:31:07Z",
+        "expires_at": "2026-12-03T22:31:06Z",
+        "updated_at": "2026-11-19T22:31:07Z",
+        "digest": "sha256:bb230cb095eb5973633cd53584b5c85861767cf1c2c607be5bb2e9bf855b1f60",
+        "workflow_run": {
+          "id": 44629036310,
+          "repository_id": 1449744374,
+          "head_repository_id": 1449744374,
+          "head_branch": "codex/breakwater-json-final-mode",
+          "head_sha": "c71249ee2dbef04480ee8ea52806b1808622e44a"
+        }
+      }
+    ],
+    "artifact_retention": "GitHub artifact metadata/digests retained. Local gh download returned HTTP 401; no artifact ZIP download is claimed. Full decoded console logs are retained locally and in the private review supplement.",
+    "scope": "Credential-free windows-2022 CI; no hosted model requests. ASan covers owned C++ targets, not prebuilt Qt/Python/Torch."
+  },
+  "private_handoff": {
+    "local_directory": "out/v03/Breakwater v0.3 c71249e VM handoff",
+    "source_commit": "c71249ee2dbef04480ee8ea52806b1808622e44a",
+    "handoff_sha256": "f619ec0a13a8ce4df6832022756f21265ef825e2ffe000c1a10110f7fa4222a1",
+    "files": {
+      "Breakwater-windows-x64.zip": "62d1fc30b32e99255018e3b4df1804ed4f9c5831f1ebd469ec16e4b14b92ea31",
+      "Breakwater-source.zip": "d2d3a69af2b028aa561f9964650f480e5a17dea7193755caf86688ba7d70c9a4",
+      "package.json": "bbc1c9c5b79bb9d29820f8d97561ba068b494dc79f63591908d3b70688520fde",
+      "source-sha256.json": "81a939e46b51b1f8cb768fc46e6a59799fc61072a65ad89e0f96d24891a4389f",
+      "CLEAN_WINDOWS_CHECK.md": "732feb2db4ae9d8865d24623a7e8523c66b17d2bd23b3eb21347c9b7a476dc4e",
+      "RELEASE_REVIEW.md": "4ee27675860adc9bfe6785efa0723add740667ae07c24d7899e5c2e08fd77e32"
+    },
+    "clean_windows": "pending",
+    "owner_review": "pending",
+    "licensing_review": "pending",
+    "review_supplement": "out/v03/Breakwater v0.3 c71249e VM handoff/review-supplement.json"
+  }
+}

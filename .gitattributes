@@ -17,3 +17,6 @@ docs/evidence/g1-contract-verification.json -text whitespace=cr-at-eol
 # Portfolio input identities and retained traces are byte-bound across platforms.
 examples/portfolio/** -text whitespace=cr-at-eol
 docs/evidence/portfolio/** -text whitespace=cr-at-eol
+
+# Keep v0.3 reports, canonical study rows and genuine hosted archives byte-bound.
+docs/evidence/v03/** -text whitespace=cr-at-eol

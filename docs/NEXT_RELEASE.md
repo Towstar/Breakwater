@@ -1,5 +1,15 @@
 # v0.3.0 implementation ledger
 
+Current checkpoint, November 19: the implementation stack is published as draft
+PR68 through PR80, application source `c71249e`. See the
+[concrete review packet](RELEASE_REVIEW_V03.md) and
+[final evidence index](evidence/v03/final-verification.json). All six exact-source
+Windows CI jobs passed. Offline, ASan,
+science, installed-bundle and real display-scale checks are recorded separately
+from the incomplete hosted gate. Latest EOG completion is 3/5 including the
+declared supplementary canonical; the observed hosted pump case still misses a
+feasible response. Keep owner/license, clean-VM and integration gates pending.
+
 Approved scope, November 18, 2026: one expanded release, delivered in small tested
 increments. Lucas's desktop/integration work and Ethan's numerical work are both
 authorized in this development session. This does not substitute for either
@@ -95,7 +105,8 @@ is authorized by this work.
 - Nemotron reliability implementation passes the focused normal and ASan checks:
   68 investigator, 54 controller and 62 transport Qt cases in each mode, plus the
   seven CLI cases. The normal CLI hard-link case needed an unrestricted rerun.
-  No new hosted result is claimed. See `evidence/v03/nemotron-reliability.json`.
+  This dated first-increment report predates the final hosted rounds; see
+  `evidence/v03/nemotron-reliability.json` and the final evidence index above.
 - Native observation mathematics and receiver-thread immutable captures pass six
   focused CTest suites in normal and ASan builds. The final capture suite contains
   nine Qt cases. The numerical mapper is connected to the capture seam. See
@@ -140,8 +151,9 @@ is authorized by this work.
 - Targeted workspace clarity is implemented and checked in normal/ASan at four
   window sizes, including keyboard help/guards and observed advisory charts.
   Hardware sweeps identify the actual AMD adapter, meet default/dense targets,
-  preserve numerical identity and pick all 128 dense bodies. Real Windows scale
-  changes and clean-machine acceptance remain pending. See `WORKSPACE_CLARITY.md`.
+  preserve numerical identity and pick all 128 dense bodies. Subsequent actual
+  Windows-scale checks pass all four scales; clean-machine acceptance remains
+  pending. See `WORKSPACE_CLARITY.md`.
 - Eight new exact closed scalar-reference runs cover coupled dispersion/decay/
   spatial source and fixed-mesh time refinement. The native transport suite is
   26/26 in both modes. The production method, contracts and F1/front limitations
