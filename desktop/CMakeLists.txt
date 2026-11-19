@@ -102,7 +102,8 @@ qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
     qml/Theme.qml qml/ActionButton.qml qml/ActionFeedbackCard.qml
     qml/IndustrialEquipment.qml qml/IndustrialPipe.qml qml/AppComboBox.qml qml/DialogHeading.qml
     qml/EogAnalysisView.qml qml/IndustrialEnvironment.qml qml/IndustrialLighting.qml
-    qml/SiteGround.qml qml/SitePad.qml qml/ConnectionPreview.qml qml/ForecastPanel.qml qml/DialogFooter.qml qml/AssetInspector.qml qml/SceneAxes.qml)
+    qml/SiteGround.qml qml/SitePad.qml qml/ConnectionPreview.qml qml/ForecastPanel.qml qml/DialogFooter.qml qml/AssetInspector.qml qml/SceneAxes.qml
+    qml/SceneLabels.qml qml/LabelPlacement.js qml/WorkspaceHelp.qml)
 file(GLOB _breakwater_action_icons CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/*.svg")
 qt_add_resources(breakwater breakwater_visual_assets PREFIX /breakwater/assets
   BASE "${CMAKE_CURRENT_SOURCE_DIR}/assets"
@@ -124,6 +125,13 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
 endif()
 
 if(BUILD_TESTING)
+  qt_add_executable(breakwater_label_placement_tests tests/label_placement_tests.cpp)
+  target_link_libraries(breakwater_label_placement_tests PRIVATE Qt6::Qml Qt6::Test)
+  target_compile_definitions(breakwater_label_placement_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+  add_test(NAME desktop.label_placement COMMAND breakwater_label_placement_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/label_placement-results.txt,txt")
+  set_tests_properties(desktop.label_placement PROPERTIES
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   qt_add_executable(breakwater_evidence_v2_tests tests/evidence_v2_tests.cpp)
   target_link_libraries(breakwater_evidence_v2_tests PRIVATE breakwater_agent Qt6::Test)
   add_test(NAME desktop.evidence_v2 COMMAND breakwater_evidence_v2_tests
@@ -148,7 +156,7 @@ if(BUILD_TESTING)
       list(APPEND _ui_args --compact-ui)
     endif()
     add_test(NAME desktop.ui_overhaul_${_ui_size} COMMAND breakwater ${_ui_args})
-    set_tests_properties(desktop.ui_overhaul_${_ui_size} PROPERTIES TIMEOUT 60
+    set_tests_properties(desktop.ui_overhaul_${_ui_size} PROPERTIES TIMEOUT 90
       ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1"
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
     if(_ui_size STREQUAL "minimum")

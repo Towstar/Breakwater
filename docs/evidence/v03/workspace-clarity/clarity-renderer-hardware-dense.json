@@ -1,0 +1,40 @@
+{
+  "actual_body_picks": {
+    "label_overlaps": 0,
+    "labels": 19,
+    "pickable": 128,
+    "projected": 128
+  },
+  "all_bodies_pickable": true,
+  "assets": 128,
+  "client_height": 900,
+  "client_width": 1440,
+  "detail_visible": false,
+  "device_pixel_ratio": 1.75,
+  "effective_scene_quality": 0,
+  "elapsed_ms": 9965.632,
+  "fps": 62.41450617482163,
+  "frame_interval_p50_ms": 16.3319,
+  "frame_interval_p95_ms": 28.8803,
+  "frames": 622,
+  "graphics_api": 4,
+  "hardware_target_met": true,
+  "label_overlap_pairs": 0,
+  "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+  "numerical_identity_unchanged": true,
+  "recorded_utc": "2026-11-19T15:36:06Z",
+  "renderer": {
+    "adapter": "AMD Radeon(TM) 880M Graphics",
+    "device_id": 5390,
+    "software": false,
+    "status": "identified",
+    "vendor_id": 4098
+  },
+  "routes": 256,
+  "screenshot_written": true,
+  "software_renderer_requested": false,
+  "status": "measured",
+  "target_fps": 30,
+  "target_met": true,
+  "visible_label_count": 19
+}

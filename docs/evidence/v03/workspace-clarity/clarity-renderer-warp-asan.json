@@ -1,0 +1,40 @@
+{
+  "actual_body_picks": {
+    "label_overlaps": 0,
+    "labels": 6,
+    "pickable": 5,
+    "projected": 6
+  },
+  "all_bodies_pickable": false,
+  "assets": 6,
+  "client_height": 900,
+  "client_width": 1440,
+  "detail_visible": true,
+  "device_pixel_ratio": 1.75,
+  "effective_scene_quality": 1,
+  "elapsed_ms": 6444.650799999999,
+  "fps": 12.568563063184122,
+  "frame_interval_p50_ms": 76.3541,
+  "frame_interval_p95_ms": 108.6577,
+  "frames": 81,
+  "graphics_api": 4,
+  "hardware_target_met": false,
+  "label_overlap_pairs": 0,
+  "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+  "numerical_identity_unchanged": true,
+  "recorded_utc": "2026-11-19T07:26:57Z",
+  "renderer": {
+    "adapter": "Microsoft Basic Render Driver",
+    "device_id": 140,
+    "software": true,
+    "status": "identified",
+    "vendor_id": 5140
+  },
+  "routes": 6,
+  "screenshot_written": true,
+  "software_renderer_requested": true,
+  "status": "measured",
+  "target_fps": 60,
+  "target_met": false,
+  "visible_label_count": 6
+}

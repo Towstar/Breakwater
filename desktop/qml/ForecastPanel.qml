@@ -17,39 +17,48 @@ ColumnLayout {
     spacing: 6
     RowLayout {
         Layout.fillWidth: true
-        Label { text: "FORECAST / VALIDATION"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.2; font.bold: true }
-        Item { Layout.fillWidth: true }
-        Label { text: controller.runId.length ? "Run " + controller.runId.substring(0, 8) : "No executed forecast"; color: Theme.muted; font.pixelSize: Theme.captionSize }
+        Label { Layout.fillWidth: true; Layout.minimumWidth: 0; text: "FORECAST / VALIDATION"; elide: Text.ElideRight; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.2; font.bold: true }
+        Label { visible: controller.runId.length > 0; text: "Run " + controller.runId.substring(0, 8); color: Theme.muted; font.pixelSize: Theme.captionSize }
         ActionButton { iconName: "clipboard-check"; text: "Approve simulated preview"; enabled: controller.canApprove; tooltip: "Review this exact forecast before approving the preview"; onClicked: { panel.reviewSnapshot = controller.forecastDetails; review.open() } }
     }
     RowLayout {
         Layout.fillWidth: true; Layout.fillHeight: true; spacing: 16
         ScrollView {
-            id: summaryScroll; Layout.preferredWidth: Math.min(280, panel.width * 0.33); Layout.fillHeight: true; contentWidth: availableWidth; clip: true
+            id: summaryScroll; Layout.preferredWidth: Math.min(260, panel.width * 0.28); Layout.fillHeight: true; contentWidth: availableWidth; clip: true; padding: 10
+            background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
             Label { width: summaryScroll.availableWidth; text: controller.summary; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.text; font.pixelSize: Theme.smallSize }
         }
         ColumnLayout {
             Layout.fillWidth: true; Layout.fillHeight: true; spacing: 4
             RowLayout {
-                Layout.fillWidth: true
+                Layout.fillWidth: true; visible: controller.runId.length > 0
                 Label { text: "Tank"; color: Theme.secondary; font.pixelSize: Theme.smallSize }
                 AppComboBox {
-                    objectName: "forecastTankSelector"; Layout.fillWidth: true; model: panel.tanks; textRole: "label"; valueRole: "id"
+                    objectName: "forecastTankSelector"; Layout.fillWidth: true; Layout.minimumWidth: 0; model: panel.tanks; textRole: "label"; valueRole: "id"
                     currentIndex: panel.tanks.findIndex(row => row.id === panel.activeTank)
                     enabled: panel.tanks.length > 0
                     displayText: count ? currentText : "Run a forecast to view a tank"
                     onActivated: panel.tankId = panel.tanks[currentIndex].id
                 }
-                Label { text: "m³ · elapsed hours"; color: Theme.muted; font.pixelSize: Theme.captionSize }
             }
             TrajectoryChart {
-                Layout.fillWidth: true; Layout.fillHeight: true; chart: panel.plotted
+                Layout.fillWidth: true; Layout.fillHeight: true; chart: panel.plotted; visible: !!panel.plotted.available
                 emptyText: "Run a forecast to view the native tank trajectory."
+            }
+            Rectangle {
+                Layout.fillWidth: true; Layout.fillHeight: true; visible: !panel.plotted.available
+                color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider
+                ColumnLayout {
+                    anchors.centerIn: parent; width: Math.min(380,parent.width-32); spacing: 10
+                    Label { Layout.fillWidth: true; text: "Forecast this network"; font.pixelSize: 16; font.weight: Font.DemiBold; wrapMode: Text.WordWrap }
+                    Label { Layout.fillWidth: true; text: "Calculate tank volumes and capacity margins from the current simulation inputs. No model key is needed."; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary; font.pixelSize: Theme.smallSize }
+                    ActionButton { objectName: "forecastEmptyRun"; text: controller.busy ? "Calculating…" : "Run native forecast"; iconName: "play"; enabled: !controller.busy && controller.draftIssues.length === 0; onClicked: controller.forecast() }
+                }
             }
         }
     }
     RowLayout {
-        Layout.fillWidth: true
+        Layout.fillWidth: true; visible: controller.runId.length > 0
         Label { text: "t = " + controller.forecastTimeH.toFixed(3) + " h"; Layout.preferredWidth: 95; font.pixelSize: Theme.smallSize }
         Slider { Layout.fillWidth: true; from: 0; to: 1; enabled: controller.runId.length > 0; value: controller.forecastFraction; onMoved: controller.forecastFraction = value }
         Label { text: controller.runId.length ? controller.forecastHorizonH.toFixed(3) + " h" : "No executed horizon"; color: Theme.secondary; font.pixelSize: Theme.smallSize }

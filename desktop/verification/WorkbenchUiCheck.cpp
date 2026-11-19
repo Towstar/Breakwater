@@ -130,7 +130,7 @@ class Check final : public QObject {
             require(window_ && controller_, "ui_destroyed");
             // Includes actual native pipe execution, SQL retention/reload and
             // the compact History-to-viewer action in addition to editor checks.
-            require(elapsed_.elapsed() < 40000, "ui_check_timeout");
+            require(elapsed_.elapsed() < (observed_only_ ? 40000 : 60000), "ui_check_timeout");
             switch (phase_) {
             case 0: {
                 if (!window_->isVisible() || !window_->isExposed() || !window_->property("sceneReady").toBool()) return;
@@ -159,7 +159,8 @@ class Check final : public QObject {
                     controller_->loadExample("monitoring"); observed_project_=controller_->editorDocument();
                     eval("app.openTelemetry()"); phase_=52; break;
                 }
-                SimulationConfig config; config.horizon_h = 1.25; controller_->forecastWithConfig(config); break;
+                require(item("forecastEmptyRun")->isVisible() && item("forecastEmptyRun")->isEnabled(),"empty_forecast_action_unavailable");
+                click(item("forecastEmptyRun")); phase_=64; return;
             }
             case 1:
                 if (controller_->busy()) return;
@@ -541,6 +542,29 @@ class Check final : public QObject {
                 require(eval("app.telemetry.error.length===0").toBool(),"observed_ui_source_shutdown_failed");
                 passed("actual_python_capture_native_search_advisory_review_and_retention_without_control_application");
                 finish(true,"ok"); return;
+            case 64:
+                if (controller_->busy()) return;
+                require(!controller_->runId().isEmpty() && controller_->forecastHorizonH()==3,"onboarding_did_not_run_native_forecast");
+                observed_project_=controller_->editorDocument(); hash_=controller_->networkHash(); run_=controller_->runId(); revision_=controller_->simulationRevision();
+                key(Qt::Key_F1); break;
+            case 65:
+                if (!eval("sceneHelpDialog.visible").toBool()) return;
+                require(!eval("app.sceneKeysEnabled()").toBool(),"help_did_not_block_edit_shortcuts");
+                snapshot("20-workspace-keyboard-help.png"); key(Qt::Key_D,Qt::ControlModifier); break;
+            case 66:
+                require(controller_->editorDocument()==observed_project_,"help_allowed_a_project_edit"); preserved();
+                key(Qt::Key_Escape); break;
+            case 67:
+                require(!eval("sceneHelpDialog.visible").toBool(),"help_escape_close_failed");
+                key(Qt::Key_0,Qt::ControlModifier); break;
+            case 68:
+                require(eval("app.fittedView").toBool(),"fit_keyboard_shortcut_failed"); preserved();
+                key(Qt::Key_Home,Qt::ControlModifier); break;
+            case 69: {
+                require(!eval("app.fittedView").toBool() && controller_->editorDocument()==observed_project_,"home_shortcut_changed_project"); preserved();
+                passed("empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project");
+                SimulationConfig config; config.horizon_h=1.25; controller_->forecastWithConfig(config); phase_=1; return;
+            }
             default: throw std::runtime_error("invalid_phase");
             }
             ++phase_;

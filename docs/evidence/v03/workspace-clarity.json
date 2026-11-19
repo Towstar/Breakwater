@@ -1,0 +1,190 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "e39285d768c383fdf8d9eb904d772ef59ac5a6fb",
+  "recorded_utc": "2026-11-19T20:57:03.525854+00:00",
+  "scope": "View-only label/chart/help/onboarding polish; native forecast action uses the existing controller. No numerical or control-approval policy changes.",
+  "checks": {
+    "normal": {
+      "placement_qt_cases": 5,
+      "editor_ui_sizes": 4,
+      "observed_advisory_ui_sizes": 4,
+      "failed": 0,
+      "skipped": 0
+    },
+    "asan": {
+      "placement_qt_cases": 5,
+      "editor_ui_sizes": 4,
+      "observed_advisory_ui_sizes": 4,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "source_sha256": {
+    "desktop/CMakeLists.txt": "962364ac837399a90dcd83832950a6674c208b873efe9e4a23eaedc39e0aea47",
+    "desktop/qml/ForecastPanel.qml": "2e0bcd8dfa4c8ea9dbf7ae86885f4e02448be83a814e83ef9d37da2772493575",
+    "desktop/qml/Main.qml": "7f435949aab89823937aae06f30b51621483bdb5617a9d45e01bf743e4dd3b1e",
+    "desktop/qml/TrajectoryChart.qml": "a7aebdf5cb7af5a756a37158fe6038742c45663417d772a95941d032aa87c503",
+    "desktop/qml/LabelPlacement.js": "48c63e2f88fda2631cb9b4532bf49c5d03cef2fd626ad6450540f931b1d5f06b",
+    "desktop/qml/SceneLabels.qml": "db0a21fedd8ff5df8e0f9c30eb9cef74c976c2da9df4d758b7ccd0311d41f072",
+    "desktop/qml/WorkspaceHelp.qml": "b9b32ee007ab52ac1cf6eef3cfb357a1bb5286e138fd93eb9ce5f677a1bd93d6",
+    "desktop/tests/label_placement_tests.cpp": "9cc833230fffc1d5719e066cc53123b29c3fb4b3a00e2ff6e42b53a1a5f007a5",
+    "desktop/verification/SceneBenchmark.cpp": "b68cc5ac87c88fb08a9f5547fa06f484721306ce7feeb641f4d24c340d1c53b1",
+    "desktop/verification/WorkbenchUiCheck.cpp": "0cdfb479df8b094132c7bd3b64164080494df707647efdc439c8c10c12cbf5a6"
+  },
+  "binary_sha256": {
+    "normal": "3a4374187ebfe9373117d3bf5ae02ede95d55205467dc93f2fc779399347c84a",
+    "asan": "88d611e9eae5e685377ea53389ccdf0c35fa04b295365ab3ce6ad6496da410a7"
+  },
+  "component_scope": "The eight native UI suites per mode tested the final QML/workbench implementation. Afterwards only the benchmark renderer-description callback was added; sequential normal hardware and ASan/WARP executions exercise that callback. UI action checks are not relabeled as a rerun of the new benchmark-only code.",
+  "hardware": {
+    "default": {
+      "actual_body_picks": {
+        "label_overlaps": 0,
+        "labels": 6,
+        "pickable": 6,
+        "projected": 6
+      },
+      "all_bodies_pickable": true,
+      "assets": 6,
+      "client_height": 900,
+      "client_width": 1440,
+      "detail_visible": true,
+      "device_pixel_ratio": 1.75,
+      "effective_scene_quality": 1,
+      "elapsed_ms": 9985.601600000007,
+      "fps": 62.48997556641951,
+      "frame_interval_p50_ms": 16.673,
+      "frame_interval_p95_ms": 18.3384,
+      "frames": 624,
+      "graphics_api": 4,
+      "hardware_target_met": true,
+      "label_overlap_pairs": 0,
+      "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+      "numerical_identity_unchanged": true,
+      "recorded_utc": "2026-11-19T15:35:52Z",
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "routes": 6,
+      "screenshot_written": true,
+      "software_renderer_requested": false,
+      "status": "measured",
+      "target_fps": 60,
+      "target_met": true,
+      "visible_label_count": 6
+    },
+    "dense": {
+      "actual_body_picks": {
+        "label_overlaps": 0,
+        "labels": 19,
+        "pickable": 128,
+        "projected": 128
+      },
+      "all_bodies_pickable": true,
+      "assets": 128,
+      "client_height": 900,
+      "client_width": 1440,
+      "detail_visible": false,
+      "device_pixel_ratio": 1.75,
+      "effective_scene_quality": 0,
+      "elapsed_ms": 9965.632,
+      "fps": 62.41450617482163,
+      "frame_interval_p50_ms": 16.3319,
+      "frame_interval_p95_ms": 28.8803,
+      "frames": 622,
+      "graphics_api": 4,
+      "hardware_target_met": true,
+      "label_overlap_pairs": 0,
+      "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+      "numerical_identity_unchanged": true,
+      "recorded_utc": "2026-11-19T15:36:06Z",
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "routes": 256,
+      "screenshot_written": true,
+      "software_renderer_requested": false,
+      "status": "measured",
+      "target_fps": 30,
+      "target_met": true,
+      "visible_label_count": 19
+    }
+  },
+  "software_probe": {
+    "exit_code": 9,
+    "report": {
+      "actual_body_picks": {
+        "label_overlaps": 0,
+        "labels": 6,
+        "pickable": 5,
+        "projected": 6
+      },
+      "all_bodies_pickable": false,
+      "assets": 6,
+      "client_height": 900,
+      "client_width": 1440,
+      "detail_visible": true,
+      "device_pixel_ratio": 1.75,
+      "effective_scene_quality": 1,
+      "elapsed_ms": 6444.650799999999,
+      "fps": 12.568563063184122,
+      "frame_interval_p50_ms": 76.3541,
+      "frame_interval_p95_ms": 108.6577,
+      "frames": 81,
+      "graphics_api": 4,
+      "hardware_target_met": false,
+      "label_overlap_pairs": 0,
+      "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+      "numerical_identity_unchanged": true,
+      "recorded_utc": "2026-11-19T07:26:57Z",
+      "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "routes": 6,
+      "screenshot_written": true,
+      "software_renderer_requested": true,
+      "status": "measured",
+      "target_fps": 60,
+      "target_met": false,
+      "visible_label_count": 6
+    },
+    "interpretation": "Correctly identifies the software renderer. No hardware FPS target applies. Five of six body probes succeed in the final rotated view; this is retained as a partial-picking failure, not a universal picking qualification."
+  },
+  "logs": [
+    "out/v03/test-workspace-clarity-first-normal.log",
+    "out/v03/test-workspace-clarity-asan.log",
+    "out/v03/test-clarity-observed-normal.log",
+    "out/v03/test-clarity-observed-asan.log",
+    "out/v03/clarity-renderer-hardware-default.log",
+    "out/v03/clarity-renderer-hardware-dense.log",
+    "out/v03/clarity-renderer-warp-asan.log"
+  ],
+  "ui_artifacts": "out/v03/clarity-ui-{normal,asan}/breakwater-ui-*/01-workbench-ready.png, 20-workspace-keyboard-help.png and the existing source/review/history captures",
+  "retained_attempts": [
+    "The first PowerShell GUI launches returned without completed benchmark reports. Those empty logs are retained and are not measurements. Python subprocess.run then waited for each sequential execution.",
+    "Earlier sequential laptop sweeps without adapter metadata passed; the final reported sweeps explicitly identify the AMD Radeon 880M and software=false.",
+    "The ASan/WARP renderer probe has a partial-picking exit and low software-renderer FPS; it is not called a performance pass.",
+    "Windows Settings could not be activated; an app update interrupted computer use before any scale action. No alternate scale was tested or applied."
+  ],
+  "not_claimed": [
+    "100/125/150/200 percent actual Windows scale acceptance",
+    "Clean Windows VM/account acceptance",
+    "Every body visible/pickable from every camera angle",
+    "Field hydraulic or geographical geometry",
+    "New hosted Nemotron results",
+    "Main integration, licensing consent or public binary release"
+  ],
+  "self_review": "Checked label input immutability/priority/clipping/exclusions, PlainText names, retained equipment picking IDs, view shortcut guards and Escape handling, same-controller native onboarding, preserved forecast/control identities, finite chart formatting, and render-thread device access with queued immutable GUI reporting. Not a formal owner review."
+}

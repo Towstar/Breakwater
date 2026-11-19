@@ -9,12 +9,19 @@ Rectangle {
     required property var chart
     property string emptyText: "Select a stored run and tank to inspect its trajectory."
     function isReference(series) { return series.reference === true || series.label === "Baseline" }
+    function valueText(value) {
+        const magnitude = Math.abs(value)
+        return magnitude !== 0 && (magnitude >= 100000 || magnitude < 0.01)
+            ? value.toExponential(2).replace("e+", "e") : value.toFixed(magnitude < 1 ? 2 : 1)
+    }
     color: Theme.surface; radius: 4
+    Accessible.role: Accessible.StaticText
+    Accessible.name: chart.available ? "Tank volume trajectory in cubic metres over elapsed hours. Capacity " + Number(chart.capacity_m3) + " cubic metres. Predictions are not clipped to capacity." : emptyText
     onChartChanged: plot.requestPaint()
     ColumnLayout {
-        anchors.fill: parent; anchors.margins: 6; spacing: 0
-        RowLayout {
-            Layout.fillWidth: true; spacing: 14
+        anchors.fill: parent; anchors.margins: 10; spacing: 6
+        Flow {
+            Layout.fillWidth: true; spacing: 14; visible: !!chartRoot.chart.available
             Repeater {
                 model: chartRoot.chart.series || []
                 delegate: Label {
@@ -24,8 +31,7 @@ Rectangle {
                     color: chartRoot.isReference(modelData) ? Theme.plotReference : Theme.plotCandidate
                 }
             }
-            Item { Layout.fillWidth: true }
-            Label { text: "Stored volume · m³"; textFormat: Text.PlainText; font.pixelSize: Theme.captionSize; color: Theme.muted }
+            Label { text: "Volume · m³"; textFormat: Text.PlainText; font.pixelSize: Theme.captionSize; color: Theme.muted }
         }
         Canvas {
             id: plot
@@ -53,7 +59,8 @@ Rectangle {
                 if (!(high > low) || !(horizon > 0)) return
                 const magnitude = Math.max(Math.abs(low), Math.abs(high), 1e-300)
                 const normalizedLow = low / magnitude, normalizedHigh = high / magnitude
-                const left = 47, right = width - 12, top = 13, bottom = height - 24
+                const left = 70, right = width - 14, top = 18, bottom = height - 26
+                if (right - left < 20 || bottom - top < 12) return
                 const x = function(t) { return left + Number(t) / horizon * (right - left) }
                 const y = function(v) { return bottom - (Number(v) / magnitude - normalizedLow) / (normalizedHigh - normalizedLow) * (bottom - top) }
                 ctx.font = "11px 'Segoe UI'"; ctx.lineWidth = 1; ctx.setLineDash([])
@@ -61,7 +68,7 @@ Rectangle {
                 for (let i = 0; i <= 2; ++i) {
                     const value = (normalizedLow + (normalizedHigh - normalizedLow) * i / 2) * magnitude, py = bottom - i / 2 * (bottom - top)
                     ctx.strokeStyle = Theme.divider; ctx.beginPath(); ctx.moveTo(left, py); ctx.lineTo(right, py); ctx.stroke()
-                    ctx.fillStyle = Theme.muted; ctx.fillText(Number(value).toFixed(1), left - 7, py)
+                    ctx.fillStyle = Theme.muted; ctx.fillText(chartRoot.valueText(value), left - 9, py)
                 }
                 if (low < 0 && high > 0) {
                     ctx.strokeStyle = Theme.controlBorder; ctx.setLineDash([2, 3]); ctx.beginPath(); ctx.moveTo(left, y(0)); ctx.lineTo(right, y(0)); ctx.stroke()
@@ -69,8 +76,9 @@ Rectangle {
                 const capacityY = y(data.capacity_m3)
                 ctx.strokeStyle = Theme.warning; ctx.lineWidth = 1.2; ctx.setLineDash([6, 4])
                 ctx.beginPath(); ctx.moveTo(left, capacityY); ctx.lineTo(right, capacityY); ctx.stroke()
-                ctx.fillStyle = Theme.warning; ctx.textAlign = "right"; ctx.textBaseline = "bottom"
-                ctx.fillText("Capacity " + Number(data.capacity_m3).toFixed(1) + " m³", right, capacityY - 3)
+                ctx.fillStyle = Theme.warning; ctx.textAlign = "right"
+                ctx.textBaseline = capacityY < top + 18 ? "top" : "bottom"
+                ctx.fillText("Capacity " + chartRoot.valueText(Number(data.capacity_m3)) + " m³", right, capacityY < top + 18 ? top + 3 : capacityY - 4)
                 const series = data.series || []
                 for (let j = 0; j < series.length; ++j) {
                     const line = series[j], points = line.points || []
