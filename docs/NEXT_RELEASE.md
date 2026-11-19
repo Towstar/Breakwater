@@ -101,4 +101,12 @@ is authorized by this work.
   nine Qt cases. The numerical mapper is connected to the capture seam, while
   forecast/review UI and ongoing detection are still pending. See
   `evidence/v03/observed-mapping.json` and `OBSERVED_STATE.md`.
-- Later increments remain pending implementation and verification.
+- Local acquisition/replay and the capture UI pass normal and ASan checks. Actual
+  Python subprocess integration exercises pump loss, lifecycle acknowledgements,
+  restart retirement and timed export/replay. Four window-size UI checks pass in
+  both modes. Live inspection captured ten samples with zero mapping issues and
+  left only the newest app open. A reproduced CPython stdin-lock shutdown failure
+  was corrected and retained as regression evidence. PR68 and PR69 Windows CI
+  passed. See `LOCAL_MONITORING.md` and `evidence/v03/local-acquisition.json`.
+- Detection, forecasts/review, history/scientific workflow and final qualification
+  remain pending implementation and verification.

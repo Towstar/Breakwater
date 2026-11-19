@@ -18,10 +18,14 @@ target_link_libraries(breakwater_desktop_base PUBLIC breakwater_telemetry Qt6::Q
 
 qt_add_library(breakwater_telemetry_runtime STATIC
   telemetry/ObservedMapping.hpp telemetry/ObservedMapping.cpp
+  telemetry/ReceiverJournal.hpp telemetry/ReceiverJournal.cpp
   telemetry/TelemetryStream.hpp telemetry/TelemetryStream.cpp
   telemetry/TelemetryController.hpp telemetry/TelemetryController.cpp)
 target_include_directories(breakwater_telemetry_runtime PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
 target_link_libraries(breakwater_telemetry_runtime PUBLIC breakwater_telemetry Qt6::Core)
+target_compile_definitions(breakwater_telemetry_runtime PRIVATE
+  BREAKWATER_TELEMETRY_PUBLISHER_PATH="${PROJECT_SOURCE_DIR}/science/telemetry_publisher.py"
+  BREAKWATER_TELEMETRY_DEVELOPMENT_BIN="$<TARGET_FILE_DIR:breakwater>")
 
 qt_add_library(breakwater_eog_contracts STATIC eog/EogContracts.hpp eog/EogContracts.cpp)
 target_include_directories(breakwater_eog_contracts PUBLIC ${CMAKE_CURRENT_SOURCE_DIR})
@@ -169,7 +173,7 @@ if(BUILD_TESTING)
     set(Python3_EXECUTABLE "$ENV{BREAKWATER_PYTHON}")
   endif()
   find_package(Python3 3.12 QUIET COMPONENTS Interpreter)
-  foreach(_suite sensor_editor telemetry_stream telemetry_lifecycle observed_capture)
+  foreach(_suite sensor_editor telemetry_stream telemetry_lifecycle observed_capture local_publisher receiver_journal)
     qt_add_executable(breakwater_${_suite}_tests tests/${_suite}_tests.cpp)
     target_link_libraries(breakwater_${_suite}_tests PRIVATE breakwater_desktop_base breakwater_telemetry_runtime Qt6::Test)
     target_compile_definitions(breakwater_${_suite}_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")

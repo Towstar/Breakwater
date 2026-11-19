@@ -55,7 +55,7 @@ struct TelemetryStream::State {
     qsizetype traceBytes = 0, reorderBytes = 0, ingressBytes = 0, ingressReadings = 0;
     quint64 retiredSequence = 0;
     bool configured = false, started = false, ended = false, failed = false, paused = false;
-    bool ledgerRetired = false, recordingTruncated = false;
+    bool ledgerRetired = false, recordingTruncated = false, receiptTimedReplay = false;
 
     void count(const QString& name, quint64 amount = 1) {
         counters[name] = std::min<quint64>(dto::maximum_sequence, counters.value(name) + amount);
@@ -176,11 +176,11 @@ void TelemetryStream::configure(const QJsonObject& configuration, const QJsonObj
     }
     replacement->configured = true; state_ = std::move(replacement);
 }
-void TelemetryStream::beginEpoch(const QString& mode) {
+void TelemetryStream::beginEpoch(const QString& mode, bool receiptTimedReplay) {
     if (!state_->configured) throw std::invalid_argument("Configure sensors before beginning a telemetry epoch.");
     if (mode != "synthetic_live" && mode != "replay" && mode != "historical") throw std::invalid_argument("Unsupported receiver mode.");
     const auto configuration = state_->configuration, context = state_->context;
-    configure(configuration, context); state_->mode = mode;
+    configure(configuration, context); state_->mode = mode; state_->receiptTimedReplay = receiptTimedReplay && mode != "synthetic_live";
 }
 bool TelemetryStream::ingest(const QByteArray& raw, double nowEventS, double receivedMonotonicS, const QString& receivedUtc) {
     auto& s = *state_;
@@ -287,8 +287,8 @@ void TelemetryStream::advance(double nowEventS, double receivedMonotonicS) {
 }
 QJsonObject TelemetryStream::report() const {
     const auto& s = *state_;
-    const bool sourceUnavailable = !s.started || s.failed || (s.mode == "synthetic_live" &&
-        (s.ended || s.lastValidReceive < 0.0 ||
+    const bool sourceUnavailable = !s.started || s.failed || ((s.mode == "synthetic_live" || s.receiptTimedReplay) &&
+        ((s.mode == "synthetic_live" && s.ended) || s.lastValidReceive < 0.0 ||
          (s.lastReceive >= 0.0 && s.lastReceive - s.lastValidReceive > s.decoded.policy.source_timeout_s)));
     const auto conflicts = s.disagreements(); QJsonArray sensors;
     for (auto it = s.sensors.cbegin(); it != s.sensors.cend(); ++it) {

@@ -26,6 +26,8 @@ class TelemetryController final : public QObject {
     Q_PROPERTY(bool active READ active NOTIFY changed)
     Q_PROPERTY(bool paused READ paused NOTIFY changed)
     Q_PROPERTY(bool publisherConfigured READ publisherConfigured CONSTANT)
+    Q_PROPERTY(bool bundledPublisher READ bundledPublisher CONSTANT)
+    Q_PROPERTY(QStringList syntheticPresets READ syntheticPresets CONSTANT)
     Q_PROPERTY(double eventTime READ eventTime NOTIFY changed)
     Q_PROPERTY(double rate READ rate NOTIFY changed)
     Q_PROPERTY(QVariantList sensors READ sensors NOTIFY changed)
@@ -46,6 +48,8 @@ public:
     bool active() const { return snapshot_.value("active").toBool(); }
     bool paused() const { return snapshot_.value("paused").toBool(); }
     bool publisherConfigured() const { return publisher_configured_; }
+    bool bundledPublisher() const { return bundled_publisher_; }
+    QStringList syntheticPresets() const;
     double eventTime() const { return snapshot_.value("event_time_s").toDouble(); }
     double rate() const { return snapshot_.value("clock_rate", 1.0).toDouble(); }
     QVariantList sensors() const { return snapshot_.value("sensors").toList(); }
@@ -62,6 +66,7 @@ public:
     // numerical revision and complete command catalog. No caller supplies samples.
     // Existing acquisition does not enable capture until this context is set.
     bool setObservedCaptureContext(const QJsonObject& registry, quint64 numericalRevision, const QJsonArray& commands);
+    void clearObservedCaptureContext();
     Q_INVOKABLE QString requestObservedCapture();
     Q_INVOKABLE void cancelObservedCapture();
 
@@ -69,6 +74,7 @@ public:
     void startProcess(const QString& executable, const QStringList& arguments = {});
     void setTimeoutMs(int milliseconds);
     Q_INVOKABLE void startConfiguredPublisher();
+    Q_INVOKABLE void startSynthetic(const QString& preset, quint32 seed);
     Q_INVOKABLE void manual();
     Q_INVOKABLE void startReplay(const QUrl& recording);
     Q_INVOKABLE void showHistorical(const QUrl& recording);
@@ -78,6 +84,7 @@ public:
     Q_INVOKABLE void restart();
     Q_INVOKABLE void stop();
     Q_INVOKABLE void exportRecording(const QUrl& destination);
+    Q_INVOKABLE void exportReceiverJournal(const QUrl& destination);
 signals:
     void changed();
     void failed(const QString& code, const QString& message);
@@ -93,7 +100,7 @@ private:
     QVariantList trace_preview_;
     QString publisher_executable_;
     QStringList publisher_arguments_;
-    bool publisher_configured_ = false, poll_pending_ = false;
+    bool publisher_configured_ = false, bundled_publisher_ = false, poll_pending_ = false;
     QJsonObject observed_registry_;
     QJsonArray observed_commands_;
     QString observed_context_hash_, acquisition_hash_, observed_request_, observed_disposition_ = "not_configured";

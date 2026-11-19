@@ -30,8 +30,13 @@ Normal and ASan checks pass: six native analytical suites, nine capture Qt cases
 31 stream, 27 lifecycle and 176 contract Qt cases per mode, plus the shared offline
 schema/native fixture corpus. See [mapping scope](OBSERVED_STATE.md) and
 [mapping evidence](evidence/v03/observed-mapping.json). This is a tested integration
-seam; publisher, detection, forecast/review UI and new history envelopes are still
-pending and are not operational-monitoring claims.
+seam. The next increment now connects a seeded local stdlib publisher, independent
+plant, timed receiver journal, backwards-compatible raw replay and manual capture
+UI. Actual subprocess and normal/ASan UI checks pass; see
+[local monitoring](LOCAL_MONITORING.md) and
+[acquisition evidence](evidence/v03/local-acquisition.json). Detection,
+forecast/review UI and new history envelopes remain pending. These are local
+synthetic capabilities, not operational-monitoring claims.
 
 ## Active: v0.2.0 portfolio candidate, November 18, 2026
 

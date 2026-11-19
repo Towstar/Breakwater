@@ -290,6 +290,7 @@ ApplicationWindow {
                     MenuItem { text: "Save project…"; onTriggered: saveDialog.open() }
                     MenuSeparator {}
                     MenuItem { text: "Healthy example / reset"; onTriggered: controller.reset() }
+                    MenuItem { text: "Local monitoring example"; onTriggered: { controller.loadExample("monitoring"); app.openTelemetry() } }
                     MenuItem { text: "Pump failure example"; onTriggered: controller.loadExample("baseline") }
                     MenuItem { text: "Bad reroute example"; onTriggered: controller.loadExample("bad") }
                     MenuItem { text: "Mixed response example"; onTriggered: controller.loadExample("mixed") }

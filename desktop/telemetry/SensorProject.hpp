@@ -4,6 +4,8 @@
 namespace breakwater::desktop::telemetry {
 QJsonObject sensor_project_context(const ProjectDocument& project);
 QJsonObject empty_sensor_configuration(const ProjectDocument& project);
+QJsonObject new_sensor_definition(const QString& quantity,const QString& attachmentId,const QString& sensorId);
+QJsonObject volume_sensor_configuration(const ProjectDocument& project);
 QJsonObject sensor_project_json(const ProjectDocument& project, const QJsonObject& configuration,
                                const QJsonObject& layout);
 void validate_sensor_project(const ProjectDocument& project, const QJsonObject& configuration,

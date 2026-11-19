@@ -395,7 +395,22 @@ class Check final : public QObject {
             case 40:
                 require(window_->property("siteGridVisible").toBool() && item("sceneGrid")->property("checked").toBool(), "grid_did_not_restore");
                 preserved(); passed("world_aligned_bounded_grid_toggle_preserves_numerical_evidence");
-                snapshot("12-layout-grid.png"); finish(true, "ok"); return;
+                snapshot("12-layout-grid.png"); controller_->loadExample("monitoring");
+                eval("app.openTelemetry()"); break;
+            case 41: {
+                require(window_->property("telemetryVisible").toBool(),"monitoring_example_did_not_open");
+                const auto sensors=controller_->sensorConfiguration().value("sensors").toArray();
+                require(sensors.size()==10 && controller_->draftIssues().isEmpty(),"monitoring_example_coverage_invalid");
+                auto* start=item("startLocalInput"); auto* capture=item("captureObservedState");
+                require(start->width()>80 && capture->width()>80 && !capture->isEnabled(),"monitoring_controls_wrong");
+                require(!item("saveTimedRecording")->isEnabled(),"manual_mode_enabled_timed_export");
+                require(item("observedCaptureSummary")->property("text").toString().contains("Capture an immutable state"),"observed_capture_empty_state_missing");
+                passed("instrumented_example_and_monitoring_controls_have_explicit_empty_state");
+                snapshot("13-local-monitoring.png"); click(item("telemetryPanelClose")); break;
+            }
+            case 42:
+                require(!window_->property("telemetryVisible").toBool(),"new_monitoring_close_failed");
+                finish(true,"ok"); return;
             default: throw std::runtime_error("invalid_phase");
             }
             ++phase_;
