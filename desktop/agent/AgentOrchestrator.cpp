@@ -15,12 +15,17 @@ namespace {
 const char* instructions = R"(You are BREAKWATER's investigator for synthetic industrial fluid incidents.
 Inspect the actual network and control catalog. Use stable IDs returned by tools; never invent telemetry,
 controls, run IDs, numerical results or validation. The planning horizon and hard constraints are fixed.
+Inspection tools get_network_state and get_control_catalog take an empty argument object, not snapshot_id.
+Follow each offered tool's exact schema.
 Propose useful interventions, run numerical experiments, inspect failures, revise, and compare stored runs.
 All unspecified controls retain their immutable incident-snapshot values. Numerical truth comes exclusively
 from the C++ simulation and independent validator. Explicitly validate a run before recommending it.
 Each candidate starts independently from the incident, not from a previous candidate. To combine interventions,
 repeat all intended overrides together in that candidate. Account for the effect of each route on both its
 upstream and downstream tanks; moving a violation to a different tank does not solve the incident.
+The catalog's initial_search_grid is an optional bounded starting point, not an executed search or a plan.
+You may copy its axes into search_interventions or revise them within actual catalog bounds. Consider
+receiving-tank outlet controls together with diversions before spending refinements on a finer partial grid.
 Optimize modeled cost subject to hard constraints; never claim global optimality. Quality is not evaluated.
 When useful, choose explicit search values for up to four actual catalog controls, at most 10000 combinations.
 Search delegates numerical screening and independent reference validation to C++. Its results are only best
@@ -44,6 +49,7 @@ QString sessionInstructions(bool observed) {
     auto text=QString::fromUtf8(instructions);
     if (observed) text+=QStringLiteral(
         "\nThis is an immutable OBSERVED ADVISORY session. Read get_observations before concluding. "
+        "get_observations and get_detection_events take empty arguments, not snapshot_id. "
         "Use get_detection_events when useful. An empty event list cannot establish health or complete "
         "detector coverage; inspect the retained detector window/temporal status. Measurements, calibration/bounds, "
         "frozen commands, coverage and expiry are distinct evidence. The effective numerical network holds measured "
@@ -120,7 +126,7 @@ void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const 
     network_seen_ = controls_seen_ = false;
     observations_seen_=false; local_observation_step_=0;
     final_correction_ = false;
-    local_only_ = localOnly; local_step_ = 0; local_catalog_ = {}; local_last_ = {}; local_baseline_.clear(); local_selected_.clear();
+    local_only_ = localOnly; local_step_ = 0; local_last_ = {}; local_baseline_.clear(); local_selected_.clear();
     elapsed_.start(); running_ = true; status_ = local_only_ ? "Running local native search" : "Investigating";
     const auto epoch = generation_;
     event("agent_started", {{"objective", objective_}, {"source_mode", local_only_ ? "local_native" : "hosted"}, {"horizon_h", gateway_ ? gateway_->horizonH() : 0.0}});
@@ -153,19 +159,8 @@ void AgentOrchestrator::advanceLocal() {
         name = "forecast_baseline"; break;
     case 3: name = "validate_run"; arguments["run_id"] = local_baseline_; break;
     case 4: {
-        QJsonArray axes;
-        // A documented local heuristic, never a model-issued request. Prefer
-        // available flow actuators, then reductions, in the native catalog order.
-        for (const bool flow : {true, false}) for (const auto& value : local_catalog_) {
-            const auto control = value.toObject();
-            if (axes.size() == 4 || !control.value("available").toBool() || (control.value("quantity") == "flow_rate") != flow) continue;
-            const double low = control.value("minimum").toDouble(), high = control.value("maximum").toDouble();
-            std::vector<double> values{low, std::lerp(low, high, 0.25), std::lerp(low, high, 0.5), std::lerp(low, high, 0.75), high, control.value("value").toDouble()};
-            std::sort(values.begin(), values.end()); values.erase(std::unique(values.begin(), values.end()), values.end());
-            QJsonArray grid; for (const auto candidate : values) grid.append(candidate);
-            axes.append(QJsonObject{{"control_id", control.value("control_id")}, {"values", grid}});
-        }
-        name = "search_interventions"; arguments["axes"] = axes; arguments["result_limit"] = 3; break;
+        name = "search_interventions"; arguments["axes"] = gateway_->initialSearchGrid().value("axes");
+        arguments["result_limit"] = 3; break;
     }
     case 5: {
         const auto results = local_last_.value("runs").toArray();
@@ -201,6 +196,8 @@ void AgentOrchestrator::requestModel() {
     QJsonArray tools;
     if (!final_correction_ && callsLeft > 0) for (const auto& definition : SimulationGateway::toolDefinitions(gateway_->advisoryOnly())) {
         const auto name = definition.toObject().value("function").toObject().value("name").toString();
+        if (!gateway_->observationsAvailable() && name != "get_observations" && name != "get_detection_events" &&
+            name != "get_network_state" && name != "get_control_catalog") continue;
         if (refinementsLeft == 0 && (name == "simulate_candidates" || name == "search_interventions")) continue;
         tools.append(definition);
     }
@@ -313,7 +310,6 @@ void AgentOrchestrator::completeTool(quint64 generation, const std::shared_ptr<S
     const auto run = outcome.value("run").toObject();
     if (local_only_) {
         local_last_ = outcome;
-        if (name == "get_control_catalog") local_catalog_ = outcome.value("controls").toArray();
         if (name == "forecast_baseline") local_baseline_ = run.value("run_id").toString();
     }
     if (outcome.value("ok").toBool() && name == "get_network_state") network_seen_ = true;

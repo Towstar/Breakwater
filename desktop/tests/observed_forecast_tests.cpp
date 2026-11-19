@@ -29,9 +29,9 @@ QJsonObject result(const QJsonArray& messages,const QString& id) {
 class Model final:public ModelTransport {
 public:
     std::function<QJsonObject(const QJsonArray&)> respond;
-    QJsonArray history; int requests=0,generation=0;
-    void request(const QJsonArray& messages,const QJsonArray&) override {
-        history=messages; ++requests; if (!respond) return;
+    QJsonArray history; QList<QJsonArray> offered; int requests=0,generation=0;
+    void request(const QJsonArray& messages,const QJsonArray& definitions) override {
+        history=messages; offered.append(definitions); ++requests; if (!respond) return;
         const auto reply=respond(messages); const auto epoch=generation;
         QTimer::singleShot(0,this,[this,reply,epoch] { if (epoch==generation) emit replyReady(reply); });
     }
@@ -179,6 +179,81 @@ private slots:
         AgentOrchestrator denied(&skipping); denied.start(SimulationGateway::fromObservation(capture),"Skip raw evidence.");
         QTRY_VERIFY(!denied.running()); QVERIFY(denied.result().isEmpty());
         QCOMPARE(denied.events().last().toMap().value("error").toMap().value("code").toString(),QString("inspection_required"));
+    }
+    void catalogGridRecoversCoupledPumpResponseWithoutApplyingControls() {
+        for (const bool renamed:{false,true}) {
+            Fixture f(renamed); f.begin(); const auto before=project_json(f.project);
+            const auto commands=f.commands;
+            const auto capture=f.stream.captureObserved(f.context,commands,0,"coupled-response");
+            const auto gateway=SimulationGateway::fromObservation(capture);
+            const auto catalog=gateway->execute("get_control_catalog",{});
+            const auto initial=catalog.value("initial_search_grid").toObject();
+            QVERIFY(initial.value("available").toBool());
+            const auto axes=initial.value("axes").toArray(); QCOMPARE(axes.size(),4);
+            QVERIFY(initial.value("omitted_available_control_ids").toArray().isEmpty());
+            qsizetype combinations=1;
+            for (const auto& value:axes) {
+                const auto axis=value.toObject(); const auto values=axis.value("values").toArray();
+                QVERIFY(!values.isEmpty() && values.size()<=6); combinations*=values.size();
+                QJsonObject descriptor;
+                for (const auto& row:catalog.value("controls").toArray())
+                    if (row.toObject().value("control_id")==axis.value("control_id")) descriptor=row.toObject();
+                QVERIFY(descriptor.value("available").toBool()); QVERIFY(values.contains(descriptor.value("value")));
+                for (const auto& candidate:values) {
+                    QVERIFY(candidate.toDouble()>=descriptor.value("minimum").toDouble());
+                    QVERIFY(candidate.toDouble()<=descriptor.value("maximum").toDouble());
+                }
+            }
+            QCOMPARE(combinations,initial.value("combinations").toInteger()); QVERIFY(combinations<=1296);
+            QVERIFY(gateway->runs().isEmpty()); // Merely reading the grid performs no experiment.
+            Model model; int step=0; QString snapshot,selected;
+            model.respond=[&](const QJsonArray& h)->QJsonObject {
+                switch (step++) {
+                case 0:return calls({tool("obs","get_observations"),tool("n","get_network_state"),tool("c","get_control_catalog")});
+                case 1:
+                    snapshot=result(h,"n").value("snapshot_id").toString();
+                    return calls({tool("search","search_interventions",{{"snapshot_id",snapshot},
+                        {"axes",result(h,"c").value("initial_search_grid").toObject().value("axes")},{"result_limit",1}})});
+                case 2: {
+                    const auto runs=result(h,"search").value("runs").toArray();
+                    if (runs.isEmpty()) return final();
+                    selected=runs.first().toObject().value("run_id").toString();
+                    return calls({tool("v","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}})});
+                }
+                case 3:return calls({tool("stage","request_approval",{{"snapshot_id",snapshot},{"run_id",selected}})});
+                default:return final(selected);
+                }
+            };
+            AgentOrchestrator session(&model); session.start(gateway,"Compare the interacting controls at low nominal modeled cost.");
+            QTRY_VERIFY_WITH_TIMEOUT(!session.running(),15000);
+            QVERIFY2(session.result().value("verified_feasible").toBool(),qPrintable(session.result().value("explanation").toString()));
+            QVERIFY(!session.result().value("actionable").toBool());
+            QCOMPARE(session.result().value("approval_status"),QJsonValue("pending_advisory_review"));
+            QCOMPARE(project_json(f.project),before); QCOMPARE(f.commands,commands);
+        }
+    }
+    void missingCoverageOffersOnlyInspectionAndStillRejectsUnadvertisedNumerics() {
+        Fixture f; f.readings.removeFirst(); f.begin();
+        const auto gateway=SimulationGateway::fromObservation(f.stream.captureObserved(f.context,f.commands,0,"missing-tools"));
+        const auto grid=gateway->execute("get_control_catalog",{}).value("initial_search_grid").toObject();
+        QVERIFY(!grid.value("available").toBool()); QVERIFY(grid.value("axes").toArray().isEmpty());
+        Model model; int step=0;
+        model.respond=[&](const QJsonArray& h)->QJsonObject {
+            if (step++==0) return calls({tool("o","get_observations"),tool("n","get_network_state"),tool("c","get_control_catalog")});
+            if (step==2) return calls({tool("forbidden","forecast_baseline",{{"snapshot_id",result(h,"n").value("snapshot_id")}})});
+            return final();
+        };
+        AgentOrchestrator session(&model); session.start(gateway,"Explain unavailable coverage without inventing a plan.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),15000);
+        const QSet<QString> inspection{"get_observations","get_detection_events","get_network_state","get_control_catalog"};
+        for (const auto& request:model.offered) {
+            QSet<QString> names;
+            for (const auto& definition:request) names.insert(definition.toObject().value("function").toObject().value("name").toString());
+            QCOMPARE(names,inspection);
+        }
+        QCOMPARE(result(model.history,"forbidden").value("error").toObject().value("code"),QJsonValue("coverage_unavailable"));
+        QVERIFY(gateway->runs().isEmpty()); QVERIFY(!session.result().value("verified_feasible").toBool());
+        QVERIFY(session.result().value("selected_run_id").isNull()); QVERIFY(!gateway->stagedPlan().value("ok").toBool());
     }
     void actualPublisherCaptureSearchReviewAndHistoryNeverApplyControls() {
         if (!QFileInfo::exists(QStringLiteral(BREAKWATER_TEST_PYTHON))) QSKIP("Configured CPU Python is unavailable.");

@@ -62,6 +62,31 @@ stored runs. Missing coverage never falls back to a design-only numerical plan.
 The model has no hidden plant truth, file access, publisher actuation or editor
 mutation tool.
 
+When required observed coverage is unavailable, hosted requests offer only the
+four inspection tools. The gateway still rejects any unadvertised numerical or
+scientific call with `coverage_unavailable`; hiding a tool is not an authority
+check. The model must explain the gap and cannot obtain a numerical plan.
+
+The native control catalog now includes `initial_search_grid`, the same optional
+finite grid used by **Local search**. It considers up to four available controls,
+flow actuators first in native catalog order, with at most six values per axis
+including current operation. At most 1,296 combinations are suggested. Any
+additional available controls are explicitly listed as omitted. Missing observed
+coverage makes this suggestion unavailable. Reading the catalog runs no candidate
+and changes no control. Nemotron may copy or revise the axes and retains its
+choice of tool order. The grid is neither topology-complete nor a claim of
+feasibility/optimality; the native search and independent validator still decide
+whether any evaluated response is eligible. This reuses the established local
+heuristic rather than adding another planner or a fixed hosted sequence.
+
+The first live observed pump rehearsal on source `92119fb` is retained as
+`no_validated_plan`: the model omitted the receiving tank's outlet adjustment,
+tried an out-of-bounds curtailment and exhausted its three refinement calls.
+The first missing-coverage rehearsal correctly retained zero runs and no plan,
+but repeatedly requested tools that could not execute. Those observations
+motivated the grid hint, explicit inspection argument guidance and coverage-based
+tool offering. Later outcomes must be reported separately from these attempts.
+
 The existing `request_approval` tool stages **advisory** review in this workflow.
 Every observed result/archive has `actionable: false`. A first acknowledgement
 requires the exact current capture, available coverage, current design/revision,

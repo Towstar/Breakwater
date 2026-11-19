@@ -82,6 +82,34 @@ SimulationGateway::SimulationGateway(const Network& network, const QString& phys
         throw std::invalid_argument("Agent snapshot needs a physical hash and a bounded network.");
 }
 
+QJsonObject SimulationGateway::initialSearchGrid() const {
+    QJsonArray axes, omitted;
+    qsizetype combinations = 1;
+    const auto catalog = control_catalog(network_);
+    if (observationsAvailable()) {
+        // Preserve the established local heuristic: available flow actuators
+        // first, then curtailment, each in native catalog order. This is a
+        // bounded starting grid, not a topology-complete optimizer.
+        for (const bool flow : {true, false}) for (const auto& control : catalog) {
+            if (control.maximum <= 0.0 || control.id.starts_with("route:") != flow) continue;
+            if (axes.size() == static_cast<qsizetype>(max_search_controls)) { omitted.append(q(control.id)); continue; }
+            const auto low=control.minimum, high=control.maximum;
+            if (!std::isfinite(low) || !std::isfinite(high) || !std::isfinite(control.value) ||
+                low>high || control.value<low || control.value>high)
+                throw std::invalid_argument("A finite catalog grid requires finite bounded control values.");
+            std::vector<double> values{low,std::lerp(low,high,0.25),std::lerp(low,high,0.5),
+                std::lerp(low,high,0.75),high,control.value};
+            std::sort(values.begin(),values.end()); values.erase(std::unique(values.begin(),values.end()),values.end());
+            QJsonArray grid; for (const auto value:values) grid.append(value);
+            combinations *= grid.size();
+            axes.append(QJsonObject{{"control_id",q(control.id)},{"values",grid}});
+        }
+    }
+    return {{"available",observationsAvailable()},{"method","catalog-grid-0.1.0"},{"axes",axes},
+        {"combinations",observationsAvailable() ? combinations:0},{"omitted_available_control_ids",omitted},
+        {"scope","Optional finite starting grid: up to four available controls, flow first, at most six values per axis including current operation. The model may revise it. No candidates were executed; no global feasibility or optimality claim."}};
+}
+
 std::shared_ptr<SimulationGateway> SimulationGateway::fromObservation(const telemetry::ObservedEvidence& evidence,double horizon) {
     const auto& events=evidence.detection_events;
     if (evidence.diagnostics.contains("detector") && !evidence.diagnostics.value("detector").isObject())
@@ -340,8 +368,10 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
                     {"quantity", descriptor.id.starts_with("source:") ? "production_curtailment" : "flow_rate"},
                     {"unit", q(descriptor.unit)}, {"value", descriptor.value}, {"minimum", descriptor.minimum},
                     {"maximum", descriptor.maximum}, {"available", descriptor.maximum > 0.0}, {"cost_per_m3", descriptor.cost_per_m3}});
+            const auto grid=initialSearchGrid();
             { std::lock_guard lock(mutex_); controls_inspected_ = true; }
             return {{"ok", true}, {"snapshot_id", snapshot_id_}, {"controls", controls},
+                {"initial_search_grid",grid},
                 {"unspecified_controls", "All unspecified controls retain their immutable snapshot values."}};
         }
         const QSet<QString> supported{"forecast_baseline", "simulate_candidates", "validate_run", "compare_runs", "search_interventions", "request_approval", "get_sensitivity_catalog", "analyze_sensitivities"};
@@ -603,7 +633,7 @@ QJsonArray SimulationGateway::toolDefinitions(bool observed) {
     search_args["result_limit"] = QJsonObject{{"type", "integer"}, {"minimum", 1}, {"maximum", static_cast<int>(max_search_recommendations)}};
     QJsonArray definitions{
         tool("get_network_state", "Read the actual immutable incident topology, IDs, state, fixed planning horizon and capabilities. Required before recommending.", schema({}, {})),
-        tool("get_control_catalog", "Read actual stable control IDs, units, snapshot values and bounds. Required before recommending; unspecified controls retain snapshot values.", schema({}, {})),
+        tool("get_control_catalog", "Read actual stable control IDs, units, snapshot values, bounds and an optional bounded initial_search_grid. The grid is a suggestion only; no candidates execute here. Takes empty arguments. Required before recommending; unspecified controls retain snapshot values.", schema({}, {})),
         tool("forecast_baseline", "Run the native baseline forecast from the incident snapshot. Preserve unclipped violations; explicit validate_run is still required for recommendations.", schema(snapshot, {"snapshot_id"})),
         tool("simulate_candidates", "Evaluate 1..32 intervention candidates through the real native engine from the same immutable snapshot and fixed horizon. Only specified controls change.", schema(candidate_args, {"snapshot_id", "candidates"})),
         tool("validate_run", "Independently validate a stored run using the authoritative native validator. Only an explicitly validated feasible run may be recommended or staged.", schema(run_args, {"snapshot_id", "run_id"})),

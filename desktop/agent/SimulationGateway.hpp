@@ -43,6 +43,9 @@ public:
     QJsonArray runs() const;
     QJsonObject runDetails(const QString& runId) const;
     QJsonObject snapshot() const;
+    // Existing local finite-grid heuristic, exposed as optional model input.
+    // Does not search, create runs or change the immutable incident controls.
+    QJsonObject initialSearchGrid() const;
     // Copies one immutable effective run away from the UI thread. The derived
     // science capture uses its run ID as snapshot ID and revision zero; the
     // original incident identities are retained separately in origin.
