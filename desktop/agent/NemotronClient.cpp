@@ -246,14 +246,17 @@ void NemotronClient::requestImpl(const QJsonArray& messages, const QJsonArray& t
     }
     if (messages.isEmpty()) { fail("request_invalid", "At least one model message is required."); return; }
     QJsonObject body{{"model", config_.model}, {"messages", messages}, {"stream", false},
-                     {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", jsonFinal ? 0.0 : 0.2}};
+                     {"max_tokens", 4096}, {"temperature", jsonFinal ? 0.0 : 0.2},
+                     {"chat_template_kwargs", QJsonObject{{"enable_thinking", !jsonFinal}}}};
+    // The NVIDIA hosted endpoint uses reasoning_budget (the self-hosted NIM
+    // interface has a different name). Keep the existing bounded allowance.
+    if (!jsonFinal) body.insert("reasoning_budget", 1024);
     // JSON-only output is requested separately from tool calling; no combined
     // tools/response_format behavior is assumed for the hosted endpoint.
     if (jsonFinal) {
         body.insert("response_format", QJsonObject{{"type", "json_object"}});
         // Final/correction turns can only format retained evidence. NVIDIA's
         // concise/structured mode avoids spending this turn on more reasoning.
-        body.insert("chat_template_kwargs",QJsonObject{{"enable_thinking",false}});
     }
     else if (!tools.isEmpty()) { body.insert("tools", tools); body.insert("tool_choice", "auto"); }
     payload_ = QJsonDocument(body).toJson(QJsonDocument::Compact);

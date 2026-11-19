@@ -2,6 +2,11 @@
 
 ## Active development: expanded v0.3.0, November 19, 2026
 
+A [reliability and picking follow-up](RELIABILITY_PICKING_FOLLOWUP.md) is now
+implemented in source. Compilation, hosted tests and renderer acceptance are
+pending the new storage review; `c71249e` remains the last verified application.
+The follow-up preserves prior evidence and all final admission checks.
+
 Implemented candidate: `c71249ee2dbef04480ee8ea52806b1808622e44a`, in the
 PR68 through PR80 stack. The [current review packet](RELEASE_REVIEW_V03.md) and
 [final verification index](evidence/v03/final-verification.json) supersede pending

@@ -30,12 +30,20 @@ class Model final:public ModelTransport {
 public:
     std::function<QJsonObject(const QJsonArray&)> respond;
     QJsonArray history; QList<QJsonArray> offered; int requests=0,generation=0;
+    int truncateAt=0, finalRequests=0;
     void request(const QJsonArray& messages,const QJsonArray& definitions) override {
-        history=messages; offered.append(definitions); ++requests; if (!respond) return;
+        history=messages; offered.append(definitions); ++requests;
+        if (requests==truncateAt) {
+            const auto epoch=generation;
+            QTimer::singleShot(0,this,[this,epoch] { if(epoch==generation) emit requestFailed("response_truncated","Partial model content must stay private"); });
+            return;
+        }
+        if (!respond) return;
         const auto reply=respond(messages); const auto epoch=generation;
         QTimer::singleShot(0,this,[this,reply,epoch] { if (epoch==generation) emit replyReady(reply); });
     }
     void cancel() override { ++generation; }
+    void requestFinalJson(const QJsonArray& messages) override { ++finalRequests; request(messages,{}); }
 };
 QJsonArray commandsFor(const ProjectController& project) {
     QJsonArray commands; const auto parsed=parse_project(project.document());
@@ -46,6 +54,41 @@ QJsonArray commandsFor(const ProjectController& project) {
 class ObservedForecastTests final:public QObject {
     Q_OBJECT
 private slots:
+    void truncatedMissingCoverageRequiresObservationInspection_data() {
+        QTest::addColumn<bool>("inspectObservations");
+        QTest::newRow("missing-observation-inspection")<<false;
+        QTest::newRow("inspected-unavailable-coverage")<<true;
+    }
+    void truncatedMissingCoverageRequiresObservationInspection() {
+        QFETCH(bool,inspectObservations);
+        Fixture fixture; fixture.readings.removeFirst(); fixture.begin();
+        const auto capture=fixture.stream.captureObserved(fixture.context,fixture.commands,0,"missing-truncated");
+        auto gateway=SimulationGateway::fromObservation(capture); QVERIFY(!gateway->observationsAvailable());
+        Model model; model.truncateAt=2;
+        model.respond=[step=0,inspectObservations](const QJsonArray&) mutable {
+            if (step++==0) {
+                QJsonArray inspect{tool("network","get_network_state"),tool("catalog","get_control_catalog")};
+                if (inspectObservations) inspect.append(tool("observations","get_observations"));
+                return calls(inspect);
+            }
+            return final();
+        };
+        AgentOrchestrator session(&model); session.start(gateway,"Explain missing coverage without inventing a plan.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+        QCOMPARE(model.requests,inspectObservations?3:2); QCOMPARE(model.finalRequests,inspectObservations?1:0);
+        QVERIFY(gateway->runs().isEmpty()); QVERIFY(gateway->stagedPlan().isEmpty());
+        QVERIFY(!session.result().value("actionable").toBool());
+        if (inspectObservations) {
+            QCOMPARE(session.result().value("status"),QJsonValue("no_validated_plan"));
+            QVERIFY(session.result().value("selected_run_id").isNull());
+            QVERIFY(model.offered.last().isEmpty());
+            const auto retained=QJsonDocument(QJsonArray::fromVariantList(session.events())).toJson();
+            QVERIFY(!retained.contains("Partial model content"));
+        } else {
+            QVERIFY(session.result().isEmpty());
+            QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),QString("response_truncated"));
+        }
+    }
     void frozenMeasurementsInitializeRenamedChangedTopologyWithoutEditingDesign() {
         try {
         Fixture f(true); const auto original=project_json(f.project);

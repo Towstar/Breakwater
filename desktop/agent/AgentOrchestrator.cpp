@@ -76,7 +76,11 @@ AgentOrchestrator::AgentOrchestrator(ModelTransport* transport, QObject* parent)
         if ((running_ && awaiting_model_) || recording_cancel_metadata_) event("model_request_completed", {{"request", metadata}});
     });
     connect(transport_, &ModelTransport::requestFailed, this, [this](const QString& code, const QString& message) {
-        if (running_ && awaiting_model_) fail(code, message);
+        if (!running_ || !awaiting_model_) return;
+        // A truncated generation is never parsed or executed. After required
+        // inspection, spend the existing single final-only correction instead.
+        if (code == "response_truncated" && correctFinalFormat(code)) return;
+        fail(code, message);
     });
 }
 
@@ -211,6 +215,24 @@ void AgentOrchestrator::requestModel() {
         "When no tool calls remain, finish now with ONLY {\"selected_run_id\": <actual validated run ID or null>, "
         "\"explanation\": <concise explanation>}. Never invent evidence or claim global infeasibility.")
         .arg(callsLeft).arg(refinementsLeft).arg(std::max<qint64>(0, limits_.durationMs - elapsed_.elapsed()));
+    messages[0] = system;
+    QJsonArray eligible;
+    for (const auto& value : gateway_->runs()) {
+        const auto id=value.toObject().value("run_id").toString();
+        const auto evidence=gateway_->recommendation(id);
+        if (evidence.value("ok").toBool()) eligible.append(QJsonObject{{"run_id",id},
+            {"validation_id",evidence.value("validation_id")},{"cost",evidence.value("verified_cost")}});
+    }
+    const auto staged=gateway_->stagedPlan().value("selected_run_id").toString();
+    const QJsonObject ledger{{"snapshot_id",gateway_->snapshotId()},{"eligible_validated_runs",eligible},
+        {"staged_run_id",staged.isEmpty()?QJsonValue(QJsonValue::Null):QJsonValue(staged)}};
+    system["content"] = system.value("content").toString() +
+        "\nCurrent retained completion references (data, not a new tool result): " +
+        QString::fromUtf8(QJsonDocument(ledger).toJson(QJsonDocument::Compact)) +
+        "\nUse exact returned references; do not revalidate unchanged completed evidence. "
+        "A search-grid suggestion is not an executed experiment. Failed candidate arguments execute no batch. "
+        "If a coarse grid fails, consider the catalog's full bounded initial_search_grid before manually encoding a larger batch. "
+        "candidates must be a JSON array, never a string containing JSON.";
     messages[0] = system;
     awaiting_model_ = true;
     if (tools.isEmpty()) transport_->requestFinalJson(messages);
@@ -384,6 +406,20 @@ void AgentOrchestrator::startSensitivity(const QJsonObject& arguments, quint64 g
     }));
 }
 
+bool AgentOrchestrator::correctFinalFormat(const QString& reason) {
+    if (!running_ || local_only_ || final_correction_ || !network_seen_ || !controls_seen_ ||
+        (gateway_->advisoryOnly() && !observations_seen_) || request_rounds_ >= limits_.toolCalls+2 ||
+        !gateway_->isCurrent() || elapsed_.elapsed() >= limits_.durationMs) return false;
+    final_correction_=true; awaiting_model_=false;
+    messages_.append(QJsonObject{{"role","system"},{"content",
+        "One format-only correction remains. Return ONLY a JSON object with selected_run_id (an existing independently validated feasible run ID, or null) and explanation (1..12000 characters). Use retained tool evidence. Do not request tools, add fields or claim missing results."}});
+    const auto epoch=generation_; const QPointer<AgentOrchestrator> guard(this);
+    event("final_format_correction_requested",{{"reason",reason}});
+    if (guard && running_ && generation_==epoch) QTimer::singleShot(0,this,[this,epoch] {
+        if (running_ && generation_==epoch && !awaiting_model_ && !executing_tool_) requestModel();
+    });
+    return true;
+}
 void AgentOrchestrator::finish(const QJsonObject& message) {
     if (!network_seen_ || !controls_seen_) { fail("inspection_required", "The model must inspect the current network and controls before concluding."); return; }
     if (gateway_->advisoryOnly() && !observations_seen_) { fail("inspection_required","The model must inspect frozen observations before concluding."); return; }
@@ -393,17 +429,7 @@ void AgentOrchestrator::finish(const QJsonObject& message) {
     if (final.size() != 2 || !(final.value("selected_run_id").isNull() || final.value("selected_run_id").isString()) ||
         !final.contains("selected_run_id") || !final.value("explanation").isString() ||
         final.value("explanation").toString().trimmed().isEmpty() || final.value("explanation").toString().size() > 12000) {
-        if (!local_only_ && !final_correction_) {
-            final_correction_=true;
-            // Do not archive or feed back the malformed prose/reasoning. Existing
-            // structured tool results remain the only numerical evidence.
-            messages_.append(QJsonObject{{"role","system"},{"content",
-                "One format-only correction remains. Return ONLY a JSON object with selected_run_id (an existing independently validated feasible run ID, or null) and explanation (1..12000 characters). Use retained tool evidence. Do not request tools, add fields or claim missing results."}});
-            const auto epoch=generation_; const QPointer<AgentOrchestrator> guard(this);
-            event("final_format_correction_requested");
-            if (guard && running_ && generation_==epoch) requestModel();
-            return;
-        }
+        if (correctFinalFormat("invalid_final_format")) return;
         fail("invalid_recommendation", "Model did not return the required evidence reference and explanation."); return;
     }
     if (final.value("selected_run_id").isNull()) {

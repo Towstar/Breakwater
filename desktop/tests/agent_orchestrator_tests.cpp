@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonDocument>
+#include <QMap>
 #include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QtTest>
@@ -50,6 +51,13 @@ QStringList toolNames(const QJsonArray& definitions) {
         names.append(definition.toObject()["function"].toObject()["name"].toString());
     return names;
 }
+QJsonObject completionLedger(const QJsonArray& messages) {
+    const auto content=messages.first().toObject().value("content").toString();
+    const QString marker="Current retained completion references (data, not a new tool result): ";
+    const auto start=content.indexOf(marker);
+    if(start<0) return {};
+    return QJsonDocument::fromJson(content.mid(start+marker.size()).section('\n',0,0).toUtf8()).object();
+}
 
 // This is an explicit test model. Every tool execution still uses the real engine.
 class FakeModel final : public ModelTransport {
@@ -62,9 +70,15 @@ public:
     int requests = 0, cancellations = 0, generation = 0, finalJsonRequests = 0;
     bool silent = false;
     bool metadataOnCancel = false;
+    QMap<int,QString> failures;
     void request(const QJsonArray& messages, const QJsonArray& definitions) override {
         history = messages; tools = definitions; toolsPerRequest.append(definitions); ++requests; emit requestStarted();
         if (silent) return;
+        if (failures.contains(requests)) {
+            const auto code=failures.value(requests); const auto epoch=generation;
+            QTimer::singleShot(0,this,[this,code,epoch] { if(epoch==generation) emit requestFailed(code,"Private response must not be retained"); });
+            return;
+        }
         const auto reply = respond(messages);
         const auto epoch = generation;
         QTimer::singleShot(0, this, [this, reply, epoch] { if (epoch == generation) emit replyReady(reply); });
@@ -622,6 +636,81 @@ private slots:
         AgentOrchestrator session(&model); session.start(std::make_shared<SimulationGateway>(canonical_scenario(),"strict-repair"),"Inspect.");
         QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000); QVERIFY(session.result().isEmpty()); QCOMPARE(model.requests,3);
         QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),QString("ungrounded_recommendation"));
+    }
+    void truncatedResponseUsesOnlyExistingFinalCorrection_data() {
+        QTest::addColumn<QString>("secondFailure");
+        QTest::newRow("recover-final")<<QString{};
+        QTest::newRow("second-truncation-fails")<<QString("response_truncated");
+        QTest::newRow("authentication-is-fatal")<<QString("authentication_failed");
+    }
+    void truncatedResponseUsesOnlyExistingFinalCorrection() {
+        QFETCH(QString,secondFailure);
+        FakeModel model; model.failures[2]="response_truncated";
+        if(!secondFailure.isEmpty()) model.failures[3]=secondFailure;
+        model.respond=[&](const QJsonArray&)->QJsonObject {
+            if(model.requests==1) return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});
+            return conclusion();
+        };
+        auto gateway=std::make_shared<SimulationGateway>(canonical_scenario(),"truncated");
+        const auto before=gateway->snapshot(); AgentOrchestrator session(&model);
+        session.start(gateway,"Inspect."); QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+        QCOMPARE(model.requests,3); QCOMPARE(model.finalJsonRequests,1); QVERIFY(model.toolsPerRequest.last().isEmpty());
+        QVERIFY(gateway->runs().isEmpty()); QCOMPARE(gateway->snapshot(),before);
+        if(secondFailure.isEmpty()) QCOMPARE(session.result().value("status").toString(),QString("no_validated_plan"));
+        else { QVERIFY(session.result().isEmpty()); QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),secondFailure); }
+        if(secondFailure.isEmpty()) QVERIFY(!QJsonDocument::fromVariant(session.events()).toJson().contains("Private response"));
+    }
+    void truncatedResponseCannotBypassInspectionOrCancellation() {
+        for(const bool inspected:{false,true}) {
+            FakeModel model; model.failures[inspected?2:1]="response_truncated";
+            model.respond=[](const QJsonArray&){return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});};
+            AgentOrchestrator session(&model);
+            connect(&session,&AgentOrchestrator::activity,&session,[&](const QJsonObject& e){
+                if(inspected && e.value("type")=="final_format_correction_requested") session.cancel();
+            });
+            session.start(std::make_shared<SimulationGateway>(canonical_scenario(),"truncated-cancel"),"Inspect.");
+            QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000); QTest::qWait(20);
+            QVERIFY(session.result().isEmpty()); QCOMPARE(model.requests,inspected?2:1); QCOMPARE(model.finalJsonRequests,0);
+        }
+    }
+    void truncatedCorrectionRetainsOverallDeadline() {
+        FakeModel model; model.failures[2]="response_truncated";
+        model.respond=[](const QJsonArray&){return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});};
+        AgentOrchestrator session(&model);
+        connect(&session,&AgentOrchestrator::activity,&session,[&](const QJsonObject& e){
+            if(e.value("type")=="final_format_correction_requested") model.silent=true;
+        });
+        session.start(std::make_shared<SimulationGateway>(canonical_scenario(),"truncated-deadline"),"Inspect.",{12,3,300});
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),2000); QCOMPARE(model.requests,3); QCOMPARE(model.finalJsonRequests,1);
+        QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),QString("deadline_exceeded"));
+        emit model.replyReady(conclusion()); QVERIFY(session.result().isEmpty());
+    }
+    void completionLedgerUsesOnlyExactValidatedCurrentRuns() {
+        FakeModel model; QString run,snapshot; QJsonObject unvalidated,validated,staged;
+        model.respond=[&](const QJsonArray& messages)->QJsonObject {
+            switch(model.requests) {
+            case 1:return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});
+            case 2:
+                snapshot=resultFor(messages,"state").value("snapshot_id").toString();
+                return calls({call("candidate","simulate_candidates",candidateArguments(snapshot,"mixed",controlJson(incident_controls("mixed"))))});
+            case 3:
+                run=resultFor(messages,"candidate").value("runs").toArray().first().toObject().value("run_id").toString();
+                unvalidated=completionLedger(messages);
+                return calls({call("validate","validate_run",{{"snapshot_id",snapshot},{"run_id",run}})});
+            case 4:validated=completionLedger(messages);return calls({call("stage","request_approval",{{"snapshot_id",snapshot},{"run_id",run}})});
+            default:staged=completionLedger(messages);return conclusion(run);
+            }
+        };
+        auto gateway=std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()),"ledger");
+        const auto original=gateway->snapshot(); AgentOrchestrator session(&model);session.start(gateway,"Inspect.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+        QVERIFY(unvalidated.value("eligible_validated_runs").toArray().isEmpty());
+        const auto rows=validated.value("eligible_validated_runs").toArray();QCOMPARE(rows.size(),1);
+        QCOMPARE(validated.value("snapshot_id").toString(),snapshot);QCOMPARE(rows[0].toObject().value("run_id").toString(),run);
+        QCOMPARE(rows[0].toObject().value("validation_id"),gateway->recommendation(run).value("validation_id"));
+        QVERIFY(validated.value("staged_run_id").isNull());QCOMPARE(staged.value("staged_run_id").toString(),run);
+        QCOMPARE(gateway->runs().size(),1);QCOMPARE(gateway->snapshot(),original);
+        QCOMPARE(session.result().value("status").toString(),QString("validated_recommendation"));
     }
     void formatCorrectionKeepsDeadlineAndCancellation() {
         for (const bool cancelAtCorrection:{false,true}) {

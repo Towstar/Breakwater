@@ -142,13 +142,14 @@ private slots:
         const QJsonArray tools{QJsonObject{{"type", "function"}, {"function", QJsonObject{{"name", "protocol_only"},
             {"parameters", QJsonObject{{"type", "object"}}}}}}};
         const QJsonObject ordinary{{"model", config.model}, {"messages", messages()}, {"stream", false},
-            {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.2}, {"tools", tools}, {"tool_choice", "auto"}};
+            {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.2},
+            {"chat_template_kwargs",QJsonObject{{"enable_thinking",true}}}, {"tools", tools}, {"tool_choice", "auto"}};
         client.request(messages(), tools); QTRY_COMPARE(success.size(), 1);
         QCOMPARE(QJsonDocument::fromJson(network.payloads[0]).object(), ordinary);
         client.requestFinalJson(messages()); QTRY_COMPARE(success.size(), 2);
         const auto finalBody = QJsonDocument::fromJson(network.payloads[1]).object();
         QCOMPARE(finalBody, (QJsonObject{{"model", config.model}, {"messages", messages()}, {"stream", false},
-            {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.0},
+            {"max_tokens", 4096}, {"temperature", 0.0},
             {"chat_template_kwargs",QJsonObject{{"enable_thinking",false}}},
             {"response_format", QJsonObject{{"type", "json_object"}}}}));
         QVERIFY(!finalBody.contains("tools")); QVERIFY(!finalBody.contains("tool_choice"));
