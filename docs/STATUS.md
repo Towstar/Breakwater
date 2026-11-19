@@ -68,6 +68,13 @@ missing/delayed/sub-bound cases retain explicit limits. Frozen detector coverage
 now accompanies model tools and observed history. Dense sampling reports a
 bounded-window resource limit instead of indefinite warmup. See
 [qualification evidence](evidence/v03/detection-qualification.json).
+The [workspace clarity increment](WORKSPACE_CLARITY.md) adds bounded label
+placement, readable chart scales, native-forecast onboarding and guarded keyboard
+help. Five placement Qt cases and eight native UI suites pass per mode. Sequential
+hardware sweeps on the identified AMD Radeon 880M measure 62.49/62.41 FPS for
+default/dense scenes, with all 128 dense bodies picked and no label overlaps.
+Actual alternate Windows scale and clean-machine checks remain pending; the
+separate software-renderer probe is retained with its partial-picking result.
 Final qualification remains pending. These are local
 synthetic capabilities, not operational-monitoring claims.
 

@@ -10,6 +10,13 @@ The v0.2.0 portfolio candidate leads with **Sandbox**, the editable network
 workbench. **Operations** presents recorded observations and advisory analysis;
 EOG remains a supported dataset adapter. Neither workspace controls a plant.
 
+Unreleased v0.3 development adds seeded local acquisition, immutable observed
+captures, bounded symptom detection, native advisory forecasts, v2 evidence
+history and manual Science on stored candidates. See the
+[implementation ledger](docs/NEXT_RELEASE.md), [local monitoring](docs/LOCAL_MONITORING.md)
+and [workspace clarity checks](docs/WORKSPACE_CLARITY.md). Release qualification
+and the owner/licensing/clean-Windows gates remain pending.
+
 ![Sandbox industrial workspace](docs/images/portfolio/01-sandbox-overview-ad45d45.jpg)
 
 ![Operations displaying the self-authored recorded dataset](docs/images/portfolio/05-operations-observations-ad45d45.jpg)
@@ -19,8 +26,8 @@ These are unaltered captures of candidate `ad45d45`. The
 baseline/candidate trajectories, exact-plan review and a genuine historical
 Nemotron trace.
 
-The [current qualification record](docs/evidence/portfolio/release-readiness/README.md)
-binds this exact binary to six passing Windows CI jobs and nine passing portable
+The [prior v0.2 qualification record](docs/evidence/portfolio/release-readiness/README.md)
+binds candidate `ad45d45` to six passing Windows CI jobs and nine passing portable
 checks. Its fresh hosted round passed two of three Operations investigations and
 the renamed-network investigation; the third Operations final was rejected for
 invalid JSON. The all-four hosted gate remains incomplete. Owner review, licensing
@@ -33,6 +40,7 @@ and an actual clean Windows VM check remain pending before a public binary relea
 | Nemotron | Real hosted tool calling, evidence-bound recommendations, retained request metadata | Optional; model errors and ungrounded finals are rejected |
 | Operations | Read-only import, original-unit plots, detection, response search and exact validation | Synthetic/recorded advisory analysis, no dispatch |
 | History | SQLite persistence, filtered browsing, versioned import/export, compatible comparison | Imported/replayed evidence never restores approval |
+| Local monitoring (v0.3 development) | Seeded synthetic input, timed replay, frozen coverage, bounded detection and native advisory investigation | Measurements remain separate from commands; nominal forecasts, no actuation |
 | Optional Science | Torch storage comparison/sensitivity and bounded PhysicsNeMo tracer fitting | Separate pinned CPU installation, explicit parameter application |
 | Proofs | Standalone Lean/Mathlib checks of specified algorithms and assumptions | Not a proof of the desktop, a field model or every recommendation |
 
@@ -107,6 +115,9 @@ out/portfolio-desktop/desktop/breakwater_offline_check.exe "C:/ABSOLUTE/Breakwat
   deleted equipment; attached sensor guards prevent silently deleting evidence.
 - Home, Fit, Focus and Top change the view. Right-drag orbits, middle-drag pans,
   and the wheel zooms. Camera/pad/marker placement supplies no hydraulic geometry.
+- F1 or Mouse recommended opens keyboard help. Ctrl+Home restores the view,
+  Ctrl+0 fits the network and F focuses the selection. Dense views prioritize
+  selected/hovered labels; the Network list still contains every asset.
 - Forecast, Compare, Investigate, History and Science share a resizable results
   dock. Drag its top edge upward to give charts and evidence more room. Repeated
   utility-button clicks close the corresponding tool.

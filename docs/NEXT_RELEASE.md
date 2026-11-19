@@ -128,8 +128,8 @@ is authorized by this work.
   selection and repeated acknowledgement are denied. A real slow-worker check
   verifies checkpoint coalescing without losing final tool events. See
   `OBSERVED_FORECAST.md` and its versioned evidence report.
-- Remaining numerical qualification, targeted polish and final delivery gates
-  still require their separate increments.
+- Further numerical qualification and final delivery gates remain tracked
+  separately below.
 - The 400-case independent observation study passes in normal and ASan, with
   byte-identical raw rows and summaries. It includes new seeds, uncertainty
   scales, physical/observable onset, clearing and fixed offline EWMA/CUSUM
@@ -137,6 +137,11 @@ is authorized by this work.
   Captures/model tools now preserve detector coverage and bounded-window counts;
   dense acquisition reports resource exhaustion explicitly. See
   `OBSERVATION_QUALIFICATION.md` and its source-bound evidence report.
+- Targeted workspace clarity is implemented and checked in normal/ASan at four
+  window sizes, including keyboard help/guards and observed advisory charts.
+  Hardware sweeps identify the actual AMD adapter, meet default/dense targets,
+  preserve numerical identity and pick all 128 dense bodies. Real Windows scale
+  changes and clean-machine acceptance remain pending. See `WORKSPACE_CLARITY.md`.
 - The native investigation loop now has a structured final and one bounded
   format-only correction, matching the EOG completion policy. Native tool,
   refinement and deadline limits are unchanged. Strict final/tool JSON rejects

@@ -1,0 +1,41 @@
+import QtQuick
+import QtQuick.Controls
+import QtQuick.Layouts
+
+Dialog {
+    id: help
+    objectName: "workspaceHelp"
+    parent: Overlay.overlay; anchors.centerIn: parent; modal: true
+    title: "Workspace controls"; padding: 20
+    width: Math.min(620,parent ? parent.width-32 : 620)
+    height: Math.min(510,parent ? parent.height-32 : 510)
+    standardButtons: Dialog.Close
+    header: DialogHeading { owner: help; closeName: "closeWorkspaceHelp" }
+    footer: DialogFooter { owner: help }
+    contentItem: ScrollView {
+        id: scroll; contentWidth: availableWidth; clip: true
+        ColumnLayout {
+            width: scroll.availableWidth; spacing: 16
+            Label { Layout.fillWidth: true; text: "A mouse with a wheel is recommended for orbiting and panning. Tab and Shift+Tab reach buttons, equipment and inputs; Enter or Space activates the focused action."; wrapMode: Text.WordWrap; color: Theme.secondary }
+            GridLayout {
+                columns: 2; columnSpacing: 20; rowSpacing: 12; Layout.fillWidth: true
+                Label { text: "Right / middle drag"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                Label { text: "Orbit / pan the view"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+                Label { text: "Wheel"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                Label { text: "Zoom toward the workspace"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+                Label { text: "Ctrl+Home / Ctrl+0 / F"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                Label { text: "Restore / fit network / focus selection"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+                Label { text: "Ctrl-click / Shift-click"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                Label { text: "Toggle / extend equipment selection"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+                Label { text: "Ctrl+D / Delete"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                Label { text: "Duplicate / delete selected equipment"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+                Label { text: "Ctrl+Z / Ctrl+Y"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                Label { text: "Undo / redo an edit"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+                Label { text: "Escape / F1"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                Label { text: "Cancel the current gesture / open this help"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
+            }
+            Label { Layout.fillWidth: true; text: "Dense views prioritize selected and hovered equipment labels. Use Network to filter and inspect every asset; View → More equipment labels adds labels where they fit."; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary }
+            Label { Layout.fillWidth: true; text: "Scene layout is schematic. Moving equipment or changing the view does not change hydraulic inputs. Numerical edits retire earlier forecast approval."; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.smallSize }
+        }
+    }
+}

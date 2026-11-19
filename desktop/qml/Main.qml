@@ -124,7 +124,7 @@ ApplicationWindow {
     function sceneKeysEnabled() {
         const focus = app.activeFocusItem
         const textEditing = focus && typeof focus.selectAll === "function" && focus.text !== undefined
-        const blocked = [sensorDialog, telemetryDialog, observedInvestigationDialog, pipeTransportDialog, aboutDialog, projectMenu, viewMenu, editMenu, exampleMenu].some(item => item && item.visible)
+        const blocked = [sensorDialog, telemetryDialog, observedInvestigationDialog, pipeTransportDialog, aboutDialog, sceneHelpDialog, projectMenu, viewMenu, editMenu, exampleMenu].some(item => item && item.visible)
         return app.workspace === "workbench" && !textEditing && !blocked && !(agentPanel && agentPanel.dialogOpen) && !(forecastPanel && forecastPanel.dialogOpen)
     }
     property bool connectMode: false
@@ -135,14 +135,7 @@ ApplicationWindow {
     property real pitch: -55
     property real distance: 720
     property bool sceneReady: false
-    readonly property int visibleAssetLabels: {
-        let count = 0
-        for (let i = 0; i < labelRepeater.count; ++i) {
-            const item = labelRepeater.itemAt(i)
-            if (item && item.visible) ++count
-        }
-        return count
-    }
+    readonly property int visibleAssetLabels: sceneLabelLayer.visibleCount
     onFrameSwapped: { if (!sceneReady) sceneReady = true }
 
     function groundPoint(x, y) {
@@ -245,10 +238,14 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+D"; enabled: app.sceneKeysEnabled(); onActivated: controller.duplicateSelection() }
     Shortcut { sequence: "Delete"; enabled: app.sceneKeysEnabled(); onActivated: controller.deleteSelected() }
     Shortcut { sequence: "F"; enabled: app.sceneKeysEnabled(); onActivated: app.frameScene(true) }
+    Shortcut { sequence: "Ctrl+0"; enabled: app.sceneKeysEnabled(); onActivated: app.frameScene(false) }
+    Shortcut { sequence: "Ctrl+Home"; enabled: app.sceneKeysEnabled(); onActivated: app.restoreOrbit() }
+    Shortcut { sequence: "F1"; enabled: app.sceneKeysEnabled(); onActivated: sceneHelpDialog.open() }
     Shortcut {
         sequence: "Escape"
         onActivated: {
-            if (actionNotice.visible && actionNotice.ownsFocus(app.activeFocusItem)) actionNotice.dismiss()
+            if (sceneHelpDialog.visible) sceneHelpDialog.close()
+            else if (actionNotice.visible && actionNotice.ownsFocus(app.activeFocusItem)) actionNotice.dismiss()
             else {
                 sceneMouse.cancelDrag(); app.connectMode = false; app.connectionSource = ""
                 if (actionNotice.visible) actionNotice.dismiss()
@@ -260,6 +257,7 @@ ApplicationWindow {
     FileDialog { id: saveDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "json"; nameFilters: ["BREAKWATER project (*.json)"]; onAccepted: controller.save(selectedFile) }
     PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
     SensorPanel { id: sensorDialog; controller: app.controller }
+    WorkspaceHelp { id: sceneHelpDialog }
     TelemetryPanel {
         id: telemetryDialog; telemetry: app.telemetry
         onOpenInvestigation: { telemetryDialog.close(); observedInvestigationDialog.open() }
@@ -345,7 +343,7 @@ ApplicationWindow {
                     id: viewMenu; y: viewMenuButton.height + 6
                     MenuItem { text: "Network navigator"; checkable: true; checked: app.navigatorVisible; onTriggered: { workspaceSettings.setValue("navigatorOpen", true); app.compactPane = "navigator"; if (!app.compactLayout) workspaceSettings.setValue("navigatorOpen", !checked ? false : true) } }
                     MenuItem { text: "Equipment inspector"; checkable: true; checked: app.inspectorVisible; onTriggered: { workspaceSettings.setValue("inspectorOpen", true); app.compactPane = "inspector"; if (!app.compactLayout) workspaceSettings.setValue("inspectorOpen", checked) } }
-                    MenuItem { text: "All equipment labels"; checkable: true; checked: workspaceSettings.values.allLabels; onTriggered: workspaceSettings.setValue("allLabels", checked) }
+                    MenuItem { text: "More equipment labels"; checkable: true; checked: workspaceSettings.values.allLabels; onTriggered: workspaceSettings.setValue("allLabels", checked) }
                     MenuItem { text: "Layout grid"; visible: app.workspace === "workbench"; checkable: true; checked: app.siteGridVisible; onTriggered: app.siteGridVisible = checked }
                     MenuSeparator {}
                     MenuItem { text: "Low rendering quality"; checkable: true; checked: workspaceSettings.values.quality === 0; onTriggered: workspaceSettings.setValue("quality", 0) }
@@ -354,6 +352,7 @@ ApplicationWindow {
                     MenuItem { text: "Compact controls"; checkable: true; checked: workspaceSettings.values.compactControls; onTriggered: workspaceSettings.setValue("compactControls", checked) }
                     MenuSeparator {}
                     MenuItem { text: "Reset workspace layout"; onTriggered: { workspaceSettings.reset(); app.compactPane = "navigator" } }
+                    MenuItem { text: "Scene controls and shortcuts…"; visible: app.workspace === "workbench"; onTriggered: sceneHelpDialog.open() }
                 }
             }
             ActionButton { iconName: "clipboard-check"; text: "About"; tooltip: "Version and capability information"; display: AbstractButton.IconOnly; onClicked: aboutDialog.open() }
@@ -588,29 +587,14 @@ ApplicationWindow {
                         }
                     }
                 }
-                Repeater {
-                    id: labelRepeater
-                    model: controller.assets
-                    delegate: Label {
-                        required property var modelData
-                        readonly property bool eligible: workspaceSettings.values.allLabels || modelData.selected
-                            || app.hoveredAssetId === modelData.id
-                            || (app.sceneSelectedCount === 0 && modelData.kind === "tank" && app.sceneAssetCount < 12)
-                        property vector3d point: {
-                            if (!app.sceneReady || !eligible) return Qt.vector3d(0, 0, 0)
-                            const watchRotation = cameraRig.eulerRotation
-                            const watchPosition = cameraRig.position
-                            const watchDistance = sceneCamera.z + Number(app.topView) * planCamera.horizontalMagnification
-                            const watchSize = view.width + view.height
-                            const delta = sceneMouse.draggedIds.indexOf(modelData.id) >= 0 ? sceneMouse.dragDelta : Qt.vector3d(0, 0, 0)
-                            return view.mapFrom3DScene(Qt.vector3d(modelData.x + delta.x, 108, modelData.z + delta.z))
-                        }
-                        x: point.x - width / 2; y: point.y
-                        visible: eligible && point.z > 0 && point.x > 0 && point.x < view.width && point.y > 80 && point.y < view.height - 20
-                        padding: 4
-                        background: Rectangle { color: "#253139"; opacity: 0.9; radius: 3; border.color: modelData.selected ? "#DCECF2" : "#51616A" }
-                        text: modelData.label; textFormat: Text.PlainText; font.pixelSize: 12; color: modelData.selected ? "#FFFFFF" : "#DCE5E9"
-                    }
+                SceneLabels {
+                    id: sceneLabelLayer; anchors.fill: parent
+                    rows: controller.assets; projector: view; ready: app.sceneReady
+                    allLabels: workspaceSettings.values.allLabels; primaryId: controller.selectedId; hoveredId: app.hoveredAssetId
+                    draggedIds: sceneMouse.draggedIds; dragDelta: sceneMouse.dragDelta
+                    topInset: navigationHint.y + navigationHint.height + 8
+                    exclusions: sceneOrientation.visible ? [{x:sceneOrientation.x,y:sceneOrientation.y,width:sceneOrientation.width,height:sceneOrientation.height}] : []
+                    viewState: [cameraRig.eulerRotation,cameraRig.position,sceneCamera.z,app.topView,planCamera.horizontalMagnification,view.width,view.height]
                 }
                 MouseArea {
                     id: sceneMouse
@@ -703,9 +687,9 @@ ApplicationWindow {
                 RowLayout {
                     id: sceneToolbar
                     anchors.top: parent.top; anchors.left: parent.left; anchors.topMargin: 12; anchors.leftMargin: 12; spacing: 5
-                    ActionButton { objectName: "sceneHome"; iconName: "house"; display: AbstractButton.IconOnly; text: "Home"; tooltip: "Home · Restore saved perspective"; onClicked: app.restoreOrbit() }
-                    ActionButton { objectName: "sceneFit"; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network"; onClicked: app.frameScene(false) }
-                    ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; tooltip: "Focus · Frame selected equipment"; onClicked: app.frameScene(true) }
+                    ActionButton { objectName: "sceneHome"; iconName: "house"; display: AbstractButton.IconOnly; text: "Home"; tooltip: "Home · Restore saved perspective (Ctrl+Home)"; onClicked: app.restoreOrbit() }
+                    ActionButton { objectName: "sceneFit"; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network (Ctrl+0)"; onClicked: app.frameScene(false) }
+                    ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; tooltip: "Focus · Frame selected equipment (F)"; onClicked: app.frameScene(true) }
                     ActionButton { objectName: "sceneTop"; iconName: "layers"; display: AbstractButton.IconOnly; text: app.topView ? "Isometric" : "Top"; tooltip: app.topView ? "Isometric · Return to perspective" : "Top · View the site from above"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
                     ActionButton { objectName: "sceneGrid"; iconName: "grid-3x3"; display: AbstractButton.IconOnly; text: "Layout grid"; checked: app.siteGridVisible; tooltip: "Layout grid · " + siteGround.gridStep + " layout units; editor snaps to 20"; onClicked: app.siteGridVisible = !app.siteGridVisible }
                     ActionButton {
@@ -724,15 +708,7 @@ ApplicationWindow {
                     }
                     ActionButton { iconName: "panel-left"; display: AbstractButton.IconOnly; text: "Navigator"; visible: app.compactLayout; checked: app.navigatorVisible; onClicked: { workspaceSettings.setValue("navigatorOpen", true); app.compactPane = app.compactPane === "navigator" ? "" : "navigator" } }
                     ActionButton { iconName: "settings-2"; display: AbstractButton.IconOnly; text: "Inspector"; visible: app.compactLayout; checked: app.inspectorVisible; onClicked: { workspaceSettings.setValue("inspectorOpen", true); app.compactPane = app.compactPane === "inspector" ? "" : "inspector" } }
-                    Pane {
-                        objectName: "mouseRecommendation"; Layout.leftMargin: 7; padding: 9
-                        background: Rectangle { color: "#B315191B"; radius: 6; border.color: "#26FFFFFF" }
-                        contentItem: RowLayout {
-                            spacing: 7
-                            Image { Layout.preferredWidth: 16; Layout.preferredHeight: 16; source: Theme.icon("mouse"); sourceSize.width: 16; sourceSize.height: 16; Accessible.ignored: true }
-                            Label { text: "Mouse recommended"; color: Theme.text; font.pixelSize: Theme.smallSize }
-                        }
-                    }
+                    ActionButton { objectName: "mouseRecommendation"; Layout.leftMargin: 7; iconName: "mouse"; text: "Mouse recommended"; tooltip: "Scene controls and keyboard shortcuts (F1)"; onClicked: sceneHelpDialog.open() }
                 }
                 Label {
                     id: navigationHint
@@ -756,6 +732,7 @@ ApplicationWindow {
                     z: 20
                 }
                 SceneAxes {
+                    id: sceneOrientation
                     objectName: "workbenchOrientation"
                     projector: view; focusPoint: Qt.vector3d(cameraRig.x, 0, cameraRig.z)
                     viewState: [app.yaw, app.pitch, app.topView, app.distance, app.fittedDistance, app.fitSpan, cameraRig.x, cameraRig.z, view.width, view.height, app.sceneReady]
