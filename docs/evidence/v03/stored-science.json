@@ -1,0 +1,33 @@
+{
+  "evidence_version": 1,
+  "baseline_commit": "7f464c9b0c8cc2acc1f9b746dfbca9e995ba6dd6",
+  "checks_per_mode": {
+    "stored_science_qt_cases": {"passed": 6, "failed": 0, "skipped": 0},
+    "existing_storage_science_qt_cases": {"passed": 43, "failed": 0, "skipped": 0},
+    "evidence_v2_qt_cases": {"passed": 6, "failed": 0, "skipped": 0},
+    "native_ui_window_sizes": 4
+  },
+  "verified": [
+    "Actual stored overrides and original trajectory used without applying controls",
+    "Full native reproduction rejects inconsistent stored intermediate samples",
+    "Coalesced replacement and cancellation cannot publish an earlier source",
+    "Real CPU Python/PyTorch forward and sensitivity execution on a historical candidate",
+    "Manual source identity retained as v2 without fabricated model tool-call provenance",
+    "Source time grid must match the retained scientific result",
+    "Project document, current forecast and approval authority remain unchanged"
+  ],
+  "primary_logs": [
+    "out/v03/test-stored-science-portfolio-desktop.log",
+    "out/v03/test-stored-science-portfolio-desktop-asan.log",
+    "out/v03/test-stored-science-review-normal.log",
+    "out/v03/test-stored-science-review-asan.log",
+    "out/v03/test-stored-science-ui-final-normal.log",
+    "out/v03/test-stored-science-ui-final-asan.log"
+  ],
+  "ui_setup_failures": "An initial CTest filter matched no tests. Two following render cases stopped at evidence_parent_invalid because their output directory had not been created. The directory was created and actual four-size final checks pass in both modes. The initial failure log is retained as out/v03/test-stored-science-ui-asan-initial-directory-error.log.",
+  "build_lock": "The first normal app relink was blocked by the open prior executable. A verified replacement was opened, the unchanged older window was inspected and closed, and the normal relink and four tests then passed.",
+  "ui_artifacts": "out/v03/stored-science-ui-{normal,asan}/breakwater-ui-*/16-selected-candidate-science.png",
+  "ui_scope": "The source selector, read-only stored-run identity, real local native search/reconstruction and return to forecast source execute through actual Qt controls. The harness budget grows to 40 seconds/CTest 60 seconds for the added work; numerical and worker deadlines are unchanged. The updated app was shown interactively.",
+  "self_review": "Reviewed immutable source reconstruction, full native reproduction, asynchronous generation retirement, latest-selection coalescing, source modes, origin/grid binding, historical worker execution and absence of control mutation. This is not a formal owner review.",
+  "not_claimed": ["New hosted Nemotron execution", "Observed forecast/review completion", "Clean-Windows or real display-scaling acceptance", "Scientific results as a plan validator"]
+}

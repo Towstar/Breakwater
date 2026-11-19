@@ -249,6 +249,7 @@ Dialog {
                         model: panel.captureDiagnostics.issues || []
                         Label {
                             required property var modelData
+                            textFormat: Text.PlainText
                             Layout.fillWidth: true; wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize; color: Theme.warning
                             text: panel.statusLabel(modelData.code) + (modelData.attachment_id ? " · " + modelData.attachment_id : "")
                         }
@@ -289,6 +290,7 @@ Dialog {
                                     Layout.fillWidth: true
                                     Label {
                                         Layout.fillWidth: true; wrapMode: Text.Wrap; font.bold: true
+                                        textFormat: Text.PlainText
                                         text: panel.statusLabel(modelData.detector_id) + " · " + modelData.asset_ids.join(", ") + " · " + modelData.status
                                         color: modelData.status === "active" ? Theme.warning : Theme.secondary
                                     }
@@ -313,7 +315,7 @@ Dialog {
                                             + " " + modelData.unit + " · absolute bound " + Number(modelData.threshold).toPrecision(5) + " " + modelData.unit
                                     }
                                 }
-                                Label { Layout.fillWidth: true; wrapMode: Text.Wrap; text: modelData.explanation; color: Theme.muted; font.pixelSize: Theme.captionSize }
+                                Label { Layout.fillWidth: true; wrapMode: Text.Wrap; textFormat: Text.PlainText; text: modelData.explanation; color: Theme.muted; font.pixelSize: Theme.captionSize }
                             }
                         }
                     }

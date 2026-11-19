@@ -164,7 +164,14 @@ ColumnLayout {
             TabButton { text: "Science" }
         }
         Item { Layout.fillWidth: true }
-        PlainLabel { text: panel.history.historical ? "HISTORICAL · READ ONLY" : panel.scienceVisible ? "CURRENT NATIVE FORECAST · READ ONLY" : "CURRENT SESSION"; color: panel.history.historical ? Theme.warning : Theme.secondary; font.pixelSize: Theme.captionSize }
+        PlainLabel {
+            text: panel.scienceVisible && panel.storageScience.sourceMode === "candidate"
+                ? "STORED CANDIDATE · READ ONLY"
+                : panel.history.historical ? "HISTORICAL · READ ONLY"
+                : panel.scienceVisible ? "CURRENT NATIVE FORECAST · READ ONLY" : "CURRENT SESSION"
+            color: panel.history.historical ? Theme.warning : Theme.secondary
+            font.pixelSize: Theme.captionSize
+        }
         ActionButton { iconName: "rotate-ccw"; objectName: "returnToCurrentEvidence"; visible: panel.history.historical; text: "Return to current"; onClicked: panel.history.showLive() }
     }
     StackLayout {
@@ -349,8 +356,9 @@ ColumnLayout {
                         }
                     }
                 }
-                ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: tabs.currentIndex = 3 }
-                RowLayout {
+                ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: { panel.storageScience.setSourceMode("forecast"); tabs.currentIndex = 3 } }
+                Flow {
+                    Layout.fillWidth: true; spacing: 8
                     ActionButton { iconName: "git-compare-arrows"; text: "Compare runs"; enabled: panel.history.runs.length > 0; onClicked: tabs.currentIndex = 1 }
                     ActionButton { iconName: "arrow-up-from-line"; text: "Export JSON"; enabled: !panel.history.busy && panel.history.selectedSessionId.length > 0; onClicked: exportDialog.open() }
                     ActionButton { iconName: "arrow-down-to-line"; text: "Import JSON"; enabled: !panel.history.busy; onClicked: importDialog.open() }

@@ -263,6 +263,7 @@ int main(int argc, char** argv) {
     breakwater::desktop::science::PythonWorkerClient scientificWorker;
     breakwater::desktop::science::StorageScienceController storageScience(&controller, &scientificWorker);
     storageScience.setHistoryRepository(&repository);
+    storageScience.setHistoryController(&history);
     pipeTransport.setHistoryRepository(&repository);
     const bool scienceCheck = arguments.contains("--science-check");
     const bool scienceDerivatives = scienceCheck && arguments.contains("--science-derivatives");

@@ -9,7 +9,7 @@ ScrollView {
     required property var scientificWorker
     required property var storageScience
     required property var history
-    readonly property bool historicalView: history.historical
+    readonly property bool historicalView: history.historical && storageScience.sourceMode !== "candidate"
     readonly property var resultData: (historicalView ? history.scientificResult : storageScience.result) || ({})
     readonly property var displayTanks: (historicalView ? history.scientificTanks : storageScience.tanks) || []
     readonly property string displayTankId: historicalView ? history.selectedScientificTankId : storageScience.selectedTankId
@@ -48,6 +48,28 @@ ScrollView {
         width: panel.availableWidth
         spacing: 9
         SectionLabel { text: "SCIENTIFIC WORKER · READ-ONLY STORAGE COMPARISON" }
+        RowLayout {
+            Layout.fillWidth: true; spacing: 10
+            PlainLabel { text: "Scientific source"; color: Theme.secondary }
+            AppComboBox {
+                objectName: "scienceSourceSelector"; Layout.fillWidth: true
+                model: ["Current native forecast", "Selected stored candidate"]
+                currentIndex: panel.storageScience.sourceMode === "candidate" ? 1 : 0
+                onActivated: {
+                    panel.storageScience.setSourceMode(currentIndex === 1 ? "candidate" : "forecast")
+                    if (currentIndex === 0) panel.history.showLive()
+                }
+                Accessible.name: "Scientific source"
+            }
+        }
+        PlainLabel {
+            objectName: "scienceSourceIdentity"; Layout.fillWidth: true; wrapMode: Text.WrapAnywhere; font.pixelSize: Theme.captionSize
+            color: Theme.secondary; visible: panel.storageScience.sourceMode === "candidate"
+            text: panel.storageScience.sourceIdentity.source_run_id
+                ? "Stored run " + panel.storageScience.sourceIdentity.source_run_id + " · " + panel.storageScience.sourceIdentity.source_mode.replace(/_/g," ")
+                    + "\nThe stored controls and original trajectory are used without applying them."
+                : "Select a candidate in Comparison or History. Source reconstruction is separate from worker execution."
+        }
         PlainLabel {
             objectName: "historicalScienceBanner"
             Layout.fillWidth: true; visible: panel.historicalView; wrapMode: Text.WordWrap; color: Theme.warning

@@ -43,8 +43,12 @@ legacy archives remain v1 on export. Pipe retention stops at 256 records/256 MiB
 without deleting prior evidence, and retained results reopen through History in
 the existing viewer. Normal/ASan checks, four actual UI layouts and the guarded
 short-window stability run pass. See [history format](HISTORY_V2.md) and
-[history evidence](evidence/v03/history-v2.json). Observed forecasts/review,
-selected-candidate manual Science and final qualification remain pending. These are local
+[history evidence](evidence/v03/history-v2.json). Manual Science now reconstructs
+the selected stored candidate without applying its controls, checks the original
+trajectory against native reproduction, and runs CPU PyTorch comparison and
+sensitivities with retained v2 source identity. Both current and historical
+selection paths are covered. See [selected Science evidence](evidence/v03/stored-science.json).
+Observed forecasts/review and final qualification remain pending. These are local
 synthetic capabilities, not operational-monitoring claims.
 
 ## Active: v0.2.0 portfolio candidate, November 18, 2026
