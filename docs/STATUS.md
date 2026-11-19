@@ -157,8 +157,10 @@ camera sweeps remain about 62.5 FPS on this laptop, with all bodies pickable.
 The seven current gallery images show this exact binary. Manual checks exercised
 comparison, exact review, explicit simulated application, disabled repeat apply,
 reset, open-dialog cancellation, actual Operations search/validation and
-nonactionable import of a genuine hosted archive. A manual restart remains
-pending; no clean-Windows result is inferred from these developer-machine checks.
+nonactionable import of a genuine hosted archive. After explicit user approval,
+a manual restart reopened the completed session with all four numerical runs,
+the same comparison and historical review disabled. Only the latest app remains
+open. No clean-Windows result is inferred from these developer-machine checks.
 
 The final hosted round is **3/4, incomplete**. Operations runs 1 and 2 and the
 renamed/topology-changed run 4 passed, with real model-issued tool calls and

@@ -51,5 +51,9 @@
   "reviewer": "Codex Computer Use / self-check, not Ethan owner review",
   "clean_windows_vm": false,
   "windows_display_settings": "not changed",
-  "restart": "pending: close action rejected by automatic approval review; current latest app left open"
+  "restart": {
+    "status": "passed",
+    "record": "restart-ad45d45.json",
+    "prior_close_auto_review": "rejected; user then approved restart"
+  }
 }

@@ -86,5 +86,6 @@
     "Generic telemetry-to-forecast and evolving committed fleet dispatch remain separate",
     "Standalone Lean assumptions do not prove the desktop or all numerical outcomes",
     "Optional tracer fitting is bounded synthetic scalar decay, not calibrated field chemistry"
-  ]
+  ],
+  "manual_restart": "restart-ad45d45.json"
 }

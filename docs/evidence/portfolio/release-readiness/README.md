@@ -19,7 +19,7 @@ are in [candidate-ad45d45.json](candidate-ad45d45.json).
 | CLI regression | Seven actual CLI cases, 1/1 CTest in each normal/ASan build. Restricted hard-link failures were retained; the unchanged cases pass with the normal Windows token. |
 | Real optional Science | 23 worker tests, three calibration tests and one actual desktop staged-fit/explicit-apply case pass. The desktop Qt total is three including init/cleanup. Executed at `3658f41`; engine/science/proofs/scenarios/contracts and desktop test trees are unchanged at `ad45d45`. Torch/PhysicsNeMo are not bundled. |
 | View performance | One hardware D3D11 camera sweep each: default 62.489 FPS, maximum 128 assets/256 routes 62.490 FPS. All 6/128 actual bodies pickable. Radeon 880M laptop, 1440×900 client, DPR 1.75; no hardware-wide or VM FPS claim. |
-| Manual desktop | Exact run/control/validation review, explicit simulated apply, disabled repeat apply, healthy reset, Escape cancellation of Open, real Operations search/validation/completion and historical hosted import checked. This is Codex Computer Use self-checking, not Ethan's review or actual Windows display-scaling acceptance. Manual restart is pending. |
+| Manual desktop | Exact run/control/validation review, explicit simulated apply, disabled repeat apply, healthy reset, Escape cancellation of Open, real Operations search/validation/completion and historical hosted import checked. The approved same-binary restart reopened four numerical runs and their comparison with historical review disabled. This is Codex Computer Use self-checking, not Ethan's review or actual Windows display-scaling acceptance. |
 
 [Windows CI run 44431840603](https://github.com/Towstar/Breakwater/actions/runs/44431840603)
 is green for all six jobs. [CI metadata/counts](ci-windows-ad45d45.json) retain
@@ -28,6 +28,12 @@ artifact IDs/digests/expiry. [Selected source-qualified log lines](ci-qualified-
 exclude credential setup/environment dumps. Full original logs and screenshots
 are in that run's artifacts. The [seven actual gallery captures](../../../images/portfolio/README.md)
 have [hashes and capture facts](gallery-ad45d45.json).
+
+The [manual restart record](restart-ad45d45.json) retains the matched executable
+hash, reopened session/run prefixes and observed read-only approval state. The
+initial rejected close step is preserved; the successful restart followed explicit
+user approval. One latest instance was left open on the Sandbox. This does not
+replace interrupted-shutdown testing or actual clean-Windows VM acceptance.
 
 ## Hosted qualification remains incomplete
 
