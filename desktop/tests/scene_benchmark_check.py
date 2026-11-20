@@ -40,6 +40,9 @@ def main():
     require(report["assets"] == 6, "canonical fixture no longer contains six assets")
     require(report["numerical_identity_unchanged"] is True, "view-only sweep changed numerical identity")
     require(report["post_stop_rendered_frames"] >= 2, "picking ran before transforms settled")
+    expected_yaw = (report["camera_yaw_start"] + 12500 / 160) % 360
+    require(abs(report["camera_yaw_end"] - expected_yaw) < 1e-6,
+            "timer delay changed the settled verification view")
     require(report["measurement_window_ms"] >= 10000, "sample window was shorter than ten seconds")
     require(report["frames"] > 0, "no rendered frames were measured")
     require(report["screenshot_written"] is True and

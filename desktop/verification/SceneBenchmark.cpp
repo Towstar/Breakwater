@@ -150,6 +150,10 @@ void startSceneBenchmark(QQuickWindow* window, ProjectController* project, QCore
         QTimer::singleShot(10000, Qt::PreciseTimer, app, [=] {
             animation->stop(); samples->measuring = false;
             samples->measurementStopped=samples->clock.nsecsElapsed();
+            // A delayed timer may extend the sampled orbit under load. Set the
+            // same intended endpoint before settling, so renderer comparisons
+            // do not probe different views just because one timer fired late.
+            window->setProperty("yaw",std::fmod(initialYaw + 12500.0 / 160.0,360.0));
             // mapFrom3DScene reads current frontend transforms; pick reads the
             // synchronized renderer scene. Wait for a complete post-stop frame
             // even if another frame was already in flight when the timer fired.
