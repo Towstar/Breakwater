@@ -43,6 +43,10 @@ class Check final : public QObject {
     bool navigation_all_labels_ = false;
     bool navigation_dock_open_ = false;
     QElapsedTimer route_label_wait_;
+    QJsonObject cue_original_project_, cue_static_;
+    int rendered_frames_ = 0, cue_frame_mark_ = 0;
+    QElapsedTimer cue_settle_wait_;
+    bool cue_fixture_captured_ = false;
     bool observed_only_=false;
     QJsonObject observed_project_;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
@@ -120,6 +124,54 @@ class Check final : public QObject {
             "return !!r && Math.abs(cameraRig.x-(r.sx+r.tx)/2)<1e-6 && Math.abs(cameraRig.z-(r.sz+r.tz)/2)<1e-6})()").toBool(),
             "selected_route_endpoints_not_framed");
         navigationPreserved();
+    }
+    bool cueFramesReady() {
+        if (rendered_frames_-cue_frame_mark_>=2) return true;
+        require(cue_settle_wait_.elapsed()<2000,"route_cue_frames_did_not_settle"); window_->update(); return false;
+    }
+    void markCueFrames() { cue_frame_mark_=rendered_frames_; cue_settle_wait_.start(); window_->update(); }
+    QJsonObject selectedCue() {
+        return QJsonDocument::fromJson(eval(QStringLiteral(
+            "JSON.stringify((function(){const id=app.controller.selectedId,seen=new Set(),active=[],models=[];let cue=null,pipeRed=false;"
+            "function visit(n){if(!n||seen.has(n))return;seen.add(n);const name=String(n.objectName);"
+            "if(name.indexOf('selectedRouteCue:')===0&&n.active&&n.visible)active.push(name);"
+            "if(name==='selectedRouteCue:'+id)cue=n;"
+            "if(n.pickName==='route:'+id&&typeof n.span==='number'){const c=n.tint;pipeRed=c.r>0.85&&c.g<0.6&&c.b<0.6}"
+            "if(name==='selectedRouteCueShaft:'+id||name==='selectedRouteCueHead:'+id){const c=n.materials[0].baseColor;"
+            "models.push({name:name,source:String(n.source),pickable:n.pickable,neutral:c.r>0.8&&c.g>0.8&&c.b>0.8,"
+            "position:[n.position.x,n.position.y,n.position.z],scale:[n.scale.x,n.scale.y,n.scale.z]})}"
+            "for(const child of n.children||[])visit(child);if(n.item)visit(n.item)}visit(view.scene);"
+            "const r=app.controller.routes.find(row=>row.id===id),p=r?view.mapFrom3DScene(Qt.vector3d((r.sx+r.tx)/2,8,(r.sz+r.tz)/2)):null;"
+            "const hit=p&&p.z>0?view.pick(p.x,p.y):null;"
+            "return {active:active,found:!!cue,visible:!!cue&&cue.visible,pipe_red:pipeRed,body_hit:hit&&hit.objectHit?hit.objectHit.objectName:'',"
+            "geometry:cue?{position:[cue.position.x,cue.position.y,cue.position.z],rotation:[cue.rotation.scalar,cue.rotation.x,cue.rotation.y,cue.rotation.z],"
+            "models:models.sort((a,b)=>a.name<b.name?-1:a.name>b.name?1:0)}:{}}})())")).toString().toUtf8()).object();
+    }
+    void routeCueSummary(const QString& id,const QString& status,double setting) {
+        navigationPreserved();
+        require(controller_->selectedId()==id && item("sceneRouteSummary")->isVisible(),"route_selection_summary_missing");
+        require(item("sceneRouteIdentity")->property("text").toString()==id
+            && item("sceneRouteState")->property("text").toString()==status,"route_summary_identity_or_state_wrong");
+        require(eval("app.selectedNetworkRoute.id===app.controller.selectedId && app.selectedNetworkRoute.label===routeSummary.row.label").toBool(),
+            "route_summary_source_identity_wrong");
+        require(eval("app.selectedNetworkRoute.flow").toDouble()==setting
+            && item("sceneRouteSetting")->property("text").toString().contains("setpoint"),"route_summary_configured_setting_wrong");
+        require(item("sceneRouteSummary")->property("accessibleName").toString().contains("not measured delivery"),
+            "route_summary_omits_direction_disclaimer");
+        require(eval("(function(){const c=routeSummary;return c.x>=0&&c.y>=0&&c.width>0&&c.height>0&&c.x+c.width<=scenePanel.width"
+            "&&c.y+c.height<=scenePanel.height&&sceneLabelLayer.positioned.every(r=>!(r.x<c.x+c.width&&r.x+r.width>c.x&&r.y<c.y+c.height&&r.y+r.height>c.y))})()").toBool(),
+            "route_summary_clipped_or_overlaps_scene_labels");
+        const auto cue=selectedCue(), geometry=cue.value("geometry").toObject();
+        const auto models=geometry.value("models").toArray();
+        observed_["route_cue_"+id]=cue;
+        require(cue.value("found").toBool() && cue.value("visible").toBool() && cue.value("active").toArray().size()==1
+            && models.size()==2,"selected_route_cue_missing_or_unbounded");
+        for (const auto& value:models) {
+            const auto model=value.toObject();
+            require(model.contains("pickable") && !model.value("pickable").toBool() && model.value("neutral").toBool(),
+                "route_selection_cue_intercepts_picking_or_availability_colour");
+        }
+        require(cue.value("body_hit").toString()=="route:"+id,"route_cue_changed_primary_picking");
     }
     QJsonObject focusObservation() {
         auto* field = item("numericProperty_capacity");
@@ -720,6 +772,69 @@ class Check final : public QObject {
             case 88: {
                 require(eval("workspaceSettings.values.dockOpen").toBool()==navigation_dock_open_,"route_navigation_did_not_restore_results_dock");
                 navigationPreserved();
+                cue_original_project_=controller_->editorDocument();
+                if (navigation_dock_open_) click(item("Toggle results",true));
+                controller_->loadExample("baseline");
+                SimulationConfig config; config.horizon_h=0.5; controller_->forecastWithConfig(config); break;
+            }
+            case 89:
+                if (controller_->busy()) return;
+                require(controller_->canApprove() && controller_->forecastHorizonH()==0.5,"route_cue_real_fixture_forecast_unavailable");
+                if (!cue_fixture_captured_) {
+                    observed_project_=controller_->editorDocument(); hash_=controller_->networkHash(); run_=controller_->runId();
+                    revision_=controller_->simulationRevision(); navigation_editor_revision_=controller_->editorRevision(); cue_fixture_captured_=true;
+                }
+                navigationPreserved();
+                require(eval("app.sceneRoutes.some(r=>r.id==='main_pump'&&r.flow===44&&!r.available) && app.sceneRoutes.some(r=>r.id==='bypass'&&r.flow===0&&r.available)").toBool(),
+                    "route_cue_real_fixture_does_not_cover_zero_and_unavailable");
+                if (window_->property("compactLayout").toBool() && !window_->property("navigatorVisible").toBool()) {
+                    click(item("Navigator",true)); return;
+                }
+                click(item("networkConnectionsMode")); break;
+            case 90:
+                navigationPreserved(); filterNetwork("BYPASS"); break;
+            case 91:
+                require(eval("app.filteredNetworkRoutes.length===1 && app.filteredNetworkRoutes[0].id==='bypass'").toBool(),"zero_setting_route_filter_wrong");
+                navigationPreserved(); click(item("networkRoute:bypass")); break;
+            case 92:
+                navigationPreserved(); click(item("sceneFocus")); markCueFrames(); break;
+            case 93:
+                if (!cueFramesReady()) return;
+                routeFocused(); routeCueSummary("bypass","Configured route",0);
+                cue_static_=selectedCue().value("geometry").toObject(); snapshot("23-zero-setting-route-cue.png");
+                click(item("sceneHome")); markCueFrames(); break;
+            case 94:
+                if (!cueFramesReady()) return;
+                require(!eval("app.fittedView").toBool() && selectedCue().value("geometry").toObject()==cue_static_,"route_direction_cue_moves_with_view_or_animates");
+                navigationPreserved(); key(Qt::Key_F,Qt::NoModifier,"f"); markCueFrames(); break;
+            case 95:
+                if (!cueFramesReady()) return;
+                routeFocused(); routeCueSummary("bypass","Configured route",0);
+                require(selectedCue().value("geometry").toObject()==cue_static_,"route_direction_cue_changed_after_focus");
+                navigationPreserved(); filterNetwork("MAIN_PUMP"); break;
+            case 96:
+                require(controller_->selectedId()=="bypass" && eval("app.filteredNetworkRoutes.length===1 && app.filteredNetworkRoutes[0].id==='main_pump'").toBool(),
+                    "route_cue_filter_changed_selection");
+                navigationPreserved(); click(item("networkRoute:main_pump")); break;
+            case 97:
+                navigationPreserved(); click(item("sceneFocus")); markCueFrames(); break;
+            case 98:
+                if (!cueFramesReady()) return;
+                routeFocused(); routeCueSummary("main_pump","Pump unavailable",44);
+                require(selectedCue().value("pipe_red").toBool(),"unavailable_route_selection_lost_availability_colour");
+                snapshot("24-unavailable-route-cue.png");
+                passed("zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls");
+                require(controller_->restore(cue_original_project_),"route_cue_original_setup_restore_failed");
+                observed_project_=cue_original_project_;
+                eval("networkFilter.clear(); app.networkMode='equipment'"); controller_->select(navigation_selection_);
+                if (eval("workspaceSettings.values.dockOpen").toBool()!=navigation_dock_open_) click(item("Toggle results",true));
+                click(item("sceneHome")); break;
+            case 99: {
+                require(controller_->editorDocument()==cue_original_project_ && controller_->selectedId()==navigation_selection_
+                    && !item("sceneRouteSummary")->isVisible() && !eval("app.fittedView").toBool()
+                    && eval("app.networkMode==='equipment'").toBool()
+                    && eval("workspaceSettings.values.dockOpen").toBool()==navigation_dock_open_,
+                    "route_cue_test_did_not_restore_original_editor_setup");
                 SimulationConfig config; config.horizon_h=1.25; controller_->forecastWithConfig(config); phase_=1; return;
             }
             default: throw std::runtime_error("invalid_phase");
@@ -735,6 +850,7 @@ public:
         else if (qEnvironmentVariable("BREAKWATER_UI_SHORT") == "1") window->resize(1008, 672);
         elapsed_.start(); timer_.setInterval(100);
         connect(controller, &ProjectController::changed, this, [this] { ++changes_; });
+        connect(window,&QQuickWindow::frameSwapped,this,[this] { ++rendered_frames_; });
         connect(&timer_, &QTimer::timeout, this, [this] { tick(); }); timer_.start();
     }
 };
