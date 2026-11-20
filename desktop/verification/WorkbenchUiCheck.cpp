@@ -775,6 +775,9 @@ class Check final : public QObject {
                 cue_original_project_=controller_->editorDocument();
                 if (navigation_dock_open_) click(item("Toggle results",true));
                 controller_->loadExample("baseline");
+                // Establish the deliberately positive setting on an unavailable
+                // pump before capturing evidence. Failure presets normally zero it.
+                controller_->select("main_pump"); controller_->editSelected("flow","44"); controller_->select("");
                 SimulationConfig config; config.horizon_h=0.5; controller_->forecastWithConfig(config); break;
             }
             case 89:
