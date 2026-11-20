@@ -44,7 +44,6 @@ Item {
     }
     readonly property int visibleCount: positioned.length
     readonly property var positioned: {
-        const view = viewState
         const renderedProjection = projectionRevision
         if (!ready || !projector || width <= 20 || height <= topInset + 60) return []
         const candidates = []
