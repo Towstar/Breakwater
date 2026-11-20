@@ -2,20 +2,35 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
-The [workspace framing continuation](WORKSPACE_FRAMING.md), application-code
-checkpoint `b5b7cd4`, is implemented locally but **not built or runtime verified**.
-It adds usable-viewport Top fitting, view status and reversible scene focus mode.
-Local builds and app replacement await exact storage-cleanup approval because
-free space is below the accepted 8 GiB minimum. The existing verified `87021c2`
-app and saved workspace are preserved; no new increment PR has been pushed.
-Source review and new regression coverage do not establish runtime acceptance.
+The [workspace framing continuation](WORKSPACE_FRAMING.md), application source
+`cd4dc5f`, passes seven focused desktop suites in each of normal and ASan: 41
+framing-helper cases, eight label-placement cases, four native UI sizes with
+25 groups each, and actual WARP body picking. Top fits both usable viewport axes,
+plan pan refreshes labels, and scene focus preserves panel preferences and
+numerical evidence. The initial float-precision assertion failure is retained;
+the independent rendered-containment gate remains one pixel. A manual Windows
+shortcut conflict led to Ctrl+Shift+F, which was then verified in the actual app.
+See [final local evidence](evidence/workspace-framing/local-final-checks.json).
 
-PR84's head `96c9ee7` has five completed successful CI jobs; Desktop ASan is
-still pending at the [retained partial observation](evidence/workspace-framing/pr84-ci.json).
-Normal desktop passes 87/87; no failure or rerun was observed. This checkpoint
-must be refreshed after ASan finishes and is separate from the new local code.
+Hardware default/dense checks on the identified AMD adapter pick 6/6 and 128/128
+bodies with zero label overlaps and meet the local targets; these measurements
+are not a controlled comparison with older runs. The saved project was restored,
+Top and scene focus were shown, Escape restored the panels, and only the latest
+maximized app was left open in fitted perspective. See the [handoff](
+evidence/workspace-framing/handoff.json). The earlier cleanup proposal was not
+executed. This local UI qualification is separate from full new-source CI,
+hosted rehearsals, owner/licensing review and actual clean-Windows acceptance.
 
-Latest verified application checkpoint:
+PR84's unchanged head `96c9ee7` passed all six Windows CI jobs on attempt 1:
+native 17/17 and desktop 87/87 in both modes, CPU science 464 passed plus four
+expected skips, and 54 Lean theorem audits. Desktop Qt reports record 1,121
+passes and one expected optional PhysicsNeMo subcase skip per mode. Both WARP
+reports retain six picks, six labels and zero overlaps. The [final CI manifest](
+evidence/workspace-framing/pr84-ci-final.json) preserves exact source/tree,
+toolchains and artifacts; the earlier partial observation remains unchanged.
+That full matrix does not qualify the later framing source above.
+
+Previous verified application checkpoint:
 The [selected-route inspection pass](ROUTE_INSPECTION.md), application source
 `87021c2`, adds a static unpickable direction cue and compact read-only route card,
 including failed and zero-setting connections. A bounded post-render refresh

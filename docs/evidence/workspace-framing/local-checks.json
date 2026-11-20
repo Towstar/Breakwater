@@ -1,0 +1,1878 @@
+{
+  "local_verification_version": 1,
+  "recorded_utc": "2026-11-20T17:56:39.035Z",
+  "status": "focused normal and ASan verification passed; original failed probe preserved",
+  "application_source_commit": "25c539a008821a7485e0384a2f217c2f17f70447",
+  "application_source_tree": "b828f47adf3d5d2bd1225db232114566d5079c34",
+  "source_files": [
+    {
+      "path": "CMakeLists.txt",
+      "bytes": 2161,
+      "sha256": "8fa4662004063eb24c7e7235613c2657805e7f78f4a1c0eaf4c7b7b6b126a29d"
+    },
+    {
+      "path": "desktop/CMakeLists.txt",
+      "bytes": 36823,
+      "sha256": "eb9fd84e6e7baeefa0a44726255791ed5a31a862f276fb546aa264f2a33614c5"
+    },
+    {
+      "path": "desktop/verification/WorkbenchUiCheck.cpp",
+      "bytes": 78103,
+      "sha256": "a5e5d3ea143e3adb1792abc59a53afbac6063c77487de4fff3e92b12c31e5725"
+    }
+  ],
+  "source_qualification": "This local packet qualifies the application source25c539a and exact binaries recorded below. PR84 Windows CI qualifies the separate earlier96c9ee7 head/equivalent8718819 merge tree only; its full matrix is in pr84-ci-final.json and is not inherited by this source.",
+  "initial_attempt": {
+    "application_source_commit": "3e8a05170b8f2f8a6781adcc8235f79f2840dd6e",
+    "mode": "normal",
+    "ctest": {
+      "framework": "CTest",
+      "run": 2,
+      "passed": 1,
+      "failed": 1,
+      "skipped": 0
+    },
+    "helper_ctest_entry": {
+      "name": "desktop.scene_framing",
+      "status": "passed",
+      "reported_qt_passed": 41,
+      "reported_qt_failed": 0,
+      "reported_qt_skipped": 0,
+      "qt_subcase_count_basis": "Executing root agent reports41 passing cases in the initial probe. The retained initial CTest XML/LastTest proves the helper entry passed; its separate Qt detail file was later overwritten by the final run, whose41-case detail is retained below."
+    },
+    "ui_failure": {
+      "check": "ui_overhaul",
+      "passed": false,
+      "phase": 104,
+      "code": "plan_fit_actual_camera_or_body_footprints_outside_usable_view",
+      "window_width": 1440,
+      "window_height": 900,
+      "device_pixel_ratio": 1.75,
+      "tall_corners": 24,
+      "all_corners_inside": true
+    },
+    "correction": {
+      "commit": "25c539a008821a7485e0384a2f217c2f17f70447",
+      "path": "desktop/verification/WorkbenchUiCheck.cpp",
+      "description": "The harness compared Qt float camera properties against JS-double helper results with a fixed1e-6 absolute tolerance. Replace those camera-value comparisons with max(1e-6,abs(expected)*1.2e-7) to accommodate float storage. The independent rendered footprint containment bound remains one logical pixel, and actual camera values are now retained in the report.",
+      "rendered_pixel_gate_changed": false,
+      "rendered_pixel_gate_logical_px": 1,
+      "history_preserved": true
+    },
+    "raw_artifacts": [
+      "docs/evidence/workspace-framing/initial-probe-3e8a051.log",
+      "docs/evidence/workspace-framing/initial-probe-3e8a051.xml",
+      "docs/evidence/workspace-framing/initial-probe-3e8a051-last-test.log"
+    ]
+  },
+  "execution_conditions": {
+    "normal_then_asan_native_checks": true,
+    "both_builds_completed_before_native_ui_tests": true,
+    "no_cua_input_during_native_checks": true,
+    "condition_provenance": "Reported by the executing root agent. This evidence-assembly agent performed read-only file inspection/copying and no build, test execution or UI interaction.",
+    "hosted_model_requests": "not_requested",
+    "all_monitoring_and_cost_data": "synthetic",
+    "public_release_approved": false
+  },
+  "local_modes": {
+    "normal": {
+      "source_commit": "25c539a008821a7485e0384a2f217c2f17f70447",
+      "build_type": "RelWithDebInfo",
+      "build_outcome": "success",
+      "build_outcome_basis": "Parent build process completed successfully; retained log reaches the final successful target link and subsequent native test execution.",
+      "ctest": {
+        "framework": "CTest",
+        "run": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0
+      },
+      "elapsed_s": 81.69,
+      "qt_units": {
+        "scene_framing": {
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        },
+        "label_placement": {
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        }
+      },
+      "binaries": [
+        {
+          "path": "out/portfolio-desktop/desktop/breakwater.exe",
+          "bytes": 9498112,
+          "sha256": "44a1679834614e7f22a4758306e307d1746caa18aeca590f1125962dc8f4a787",
+          "last_write_utc": "2026-11-20T17:47:17.098Z",
+          "retained_in_public_evidence": false
+        },
+        {
+          "path": "out/portfolio-desktop/desktop/breakwater_scene_framing_tests.exe",
+          "bytes": 98816,
+          "sha256": "fff2f7b84596e84db889c128ef18a7b52a4f5c68e46223b3b59bfadf2b1dd2f1",
+          "last_write_utc": "2026-11-20T17:43:25.570Z",
+          "retained_in_public_evidence": false
+        },
+        {
+          "path": "out/portfolio-desktop/desktop/breakwater_label_placement_tests.exe",
+          "bytes": 101888,
+          "sha256": "5b85d8ffebbd9965d7b821609c72caaccae1938313be786795d35488b50d0c87",
+          "last_write_utc": "2026-11-20T01:48:35.438Z",
+          "retained_in_public_evidence": false
+        }
+      ],
+      "toolchain": {
+        "compiler_id": "MSVC",
+        "compiler_executable": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+        "compiler_actual_file_version": "19.44.35219.0",
+        "toolset_recorded_by_initializer": "14.44.35219.0",
+        "visual_studio": "17.14.36623.8",
+        "compiler_cache_directory_label": "14.44.35207",
+        "version_basis": "Compiler file version independently checked and matches CMakeCXXCompiler.cmake, not the older toolset directory name.",
+        "cmake": "3.31.6-msvc6",
+        "qt": "6.12.0",
+        "cxx_standard": 20,
+        "precise_floating_point": "/fp:precise",
+        "cmake_compiler_metadata": {
+          "path": "out/portfolio-desktop/CMakeFiles/3.31.6-msvc6/CMakeCXXCompiler.cmake",
+          "sha256": "e1dad8c27f95681ac1c7dd2917f1c35b5369b9485296c28dc50fd178013d03a0"
+        },
+        "asan_option_enabled": false,
+        "scene_framing_target_asan_instrumented": false,
+        "scene_framing_link_contract": "desktop/CMakeLists.txt links breakwater_scene_framing_tests to breakwater_options; actual Ninja C++ compile rule contains /fsanitize=address in ASan mode."
+      },
+      "ui": [
+        {
+          "passed": true,
+          "window_width": 1440,
+          "window_height": 900,
+          "device_pixel_ratio": 1.75,
+          "named_groups": 25,
+          "checks": [
+            "native_assets_accessibility_action_gates",
+            "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+            "route_list_selection_focus_and_related_labels_preserve_project",
+            "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+            "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+            "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+            "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+            "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+            "actual_1_25h_forecast",
+            "nested_geometry_pick_and_click",
+            "layout_drag_preserves_hash_run_approval",
+            "keyboard_rejection_repeat_dismiss_preserves_evidence",
+            "focused_notice_escape_isolated",
+            "outside_notice_escape_cancels_connection",
+            "valid_retry_clears_inline_retires_run_approval",
+            "edited_focus_loss_once_unedited_focus_loss_no_commit",
+            "native_multiselect_duplicate_atomic_undo",
+            "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+            "bundled_hosted_recording_reopens_historical_without_review_authority",
+            "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+            "inspector_route_state_preserves_numerical_evidence",
+            "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+            "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+            "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+            "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+          ],
+          "hosted_model_requests": "not_requested",
+          "plan_fits": {
+            "plan_fit_route_endpoints": {
+              "valid": true,
+              "corner_count": 8,
+              "all_corners_inside": true,
+              "view_width": 932,
+              "view_height": 766,
+              "camera": {
+                "horizontal": 1.1589744091033936,
+                "vertical": 1.1589744091033936,
+                "x": -1200,
+                "z": 9.491150856018066
+              },
+              "fit": {
+                "cameraX": -1200,
+                "cameraZ": 9.491150442477876,
+                "magnification": 1.158974358974359,
+                "spanX": 780,
+                "spanZ": 380,
+                "usable": {
+                  "height": 540,
+                  "width": 904,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 932,
+              "view_height": 766,
+              "camera": {
+                "horizontal": 0.1729559749364853,
+                "vertical": 0.1729559749364853,
+                "x": 0,
+                "z": 34.69091033935547
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 34.690909090909095,
+                "magnification": 0.17295597484276728,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 550,
+                  "width": 904,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall_after_dock_resize": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 932,
+              "view_height": 538,
+              "camera": {
+                "horizontal": 0.10125786066055298,
+                "vertical": 0.10125786066055298,
+                "x": 0,
+                "z": 59.25465774536133
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 59.254658385093165,
+                "magnification": 0.10125786163522013,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 322,
+                  "width": 904,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_wide": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 932,
+              "view_height": 538,
+              "camera": {
+                "horizontal": 0.28427672386169434,
+                "vertical": 0.28427672386169434,
+                "x": 0,
+                "z": 21.1061954498291
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 21.106194690265486,
+                "magnification": 0.2842767295597484,
+                "spanX": 3180,
+                "spanZ": 380,
+                "usable": {
+                  "height": 322,
+                  "width": 904,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            }
+          },
+          "label_projections": {
+            "label_projection_home": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_perspective": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_focus": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_pan": {
+              "passed": true,
+              "label_count": 2,
+              "max_error_px": 0
+            }
+          },
+          "raw_full_json_retained_in": "docs/evidence/workspace-framing/normal-25c539a-full-last-test.log"
+        },
+        {
+          "passed": true,
+          "window_width": 1100,
+          "window_height": 700,
+          "device_pixel_ratio": 1.75,
+          "named_groups": 25,
+          "checks": [
+            "native_assets_accessibility_action_gates",
+            "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+            "route_list_selection_focus_and_related_labels_preserve_project",
+            "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+            "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+            "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+            "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+            "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+            "actual_1_25h_forecast",
+            "nested_geometry_pick_and_click",
+            "layout_drag_preserves_hash_run_approval",
+            "keyboard_rejection_repeat_dismiss_preserves_evidence",
+            "focused_notice_escape_isolated",
+            "outside_notice_escape_cancels_connection",
+            "valid_retry_clears_inline_retires_run_approval",
+            "edited_focus_loss_once_unedited_focus_loss_no_commit",
+            "native_multiselect_duplicate_atomic_undo",
+            "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+            "bundled_hosted_recording_reopens_historical_without_review_authority",
+            "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+            "inspector_route_state_preserves_numerical_evidence",
+            "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+            "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+            "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+            "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+          ],
+          "hosted_model_requests": "not_requested",
+          "plan_fits": {
+            "plan_fit_route_endpoints": {
+              "valid": true,
+              "corner_count": 8,
+              "all_corners_inside": true,
+              "view_width": 879,
+              "view_height": 566,
+              "camera": {
+                "horizontal": 0.8947368264198303,
+                "vertical": 0.8947368264198303,
+                "x": -1200,
+                "z": 12.29411792755127
+              },
+              "fit": {
+                "cameraX": -1200,
+                "cameraZ": 12.294117647058824,
+                "magnification": 0.8947368421052632,
+                "spanX": 780,
+                "spanZ": 380,
+                "usable": {
+                  "height": 340,
+                  "width": 851,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 879,
+              "view_height": 566,
+              "camera": {
+                "horizontal": 0.11006288975477219,
+                "vertical": 0.11006288975477219,
+                "x": 0,
+                "z": 54.514286041259766
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 54.51428571428571,
+                "magnification": 0.11006289308176101,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 350,
+                  "width": 851,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall_after_dock_resize": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 879,
+              "view_height": 338,
+              "camera": {
+                "horizontal": 0.03836477920413017,
+                "vertical": 0.03836477920413017,
+                "x": 0,
+                "z": 156.39344787597656
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 156.39344262295083,
+                "magnification": 0.038364779874213835,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 122,
+                  "width": 851,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_wide": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 879,
+              "view_height": 338,
+              "camera": {
+                "horizontal": 0.2676100730895996,
+                "vertical": 0.2676100730895996,
+                "x": 0,
+                "z": 22.42068099975586
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 22.420681551116335,
+                "magnification": 0.26761006289308176,
+                "spanX": 3180,
+                "spanZ": 380,
+                "usable": {
+                  "height": 122,
+                  "width": 851,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            }
+          },
+          "label_projections": {
+            "label_projection_home": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_perspective": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_focus": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_pan": {
+              "passed": true,
+              "label_count": 2,
+              "max_error_px": 0
+            }
+          },
+          "raw_full_json_retained_in": "docs/evidence/workspace-framing/normal-25c539a-full-last-test.log"
+        },
+        {
+          "passed": true,
+          "window_width": 1008,
+          "window_height": 672,
+          "device_pixel_ratio": 1.75,
+          "named_groups": 25,
+          "checks": [
+            "native_assets_accessibility_action_gates",
+            "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+            "route_list_selection_focus_and_related_labels_preserve_project",
+            "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+            "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+            "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+            "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+            "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+            "actual_1_25h_forecast",
+            "nested_geometry_pick_and_click",
+            "layout_drag_preserves_hash_run_approval",
+            "keyboard_rejection_repeat_dismiss_preserves_evidence",
+            "focused_notice_escape_isolated",
+            "outside_notice_escape_cancels_connection",
+            "valid_retry_clears_inline_retires_run_approval",
+            "edited_focus_loss_once_unedited_focus_loss_no_commit",
+            "native_multiselect_duplicate_atomic_undo",
+            "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+            "bundled_hosted_recording_reopens_historical_without_review_authority",
+            "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+            "inspector_route_state_preserves_numerical_evidence",
+            "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+            "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+            "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+            "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+          ],
+          "hosted_model_requests": "not_requested",
+          "plan_fits": {
+            "plan_fit_route_endpoints": {
+              "valid": true,
+              "corner_count": 8,
+              "all_corners_inside": true,
+              "view_width": 787,
+              "view_height": 538,
+              "camera": {
+                "horizontal": 0.821052610874176,
+                "vertical": 0.821052610874176,
+                "x": -1200,
+                "z": 13.397436141967773
+              },
+              "fit": {
+                "cameraX": -1200,
+                "cameraZ": 13.397435897435898,
+                "magnification": 0.8210526315789474,
+                "spanX": 780,
+                "spanZ": 380,
+                "usable": {
+                  "height": 312,
+                  "width": 759,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 787,
+              "view_height": 538,
+              "camera": {
+                "horizontal": 0.10125786066055298,
+                "vertical": 0.10125786066055298,
+                "x": 0,
+                "z": 59.25465774536133
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 59.254658385093165,
+                "magnification": 0.10125786163522013,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 322,
+                  "width": 759,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall_after_dock_resize": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 787,
+              "view_height": 310,
+              "camera": {
+                "horizontal": 0.029559748247265816,
+                "vertical": 0.029559748247265816,
+                "x": 0,
+                "z": 202.97872924804688
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 202.9787234042553,
+                "magnification": 0.029559748427672956,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 94,
+                  "width": 759,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_wide": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 787,
+              "view_height": 310,
+              "camera": {
+                "horizontal": 0.23867924511432648,
+                "vertical": 0.23867924511432648,
+                "x": 0,
+                "z": 25.13833999633789
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 25.138339920948617,
+                "magnification": 0.23867924528301887,
+                "spanX": 3180,
+                "spanZ": 380,
+                "usable": {
+                  "height": 94,
+                  "width": 759,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            }
+          },
+          "label_projections": {
+            "label_projection_home": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_perspective": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_focus": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_pan": {
+              "passed": true,
+              "label_count": 2,
+              "max_error_px": 0
+            }
+          },
+          "raw_full_json_retained_in": "docs/evidence/workspace-framing/normal-25c539a-full-last-test.log"
+        },
+        {
+          "passed": true,
+          "window_width": 960,
+          "window_height": 540,
+          "device_pixel_ratio": 1.75,
+          "named_groups": 25,
+          "checks": [
+            "native_assets_accessibility_action_gates",
+            "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+            "route_list_selection_focus_and_related_labels_preserve_project",
+            "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+            "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+            "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+            "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+            "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+            "actual_1_25h_forecast",
+            "nested_geometry_pick_and_click",
+            "layout_drag_preserves_hash_run_approval",
+            "keyboard_rejection_repeat_dismiss_preserves_evidence",
+            "focused_notice_escape_isolated",
+            "outside_notice_escape_cancels_connection",
+            "valid_retry_clears_inline_retires_run_approval",
+            "edited_focus_loss_once_unedited_focus_loss_no_commit",
+            "native_multiselect_duplicate_atomic_undo",
+            "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+            "bundled_hosted_recording_reopens_historical_without_review_authority",
+            "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+            "inspector_route_state_preserves_numerical_evidence",
+            "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+            "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+            "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+            "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+          ],
+          "hosted_model_requests": "not_requested",
+          "plan_fits": {
+            "plan_fit_route_endpoints": {
+              "valid": true,
+              "corner_count": 8,
+              "all_corners_inside": true,
+              "view_width": 739,
+              "view_height": 406,
+              "camera": {
+                "horizontal": 0.4736842215061188,
+                "vertical": 0.4736842215061188,
+                "x": -1200,
+                "z": 23.22222137451172
+              },
+              "fit": {
+                "cameraX": -1200,
+                "cameraZ": 23.222222222222225,
+                "magnification": 0.47368421052631576,
+                "spanX": 780,
+                "spanZ": 380,
+                "usable": {
+                  "height": 180,
+                  "width": 711,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 739,
+              "view_height": 406,
+              "camera": {
+                "horizontal": 0.05974842607975006,
+                "vertical": 0.05974842607975006,
+                "x": 0,
+                "z": 100.42105102539062
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 100.42105263157895,
+                "magnification": 0.059748427672955975,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 190,
+                  "width": 711,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall_after_dock_resize": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 739,
+              "view_height": 201,
+              "camera": {
+                "horizontal": 0.026729559525847435,
+                "vertical": 0.026729559525847435,
+                "x": 0,
+                "z": -149.64706420898438
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": -149.64705882352942,
+                "magnification": 0.026729559748427674,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 85,
+                  "width": 711,
+                  "x": 14,
+                  "y": 62
+                }
+              }
+            },
+            "plan_fit_wide": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 739,
+              "view_height": 201,
+              "camera": {
+                "horizontal": 0.22358490526676178,
+                "vertical": 0.22358490526676178,
+                "x": 0,
+                "z": -17.890295028686523
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": -17.890295358649787,
+                "magnification": 0.22358490566037736,
+                "spanX": 3180,
+                "spanZ": 380,
+                "usable": {
+                  "height": 85,
+                  "width": 711,
+                  "x": 14,
+                  "y": 62
+                }
+              }
+            }
+          },
+          "label_projections": {
+            "label_projection_home": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_perspective": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_focus": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_pan": {
+              "passed": true,
+              "label_count": 2,
+              "max_error_px": 0
+            }
+          },
+          "raw_full_json_retained_in": "docs/evidence/workspace-framing/normal-25c539a-full-last-test.log"
+        }
+      ],
+      "compact_warp": {
+        "raw_report": "docs/evidence/workspace-framing/normal-25c539a-warp-benchmark.json",
+        "status": "measured",
+        "renderer": {
+          "adapter": "Microsoft Basic Render Driver",
+          "device_id": 140,
+          "software": true,
+          "status": "identified",
+          "vendor_id": 5140
+        },
+        "assets": 6,
+        "actual_body_picks": 6,
+        "visible_label_count": 6,
+        "culled_labels": 0,
+        "label_overlap_pairs": 0,
+        "client_width": 1008,
+        "client_height": 672,
+        "numerical_identity_unchanged": true,
+        "fps_diagnostic_only": 36.113487665373256,
+        "measurement_window_ms": 10029.4598
+      },
+      "raw_artifacts": [
+        "docs/evidence/workspace-framing/normal-25c539a-full.log",
+        "docs/evidence/workspace-framing/normal-25c539a-full.xml",
+        "docs/evidence/workspace-framing/normal-25c539a-full-last-test.log",
+        "docs/evidence/workspace-framing/build-normal-25c539a.log",
+        "docs/evidence/workspace-framing/normal-25c539a-scene-framing-results.txt",
+        "docs/evidence/workspace-framing/normal-25c539a-label-placement-results.txt",
+        "docs/evidence/workspace-framing/normal-25c539a-warp-benchmark.json"
+      ]
+    },
+    "asan": {
+      "source_commit": "25c539a008821a7485e0384a2f217c2f17f70447",
+      "build_type": "RelWithDebInfo",
+      "build_outcome": "success",
+      "build_outcome_basis": "Parent build process completed successfully; retained log reaches the final successful target link and subsequent native test execution.",
+      "ctest": {
+        "framework": "CTest",
+        "run": 7,
+        "passed": 7,
+        "failed": 0,
+        "skipped": 0
+      },
+      "elapsed_s": 161.45,
+      "qt_units": {
+        "scene_framing": {
+          "passed": 41,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        },
+        "label_placement": {
+          "passed": 8,
+          "failed": 0,
+          "skipped": 0,
+          "blacklisted": 0
+        }
+      },
+      "binaries": [
+        {
+          "path": "out/portfolio-desktop-asan/desktop/breakwater.exe",
+          "bytes": 14089216,
+          "sha256": "7347b2a5a30e84e707387c5daacbcea2576a756ccd271c99c0ef4e2d59fec8f9",
+          "last_write_utc": "2026-11-20T17:47:16.103Z",
+          "retained_in_public_evidence": false
+        },
+        {
+          "path": "out/portfolio-desktop-asan/desktop/breakwater_scene_framing_tests.exe",
+          "bytes": 121856,
+          "sha256": "37e3d734c3dbb6985a9e3070900b6d92f02bba9d143f0ae0ad958f5e7f823580",
+          "last_write_utc": "2026-11-20T17:43:25.573Z",
+          "retained_in_public_evidence": false
+        },
+        {
+          "path": "out/portfolio-desktop-asan/desktop/breakwater_label_placement_tests.exe",
+          "bytes": 101888,
+          "sha256": "7a25ea26e54d0647d27862948ab2b7052ce1216e48d15a9783472c10810181bf",
+          "last_write_utc": "2026-11-20T01:48:34.647Z",
+          "retained_in_public_evidence": false
+        }
+      ],
+      "toolchain": {
+        "compiler_id": "MSVC",
+        "compiler_executable": "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe",
+        "compiler_actual_file_version": "19.44.35219.0",
+        "toolset_recorded_by_initializer": "14.44.35219.0",
+        "visual_studio": "17.14.36623.8",
+        "compiler_cache_directory_label": "14.44.35207",
+        "version_basis": "Compiler file version independently checked and matches CMakeCXXCompiler.cmake, not the older toolset directory name.",
+        "cmake": "3.31.6-msvc6",
+        "qt": "6.12.0",
+        "cxx_standard": 20,
+        "precise_floating_point": "/fp:precise",
+        "cmake_compiler_metadata": {
+          "path": "out/portfolio-desktop-asan/CMakeFiles/3.31.6-msvc6/CMakeCXXCompiler.cmake",
+          "sha256": "e1dad8c27f95681ac1c7dd2917f1c35b5369b9485296c28dc50fd178013d03a0"
+        },
+        "asan_option_enabled": true,
+        "scene_framing_target_asan_instrumented": true,
+        "scene_framing_link_contract": "desktop/CMakeLists.txt links breakwater_scene_framing_tests to breakwater_options; actual Ninja C++ compile rule contains /fsanitize=address in ASan mode."
+      },
+      "ui": [
+        {
+          "passed": true,
+          "window_width": 1440,
+          "window_height": 900,
+          "device_pixel_ratio": 1.75,
+          "named_groups": 25,
+          "checks": [
+            "native_assets_accessibility_action_gates",
+            "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+            "route_list_selection_focus_and_related_labels_preserve_project",
+            "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+            "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+            "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+            "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+            "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+            "actual_1_25h_forecast",
+            "nested_geometry_pick_and_click",
+            "layout_drag_preserves_hash_run_approval",
+            "keyboard_rejection_repeat_dismiss_preserves_evidence",
+            "focused_notice_escape_isolated",
+            "outside_notice_escape_cancels_connection",
+            "valid_retry_clears_inline_retires_run_approval",
+            "edited_focus_loss_once_unedited_focus_loss_no_commit",
+            "native_multiselect_duplicate_atomic_undo",
+            "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+            "bundled_hosted_recording_reopens_historical_without_review_authority",
+            "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+            "inspector_route_state_preserves_numerical_evidence",
+            "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+            "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+            "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+            "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+          ],
+          "hosted_model_requests": "not_requested",
+          "plan_fits": {
+            "plan_fit_route_endpoints": {
+              "valid": true,
+              "corner_count": 8,
+              "all_corners_inside": true,
+              "view_width": 932,
+              "view_height": 766,
+              "camera": {
+                "horizontal": 1.1589744091033936,
+                "vertical": 1.1589744091033936,
+                "x": -1200,
+                "z": 9.491150856018066
+              },
+              "fit": {
+                "cameraX": -1200,
+                "cameraZ": 9.491150442477876,
+                "magnification": 1.158974358974359,
+                "spanX": 780,
+                "spanZ": 380,
+                "usable": {
+                  "height": 540,
+                  "width": 904,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 932,
+              "view_height": 766,
+              "camera": {
+                "horizontal": 0.1729559749364853,
+                "vertical": 0.1729559749364853,
+                "x": 0,
+                "z": 34.69091033935547
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 34.690909090909095,
+                "magnification": 0.17295597484276728,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 550,
+                  "width": 904,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall_after_dock_resize": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 932,
+              "view_height": 538,
+              "camera": {
+                "horizontal": 0.10125786066055298,
+                "vertical": 0.10125786066055298,
+                "x": 0,
+                "z": 59.25465774536133
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 59.254658385093165,
+                "magnification": 0.10125786163522013,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 322,
+                  "width": 904,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_wide": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 932,
+              "view_height": 538,
+              "camera": {
+                "horizontal": 0.28427672386169434,
+                "vertical": 0.28427672386169434,
+                "x": 0,
+                "z": 21.1061954498291
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 21.106194690265486,
+                "magnification": 0.2842767295597484,
+                "spanX": 3180,
+                "spanZ": 380,
+                "usable": {
+                  "height": 322,
+                  "width": 904,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            }
+          },
+          "label_projections": {
+            "label_projection_home": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_perspective": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_focus": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_pan": {
+              "passed": true,
+              "label_count": 2,
+              "max_error_px": 0
+            }
+          },
+          "raw_full_json_retained_in": "docs/evidence/workspace-framing/asan-25c539a-full-last-test.log"
+        },
+        {
+          "passed": true,
+          "window_width": 1100,
+          "window_height": 700,
+          "device_pixel_ratio": 1.75,
+          "named_groups": 25,
+          "checks": [
+            "native_assets_accessibility_action_gates",
+            "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+            "route_list_selection_focus_and_related_labels_preserve_project",
+            "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+            "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+            "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+            "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+            "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+            "actual_1_25h_forecast",
+            "nested_geometry_pick_and_click",
+            "layout_drag_preserves_hash_run_approval",
+            "keyboard_rejection_repeat_dismiss_preserves_evidence",
+            "focused_notice_escape_isolated",
+            "outside_notice_escape_cancels_connection",
+            "valid_retry_clears_inline_retires_run_approval",
+            "edited_focus_loss_once_unedited_focus_loss_no_commit",
+            "native_multiselect_duplicate_atomic_undo",
+            "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+            "bundled_hosted_recording_reopens_historical_without_review_authority",
+            "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+            "inspector_route_state_preserves_numerical_evidence",
+            "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+            "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+            "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+            "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+          ],
+          "hosted_model_requests": "not_requested",
+          "plan_fits": {
+            "plan_fit_route_endpoints": {
+              "valid": true,
+              "corner_count": 8,
+              "all_corners_inside": true,
+              "view_width": 879,
+              "view_height": 566,
+              "camera": {
+                "horizontal": 0.8947368264198303,
+                "vertical": 0.8947368264198303,
+                "x": -1200,
+                "z": 12.29411792755127
+              },
+              "fit": {
+                "cameraX": -1200,
+                "cameraZ": 12.294117647058824,
+                "magnification": 0.8947368421052632,
+                "spanX": 780,
+                "spanZ": 380,
+                "usable": {
+                  "height": 340,
+                  "width": 851,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 879,
+              "view_height": 566,
+              "camera": {
+                "horizontal": 0.11006288975477219,
+                "vertical": 0.11006288975477219,
+                "x": 0,
+                "z": 54.514286041259766
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 54.51428571428571,
+                "magnification": 0.11006289308176101,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 350,
+                  "width": 851,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall_after_dock_resize": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 879,
+              "view_height": 338,
+              "camera": {
+                "horizontal": 0.03836477920413017,
+                "vertical": 0.03836477920413017,
+                "x": 0,
+                "z": 156.39344787597656
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 156.39344262295083,
+                "magnification": 0.038364779874213835,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 122,
+                  "width": 851,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_wide": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 879,
+              "view_height": 338,
+              "camera": {
+                "horizontal": 0.2676100730895996,
+                "vertical": 0.2676100730895996,
+                "x": 0,
+                "z": 22.42068099975586
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 22.420681551116335,
+                "magnification": 0.26761006289308176,
+                "spanX": 3180,
+                "spanZ": 380,
+                "usable": {
+                  "height": 122,
+                  "width": 851,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            }
+          },
+          "label_projections": {
+            "label_projection_home": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_perspective": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0.055084228515625
+            },
+            "label_projection_top_focus": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_pan": {
+              "passed": true,
+              "label_count": 2,
+              "max_error_px": 0
+            }
+          },
+          "raw_full_json_retained_in": "docs/evidence/workspace-framing/asan-25c539a-full-last-test.log"
+        },
+        {
+          "passed": true,
+          "window_width": 1008,
+          "window_height": 672,
+          "device_pixel_ratio": 1.75,
+          "named_groups": 25,
+          "checks": [
+            "native_assets_accessibility_action_gates",
+            "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+            "route_list_selection_focus_and_related_labels_preserve_project",
+            "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+            "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+            "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+            "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+            "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+            "actual_1_25h_forecast",
+            "nested_geometry_pick_and_click",
+            "layout_drag_preserves_hash_run_approval",
+            "keyboard_rejection_repeat_dismiss_preserves_evidence",
+            "focused_notice_escape_isolated",
+            "outside_notice_escape_cancels_connection",
+            "valid_retry_clears_inline_retires_run_approval",
+            "edited_focus_loss_once_unedited_focus_loss_no_commit",
+            "native_multiselect_duplicate_atomic_undo",
+            "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+            "bundled_hosted_recording_reopens_historical_without_review_authority",
+            "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+            "inspector_route_state_preserves_numerical_evidence",
+            "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+            "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+            "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+            "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+          ],
+          "hosted_model_requests": "not_requested",
+          "plan_fits": {
+            "plan_fit_route_endpoints": {
+              "valid": true,
+              "corner_count": 8,
+              "all_corners_inside": true,
+              "view_width": 787,
+              "view_height": 538,
+              "camera": {
+                "horizontal": 0.821052610874176,
+                "vertical": 0.821052610874176,
+                "x": -1200,
+                "z": 13.397436141967773
+              },
+              "fit": {
+                "cameraX": -1200,
+                "cameraZ": 13.397435897435898,
+                "magnification": 0.8210526315789474,
+                "spanX": 780,
+                "spanZ": 380,
+                "usable": {
+                  "height": 312,
+                  "width": 759,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 787,
+              "view_height": 538,
+              "camera": {
+                "horizontal": 0.10125786066055298,
+                "vertical": 0.10125786066055298,
+                "x": 0,
+                "z": 59.25465774536133
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 59.254658385093165,
+                "magnification": 0.10125786163522013,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 322,
+                  "width": 759,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall_after_dock_resize": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 787,
+              "view_height": 310,
+              "camera": {
+                "horizontal": 0.029559748247265816,
+                "vertical": 0.029559748247265816,
+                "x": 0,
+                "z": 202.97872924804688
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 202.9787234042553,
+                "magnification": 0.029559748427672956,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 94,
+                  "width": 759,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_wide": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 787,
+              "view_height": 310,
+              "camera": {
+                "horizontal": 0.23867924511432648,
+                "vertical": 0.23867924511432648,
+                "x": 0,
+                "z": 25.13833999633789
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 25.138339920948617,
+                "magnification": 0.23867924528301887,
+                "spanX": 3180,
+                "spanZ": 380,
+                "usable": {
+                  "height": 94,
+                  "width": 759,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            }
+          },
+          "label_projections": {
+            "label_projection_home": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_perspective": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_focus": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_pan": {
+              "passed": true,
+              "label_count": 2,
+              "max_error_px": 0
+            }
+          },
+          "raw_full_json_retained_in": "docs/evidence/workspace-framing/asan-25c539a-full-last-test.log"
+        },
+        {
+          "passed": true,
+          "window_width": 960,
+          "window_height": 540,
+          "device_pixel_ratio": 1.75,
+          "named_groups": 25,
+          "checks": [
+            "native_assets_accessibility_action_gates",
+            "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+            "route_list_selection_focus_and_related_labels_preserve_project",
+            "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+            "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+            "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+            "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+            "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+            "actual_1_25h_forecast",
+            "nested_geometry_pick_and_click",
+            "layout_drag_preserves_hash_run_approval",
+            "keyboard_rejection_repeat_dismiss_preserves_evidence",
+            "focused_notice_escape_isolated",
+            "outside_notice_escape_cancels_connection",
+            "valid_retry_clears_inline_retires_run_approval",
+            "edited_focus_loss_once_unedited_focus_loss_no_commit",
+            "native_multiselect_duplicate_atomic_undo",
+            "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+            "bundled_hosted_recording_reopens_historical_without_review_authority",
+            "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+            "inspector_route_state_preserves_numerical_evidence",
+            "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+            "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+            "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+            "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+          ],
+          "hosted_model_requests": "not_requested",
+          "plan_fits": {
+            "plan_fit_route_endpoints": {
+              "valid": true,
+              "corner_count": 8,
+              "all_corners_inside": true,
+              "view_width": 739,
+              "view_height": 406,
+              "camera": {
+                "horizontal": 0.4736842215061188,
+                "vertical": 0.4736842215061188,
+                "x": -1200,
+                "z": 23.22222137451172
+              },
+              "fit": {
+                "cameraX": -1200,
+                "cameraZ": 23.222222222222225,
+                "magnification": 0.47368421052631576,
+                "spanX": 780,
+                "spanZ": 380,
+                "usable": {
+                  "height": 180,
+                  "width": 711,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 739,
+              "view_height": 406,
+              "camera": {
+                "horizontal": 0.05974842607975006,
+                "vertical": 0.05974842607975006,
+                "x": 0,
+                "z": 100.42105102539062
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": 100.42105263157895,
+                "magnification": 0.059748427672955975,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 190,
+                  "width": 711,
+                  "x": 14,
+                  "y": 102
+                }
+              }
+            },
+            "plan_fit_tall_after_dock_resize": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 739,
+              "view_height": 201,
+              "camera": {
+                "horizontal": 0.026729559525847435,
+                "vertical": 0.026729559525847435,
+                "x": 0,
+                "z": -149.64706420898438
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": -149.64705882352942,
+                "magnification": 0.026729559748427674,
+                "spanX": 380,
+                "spanZ": 3180,
+                "usable": {
+                  "height": 85,
+                  "width": 711,
+                  "x": 14,
+                  "y": 62
+                }
+              }
+            },
+            "plan_fit_wide": {
+              "valid": true,
+              "corner_count": 24,
+              "all_corners_inside": true,
+              "view_width": 739,
+              "view_height": 201,
+              "camera": {
+                "horizontal": 0.22358490526676178,
+                "vertical": 0.22358490526676178,
+                "x": 0,
+                "z": -17.890295028686523
+              },
+              "fit": {
+                "cameraX": 0,
+                "cameraZ": -17.890295358649787,
+                "magnification": 0.22358490566037736,
+                "spanX": 3180,
+                "spanZ": 380,
+                "usable": {
+                  "height": 85,
+                  "width": 711,
+                  "x": 14,
+                  "y": 62
+                }
+              }
+            }
+          },
+          "label_projections": {
+            "label_projection_home": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_perspective": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_focus": {
+              "passed": true,
+              "label_count": 3,
+              "max_error_px": 0
+            },
+            "label_projection_top_pan": {
+              "passed": true,
+              "label_count": 2,
+              "max_error_px": 0
+            }
+          },
+          "raw_full_json_retained_in": "docs/evidence/workspace-framing/asan-25c539a-full-last-test.log"
+        }
+      ],
+      "compact_warp": {
+        "raw_report": "docs/evidence/workspace-framing/asan-25c539a-warp-benchmark.json",
+        "status": "measured",
+        "renderer": {
+          "adapter": "Microsoft Basic Render Driver",
+          "device_id": 140,
+          "software": true,
+          "status": "identified",
+          "vendor_id": 5140
+        },
+        "assets": 6,
+        "actual_body_picks": 6,
+        "visible_label_count": 6,
+        "culled_labels": 0,
+        "label_overlap_pairs": 0,
+        "client_width": 1008,
+        "client_height": 672,
+        "numerical_identity_unchanged": true,
+        "fps_diagnostic_only": 17.848558610068974,
+        "measurement_window_ms": 10034.0248
+      },
+      "raw_artifacts": [
+        "docs/evidence/workspace-framing/asan-25c539a-full.log",
+        "docs/evidence/workspace-framing/asan-25c539a-full.xml",
+        "docs/evidence/workspace-framing/asan-25c539a-full-last-test.log",
+        "docs/evidence/workspace-framing/build-asan-25c539a.log",
+        "docs/evidence/workspace-framing/asan-25c539a-scene-framing-results.txt",
+        "docs/evidence/workspace-framing/asan-25c539a-label-placement-results.txt",
+        "docs/evidence/workspace-framing/asan-25c539a-warp-benchmark.json"
+      ]
+    }
+  },
+  "hardware_sweeps": {
+    "default": {
+      "source_commit": "25c539a008821a7485e0384a2f217c2f17f70447",
+      "binary_sha256": "44a1679834614e7f22a4758306e307d1746caa18aeca590f1125962dc8f4a787",
+      "raw_report": "docs/evidence/workspace-framing/hardware-default-25c539a.json",
+      "recorded_utc": "2026-11-20T17:52:56Z",
+      "process_exit_code": 0,
+      "process_exit_code_basis": "Parent run-hardware.py execution completed without assertion; root handoff records both exit codes0. Raw benchmark JSON independently satisfies every helper assertion.",
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "assets": 6,
+      "actual_body_picks": 6,
+      "visible_label_count": 6,
+      "culled_labels": 0,
+      "label_overlap_pairs": 0,
+      "effective_scene_quality": 1,
+      "numerical_identity_unchanged": true,
+      "fps": 118.88445551719937,
+      "target_fps": 60,
+      "hardware_target_met": true,
+      "measurement_window_ms": 10000.6565,
+      "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample"
+    },
+    "dense": {
+      "source_commit": "25c539a008821a7485e0384a2f217c2f17f70447",
+      "binary_sha256": "44a1679834614e7f22a4758306e307d1746caa18aeca590f1125962dc8f4a787",
+      "raw_report": "docs/evidence/workspace-framing/hardware-dense-25c539a.json",
+      "recorded_utc": "2026-11-20T17:53:11Z",
+      "process_exit_code": 0,
+      "process_exit_code_basis": "Parent run-hardware.py execution completed without assertion; root handoff records both exit codes0. Raw benchmark JSON independently satisfies every helper assertion.",
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "assets": 128,
+      "actual_body_picks": 128,
+      "visible_label_count": 27,
+      "culled_labels": 101,
+      "label_overlap_pairs": 0,
+      "effective_scene_quality": 0,
+      "numerical_identity_unchanged": true,
+      "fps": 73.78736752448133,
+      "target_fps": 30,
+      "hardware_target_met": true,
+      "measurement_window_ms": 10002.7945,
+      "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample"
+    }
+  },
+  "ui_assertion_coverage": {
+    "all_four_sizes_per_mode": true,
+    "named_groups_per_report": 25,
+    "full_actual_json_retained_in": [
+      "docs/evidence/workspace-framing/normal-25c539a-full-last-test.log",
+      "docs/evidence/workspace-framing/asan-25c539a-full-last-test.log"
+    ],
+    "plan_fits_per_report": [
+      "tall",
+      "tall_after_dock_resize",
+      "wide",
+      "route_endpoints"
+    ],
+    "rendered_corner_containment_logical_px": 1,
+    "label_projection_phases": [
+      "home",
+      "perspective",
+      "top",
+      "top_focus",
+      "top_pan"
+    ],
+    "label_projection_max_error_logical_px": 1,
+    "scene_focus_assertions": "Within the passing25-group JSON/harness: scene-only hides navigator/inspector/dock, preserves stored panel preferences and numerical project/run/revision/approval identity, restores preferences on toggle and Escape, respects focused text-editor guards, and Home restores saved orbit. The source checks each state before emitting the framing group as passed.",
+    "scene_focus_source": "desktop/verification/WorkbenchUiCheck.cpp"
+  },
+  "raw_artifacts": [
+    {
+      "path": "docs/evidence/workspace-framing/initial-probe-3e8a051.log",
+      "bytes": 7099,
+      "sha256": "42445acbf6d0a6b705193b62943bc640ac0e85e5be01ce380accf878ed2c283a",
+      "original_path": "out/workspace-framing/normal-3e8a051-probe.log",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/initial-probe-3e8a051.xml",
+      "bytes": 7035,
+      "sha256": "31017f502a85d524703a20ae9b712f615dee0ac23a7bd938fb3c7d5484307360",
+      "original_path": "out/workspace-framing/normal-3e8a051-probe.xml",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/initial-probe-3e8a051-last-test.log",
+      "bytes": 8339,
+      "sha256": "fc9e212cb30365f12313946a65eeea463341b62ec6f6a47802f25d9d1d584774",
+      "original_path": "out/workspace-framing/normal-3e8a051-probe-last-test.log",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/normal-25c539a-full.log",
+      "bytes": 1110,
+      "sha256": "6649f503137171529cb35bc866e14270c4d0facfccaca3e7b985e9ed20c937d5",
+      "original_path": "out/workspace-framing/normal-25c539a-full.log",
+      "original_last_write_utc": "2026-11-20T17:49:15.597Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/normal-25c539a-full.xml",
+      "bytes": 6165,
+      "sha256": "2c32401ed54b548b165e323d616a287f6aa042214534f9e5cd263aaf9eb2cd18",
+      "original_path": "out/workspace-framing/normal-25c539a-full.xml",
+      "original_last_write_utc": "2026-11-20T17:49:15.599Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/normal-25c539a-full-last-test.log",
+      "bytes": 69407,
+      "sha256": "b4315501c74160d79fd4128390e23d6a847d05c077c48eaf75f11cc9a04d8c88",
+      "original_path": "out/workspace-framing/normal-25c539a-full-last-test.log",
+      "original_last_write_utc": "2026-11-20T17:49:15.596Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/build-normal-25c539a.log",
+      "bytes": 12728,
+      "sha256": "bb970c725b17f158856781fbc44c08328333b8b87e3a22ba07148f5a6dd61648",
+      "original_path": "out/workspace-framing/build-normal-25c539a.log",
+      "original_last_write_utc": "2026-11-20T17:47:17.240Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/normal-25c539a-scene-framing-results.txt",
+      "bytes": 3133,
+      "sha256": "16ce91d915e2223592edb5b8ed8c4c05c6b4aaf1fd98c80889732e8fa4cb0cea",
+      "original_path": "out/portfolio-desktop/desktop/scene_framing-results.txt",
+      "original_last_write_utc": "2026-11-20T17:47:53.985Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/normal-25c539a-label-placement-results.txt",
+      "bytes": 977,
+      "sha256": "457b99235ae2d5ddaa20ee6746fdab1c8745dd97eec32f67ed4b3c11a0791c79",
+      "original_path": "out/portfolio-desktop/desktop/label_placement-results.txt",
+      "original_last_write_utc": "2026-11-20T17:47:54.076Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/normal-25c539a-warp-benchmark.json",
+      "bytes": 5327,
+      "sha256": "a270570fd8f6f9d2beb74fd04d5fa547d6bed6bf1f299265add78634a1f14326",
+      "original_path": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-b0b7dba0568f47d491c29d824b0b67c5/benchmark.json",
+      "original_last_write_utc": "2026-11-20T17:49:15.136Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/asan-25c539a-full.log",
+      "bytes": 1120,
+      "sha256": "d024e0ebeea73b0085eb988ac1ac93c38fbb6e2999adc97d04a783e34967a0b2",
+      "original_path": "out/workspace-framing/asan-25c539a-full.log",
+      "original_last_write_utc": "2026-11-20T17:52:26.886Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/asan-25c539a-full.xml",
+      "bytes": 6170,
+      "sha256": "3e3e30da649baf978c3c523a22e46f29d127a27fb472c21870a95b54249900bc",
+      "original_path": "out/workspace-framing/asan-25c539a-full.xml",
+      "original_last_write_utc": "2026-11-20T17:52:26.887Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/asan-25c539a-full-last-test.log",
+      "bytes": 69525,
+      "sha256": "301820ef9f6e1263dc6333783c564dc1aa67bd531af65338a4a410df120f2819",
+      "original_path": "out/workspace-framing/asan-25c539a-full-last-test.log",
+      "original_last_write_utc": "2026-11-20T17:52:26.886Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/build-asan-25c539a.log",
+      "bytes": 13306,
+      "sha256": "645f7701b2d8b22b2f5f1624d1d2c5ea88a67789e39147ab4a096aa58f838c3c",
+      "original_path": "out/workspace-framing/build-asan-25c539a.log",
+      "original_last_write_utc": "2026-11-20T17:47:16.221Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/asan-25c539a-scene-framing-results.txt",
+      "bytes": 3134,
+      "sha256": "a7409d46a7a378fe9a1a346d360c4a99b12046081dcc10fcf18fec4c18d311cb",
+      "original_path": "out/portfolio-desktop-asan/desktop/scene_framing-results.txt",
+      "original_last_write_utc": "2026-11-20T17:49:45.570Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/asan-25c539a-label-placement-results.txt",
+      "bytes": 977,
+      "sha256": "457b99235ae2d5ddaa20ee6746fdab1c8745dd97eec32f67ed4b3c11a0791c79",
+      "original_path": "out/portfolio-desktop-asan/desktop/label_placement-results.txt",
+      "original_last_write_utc": "2026-11-20T17:49:45.681Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/asan-25c539a-warp-benchmark.json",
+      "bytes": 5326,
+      "sha256": "4ab3139a226c6bf5d01b16fbd6c873373ee1bf943c861504b060d059d450c9ef",
+      "original_path": "out/portfolio-desktop-asan/desktop/test-artifacts/scene-picking-warp-cb4395f8a4bc45cf8cc7d18177c3219f/benchmark.json",
+      "original_last_write_utc": "2026-11-20T17:52:26.104Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/hardware-default-25c539a.json",
+      "bytes": 5341,
+      "sha256": "2f3d3f340854727dddf34db2cd4b8e3a58ce0b4c312b5219d8fad20dbdc110d9",
+      "original_path": "out/workspace-framing/hardware-default-25c539a.json",
+      "original_last_write_utc": "2026-11-20T17:52:56.677Z",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/workspace-framing/hardware-dense-25c539a.json",
+      "bytes": 61874,
+      "sha256": "d38b71f6472aa47eba1a0b52b0795203da2c8704a536652590920b669057e507",
+      "original_path": "out/workspace-framing/hardware-dense-25c539a.json",
+      "original_last_write_utc": "2026-11-20T17:53:11.030Z",
+      "copied_verbatim": true
+    }
+  ],
+  "qualification_limits": [
+    "This is the focused7-entry local desktop matrix, not a new full88-entry local or GitHub matrix for25c539a.",
+    "The41 framing Qt cases and8 label Qt cases are subcases inside their passing CTest entries, not additional independent CTest totals.",
+    "MSVC ASan is established for owned C++ targets, including the new framing target through breakwater_options and its inspected/fsanitize=address compile rule. Prebuilt Qt/Python/Torch instrumentation is not established.",
+    "Normal and ASan WARP FPS values are diagnostic software-renderer observations. Hardware default/dense measurements are individual local runs with their own60/30FPS targets; no speedup over prior measurements under different conditions is claimed.",
+    "Dense overview intentionally uses low detail with27 visible labels and101 label culls; all128 bodies remained correctly pickable, with zero label overlap.",
+    "No hosted Nemotron requests, full scientific requalification, clean-Windows distribution acceptance, formal human owner review or public release approval is supplied by this packet.",
+    "Only text/JSON/XML evidence is copied. Screenshots, executables, raw user projects and credentials are outside the public packet."
+  ]
+}

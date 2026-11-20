@@ -1,0 +1,20 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+    Start 18: desktop.scene_framing
+1/7 Test #18: desktop.scene_framing ............   Passed    0.09 sec
+    Start 19: desktop.label_placement
+2/7 Test #19: desktop.label_placement ..........   Passed    0.09 sec
+    Start 23: desktop.ui_overhaul_normal
+3/7 Test #23: desktop.ui_overhaul_normal .......   Passed   18.14 sec
+    Start 24: desktop.ui_overhaul_compact
+4/7 Test #24: desktop.ui_overhaul_compact ......   Passed   16.94 sec
+    Start 25: desktop.ui_overhaul_short
+5/7 Test #25: desktop.ui_overhaul_short ........   Passed   16.72 sec
+    Start 26: desktop.ui_overhaul_minimum
+6/7 Test #26: desktop.ui_overhaul_minimum ......   Passed   15.36 sec
+    Start 43: desktop.scene_picking_warp
+7/7 Test #43: desktop.scene_picking_warp .......   Passed   14.13 sec
+
+100% tests passed, 0 tests failed out of 7
+
+Total Test time (real) =  81.48 sec

@@ -29,11 +29,29 @@ They do not change the scientific methods, network hash or evidence formats.
 
 ## Verification
 
-Verification is pending on this working source. The pure helper tests project
-padded world corners independently and cover aspect ratios, asymmetric insets,
-resizing, zoom, layout boundaries, input immutability and malformed values. Native
-UI checks inspect actual Qt camera projections and retained numerical identity
-after tall/wide layouts, panel resizing, route focus and view navigation.
+Application source `cd4dc5f` passes seven focused suites in each of normal and
+ASan. The helper has 41 passing Qt cases and label placement has eight. Each of
+four native window sizes passes 25 check groups, including actual Qt projected
+body corners, tall/wide layouts, reactive dock resizing, route focus, wheel,
+middle-button pan and label anchors, reversible panel preferences, text-editor
+shortcut guards and Escape. WARP retains six actual picks, six labels and no
+overlap in each mode. The owned helper test driver is ASan-instrumented; prebuilt
+Qt/Python/Torch remain outside that instrumentation scope.
+
+The initial `3e8a051` probe passed the helper but rejected a valid camera because
+the assertion compared Qt float properties with JS doubles too strictly. Its 24
+rendered corners were all inside. `25c539a` corrected property comparison precision
+and passed both matrices; the independent rendered one-pixel gate was unchanged.
+Manual Windows input then exposed a global shortcut conflict, leading to
+Ctrl+Shift+F and complete reruns on `cd4dc5f`. Those earlier records are preserved.
+
+Both final hardware scenes meet local targets on the identified AMD Radeon 880M:
+six and 128 actual body picks, zero overlaps. FPS is recorded with its conditions;
+no controlled speedup comparison is claimed. Actual Windows input verified the
+new shortcut and Escape in the restored, maximized application, with one latest
+instance left open. See [final checks](evidence/workspace-framing/local-final-checks.json),
+[intermediate checks](evidence/workspace-framing/local-checks.json) and the
+[handoff](evidence/workspace-framing/handoff.json).
 
 Reuse the pinned installed Qt 6.12 SDK and CPU Python. After configuring each
 normal/ASan build, initialize the existing compiler/runtime environment and run:
