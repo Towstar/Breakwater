@@ -34,6 +34,29 @@ All examples are synthetic. Layout is schematic and supplies no hydraulic model.
    tanker cab/wheel details and paired pipe joints with saddle supports. Decorative
    hardware does not intercept equipment or pipe selection. Large overviews keep
    simplified assemblies; the details do not introduce new operating controls.
+10. Choose **Connections** in Network to filter/select routes. The inspector and
+    scene card show endpoints, configured rate and separate pump availability.
+    Focus frames both endpoints. The arrow denotes route direction, not measured
+    delivery. **Top** and **Fit** use the available viewport; wheel/middle-drag
+    adjust plan zoom/pan. Ctrl+Shift+F temporarily focuses the scene and Escape
+    restores panels without changing saved panel preferences or numerical state.
+
+## Local observed advisory workflow (v0.3 development)
+
+1. Choose **Project > Local monitoring example**. Start the bundled local
+   synthetic publisher with a preset and seed; record both with any result.
+2. Pause and **Capture state**. Inspect coverage, sample references, calibration,
+   uncertainty, source/epoch and expiry. Unsupported/stale coverage is unavailable
+   and cannot silently fall back to design-state forecasting.
+3. Open **Forecast / advisory review** and run **Local search**. This executes
+   native numerical tools on the frozen observed state without a model request.
+4. Compare the retained baseline/candidate and inspect **Review staged plan**.
+   Acknowledging advisory review records that exact evidence. It does not change
+   Sandbox controls, dispatch commands, or clear a detected incident.
+5. Restart/replace the source and check that current-source eligibility retires.
+   Completed history stays inspectable; imported/replayed evidence never restores
+   operating authority. See [local monitoring](LOCAL_MONITORING.md) and the
+   [current candidate acceptance packet](CANDIDATE_READINESS.md).
 
 ## Operations
 

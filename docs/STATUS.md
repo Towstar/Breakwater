@@ -2,6 +2,15 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
+Current release preparation: [candidate readiness](CANDIDATE_READINESS.md).
+PR85 head `440cb3d` now passes all six Windows jobs in run `44791528171`.
+New private kits use a source-qualified summary, the current readiness packet,
+both dated review packets and manual acceptance template v2. Its observed and
+workspace checks start `not_run`; legacy kits/results are preserved. All 48
+combined CI-helper tests pass locally with the pinned CI-bootstrap interpreter.
+Final new-candidate hosted/bundle checks, owner/licensing review and actual
+clean-Windows acceptance remain separate pending work.
+
 The [workspace framing continuation](WORKSPACE_FRAMING.md), application source
 `cd4dc5f`, passes seven focused desktop suites in each of normal and ASan: 41
 framing-helper cases, eight label-placement cases, four native UI sizes with
@@ -18,7 +27,7 @@ are not a controlled comparison with older runs. The saved project was restored,
 Top and scene focus were shown, Escape restored the panels, and only the latest
 maximized app was left open in fitted perspective. See the [handoff](
 evidence/workspace-framing/handoff.json). The earlier cleanup proposal was not
-executed. This local UI qualification is separate from full new-source CI,
+executed. This local UI qualification is separate from the subsequently passing PR85 CI,
 hosted rehearsals, owner/licensing review and actual clean-Windows acceptance.
 
 PR84's unchanged head `96c9ee7` passed all six Windows CI jobs on attempt 1:

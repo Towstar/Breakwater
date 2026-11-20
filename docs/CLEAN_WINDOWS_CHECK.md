@@ -5,12 +5,29 @@ been established by sanitizing processes on the developer's machine.
 
 ## Prepared handoff
 
-The expanded v0.3 development candidate uses application source `c71249e`.
+Use the new kit's **CANDIDATE_SUMMARY.md**, `package.json` and `handoff.json` to
+identify its actual application/source/ZIP hashes. Kit preparation checks those
+identities; it does not establish CI, hosted qualification, clean-machine
+acceptance or author consent. CANDIDATE_READINESS.md is the current preparation
+and review packet. Both included RELEASE_REVIEW packets are historical
+context tied to the revisions they name. Record current exact-head engineering
+evidence and human review separately.
+
+New kits use `acceptance_version: 2`. The pending template adds observed monitoring,
+Connections/route focus and scene-focus acceptance below; every check starts at
+`not_run`. Existing version-1 records and kits remain unchanged and describe only
+their original coverage. Staging an older candidate with the current helper adds
+the new checklist, not new application features or inherited acceptance. Record
+an unsupported required path explicitly as not run with its reason/failure.
+
+### Earlier v0.3 development handoff
+
+The earlier expanded candidate uses application source `c71249e`.
 Its private kit and exact ZIP/source/executable hashes are indexed by
 [the v0.3 verification record](evidence/v03/final-verification.json) and
-[current owner packet](RELEASE_REVIEW_V03.md). Real laptop scale checks and
+[dated owner packet](RELEASE_REVIEW_V03.md). Real laptop scale checks and
 sanitized bundled-process checks passed; actual clean-machine acceptance is
-still pending. Use that exact kit for new acceptance, preserving the older one.
+still pending. Preserve that historical kit and its records.
 
 ### Earlier v0.2 handoff
 
@@ -32,9 +49,10 @@ The helper verifies the Windows ZIP/executable checksums and every source ZIP
 file against the source manifest, then copies the exact archives. Existing
 destinations are never replaced. `handoff.json` records preparation only; owner,
 license and clean-Windows review remain pending. The kit includes checksums,
-this checklist, the owner review packet and `clean-windows-result.template.json`.
+this checklist, the current candidate summary/readiness packet, both historical owner packets and
+`clean-windows-result.template.json`. No existing result is upgraded in place.
 
-Use a fresh Windows x64 VM for the acceptance below. Keep the networking state,
+Use a fresh Windows 11 x64 VM for the acceptance below. Keep the networking state,
 installed software and actual Windows display settings with its evidence. A VM
 using software rendering is not subject to the developer laptop's FPS targets.
 
@@ -58,6 +76,44 @@ using software rendering is not subject to the developer laptop's FPS targets.
 6. Check 100%, 125%, 150% and 200% display scaling. Resize to the supported
    960×540 client minimum and verify close buttons, menus, scrollbars and keyboard
    focus. Do not infer a clean-machine result from screenshot-only tests.
+
+### Observed monitoring and advisory boundaries
+
+1. Open **Project > Local monitoring example**, then **Local monitoring**. Start
+   the bundled synthetic publisher with a recorded preset and integer seed, without
+   installing Python/Torch or supplying a model key. Check actual received samples,
+   matching pause/resume/stop acknowledgements and source/epoch identity. The plant
+   is synthetic/local and has no actuation interface.
+2. Pause, then **Capture state**. Retain capture identity, sample references,
+   coverage, calibration/uncertainty, frozen commands and expiry. Check an available
+   coherent capture and a missing-coverage preset separately. Unavailable coverage
+   must remain explicit and must not fall back to design-only numerical work.
+3. Open **Forecast / advisory review**. Run a native forecast and **Local search**
+   on the available capture. Compare compatible baseline/candidate trajectories
+   and open **Review staged plan** to inspect the exact run, independent validation,
+   source hashes, controls, units and margins. **Acknowledge advisory review** records
+   review only: Sandbox controls, publisher commands and incident clearing must not
+   change. No hosted request is needed for these offline checks.
+4. Exercise capture expiry and source replacement/restart. A new epoch must retire
+   old current-source eligibility; expired, replayed or retired evidence cannot
+   regain advisory review authority. Completed trajectories remain historical.
+   Restart the application and reopen actual retained observed evidence; imported
+   or restored history must not become an actionable capture or applied plan.
+5. Retain the actual observations, rendered status/review screenshots and failure
+   messages. A no-plan result caused by missing coverage is a safety-boundary case,
+   not evidence of numerical infeasibility or successful pump-fault planning.
+
+### Connections and workspace framing
+
+1. Select **Connections** in Network, filter by route/endpoint ID and select a
+   route. Verify exact endpoints, configured rate and separate availability in the
+   inspector and scene card. A direction arrow must not imply measured delivery.
+2. Use Focus/F for the selected route, then Top and Fit. Verify both endpoints and
+   labels are visible. Exercise pan/zoom and resize the navigator/inspector; Fit
+   must restore framing without changing the project, controls or stored approval.
+3. Toggle **View > Scene focus mode** or Ctrl+Shift+F outside text fields/dialogs.
+   The scene gains the panel space; Escape restores the prior panel preferences.
+   Repeat the minimum-size and real display-scale checks with the overlays visible.
 
 Record Windows build, CPU/GPU/driver, display resolution/scaling, candidate/source
 hashes, exact steps, failures, counts and restart behavior. Optional Science is a

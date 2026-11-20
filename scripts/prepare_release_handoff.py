@@ -118,9 +118,34 @@ def prepare(candidate, destination):
         windows_zip.name: windows_zip, source_zip.name: source_zip,
         "package.json": package_path, "source-sha256.json": source_manifest_path,
         "CLEAN_WINDOWS_CHECK.md": documents / "CLEAN_WINDOWS_CHECK.md",
+        "CANDIDATE_READINESS.md": documents / "CANDIDATE_READINESS.md",
         "RELEASE_REVIEW.md": documents / "RELEASE_REVIEW.md",
+        "RELEASE_REVIEW_V03.md": documents / "RELEASE_REVIEW_V03.md",
     }
     checksums = {name: digest(path) for name, path in payload.items()}
+    summary = (
+        "# Current private candidate\n\n"
+        f"Application source: `{commit}`.\n\n"
+        "These identities were checked during kit preparation. They identify the candidate; "
+        "they do not establish CI, hosted qualification, author consent or clean-machine acceptance.\n\n"
+        "| Artifact | SHA-256 |\n| --- | --- |\n"
+        f"| Windows ZIP | `{checksums[windows_zip.name]}` |\n"
+        f"| Matching source ZIP | `{checksums[source_zip.name]}` |\n"
+        f"| Application executable | `{package['app_sha256']}` |\n"
+        f"| Source file manifest | `{checksums['source-sha256.json']}` |\n\n"
+        "The source archive was checked file by file against the supplied manifest. "
+        "The Windows archive and executable were checked against package.json.\n\n"
+        "Owner review, licensing/notices/source-delivery review and actual clean-Windows "
+        "acceptance remain pending. Public release approval is false. Record current engineering "
+        "evidence and exact-head human review separately; no historical result is inherited.\n\n"
+        "RELEASE_REVIEW.md and RELEASE_REVIEW_V03.md are preserved historical review packets "
+        "for their stated revisions. They are context, not acceptance of this candidate. "
+        "Read [CANDIDATE_READINESS.md](CANDIDATE_READINESS.md) for the current preparation/review "
+        "packet, including any source-qualified pending work. Use CLEAN_WINDOWS_CHECK.md and "
+        "a copy of the version-2 result template for new acceptance. "
+        "Existing version-1 records stay associated with their original candidates and checks.\n"
+    ).encode("utf-8")
+    checksums["CANDIDATE_SUMMARY.md"] = hashlib.sha256(summary).hexdigest()
     record = {
         "handoff_version": 1, "status": "prepared", "source_commit": commit,
         "app_sha256": package["app_sha256"], "files": checksums,
@@ -136,11 +161,17 @@ def prepare(candidate, destination):
                 shutil.copyfileobj(source, output)
             if digest(target) != checksums[name]:
                 raise ValueError("A handoff copy changed during preparation.")
+        with (destination / "CANDIDATE_SUMMARY.md").open("xb") as output:
+            output.write(summary)
+        if digest(destination / "CANDIDATE_SUMMARY.md") != checksums["CANDIDATE_SUMMARY.md"]:
+            raise ValueError("The candidate summary changed during preparation.")
         (destination / "SHA256SUMS.txt").write_text(
             "".join(f"{checksum}  {name}\n" for name, checksum in checksums.items()), encoding="ascii")
         (destination / "README.md").write_text(
             f"# Breakwater Windows VM handoff\n\nApplication source: `{commit}`.\n\n"
             "This is a review candidate. Owner/license review and actual clean-Windows acceptance are pending.\n\n"
+            "Read CANDIDATE_SUMMARY.md for this kit's verified identities. The two RELEASE_REVIEW "
+            "packets describe historical revisions; their results do not qualify this candidate.\n\n"
             "1. Verify the ZIP hashes against SHA256SUMS.txt.\n"
             "2. On a fresh Windows x64 VM, extract the Windows ZIP to a path containing spaces and Unicode.\n"
             "3. Run Breakwater/Verify-Breakwater.cmd, then Start-Breakwater.cmd. No PowerShell 7, Python or SDK installation is required.\n"
@@ -150,7 +181,7 @@ def prepare(candidate, destination):
             "Record the actual VM identity/manual acceptance separately. Neither this kit nor a process check grants release approval.\n",
             encoding="utf-8")
         template = {
-            "acceptance_version": 1, "status": "pending", "clean_machine_verified": False,
+            "acceptance_version": 2, "status": "pending", "clean_machine_verified": False,
             "source_commit": commit, "windows_zip_sha256": checksums[windows_zip.name],
             "source_zip_sha256": checksums[source_zip.name], "app_sha256": package["app_sha256"],
             "reviewer": "", "recorded_utc": "", "vm": {}, "verification_report": "",
@@ -159,7 +190,11 @@ def prepare(candidate, destination):
                 "sandbox_forecast_search_comparison", "explicit_review_edit_reset",
                 "operations_import_search_validation", "history_restart_nonactionable_import",
                 "missing_optional_science", "file_dialog_cancel_keyboard",
-                "windows_scaling_100_125_150_200", "minimum_client_960x540")},
+                "windows_scaling_100_125_150_200", "minimum_client_960x540",
+                "connections_inspector_route_focus", "scene_focus_shortcut_escape_restore",
+                "observed_local_publisher_acquisition", "observed_capture_coverage_quality",
+                "observed_native_forecast", "observed_native_search_advisory_review",
+                "observed_expiry_replacement_invalidation", "observed_restart_history_nonactionable")},
             "failures": [], "notes": "Manual VM acceptance; never infer it from a developer-process report.",
         }
         (destination / "clean-windows-result.template.json").write_text(json.dumps(template, indent=2) + "\n", encoding="utf-8")

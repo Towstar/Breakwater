@@ -64,9 +64,65 @@ class HandoffTests(unittest.TestCase):
             self.assertEqual(handoff.digest(self.candidate / name), checksum)
             self.assertEqual(handoff.digest(self.destination / name), checksum)
         template = json.loads((self.destination / "clean-windows-result.template.json").read_text())
+        self.assertEqual(template["acceptance_version"], 2)
         self.assertEqual(template["status"], "pending")
         self.assertFalse(template["clean_machine_verified"])
         self.assertEqual(set(template["checks"].values()), {"not_run"})
+
+    def test_current_summary_and_historical_packets_are_distinct_and_hash_checked(self):
+        record = handoff.prepare(self.candidate, self.destination)
+        summary = (self.destination / "CANDIDATE_SUMMARY.md").read_text(encoding="utf-8")
+        for identity in (self.package["source_commit"], self.package["app_sha256"],
+                         self.package["zip_sha256"], handoff.digest(self.candidate / "Breakwater-source.zip")):
+            self.assertIn(identity, summary)
+        self.assertIn("preserved historical review packets", summary)
+        self.assertIn("no historical result is inherited", summary)
+        self.assertIn("[CANDIDATE_READINESS.md](CANDIDATE_READINESS.md)", summary)
+        for name in ("CANDIDATE_READINESS.md", "RELEASE_REVIEW.md", "RELEASE_REVIEW_V03.md"):
+            self.assertEqual((self.destination / name).read_bytes(), (ROOT / "docs" / name).read_bytes())
+        sums = (self.destination / "SHA256SUMS.txt").read_text(encoding="ascii")
+        for name, checksum in record["files"].items():
+            self.assertEqual(handoff.digest(self.destination / name), checksum)
+            self.assertIn(f"{checksum}  {name}\n", sums)
+
+    def test_new_observed_and_framing_acceptance_cannot_be_inferred_from_packaging(self):
+        handoff.prepare(self.candidate, self.destination)
+        template = json.loads((self.destination / "clean-windows-result.template.json").read_text())
+        for name in ("connections_inspector_route_focus", "scene_focus_shortcut_escape_restore",
+                     "observed_local_publisher_acquisition", "observed_capture_coverage_quality",
+                     "observed_native_forecast", "observed_native_search_advisory_review",
+                     "observed_expiry_replacement_invalidation", "observed_restart_history_nonactionable"):
+            self.assertEqual(template["checks"][name], "not_run")
+        self.assertEqual(template["reviewer"], "")
+        self.assertEqual(template["vm"], {})
+
+    def test_legacy_candidate_and_version_one_results_are_preserved_without_inheriting_acceptance(self):
+        legacy_result = {"acceptance_version": 1, "status": "passed", "clean_machine_verified": True,
+                         "source_commit": self.package["source_commit"], "checks": {"zip_hashes": "passed"}}
+        legacy_path = self.verification / "clean-windows-result.json"
+        legacy_bytes = (json.dumps(legacy_result, indent=2) + "\n").encode("utf-8")
+        legacy_path.write_bytes(legacy_bytes)
+        before = {path.relative_to(self.candidate): path.read_bytes()
+                  for path in self.candidate.rglob("*") if path.is_file()}
+        record = handoff.prepare(self.candidate, self.destination)
+        self.assertEqual({path.relative_to(self.candidate): path.read_bytes()
+                          for path in self.candidate.rglob("*") if path.is_file()}, before)
+        self.assertEqual(legacy_path.read_bytes(), legacy_bytes)
+        self.assertEqual(record["clean_windows"], "pending")
+        template = json.loads((self.destination / "clean-windows-result.template.json").read_text())
+        self.assertEqual(template["acceptance_version"], 2)
+        self.assertFalse(template["clean_machine_verified"])
+        self.assertEqual(set(template["checks"].values()), {"not_run"})
+
+    def test_existing_version_one_handoff_is_never_upgraded_in_place(self):
+        self.destination.mkdir()
+        original = b'{"acceptance_version":1,"status":"pending"}\n'
+        result = self.destination / "clean-windows-result.template.json"
+        result.write_bytes(original)
+        with self.assertRaises(ValueError):
+            handoff.prepare(self.candidate, self.destination)
+        self.assertEqual(result.read_bytes(), original)
+        self.assertEqual({path.name for path in self.destination.iterdir()}, {result.name})
 
     def test_existing_destination_is_preserved(self):
         self.destination.mkdir()
