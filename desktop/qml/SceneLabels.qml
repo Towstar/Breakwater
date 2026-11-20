@@ -18,11 +18,11 @@ Item {
     property vector3d dragDelta: Qt.vector3d(0, 0, 0)
     property real topInset: 90
     property var exclusions: []
-    property bool projectionPending: false
+    property int projectionFrames: 0
     property int projectionRevision: 0
     function requestProjection() {
         if (!ready || !visible || !projector) return
-        projectionPending = true
+        projectionFrames = 2
         if (labels.Window.window) labels.Window.window.update()
     }
     onViewStateChanged: requestProjection()
@@ -33,11 +33,12 @@ Item {
     Connections {
         target: labels.Window.window
         function onFrameSwapped() {
-            if (!labels.projectionPending) return
-            labels.projectionPending = false
-            // Camera property bindings run before Qt Quick 3D publishes its new
-            // projection matrix. Recompute once after that frame, then draw the
-            // resulting labels. Idle frames never rebuild the label repeater.
+            if (labels.projectionFrames <= 0) return
+            labels.projectionFrames -= 1
+            // The first swap can belong to a frame already rendering when the
+            // camera changed. Refresh again on its follow-up, then draw labels.
+            // Continuous camera changes still refresh once per rendered frame;
+            // idle frames stop rebuilding after this bounded two-frame tail.
             labels.projectionRevision += 1
             labels.Window.window.update()
         }
