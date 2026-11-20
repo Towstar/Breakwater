@@ -1,0 +1,367 @@
+{
+  "audit_version": 1,
+  "created_utc": "2026-11-20T23:16:30.256369+00:00",
+  "audit_kind": "independent_final_seven_case_hosted_integrity_and_grounding",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "dirty": false,
+  "audit_status": "passed",
+  "qualification_status": "passed",
+  "sealed_manifest": {
+    "path": "out/candidate-readiness/hosted-3bb77a3-round2/manifest-0006.json",
+    "bytes": 6414,
+    "sha256": "d00818a36ac6cc016699a6cec0637702e9966818badfd399a2498eaa2f018df4"
+  },
+  "seal": {
+    "path": "out/candidate-readiness/hosted-3bb77a3-round2/SEALED.json",
+    "bytes": 282,
+    "sha256": "faae691aa4fefbe86f365c7ef4ab6ef809aed9fbc5e5e55e218ca82eb1730e74"
+  },
+  "helper_final_audit": {
+    "path": "out/candidate-readiness/hosted-3bb77a3-round2/audit-final.json",
+    "bytes": 2091,
+    "sha256": "97f7e1e9c33b7acba4abeb52d3bc195559b25ad03ccc2ab82f6662aef5a224d7"
+  },
+  "actual_executables": [
+    {
+      "name": "desktop",
+      "path": "out/portfolio-desktop/desktop/breakwater.exe",
+      "bytes": 9506816,
+      "sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7"
+    },
+    {
+      "name": "eog_live_check",
+      "path": "out/portfolio-desktop/desktop/breakwater_eog_live_check.exe",
+      "bytes": 5582336,
+      "sha256": "07a6d845c2959f2e2fbaa1fed7dc2701dca37fea39346489dc0c3efb9f829e19"
+    },
+    {
+      "name": "nemotron_smoke",
+      "path": "out/portfolio-desktop/desktop/breakwater_nemotron_smoke.exe",
+      "bytes": 4074496,
+      "sha256": "b447f0b2492cdf67dc808eb8fe80bd658c99abcce4ab61a7e0f6431507a016d9"
+    }
+  ],
+  "launch": {
+    "path": "out/candidate-readiness/hosted-3bb77a3-round2/launch.json",
+    "bytes": 1675,
+    "sha256": "34c60bef4c3f04473faec9fba7f2a5ebc60b0677f4309c1525535d41cb8dc9af"
+  },
+  "cases": [
+    {
+      "case": "protocol_smoke",
+      "status": "passed",
+      "snapshot_id": "7cf60077-6322-4a7a-9e6a-38b659a419dc",
+      "genuine_tool_result_continuation": true
+    },
+    {
+      "case": "canonical_1",
+      "status": "passed",
+      "session_id": "fdbab207-5f39-48da-a2f7-d7ac529aac49",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "model_request_completions": 13,
+      "tool_calls": 12,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "search_plans",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "executed_tools": 6,
+      "reused_validation_calls": 6,
+      "provider_exchanges": 5,
+      "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+      "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+      "historical": true,
+      "actionable": false,
+      "operator_records": 0,
+      "recorded_retry_count": 0
+    },
+    {
+      "case": "canonical_2",
+      "status": "passed",
+      "session_id": "f2e7df30-429c-4e67-a506-b313738342ae",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "model_request_completions": 13,
+      "tool_calls": 12,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "search_plans",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "executed_tools": 6,
+      "reused_validation_calls": 6,
+      "provider_exchanges": 5,
+      "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+      "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+      "historical": true,
+      "actionable": false,
+      "operator_records": 0,
+      "recorded_retry_count": 0
+    },
+    {
+      "case": "canonical_3",
+      "status": "passed",
+      "session_id": "0532a0f1-1bd5-4da1-857e-7aa2a90297f8",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "model_request_completions": 13,
+      "tool_calls": 12,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "search_plans",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "executed_tools": 6,
+      "reused_validation_calls": 6,
+      "provider_exchanges": 5,
+      "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+      "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+      "historical": true,
+      "actionable": false,
+      "operator_records": 0,
+      "recorded_retry_count": 0
+    },
+    {
+      "case": "renamed_topology",
+      "status": "passed",
+      "session_id": "b31dc16e-fde3-41f7-a8b5-b8d660b65349",
+      "capture_id": "d4934a4536c9bd0e11079dc4975be69193190c2af9f01cf53fc5f7f3a06909fd",
+      "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+      "model_request_completions": 13,
+      "tool_calls": 12,
+      "tool_order": [
+        "detect",
+        "read_topology",
+        "search_plans",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan",
+        "validate_plan"
+      ],
+      "executed_tools": 7,
+      "reused_validation_calls": 5,
+      "provider_exchanges": 6,
+      "selected_plan_id": "plan-562b489d8d34c318dc809fb290d37d41",
+      "validation_id": "validation-f3cd67c7444fb4a9532ff3c13740b80e53a3ff8062cc65ad7cc8ff5f0ffcb830",
+      "historical": true,
+      "actionable": false,
+      "operator_records": 0,
+      "recorded_retry_count": 0
+    },
+    {
+      "case": "observed_pump",
+      "status": "passed",
+      "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+      "capture_id": "capture-4d42caa1-79ac-45b9-a205-63ce552b5032",
+      "captured_event_time_s": 85.90097839999999,
+      "expires_event_time_s": 90.01599999994505,
+      "availability": "available",
+      "model_request_completions": 13,
+      "tool_calls": 12,
+      "tool_order": [
+        "get_observations",
+        "get_detection_events",
+        "get_network_state",
+        "get_control_catalog",
+        "forecast_baseline",
+        "search_interventions",
+        "validate_run",
+        "request_approval",
+        "validate_run",
+        "validate_run",
+        "validate_run",
+        "validate_run"
+      ],
+      "recommendation_status": "validated_recommendation",
+      "selected_run_id": "0135ae36-efa4-4c6e-ba51-033e92bb0188",
+      "validation_id": "ff213d2c-5685-4fbf-b1f6-6839d03b9bfa",
+      "validation_source": "validate_run",
+      "verified_cost": 5280,
+      "retained_runs": 6,
+      "approvals": 0,
+      "actionable": false,
+      "recorded_applied_events": 0,
+      "objective_sha256": "3a872dc1ac1fc5b1929da3f98861bcf728081286213bc462813794452197c8eb",
+      "recorded_retry_count": 0
+    },
+    {
+      "case": "observed_missing_coverage",
+      "status": "passed",
+      "session_id": "3f634161-a075-45b0-96b9-635248f87320",
+      "capture_id": "capture-afc2ec47-cc30-4572-b1da-3f46ae0a46f0",
+      "captured_event_time_s": 92.73089440000001,
+      "expires_event_time_s": 92.73089440000001,
+      "availability": "unavailable",
+      "model_request_completions": 13,
+      "tool_calls": 12,
+      "tool_order": [
+        "get_observations",
+        "get_detection_events",
+        "get_network_state",
+        "get_control_catalog",
+        "get_observations",
+        "get_network_state",
+        "get_control_catalog",
+        "get_observations",
+        "get_network_state",
+        "get_control_catalog",
+        "get_observations",
+        "get_network_state"
+      ],
+      "recommendation_status": "no_validated_plan",
+      "selected_run_id": null,
+      "validation_id": null,
+      "validation_source": null,
+      "verified_cost": null,
+      "retained_runs": 0,
+      "approvals": 0,
+      "actionable": false,
+      "recorded_applied_events": 0,
+      "objective_sha256": "13eea9bedce66de116b1b6cb9c5a0e6d2e1b09ff0ac5f0cb4b95fe16aa22a0a4",
+      "recorded_retry_count": 0
+    }
+  ],
+  "analysis_metadata_records": 78,
+  "analysis_tool_calls": 72,
+  "analysis_recorded_retries": 0,
+  "verified_artifacts": [
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/protocol-smoke.log",
+      "bytes": 199,
+      "sha256": "99e2ddaa8a71b2211dd5cbec260653dfbfb145d7859d70e4ad33a9f775ab72f5"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/protocol-smoke.json",
+      "bytes": 329,
+      "sha256": "5bdf106e977b23a69add4180fbfddaf583890f868f799285bc35d14ced308494"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-1.eog-session.json",
+      "bytes": 116239,
+      "sha256": "e37fa5685c117a2b3cbc281428121db07a0f87c87bf2ff4113e12011833cd3e8"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-1.log",
+      "bytes": 1190,
+      "sha256": "9c7f10a684a9dc23668e4abed82fde74fdc3b13c657028cfabc08f61aa92457c"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/verification.json",
+      "bytes": 7449,
+      "sha256": "6dbf19238eb069baeeda03e01936c45b775a5e832b375cb4b48414ab62829933"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-2.eog-session.json",
+      "bytes": 116011,
+      "sha256": "9e0a02bdf9ba983744a3b563ab10bf6ae9b7d218a10da093fdcbe0539c85ff91"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-2.log",
+      "bytes": 1190,
+      "sha256": "86a690ab31356789d220ae0a315b5c975b16f6bba800c4725dec50983545109f"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-3.eog-session.json",
+      "bytes": 116185,
+      "sha256": "1489ea0c4dd6c02f0bdc83ee6919832a125cf440bc8192dbd32b2e19fe063bbf"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-3.log",
+      "bytes": 1190,
+      "sha256": "3c85370e64112e476df826fbaa3c1b77990699a16aa7625f3b59f27b1bf7dc28"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-4.eog-session.json",
+      "bytes": 119552,
+      "sha256": "b19763920731f0de3c116c125d8edfc6b689a2eb068ea483ca77cffb897ccca4"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-4.log",
+      "bytes": 1190,
+      "sha256": "817eec8edeea88da690a83b717c0c598b5138e2314632feeb221c920319e2d2c"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/observed/observed_pump.session.json",
+      "bytes": 169223,
+      "sha256": "dba1174664d44448ccb3e28909b13c2729c07e19ff2fe7f0569fc058c41f7370"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/observed/observed_missing_coverage.session.json",
+      "bytes": 130035,
+      "sha256": "f6f039f32800c74ba02423d6b9be3969e7f3de41711a00b9bc894da3ea6a6573"
+    }
+  ],
+  "all_six_analysis_sessions_fresh_from_round1": true,
+  "protocol_snapshot_fresh_from_round1": true,
+  "all_seven_evidence_hashes_different_from_round1": true,
+  "earlier_round2_artifacts_unchanged": true,
+  "round1_retained": {
+    "manifest": {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/manifest-0006.json",
+      "bytes": 6417,
+      "sha256": "5ce965ac08ee7be19a5aed072bfa3462e1050d3f465729f3a3b4048fba9878b3"
+    },
+    "seal": {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/SEALED.json",
+      "bytes": 286,
+      "sha256": "123445191cc46d75bccb4f30157830de85ce7a07b1238736c0a69bc3a1d2dfac"
+    },
+    "qualification_status": "incomplete",
+    "passed_cases": 6,
+    "failed_cases": 1,
+    "failure": "Observed pump did not issue exact selected validate_run; strict check was not relaxed.",
+    "strict_failure_audit": {
+      "path": "out/candidate-readiness/observed-pump-attempt-0001-audit-3bb77a3.json",
+      "bytes": 3254,
+      "sha256": "003f7f14c8daf52db9e0e6862bad778c908f0ed71252d42af6b4398ddb56e1b0"
+    }
+  },
+  "known_limitations": [
+    "Passing qualification covers declared genuine tool-result continuations and exact retained final references/own independent validations, plus missing-coverage refusal. It does not qualify every model sentence, numerical accuracy or external release gates.",
+    "Repeated calls remain: each analysis consumes 12 tools and 13 matching-model completion records. EOG caches 6/6/6/5 unchanged validations; observed pump validates several different retained candidates; missing coverage repeats reads. This is not proof that redundant investigation has been eliminated.",
+    "EOG search reports bounded_search/best_found/complete=false. No model wording about lowest cost or no cheaper alternative establishes global optimality.",
+    "Observed pump prose implies human acknowledgment could make controls take effect. That is inaccurate authority wording: this observed-origin archive is actionable=false, has no approvals/applied events, and the app review action only acknowledges advisory evidence. Raw prose is unchanged.",
+    "Observed missing-coverage prose broadly claims the network has no native simulation capability. The actual reason is unavailable observed coverage; native simulation exists for eligible states. The retained result correctly contains no runs, selected run, approval or applied event. Raw prose is unchanged.",
+    "The model_requests counter is logical transport request starts; NemotronClient send increments actual POST attempts and metadata records retries. Zero-retry HTTP200 metadata supports one client POST attempt per logical request here, not independent wire-level attestation.",
+    "Source/process bindings are witnessed manifest provenance, not authenticated execution attestation. Private archive export/audit made no model call, UI action, numerical computation, DB/source change or Git mutation."
+  ],
+  "external_gates": {
+    "clean_windows": "pending",
+    "owner_review": "pending",
+    "licensing_review": "pending",
+    "public_release_approved": false
+  }
+}

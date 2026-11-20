@@ -1,0 +1,22 @@
+{
+  "handoff_version": 1,
+  "status": "prepared",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "app_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+  "files": {
+    "Breakwater-windows-x64.zip": "ea77ece7b52393f7d9434b9aa177bbc0971519ab1137882f9c8ff8f60432c794",
+    "Breakwater-source.zip": "0d13506053149ac7899e35dd1dbe5322882b4b3a7f9ed49b22b1652d56daabf8",
+    "package.json": "894a3fe887ed71d255019350206dc25146fd4d88d6b9b10b05cb8854063f8c38",
+    "source-sha256.json": "ed40205b680c193102af2197fdf33a062eebf8ef6c808e8bfdfba58768112e62",
+    "CLEAN_WINDOWS_CHECK.md": "d55ebad1d05d61356ea0a067e6990cc7280378907ba70561c730aa29fc8b7019",
+    "CANDIDATE_READINESS.md": "2b50e2291478a88293540c85156a7ef8a466f58f008ee5dec4ca780c9114aa2e",
+    "RELEASE_REVIEW.md": "4ee27675860adc9bfe6785efa0723add740667ae07c24d7899e5c2e08fd77e32",
+    "RELEASE_REVIEW_V03.md": "4c7d38e9640d642f572a1cb48512b80d5409d3e9336726b63be1a6ef1f7ab6ed",
+    "CANDIDATE_SUMMARY.md": "4ff0a0f3bcb5fd1218a49279202b3656848110825620998709222fb2fdbdcb9c"
+  },
+  "prepared_utc": "2026-11-20T22:42:59.832239+00:00",
+  "public_release_approved": false,
+  "clean_windows": "pending",
+  "owner_review": "pending",
+  "licensing_review": "pending"
+}

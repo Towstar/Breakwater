@@ -1,0 +1,157 @@
+{
+  "audit_version": 1,
+  "created_utc": "2026-11-20T22:49:56.477558+00:00",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "case": "observed_missing_coverage",
+  "audit_status": "passed",
+  "audit_failure": null,
+  "strict_auditor_result": {
+    "session_id": "d8f8dbb0-217a-4dfc-8062-48db86f1a424",
+    "capture_id": "capture-142d12d2-2384-498b-bdf5-c0f2f71d7ebe",
+    "model_requests": 13,
+    "tool_calls": 12
+  },
+  "manifest_recorded": false,
+  "session_id": "d8f8dbb0-217a-4dfc-8062-48db86f1a424",
+  "checkpoint_sequence": 27,
+  "database_record": {
+    "mode": "ro",
+    "query_only": true,
+    "created_at": "2026-11-20T22:48:31.991Z",
+    "updated_at": "2026-11-20T22:48:44.767Z",
+    "status": "completed"
+  },
+  "archive": {
+    "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round1\\observed-missing-coverage-attempt-0001.session.json",
+    "bytes": 127601,
+    "sha256": "0ad8323b03f539bd2ed806942f26261e95e74d663ab74251f254757208297181",
+    "unchanged_blob_bytes": true
+  },
+  "origin_capture_id": "capture-142d12d2-2384-498b-bdf5-c0f2f71d7ebe",
+  "origin_clock": {
+    "captured_event_time_s": 96.53354380000019,
+    "expires_event_time_s": 96.53354380000019,
+    "availability": "unavailable"
+  },
+  "mapping_status": "unavailable",
+  "recommendation": {
+    "actionable": false,
+    "approval_status": "unavailable",
+    "explanation": "No validated feasible advisory response found. Key issues: (1) Detector balance_status is 'coverage_unavailable' with window_points=0 and window_s=0, meaning no temporal coverage to support numerical forecasts or plans. (2) Observed snapshot has issue 'missing_or_unusable_inventory' on tank_a with no sensor_id, indicating tank_a inventory data is unavailable. (3) Sensor coverage gap: required_sensor_ids include sensor_b10e7bcca1f34832832ddb670542e41c but it maps to tank_a which has missing inventory. (4) The effective physical hash and all observed data are consistent but coverage_unavailable forbids numerical forecasts or plans per session rules. (5) No candidate runs can be validated without coverage. Selected run ID is null.",
+    "feasible": false,
+    "horizon_h": 3,
+    "objective": "Inspect these frozen observations and incident evidence. Find a nominally validated advisory response at low modeled cost, or explain missing coverage.",
+    "selected_run_id": null,
+    "session_id": "d8f8dbb0-217a-4dfc-8062-48db86f1a424",
+    "snapshot_id": "8598d7ce-df5f-4720-8595-a37d78425a15",
+    "source_mode": "hosted",
+    "status": "no_validated_plan"
+  },
+  "event_type_counts": {
+    "agent_started": 1,
+    "model_request_started": 13,
+    "model_request_completed": 13,
+    "tool_requested": 12,
+    "tool_started": 12,
+    "tool_completed": 12,
+    "recommendation_ready": 1
+  },
+  "ordered_tool_names": [
+    "get_observations",
+    "get_detection_events",
+    "get_network_state",
+    "get_control_catalog",
+    "get_observations",
+    "get_network_state",
+    "get_control_catalog",
+    "get_observations",
+    "get_network_state",
+    "get_control_catalog",
+    "get_observations",
+    "get_network_state"
+  ],
+  "ordered_tool_results": [
+    {
+      "tool_call_id": "call-d9e339c0-b7ec-4a48-b5e5-7b0f68f2d5d1",
+      "tool_name": "get_observations",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-32727902-cdd8-4b16-bd45-afb86574d879",
+      "tool_name": "get_detection_events",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-6166d766-fa76-4bcd-89c8-7e5e907e9b96",
+      "tool_name": "get_network_state",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-2dfd79b2-2e7a-47e8-9d50-cdb3f0c6def4",
+      "tool_name": "get_control_catalog",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-ac170791-4f5b-4737-9865-20d9d91ef89e",
+      "tool_name": "get_observations",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-1b869b58-5f32-4fb9-a499-ac78dcaa0489",
+      "tool_name": "get_network_state",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-4088e496-d27e-47da-8cae-4aa2444ce7bb",
+      "tool_name": "get_control_catalog",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-2356dd42-00ca-4c50-ad1d-c882896c0bec",
+      "tool_name": "get_observations",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-6805914b-f718-4e67-97e1-88faa819a365",
+      "tool_name": "get_network_state",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-0285d9cf-caf1-4e46-8e8b-fdb6724fc746",
+      "tool_name": "get_control_catalog",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-6ae3a693-4db5-48c5-b70e-c9ebaf63587c",
+      "tool_name": "get_observations",
+      "ok": true
+    },
+    {
+      "tool_call_id": "call-c853250d-42e6-4f53-81df-afe3d57cedb6",
+      "tool_name": "get_network_state",
+      "ok": true
+    }
+  ],
+  "request_metadata": {
+    "count": 13,
+    "http_statuses": {
+      "200": 13
+    },
+    "outcomes": {
+      "succeeded": 13
+    },
+    "retry_count": 0,
+    "model_pairs": [
+      [
+        "nvidia/nemotron-3.5-lightning-30b-a3b",
+        "nvidia/nemotron-3.5-lightning-30b-a3b"
+      ]
+    ]
+  },
+  "runs": 0,
+  "approvals": [],
+  "actionable": false,
+  "applied_events": 0,
+  "public_release_approved": false,
+  "limits": "Actual desktop retained evidence only. Exact case/capture bytes exported read-only; no DB writes, model calls, UI actions, source changes or new numerical computations by this audit. No-plan missing coverage is a safety-boundary result, not numerical infeasibility."
+}

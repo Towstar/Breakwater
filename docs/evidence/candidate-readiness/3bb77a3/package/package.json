@@ -1,0 +1,16 @@
+{
+  "status": "assembled",
+  "candidate_only": true,
+  "public_release_approved": false,
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "dirty": false,
+  "started_utc": "2026-11-20T21:56:31.1538780Z",
+  "python": "3.12.13",
+  "torch_bundled": false,
+  "physicsnemo_bundled": false,
+  "file_count": 3855,
+  "source_file_count": 2063,
+  "app_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+  "zip_sha256": "ea77ece7b52393f7d9434b9aa177bbc0971519ab1137882f9c8ff8f60432c794",
+  "finished_utc": "2026-11-20T22:01:38.4306201Z"
+}

@@ -1,0 +1,14 @@
+********* Start testing of EogPlanDetailsTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : EogPlanDetailsTests::initTestCase()
+PASS   : EogPlanDetailsTests::acceptedFixturesPresentReadableEvidence(canonical-truck)
+PASS   : EogPlanDetailsTests::acceptedFixturesPresentReadableEvidence(well-only)
+PASS   : EogPlanDetailsTests::acceptedFixturesPresentReadableEvidence(automatic-no-action)
+PASS   : EogPlanDetailsTests::acceptedFixturesPresentReadableEvidence(shared-fleet-infeasible)
+PASS   : EogPlanDetailsTests::acceptedFixturesPresentReadableEvidence(empty-unavailable)
+PASS   : EogPlanDetailsTests::negativeNullMarginsAndExactAuditDataRemainExplicit()
+PASS   : EogPlanDetailsTests::rawIdsAndAssumptionsArePlainTextAndJobChoiceDoesNotMutatePlan()
+PASS   : EogPlanDetailsTests::longTripScheduleRemainsLazyAndAllRowsAreViewable()
+PASS   : EogPlanDetailsTests::cleanupTestCase()
+Totals: 10 passed, 0 failed, 0 skipped, 0 blacklisted, 9448ms
+********* Finished testing of EogPlanDetailsTests *********

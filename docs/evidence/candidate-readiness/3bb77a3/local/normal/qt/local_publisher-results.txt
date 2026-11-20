@@ -1,0 +1,9 @@
+********* Start testing of LocalPublisherTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : LocalPublisherTests::initTestCase()
+PASS   : LocalPublisherTests::instrumentedExampleIsOneUndoableProjectEdit()
+PASS   : LocalPublisherTests::actualPythonPublisherFlowsThroughAcquisitionAndFrozenNativeMapping()
+PASS   : LocalPublisherTests::bundledDefaultUsesExplicitPythonAndPreservesInvalidCustomOverride()
+PASS   : LocalPublisherTests::cleanupTestCase()
+Totals: 5 passed, 0 failed, 0 skipped, 0 blacklisted, 4437ms
+********* Finished testing of LocalPublisherTests *********

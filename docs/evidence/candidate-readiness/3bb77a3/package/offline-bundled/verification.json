@@ -1,0 +1,74 @@
+{
+  "status": "passed",
+  "clean_machine": false,
+  "environment": "sanitized local Windows process, not a clean VM",
+  "api_key_supplied": false,
+  "steps": [
+    {
+      "name": "isolated-python",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_s": 0.21899999992456287
+    },
+    {
+      "name": "sandbox-render",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_s": 1.312000000034459
+    },
+    {
+      "name": "recorded-ui",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_s": 13.187999999965541
+    },
+    {
+      "name": "observed-local-ui",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_s": 3.26500000001397
+    },
+    {
+      "name": "operations-render",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_s": 1.7040000000270084
+    },
+    {
+      "name": "operations-offline",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_s": 1.2179999999934807
+    },
+    {
+      "name": "renamed-topology-render",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_s": 1.4690000000409782
+    },
+    {
+      "name": "renamed-topology-offline",
+      "exit_code": 0,
+      "expected_exit_code": 0,
+      "elapsed_s": 1.25
+    },
+    {
+      "name": "live-cli-readiness",
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "elapsed_s": 0.09399999992456287
+    },
+    {
+      "name": "live-cli-explicit-override",
+      "exit_code": 3,
+      "expected_exit_code": 3,
+      "elapsed_s": 0.062000000034458935
+    }
+  ],
+  "started_utc": "2026-11-20T22:14:17.111503+00:00",
+  "bundle_manifest_sha256": "7a928ba1372bdcf136e06cf8de9773869a28764639bfad2b611cdb875394f7a1",
+  "app_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+  "inputs": "bundle manifest unchanged",
+  "hosted_model_requests": 0,
+  "finished_utc": "2026-11-20T22:14:42.938986+00:00"
+}

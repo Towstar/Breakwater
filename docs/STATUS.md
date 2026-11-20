@@ -2,13 +2,49 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
-Current UI CI follow-up: [stored-candidate Science convergence](STORED_SCIENCE_CI.md).
+The clean engineering candidate is `3bb77a3`. Full local normal and ASan CTest
+each pass 88/88 suites, with 1,162 Qt subcase passes and one optional subcase skip
+per configuration. All 78 helpers pass. The normal tested executable matches the
+sealed package; ten bundled checks pass in place and ten after actual ZIP
+extraction to a spaces/Unicode path. These sanitized development-machine checks
+do not supply clean-Windows acceptance.
+
+All six jobs in [Windows run 44823006438](https://github.com/Towstar/Breakwater/actions/runs/44823006438)
+pass for PR head `3bb77a3` and a matching source tree. Raw records preserve the
+GitHub merge-ref checkout identity. CI's three named layouts report the same
+actual 1008 x 672 client, with a separate 960 x 540 minimum check; local reports
+record four distinct actual sizes.
+
+Fresh hosted round 2 passes all seven declared strict cases, including an exact
+observed-pump validation and missing-coverage refusal. Round 1 remains retained at
+6/7 with its failed pump case. The second pump objective explicitly requested
+exact stored-run validation; repeated calls, bounded searches and inaccurate
+authority/capability wording in model prose remain documented. This is not a
+statistical reliability, field-accuracy or comparative-model result. The packaged
+Radeon 880M renderer measured 118.62 FPS default and 73.45 FPS dense in diagnostic
+sweeps, not a controlled speedup comparison. See
+[candidate results and raw evidence](CANDIDATE_RESULTS_3BB77A3.md).
+
+A matching private Windows/source handoff kit is staged. All 19 manual
+clean-Windows checks remain `not_run`; required human owner review and GPLv3
+agreement have not been freshly verified. Licensing/notices/source-delivery,
+ordered integration and actual clean-Windows acceptance remain release gates.
+Application version remains 0.2.0 plus source identity; no v0.3 public binary is
+released. See [candidate readiness](CANDIDATE_READINESS.md) and the
+[source-labeled application gallery](images/portfolio/README.md).
+
+## Earlier development checkpoints
+
+The following source-qualified records preserve their original results and open
+questions at the time; current `3bb77a3` results are recorded above.
+
+Earlier UI CI follow-up: [stored-candidate Science convergence](STORED_SCIENCE_CI.md).
 PR87's original ASan job passed 87/88 entries; phase 51 now waits for exact
 recommendation/History/source identity convergence with bounded diagnostics.
 Targeted normal/ASan minimum checks pass on the preserved dirty working patch;
 these do not establish a clean frozen-candidate matrix or hosted qualification.
 
-Current CI follow-up: [worker lifecycle timing](WORKER_LIFECYCLE_CI.md).
+Earlier CI follow-up: [worker lifecycle timing](WORKER_LIFECYCLE_CI.md).
 PR87's original normal desktop run passed 87/88 entries; its retained fixture
 startup-observation failure led to separate test budgets and public diagnostics.
 The complete storage-worker class passes 121/121 Qt cases in normal and ASan at
@@ -16,7 +52,7 @@ The complete storage-worker class passes 121/121 Qt cases in normal and ASan at
 worker deadlines and numerical methods are preserved. New full candidate checks
 remain pending; these targeted results are not an all-green final matrix.
 
-Current release preparation: [candidate readiness](CANDIDATE_READINESS.md).
+Earlier release preparation: [candidate readiness](CANDIDATE_READINESS.md).
 PR85 head `440cb3d` now passes all six Windows jobs in run `44791528171`.
 New private kits use a source-qualified summary, the current readiness packet,
 both dated review packets and manual acceptance template v2. Its observed and

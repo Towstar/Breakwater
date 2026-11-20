@@ -1,0 +1,951 @@
+﻿2026-11-20T21:44:44.4990132Z Current runner version: '2.338.2'
+2026-11-20T21:44:44.5017401Z ##[group]Runner Image Provisioner
+2026-11-20T21:44:44.5018282Z Hosted Compute Agent
+2026-11-20T21:44:44.5018964Z Version: 20261111.635
+2026-11-20T21:44:44.5019625Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-20T21:44:44.5020469Z Build Date: 2026-11-11T01:49:01Z
+2026-11-20T21:44:44.5021208Z Worker ID: {2ec64f82-6dd9-4b74-8fd7-a3e55b0e2915}
+2026-11-20T21:44:44.5021987Z Region: northcentralus
+2026-11-20T21:44:44.5022616Z Cloud: Azure
+2026-11-20T21:44:44.5023186Z ##[endgroup]
+2026-11-20T21:44:44.5024602Z ##[group]Operating System
+2026-11-20T21:44:44.5025341Z Microsoft Windows Server 2022
+2026-11-20T21:44:44.5026059Z 10.0.20348
+2026-11-20T21:44:44.5026630Z Datacenter
+2026-11-20T21:44:44.5027163Z ##[endgroup]
+2026-11-20T21:44:44.5027735Z ##[group]Runner Image
+2026-11-20T21:44:44.5028392Z Image: windows-2022
+2026-11-20T21:44:44.5028979Z Version: 20261116.370.1
+2026-11-20T21:44:44.5030742Z Included Software: https://github.com/actions/runner-images/blob/win22/20261116.370/images/windows/Windows2022-Readme.md
+2026-11-20T21:44:44.5032695Z Image Release: https://github.com/actions/runner-images/releases/tag/win22%2F20261116.370
+2026-11-20T21:44:44.5033835Z ##[endgroup]
+2026-11-20T21:44:44.5035087Z ##[group]GITHUB_TOKEN Permissions
+2026-11-20T21:44:44.5036952Z Contents: read
+2026-11-20T21:44:44.5037566Z Metadata: read
+2026-11-20T21:44:44.5038151Z ##[endgroup]
+2026-11-20T21:44:44.5040354Z Secret source: Actions
+2026-11-20T21:44:44.5041480Z Cache mode: write
+2026-11-20T21:44:44.5042237Z Prepare workflow directory
+2026-11-20T21:44:44.5473986Z Prepare all required actions
+2026-11-20T21:44:44.5530610Z Getting action download info
+2026-11-20T21:44:44.8503843Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+2026-11-20T21:44:44.9485871Z Download action repository 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+2026-11-20T21:44:45.0546264Z Download action repository 'actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f' (SHA:b7c566a772e6b6bfb58ed0dc250532a479d7789f)
+2026-11-20T21:44:45.3208582Z Complete job name: Native (normal)
+2026-11-20T21:44:45.5664498Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+2026-11-20T21:44:45.5665487Z with:
+2026-11-20T21:44:45.5665808Z   persist-credentials: false
+2026-11-20T21:44:45.5666192Z   repository: Towstar/Breakwater
+2026-11-20T21:44:45.5669282Z   token: ***
+2026-11-20T21:44:45.5669584Z   ssh-strict: true
+2026-11-20T21:44:45.5669888Z   ssh-user: git
+2026-11-20T21:44:45.5670178Z   clean: true
+2026-11-20T21:44:45.5670490Z   sparse-checkout-cone-mode: true
+2026-11-20T21:44:45.5670885Z   fetch-depth: 1
+2026-11-20T21:44:45.5671184Z   fetch-tags: false
+2026-11-20T21:44:45.5671497Z   show-progress: true
+2026-11-20T21:44:45.5671807Z   lfs: false
+2026-11-20T21:44:45.5672088Z   submodules: false
+2026-11-20T21:44:45.5672428Z   set-safe-directory: true
+2026-11-20T21:44:45.5672781Z   allow-unsafe-pr-checkout: false
+2026-11-20T21:44:45.5673297Z env:
+2026-11-20T21:44:45.5673584Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-20T21:44:45.5673934Z   PYTHONNOUSERSITE: 1
+2026-11-20T21:44:45.5674265Z   NVIDIA_API_KEY: 
+2026-11-20T21:44:45.5674557Z ##[endgroup]
+2026-11-20T21:44:45.6926317Z Syncing repository: Towstar/Breakwater
+2026-11-20T21:44:45.6927590Z ##[group]Getting Git version info
+2026-11-20T21:44:45.6928063Z Working directory is 'D:\a\Breakwater\Breakwater'
+2026-11-20T21:44:45.8030797Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-20T21:44:46.7976799Z git version 2.56.1.windows.1
+2026-11-20T21:44:46.8007755Z ##[endgroup]
+2026-11-20T21:44:46.8022115Z Temporarily overriding HOME='D:\a\_temp\22c7d6d8-2a6c-46d5-8666-afbeb2ec82b5' before making global git config changes
+2026-11-20T21:44:46.8023461Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T21:44:46.8031055Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Breakwater\Breakwater
+2026-11-20T21:44:46.8614791Z Deleting the contents of 'D:\a\Breakwater\Breakwater'
+2026-11-20T21:44:46.8618805Z ##[group]Determining repository object format
+2026-11-20T21:44:46.8620979Z ##[endgroup]
+2026-11-20T21:44:46.8622133Z ##[group]Initializing the repository
+2026-11-20T21:44:46.8628350Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\Breakwater\Breakwater
+2026-11-20T21:44:46.9215640Z Initialized empty Git repository in D:/a/Breakwater/Breakwater/.git/
+2026-11-20T21:44:46.9243955Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/Towstar/Breakwater
+2026-11-20T21:44:46.9773595Z ##[endgroup]
+2026-11-20T21:44:46.9774837Z ##[group]Disabling automatic garbage collection
+2026-11-20T21:44:46.9780191Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-11-20T21:44:47.0009921Z ##[endgroup]
+2026-11-20T21:44:47.0011324Z ##[group]Setting up auth
+2026-11-20T21:44:47.0012333Z Removing SSH command configuration
+2026-11-20T21:44:47.0019695Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T21:44:47.0255111Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-20T21:44:48.9770828Z Removing HTTP extra header
+2026-11-20T21:44:48.9779639Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T21:44:49.0018470Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-20T21:44:49.4305376Z Removing includeIf entries pointing to credentials config files
+2026-11-20T21:44:49.4316941Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-20T21:44:49.4567197Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-20T21:44:49.8378179Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-11-20T21:44:49.8615394Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:49.8846940Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:50.0987208Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:50.1223953Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:50.1456690Z ##[endgroup]
+2026-11-20T21:44:50.1457158Z ##[group]Fetching the repository
+2026-11-20T21:44:50.1467424Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +adf625a03423aed55e98bc9c63f7dd67a145719e:refs/remotes/pull/88/merge
+2026-11-20T21:44:51.9830486Z From https://github.com/Towstar/Breakwater
+2026-11-20T21:44:51.9831152Z  * [new ref]         adf625a03423aed55e98bc9c63f7dd67a145719e -> pull/88/merge
+2026-11-20T21:44:51.9856236Z ##[endgroup]
+2026-11-20T21:44:51.9856749Z ##[group]Determining the checkout info
+2026-11-20T21:44:51.9858875Z ##[endgroup]
+2026-11-20T21:44:51.9865336Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-11-20T21:44:52.0425830Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-11-20T21:44:52.0650436Z ##[group]Checking out the ref
+2026-11-20T21:44:52.0657274Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/88/merge
+2026-11-20T21:44:52.5369220Z Note: switching to 'refs/remotes/pull/88/merge'.
+2026-11-20T21:44:52.5369502Z 
+2026-11-20T21:44:52.5369674Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-20T21:44:52.5370092Z changes and commit them, and you can discard any commits you make in this
+2026-11-20T21:44:52.5370451Z state without impacting any branches by switching back to a branch.
+2026-11-20T21:44:52.5370658Z 
+2026-11-20T21:44:52.5370795Z If you want to create a new branch to retain commits you create, you may
+2026-11-20T21:44:52.5371185Z do so (now or later) by using -c with the switch command. Example:
+2026-11-20T21:44:52.5371370Z 
+2026-11-20T21:44:52.5371505Z   git switch -c <new-branch-name>
+2026-11-20T21:44:52.5371644Z 
+2026-11-20T21:44:52.5371736Z Or undo this operation with:
+2026-11-20T21:44:52.5371909Z 
+2026-11-20T21:44:52.5372013Z   git switch -
+2026-11-20T21:44:52.5430636Z 
+2026-11-20T21:44:52.5430958Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-20T21:44:52.5431491Z 
+2026-11-20T21:44:52.5431944Z HEAD is now at adf625a Merge 3bb77a353fb04267260764060bc5f58d61d5e7f5 into fe9dd97a503786c356f941793cca1555959021e9
+2026-11-20T21:44:52.5556034Z ##[endgroup]
+2026-11-20T21:44:52.5960465Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-11-20T21:44:52.6186997Z adf625a03423aed55e98bc9c63f7dd67a145719e
+2026-11-20T21:44:52.6212129Z ##[group]Removing auth
+2026-11-20T21:44:52.6212444Z Removing SSH command configuration
+2026-11-20T21:44:52.6218684Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T21:44:52.6839290Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-20T21:44:53.2069756Z Removing HTTP extra header
+2026-11-20T21:44:53.2083129Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T21:44:53.2311093Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-20T21:44:53.6144145Z Removing includeIf entries pointing to credentials config files
+2026-11-20T21:44:53.6150717Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-20T21:44:53.6355220Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-20T21:44:53.6355887Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-20T21:44:53.6356442Z includeif.gitdir:/github/workspace/.git.path
+2026-11-20T21:44:53.6356834Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-20T21:44:53.6380257Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-20T21:44:53.6583587Z D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:53.6609136Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:53.6835098Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-20T21:44:53.7040265Z D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:53.7066215Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:53.7299675Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-20T21:44:53.7503849Z /github/runner_temp/git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:53.7529669Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:53.7757212Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-20T21:44:53.7957490Z /github/runner_temp/git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:53.7983972Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:44:53.8210749Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-20T21:44:54.2044026Z Removing credentials config 'D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config'
+2026-11-20T21:44:54.2052697Z ##[endgroup]
+2026-11-20T21:44:54.2324649Z ##[group]Run ./scripts/ci/Write-JobEvidence.ps1 -Suite native -Mode 'normal'
+2026-11-20T21:44:54.2325178Z [36;1m./scripts/ci/Write-JobEvidence.ps1 -Suite native -Mode 'normal'[0m
+2026-11-20T21:44:54.2779885Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-20T21:44:54.2780164Z env:
+2026-11-20T21:44:54.2780329Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-20T21:44:54.2780531Z   PYTHONNOUSERSITE: 1
+2026-11-20T21:44:54.2780688Z   NVIDIA_API_KEY: 
+2026-11-20T21:44:54.2780839Z ##[endgroup]
+2026-11-20T21:44:54.6973050Z Job start evidence retained for native/normal (running).
+2026-11-20T21:44:54.7517713Z ##[group]Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+2026-11-20T21:44:54.7518064Z with:
+2026-11-20T21:44:54.7518223Z   python-version: 3.12.10
+2026-11-20T21:44:54.7518399Z   check-latest: false
+2026-11-20T21:44:54.7520265Z   token: ***
+2026-11-20T21:44:54.7520430Z   update-environment: true
+2026-11-20T21:44:54.7520615Z   allow-prereleases: false
+2026-11-20T21:44:54.7520787Z   freethreaded: false
+2026-11-20T21:44:54.7520935Z env:
+2026-11-20T21:44:54.7521077Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-20T21:44:54.7521253Z   PYTHONNOUSERSITE: 1
+2026-11-20T21:44:54.7521425Z   NVIDIA_API_KEY: 
+2026-11-20T21:44:54.7521572Z ##[endgroup]
+2026-11-20T21:44:54.8696709Z ##[group]Installed versions
+2026-11-20T21:44:54.8736569Z Successfully set up CPython (3.12.10)
+2026-11-20T21:44:54.8737203Z ##[endgroup]
+2026-11-20T21:44:54.8945138Z ##[group]Run ./scripts/ci/Run-Checks.ps1 -Suite native -Mode 'normal'
+2026-11-20T21:44:54.8945569Z [36;1m./scripts/ci/Run-Checks.ps1 -Suite native -Mode 'normal'[0m
+2026-11-20T21:44:54.9022682Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-20T21:44:54.9022947Z env:
+2026-11-20T21:44:54.9023103Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-20T21:44:54.9023287Z   PYTHONNOUSERSITE: 1
+2026-11-20T21:44:54.9023445Z   NVIDIA_API_KEY: 
+2026-11-20T21:44:54.9023664Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:44:54.9024044Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-20T21:44:54.9024392Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:44:54.9024705Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:44:54.9024997Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:44:54.9025386Z ##[endgroup]
+2026-11-20T21:44:55.6797368Z ##[group]bootstrap-venv
+2026-11-20T21:45:01.7772158Z ##[endgroup]
+2026-11-20T21:45:01.7884158Z ##[group]bootstrap-lock
+2026-11-20T21:45:03.1787402Z Collecting backports-zstd==1.8.0 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 3))
+2026-11-20T21:45:03.1927233Z   Downloading backports_zstd-1.8.0-cp312-cp312-win_amd64.whl (330 kB)
+2026-11-20T21:45:03.2674104Z Collecting brotli==1.2.1 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 97))
+2026-11-20T21:45:03.2709953Z   Downloading brotli-1.2.1-cp312-cp312-win_amd64.whl (371 kB)
+2026-11-20T21:45:03.4511222Z Collecting certifi==2026.10.23 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 242))
+2026-11-20T21:45:03.4551675Z   Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+2026-11-20T21:45:03.5845000Z Collecting charset-normalizer==3.5.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 246))
+2026-11-20T21:45:03.5883612Z   Downloading charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl (207 kB)
+2026-11-20T21:45:03.7147396Z Collecting idna==3.20 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 420))
+2026-11-20T21:45:03.7185857Z   Downloading idna-3.20-py3-none-any.whl (69 kB)
+2026-11-20T21:45:03.9521681Z Collecting inflate64==1.0.4 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 424))
+2026-11-20T21:45:03.9582933Z   Downloading inflate64-1.0.4-cp312-cp312-win_amd64.whl (35 kB)
+2026-11-20T21:45:04.0085627Z Collecting multivolumefile==0.2.3 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 497))
+2026-11-20T21:45:04.0122356Z   Downloading multivolumefile-0.2.3-py3-none-any.whl (17 kB)
+2026-11-20T21:45:04.0950541Z Collecting psutil==7.2.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 501))
+2026-11-20T21:45:04.0988707Z   Downloading psutil-7.2.2-cp37-abi3-win_amd64.whl (137 kB)
+2026-11-20T21:45:04.1886950Z Collecting py7zr==1.1.4 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 524))
+2026-11-20T21:45:04.1923465Z   Downloading py7zr-1.1.4-py3-none-any.whl (75 kB)
+2026-11-20T21:45:04.3621250Z Collecting pybcj==1.0.8 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 528))
+2026-11-20T21:45:04.3658802Z   Downloading pybcj-1.0.8-cp312-cp312-win_amd64.whl (24 kB)
+2026-11-20T21:45:04.4571546Z Collecting pycryptodomex==3.24.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 585))
+2026-11-20T21:45:04.4608302Z   Downloading pycryptodomex-3.24.2-cp37-abi3-win_amd64.whl (1.8 MB)
+2026-11-20T21:45:04.5715686Z      ---------------------------------------- 1.8/1.8 MB 14.2 MB/s eta 0:00:00
+2026-11-20T21:45:04.6628270Z Collecting pyppmd==1.3.1 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 634))
+2026-11-20T21:45:04.6690013Z   Downloading pyppmd-1.3.1-cp312-cp312-win_amd64.whl (46 kB)
+2026-11-20T21:45:04.7369804Z Collecting pyyaml==6.0.3 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 697))
+2026-11-20T21:45:04.7405800Z   Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl (154 kB)
+2026-11-20T21:45:04.8733274Z Collecting requests==2.34.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 772))
+2026-11-20T21:45:04.8772322Z   Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-11-20T21:45:04.9274369Z Collecting texttable==1.7.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 776))
+2026-11-20T21:45:04.9322277Z   Downloading texttable-1.7.2-py2.py3-none-any.whl (10 kB)
+2026-11-20T21:45:04.9886592Z Collecting urllib3==2.8.0 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 780))
+2026-11-20T21:45:04.9919962Z   Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-11-20T21:45:05.1942401Z Installing collected packages: texttable, brotli, urllib3, pyyaml, pyppmd, pycryptodomex, pybcj, psutil, multivolumefile, inflate64, idna, charset-normalizer, certifi, backports-zstd, requests, py7zr
+2026-11-20T21:45:06.1725010Z Successfully installed backports-zstd-1.8.0 brotli-1.2.1 certifi-2026.10.23 charset-normalizer-3.5.2 idna-3.20 inflate64-1.0.4 multivolumefile-0.2.3 psutil-7.2.2 py7zr-1.1.4 pybcj-1.0.8 pycryptodomex-3.24.2 pyppmd-1.3.1 pyyaml-6.0.3 requests-2.34.2 texttable-1.7.2 urllib3-2.8.0
+2026-11-20T21:45:06.4106639Z [31;1m[0m
+2026-11-20T21:45:06.4140759Z [31;1m[notice] A new release of pip is available: 25.0.1 -> 26.3[0m
+2026-11-20T21:45:06.4145454Z [31;1m[notice] To update, run: D:\a\Breakwater\Breakwater\.tools\ci-bootstrap\Scripts\python.exe -m pip install --upgrade pip[0m
+2026-11-20T21:45:06.4288778Z ##[endgroup]
+2026-11-20T21:45:06.4301768Z ##[group]bootstrap-versions
+2026-11-20T21:45:06.5048133Z {"python": "3.12.10", "packages": {"requests": "2.34.2", "py7zr": "1.1.4", "PyYAML": "6.0.3"}}
+2026-11-20T21:45:06.5139893Z ##[endgroup]
+2026-11-20T21:45:06.5222658Z ##[group]workflow-regressions
+2026-11-20T21:45:07.3966657Z [31;1mtest_actual_observed_desktop_completion_is_required (test_bundle_readiness.BundleReadinessTests.test_actual_observed_desktop_completion_is_required) ... ok[0m
+2026-11-20T21:45:07.3970321Z [31;1mtest_bundled_runtime_can_be_ready_without_any_operation (test_bundle_readiness.BundleReadinessTests.test_bundled_runtime_can_be_ready_without_any_operation) ... ok[0m
+2026-11-20T21:45:07.3975470Z [31;1mtest_explicit_invalid_override_must_remain_unavailable (test_bundle_readiness.BundleReadinessTests.test_explicit_invalid_override_must_remain_unavailable) ... ok[0m
+2026-11-20T21:45:07.3979968Z [31;1mtest_live_or_archived_output_is_rejected (test_bundle_readiness.BundleReadinessTests.test_live_or_archived_output_is_rejected) ... ok[0m
+2026-11-20T21:45:07.3985785Z [31;1mtest_missing_bundled_runtime_is_rejected (test_bundle_readiness.BundleReadinessTests.test_missing_bundled_runtime_is_rejected) ... ok[0m
+2026-11-20T21:45:07.3989813Z [31;1mtest_missing_or_foreign_status_is_rejected (test_bundle_readiness.BundleReadinessTests.test_missing_or_foreign_status_is_rejected) ... ok[0m
+2026-11-20T21:45:07.3993818Z [31;1mtest_model_or_provider_work_is_not_a_readiness_pass (test_bundle_readiness.BundleReadinessTests.test_model_or_provider_work_is_not_a_readiness_pass) ... ok[0m
+2026-11-20T21:45:07.4159254Z [31;1mtest_acknowledgement_is_advisory_only_and_apply_rejected (test_candidate_evidence.CandidateEvidenceTests.test_acknowledgement_is_advisory_only_and_apply_rejected) ... ok[0m
+2026-11-20T21:45:07.4244281Z [31;1mtest_all_seven_required_once (test_candidate_evidence.CandidateEvidenceTests.test_all_seven_required_once) ... ok[0m
+2026-11-20T21:45:07.4333695Z [31;1mtest_call_result_mismatch_rejected (test_candidate_evidence.CandidateEvidenceTests.test_call_result_mismatch_rejected) ... ok[0m
+2026-11-20T21:45:07.5628619Z [31;1mtest_cli_handles_deep_or_malformed_nested_containers_without_traceback (test_candidate_evidence.CandidateEvidenceTests.test_cli_handles_deep_or_malformed_nested_containers_without_traceback) ... ok[0m
+2026-11-20T21:45:07.7190508Z [31;1mtest_cli_incomplete_returns_two_without_printing_untrusted_errors (test_candidate_evidence.CandidateEvidenceTests.test_cli_incomplete_returns_two_without_printing_untrusted_errors) ... ok[0m
+2026-11-20T21:45:07.7302771Z [31;1mtest_complete_declared_round_passes_without_release_authority (test_candidate_evidence.CandidateEvidenceTests.test_complete_declared_round_passes_without_release_authority) ... ok[0m
+2026-11-20T21:45:07.7423420Z [31;1mtest_dirty_and_false_pass_rejected (test_candidate_evidence.CandidateEvidenceTests.test_dirty_and_false_pass_rejected) ... ok[0m
+2026-11-20T21:45:07.7514188Z [31;1mtest_duplicate_keys_rejected (test_candidate_evidence.CandidateEvidenceTests.test_duplicate_keys_rejected) ... ok[0m
+2026-11-20T21:45:07.7614398Z [31;1mtest_duplicate_session_cannot_count_as_a_second_rehearsal (test_candidate_evidence.CandidateEvidenceTests.test_duplicate_session_cannot_count_as_a_second_rehearsal) ... ok[0m
+2026-11-20T21:45:07.7729287Z [31;1mtest_failed_attempt_is_retained_and_not_promoted (test_candidate_evidence.CandidateEvidenceTests.test_failed_attempt_is_retained_and_not_promoted) ... ok[0m
+2026-11-20T21:45:07.7861672Z [31;1mtest_failed_wrong_model_evidence_is_preserved_without_becoming_passed (test_candidate_evidence.CandidateEvidenceTests.test_failed_wrong_model_evidence_is_preserved_without_becoming_passed) ... ok[0m
+2026-11-20T21:45:07.7985017Z [31;1mtest_final_plan_and_validation_hash_must_match (test_candidate_evidence.CandidateEvidenceTests.test_final_plan_and_validation_hash_must_match) ... ok[0m
+2026-11-20T21:45:07.8115498Z [31;1mtest_interrupted_tool_prefix_is_allowed_only_for_failed_attempt (test_candidate_evidence.CandidateEvidenceTests.test_interrupted_tool_prefix_is_allowed_only_for_failed_attempt) ... ok[0m
+2026-11-20T21:45:07.8194953Z [31;1mtest_json_parser_consumes_the_verified_bytes (test_candidate_evidence.CandidateEvidenceTests.test_json_parser_consumes_the_verified_bytes) ... ok[0m
+2026-11-20T21:45:07.8307993Z [31;1mtest_matching_run_and_validation_cannot_belong_to_another_snapshot (test_candidate_evidence.CandidateEvidenceTests.test_matching_run_and_validation_cannot_belong_to_another_snapshot) ... ok[0m
+2026-11-20T21:45:07.8431257Z [31;1mtest_missing_coverage_cannot_produce_numerical_tools_runs_or_approval (test_candidate_evidence.CandidateEvidenceTests.test_missing_coverage_cannot_produce_numerical_tools_runs_or_approval) ... ok[0m
+2026-11-20T21:45:07.8652387Z [31;1mtest_missing_coverage_permits_a_rejected_model_numerical_request (test_candidate_evidence.CandidateEvidenceTests.test_missing_coverage_permits_a_rejected_model_numerical_request) ... ok[0m
+2026-11-20T21:45:07.8904590Z [31;1mtest_missing_coverage_rejects_success_from_plural_simulator_and_science (test_candidate_evidence.CandidateEvidenceTests.test_missing_coverage_rejects_success_from_plural_simulator_and_science) ... ok[0m
+2026-11-20T21:45:07.9004634Z [31;1mtest_mixed_source_and_binary_rejected (test_candidate_evidence.CandidateEvidenceTests.test_mixed_source_and_binary_rejected) ... ok[0m
+2026-11-20T21:45:07.9126286Z [31;1mtest_observed_local_search_is_not_hosted_qualification (test_candidate_evidence.CandidateEvidenceTests.test_observed_local_search_is_not_hosted_qualification) ... ok[0m
+2026-11-20T21:45:07.9251237Z [31;1mtest_observed_must_be_hosted_and_use_frozen_effective_network (test_candidate_evidence.CandidateEvidenceTests.test_observed_must_be_hosted_and_use_frozen_effective_network) ... ok[0m
+2026-11-20T21:45:07.9369986Z [31;1mtest_observed_selected_run_needs_own_exact_validation (test_candidate_evidence.CandidateEvidenceTests.test_observed_selected_run_needs_own_exact_validation) ... ok[0m
+2026-11-20T21:45:07.9518555Z [31;1mtest_orphan_or_different_model_validation_cannot_ground_the_final (test_candidate_evidence.CandidateEvidenceTests.test_orphan_or_different_model_validation_cannot_ground_the_final) ... ok[0m
+2026-11-20T21:45:07.9664734Z [31;1mtest_pending_round_is_honestly_incomplete (test_candidate_evidence.CandidateEvidenceTests.test_pending_round_is_honestly_incomplete) ... ok[0m
+2026-11-20T21:45:07.9817762Z [31;1mtest_recovered_requests_and_bounded_retries_are_retained (test_candidate_evidence.CandidateEvidenceTests.test_recovered_requests_and_bounded_retries_are_retained) ... ok[0m
+2026-11-20T21:45:07.9956377Z [31;1mtest_renamed_cannot_reuse_canonical_dataset (test_candidate_evidence.CandidateEvidenceTests.test_renamed_cannot_reuse_canonical_dataset) ... ok[0m
+2026-11-20T21:45:08.0050225Z [31;1mtest_secret_fields_nonfinite_and_credential_text_rejected (test_candidate_evidence.CandidateEvidenceTests.test_secret_fields_nonfinite_and_credential_text_rejected) ... ok[0m
+2026-11-20T21:45:08.0145975Z [31;1mtest_smoke_needs_actual_execution_continuation_and_matching_model (test_candidate_evidence.CandidateEvidenceTests.test_smoke_needs_actual_execution_continuation_and_matching_model) ... ok[0m
+2026-11-20T21:45:08.0258797Z [31;1mtest_tampering_size_path_escape_and_oversize_rejected (test_candidate_evidence.CandidateEvidenceTests.test_tampering_size_path_escape_and_oversize_rejected) ... ok[0m
+2026-11-20T21:45:08.0352633Z [31;1mtest_wrong_model_request_or_capture_rejected (test_candidate_evidence.CandidateEvidenceTests.test_wrong_model_request_or_capture_rejected) ... ok[0m
+2026-11-20T21:45:08.0430855Z [31;1mtest_exact_optional_calibration_skip_is_retained (test_ci.QtResultTests.test_exact_optional_calibration_skip_is_retained) ... ok[0m
+2026-11-20T21:45:08.0727154Z [31;1mtest_failures_blacklists_and_missing_suites_remain_failures (test_ci.QtResultTests.test_failures_blacklists_and_missing_suites_remain_failures) ... ok[0m
+2026-11-20T21:45:08.0818923Z [31;1mtest_missing_duplicate_and_unaccounted_totals_fail (test_ci.QtResultTests.test_missing_duplicate_and_unaccounted_totals_fail) ... ok[0m
+2026-11-20T21:45:08.0897130Z [31;1mtest_optional_qualification_cannot_skip_its_real_case (test_ci.QtResultTests.test_optional_qualification_cannot_skip_its_real_case) ... ok[0m
+2026-11-20T21:45:08.1046358Z [31;1mtest_other_missing_dependency_or_changed_reason_is_a_failure (test_ci.QtResultTests.test_other_missing_dependency_or_changed_reason_is_a_failure) ... ok[0m
+2026-11-20T21:45:08.1049439Z [31;1mtest_all_optional_skips_are_not_executed_science (test_ci.ResultTests.test_all_optional_skips_are_not_executed_science) ... ok[0m
+2026-11-20T21:45:08.1052062Z [31;1mtest_empty_discovery_is_not_a_pass (test_ci.ResultTests.test_empty_discovery_is_not_a_pass) ... ok[0m
+2026-11-20T21:45:08.1055904Z [31;1mtest_known_optional_physicsnemo_skip_is_explicit (test_ci.ResultTests.test_known_optional_physicsnemo_skip_is_explicit) ... ok[0m
+2026-11-20T21:45:08.1058823Z [31;1mtest_other_dependency_skip_fails_the_job (test_ci.ResultTests.test_other_dependency_skip_fails_the_job) ... ok[0m
+2026-11-20T21:45:08.1062024Z [31;1mtest_real_failures_cannot_become_a_successful_report (test_ci.ResultTests.test_real_failures_cannot_become_a_successful_report) ... ok[0m
+2026-11-20T21:45:08.1064809Z [31;1mtest_success_is_reported (test_ci.ResultTests.test_success_is_reported) ... ok[0m
+2026-11-20T21:45:08.1150895Z [31;1mtest_actions_are_exact_pins_and_checkout_cannot_leave_credentials (test_ci.WorkflowTests.test_actions_are_exact_pins_and_checkout_cannot_leave_credentials) ... ok[0m
+2026-11-20T21:45:08.1153998Z [31;1mtest_caches_exclude_credentials_and_only_restore_declared_tool_paths (test_ci.WorkflowTests.test_caches_exclude_credentials_and_only_restore_declared_tool_paths) ... ok[0m
+2026-11-20T21:45:08.1156851Z [31;1mtest_desktop_uses_warp_with_actual_rhi (test_ci.WorkflowTests.test_desktop_uses_warp_with_actual_rhi) ... ok[0m
+2026-11-20T21:45:08.1159849Z [31;1mtest_evidence_is_uploaded_even_after_failure_without_build_trees (test_ci.WorkflowTests.test_evidence_is_uploaded_even_after_failure_without_build_trees) ... ok[0m
+2026-11-20T21:45:08.8258249Z [31;1mtest_failed_bootstrap_retains_real_metadata_without_claiming_tests_or_copying_secrets (test_ci.WorkflowTests.test_failed_bootstrap_retains_real_metadata_without_claiming_tests_or_copying_secrets) ... ok[0m
+2026-11-20T21:45:08.8260328Z [31;1mtest_fork_pull_requests_run_without_secrets_or_write_token (test_ci.WorkflowTests.test_fork_pull_requests_run_without_secrets_or_write_token) ... ok[0m
+2026-11-20T21:45:08.8262536Z [31;1mtest_heavy_jobs_require_both_native_modes (test_ci.WorkflowTests.test_heavy_jobs_require_both_native_modes) ... ok[0m
+2026-11-20T21:45:08.8265866Z [31;1mtest_setup_evidence_precedes_dependencies_and_finishes_before_upload (test_ci.WorkflowTests.test_setup_evidence_precedes_dependencies_and_finishes_before_upload) ... ok[0m
+2026-11-20T21:45:08.8268691Z [31;1mtest_windows_bootstrap_has_an_available_pin_separate_from_science (test_ci.WorkflowTests.test_windows_bootstrap_has_an_available_pin_separate_from_science) ... ok[0m
+2026-11-20T21:45:08.8290838Z [31;1mtest_manual_only_readonly_pinned_and_retains_failed_setup (test_optional_science.OptionalScienceWorkflow.test_manual_only_readonly_pinned_and_retains_failed_setup) ... ok[0m
+2026-11-20T21:45:08.8390042Z [31;1mtest_ambiguous_windows_archive_is_rejected (test_release_handoff.HandoffTests.test_ambiguous_windows_archive_is_rejected) ... ok[0m
+2026-11-20T21:45:08.8509432Z [31;1mtest_changed_source_is_rejected (test_release_handoff.HandoffTests.test_changed_source_is_rejected) ... ok[0m
+2026-11-20T21:45:08.8566345Z [31;1mtest_changed_windows_zip_is_rejected (test_release_handoff.HandoffTests.test_changed_windows_zip_is_rejected) ... ok[0m
+2026-11-20T21:45:08.8648161Z [31;1mtest_copy_failure_never_produces_a_prepared_record (test_release_handoff.HandoffTests.test_copy_failure_never_produces_a_prepared_record) ... ok[0m
+2026-11-20T21:45:08.8931719Z [31;1mtest_current_summary_and_historical_packets_are_distinct_and_hash_checked (test_release_handoff.HandoffTests.test_current_summary_and_historical_packets_are_distinct_and_hash_checked) ... ok[0m
+2026-11-20T21:45:08.9019146Z [31;1mtest_dirty_or_unqualified_candidate_is_rejected (test_release_handoff.HandoffTests.test_dirty_or_unqualified_candidate_is_rejected) ... ok[0m
+2026-11-20T21:45:08.9090099Z [31;1mtest_duplicate_archive_path_is_rejected (test_release_handoff.HandoffTests.test_duplicate_archive_path_is_rejected) ... ok[0m
+2026-11-20T21:45:08.9158930Z [31;1mtest_duplicate_json_keys_and_nonobjects_are_rejected (test_release_handoff.HandoffTests.test_duplicate_json_keys_and_nonobjects_are_rejected) ... ok[0m
+2026-11-20T21:45:08.9224165Z [31;1mtest_existing_destination_is_preserved (test_release_handoff.HandoffTests.test_existing_destination_is_preserved) ... ok[0m
+2026-11-20T21:45:08.9287119Z [31;1mtest_existing_version_one_handoff_is_never_upgraded_in_place (test_release_handoff.HandoffTests.test_existing_version_one_handoff_is_never_upgraded_in_place) ... ok[0m
+2026-11-20T21:45:08.9531932Z [31;1mtest_legacy_candidate_and_version_one_results_are_preserved_without_inheriting_acceptance (test_release_handoff.HandoffTests.test_legacy_candidate_and_version_one_results_are_preserved_without_inheriting_acceptance) ... ok[0m
+2026-11-20T21:45:08.9599528Z [31;1mtest_missing_source_file_is_rejected (test_release_handoff.HandoffTests.test_missing_source_file_is_rejected) ... ok[0m
+2026-11-20T21:45:08.9658578Z [31;1mtest_nested_destination_is_rejected (test_release_handoff.HandoffTests.test_nested_destination_is_rejected) ... ok[0m
+2026-11-20T21:45:08.9855198Z [31;1mtest_new_observed_and_framing_acceptance_cannot_be_inferred_from_packaging (test_release_handoff.HandoffTests.test_new_observed_and_framing_acceptance_cannot_be_inferred_from_packaging) ... ok[0m
+2026-11-20T21:45:09.0052491Z [31;1mtest_preserves_archives_and_keeps_all_external_gates_pending (test_release_handoff.HandoffTests.test_preserves_archives_and_keeps_all_external_gates_pending) ... ok[0m
+2026-11-20T21:45:09.0118943Z [31;1mtest_unlisted_source_file_is_rejected (test_release_handoff.HandoffTests.test_unlisted_source_file_is_rejected) ... ok[0m
+2026-11-20T21:45:09.0184757Z [31;1mtest_unsafe_archive_path_is_rejected_without_extraction (test_release_handoff.HandoffTests.test_unsafe_archive_path_is_rejected_without_extraction) ... ok[0m
+2026-11-20T21:45:09.0251150Z [31;1mtest_unsafe_empty_archive_directory_is_rejected (test_release_handoff.HandoffTests.test_unsafe_empty_archive_directory_is_rejected) ... ok[0m
+2026-11-20T21:45:09.0347881Z [31;1mtest_unsafe_or_ambiguous_manifest_paths_are_rejected (test_release_handoff.HandoffTests.test_unsafe_or_ambiguous_manifest_paths_are_rejected) ... ok[0m
+2026-11-20T21:45:09.0409603Z [31;1mtest_wrong_packaged_executable_is_rejected (test_release_handoff.HandoffTests.test_wrong_packaged_executable_is_rejected) ... ok[0m
+2026-11-20T21:45:09.0411941Z [31;1m[0m
+2026-11-20T21:45:09.0415023Z [31;1m----------------------------------------------------------------------[0m
+2026-11-20T21:45:09.0426810Z [31;1mRan 78 tests in 1.652s[0m
+2026-11-20T21:45:09.0429151Z [31;1m[0m
+2026-11-20T21:45:09.0431755Z [31;1mOK[0m
+2026-11-20T21:45:09.0562077Z ##[endgroup]
+2026-11-20T21:45:10.2025366Z **********************************************************************
+2026-11-20T21:45:10.2025930Z ** Visual Studio 2022 Developer PowerShell v17.14.45
+2026-11-20T21:45:10.2026348Z ** Copyright (c) 2025 Microsoft Corporation
+2026-11-20T21:45:10.2026587Z **********************************************************************
+2026-11-20T21:45:13.1640856Z ##[group]configure
+2026-11-20T21:45:22.7385711Z -- The CXX compiler identification is MSVC 19.44.35230.0
+2026-11-20T21:45:22.9351512Z -- Detecting CXX compiler ABI info
+2026-11-20T21:45:24.6549786Z -- Detecting CXX compiler ABI info - done
+2026-11-20T21:45:24.6652781Z -- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+2026-11-20T21:45:24.6682895Z -- Detecting CXX compile features
+2026-11-20T21:45:24.6730700Z -- Detecting CXX compile features - done
+2026-11-20T21:45:24.9951386Z -- Configuring done (11.8s)
+2026-11-20T21:45:25.0588648Z -- Generating done (0.1s)
+2026-11-20T21:45:25.0594927Z -- Build files have been written to: D:/a/Breakwater/Breakwater/out/ci-build/native-normal
+2026-11-20T21:45:25.0662944Z ##[endgroup]
+2026-11-20T21:45:25.0673230Z ##[group]build
+2026-11-20T21:45:29.4097148Z [1/56] Building CXX object engine\CMakeFiles\breakwater_eog_simulation.dir\src\eog_simulation.cpp.obj
+2026-11-20T21:45:29.9283566Z [2/56] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\engine.cpp.obj
+2026-11-20T21:45:30.4009634Z [3/56] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\scenario.cpp.obj
+2026-11-20T21:45:31.7403650Z [4/56] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\transport.cpp.obj
+2026-11-20T21:45:31.8654180Z [5/56] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\search.cpp.obj
+2026-11-20T21:45:34.0507911Z [6/56] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\observations.cpp.obj
+2026-11-20T21:45:34.6049368Z [7/56] Building CXX object engine\CMakeFiles\breakwater_engine.dir\src\observation_detection.cpp.obj
+2026-11-20T21:45:36.0536264Z [8/56] Building CXX object engine\CMakeFiles\breakwater_eog_response.dir\src\eog_response.cpp.obj
+2026-11-20T21:45:36.0655832Z [9/56] Building CXX object engine\CMakeFiles\breakwater_eog_analytical.dir\src\eog_analytical.cpp.obj
+2026-11-20T21:45:36.0861875Z [10/56] Linking CXX static library engine\breakwater_eog_simulation.lib
+2026-11-20T21:45:36.1760704Z [11/56] Linking CXX static library engine\breakwater_engine.lib
+2026-11-20T21:45:37.0634660Z [12/56] Building CXX object engine\CMakeFiles\breakwater_eog_plant.dir\src\eog_simulation_c.cpp.obj
+2026-11-20T21:45:37.2503791Z [13/56] Building CXX object engine\CMakeFiles\breakwater_cli.dir\src\main.cpp.obj
+2026-11-20T21:45:38.1987388Z [14/56] Building CXX object engine\CMakeFiles\breakwater_search_example.dir\examples\search_example.cpp.obj
+2026-11-20T21:45:38.2869535Z [15/56] Building CXX object engine\CMakeFiles\breakwater_transport_example.dir\examples\transport_example.cpp.obj
+2026-11-20T21:45:39.4970755Z [16/56] Building CXX object engine\CMakeFiles\breakwater_physicsnemo_reference.dir\examples\physicsnemo_transport_reference.cpp.obj
+2026-11-20T21:45:40.1533534Z [17/56] Building CXX object engine\CMakeFiles\breakwater_rollout_reference.dir\examples\rollout_reference.cpp.obj
+2026-11-20T21:45:40.9893066Z [18/56] Building CXX object engine\CMakeFiles\breakwater_transport_qualification_reference.dir\examples\transport_qualification_reference.cpp.obj
+2026-11-20T21:45:44.7018364Z [19/56] Building CXX object engine\CMakeFiles\breakwater_observation_qualification.dir\examples\observation_qualification.cpp.obj
+2026-11-20T21:45:44.7439056Z [20/56] Linking CXX static library engine\breakwater_eog_analytical.lib
+2026-11-20T21:45:45.7457717Z [21/56] Building CXX object engine\CMakeFiles\breakwater_benchmark.dir\benchmarks\benchmark.cpp.obj
+2026-11-20T21:45:45.7458929Z D:\a\Breakwater\Breakwater\engine\benchmarks\benchmark.cpp(393): warning C4127: conditional expression is constant
+2026-11-20T21:45:45.7459801Z D:\a\Breakwater\Breakwater\engine\benchmarks\benchmark.cpp(393): note: consider using 'if constexpr' statement instead
+2026-11-20T21:45:45.8379444Z [22/56] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_example.dir\examples\eog_analytical_example.cpp.obj
+2026-11-20T21:45:46.3402206Z [23/56] Linking CXX shared library engine\breakwater_eog_response.dll
+2026-11-20T21:45:46.3425634Z [24/56] Linking CXX shared library engine\breakwater_eog_plant.dll
+2026-11-20T21:45:48.6063524Z [25/56] Building CXX object engine\CMakeFiles\breakwater_observations_tests.dir\tests\observations_tests.cpp.obj
+2026-11-20T21:45:49.2101374Z [26/56] Building CXX object engine\CMakeFiles\breakwater_observation_detection_tests.dir\tests\observation_detection_tests.cpp.obj
+2026-11-20T21:45:49.4749546Z [27/56] Building CXX object engine\CMakeFiles\breakwater_eog_committed_tests.dir\tests\eog_committed_tests.cpp.obj
+2026-11-20T21:45:49.8542419Z [28/56] Building CXX object engine\CMakeFiles\breakwater_eog_plant_tests.dir\tests\eog_simulation_c_tests.cpp.obj
+2026-11-20T21:45:50.7691146Z [29/56] Building CXX object engine\CMakeFiles\breakwater_eog_simulation_tests.dir\tests\eog_simulation_tests.cpp.obj
+2026-11-20T21:45:51.1318446Z [30/56] Building CXX object engine\CMakeFiles\breakwater_eog_response_tests.dir\tests\eog_response_tests.cpp.obj
+2026-11-20T21:45:53.6937658Z [31/56] Building CXX object engine\CMakeFiles\breakwater_eog_analytical_tests.dir\tests\eog_analytical_tests.cpp.obj
+2026-11-20T21:45:54.7554099Z [32/56] Building CXX object engine\CMakeFiles\breakwater_engine_tests.dir\tests\engine_tests.cpp.obj
+2026-11-20T21:45:58.1701129Z [33/56] Building CXX object engine\CMakeFiles\breakwater_search_tests.dir\tests\search_tests.cpp.obj
+2026-11-20T21:45:58.8998769Z [34/56] Building CXX object engine\CMakeFiles\breakwater_control_influence_tests.dir\tests\control_influence_tests.cpp.obj
+2026-11-20T21:45:59.6476688Z [35/56] Building CXX object CMakeFiles\breakwater_eog_dto_compile.dir\contracts\eog\tests\dto_compile.cpp.obj
+2026-11-20T21:45:59.9173571Z [36/56] Linking CXX executable engine\breakwater_cli.exe
+2026-11-20T21:46:01.5450218Z [37/56] Linking CXX executable engine\breakwater_search_example.exe
+2026-11-20T21:46:01.7390278Z [38/56] Building CXX object engine\CMakeFiles\breakwater_transport_tests.dir\tests\transport_tests.cpp.obj
+2026-11-20T21:46:01.7800628Z [39/56] Linking CXX executable engine\breakwater_transport_example.exe
+2026-11-20T21:46:01.9536407Z [40/56] Linking CXX executable engine\breakwater_rollout_reference.exe
+2026-11-20T21:46:01.9893956Z [41/56] Linking CXX executable engine\breakwater_physicsnemo_reference.exe
+2026-11-20T21:46:02.2029192Z [42/56] Linking CXX executable engine\breakwater_transport_qualification_reference.exe
+2026-11-20T21:46:02.3854326Z [43/56] Linking CXX executable engine\breakwater_observation_qualification.exe
+2026-11-20T21:46:02.4865031Z [44/56] Linking CXX executable engine\breakwater_benchmark.exe
+2026-11-20T21:46:02.6024564Z [45/56] Linking CXX executable engine\breakwater_eog_analytical_example.exe
+2026-11-20T21:46:02.7564503Z [46/56] Linking CXX executable engine\breakwater_observation_detection_tests.exe
+2026-11-20T21:46:02.8433443Z [47/56] Linking CXX executable engine\breakwater_observations_tests.exe
+2026-11-20T21:46:02.9272763Z [48/56] Linking CXX executable engine\breakwater_eog_committed_tests.exe
+2026-11-20T21:46:03.1316364Z [49/56] Linking CXX executable engine\breakwater_eog_plant_tests.exe
+2026-11-20T21:46:03.2415107Z [50/56] Linking CXX executable engine\breakwater_eog_simulation_tests.exe
+2026-11-20T21:46:03.3215287Z [51/56] Linking CXX executable engine\breakwater_eog_response_tests.exe
+2026-11-20T21:46:03.5352036Z [52/56] Linking CXX executable engine\breakwater_eog_analytical_tests.exe
+2026-11-20T21:46:03.6235366Z [53/56] Linking CXX executable engine\breakwater_engine_tests.exe
+2026-11-20T21:46:03.8205990Z [54/56] Linking CXX executable engine\breakwater_search_tests.exe
+2026-11-20T21:46:03.8984037Z [55/56] Linking CXX executable engine\breakwater_control_influence_tests.exe
+2026-11-20T21:46:04.0670542Z [56/56] Linking CXX executable engine\breakwater_transport_tests.exe
+2026-11-20T21:46:04.0731295Z ##[endgroup]
+2026-11-20T21:46:04.0741720Z ##[group]registered-tests
+2026-11-20T21:46:04.7063047Z {
+2026-11-20T21:46:04.7063381Z   "backtraceGraph" : 
+2026-11-20T21:46:04.7063701Z   {
+2026-11-20T21:46:04.7064508Z     "commands" : 
+2026-11-20T21:46:04.7065462Z     [
+2026-11-20T21:46:04.7066173Z       "add_test"
+2026-11-20T21:46:04.7066566Z     ],
+2026-11-20T21:46:04.7067203Z     "files" : 
+2026-11-20T21:46:04.7068293Z     [
+2026-11-20T21:46:04.7069073Z       "D:/a/Breakwater/Breakwater/engine/CMakeLists.txt"
+2026-11-20T21:46:04.7069811Z     ],
+2026-11-20T21:46:04.7070489Z     "nodes" : 
+2026-11-20T21:46:04.7071216Z     [
+2026-11-20T21:46:04.7072011Z       {
+2026-11-20T21:46:04.7072442Z         "file" : 0
+2026-11-20T21:46:04.7073261Z       },
+2026-11-20T21:46:04.7074029Z       {
+2026-11-20T21:46:04.7074432Z         "command" : 0,
+2026-11-20T21:46:04.7075303Z         "file" : 0,
+2026-11-20T21:46:04.7075754Z         "line" : 60,
+2026-11-20T21:46:04.7076998Z         "parent" : 0
+2026-11-20T21:46:04.7077382Z       },
+2026-11-20T21:46:04.7078406Z       {
+2026-11-20T21:46:04.7078653Z         "file" : 0
+2026-11-20T21:46:04.7079733Z       },
+2026-11-20T21:46:04.7080485Z       {
+2026-11-20T21:46:04.7080813Z         "command" : 0,
+2026-11-20T21:46:04.7081686Z         "file" : 0,
+2026-11-20T21:46:04.7082072Z         "line" : 61,
+2026-11-20T21:46:04.7082929Z         "parent" : 2
+2026-11-20T21:46:04.7083299Z       },
+2026-11-20T21:46:04.7084430Z       {
+2026-11-20T21:46:04.7085160Z         "file" : 0
+2026-11-20T21:46:04.7085650Z       },
+2026-11-20T21:46:04.7086498Z       {
+2026-11-20T21:46:04.7086692Z         "command" : 0,
+2026-11-20T21:46:04.7087552Z         "file" : 0,
+2026-11-20T21:46:04.7087755Z         "line" : 66,
+2026-11-20T21:46:04.7088633Z         "parent" : 4
+2026-11-20T21:46:04.7088841Z       },
+2026-11-20T21:46:04.7089673Z       {
+2026-11-20T21:46:04.7089897Z         "file" : 0
+2026-11-20T21:46:04.7090748Z       },
+2026-11-20T21:46:04.7091388Z       {
+2026-11-20T21:46:04.7093448Z         "command" : 0,
+2026-11-20T21:46:04.7093707Z         "file" : 0,
+2026-11-20T21:46:04.7094603Z         "line" : 69,
+2026-11-20T21:46:04.7095039Z         "parent" : 6
+2026-11-20T21:46:04.7095859Z       },
+2026-11-20T21:46:04.7096601Z       {
+2026-11-20T21:46:04.7096846Z         "file" : 0
+2026-11-20T21:46:04.7097714Z       },
+2026-11-20T21:46:04.7097888Z       {
+2026-11-20T21:46:04.7098191Z         "command" : 0,
+2026-11-20T21:46:04.7098986Z         "file" : 0,
+2026-11-20T21:46:04.7099712Z         "line" : 72,
+2026-11-20T21:46:04.7099922Z         "parent" : 8
+2026-11-20T21:46:04.7100341Z       },
+2026-11-20T21:46:04.7101031Z       {
+2026-11-20T21:46:04.7101731Z         "file" : 0
+2026-11-20T21:46:04.7102128Z       },
+2026-11-20T21:46:04.7102319Z       {
+2026-11-20T21:46:04.7103024Z         "command" : 0,
+2026-11-20T21:46:04.7103803Z         "file" : 0,
+2026-11-20T21:46:04.7104440Z         "line" : 75,
+2026-11-20T21:46:04.7104758Z         "parent" : 10
+2026-11-20T21:46:04.7105502Z       },
+2026-11-20T21:46:04.7106211Z       {
+2026-11-20T21:46:04.7106374Z         "file" : 0
+2026-11-20T21:46:04.7106913Z       },
+2026-11-20T21:46:04.7107519Z       {
+2026-11-20T21:46:04.7108255Z         "command" : 0,
+2026-11-20T21:46:04.7108471Z         "file" : 0,
+2026-11-20T21:46:04.7108916Z         "line" : 78,
+2026-11-20T21:46:04.7109589Z         "parent" : 12
+2026-11-20T21:46:04.7110238Z       },
+2026-11-20T21:46:04.7110404Z       {
+2026-11-20T21:46:04.7111460Z         "file" : 0
+2026-11-20T21:46:04.7111854Z       },
+2026-11-20T21:46:04.7112654Z       {
+2026-11-20T21:46:04.7113428Z         "command" : 0,
+2026-11-20T21:46:04.7113893Z         "file" : 0,
+2026-11-20T21:46:04.7114807Z         "line" : 81,
+2026-11-20T21:46:04.7115469Z         "parent" : 14
+2026-11-20T21:46:04.7116303Z       },
+2026-11-20T21:46:04.7116782Z       {
+2026-11-20T21:46:04.7117244Z         "file" : 0
+2026-11-20T21:46:04.7117641Z       },
+2026-11-20T21:46:04.7118185Z       {
+2026-11-20T21:46:04.7118822Z         "command" : 0,
+2026-11-20T21:46:04.7119467Z         "file" : 0,
+2026-11-20T21:46:04.7120352Z         "line" : 82,
+2026-11-20T21:46:04.7120946Z         "parent" : 16
+2026-11-20T21:46:04.7121622Z       },
+2026-11-20T21:46:04.7122143Z       {
+2026-11-20T21:46:04.7122779Z         "file" : 0
+2026-11-20T21:46:04.7123307Z       },
+2026-11-20T21:46:04.7123986Z       {
+2026-11-20T21:46:04.7124505Z         "command" : 0,
+2026-11-20T21:46:04.7125131Z         "file" : 0,
+2026-11-20T21:46:04.7125652Z         "line" : 83,
+2026-11-20T21:46:04.7126300Z         "parent" : 18
+2026-11-20T21:46:04.7126829Z       },
+2026-11-20T21:46:04.7127550Z       {
+2026-11-20T21:46:04.7128104Z         "file" : 0
+2026-11-20T21:46:04.7128660Z       },
+2026-11-20T21:46:04.7129295Z       {
+2026-11-20T21:46:04.7129879Z         "command" : 0,
+2026-11-20T21:46:04.7130391Z         "file" : 0,
+2026-11-20T21:46:04.7131059Z         "line" : 86,
+2026-11-20T21:46:04.7131596Z         "parent" : 20
+2026-11-20T21:46:04.7132241Z       },
+2026-11-20T21:46:04.7132797Z       {
+2026-11-20T21:46:04.7133402Z         "file" : 0
+2026-11-20T21:46:04.7133919Z       },
+2026-11-20T21:46:04.7134654Z       {
+2026-11-20T21:46:04.7135188Z         "command" : 0,
+2026-11-20T21:46:04.7135852Z         "file" : 0,
+2026-11-20T21:46:04.7136363Z         "line" : 89,
+2026-11-20T21:46:04.7137067Z         "parent" : 22
+2026-11-20T21:46:04.7137587Z       },
+2026-11-20T21:46:04.7138242Z       {
+2026-11-20T21:46:04.7138741Z         "file" : 0
+2026-11-20T21:46:04.7139474Z       },
+2026-11-20T21:46:04.7140011Z       {
+2026-11-20T21:46:04.7140686Z         "command" : 0,
+2026-11-20T21:46:04.7141220Z         "file" : 0,
+2026-11-20T21:46:04.7141968Z         "line" : 92,
+2026-11-20T21:46:04.7142501Z         "parent" : 24
+2026-11-20T21:46:04.7143210Z       },
+2026-11-20T21:46:04.7143753Z       {
+2026-11-20T21:46:04.7144292Z         "file" : 0
+2026-11-20T21:46:04.7144906Z       },
+2026-11-20T21:46:04.7145447Z       {
+2026-11-20T21:46:04.7146141Z         "command" : 0,
+2026-11-20T21:46:04.7146668Z         "file" : 0,
+2026-11-20T21:46:04.7147330Z         "line" : 93,
+2026-11-20T21:46:04.7147859Z         "parent" : 26
+2026-11-20T21:46:04.7148513Z       },
+2026-11-20T21:46:04.7149036Z       {
+2026-11-20T21:46:04.7149694Z         "file" : 0
+2026-11-20T21:46:04.7150201Z       },
+2026-11-20T21:46:04.7150878Z       {
+2026-11-20T21:46:04.7151431Z         "command" : 0,
+2026-11-20T21:46:04.7151978Z         "file" : 0,
+2026-11-20T21:46:04.7152604Z         "line" : 94,
+2026-11-20T21:46:04.7153129Z         "parent" : 28
+2026-11-20T21:46:04.7153772Z       },
+2026-11-20T21:46:04.7154290Z       {
+2026-11-20T21:46:04.7154986Z         "file" : 0
+2026-11-20T21:46:04.7156369Z       },
+2026-11-20T21:46:04.7156622Z       {
+2026-11-20T21:46:04.7156851Z         "command" : 0,
+2026-11-20T21:46:04.7157413Z         "file" : 0,
+2026-11-20T21:46:04.7158133Z         "line" : 97,
+2026-11-20T21:46:04.7158718Z         "parent" : 30
+2026-11-20T21:46:04.7159380Z       },
+2026-11-20T21:46:04.7159923Z       {
+2026-11-20T21:46:04.7160441Z         "file" : 0
+2026-11-20T21:46:04.7161063Z       },
+2026-11-20T21:46:04.7161603Z       {
+2026-11-20T21:46:04.7162153Z         "command" : 0,
+2026-11-20T21:46:04.7162830Z         "file" : 0,
+2026-11-20T21:46:04.7163348Z         "line" : 98,
+2026-11-20T21:46:04.7163982Z         "parent" : 32
+2026-11-20T21:46:04.7164536Z       }
+2026-11-20T21:46:04.7165193Z     ]
+2026-11-20T21:46:04.7165733Z   },
+2026-11-20T21:46:04.7166376Z   "kind" : "ctestInfo",
+2026-11-20T21:46:04.7166936Z   "tests" : 
+2026-11-20T21:46:04.7167525Z   [
+2026-11-20T21:46:04.7168132Z     {
+2026-11-20T21:46:04.7168821Z       "backtrace" : 1,
+2026-11-20T21:46:04.7169349Z       "command" : 
+2026-11-20T21:46:04.7170014Z       [
+2026-11-20T21:46:04.7170756Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_observation_detection_tests.exe"
+2026-11-20T21:46:04.7171182Z       ],
+2026-11-20T21:46:04.7171770Z       "name" : "engine.observation_detection",
+2026-11-20T21:46:04.7172457Z       "properties" : 
+2026-11-20T21:46:04.7172992Z       [
+2026-11-20T21:46:04.7173660Z         {
+2026-11-20T21:46:04.7174211Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7174961Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7175288Z         }
+2026-11-20T21:46:04.7176101Z       ]
+2026-11-20T21:46:04.7176885Z     },
+2026-11-20T21:46:04.7177479Z     {
+2026-11-20T21:46:04.7178056Z       "backtrace" : 3,
+2026-11-20T21:46:04.7178688Z       "command" : 
+2026-11-20T21:46:04.7179186Z       [
+2026-11-20T21:46:04.7180275Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_observation_qualification.exe"
+2026-11-20T21:46:04.7180742Z       ],
+2026-11-20T21:46:04.7181339Z       "name" : "engine.observation_qualification",
+2026-11-20T21:46:04.7182060Z       "properties" : 
+2026-11-20T21:46:04.7182558Z       [
+2026-11-20T21:46:04.7183205Z         {
+2026-11-20T21:46:04.7183750Z           "name" : "TIMEOUT",
+2026-11-20T21:46:04.7184378Z           "value" : 900.0
+2026-11-20T21:46:04.7184891Z         },
+2026-11-20T21:46:04.7185545Z         {
+2026-11-20T21:46:04.7186114Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7186736Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7187273Z         }
+2026-11-20T21:46:04.7187983Z       ]
+2026-11-20T21:46:04.7188514Z     },
+2026-11-20T21:46:04.7189182Z     {
+2026-11-20T21:46:04.7189733Z       "backtrace" : 5,
+2026-11-20T21:46:04.7190419Z       "command" : 
+2026-11-20T21:46:04.7190953Z       [
+2026-11-20T21:46:04.7191788Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_observations_tests.exe"
+2026-11-20T21:46:04.7192147Z       ],
+2026-11-20T21:46:04.7192745Z       "name" : "engine.observations",
+2026-11-20T21:46:04.7193427Z       "properties" : 
+2026-11-20T21:46:04.7193950Z       [
+2026-11-20T21:46:04.7194702Z         {
+2026-11-20T21:46:04.7195268Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7195890Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7196851Z         }
+2026-11-20T21:46:04.7197500Z       ]
+2026-11-20T21:46:04.7198088Z     },
+2026-11-20T21:46:04.7198697Z     {
+2026-11-20T21:46:04.7199249Z       "backtrace" : 7,
+2026-11-20T21:46:04.7199932Z       "command" : 
+2026-11-20T21:46:04.7200453Z       [
+2026-11-20T21:46:04.7201333Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_eog_committed_tests.exe"
+2026-11-20T21:46:04.7202021Z       ],
+2026-11-20T21:46:04.7202366Z       "name" : "engine.eog_committed",
+2026-11-20T21:46:04.7203026Z       "properties" : 
+2026-11-20T21:46:04.7203706Z       [
+2026-11-20T21:46:04.7204225Z         {
+2026-11-20T21:46:04.7204925Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7205529Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7206089Z         }
+2026-11-20T21:46:04.7206780Z       ]
+2026-11-20T21:46:04.7207317Z     },
+2026-11-20T21:46:04.7207953Z     {
+2026-11-20T21:46:04.7208546Z       "backtrace" : 9,
+2026-11-20T21:46:04.7209054Z       "command" : 
+2026-11-20T21:46:04.7209726Z       [
+2026-11-20T21:46:04.7210432Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_eog_plant_tests.exe"
+2026-11-20T21:46:04.7210821Z       ],
+2026-11-20T21:46:04.7211696Z       "name" : "engine.eog_plant_abi",
+2026-11-20T21:46:04.7212342Z       "properties" : 
+2026-11-20T21:46:04.7213008Z       [
+2026-11-20T21:46:04.7213710Z         {
+2026-11-20T21:46:04.7214231Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7214998Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7215300Z         }
+2026-11-20T21:46:04.7216685Z       ]
+2026-11-20T21:46:04.7217180Z     },
+2026-11-20T21:46:04.7217881Z     {
+2026-11-20T21:46:04.7218425Z       "backtrace" : 11,
+2026-11-20T21:46:04.7219289Z       "command" : 
+2026-11-20T21:46:04.7219692Z       [
+2026-11-20T21:46:04.7220636Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_eog_simulation_tests.exe"
+2026-11-20T21:46:04.7221024Z       ],
+2026-11-20T21:46:04.7221931Z       "name" : "engine.eog_simulation",
+2026-11-20T21:46:04.7222626Z       "properties" : 
+2026-11-20T21:46:04.7223193Z       [
+2026-11-20T21:46:04.7223910Z         {
+2026-11-20T21:46:04.7224465Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7225246Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7225599Z         }
+2026-11-20T21:46:04.7226407Z       ]
+2026-11-20T21:46:04.7227104Z     },
+2026-11-20T21:46:04.7227698Z     {
+2026-11-20T21:46:04.7228295Z       "backtrace" : 13,
+2026-11-20T21:46:04.7228872Z       "command" : 
+2026-11-20T21:46:04.7229561Z       [
+2026-11-20T21:46:04.7230234Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_eog_response_tests.exe"
+2026-11-20T21:46:04.7230605Z       ],
+2026-11-20T21:46:04.7231492Z       "name" : "engine.eog_response",
+2026-11-20T21:46:04.7232133Z       "properties" : 
+2026-11-20T21:46:04.7232894Z       [
+2026-11-20T21:46:04.7233468Z         {
+2026-11-20T21:46:04.7234018Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7234767Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7235070Z         }
+2026-11-20T21:46:04.7235870Z       ]
+2026-11-20T21:46:04.7236491Z     },
+2026-11-20T21:46:04.7237064Z     {
+2026-11-20T21:46:04.7237704Z       "backtrace" : 15,
+2026-11-20T21:46:04.7238214Z       "command" : 
+2026-11-20T21:46:04.7238865Z       [
+2026-11-20T21:46:04.7239569Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_eog_analytical_tests.exe"
+2026-11-20T21:46:04.7239932Z       ],
+2026-11-20T21:46:04.7240786Z       "name" : "engine.eog_analytical",
+2026-11-20T21:46:04.7241417Z       "properties" : 
+2026-11-20T21:46:04.7242051Z       [
+2026-11-20T21:46:04.7242570Z         {
+2026-11-20T21:46:04.7243223Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7243822Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7244224Z         }
+2026-11-20T21:46:04.7245038Z       ]
+2026-11-20T21:46:04.7245660Z     },
+2026-11-20T21:46:04.7246224Z     {
+2026-11-20T21:46:04.7246824Z       "backtrace" : 17,
+2026-11-20T21:46:04.7247318Z       "command" : 
+2026-11-20T21:46:04.7247956Z       [
+2026-11-20T21:46:04.7248768Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_eog_analytical_example.exe"
+2026-11-20T21:46:04.7249380Z       ],
+2026-11-20T21:46:04.7249648Z       "name" : "engine.eog_analytical_example",
+2026-11-20T21:46:04.7250232Z       "properties" : 
+2026-11-20T21:46:04.7251174Z       [
+2026-11-20T21:46:04.7251765Z         {
+2026-11-20T21:46:04.7252336Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7252947Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7253356Z         }
+2026-11-20T21:46:04.7254212Z       ]
+2026-11-20T21:46:04.7254855Z     },
+2026-11-20T21:46:04.7255410Z     {
+2026-11-20T21:46:04.7256094Z       "backtrace" : 19,
+2026-11-20T21:46:04.7256615Z       "command" : 
+2026-11-20T21:46:04.7257258Z       [
+2026-11-20T21:46:04.7257948Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_benchmark.exe",
+2026-11-20T21:46:04.7258498Z         "--verify-only",
+2026-11-20T21:46:04.7258840Z         "--count",
+2026-11-20T21:46:04.7259665Z         "100"
+2026-11-20T21:46:04.7260588Z       ],
+2026-11-20T21:46:04.7261219Z       "name" : "engine.benchmark_correctness",
+2026-11-20T21:46:04.7261790Z       "properties" : 
+2026-11-20T21:46:04.7262607Z       [
+2026-11-20T21:46:04.7263202Z         {
+2026-11-20T21:46:04.7265615Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7271129Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7271947Z         }
+2026-11-20T21:46:04.7274330Z       ]
+2026-11-20T21:46:04.7279038Z     },
+2026-11-20T21:46:04.7279251Z     {
+2026-11-20T21:46:04.7280185Z       "backtrace" : 21,
+2026-11-20T21:46:04.7281008Z       "command" : 
+2026-11-20T21:46:04.7281336Z       [
+2026-11-20T21:46:04.7282430Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_engine_tests.exe"
+2026-11-20T21:46:04.7283273Z       ],
+2026-11-20T21:46:04.7283498Z       "name" : "engine.acceptance",
+2026-11-20T21:46:04.7284249Z       "properties" : 
+2026-11-20T21:46:04.7284816Z       [
+2026-11-20T21:46:04.7285438Z         {
+2026-11-20T21:46:04.7285966Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7286747Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7287101Z         }
+2026-11-20T21:46:04.7287893Z       ]
+2026-11-20T21:46:04.7288514Z     },
+2026-11-20T21:46:04.7290914Z     {
+2026-11-20T21:46:04.7291500Z       "backtrace" : 23,
+2026-11-20T21:46:04.7292090Z       "command" : 
+2026-11-20T21:46:04.7295137Z       [
+2026-11-20T21:46:04.7296870Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_search_tests.exe"
+2026-11-20T21:46:04.7297298Z       ],
+2026-11-20T21:46:04.7297800Z       "name" : "engine.search",
+2026-11-20T21:46:04.7298515Z       "properties" : 
+2026-11-20T21:46:04.7299038Z       [
+2026-11-20T21:46:04.7299631Z         {
+2026-11-20T21:46:04.7300176Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7300929Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7301257Z         }
+2026-11-20T21:46:04.7302084Z       ]
+2026-11-20T21:46:04.7302793Z     },
+2026-11-20T21:46:04.7303360Z     {
+2026-11-20T21:46:04.7303926Z       "backtrace" : 25,
+2026-11-20T21:46:04.7304549Z       "command" : 
+2026-11-20T21:46:04.7305076Z       [
+2026-11-20T21:46:04.7305914Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_control_influence_tests.exe"
+2026-11-20T21:46:04.7306441Z       ],
+2026-11-20T21:46:04.7306659Z       "name" : "engine.control_influence",
+2026-11-20T21:46:04.7307255Z       "properties" : 
+2026-11-20T21:46:04.7307929Z       [
+2026-11-20T21:46:04.7308457Z         {
+2026-11-20T21:46:04.7309480Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7310191Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7310597Z         }
+2026-11-20T21:46:04.7313413Z       ]
+2026-11-20T21:46:04.7314900Z     },
+2026-11-20T21:46:04.7315561Z     {
+2026-11-20T21:46:04.7316099Z       "backtrace" : 27,
+2026-11-20T21:46:04.7316599Z       "command" : 
+2026-11-20T21:46:04.7317223Z       [
+2026-11-20T21:46:04.7317934Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_search_example.exe"
+2026-11-20T21:46:04.7318291Z       ],
+2026-11-20T21:46:04.7318998Z       "name" : "engine.search_example",
+2026-11-20T21:46:04.7319514Z       "properties" : 
+2026-11-20T21:46:04.7320149Z       [
+2026-11-20T21:46:04.7320681Z         {
+2026-11-20T21:46:04.7321404Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7322014Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7322412Z         }
+2026-11-20T21:46:04.7323222Z       ]
+2026-11-20T21:46:04.7323850Z     },
+2026-11-20T21:46:04.7324420Z     {
+2026-11-20T21:46:04.7325017Z       "backtrace" : 29,
+2026-11-20T21:46:04.7325584Z       "command" : 
+2026-11-20T21:46:04.7326089Z       [
+2026-11-20T21:46:04.7326947Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_search_example.exe",
+2026-11-20T21:46:04.7327788Z         "--infeasible"
+2026-11-20T21:46:04.7328008Z       ],
+2026-11-20T21:46:04.7328764Z       "name" : "engine.search_infeasible_example",
+2026-11-20T21:46:04.7329134Z       "properties" : 
+2026-11-20T21:46:04.7330127Z       [
+2026-11-20T21:46:04.7330792Z         {
+2026-11-20T21:46:04.7331511Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7332075Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7332551Z         }
+2026-11-20T21:46:04.7333472Z       ]
+2026-11-20T21:46:04.7333746Z     },
+2026-11-20T21:46:04.7334579Z     {
+2026-11-20T21:46:04.7335959Z       "backtrace" : 31,
+2026-11-20T21:46:04.7337011Z       "command" : 
+2026-11-20T21:46:04.7337230Z       [
+2026-11-20T21:46:04.7337692Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_transport_tests.exe"
+2026-11-20T21:46:04.7338497Z       ],
+2026-11-20T21:46:04.7338714Z       "name" : "engine.transport",
+2026-11-20T21:46:04.7339163Z       "properties" : 
+2026-11-20T21:46:04.7339937Z       [
+2026-11-20T21:46:04.7340755Z         {
+2026-11-20T21:46:04.7341336Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7342014Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7342596Z         }
+2026-11-20T21:46:04.7342813Z       ]
+2026-11-20T21:46:04.7343455Z     },
+2026-11-20T21:46:04.7343927Z     {
+2026-11-20T21:46:04.7344760Z       "backtrace" : 33,
+2026-11-20T21:46:04.7345202Z       "command" : 
+2026-11-20T21:46:04.7346143Z       [
+2026-11-20T21:46:04.7346882Z         "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine/breakwater_transport_example.exe"
+2026-11-20T21:46:04.7347953Z       ],
+2026-11-20T21:46:04.7348174Z       "name" : "engine.transport_example",
+2026-11-20T21:46:04.7348498Z       "properties" : 
+2026-11-20T21:46:04.7349135Z       [
+2026-11-20T21:46:04.7349331Z         {
+2026-11-20T21:46:04.7349948Z           "name" : "WORKING_DIRECTORY",
+2026-11-20T21:46:04.7350408Z           "value" : "D:/a/Breakwater/Breakwater/out/ci-build/native-normal/engine"
+2026-11-20T21:46:04.7351180Z         }
+2026-11-20T21:46:04.7351389Z       ]
+2026-11-20T21:46:04.7352005Z     }
+2026-11-20T21:46:04.7352284Z   ],
+2026-11-20T21:46:04.7352963Z   "version" : 
+2026-11-20T21:46:04.7353619Z   {
+2026-11-20T21:46:04.7354271Z     "major" : 1,
+2026-11-20T21:46:04.7354883Z     "minor" : 0
+2026-11-20T21:46:04.7355508Z   }
+2026-11-20T21:46:04.7356156Z }
+2026-11-20T21:46:04.7363677Z ##[endgroup]
+2026-11-20T21:46:04.7405734Z ##[group]ctest
+2026-11-20T21:46:04.7522198Z Internal ctest changing into directory: D:/a/Breakwater/Breakwater/out/ci-build/native-normal
+2026-11-20T21:46:04.7525779Z Test project D:/a/Breakwater/Breakwater/out/ci-build/native-normal
+2026-11-20T21:46:04.7601511Z       Start  1: engine.observation_detection
+2026-11-20T21:46:06.4093859Z  1/17 Test  #1: engine.observation_detection .......   Passed    1.65 sec
+2026-11-20T21:46:06.4094913Z       Start  2: engine.observation_qualification
+2026-11-20T21:46:18.8903511Z  2/17 Test  #2: engine.observation_qualification ...   Passed   12.48 sec
+2026-11-20T21:46:18.8904025Z       Start  3: engine.observations
+2026-11-20T21:46:18.9037224Z  3/17 Test  #3: engine.observations ................   Passed    0.01 sec
+2026-11-20T21:46:18.9038489Z       Start  4: engine.eog_committed
+2026-11-20T21:46:18.9114142Z  4/17 Test  #4: engine.eog_committed ...............   Passed    0.01 sec
+2026-11-20T21:46:18.9116022Z       Start  5: engine.eog_plant_abi
+2026-11-20T21:46:18.9180729Z  5/17 Test  #5: engine.eog_plant_abi ...............   Passed    0.01 sec
+2026-11-20T21:46:18.9181172Z       Start  6: engine.eog_simulation
+2026-11-20T21:46:18.9651178Z  6/17 Test  #6: engine.eog_simulation ..............   Passed    0.05 sec
+2026-11-20T21:46:18.9651674Z       Start  7: engine.eog_response
+2026-11-20T21:46:18.9733960Z  7/17 Test  #7: engine.eog_response ................   Passed    0.01 sec
+2026-11-20T21:46:18.9735561Z       Start  8: engine.eog_analytical
+2026-11-20T21:46:18.9848696Z  8/17 Test  #8: engine.eog_analytical ..............   Passed    0.01 sec
+2026-11-20T21:46:18.9850313Z       Start  9: engine.eog_analytical_example
+2026-11-20T21:46:18.9914473Z  9/17 Test  #9: engine.eog_analytical_example ......   Passed    0.01 sec
+2026-11-20T21:46:18.9916024Z       Start 10: engine.benchmark_correctness
+2026-11-20T21:46:19.0531460Z 10/17 Test #10: engine.benchmark_correctness .......   Passed    0.06 sec
+2026-11-20T21:46:19.0531958Z       Start 11: engine.acceptance
+2026-11-20T21:46:19.0888932Z 11/17 Test #11: engine.acceptance ..................   Passed    0.04 sec
+2026-11-20T21:46:19.0890393Z       Start 12: engine.search
+2026-11-20T21:46:19.1005443Z 12/17 Test #12: engine.search ......................   Passed    0.01 sec
+2026-11-20T21:46:19.1006961Z       Start 13: engine.control_influence
+2026-11-20T21:46:19.7684882Z 13/17 Test #13: engine.control_influence ...........   Passed    0.67 sec
+2026-11-20T21:46:19.7685414Z       Start 14: engine.search_example
+2026-11-20T21:46:19.7755356Z 14/17 Test #14: engine.search_example ..............   Passed    0.01 sec
+2026-11-20T21:46:19.7757173Z       Start 15: engine.search_infeasible_example
+2026-11-20T21:46:19.7798947Z 15/17 Test #15: engine.search_infeasible_example ...   Passed    0.00 sec
+2026-11-20T21:46:19.7800194Z       Start 16: engine.transport
+2026-11-20T21:46:21.8517525Z 16/17 Test #16: engine.transport ...................   Passed    2.07 sec
+2026-11-20T21:46:21.8518090Z       Start 17: engine.transport_example
+2026-11-20T21:46:21.8589939Z 17/17 Test #17: engine.transport_example ...........   Passed    0.01 sec
+2026-11-20T21:46:21.8595003Z 
+2026-11-20T21:46:21.8595581Z 100% tests passed, 0 tests failed out of 17
+2026-11-20T21:46:21.8595967Z 
+2026-11-20T21:46:21.8596949Z Total Test time (real) =  17.11 sec
+2026-11-20T21:46:21.8648026Z ##[endgroup]
+2026-11-20T21:46:21.9583957Z ##[group]Run ./scripts/ci/Write-JobEvidence.ps1 -Suite native -Mode 'normal' -Phase finish -Outcome 'success'
+2026-11-20T21:46:21.9584595Z [36;1m./scripts/ci/Write-JobEvidence.ps1 -Suite native -Mode 'normal' -Phase finish -Outcome 'success'[0m
+2026-11-20T21:46:21.9613442Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-20T21:46:21.9613702Z env:
+2026-11-20T21:46:21.9613857Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-20T21:46:21.9614042Z   PYTHONNOUSERSITE: 1
+2026-11-20T21:46:21.9614196Z   NVIDIA_API_KEY: 
+2026-11-20T21:46:21.9614410Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:46:21.9614751Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-20T21:46:21.9615085Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:46:21.9615393Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:46:21.9615718Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:46:21.9615957Z ##[endgroup]
+2026-11-20T21:46:22.2742254Z Job finish evidence retained for native/normal (success).
+2026-11-20T21:46:22.3197590Z ##[group]Run actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+2026-11-20T21:46:22.3197947Z with:
+2026-11-20T21:46:22.3198111Z   name: windows-native-normal
+2026-11-20T21:46:22.3198305Z   path: out/ci/native-normal/
+2026-11-20T21:46:22.3198498Z   if-no-files-found: error
+2026-11-20T21:46:22.3198669Z   retention-days: 14
+2026-11-20T21:46:22.3198828Z   compression-level: 6
+2026-11-20T21:46:22.3198990Z   overwrite: false
+2026-11-20T21:46:22.3199143Z   include-hidden-files: false
+2026-11-20T21:46:22.3199309Z env:
+2026-11-20T21:46:22.3199448Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-20T21:46:22.3199624Z   PYTHONNOUSERSITE: 1
+2026-11-20T21:46:22.3199933Z   NVIDIA_API_KEY: 
+2026-11-20T21:46:22.3200147Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:46:22.3200495Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-20T21:46:22.3200866Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:46:22.3201167Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:46:22.3201457Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-20T21:46:22.3201692Z ##[endgroup]
+2026-11-20T21:46:22.4590368Z With the provided path, there will be 13 files uploaded
+2026-11-20T21:46:22.4594150Z Artifact name is valid!
+2026-11-20T21:46:22.4595287Z Root directory input is valid!
+2026-11-20T21:46:22.6747511Z Beginning upload of artifact content to blob storage
+2026-11-20T21:46:22.8362180Z Uploaded bytes 25038
+2026-11-20T21:46:22.8664620Z Finished uploading artifact content to blob storage!
+2026-11-20T21:46:22.8665670Z SHA256 digest of uploaded artifact zip is 09a0b5b429c589aafd6e45d0f2207b1b4b8b88171a6dfc500131c5d9becddf54
+2026-11-20T21:46:22.8667442Z Finalizing artifact upload
+2026-11-20T21:46:23.2491538Z Artifact windows-native-normal.zip successfully finalized. Artifact ID 14673295630
+2026-11-20T21:46:23.2492493Z Artifact windows-native-normal has been successfully uploaded! Final size is 25038 bytes. Artifact ID is 14673295630
+2026-11-20T21:46:23.2497942Z Artifact download URL: https://github.com/Towstar/Breakwater/actions/runs/44823006438/artifacts/14673295630
+2026-11-20T21:46:23.2766741Z Post job cleanup.
+2026-11-20T21:46:23.4090467Z Post job cleanup.
+2026-11-20T21:46:23.5588722Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-20T21:46:23.5810789Z git version 2.56.1.windows.1
+2026-11-20T21:46:23.5859424Z Temporarily overriding HOME='D:\a\_temp\bfe64a52-9adf-4c7a-a08d-1c86d45f0a37' before making global git config changes
+2026-11-20T21:46:23.5860335Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-20T21:46:23.5871407Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Breakwater\Breakwater
+2026-11-20T21:46:23.6110250Z Removing SSH command configuration
+2026-11-20T21:46:23.6123044Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-20T21:46:23.6364528Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-20T21:46:24.0206273Z Removing HTTP extra header
+2026-11-20T21:46:24.0214994Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-20T21:46:24.0444057Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-20T21:46:24.4286200Z Removing includeIf entries pointing to credentials config files
+2026-11-20T21:46:24.4297684Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-20T21:46:24.4513126Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-20T21:46:24.4513719Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-20T21:46:24.4539846Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-20T21:46:24.4743125Z D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:46:24.4771638Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:46:24.5005859Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-20T21:46:24.5207048Z D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:46:24.5236389Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config
+2026-11-20T21:46:24.5473075Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-20T21:46:24.9335114Z Removing credentials config 'D:\a\_temp\git-credentials-2ab69d05-cd69-45ef-af54-ccdfa6d6bebd.config'
+2026-11-20T21:46:24.9488087Z Cleaning up orphan processes
+2026-11-20T21:46:24.9751018Z Terminate orphan process: pid (4652) (vctip)
+

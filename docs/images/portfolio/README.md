@@ -1,6 +1,33 @@
 # Actual candidate screenshots
 
-## Current framing UI: cd4dc5f
+## Current engineering candidate: 3bb77a3
+
+Eight unaltered native Windows captures of application source
+`3bb77a353fb04267260764060bc5f58d61d5e7f5`, executable SHA-256
+`880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7`.
+All are 1646 x 1029 JPEGs, captured on November 20, 2026 UTC. The
+[capture record](../../evidence/candidate-readiness/3bb77a3/gallery.json) retains
+timestamps, original image hashes, fixture/capture identities and historical status.
+These show self-authored synthetic examples. The saved user project remains private.
+
+| Capture | Actual view and scope |
+| --- | --- |
+| [Sandbox overview](candidate-3bb77a3/01-sandbox-overview.jpg) | Healthy six-asset/six-route network, equipment silhouettes, industrial site and overview inspector. No analysis or control application for this view. |
+| [Plan scene focus](candidate-3bb77a3/02-plan-scene-focus.jpg) | Actual Top network fit and Ctrl+Shift+F scene focus. Escape restored the panels. The layout is schematic. |
+| [Connections inspector](candidate-3bb77a3/03-connections-inspector.jpg) | Focused `backup_pump`, Tank B to Treatment, 16 m3/h commanded setpoint and separate pump availability. Selection and camera changes preserve controls. |
+| [Observed native comparison](candidate-3bb77a3/04-observed-native-comparison.jpg) | Round 2 pump capture at 85.90 event seconds. Native baseline headroom is -116.50 m3; the selected candidate has 5.75 m3 over three hours. The overflowing baseline is visible. Candidate cost is 5,280 synthetic units; the infeasible zero-control-cost baseline supplies no savings claim. |
+| [Qualified advisory review](candidate-3bb77a3/05b-qualified-observed-review.jpg) | Exact selected run and model-requested validation IDs, frozen commands, proposed settings, units and headroom. Captured before acknowledgment. This observed review records advice viewed and cannot apply controls. |
+| [Missing-coverage capture](candidate-3bb77a3/06b-missing-coverage-capture.jpg) | A fresh `missing` preset is paused at 92.73 event seconds. Ten sample references retain one unavailable inventory mapping; capture and expiry clocks are equal. Commands remain unchanged. Its hosted investigation subsequently returned no plan. |
+| [Operations historical plans](candidate-3bb77a3/07-operations-historical-plans.jpg) | Genuine round 2 canonical session reopened from retained SQLite evidence. Self-authored NORTH/SOUTH dataset, November 16 noon UTC cutoff, $11,726 modeled baseline and $1,810 response. These are this fixture's numbers, separate from official EOG challenge results. Historical opening restores no review authority. |
+| [Hosted historical trace](candidate-3bb77a3/08b-hosted-historical-trace.jpg) | The same completed session, with 38 retained events and real NVIDIA model identity/HTTP metadata. Opening history makes no new hosted request. Search is bounded; model wording about no cheaper alternative does not prove global optimality. |
+
+The [candidate results](../../CANDIDATE_RESULTS_3BB77A3.md) distinguish the first
+round's failed strict pump qualification from the fresh seven-case passing round.
+Neither failed model references nor prose were repaired. All original attempts
+remain retained. Screenshots support the described views; they do not establish
+field accuracy, comparative model superiority or clean-Windows acceptance.
+
+## Earlier framing UI: cd4dc5f
 
 Three unaltered Windows Computer Use captures of the running, verified
 application source `cd4dc5f60b7554c6bb93460ba2741b940865b76c`, captured on
@@ -15,8 +42,8 @@ executable hashes are in the [capture record](../../evidence/candidate-readiness
 | [Plan scene focus](framing-cd4dc5f/02-plan-scene-focus.jpg) | Actual Top network fit with Ctrl+Shift+F scene focus. Escape restored the panels. This is a schematic layout, not a hydraulic or geographic survey. |
 | [Connections inspector](framing-cd4dc5f/03-connections-inspector.jpg) | Selected backup-pump route, exact Tank B → Treatment endpoints, 16 m³/h configured setting and separate available state. The route card explicitly distinguishes direction/settings from measured delivery. |
 
-These supplement the older seven views below. The planned eight-view gallery
-for the final combined candidate is still pending; older analysis screenshots
+These remain evidence for their original source alongside the older seven views
+below. The current eight-view gallery appears above; older analysis screenshots
 are not relabeled as current-candidate results.
 
 ## Earlier candidate: ad45d45

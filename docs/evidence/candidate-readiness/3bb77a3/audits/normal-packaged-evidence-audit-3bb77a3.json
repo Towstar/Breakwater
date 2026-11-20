@@ -1,0 +1,973 @@
+{
+  "audit_version": 1,
+  "recorded_utc": "2026-11-20T22:14:08.348405+00:00",
+  "audit_status": "passed",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "dirty": false,
+  "mode": "normal_packaged_binary",
+  "review_provenance": "independent same-family read-only artifact audit; source association uses witnessed clean package/test records, not execution attestation",
+  "app_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+  "package_record": {
+    "path": "out/candidate-readiness/portable-3bb77a3/verification/package.json",
+    "bytes": 584,
+    "sha256": "894a3fe887ed71d255019350206dc25146fd4d88d6b9b10b05cb8854063f8c38"
+  },
+  "inventory_record": {
+    "path": "out/candidate-readiness/dependency-inventory-3bb77a3.json",
+    "bytes": 254625,
+    "sha256": "87afd5cdcdffb5df4dcdbbedd284da1a07c10d97bdd739fe10ed144161c88c97"
+  },
+  "binary_binding": "Exact tested build executable and sealed package executable hashes agree. Runtime deployment/relocation verification is a separate check.",
+  "ctest": {
+    "registered": 88,
+    "passed": 88,
+    "failed": 0,
+    "skipped": 0,
+    "elapsed_s": 451.11,
+    "lasttest_blocks": 88,
+    "junit_testcases": 88
+  },
+  "artifacts": {
+    "verification.json": {
+      "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/verification.json",
+      "bytes": 410,
+      "sha256": "87b580c856dc43558834e220a1bfb30652ec79f5fb6c111b06625fd35f4f30b8"
+    },
+    "ctest.log": {
+      "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/ctest.log",
+      "bytes": 11215,
+      "sha256": "e995cc19eeb5cdbd3d051e36f5bc69880bff3c4a4307cdbc88382181d4502b51"
+    },
+    "ctest.xml": {
+      "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/ctest.xml",
+      "bytes": 37186,
+      "sha256": "71f32d27348f4606d74f8732659697b1c92f2b8d8190b0743805a138793841e0"
+    },
+    "last-test.log": {
+      "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/last-test.log",
+      "bytes": 187625,
+      "sha256": "4e75e302599d4ad5d6b9941f76f98361ed39685cd52ea35ccdad7526fe3e05e8"
+    }
+  },
+  "qt": {
+    "suite_count": 37,
+    "passed": 1162,
+    "failed": 0,
+    "skipped": 1,
+    "blacklisted": 0,
+    "binding": "Only original output paths named in CURRENT packaged-binary LastTest; each original mtime within this full test interval; each copied file byte-equal to that original. Earlier overwritten paths are not reused for earlier audits.",
+    "suites": [
+      {
+        "test": "desktop.scene_framing",
+        "passed": 41,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/scene_framing-results.txt",
+          "bytes": 3133,
+          "sha256": "00b5afcd53151819dfd9a491cd220e620d6a72a53468df9e0232b76a1293bdee"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/scene_framing-results.txt",
+          "bytes": 3133,
+          "sha256": "00b5afcd53151819dfd9a491cd220e620d6a72a53468df9e0232b76a1293bdee"
+        },
+        "original_mtime_utc": "2026-11-20T22:04:35.520505+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.label_placement",
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/label_placement-results.txt",
+          "bytes": 976,
+          "sha256": "1086acd653a4c581102be251fa13b84a83e2c426a6d5ad658d98d0ed9166d9a3"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/label_placement-results.txt",
+          "bytes": 976,
+          "sha256": "1086acd653a4c581102be251fa13b84a83e2c426a6d5ad658d98d0ed9166d9a3"
+        },
+        "original_mtime_utc": "2026-11-20T22:04:35.600677+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.evidence_v2",
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/evidence_v2-results.txt",
+          "bytes": 683,
+          "sha256": "01cb3b225510ebb6f0ad5c5114ee9a2226c450ae5731b1e3529f277e1bc693d5"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/evidence_v2-results.txt",
+          "bytes": 683,
+          "sha256": "01cb3b225510ebb6f0ad5c5114ee9a2226c450ae5731b1e3529f277e1bc693d5"
+        },
+        "original_mtime_utc": "2026-11-20T22:04:36.999300+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.workspace_settings",
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/workspace_settings-results.txt",
+          "bytes": 663,
+          "sha256": "85bf70475c7321a486b93568328126232e56479859372a02421508bcbf49ae27"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/workspace_settings-results.txt",
+          "bytes": 663,
+          "sha256": "85bf70475c7321a486b93568328126232e56479859372a02421508bcbf49ae27"
+        },
+        "original_mtime_utc": "2026-11-20T22:04:37.179785+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.editor_tools",
+        "passed": 15,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/editor_tools-results.txt",
+          "bytes": 1494,
+          "sha256": "f270bdf4063bada69b90f77a165e1cbdff96000b9001a695888953426a86afbd"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/editor_tools-results.txt",
+          "bytes": 1494,
+          "sha256": "f270bdf4063bada69b90f77a165e1cbdff96000b9001a695888953426a86afbd"
+        },
+        "original_mtime_utc": "2026-11-20T22:04:37.568121+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.nemotron_client",
+        "passed": 62,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/nemotron_client-results.txt",
+          "bytes": 5627,
+          "sha256": "5e9a24c5642f179dafbca9b68faf72469028d71cd2152ac6d8f4eec0d2b0e1a5"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/nemotron_client-results.txt",
+          "bytes": 5627,
+          "sha256": "5e9a24c5642f179dafbca9b68faf72469028d71cd2152ac6d8f4eec0d2b0e1a5"
+        },
+        "original_mtime_utc": "2026-11-20T22:05:42.000733+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.agent_gateway",
+        "passed": 28,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/agent_gateway-results.txt",
+          "bytes": 2490,
+          "sha256": "b3c86a278301c44beed7f308e328ca583a369bcad2663cd8ac586c36276e3ec3"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/agent_gateway-results.txt",
+          "bytes": 2490,
+          "sha256": "b3c86a278301c44beed7f308e328ca583a369bcad2663cd8ac586c36276e3ec3"
+        },
+        "original_mtime_utc": "2026-11-20T22:05:42.091589+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.agent_orchestrator",
+        "passed": 40,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/agent_orchestrator-results.txt",
+          "bytes": 3675,
+          "sha256": "e0244fbe257a24075320ceba1285a5bc48cbbb4fac87081c4faa919071f33f92"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/agent_orchestrator-results.txt",
+          "bytes": 3675,
+          "sha256": "e0244fbe257a24075320ceba1285a5bc48cbbb4fac87081c4faa919071f33f92"
+        },
+        "original_mtime_utc": "2026-11-20T22:05:49.233202+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.observed_forecast",
+        "passed": 16,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/observed_forecast-results.txt",
+          "bytes": 1785,
+          "sha256": "33239586602304489a0f702c52e9d0572ce881397063273ba8561e3a5a078dd6"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/observed_forecast-results.txt",
+          "bytes": 1785,
+          "sha256": "33239586602304489a0f702c52e9d0572ce881397063273ba8561e3a5a078dd6"
+        },
+        "original_mtime_utc": "2026-11-20T22:06:00.654353+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.session_repository",
+        "passed": 15,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/session_repository-results.txt",
+          "bytes": 1530,
+          "sha256": "bea0779d47661906a627d8980bdcde28f511b7d922770295416ae122a186e3b2"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/session_repository-results.txt",
+          "bytes": 1530,
+          "sha256": "bea0779d47661906a627d8980bdcde28f511b7d922770295416ae122a186e3b2"
+        },
+        "original_mtime_utc": "2026-11-20T22:06:01.002517+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.history_controller",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/history_controller-results.txt",
+          "bytes": 903,
+          "sha256": "d722a2b71f96a9e629a4e55751db5360ea00537537328335584bb283f7eb1d9a"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/history_controller-results.txt",
+          "bytes": 903,
+          "sha256": "d722a2b71f96a9e629a4e55751db5360ea00537537328335584bb283f7eb1d9a"
+        },
+        "original_mtime_utc": "2026-11-20T22:06:02.011402+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.python_worker",
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/python_worker-results.txt",
+          "bytes": 2333,
+          "sha256": "ac0ccd525f856677c149f8d59ffc228bb50b882b26abaaf44bbd491149a67ce5"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/python_worker-results.txt",
+          "bytes": 2333,
+          "sha256": "ac0ccd525f856677c149f8d59ffc228bb50b882b26abaaf44bbd491149a67ce5"
+        },
+        "original_mtime_utc": "2026-11-20T22:06:05.223816+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.pipe_transport",
+        "passed": 17,
+        "failed": 0,
+        "skipped": 1,
+        "blacklisted": 0,
+        "skip_reasons": [
+          "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+        ],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/pipe_transport-results.txt",
+          "bytes": 2136,
+          "sha256": "5e456748986725a809203e767ec475a7da1a97f38255d78b5cffaf1bc5e2675b"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/pipe_transport-results.txt",
+          "bytes": 2136,
+          "sha256": "5e456748986725a809203e767ec475a7da1a97f38255d78b5cffaf1bc5e2675b"
+        },
+        "original_mtime_utc": "2026-11-20T22:06:09.528375+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.pipe_transport_evidence",
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/pipe_transport_evidence-results.txt",
+          "bytes": 1350,
+          "sha256": "c6c5b9e2024920ccb5b733080c408f368c9e3d9d6a5d7c823843039279e55def"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/pipe_transport_evidence-results.txt",
+          "bytes": 1350,
+          "sha256": "c6c5b9e2024920ccb5b733080c408f368c9e3d9d6a5d7c823843039279e55def"
+        },
+        "original_mtime_utc": "2026-11-20T22:06:09.617445+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.storage_worker",
+        "passed": 121,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/storage_worker-results.txt",
+          "bytes": 20874,
+          "sha256": "eeebde83da26d80ae75987cf9037389954bbc48feac979140225083b176b5d21"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/storage_worker-results.txt",
+          "bytes": 20874,
+          "sha256": "eeebde83da26d80ae75987cf9037389954bbc48feac979140225083b176b5d21"
+        },
+        "original_mtime_utc": "2026-11-20T22:07:40.706728+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.storage_science",
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/storage_science-results.txt",
+          "bytes": 4129,
+          "sha256": "d164e533e0e802abdd41a416f015ed4fe9a5f749842e537c5c935269ab0a8127"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/storage_science-results.txt",
+          "bytes": 4129,
+          "sha256": "d164e533e0e802abdd41a416f015ed4fe9a5f749842e537c5c935269ab0a8127"
+        },
+        "original_mtime_utc": "2026-11-20T22:08:42.494827+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.stored_science",
+        "passed": 6,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/stored_science-results.txt",
+          "bytes": 796,
+          "sha256": "1a35066a99544096e29094ae6059d31a192d3b05a76b20abffd957968ed7641a"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/stored_science-results.txt",
+          "bytes": 796,
+          "sha256": "1a35066a99544096e29094ae6059d31a192d3b05a76b20abffd957968ed7641a"
+        },
+        "original_mtime_utc": "2026-11-20T22:08:47.131442+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.science_evidence",
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/science_evidence-results.txt",
+          "bytes": 4516,
+          "sha256": "726772cc7cc63c6fc8ac57ef03614370b8ac3a5faa90054d70cd81015f67e7d5"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/science_evidence-results.txt",
+          "bytes": 4516,
+          "sha256": "726772cc7cc63c6fc8ac57ef03614370b8ac3a5faa90054d70cd81015f67e7d5"
+        },
+        "original_mtime_utc": "2026-11-20T22:08:58.416053+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.agent_science",
+        "passed": 31,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/agent_science-results.txt",
+          "bytes": 2816,
+          "sha256": "3a544b473b6a022c8b220a7fcf9fa1b77d842820eb128b6dc78dc2b77ef47b61"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/agent_science-results.txt",
+          "bytes": 2816,
+          "sha256": "3a544b473b6a022c8b220a7fcf9fa1b77d842820eb128b6dc78dc2b77ef47b61"
+        },
+        "original_mtime_utc": "2026-11-20T22:09:06.876460+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.sensor_editor",
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/sensor_editor-results.txt",
+          "bytes": 1610,
+          "sha256": "86fc7e74338ce8b01a32df54c03c90cd5dd78ee6ab4a205648e775336413c06a"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/sensor_editor-results.txt",
+          "bytes": 1610,
+          "sha256": "86fc7e74338ce8b01a32df54c03c90cd5dd78ee6ab4a205648e775336413c06a"
+        },
+        "original_mtime_utc": "2026-11-20T22:09:21.152049+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.telemetry_stream",
+        "passed": 31,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/telemetry_stream-results.txt",
+          "bytes": 2835,
+          "sha256": "26892611d96ee3e40b46e84f0bbe0b613cb79842dd452f70c271c1037c5cec5a"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/telemetry_stream-results.txt",
+          "bytes": 2835,
+          "sha256": "26892611d96ee3e40b46e84f0bbe0b613cb79842dd452f70c271c1037c5cec5a"
+        },
+        "original_mtime_utc": "2026-11-20T22:09:24.866431+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.telemetry_lifecycle",
+        "passed": 27,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/telemetry_lifecycle-results.txt",
+          "bytes": 2463,
+          "sha256": "74b41c50560ef6790e6b3354266e3abcd2f3959ad1cda4aed4081a8fc4ddbb43"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/telemetry_lifecycle-results.txt",
+          "bytes": 2463,
+          "sha256": "74b41c50560ef6790e6b3354266e3abcd2f3959ad1cda4aed4081a8fc4ddbb43"
+        },
+        "original_mtime_utc": "2026-11-20T22:09:48.194196+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.observed_capture",
+        "passed": 9,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/observed_capture-results.txt",
+          "bytes": 1058,
+          "sha256": "906c1278850fda7cc159b3c8d35382f3c9de4e2e24a9185aa66571d5ca1cfbe9"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/observed_capture-results.txt",
+          "bytes": 1058,
+          "sha256": "906c1278850fda7cc159b3c8d35382f3c9de4e2e24a9185aa66571d5ca1cfbe9"
+        },
+        "original_mtime_utc": "2026-11-20T22:09:49.487096+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.local_publisher",
+        "passed": 5,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/local_publisher-results.txt",
+          "bytes": 686,
+          "sha256": "e5b5623c8062e1f24060e2b7185eeb41ad6c53010971c1dc6c1f40ff758ce5fc"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/local_publisher-results.txt",
+          "bytes": 686,
+          "sha256": "e5b5623c8062e1f24060e2b7185eeb41ad6c53010971c1dc6c1f40ff758ce5fc"
+        },
+        "original_mtime_utc": "2026-11-20T22:09:53.988244+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.receiver_journal",
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/receiver_journal-results.txt",
+          "bytes": 1468,
+          "sha256": "36822e7601111444433adde6a9f88d9ca871af00a4b142274cbdc0932277f3e1"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/receiver_journal-results.txt",
+          "bytes": 1468,
+          "sha256": "36822e7601111444433adde6a9f88d9ca871af00a4b142274cbdc0932277f3e1"
+        },
+        "original_mtime_utc": "2026-11-20T22:09:56.658961+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.telemetry_contracts",
+        "passed": 176,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/telemetry_contracts-results.txt",
+          "bytes": 15464,
+          "sha256": "d4225588ba05abd14b05cd215a9bd7dcef65d22ad40068f040e0ea654894debf"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/telemetry_contracts-results.txt",
+          "bytes": 15464,
+          "sha256": "d4225588ba05abd14b05cd215a9bd7dcef65d22ad40068f040e0ea654894debf"
+        },
+        "original_mtime_utc": "2026-11-20T22:10:02.609829+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_contracts",
+        "passed": 71,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_contracts-results.txt",
+          "bytes": 5057,
+          "sha256": "9ef6bfea4eebf3e4ebdce848843d6aca86980fb56903200ae5aea37187c042f7"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_contracts-results.txt",
+          "bytes": 5057,
+          "sha256": "9ef6bfea4eebf3e4ebdce848843d6aca86980fb56903200ae5aea37187c042f7"
+        },
+        "original_mtime_utc": "2026-11-20T22:10:03.807409+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_dataset",
+        "passed": 24,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_dataset-results.txt",
+          "bytes": 1871,
+          "sha256": "8f07fa3bfb749412e83030eafcdce89942a96451421f38e279aca1bb32e8ac56"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_dataset-results.txt",
+          "bytes": 1871,
+          "sha256": "8f07fa3bfb749412e83030eafcdce89942a96451421f38e279aca1bb32e8ac56"
+        },
+        "original_mtime_utc": "2026-11-20T22:10:37.464956+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_capture",
+        "passed": 12,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_capture-results.txt",
+          "bytes": 1118,
+          "sha256": "9b147e1b8dfb9286160b070b43d756293acdd9bd29ea1e407fc9869df83e7ae6"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_capture-results.txt",
+          "bytes": 1118,
+          "sha256": "9b147e1b8dfb9286160b070b43d756293acdd9bd29ea1e407fc9869df83e7ae6"
+        },
+        "original_mtime_utc": "2026-11-20T22:10:37.796394+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_analysis_client",
+        "passed": 43,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_analysis_client-results.txt",
+          "bytes": 3836,
+          "sha256": "3ce13e7391b9044429db9cae030f73a34992dd819226ca79bfa68bcceb67bb6f"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_analysis_client-results.txt",
+          "bytes": 3836,
+          "sha256": "3ce13e7391b9044429db9cae030f73a34992dd819226ca79bfa68bcceb67bb6f"
+        },
+        "original_mtime_utc": "2026-11-20T22:10:49.055062+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_history",
+        "passed": 15,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_history-results.txt",
+          "bytes": 1476,
+          "sha256": "d3a224c2e1856624f325da0d29431ada330fbfc26c35c54d4d6b61a55011a968"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_history-results.txt",
+          "bytes": 1476,
+          "sha256": "d3a224c2e1856624f325da0d29431ada330fbfc26c35c54d4d6b61a55011a968"
+        },
+        "original_mtime_utc": "2026-11-20T22:10:58.321064+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_investigator",
+        "passed": 77,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_investigator-results.txt",
+          "bytes": 5953,
+          "sha256": "0156c66d641e4b4b0df35223c4530f352618bec4c6899d1bab07de05e735c460"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_investigator-results.txt",
+          "bytes": 5953,
+          "sha256": "0156c66d641e4b4b0df35223c4530f352618bec4c6899d1bab07de05e735c460"
+        },
+        "original_mtime_utc": "2026-11-20T22:11:02.813443+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_analysis_controller",
+        "passed": 58,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_analysis_controller-results.txt",
+          "bytes": 6044,
+          "sha256": "91224d9d2cac82fce650ff37715118c94fae54bb739436a350af8b85624efd48"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_analysis_controller-results.txt",
+          "bytes": 6044,
+          "sha256": "91224d9d2cac82fce650ff37715118c94fae54bb739436a350af8b85624efd48"
+        },
+        "original_mtime_utc": "2026-11-20T22:11:22.147392+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_provider",
+        "passed": 13,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_provider-results.txt",
+          "bytes": 1675,
+          "sha256": "076cb93a3fe6e5ea83c3d31691d7feb6d20bebec530974aa7b00b944eaac2c02"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_provider-results.txt",
+          "bytes": 1675,
+          "sha256": "076cb93a3fe6e5ea83c3d31691d7feb6d20bebec530974aa7b00b944eaac2c02"
+        },
+        "original_mtime_utc": "2026-11-20T22:11:29.369909+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_plan_chart",
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_plan_chart-results.txt",
+          "bytes": 978,
+          "sha256": "bbda82b78802d878a4082ea7dc564190c7457cdd8bed925bd9e1d9bdc10105b7"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_plan_chart-results.txt",
+          "bytes": 978,
+          "sha256": "bbda82b78802d878a4082ea7dc564190c7457cdd8bed925bd9e1d9bdc10105b7"
+        },
+        "original_mtime_utc": "2026-11-20T22:11:38.695029+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_plan_details",
+        "passed": 10,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_plan_details-results.txt",
+          "bytes": 1120,
+          "sha256": "4a9768ce2906cb4a136618040ff3eb28d8eabd187b2b53e6460521a06e7a6c9d"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_plan_details-results.txt",
+          "bytes": 1120,
+          "sha256": "4a9768ce2906cb4a136618040ff3eb28d8eabd187b2b53e6460521a06e7a6c9d"
+        },
+        "original_mtime_utc": "2026-11-20T22:11:42.793128+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      },
+      {
+        "test": "desktop.eog_event_details",
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "blacklisted": 0,
+        "skip_reasons": [],
+        "original": {
+          "path": "out/portfolio-desktop/desktop/eog_event_details-results.txt",
+          "bytes": 895,
+          "sha256": "38e462e5fea9c558979c3d677ffedfc6893f229c47f2c9c8688315dec898ed9d"
+        },
+        "copied": {
+          "path": "out/candidate-readiness/tests-normal-3bb77a3-packaged/qt/eog_event_details-results.txt",
+          "bytes": 895,
+          "sha256": "38e462e5fea9c558979c3d677ffedfc6893f229c47f2c9c8688315dec898ed9d"
+        },
+        "original_mtime_utc": "2026-11-20T22:11:45.901209+00:00",
+        "current_run_path_from_lasttest": true,
+        "copy_matches_original": true
+      }
+    ]
+  },
+  "ui": [
+    {
+      "test": "desktop.ui_overhaul_normal",
+      "passed": true,
+      "groups": 25,
+      "phase": 52,
+      "client": [
+        1440,
+        900
+      ],
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 15313,
+      "convergence_wait_ms": 0,
+      "source_session_id": "d7c7429f-ed8f-4d5d-b09b-365a4bc27bba",
+      "source_run_id": "10950355-203e-45f0-8611-003e338909c9",
+      "source_snapshot_id": "626b5d65-b25f-44fa-a8b5-21f3e3f5cc9f",
+      "source_status": "Immutable stored candidate ready. Science does not apply its controls.",
+      "historical": false,
+      "hosted_model_requests": "not_requested"
+    },
+    {
+      "test": "desktop.ui_overhaul_compact",
+      "passed": true,
+      "groups": 25,
+      "phase": 52,
+      "client": [
+        1100,
+        700
+      ],
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 14544,
+      "convergence_wait_ms": 0,
+      "source_session_id": "30399673-ebae-4520-a56e-a048090c795e",
+      "source_run_id": "95383c98-9e15-44c2-a9d0-9266815933ff",
+      "source_snapshot_id": "12365b80-9d85-4146-a2ab-4a9d646abb69",
+      "source_status": "Immutable stored candidate ready. Science does not apply its controls.",
+      "historical": false,
+      "hosted_model_requests": "not_requested"
+    },
+    {
+      "test": "desktop.ui_overhaul_short",
+      "passed": true,
+      "groups": 25,
+      "phase": 52,
+      "client": [
+        1008,
+        672
+      ],
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 14452,
+      "convergence_wait_ms": 94,
+      "source_session_id": "0cffe2c7-077b-4ec5-b0f7-211e9b4fc20b",
+      "source_run_id": "8c2a4496-4b73-4e90-aed2-a3fcca40df75",
+      "source_snapshot_id": "5c9be5c9-4f3c-4422-a18b-7261f4c523c3",
+      "source_status": "Immutable stored candidate ready. Science does not apply its controls.",
+      "historical": false,
+      "hosted_model_requests": "not_requested"
+    },
+    {
+      "test": "desktop.ui_overhaul_minimum",
+      "passed": true,
+      "groups": 25,
+      "phase": 52,
+      "client": [
+        960,
+        540
+      ],
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 13783,
+      "convergence_wait_ms": 105,
+      "source_session_id": "8065c00c-8e7a-4659-98fd-e9d5dae69041",
+      "source_run_id": "53f588fb-91f9-408b-a3b0-653aaaf60620",
+      "source_snapshot_id": "13e71207-3d63-4dbc-9a1c-fca9b064f7e9",
+      "source_status": "Immutable stored candidate ready. Science does not apply its controls.",
+      "historical": false,
+      "hosted_model_requests": "not_requested"
+    }
+  ],
+  "warp": {
+    "report": {
+      "path": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-274b8690d6084abeb7acc82cf4355324/benchmark.json",
+      "bytes": 5326,
+      "sha256": "c5ce38b8b510168993c61250de770d40a15a497d591a8a89d2a4968a914de65f"
+    },
+    "screenshot": {
+      "path": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-274b8690d6084abeb7acc82cf4355324/benchmark.json.png",
+      "bytes": 521877,
+      "sha256": "9e5f5f46a6f6663499a22dd4209a25e3a4d2efee5760db3ab0eb571f9eac8109"
+    },
+    "mtime_within_run": true,
+    "renderer": {
+      "adapter": "Microsoft Basic Render Driver",
+      "device_id": 140,
+      "software": true,
+      "status": "identified",
+      "vendor_id": 5140
+    },
+    "graphics_api": 4,
+    "body_picks": 6,
+    "labels": 6,
+    "overlaps": 0,
+    "fps": 40.33180202921804,
+    "fps_scope": "software diagnostic only, no hardware threshold claim",
+    "numerical_identity_unchanged": true
+  },
+  "helpers": {
+    "passed": 78,
+    "failed": 0,
+    "artifact": {
+      "path": "out/candidate-readiness/helpers-3bb77a3.log",
+      "bytes": 12015,
+      "sha256": "db77a5bd0176b0e41894afac2862c665d472b193d66f99804317368f067e0668"
+    }
+  },
+  "computer_use": {
+    "root_attestation": "No computer-use input during full tests.",
+    "independently_verifiable_from_test_artifacts": false
+  },
+  "historical_pre_package_normal_audit": {
+    "path": "out/candidate-readiness/normal-evidence-audit-3bb77a3.json",
+    "status": "preserved unchanged",
+    "app_sha256": "a2f476e3e837ce286739feeaf578106fb4598bae1b6eaabb9b1c1087248085e0",
+    "meaning": "Earlier relinked binary remains historical; this new audit does not relabel or overwrite it."
+  },
+  "unexecuted_or_not_audited": [
+    "active post-package hardware outputs were not read",
+    "deployed bundle verification",
+    "fresh hosted qualification",
+    "clean-Windows acceptance",
+    "external owner/licensing reviews"
+  ],
+  "public_release_approved": false
+}

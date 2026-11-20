@@ -1,0 +1,67 @@
+{
+  "version_record": 1,
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "app_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+  "inventory_sha256": "87afd5cdcdffb5df4dcdbbedd284da1a07c10d97bdd739fe10ed144161c88c97",
+  "package_declared_python": "3.12.13",
+  "read_only_file_version_metadata": {
+    "bin/breakwater.exe": {
+      "FileVersion": "",
+      "ProductVersion": "",
+      "meaning": "No Windows VERSIONINFO version strings were present; source-declared application version is recorded separately."
+    },
+    "bin/Qt6Core.dll": {
+      "FileVersion": "6.12.0.0",
+      "ProductVersion": "6.12.0.0"
+    },
+    "runtime/python/python.exe": {
+      "FileVersion": "3.12.13",
+      "ProductVersion": "3.12.13"
+    }
+  },
+  "source_cmake_application_version": "0.2.0",
+  "metadata_source": "Windows file VersionInfo read without executing binaries, plus CMakeLists from the hash-verified matching source ZIP.",
+  "python_package_versions": [
+    {
+      "name": "attrs",
+      "version": "26.1.0",
+      "metadata_version": "2.4"
+    },
+    {
+      "name": "jsonschema",
+      "version": "4.25.1",
+      "metadata_version": "2.4"
+    },
+    {
+      "name": "jsonschema-specifications",
+      "version": "2025.9.1",
+      "metadata_version": "2.4"
+    },
+    {
+      "name": "pip",
+      "version": "26.1",
+      "metadata_version": "2.4"
+    },
+    {
+      "name": "referencing",
+      "version": "0.37.0",
+      "metadata_version": "2.4"
+    },
+    {
+      "name": "rpds-py",
+      "version": "2026.9.1",
+      "metadata_version": "2.4"
+    },
+    {
+      "name": "typing_extensions",
+      "version": "4.16.0",
+      "metadata_version": "2.4"
+    }
+  ],
+  "declared_python_license_file_count": 28,
+  "all_declared_python_license_copies_match": true,
+  "distribution_review": "pending",
+  "owner_license_agreement": "pending",
+  "clean_windows_acceptance": "pending",
+  "public_release_approved": false
+}

@@ -1,0 +1,135 @@
+{
+  "audit_version": 1,
+  "recorded_utc": "2026-11-20T22:15:07.622112+00:00",
+  "audit_status": "passed",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "dirty": false,
+  "app_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+  "windows_zip_sha256": "ea77ece7b52393f7d9434b9aa177bbc0971519ab1137882f9c8ff8f60432c794",
+  "launch_binding": {
+    "path": "out/candidate-readiness/hardware-packaged-3bb77a3/launch-binding.json",
+    "bytes": 245,
+    "sha256": "d0f7ff2ef34dfbb83bc0a647edf784ed3f14f96a95ba3e6c44e002bdf91b5f0c"
+  },
+  "package_record": {
+    "path": "out/candidate-readiness/portable-3bb77a3/verification/package.json",
+    "bytes": 584,
+    "sha256": "894a3fe887ed71d255019350206dc25146fd4d88d6b9b10b05cb8854063f8c38"
+  },
+  "source_provenance": "Root supplied exact clean-source/app/ZIP launch binding; raw renderer reports alone are not execution attestation.",
+  "review_provenance": "Independent same-family read-only report/image-hash audit; no new app launch or input.",
+  "measurements": [
+    {
+      "scene": "default",
+      "recorded_utc": "2026-11-20T22:12:38Z",
+      "report": {
+        "path": "out/candidate-readiness/hardware-packaged-3bb77a3/hardware-default-3bb77a3.json",
+        "bytes": 5341,
+        "sha256": "ba25fbb3e5fe9176a363f926265255e0a0c98a647fcfedb90997d4b7e9068bdb"
+      },
+      "image": {
+        "path": "out/candidate-readiness/hardware-packaged-3bb77a3/hardware-default-3bb77a3.json.png",
+        "bytes": 843516,
+        "sha256": "b7c9cf60c5a494dda32801cb49682d59b60f8be5b940f3e10f00dfb48b491b6e",
+        "width": 2520,
+        "height": 1575
+      },
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "graphics_api": 4,
+      "assets": 6,
+      "routes": 6,
+      "actual_body_picks": 6,
+      "visible_labels": 6,
+      "culled_labels": 0,
+      "label_overlaps": 0,
+      "fps": 118.62141851156001,
+      "target_fps": 60,
+      "target_met": true,
+      "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+      "measurement_window_ms": 10000.2752,
+      "active_elapsed_ms": 9989.764200000005,
+      "frames": 1185,
+      "frame_interval_p50_ms": 8.9982,
+      "frame_interval_p95_ms": 14.2565,
+      "client": [
+        1440,
+        900
+      ],
+      "device_pixel_ratio": 1.75,
+      "effective_scene_quality": 1,
+      "detail_visible": true,
+      "camera_yaw_start": 35,
+      "camera_yaw_end": 113.125,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true
+    },
+    {
+      "scene": "dense",
+      "recorded_utc": "2026-11-20T22:12:52Z",
+      "report": {
+        "path": "out/candidate-readiness/hardware-packaged-3bb77a3/hardware-dense-3bb77a3.json",
+        "bytes": 61874,
+        "sha256": "ccfe96967595a89b5b2b30b2e13a7b24d9f826f5404a6da2d8bbde73ff3cb4f4"
+      },
+      "image": {
+        "path": "out/candidate-readiness/hardware-packaged-3bb77a3/hardware-dense-3bb77a3.json.png",
+        "bytes": 704895,
+        "sha256": "cf88aff86c369ed8a4fa1fa6d0def9ff26047b7f38633175c44eede0ecb92604",
+        "width": 2520,
+        "height": 1575
+      },
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "graphics_api": 4,
+      "assets": 128,
+      "routes": 256,
+      "actual_body_picks": 128,
+      "visible_labels": 27,
+      "culled_labels": 101,
+      "label_overlaps": 0,
+      "fps": 73.44534442119232,
+      "target_fps": 30,
+      "target_met": true,
+      "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+      "measurement_window_ms": 10006.3205,
+      "active_elapsed_ms": 9993.826099999984,
+      "frames": 734,
+      "frame_interval_p50_ms": 15.0266,
+      "frame_interval_p95_ms": 22.2554,
+      "client": [
+        1440,
+        900
+      ],
+      "device_pixel_ratio": 1.75,
+      "effective_scene_quality": 0,
+      "detail_visible": false,
+      "camera_yaw_start": 35,
+      "camera_yaw_end": 113.125,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true
+    }
+  ],
+  "historical_pre_package_hardware_audit": {
+    "path": "out/candidate-readiness/hardware-evidence-audit-3bb77a3.json",
+    "preserved_unchanged": true,
+    "app_sha256": "a2f476e3e837ce286739feeaf578106fb4598bae1b6eaabb9b1c1087248085e0"
+  },
+  "limits": [
+    "Individual observed sweeps, not a controlled speedup comparison or guarantee for other views/hardware.",
+    "Dense overview intentionally uses low detail and culls 101 labels; all 128 bodies were picked at the settled view.",
+    "Image bytes and dimensions were checked, without visual screenshot review in this audit.",
+    "Clean-Windows/owner/license/hosted qualification remain separate."
+  ],
+  "public_release_approved": false
+}

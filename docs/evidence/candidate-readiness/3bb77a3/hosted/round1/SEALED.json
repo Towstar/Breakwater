@@ -1,0 +1,10 @@
+{
+  "sealed_utc": "2026-11-20T22:50:15.987947+00:00",
+  "manifest": {
+    "path": "manifest-0006.json",
+    "bytes": 6417,
+    "sha256": "5ce965ac08ee7be19a5aed072bfa3462e1050d3f465729f3a3b4048fba9878b3"
+  },
+  "qualification_status": "incomplete",
+  "public_release_approved": false
+}

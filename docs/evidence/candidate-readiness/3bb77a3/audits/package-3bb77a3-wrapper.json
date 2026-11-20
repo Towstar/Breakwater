@@ -1,0 +1,9 @@
+{
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "status": "failed",
+  "started_utc": "2026-11-20T21:56:27.6096291Z",
+  "free_before_bytes": 9247219712,
+  "tested_app_sha256": "a2f476e3e837ce286739feeaf578106fb4598bae1b6eaabb9b1c1087248085e0",
+  "finished_utc": "2026-11-20T22:01:38.4539294Z",
+  "free_after_bytes": 12391174144
+}

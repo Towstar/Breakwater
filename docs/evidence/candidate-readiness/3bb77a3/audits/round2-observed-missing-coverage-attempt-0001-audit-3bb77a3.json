@@ -1,0 +1,182 @@
+{
+  "audit_version": 1,
+  "created_utc": "2026-11-20T23:14:17.030097+00:00",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "round": 2,
+  "case": "observed_missing_coverage",
+  "audit_status": "passed",
+  "audit_failure": null,
+  "strict_auditor_result": {
+    "session_id": "3f634161-a075-45b0-96b9-635248f87320",
+    "capture_id": "capture-afc2ec47-cc30-4572-b1da-3f46ae0a46f0",
+    "model_requests": 13,
+    "tool_calls": 12
+  },
+  "manifest_recorded": false,
+  "session_id": "3f634161-a075-45b0-96b9-635248f87320",
+  "checkpoint_sequence": 28,
+  "database_record": {
+    "mode": "ro",
+    "query_only": true,
+    "created_at": "2026-11-20T23:13:42.153Z",
+    "updated_at": "2026-11-20T23:13:54.455Z",
+    "status": "completed"
+  },
+  "archive": {
+    "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\observed-missing-coverage-attempt-0001.session.json",
+    "bytes": 130035,
+    "sha256": "f6f039f32800c74ba02423d6b9be3969e7f3de41711a00b9bc894da3ea6a6573",
+    "unchanged_blob_bytes": true
+  },
+  "origin_capture_id": "capture-afc2ec47-cc30-4572-b1da-3f46ae0a46f0",
+  "origin_clock": {
+    "captured_event_time_s": 92.73089440000001,
+    "expires_event_time_s": 92.73089440000001,
+    "availability": "unavailable"
+  },
+  "mapping_status": "unavailable",
+  "recommendation": {
+    "actionable": false,
+    "approval_status": "unavailable",
+    "explanation": "No validated feasible advisory response found. Key evidence: (1) Detector balance_status='coverage_unavailable' with window_points=0, window_s=0 \u2014 missing temporal coverage prevents numerical forecasts or plans. (2) Observed snapshot reports issue 'missing_or_unusable_inventory' on tank_a with sensor_id empty \u2014 tank A inventory measurement is unavailable. (3) Sensor coverage requires sensor_1796ce451e0647e69f5b3574d5c79ae3 (Tank A inventory) but it is marked stale in derived_state and missing from effective bounds. (4) The network has no native simulation capability; forecasts are nominal only. (5) All candidate refinement calls are exhausted (3/3 used) with no validated runs produced. Without coverage of tank A inventory and valid detector state, no advisory plan can be numerically screened or validated. Selected run ID is null.",
+    "feasible": false,
+    "horizon_h": 3,
+    "objective": "Inspect these frozen observations and incident evidence. Find a nominally validated advisory response at low modeled cost, or explain missing coverage.",
+    "selected_run_id": null,
+    "session_id": "3f634161-a075-45b0-96b9-635248f87320",
+    "snapshot_id": "5626e7c2-6a03-4ec7-a6f6-64bd2ad19d0d",
+    "source_mode": "hosted",
+    "status": "no_validated_plan"
+  },
+  "event_type_counts": {
+    "agent_started": 1,
+    "model_request_started": 13,
+    "model_request_completed": 13,
+    "tool_requested": 12,
+    "tool_started": 12,
+    "tool_completed": 12,
+    "recommendation_ready": 1
+  },
+  "ordered_tool_evidence": [
+    {
+      "tool_call_id": "call-8309f1dd-ac7d-433a-b8bb-b59e582c85a1",
+      "tool_name": "get_observations",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-16b3168f-e970-424d-afea-9623397fd870",
+      "tool_name": "get_detection_events",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-fd529cb6-a22b-4ae2-bb9e-199e0bc449b0",
+      "tool_name": "get_network_state",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-35286f95-b38a-4d27-b62e-5e1cdb57fb9f",
+      "tool_name": "get_control_catalog",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-1e76c0e5-8954-4134-a4e4-555adfdb0d91",
+      "tool_name": "get_observations",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-4fcdb56f-fad5-4def-bd81-48434e2f5181",
+      "tool_name": "get_network_state",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-4783256e-3665-4a84-b27f-25e23f14dc53",
+      "tool_name": "get_control_catalog",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-a82eb2d4-7d15-4ccd-b9db-c2fdf994af4b",
+      "tool_name": "get_observations",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-994dcf5b-0468-4898-9100-268aa32a728d",
+      "tool_name": "get_network_state",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-65b0221d-48c5-4752-8d6a-941c9e15f0ad",
+      "tool_name": "get_control_catalog",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-f8420c0b-ae93-4022-9e60-02f545f227b1",
+      "tool_name": "get_observations",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-e091ab8b-af75-4521-9fa0-2148a92c22e6",
+      "tool_name": "get_network_state",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    }
+  ],
+  "request_metadata": {
+    "count": 13,
+    "http_statuses": {
+      "200": 13
+    },
+    "outcomes": {
+      "succeeded": 13
+    },
+    "retry_count": 0,
+    "model_pairs": [
+      [
+        "nvidia/nemotron-3.5-lightning-30b-a3b",
+        "nvidia/nemotron-3.5-lightning-30b-a3b"
+      ]
+    ]
+  },
+  "retained_run_count": 0,
+  "selected_run_count": 0,
+  "selected_run_source_matches": true,
+  "approvals": [],
+  "actionable": false,
+  "applied_events": 0,
+  "public_release_approved": false,
+  "limits": "Retained observed evidence integrity/grounding only, not numerical accuracy or global optimality. Original completed SQLite BLOB exported with mode=ro and query_only; no source/database changes, model calls, UI or numerical execution by this helper. A missing-coverage no-plan result is a safety boundary, not proof of numerical infeasibility."
+}

@@ -1,0 +1,1624 @@
+Start testing: Nov 20 15:30 Central Standard Time
+----------------------------------------------------------
+1/88 Testing: engine.observation_detection
+1/88 Test: engine.observation_detection
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_observation_detection_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.observation_detection" start time: Nov 20 15:30 Central Standard Time
+Output:
+----------------------------------------------------------
+Held-out qualification: 2 topologies x 10 seeds x 1 healthy hour; 72020 captures, 0 physical event updates, 0 coverage failures
+8 observation detector suites passed
+<end of output>
+Test time =  33.32 sec
+----------------------------------------------------------
+Test Passed.
+"engine.observation_detection" end time: Nov 20 15:30 Central Standard Time
+"engine.observation_detection" time elapsed: 00:00:33
+----------------------------------------------------------
+
+2/88 Testing: engine.observation_qualification
+2/88 Test: engine.observation_qualification
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_observation_qualification.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.observation_qualification" start time: Nov 20 15:30 Central Standard Time
+Output:
+----------------------------------------------------------
+{
+  "qualification_version": 1,
+  "detector_version": "bounded-volume-monitor-0.1.1",
+  "topologies": 2,
+  "seeds_per_topology": 10,
+  "seed_range": [2001,2010],
+  "uncertainty_scales": [1,10],
+  "cases": 400,
+  "captures": 480400,
+  "healthy_and_skew_hours": 80,
+  "target_failures": 0,
+  "false_native_activations_in_no_alert_cases": 0,
+  "coverage_classification_mismatches": 0,
+  "healthy_absolute_bound_checks": 1296360,
+  "healthy_absolute_bound_misses": 0,
+  "passed": true,
+  "presets": [
+    {"preset":"healthy","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":0,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"clock_skew","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":0,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"pump_loss","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":2,"native_worst_observable_latency_s":2,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":0,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":0},
+    {"preset":"unmetered_loss","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":12,"native_worst_observable_latency_s":3,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":13,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":14},
+    {"preset":"marginal_loss","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":30,"native_worst_observable_latency_s":3,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":31,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":30},
+    {"preset":"small_loss","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":0,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"drift","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":25,"native_worst_observable_latency_s":3,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":27,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":26},
+    {"preset":"stuck","cases":40,"observable_cases":40,"native_detected_cases":40,"native_worst_physical_latency_s":13,"native_worst_observable_latency_s":3,"coverage_unavailable_captures":0,"ewma_alarm_cases":40,"ewma_worst_physical_latency_s":14,"cusum_alarm_cases":40,"cusum_worst_physical_latency_s":15},
+    {"preset":"missing","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":4760,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"delayed","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":4760,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null}
+  ],
+  "baseline_parameters": {"ewma_lambda":0.2,"ewma_absolute_limit":1,"cusum_k":0.5,"cusum_h":5,"normalization":"declared absolute bound, not standard deviation"},
+  "scope":"Independent synthetic affine/step instruments at 1 Hz; correlated overlapping windows. No field accuracy, ARL probabilities, robust forecast guarantee or comparative model claim. Small faults below the declared bound remain explicitly unobservable."
+}
+<end of output>
+Test time = 297.96 sec
+----------------------------------------------------------
+Test Passed.
+"engine.observation_qualification" end time: Nov 20 15:35 Central Standard Time
+"engine.observation_qualification" time elapsed: 00:04:57
+----------------------------------------------------------
+
+3/88 Testing: engine.observations
+3/88 Test: engine.observations
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_observations_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.observations" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+6 observation suites passed: analytical balances, calibration bounds, coverage/time, raw values, redundancy and spatial support
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"engine.observations" end time: Nov 20 15:35 Central Standard Time
+"engine.observations" time elapsed: 00:00:00
+----------------------------------------------------------
+
+4/88 Testing: engine.eog_committed
+4/88 Test: engine.eog_committed
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_eog_committed_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.eog_committed" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+Committed-state native checks passed: 43
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_committed" end time: Nov 20 15:35 Central Standard Time
+"engine.eog_committed" time elapsed: 00:00:00
+----------------------------------------------------------
+
+5/88 Testing: engine.eog_plant_abi
+5/88 Test: engine.eog_plant_abi
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_eog_plant_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.eog_plant_abi" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+28 synthetic C ABI checks passed
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_plant_abi" end time: Nov 20 15:35 Central Standard Time
+"engine.eog_plant_abi" time elapsed: 00:00:00
+----------------------------------------------------------
+
+6/88 Testing: engine.eog_simulation
+6/88 Test: engine.eog_simulation
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_eog_simulation_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.eog_simulation" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+31-day cycle: final_bbl=62.851351849390191 oracle_bbl=62.851351351107596 error_bbl=4.9828259562900712e-07 mass_residual_bbl=-8.5472594690827464e-07 event_boundary_rounding_bbl=6.9979188310753671e-07
+57498 synthetic-event checks passed (100 long-run partition and 100 actual E3 comparisons)
+<end of output>
+Test time =   0.76 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_simulation" end time: Nov 20 15:35 Central Standard Time
+"engine.eog_simulation" time elapsed: 00:00:00
+----------------------------------------------------------
+
+7/88 Testing: engine.eog_response
+7/88 Test: engine.eog_response
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_eog_response_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.eog_response" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+6768 response checks passed (600 independent no-action and 600 well-stop randomized cases)
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_response" end time: Nov 20 15:35 Central Standard Time
+"engine.eog_response" time elapsed: 00:00:00
+----------------------------------------------------------
+
+8/88 Testing: engine.eog_analytical
+8/88 Test: engine.eog_analytical
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_eog_analytical_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.eog_analytical" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS barrel and daily units
+PASS finite raw unusual values are not clipped
+PASS normal stopped state and hysteretic cycle
+PASS fault feedback and unknown restart
+PASS analytical countdown uses shutdown threshold
+PASS remaining repair is based on assumed onset
+PASS observation fixture uses an explicit historical clock and policy
+PASS missing stale future and incoherent evidence abstains
+PASS no-crossing and reached are distinct from unavailable
+PASS opening no-action trip and loss
+PASS opening full-load truck and return
+PASS truck removal keeps both sides of the jump
+PASS repeat trip arrivals and return
+PASS truck too late cannot restart shut wells
+PASS threshold wins exact truck tie
+PASS full fixed load cannot exceed inventory
+PASS simultaneous full loads are checked together
+PASS every load must precede repair strictly
+PASS last repeat arrival also respects repair
+PASS immediate well shut-in cost
+PASS delayed well shut-in cost
+PASS each well has its own start and revenue
+PASS mixed response costs are itemized
+PASS automatic loss does not double count deliberate loss
+PASS threshold wins a simultaneous well shut-in
+PASS threshold at repair reports trip with zero loss
+PASS already shut-in exposure remains until repair
+PASS above-threshold finite inventory is preserved
+PASS preexisting unproductive wells add no exposure
+PASS two failures cannot double book shared truck
+PASS three failures compete for two trucks
+PASS return occupancy prevents early reassignment
+PASS sequential jobs restart from yard
+PASS one ULP overlapping return is rejected
+PASS fleet identity is local to each system
+PASS response order does not change simultaneous result
+PASS unknown IDs are explicit violations
+PASS duplicate shut-ins and invalid action times
+PASS bounded work and malformed fixtures
+PASS nonfinite observations and arithmetic overflow
+PASS analytical random no-action crossing and revenue oracle
+PASS random scheduled responses satisfy separate integral ledgers
+42/42 EOG analytical cases passed
+<end of output>
+Test time =   0.12 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_analytical" end time: Nov 20 15:35 Central Standard Time
+"engine.eog_analytical" time elapsed: 00:00:00
+----------------------------------------------------------
+
+9/88 Testing: engine.eog_analytical_example
+9/88 Test: engine.eog_analytical_example
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_eog_analytical_example.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.eog_analytical_example" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+method=eog-analytical-0.1.0 (private E1 fixture; no detection/search/worker)
+no-action: shutdown_after_h=4.480000 cost=5016.000000
+one-truck: arrival_h=1.250000 free_h=5.083333 final_bbl=700.000000 cost=905.000000
+well-2-off-at-2h: final_bbl=733.333333 cost=2000.000000
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"engine.eog_analytical_example" end time: Nov 20 15:35 Central Standard Time
+"engine.eog_analytical_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+10/88 Testing: engine.benchmark_correctness
+10/88 Test: engine.benchmark_correctness
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_benchmark.exe" "--verify-only" "--count" "100"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.benchmark_correctness" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+canonical_incident candidates=100 verified=100 feasible=5 screen_passes=5 influence_passes=5 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+custom_24_tanks candidates=100 verified=100 feasible=23 screen_passes=23 influence_passes=23 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+{"benchmark_version":2,"status":"passed","method":"correctness_only","configuration":"RelWithDebInfo","checked_build":true,"cpp_standard":2020,"compiler":"MSVC 194435219","logical_processors_reported":20,"processor_identifier":"AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD","steady_clock":true,"warmup_batches":2,"repeats":7,"calibration_target_ms":10,"maximum_iterations_per_sample":1024,"phase_order":"rotated per repetition","quantile":"p90 nearest rank; stddev population","notes":"Kernel setup excluded except explicitly timed influence_precompute. Dense/sparse have identical samples, writes and full-buffer checksum consumption. Affine avoids trajectories. Paired route-walk/influence screens consume identical numeric outputs; potential influence rows preserve canonical cost order. Retained validation is five runs, not the full batch. Overlapping phases do not sum to total search. No global optimum or universal speedup claim.","results":[{"workload":"canonical_incident","public_evaluator":"route_walk","candidates":100,"distinct_candidates":100,"candidate_fnv1a64":"74d91098d3821317","assets":6,"routes":6,"tanks":2,"internal_edges":1,"samples":121,"horizon_h":3,"step_h":0.025,"prepared_numeric_bytes":5632,"trajectory_workspace_bytes":2936,"preparation_once_ms":18.601199999999999,"influence_preparation_once_ms":0.061899999999999997,"max_forward_error_m3":9.3791641120333225e-13,"all_candidates_reference_checked":true,"reference_feasible_candidates":5,"screen_passes":5,"influence_screen_passes":5,"influence_fallbacks":1,"max_influence_rate_error_m3h":7.1054273576010019e-15,"max_influence_destination_error_m3h":8.8817841970012523e-16,"max_influence_cost_error":0,"reference_checks_in_search":5,"reference_rejections_in_search":0,"recommendations":5,"best_evaluated_cost":9713.8502623906716,"best_candidate_index":53,"phases":[]},{"workload":"custom_24_tanks","public_evaluator":"route_walk","candidates":100,"distinct_candidates":100,"candidate_fnv1a64":"858a8c52690e4e80","assets":28,"routes":66,"tanks":24,"internal_edges":60,"samples":121,"horizon_h":3,"step_h":0.025,"prepared_numeric_bytes":194112,"trajectory_workspace_bytes":24584,"preparation_once_ms":140.69390000000001,"influence_preparation_once_ms":0.078299999999999995,"max_forward_error_m3":8.2422957348171622e-13,"all_candidates_reference_checked":true,"reference_feasible_candidates":23,"screen_passes":23,"influence_screen_passes":23,"influence_fallbacks":1,"max_influence_rate_error_m3h":1.7763568394002505e-15,"max_influence_destination_error_m3h":8.8817841970012523e-16,"max_influence_cost_error":6.2527760746888816e-13,"reference_checks_in_search":5,"reference_rejections_in_search":0,"recommendations":5,"best_evaluated_cost":243.66435799319726,"best_candidate_index":21,"phases":[]}]}
+<end of output>
+Test time =   0.51 sec
+----------------------------------------------------------
+Test Passed.
+"engine.benchmark_correctness" end time: Nov 20 15:35 Central Standard Time
+"engine.benchmark_correctness" time elapsed: 00:00:00
+----------------------------------------------------------
+
+11/88 Testing: engine.acceptance
+11/88 Test: engine.acceptance
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_engine_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.acceptance" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS healthy preview accumulates explicitly
+PASS baseline exact limit time and unclipped prediction
+PASS isolated downstream failure
+PASS mixed plan cost and inventory
+PASS capacity equality is permitted
+PASS generic renamed network and shared throughput
+PASS negative inventories remain visible
+PASS unknown nonfinite duplicate and unavailable controls rejected
+PASS draft and malformed topology rejected
+PASS independent validator catches corrupted trajectories and cost
+PASS nonfinite derived catalog prices are explicit invalid network parameters
+PASS independent cost overflow rejects finite infinite and NaN result costs
+PASS simulated cost overflow remains visible and fails independent validation
+PASS finite huge and zero costs validate independently of cached pricing
+PASS decimal horizon edge cases preserve interior samples and the exact endpoint
+PASS subnormal and neighboring horizons remain strictly covered
+PASS one-ULP shortened and extended results never satisfy requested-horizon validation
+PASS requested-horizon overflow cannot be hidden by one-ULP-short sampling
+PASS actual interval count enforces the 10000-update boundary
+PASS random graph dense sparse affine agreement and internal conservation
+PASS candidate snapshots are independent under concurrency
+PASS bounded configuration and workspace validation
+22/22 cases passed
+<end of output>
+Test time =   0.36 sec
+----------------------------------------------------------
+Test Passed.
+"engine.acceptance" end time: Nov 20 15:35 Central Standard Time
+"engine.acceptance" time elapsed: 00:00:00
+----------------------------------------------------------
+
+12/88 Testing: engine.search
+12/88 Test: engine.search
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_search_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.search" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS canonical explicit batch rejects bad plans and returns real mixed reference
+PASS small canonical grid agrees with exhaustive independent reference oracle
+PASS curtailment ranking includes savings on nonzero-cost source feed route
+PASS renamed colon IDs and unspecified settings remain intact
+PASS shared treatment and trucking limits screen aggregate arrivals
+PASS capacity equality and validator tolerance are respected
+PASS no axes evaluate one unchanged candidate and infeasible search is explicit
+PASS valid decimal and subnormal grids do not become false no-plan results
+PASS one-ULP final overflow never receives a recommendation
+PASS forecast work-limit errors precede candidate screening
+PASS equal cost results retain input order
+PASS exactly 10000 candidates accepted and larger requests rejected
+PASS grid product limit and four-control limit are enforced
+PASS unknown duplicate nonfinite out-of-bounds and unavailable controls rejected
+PASS source control cannot exceed its connected feed capacity
+PASS malformed requests and options are rejected before evaluation
+PASS candidate batches and concurrent searches do not mutate snapshots
+PASS overflow in an auxiliary screening scale defers to reference validation
+PASS nonfinite arithmetic is counted and never recommended
+PASS hourly-product and horizon-total cost overflow retain finite repaired candidates
+PASS aggregate-hourly cost overflow and source-product overflow cannot hide zero-cost plans
+PASS nonrepresentable catalog unit prices fail explicitly before search
+22/22 search cases passed
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search" end time: Nov 20 15:35 Central Standard Time
+"engine.search" time elapsed: 00:00:00
+----------------------------------------------------------
+
+13/88 Testing: engine.control_influence
+13/88 Test: engine.control_influence
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_control_influence_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.control_influence" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS large public batch and Cartesian search retain exhaustive reference rankings
+PASS precomputed rates and destination sums match route traversal across actual network shapes
+PASS nonzero source feed cost and partial defaults agree at the numeric screen
+PASS near-boundary predictions exercise the route-walk fallback
+PASS canonical and custom batch rankings agree with exhaustive native oracle
+PASS partial overrides keep other route and source settings fixed
+PASS close reference costs and ties preserve exact ranking across the result cutoff
+PASS shared destination equality and near-boundary rows match independent validation
+PASS storage equality and narrowed horizon preserve the reference feasibility decision
+PASS nonfinite baseline cost does not hide a finite overridden candidate
+PASS automatic influence dispatch rejects cost overflow but preserves finite repairs
+PASS reciprocal huge flows and zeroed overrides do not lose finite cancellation
+PASS changed costs topology and availability are rebuilt for each captured network
+PASS invalid controls still fail before the optimized screen
+PASS no selected controls still evaluates one immutable candidate
+15/15 control-influence cases passed
+<end of output>
+Test time =   6.39 sec
+----------------------------------------------------------
+Test Passed.
+"engine.control_influence" end time: Nov 20 15:35 Central Standard Time
+"engine.control_influence" time elapsed: 00:00:06
+----------------------------------------------------------
+
+14/88 Testing: engine.search_example
+14/88 Test: engine.search_example
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_search_example.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.search_example" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=432 screen_survivors=39 constraint_rejections=393 numerical_rejections=0 reference_checks=5 reference_rejections=0
+candidate=352 reference_validated=true cost=4800 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=356 reference_validated=true cost=5280 synthetic_units minimum_headroom=10 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=22 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=110 m3
+  tank_b final=117 m3
+candidate=349 reference_validated=true cost=7350 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=15 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=281 reference_validated=true cost=8550 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=15 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=116 m3
+  tank_b final=102 m3
+candidate=353 reference_validated=true cost=8550 synthetic_units minimum_headroom=13 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=101 m3
+  tank_b final=117 m3
+Best among evaluated candidates. Quality/stress robustness not evaluated.
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search_example" end time: Nov 20 15:35 Central Standard Time
+"engine.search_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+15/88 Testing: engine.search_infeasible_example
+15/88 Test: engine.search_infeasible_example
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_search_example.exe" "--infeasible"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.search_infeasible_example" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=2 screen_survivors=0 constraint_rejections=2 numerical_rejections=0 reference_checks=0 reference_rejections=0
+NO_FEASIBLE_PLAN_FOUND among evaluated candidates; not a global infeasibility proof.
+<end of output>
+Test time =   0.04 sec
+----------------------------------------------------------
+Test Passed.
+"engine.search_infeasible_example" end time: Nov 20 15:35 Central Standard Time
+"engine.search_infeasible_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+16/88 Testing: engine.transport
+16/88 Test: engine.transport
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_transport_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.transport" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+PASS large finite concentration and mass do not overflow auxiliary norms
+PASS finite physical mass survives a concentration-sum overflow
+PASS disabled processes preserve a nonuniform field and exact output horizon
+PASS pure decay agrees with analytic solution and converges in time
+PASS one open Euler step balances signed faces source and old-state decay
+PASS one closed Euler step cancels internal faces with source and decay
+PASS variable event steps telescope the old-inventory source and decay ledger
+PASS constant field survives positive advection and diffusion
+PASS CFL one pure upwind advection shifts by one cell
+PASS closed diffusion cosine cell averages converge under mesh refinement
+SOURCE_REFERENCE,coupled_mesh,16,0.01,3.1775078324639688e-05,1.1199009926118886e-05,5.9535036772917493e-05,4.1300296516055823e-13,643,10288
+SOURCE_REFERENCE,coupled_mesh,32,0.01,7.916981579812396e-06,2.894612996394777e-06,1.4975294866215183e-05,1.8784973576657649e-12,2486,79552
+SOURCE_REFERENCE,coupled_mesh,64,0.01,1.9796054215141801e-06,7.2983525829708323e-07,3.7495850215285564e-06,1.6120438317557273e-12,9859,630976
+SOURCE_REFERENCE,coupled_mesh,128,0.01,4.9480357853463192e-07,1.828492452293079e-07,9.3775694937070497e-07,1.9344525981068728e-11,39350,5036800
+SOURCE_REFERENCE,fixed_mesh_time,32,0.80000000000000004,0.00023234107005086491,0.00023234107005086144,0.00038948242208325379,1.3322676295501878e-14,32,1024
+SOURCE_REFERENCE,fixed_mesh_time,32,0.40000000000000002,0.00011587521204072491,0.00011587521204072145,0.00018704039137995565,3.9968028886505635e-14,63,2016
+SOURCE_REFERENCE,fixed_mesh_time,32,0.20000000000000001,5.7877841608735409e-05,5.7877841608731939e-05,8.62903488290101e-05,1.9984014443252818e-14,125,4000
+SOURCE_REFERENCE,fixed_mesh_time,32,0.10000000000000001,2.8937726366346991e-05,2.8937726366343522e-05,3.6032314608469562e-05,3.8635761256955448e-13,249,7968
+PASS closed dispersion decay and spatial source follow independent modal references
+PASS zero-flow Dirichlet diffusion records signed inlet mass loss
+PASS inlet half-cell diffusion CFL preserves first-cell positivity
+PASS open equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS closed equality bound has nonnegative minimum-mesh and interior impulse responses
+PASS zero data zero coefficients and pure decay equality permit zero concentration
+PASS open unequal event steps use each velocity and nonnegative inlet average
+PASS flow changes and stops are resolved between output samples
+PASS piecewise linear inlet uses interval-average forcing
+PASS source and reaction ledger uses concentration-to-mass conversion
+PASS input profiles and concurrent transport calls remain independent
+PASS invalid pipe geometry and integration options are rejected
+PASS invalid initial and source profiles are rejected
+PASS invalid schedules and closed-pipe nonzero flow are rejected
+PASS output memory substep and cell-update budgets are enforced
+PASS nonfinite derived arithmetic and non-advancing time fail explicitly
+26/26 transport cases passed
+<end of output>
+Test time =   6.82 sec
+----------------------------------------------------------
+Test Passed.
+"engine.transport" end time: Nov 20 15:35 Central Standard Time
+"engine.transport" time elapsed: 00:00:06
+----------------------------------------------------------
+
+17/88 Testing: engine.transport_example
+17/88 Test: engine.transport_example
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/breakwater_transport_example.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine
+"engine.transport_example" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+SYNTHETIC | fvm-upwind-euler-0.1.0 | single-pipe tracer reference
+cells=64 frames=41 substeps=136 maximum_cfl=0.9
+final_inventory_mg=1994.10774493 signed_inlet_exchange_mg=4533.10789803 outlet_exchange_mg=4276.15496538 decayed_mg=262.845187721
+maximum_mass_residual_mg=1.36887055523e-12 minimum_concentration_mg_l=0.189932938338 final_outlet_cell_mg_l=0.275066562435
+Scalar transport proxy; network-wide chemistry and learned model validation are separate work.
+<end of output>
+Test time =   0.07 sec
+----------------------------------------------------------
+Test Passed.
+"engine.transport_example" end time: Nov 20 15:35 Central Standard Time
+"engine.transport_example" time elapsed: 00:00:00
+----------------------------------------------------------
+
+18/88 Testing: desktop.scene_framing
+18/88 Test: desktop.scene_framing
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_scene_framing_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/scene_framing-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.scene_framing" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.14 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.scene_framing" end time: Nov 20 15:35 Central Standard Time
+"desktop.scene_framing" time elapsed: 00:00:00
+----------------------------------------------------------
+
+19/88 Testing: desktop.label_placement
+19/88 Test: desktop.label_placement
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_label_placement_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/label_placement-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.label_placement" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.08 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.label_placement" end time: Nov 20 15:35 Central Standard Time
+"desktop.label_placement" time elapsed: 00:00:00
+----------------------------------------------------------
+
+20/88 Testing: desktop.evidence_v2
+20/88 Test: desktop.evidence_v2
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_evidence_v2_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/evidence_v2-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.evidence_v2" start time: Nov 20 15:35 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  34.26 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.evidence_v2" end time: Nov 20 15:36 Central Standard Time
+"desktop.evidence_v2" time elapsed: 00:00:34
+----------------------------------------------------------
+
+21/88 Testing: desktop.workspace_settings
+21/88 Test: desktop.workspace_settings
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_workspace_settings_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/workspace_settings-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.workspace_settings" start time: Nov 20 15:36 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.21 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.workspace_settings" end time: Nov 20 15:36 Central Standard Time
+"desktop.workspace_settings" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/88 Testing: desktop.editor_tools
+22/88 Test: desktop.editor_tools
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_editor_tools_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/editor_tools-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.editor_tools" start time: Nov 20 15:36 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.65 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.editor_tools" end time: Nov 20 15:36 Central Standard Time
+"desktop.editor_tools" time elapsed: 00:00:01
+----------------------------------------------------------
+
+23/88 Testing: desktop.ui_overhaul_normal
+23/88 Test: desktop.ui_overhaul_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.ui_overhaul_normal" start time: Nov 20 15:36 Central Standard Time
+Output:
+----------------------------------------------------------
+{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3bb77a3/ui/breakwater-ui-geahpM","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded_grid_toggle_preserves_numerical_evidence","instrumented_example_and_monitoring_controls_have_explicit_empty_state","actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls","native_source_selector_uses_immutable_stored_candidate_without_applying_controls"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":32084,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"before_dismiss_feedback_id":"2","capacity":120,"feedback_id":"2","field_text":"120","focused_before_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true},"inline_visible":true,"inspector_scrollbar":{"height":514,"panel_height":538,"panel_width":286,"size":0.6314496314496314,"x":264},"notice_visible":false,"outside_escape_before_key":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"outside_escape_setup_started":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"recording":{"folder_matches":true,"historical":true,"loaded":true,"loading":false,"pending":false,"status":"Historical evidence. Imported or reopened plans cannot restore current review eligibility.","storage":"EOG evidence is retained locally.","trace":28},"retained_pipe_button":{"height":36,"scroll_y":156,"viewport_height":126,"width":152,"x":1021,"y":782},"retained_pipe_open":{"imported":true,"status":"Retained historical native scalar evidence. Approval and operating controls are unavailable.","visible":true},"selected_id":"tank_a","stored_science_source":{"can_run":true,"historical":false,"history_busy":false,"history_candidate":"f87d18d9-cace-4222-9dfb-242d9099c476","history_session":"6f8e8e45-751b-40c0-baf7-4b893d2bb945","history_status":"completed · current session","investigator_status":"validated_recommendation","recommendation":{"actionable":true,"approval_status":"pending_operator","candidate_id":"search:ce052e76-7fec-461f-a44c-1505bf6347f3:410","controls":[{"control_id":"route:main_pump:flow","value":27.5},{"control_id":"route:backup_pump:flow","value":26.25},{"control_id":"route:bypass:flow","value":12.5},{"control_id":"route:truck_route:flow","value":0}],"cost":0,"cost_unit":"synthetic units","created_at":"2026-11-20T21:37:08.323Z","current":true,"explanation":"Local native finite search selected the lowest-cost returned response on a grid of up to four available controls (flow actuators first), with up to six values per axis including current operation. Independent validation and explicit operator review are required. This is a finite-grid result, not a global optimum. No hosted model was used.","horizon_h":3,"objective":"Local native finite search: at most four available controls, flow controls first, up to six values per axis including the current value. Preserve unspecified controls. No hosted model requests.","ok":true,"physical_hash":"3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381","run_id":"f87d18d9-cace-4222-9dfb-242d9099c476","sample_step_h":0.025,"search_candidate_index":410,"search_id":"ce052e76-7fec-461f-a44c-1505bf6347f3","selected_run_id":"f87d18d9-cace-4222-9dfb-242d9099c476","session_id":"6f8e8e45-751b-40c0-baf7-4b893d2bb945","snapshot_id":"8d215452-a461-481d-abf2-5b94c490bb8b","solver":"dense_reference","solver_version":"constant-flow-0.1.1","source_mode":"local_native","status":"validated_recommendation","tanks":[{"asset_id":"tank_a","final_m3":115.99999999999974,"initial_m3":80,"trajectory_summary":[{"time_h":0,"volume_m3":80},{"time_h":1.5,"volume_m3":97.99999999999983},{"time_h":3,"volume_m3":115.99999999999974}]},{"asset_id":"tank_b","final_m3":120.75000000000068,"initial_m3":114,"trajectory_summary":[{"time_h":0,"volume_m3":114},{"time_h":1.5,"volume_m3":117.37500000000034},{"time_h":3,"volume_m3":120.75000000000068}]}],"validation":{"feasible":true,"limits":[],"max_conservation_residual_m3":1.199040866595169e-14,"minimum_headroom_m3":4,"violations":[]},"validation_id":"9059f3b9-c8c3-4bec-ab6f-468f40ba9456","validation_source":"validate_run","validation_status":"validated","verified_cost":0,"verified_feasible":true,"warnings":["Synthetic constant-flow model; nominal volume feasibility only.","Quality is not evaluated. Finite candidate evaluation does not establish global optimality."]},"source_busy":false,"source_identity":{"effective_physical_hash":"05a643d05775cdc5b9b6b000e38ff1c992202d4c86a7a7379e1b689a6ccae21f","horizon_h":3,"numerical_revision":0,"sample_step_h":0.025,"source_mode":"stored_candidate","source_physical_hash":"3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381","source_run_id":"f87d18d9-cace-4222-9dfb-242d9099c476","source_session_id":"6f8e8e45-751b-40c0-baf7-4b893d2bb945","source_snapshot_id":"8d215452-a461-481d-abf2-5b94c490bb8b"},"source_mode":"candidate","source_status":"Immutable stored candidate ready. Science does not apply its controls.","wait_ms":558,"worker_busy":false},"third_retry_before_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true}},"passed":true,"phase":52,"window_height":900,"window_width":1440,"workspace_observations":{"label_projection_home":{"label_count":3,"labels":[{"actual_x":364.92767333984375,"actual_y":292.4188537597656,"anchor_x":364.92767333984375,"anchor_y":292.4188537597656,"error_px":0,"id":"tank_a","passed":true},{"actual_x":623.290283203125,"actual_y":280.2397155761719,"anchor_x":623.290283203125,"anchor_y":280.2397155761719,"error_px":0,"id":"treatment","passed":true},{"actual_x":520.2119140625,"actual_y":378.2548828125,"anchor_x":520.2119140625,"anchor_y":378.2548828125,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_perspective":{"label_count":3,"labels":[{"actual_x":364.92767333984375,"actual_y":292.4188537597656,"anchor_x":364.92767333984375,"anchor_y":292.4188537597656,"error_px":0,"id":"tank_a","passed":true},{"actual_x":623.290283203125,"actual_y":280.2397155761719,"anchor_x":623.290283203125,"anchor_y":280.2397155761719,"error_px":0,"id":"treatment","passed":true},{"actual_x":520.2119140625,"actual_y":378.2548828125,"anchor_x":520.2119140625,"anchor_y":378.2548828125,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top":{"label_count":3,"labels":[{"actual_x":434.8461608886719,"actual_y":382.3807067871094,"anchor_x":434.8461608886719,"anchor_y":382.3807067871094,"error_px":0,"id":"tank_a","passed":true},{"actual_x":642.5384521484375,"actual_y":216.1648712158203,"anchor_x":642.5384521484375,"anchor_y":216.1648712158203,"error_px":0,"id":"treatment","passed":true},{"actual_x":621.769287109375,"actual_y":382.3807067871094,"anchor_x":621.769287109375,"anchor_y":382.3807067871094,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_focus":{"label_count":3,"labels":[{"actual_x":307.17645263671875,"actual_y":499.0964660644531,"anchor_x":307.17645263671875,"anchor_y":499.0964660644531,"error_px":0,"id":"tank_a","passed":true},{"actual_x":624.8235473632812,"actual_y":244.884033203125,"anchor_x":624.8235473632812,"anchor_y":244.884033203125,"error_px":0,"id":"treatment","passed":true},{"actual_x":593.0587768554688,"actual_y":499.0964660644531,"anchor_x":593.0587768554688,"anchor_y":499.0964660644531,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_pan":{"label_count":2,"labels":[{"actual_x":71.53848266601562,"actual_y":236.45362854003906,"anchor_x":71.53848266601562,"anchor_y":236.45362854003906,"error_px":0,"id":"tank_a","passed":true},{"actual_x":836.4614868164062,"actual_y":491.5231018066406,"anchor_x":836.4614868164062,"anchor_y":491.5231018066406,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"plan_fit_route_endpoints":{"camera":{"horizontal":1.1589744091033936,"vertical":1.1589744091033936,"x":-1200,"z":9.491150856018066},"corners":[{"id":"tank_a","inside":true,"x":37.179527282714844,"y":151.70449829101562},{"id":"tank_a","inside":true,"x":37.179527282714844,"y":360.397705078125},{"id":"tank_a","inside":true,"x":199.43588256835938,"y":151.70449829101562},{"id":"tank_a","inside":true,"x":199.43588256835938,"y":360.397705078125},{"id":"tank_b","inside":true,"x":732.5641479492188,"y":383.5858154296875},{"id":"tank_b","inside":true,"x":732.5641479492188,"y":592.2789916992188},{"id":"tank_b","inside":true,"x":894.820556640625,"y":383.5858154296875},{"id":"tank_b","inside":true,"x":894.820556640625,"y":592.2789916992188}],"fit":{"cameraX":-1200,"cameraZ":9.491150442477876,"magnification":1.158974358974359,"spanX":780,"spanZ":380,"usable":{"height":540,"width":904,"x":14,"y":102}},"valid":true,"view_height":766,"view_width":932},"plan_fit_tall":{"camera":{"horizontal":0.1729559749364853,"vertical":0.1729559749364853,"x":0,"z":34.69091033935547},"corners":[{"id":"tank_a","inside":true,"x":436.5975036621094,"y":101.89453887939453},{"id":"tank_a","inside":true,"x":436.5975036621094,"y":133.0382537841797},{"id":"tank_a","inside":true,"x":460.8113098144531,"y":101.89453887939453},{"id":"tank_a","inside":true,"x":460.8113098144531,"y":133.0382537841797},{"id":"tank_b","inside":true,"x":471.1886901855469,"y":205.7068634033203},{"id":"tank_b","inside":true,"x":471.1886901855469,"y":236.85052490234375},{"id":"tank_b","inside":true,"x":495.40252685546875,"y":205.7068634033203},{"id":"tank_b","inside":true,"x":495.40252685546875,"y":236.85052490234375},{"id":"source_a","inside":true,"x":436.5975036621094,"y":309.5191345214844},{"id":"source_a","inside":true,"x":436.5975036621094,"y":340.662841796875},{"id":"source_a","inside":true,"x":460.8113098144531,"y":309.5191345214844},{"id":"source_a","inside":true,"x":460.8113098144531,"y":340.662841796875},{"id":"source_b","inside":true,"x":471.1886901855469,"y":413.3314208984375},{"id":"source_b","inside":true,"x":471.1886901855469,"y":444.4751281738281},{"id":"source_b","inside":true,"x":495.40252685546875,"y":413.3314208984375},{"id":"source_b","inside":true,"x":495.40252685546875,"y":444.4751281738281},{"id":"treatment","inside":true,"x":436.5975036621094,"y":517.1437377929688},{"id":"treatment","inside":true,"x":436.5975036621094,"y":548.2874145507812},{"id":"treatment","inside":true,"x":460.8113098144531,"y":517.1437377929688},{"id":"treatment","inside":true,"x":460.8113098144531,"y":548.2874145507812},{"id":"trucking","inside":true,"x":471.1886901855469,"y":620.9559936523438},{"id":"trucking","inside":true,"x":471.1886901855469,"y":652.0997314453125},{"id":"trucking","inside":true,"x":495.40252685546875,"y":620.9559936523438},{"id":"trucking","inside":true,"x":495.40252685546875,"y":652.0997314453125}],"fit":{"cameraX":0,"cameraZ":34.690909090909095,"magnification":0.17295597484276728,"spanX":380,"spanZ":3180,"usable":{"height":550,"width":904,"x":14,"y":102}},"valid":true,"view_height":766,"view_width":932},"plan_fit_tall_after_dock_resize":{"camera":{"horizontal":0.10125786066055298,"vertical":0.10125786066055298,"x":0,"z":59.25465774536133},"corners":[{"id":"tank_a","inside":true,"x":448.7861633300781,"y":101.91096496582031},{"id":"tank_a","inside":true,"x":448.7861633300781,"y":120.14706420898438},{"id":"tank_a","inside":true,"x":462.9622802734375,"y":101.91096496582031},{"id":"tank_a","inside":true,"x":462.9622802734375,"y":120.14706420898438},{"id":"tank_b","inside":true,"x":469.0377197265625,"y":162.69793701171875},{"id":"tank_b","inside":true,"x":469.0377197265625,"y":180.93402099609375},{"id":"tank_b","inside":true,"x":483.2138671875,"y":162.69793701171875},{"id":"tank_b","inside":true,"x":483.2138671875,"y":180.93402099609375},{"id":"source_a","inside":true,"x":448.7861633300781,"y":223.48489379882812},{"id":"source_a","inside":true,"x":448.7861633300781,"y":241.7209930419922},{"id":"source_a","inside":true,"x":462.9622802734375,"y":223.48489379882812},{"id":"source_a","inside":true,"x":462.9622802734375,"y":241.7209930419922},{"id":"source_b","inside":true,"x":469.0377197265625,"y":284.2718811035156},{"id":"source_b","inside":true,"x":469.0377197265625,"y":302.50799560546875},{"id":"source_b","inside":true,"x":483.2138671875,"y":284.2718811035156},{"id":"source_b","inside":true,"x":483.2138671875,"y":302.50799560546875},{"id":"treatment","inside":true,"x":448.7861633300781,"y":345.05889892578125},{"id":"treatment","inside":true,"x":448.7861633300781,"y":363.29498291015625},{"id":"treatment","inside":true,"x":462.9622802734375,"y":345.05889892578125},{"id":"treatment","inside":true,"x":462.9622802734375,"y":363.29498291015625},{"id":"trucking","inside":true,"x":469.0377197265625,"y":405.8458557128906},{"id":"trucking","inside":true,"x":469.0377197265625,"y":424.0819396972656},{"id":"trucking","inside":true,"x":483.2138671875,"y":405.8458557128906},{"id":"trucking","inside":true,"x":483.2138671875,"y":424.0819396972656}],"fit":{"cameraX":0,"cameraZ":59.254658385093165,"magnification":0.10125786163522013,"spanX":380,"spanZ":3180,"usable":{"height":322,"width":904,"x":14,"y":102}},"valid":true,"view_height":538,"view_width":932},"plan_fit_wide":{"camera":{"horizontal":0.28427672386169434,"vertical":0.28427672386169434,"x":0,"z":21.1061954498291},"corners":[{"id":"tank_a","inside":true,"x":19.685544967651367,"y":208.95452880859375},{"id":"tank_a","inside":true,"x":19.685544967651367,"y":260.1515197753906},{"id":"tank_a","inside":true,"x":59.48427200317383,"y":208.95452880859375},{"id":"tank_a","inside":true,"x":59.48427200317383,"y":260.1515197753906},{"id":"tank_b","inside":true,"x":190.25157165527344,"y":265.840087890625},{"id":"tank_b","inside":true,"x":190.25157165527344,"y":317.0370788574219},{"id":"tank_b","inside":true,"x":230.05032348632812,"y":265.840087890625},{"id":"tank_b","inside":true,"x":230.05032348632812,"y":317.0370788574219},{"id":"source_a","inside":true,"x":360.817626953125,"y":208.95452880859375},{"id":"source_a","inside":true,"x":360.817626953125,"y":260.1515197753906},{"id":"source_a","inside":true,"x":400.6163635253906,"y":208.95452880859375},{"id":"source_a","inside":true,"x":400.6163635253906,"y":260.1515197753906},{"id":"source_b","inside":true,"x":531.3836669921875,"y":265.840087890625},{"id":"source_b","inside":true,"x":531.3836669921875,"y":317.0370788574219},{"id":"source_b","inside":true,"x":571.182373046875,"y":265.840087890625},{"id":"source_b","inside":true,"x":571.182373046875,"y":317.0370788574219},{"id":"treatment","inside":true,"x":701.9496459960938,"y":208.95452880859375},{"id":"treatment","inside":true,"x":701.9496459960938,"y":260.1515197753906},{"id":"treatment","inside":true,"x":741.7484741210938,"y":208.95452880859375},{"id":"treatment","inside":true,"x":741.7484741210938,"y":260.1515197753906},{"id":"trucking","inside":true,"x":872.5157470703125,"y":265.840087890625},{"id":"trucking","inside":true,"x":872.5157470703125,"y":317.0370788574219},{"id":"trucking","inside":true,"x":912.314453125,"y":265.840087890625},{"id":"trucking","inside":true,"x":912.314453125,"y":317.0370788574219}],"fit":{"cameraX":0,"cameraZ":21.106194690265486,"magnification":0.2842767295597484,"spanX":3180,"spanZ":380,"usable":{"height":322,"width":904,"x":14,"y":102}},"valid":true,"view_height":538,"view_width":932},"route_cue_bypass":{"active":["selectedRouteCue:bypass"],"body_hit":"route:bypass","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:bypass","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:bypass","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[11.600000381469727,19,30],"rotation":[0.7071068286895752,0,0,-0.7071068286895752]},"pipe_red":false,"visible":true},"route_cue_main_pump":{"active":["selectedRouteCue:main_pump"],"body_hit":"route:main_pump","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:main_pump","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:main_pump","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[24,19,-69.19999694824219],"rotation":[0.7071068286895752,-0.4417261481285095,0,-0.5521577000617981]},"pipe_red":true,"visible":true}}}
+<end of output>
+Test time =  37.05 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.ui_overhaul_normal" end time: Nov 20 15:37 Central Standard Time
+"desktop.ui_overhaul_normal" time elapsed: 00:00:37
+----------------------------------------------------------
+
+24/88 Testing: desktop.ui_overhaul_compact
+24/88 Test: desktop.ui_overhaul_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.ui_overhaul_compact" start time: Nov 20 15:37 Central Standard Time
+Output:
+----------------------------------------------------------
+{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3bb77a3/ui/breakwater-ui-WnORIZ","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded_grid_toggle_preserves_numerical_evidence","instrumented_example_and_monitoring_controls_have_explicit_empty_state","actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls","native_source_selector_uses_immutable_stored_candidate_without_applying_controls"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":30398,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"before_dismiss_feedback_id":"2","capacity":120,"feedback_id":"2","field_text":"120","focused_before_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true},"inline_visible":true,"inspector_scrollbar":{"height":314,"panel_height":338,"panel_width":286,"size":0.3857493857493858,"x":264},"notice_visible":false,"outside_escape_before_key":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"outside_escape_setup_started":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"recording":{"folder_matches":true,"historical":true,"loaded":true,"loading":false,"pending":false,"status":"Historical evidence. Imported or reopened plans cannot restore current review eligibility.","storage":"EOG evidence is retained locally.","trace":28},"retained_pipe_button":{"height":36,"scroll_y":156,"viewport_height":126,"width":152,"x":681,"y":582},"retained_pipe_open":{"imported":true,"status":"Retained historical native scalar evidence. Approval and operating controls are unavailable.","visible":true},"selected_id":"tank_a","stored_science_source":{"can_run":true,"historical":false,"history_busy":false,"history_candidate":"73a5136f-037b-4b71-be88-323ac360a5cf","history_session":"bcdb9448-1e8e-4265-9bd3-70df57f32870","history_status":"completed · current session","investigator_status":"validated_recommendation","recommendation":{"actionable":true,"approval_status":"pending_operator","candidate_id":"search:cb87fcf3-a05e-4bc4-9853-919b4b02f535:410","controls":[{"control_id":"route:main_pump:flow","value":27.5},{"control_id":"route:backup_pump:flow","value":26.25},{"control_id":"route:bypass:flow","value":12.5},{"control_id":"route:truck_route:flow","value":0}],"cost":0,"cost_unit":"synthetic units","created_at":"2026-11-20T21:37:43.906Z","current":true,"explanation":"Local native finite search selected the lowest-cost returned response on a grid of up to four available controls (flow actuators first), with up to six values per axis including current operation. Independent validation and explicit operator review are required. This is a finite-grid result, not a global optimum. No hosted model was used.","horizon_h":3,"objective":"Local native finite search: at most four available controls, flow controls first, up to six values per axis including the current value. Preserve unspecified controls. No hosted model requests.","ok":true,"physical_hash":"3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381","run_id":"73a5136f-037b-4b71-be88-323ac360a5cf","sample_step_h":0.025,"search_candidate_index":410,"search_id":"cb87fcf3-a05e-4bc4-9853-919b4b02f535","selected_run_id":"73a5136f-037b-4b71-be88-323ac360a5cf","session_id":"bcdb9448-1e8e-4265-9bd3-70df57f32870","snapshot_id":"b5dddae8-49a0-4300-9278-23580ac73f8e","solver":"dense_reference","solver_version":"constant-flow-0.1.1","source_mode":"local_native","status":"validated_recommendation","tanks":[{"asset_id":"tank_a","final_m3":115.99999999999974,"initial_m3":80,"trajectory_summary":[{"time_h":0,"volume_m3":80},{"time_h":1.5,"volume_m3":97.99999999999983},{"time_h":3,"volume_m3":115.99999999999974}]},{"asset_id":"tank_b","final_m3":120.75000000000068,"initial_m3":114,"trajectory_summary":[{"time_h":0,"volume_m3":114},{"time_h":1.5,"volume_m3":117.37500000000034},{"time_h":3,"volume_m3":120.75000000000068}]}],"validation":{"feasible":true,"limits":[],"max_conservation_residual_m3":1.199040866595169e-14,"minimum_headroom_m3":4,"violations":[]},"validation_id":"dde68c33-ccbf-4867-ba86-1c337388ae75","validation_source":"validate_run","validation_status":"validated","verified_cost":0,"verified_feasible":true,"warnings":["Synthetic constant-flow model; nominal volume feasibility only.","Quality is not evaluated. Finite candidate evaluation does not establish global optimality."]},"source_busy":false,"source_identity":{"effective_physical_hash":"05a643d05775cdc5b9b6b000e38ff1c992202d4c86a7a7379e1b689a6ccae21f","horizon_h":3,"numerical_revision":0,"sample_step_h":0.025,"source_mode":"stored_candidate","source_physical_hash":"3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381","source_run_id":"73a5136f-037b-4b71-be88-323ac360a5cf","source_session_id":"bcdb9448-1e8e-4265-9bd3-70df57f32870","source_snapshot_id":"b5dddae8-49a0-4300-9278-23580ac73f8e"},"source_mode":"candidate","source_status":"Immutable stored candidate ready. Science does not apply its controls.","wait_ms":563,"worker_busy":false},"third_retry_before_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true}},"passed":true,"phase":52,"window_height":700,"window_width":1100,"workspace_observations":{"label_projection_home":{"label_count":3,"labels":[{"actual_x":364.81500244140625,"actual_y":216.06927490234375,"anchor_x":364.81500244140625,"anchor_y":216.06927490234375,"error_px":0,"id":"tank_a","passed":true},{"actual_x":555.725830078125,"actual_y":207.070068359375,"anchor_x":555.725830078125,"anchor_y":207.070068359375,"error_px":0,"id":"treatment","passed":true},{"actual_x":479.5585632324219,"actual_y":279.49383544921875,"anchor_x":479.5585632324219,"anchor_y":279.49383544921875,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_perspective":{"label_count":3,"labels":[{"actual_x":364.81500244140625,"actual_y":216.06927490234375,"anchor_x":364.81500244140625,"anchor_y":216.06927490234375,"error_px":0,"id":"tank_a","passed":true},{"actual_x":555.725830078125,"actual_y":207.070068359375,"anchor_x":555.725830078125,"anchor_y":207.070068359375,"error_px":0,"id":"treatment","passed":true},{"actual_x":479.5585632324219,"actual_y":279.49383544921875,"anchor_x":479.5585632324219,"anchor_y":279.49383544921875,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top":{"label_count":3,"labels":[{"actual_x":419.8814392089844,"actual_y":278.53387451171875,"anchor_x":419.8814392089844,"anchor_y":278.53387451171875,"error_px":0,"id":"tank_a","passed":true},{"actual_x":550.6719360351562,"actual_y":173.86566162109375,"anchor_x":550.6719360351562,"anchor_y":173.86566162109375,"error_px":0,"id":"treatment","passed":true},{"actual_x":537.5928955078125,"actual_y":278.53387451171875,"anchor_x":537.5928955078125,"anchor_y":278.53387451171875,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_focus":{"label_count":3,"labels":[{"actual_x":339.4837341308594,"actual_y":352.0312805175781,"anchor_x":339.4837341308594,"anchor_y":352.0312805175781,"error_px":0,"id":"tank_a","passed":true},{"actual_x":539.5162353515625,"actual_y":191.95050048828125,"anchor_x":539.5162353515625,"anchor_y":191.95050048828125,"error_px":0,"id":"treatment","passed":true},{"actual_x":519.5130004882812,"actual_y":352.0312805175781,"anchor_x":519.5130004882812,"anchor_y":352.0312805175781,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_pan":{"label_count":2,"labels":[{"actual_x":132.1869659423828,"actual_y":165.51614379882812,"anchor_x":132.1869659423828,"anchor_y":165.51614379882812,"error_px":0,"id":"tank_a","passed":true},{"actual_x":722.8092041015625,"actual_y":362.4576721191406,"anchor_x":722.8092041015625,"anchor_y":362.4576721191406,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"plan_fit_route_endpoints":{"camera":{"horizontal":0.8947368264198303,"vertical":0.8947368264198303,"x":-1200,"z":12.29411792755127},"corners":[{"id":"tank_a","inside":true,"x":108.39354705810547,"y":101.90541076660156},{"id":"tank_a","inside":true,"x":108.39354705810547,"y":263.03936767578125},{"id":"tank_a","inside":true,"x":233.6770782470703,"y":101.90541076660156},{"id":"tank_a","inside":true,"x":233.6770782470703,"y":263.03936767578125},{"id":"tank_b","inside":true,"x":645.3228759765625,"y":280.9431457519531},{"id":"tank_b","inside":true,"x":645.3228759765625,"y":442.07708740234375},{"id":"tank_b","inside":true,"x":770.6063842773438,"y":280.9431457519531},{"id":"tank_b","inside":true,"x":770.6063842773438,"y":442.07708740234375}],"fit":{"cameraX":-1200,"cameraZ":12.294117647058824,"magnification":0.8947368421052632,"spanX":780,"spanZ":380,"usable":{"height":340,"width":851,"x":14,"y":102}},"valid":true,"view_height":566,"view_width":879},"plan_fit_tall":{"camera":{"horizontal":0.11006288975477219,"vertical":0.11006288975477219,"x":0,"z":54.514286041259766},"corners":[{"id":"tank_a","inside":true,"x":420.7862548828125,"y":101.90824127197266},{"id":"tank_a","inside":true,"x":420.7862548828125,"y":121.72956085205078},{"id":"tank_a","inside":true,"x":436.19757080078125,"y":101.90824127197266},{"id":"tank_a","inside":true,"x":436.19757080078125,"y":121.72956085205078},{"id":"tank_b","inside":true,"x":442.8023986816406,"y":167.9792938232422},{"id":"tank_b","inside":true,"x":442.8023986816406,"y":187.8006134033203},{"id":"tank_b","inside":true,"x":458.2137451171875,"y":167.9792938232422},{"id":"tank_b","inside":true,"x":458.2137451171875,"y":187.8006134033203},{"id":"source_a","inside":true,"x":420.7862548828125,"y":234.05038452148438},{"id":"source_a","inside":true,"x":420.7862548828125,"y":253.8717041015625},{"id":"source_a","inside":true,"x":436.19757080078125,"y":234.05038452148438},{"id":"source_a","inside":true,"x":436.19757080078125,"y":253.8717041015625},{"id":"source_b","inside":true,"x":442.8023986816406,"y":300.1214599609375},{"id":"source_b","inside":true,"x":442.8023986816406,"y":319.9427795410156},{"id":"source_b","inside":true,"x":458.2137451171875,"y":300.1214599609375},{"id":"source_b","inside":true,"x":458.2137451171875,"y":319.9427795410156},{"id":"treatment","inside":true,"x":420.7862548828125,"y":366.1925354003906},{"id":"treatment","inside":true,"x":420.7862548828125,"y":386.01385498046875},{"id":"treatment","inside":true,"x":436.19757080078125,"y":366.1925354003906},{"id":"treatment","inside":true,"x":436.19757080078125,"y":386.01385498046875},{"id":"trucking","inside":true,"x":442.8023986816406,"y":432.2635803222656},{"id":"trucking","inside":true,"x":442.8023986816406,"y":452.08489990234375},{"id":"trucking","inside":true,"x":458.2137451171875,"y":432.2635803222656},{"id":"trucking","inside":true,"x":458.2137451171875,"y":452.08489990234375}],"fit":{"cameraX":0,"cameraZ":54.51428571428571,"magnification":0.11006289308176101,"spanX":380,"spanZ":3180,"usable":{"height":350,"width":851,"x":14,"y":102}},"valid":true,"view_height":566,"view_width":879},"plan_fit_tall_after_dock_resize":{"camera":{"horizontal":0.03836477920413017,"vertical":0.03836477920413017,"x":0,"z":156.39344787597656},"corners":[{"id":"tank_a","inside":true,"x":432.9769287109375,"y":101.94319152832031},{"id":"tank_a","inside":true,"x":432.9769287109375,"y":108.85468292236328},{"id":"tank_a","inside":true,"x":438.3488464355469,"y":101.94319152832031},{"id":"tank_a","inside":true,"x":438.3488464355469,"y":108.85468292236328},{"id":"tank_b","inside":true,"x":440.651123046875,"y":124.98152923583984},{"id":"tank_b","inside":true,"x":440.651123046875,"y":131.8930206298828},{"id":"tank_b","inside":true,"x":446.0230712890625,"y":124.98152923583984},{"id":"tank_b","inside":true,"x":446.0230712890625,"y":131.8930206298828},{"id":"source_a","inside":true,"x":432.9769287109375,"y":148.01986694335938},{"id":"source_a","inside":true,"x":432.9769287109375,"y":154.93136596679688},{"id":"source_a","inside":true,"x":438.3488464355469,"y":148.01986694335938},{"id":"source_a","inside":true,"x":438.3488464355469,"y":154.93136596679688},{"id":"source_b","inside":true,"x":440.651123046875,"y":171.05819702148438},{"id":"source_b","inside":true,"x":440.651123046875,"y":177.96971130371094},{"id":"source_b","inside":true,"x":446.0230712890625,"y":171.05819702148438},{"id":"source_b","inside":true,"x":446.0230712890625,"y":177.96971130371094},{"id":"treatment","inside":true,"x":432.9769287109375,"y":194.09652709960938},{"id":"treatment","inside":true,"x":432.9769287109375,"y":201.00804138183594},{"id":"treatment","inside":true,"x":438.3488464355469,"y":194.09652709960938},{"id":"treatment","inside":true,"x":438.3488464355469,"y":201.00804138183594},{"id":"trucking","inside":true,"x":440.651123046875,"y":217.13487243652344},{"id":"trucking","inside":true,"x":440.651123046875,"y":224.04638671875},{"id":"trucking","inside":true,"x":446.0230712890625,"y":217.13487243652344},{"id":"trucking","inside":true,"x":446.0230712890625,"y":224.04638671875}],"fit":{"cameraX":0,"cameraZ":156.39344262295083,"magnification":0.038364779874213835,"spanX":380,"spanZ":3180,"usable":{"height":122,"width":851,"x":14,"y":102}},"valid":true,"view_height":338,"view_width":879},"plan_fit_wide":{"camera":{"horizontal":0.2676100730895996,"vertical":0.2676100730895996,"x":0,"z":22.42068099975586},"corners":[{"id":"tank_a","inside":true,"x":19.283891677856445,"y":112.10504150390625},{"id":"tank_a","inside":true,"x":19.283891677856445,"y":160.3155975341797},{"id":"tank_a","inside":true,"x":56.75538635253906,"y":112.10504150390625},{"id":"tank_a","inside":true,"x":56.75538635253906,"y":160.3155975341797},{"id":"tank_b","inside":true,"x":179.8760528564453,"y":165.6723175048828},{"id":"tank_b","inside":true,"x":179.8760528564453,"y":213.8828887939453},{"id":"tank_b","inside":true,"x":217.34754943847656,"y":165.6723175048828},{"id":"tank_b","inside":true,"x":217.34754943847656,"y":213.8828887939453},{"id":"source_a","inside":true,"x":340.4681701660156,"y":112.10504150390625},{"id":"source_a","inside":true,"x":340.4681701660156,"y":160.3155975341797},{"id":"source_a","inside":true,"x":377.9396667480469,"y":112.10504150390625},{"id":"source_a","inside":true,"x":377.9396667480469,"y":160.3155975341797},{"id":"source_b","inside":true,"x":501.0603332519531,"y":165.6723175048828},{"id":"source_b","inside":true,"x":501.0603332519531,"y":213.8828887939453},{"id":"source_b","inside":true,"x":538.5317993164062,"y":165.6723175048828},{"id":"source_b","inside":true,"x":538.5317993164062,"y":213.8828887939453},{"id":"treatment","inside":true,"x":661.6524658203125,"y":112.10504150390625},{"id":"treatment","inside":true,"x":661.6524658203125,"y":160.3155975341797},{"id":"treatment","inside":true,"x":699.1239013671875,"y":112.10504150390625},{"id":"treatment","inside":true,"x":699.1239013671875,"y":160.3155975341797},{"id":"trucking","inside":true,"x":822.2445678710938,"y":165.6723175048828},{"id":"trucking","inside":true,"x":822.2445678710938,"y":213.8828887939453},{"id":"trucking","inside":true,"x":859.7161254882812,"y":165.6723175048828},{"id":"trucking","inside":true,"x":859.7161254882812,"y":213.8828887939453}],"fit":{"cameraX":0,"cameraZ":22.420681551116335,"magnification":0.26761006289308176,"spanX":3180,"spanZ":380,"usable":{"height":122,"width":851,"x":14,"y":102}},"valid":true,"view_height":338,"view_width":879},"route_cue_bypass":{"active":["selectedRouteCue:bypass"],"body_hit":"route:bypass","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:bypass","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:bypass","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[11.600000381469727,19,30],"rotation":[0.7071068286895752,0,0,-0.7071068286895752]},"pipe_red":false,"visible":true},"route_cue_main_pump":{"active":["selectedRouteCue:main_pump"],"body_hit":"route:main_pump","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:main_pump","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:main_pump","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[24,19,-69.19999694824219],"rotation":[0.7071068286895752,-0.4417261481285095,0,-0.5521577000617981]},"pipe_red":true,"visible":true}}}
+<end of output>
+Test time =  35.38 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.ui_overhaul_compact" end time: Nov 20 15:37 Central Standard Time
+"desktop.ui_overhaul_compact" time elapsed: 00:00:35
+----------------------------------------------------------
+
+25/88 Testing: desktop.ui_overhaul_short
+25/88 Test: desktop.ui_overhaul_short
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.ui_overhaul_short" start time: Nov 20 15:37 Central Standard Time
+Output:
+----------------------------------------------------------
+{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3bb77a3/ui/breakwater-ui-WeLRbW","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded_grid_toggle_preserves_numerical_evidence","instrumented_example_and_monitoring_controls_have_explicit_empty_state","actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls","native_source_selector_uses_immutable_stored_candidate_without_applying_controls"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":30487,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"before_dismiss_feedback_id":"2","capacity":120,"feedback_id":"2","field_text":"120","focused_before_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true},"inline_visible":true,"inspector_scrollbar":{"height":286,"panel_height":310,"panel_width":286,"size":0.35135135135135137,"x":264},"notice_visible":false,"outside_escape_before_key":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"outside_escape_setup_started":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"recording":{"folder_matches":true,"historical":true,"loaded":true,"loading":false,"pending":false,"status":"Historical evidence. Imported or reopened plans cannot restore current review eligibility.","storage":"EOG evidence is retained locally.","trace":28},"retained_pipe_button":{"height":36,"scroll_y":156,"viewport_height":126,"width":152,"x":611,"y":554},"retained_pipe_open":{"imported":true,"status":"Retained historical native scalar evidence. Approval and operating controls are unavailable.","visible":true},"selected_id":"tank_a","stored_science_source":{"can_run":true,"historical":false,"history_busy":false,"history_candidate":"9c4a0105-bfd5-4aca-85a4-7ba62d4f5893","history_session":"eb11ffbc-edcd-44ba-8d13-ab0b485e340d","history_status":"completed · current session","investigator_status":"validated_recommendation","recommendation":{"actionable":true,"approval_status":"pending_operator","candidate_id":"search:1a32575d-595d-4c04-80ec-ec2c2d14c81a:410","controls":[{"control_id":"route:main_pump:flow","value":27.5},{"control_id":"route:backup_pump:flow","value":26.25},{"control_id":"route:bypass:flow","value":12.5},{"control_id":"route:truck_route:flow","value":0}],"cost":0,"cost_unit":"synthetic units","created_at":"2026-11-20T21:38:19.593Z","current":true,"explanation":"Local native finite search selected the lowest-cost returned response on a grid of up to four available controls (flow actuators first), with up to six values per axis including current operation. Independent validation and explicit operator review are required. This is a finite-grid result, not a global optimum. No hosted model was used.","horizon_h":3,"objective":"Local native finite search: at most four available controls, flow controls first, up to six values per axis including the current value. Preserve unspecified controls. No hosted model requests.","ok":true,"physical_hash":"3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381","run_id":"9c4a0105-bfd5-4aca-85a4-7ba62d4f5893","sample_step_h":0.025,"search_candidate_index":410,"search_id":"1a32575d-595d-4c04-80ec-ec2c2d14c81a","selected_run_id":"9c4a0105-bfd5-4aca-85a4-7ba62d4f5893","session_id":"eb11ffbc-edcd-44ba-8d13-ab0b485e340d","snapshot_id":"4abe3577-50ae-417d-b195-452d53cf0fe0","solver":"dense_reference","solver_version":"constant-flow-0.1.1","source_mode":"local_native","status":"validated_recommendation","tanks":[{"asset_id":"tank_a","final_m3":115.99999999999974,"initial_m3":80,"trajectory_summary":[{"time_h":0,"volume_m3":80},{"time_h":1.5,"volume_m3":97.99999999999983},{"time_h":3,"volume_m3":115.99999999999974}]},{"asset_id":"tank_b","final_m3":120.75000000000068,"initial_m3":114,"trajectory_summary":[{"time_h":0,"volume_m3":114},{"time_h":1.5,"volume_m3":117.37500000000034},{"time_h":3,"volume_m3":120.75000000000068}]}],"validation":{"feasible":true,"limits":[],"max_conservation_residual_m3":1.199040866595169e-14,"minimum_headroom_m3":4,"violations":[]},"validation_id":"a0a63829-f3c4-4c87-9c08-c8a4ad6617a9","validation_source":"validate_run","validation_status":"validated","verified_cost":0,"verified_feasible":true,"warnings":["Synthetic constant-flow model; nominal volume feasibility only.","Quality is not evaluated. Finite candidate evaluation does not establish global optimality."]},"source_busy":false,"source_identity":{"effective_physical_hash":"05a643d05775cdc5b9b6b000e38ff1c992202d4c86a7a7379e1b689a6ccae21f","horizon_h":3,"numerical_revision":0,"sample_step_h":0.025,"source_mode":"stored_candidate","source_physical_hash":"3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381","source_run_id":"9c4a0105-bfd5-4aca-85a4-7ba62d4f5893","source_session_id":"eb11ffbc-edcd-44ba-8d13-ab0b485e340d","source_snapshot_id":"4abe3577-50ae-417d-b195-452d53cf0fe0"},"source_mode":"candidate","source_status":"Immutable stored candidate ready. Science does not apply its controls.","wait_ms":391,"worker_busy":false},"third_retry_before_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true}},"passed":true,"phase":52,"window_height":672,"window_width":1008,"workspace_observations":{"label_projection_home":{"label_count":3,"labels":[{"actual_x":322.51019287109375,"actual_y":205.38034057617188,"anchor_x":322.51019287109375,"anchor_y":205.38034057617188,"error_px":0,"id":"tank_a","passed":true},{"actual_x":503.9753723144531,"actual_y":196.82632446289062,"anchor_x":503.9753723144531,"anchor_y":196.82632446289062,"error_px":0,"id":"treatment","passed":true},{"actual_x":431.5766296386719,"actual_y":265.6672668457031,"anchor_x":431.5766296386719,"anchor_y":265.6672668457031,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_perspective":{"label_count":3,"labels":[{"actual_x":322.51019287109375,"actual_y":205.38034057617188,"anchor_x":322.51019287109375,"anchor_y":205.38034057617188,"error_px":0,"id":"tank_a","passed":true},{"actual_x":503.9753723144531,"actual_y":196.82632446289062,"anchor_x":503.9753723144531,"anchor_y":196.82632446289062,"error_px":0,"id":"treatment","passed":true},{"actual_x":431.5766296386719,"actual_y":265.6672668457031,"anchor_x":431.5766296386719,"anchor_y":265.6672668457031,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top":{"label_count":3,"labels":[{"actual_x":375.4967346191406,"actual_y":263.99517822265625,"anchor_x":375.4967346191406,"anchor_y":263.99517822265625,"error_px":0,"id":"tank_a","passed":true},{"actual_x":495.51849365234375,"actual_y":167.94419860839844,"anchor_x":495.51849365234375,"anchor_y":167.94419860839844,"error_px":0,"id":"treatment","passed":true},{"actual_x":483.516357421875,"actual_y":263.99517822265625,"anchor_x":483.516357421875,"anchor_y":263.99517822265625,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_focus":{"label_count":3,"labels":[{"actual_x":301.7186584472656,"actual_y":331.441650390625,"anchor_x":301.7186584472656,"anchor_y":331.441650390625,"error_px":0,"id":"tank_a","passed":true},{"actual_x":485.2813415527344,"actual_y":184.5401153564453,"anchor_x":485.2813415527344,"anchor_y":184.5401153564453,"error_px":0,"id":"treatment","passed":true},{"actual_x":466.9250793457031,"actual_y":331.441650390625,"anchor_x":466.9250793457031,"anchor_y":331.441650390625,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_pan":{"label_count":2,"labels":[{"actual_x":110.501220703125,"actual_y":159.62289428710938,"anchor_x":110.501220703125,"anchor_y":159.62289428710938,"error_px":0,"id":"tank_a","passed":true},{"actual_x":652.4943237304688,"actual_y":340.3504333496094,"anchor_x":652.4943237304688,"anchor_y":340.3504333496094,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"plan_fit_route_endpoints":{"camera":{"horizontal":0.821052610874176,"vertical":0.821052610874176,"x":-1200,"z":13.397436141967773},"corners":[{"id":"tank_a","inside":true,"x":89.6553955078125,"y":101.90834045410156},{"id":"tank_a","inside":true,"x":89.6553955078125,"y":249.7763214111328},{"id":"tank_a","inside":true,"x":204.6236572265625,"y":101.90834045410156},{"id":"tank_a","inside":true,"x":204.6236572265625,"y":249.7763214111328},{"id":"tank_b","inside":true,"x":582.37646484375,"y":266.20611572265625},{"id":"tank_b","inside":true,"x":582.37646484375,"y":414.0740661621094},{"id":"tank_b","inside":true,"x":697.3446655273438,"y":266.20611572265625},{"id":"tank_b","inside":true,"x":697.3446655273438,"y":414.0740661621094}],"fit":{"cameraX":-1200,"cameraZ":13.397435897435898,"magnification":0.8210526315789474,"spanX":780,"spanZ":380,"usable":{"height":312,"width":759,"x":14,"y":102}},"valid":true,"view_height":538,"view_width":787},"plan_fit_tall":{"camera":{"horizontal":0.10125786066055298,"vertical":0.10125786066055298,"x":0,"z":59.25465774536133},"corners":[{"id":"tank_a","inside":true,"x":376.2830505371094,"y":101.91096496582031},{"id":"tank_a","inside":true,"x":376.2830505371094,"y":120.14706420898438},{"id":"tank_a","inside":true,"x":390.4617004394531,"y":101.91096496582031},{"id":"tank_a","inside":true,"x":390.4617004394531,"y":120.14706420898438},{"id":"tank_b","inside":true,"x":396.5382995605469,"y":162.69793701171875},{"id":"tank_b","inside":true,"x":396.5382995605469,"y":180.93402099609375},{"id":"tank_b","inside":true,"x":410.7169494628906,"y":162.69793701171875},{"id":"tank_b","inside":true,"x":410.7169494628906,"y":180.93402099609375},{"id":"source_a","inside":true,"x":376.2830505371094,"y":223.48489379882812},{"id":"source_a","inside":true,"x":376.2830505371094,"y":241.7209930419922},{"id":"source_a","inside":true,"x":390.4617004394531,"y":223.48489379882812},{"id":"source_a","inside":true,"x":390.4617004394531,"y":241.7209930419922},{"id":"source_b","inside":true,"x":396.5382995605469,"y":284.2718811035156},{"id":"source_b","inside":true,"x":396.5382995605469,"y":302.50799560546875},{"id":"source_b","inside":true,"x":410.7169494628906,"y":284.2718811035156},{"id":"source_b","inside":true,"x":410.7169494628906,"y":302.50799560546875},{"id":"treatment","inside":true,"x":376.2830505371094,"y":345.05889892578125},{"id":"treatment","inside":true,"x":376.2830505371094,"y":363.29498291015625},{"id":"treatment","inside":true,"x":390.4617004394531,"y":345.05889892578125},{"id":"treatment","inside":true,"x":390.4617004394531,"y":363.29498291015625},{"id":"trucking","inside":true,"x":396.5382995605469,"y":405.8458557128906},{"id":"trucking","inside":true,"x":396.5382995605469,"y":424.0819396972656},{"id":"trucking","inside":true,"x":410.7169494628906,"y":405.8458557128906},{"id":"trucking","inside":true,"x":410.7169494628906,"y":424.0819396972656}],"fit":{"cameraX":0,"cameraZ":59.254658385093165,"magnification":0.10125786163522013,"spanX":380,"spanZ":3180,"usable":{"height":322,"width":759,"x":14,"y":102}},"valid":true,"view_height":538,"view_width":787},"plan_fit_tall_after_dock_resize":{"camera":{"horizontal":0.029559748247265816,"vertical":0.029559748247265816,"x":0,"z":202.97872924804688},"corners":[{"id":"tank_a","inside":true,"x":388.47393798828125,"y":101.95101165771484},{"id":"tank_a","inside":true,"x":388.47393798828125,"y":107.27667236328125},{"id":"tank_a","inside":true,"x":392.613037109375,"y":101.95101165771484},{"id":"tank_a","inside":true,"x":392.613037109375,"y":107.27667236328125},{"id":"tank_b","inside":true,"x":394.386962890625,"y":119.70320892333984},{"id":"tank_b","inside":true,"x":394.386962890625,"y":125.02886962890625},{"id":"tank_b","inside":true,"x":398.52606201171875,"y":119.70320892333984},{"id":"tank_b","inside":true,"x":398.52606201171875,"y":125.02886962890625},{"id":"source_a","inside":true,"x":388.47393798828125,"y":137.45542907714844},{"id":"source_a","inside":true,"x":388.47393798828125,"y":142.78109741210938},{"id":"source_a","inside":true,"x":392.613037109375,"y":137.45542907714844},{"id":"source_a","inside":true,"x":392.613037109375,"y":142.78109741210938},{"id":"source_b","inside":true,"x":394.386962890625,"y":155.20762634277344},{"id":"source_b","inside":true,"x":394.386962890625,"y":160.53329467773438},{"id":"source_b","inside":true,"x":398.52606201171875,"y":155.20762634277344},{"id":"source_b","inside":true,"x":398.52606201171875,"y":160.53329467773438},{"id":"treatment","inside":true,"x":388.47393798828125,"y":172.95985412597656},{"id":"treatment","inside":true,"x":388.47393798828125,"y":178.28549194335938},{"id":"treatment","inside":true,"x":392.613037109375,"y":172.95985412597656},{"id":"treatment","inside":true,"x":392.613037109375,"y":178.28549194335938},{"id":"trucking","inside":true,"x":394.386962890625,"y":190.71205139160156},{"id":"trucking","inside":true,"x":394.386962890625,"y":196.03770446777344},{"id":"trucking","inside":true,"x":398.52606201171875,"y":190.71205139160156},{"id":"trucking","inside":true,"x":398.52606201171875,"y":196.03770446777344}],"fit":{"cameraX":0,"cameraZ":202.9787234042553,"magnification":0.029559748427672956,"spanX":380,"spanZ":3180,"usable":{"height":94,"width":759,"x":14,"y":102}},"valid":true,"view_height":310,"view_width":787},"plan_fit_wide":{"camera":{"horizontal":0.23867924511432648,"vertical":0.23867924511432648,"x":0,"z":25.13833999633789},"corners":[{"id":"tank_a","inside":true,"x":18.705562591552734,"y":103.60272979736328},{"id":"tank_a","inside":true,"x":18.705562591552734,"y":146.60462951660156},{"id":"tank_a","inside":true,"x":52.12671661376953,"y":103.60272979736328},{"id":"tank_a","inside":true,"x":52.12671661376953,"y":146.60462951660156},{"id":"tank_b","inside":true,"x":161.93910217285156,"y":151.38259887695312},{"id":"tank_b","inside":true,"x":161.93910217285156,"y":194.38449096679688},{"id":"tank_b","inside":true,"x":195.36026000976562,"y":151.38259887695312},{"id":"tank_b","inside":true,"x":195.36026000976562,"y":194.38449096679688},{"id":"source_a","inside":true,"x":305.1726379394531,"y":103.60272979736328},{"id":"source_a","inside":true,"x":305.1726379394531,"y":146.60462951660156},{"id":"source_a","inside":true,"x":338.5937805175781,"y":103.60272979736328},{"id":"source_a","inside":true,"x":338.5937805175781,"y":146.60462951660156},{"id":"source_b","inside":true,"x":448.4062194824219,"y":151.38259887695312},{"id":"source_b","inside":true,"x":448.4062194824219,"y":194.38449096679688},{"id":"source_b","inside":true,"x":481.8273620605469,"y":151.38259887695312},{"id":"source_b","inside":true,"x":481.8273620605469,"y":194.38449096679688},{"id":"treatment","inside":true,"x":591.6397094726562,"y":103.60272979736328},{"id":"treatment","inside":true,"x":591.6397094726562,"y":146.60462951660156},{"id":"treatment","inside":true,"x":625.0608520507812,"y":103.60272979736328},{"id":"treatment","inside":true,"x":625.0608520507812,"y":146.60462951660156},{"id":"trucking","inside":true,"x":734.873291015625,"y":151.38259887695312},{"id":"trucking","inside":true,"x":734.873291015625,"y":194.38449096679688},{"id":"trucking","inside":true,"x":768.29443359375,"y":151.38259887695312},{"id":"trucking","inside":true,"x":768.29443359375,"y":194.38449096679688}],"fit":{"cameraX":0,"cameraZ":25.138339920948617,"magnification":0.23867924528301887,"spanX":3180,"spanZ":380,"usable":{"height":94,"width":759,"x":14,"y":102}},"valid":true,"view_height":310,"view_width":787},"route_cue_bypass":{"active":["selectedRouteCue:bypass"],"body_hit":"route:bypass","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:bypass","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:bypass","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[11.600000381469727,19,30],"rotation":[0.7071068286895752,0,0,-0.7071068286895752]},"pipe_red":false,"visible":true},"route_cue_main_pump":{"active":["selectedRouteCue:main_pump"],"body_hit":"route:main_pump","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:main_pump","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:main_pump","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[24,19,-69.19999694824219],"rotation":[0.7071068286895752,-0.4417261481285095,0,-0.5521577000617981]},"pipe_red":true,"visible":true}}}
+<end of output>
+Test time =  35.79 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.ui_overhaul_short" end time: Nov 20 15:38 Central Standard Time
+"desktop.ui_overhaul_short" time elapsed: 00:00:35
+----------------------------------------------------------
+
+26/88 Testing: desktop.ui_overhaul_minimum
+26/88 Test: desktop.ui_overhaul_minimum
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.ui_overhaul_minimum" start time: Nov 20 15:38 Central Standard Time
+Output:
+----------------------------------------------------------
+{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3bb77a3/ui/breakwater-ui-XrGIjG","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded_grid_toggle_preserves_numerical_evidence","instrumented_example_and_monitoring_controls_have_explicit_empty_state","actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls","native_source_selector_uses_immutable_stored_candidate_without_applying_controls"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":28486,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"before_dismiss_feedback_id":"2","capacity":120,"feedback_id":"2","field_text":"120","focused_before_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true},"inline_visible":true,"inspector_scrollbar":{"height":177,"panel_height":201,"panel_width":286,"size":0.21744471744471744,"x":264},"notice_visible":false,"outside_escape_before_key":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"outside_escape_setup_started":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"recording":{"folder_matches":true,"historical":true,"loaded":true,"loading":false,"pending":false,"status":"Historical evidence. Imported or reopened plans cannot restore current review eligibility.","storage":"EOG evidence is retained locally.","trace":28},"retained_pipe_button":{"height":36,"scroll_y":165,"viewport_height":103,"width":152,"x":582,"y":436},"retained_pipe_open":{"imported":true,"status":"Retained historical native scalar evidence. Approval and operating controls are unavailable.","visible":true},"selected_id":"tank_a","stored_science_source":{"can_run":true,"historical":false,"history_busy":false,"history_candidate":"3c49590a-071b-4080-861d-b362985e5833","history_session":"4f2cfaea-095a-42ef-9f35-29b25e7b03e3","history_status":"completed · current session","investigator_status":"validated_recommendation","recommendation":{"actionable":true,"approval_status":"pending_operator","candidate_id":"search:5fc6d047-7d31-4086-b689-8c2fa0dc779a:410","controls":[{"control_id":"route:main_pump:flow","value":27.5},{"control_id":"route:backup_pump:flow","value":26.25},{"control_id":"route:bypass:flow","value":12.5},{"control_id":"route:truck_route:flow","value":0}],"cost":0,"cost_unit":"synthetic units","created_at":"2026-11-20T21:38:53.452Z","current":true,"explanation":"Local native finite search selected the lowest-cost returned response on a grid of up to four available controls (flow actuators first), with up to six values per axis including current operation. Independent validation and explicit operator review are required. This is a finite-grid result, not a global optimum. No hosted model was used.","horizon_h":3,"objective":"Local native finite search: at most four available controls, flow controls first, up to six values per axis including the current value. Preserve unspecified controls. No hosted model requests.","ok":true,"physical_hash":"3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381","run_id":"3c49590a-071b-4080-861d-b362985e5833","sample_step_h":0.025,"search_candidate_index":410,"search_id":"5fc6d047-7d31-4086-b689-8c2fa0dc779a","selected_run_id":"3c49590a-071b-4080-861d-b362985e5833","session_id":"4f2cfaea-095a-42ef-9f35-29b25e7b03e3","snapshot_id":"c425bfe1-21b0-4e19-9e27-0eadcd37e239","solver":"dense_reference","solver_version":"constant-flow-0.1.1","source_mode":"local_native","status":"validated_recommendation","tanks":[{"asset_id":"tank_a","final_m3":115.99999999999974,"initial_m3":80,"trajectory_summary":[{"time_h":0,"volume_m3":80},{"time_h":1.5,"volume_m3":97.99999999999983},{"time_h":3,"volume_m3":115.99999999999974}]},{"asset_id":"tank_b","final_m3":120.75000000000068,"initial_m3":114,"trajectory_summary":[{"time_h":0,"volume_m3":114},{"time_h":1.5,"volume_m3":117.37500000000034},{"time_h":3,"volume_m3":120.75000000000068}]}],"validation":{"feasible":true,"limits":[],"max_conservation_residual_m3":1.199040866595169e-14,"minimum_headroom_m3":4,"violations":[]},"validation_id":"bbb0d345-d781-4c50-904b-bce1af55474f","validation_source":"validate_run","validation_status":"validated","verified_cost":0,"verified_feasible":true,"warnings":["Synthetic constant-flow model; nominal volume feasibility only.","Quality is not evaluated. Finite candidate evaluation does not establish global optimality."]},"source_busy":false,"source_identity":{"effective_physical_hash":"05a643d05775cdc5b9b6b000e38ff1c992202d4c86a7a7379e1b689a6ccae21f","horizon_h":3,"numerical_revision":0,"sample_step_h":0.025,"source_mode":"stored_candidate","source_physical_hash":"3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381","source_run_id":"3c49590a-071b-4080-861d-b362985e5833","source_session_id":"4f2cfaea-095a-42ef-9f35-29b25e7b03e3","source_snapshot_id":"c425bfe1-21b0-4e19-9e27-0eadcd37e239"},"source_mode":"candidate","source_status":"Immutable stored candidate ready. Science does not apply its controls.","wait_ms":345,"worker_busy":false},"third_retry_before_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true}},"passed":true,"phase":52,"window_height":540,"window_width":960,"workspace_observations":{"label_projection_home":{"label_count":3,"labels":[{"actual_x":315.9363708496094,"actual_y":154.9896240234375,"anchor_x":315.9363708496094,"anchor_y":154.9896240234375,"error_px":0,"id":"tank_a","passed":true},{"actual_x":452.8564758300781,"actual_y":148.53436279296875,"anchor_x":452.8564758300781,"anchor_y":148.53436279296875,"error_px":0,"id":"treatment","passed":true},{"actual_x":398.2297668457031,"actual_y":200.48497009277344,"anchor_x":398.2297668457031,"anchor_y":200.48497009277344,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_perspective":{"label_count":3,"labels":[{"actual_x":315.9363708496094,"actual_y":154.9896240234375,"anchor_x":315.9363708496094,"anchor_y":154.9896240234375,"error_px":0,"id":"tank_a","passed":true},{"actual_x":452.8564758300781,"actual_y":148.53436279296875,"anchor_x":452.8564758300781,"anchor_y":148.53436279296875,"error_px":0,"id":"treatment","passed":true},{"actual_x":398.2297668457031,"actual_y":200.48497009277344,"anchor_x":398.2297668457031,"anchor_y":200.48497009277344,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top":{"label_count":3,"labels":[{"actual_x":359.1133728027344,"actual_y":195.45498657226562,"anchor_x":359.1133728027344,"anchor_y":195.45498657226562,"error_px":0,"id":"tank_a","passed":true},{"actual_x":428.3575439453125,"actual_y":140.03138732910156,"anchor_x":428.3575439453125,"anchor_y":140.03138732910156,"error_px":0,"id":"treatment","passed":true},{"actual_x":421.43310546875,"actual_y":195.45498657226562,"anchor_x":421.43310546875,"anchor_y":195.45498657226562,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_focus":{"label_count":3,"labels":[{"actual_x":316.548583984375,"actual_y":234.37313842773438,"anchor_x":316.548583984375,"anchor_y":234.37313842773438,"error_px":0,"id":"tank_a","passed":true},{"actual_x":422.4513854980469,"actual_y":149.60760498046875,"anchor_x":422.4513854980469,"anchor_y":149.60760498046875,"error_px":0,"id":"treatment","passed":true},{"actual_x":411.86114501953125,"actual_y":234.37313842773438,"anchor_x":411.86114501953125,"anchor_y":234.37313842773438,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_pan":{"label_count":2,"labels":[{"actual_x":201.1516571044922,"actual_y":131.8428192138672,"anchor_x":201.1516571044922,"anchor_y":131.8428192138672,"error_px":0,"id":"tank_a","passed":true},{"actual_x":513.84375,"actual_y":236.12672424316406,"anchor_x":513.84375,"anchor_y":236.12672424316406,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"plan_fit_route_endpoints":{"camera":{"horizontal":0.4736842215061188,"vertical":0.4736842215061188,"x":-1200,"z":23.22222137451172},"corners":[{"id":"tank_a","inside":true,"x":194.20297241210938,"y":101.92719268798828},{"id":"tank_a","inside":true,"x":194.20297241210938,"y":187.25039672851562},{"id":"tank_a","inside":true,"x":260.53155517578125,"y":101.92719268798828},{"id":"tank_a","inside":true,"x":260.53155517578125,"y":187.25039672851562},{"id":"tank_b","inside":true,"x":478.46844482421875,"y":196.73074340820312},{"id":"tank_b","inside":true,"x":478.46844482421875,"y":282.0539245605469},{"id":"tank_b","inside":true,"x":544.7969970703125,"y":196.73074340820312},{"id":"tank_b","inside":true,"x":544.7969970703125,"y":282.0539245605469}],"fit":{"cameraX":-1200,"cameraZ":23.222222222222225,"magnification":0.47368421052631576,"spanX":780,"spanZ":380,"usable":{"height":180,"width":711,"x":14,"y":102}},"valid":true,"view_height":406,"view_width":739},"plan_fit_tall":{"camera":{"horizontal":0.05974842607975006,"vertical":0.05974842607975006,"x":0,"z":100.42105102539062},"corners":[{"id":"tank_a","inside":true,"x":359.3408203125,"y":101.92867279052734},{"id":"tank_a","inside":true,"x":359.3408203125,"y":112.69095611572266},{"id":"tank_a","inside":true,"x":367.70721435546875,"y":101.92867279052734},{"id":"tank_a","inside":true,"x":367.70721435546875,"y":112.69095611572266},{"id":"tank_b","inside":true,"x":371.29278564453125,"y":137.802978515625},{"id":"tank_b","inside":true,"x":371.29278564453125,"y":148.5652618408203},{"id":"tank_b","inside":true,"x":379.6591796875,"y":137.802978515625},{"id":"tank_b","inside":true,"x":379.6591796875,"y":148.5652618408203},{"id":"source_a","inside":true,"x":359.3408203125,"y":173.67726135253906},{"id":"source_a","inside":true,"x":359.3408203125,"y":184.43954467773438},{"id":"source_a","inside":true,"x":367.70721435546875,"y":173.67726135253906},{"id":"source_a","inside":true,"x":367.70721435546875,"y":184.43954467773438},{"id":"source_b","inside":true,"x":371.29278564453125,"y":209.55157470703125},{"id":"source_b","inside":true,"x":371.29278564453125,"y":220.31385803222656},{"id":"source_b","inside":true,"x":379.6591796875,"y":209.55157470703125},{"id":"source_b","inside":true,"x":379.6591796875,"y":220.31385803222656},{"id":"treatment","inside":true,"x":359.3408203125,"y":245.4258575439453},{"id":"treatment","inside":true,"x":359.3408203125,"y":256.1881408691406},{"id":"treatment","inside":true,"x":367.70721435546875,"y":245.4258575439453},{"id":"treatment","inside":true,"x":367.70721435546875,"y":256.1881408691406},{"id":"trucking","inside":true,"x":371.29278564453125,"y":281.3001403808594},{"id":"trucking","inside":true,"x":371.29278564453125,"y":292.0624694824219},{"id":"trucking","inside":true,"x":379.6591796875,"y":281.3001403808594},{"id":"trucking","inside":true,"x":379.6591796875,"y":292.0624694824219}],"fit":{"cameraX":0,"cameraZ":100.42105263157895,"magnification":0.059748427672955975,"spanX":380,"spanZ":3180,"usable":{"height":190,"width":711,"x":14,"y":102}},"valid":true,"view_height":406,"view_width":739},"plan_fit_tall_after_dock_resize":{"camera":{"horizontal":0.026729559525847435,"vertical":0.026729559525847435,"x":0,"z":-149.64706420898438},"corners":[{"id":"tank_a","inside":true,"x":364.9551086425781,"y":61.91763687133789},{"id":"tank_a","inside":true,"x":364.9551086425781,"y":66.73924255371094},{"id":"tank_a","inside":true,"x":368.6979675292969,"y":61.91763687133789},{"id":"tank_a","inside":true,"x":368.6979675292969,"y":66.73924255371094},{"id":"tank_b","inside":true,"x":370.3020324707031,"y":77.9896469116211},{"id":"tank_b","inside":true,"x":370.3020324707031,"y":82.81124877929688},{"id":"tank_b","inside":true,"x":374.0448913574219,"y":77.9896469116211},{"id":"tank_b","inside":true,"x":374.0448913574219,"y":82.81124877929688},{"id":"source_a","inside":true,"x":364.9551086425781,"y":94.0616455078125},{"id":"source_a","inside":true,"x":364.9551086425781,"y":98.88324737548828},{"id":"source_a","inside":true,"x":368.6979675292969,"y":94.0616455078125},{"id":"source_a","inside":true,"x":368.6979675292969,"y":98.88324737548828},{"id":"source_b","inside":true,"x":370.3020324707031,"y":110.13365173339844},{"id":"source_b","inside":true,"x":370.3020324707031,"y":114.95525360107422},{"id":"source_b","inside":true,"x":374.0448913574219,"y":110.13365173339844},{"id":"source_b","inside":true,"x":374.0448913574219,"y":114.95525360107422},{"id":"treatment","inside":true,"x":364.9551086425781,"y":126.20565032958984},{"id":"treatment","inside":true,"x":364.9551086425781,"y":131.02725219726562},{"id":"treatment","inside":true,"x":368.6979675292969,"y":126.20565032958984},{"id":"treatment","inside":true,"x":368.6979675292969,"y":131.02725219726562},{"id":"trucking","inside":true,"x":370.3020324707031,"y":142.27764892578125},{"id":"trucking","inside":true,"x":370.3020324707031,"y":147.09925842285156},{"id":"trucking","inside":true,"x":374.0448913574219,"y":142.27764892578125},{"id":"trucking","inside":true,"x":374.0448913574219,"y":147.09925842285156}],"fit":{"cameraX":0,"cameraZ":-149.64705882352942,"magnification":0.026729559748427674,"spanX":380,"spanZ":3180,"usable":{"height":85,"width":711,"x":14,"y":62}},"valid":true,"view_height":201,"view_width":739},"plan_fit_wide":{"camera":{"horizontal":0.22358490526676178,"vertical":0.22358490526676178,"x":0,"z":-17.890295028686523},"corners":[{"id":"tank_a","inside":true,"x":18.403823852539062,"y":61.935848236083984},{"id":"tank_a","inside":true,"x":18.403823852539062,"y":102.26712799072266},{"id":"tank_a","inside":true,"x":49.71176528930664,"y":61.935848236083984},{"id":"tank_a","inside":true,"x":49.71176528930664,"y":102.26712799072266},{"id":"tank_b","inside":true,"x":152.58070373535156,"y":106.74837493896484},{"id":"tank_b","inside":true,"x":152.58070373535156,"y":147.07965087890625},{"id":"tank_b","inside":true,"x":183.88864135742188,"y":106.74837493896484},{"id":"tank_b","inside":true,"x":183.88864135742188,"y":147.07965087890625},{"id":"source_a","inside":true,"x":286.7575988769531,"y":61.935848236083984},{"id":"source_a","inside":true,"x":286.7575988769531,"y":102.26712799072266},{"id":"source_a","inside":true,"x":318.0655212402344,"y":61.935848236083984},{"id":"source_a","inside":true,"x":318.0655212402344,"y":102.26712799072266},{"id":"source_b","inside":true,"x":420.9344787597656,"y":106.74837493896484},{"id":"source_b","inside":true,"x":420.9344787597656,"y":147.07965087890625},{"id":"source_b","inside":true,"x":452.2424011230469,"y":106.74837493896484},{"id":"source_b","inside":true,"x":452.2424011230469,"y":147.07965087890625},{"id":"treatment","inside":true,"x":555.111328125,"y":61.935848236083984},{"id":"treatment","inside":true,"x":555.111328125,"y":102.26712799072266},{"id":"treatment","inside":true,"x":586.4192504882812,"y":61.935848236083984},{"id":"treatment","inside":true,"x":586.4192504882812,"y":102.26712799072266},{"id":"trucking","inside":true,"x":689.2882080078125,"y":106.74837493896484},{"id":"trucking","inside":true,"x":689.2882080078125,"y":147.07965087890625},{"id":"trucking","inside":true,"x":720.59619140625,"y":106.74837493896484},{"id":"trucking","inside":true,"x":720.59619140625,"y":147.07965087890625}],"fit":{"cameraX":0,"cameraZ":-17.890295358649787,"magnification":0.22358490566037736,"spanX":3180,"spanZ":380,"usable":{"height":85,"width":711,"x":14,"y":62}},"valid":true,"view_height":201,"view_width":739},"route_cue_bypass":{"active":["selectedRouteCue:bypass"],"body_hit":"route:bypass","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:bypass","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:bypass","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[11.600000381469727,19,30],"rotation":[0.7071068286895752,0,0,-0.7071068286895752]},"pipe_red":false,"visible":true},"route_cue_main_pump":{"active":["selectedRouteCue:main_pump"],"body_hit":"route:main_pump","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:main_pump","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:main_pump","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[24,19,-69.19999694824219],"rotation":[0.7071068286895752,-0.4417261481285095,0,-0.5521577000617981]},"pipe_red":true,"visible":true}}}
+<end of output>
+Test time =  33.69 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.ui_overhaul_minimum" end time: Nov 20 15:38 Central Standard Time
+"desktop.ui_overhaul_minimum" time elapsed: 00:00:33
+----------------------------------------------------------
+
+27/88 Testing: desktop.project
+27/88 Test: desktop.project
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_desktop_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.project" start time: Nov 20 15:38 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.14 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.project" end time: Nov 20 15:38 Central Standard Time
+"desktop.project" time elapsed: 00:00:01
+----------------------------------------------------------
+
+28/88 Testing: desktop.pipe_parameters
+28/88 Test: desktop.pipe_parameters
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_pipe_parameters_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.pipe_parameters" start time: Nov 20 15:38 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.10 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.pipe_parameters" end time: Nov 20 15:38 Central Standard Time
+"desktop.pipe_parameters" time elapsed: 00:00:00
+----------------------------------------------------------
+
+29/88 Testing: desktop.nemotron_client
+29/88 Test: desktop.nemotron_client
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_nemotron_client_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/nemotron_client-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.nemotron_client" start time: Nov 20 15:38 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   2.27 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.nemotron_client" end time: Nov 20 15:38 Central Standard Time
+"desktop.nemotron_client" time elapsed: 00:00:02
+----------------------------------------------------------
+
+30/88 Testing: desktop.agent_gateway
+30/88 Test: desktop.agent_gateway
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_agent_gateway_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/agent_gateway-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.agent_gateway" start time: Nov 20 15:38 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.53 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.agent_gateway" end time: Nov 20 15:39 Central Standard Time
+"desktop.agent_gateway" time elapsed: 00:00:00
+----------------------------------------------------------
+
+31/88 Testing: desktop.agent_orchestrator
+31/88 Test: desktop.agent_orchestrator
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_agent_orchestrator_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/agent_orchestrator-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.agent_orchestrator" start time: Nov 20 15:39 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  12.70 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.agent_orchestrator" end time: Nov 20 15:39 Central Standard Time
+"desktop.agent_orchestrator" time elapsed: 00:00:12
+----------------------------------------------------------
+
+32/88 Testing: desktop.observed_forecast
+32/88 Test: desktop.observed_forecast
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_observed_forecast_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/observed_forecast-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.observed_forecast" start time: Nov 20 15:39 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  38.27 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.observed_forecast" end time: Nov 20 15:39 Central Standard Time
+"desktop.observed_forecast" time elapsed: 00:00:38
+----------------------------------------------------------
+
+33/88 Testing: desktop.session_repository
+33/88 Test: desktop.session_repository
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_session_repository_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/session_repository-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.session_repository" start time: Nov 20 15:39 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.65 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.session_repository" end time: Nov 20 15:39 Central Standard Time
+"desktop.session_repository" time elapsed: 00:00:03
+----------------------------------------------------------
+
+34/88 Testing: desktop.history_controller
+34/88 Test: desktop.history_controller
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_history_controller_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/history_controller-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.history_controller" start time: Nov 20 15:39 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   2.20 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.history_controller" end time: Nov 20 15:39 Central Standard Time
+"desktop.history_controller" time elapsed: 00:00:02
+----------------------------------------------------------
+
+35/88 Testing: desktop.python_worker
+35/88 Test: desktop.python_worker
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_python_worker_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/python_worker-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.python_worker" start time: Nov 20 15:39 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   4.00 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.python_worker" end time: Nov 20 15:40 Central Standard Time
+"desktop.python_worker" time elapsed: 00:00:04
+----------------------------------------------------------
+
+36/88 Testing: desktop.pipe_transport
+36/88 Test: desktop.pipe_transport
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_pipe_transport_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/pipe_transport-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.pipe_transport" start time: Nov 20 15:40 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   9.97 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.pipe_transport" end time: Nov 20 15:40 Central Standard Time
+"desktop.pipe_transport" time elapsed: 00:00:09
+----------------------------------------------------------
+
+37/88 Testing: desktop.pipe_transport_evidence
+37/88 Test: desktop.pipe_transport_evidence
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_pipe_transport_evidence_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/pipe_transport_evidence-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.pipe_transport_evidence" start time: Nov 20 15:40 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.42 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.pipe_transport_evidence" end time: Nov 20 15:40 Central Standard Time
+"desktop.pipe_transport_evidence" time elapsed: 00:00:00
+----------------------------------------------------------
+
+38/88 Testing: desktop.storage_worker
+38/88 Test: desktop.storage_worker
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_storage_worker_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/storage_worker-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.storage_worker" start time: Nov 20 15:40 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time = 103.99 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_worker" end time: Nov 20 15:41 Central Standard Time
+"desktop.storage_worker" time elapsed: 00:01:43
+----------------------------------------------------------
+
+39/88 Testing: desktop.storage_science
+39/88 Test: desktop.storage_science
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_storage_science_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/storage_science-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.storage_science" start time: Nov 20 15:41 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  71.06 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_science" end time: Nov 20 15:43 Central Standard Time
+"desktop.storage_science" time elapsed: 00:01:11
+----------------------------------------------------------
+
+40/88 Testing: desktop.stored_science
+40/88 Test: desktop.stored_science
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_stored_science_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/stored_science-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.stored_science" start time: Nov 20 15:43 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   5.37 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.stored_science" end time: Nov 20 15:43 Central Standard Time
+"desktop.stored_science" time elapsed: 00:00:05
+----------------------------------------------------------
+
+41/88 Testing: desktop.science_evidence
+41/88 Test: desktop.science_evidence
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_science_evidence_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/science_evidence-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.science_evidence" start time: Nov 20 15:43 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  14.55 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.science_evidence" end time: Nov 20 15:43 Central Standard Time
+"desktop.science_evidence" time elapsed: 00:00:14
+----------------------------------------------------------
+
+42/88 Testing: desktop.agent_science
+42/88 Test: desktop.agent_science
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_agent_science_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/agent_science-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.agent_science" start time: Nov 20 15:43 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   9.76 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.agent_science" end time: Nov 20 15:43 Central Standard Time
+"desktop.agent_science" time elapsed: 00:00:09
+----------------------------------------------------------
+
+43/88 Testing: desktop.scene_picking_warp
+43/88 Test: desktop.scene_picking_warp
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/scene_benchmark_check.py" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.scene_picking_warp" start time: Nov 20 15:43 Central Standard Time
+Output:
+----------------------------------------------------------
+Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop\test-artifacts\scene-picking-warp-7cfaeccf16ea440891ee90b27655e58e
+PASS: 6/6 actual body picks; WARP 15.96 FPS (diagnostic only)
+<end of output>
+Test time =  18.77 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.scene_picking_warp" end time: Nov 20 15:43 Central Standard Time
+"desktop.scene_picking_warp" time elapsed: 00:00:18
+----------------------------------------------------------
+
+44/88 Testing: desktop.sensor_editor
+44/88 Test: desktop.sensor_editor
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_sensor_editor_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/sensor_editor-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.sensor_editor" start time: Nov 20 15:43 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   3.95 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.sensor_editor" end time: Nov 20 15:43 Central Standard Time
+"desktop.sensor_editor" time elapsed: 00:00:03
+----------------------------------------------------------
+
+45/88 Testing: desktop.telemetry_stream
+45/88 Test: desktop.telemetry_stream
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_telemetry_stream_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/telemetry_stream-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.telemetry_stream" start time: Nov 20 15:43 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time = 130.86 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.telemetry_stream" end time: Nov 20 15:46 Central Standard Time
+"desktop.telemetry_stream" time elapsed: 00:02:10
+----------------------------------------------------------
+
+46/88 Testing: desktop.telemetry_lifecycle
+46/88 Test: desktop.telemetry_lifecycle
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_telemetry_lifecycle_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/telemetry_lifecycle-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.telemetry_lifecycle" start time: Nov 20 15:46 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  26.14 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.telemetry_lifecycle" end time: Nov 20 15:46 Central Standard Time
+"desktop.telemetry_lifecycle" time elapsed: 00:00:26
+----------------------------------------------------------
+
+47/88 Testing: desktop.observed_capture
+47/88 Test: desktop.observed_capture
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_observed_capture_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/observed_capture-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.observed_capture" start time: Nov 20 15:46 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   7.61 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.observed_capture" end time: Nov 20 15:46 Central Standard Time
+"desktop.observed_capture" time elapsed: 00:00:07
+----------------------------------------------------------
+
+48/88 Testing: desktop.local_publisher
+48/88 Test: desktop.local_publisher
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_local_publisher_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/local_publisher-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.local_publisher" start time: Nov 20 15:46 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   5.50 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.local_publisher" end time: Nov 20 15:46 Central Standard Time
+"desktop.local_publisher" time elapsed: 00:00:05
+----------------------------------------------------------
+
+49/88 Testing: desktop.receiver_journal
+49/88 Test: desktop.receiver_journal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_receiver_journal_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/receiver_journal-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.receiver_journal" start time: Nov 20 15:46 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   9.42 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.receiver_journal" end time: Nov 20 15:46 Central Standard Time
+"desktop.receiver_journal" time elapsed: 00:00:09
+----------------------------------------------------------
+
+50/88 Testing: desktop.sensor_editor_normal_smoke
+50/88 Test: desktop.sensor_editor_normal_smoke
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--sensor-editor-check" "--smoke" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/g2-sensors-normal.png"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.sensor_editor_normal_smoke" start time: Nov 20 15:46 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.44 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.sensor_editor_normal_smoke" end time: Nov 20 15:47 Central Standard Time
+"desktop.sensor_editor_normal_smoke" time elapsed: 00:00:08
+----------------------------------------------------------
+
+51/88 Testing: desktop.telemetry_replay_normal_smoke
+51/88 Test: desktop.telemetry_replay_normal_smoke
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--project" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/g2/g2-monitoring-project.json" "--telemetry-replay" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/g2/g2-recording.ndjson" "--smoke" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/g2-replay-normal.png"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.telemetry_replay_normal_smoke" start time: Nov 20 15:47 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.64 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.telemetry_replay_normal_smoke" end time: Nov 20 15:47 Central Standard Time
+"desktop.telemetry_replay_normal_smoke" time elapsed: 00:00:08
+----------------------------------------------------------
+
+52/88 Testing: desktop.sensor_editor_compact_smoke
+52/88 Test: desktop.sensor_editor_compact_smoke
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--sensor-editor-check" "--smoke" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/g2-sensors-compact.png" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.sensor_editor_compact_smoke" start time: Nov 20 15:47 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.55 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.sensor_editor_compact_smoke" end time: Nov 20 15:47 Central Standard Time
+"desktop.sensor_editor_compact_smoke" time elapsed: 00:00:08
+----------------------------------------------------------
+
+53/88 Testing: desktop.telemetry_replay_compact_smoke
+53/88 Test: desktop.telemetry_replay_compact_smoke
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--project" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/g2/g2-monitoring-project.json" "--telemetry-replay" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/g2/g2-recording.ndjson" "--smoke" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/g2-replay-compact.png" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.telemetry_replay_compact_smoke" start time: Nov 20 15:47 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.81 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.telemetry_replay_compact_smoke" end time: Nov 20 15:47 Central Standard Time
+"desktop.telemetry_replay_compact_smoke" time elapsed: 00:00:08
+----------------------------------------------------------
+
+54/88 Testing: desktop.telemetry_contracts
+54/88 Test: desktop.telemetry_contracts
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_telemetry_contract_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/telemetry_contracts-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.telemetry_contracts" start time: Nov 20 15:47 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  12.68 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.telemetry_contracts" end time: Nov 20 15:47 Central Standard Time
+"desktop.telemetry_contracts" time elapsed: 00:00:12
+----------------------------------------------------------
+
+55/88 Testing: contracts.telemetry
+55/88 Test: contracts.telemetry
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/contracts/telemetry/tests/test_contracts.py" "--native" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_telemetry_contract_check.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"contracts.telemetry" start time: Nov 20 15:47 Central Standard Time
+Output:
+----------------------------------------------------------
+...................
+----------------------------------------------------------------------
+Ran 19 tests in 4.442s
+
+OK
+<end of output>
+Test time =   4.76 sec
+----------------------------------------------------------
+Test Passed.
+"contracts.telemetry" end time: Nov 20 15:47 Central Standard Time
+"contracts.telemetry" time elapsed: 00:00:04
+----------------------------------------------------------
+
+56/88 Testing: desktop.eog_contracts
+56/88 Test: desktop.eog_contracts
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_contract_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_contracts-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_contracts" start time: Nov 20 15:47 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.29 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_contracts" end time: Nov 20 15:47 Central Standard Time
+"desktop.eog_contracts" time elapsed: 00:00:01
+----------------------------------------------------------
+
+57/88 Testing: contracts.eog
+57/88 Test: contracts.eog
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/contracts/eog/tests/test_contracts.py" "--native" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_contract_tests.exe"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"contracts.eog" start time: Nov 20 15:47 Central Standard Time
+Output:
+----------------------------------------------------------
+................................................
+----------------------------------------------------------------------
+Ran 48 tests in 1.937s
+
+OK
+<end of output>
+Test time =   2.16 sec
+----------------------------------------------------------
+Test Passed.
+"contracts.eog" end time: Nov 20 15:47 Central Standard Time
+"contracts.eog" time elapsed: 00:00:02
+----------------------------------------------------------
+
+58/88 Testing: desktop.observed_advisory_normal
+58/88 Test: desktop.observed_advisory_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.observed_advisory_normal" start time: Nov 20 15:47 Central Standard Time
+Output:
+----------------------------------------------------------
+{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3bb77a3/ui/breakwater-ui-yfmSkx","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":11597,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":900,"window_width":1440}
+<end of output>
+Test time =  17.43 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.observed_advisory_normal" end time: Nov 20 15:48 Central Standard Time
+"desktop.observed_advisory_normal" time elapsed: 00:00:17
+----------------------------------------------------------
+
+59/88 Testing: desktop.observed_advisory_compact
+59/88 Test: desktop.observed_advisory_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.observed_advisory_compact" start time: Nov 20 15:48 Central Standard Time
+Output:
+----------------------------------------------------------
+{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3bb77a3/ui/breakwater-ui-udzDmJ","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":10927,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":700,"window_width":1100}
+<end of output>
+Test time =  16.89 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.observed_advisory_compact" end time: Nov 20 15:48 Central Standard Time
+"desktop.observed_advisory_compact" time elapsed: 00:00:16
+----------------------------------------------------------
+
+60/88 Testing: desktop.observed_advisory_short
+60/88 Test: desktop.observed_advisory_short
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.observed_advisory_short" start time: Nov 20 15:48 Central Standard Time
+Output:
+----------------------------------------------------------
+{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3bb77a3/ui/breakwater-ui-ylsJnZ","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":10943,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":672,"window_width":1008}
+<end of output>
+Test time =  16.90 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.observed_advisory_short" end time: Nov 20 15:48 Central Standard Time
+"desktop.observed_advisory_short" time elapsed: 00:00:16
+----------------------------------------------------------
+
+61/88 Testing: desktop.observed_advisory_minimum
+61/88 Test: desktop.observed_advisory_minimum
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.observed_advisory_minimum" start time: Nov 20 15:48 Central Standard Time
+Output:
+----------------------------------------------------------
+{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3bb77a3/ui/breakwater-ui-RyZHmF","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":10736,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":540,"window_width":960}
+<end of output>
+Test time =  16.78 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.observed_advisory_minimum" end time: Nov 20 15:49 Central Standard Time
+"desktop.observed_advisory_minimum" time elapsed: 00:00:16
+----------------------------------------------------------
+
+62/88 Testing: desktop.storage_science_normal
+62/88 Test: desktop.storage_science_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--science-check" "--smoke" "--science-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/science-normal.json" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/science-normal.sqlite"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.storage_science_normal" start time: Nov 20 15:49 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  11.64 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_science_normal" end time: Nov 20 15:49 Central Standard Time
+"desktop.storage_science_normal" time elapsed: 00:00:11
+----------------------------------------------------------
+
+63/88 Testing: desktop.storage_science_compact
+63/88 Test: desktop.storage_science_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--science-check" "--smoke" "--science-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/science-compact.json" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/science-compact.sqlite" "--compact-ui" "--science-example" "bad"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.storage_science_compact" start time: Nov 20 15:49 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  11.04 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_science_compact" end time: Nov 20 15:49 Central Standard Time
+"desktop.storage_science_compact" time elapsed: 00:00:11
+----------------------------------------------------------
+
+64/88 Testing: desktop.storage_science_derivatives
+64/88 Test: desktop.storage_science_derivatives
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--science-check" "--smoke" "--science-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/science-derivatives.json" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/science-derivatives.sqlite" "--science-derivatives" "--science-control" "source:source_a:curtail" "--science-control" "route:bypass:flow"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.storage_science_derivatives" start time: Nov 20 15:49 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  11.16 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.storage_science_derivatives" end time: Nov 20 15:49 Central Standard Time
+"desktop.storage_science_derivatives" time elapsed: 00:00:11
+----------------------------------------------------------
+
+65/88 Testing: desktop.qml_smoke
+65/88 Test: desktop.qml_smoke
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--smoke"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.qml_smoke" start time: Nov 20 15:49 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.53 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.qml_smoke" end time: Nov 20 15:49 Central Standard Time
+"desktop.qml_smoke" time elapsed: 00:00:08
+----------------------------------------------------------
+
+66/88 Testing: desktop.scientific_history_normal
+66/88 Test: desktop.scientific_history_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--import-session" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/scientific-history.json" "--open-scientific-history" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/science-history-normal.sqlite" "--smoke"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.scientific_history_normal" start time: Nov 20 15:49 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.39 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.scientific_history_normal" end time: Nov 20 15:49 Central Standard Time
+"desktop.scientific_history_normal" time elapsed: 00:00:08
+----------------------------------------------------------
+
+67/88 Testing: desktop.scientific_history_compact
+67/88 Test: desktop.scientific_history_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--import-session" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/scientific-history.json" "--open-scientific-history" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/science-history-compact.sqlite" "--smoke" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.scientific_history_compact" start time: Nov 20 15:49 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.44 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.scientific_history_compact" end time: Nov 20 15:50 Central Standard Time
+"desktop.scientific_history_compact" time elapsed: 00:00:08
+----------------------------------------------------------
+
+68/88 Testing: desktop.pipe_evidence_smoke
+68/88 Test: desktop.pipe_evidence_smoke
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--import-pipe-evidence" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/native-transport-evidence.json" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/pipe-render.sqlite" "--smoke"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.pipe_evidence_smoke" start time: Nov 20 15:50 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.39 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.pipe_evidence_smoke" end time: Nov 20 15:50 Central Standard Time
+"desktop.pipe_evidence_smoke" time elapsed: 00:00:08
+----------------------------------------------------------
+
+69/88 Testing: desktop.portfolio_examples
+69/88 Test: desktop.portfolio_examples
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/portfolio_examples_tests.py" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_export_examples.exe" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_offline_check.exe" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/examples/portfolio"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.portfolio_examples" start time: Nov 20 15:50 Central Standard Time
+Output:
+----------------------------------------------------------
+test_native_projects_match_the_committed_oracles (__main__.PortfolioExamples.test_native_projects_match_the_committed_oracles) ... ok
+test_recorded_inputs_search_validate_and_reopen_without_a_model (__main__.PortfolioExamples.test_recorded_inputs_search_validate_and_reopen_without_a_model) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 8.450s
+
+OK
+<end of output>
+Test time =   8.61 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.portfolio_examples" end time: Nov 20 15:50 Central Standard Time
+"desktop.portfolio_examples" time elapsed: 00:00:08
+----------------------------------------------------------
+
+70/88 Testing: desktop.eog_dataset
+70/88 Test: desktop.eog_dataset
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_dataset_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_dataset-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_dataset" start time: Nov 20 15:50 Central Standard Time
+Output:
+----------------------------------------------------------
+Official input check NOT RUN: BREAKWATER_EOG_OFFICIAL_ROOT not supplied.
+<end of output>
+Test time =  16.51 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_dataset" end time: Nov 20 15:50 Central Standard Time
+"desktop.eog_dataset" time elapsed: 00:00:16
+----------------------------------------------------------
+
+71/88 Testing: desktop.eog_capture
+71/88 Test: desktop.eog_capture
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_capture_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_capture-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_capture" start time: Nov 20 15:50 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.78 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_capture" end time: Nov 20 15:50 Central Standard Time
+"desktop.eog_capture" time elapsed: 00:00:00
+----------------------------------------------------------
+
+72/88 Testing: desktop.eog_analysis_client
+72/88 Test: desktop.eog_analysis_client
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_analysis_client_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_analysis_client-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_analysis_client" start time: Nov 20 15:50 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  14.59 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_analysis_client" end time: Nov 20 15:50 Central Standard Time
+"desktop.eog_analysis_client" time elapsed: 00:00:14
+----------------------------------------------------------
+
+73/88 Testing: desktop.eog_history
+73/88 Test: desktop.eog_history
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_history_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_history-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_history" start time: Nov 20 15:50 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  27.43 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_history" end time: Nov 20 15:51 Central Standard Time
+"desktop.eog_history" time elapsed: 00:00:27
+----------------------------------------------------------
+
+74/88 Testing: desktop.eog_investigator
+74/88 Test: desktop.eog_investigator
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_investigator_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_investigator-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_investigator" start time: Nov 20 15:51 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   4.96 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_investigator" end time: Nov 20 15:51 Central Standard Time
+"desktop.eog_investigator" time elapsed: 00:00:04
+----------------------------------------------------------
+
+75/88 Testing: desktop.eog_analysis_controller
+75/88 Test: desktop.eog_analysis_controller
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_analysis_controller_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_analysis_controller-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_analysis_controller" start time: Nov 20 15:51 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  37.21 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_analysis_controller" end time: Nov 20 15:51 Central Standard Time
+"desktop.eog_analysis_controller" time elapsed: 00:00:37
+----------------------------------------------------------
+
+76/88 Testing: desktop.eog_provider
+76/88 Test: desktop.eog_provider
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_provider_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_provider-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_provider" start time: Nov 20 15:51 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  15.58 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_provider" end time: Nov 20 15:52 Central Standard Time
+"desktop.eog_provider" time elapsed: 00:00:15
+----------------------------------------------------------
+
+77/88 Testing: desktop.eog_demo_input
+77/88 Test: desktop.eog_demo_input
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/scripts/tests/test_eog_demo.py"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_demo_input" start time: Nov 20 15:52 Central Standard Time
+Output:
+----------------------------------------------------------
+test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes (__main__.EogDemoTests.test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes) ... ok
+test_destination_appearing_at_publication_is_not_overwritten_or_merged (__main__.EogDemoTests.test_destination_appearing_at_publication_is_not_overwritten_or_merged) ... ok
+test_deterministic_topology_rename_preserves_values_economics_and_all_references (__main__.EogDemoTests.test_deterministic_topology_rename_preserves_values_economics_and_all_references) ... ok
+test_every_system_disposal_and_retained_facility_operations_key_is_renamed (__main__.EogDemoTests.test_every_system_disposal_and_retained_facility_operations_key_is_renamed) ... ok
+test_external_source_change_before_publication_is_detected (__main__.EogDemoTests.test_external_source_change_before_publication_is_detected) ... ok
+test_negative_overflow_and_stale_acquisition_field_text_and_line_endings_are_exact (__main__.EogDemoTests.test_negative_overflow_and_stale_acquisition_field_text_and_line_endings_are_exact) ... ok
+test_only_fixed_input_names_are_opened (__main__.EogDemoTests.test_only_fixed_input_names_are_opened) ... ok
+test_oversize_input_and_failed_writes_or_publication_never_leave_partial_output (__main__.EogDemoTests.test_oversize_input_and_failed_writes_or_publication_never_leave_partial_output) ... ok
+test_quoted_unicode_source_ids_only_change_the_asset_token (__main__.EogDemoTests.test_quoted_unicode_source_ids_only_change_the_asset_token) ... ok
+test_single_facility_existing_and_in_source_output_are_refused (__main__.EogDemoTests.test_single_facility_existing_and_in_source_output_are_refused) ... ok
+test_unsupported_shape_references_duplicate_keys_and_nonfinite_samples_fail_without_output (__main__.EogDemoTests.test_unsupported_shape_references_duplicate_keys_and_nonfinite_samples_fail_without_output) ... ok
+
+----------------------------------------------------------------------
+Ran 11 tests in 1.094s
+
+OK
+<end of output>
+Test time =   1.30 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_demo_input" end time: Nov 20 15:52 Central Standard Time
+"desktop.eog_demo_input" time elapsed: 00:00:01
+----------------------------------------------------------
+
+78/88 Testing: desktop.eog_live_cli
+78/88 Test: desktop.eog_live_cli
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_live_cli_tests.py" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_live_check.exe" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_live_cli" start time: Nov 20 15:52 Central Standard Time
+Output:
+----------------------------------------------------------
+test_database_sidecar_names_cannot_be_used_as_archives (__main__.EogLiveCliTests.test_database_sidecar_names_cannot_be_used_as_archives) ... ok
+test_invalid_existing_and_in_source_archives_are_rejected (__main__.EogLiveCliTests.test_invalid_existing_and_in_source_archives_are_rejected) ... ok
+test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive (__main__.EogLiveCliTests.test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive) ... ok
+test_native_executable_and_inputs_are_required_without_skips (__main__.EogLiveCliTests.test_native_executable_and_inputs_are_required_without_skips) ... ok
+test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) ... ok
+test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives (__main__.EogLiveCliTests.test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives) ... ok
+test_source_database_paths_and_archive_database_collision_are_rejected (__main__.EogLiveCliTests.test_source_database_paths_and_archive_database_collision_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.193s
+
+OK
+<end of output>
+Test time =   2.34 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_live_cli" end time: Nov 20 15:52 Central Standard Time
+"desktop.eog_live_cli" time elapsed: 00:00:02
+----------------------------------------------------------
+
+79/88 Testing: desktop.eog_cli
+79/88 Test: desktop.eog_cli
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_cli_tests.py" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_cli" start time: Nov 20 15:52 Central Standard Time
+Output:
+----------------------------------------------------------
+test_conflicting_workbench_operations_are_rejected (__main__.EogCliTests.test_conflicting_workbench_operations_are_rejected) ... ok
+test_facility_and_report_need_a_dataset (__main__.EogCliTests.test_facility_and_report_need_a_dataset) ... ok
+test_inputs_cannot_be_report_screenshot_or_database (__main__.EogCliTests.test_inputs_cannot_be_report_screenshot_or_database) ... ok
+test_legacy_report_writers_are_rejected (__main__.EogCliTests.test_legacy_report_writers_are_rejected) ... ok
+test_reports_cannot_overwrite_database_journals (__main__.EogCliTests.test_reports_cannot_overwrite_database_journals) ... ok
+test_reports_screenshot_and_database_are_distinct (__main__.EogCliTests.test_reports_screenshot_and_database_are_distinct) ... ok
+test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input) ... ok
+test_unknown_workspace_and_facility_are_rejected (__main__.EogCliTests.test_unknown_workspace_and_facility_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 20.493s
+
+OK
+<end of output>
+Test time =  20.63 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_cli" end time: Nov 20 15:52 Central Standard Time
+"desktop.eog_cli" time elapsed: 00:00:20
+----------------------------------------------------------
+
+80/88 Testing: desktop.eog_plan_chart
+80/88 Test: desktop.eog_plan_chart
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_plan_chart_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_plan_chart-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_plan_chart" start time: Nov 20 15:52 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   7.89 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_plan_chart" end time: Nov 20 15:52 Central Standard Time
+"desktop.eog_plan_chart" time elapsed: 00:00:07
+----------------------------------------------------------
+
+81/88 Testing: desktop.eog_plan_details
+81/88 Test: desktop.eog_plan_details
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_plan_details_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_plan_details-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_plan_details" start time: Nov 20 15:52 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   9.71 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_plan_details" end time: Nov 20 15:52 Central Standard Time
+"desktop.eog_plan_details" time elapsed: 00:00:09
+----------------------------------------------------------
+
+82/88 Testing: desktop.eog_event_details
+82/88 Test: desktop.eog_event_details
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_eog_event_details_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog_event_details-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_event_details" start time: Nov 20 15:52 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.15 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_event_details" end time: Nov 20 15:53 Central Standard Time
+"desktop.eog_event_details" time elapsed: 00:00:08
+----------------------------------------------------------
+
+83/88 Testing: desktop.eog_analysis_normal
+83/88 Test: desktop.eog_analysis_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--eog-analysis-panel" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-analysis-normal.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-analysis-normal.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-analysis-normal.sqlite"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_analysis_normal" start time: Nov 20 15:53 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.43 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_analysis_normal" end time: Nov 20 15:53 Central Standard Time
+"desktop.eog_analysis_normal" time elapsed: 00:00:08
+----------------------------------------------------------
+
+84/88 Testing: desktop.eog_overview_normal
+84/88 Test: desktop.eog_overview_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-overview-normal.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-overview-normal.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-overview-normal.sqlite"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_overview_normal" start time: Nov 20 15:53 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.71 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_overview_normal" end time: Nov 20 15:53 Central Standard Time
+"desktop.eog_overview_normal" time elapsed: 00:00:08
+----------------------------------------------------------
+
+85/88 Testing: desktop.eog_facility_normal
+85/88 Test: desktop.eog_facility_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-facility-normal.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-facility-normal.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-facility-normal.sqlite" "--eog-facility" "facility-Z"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_facility_normal" start time: Nov 20 15:53 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   9.07 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_facility_normal" end time: Nov 20 15:53 Central Standard Time
+"desktop.eog_facility_normal" time elapsed: 00:00:09
+----------------------------------------------------------
+
+86/88 Testing: desktop.eog_analysis_compact
+86/88 Test: desktop.eog_analysis_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--eog-analysis-panel" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-analysis-compact.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-analysis-compact.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-analysis-compact.sqlite" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_analysis_compact" start time: Nov 20 15:53 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.53 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_analysis_compact" end time: Nov 20 15:53 Central Standard Time
+"desktop.eog_analysis_compact" time elapsed: 00:00:08
+----------------------------------------------------------
+
+87/88 Testing: desktop.eog_overview_compact
+87/88 Test: desktop.eog_overview_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-overview-compact.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-overview-compact.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-overview-compact.sqlite" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_overview_compact" start time: Nov 20 15:53 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.62 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_overview_compact" end time: Nov 20 15:53 Central Standard Time
+"desktop.eog_overview_compact" time elapsed: 00:00:08
+----------------------------------------------------------
+
+88/88 Testing: desktop.eog_facility_compact
+88/88 Test: desktop.eog_facility_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-facility-compact.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-facility-compact.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/eog-facility-compact.sqlite" "--compact-ui" "--eog-facility" "facility-Z"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.eog_facility_compact" start time: Nov 20 15:53 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   8.63 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_facility_compact" end time: Nov 20 15:53 Central Standard Time
+"desktop.eog_facility_compact" time elapsed: 00:00:08
+----------------------------------------------------------
+
+End testing: Nov 20 15:53 Central Standard Time

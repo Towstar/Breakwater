@@ -1,0 +1,165 @@
+{
+  "manifest_version": 1,
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "dirty": false,
+  "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+  "status": "pending",
+  "executables": {
+    "desktop": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+    "eog_live_check": "07a6d845c2959f2e2fbaa1fed7dc2701dca37fea39346489dc0c3efb9f829e19",
+    "nemotron_smoke": "b447f0b2492cdf67dc808eb8fe80bd658c99abcce4ab61a7e0f6431507a016d9"
+  },
+  "launch_record": {
+    "path": "launch.json",
+    "bytes": 1675,
+    "sha256": "f8b78769fd9d8e54c6827abce05e719c697e687da979bb2c384660fff0c5b5ce"
+  },
+  "cases": [
+    {
+      "case": "protocol_smoke",
+      "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+      "executable": "nemotron_smoke",
+      "executable_sha256": "b447f0b2492cdf67dc808eb8fe80bd658c99abcce4ab61a7e0f6431507a016d9",
+      "status": "passed",
+      "exit_code": 0,
+      "evidence": {
+        "path": "protocol-smoke.log",
+        "bytes": 199,
+        "sha256": "ee2896187b9ca1995afa6e04f4681a072e2694c3ac9dc78d4be3cd4a6c028509"
+      },
+      "process_record": {
+        "path": "protocol-smoke.json",
+        "bytes": 329,
+        "sha256": "59c709416a5affb0ded1b7b20b4dc0b2fc0c62c31fd43021f3481a13bd02f647"
+      },
+      "stderr": {
+        "path": "protocol-smoke-stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "canonical_1",
+      "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+      "executable": "eog_live_check",
+      "executable_sha256": "07a6d845c2959f2e2fbaa1fed7dc2701dca37fea39346489dc0c3efb9f829e19",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 34.2639783,
+      "summary": {
+        "path": "eog/run-1.log",
+        "bytes": 1190,
+        "sha256": "9fdcff40b4e3121ed61326a70310f71b5f9f02078e49ae06ed07c86888587f9b"
+      },
+      "process_record": {
+        "path": "eog/verification.json",
+        "bytes": 7479,
+        "sha256": "e9ae8bd9b41736f7370bf1b3abdd04d2f5be19386df5bc6e023b223c3f615623"
+      },
+      "evidence": {
+        "path": "eog/run-1.eog-session.json",
+        "bytes": 116332,
+        "sha256": "7b0b5356e2fbadcfeea14ea63f76eff50b2bb206003691735ba785f18ca1a7c4"
+      }
+    },
+    {
+      "case": "canonical_2",
+      "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+      "executable": "eog_live_check",
+      "executable_sha256": "07a6d845c2959f2e2fbaa1fed7dc2701dca37fea39346489dc0c3efb9f829e19",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 37.4896748,
+      "summary": {
+        "path": "eog/run-2.log",
+        "bytes": 1190,
+        "sha256": "0ae4ad50393901264a8961c77b4af5c8778853519922535cf7f04dd7cc8d7308"
+      },
+      "process_record": {
+        "path": "eog/verification.json",
+        "bytes": 7479,
+        "sha256": "e9ae8bd9b41736f7370bf1b3abdd04d2f5be19386df5bc6e023b223c3f615623"
+      },
+      "evidence": {
+        "path": "eog/run-2.eog-session.json",
+        "bytes": 98949,
+        "sha256": "8c645d94691d917be79648617022c481dc633165b8f79601d078090108337821"
+      }
+    },
+    {
+      "case": "canonical_3",
+      "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+      "executable": "eog_live_check",
+      "executable_sha256": "07a6d845c2959f2e2fbaa1fed7dc2701dca37fea39346489dc0c3efb9f829e19",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 28.2946239,
+      "summary": {
+        "path": "eog/run-3.log",
+        "bytes": 1219,
+        "sha256": "76059f450d63d3afc18d2672274278d17962e773ad105996129e5dcb094bb338"
+      },
+      "process_record": {
+        "path": "eog/verification.json",
+        "bytes": 7479,
+        "sha256": "e9ae8bd9b41736f7370bf1b3abdd04d2f5be19386df5bc6e023b223c3f615623"
+      },
+      "evidence": {
+        "path": "eog/run-3.eog-session.json",
+        "bytes": 95959,
+        "sha256": "4dc6d56075f8bc7f9689846ad103b54dbfc51671740f2dfa9048d7ffb75c5011"
+      }
+    },
+    {
+      "case": "renamed_topology",
+      "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+      "executable": "eog_live_check",
+      "executable_sha256": "07a6d845c2959f2e2fbaa1fed7dc2701dca37fea39346489dc0c3efb9f829e19",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 36.2724461,
+      "summary": {
+        "path": "eog/run-4.log",
+        "bytes": 1190,
+        "sha256": "f0ad4e4e7b8bb6e88c91086cb8ef8920bcc647576bf96d68b8189b6320422847"
+      },
+      "process_record": {
+        "path": "eog/verification.json",
+        "bytes": 7479,
+        "sha256": "e9ae8bd9b41736f7370bf1b3abdd04d2f5be19386df5bc6e023b223c3f615623"
+      },
+      "evidence": {
+        "path": "eog/run-4.eog-session.json",
+        "bytes": 119323,
+        "sha256": "fe2d3aaeed11be5d2629ba9fe07cffffde3d440d5be8f64e2a39cc66f8f22757"
+      }
+    },
+    {
+      "case": "observed_pump",
+      "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+      "executable": "desktop",
+      "executable_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+      "status": "failed",
+      "evidence": {
+        "path": "observed/observed_pump.session.json",
+        "bytes": 179811,
+        "sha256": "bc0c63a69788636aa752abbc2363419d1f79742155ca95ff1c6b7d9adb0ff811"
+      },
+      "session_id": "a9187859-feca-475a-a9b7-e94c4c623ebd",
+      "provenance": "Actual desktop exercise under the launch record's source/executable. Archive bytes are unchanged."
+    },
+    {
+      "case": "observed_missing_coverage",
+      "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+      "executable": "desktop",
+      "executable_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+      "status": "pending"
+    }
+  ],
+  "public_release_approved": false,
+  "clean_windows": "pending",
+  "owner_review": "pending",
+  "licensing_review": "pending",
+  "recorded_utc": "2026-11-20T22:43:22.501215+00:00",
+  "manifest_sequence": 4
+}

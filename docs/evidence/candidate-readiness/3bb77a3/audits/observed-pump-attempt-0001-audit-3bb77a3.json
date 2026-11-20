@@ -1,0 +1,92 @@
+{
+  "audit_version": 1,
+  "created_utc": "2026-11-20T22:42:45.892463+00:00",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "case": "observed_pump",
+  "audit_status": "failed",
+  "audit_failure": "No explicit validated observed recommendation.",
+  "manifest_recorded": false,
+  "round_sealed": false,
+  "session_id": "a9187859-feca-475a-a9b7-e94c4c623ebd",
+  "checkpoint_sequence": 28,
+  "database_record": {
+    "mode": "ro",
+    "query_only": true,
+    "created_at": "2026-11-20T22:35:34.388Z",
+    "updated_at": "2026-11-20T22:35:49.488Z",
+    "status": "completed"
+  },
+  "archive": {
+    "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round1\\observed-pump-attempt-0001.session.json",
+    "bytes": 179811,
+    "sha256": "bc0c63a69788636aa752abbc2363419d1f79742155ca95ff1c6b7d9adb0ff811",
+    "unchanged_blob_bytes": true
+  },
+  "origin_capture_id": "capture-47d36a4c-1621-4ffb-8ecb-1b18933067fd",
+  "origin_clock": {
+    "captured_event_time_s": 112.96733569999992,
+    "expires_event_time_s": 117,
+    "availability": "available"
+  },
+  "mapping_status": "available",
+  "effective_main_pump": {
+    "available": false,
+    "capacity_m3h": 55,
+    "cost_per_m3": 0,
+    "has_pump": true,
+    "id": "main_pump",
+    "setpoint_m3h": 0,
+    "source_id": "tank_a",
+    "target_id": "treatment"
+  },
+  "recommendation": {
+    "status": "validated_recommendation",
+    "source_mode": "hosted",
+    "validation_source": "native_search_dense_reference",
+    "selected_run_id": "3753df88-a988-4578-b682-3e79eda54f73",
+    "validation_id": "41ebbf00-a5d5-4582-9b95-8230906c1112",
+    "snapshot_id": "1f3a6b8a-3dee-4622-8a51-93576c70842f",
+    "physical_hash": "832bbaa84cc282963e4c659c0a9acba3fda21592aa01236367349b8a7c5771ca",
+    "horizon_h": 3,
+    "verified_cost": 5280,
+    "verified_feasible": true,
+    "approval_status": "pending_advisory_review",
+    "actionable": false
+  },
+  "selected_run_matches_snapshot": true,
+  "ordered_tool_names": [
+    "get_observations",
+    "get_detection_events",
+    "get_network_state",
+    "get_control_catalog",
+    "forecast_baseline",
+    "simulate_candidates",
+    "search_interventions",
+    "compare_runs",
+    "request_approval",
+    "request_approval",
+    "request_approval",
+    "request_approval"
+  ],
+  "explicit_validate_run_calls": 0,
+  "request_metadata": {
+    "count": 13,
+    "http_statuses": {
+      "200": 13
+    },
+    "outcomes": {
+      "succeeded": 13
+    },
+    "retry_count": 0,
+    "model_pairs": [
+      [
+        "nvidia/nemotron-3.5-lightning-30b-a3b",
+        "nvidia/nemotron-3.5-lightning-30b-a3b"
+      ]
+    ]
+  },
+  "approvals": [],
+  "actionable": false,
+  "applied_events": 0,
+  "limits": "The software produced a feasible native-search validated recommendation, but this acceptance auditor additionally requires an explicit exact model-issued validate_run result and validation_source validate_run. No contract or artifact was rewritten to force a pass. This is an audit mismatch/failure, not a new numerical accuracy conclusion. No hosted calls or database writes were performed."
+}

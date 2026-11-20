@@ -1,0 +1,616 @@
+{
+  "recorded_utc": "2026-11-20T22:46:30.081Z",
+  "pr": 88,
+  "head_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "workflow_runs": [
+    {
+      "id": 44823006438,
+      "name": "Windows checks",
+      "status": "completed",
+      "conclusion": "success",
+      "run_number": 123,
+      "jobs_url": "https://api.github.com/repos/Towstar/Breakwater/actions/runs/44823006438/jobs",
+      "logs_url": "https://api.github.com/repos/Towstar/Breakwater/actions/runs/44823006438/logs",
+      "workflow_id": 410921879
+    }
+  ],
+  "jobs": [
+    {
+      "id": 136588412782,
+      "name": "Native (asan)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Configure, build and test native code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Retain native evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        }
+      ]
+    },
+    {
+      "id": 136588413015,
+      "name": "Native (normal)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Configure, build and test native code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Retain native evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        }
+      ]
+    },
+    {
+      "id": 136594011907,
+      "name": "Python science (CPU)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actual CPU science discovery",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Retain science evidence and explicit skips",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Post Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        }
+      ]
+    },
+    {
+      "id": 136594012017,
+      "name": "Desktop (asan)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Restore verified Qt SDK cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Configure, build and test desktop",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Retain desktop evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Restore verified Qt SDK cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        }
+      ]
+    },
+    {
+      "id": 136594012041,
+      "name": "Desktop (normal)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Restore verified Qt SDK cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Configure, build and test desktop",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Retain desktop evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Restore verified Qt SDK cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        }
+      ]
+    },
+    {
+      "id": 136594012156,
+      "name": "Lean assumption audit",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Restore pinned Lean and Mathlib downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Build proofs and run positive/negative audits",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Retain proof evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Post Restore pinned Lean and Mathlib downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 14677155031,
+      "name": "windows-desktop-asan",
+      "size_in_bytes": 2816107,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14677155031",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14677155031/zip",
+      "expired": false,
+      "created_at": "2026-11-20T22:43:40Z",
+      "expires_at": "2026-12-04T22:43:39Z",
+      "updated_at": "2026-11-20T22:43:40Z",
+      "digest": "sha256:1baf5466f7e1da7737722c3584303ef9137b01bbfa4003f65808f8c7e80cac52",
+      "workflow_run": {
+        "id": 44823006438,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-worker-lifecycle-budget",
+        "head_sha": "3bb77a353fb04267260764060bc5f58d61d5e7f5"
+      }
+    },
+    {
+      "id": 14675061032,
+      "name": "windows-desktop-normal",
+      "size_in_bytes": 2818145,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14675061032",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14675061032/zip",
+      "expired": false,
+      "created_at": "2026-11-20T22:14:39Z",
+      "expires_at": "2026-12-04T22:14:37Z",
+      "updated_at": "2026-11-20T22:14:39Z",
+      "digest": "sha256:3192f8dfd3963b404cec878a2e5b749c7f6de7d098b6bf4758f44d6e8b77cd37",
+      "workflow_run": {
+        "id": 44823006438,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-worker-lifecycle-budget",
+        "head_sha": "3bb77a353fb04267260764060bc5f58d61d5e7f5"
+      }
+    },
+    {
+      "id": 14674125355,
+      "name": "windows-science-cpu",
+      "size_in_bytes": 27185,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14674125355",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14674125355/zip",
+      "expired": false,
+      "created_at": "2026-11-20T21:58:38Z",
+      "expires_at": "2026-12-04T21:58:37Z",
+      "updated_at": "2026-11-20T21:58:38Z",
+      "digest": "sha256:e59928f598c8056c08edbbc6086b5798974aed90432ff5b7a34ee1b35d1cd548",
+      "workflow_run": {
+        "id": 44823006438,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-worker-lifecycle-budget",
+        "head_sha": "3bb77a353fb04267260764060bc5f58d61d5e7f5"
+      }
+    },
+    {
+      "id": 14673295630,
+      "name": "windows-native-normal",
+      "size_in_bytes": 25038,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14673295630",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14673295630/zip",
+      "expired": false,
+      "created_at": "2026-11-20T21:46:23Z",
+      "expires_at": "2026-12-04T21:46:22Z",
+      "updated_at": "2026-11-20T21:46:23Z",
+      "digest": "sha256:09a0b5b429c589aafd6e45d0f2207b1b4b8b88171a6dfc500131c5d9becddf54",
+      "workflow_run": {
+        "id": 44823006438,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-worker-lifecycle-budget",
+        "head_sha": "3bb77a353fb04267260764060bc5f58d61d5e7f5"
+      }
+    },
+    {
+      "id": 14673137888,
+      "name": "windows-native-asan",
+      "size_in_bytes": 25022,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14673137888",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14673137888/zip",
+      "expired": false,
+      "created_at": "2026-11-20T21:56:04Z",
+      "expires_at": "2026-12-04T21:56:03Z",
+      "updated_at": "2026-11-20T21:56:04Z",
+      "digest": "sha256:097027c44ad22d4d9aa3a359819076642f40d8b6d3ba8c55465531191fdaa2d5",
+      "workflow_run": {
+        "id": 44823006438,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-worker-lifecycle-budget",
+        "head_sha": "3bb77a353fb04267260764060bc5f58d61d5e7f5"
+      }
+    },
+    {
+      "id": 14672699253,
+      "name": "windows-lean",
+      "size_in_bytes": 7486,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14672699253",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14672699253/zip",
+      "expired": false,
+      "created_at": "2026-11-20T21:58:03Z",
+      "expires_at": "2026-12-04T21:58:03Z",
+      "updated_at": "2026-11-20T21:58:03Z",
+      "digest": "sha256:803d07a9c3da38641af4aadc2c4d1fe8252eaf1df90dbfb4061196609939ef6f",
+      "workflow_run": {
+        "id": 44823006438,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-worker-lifecycle-budget",
+        "head_sha": "3bb77a353fb04267260764060bc5f58d61d5e7f5"
+      }
+    }
+  ],
+  "status": "completed_all_six_jobs_success_exact_3bb_source"
+}

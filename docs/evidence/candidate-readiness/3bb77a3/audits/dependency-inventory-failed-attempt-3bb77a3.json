@@ -1,0 +1,33 @@
+{
+  "record_version": 1,
+  "recorded_utc": "2026-11-20T22:08:44.140712+00:00",
+  "attempt_time_recorded": false,
+  "candidate": "out/candidate-readiness/portable-3bb77a3",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "status": "failed_inventory_attempt_preserved",
+  "original_stdout": "{\"status\": \"failed\", \"code\": \"invalid_package_inventory\", \"public_release_approved\": false}",
+  "error_type": "FileNotFoundError",
+  "sanitized_diagnosis": "The helper incorrectly sought attrs metadata License-File LICENSE directly in dist-info rather than its installed licenses/ directory.",
+  "package_file_missing": false,
+  "original_helper_sha256": "9ca19b2f0bf033ffba189028a930bd2fae2ff22cce6af0b574b0c70fbd59233a",
+  "original_helper_snapshot": "out/candidate-readiness/inventory_candidate.before-pep639.py",
+  "snapshot_provenance": "Reconstructed from the observed exact pre-fix source by reversing only the bounded PEP639 resolver edit; this hash was not captured before the first attempt.",
+  "fixed_helper_sha256": "b006504b81c187cfa057b164ea984afa835eca79913b02b7325a1a47d7b55f97",
+  "fixed_helper": "out/candidate-readiness/inventory_candidate.py",
+  "references": [
+    {
+      "title": "PEP639 root license directory and installed project license files",
+      "url": "https://peps.python.org/pep-0639/#license-files-in-project-formats",
+      "source_type": "official Python Enhancement Proposal"
+    },
+    {
+      "title": "Actual installed Metadata-Version2.4 and License-File records in the sealed candidate",
+      "source_type": "local read-only package inspection"
+    }
+  ],
+  "resolution": "Resolve safe declared paths within each dist-info/licenses/ tree with legacy direct-file fallback; constrain resolved paths to that same dist-info directory; retain actual runtime/copy notice hashes.",
+  "package_mutated": false,
+  "owner_license_agreement": "pending",
+  "distribution_review": "pending",
+  "public_release_approved": false
+}

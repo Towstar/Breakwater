@@ -1,0 +1,10 @@
+********* Start testing of EvidenceV2Tests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : EvidenceV2Tests::initTestCase()
+PASS   : EvidenceV2Tests::strictDetectorWitnessAndDowngradeChecks()
+PASS   : EvidenceV2Tests::restartExportAndImportRetainV2WithoutAuthority()
+PASS   : EvidenceV2Tests::migrationBacksUpV1BeforeChangingItsSchema()
+PASS   : EvidenceV2Tests::duplicateKeysCannotBeNormalizedIntoAnImport()
+PASS   : EvidenceV2Tests::cleanupTestCase()
+Totals: 6 passed, 0 failed, 0 skipped, 0 blacklisted, 34132ms
+********* Finished testing of EvidenceV2Tests *********
