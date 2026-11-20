@@ -143,7 +143,7 @@ private slots:
             {"parameters", QJsonObject{{"type", "object"}}}}}}};
         const QJsonObject ordinary{{"model", config.model}, {"messages", messages()}, {"stream", false},
             {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.2},
-            {"chat_template_kwargs",QJsonObject{{"enable_thinking",true}}}, {"tools", tools}, {"tool_choice", "auto"}};
+            {"chat_template_kwargs",QJsonObject{{"enable_thinking",false}}}, {"tools", tools}, {"tool_choice", "auto"}};
         client.request(messages(), tools); QTRY_COMPARE(success.size(), 1);
         QCOMPARE(QJsonDocument::fromJson(network.payloads[0]).object(), ordinary);
         client.requestFinalJson(messages()); QTRY_COMPARE(success.size(), 2);
