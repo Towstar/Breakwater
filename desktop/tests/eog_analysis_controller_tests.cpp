@@ -264,7 +264,7 @@ private slots:
         QCOMPARE(index.value("selection_status"), QJsonValue("no_validated_plan_in_index"));
         QVERIFY(!h.analysis.canReview()); QVERIFY(h.analysis.selectedPlanId().isEmpty());
     }
-    void evidenceIndexIsBoundedWithoutSelectingOrInventingValidation() {
+    void evidenceIndexIsBoundedWithoutInventingValidation() {
         QTemporaryDir fixture; QVERIFY(fixture.isValid()); auto source = bytes(worker_);
         const QByteArray before = R"([evaluation(plan("protocol-only-no-action")), evaluation(plan("protocol-only-truck-plan", True))])";
         QVERIFY(source.contains(before));
@@ -289,7 +289,11 @@ private slots:
             QVERIFY(row.value("evaluator_method").isNull());
             QCOMPARE(row.value("selection_eligibility"), QJsonValue("validation_unavailable"));
         }
-        QVERIFY(!h.analysis.canReview()); QVERIFY(h.analysis.selectedPlanId().isEmpty());
+        // Search already chooses a row for UI inspection. The index must not
+        // turn that display selection into validation or operator eligibility.
+        QCOMPARE(h.analysis.selectedPlanId(),QString("protocol-only-truck-plan"));
+        QVERIFY(h.analysis.selectedValidation().isEmpty());
+        QVERIFY(h.analysis.operatorRecords().isEmpty()); QVERIFY(!h.analysis.canReview());
     }
     void validationReuseRequiresExactLiveArguments() {
         QFETCH(QString, variation);
