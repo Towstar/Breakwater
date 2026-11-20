@@ -177,9 +177,10 @@ owns the numerical engine, scientific methods, sensor-generation mathematics,
 response evaluator/validator/search and Lean proofs. Shared numerical changes
 require Ethan's review.
 
-Generic sensor observations through detection and observed-state forecasting,
-evolving commitment-aware fleet dispatch, broader numerical accuracy studies and
-remaining research methods are subsequent increments. Existing project-v1/v2
+Observed-state forecasting and advisory review are implemented in the v0.3
+development stack and still require final candidate qualification and owner
+review. Commitment-aware fleet dispatch, broader numerical accuracy studies and
+remaining research methods are future work. Existing project-v1/v2
 formats and evidence contracts remain compatible. See [G1](contracts/telemetry/README.md),
 [G2](docs/TELEMETRY_DESKTOP.md), [pipe transport](docs/PIPE_TRANSPORT.md),
 [science](science/README.md), and [proofs](proofs/README.md).
