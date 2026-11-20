@@ -1,0 +1,43 @@
+{
+  "recorded_utc": "2026-11-20T01:56:28.4695132Z",
+  "application_source": "f6b952a4ce222c52e97f756a1a2e39f2fed2f4f4",
+  "executable_sha256": "7ee99354fc7b236823e7aa47955182ed66715a26a4132832aa7e1d4b48dfd345",
+  "evidence_kind": "operator-agent witnessed GUI handoff, not signed execution attestation",
+  "title": "BREAKWATER 0.2.0 · f6b952a | Sandbox",
+  "only_one_breakwater_window": true,
+  "maximized": true,
+  "equipment_labels_visible": 6,
+  "historical_sessions_visible_after_restart": 28,
+  "observed_sessions_visible_after_restart": [
+    "2ede3623-9f9c-43d6-ad8b-f865c71b9aa9",
+    "a6ba03ac-1485-416a-9e56-3c5ab8149219"
+  ],
+  "reopened_pump_history": {
+    "stored_numerical_runs": 6,
+    "ui_disposition": "HISTORICAL · READ ONLY",
+    "controls_cannot_be_applied": true
+  },
+  "current_operating_controls_applied": false,
+  "workspace_preserved": "validated project-v2 snapshot; six assets and six routes",
+  "panels": "popouts closed; results collapsed",
+  "worker_health": {
+    "sha256": "3b01d7ff4bab9683bb4bdf2a86f79a224a0f0aee6fd2b2d88f72ffc94eafaad3",
+    "torch_detected": true,
+    "python": "3.12.13",
+    "scope": "Legacy health only; not scientific execution qualification",
+    "path": "docs/evidence/v03/reliability-picking-20261120/worker-health-f6b952a.json"
+  },
+  "github_workflow": {
+    "run_id": 44656729595,
+    "status_at_handoff": "in_progress",
+    "url": "https://github.com/Towstar/Breakwater/actions/runs/44656729595",
+    "source": "f6b952a4ce222c52e97f756a1a2e39f2fed2f4f4"
+  },
+  "public_binary_release_approved": false,
+  "release_gates": [
+    "human owner review",
+    "licensing/notices",
+    "integration",
+    "actual clean-Windows acceptance"
+  ]
+}

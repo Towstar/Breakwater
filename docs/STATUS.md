@@ -3,25 +3,31 @@
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
 A [reliability and picking follow-up](RELIABILITY_PICKING_FOLLOWUP.md), application
-source `29df04f`, builds in normal and ASan and is the only open app instance
+source `f6b952a`, builds in normal and ASan and is the only open app instance
 after the updated workspace was shown. The latest fixed hosted EOG round passed
 4/4, and desktop pump-loss/missing-coverage cases passed their advisory/no-plan
-gates. Both earlier 2/4 rounds remain retained. Concise generation, exact
+gates at `29df04f`; subsequent changes affect label placement and renderer checks.
+Both earlier 2/4 rounds remain retained. Concise generation, exact
 completion references and the unchanged admission checks improve bounded
 completion; repeated cached tool requests remain observable. WARP picks all
 6/6 canonical assets in normal and ASan; hardware default/dense picks pass
-6/6 and 128/128. The full ASan 87/87 matrix is from `7f6294d`, with subsequent
+6/6 and 128/128. The compact normal/ASan label and WARP suites each pass 2/2
+at `f6b952a`, with the same final view, six labels and no overlap. This resolves
+the retained prior CI label-culling failure without weakening its gate. See
+[latest rendering evidence](evidence/v03/reliability-picking-20261120/final-rendering.json).
+The full ASan 87/87 matrix is from `7f6294d`, with subsequent
 `29df04f` client/render and live checks recorded separately in the
 [source-qualified evidence](evidence/v03/reliability-picking-20261120/tests-and-rendering.json).
-Approved cleanup is complete. PR82 is stacked on PR81. Human owner review,
+Approved cleanup is complete. PR82 is stacked on PR81. Its fresh full GitHub
+workflow is running and is not yet claimed as passed. Human owner review,
 licensing, integration and actual clean-Windows release acceptance remain open.
 
 Prior candidate checkpoint: `c71249ee2dbef04480ee8ea52806b1808622e44a`, in the
-PR68 through PR80 stack. The [current review packet](RELEASE_REVIEW_V03.md) and
-[final verification index](evidence/v03/final-verification.json) supersede pending
-checkpoints in the dated component reports without replacing their history.
-The executable remains version 0.2.0 plus this source ID until a reviewed release.
-All six final-source Windows CI jobs pass: native 17/17 and desktop 86/86 in both
+PR68 through PR80 stack. Its dated [review packet](RELEASE_REVIEW_V03.md) and
+[verification index](evidence/v03/final-verification.json) describe that earlier
+checkpoint without replacing its history. That executable reported version
+0.2.0 plus its source ID. All six Windows CI jobs passed at that checkpoint:
+native 17/17 and desktop 86/86 in both
 normal and ASan, CPU science 464 passed with four explicit optional skips, and
 54 standalone Lean theorem audits. Actual runner/compiler versions, retained
 console-log hashes and artifact identities are in the verification index.

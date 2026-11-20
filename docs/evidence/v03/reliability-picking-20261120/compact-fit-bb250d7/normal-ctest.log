@@ -1,0 +1,22 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+    Start 42: desktop.scene_picking_warp
+1/1 Test #42: desktop.scene_picking_warp .......***Failed   14.82 sec
+Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop\desktop\test-artifacts\scene-picking-warp-646c6e57dcfa409f9ef82f5bbdf23b66
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\scene_benchmark_check.py", line 71, in <module>
+    main()
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\scene_benchmark_check.py", line 65, in main
+    raise AssertionError("\n".join(failures) + "\nEvidence: " + str(output))
+AssertionError: labels are missing or overlap
+culled labels: ['source_a']
+Evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop\desktop\test-artifacts\scene-picking-warp-646c6e57dcfa409f9ef82f5bbdf23b66
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =  14.84 sec
+
+The following tests FAILED:
+	 42 - desktop.scene_picking_warp (Failed)
+Errors while running CTest

@@ -1,6 +1,8 @@
 # Reliability and picking follow-up, November 19
 
-Completed application source: `29df04f63a6af81671e1d223cb005c350a4a7289`.
+Latest application source: `f6b952a4ce222c52e97f756a1a2e39f2fed2f4f4`.
+The hosted investigation code was qualified at `29df04f`; subsequent changes
+are confined to label placement, renderer verification and their tests/docs.
 Both normal and ASan builds pass. The latest fixed hosted EOG round passed all
 four cases; both desktop observed rehearsals also completed correctly. Normal
 WARP and ASan WARP each picked all six canonical assets. The latest app was
@@ -10,7 +12,18 @@ GitHub run `44647353356` subsequently exposed compact label culling: its normal
 job passed 86/87 checks, with six correct body picks but five visible labels at
 1008x672. The other five jobs passed. The [raw CI checkpoint](evidence/v03/reliability-picking-20261120/ci-checkpoint.json)
 preserves this failure and distinguishes the PR head from GitHub's merge checkout.
-The compact verification correction remains pending in this checkpoint.
+The first Fit-only correction at `bb250d7` still failed the local normal check;
+its different-angle ASan pass is retained separately. The final correction adds
+two bounded wider label positions after the original six, preserving the same
+priority, four-pixel gap, bounds, exclusions and eventual culling. A captured
+layout regression covers three nearby font widths. Benchmark settling now
+sets the same intended yaw, 113.125 degrees, before waiting two rendered frames.
+At `f6b952a`, both normal and ASan pass the label and compact WARP suites (2/2
+CTest, 8/8 Qt label cases per build), with six picks, six labels and zero overlaps.
+See [final rendering evidence](evidence/v03/reliability-picking-20261120/final-rendering.json).
+The fresh full-suite workflow was still running at handoff; its outcome is not
+claimed by these local checks. Consult the [current PR checks](https://github.com/Towstar/Breakwater/pull/82/checks),
+including any later evidence-only revision, for the remote result.
 
 The earlier normal checkpoint resolved all 87 checks after test-fixture
 corrections and a sandbox-specific hard-link rerun. A single full ASan run at
@@ -79,8 +92,10 @@ It retains failed IDs, probe coordinates/hits, actual adapter, screenshot and
 measurement duration. Geometry and user pick masks are unchanged.
 
 All six canonical bodies pass under D3D11/WARP in normal and ASan builds.
-Hardware default and dense checks pass 6/6 and 128/128 picks, with 62.49 and
-55.58 FPS respectively, exceeding their 60/30 targets. Actual adapters, full
+Latest hardware default and dense checks pass 6/6 and 128/128 picks, with 62.49
+and 61.59 FPS respectively, exceeding their 60/30 targets. The dense scene shows
+27 non-overlapping labels and intentionally culls 101; it does not show every
+label. Earlier `29df04f` hardware measurements remain separate. Actual adapters, full
 ten-second samples, two settled frames and unchanged numerical identity were
 verified. Software FPS stays diagnostic. One successful probe per asset at the
 settled view does not establish every mesh or every viewing angle is pickable.
@@ -136,9 +151,12 @@ authoritative. A four-case round and two observed cases do not establish broad
 reliability, diagnosis accuracy or comparative model superiority.
 
 The original workspace was preserved as a validated project-v2 snapshot and
-reopened on `29df04f`. Completed evidence remains in History. The publisher is
-paused, popouts are closed, and one latest Sandbox window remains open. No
-approval was restored. Legacy Python health detected Python 3.12.13 and Torch;
+reopened on `f6b952a`. History showed 28 retained sessions, including both new
+observed investigations. Reopening the pump session displayed six stored runs
+and explicitly historical/read-only evidence. Popouts and the results panel
+are closed, all six equipment labels are visible, and only the latest maximized
+Sandbox window remains open. No approval was restored. A fresh versioned worker
+health exchange detected Python 3.12.13 and Torch;
 that health result does not establish PhysicsNeMo or scientific execution.
 
 Independent same-family agents reviewed the native, EOG and picking boundaries.
