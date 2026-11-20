@@ -103,7 +103,7 @@ qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
     qml/IndustrialEquipment.qml qml/IndustrialPipe.qml qml/AppComboBox.qml qml/DialogHeading.qml
     qml/EogAnalysisView.qml qml/IndustrialEnvironment.qml qml/IndustrialLighting.qml
     qml/SiteGround.qml qml/SitePad.qml qml/ConnectionPreview.qml qml/ForecastPanel.qml qml/DialogFooter.qml qml/AssetInspector.qml qml/SceneAxes.qml
-    qml/SceneLabels.qml qml/LabelPlacement.js qml/WorkspaceHelp.qml)
+    qml/SceneLabels.qml qml/LabelPlacement.js qml/SceneFraming.js qml/WorkspaceHelp.qml)
 file(GLOB _breakwater_action_icons CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/*.svg")
 qt_add_resources(breakwater breakwater_visual_assets PREFIX /breakwater/assets
   BASE "${CMAKE_CURRENT_SOURCE_DIR}/assets"
@@ -125,6 +125,13 @@ if(CMAKE_GENERATOR MATCHES "^Visual Studio")
 endif()
 
 if(BUILD_TESTING)
+  qt_add_executable(breakwater_scene_framing_tests tests/scene_framing_tests.cpp)
+  target_link_libraries(breakwater_scene_framing_tests PRIVATE Qt6::Qml Qt6::Test)
+  target_compile_definitions(breakwater_scene_framing_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
+  add_test(NAME desktop.scene_framing COMMAND breakwater_scene_framing_tests
+    -o "${CMAKE_CURRENT_BINARY_DIR}/scene_framing-results.txt,txt")
+  set_tests_properties(desktop.scene_framing PROPERTIES
+    ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
   qt_add_executable(breakwater_label_placement_tests tests/label_placement_tests.cpp)
   target_link_libraries(breakwater_label_placement_tests PRIVATE Qt6::Qml Qt6::Test)
   target_compile_definitions(breakwater_label_placement_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
