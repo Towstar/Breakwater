@@ -1,5 +1,11 @@
 # v0.3.0 implementation ledger
 
+Current local continuation: [workspace framing](WORKSPACE_FRAMING.md), code
+`b5b7cd4`, is implemented but unbuilt. Local normal/ASan checks and showing the
+updated executable await the pending exact cleanup approval and 8 GiB build gate.
+PR84 has five passing jobs and one ASan desktop job still pending in the retained
+partial observation. The existing `87021c2` executable remains the verified app.
+
 Current UI continuation: the Connections and selected-route inspection increments
 follow PR83. Application source `87021c2` passes six focused desktop suites in
 normal and ASan, with rendered projection and exact route-picking checks. The

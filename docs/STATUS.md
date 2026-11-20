@@ -2,6 +2,20 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
+The [workspace framing continuation](WORKSPACE_FRAMING.md), application-code
+checkpoint `b5b7cd4`, is implemented locally but **not built or runtime verified**.
+It adds usable-viewport Top fitting, view status and reversible scene focus mode.
+Local builds and app replacement await exact storage-cleanup approval because
+free space is below the accepted 8 GiB minimum. The existing verified `87021c2`
+app and saved workspace are preserved; no new increment PR has been pushed.
+Source review and new regression coverage do not establish runtime acceptance.
+
+PR84's head `96c9ee7` has five completed successful CI jobs; Desktop ASan is
+still pending at the [retained partial observation](evidence/workspace-framing/pr84-ci.json).
+Normal desktop passes 87/87; no failure or rerun was observed. This checkpoint
+must be refreshed after ASan finishes and is separate from the new local code.
+
+Latest verified application checkpoint:
 The [selected-route inspection pass](ROUTE_INSPECTION.md), application source
 `87021c2`, adds a static unpickable direction cue and compact read-only route card,
 including failed and zero-setting connections. A bounded post-render refresh
