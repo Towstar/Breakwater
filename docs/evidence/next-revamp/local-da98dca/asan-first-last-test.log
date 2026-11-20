@@ -1,0 +1,107 @@
+Start testing: Nov 19 21:24 Central Standard Time
+----------------------------------------------------------
+18/87 Testing: desktop.label_placement
+18/87 Test: desktop.label_placement
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater_label_placement_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/label_placement-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.label_placement" start time: Nov 19 21:24 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   0.09 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.label_placement" end time: Nov 19 21:24 Central Standard Time
+"desktop.label_placement" time elapsed: 00:00:00
+----------------------------------------------------------
+
+22/87 Testing: desktop.ui_overhaul_normal
+22/87 Test: desktop.ui_overhaul_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.ui_overhaul_normal" start time: Nov 19 21:24 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.12 sec
+----------------------------------------------------------
+Test Failed.
+"desktop.ui_overhaul_normal" end time: Nov 19 21:24 Central Standard Time
+"desktop.ui_overhaul_normal" time elapsed: 00:00:01
+----------------------------------------------------------
+
+23/87 Testing: desktop.ui_overhaul_compact
+23/87 Test: desktop.ui_overhaul_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.ui_overhaul_compact" start time: Nov 19 21:24 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.12 sec
+----------------------------------------------------------
+Test Failed.
+"desktop.ui_overhaul_compact" end time: Nov 19 21:24 Central Standard Time
+"desktop.ui_overhaul_compact" time elapsed: 00:00:01
+----------------------------------------------------------
+
+24/87 Testing: desktop.ui_overhaul_short
+24/87 Test: desktop.ui_overhaul_short
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.ui_overhaul_short" start time: Nov 19 21:24 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.05 sec
+----------------------------------------------------------
+Test Failed.
+"desktop.ui_overhaul_short" end time: Nov 19 21:24 Central Standard Time
+"desktop.ui_overhaul_short" time elapsed: 00:00:01
+----------------------------------------------------------
+
+25/87 Testing: desktop.ui_overhaul_minimum
+25/87 Test: desktop.ui_overhaul_minimum
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "--workspace" "workbench" "--ui-overhaul-check" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.ui_overhaul_minimum" start time: Nov 19 21:24 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.12 sec
+----------------------------------------------------------
+Test Failed.
+"desktop.ui_overhaul_minimum" end time: Nov 19 21:24 Central Standard Time
+"desktop.ui_overhaul_minimum" time elapsed: 00:00:01
+----------------------------------------------------------
+
+42/87 Testing: desktop.scene_picking_warp
+42/87 Test: desktop.scene_picking_warp
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/scene_benchmark_check.py" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/breakwater.exe" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop
+"desktop.scene_picking_warp" start time: Nov 19 21:24 Central Standard Time
+Output:
+----------------------------------------------------------
+Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop\test-artifacts\scene-picking-warp-c9b9f36a6be24d1bbfee7a5da22acc65
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\scene_benchmark_check.py", line 74, in <module>
+    main()
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\scene_benchmark_check.py", line 23, in main
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\uv-python\cpython-3.12.13-windows-x86_64-none\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\uv-python\cpython-3.12.13-windows-x86_64-none\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\portfolio-desktop-asan\\desktop\\test-artifacts\\scene-picking-warp-c9b9f36a6be24d1bbfee7a5da22acc65\\benchmark.json'
+<end of output>
+Test time =   1.18 sec
+----------------------------------------------------------
+Test Failed.
+"desktop.scene_picking_warp" end time: Nov 19 21:24 Central Standard Time
+"desktop.scene_picking_warp" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: Nov 19 21:24 Central Standard Time

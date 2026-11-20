@@ -1,0 +1,24 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+    Start 18: desktop.label_placement
+1/6 Test #18: desktop.label_placement ..........   Passed    0.10 sec
+    Start 22: desktop.ui_overhaul_normal
+2/6 Test #22: desktop.ui_overhaul_normal .......***Failed   24.93 sec
+{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project"],"code":"route_filter_clear_changed_selection_or_count","device_pixel_ratio":1.75,"elapsed_ms":15906,"hosted_model_requests":"not_requested","observed":{},"passed":false,"phase":74,"window_height":900,"window_width":1440}
+
+    Start 23: desktop.ui_overhaul_compact
+3/6 Test #23: desktop.ui_overhaul_compact ......   Passed   58.68 sec
+    Start 24: desktop.ui_overhaul_short
+4/6 Test #24: desktop.ui_overhaul_short ........   Passed   45.66 sec
+    Start 25: desktop.ui_overhaul_minimum
+5/6 Test #25: desktop.ui_overhaul_minimum ......   Passed   37.79 sec
+    Start 42: desktop.scene_picking_warp
+6/6 Test #42: desktop.scene_picking_warp .......   Passed   21.78 sec
+
+83% tests passed, 1 tests failed out of 6
+
+Total Test time (real) = 188.97 sec
+
+The following tests FAILED:
+	 22 - desktop.ui_overhaul_normal (Failed)
+Errors while running CTest

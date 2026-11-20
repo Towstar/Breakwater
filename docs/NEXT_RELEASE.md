@@ -1,6 +1,14 @@
 # v0.3.0 implementation ledger
 
-Current checkpoint, November 19: the implementation stack is published as draft
+Current UI continuation: the Connections and selected-route inspection increments
+follow PR83. Application source `87021c2` passes six focused desktop suites in
+normal and ASan, with rendered projection and exact route-picking checks. The
+updated app and private saved workspace were shown; the later UI source remains
+separate from prior full CI and hosted evidence. See [current status](STATUS.md)
+and [route inspection](ROUTE_INSPECTION.md). Owner/license, main integration and
+actual clean-Windows release gates remain open.
+
+Earlier candidate checkpoint, November 19: the implementation stack is published as draft
 PR68 through PR80, application source `c71249e`. See the
 [concrete review packet](RELEASE_REVIEW_V03.md) and
 [final evidence index](evidence/v03/final-verification.json). All six exact-source

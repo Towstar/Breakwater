@@ -1,0 +1,45 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+    Start 18: desktop.label_placement
+1/6 Test #18: desktop.label_placement ..........   Passed    0.09 sec
+    Start 22: desktop.ui_overhaul_normal
+2/6 Test #22: desktop.ui_overhaul_normal .......***Failed    1.12 sec
+
+    Start 23: desktop.ui_overhaul_compact
+3/6 Test #23: desktop.ui_overhaul_compact ......***Failed    1.12 sec
+
+    Start 24: desktop.ui_overhaul_short
+4/6 Test #24: desktop.ui_overhaul_short ........***Failed    1.05 sec
+
+    Start 25: desktop.ui_overhaul_minimum
+5/6 Test #25: desktop.ui_overhaul_minimum ......***Failed    1.12 sec
+
+    Start 42: desktop.scene_picking_warp
+6/6 Test #42: desktop.scene_picking_warp .......***Failed    1.18 sec
+Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop\test-artifacts\scene-picking-warp-c9b9f36a6be24d1bbfee7a5da22acc65
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\scene_benchmark_check.py", line 74, in <module>
+    main()
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\scene_benchmark_check.py", line 23, in main
+    report = json.loads(report_path.read_text(encoding="utf-8"))
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\uv-python\cpython-3.12.13-windows-x86_64-none\Lib\pathlib.py", line 1027, in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\uv-python\cpython-3.12.13-windows-x86_64-none\Lib\pathlib.py", line 1013, in open
+    return io.open(self, mode, buffering, encoding, errors, newline)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: 'C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\portfolio-desktop-asan\\desktop\\test-artifacts\\scene-picking-warp-c9b9f36a6be24d1bbfee7a5da22acc65\\benchmark.json'
+
+
+17% tests passed, 5 tests failed out of 6
+
+Total Test time (real) =   5.70 sec
+
+The following tests FAILED:
+	 22 - desktop.ui_overhaul_normal (Failed)
+	 23 - desktop.ui_overhaul_compact (Failed)
+	 24 - desktop.ui_overhaul_short (Failed)
+	 25 - desktop.ui_overhaul_minimum (Failed)
+	 42 - desktop.scene_picking_warp (Failed)
+Errors while running CTest

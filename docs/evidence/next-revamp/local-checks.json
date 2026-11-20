@@ -1,0 +1,868 @@
+{
+  "local_checkpoint_version": 1,
+  "recorded_utc": "2026-11-20T03:40:33.918714+00:00",
+  "application_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+  "source_tree": "93896f07e83e8e3138f8013134e310393aee7b8e",
+  "source_association": "Root recorded successful builds at da98dca; raw benchmark reports do not embed a Git source ID. Exact application hashes bind the retained build artifacts. This reader did not run builds or tests.",
+  "qualification": "Focused local checks only; separate from full PR83 CI at a8230fc.",
+  "normal_focused_first_attempt": {
+    "run": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "failed_tests": [],
+    "cases": [
+      {
+        "name": "desktop.label_placement",
+        "seconds": 0.0723394,
+        "status": "run"
+      },
+      {
+        "name": "desktop.ui_overhaul_normal",
+        "seconds": 12.9594,
+        "status": "run"
+      },
+      {
+        "name": "desktop.ui_overhaul_compact",
+        "seconds": 13.2017,
+        "status": "run"
+      },
+      {
+        "name": "desktop.ui_overhaul_short",
+        "seconds": 13.3071,
+        "status": "run"
+      },
+      {
+        "name": "desktop.ui_overhaul_minimum",
+        "seconds": 13.7398,
+        "status": "run"
+      },
+      {
+        "name": "desktop.scene_picking_warp",
+        "seconds": 14.2169,
+        "status": "run"
+      }
+    ]
+  },
+  "normal_ui_windows": [
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1440,
+      "window_height": 900,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 11710,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+        "route_list_selection_focus_and_related_labels_preserve_project",
+        "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+        "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+        "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+        "actual_1_25h_forecast",
+        "nested_geometry_pick_and_click",
+        "layout_drag_preserves_hash_run_approval",
+        "keyboard_rejection_repeat_dismiss_preserves_evidence",
+        "focused_notice_escape_isolated",
+        "outside_notice_escape_cancels_connection",
+        "valid_retry_clears_inline_retires_run_approval",
+        "edited_focus_loss_once_unedited_focus_loss_no_commit",
+        "native_multiselect_duplicate_atomic_undo",
+        "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+        "bundled_hosted_recording_reopens_historical_without_review_authority",
+        "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+        "inspector_route_state_preserves_numerical_evidence",
+        "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+        "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+        "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+        "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+      ]
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1100,
+      "window_height": 700,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 12023,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+        "route_list_selection_focus_and_related_labels_preserve_project",
+        "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+        "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+        "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+        "actual_1_25h_forecast",
+        "nested_geometry_pick_and_click",
+        "layout_drag_preserves_hash_run_approval",
+        "keyboard_rejection_repeat_dismiss_preserves_evidence",
+        "focused_notice_escape_isolated",
+        "outside_notice_escape_cancels_connection",
+        "valid_retry_clears_inline_retires_run_approval",
+        "edited_focus_loss_once_unedited_focus_loss_no_commit",
+        "native_multiselect_duplicate_atomic_undo",
+        "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+        "bundled_hosted_recording_reopens_historical_without_review_authority",
+        "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+        "inspector_route_state_preserves_numerical_evidence",
+        "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+        "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+        "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+        "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+      ]
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1008,
+      "window_height": 672,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 12130,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+        "route_list_selection_focus_and_related_labels_preserve_project",
+        "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+        "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+        "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+        "actual_1_25h_forecast",
+        "nested_geometry_pick_and_click",
+        "layout_drag_preserves_hash_run_approval",
+        "keyboard_rejection_repeat_dismiss_preserves_evidence",
+        "focused_notice_escape_isolated",
+        "outside_notice_escape_cancels_connection",
+        "valid_retry_clears_inline_retires_run_approval",
+        "edited_focus_loss_once_unedited_focus_loss_no_commit",
+        "native_multiselect_duplicate_atomic_undo",
+        "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+        "bundled_hosted_recording_reopens_historical_without_review_authority",
+        "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+        "inspector_route_state_preserves_numerical_evidence",
+        "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+        "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+        "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+        "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+      ]
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 960,
+      "window_height": 540,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 12481,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+        "route_list_selection_focus_and_related_labels_preserve_project",
+        "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+        "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+        "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+        "actual_1_25h_forecast",
+        "nested_geometry_pick_and_click",
+        "layout_drag_preserves_hash_run_approval",
+        "keyboard_rejection_repeat_dismiss_preserves_evidence",
+        "focused_notice_escape_isolated",
+        "outside_notice_escape_cancels_connection",
+        "valid_retry_clears_inline_retires_run_approval",
+        "edited_focus_loss_once_unedited_focus_loss_no_commit",
+        "native_multiselect_duplicate_atomic_undo",
+        "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+        "bundled_hosted_recording_reopens_historical_without_review_authority",
+        "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+        "inspector_route_state_preserves_numerical_evidence",
+        "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+        "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+        "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+        "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+      ]
+    }
+  ],
+  "asan_focused_initial_attempt": {
+    "run": 6,
+    "passed": 5,
+    "failed": 1,
+    "skipped": 0,
+    "failed_tests": [
+      "desktop.ui_overhaul_normal"
+    ],
+    "cases": [
+      {
+        "name": "desktop.label_placement",
+        "seconds": 0.0979385,
+        "status": "run"
+      },
+      {
+        "name": "desktop.ui_overhaul_normal",
+        "seconds": 24.9286,
+        "status": "fail"
+      },
+      {
+        "name": "desktop.ui_overhaul_compact",
+        "seconds": 58.6765,
+        "status": "run"
+      },
+      {
+        "name": "desktop.ui_overhaul_short",
+        "seconds": 45.6612,
+        "status": "run"
+      },
+      {
+        "name": "desktop.ui_overhaul_minimum",
+        "seconds": 37.7939,
+        "status": "run"
+      },
+      {
+        "name": "desktop.scene_picking_warp",
+        "seconds": 21.7787,
+        "status": "run"
+      }
+    ]
+  },
+  "asan_ui_initial_attempt": [
+    {
+      "passed": false,
+      "code": "route_filter_clear_changed_selection_or_count",
+      "phase": 74,
+      "window_width": 1440,
+      "window_height": 900,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 15906,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project"
+      ]
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1100,
+      "window_height": 700,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 49692,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+        "route_list_selection_focus_and_related_labels_preserve_project",
+        "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+        "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+        "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+        "actual_1_25h_forecast",
+        "nested_geometry_pick_and_click",
+        "layout_drag_preserves_hash_run_approval",
+        "keyboard_rejection_repeat_dismiss_preserves_evidence",
+        "focused_notice_escape_isolated",
+        "outside_notice_escape_cancels_connection",
+        "valid_retry_clears_inline_retires_run_approval",
+        "edited_focus_loss_once_unedited_focus_loss_no_commit",
+        "native_multiselect_duplicate_atomic_undo",
+        "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+        "bundled_hosted_recording_reopens_historical_without_review_authority",
+        "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+        "inspector_route_state_preserves_numerical_evidence",
+        "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+        "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+        "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+        "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+      ]
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1008,
+      "window_height": 672,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 37052,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+        "route_list_selection_focus_and_related_labels_preserve_project",
+        "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+        "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+        "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+        "actual_1_25h_forecast",
+        "nested_geometry_pick_and_click",
+        "layout_drag_preserves_hash_run_approval",
+        "keyboard_rejection_repeat_dismiss_preserves_evidence",
+        "focused_notice_escape_isolated",
+        "outside_notice_escape_cancels_connection",
+        "valid_retry_clears_inline_retires_run_approval",
+        "edited_focus_loss_once_unedited_focus_loss_no_commit",
+        "native_multiselect_duplicate_atomic_undo",
+        "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+        "bundled_hosted_recording_reopens_historical_without_review_authority",
+        "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+        "inspector_route_state_preserves_numerical_evidence",
+        "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+        "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+        "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+        "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+      ]
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 960,
+      "window_height": 540,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 31846,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+        "route_list_selection_focus_and_related_labels_preserve_project",
+        "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+        "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+        "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+        "actual_1_25h_forecast",
+        "nested_geometry_pick_and_click",
+        "layout_drag_preserves_hash_run_approval",
+        "keyboard_rejection_repeat_dismiss_preserves_evidence",
+        "focused_notice_escape_isolated",
+        "outside_notice_escape_cancels_connection",
+        "valid_retry_clears_inline_retires_run_approval",
+        "edited_focus_loss_once_unedited_focus_loss_no_commit",
+        "native_multiselect_duplicate_atomic_undo",
+        "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+        "bundled_hosted_recording_reopens_historical_without_review_authority",
+        "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+        "inspector_route_state_preserves_numerical_evidence",
+        "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+        "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+        "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+        "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+      ]
+    }
+  ],
+  "asan_idle_configured_retry": {
+    "run": 1,
+    "passed": 1,
+    "failed": 0,
+    "skipped": 0,
+    "failed_tests": [],
+    "cases": [
+      {
+        "name": "desktop.ui_overhaul_normal",
+        "seconds": 37.9565,
+        "status": "run"
+      }
+    ]
+  },
+  "asan_idle_ui_retry": [
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1440,
+      "window_height": 900,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 32266,
+      "hosted_model_requests": "not_requested",
+      "checks": [
+        "native_assets_accessibility_action_gates",
+        "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+        "route_list_selection_focus_and_related_labels_preserve_project",
+        "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+        "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+        "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+        "actual_1_25h_forecast",
+        "nested_geometry_pick_and_click",
+        "layout_drag_preserves_hash_run_approval",
+        "keyboard_rejection_repeat_dismiss_preserves_evidence",
+        "focused_notice_escape_isolated",
+        "outside_notice_escape_cancels_connection",
+        "valid_retry_clears_inline_retires_run_approval",
+        "edited_focus_loss_once_unedited_focus_loss_no_commit",
+        "native_multiselect_duplicate_atomic_undo",
+        "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+        "bundled_hosted_recording_reopens_historical_without_review_authority",
+        "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+        "inspector_route_state_preserves_numerical_evidence",
+        "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+        "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+        "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+        "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+      ]
+    }
+  ],
+  "asan_composite": "Five of six focused tests passed on the first da98dca suite. The normal-size UI failed at phase 74 route_filter_clear_changed_selection_or_count while normal compilation was active; it passed in a separately retained, configured, isolated 1/1 retry at the same application source. This is not a clean single-attempt 6/6 result. Concurrency was observed, not proven causal.",
+  "prior_attempts": [
+    {
+      "source": "bf32099ed7973f6c9081d1ff55a4c86c15743e9e",
+      "attempt": "asan-first",
+      "ctest": {
+        "run": 6,
+        "passed": 1,
+        "failed": 5,
+        "skipped": 0,
+        "failed_tests": [
+          "desktop.ui_overhaul_normal",
+          "desktop.ui_overhaul_compact",
+          "desktop.ui_overhaul_short",
+          "desktop.ui_overhaul_minimum",
+          "desktop.scene_picking_warp"
+        ],
+        "cases": [
+          {
+            "name": "desktop.label_placement",
+            "seconds": 0.0916442,
+            "status": "run"
+          },
+          {
+            "name": "desktop.ui_overhaul_normal",
+            "seconds": 1.11838,
+            "status": "fail"
+          },
+          {
+            "name": "desktop.ui_overhaul_compact",
+            "seconds": 1.12173,
+            "status": "fail"
+          },
+          {
+            "name": "desktop.ui_overhaul_short",
+            "seconds": 1.04646,
+            "status": "fail"
+          },
+          {
+            "name": "desktop.ui_overhaul_minimum",
+            "seconds": 1.11556,
+            "status": "fail"
+          },
+          {
+            "name": "desktop.scene_picking_warp",
+            "seconds": 1.18448,
+            "status": "fail"
+          }
+        ]
+      },
+      "classification": "Application startup failures; later source/build superseded it, raw failure retained."
+    },
+    {
+      "source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "attempt": "asan-idle-normal-probe",
+      "ctest": {
+        "run": 1,
+        "passed": 0,
+        "failed": 1,
+        "skipped": 0,
+        "failed_tests": [
+          "desktop.ui_overhaul_normal"
+        ],
+        "cases": [
+          {
+            "name": "desktop.ui_overhaul_normal",
+            "seconds": 0.026574,
+            "status": "fail"
+          }
+        ]
+      },
+      "classification": "Unconfigured invocation exited 0xc0000135 before UI assertions; runtime PATH was subsequently initialized for the separately retained passing invocation."
+    }
+  ],
+  "ui_executed_groups": [
+    "native_assets_accessibility_action_gates",
+    "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+    "route_list_selection_focus_and_related_labels_preserve_project",
+    "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+    "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+    "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+    "actual_1_25h_forecast",
+    "nested_geometry_pick_and_click",
+    "layout_drag_preserves_hash_run_approval",
+    "keyboard_rejection_repeat_dismiss_preserves_evidence",
+    "focused_notice_escape_isolated",
+    "outside_notice_escape_cancels_connection",
+    "valid_retry_clears_inline_retires_run_approval",
+    "edited_focus_loss_once_unedited_focus_loss_no_commit",
+    "native_multiselect_duplicate_atomic_undo",
+    "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+    "bundled_hosted_recording_reopens_historical_without_review_authority",
+    "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+    "inspector_route_state_preserves_numerical_evidence",
+    "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+    "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+    "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+    "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+  ],
+  "new_cue_check_group": "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+  "ui_observation_limit": "Successful JSON records name the executed cue/assertion group but contain no detailed route/cue observed payload. No additional observations are inferred.",
+  "qt_label_placement": {
+    "normal": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    },
+    "asan": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "compact_warp": [
+    {
+      "mode": "normal",
+      "recorded_utc": "2026-11-20T03:35:37Z",
+      "status": "measured",
+      "assets": 6,
+      "routes": 6,
+      "actual_body_picks": 6,
+      "visible_labels": 6,
+      "culled_labels": 0,
+      "label_overlap_pairs": 0,
+      "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "fps": 32.7445715833936,
+      "target_fps": 60,
+      "hardware_target_met": false,
+      "client_width": 1008,
+      "client_height": 672,
+      "device_pixel_ratio": 1.75,
+      "camera_yaw_end": 113.125,
+      "measurement_window_ms": 10022.2497,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true
+    },
+    {
+      "mode": "asan",
+      "recorded_utc": "2026-11-20T03:31:13Z",
+      "status": "measured",
+      "assets": 6,
+      "routes": 6,
+      "actual_body_picks": 6,
+      "visible_labels": 6,
+      "culled_labels": 0,
+      "label_overlap_pairs": 0,
+      "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "fps": 14.979396289785292,
+      "target_fps": 60,
+      "hardware_target_met": false,
+      "client_width": 1008,
+      "client_height": 672,
+      "device_pixel_ratio": 1.75,
+      "camera_yaw_end": 113.125,
+      "measurement_window_ms": 10032.4398,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true
+    }
+  ],
+  "hardware": [
+    {
+      "mode": "default",
+      "recorded_utc": "2026-11-20T03:36:05Z",
+      "status": "measured",
+      "assets": 6,
+      "routes": 6,
+      "actual_body_picks": 6,
+      "visible_labels": 6,
+      "culled_labels": 0,
+      "label_overlap_pairs": 0,
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "fps": 62.5714488985544,
+      "target_fps": 60,
+      "hardware_target_met": true,
+      "client_width": 1440,
+      "client_height": 900,
+      "device_pixel_ratio": 1.75,
+      "camera_yaw_end": 113.125,
+      "measurement_window_ms": 10000.4789,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true
+    },
+    {
+      "mode": "dense",
+      "recorded_utc": "2026-11-20T03:36:19Z",
+      "status": "measured",
+      "assets": 128,
+      "routes": 256,
+      "actual_body_picks": 128,
+      "visible_labels": 27,
+      "culled_labels": 101,
+      "label_overlap_pairs": 0,
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "fps": 57.73021368463399,
+      "target_fps": 30,
+      "hardware_target_met": true,
+      "client_width": 1440,
+      "client_height": 900,
+      "device_pixel_ratio": 1.75,
+      "camera_yaw_end": 113.125,
+      "measurement_window_ms": 10000.286,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true
+    }
+  ],
+  "builds": {
+    "normal": {
+      "reported_exit_code": 0,
+      "raw_log": "local-da98dca/build-normal-da98dca.log"
+    },
+    "asan": {
+      "reported_exit_code": 0,
+      "raw_log": "local-da98dca/build-asan-da98dca.log"
+    }
+  },
+  "qml_lint": {
+    "reported_exit_code": 0,
+    "warnings_retained": true,
+    "warning_count": 12,
+    "raw_log": "local-da98dca/qmllint-da98dca.log"
+  },
+  "application_binaries": [
+    {
+      "mode": "normal",
+      "path": "out/portfolio-desktop/desktop/breakwater.exe",
+      "bytes": 9408512,
+      "sha256": "abf700a618510918a057556fdb943e0b9f357cce3728af81cfff485ae8f062dc",
+      "published": false
+    },
+    {
+      "mode": "asan",
+      "path": "out/portfolio-desktop-asan/desktop/breakwater.exe",
+      "bytes": 13955584,
+      "sha256": "88f174ec2f61b2ff8466f6731adcdbf15016b71601d3d94545102f06034c1781",
+      "published": false
+    }
+  ],
+  "raw_files": [
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/normal-first.xml",
+      "bytes": 6000,
+      "sha256": "2dca16ab18df561b04e30a2858e58eba10ea155f0959555e4bbe0f3cb8a46e14",
+      "original": "out/route-inspection/normal-first.xml",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/normal-first.log",
+      "bytes": 1002,
+      "sha256": "21f2fed02a091c33fcdd34646d973aae4b2bd6d8ce16e53793bc4ee83ae75559",
+      "original": "out/route-inspection/normal-first.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/normal-first-last-test.log",
+      "bytes": 21779,
+      "sha256": "c81b371f4e15c5d71af4b4e32a262e84f0a2004e238c73dac71909993e4963cd",
+      "original": "out/route-inspection/normal-first-last-test.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-second.xml",
+      "bytes": 5292,
+      "sha256": "d58481a9475680389efa700f4e3cb67cbfa28dddd53c70fd88a159cd697a9144",
+      "original": "out/route-inspection/asan-second.xml",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-second.log",
+      "bytes": 1489,
+      "sha256": "0ae1fe10b99205c6b196338fa37cfc6b3a84c7c4bbc4f9a545aa5a6827af8d2a",
+      "original": "out/route-inspection/asan-second.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-second-last-test.log",
+      "bytes": 18233,
+      "sha256": "0adb8e0411fbfa5abda1c4d308425b780d1afe722860fc5624a4e550aff32d89",
+      "original": "out/route-inspection/asan-second-last-test.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-idle-normal-configured.xml",
+      "bytes": 1510,
+      "sha256": "3acc36fe1e32019c927c7c483457716ae4f120b1df322c0a62fb3b407df6b898",
+      "original": "out/route-inspection/asan-idle-normal-configured.xml",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-idle-normal-configured.log",
+      "bytes": 449,
+      "sha256": "de2a971b60f325eb17d16c7e5ec85f55d6cdaaa75f1656c20eda4337c50a5adc",
+      "original": "out/route-inspection/asan-idle-normal-configured.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-idle-normal-configured-last-test.log",
+      "bytes": 4987,
+      "sha256": "709635415e40e43012b7c588abada20716cb9c0cfee39405250572c5ade837fb",
+      "original": "out/route-inspection/asan-idle-normal-configured-last-test.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-idle-normal-probe.xml",
+      "bytes": 439,
+      "sha256": "4c9bcd092b40904ca03c23c2c1ac673d754b15502bafa821ceca50e071060873",
+      "original": "out/route-inspection/asan-idle-normal-probe.xml",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-idle-normal-probe.log",
+      "bytes": 593,
+      "sha256": "c7cd7099201386e5e1000700a61fad14731dff53fb430fc75dc3dd95a0d19238",
+      "original": "out/route-inspection/asan-idle-normal-probe.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/build-normal-da98dca.log",
+      "bytes": 11306,
+      "sha256": "c7ad680a5fe234337c7d2d603f4fe4ce1773aad9ee2a042c940c1ed0d9722587",
+      "original": "out/route-inspection/build-normal-da98dca.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/build-asan-da98dca.log",
+      "bytes": 11623,
+      "sha256": "f4739f5637485d8acf2f0777f000b85ce19c43633e626a67faa3f7829b288038",
+      "original": "out/route-inspection/build-asan-da98dca.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/qmllint-da98dca.log",
+      "bytes": 5924,
+      "sha256": "6c4e28e2b0a9fed7e4b2e38bfab6cf505bcc0d7394e5b31fa4a84f2839e3c8e6",
+      "original": "out/route-inspection/qmllint-da98dca.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/hardware-default-da98dca.json",
+      "bytes": 5339,
+      "sha256": "5109a47c4e4217c8270eb36775f5b59572cb0faac40e3fdc2b3a95de41ca5517",
+      "original": "out/route-inspection/hardware-default-da98dca.json",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/hardware-dense-da98dca.json",
+      "bytes": 61865,
+      "sha256": "bfc46ea34f2b61357236d65b99035bdb18b634766d5aade0f3fa15a4d46a2385",
+      "original": "out/route-inspection/hardware-dense-da98dca.json",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/hardware-results.log",
+      "bytes": 579,
+      "sha256": "5edf815eec9366628115839a1949d2f2aa8a707f414b6eaf9e6792eecdcd9350",
+      "original": "out/route-inspection/hardware-results.log",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-first.xml",
+      "bytes": 2958,
+      "sha256": "608db594464748067c24257e9ed8cc6f96b2b4eb0b9b9a8c6ba1ae7e6b33bb5b",
+      "original": "out/route-inspection/asan-first.xml",
+      "associated_source": "bf32099ed7973f6c9081d1ff55a4c86c15743e9e",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-first.log",
+      "bytes": 2835,
+      "sha256": "e577e76ef98624331ab67cbdd87377003180017e00db58d806051b31fac8b333",
+      "original": "out/route-inspection/asan-first.log",
+      "associated_source": "bf32099ed7973f6c9081d1ff55a4c86c15743e9e",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/asan-first-last-test.log",
+      "bytes": 7144,
+      "sha256": "398fb905305ccfa84e900b76df47439c50e712403598e9cf1120bfbfe5b81ca4",
+      "original": "out/route-inspection/asan-first-last-test.log",
+      "associated_source": "bf32099ed7973f6c9081d1ff55a4c86c15743e9e",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/label-placement-normal.txt",
+      "bytes": 976,
+      "sha256": "bec2edeab8e67d9e8b01699c1fb63f4b3c6869ef0fbbeec276af682014292a2b",
+      "original": "out/portfolio-desktop/desktop/label_placement-results.txt",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/warp-normal.json",
+      "bytes": 5316,
+      "sha256": "ada9e397c3459795a1635c0bdc16d272998f30e3ba3f2f4cfd43c009200ab646",
+      "original": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-8c87eb6d794f4cfc90e57316ba26ba2a/benchmark.json",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/label-placement-asan.txt",
+      "bytes": 977,
+      "sha256": "2662d108bf09d2bfe63c647ffac54e7748f0dcca42023949c1eb3334158c6690",
+      "original": "out/portfolio-desktop-asan/desktop/label_placement-results.txt",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-da98dca/warp-asan.json",
+      "bytes": 5328,
+      "sha256": "3610eed4d75a7e77ed49338554e3ff4cc8d8c71dfa60d457cfe5a853fba5b3e8",
+      "original": "out/portfolio-desktop-asan/desktop/test-artifacts/scene-picking-warp-29f8749a35114e6a9766a4ddc4d4db96/benchmark.json",
+      "associated_source": "da98dca7475bfe760c26e170f317c2522acf8056",
+      "copied_verbatim": true
+    }
+  ],
+  "hosted_model_requests": "not_requested_by_these_UI_checks",
+  "public_release_approved": false,
+  "qualification_limits": [
+    "No full 87-test local matrix at da98dca; PR83 CI qualifies its older a8230fc head and matching merge tree.",
+    "Short-span direction-arrow scaling is source-reviewed only; the executed cue routes exceed 80 scene units.",
+    "Hardware FPS measures one local AMD 880M session; dense threshold is 30 FPS, default threshold 60 FPS. WARP FPS is diagnostic only.",
+    "Imported or retained synthetic evidence remains historical; these UI checks do not grant operating authority.",
+    "No new hosted Nemotron, numerical-accuracy, full clean-Windows distribution or release qualification is claimed.",
+    "Build-floor checks and lossless compression are separately retained in ignored output; focused checks used already-built executables.",
+    "Private current-workspace project, databases, credentials, raw reasoning and binaries are not published here."
+  ]
+}
