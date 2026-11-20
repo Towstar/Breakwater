@@ -1,0 +1,118 @@
+{
+  "verification_version": 1,
+  "suite": "desktop",
+  "mode": "normal",
+  "status": "failed",
+  "started_utc": "2026-11-20T00:46:56.6881392Z",
+  "source_commit": "c6f2fe6cae971fce0cf5705cce6d65f33a6b6adb",
+  "source_tree": "cfb2abf34819db861d1e02ccf2d20f09ecff597b",
+  "working_tree_dirty": false,
+  "helper_sha256": {
+    "scripts/ci/Run-Checks.ps1": "0a1ae2418639e749bc8b5e35099ced601d2930bc3519d9a953d6134115761c05",
+    "scripts/ci/Initialize-Compiler.ps1": "93b0c388ac52900c4b81e1623e079827fa0cc67f4a4f5f3b2251c64b9f000cd1",
+    "scripts/ci/Write-JobEvidence.ps1": "16dc4bf3138ea97b0709cf919a2e8138a8908ce9c84b59ac0f9d55aaf3800424",
+    "scripts/ci/Run-PythonTests.py": "34a1655586b94f6d8e37a9e1c7b642f54a1b809f23a14554acb29b3c3536cd1b",
+    "scripts/ci/Read-QtResults.py": "4076358bca7e77d02ebc3341404cef6041b874ab522d7fb5e5b8211e4986a441",
+    "scripts/ci/requirements-win-py312.txt": "695c77a1fb88f2adb7c969e9c42a2c685023e272b1d07b5fbe1698918ff58c67",
+    ".github/workflows/windows-checks.yml": "506a6dec5cbd039ef15074bc1d0a9a6a3b2511b353bfe4370bca9ddf445c2df4"
+  },
+  "runner": {
+    "image": "win22",
+    "image_version": "20261116.370.1",
+    "os": "Microsoft Windows NT 10.0.20348.0"
+  },
+  "external_model_requests": "not_run",
+  "toolchain": {
+    "bootstrap": {
+      "python": "3.12.10",
+      "packages": {
+        "requests": "2.34.2",
+        "py7zr": "1.1.4",
+        "PyYAML": "6.0.3"
+      }
+    },
+    "bootstrap_path_length_before": 2906,
+    "compiler": "14.44.35230.0",
+    "visual_studio": "17.14.37906.3",
+    "bootstrap_path_length": 213,
+    "compiler_path_length": 1995,
+    "windows_sdk": "10.0.26100.0\\",
+    "cmake": "cmake version 3.31.6",
+    "ninja": "1.13.2",
+    "science": {
+      "python": "3.12.13",
+      "torch": "2.15.0+cpu",
+      "numpy": "2.5.4",
+      "device": "cpu",
+      "dtype": "torch.float64"
+    },
+    "qt": "6.12.0",
+    "eog_provider": {
+      "native_sha256": "e6a4c2278c811749c86985bb6e154aeaef6a83bd72123bb700049c7c0111cc81",
+      "plant_sha256": "2671225ff2cf9b65c09e0ce365975f4a1bbd83341f446911e96a6202f2d85bfe",
+      "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+      "contracts": "contracts/eog",
+      "native_mode": "normal"
+    }
+  },
+  "steps": [
+    {
+      "name": "bootstrap-venv",
+      "exit_code": 0,
+      "elapsed_s": 5.9044411
+    },
+    {
+      "name": "bootstrap-lock",
+      "exit_code": 0,
+      "elapsed_s": 5.1214582
+    },
+    {
+      "name": "bootstrap-versions",
+      "exit_code": 0,
+      "elapsed_s": 0.1069492
+    },
+    {
+      "name": "workflow-regressions",
+      "exit_code": 0,
+      "elapsed_s": 1.6794015
+    },
+    {
+      "name": "scientific-setup",
+      "exit_code": 0,
+      "elapsed_s": 21.2809907
+    },
+    {
+      "name": "scientific-runtime",
+      "exit_code": 0,
+      "elapsed_s": 4.7499384
+    },
+    {
+      "name": "qt-sdk",
+      "exit_code": 0,
+      "elapsed_s": 72.8595731
+    },
+    {
+      "name": "configure",
+      "exit_code": 0,
+      "elapsed_s": 17.3149006
+    },
+    {
+      "name": "build",
+      "exit_code": 0,
+      "elapsed_s": 478.3812493
+    },
+    {
+      "name": "registered-tests",
+      "exit_code": 0,
+      "elapsed_s": 1.0047027
+    },
+    {
+      "name": "ctest",
+      "exit_code": 8,
+      "elapsed_s": 695.8112805
+    }
+  ],
+  "failed_step": "ctest",
+  "failure_type": "System.Management.Automation.RuntimeException",
+  "finished_utc": "2026-11-20T01:08:45.4724948Z"
+}

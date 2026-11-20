@@ -1,0 +1,233 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+      Start  1: engine.observation_detection
+ 1/80 Test  #1: engine.observation_detection .............   Passed    1.24 sec
+      Start  2: engine.observation_qualification
+ 2/80 Test  #2: engine.observation_qualification .........   Passed    8.72 sec
+      Start  3: engine.observations
+ 3/80 Test  #3: engine.observations ......................   Passed    0.06 sec
+      Start  4: engine.eog_committed
+ 4/80 Test  #4: engine.eog_committed .....................   Passed    0.07 sec
+      Start  5: engine.eog_plant_abi
+ 5/80 Test  #5: engine.eog_plant_abi .....................   Passed    0.07 sec
+      Start  6: engine.eog_simulation
+ 6/80 Test  #6: engine.eog_simulation ....................   Passed    0.07 sec
+      Start  7: engine.eog_response
+ 7/80 Test  #7: engine.eog_response ......................   Passed    0.05 sec
+      Start  8: engine.eog_analytical
+ 8/80 Test  #8: engine.eog_analytical ....................   Passed    0.05 sec
+      Start  9: engine.eog_analytical_example
+ 9/80 Test  #9: engine.eog_analytical_example ............   Passed    0.05 sec
+      Start 10: engine.benchmark_correctness
+10/80 Test #10: engine.benchmark_correctness .............   Passed    0.08 sec
+      Start 11: engine.acceptance
+11/80 Test #11: engine.acceptance ........................   Passed    0.07 sec
+      Start 12: engine.search
+12/80 Test #12: engine.search ............................   Passed    0.06 sec
+      Start 13: engine.control_influence
+13/80 Test #13: engine.control_influence .................   Passed    0.53 sec
+      Start 14: engine.search_example
+14/80 Test #14: engine.search_example ....................   Passed    0.04 sec
+      Start 15: engine.search_infeasible_example
+15/80 Test #15: engine.search_infeasible_example .........   Passed    0.02 sec
+      Start 16: engine.transport
+16/80 Test #16: engine.transport .........................   Passed    1.45 sec
+      Start 17: engine.transport_example
+17/80 Test #17: engine.transport_example .................   Passed    0.05 sec
+      Start 18: desktop.label_placement
+18/80 Test #18: desktop.label_placement ..................   Passed    0.08 sec
+      Start 19: desktop.evidence_v2
+19/80 Test #19: desktop.evidence_v2 ......................   Passed    1.42 sec
+      Start 20: desktop.workspace_settings
+20/80 Test #20: desktop.workspace_settings ...............   Passed    0.19 sec
+      Start 21: desktop.editor_tools
+21/80 Test #21: desktop.editor_tools .....................   Passed    0.39 sec
+      Start 22: desktop.ui_overhaul_normal
+22/80 Test #22: desktop.ui_overhaul_normal ...............   Passed    9.03 sec
+      Start 23: desktop.ui_overhaul_compact
+23/80 Test #23: desktop.ui_overhaul_compact ..............   Passed    9.00 sec
+      Start 24: desktop.ui_overhaul_short
+24/80 Test #24: desktop.ui_overhaul_short ................   Passed    8.96 sec
+      Start 25: desktop.ui_overhaul_minimum
+25/80 Test #25: desktop.ui_overhaul_minimum ..............   Passed    9.13 sec
+      Start 26: desktop.project
+26/80 Test #26: desktop.project ..........................   Passed    0.59 sec
+      Start 27: desktop.pipe_parameters
+27/80 Test #27: desktop.pipe_parameters ..................   Passed    0.09 sec
+      Start 28: desktop.session_repository
+28/80 Test #28: desktop.session_repository ...............   Passed    0.48 sec
+      Start 29: desktop.history_controller
+29/80 Test #29: desktop.history_controller ...............   Passed    1.05 sec
+      Start 30: desktop.python_worker
+30/80 Test #30: desktop.python_worker ....................   Passed    4.13 sec
+      Start 31: desktop.pipe_transport
+31/80 Test #31: desktop.pipe_transport ...................   Passed    5.01 sec
+      Start 32: desktop.pipe_transport_evidence
+32/80 Test #32: desktop.pipe_transport_evidence ..........   Passed    0.24 sec
+      Start 33: desktop.storage_worker
+33/80 Test #33: desktop.storage_worker ...................   Passed  142.58 sec
+      Start 34: desktop.storage_science
+34/80 Test #34: desktop.storage_science ..................   Passed   92.29 sec
+      Start 35: desktop.stored_science
+35/80 Test #35: desktop.stored_science ...................   Passed    6.40 sec
+      Start 36: desktop.science_evidence
+36/80 Test #36: desktop.science_evidence .................   Passed   16.39 sec
+      Start 37: desktop.agent_science
+37/80 Test #37: desktop.agent_science ....................   Passed   11.98 sec
+      Start 38: desktop.sensor_editor
+38/80 Test #38: desktop.sensor_editor ....................   Passed    0.76 sec
+      Start 39: desktop.telemetry_stream
+39/80 Test #39: desktop.telemetry_stream .................   Passed    3.35 sec
+      Start 40: desktop.telemetry_lifecycle
+40/80 Test #40: desktop.telemetry_lifecycle ..............   Passed   25.13 sec
+      Start 41: desktop.observed_capture
+41/80 Test #41: desktop.observed_capture .................   Passed    1.32 sec
+      Start 42: desktop.local_publisher
+42/80 Test #42: desktop.local_publisher ..................   Passed    4.64 sec
+      Start 43: desktop.receiver_journal
+43/80 Test #43: desktop.receiver_journal .................   Passed    2.64 sec
+      Start 44: desktop.sensor_editor_normal_smoke
+44/80 Test #44: desktop.sensor_editor_normal_smoke .......   Passed    2.71 sec
+      Start 45: desktop.telemetry_replay_normal_smoke
+45/80 Test #45: desktop.telemetry_replay_normal_smoke ....   Passed    2.11 sec
+      Start 46: desktop.sensor_editor_compact_smoke
+46/80 Test #46: desktop.sensor_editor_compact_smoke ......   Passed    1.87 sec
+      Start 47: desktop.telemetry_replay_compact_smoke
+47/80 Test #47: desktop.telemetry_replay_compact_smoke ...   Passed    1.99 sec
+      Start 48: desktop.telemetry_contracts
+48/80 Test #48: desktop.telemetry_contracts ..............   Passed    0.46 sec
+      Start 49: contracts.telemetry
+49/80 Test #49: contracts.telemetry ......................   Passed    1.31 sec
+      Start 50: desktop.eog_contracts
+50/80 Test #50: desktop.eog_contracts ....................   Passed    0.25 sec
+      Start 51: contracts.eog
+51/80 Test #51: contracts.eog ............................   Passed    1.29 sec
+      Start 52: desktop.observed_advisory_normal
+52/80 Test #52: desktop.observed_advisory_normal .........   Passed    3.95 sec
+      Start 53: desktop.observed_advisory_compact
+53/80 Test #53: desktop.observed_advisory_compact ........   Passed    3.66 sec
+      Start 54: desktop.observed_advisory_short
+54/80 Test #54: desktop.observed_advisory_short ..........   Passed    3.64 sec
+      Start 55: desktop.observed_advisory_minimum
+55/80 Test #55: desktop.observed_advisory_minimum ........   Passed    3.57 sec
+      Start 56: desktop.storage_science_normal
+56/80 Test #56: desktop.storage_science_normal ...........   Passed    4.93 sec
+      Start 57: desktop.storage_science_compact
+57/80 Test #57: desktop.storage_science_compact ..........   Passed    5.31 sec
+      Start 58: desktop.storage_science_derivatives
+58/80 Test #58: desktop.storage_science_derivatives ......   Passed    8.06 sec
+      Start 59: desktop.qml_smoke
+59/80 Test #59: desktop.qml_smoke ........................   Passed    2.00 sec
+      Start 60: desktop.scientific_history_normal
+60/80 Test #60: desktop.scientific_history_normal ........   Passed    2.75 sec
+      Start 61: desktop.scientific_history_compact
+61/80 Test #61: desktop.scientific_history_compact .......   Passed    2.02 sec
+      Start 62: desktop.pipe_evidence_smoke
+62/80 Test #62: desktop.pipe_evidence_smoke ..............   Passed    2.16 sec
+      Start 63: desktop.portfolio_examples
+63/80 Test #63: desktop.portfolio_examples ...............   Passed    3.66 sec
+      Start 64: desktop.eog_dataset
+64/80 Test #64: desktop.eog_dataset ......................   Passed    1.80 sec
+      Start 65: desktop.eog_capture
+65/80 Test #65: desktop.eog_capture ......................   Passed    0.73 sec
+      Start 66: desktop.eog_analysis_client
+66/80 Test #66: desktop.eog_analysis_client ..............   Passed   30.12 sec
+      Start 67: desktop.eog_history
+67/80 Test #67: desktop.eog_history ......................   Passed   79.22 sec
+      Start 68: desktop.eog_provider
+68/80 Test #68: desktop.eog_provider .....................   Passed   13.04 sec
+      Start 69: desktop.eog_demo_input
+69/80 Test #69: desktop.eog_demo_input ...................   Passed    2.64 sec
+      Start 70: desktop.eog_live_cli
+70/80 Test #70: desktop.eog_live_cli .....................***Failed    2.70 sec
+test_database_sidecar_names_cannot_be_used_as_archives (__main__.EogLiveCliTests.test_database_sidecar_names_cannot_be_used_as_archives) ... ok
+test_invalid_existing_and_in_source_archives_are_rejected (__main__.EogLiveCliTests.test_invalid_existing_and_in_source_archives_are_rejected) ... ok
+test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive (__main__.EogLiveCliTests.test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive) ... ok
+test_native_executable_and_inputs_are_required_without_skips (__main__.EogLiveCliTests.test_native_executable_and_inputs_are_required_without_skips) ... ok
+test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) ... 
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv') ... ERROR
+test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives (__main__.EogLiveCliTests.test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives) ... ok
+test_source_database_paths_and_archive_database_collision_are_rejected (__main__.EogLiveCliTests.test_source_database_paths_and_archive_database_collision_are_rejected) ... ok
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{d4de8436-1914-433e-86d1-622847b00eea}\\Temp\\breakwater-eog-live-cli-ah8_i7gz\\data\\network.json' -> 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{d4de8436-1914-433e-86d1-622847b00eea}\\Temp\\breakwater-eog-live-cli-ah8_i7gz\\network.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{d4de8436-1914-433e-86d1-622847b00eea}\\Temp\\breakwater-eog-live-cli-ah8_i7gz\\data\\ops.json' -> 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{d4de8436-1914-433e-86d1-622847b00eea}\\Temp\\breakwater-eog-live-cli-ah8_i7gz\\ops.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{d4de8436-1914-433e-86d1-622847b00eea}\\Temp\\breakwater-eog-live-cli-ah8_i7gz\\data\\telemetry.csv' -> 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{d4de8436-1914-433e-86d1-622847b00eea}\\Temp\\breakwater-eog-live-cli-ah8_i7gz\\telemetry.csv.sqlite'
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.272s
+
+FAILED (errors=3)
+
+      Start 71: desktop.eog_cli
+71/80 Test #71: desktop.eog_cli ..........................***Failed    5.25 sec
+test_conflicting_workbench_operations_are_rejected (__main__.EogCliTests.test_conflicting_workbench_operations_are_rejected) ... ok
+test_facility_and_report_need_a_dataset (__main__.EogCliTests.test_facility_and_report_need_a_dataset) ... ok
+test_inputs_cannot_be_report_screenshot_or_database (__main__.EogCliTests.test_inputs_cannot_be_report_screenshot_or_database) ... ok
+test_legacy_report_writers_are_rejected (__main__.EogCliTests.test_legacy_report_writers_are_rejected) ... ok
+test_reports_cannot_overwrite_database_journals (__main__.EogCliTests.test_reports_cannot_overwrite_database_journals) ... ok
+test_reports_screenshot_and_database_are_distinct (__main__.EogCliTests.test_reports_screenshot_and_database_are_distinct) ... ok
+test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input) ... ERROR
+test_unknown_workspace_and_facility_are_rejected (__main__.EogCliTests.test_unknown_workspace_and_facility_are_rejected) ... ok
+
+======================================================================
+ERROR: test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\eog_cli_tests.py", line 79, in test_screenshot_replaces_hardlink_without_mutating_input
+    os.link(self.dataset / "network.json", screenshot)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{d4de8436-1914-433e-86d1-622847b00eea}\\Temp\\tmpit0khy41\\data\\network.json' -> 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{d4de8436-1914-433e-86d1-622847b00eea}\\Temp\\tmpit0khy41\\capture.png'
+
+----------------------------------------------------------------------
+Ran 8 tests in 5.028s
+
+FAILED (errors=1)
+
+      Start 72: desktop.eog_plan_chart
+72/80 Test #72: desktop.eog_plan_chart ...................   Passed    4.33 sec
+      Start 73: desktop.eog_plan_details
+73/80 Test #73: desktop.eog_plan_details .................   Passed    5.20 sec
+      Start 74: desktop.eog_event_details
+74/80 Test #74: desktop.eog_event_details ................   Passed    3.68 sec
+      Start 75: desktop.eog_analysis_normal
+75/80 Test #75: desktop.eog_analysis_normal ..............   Passed    2.34 sec
+      Start 76: desktop.eog_overview_normal
+76/80 Test #76: desktop.eog_overview_normal ..............   Passed    2.58 sec
+      Start 77: desktop.eog_facility_normal
+77/80 Test #77: desktop.eog_facility_normal ..............   Passed    2.31 sec
+      Start 78: desktop.eog_analysis_compact
+78/80 Test #78: desktop.eog_analysis_compact .............   Passed    2.22 sec
+      Start 79: desktop.eog_overview_compact
+79/80 Test #79: desktop.eog_overview_compact .............   Passed    2.04 sec
+      Start 80: desktop.eog_facility_compact
+80/80 Test #80: desktop.eog_facility_compact .............   Passed    2.19 sec
+
+98% tests passed, 2 tests failed out of 80
+
+Total Test time (real) = 590.29 sec
+
+The following tests FAILED:
+	 70 - desktop.eog_live_cli (Failed)
+	 71 - desktop.eog_cli (Failed)
+Errors while running CTest

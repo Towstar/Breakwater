@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="65"
+	timestamp="2026-11-19T18:17:20"
+	>
+	<testcase name="desktop.eog_analysis_controller" classname="desktop.eog_analysis_controller" time="65.7194" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

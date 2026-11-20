@@ -1,0 +1,453 @@
+{
+  "rendering_qualification_version": 1,
+  "recorded_utc": "2026-11-20T01:53:36.912629+00:00",
+  "public_release_approved": false,
+  "source_commit": "f6b952a4ce222c52e97f756a1a2e39f2fed2f4f4",
+  "source_provenance": "Parent build/operator agent identified f6b952a for both completed builds; copied raw CTest XML binds actual WARP report directories, and local application binary hashes were read after stable builds. The benchmark does not embed a source hash.",
+  "scope": "Local normal/ASan focused label and WARP checks, plus identified hardware default/dense scene measurements; no numerical, hosted or release-authority qualification is added.",
+  "status": "passed_local_focused_and_hardware",
+  "compact_fixture": {
+    "client_width": 1008,
+    "client_height": 672,
+    "device_pixel_ratio": 1.75,
+    "fixed_post_sweep_yaw_degrees": 113.125,
+    "strict_six_label_gate_preserved": true,
+    "sample_window_ms_minimum": 10000,
+    "post_stop_frames_minimum": 2,
+    "label_placement_attempts_maximum": 8
+  },
+  "focused_ctest": [
+    {
+      "mode": "normal",
+      "status": "passed",
+      "ctest_tests": 2,
+      "ctest_failed": 0,
+      "ctest_skipped": 0,
+      "qt_label_test_total": 8,
+      "qt_label_failed": 0,
+      "captured_source_label_width_fixtures_px": [
+        82,
+        83,
+        84
+      ],
+      "metrics": {
+        "recorded_utc": "2026-11-20T01:50:17Z",
+        "assets": 6,
+        "routes": 6,
+        "actual_body_picks": 6,
+        "visible_labels": 6,
+        "culled_label_count": 0,
+        "culled_label_ids": [],
+        "label_overlap_pairs": 0,
+        "client_width": 1008,
+        "client_height": 672,
+        "device_pixel_ratio": 1.75,
+        "label_viewport": {
+          "height": 310,
+          "top_inset": 96,
+          "width": 787
+        },
+        "renderer": {
+          "adapter": "Microsoft Basic Render Driver",
+          "device_id": 140,
+          "software": true,
+          "status": "identified",
+          "vendor_id": 5140
+        },
+        "camera_yaw_start": 35,
+        "camera_yaw_end": 113.125,
+        "measurement_window_ms": 10009.3262,
+        "post_stop_rendered_frames": 2,
+        "fps": 34.3765142140422,
+        "target_fps": 60,
+        "hardware_target_met": false,
+        "numerical_identity_unchanged": true,
+        "effective_scene_quality": 1,
+        "detail_visible": true
+      },
+      "copied_files": [
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/normal-ctest-results.xml",
+          "original_path": "out/reliability-picking/label-fallback-normal.xml",
+          "bytes": 825,
+          "sha256": "50cc2899d7155b8264f6db6805c181b6f3f8e94b10854a1aee8957d6427f6b17",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/normal-ctest.log",
+          "original_path": "out/reliability-picking/label-fallback-normal.log",
+          "bytes": 549,
+          "sha256": "8ee597c4fad84c0b833fdefd125c52d88cf0b494fb56ffa511a45af564a72cc6",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/normal-label-placement-results.txt",
+          "original_path": "out/portfolio-desktop/desktop/label_placement-results.txt",
+          "bytes": 977,
+          "sha256": "2662d108bf09d2bfe63c647ffac54e7748f0dcca42023949c1eb3334158c6690",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/normal-benchmark.json",
+          "original_path": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-754b8941220f4b4591eba14cf4fb19ec/benchmark.json",
+          "bytes": 5324,
+          "sha256": "9f29ac6a0c979659ea032e2549a004f6645a7f0e890b42fc525716857bc8e0ba",
+          "copied_verbatim": true
+        }
+      ]
+    },
+    {
+      "mode": "asan",
+      "status": "passed",
+      "ctest_tests": 2,
+      "ctest_failed": 0,
+      "ctest_skipped": 0,
+      "qt_label_test_total": 8,
+      "qt_label_failed": 0,
+      "captured_source_label_width_fixtures_px": [
+        82,
+        83,
+        84
+      ],
+      "metrics": {
+        "recorded_utc": "2026-11-20T01:50:57Z",
+        "assets": 6,
+        "routes": 6,
+        "actual_body_picks": 6,
+        "visible_labels": 6,
+        "culled_label_count": 0,
+        "culled_label_ids": [],
+        "label_overlap_pairs": 0,
+        "client_width": 1008,
+        "client_height": 672,
+        "device_pixel_ratio": 1.75,
+        "label_viewport": {
+          "height": 310,
+          "top_inset": 96,
+          "width": 787
+        },
+        "renderer": {
+          "adapter": "Microsoft Basic Render Driver",
+          "device_id": 140,
+          "software": true,
+          "status": "identified",
+          "vendor_id": 5140
+        },
+        "camera_yaw_start": 35,
+        "camera_yaw_end": 113.125,
+        "measurement_window_ms": 10063.3168,
+        "post_stop_rendered_frames": 2,
+        "fps": 16.114695312949774,
+        "target_fps": 60,
+        "hardware_target_met": false,
+        "numerical_identity_unchanged": true,
+        "effective_scene_quality": 1,
+        "detail_visible": true
+      },
+      "copied_files": [
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/asan-ctest-results.xml",
+          "original_path": "out/reliability-picking/label-fallback-asan.xml",
+          "bytes": 830,
+          "sha256": "7125c02dbcbdef163b52c5e32a677a019f9ca17a6bb541d4870d419abe02127e",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/asan-ctest.log",
+          "original_path": "out/reliability-picking/label-fallback-asan.log",
+          "bytes": 559,
+          "sha256": "4d75c15d5f3edd639d4c4ad9a40ff4a0924943ba0b242f36201635e0e3dff97b",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/asan-label-placement-results.txt",
+          "original_path": "out/portfolio-desktop-asan/desktop/label_placement-results.txt",
+          "bytes": 977,
+          "sha256": "457b99235ae2d5ddaa20ee6746fdab1c8745dd97eec32f67ed4b3c11a0791c79",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/asan-benchmark.json",
+          "original_path": "out/portfolio-desktop-asan/desktop/test-artifacts/scene-picking-warp-beb678da24394eea97d1c9d963c8a3f8/benchmark.json",
+          "bytes": 5327,
+          "sha256": "a4a37e92548ba38767db40fb6e3324f3dff39a55460a10deb79ed9d047cd96d1",
+          "copied_verbatim": true
+        }
+      ]
+    }
+  ],
+  "hardware": [
+    {
+      "scene": "default",
+      "status": "passed",
+      "exit_code": 0,
+      "metrics": {
+        "recorded_utc": "2026-11-20T01:51:23Z",
+        "assets": 6,
+        "routes": 6,
+        "actual_body_picks": 6,
+        "visible_labels": 6,
+        "culled_label_count": 0,
+        "culled_label_ids": [],
+        "label_overlap_pairs": 0,
+        "client_width": 1440,
+        "client_height": 900,
+        "device_pixel_ratio": 1.75,
+        "label_viewport": {
+          "height": 538,
+          "top_inset": 96,
+          "width": 932
+        },
+        "renderer": {
+          "adapter": "AMD Radeon(TM) 880M Graphics",
+          "device_id": 5390,
+          "software": false,
+          "status": "identified",
+          "vendor_id": 4098
+        },
+        "camera_yaw_start": 35,
+        "camera_yaw_end": 113.125,
+        "measurement_window_ms": 10000.5142,
+        "post_stop_rendered_frames": 2,
+        "fps": 62.490028759533516,
+        "target_fps": 60,
+        "hardware_target_met": true,
+        "numerical_identity_unchanged": true,
+        "effective_scene_quality": 1,
+        "detail_visible": true
+      },
+      "copied_files": [
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/hardware-default-benchmark.json",
+          "original_path": "out/reliability-picking/hardware-default-f6b952a.json",
+          "bytes": 5340,
+          "sha256": "ab5dcac8a93055c9daa90b68367c10f48146b2cfdcabd7e5d96ee297430a2df4",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/hardware-default.log",
+          "original_path": "out/reliability-picking/hardware-default-f6b952a.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "copied_verbatim": true
+        }
+      ]
+    },
+    {
+      "scene": "dense",
+      "status": "passed",
+      "exit_code": 0,
+      "metrics": {
+        "recorded_utc": "2026-11-20T01:51:38Z",
+        "assets": 128,
+        "routes": 256,
+        "actual_body_picks": 128,
+        "visible_labels": 27,
+        "culled_label_count": 101,
+        "culled_label_ids": [
+          "source_1",
+          "tank_2",
+          "source_2",
+          "tank_3",
+          "source_3",
+          "source_4",
+          "tank_5",
+          "source_5",
+          "source_6",
+          "source_7",
+          "tank_8",
+          "source_8",
+          "tank_9",
+          "source_9",
+          "source_10",
+          "source_11",
+          "source_12",
+          "source_13",
+          "source_14",
+          "source_15",
+          "source_16",
+          "tank_17",
+          "source_17",
+          "tank_18",
+          "source_18",
+          "source_19",
+          "tank_20",
+          "source_20",
+          "tank_21",
+          "source_21",
+          "source_22",
+          "source_23",
+          "source_24",
+          "tank_25",
+          "source_25",
+          "tank_26",
+          "source_26",
+          "source_27",
+          "tank_28",
+          "source_28",
+          "tank_29",
+          "source_29",
+          "tank_30",
+          "source_30",
+          "tank_31",
+          "source_31",
+          "source_32",
+          "tank_33",
+          "source_33",
+          "tank_34",
+          "source_34",
+          "tank_35",
+          "source_35",
+          "tank_36",
+          "source_36",
+          "source_37",
+          "tank_38",
+          "source_38",
+          "source_39",
+          "tank_40",
+          "source_40",
+          "tank_41",
+          "source_41",
+          "source_42",
+          "tank_43",
+          "source_43",
+          "tank_44",
+          "source_44",
+          "tank_45",
+          "source_45",
+          "tank_46",
+          "source_46",
+          "tank_47",
+          "source_47",
+          "tank_48",
+          "source_48",
+          "tank_49",
+          "source_49",
+          "source_50",
+          "tank_51",
+          "source_51",
+          "source_52",
+          "tank_53",
+          "source_53",
+          "tank_54",
+          "source_54",
+          "tank_55",
+          "source_55",
+          "tank_56",
+          "source_56",
+          "tank_57",
+          "source_57",
+          "tank_58",
+          "tank_59",
+          "source_59",
+          "tank_60",
+          "source_60",
+          "tank_61",
+          "source_61",
+          "source_62",
+          "tank_63"
+        ],
+        "label_overlap_pairs": 0,
+        "client_width": 1440,
+        "client_height": 900,
+        "device_pixel_ratio": 1.75,
+        "label_viewport": {
+          "height": 538,
+          "top_inset": 96,
+          "width": 932
+        },
+        "renderer": {
+          "adapter": "AMD Radeon(TM) 880M Graphics",
+          "device_id": 5390,
+          "software": false,
+          "status": "identified",
+          "vendor_id": 4098
+        },
+        "camera_yaw_start": 35,
+        "camera_yaw_end": 113.125,
+        "measurement_window_ms": 10005.2525,
+        "post_stop_rendered_frames": 2,
+        "fps": 61.58697312344494,
+        "target_fps": 30,
+        "hardware_target_met": true,
+        "numerical_identity_unchanged": true,
+        "effective_scene_quality": 0,
+        "detail_visible": false
+      },
+      "copied_files": [
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/hardware-dense-benchmark.json",
+          "original_path": "out/reliability-picking/hardware-dense-f6b952a.json",
+          "bytes": 61874,
+          "sha256": "cb1d86a9414b8e4f0a0b3ef3bd09e9070b72b5a1d39394be6f01b6ff054c53b6",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/hardware-dense.log",
+          "original_path": "out/reliability-picking/hardware-dense-f6b952a.log",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+          "copied_verbatim": true
+        }
+      ]
+    }
+  ],
+  "hardware_process_results": {
+    "path": "docs/evidence/v03/reliability-picking-20261120/rendering-f6b952a/hardware-process-results.log",
+    "original_path": "out/reliability-picking/hardware-f6b952a.log",
+    "bytes": 581,
+    "sha256": "5f622bfc6b1f0ec0fda160b1616b193f903157a09267c43d6a239b31b2f5aec6",
+    "copied_verbatim": true
+  },
+  "local_application_binaries": [
+    {
+      "mode": "normal",
+      "local_path": "out/portfolio-desktop/desktop/breakwater.exe",
+      "bytes": 9277440,
+      "modified_utc": "2026-11-20T01:48:33.791576+00:00",
+      "sha256": "7ee99354fc7b236823e7aa47955182ed66715a26a4132832aa7e1d4b48dfd345",
+      "hash_read_stable": true,
+      "source_context": "f6b952a4ce222c52e97f756a1a2e39f2fed2f4f4",
+      "published_binary": false
+    },
+    {
+      "mode": "asan",
+      "local_path": "out/portfolio-desktop-asan/desktop/breakwater.exe",
+      "bytes": 13760512,
+      "modified_utc": "2026-11-20T01:48:32.261515+00:00",
+      "sha256": "452b3686280d097b3af866b52079f9e7f47954853922ce30fe9e101c4bb19860",
+      "hash_read_stable": true,
+      "source_context": "f6b952a4ce222c52e97f756a1a2e39f2fed2f4f4",
+      "published_binary": false
+    }
+  ],
+  "dense_input": {
+    "local_path": "out/v03/clarity-stress.json",
+    "bytes": 94366,
+    "sha256": "3511defe3d59f1616e7986b74fdd3a0035a403c51fab90bccb0768e1e15e3548",
+    "assets": 128,
+    "routes": 256,
+    "published_by_this_checkpoint": false
+  },
+  "preserved_failures": [
+    {
+      "path": "docs/evidence/v03/reliability-picking-20261120/ci-checkpoint.json",
+      "status": "prior_remote_CI_failure_retained",
+      "relation": "The earlier source's normal CI result of 86/87 remains failed; new local focused checks do not rewrite or rerun that checkpoint."
+    },
+    {
+      "path": "docs/evidence/v03/reliability-picking-20261120/compact-fit-bb250d7/checkpoint.json",
+      "status": "prior_local_normal_failure_retained",
+      "relation": "Fitting alone had five labels; newer bounded label placement qualifies a different source, preserving the first failure and ASan pass."
+    }
+  ],
+  "qualification_limits": [
+    "These are focused local 2/2 CTest and 8/8 Qt label checks per mode, not a rerun of every test on f6b952a.",
+    "A fresh f6b952a GitHub workflow result is not claimed. The retained earlier workflow still failed one normal label test.",
+    "Dense hardware has 128 actual body picks but only 27 nonoverlapping visible labels; 101 labels are deliberately culled. Do not report 128 visible labels.",
+    "Each asset has at least one successful unrestricted nearest-object body probe at the fixed final view; every mesh and every angle are not qualified.",
+    "Hardware FPS measurements are local observations on the identified AMD adapter, not a general hardware benchmark; WARP FPS remains diagnostic.",
+    "Hosted/observed rehearsals were qualified at 29df04f; this later UI/rendering pass does not itself rerun or statistically improve those results.",
+    "Owner/license agreement, clean-Windows release checks and approval authority remain separate."
+  ]
+}

@@ -1,0 +1,14 @@
+{
+    "protocol_version": 1,
+    "request_id": "188d9520-048c-4ce0-b4c8-92d6195c8819",
+    "result": {
+        "methods": [
+            "health"
+        ],
+        "physicsnemo_detected": false,
+        "python_version": "3.12.13",
+        "scientific_execution": "not_implemented",
+        "torch_detected": true
+    },
+    "status": "completed"
+}

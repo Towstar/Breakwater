@@ -1,0 +1,10 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+    Start 28: desktop.nemotron_client
+1/2 Test #28: desktop.nemotron_client ..........   Passed    2.38 sec
+    Start 42: desktop.scene_picking_warp
+2/2 Test #42: desktop.scene_picking_warp .......   Passed   21.58 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =  23.97 sec

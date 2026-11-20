@@ -1,0 +1,1714 @@
+{
+    "actual_body_picks": {
+        "body_probes": [
+            {
+                "asset_id": "tank_0",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_0",
+                        "x": 559.6237182617188,
+                        "y": 197.80209350585938
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_0",
+                "attempts": [
+                    {
+                        "hit": "asset:source_0",
+                        "x": 555.194091796875,
+                        "y": 208.20489501953125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_1",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_1",
+                        "x": 550.6065673828125,
+                        "y": 218.97840881347656
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_1",
+                "attempts": [
+                    {
+                        "hit": "asset:source_1",
+                        "x": 545.8526000976562,
+                        "y": 230.14283752441406
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_2",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_2",
+                        "x": 540.9230346679688,
+                        "y": 241.71986389160156
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_2",
+                "attempts": [
+                    {
+                        "hit": "asset:source_2",
+                        "x": 535.8077392578125,
+                        "y": 253.73275756835938
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_3",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_3",
+                        "x": 530.4962158203125,
+                        "y": 266.2066345214844
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_3",
+                "attempts": [
+                    {
+                        "hit": "asset:source_3",
+                        "x": 524.9768676757812,
+                        "y": 279.1685485839844
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_4",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_4",
+                        "x": 519.2373046875,
+                        "y": 292.64764404296875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_4",
+                "attempts": [
+                    {
+                        "hit": "asset:source_4",
+                        "x": 513.2640380859375,
+                        "y": 306.67559814453125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_5",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_5",
+                        "x": 507.04248046875,
+                        "y": 321.28662109375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_5",
+                "attempts": [
+                    {
+                        "hit": "asset:source_5",
+                        "x": 500.556884765625,
+                        "y": 336.5177917480469
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_6",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_6",
+                        "x": 493.78997802734375,
+                        "y": 352.4094543457031
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_6",
+                "attempts": [
+                    {
+                        "hit": "asset:source_6",
+                        "x": 486.72320556640625,
+                        "y": 369.0055236816406
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_7",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_7",
+                        "x": 479.3360290527344,
+                        "y": 386.35394287109375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_7",
+                "attempts": [
+                    {
+                        "hit": "asset:source_7",
+                        "x": 471.60626220703125,
+                        "y": 404.5069885253906
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_8",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_8",
+                        "x": 545.0738525390625,
+                        "y": 193.46871948242188
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_8",
+                "attempts": [
+                    {
+                        "hit": "asset:source_8",
+                        "x": 540.4241943359375,
+                        "y": 203.71902465820312
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_9",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_9",
+                        "x": 535.610107421875,
+                        "y": 214.3318634033203
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_9",
+                "attempts": [
+                    {
+                        "hit": "asset:source_9",
+                        "x": 530.6227416992188,
+                        "y": 225.32684326171875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_10",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_10",
+                        "x": 525.4524536132812,
+                        "y": 236.7249298095703
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_10",
+                "attempts": [
+                    {
+                        "hit": "asset:source_10",
+                        "x": 520.089111328125,
+                        "y": 248.54876708984375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_11",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_11",
+                        "x": 514.5216064453125,
+                        "y": 260.8226318359375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_11",
+                "attempts": [
+                    {
+                        "hit": "asset:source_11",
+                        "x": 508.7381286621094,
+                        "y": 273.5727233886719
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_12",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_12",
+                        "x": 502.7257385253906,
+                        "y": 286.8273010253906
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_12",
+                "attempts": [
+                    {
+                        "hit": "asset:source_12",
+                        "x": 496.4706726074219,
+                        "y": 300.61688232421875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_13",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_13",
+                        "x": 489.9579162597656,
+                        "y": 314.9745788574219
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_13",
+                "attempts": [
+                    {
+                        "hit": "asset:source_13",
+                        "x": 483.1712646484375,
+                        "y": 329.93621826171875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_14",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_14",
+                        "x": 476.0929260253906,
+                        "y": 345.5407409667969
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_14",
+                "attempts": [
+                    {
+                        "hit": "asset:source_14",
+                        "x": 468.703857421875,
+                        "y": 361.8304138183594
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_15",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_15",
+                        "x": 460.98297119140625,
+                        "y": 378.8514709472656
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_15",
+                "attempts": [
+                    {
+                        "hit": "asset:source_15",
+                        "x": 452.90753173828125,
+                        "y": 396.65423583984375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_16",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_16",
+                        "x": 530.7345581054688,
+                        "y": 189.19808959960938
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_16",
+                "attempts": [
+                    {
+                        "hit": "asset:source_16",
+                        "x": 525.8718872070312,
+                        "y": 199.29922485351562
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_17",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_17",
+                        "x": 520.8384399414062,
+                        "y": 209.7549591064453
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_17",
+                "attempts": [
+                    {
+                        "hit": "asset:source_17",
+                        "x": 515.625244140625,
+                        "y": 220.5842742919922
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_18",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_18",
+                        "x": 510.2222900390625,
+                        "y": 231.80760192871094
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_18",
+                "attempts": [
+                    {
+                        "hit": "asset:source_18",
+                        "x": 504.61920166015625,
+                        "y": 243.44679260253906
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_19",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_19",
+                        "x": 498.80450439453125,
+                        "y": 255.52542114257812
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_19",
+                "attempts": [
+                    {
+                        "hit": "asset:source_19",
+                        "x": 492.76611328125,
+                        "y": 268.06884765625
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_20",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_20",
+                        "x": 486.49078369140625,
+                        "y": 281.10443115234375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_20",
+                "attempts": [
+                    {
+                        "hit": "asset:source_20",
+                        "x": 479.9643249511719,
+                        "y": 294.66168212890625
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_21",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_21",
+                        "x": 473.17132568359375,
+                        "y": 308.7726135253906
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_21",
+                "attempts": [
+                    {
+                        "hit": "asset:source_21",
+                        "x": 466.0950927734375,
+                        "y": 323.4718322753906
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_22",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_22",
+                        "x": 458.7176208496094,
+                        "y": 338.7968444824219
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_22",
+                "attempts": [
+                    {
+                        "hit": "asset:source_22",
+                        "x": 451.0191955566406,
+                        "y": 354.7885437011719
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_23",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_23",
+                        "x": 442.9783935546875,
+                        "y": 371.491455078125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_23",
+                "attempts": [
+                    {
+                        "hit": "asset:source_23",
+                        "x": 434.5719299316406,
+                        "y": 388.9540100097656
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_24",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_24",
+                        "x": 516.6015014648438,
+                        "y": 184.9888458251953
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_24",
+                "attempts": [
+                    {
+                        "hit": "asset:source_24",
+                        "x": 511.5323181152344,
+                        "y": 194.94406127929688
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_25",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_25",
+                        "x": 506.2865905761719,
+                        "y": 205.2461395263672
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_25",
+                "attempts": [
+                    {
+                        "hit": "asset:source_25",
+                        "x": 500.854736328125,
+                        "y": 215.91354370117188
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_26",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_26",
+                        "x": 495.22686767578125,
+                        "y": 226.96604919433594
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_26",
+                "attempts": [
+                    {
+                        "hit": "asset:source_26",
+                        "x": 489.39208984375,
+                        "y": 238.4249267578125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_27",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_27",
+                        "x": 483.33880615234375,
+                        "y": 250.3129119873047
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_27",
+                "attempts": [
+                    {
+                        "hit": "asset:source_27",
+                        "x": 477.0544128417969,
+                        "y": 262.6546936035156
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_28",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_28",
+                        "x": 470.52557373046875,
+                        "y": 275.47662353515625
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_28",
+                "attempts": [
+                    {
+                        "hit": "asset:source_28",
+                        "x": 463.7375793457031,
+                        "y": 288.8074035644531
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_29",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_29",
+                        "x": 456.6748046875,
+                        "y": 302.6778564453125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_29",
+                "attempts": [
+                    {
+                        "hit": "asset:source_29",
+                        "x": 449.3202209472656,
+                        "y": 317.1214294433594
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_30",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_30",
+                        "x": 441.6553039550781,
+                        "y": 332.17449951171875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_30",
+                "attempts": [
+                    {
+                        "hit": "asset:source_30",
+                        "x": 433.65997314453125,
+                        "y": 347.8763122558594
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_31",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_31",
+                        "x": 425.3124694824219,
+                        "y": 364.2698974609375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_31",
+                "attempts": [
+                    {
+                        "hit": "asset:source_31",
+                        "x": 416.58892822265625,
+                        "y": 381.40185546875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_32",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_32",
+                        "x": 502.67010498046875,
+                        "y": 180.83969116210938
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_32",
+                "attempts": [
+                    {
+                        "hit": "asset:source_32",
+                        "x": 497.40093994140625,
+                        "y": 190.65211486816406
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_33",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_33",
+                        "x": 491.9494934082031,
+                        "y": 200.80392456054688
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_33",
+                "attempts": [
+                    {
+                        "hit": "asset:source_33",
+                        "x": 486.3062438964844,
+                        "y": 211.31301879882812
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_34",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_34",
+                        "x": 480.4608459472656,
+                        "y": 222.19857788085938
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_34",
+                "attempts": [
+                    {
+                        "hit": "asset:source_34",
+                        "x": 474.40216064453125,
+                        "y": 233.48123168945312
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_35",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_35",
+                        "x": 468.11834716796875,
+                        "y": 245.18310546875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_35",
+                "attempts": [
+                    {
+                        "hit": "asset:source_35",
+                        "x": 461.5967102050781,
+                        "y": 257.3280029296875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_36",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_36",
+                        "x": 454.8233642578125,
+                        "y": 269.9415588378906
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_36",
+                "attempts": [
+                    {
+                        "hit": "asset:source_36",
+                        "x": 447.7834777832031,
+                        "y": 283.05145263671875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_37",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_37",
+                        "x": 440.4610595703125,
+                        "y": 296.6875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_37",
+                "attempts": [
+                    {
+                        "hit": "asset:source_37",
+                        "x": 432.8387145996094,
+                        "y": 310.88214111328125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_38",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_38",
+                        "x": 424.8975830078125,
+                        "y": 325.67034912109375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_38",
+                "attempts": [
+                    {
+                        "hit": "asset:source_38",
+                        "x": 416.6173400878906,
+                        "y": 341.09014892578125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_39",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_39",
+                        "x": 407.9757080078125,
+                        "y": 357.182861328125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_39",
+                "attempts": [
+                    {
+                        "hit": "asset:source_39",
+                        "x": 398.9485168457031,
+                        "y": 373.99359130859375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_40",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_40",
+                        "x": 488.9361572265625,
+                        "y": 176.7493133544922
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_40",
+                "attempts": [
+                    {
+                        "hit": "asset:source_40",
+                        "x": 483.4731750488281,
+                        "y": 186.42202758789062
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_41",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_41",
+                        "x": 477.8226318359375,
+                        "y": 196.4268035888672
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_41",
+                "attempts": [
+                    {
+                        "hit": "asset:source_41",
+                        "x": 471.9747314453125,
+                        "y": 206.78106689453125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_42",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_42",
+                        "x": 465.91888427734375,
+                        "y": 217.50347900390625
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_42",
+                "attempts": [
+                    {
+                        "hit": "asset:source_42",
+                        "x": 459.6438903808594,
+                        "y": 228.6139678955078
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_43",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_43",
+                        "x": 453.13751220703125,
+                        "y": 240.13404846191406
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_43",
+                "attempts": [
+                    {
+                        "hit": "asset:source_43",
+                        "x": 446.3868408203125,
+                        "y": 252.0867462158203
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_44",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_44",
+                        "x": 439.3777770996094,
+                        "y": 264.4969482421875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_44",
+                "attempts": [
+                    {
+                        "hit": "asset:source_44",
+                        "x": 432.0951843261719,
+                        "y": 277.391357421875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_45",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_45",
+                        "x": 424.5227966308594,
+                        "y": 290.79901123046875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_45",
+                "attempts": [
+                    {
+                        "hit": "asset:source_45",
+                        "x": 416.6429443359375,
+                        "y": 304.7510070800781
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_46",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_46",
+                        "x": 408.43646240234375,
+                        "y": 319.28131103515625
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_46",
+                "attempts": [
+                    {
+                        "hit": "asset:source_46",
+                        "x": 399.8826599121094,
+                        "y": 334.42657470703125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_47",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_47",
+                        "x": 390.958984375,
+                        "y": 350.2266845703125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_47",
+                "attempts": [
+                    {
+                        "hit": "asset:source_47",
+                        "x": 381.6409606933594,
+                        "y": 366.72509765625
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_48",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_48",
+                        "x": 475.3955383300781,
+                        "y": 172.71649169921875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_48",
+                "attempts": [
+                    {
+                        "hit": "asset:source_48",
+                        "x": 469.7447204589844,
+                        "y": 182.25244140625
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_49",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_49",
+                        "x": 463.9013671875,
+                        "y": 192.11338806152344
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_49",
+                "attempts": [
+                    {
+                        "hit": "asset:source_49",
+                        "x": 457.8553771972656,
+                        "y": 202.3162384033203
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_50",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_50",
+                        "x": 451.5960693359375,
+                        "y": 212.87908935546875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_50",
+                "attempts": [
+                    {
+                        "hit": "asset:source_50",
+                        "x": 445.1119384765625,
+                        "y": 223.82135009765625
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_51",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_51",
+                        "x": 438.390625,
+                        "y": 235.16380310058594
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_51",
+                "attempts": [
+                    {
+                        "hit": "asset:source_51",
+                        "x": 431.4189147949219,
+                        "y": 246.9288787841797
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_52",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_52",
+                        "x": 424.1825256347656,
+                        "y": 259.1405944824219
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_52",
+                "attempts": [
+                    {
+                        "hit": "asset:source_52",
+                        "x": 416.6661376953125,
+                        "y": 271.8248596191406
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_53",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_53",
+                        "x": 408.85308837890625,
+                        "y": 285.0096740722656
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_53",
+                "attempts": [
+                    {
+                        "hit": "asset:source_53",
+                        "x": 400.7254943847656,
+                        "y": 298.7252502441406
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_54",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_54",
+                        "x": 392.2640686035156,
+                        "y": 313.0043640136719
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_54",
+                "attempts": [
+                    {
+                        "hit": "asset:source_54",
+                        "x": 383.44769287109375,
+                        "y": 327.8823547363281
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_55",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_55",
+                        "x": 374.25360107421875,
+                        "y": 343.39776611328125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_55",
+                "attempts": [
+                    {
+                        "hit": "asset:source_55",
+                        "x": 364.6569519042969,
+                        "y": 359.5924987792969
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_56",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_56",
+                        "x": 462.0440979003906,
+                        "y": 168.74005126953125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_56",
+                "attempts": [
+                    {
+                        "hit": "asset:source_56",
+                        "x": 456.2113342285156,
+                        "y": 178.14212036132812
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_57",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_57",
+                        "x": 450.1811828613281,
+                        "y": 187.86228942871094
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_57",
+                "attempts": [
+                    {
+                        "hit": "asset:source_57",
+                        "x": 443.9435119628906,
+                        "y": 197.9169921875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_58",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_58",
+                        "x": 437.4873962402344,
+                        "y": 208.32386779785156
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_58",
+                "attempts": [
+                    {
+                        "hit": "asset:source_58",
+                        "x": 430.8011474609375,
+                        "y": 219.1016845703125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_59",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_59",
+                        "x": 423.8722229003906,
+                        "y": 230.2706298828125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_59",
+                "attempts": [
+                    {
+                        "hit": "asset:source_59",
+                        "x": 416.6872253417969,
+                        "y": 241.85240173339844
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_60",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_60",
+                        "x": 409.23162841796875,
+                        "y": 253.87033081054688
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_60",
+                "attempts": [
+                    {
+                        "hit": "asset:source_60",
+                        "x": 401.4898681640625,
+                        "y": 266.34954833984375
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_61",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_61",
+                        "x": 393.4451904296875,
+                        "y": 279.31707763671875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_61",
+                "attempts": [
+                    {
+                        "hit": "asset:source_61",
+                        "x": 385.0793762207031,
+                        "y": 292.8022155761719
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_62",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_62",
+                        "x": 376.3728942871094,
+                        "y": 306.8365173339844
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_62",
+                "attempts": [
+                    {
+                        "hit": "asset:source_62",
+                        "x": 367.304443359375,
+                        "y": 321.45428466796875
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_63",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_63",
+                        "x": 357.8509826660156,
+                        "y": 336.692626953125
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_63",
+                "attempts": [
+                    {
+                        "hit": "asset:source_63",
+                        "x": 347.98748779296875,
+                        "y": 352.5919494628906
+                    }
+                ],
+                "body_models": 1,
+                "pickable": true,
+                "projected": true
+            }
+        ],
+        "failed_asset_ids": [
+        ],
+        "label_overlaps": 0,
+        "labels": 22,
+        "pickable": 128,
+        "projected": 128
+    },
+    "all_bodies_pickable": true,
+    "assets": 128,
+    "benchmark_version": 2,
+    "camera_yaw_end": 113.120831875,
+    "camera_yaw_start": 35,
+    "client_height": 900,
+    "client_width": 1440,
+    "detail_visible": false,
+    "device_pixel_ratio": 1.75,
+    "effective_scene_quality": 0,
+    "elapsed_ms": 9986.132500000002,
+    "fps": 55.57707150390804,
+    "frame_interval_p50_ms": 16.4136,
+    "frame_interval_p95_ms": 32.6059,
+    "frames": 555,
+    "graphics_api": 4,
+    "hardware_target_met": true,
+    "label_overlap_pairs": 0,
+    "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+    "measurement_window_ms": 10000.3053,
+    "numerical_identity_unchanged": true,
+    "picking_error": "",
+    "post_stop_rendered_frames": 2,
+    "recorded_utc": "2026-11-20T01:00:47Z",
+    "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+    },
+    "routes": 256,
+    "screenshot_written": true,
+    "software_renderer_requested": false,
+    "status": "measured",
+    "target_fps": 30,
+    "target_met": true,
+    "visible_label_count": 22
+}

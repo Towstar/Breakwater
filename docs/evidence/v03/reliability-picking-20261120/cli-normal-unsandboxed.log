@@ -1,0 +1,10 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+    Start 77: desktop.eog_live_cli
+1/2 Test #77: desktop.eog_live_cli .............   Passed    1.21 sec
+    Start 78: desktop.eog_cli
+2/2 Test #78: desktop.eog_cli ..................   Passed    4.37 sec
+
+100% tests passed, 0 tests failed out of 2
+
+Total Test time (real) =   5.59 sec

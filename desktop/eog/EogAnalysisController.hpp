@@ -124,6 +124,7 @@ private:
     QJsonObject request(const QString& operation, const QJsonObject& arguments) const;
     QJsonObject bindPlanProposal(QJsonObject proposal) const;
     QJsonObject validationFor(const QString& plan) const;
+    QJsonObject retainedEvidence() const;
     QJsonArray toolDefinitions() const;
     void completeTool(const QJsonObject& outcome);
     void recordEvent(const QJsonObject& event);

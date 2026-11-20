@@ -1,0 +1,28 @@
+{
+  "evidence_version": 1,
+  "phase": "finish",
+  "suite": "desktop",
+  "mode": "normal",
+  "recorded_utc": "2026-11-20T01:08:45.9093956Z",
+  "job_outcome": "failure",
+  "source_commit": "c6f2fe6cae971fce0cf5705cce6d65f33a6b6adb",
+  "bootstrap_python_requested": "3.12.10",
+  "scientific_python": "3.12.13 (separately managed by Setup-ScientificWorker.ps1)",
+  "runner": {
+    "image": "win22",
+    "image_version": "20261116.370.1",
+    "os": "Windows"
+  },
+  "github": {
+    "repository": "Towstar/Breakwater",
+    "event": "pull_request",
+    "run_id": "44647353356",
+    "run_attempt": "1",
+    "job": "desktop",
+    "workflow": "Windows checks"
+  },
+  "verification_available": true,
+  "ctest_results_available": true,
+  "science_results_available": false,
+  "test_execution_status": "consult_test_reports"
+}

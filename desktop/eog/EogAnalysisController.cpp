@@ -29,6 +29,13 @@ bool compatiblePlans(const QJsonObject& a, const QJsonObject& b) {
     };
     return a.value("context") == b.value("context") && a.value("start_unix") == b.value("start_unix") && horizons(a) == horizons(b);
 }
+bool cheaperCompatibleExists(const QJsonObject& evaluation, const QMap<QString, QJsonObject>& evaluations) {
+    const auto total = evaluation.value("cost").toObject().value("total").toDouble();
+    for (const auto& other : evaluations) if (available(other) &&
+        compatiblePlans(evaluation.value("plan").toObject(), other.value("plan").toObject()) &&
+        other.value("cost").toObject().value("total").toDouble() < total) return true;
+    return false;
+}
 QString evaluatorIdentity(const QJsonObject& evaluation) {
     // v1 retains implementation provenance in a bounded limitation string.
     // This is a presentation hint; independent validation still checks the
@@ -486,7 +493,80 @@ void EogAnalysisController::recordEvent(const QJsonObject& event) {
 }
 void EogAnalysisController::completeTool(const QJsonObject& outcome) {
     const auto execution = pending_execution_; pending_execution_.clear();
-    if (!execution.isEmpty()) investigator_.completeTool(execution, outcome);
+    if (!execution.isEmpty()) {
+        auto presented = outcome;
+        presented["retained_evidence"] = retainedEvidence();
+        investigator_.completeTool(execution, presented);
+    }
+}
+QJsonObject EogAnalysisController::retainedEvidence() const {
+    // Presentation of existing current-capture records only. This index never
+    // selects a plan, repairs model references, or grants operator eligibility.
+    if (historical_ || !capture_ || !source_ || source_ != dataset_->capturedDataset() ||
+        cutoff_ != qint64(dataset_->cursorUnix())) return {};
+    QJsonObject index{{"capture_id", capture_->manifest().value("capture_id")},
+        {"dataset_identity", source_->identity}, {"cutoff_unix", cutoff_}};
+    auto ids = evaluations_.keys();
+    std::sort(ids.begin(), ids.end(), [this](const QString& a, const QString& b) {
+        const auto left = evaluations_.value(a), right = evaluations_.value(b);
+        if (available(left) != available(right)) return available(left);
+        if (available(left)) {
+            const auto x = left.value("cost").toObject().value("total").toDouble();
+            const auto y = right.value("cost").toObject().value("total").toDouble();
+            if (x != y) return x < y;
+        }
+        return a < b;
+    });
+    const auto independentlyValidated = [this](const QString& id) {
+        const auto validation = validationFor(id);
+        return available(evaluations_.value(id)) && !validation.value("validation_id").toString().isEmpty() &&
+            validation.value("independent").toBool() && validation.value("feasible").toBool() && validation.value("coverage") == "available";
+    };
+    QJsonArray pairs, plans, events;
+    int admissibleCount = 0;
+    for (const auto& id : ids) if (independentlyValidated(id) && !cheaperCompatibleExists(evaluations_.value(id), evaluations_)) {
+        ++admissibleCount;
+        if (pairs.size() >= 8) continue;
+        auto next = pairs;
+        next.append(QJsonObject{{"selected_plan_id", id}, {"validation_id", validationFor(id).value("validation_id")}});
+        index["completion_pairs"] = next;
+        if (QJsonDocument(index).toJson(QJsonDocument::Compact).size() <= 60 * 1024) pairs = next;
+    }
+    index["completion_pairs"] = pairs;
+    for (const auto& id : ids) {
+        if (plans.size() >= 8) break;
+        const auto evaluation = evaluations_.value(id), validation = validationFor(id);
+        const bool validated = independentlyValidated(id);
+        const bool cheaper = available(evaluation) && cheaperCompatibleExists(evaluation, evaluations_);
+        const auto method = evaluatorIdentity(evaluation);
+        const auto total = evaluation.value("cost").toObject().value("total");
+        const auto row = QJsonObject{{"selected_plan_id", id},
+            {"plan_hash", evaluation.value("plan").toObject().value("plan_hash")},
+            {"evaluator_method", method.isEmpty() ? QJsonValue(QJsonValue::Null) : QJsonValue(method)},
+            {"cost_total", total.isDouble() && std::isfinite(total.toDouble()) ? total : QJsonValue(QJsonValue::Null)},
+            {"feasible", evaluation.value("feasible")}, {"coverage", evaluation.value("coverage")},
+            {"validation_id", validation.isEmpty() ? QJsonValue(QJsonValue::Null) : validation.value("validation_id")},
+            {"independent_validation", validation.value("independent").toBool()},
+            {"validation_feasible", validation.value("feasible").toBool()},
+            {"validation_coverage", validation.isEmpty() ? QJsonValue(QJsonValue::Null) : validation.value("coverage")},
+            {"selection_eligibility", validated ? (cheaper ? "validated_but_cheaper_compatible_exists" : "admissible") : !available(evaluation) ? "unavailable" :
+                method.isEmpty() ? "validation_unavailable" : "validation_required"}};
+        auto next = plans; next.append(row); index["plans"] = next;
+        if (QJsonDocument(index).toJson(QJsonDocument::Compact).size() > 60 * 1024) break;
+        plans = next;
+    }
+    index["plans"] = plans;
+    for (auto it = event_rows_.cbegin(); it != event_rows_.cend() && events.size() < 128; ++it) {
+        auto next = events; next.append(it.key()); index["event_ids"] = next;
+        if (QJsonDocument(index).toJson(QJsonDocument::Compact).size() > 60 * 1024) break;
+        events = next;
+    }
+    index["event_ids"] = events;
+    index["omitted_plan_count"] = evaluations_.size() - plans.size();
+    index["omitted_event_count"] = event_rows_.size() - events.size();
+    index["omitted_completion_pair_count"] = admissibleCount - pairs.size();
+    index["selection_status"] = pairs.isEmpty() ? "no_admissible_validated_plan" : "admissible_evidence_available";
+    return index;
 }
 QJsonObject EogAnalysisController::readTool(const QString& name, const QJsonObject& arguments) const {
     if (!source_ || !capture_) return failure("capture_unavailable");
@@ -721,9 +801,7 @@ void EogAnalysisController::finalResult(const QJsonObject& result) {
         const auto evaluation = evaluations_.value(selected), validation = validationFor(selected);
         grounded = available(evaluation) && !validationId.isEmpty() && validation.value("validation_id") == validationId &&
             validation.value("independent").toBool() && validation.value("feasible").toBool() && validation.value("coverage") == "available";
-        const auto total = evaluation.value("cost").toObject().value("total").toDouble();
-        for (const auto& other : evaluations_) if (available(other) && compatiblePlans(evaluation.value("plan").toObject(), other.value("plan").toObject()) &&
-            other.value("cost").toObject().value("total").toDouble() < total) grounded = false;
+        if (cheaperCompatibleExists(evaluation, evaluations_)) grounded = false;
     } else if (!validationId.isEmpty()) grounded = false;
     QSet<QString> seen;
     for (const auto& value : result.value("event_ids").toArray()) {

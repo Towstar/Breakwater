@@ -1,0 +1,145 @@
+{
+  "checkpoint_version": 1,
+  "recorded_utc": "2026-11-20T01:43:31.231232+00:00",
+  "public_release_approved": false,
+  "source_commit": "bb250d70f44c6ab0c446fa4bb5681d57093c2556",
+  "source_provenance": "Application source reported for these first attempts by the parent build/operator agent; benchmark JSON does not itself attest a source or executable hash. Exact artifact paths are bound through the CTest XML.",
+  "scope": "First compact fitted-fixture normal/ASan local WARP attempts; retain the failure and pass without replacing older CI reports.",
+  "overall_qualification": "incomplete",
+  "cases": [
+    {
+      "mode": "normal",
+      "status": "failed",
+      "test_count": 1,
+      "failed_count": 1,
+      "skipped": 0,
+      "ctest_timestamp_as_recorded": "2026-11-19T19:39:31",
+      "benchmark_recorded_utc": "2026-11-20T01:39:45Z",
+      "source_context": "bb250d70f44c6ab0c446fa4bb5681d57093c2556",
+      "test": "desktop.scene_picking_warp",
+      "body_picks": 6,
+      "projected_bodies": 6,
+      "visible_labels": 5,
+      "label_overlaps": 0,
+      "culled_label_ids": [
+        "source_a"
+      ],
+      "client_width": 1008,
+      "client_height": 672,
+      "device_pixel_ratio": 1.75,
+      "label_viewport": {
+        "height": 310,
+        "top_inset": 96,
+        "width": 787
+      },
+      "compact_fixture_requested": true,
+      "fixture_fitted": true,
+      "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "camera_yaw_start": 35,
+      "camera_yaw_end": 113.120243125,
+      "measurement_window_ms": 10023.9151,
+      "post_stop_rendered_frames": 2,
+      "fps_diagnostic_only": 32.69129141200677,
+      "numerical_identity_unchanged": true,
+      "copied_files": [
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/compact-fit-bb250d7/normal-benchmark.json",
+          "original_path": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-646c6e57dcfa409f9ef82f5bbdf23b66/benchmark.json",
+          "bytes": 5177,
+          "sha256": "6b3e52c945f9c36fe42f0b6cffe71b7e7a3a96449632eefc7c1a6a30c4572b0e",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/compact-fit-bb250d7/normal-ctest-results.xml",
+          "original_path": "out/reliability-picking/compact-fit-normal.xml",
+          "bytes": 1292,
+          "sha256": "adda11a46304e689331ff8e3ccced4503ec8ce04d6c6ec0eeb708aa91062525a",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/compact-fit-bb250d7/normal-ctest.log",
+          "original_path": "out/reliability-picking/compact-fit-normal.log",
+          "bytes": 1405,
+          "sha256": "fbf134afbea653c2ac24c40c8daeb28a0b5d2752615bec1afb0fdce3ebc7df61",
+          "copied_verbatim": true
+        }
+      ]
+    },
+    {
+      "mode": "asan",
+      "status": "passed",
+      "test_count": 1,
+      "failed_count": 0,
+      "skipped": 0,
+      "ctest_timestamp_as_recorded": "2026-11-19T19:40:48",
+      "benchmark_recorded_utc": "2026-11-20T01:41:08Z",
+      "source_context": "bb250d70f44c6ab0c446fa4bb5681d57093c2556",
+      "test": "desktop.scene_picking_warp",
+      "body_picks": 6,
+      "projected_bodies": 6,
+      "visible_labels": 6,
+      "label_overlaps": 0,
+      "culled_label_ids": [],
+      "client_width": 1008,
+      "client_height": 672,
+      "device_pixel_ratio": 1.75,
+      "label_viewport": {
+        "height": 310,
+        "top_inset": 96,
+        "width": 787
+      },
+      "compact_fixture_requested": true,
+      "fixture_fitted": true,
+      "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "camera_yaw_start": 35,
+      "camera_yaw_end": 133.91081125,
+      "measurement_window_ms": 10054.7772,
+      "post_stop_rendered_frames": 2,
+      "fps_diagnostic_only": 15.84687362596699,
+      "numerical_identity_unchanged": true,
+      "copied_files": [
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/compact-fit-bb250d7/asan-benchmark.json",
+          "original_path": "out/portfolio-desktop-asan/desktop/test-artifacts/scene-picking-warp-05b576f318664512a56d5a64d400e4db/benchmark.json",
+          "bytes": 5354,
+          "sha256": "ca232b4ff3748cf708d1fb1ec613f128d0f04e43b1004cd93f4853957dd7beae",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/compact-fit-bb250d7/asan-ctest-results.xml",
+          "original_path": "out/reliability-picking/compact-fit-asan.xml",
+          "bytes": 661,
+          "sha256": "6593eaa1b24a6c2892783bc44949c26c4b13601865dd479276d5c548d9db9845",
+          "copied_verbatim": true
+        },
+        {
+          "path": "docs/evidence/v03/reliability-picking-20261120/compact-fit-bb250d7/asan-ctest.log",
+          "original_path": "out/reliability-picking/compact-fit-asan.log",
+          "bytes": 449,
+          "sha256": "93d5be596a604ce980cada0cf7ede2407904927cc9911bccec3490abe05c6388",
+          "copied_verbatim": true
+        }
+      ]
+    }
+  ],
+  "finding": "Fitting the compact fixture alone does not satisfy strict six-label coverage: normal retains all six actual body picks but culls source_a at 1008 by 672, DPR 1.75 and top inset 96. ASan passes at its separately recorded final camera angle.",
+  "comparison_limits": [
+    "Both actual nearest-object picking checks pass; the normal failure is label coverage, not picking or overlap.",
+    "Normal and ASan have different retained final camera yaw values. Do not present them as identical-view comparisons or change the frame window to manufacture acceptance.",
+    "Software FPS remains diagnostic, not an acceptance threshold.",
+    "The proposed bounded label-placement fallback is pending and is not qualified by these bb250d7 attempts.",
+    "No numerical code or operating authority is changed by retaining these artifacts."
+  ]
+}

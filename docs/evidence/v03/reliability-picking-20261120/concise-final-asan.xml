@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="23"
+	timestamp="2026-11-19T19:06:27"
+	>
+	<testcase name="desktop.nemotron_client" classname="desktop.nemotron_client" time="2.37509" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.scene_picking_warp" classname="desktop.scene_picking_warp" time="21.5812" status="run">
+		<properties/>
+		<system-out>Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop\test-artifacts\scene-picking-warp-c685f1f8c5f943c481aa8364d4a89666
+PASS: 6/6 actual body picks; WARP 12.08 FPS (diagnostic only)
+</system-out>
+	</testcase>
+</testsuite>

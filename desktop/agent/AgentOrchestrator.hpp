@@ -73,6 +73,7 @@ private:
                           const QString& id, qint64 started);
     void cancelSensitivity();
     void finish(const QJsonObject& message);
+    bool correctFinalFormat(const QString& reason);
     void fail(const QString& code, const QString& message);
     void event(const QString& type, QJsonObject fields = {});
 };

@@ -1,0 +1,190 @@
+{
+  "audit_version": 1,
+  "recorded_utc": "2026-11-20T01:31:23.224212+00:00",
+  "public_release_approved": false,
+  "scope": "Two actual synthetic observed-origin GUI sessions with hosted investigation; copied unchanged from completed local history checkpoints.",
+  "review": "Separate same-family agent, read-only contract/source/sample/numeric/authority audit. No model/app execution during audit.",
+  "assessment_limit": "Internal evidence consistency, not authenticated execution attestation or a broad accuracy/reliability benchmark. Prose remains untrusted; current flags do not restore approval authority.",
+  "cases": [
+    {
+      "case": "pump_loss",
+      "archive": "docs/evidence/v03/reliability-picking-20261120/observed-pump-29df04f.session.json",
+      "bytes": 174636,
+      "sha256": "bb883e23d04a83a1723e10c75f9bb78d99ccca4b425637607a281a13a57899cb",
+      "copied_verbatim": true,
+      "source_commit_context": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "source_provenance_limit": "Source and generator setup were witnessed by the parent operator agent; the archive does not attest a binary hash or generator seed.",
+      "witnessed_setup": {
+        "preset": "pump_loss",
+        "seed": 1337,
+        "speed": 4,
+        "paused": true
+      },
+      "session_id": "2ede3623-9f9c-43d6-ad8b-f865c71b9aa9",
+      "session_status": "completed",
+      "archive_version": 2,
+      "session_kind": "observed_origin",
+      "created_at": "2026-11-20T01:14:17.371Z",
+      "updated_at": "2026-11-20T01:14:33.855Z",
+      "source_mode": "hosted",
+      "capture_id": "capture-817a8547-7899-45fd-8eda-d6cd4a6061ab",
+      "capture_time_s": 174.27052180000007,
+      "expires_event_time_s": 179.17199999990407,
+      "stream_id": "local-1abe4430606c462c868f5cdfa298ac93",
+      "epoch_id": "epoch-755fed6a0573463d941f9c584d64c182",
+      "configuration_hash": "694731bd6bece55109161b7b5126dfed81ca47471ca93efeb3085ca9ef11f350",
+      "design_physical_hash": "10093db8b43580e79eaceec8f6e3eda8717867f152b6429775d35ff065cb8f02",
+      "investigation_physical_hash": "c18cfa3c6e8ff707b6fb0d0c39602861f52688f21992579bc7a94b5568af2050",
+      "coverage": "available",
+      "mapping_issues": [],
+      "retained_sample_count": 10,
+      "derived_state_count": 10,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 13,
+      "http_statuses": {
+        "200": 13
+      },
+      "retry_count_total": 0,
+      "tool_calls": 12,
+      "tool_order": [
+        "get_observations",
+        "get_detection_events",
+        "get_network_state",
+        "get_control_catalog",
+        "forecast_baseline",
+        "search_interventions",
+        "validate_run",
+        "request_approval",
+        "compare_runs",
+        "request_approval",
+        "request_approval",
+        "request_approval"
+      ],
+      "stored_runs": 6,
+      "recommendation_status": "validated_recommendation",
+      "selected_run_id": "ea0e2b4c-eaad-40f4-9908-06f756b311e3",
+      "validation_id": "56c9e643-f74a-4aa1-bbf7-afe6f236159c",
+      "cost": 5280,
+      "cost_unit": "synthetic units",
+      "minimum_headroom_m3": 4.466034802435132,
+      "approval_request_calls": 4,
+      "approval_records": 0,
+      "operating_authority": false,
+      "credential_or_raw_reasoning_findings": 0,
+      "audit_checks": {
+        "configuration_snapshot_detection_contracts": true,
+        "source_and_configuration_identity": true,
+        "mapping_and_sample_bindings": true,
+        "model_metadata_and_call_result_identity": true,
+        "final_and_operating_authority": true
+      },
+      "qualification": "nominal_hosted_validated_advisory",
+      "trajectory_values_independently_recomputed": 1452,
+      "modeled_costs_independently_recomputed": 6,
+      "search_candidates_evaluated": 750,
+      "search_screen_passes": 26,
+      "search_constraint_rejections": 724,
+      "search_reference_checks": 5,
+      "prose_findings": [
+        "The model asks for approve/apply although this observed flow only allows advisory acknowledgement."
+      ],
+      "limits": [
+        "Nominal constant-flow evidence, not robust feasibility, chemistry, global optimality or physical fault diagnosis.",
+        "Balance detector warming up: 20.032307599999967 seconds, less than its 30-second requirement."
+      ]
+    },
+    {
+      "case": "missing",
+      "archive": "docs/evidence/v03/reliability-picking-20261120/observed-missing-29df04f.session.json",
+      "bytes": 130719,
+      "sha256": "047f40631e6dfb96d6ef004da0d411466d66f34a9077a104e95c0ab99720cca2",
+      "copied_verbatim": true,
+      "source_commit_context": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "source_provenance_limit": "Source and generator setup were witnessed by the parent operator agent; the archive does not attest a binary hash or generator seed.",
+      "witnessed_setup": {
+        "preset": "missing",
+        "seed": 1337,
+        "speed": 1,
+        "paused": true
+      },
+      "session_id": "a6ba03ac-1485-416a-9e56-3c5ab8149219",
+      "session_status": "completed",
+      "archive_version": 2,
+      "session_kind": "observed_origin",
+      "created_at": "2026-11-20T01:28:06.337Z",
+      "updated_at": "2026-11-20T01:28:18.541Z",
+      "source_mode": "hosted",
+      "capture_id": "capture-ca38a5bc-dc17-4156-bd62-6802006c496e",
+      "capture_time_s": 76.47354339999993,
+      "expires_event_time_s": 76.47354339999993,
+      "stream_id": "local-62a3c81d34874ab19fcbb83247b0129a",
+      "epoch_id": "epoch-0a6b047d0cc3486f8c9c7314875049e3",
+      "configuration_hash": "694731bd6bece55109161b7b5126dfed81ca47471ca93efeb3085ca9ef11f350",
+      "design_physical_hash": "10093db8b43580e79eaceec8f6e3eda8717867f152b6429775d35ff065cb8f02",
+      "investigation_physical_hash": "10093db8b43580e79eaceec8f6e3eda8717867f152b6429775d35ff065cb8f02",
+      "coverage": "unavailable",
+      "mapping_issues": [
+        {
+          "attachment_id": "tank_a",
+          "code": "missing_or_unusable_inventory",
+          "sensor_id": ""
+        }
+      ],
+      "retained_sample_count": 10,
+      "derived_state_count": 9,
+      "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+      "model_requests": 13,
+      "http_statuses": {
+        "200": 13
+      },
+      "retry_count_total": 0,
+      "tool_calls": 12,
+      "tool_order": [
+        "get_observations",
+        "get_detection_events",
+        "get_network_state",
+        "get_control_catalog",
+        "get_observations",
+        "get_network_state",
+        "get_control_catalog",
+        "get_observations",
+        "get_network_state",
+        "get_control_catalog",
+        "get_observations",
+        "get_network_state"
+      ],
+      "stored_runs": 0,
+      "recommendation_status": "no_validated_plan",
+      "selected_run_id": null,
+      "validation_id": null,
+      "cost": null,
+      "cost_unit": null,
+      "minimum_headroom_m3": null,
+      "approval_request_calls": 0,
+      "approval_records": 0,
+      "operating_authority": false,
+      "credential_or_raw_reasoning_findings": 0,
+      "audit_checks": {
+        "configuration_snapshot_detection_contracts": true,
+        "source_and_configuration_identity": true,
+        "mapping_and_sample_bindings": true,
+        "model_metadata_and_call_result_identity": true,
+        "final_and_operating_authority": true
+      },
+      "qualification": "safe_no_plan_for_unavailable_initial_state",
+      "unusable_inventory_sensor_id": "sensor_dadf4909ea2e40b3af19a82cb5468f10",
+      "last_inventory_event_time_s": 59.03200000000652,
+      "inventory_age_s": 17.441543399993407,
+      "maximum_inventory_age_s": 5,
+      "reported_missing_sensor_ids": [],
+      "prose_findings": [
+        "Unavailable fresh inventory does not establish mathematical infeasibility.",
+        "Detector balance-window availability is distinct from initial-state coverage; a balance window is not universally required for a volume forecast."
+      ],
+      "limits": [
+        "The stale inventory is retained as evidence but cannot initialize a numerical plan.",
+        "No search, forecast or mathematical infeasibility result was produced."
+      ]
+    }
+  ]
+}

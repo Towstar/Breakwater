@@ -169,7 +169,7 @@ All simulations and validation run through the existing `compile`, `simulate` an
 future-watcher signals on the UI thread.
 
 Sessions stop at 12 tool calls, three candidate-refinement/search rounds, or two minutes.
-The client uses non-streaming asynchronous HTTPS, 30-second request timeouts, bounded
+The client uses non-streaming asynchronous HTTPS, 60-second request timeouts, bounded
 transient retries, a 2 MiB request/response limit and manual redirect rejection.
 Cancellation ignores late results; physical edits and reset invalidate sessions and
 approval using both hash and numerical revision. Moving equipment preserves them.
