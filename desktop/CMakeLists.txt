@@ -126,7 +126,7 @@ endif()
 
 if(BUILD_TESTING)
   qt_add_executable(breakwater_scene_framing_tests tests/scene_framing_tests.cpp)
-  target_link_libraries(breakwater_scene_framing_tests PRIVATE Qt6::Qml Qt6::Test)
+  target_link_libraries(breakwater_scene_framing_tests PRIVATE breakwater_options Qt6::Qml Qt6::Test)
   target_compile_definitions(breakwater_scene_framing_tests PRIVATE BREAKWATER_SOURCE_DIR="${PROJECT_SOURCE_DIR}")
   add_test(NAME desktop.scene_framing COMMAND breakwater_scene_framing_tests
     -o "${CMAKE_CURRENT_BINARY_DIR}/scene_framing-results.txt,txt")
