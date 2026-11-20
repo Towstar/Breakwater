@@ -38,6 +38,11 @@ class Check final : public QObject {
     QRectF retained_button_rect_;
     QElapsedTimer retained_viewer_wait_;
     QElapsedTimer stored_source_wait_;
+    quint64 navigation_editor_revision_ = 0;
+    QString navigation_selection_;
+    bool navigation_all_labels_ = false;
+    bool navigation_dock_open_ = false;
+    QElapsedTimer route_label_wait_;
     bool observed_only_=false;
     QJsonObject observed_project_;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
@@ -100,6 +105,21 @@ class Check final : public QObject {
     void preserved() {
         require(controller_->networkHash() == hash_ && controller_->runId() == run_
             && controller_->simulationRevision() == revision_ && controller_->canApprove(), "numerical_evidence_changed");
+    }
+    void navigationPreserved() {
+        preserved();
+        require(controller_->editorDocument() == observed_project_
+            && controller_->editorRevision() == navigation_editor_revision_, "connection_navigation_edited_project");
+    }
+    void filterNetwork(const QString& value) {
+        click(item("networkFilter")); key(Qt::Key_A, Qt::ControlModifier);
+        key(Qt::Key_unknown, Qt::NoModifier, value);
+    }
+    void routeFocused() {
+        require(eval("app.fittedView && (function(){const r=app.controller.routes.find(row=>row.id===app.controller.selectedId);"
+            "return !!r && Math.abs(cameraRig.x-(r.sx+r.tx)/2)<1e-6 && Math.abs(cameraRig.z-(r.sz+r.tz)/2)<1e-6})()").toBool(),
+            "selected_route_endpoints_not_framed");
+        navigationPreserved();
     }
     QJsonObject focusObservation() {
         auto* field = item("numericProperty_capacity");
@@ -563,6 +583,143 @@ class Check final : public QObject {
             case 69: {
                 require(!eval("app.fittedView").toBool() && controller_->editorDocument()==observed_project_,"home_shortcut_changed_project"); preserved();
                 passed("empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project");
+                navigation_editor_revision_=controller_->editorRevision(); navigation_selection_=controller_->selectedId();
+                navigation_all_labels_=eval("workspaceSettings.values.allLabels").toBool();
+                navigation_dock_open_=eval("workspaceSettings.values.dockOpen").toBool();
+                eval("workspaceSettings.setValue('allLabels',false)");
+                if (navigation_dock_open_) click(item("Toggle results",true));
+                phase_=70; return;
+            }
+            case 70:
+                if (window_->property("compactLayout").toBool() && !window_->property("navigatorVisible").toBool()) {
+                    click(item("Navigator",true)); return;
+                }
+                navigationPreserved();
+                require(item("networkEquipmentMode")->isVisible() && item("networkConnectionsMode")->isVisible(),
+                    "network_mode_controls_missing");
+                {
+                    const auto bounds=[&](QQuickItem* control) {
+                        return QRectF(control->mapToScene(QPointF(0,0)),QSizeF(control->width(),control->height()));
+                    };
+                    const auto equipment=bounds(item("networkEquipmentMode")), connections=bounds(item("networkConnectionsMode"));
+                    const QRectF viewport(0,0,window_->width(),window_->height());
+                    require(viewport.contains(equipment) && viewport.contains(connections) && !equipment.intersects(connections)
+                        && equipment.width()>=20 && connections.width()>=20, "inline_network_modes_clipped_or_overlapping");
+                }
+                // Keep a real asset selected while filtering connections, so a
+                // leaked Ctrl+D would produce a detectable model edit.
+                click(item("networkAsset:tank_a"));
+                click(item("networkConnectionsMode")); break;
+            case 71:
+                require(eval("app.networkMode==='connections' && app.filteredNetworkRoutes.length===6").toBool()
+                    && item("networkConnectionsMode")->property("checked").toBool()
+                    && !item("networkEquipmentMode")->property("checked").toBool(), "connections_mode_or_count_wrong");
+                require(controller_->selectedId()=="tank_a", "connection_mode_changed_selection");
+                navigationPreserved(); snapshot("21-connections-navigator.png"); filterNetwork("BACKUP_PUMP"); break;
+            case 72:
+                require(eval("JSON.stringify(app.filteredNetworkRoutes.map(row=>row.id))").toString()=="[\"backup_pump\"]",
+                    "route_id_filter_case_or_match_wrong");
+                require(eval("(function(){const r=app.filteredNetworkRoutes[0];return r.sourceLabel==='Tank B' && r.targetLabel==='Treatment'"
+                    " && r.flow===16 && !r.sourceDriven && r.settingText.indexOf('setpoint')>=0 && r.settingText.toLowerCase().indexOf('measured')<0"
+                    " && r.statusText==='Pump available'})()").toBool(), "configured_route_metadata_wrong");
+                key(Qt::Key_D,Qt::ControlModifier); navigationPreserved();
+                require(controller_->selectedId()=="tank_a", "route_filter_changed_selection");
+                click(item("networkRoute:backup_pump")); break;
+            case 73:
+                require(controller_->selectedId()=="backup_pump" && controller_->selectedIds().isEmpty()
+                    && controller_->selected().value("kind").toString()=="route", "route_list_did_not_select_exact_route");
+                require(eval("JSON.stringify(app.routeEndpointIds)").toString()=="[\"tank_b\",\"treatment\"]",
+                    "route_context_endpoint_ids_wrong");
+                if (window_->property("compactLayout").toBool() && !window_->property("navigatorVisible").toBool()) {
+                    click(item("Navigator",true)); return;
+                }
+                navigationPreserved(); click(item("clearNetworkFilter")); break;
+            case 74:
+                require(item("networkFilter")->property("text").toString().isEmpty()
+                    && eval("app.filteredNetworkRoutes.length").toInt()==6 && controller_->selectedId()=="backup_pump",
+                    "route_filter_clear_changed_selection_or_count");
+                navigationPreserved(); route_label_wait_.start(); click(item("sceneFocus")); break;
+            case 75:
+                routeFocused();
+                if (!eval("sceneLabelLayer.positioned.some(row=>row.id==='tank_b') && sceneLabelLayer.positioned.some(row=>row.id==='treatment')").toBool()) {
+                    require(route_label_wait_.elapsed()<2000,"selected_route_context_labels_missing"); return;
+                }
+                require(!eval("workspaceSettings.values.allLabels").toBool(),"route_context_enabled_all_labels");
+                passed("route_list_selection_focus_and_related_labels_preserve_project");
+                click(item("sceneHome")); break;
+            case 76:
+                require(!eval("app.fittedView").toBool(),"route_test_home_did_not_restore_view");
+                navigationPreserved(); key(Qt::Key_F,Qt::NoModifier,"f"); break;
+            case 77:
+                routeFocused();
+                if (window_->property("compactLayout").toBool() && !window_->property("inspectorVisible").toBool()) {
+                    click(item("Inspector",true)); return;
+                }
+                require(item("inspectorFocus")->isVisible() && item("inspectorFocus")->isEnabled(),"route_inspector_focus_unavailable");
+                click(item("sceneHome")); break;
+            case 78:
+                require(!eval("app.fittedView").toBool(),"inspector_route_test_home_did_not_restore_view");
+                navigationPreserved(); click(item("inspectorFocus")); break;
+            case 79:
+                routeFocused();
+                require(item("inspectorPumpState")->property("text").toString()=="Pump available", "selected_route_pump_state_missing");
+                passed("route_keyboard_and_inspector_focus_preserve_numerical_evidence"); snapshot("22-route-focused-inspector.png"); break;
+            case 80:
+                if (window_->property("compactLayout").toBool() && !window_->property("navigatorVisible").toBool()) {
+                    click(item("Navigator",true)); return;
+                }
+                navigationPreserved(); filterNetwork("pRoDuCtIoN a"); break;
+            case 81:
+                require(eval("JSON.stringify(app.filteredNetworkRoutes.map(row=>row.id))").toString()=="[\"feed_a\"]",
+                    "route_source_label_filter_wrong");
+                require(eval("(function(){const r=app.filteredNetworkRoutes[0];return r.sourceDriven && r.flow===52"
+                    " && r.sourceLabel==='Production A' && r.targetLabel==='Tank A' && r.settingText.indexOf('source setting')>=0"
+                    " && r.settingText.toLowerCase().indexOf('measured')<0 && r.statusText==='Source-driven'})()").toBool(),
+                    "source_route_setting_presented_as_measured_flow");
+                require(item("networkRouteSetting:feed_a")->property("text").toString().contains("source setting")
+                    && item("networkRouteState:feed_a")->property("text").toString()=="Source-driven", "source_route_row_setting_or_status_missing");
+                navigationPreserved(); click(item("networkRoute:feed_a")); break;
+            case 82:
+                require(controller_->selectedId()=="feed_a" && controller_->selectedIds().isEmpty()
+                    && eval("JSON.stringify(app.routeEndpointIds)").toString()=="[\"source_a\",\"tank_a\"]",
+                    "source_route_selection_or_context_wrong");
+                navigationPreserved(); filterNetwork("TREATMENT"); break;
+            case 83:
+                require(eval("JSON.stringify(app.filteredNetworkRoutes.map(row=>row.id))").toString()=="[\"main_pump\",\"backup_pump\"]",
+                    "route_target_label_filter_wrong");
+                require(controller_->selectedId()=="feed_a", "endpoint_filter_changed_hidden_route_selection");
+                navigationPreserved(); filterNetwork("no-such-route"); break;
+            case 84:
+                require(eval("app.filteredNetworkRoutes.length").toInt()==0 && controller_->selectedId()=="feed_a",
+                    "empty_route_filter_changed_selection_or_has_rows");
+                require(item("clearNetworkFilter")->isVisible(),"empty_route_filter_has_no_clear_action");
+                navigationPreserved(); click(item("clearNetworkFilter")); break;
+            case 85:
+                require(eval("app.filteredNetworkRoutes.length").toInt()==6 && controller_->selectedId()=="feed_a",
+                    "cleared_route_filter_did_not_restore_rows");
+                navigationPreserved(); click(item("networkEquipmentMode")); break;
+            case 86:
+                require(eval("app.networkMode==='equipment' && app.filteredNetworkAssets.length===6").toBool()
+                    && item("networkEquipmentMode")->property("checked").toBool()
+                    && !item("networkConnectionsMode")->property("checked").toBool()
+                    && controller_->selectedId()=="feed_a", "equipment_mode_reentry_changed_route_selection");
+                navigationPreserved();
+                require(item("networkAsset:tank_a")->isVisible(),"equipment_rows_not_restored");
+                passed("connection_filters_id_endpoints_source_settings_and_modes_preserve_selection");
+                controller_->select(navigation_selection_);
+                eval(navigation_all_labels_ ? "workspaceSettings.setValue('allLabels',true)":"workspaceSettings.setValue('allLabels',false)");
+                click(item("sceneHome")); break;
+            case 87: {
+                require(controller_->selectedId()==navigation_selection_ && item("networkFilter")->property("text").toString().isEmpty()
+                    && eval("app.networkMode==='equipment' && !app.fittedView && app.routeEndpointIds.length===0").toBool(),
+                    "route_navigation_test_did_not_restore_editor_view");
+                navigationPreserved();
+                if (eval("workspaceSettings.values.dockOpen").toBool()!=navigation_dock_open_) click(item("Toggle results",true));
+                break;
+            }
+            case 88: {
+                require(eval("workspaceSettings.values.dockOpen").toBool()==navigation_dock_open_,"route_navigation_did_not_restore_results_dock");
+                navigationPreserved();
                 SimulationConfig config; config.horizon_h=1.25; controller_->forecastWithConfig(config); phase_=1; return;
             }
             default: throw std::runtime_error("invalid_phase");

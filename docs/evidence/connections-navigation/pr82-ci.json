@@ -1,0 +1,505 @@
+{
+  "ci_checkpoint_version": 1,
+  "recorded_utc": "2026-11-20T02:44:17.057268+00:00",
+  "repository": "Towstar/Breakwater",
+  "pr_number": 82,
+  "pr_url": "https://github.com/Towstar/Breakwater/pull/82",
+  "workflow_run": {
+    "id": 44657401951,
+    "name": "Windows checks",
+    "number": 115,
+    "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951",
+    "status": "completed",
+    "conclusion": "success"
+  },
+  "all_six_jobs_success": true,
+  "pr_head_source": "f9e47e8835ec7af0c55fb33db10c68b384347a4b",
+  "checked_out_merge_source": "191ae9890e0715e47347558e2023b5d5639d9693",
+  "checked_out_tree": "6d162299b3fb4af89f114f18ef9d08473b333c91",
+  "independently_resolved_head_tree": "6d162299b3fb4af89f114f18ef9d08473b333c91",
+  "head_and_merge_trees_match": true,
+  "verification_method": "Read-only GitHub job/run/artifact connectors; all six downloaded ZIPs matched official SHA256 digests. Counts, source/tree, runner and toolchains were read from each raw artifact. Four public desktop files are unchanged ZIP-member bytes.",
+  "jobs": [
+    {
+      "id": 136026952471,
+      "name": "Native (asan)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/job/136026952471",
+      "source_commit": "191ae9890e0715e47347558e2023b5d5639d9693",
+      "source_tree": "6d162299b3fb4af89f114f18ef9d08473b333c91",
+      "working_tree_dirty": false,
+      "started_utc": "2026-11-20T01:58:27.6592499Z",
+      "finished_utc": "2026-11-20T02:10:30.6653963Z",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2"
+      },
+      "external_model_requests": "not_run",
+      "artifact": {
+        "id": 14593479202,
+        "name": "windows-native-asan",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/artifacts/14593479202",
+        "api_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14593479202",
+        "zip_bytes": 24069,
+        "zip_sha256": "9f572e48afde5c9dc13bdcbba837027a2eba1e91e0d89088bf8ac5463785433f",
+        "github_digest_matched": true,
+        "original_zip_retained_local": "out/ci-revamp/run-44657401951/windows-native-asan.zip"
+      },
+      "tests": {
+        "framework": "CTest",
+        "run": 17,
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 136026952857,
+      "name": "Native (normal)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/job/136026952857",
+      "source_commit": "191ae9890e0715e47347558e2023b5d5639d9693",
+      "source_tree": "6d162299b3fb4af89f114f18ef9d08473b333c91",
+      "working_tree_dirty": false,
+      "started_utc": "2026-11-20T01:58:24.0426044Z",
+      "finished_utc": "2026-11-20T01:59:31.3835751Z",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261112.366.7",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2"
+      },
+      "external_model_requests": "not_run",
+      "artifact": {
+        "id": 14593961686,
+        "name": "windows-native-normal",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/artifacts/14593961686",
+        "api_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14593961686",
+        "zip_bytes": 24098,
+        "zip_sha256": "15e9a9fe96de1e4038ab835da2082bc00665f949d0a1bc81a913c831a6aa239d",
+        "github_digest_matched": true,
+        "original_zip_retained_local": "out/ci-revamp/run-44657401951/windows-native-normal.zip"
+      },
+      "tests": {
+        "framework": "CTest",
+        "run": 17,
+        "passed": 17,
+        "failed": 0,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 136031921516,
+      "name": "Desktop (normal)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/job/136031921516",
+      "source_commit": "191ae9890e0715e47347558e2023b5d5639d9693",
+      "source_tree": "6d162299b3fb4af89f114f18ef9d08473b333c91",
+      "working_tree_dirty": false,
+      "started_utc": "2026-11-20T02:11:17.9984541Z",
+      "finished_utc": "2026-11-20T02:32:24.1689182Z",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261112.366.7",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "qt": "6.12.0",
+        "eog_provider": {
+          "native_sha256": "3fbae66ce04fcea686e798ae8b57c8e200e9812edfa66ef43310b5b5da8b4dfe",
+          "plant_sha256": "f3272cb86642a7c38fa6a1992cb99fa4673f035797ab36be8c465b351abe5c32",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "normal"
+        }
+      },
+      "external_model_requests": "not_run",
+      "artifact": {
+        "id": 14595522744,
+        "name": "windows-desktop-normal",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/artifacts/14595522744",
+        "api_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14595522744",
+        "zip_bytes": 2808008,
+        "zip_sha256": "d4199c529cd982309f62254eddb9d136bbdea8983520284b896ca1cb3bd867be",
+        "github_digest_matched": true,
+        "original_zip_retained_local": "out/ci-revamp/run-44657401951/windows-desktop-normal.zip"
+      },
+      "tests": {
+        "framework": "CTest",
+        "run": 87,
+        "passed": 87,
+        "failed": 0,
+        "skipped": 0
+      },
+      "qt_label_placement": {
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "source_label_width_cases_px": [
+          82,
+          83,
+          84
+        ]
+      },
+      "compact_warp": {
+        "status": "measured",
+        "assets": 6,
+        "actual_body_picks": 6,
+        "visible_labels": 6,
+        "label_overlap_pairs": 0,
+        "culled_label_ids": [],
+        "client_width": 1008,
+        "client_height": 672,
+        "device_pixel_ratio": 1,
+        "camera_yaw_end": 113.125,
+        "measurement_window_ms": 10019.7731,
+        "post_stop_rendered_frames": 2,
+        "renderer": {
+          "adapter": "Microsoft Basic Render Driver",
+          "device_id": 140,
+          "software": true,
+          "status": "identified",
+          "vendor_id": 5140
+        },
+        "fps_diagnostic_only": 25.85729511165432,
+        "numerical_identity_unchanged": true
+      }
+    },
+    {
+      "id": 136031921522,
+      "name": "Lean assumption audit",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/job/136031921522",
+      "source_commit": "191ae9890e0715e47347558e2023b5d5639d9693",
+      "source_tree": "6d162299b3fb4af89f114f18ef9d08473b333c91",
+      "working_tree_dirty": false,
+      "started_utc": "2026-11-20T02:11:48.1179490Z",
+      "finished_utc": "2026-11-20T02:12:38.4005806Z",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "lean_archive_sha256": "5fc033e93e1a7bc59c5ebf311103d2c9cd18d4b3eddda4ffa3414e8adb0ef79e",
+        "lean": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)"
+      },
+      "external_model_requests": "not_run",
+      "artifact": {
+        "id": 14593903922,
+        "name": "windows-lean",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/artifacts/14593903922",
+        "api_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14593903922",
+        "zip_bytes": 7480,
+        "zip_sha256": "8b2dabf87e820f4fe6e6ff727c89c354ab0f1dd00444ca7196b980e1429fe3d7",
+        "github_digest_matched": true,
+        "original_zip_retained_local": "out/ci-revamp/run-44657401951/windows-lean.zip"
+      },
+      "proof_audit": {
+        "status": "passed",
+        "audited_algorithm_theorems": 54,
+        "unapproved_assumption_probe_rejected": true,
+        "warning_as_error": true,
+        "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+        "manifest_sha256": "f343f0883098557180e3b592a4305211c5ab520ea91fc3ab428b9a9b8e027f6b",
+        "permitted_foundational_axioms": [
+          "propext",
+          "Classical.choice",
+          "Quot.sound"
+        ],
+        "scope": "Exact-real finite-graph storage/control-influence, discrete FVM mass balance and conditional native-law nonnegativity; not IEEE floating-point or compiled nonnegativity, compiled memory safety, PDE accuracy, scheduling, or hydraulics.",
+        "count_basis": "Theorem/assumption audit, not a CTest or unittest case count."
+      }
+    },
+    {
+      "id": 136031921562,
+      "name": "Desktop (asan)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/job/136031921562",
+      "source_commit": "191ae9890e0715e47347558e2023b5d5639d9693",
+      "source_tree": "6d162299b3fb4af89f114f18ef9d08473b333c91",
+      "working_tree_dirty": false,
+      "started_utc": "2026-11-20T02:11:11.9374544Z",
+      "finished_utc": "2026-11-20T02:40:26.4504462Z",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261112.366.7",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "qt": "6.12.0",
+        "eog_provider": {
+          "native_sha256": "ed78898ad5f74e7fa8ce748e883493a8355a7ea75e146bdcfec2d90f4f78b7d7",
+          "plant_sha256": "8e95d62d8259d522fd641c2d2fe8806b143d481ebebc2f61580bde620aa26ef7",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "asan",
+          "asan_runtime_sha256": "3aa742521e8cbd23252f0545aa51d5a15624a3e4430fbe2f81567afaeb3fc59b"
+        }
+      },
+      "external_model_requests": "not_run",
+      "artifact": {
+        "id": 14596375921,
+        "name": "windows-desktop-asan",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/artifacts/14596375921",
+        "api_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14596375921",
+        "zip_bytes": 2808283,
+        "zip_sha256": "5899f85513d2a7fa1282091207a513f59d67d367cb1aa0c1594cd0165ac0431c",
+        "github_digest_matched": true,
+        "original_zip_retained_local": "out/ci-revamp/run-44657401951/windows-desktop-asan.zip"
+      },
+      "tests": {
+        "framework": "CTest",
+        "run": 87,
+        "passed": 87,
+        "failed": 0,
+        "skipped": 0
+      },
+      "qt_label_placement": {
+        "passed": 8,
+        "failed": 0,
+        "skipped": 0,
+        "source_label_width_cases_px": [
+          82,
+          83,
+          84
+        ]
+      },
+      "compact_warp": {
+        "status": "measured",
+        "assets": 6,
+        "actual_body_picks": 6,
+        "visible_labels": 6,
+        "label_overlap_pairs": 0,
+        "culled_label_ids": [],
+        "client_width": 1008,
+        "client_height": 672,
+        "device_pixel_ratio": 1,
+        "camera_yaw_end": 113.125,
+        "measurement_window_ms": 10055.3657,
+        "post_stop_rendered_frames": 2,
+        "renderer": {
+          "adapter": "Microsoft Basic Render Driver",
+          "device_id": 140,
+          "software": true,
+          "status": "identified",
+          "vendor_id": 5140
+        },
+        "fps_diagnostic_only": 21.325793547295458,
+        "numerical_identity_unchanged": true
+      }
+    },
+    {
+      "id": 136031921682,
+      "name": "Python science (CPU)",
+      "status": "completed",
+      "conclusion": "success",
+      "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/job/136031921682",
+      "source_commit": "191ae9890e0715e47347558e2023b5d5639d9693",
+      "source_tree": "6d162299b3fb4af89f114f18ef9d08473b333c91",
+      "working_tree_dirty": false,
+      "started_utc": "2026-11-20T02:10:54.9711112Z",
+      "finished_utc": "2026-11-20T02:13:00.4009141Z",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "eog_provider": {
+          "native_sha256": "a15a8c69447e704a0803636de119e06a563d5a244a85e5060269b48091044e78",
+          "plant_sha256": "23ba53fcec394463dc953dbd337118ae68b38d18d023a8cc6b9bd885081bee26",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "normal"
+        }
+      },
+      "external_model_requests": "not_run",
+      "artifact": {
+        "id": 14594053951,
+        "name": "windows-science-cpu",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44657401951/artifacts/14594053951",
+        "api_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14594053951",
+        "zip_bytes": 26245,
+        "zip_sha256": "ebc372b01f4c25625406b51f483ac41b3ec9dc46ee111d61d50336385d5641aa",
+        "github_digest_matched": true,
+        "original_zip_retained_local": "out/ci-revamp/run-44657401951/windows-science-cpu.zip"
+      },
+      "tests": {
+        "framework": "Python unittest discovery",
+        "run": 468,
+        "passed": 464,
+        "failed": 0,
+        "errors": 0,
+        "expected_skipped": [
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          }
+        ],
+        "unexpected_skips": []
+      }
+    }
+  ],
+  "copied_raw_desktop_files": [
+    {
+      "path": "docs/evidence/connections-navigation/pr82-ci-desktop-normal.xml",
+      "bytes": 36274,
+      "sha256": "28fc3e691776b6ce3c70d5ea0f3804cb545bf08fb2376557558f66fd002c219b",
+      "artifact_member": "out/ci/desktop-normal/ctest-results.xml",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/connections-navigation/pr82-ci-desktop-normal-benchmark.json",
+      "bytes": 5332,
+      "sha256": "8b1bb3dc246a69035c9f9c7f7645b22027be871a2aec1137bdd98a29834cf6f4",
+      "artifact_member": "out/ci/desktop-normal/test-artifacts/scene-picking-warp-ccfe71c3876a4536846c4e44dc6e2a7a/benchmark.json",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/connections-navigation/pr82-ci-desktop-asan.xml",
+      "bytes": 36268,
+      "sha256": "269b1bc60ca1a3cd49efe5425a925c53cd83ad382217fa0dd4830bfbc1b7f2f8",
+      "artifact_member": "out/ci/desktop-asan/ctest-results.xml",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/connections-navigation/pr82-ci-desktop-asan-benchmark.json",
+      "bytes": 5333,
+      "sha256": "f151b11c33b7361e02818e57ca21019f0fe519954bfe8430cd2d807d14c367fb",
+      "artifact_member": "out/ci/desktop-asan/test-artifacts/scene-picking-warp-28ea9d73e62742d9afc90e9799f01ba3/benchmark.json",
+      "copied_verbatim": true
+    }
+  ],
+  "public_release_approved": false,
+  "qualification_limits": [
+    "This green checkpoint qualifies the recorded PR82 head and equivalent merge tree. It does not automatically qualify later Connections navigation or revamp changes.",
+    "No CI job was rerun during this audit; no failed result or older evidence was overwritten.",
+    "CPU science has four explicitly expected optional PhysicsNeMo skips, not 468 passing tests.",
+    "Hosted Nemotron calls were not run in credential-free CI; prior live rehearsals remain separate evidence.",
+    "WARP FPS is diagnostic. The compact label/picking case passed its actual six-pick/six-label/no-overlap gate in both modes.",
+    "Clean-Windows distribution, owner/license review and public release approval are separate."
+  ]
+}

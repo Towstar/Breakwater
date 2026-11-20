@@ -16,6 +16,7 @@ Pane {
     readonly property var routes: controller.routes
     readonly property bool hasSelection: !!selection.kind
     readonly property var selectedRow: equipment.find(row => row.id === selection.id) || ({})
+    readonly property var selectedRoute: routes.find(row => row.id === selection.id) || ({})
     objectName: "assetInspector"
     padding: 12
     background: Rectangle { color: Theme.surface }
@@ -52,8 +53,8 @@ Pane {
             width: Math.max(0, inspectorScroll.availableWidth - 12); spacing: 8
             RowLayout {
                 Layout.fillWidth: true
-                Label { Layout.fillWidth: true; text: inspector.hasSelection ? "EQUIPMENT INSPECTOR" : "NETWORK OVERVIEW"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.letterSpacing: 1; font.bold: true }
-                ActionButton { objectName: "inspectorFocus"; visible: inspector.hasSelection && inspector.selection.kind !== "route"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus selected equipment"; onClicked: inspector.focusRequested() }
+                Label { Layout.fillWidth: true; text: inspector.hasSelection ? inspector.selection.kind === "route" ? "CONNECTION INSPECTOR" : "EQUIPMENT INSPECTOR" : "NETWORK OVERVIEW"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.letterSpacing: 1; font.bold: true }
+                ActionButton { objectName: "inspectorFocus"; visible: inspector.hasSelection; iconName: "focus"; display: AbstractButton.IconOnly; text: inspector.selection.kind === "route" ? "Focus connection endpoints" : "Focus selected equipment"; onClicked: inspector.focusRequested() }
             }
             Pane {
                 Layout.fillWidth: true; visible: inspector.hasSelection; padding: 10
@@ -74,6 +75,22 @@ Pane {
                     }
                     Label { Layout.fillWidth: true; visible: inspector.selection.kind === "route"; text: inspector.selection.id || ""; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.weight: Font.DemiBold }
                     Label { Layout.fillWidth: true; visible: inspector.selection.kind !== "route"; text: "ID  " + (inspector.selection.id || ""); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.muted; font.family: Theme.monoFamily; font.pixelSize: Theme.captionSize }
+                }
+            }
+            Pane {
+                Layout.fillWidth: true; visible: inspector.selection.kind === "route"; padding: 10
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                contentItem: ColumnLayout {
+                    spacing: 6
+                    Label { text: "DIRECTED CONNECTION"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
+                    Label { Layout.fillWidth: true; text: inspector.assetLabel(inspector.selection.source || "") + " → " + inspector.assetLabel(inspector.selection.target || ""); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.weight: Font.DemiBold }
+                    Label { objectName: "inspectorRouteSetting"; Layout.fillWidth: true; text: inspector.number(inspector.selectedRoute.flow) + " m³/h · " + (inspector.selection.sourceDriven ? "source setting" : "setpoint"); textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                    RowLayout {
+                        visible: !!inspector.selection.pump; Layout.fillWidth: true; spacing: 7
+                        Rectangle { Layout.preferredWidth: 6; Layout.preferredHeight: 6; radius: 3; color: inspector.selection.available ? Theme.success : Theme.error }
+                        Label { objectName: "inspectorPumpState"; Layout.fillWidth: true; text: inspector.selection.available ? "Pump available" : "Pump unavailable"; color: inspector.selection.available ? Theme.success : Theme.error; font.pixelSize: Theme.smallSize }
+                    }
+                    Label { Layout.fillWidth: true; text: "Simulation settings, not measured delivery."; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.captionSize }
                 }
             }
             Label {
@@ -157,12 +174,6 @@ Pane {
                 }
             }
             SectionHeading { visible: inspector.selection.kind === "route"; text: "ROUTE & PUMP" }
-            Label { Layout.fillWidth: true; visible: inspector.selection.kind === "route"; text: "From  " + inspector.assetLabel(inspector.selection.source || "") + "\nTo       " + inspector.assetLabel(inspector.selection.target || ""); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.secondary; font.pixelSize: Theme.smallSize }
-            RowLayout {
-                visible: !!inspector.selection.pump; Layout.fillWidth: true; spacing: 7
-                Rectangle { Layout.preferredWidth: 6; Layout.preferredHeight: 6; radius: 3; color: inspector.selection.available ? Theme.success : Theme.error }
-                Label { objectName: "inspectorPumpState"; Layout.fillWidth: true; text: inspector.selection.available ? "Pump available" : "Pump unavailable"; color: inspector.selection.available ? Theme.success : Theme.error; font.pixelSize: Theme.smallSize }
-            }
             ActionButton { iconName: "gauge"; Layout.fillWidth: true; visible: inspector.selection.kind === "route" && !inspector.selection.sourceDriven && !inspector.selection.pump; text: "Attach pump"; onClicked: inspector.controller.attachPump(inspector.controller.selectedId) }
             CheckBox { visible: !!inspector.selection.pump; checked: !!inspector.selection.available; text: "Pump available"; onClicked: inspector.controller.editSelected("available", checked ? "true" : "false") }
             ActionButton { iconName: "triangle-alert"; Layout.fillWidth: true; visible: !!inspector.selection.pump; enabled: !!inspector.selection.available; text: "Fail selected pump"; onClicked: inspector.controller.failSelectedPump() }

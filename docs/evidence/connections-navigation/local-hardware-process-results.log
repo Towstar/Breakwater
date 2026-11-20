@@ -1,0 +1,2 @@
+{"scene": "default", "exit_code": 0, "renderer": {"adapter": "AMD Radeon(TM) 880M Graphics", "device_id": 5390, "software": false, "status": "identified", "vendor_id": 4098}, "fps": 62.500119566534856, "assets": 6, "picks": 6, "failed_ids": [], "overlaps": 0, "hardware_target_met": true}
+{"scene": "dense", "exit_code": 0, "renderer": {"adapter": "AMD Radeon(TM) 880M Graphics", "device_id": 5390, "software": false, "status": "identified", "vendor_id": 4098}, "fps": 61.292258333088085, "assets": 128, "picks": 128, "failed_ids": [], "overlaps": 0, "hardware_target_met": true}

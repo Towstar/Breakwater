@@ -2,9 +2,29 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
-A [reliability and picking follow-up](RELIABILITY_PICKING_FOLLOWUP.md), application
-source `f6b952a`, builds in normal and ASan and is the only open app instance
-after the updated workspace was shown. The latest fixed hosted EOG round passed
+The [Connections navigation increment](CONNECTION_NAVIGATION.md), application
+source `2b5480d`, adds a filtered route list, explicit configured/source settings
+and availability, and view-only Focus on both route endpoints. Six focused
+desktop suites pass in each of normal and ASan, including four UI sizes, compact
+WARP picking and label placement. Default/dense hardware checks pick 6/6 and
+128/128 assets with zero label overlaps; dense labels remain bounded and culled.
+The user's latest saved workspace was preserved and restored. The maximized
+updated app was shown, with only one instance open. See [local evidence](
+evidence/connections-navigation/local-checks.json) and the [handoff record](
+evidence/connections-navigation/handoff.json). No hosted rehearsal or full
+87-test matrix is claimed for this later UI source.
+
+PR82's unchanged head `f9e47e8` and identical GitHub merge tree passed all six
+Windows CI jobs: native 17/17 and desktop 87/87 in normal and ASan, CPU science
+464 passed plus four expected optional skips, and 54 Lean theorem audits. Both
+CI compact WARP reports show six picks, six labels and zero overlaps. See the
+[source-qualified CI manifest](evidence/connections-navigation/pr82-ci.json).
+The new Connections increment is stacked separately on PR82. Human owner,
+licensing, integration and actual clean-Windows release acceptance remain open.
+
+Previous [reliability and picking checkpoint](RELIABILITY_PICKING_FOLLOWUP.md):
+application source `f6b952a` built in normal and ASan and was shown at that
+earlier handoff. The latest fixed hosted EOG round passed
 4/4, and desktop pump-loss/missing-coverage cases passed their advisory/no-plan
 gates at `29df04f`; subsequent changes affect label placement and renderer checks.
 Both earlier 2/4 rounds remain retained. Concise generation, exact
@@ -18,8 +38,8 @@ the retained prior CI label-culling failure without weakening its gate. See
 The full ASan 87/87 matrix is from `7f6294d`, with subsequent
 `29df04f` client/render and live checks recorded separately in the
 [source-qualified evidence](evidence/v03/reliability-picking-20261120/tests-and-rendering.json).
-Approved cleanup is complete. PR82 is stacked on PR81. Its fresh full GitHub
-workflow is running and is not yet claimed as passed. Human owner review,
+Approved cleanup is complete. PR82 is stacked on PR81; its full GitHub workflow
+subsequently passed, as recorded above. Human owner review,
 licensing, integration and actual clean-Windows release acceptance remain open.
 
 Prior candidate checkpoint: `c71249ee2dbef04480ee8ea52806b1808622e44a`, in the
