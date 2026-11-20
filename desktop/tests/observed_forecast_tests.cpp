@@ -76,7 +76,11 @@ private slots:
         AgentOrchestrator session(&model); session.start(gateway,"Explain missing coverage without inventing a plan.");
         QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
         QCOMPARE(model.requests,inspectObservations?3:2); QCOMPARE(model.finalRequests,inspectObservations?1:0);
-        QVERIFY(gateway->runs().isEmpty()); QVERIFY(gateway->stagedPlan().isEmpty());
+        QVERIFY(gateway->runs().isEmpty());
+        const auto staged=gateway->stagedPlan();
+        QVERIFY(!staged.value("ok").toBool());
+        QCOMPARE(staged.value("error").toObject().value("code"),QJsonValue("no_staged_plan"));
+        QVERIFY(gateway->stagedControls().empty());
         QVERIFY(!session.result().value("actionable").toBool());
         if (inspectObservations) {
             QCOMPARE(session.result().value("status"),QJsonValue("no_validated_plan"));
