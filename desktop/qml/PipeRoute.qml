@@ -58,6 +58,7 @@ Node {
         materials: PrincipledMaterial { baseColor: route.pipeColor; roughness: 0.7 }
     }
     SitePad {
+        // Primary availability colour and picking remain separate from the cue.
         visible: route.routeData.pump && (route.detailed || route.routeData.selected)
         kind: "pump"; selected: route.routeData.selected; detailed: route.detailed
         position: Qt.vector3d((route.sx + route.tx) / 2, 0, (route.sz + route.tz) / 2)
@@ -72,5 +73,19 @@ Node {
         selected: route.routeData.selected; abnormal: !route.routeData.available
         detailed: route.detailed || route.routeData.selected
         showMarker: false
+    }
+    // Selected-only source -> target cue, including failed/zero-setting routes.
+    // This is static schematic direction, never measured or simulated delivery.
+    Loader3D {
+        objectName: "selectedRouteCue:" + route.routeData.id
+        active: route.routeData.selected && Number.isFinite(route.length) && route.length > 0.01
+        visible: active
+        position: Qt.vector3d(route.sx + route.dx * 0.62, 19, route.sz + route.dz * 0.62)
+        rotation: route.direction
+        sourceComponent: Node {
+            PrincipledMaterial { id: directionPaint; baseColor: "#EDF1F3"; lighting: PrincipledMaterial.NoLighting }
+            Model { objectName: "selectedRouteCueShaft:" + route.routeData.id; source: "#Cube"; y: -7; scale: Qt.vector3d(0.055, 0.22, 0.025); materials: directionPaint; pickable: false; castsShadows: false }
+            Model { objectName: "selectedRouteCueHead:" + route.routeData.id; source: "#Cone"; y: 10; scale: Qt.vector3d(0.15, 0.16, 0.10); materials: directionPaint; pickable: false; castsShadows: false }
+        }
     }
 }
