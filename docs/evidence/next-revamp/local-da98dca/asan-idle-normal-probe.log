@@ -1,0 +1,15 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+    Start 22: desktop.ui_overhaul_normal
+1/1 Test #22: desktop.ui_overhaul_normal .......Exit code 0xc0000135
+***Exception:   0.03 sec
+
+
+0% tests passed, 1 tests failed out of 1
+
+Total Test time (real) =   0.04 sec
+
+The following tests FAILED:
+	 22 - desktop.ui_overhaul_normal (Exit code 0xc0000135
+)
+Errors while running CTest

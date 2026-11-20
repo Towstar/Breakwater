@@ -36,6 +36,7 @@ Dialog {
             }
             Label { Layout.fillWidth: true; text: "Dense views prioritize selected and hovered equipment labels. Use Network to filter and inspect every asset; View → More equipment labels adds labels where they fit."; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary }
             Label { Layout.fillWidth: true; text: "Use the Equipment / Connections icons beside Network to find equipment or routes. Connections can be filtered by ID, endpoint or pump status. Selecting a connection reveals its endpoint labels; Focus or F frames both ends. Rates and availability describe simulation settings."; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary }
+            Label { Layout.fillWidth: true; text: "The selected connection has a static white source-to-destination marker, including unavailable or zero-setting routes. Its scene card keeps settings and availability separate. The marker shows direction only, not measured delivery; scene positions remain schematic."; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary }
             Label { Layout.fillWidth: true; text: "Scene layout is schematic. Moving equipment or changing the view does not change hydraulic inputs. Numerical edits retire earlier forecast approval."; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.smallSize }
         }
     }

@@ -1,0 +1,54 @@
+{
+  "handoff_version": 1,
+  "recorded_utc": "2026-11-20T03:59:39.105121+00:00",
+  "application_source_commit": "87021c20771f41bb7b4fa1675b610deaf797642b",
+  "application_binary": {
+    "path": "out/portfolio-desktop/desktop/breakwater.exe",
+    "sha256": "ded909d5181f072401205d72cf2a74c53c2ea50dde5bde1b18fdbe7bcff6cabf",
+    "bytes": 9442304,
+    "published_binary": false
+  },
+  "visible_window_title": "BREAKWATER 0.2.0 · 87021c2 | Sandbox",
+  "visible_breakwater_windows": 1,
+  "maximized": true,
+  "observation_method": "Windows Computer Use; returned window inventory and actual app screenshots",
+  "shown": [
+    "Preserved user workspace",
+    "Connections navigator with bypass selected",
+    "Zero configured setting, separate status and direction-only scene card",
+    "Corrected label placement after Top and perspective transitions"
+  ],
+  "left_view": "Perspective with selected bypass and scene card",
+  "operator_controls_applied": false,
+  "manual_actions": "Window activation/maximize, route selection and camera-mode changes only",
+  "saved_workspace": {
+    "copy_sha256": "6978e0d824efaf73b7d76953503df11caad161a2c0a087344ec5e2d1768d5ddc",
+    "bytes": 16894,
+    "assets": 6,
+    "routes": 6,
+    "restored": true,
+    "native_validation_reference": "out/connections-navigation/preserved-project-check.json",
+    "raw_project_published": false,
+    "original_file_preserved": true
+  },
+  "health": {
+    "status": "completed",
+    "protocol_version": 1,
+    "python_version": "3.12.13",
+    "torch_detected": true,
+    "scope": "Legacy health-only exchange, not a scientific execution or PhysicsNeMo qualification"
+  },
+  "local_check_manifest": "docs/evidence/next-revamp/local-final-checks.json",
+  "earlier_attempt_manifest": "docs/evidence/next-revamp/local-checks.json",
+  "baseline_ci_manifest": "docs/evidence/next-revamp/pr83-ci.json",
+  "review_provenance": "Independent same-family source and evidence reviews plus root bounded artifact/visual verification",
+  "complete_transcript_audit": "Not performed; available current-task source, artifacts and observations are the audit boundary",
+  "public_release_approved": false,
+  "remaining_gates": [
+    "New increment full GitHub CI",
+    "Human owner review",
+    "Licensing/notices review",
+    "Main integration",
+    "Actual clean-Windows release testing"
+  ]
+}

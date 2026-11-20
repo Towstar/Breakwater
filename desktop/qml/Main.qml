@@ -130,6 +130,7 @@ ApplicationWindow {
             .some(value => String(value).toLowerCase().includes(query)))
     }
     readonly property var networkRows: networkMode === "connections" ? filteredNetworkRoutes : filteredNetworkAssets
+    readonly property var selectedNetworkRoute: networkRouteRows.find(row => row.id === controller.selectedId) || null
     readonly property var routeEndpointIds: controller.selected.kind === "route"
         ? [controller.selected.source, controller.selected.target].filter(id => typeof id === "string" && id.length > 0) : []
     onNetworkModeChanged: { if (networkAssetList) networkAssetList.positionViewAtBeginning() }
@@ -659,7 +660,12 @@ ApplicationWindow {
                     relatedIds: app.routeEndpointIds
                     draggedIds: sceneMouse.draggedIds; dragDelta: sceneMouse.dragDelta
                     topInset: navigationHint.y + navigationHint.height + 8
-                    exclusions: sceneOrientation.visible ? [{x:sceneOrientation.x,y:sceneOrientation.y,width:sceneOrientation.width,height:sceneOrientation.height}] : []
+                    exclusions: {
+                        const regions = []
+                        if (sceneOrientation.visible) regions.push({x:sceneOrientation.x,y:sceneOrientation.y,width:sceneOrientation.width,height:sceneOrientation.height})
+                        if (routeSummary.visible) regions.push({x:routeSummary.x,y:routeSummary.y,width:routeSummary.width,height:routeSummary.height})
+                        return regions
+                    }
                     viewState: [cameraRig.eulerRotation,cameraRig.position,sceneCamera.z,app.topView,planCamera.horizontalMagnification,view.width,view.height]
                 }
                 MouseArea {
@@ -786,9 +792,40 @@ ApplicationWindow {
                     color: Theme.text; font.pixelSize: Theme.smallSize
                     background: Rectangle { color: "#B315191B"; radius: 6; border.color: "#26FFFFFF" }
                 }
-                Label { anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 14; width: Math.min(parent.width - 28, implicitWidth); padding: 7; elide: Text.ElideRight
+                Label { visible: !routeSummary.visible; anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 14; width: Math.min(parent.width - 28, implicitWidth); padding: 7; elide: Text.ElideRight
                     text: app.hoveredConnection.message || "SCHEMATIC SITE · Layout does not determine hydraulic flow"; textFormat: Text.PlainText; color: Theme.text; font.pixelSize: Theme.captionSize
                     background: Rectangle { color: "#B315191B"; radius: 6; border.color: "#26FFFFFF" }
+                }
+                Pane {
+                    id: routeSummary; objectName: "sceneRouteSummary"
+                    readonly property var row: app.selectedNetworkRoute || ({})
+                    readonly property bool condensed: scenePanel.height < 300
+                    visible: !!app.selectedNetworkRoute && !app.connectMode
+                    anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 14
+                    width: Math.min(370, parent.width - 28); padding: 10
+                    Accessible.role: Accessible.StaticText
+                    Accessible.name: "Selected connection. " + (row.label || "") + ". ID " + (row.id || "")
+                        + ". " + (row.settingText || "") + ". " + (row.statusText || "") + ". Direction only; not measured delivery. Layout is schematic."
+                    background: Rectangle { color: "#E0253139"; radius: 6; border.color: "#B7CBD4" }
+                    contentItem: ColumnLayout {
+                        spacing: 4
+                        RowLayout {
+                            Layout.fillWidth: true; spacing: 8
+                            Label { objectName: "sceneRouteIdentity"; Layout.fillWidth: true; text: routeSummary.row.id || ""; textFormat: Text.PlainText; elide: Text.ElideRight; color: Theme.secondary; font.family: Theme.monoFamily; font.pixelSize: Theme.captionSize }
+                            Label { objectName: "sceneRouteState"; text: routeSummary.row.statusText || ""; textFormat: Text.PlainText; color: routeSummary.row.available === false ? Theme.error : Theme.secondary; font.pixelSize: Theme.captionSize }
+                        }
+                        Label { objectName: "sceneRouteEndpoints"; Layout.fillWidth: true; text: routeSummary.row.label || ""; textFormat: Text.PlainText; elide: Text.ElideRight; color: Theme.text; font.bold: true; font.pixelSize: Theme.bodySize }
+                        Label { objectName: "sceneRouteSetting"; Layout.fillWidth: true; visible: !routeSummary.condensed; text: routeSummary.row.settingText || ""; textFormat: Text.PlainText; elide: Text.ElideRight; color: Theme.secondary; font.pixelSize: Theme.smallSize }
+                        Label { Layout.fillWidth: true; text: "Direction only · Not measured delivery"; textFormat: Text.PlainText; elide: Text.ElideRight; color: Theme.muted; font.pixelSize: Theme.captionSize }
+                    }
+                    ToolTip {
+                        id: routeSummaryTip
+                        visible: routeSummaryHover.hovered; delay: 500; timeout: 10000
+                        width: Math.min(360, app.width - 32)
+                        text: routeSummary.Accessible.name
+                        contentItem: Label { text: routeSummaryTip.text; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.text; font.pixelSize: Theme.smallSize }
+                    }
+                    HoverHandler { id: routeSummaryHover; blocking: false }
                 }
                 ActionFeedbackCard {
                     id: actionNotice

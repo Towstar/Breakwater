@@ -1,0 +1,1015 @@
+{
+  "local_checkpoint_version": 1,
+  "recorded_utc": "2026-11-20T03:56:03.238006+00:00",
+  "application_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+  "source_tree": "61f9f78c66f154866e57d8382f22e428edbd3de6",
+  "source_association": "Root recorded successful normal and ASan builds at 87021c2; both compiler jobs completed before the sequential focused tests, without simultaneous root UI input. Raw benchmarks lack embedded Git source IDs; exact application hashes bind these retained build artifacts. This auditor read artifacts, not reran tests.",
+  "normal_focused_first_attempt": {
+    "run": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "cases": [
+      {
+        "name": "desktop.label_placement",
+        "seconds": 0.0810784
+      },
+      {
+        "name": "desktop.ui_overhaul_normal",
+        "seconds": 14.367
+      },
+      {
+        "name": "desktop.ui_overhaul_compact",
+        "seconds": 14.281
+      },
+      {
+        "name": "desktop.ui_overhaul_short",
+        "seconds": 14.4961
+      },
+      {
+        "name": "desktop.ui_overhaul_minimum",
+        "seconds": 14.0136
+      },
+      {
+        "name": "desktop.scene_picking_warp",
+        "seconds": 14.295
+      }
+    ]
+  },
+  "asan_focused_first_attempt": {
+    "run": 6,
+    "passed": 6,
+    "failed": 0,
+    "skipped": 0,
+    "cases": [
+      {
+        "name": "desktop.label_placement",
+        "seconds": 0.0819757
+      },
+      {
+        "name": "desktop.ui_overhaul_normal",
+        "seconds": 39.7204
+      },
+      {
+        "name": "desktop.ui_overhaul_compact",
+        "seconds": 37.6893
+      },
+      {
+        "name": "desktop.ui_overhaul_short",
+        "seconds": 46.1639
+      },
+      {
+        "name": "desktop.ui_overhaul_minimum",
+        "seconds": 45.4752
+      },
+      {
+        "name": "desktop.scene_picking_warp",
+        "seconds": 24.382
+      }
+    ]
+  },
+  "normal_ui_windows": [
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1440,
+      "window_height": 900,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 12936,
+      "hosted_model_requests": "not_requested",
+      "check_group_count": 24,
+      "label_projection_witnesses": {
+        "label_projection_home": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_perspective": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top_focus": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        }
+      },
+      "route_cue_witnesses": {
+        "route_cue_bypass": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:bypass"
+          ],
+          "body_hit": "route:bypass",
+          "pipe_red": false,
+          "models_nonpickable": true,
+          "models_neutral": true
+        },
+        "route_cue_main_pump": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:main_pump"
+          ],
+          "body_hit": "route:main_pump",
+          "pipe_red": true,
+          "models_nonpickable": true,
+          "models_neutral": true
+        }
+      }
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1100,
+      "window_height": 700,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 12798,
+      "hosted_model_requests": "not_requested",
+      "check_group_count": 24,
+      "label_projection_witnesses": {
+        "label_projection_home": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_perspective": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top_focus": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        }
+      },
+      "route_cue_witnesses": {
+        "route_cue_bypass": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:bypass"
+          ],
+          "body_hit": "route:bypass",
+          "pipe_red": false,
+          "models_nonpickable": true,
+          "models_neutral": true
+        },
+        "route_cue_main_pump": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:main_pump"
+          ],
+          "body_hit": "route:main_pump",
+          "pipe_red": true,
+          "models_nonpickable": true,
+          "models_neutral": true
+        }
+      }
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1008,
+      "window_height": 672,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 13120,
+      "hosted_model_requests": "not_requested",
+      "check_group_count": 24,
+      "label_projection_witnesses": {
+        "label_projection_home": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_perspective": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top_focus": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        }
+      },
+      "route_cue_witnesses": {
+        "route_cue_bypass": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:bypass"
+          ],
+          "body_hit": "route:bypass",
+          "pipe_red": false,
+          "models_nonpickable": true,
+          "models_neutral": true
+        },
+        "route_cue_main_pump": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:main_pump"
+          ],
+          "body_hit": "route:main_pump",
+          "pipe_red": true,
+          "models_nonpickable": true,
+          "models_neutral": true
+        }
+      }
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 960,
+      "window_height": 540,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 12701,
+      "hosted_model_requests": "not_requested",
+      "check_group_count": 24,
+      "label_projection_witnesses": {
+        "label_projection_home": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_perspective": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top": {
+          "passed": true,
+          "label_count": 2,
+          "label_ids": [
+            "tank_a",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top_focus": {
+          "passed": true,
+          "label_count": 2,
+          "label_ids": [
+            "tank_a",
+            "treatment"
+          ],
+          "maximum_error_px": 0
+        }
+      },
+      "route_cue_witnesses": {
+        "route_cue_bypass": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:bypass"
+          ],
+          "body_hit": "route:bypass",
+          "pipe_red": false,
+          "models_nonpickable": true,
+          "models_neutral": true
+        },
+        "route_cue_main_pump": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:main_pump"
+          ],
+          "body_hit": "route:main_pump",
+          "pipe_red": true,
+          "models_nonpickable": true,
+          "models_neutral": true
+        }
+      }
+    }
+  ],
+  "asan_ui_windows": [
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1440,
+      "window_height": 900,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 33285,
+      "hosted_model_requests": "not_requested",
+      "check_group_count": 24,
+      "label_projection_witnesses": {
+        "label_projection_home": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0.05865478515625
+        },
+        "label_projection_perspective": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0.05865478515625
+        },
+        "label_projection_top": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top_focus": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        }
+      },
+      "route_cue_witnesses": {
+        "route_cue_bypass": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:bypass"
+          ],
+          "body_hit": "route:bypass",
+          "pipe_red": false,
+          "models_nonpickable": true,
+          "models_neutral": true
+        },
+        "route_cue_main_pump": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:main_pump"
+          ],
+          "body_hit": "route:main_pump",
+          "pipe_red": true,
+          "models_nonpickable": true,
+          "models_neutral": true
+        }
+      }
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1100,
+      "window_height": 700,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 32219,
+      "hosted_model_requests": "not_requested",
+      "check_group_count": 24,
+      "label_projection_witnesses": {
+        "label_projection_home": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_perspective": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top_focus": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        }
+      },
+      "route_cue_witnesses": {
+        "route_cue_bypass": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:bypass"
+          ],
+          "body_hit": "route:bypass",
+          "pipe_red": false,
+          "models_nonpickable": true,
+          "models_neutral": true
+        },
+        "route_cue_main_pump": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:main_pump"
+          ],
+          "body_hit": "route:main_pump",
+          "pipe_red": true,
+          "models_nonpickable": true,
+          "models_neutral": true
+        }
+      }
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 1008,
+      "window_height": 672,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 39788,
+      "hosted_model_requests": "not_requested",
+      "check_group_count": 24,
+      "label_projection_witnesses": {
+        "label_projection_home": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_perspective": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top_focus": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        }
+      },
+      "route_cue_witnesses": {
+        "route_cue_bypass": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:bypass"
+          ],
+          "body_hit": "route:bypass",
+          "pipe_red": false,
+          "models_nonpickable": true,
+          "models_neutral": true
+        },
+        "route_cue_main_pump": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:main_pump"
+          ],
+          "body_hit": "route:main_pump",
+          "pipe_red": true,
+          "models_nonpickable": true,
+          "models_neutral": true
+        }
+      }
+    },
+    {
+      "passed": true,
+      "code": "ok",
+      "phase": 52,
+      "window_width": 960,
+      "window_height": 540,
+      "device_pixel_ratio": 1.75,
+      "elapsed_ms": 39439,
+      "hosted_model_requests": "not_requested",
+      "check_group_count": 24,
+      "label_projection_witnesses": {
+        "label_projection_home": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_perspective": {
+          "passed": true,
+          "label_count": 3,
+          "label_ids": [
+            "tank_a",
+            "treatment",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top": {
+          "passed": true,
+          "label_count": 2,
+          "label_ids": [
+            "tank_a",
+            "tank_b"
+          ],
+          "maximum_error_px": 0
+        },
+        "label_projection_top_focus": {
+          "passed": true,
+          "label_count": 2,
+          "label_ids": [
+            "tank_a",
+            "treatment"
+          ],
+          "maximum_error_px": 0
+        }
+      },
+      "route_cue_witnesses": {
+        "route_cue_bypass": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:bypass"
+          ],
+          "body_hit": "route:bypass",
+          "pipe_red": false,
+          "models_nonpickable": true,
+          "models_neutral": true
+        },
+        "route_cue_main_pump": {
+          "found": true,
+          "visible": true,
+          "active": [
+            "selectedRouteCue:main_pump"
+          ],
+          "body_hit": "route:main_pump",
+          "pipe_red": true,
+          "models_nonpickable": true,
+          "models_neutral": true
+        }
+      }
+    }
+  ],
+  "ui_executed_groups": [
+    "native_assets_accessibility_action_gates",
+    "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+    "route_list_selection_focus_and_related_labels_preserve_project",
+    "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+    "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+    "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+    "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+    "actual_1_25h_forecast",
+    "nested_geometry_pick_and_click",
+    "layout_drag_preserves_hash_run_approval",
+    "keyboard_rejection_repeat_dismiss_preserves_evidence",
+    "focused_notice_escape_isolated",
+    "outside_notice_escape_cancels_connection",
+    "valid_retry_clears_inline_retires_run_approval",
+    "edited_focus_loss_once_unedited_focus_loss_no_commit",
+    "native_multiselect_duplicate_atomic_undo",
+    "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+    "bundled_hosted_recording_reopens_historical_without_review_authority",
+    "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+    "inspector_route_state_preserves_numerical_evidence",
+    "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+    "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+    "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+    "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+  ],
+  "qml_label_projection": "Each mode/window retains independent actual label coordinates versus View3D projection-anchor witnesses for Home, perspective, Top and Top focus. Four sets of per-label witnesses per window are in the verbatim full LastTest logs.",
+  "qt_label_placement": {
+    "normal": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    },
+    "asan": {
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0
+    }
+  },
+  "compact_warp": [
+    {
+      "recorded_utc": "2026-11-20T03:48:45Z",
+      "status": "measured",
+      "assets": 6,
+      "routes": 6,
+      "fps": 31.155400533228168,
+      "target_fps": 60,
+      "hardware_target_met": false,
+      "visible_label_count": 6,
+      "label_overlap_pairs": 0,
+      "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "client_width": 1008,
+      "client_height": 672,
+      "device_pixel_ratio": 1.75,
+      "camera_yaw_end": 113.125,
+      "measurement_window_ms": 10007.4098,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true,
+      "mode": "normal",
+      "actual_body_picks": 6,
+      "culled_labels": 0
+    },
+    {
+      "recorded_utc": "2026-11-20T03:51:57Z",
+      "status": "measured",
+      "assets": 6,
+      "routes": 6,
+      "fps": 13.489260660018129,
+      "target_fps": 60,
+      "hardware_target_met": false,
+      "visible_label_count": 6,
+      "label_overlap_pairs": 0,
+      "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "client_width": 1008,
+      "client_height": 672,
+      "device_pixel_ratio": 1.75,
+      "camera_yaw_end": 113.125,
+      "measurement_window_ms": 10070.3957,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true,
+      "mode": "asan",
+      "actual_body_picks": 6,
+      "culled_labels": 0
+    }
+  ],
+  "hardware": [
+    {
+      "recorded_utc": "2026-11-20T03:53:04Z",
+      "status": "measured",
+      "assets": 6,
+      "routes": 6,
+      "fps": 104.99334958711792,
+      "target_fps": 60,
+      "hardware_target_met": true,
+      "visible_label_count": 6,
+      "label_overlap_pairs": 0,
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "client_width": 1440,
+      "client_height": 900,
+      "device_pixel_ratio": 1.75,
+      "camera_yaw_end": 113.125,
+      "measurement_window_ms": 10000.6979,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true,
+      "mode": "default",
+      "actual_body_picks": 6,
+      "culled_labels": 0
+    },
+    {
+      "recorded_utc": "2026-11-20T03:53:18Z",
+      "status": "measured",
+      "assets": 128,
+      "routes": 256,
+      "fps": 67.82481665359124,
+      "target_fps": 30,
+      "hardware_target_met": true,
+      "visible_label_count": 27,
+      "label_overlap_pairs": 0,
+      "renderer": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "client_width": 1440,
+      "client_height": 900,
+      "device_pixel_ratio": 1.75,
+      "camera_yaw_end": 113.125,
+      "measurement_window_ms": 10000.0251,
+      "post_stop_rendered_frames": 2,
+      "numerical_identity_unchanged": true,
+      "mode": "dense",
+      "actual_body_picks": 128,
+      "culled_labels": 101
+    }
+  ],
+  "application_binaries": [
+    {
+      "mode": "normal",
+      "path": "out/portfolio-desktop/desktop/breakwater.exe",
+      "bytes": 9442304,
+      "sha256": "ded909d5181f072401205d72cf2a74c53c2ea50dde5bde1b18fdbe7bcff6cabf",
+      "published": false
+    },
+    {
+      "mode": "asan",
+      "path": "out/portfolio-desktop-asan/desktop/breakwater.exe",
+      "bytes": 14010368,
+      "sha256": "be40d546e33d2f737fd06142eee55d298e25164549c39e8237f68654b26321f0",
+      "published": false
+    }
+  ],
+  "raw_files": [
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/normal-87021c2.xml",
+      "bytes": 5997,
+      "sha256": "fc9a8fe7a7fe9227af0e1c0f011a827f068d7045638de5ea4da43fc066dcf9f6",
+      "original": "out/route-inspection/normal-87021c2.xml",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/normal-87021c2.log",
+      "bytes": 1002,
+      "sha256": "87c2973a777b9e6de4888b91d3b0c5fc648450d79e1483e1c387c5afda0fa7a5",
+      "original": "out/route-inspection/normal-87021c2.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/normal-87021c2-last-test.log",
+      "bytes": 35708,
+      "sha256": "b752fe1be93ffa5963f7e8a3dbf3a38abe5e6a5c51c71173cac90f313731e5de",
+      "original": "out/route-inspection/normal-87021c2-last-test.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/asan-87021c2.xml",
+      "bytes": 6005,
+      "sha256": "77cc53e4d0e831f359dcf564f6e93a81322cfc7a61bf53b6efc75bb2092552d5",
+      "original": "out/route-inspection/asan-87021c2.xml",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/asan-87021c2.log",
+      "bytes": 1012,
+      "sha256": "bfaeaee7544c88186dfa630811ad9576352363a7fc123f1a9e18a8fd940b18cc",
+      "original": "out/route-inspection/asan-87021c2.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/asan-87021c2-last-test.log",
+      "bytes": 35879,
+      "sha256": "cce11fce68558598c1075fb89c1ecaae9b235813c47692eef8a2211e586f221b",
+      "original": "out/route-inspection/asan-87021c2-last-test.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/build-normal-87021c2.log",
+      "bytes": 11709,
+      "sha256": "4dfa52afd5a6fabed7e0143a77c14a0e94f257f2bc0bc67ec3d6c50213a24f50",
+      "original": "out/route-inspection/build-normal-87021c2.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/build-asan-87021c2.log",
+      "bytes": 12282,
+      "sha256": "f3cb2867c5f2302553975d495499af0f06e6f80c1486e589fdd430a502e242b6",
+      "original": "out/route-inspection/build-asan-87021c2.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/configure-normal-87021c2.log",
+      "bytes": 323,
+      "sha256": "2e67d09f539ec8fa4202ae5e28a76a627f04501fda1aedd5756b95d85df72796",
+      "original": "out/route-inspection/configure-normal-87021c2.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/configure-asan-87021c2.log",
+      "bytes": 328,
+      "sha256": "4ae9f695c2dc38aa40dc7e3b9c250151570a890e1ff31561226ab4dd460820f0",
+      "original": "out/route-inspection/configure-asan-87021c2.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/hardware-default-87021c2.json",
+      "bytes": 5342,
+      "sha256": "89802e2e812a9dd3ca9f872e23566530b51bc38dc41a17a454e7e2544ae5bcf3",
+      "original": "out/route-inspection/hardware-default-87021c2.json",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/hardware-dense-87021c2.json",
+      "bytes": 61853,
+      "sha256": "cf10ebb2b8260c6b06be3c3ffd587e42eb62381094ad104dc16e1a04f01702ba",
+      "original": "out/route-inspection/hardware-dense-87021c2.json",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/hardware-final-results.log",
+      "bytes": 581,
+      "sha256": "86802e4492150825ba2b21e4e61c74d4036218b8d26bf931356605e1de1b9107",
+      "original": "out/route-inspection/hardware-final-results.log",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/label-placement-normal.txt",
+      "bytes": 977,
+      "sha256": "457b99235ae2d5ddaa20ee6746fdab1c8745dd97eec32f67ed4b3c11a0791c79",
+      "original": "out/portfolio-desktop/desktop/label_placement-results.txt",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/warp-normal.json",
+      "bytes": 5327,
+      "sha256": "7f24cc4d7d084628ebd9d0d6301440ee09dc1f82af6242e31c97990479ce72e1",
+      "original": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-2b00e853e21e47aa8bab394138ce13e1/benchmark.json",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/label-placement-asan.txt",
+      "bytes": 977,
+      "sha256": "6e803551f5978244586d87db5342d77490692fde45c84480c5f3b6f189dd9a75",
+      "original": "out/portfolio-desktop-asan/desktop/label_placement-results.txt",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/next-revamp/local-87021c2/warp-asan.json",
+      "bytes": 5327,
+      "sha256": "804b9afb824150d6d2e353d2bc7f8ccba03ebcc693239f491af4f7b3ecb3dba0",
+      "original": "out/portfolio-desktop-asan/desktop/test-artifacts/scene-picking-warp-555b52976256465993f635a198a179ee/benchmark.json",
+      "associated_source": "87021c20771f41bb7b4fa1675b610deaf797642b",
+      "copied_verbatim": true
+    }
+  ],
+  "prior_checkpoint": {
+    "path": "docs/evidence/next-revamp/local-checks.json",
+    "bytes": 36317,
+    "sha256": "79d98eebc057bc5a9aaf38dd78314ee42df60f7620b8eb1540e96a024b792661",
+    "preserved_unchanged": true,
+    "notes": "Earlier bf32099 startup failures, da98dca first 5/6 ASan plus idle 1/1 retry and unconfigured-runtime probe remain retained. Earlier ASan failure overlapped compiler activity and separate app restart/input; causation is unproven. Manual Top-view label drift found after that checkpoint was addressed by this separately recorded source."
+  },
+  "hosted_model_requests": "not_requested_by_these_UI_checks",
+  "public_release_approved": false,
+  "qualification_limits": [
+    "These are focused local checks: six CTest entries per mode, each UI helper checking 24 groups across four sizes. No full 87-test matrix was rerun locally at 87021c2.",
+    "PR83 full CI qualifies older a8230fc and its matching merge tree, separately recorded in pr83-ci.json after all jobs complete.",
+    "Executed cue routes exceed 80 scene units. Short-span direction-arrow scaling remains source-reviewed only.",
+    "AMD 880M FPS measures one local run: default threshold60, dense threshold30. No cross-device performance benchmark or comparison with earlier loaded sessions is claimed.",
+    "Compact WARP six-pick/six-label/zero-overlap gate passed in both modes; WARP FPS is diagnostic only.",
+    "No new hosted Nemotron, numerical qualification, clean-Windows distribution test or release approval is claimed.",
+    "Current low storage allows these existing-binary checks, not a new full release build/packaging qualification. Build-floor checks and lossless compression are retained separately in ignored output.",
+    "No private current-workspace document, databases, credentials, raw reasoning or binaries are published in this evidence."
+  ]
+}

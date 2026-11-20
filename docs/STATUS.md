@@ -2,6 +2,32 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
+The [selected-route inspection pass](ROUTE_INSPECTION.md), application source
+`87021c2`, adds a static unpickable direction cue and compact read-only route card,
+including failed and zero-setting connections. A bounded post-render refresh
+also corrects stale labels after Top/Focus/Home camera changes. Normal and ASan
+each pass six focused desktop suites on this source, including all four UI sizes
+with 24 check groups and actual projection/route-picking witnesses. Hardware
+default/dense checks pick 6/6 and 128/128 bodies with no label overlaps and meet
+the local 60/30 FPS targets. Prior failed attempts remain retained separately.
+The saved user workspace was restored, the corrected UI was shown, and only the
+latest maximized instance was left open. See [final local evidence](
+evidence/next-revamp/local-final-checks.json) and the [handoff](
+evidence/next-revamp/handoff.json). This is a later UI source, not a claim that its
+full 87-suite CI or hosted qualification ran. The existing aspect-ratio limitation
+of Top's automatic fit remains a separate framing follow-up.
+
+PR83's unchanged head `a8230fc` passed all six Windows CI jobs without a source
+fix or rerun: native 17/17 and desktop 87/87 in normal and ASan, CPU science
+464 passed plus four expected optional skips, and 54 Lean theorem audits.
+Each desktop Qt report also records one expected optional real-PhysicsNeMo
+subcase skip within its passing CTest matrix. Both compact WARP reports retain
+six picks, six labels and zero overlaps. Its identical merge-tree provenance,
+toolchains and exact artifacts are in the [CI manifest](
+evidence/next-revamp/pr83-ci.json). That full matrix is separate from the later
+application source above.
+
+Previous Connections checkpoint:
 The [Connections navigation increment](CONNECTION_NAVIGATION.md), application
 source `2b5480d`, adds a filtered route list, explicit configured/source settings
 and availability, and view-only Focus on both route endpoints. Six focused

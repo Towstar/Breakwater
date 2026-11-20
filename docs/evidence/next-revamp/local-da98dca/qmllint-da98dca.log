@@ -1,0 +1,88 @@
+Warning: desktop/qml/PipeRoute.qml:34:35: Unqualified access [unqualified]
+            position: Qt.vector3d(route.sx + route.dx * modelData, 0, route.sz + route.dz * modelData)
+                                  ^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:34:46: Unqualified access [unqualified]
+            position: Qt.vector3d(route.sx + route.dx * modelData, 0, route.sz + route.dz * modelData)
+                                             ^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:34:71: Unqualified access [unqualified]
+            position: Qt.vector3d(route.sx + route.dx * modelData, 0, route.sz + route.dz * modelData)
+                                                                      ^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:34:82: Unqualified access [unqualified]
+            position: Qt.vector3d(route.sx + route.dx * modelData, 0, route.sz + route.dz * modelData)
+                                                                                 ^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:35:42: Unqualified access [unqualified]
+            eulerRotation.y: Math.atan2(-route.dz, route.dx) * 180 / Math.PI
+                                         ^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:35:52: Unqualified access [unqualified]
+            eulerRotation.y: Math.atan2(-route.dz, route.dx) * 180 / Math.PI
+                                                   ^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:44:55: Unqualified access [unqualified]
+                    Model { source: "#Cube"; y: 7; z: modelData * 3.9; scale: Qt.vector3d(0.08, 0.05, 0.012); materials: supportSteel }
+                                                      ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                    Model { source: "#Cube"; y: 7; z: <id>.modelData * 3.9; scale: Qt.vector3d(0.08, 0.05, 0.012); materials: supportSteel }
+                                                      ^^^^^
+Warning: desktop/qml/PipeRoute.qml:44:122: Unqualified access [unqualified]
+                    Model { source: "#Cube"; y: 7; z: modelData * 3.9; scale: Qt.vector3d(0.08, 0.05, 0.012); materials: supportSteel }
+                                                                                                                         ^^^^^^^^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:45:61: Unqualified access [unqualified]
+                    Model { source: "#Cylinder"; y: 5.5; z: modelData * 6; scale: Qt.vector3d(0.018, 0.025, 0.018); materials: supportSteel }
+                                                            ^^^^^^^^^
+Info: modelData is a member of a parent element.
+      You can qualify the access with its id to avoid this warning (You first have to give the element an id).
+
+Suggested change:
+                    Model { source: "#Cylinder"; y: 5.5; z: <id>.modelData * 6; scale: Qt.vector3d(0.018, 0.025, 0.018); materials: supportSteel }
+                                                            ^^^^^
+Warning: desktop/qml/PipeRoute.qml:45:128: Unqualified access [unqualified]
+                    Model { source: "#Cylinder"; y: 5.5; z: modelData * 6; scale: Qt.vector3d(0.018, 0.025, 0.018); materials: supportSteel }
+                                                                                                                               ^^^^^^^^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:88:60: Unqualified access [unqualified]
+            Model { objectName: "selectedRouteCueShaft:" + route.routeData.id; source: "#Cube"; y: -7; scale: Qt.vector3d(0.055, 0.22, 0.025); materials: directionPaint; pickable: false; castsShadows: false }
+                                                           ^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
+Warning: desktop/qml/PipeRoute.qml:89:59: Unqualified access [unqualified]
+            Model { objectName: "selectedRouteCueHead:" + route.routeData.id; source: "#Cone"; y: 10; scale: Qt.vector3d(0.15, 0.16, 0.10); materials: directionPaint; pickable: false; castsShadows: false }
+                                                          ^^^^^
+Info: Set "pragma ComponentBehavior: Bound" in order to use IDs from outer components in nested components.
+Suggested change:
+pragma ComponentBehavior: Bound
+import QtQuick
