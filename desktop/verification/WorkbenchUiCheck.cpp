@@ -43,7 +43,7 @@ class Check final : public QObject {
     bool navigation_all_labels_ = false;
     bool navigation_dock_open_ = false;
     QElapsedTimer route_label_wait_;
-    QJsonObject cue_original_project_, cue_static_;
+    QJsonObject cue_original_project_, cue_static_, workspace_observations_;
     int rendered_frames_ = 0, cue_frame_mark_ = 0;
     QElapsedTimer cue_settle_wait_;
     bool cue_fixture_captured_ = false;
@@ -163,7 +163,7 @@ class Check final : public QObject {
             "route_summary_clipped_or_overlaps_scene_labels");
         const auto cue=selectedCue(), geometry=cue.value("geometry").toObject();
         const auto models=geometry.value("models").toArray();
-        observed_["route_cue_"+id]=cue;
+        workspace_observations_["route_cue_"+id]=cue;
         require(cue.value("found").toBool() && cue.value("visible").toBool() && cue.value("active").toArray().size()==1
             && models.size()==2,"selected_route_cue_missing_or_unbounded");
         for (const auto& value:models) {
@@ -182,7 +182,7 @@ class Check final : public QObject {
             "const error=Math.max(Math.abs(label.anchorX-p.x),Math.abs(label.anchorY-p.y));"
             "return {id:label.id,anchor_x:label.anchorX,anchor_y:label.anchorY,actual_x:p.x,actual_y:p.y,error_px:error,passed:finite&&error<=1}});"
             "return {label_count:checks.length,passed:checks.length>0&&checks.every(row=>row.passed),labels:checks}})())")).toString().toUtf8()).object();
-        observed_["label_projection_"+viewName]=result;
+        workspace_observations_["label_projection_"+viewName]=result;
         navigationPreserved();
         require(result.value("passed").toBool(),"scene_label_projection_stale_after_view_change");
     }
@@ -207,6 +207,7 @@ class Check final : public QObject {
             {"window_width", window_ ? window_->width() : 0}, {"window_height", window_ ? window_->height() : 0},
             {"elapsed_ms", elapsed_.elapsed()}, {"hosted_model_requests", "not_requested"}};
         if (artifacts_ && artifacts_->isValid()) result["artifact_directory"] = artifacts_->path();
+        if (!workspace_observations_.isEmpty()) result["workspace_observations"] = workspace_observations_;
         QTextStream stream(stdout); stream << QJsonDocument(result).toJson(QJsonDocument::Compact) << '\n'; stream.flush();
         app_->exit(ok ? 0 : 8);
     }
