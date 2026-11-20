@@ -145,6 +145,14 @@ class CandidateEvidenceTests(unittest.TestCase):
         self.row("canonical_1")["status"] = "failed"
         self.assertEqual(self.audit()["qualification_status"], "incomplete")
 
+    def test_failed_wrong_model_evidence_is_preserved_without_becoming_passed(self):
+        self.manifest["status"] = "failed"
+        self.row("canonical_1")["status"] = "failed"
+        self.change("canonical_1", lambda a: a["agent_events"][0]["event"].update(model_identity="wrong-model"))
+        self.assertEqual(self.audit()["qualification_status"], "incomplete")
+        self.row("canonical_1")["status"] = "passed"
+        self.reject()
+
     def test_interrupted_tool_prefix_is_allowed_only_for_failed_attempt(self):
         self.manifest["status"] = "failed"
         self.row("canonical_1")["status"] = "failed"

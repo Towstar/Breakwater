@@ -64,16 +64,21 @@ def request_metadata(requests, observed=False, success=True):
         if observed:
             fields = {"configured_model", "response_model", "model_request_id", "duration_ms",
                       "error_code", "http_status", "outcome", "retry_count"}
-            require(set(request) == fields and request["configured_model"] == MODEL,
-                    "Unexpected observed request metadata.")
+            require(set(request) == fields and isinstance(request["configured_model"], str)
+                    and isinstance(request["response_model"], str), "Unexpected observed request metadata.")
             require(request["outcome"] in {"succeeded", "failed", "cancelled", "rejected"}, "Unknown observed request outcome.")
             if request["outcome"] == "succeeded":
-                require(request["response_model"] == MODEL and request["error_code"] == ""
-                        and request["http_status"] == 200, "Successful observed reply differs from the configured model.")
+                require(request["error_code"] == "" and request["http_status"] == 200,
+                        "Successful observed reply has inconsistent status metadata.")
+                if success:
+                    require(request["configured_model"] == request["response_model"] == MODEL,
+                            "Successful observed reply differs from the configured model.")
                 successful_requests += 1
         else:
             require(set(request) == {"duration_ms", "http_status", "model_identity", "retry_count", "type"}
-                    and request["model_identity"] == MODEL, "Unexpected Operations request metadata.")
+                    and isinstance(request["model_identity"], str), "Unexpected Operations request metadata.")
+            if success:
+                require(request["model_identity"] == MODEL, "Operations model identity differs.")
             successful_requests += int(request["http_status"] == 200)
         require(number(request["duration_ms"]) and request["duration_ms"] >= 0
                 and type(request["retry_count"]) is int and request["retry_count"] >= 0,
@@ -161,7 +166,8 @@ def audit_eog(value, summary, passed):
 def audit_observed(value, missing, passed):
     require(value["archive_version"] == 2 and value["session_kind"] == "observed_origin"
             and value["actionable"] is False, "Wrong observed format or operating authority.")
-    require(value["model"]["configured_model"] == MODEL, "Wrong observed model configuration.")
+    if passed:
+        require(value["model"]["configured_model"] == MODEL, "Wrong observed model configuration.")
     origins = [row["payload"] for row in value["evidence_envelopes"] if row["kind"] == "observed_origin"]
     require(len(origins) == 1, "Observed case needs one immutable origin.")
     origin = origins[0]
