@@ -50,7 +50,7 @@ class Check final : public QObject {
     QElapsedTimer cue_settle_wait_;
     bool cue_fixture_captured_ = false;
     QJsonObject scene_focus_preferences_, plan_before_dock_;
-    double plan_before_wheel_ = 0;
+    double plan_before_wheel_ = 0, plan_pan_x_ = 0, plan_pan_z_ = 0;
     bool observed_only_=false;
     QJsonObject observed_project_;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
@@ -173,7 +173,7 @@ class Check final : public QObject {
             "return {valid:valid,fit:f,view_width:view.width,view_height:view.height,corners:corners}})())")
             .arg(QString::fromUtf8(QJsonDocument(chosen).toJson(QJsonDocument::Compact)));
         const auto result=QJsonDocument::fromJson(eval(source).toString().toUtf8()).object();
-        observed_["plan_fit_"+name]=result;
+        workspace_observations_["plan_fit_"+name]=result;
         require(result.value("valid").toBool(),"plan_fit_actual_camera_or_body_footprints_outside_usable_view");
         return result;
     }
@@ -184,6 +184,12 @@ class Check final : public QObject {
         const auto point=eval("view.mapToItem(null,Qt.point(app.planFit.usable.x+app.planFit.usable.width/2,app.planFit.usable.y+app.planFit.usable.height/2))").toPointF();
         QWheelEvent event(point,point,QPoint{},QPoint(0,120),Qt::NoButton,Qt::NoModifier,Qt::NoScrollPhase,false);
         QCoreApplication::sendEvent(window_,&event);
+    }
+    void planPan() {
+        const auto point=eval("view.mapToItem(null,Qt.point(app.planFit.usable.x+app.planFit.usable.width/2,app.planFit.usable.y+app.planFit.usable.height/2))").toPointF();
+        mouse(QEvent::MouseButtonPress,point,Qt::MiddleButton,Qt::MiddleButton);
+        mouse(QEvent::MouseMove,point+QPointF(-12,-8),Qt::NoButton,Qt::MiddleButton);
+        mouse(QEvent::MouseButtonRelease,point+QPointF(-12,-8),Qt::MiddleButton,Qt::NoButton);
     }
     QJsonObject selectedCue() {
         return QJsonDocument::fromJson(eval(QStringLiteral(
@@ -944,9 +950,18 @@ class Check final : public QObject {
                 navigationPreserved();
                 require(eval("app.frameAdjusted && Number.isFinite(app.planZoom) && app.planZoom!==1").toBool()
                     && std::abs(eval("planCamera.horizontalMagnification").toDouble()-plan_before_wheel_)>1e-6,"plan_view_native_wheel_did_not_adjust_zoom");
+                plan_pan_x_=eval("app.planPanX").toDouble(); plan_pan_z_=eval("app.planPanZ").toDouble();
+                planPan(); markCueFrames(); phase_=112; return;
+            case 112:
+                if (!cueFramesReady()) return;
+                navigationPreserved();
+                require(eval("app.topView && app.frameAdjusted").toBool()
+                    && std::abs(eval("app.planPanX").toDouble()-plan_pan_x_)>1e-6
+                    && std::abs(eval("app.planPanZ").toDouble()-plan_pan_z_)>1e-6,"plan_view_native_middle_drag_did_not_pan");
+                labelsMatchProjection("top_pan");
                 scene_focus_preferences_=panelPreferences();
                 eval("scenePanel.forceActiveFocus()");
-                key(Qt::Key_Space,Qt::ControlModifier|Qt::ShiftModifier," "); markCueFrames(); break;
+                key(Qt::Key_Space,Qt::ControlModifier|Qt::ShiftModifier," "); markCueFrames(); phase_=109; return;
             case 109:
                 if (!cueFramesReady()) return;
                 navigationPreserved();
@@ -963,6 +978,11 @@ class Check final : public QObject {
                 click(item("networkFilter")); require(item("networkFilter")->hasActiveFocus(),"scene_focus_text_guard_fixture_has_no_focus");
                 key(Qt::Key_Space,Qt::ControlModifier|Qt::ShiftModifier," ");
                 require(!eval("app.sceneOnly").toBool(),"scene_focus_shortcut_escaped_text_editor_guard");
+                eval("scenePanel.forceActiveFocus()");
+                key(Qt::Key_Space,Qt::ControlModifier|Qt::ShiftModifier," ");
+                require(eval("app.sceneOnly").toBool(),"scene_focus_escape_fixture_did_not_enter");
+                key(Qt::Key_Escape);
+                require(!eval("app.sceneOnly").toBool() && panelPreferences()==scene_focus_preferences_,"scene_focus_escape_did_not_restore_mode_and_preferences");
                 click(item("sceneHome")); markCueFrames(); break;
             case 111:
                 if (!cueFramesReady()) return;
