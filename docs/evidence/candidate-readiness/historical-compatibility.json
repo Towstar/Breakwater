@@ -1,0 +1,61 @@
+{
+  "scope": "historical archive compatibility only; no model/app execution",
+  "historical_source": "29df04f",
+  "final_candidate_qualified": false,
+  "checks": [
+    {
+      "case": "run-1",
+      "passed": true,
+      "sha256": "edefdde0d5504a73c822cc205dc1df4cd70a2bbe2700cc5809c9604d7d3db946",
+      "session_id": "e4ab37b3-cad2-440f-9cc6-5b53cae9f89f",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "model_requests": 13,
+      "tool_calls": 12
+    },
+    {
+      "case": "run-2",
+      "passed": true,
+      "sha256": "a7c9e2e016002a2dfd89da985ca31dd3c436c3815a1a7fed66a64be6adc0d8c3",
+      "session_id": "c350f3aa-f1c3-4800-8770-1732795909be",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "model_requests": 13,
+      "tool_calls": 12
+    },
+    {
+      "case": "run-3",
+      "passed": true,
+      "sha256": "0abb5ee98fc7f61dd6077ff21b8710b442a3100d179e41ddcd8195987e7a1f6e",
+      "session_id": "848b319d-3c70-4f37-8e15-ab30ed469601",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "model_requests": 13,
+      "tool_calls": 12
+    },
+    {
+      "case": "run-4",
+      "passed": true,
+      "sha256": "66bac3fb706ee0869c1b453a09940f65aa85910fdf84c47e8d65253eb5f88d3c",
+      "session_id": "3e26b931-06ec-456a-a094-535bd50b865d",
+      "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+      "model_requests": 13,
+      "tool_calls": 12
+    },
+    {
+      "case": "observed-pump",
+      "passed": true,
+      "sha256": "bb883e23d04a83a1723e10c75f9bb78d99ccca4b425637607a281a13a57899cb",
+      "session_id": "2ede3623-9f9c-43d6-ad8b-f865c71b9aa9",
+      "capture_id": "capture-817a8547-7899-45fd-8eda-d6cd4a6061ab",
+      "model_requests": 13,
+      "tool_calls": 12
+    },
+    {
+      "case": "observed-missing",
+      "passed": true,
+      "sha256": "047f40631e6dfb96d6ef004da0d411466d66f34a9077a104e95c0ab99720cca2",
+      "session_id": "a6ba03ac-1485-416a-9e56-3c5ab8149219",
+      "capture_id": "capture-ca38a5bc-dc17-4156-bd62-6802006c496e",
+      "model_requests": 13,
+      "tool_calls": 12
+    }
+  ]
+}

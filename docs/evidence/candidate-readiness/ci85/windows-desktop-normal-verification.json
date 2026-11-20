@@ -1,0 +1,465 @@
+{
+  "verification_version": 1,
+  "suite": "desktop",
+  "mode": "normal",
+  "status": "passed",
+  "started_utc": "2026-11-20T18:26:16.0654764Z",
+  "source_commit": "93e7101e6a96f6c8902f734e99cffd95f8449928",
+  "source_tree": "d0b729fae332b315ad7de220ecad82ae14562e71",
+  "working_tree_dirty": false,
+  "helper_sha256": {
+    "scripts/ci/Run-Checks.ps1": "0a1ae2418639e749bc8b5e35099ced601d2930bc3519d9a953d6134115761c05",
+    "scripts/ci/Initialize-Compiler.ps1": "93b0c388ac52900c4b81e1623e079827fa0cc67f4a4f5f3b2251c64b9f000cd1",
+    "scripts/ci/Write-JobEvidence.ps1": "16dc4bf3138ea97b0709cf919a2e8138a8908ce9c84b59ac0f9d55aaf3800424",
+    "scripts/ci/Run-PythonTests.py": "34a1655586b94f6d8e37a9e1c7b642f54a1b809f23a14554acb29b3c3536cd1b",
+    "scripts/ci/Read-QtResults.py": "4076358bca7e77d02ebc3341404cef6041b874ab522d7fb5e5b8211e4986a441",
+    "scripts/ci/requirements-win-py312.txt": "695c77a1fb88f2adb7c969e9c42a2c685023e272b1d07b5fbe1698918ff58c67",
+    ".github/workflows/windows-checks.yml": "506a6dec5cbd039ef15074bc1d0a9a6a3b2511b353bfe4370bca9ddf445c2df4"
+  },
+  "runner": {
+    "image": "win22",
+    "image_version": "20261116.370.1",
+    "os": "Microsoft Windows NT 10.0.20348.0"
+  },
+  "external_model_requests": "not_run",
+  "toolchain": {
+    "bootstrap": {
+      "python": "3.12.10",
+      "packages": {
+        "requests": "2.34.2",
+        "py7zr": "1.1.4",
+        "PyYAML": "6.0.3"
+      }
+    },
+    "bootstrap_path_length_before": 2906,
+    "compiler": "14.44.35230.0",
+    "visual_studio": "17.14.37906.3",
+    "bootstrap_path_length": 213,
+    "compiler_path_length": 1995,
+    "windows_sdk": "10.0.26100.0\\",
+    "cmake": "cmake version 3.31.6",
+    "ninja": "1.13.2",
+    "science": {
+      "python": "3.12.13",
+      "torch": "2.15.0+cpu",
+      "numpy": "2.5.4",
+      "device": "cpu",
+      "dtype": "torch.float64"
+    },
+    "qt": "6.12.0",
+    "eog_provider": {
+      "native_sha256": "96e0689284792fe59ea9b0318e64acc676e469698ac528b1ff64116c243622f8",
+      "plant_sha256": "a5a7989ca3ebf40289c28552713c02af979bde3e55026ff4562d09af9de9890c",
+      "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+      "contracts": "contracts/eog",
+      "native_mode": "normal"
+    }
+  },
+  "steps": [
+    {
+      "name": "bootstrap-venv",
+      "exit_code": 0,
+      "elapsed_s": 5.965472
+    },
+    {
+      "name": "bootstrap-lock",
+      "exit_code": 0,
+      "elapsed_s": 4.3933224
+    },
+    {
+      "name": "bootstrap-versions",
+      "exit_code": 0,
+      "elapsed_s": 0.1081512
+    },
+    {
+      "name": "workflow-regressions",
+      "exit_code": 0,
+      "elapsed_s": 1.5955511
+    },
+    {
+      "name": "scientific-setup",
+      "exit_code": 0,
+      "elapsed_s": 23.6084991
+    },
+    {
+      "name": "scientific-runtime",
+      "exit_code": 0,
+      "elapsed_s": 4.6937602
+    },
+    {
+      "name": "qt-sdk",
+      "exit_code": 0,
+      "elapsed_s": 75.6049645
+    },
+    {
+      "name": "configure",
+      "exit_code": 0,
+      "elapsed_s": 17.7258353
+    },
+    {
+      "name": "build",
+      "exit_code": 0,
+      "elapsed_s": 433.3744021
+    },
+    {
+      "name": "registered-tests",
+      "exit_code": 0,
+      "elapsed_s": 1.4816416
+    },
+    {
+      "name": "ctest",
+      "exit_code": 0,
+      "elapsed_s": 744.6701144
+    },
+    {
+      "name": "qt-results",
+      "exit_code": 0,
+      "elapsed_s": 0.0847371
+    }
+  ],
+  "ctest": {
+    "registered": 88,
+    "executed": 88,
+    "skipped": 0
+  },
+  "qt_suites": [
+    {
+      "suite": "agent_gateway-results",
+      "passed": 28,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "agent_orchestrator-results",
+      "passed": 40,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "agent_science-results",
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "editor_tools-results",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_analysis_client-results",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_analysis_controller-results",
+      "passed": 58,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_capture-results",
+      "passed": 12,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_contracts-results",
+      "passed": 71,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_dataset-results",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_event_details-results",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_history-results",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_investigator-results",
+      "passed": 77,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_plan_chart-results",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_plan_details-results",
+      "passed": 10,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "eog_provider-results",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "evidence_v2-results",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "history_controller-results",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "label_placement-results",
+      "passed": 8,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "local_publisher-results",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "nemotron_client-results",
+      "passed": 62,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "observed_capture-results",
+      "passed": 9,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "observed_forecast-results",
+      "passed": 16,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "pipe_transport-results",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 1,
+      "blacklisted": 0,
+      "skip_reasons": [
+        "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+      ],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "pipe_transport_evidence-results",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "python_worker-results",
+      "passed": 24,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "receiver_journal-results",
+      "passed": 13,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "scene_framing-results",
+      "passed": 41,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "science_evidence-results",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "sensor_editor-results",
+      "passed": 17,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "session_repository-results",
+      "passed": 15,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "storage_science-results",
+      "passed": 43,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "storage_worker-results",
+      "passed": 121,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "stored_science-results",
+      "passed": 6,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "telemetry_contracts-results",
+      "passed": 176,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "telemetry_lifecycle-results",
+      "passed": 27,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "telemetry_stream-results",
+      "passed": 31,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    },
+    {
+      "suite": "workspace_settings-results",
+      "passed": 5,
+      "failed": 0,
+      "skipped": 0,
+      "blacklisted": 0,
+      "skip_reasons": [],
+      "unexpected_skips": []
+    }
+  ],
+  "optional_calibration_skipped": 1,
+  "asan_scope": "Owned C++ targets only; prebuilt Qt/Python/Torch are outside established instrumentation coverage.",
+  "finished_utc": "2026-11-20T18:48:16.9225637Z"
+}

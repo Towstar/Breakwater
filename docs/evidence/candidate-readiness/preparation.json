@@ -1,0 +1,120 @@
+{
+  "preparation_version": 1,
+  "recorded_utc": "2026-11-20T20:02:18.784482+00:00",
+  "status": "preparation_checks_passed_final_candidate_pending",
+  "helper_source_commit": "bb98320dff4263e1d1df4cad5982652e95054e42",
+  "application_rebuilt": false,
+  "new_hosted_requests": 0,
+  "public_release_approved": false,
+  "helpers": {
+    "command": "python -B -m unittest discover -s scripts/ci/tests -v",
+    "python": "3.12.13",
+    "tests_run": 78,
+    "passed": 78,
+    "log": {
+      "path": "out/candidate-readiness/all-helper-tests-final.log",
+      "bytes": 12015,
+      "sha256": "22212c48b0d2c2ad1a631e9266f128f453ae1c226a9854153e8e5877175e8f85"
+    }
+  },
+  "auditor_cases": 30,
+  "historical_compatibility_archives": 6,
+  "review": {
+    "provenance": "Root review plus independent same-family read-only auditor review",
+    "fixed": [
+      "Observed source/run binding",
+      "Model-delivered explicit Operations validation link",
+      "Safely rejected unavailable numerical requests remain in failed/no-plan evidence",
+      "Sanitized malformed/deep JSON handling"
+    ],
+    "outstanding_consequential_findings": [],
+    "human_owner_review": "pending"
+  },
+  "storage": {
+    "approval": "pending",
+    "cleanup_performed": false,
+    "inventory_sha256": "50d382048d92457b5d2a02436c82d6d7e5fa0bd5c017548f67714c30694d74b6",
+    "proposed_allocation_bytes": 2728606425,
+    "dry_run_files_verified": 11734,
+    "review_path": "out/candidate-readiness/storage/STORAGE_REVIEW.md"
+  },
+  "gates": {
+    "final_candidate_build_and_checks": "pending_storage_approval",
+    "final_seven_hosted_cases": "not_run",
+    "new_portable_source_zip_and_unicode_extraction": "not_run",
+    "new_private_windows_kit": "not_prepared",
+    "final_eight_view_gallery": "pending",
+    "clean_windows": "pending_external_acceptance",
+    "owner_review": "pending",
+    "licensing_review": "pending",
+    "main_integration": "not_performed"
+  },
+  "files": [
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/lean-assumption-audit.json",
+      "bytes": 2122,
+      "sha256": "63b8d75fe42bdd6487250cc97927728e28f38d690e7066cb300b273c49129498"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/summary.json",
+      "bytes": 21092,
+      "sha256": "0ea6ee70dc9ac1ce700ee0f2c0e93a37db4703c9f694c39f3a4267a11d0ae204"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/windows-desktop-asan-verification.json",
+      "bytes": 11558,
+      "sha256": "1b93f81d603e1cc84fb814ec5594b225d8664e9e56d1384ebfcf3881deadf44f"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/windows-desktop-asan-warp.json",
+      "bytes": 5333,
+      "sha256": "df8fa7e9ff5d769c50f7397fba1872913ca3006d25951fdd4a75d803d3f776c7"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/windows-desktop-normal-verification.json",
+      "bytes": 11462,
+      "sha256": "ffb87c5944b0d75065ca6f4f2e08eed845e5e6729ef5178e17de8c3394a35661"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/windows-desktop-normal-warp.json",
+      "bytes": 5325,
+      "sha256": "d11d634e7c84643bacf9baf0f641911004db15d47aebfbe73f791900265bbe62"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/windows-lean-verification.json",
+      "bytes": 1673,
+      "sha256": "46489aec3bc7ff87f6bd41d67ce4857d5d551897b46f3b15ea7678b0230c4517"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/windows-native-asan-verification.json",
+      "bytes": 2813,
+      "sha256": "6b8d11cd9b3f8dbd91fa416bbe773f63945b5e771d6bb57f8e5304a3b9c8299d"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/windows-native-normal-verification.json",
+      "bytes": 2816,
+      "sha256": "1e8ac8459cb489aabdb9174cc833490cd43b6191e8efb2ccd40e17ee2a01d216"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/ci85/windows-science-cpu-verification.json",
+      "bytes": 4382,
+      "sha256": "c7b8e951232303eab57546f9b3a37e6ef8e0df7fdcab3b270d85d69ba7d8272f"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/gallery-cd4dc5f.json",
+      "bytes": 1727,
+      "sha256": "ef4c46675b55a0f04223e2776f1026c6c20508dc247646d2c592cb1ef2a7ff14"
+    },
+    {
+      "path": "docs/evidence/candidate-readiness/historical-compatibility.json",
+      "bytes": 2279,
+      "sha256": "098a415077968f6a17e88ed39d9c9836d79cb1d32ffeb72d54486dbdfabf72e5"
+    }
+  ],
+  "limits": [
+    "Historical compatibility checks do not repeat hosted calls or qualify a new binary.",
+    "Source-qualified screenshots show the existing cd4dc5f application, not a new build.",
+    "Review is same-family engineering review, not author consent or execution attestation.",
+    "No video, VM provisioning, main merge, root license, release tag or public binary was produced."
+  ]
+}

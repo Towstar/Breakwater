@@ -1,0 +1,44 @@
+{
+  "capture_version": 1,
+  "recorded_utc": "2026-11-20T20:01:41.5736765Z",
+  "application_source_commit": "cd4dc5f60b7554c6bb93460ba2741b940865b76c",
+  "app_sha256": "78ada623906fc0b06d547810eec0298a8b401a7ad192b411557517fb7b1958e6",
+  "capture_method": "Windows Computer Use captured image bytes saved unchanged for portfolio delivery",
+  "scope": "Three current UI views only, not the planned complete final-candidate gallery or new qualification",
+  "new_model_requests": 0,
+  "operating_controls_applied": false,
+  "private_project_published": false,
+  "images": [
+    {
+      "path": "docs/images/portfolio/framing-cd4dc5f/01-sandbox-overview.jpg",
+      "bytes": 139491,
+      "sha256": "e443323c68c097e3b1791b422ffbec70817c99d6972667771c0aaa7e57d2689f",
+      "width": 1442,
+      "height": 927,
+      "unaltered": true
+    },
+    {
+      "path": "docs/images/portfolio/framing-cd4dc5f/02-plan-scene-focus.jpg",
+      "bytes": 116702,
+      "sha256": "d65bd9fc016022c0921b1b00b66cfbaa8009280e75730b6d1415a94cc5057c75",
+      "width": 1442,
+      "height": 927,
+      "unaltered": true
+    },
+    {
+      "path": "docs/images/portfolio/framing-cd4dc5f/03-connections-inspector.jpg",
+      "bytes": 161502,
+      "sha256": "39ffa2815173a4ddc4d7679a40149a5a71acc4ba88cefb4f14aa455e55a6aa5b",
+      "width": 1442,
+      "height": 927,
+      "unaltered": true
+    }
+  ],
+  "handoff": {
+    "saved_project_sha256": "6978e0d824efaf73b7d76953503df11caad161a2c0a087344ec5e2d1768d5ddc",
+    "maximized": true,
+    "visible_windows": 1,
+    "left_view": "Perspective · Saved view · Synthetic network · Layout is schematic",
+    "title": "BREAKWATER 0.2.0 · cd4dc5f | Sandbox"
+  }
+}
