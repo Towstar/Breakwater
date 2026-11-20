@@ -158,10 +158,14 @@ class Check final : public QObject {
         navigationPreserved(); QJsonArray chosen; for (const auto& id:ids) chosen.append(id);
         const auto source=QStringLiteral(
             "JSON.stringify((function(){const selected=%1,f=app.planFit,b=f.usable,rows=app.sceneAssets.filter(r=>!selected.length||selected.indexOf(r.id)>=0);"
+            // Qt Quick 3D camera properties are float, while the helper uses JS
+            // doubles. Allow float storage precision; rendered corner containment
+            // below remains an independent one-pixel bound.
+            "const nearFloat=(actual,expected)=>Math.abs(actual-expected)<=Math.max(1e-6,Math.abs(expected)*1.2e-7);"
             "let valid=app.topView&&app.planZoom===1&&rows.length===(selected.length||app.sceneAssets.length)"
             "&&[b.x,b.y,b.width,b.height,f.magnification,f.cameraX,f.cameraZ,planCamera.x,planCamera.z,planCamera.horizontalMagnification,planCamera.verticalMagnification].every(Number.isFinite)"
-            "&&b.width>0&&b.height>0&&f.magnification>0&&Math.abs(planCamera.x-f.cameraX)<1e-6&&Math.abs(planCamera.z-f.cameraZ)<1e-6"
-            "&&Math.abs(planCamera.horizontalMagnification-f.magnification)<1e-6&&Math.abs(planCamera.verticalMagnification-f.magnification)<1e-6;"
+            "&&b.width>0&&b.height>0&&f.magnification>0&&nearFloat(planCamera.x,f.cameraX)&&nearFloat(planCamera.z,f.cameraZ)"
+            "&&nearFloat(planCamera.horizontalMagnification,f.magnification)&&nearFloat(planCamera.verticalMagnification,f.magnification);"
             "const raw=app.framedBounds,xs=rows.map(r=>r.x),zs=rows.map(r=>r.z);"
             "valid=valid&&raw&&Math.abs(raw.minX-Math.min(...xs))<1e-6&&Math.abs(raw.maxX-Math.max(...xs))<1e-6"
             "&&Math.abs(raw.minZ-Math.min(...zs))<1e-6&&Math.abs(raw.maxZ-Math.max(...zs))<1e-6"
@@ -170,7 +174,8 @@ class Check final : public QObject {
             "const p=view.mapFrom3DScene(Qt.vector3d(row.x+dx,40,row.z+dz));"
             "const inside=[p.x,p.y,p.z].every(Number.isFinite)&&p.z>0&&p.x>=b.x-1&&p.x<=b.x+b.width+1&&p.y>=b.y-1&&p.y<=b.y+b.height+1;"
             "valid=valid&&inside;corners.push({id:row.id,x:p.x,y:p.y,inside:inside})}"
-            "return {valid:valid,fit:f,view_width:view.width,view_height:view.height,corners:corners}})())")
+            "return {valid:valid,fit:f,view_width:view.width,view_height:view.height,"
+            "camera:{x:planCamera.x,z:planCamera.z,horizontal:planCamera.horizontalMagnification,vertical:planCamera.verticalMagnification},corners:corners}})())")
             .arg(QString::fromUtf8(QJsonDocument(chosen).toJson(QJsonDocument::Compact)));
         const auto result=QJsonDocument::fromJson(eval(source).toString().toUtf8()).object();
         workspace_observations_["plan_fit_"+name]=result;
