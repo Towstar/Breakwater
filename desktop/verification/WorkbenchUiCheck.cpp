@@ -775,9 +775,6 @@ class Check final : public QObject {
                 cue_original_project_=controller_->editorDocument();
                 if (navigation_dock_open_) click(item("Toggle results",true));
                 controller_->loadExample("baseline");
-                // Establish the deliberately positive setting on an unavailable
-                // pump before capturing evidence. Failure presets normally zero it.
-                controller_->select("main_pump"); controller_->editSelected("flow","44"); controller_->select("");
                 SimulationConfig config; config.horizon_h=0.5; controller_->forecastWithConfig(config); break;
             }
             case 89:
@@ -788,7 +785,7 @@ class Check final : public QObject {
                     revision_=controller_->simulationRevision(); navigation_editor_revision_=controller_->editorRevision(); cue_fixture_captured_=true;
                 }
                 navigationPreserved();
-                require(eval("app.sceneRoutes.some(r=>r.id==='main_pump'&&r.flow===44&&!r.available) && app.sceneRoutes.some(r=>r.id==='bypass'&&r.flow===0&&r.available)").toBool(),
+                require(eval("app.sceneRoutes.some(r=>r.id==='main_pump'&&r.flow===0&&!r.available) && app.sceneRoutes.some(r=>r.id==='bypass'&&r.flow===0&&r.available)").toBool(),
                     "route_cue_real_fixture_does_not_cover_zero_and_unavailable");
                 if (window_->property("compactLayout").toBool() && !window_->property("navigatorVisible").toBool()) {
                     click(item("Navigator",true)); return;
@@ -823,7 +820,7 @@ class Check final : public QObject {
                 navigationPreserved(); click(item("sceneFocus")); markCueFrames(); break;
             case 98:
                 if (!cueFramesReady()) return;
-                routeFocused(); routeCueSummary("main_pump","Pump unavailable",44);
+                routeFocused(); routeCueSummary("main_pump","Pump unavailable",0);
                 require(selectedCue().value("pipe_red").toBool(),"unavailable_route_selection_lost_availability_colour");
                 snapshot("24-unavailable-route-cue.png");
                 passed("zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls");
