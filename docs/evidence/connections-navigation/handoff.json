@@ -1,0 +1,49 @@
+{
+  "handoff_version": 1,
+  "recorded_utc": "2026-11-20T03:07:51.982275+00:00",
+  "application_source_commit": "2b5480d27e2cf2af39273e0629bcf4188707a2a5",
+  "application_binary": {
+    "path": "out/portfolio-desktop/desktop/breakwater.exe",
+    "sha256": "514684106ce7ed9b3a349627f390dcc56d0c9644bb23f3b01f7b110788d5c815",
+    "bytes": 9347072,
+    "published_binary": false
+  },
+  "visible_window_title": "BREAKWATER 0.2.0 · 2b5480d | Sandbox",
+  "visible_breakwater_windows": 1,
+  "window_maximized": true,
+  "observation_method": "Windows Computer Use screenshot and returned window inventory",
+  "displayed_view": "Connections navigator; backup_pump selected; connection inspector; endpoint Focus exercised",
+  "operator_actions_applied": false,
+  "saved_workspace": {
+    "restored": true,
+    "copy_sha256": "6978e0d824efaf73b7d76953503df11caad161a2c0a087344ec5e2d1768d5ddc",
+    "bytes": 16894,
+    "assets": 6,
+    "routes": 6,
+    "native_project_validation_passed": true,
+    "physical_hash": "10093db8b43580e79eaceec8f6e3eda8717867f152b6429775d35ff065cb8f02",
+    "original_file_preserved": true,
+    "raw_project_published": false,
+    "note": "The actual user save differed in sensor configuration and layout from the earlier snapshot. Its exact local copy was restored."
+  },
+  "launch_health": {
+    "status": "completed",
+    "protocol_version": 1,
+    "python_version": "3.12.13",
+    "torch_detected": true,
+    "scope": "Legacy health-only operation; not evidence of scientific execution or PhysicsNeMo qualification."
+  },
+  "review": {
+    "source_review": "independent read-only same-family agent review; no consequential finding reported",
+    "evidence_audit": "separate bounded same-family audit plus root hash and retained-field checks",
+    "complete_transcript_audit": "not performed; scoped available task artifacts and observations only"
+  },
+  "public_release_approved": false,
+  "remaining_gates": [
+    "New increment full GitHub CI",
+    "Human owner review",
+    "Licensing/notices review",
+    "Main integration",
+    "Actual clean-Windows release testing"
+  ]
+}

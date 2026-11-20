@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="6"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="135"
+	timestamp="2026-11-19T20:56:59"
+	>
+	<testcase name="desktop.label_placement" classname="desktop.label_placement" time="0.0828177" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_normal" classname="desktop.ui_overhaul_normal" time="29.351" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_compact" classname="desktop.ui_overhaul_compact" time="28.571" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_short" classname="desktop.ui_overhaul_short" time="28.3194" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_minimum" classname="desktop.ui_overhaul_minimum" time="27.678" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.scene_picking_warp" classname="desktop.scene_picking_warp" time="20.9975" status="run">
+		<properties/>
+		<system-out>Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop\test-artifacts\scene-picking-warp-cade0299b281480da5bd11ea89ca6c90
+PASS: 6/6 actual body picks; WARP 15.19 FPS (diagnostic only)
+</system-out>
+	</testcase>
+</testsuite>
