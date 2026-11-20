@@ -13,7 +13,8 @@ def main():
     output.mkdir(parents=True)
     report_path = output / "benchmark.json"
     environment = dict(os.environ, QSG_RHI_BACKEND="d3d11",
-                       QSG_RHI_PREFER_SOFTWARE_RENDERER="1", NVIDIA_API_KEY="")
+                       QSG_RHI_PREFER_SOFTWARE_RENDERER="1", NVIDIA_API_KEY="",
+                       BREAKWATER_BENCHMARK_COMPACT="1")
     command = [str(executable.resolve()), "--scene-benchmark", str(report_path)]
     print("Retained scene-picking evidence:", output, flush=True)
     with (output / "process.log").open("wb") as log:
@@ -32,6 +33,10 @@ def main():
     require(report["renderer"]["status"] == "identified", "renderer was not identified")
     require(report["renderer"].get("software") is True, "actual renderer is not WARP")
     require(report["software_renderer_requested"] is True, "software rendering was not requested")
+    require(report["compact_fixture_requested"] is True and
+            report["client_width"] == 1008 and report["client_height"] == 672,
+            "hosted-runner compact client area was not reproduced")
+    require(report["fixture_fitted"] is True, "benchmark did not fit the fixture to the viewport")
     require(report["assets"] == 6, "canonical fixture no longer contains six assets")
     require(report["numerical_identity_unchanged"] is True, "view-only sweep changed numerical identity")
     require(report["post_stop_rendered_frames"] >= 2, "picking ran before transforms settled")
@@ -45,6 +50,7 @@ def main():
     require(picks["failed_asset_ids"] == [], "failed assets: " + str(picks["failed_asset_ids"]))
     require(picks["labels"] == report["assets"] and picks["label_overlaps"] == 0,
             "labels are missing or overlap")
+    require(picks["culled_label_ids"] == [], "culled labels: " + str(picks["culled_label_ids"]))
     probes = {probe["asset_id"]: probe for probe in picks["body_probes"]}
     require(len(probes) == report["assets"], "missing per-asset probe diagnostics")
     require(probes.get("treatment", {}).get("body_models", 0) >= 2,

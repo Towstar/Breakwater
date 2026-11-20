@@ -39,3 +39,13 @@ and dense-scene checks. Do not reuse an existing output path; evidence creation
 refuses overwrites. The retained five-of-six report remains historical evidence.
 Compilation and actual renderer acceptance must be recorded separately from this
 source correction.
+
+The first hosted normal run (44647353356, job 135997254199) passed all six body
+picks and reported zero overlaps, but correctly culled Production A's label in a
+1008 by 672 client area. The saved orbit placed its label above the navigation
+hint; the artifact PNG and JSON identify a viewport fixture issue, rather than a
+renderer picking failure. Benchmark setup now invokes the existing view-only Fit
+for every fixture. It retains the same production culling and overlap policy.
+The WARP regression explicitly reproduces that compact client area with
+`BREAKWATER_BENCHMARK_COMPACT=1` and still requires six labels and six exact body
+picks. Reports include positioned label rectangles and culled asset IDs.

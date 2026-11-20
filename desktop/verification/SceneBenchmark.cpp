@@ -29,10 +29,15 @@
 namespace breakwater::desktop {
 void startSceneBenchmark(QQuickWindow* window, ProjectController* project, QCoreApplication* app, const QString& output) {
     // main.cpp supplies isolated temporary preferences for this helper.
+    // Reproduce the hosted Windows runner's available client area locally too.
+    const bool compactFixture = qEnvironmentVariableIntValue("BREAKWATER_BENCHMARK_COMPACT") == 1;
+    if (compactFixture) window->resize(1008,672);
     QQmlExpression labels(QQmlEngine::contextForObject(window),window,QStringLiteral("workspaceSettings.setValue('allLabels',true)"));
     labels.evaluate();
     if (labels.hasError()) { QTimer::singleShot(0,app,[app] { app->exit(9); }); return; }
-    if (project->assets().size() > 48 && !QMetaObject::invokeMethod(window, "frameScene", Q_ARG(QVariant, QVariant(false)))) {
+    // Even six assets need the existing view-only Fit on a compact display:
+    // the saved orbit can put a label anchor behind the navigation toolbar.
+    if (!QMetaObject::invokeMethod(window, "frameScene", Q_ARG(QVariant, QVariant(false)))) {
         QTimer::singleShot(0, app, [app] { app->exit(9); }); return;
     }
     struct Samples {
@@ -100,10 +105,14 @@ void startSceneBenchmark(QQuickWindow* window, ProjectController* project, QCore
             "if(name==='asset:'+row.id){found=true;break}}}"
             "if(visible)++projected;if(found)++pickable;else failed.push(row.id);"
             "probes.push({asset_id:row.id,body_models:models.length,projected:visible,pickable:found,attempts:attempts})}"
-            "const labels=sceneLabelLayer.positioned;let overlaps=0;for(let i=0;i<labels.length;++i)for(let j=0;j<i;++j){"
+            "const labels=sceneLabelLayer.positioned,shown=new Set(labels.map(label=>label.id));"
+            "let overlaps=0;for(let i=0;i<labels.length;++i)for(let j=0;j<i;++j){"
             "const a=labels[i],b=labels[j];if(a.x<b.x+b.width&&a.x+a.width>b.x&&a.y<b.y+b.height&&a.y+a.height>b.y)++overlaps}"
             "return {projected:projected,pickable:pickable,labels:labels.length,label_overlaps:overlaps,"
-            "failed_asset_ids:failed,body_probes:probes}})())"));
+            "failed_asset_ids:failed,body_probes:probes,"
+            "culled_label_ids:app.controller.assets.filter(row=>!shown.has(row.id)).map(row=>row.id),"
+            "label_layout:labels.map(label=>({asset_id:label.id,x:label.x,y:label.y,width:label.width,height:label.height})),"
+            "label_viewport:{width:sceneLabelLayer.width,height:sceneLabelLayer.height,top_inset:sceneLabelLayer.topInset}}})())"));
         const auto picked = QJsonDocument::fromJson(picks.evaluate().toString().toUtf8()).object();
         QFile screenshot(output + ".png"); const auto picture = window->grabWindow();
         const bool imageSaved = !picture.isNull() && screenshot.open(QIODevice::WriteOnly | QIODevice::NewOnly)
@@ -124,6 +133,7 @@ void startSceneBenchmark(QQuickWindow* window, ProjectController* project, QCore
             {"renderer",samples->renderer},
             {"hardware_target_met",samples->renderer.value("status")=="identified" && samples->renderer.value("software")==false && fps>=target},
             {"software_renderer_requested", qEnvironmentVariable("QSG_RHI_PREFER_SOFTWARE_RENDERER") == "1"},
+            {"compact_fixture_requested",compactFixture},{"fixture_fitted",window->property("fittedView").toBool()},
             {"client_width", window->width()}, {"client_height", window->height()}, {"device_pixel_ratio", window->devicePixelRatio()},
             {"numerical_identity_unchanged", project->networkHash() == hash}};
         QFile file(output); const auto bytes = QJsonDocument(report).toJson(QJsonDocument::Indented);
