@@ -156,7 +156,7 @@ class Check final : public QObject {
             "route_summary_source_identity_wrong");
         require(eval("app.selectedNetworkRoute.flow").toDouble()==setting
             && item("sceneRouteSetting")->property("text").toString().contains("setpoint"),"route_summary_configured_setting_wrong");
-        require(item("sceneRouteSummary")->property("accessibleName").toString().contains("not measured delivery"),
+        require(eval("routeSummary.Accessible.name").toString().contains("not measured delivery"),
             "route_summary_omits_direction_disclaimer");
         require(eval("(function(){const c=routeSummary;return c.x>=0&&c.y>=0&&c.width>0&&c.height>0&&c.x+c.width<=scenePanel.width"
             "&&c.y+c.height<=scenePanel.height&&sceneLabelLayer.positioned.every(r=>!(r.x<c.x+c.width&&r.x+r.width>c.x&&r.y<c.y+c.height&&r.y+r.height>c.y))})()").toBool(),
