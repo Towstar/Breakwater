@@ -1,0 +1,114 @@
+
+compiler      visual_studio bootstrap_path_length
+--------      ------------- ---------------------
+14.44.35219.0 17.14.36623.8                   484
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Could NOT find WrapVulkanHeaders (missing: Vulkan_INCLUDE_DIR) 
+-- Configuring done (16.9s)
+-- Generating done (3.9s)
+-- Build files have been written to: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+[0/2] Re-checking globbed directories...
+[1/140] C:\Windows\system32\cmd.exe /C "cd /D C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/clang_rt.asan_dynamic-x86_64.dll" C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/clang_rt.asan_dynamic-x86_64.dll"
+[2/140] Automatic MOC and UIC for target breakwater_project_document
+[3/138] Running AUTOMOC file extraction for target breakwater_project_document
+[4/137] Automatic MOC and UIC for target breakwater_scene_framing_tests
+[5/135] Automatic MOC and UIC for target breakwater_telemetry
+[6/133] Running AUTOMOC file extraction for target breakwater_telemetry
+[7/132] Automatic MOC and UIC for target breakwater_label_placement_tests
+[8/130] Automatic MOC and UIC for target breakwater_desktop_base
+[9/128] Automatic MOC and UIC for target breakwater_telemetry_runtime
+[10/126] Running AUTOMOC file extraction for target breakwater_desktop_base
+[11/125] Automatic MOC and UIC for target breakwater_eog_contracts
+[12/123] Running AUTOMOC file extraction for target breakwater_telemetry_runtime
+[13/122] Running AUTOMOC file extraction for target breakwater_eog_contracts
+[14/121] Automatic MOC and UIC for target breakwater_eog
+[15/119] Running AUTOMOC file extraction for target breakwater_eog
+[16/118] Automatic MOC and UIC for target breakwater_agent
+[17/116] Running AUTOMOC file extraction for target breakwater_agent
+[18/115] Automatic MOC and UIC for target breakwater_eog_workflow
+[19/113] Running AUTOMOC file extraction for target breakwater_eog_workflow
+[20/112] Automatic MOC and UIC for target breakwater
+[21/112] Running AUTOMOC file extraction for target breakwater
+[22/72] Building CXX object desktop\CMakeFiles\breakwater.dir\breakwater_autogen\mocs_compilation.cpp.obj
+[23/72] Building CXX object desktop\CMakeFiles\breakwater.dir\main.cpp.obj
+[24/72] Building CXX object desktop\CMakeFiles\breakwater.dir\verification\WorkbenchUiCheck.cpp.obj
+[25/72] Building RC object desktop\CMakeFiles\breakwater.dir\breakwater.rc.res
+[26/72] Building CXX object desktop\CMakeFiles\breakwater.dir\verification\SceneBenchmark.cpp.obj
+[27/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_qmake_Breakwater.cpp.obj
+[28/72] Building CXX object desktop\CMakeFiles\breakwater.dir\breakwater_qmltyperegistrations.cpp.obj
+[29/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qmlcache_loader.cpp.obj
+[30/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_Main_qml.cpp.obj
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[31/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_Equipment_qml.cpp.obj
+[32/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_PipeRoute_qml.cpp.obj
+[33/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_AgentPanel_qml.cpp.obj
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[34/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_TrajectoryChart_qml.cpp.obj
+[35/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_PipeTransportPanel_qml.cpp.obj
+[36/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_StorageSciencePanel_qml.cpp.obj
+[37/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_SensorPanel_qml.cpp.obj
+[38/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_TelemetryPanel_qml.cpp.obj
+[39/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_SensorTraceChart_qml.cpp.obj
+[40/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_EogDatasetPanel_qml.cpp.obj
+[41/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_EogNetworkView_qml.cpp.obj
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[42/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_EogTrendChart_qml.cpp.obj
+[43/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_EogAnalysisPanel_qml.cpp.obj
+[44/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_EogPlanChart_qml.cpp.obj
+[45/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_EogPlanDetails_qml.cpp.obj
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[46/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_EogEventDetails_qml.cpp.obj
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[47/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_Theme_qml.cpp.obj
+[48/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_ActionButton_qml.cpp.obj
+[49/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_ActionFeedbackCard_qml.cpp.obj
+[50/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_IndustrialEquipment_qml.cpp.obj
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[51/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_IndustrialPipe_qml.cpp.obj
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[52/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_AppComboBox_qml.cpp.obj
+[53/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_DialogHeading_qml.cpp.obj
+[54/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_EogAnalysisView_qml.cpp.obj
+[55/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_IndustrialEnvironment_qml.cpp.obj
+[56/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_IndustrialLighting_qml.cpp.obj
+[57/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_SiteGround_qml.cpp.obj
+[58/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_SitePad_qml.cpp.obj
+[59/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_ConnectionPreview_qml.cpp.obj
+[60/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_ForecastPanel_qml.cpp.obj
+[61/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_DialogFooter_qml.cpp.obj
+[62/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_AssetInspector_qml.cpp.obj
+[63/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_SceneAxes_qml.cpp.obj
+[64/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_SceneLabels_qml.cpp.obj
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qmetatype.h(514) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(792) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtCore\qvariant.h(797) : warning C4702: unreachable code
+C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater\.tools\Qt\6.12.0\msvc2022_64\include\QtQml\qjsengine.h(112) : warning C4702: unreachable code
+[65/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_LabelPlacement_js.cpp.obj
+[66/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_SceneFraming_js.cpp.obj
+[67/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_breakwater_raw_qml_0.cpp.obj
+[68/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_breakwater_raw_qml_0_extra_qmldirs.cpp.obj
+[69/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.qt\rcc\qrc_breakwater_visual_assets.cpp.obj
+[70/72] Building CXX object desktop\CMakeFiles\breakwater.dir\.rcc\qmlcache\breakwater_qml_WorkspaceHelp_qml.cpp.obj
+[71/72] Linking CXX executable desktop\breakwater.exe
+

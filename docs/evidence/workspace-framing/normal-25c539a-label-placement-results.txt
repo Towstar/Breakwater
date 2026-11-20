@@ -1,0 +1,12 @@
+********* Start testing of LabelPlacementTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : LabelPlacementTests::initTestCase()
+PASS   : LabelPlacementTests::selectionPrecedesOtherLabelsAndInputOrderIsStable()
+PASS   : LabelPlacementTests::denseLabelsAvoidEachOtherReservedControlsAndViewportEdges()
+PASS   : LabelPlacementTests::compactToolbarBoundaryRetainsAllCanonicalLabels(82-pixel-source-label)
+PASS   : LabelPlacementTests::compactToolbarBoundaryRetainsAllCanonicalLabels(83-pixel-source-label)
+PASS   : LabelPlacementTests::compactToolbarBoundaryRetainsAllCanonicalLabels(84-pixel-source-label)
+PASS   : LabelPlacementTests::tinyOrInvalidViewportNeverCreatesClippedOrInvalidLabels()
+PASS   : LabelPlacementTests::cleanupTestCase()
+Totals: 8 passed, 0 failed, 0 skipped, 0 blacklisted, 11ms
+********* Finished testing of LabelPlacementTests *********

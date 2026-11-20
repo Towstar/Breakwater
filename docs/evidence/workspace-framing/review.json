@@ -1,0 +1,20 @@
+{
+  "reviewed_application_source": "347cdfd",
+  "baseline": "96c9ee73b9450be9b4944957258a85032fdc46e4",
+  "scope": "Plan-camera helper, Main camera and temporary panel state, native regression reach, CMake/CI discovery",
+  "provenance": "Root source review plus independent same-family integration and state reviews; helper author reviewed the integration and native harness rather than claiming independent authorship of the helper",
+  "corrected_findings": [
+    "Plan pan must invalidate projected labels through actual planCamera.position",
+    "Reset workspace layout must exit temporary scene focus mode",
+    "Compact view needs overlay-aware usable space rather than an unconditional bottom reservation",
+    "Checkable panel menu handlers must retain the intended opening state while leaving scene focus mode"
+  ],
+  "remaining_consequential_source_findings": [],
+  "runtime_validation_at_review": "NOT RUN; local builds await the existing 8 GiB resource gate",
+  "reference": "https://doc.qt.io/qt-6/qml-qtquick3d-orthographiccamera.html",
+  "limits": [
+    "Not a human owner review or licensing agreement",
+    "Not a full-transcript or cross-model-family audit",
+    "Does not establish new runtime, hosted, real display-scale or clean-Windows results"
+  ]
+}

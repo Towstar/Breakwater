@@ -1,0 +1,37 @@
+{
+  "application_source_commit": "cd4dc5f60b7554c6bb93460ba2741b940865b76c",
+  "review_provenance": "Independent same-family source and retained-artifact reviews, plus root actual Windows walkthrough",
+  "source_review": {
+    "scope": "96c9ee7 through framing integration and subsequent float-comparison and shortcut fixes",
+    "corrected_findings": [
+      "Qt float camera storage needed precision-aware assertions while retaining independent one-pixel rendered containment",
+      "Plan translation needed actual planCamera.position in projected-label dependencies",
+      "Reset workspace layout needed to exit temporary scene focus mode"
+    ],
+    "remaining_actionable_findings": []
+  },
+  "artifact_review": {
+    "status": "No material inconsistency found",
+    "scope": "17 final raw files, five source hashes, six binary hashes, both seven-suite matrices, 41+8 Qt cases per mode, eight native UI reports with 25 groups each, 32 fit observations with 640 corners, 16 pan-label anchors, WARP and hardware reports, compiler and sanitizer flags",
+    "earlier_checkpoints_preserved": true,
+    "limits": "Reviewer did not repeat execution, Windows input or external GitHub reads. Execution order, resource observations and process outcomes retain their stated operator provenance."
+  },
+  "manual_windows_review": {
+    "operator": "root via Windows Computer Use",
+    "observed_title": "BREAKWATER 0.2.0 · cd4dc5f | Sandbox",
+    "verified": [
+      "Top network fit displayed all six saved-project assets",
+      "Actual Ctrl+Shift+F input entered scene focus and displayed its return hint",
+      "Escape restored workspace panels",
+      "Fitted perspective restored and app maximized",
+      "Exactly one latest Breakwater window remained"
+    ],
+    "earlier_shortcut_change_reason": "Actual Windows input exposed a global shortcut conflict that synthetic in-process key events did not exercise",
+    "handoff": "docs/evidence/workspace-framing/handoff.json"
+  },
+  "not_established": [
+    "Human owner acceptance or licensing agreement",
+    "Cross-model-family or complete-transcript audit",
+    "Full new-source CI, hosted qualification or clean-Windows release acceptance"
+  ]
+}

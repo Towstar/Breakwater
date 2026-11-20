@@ -3,6 +3,7 @@ import QtQuick.Controls
 import QtQuick.Layouts
 import QtQuick.Dialogs
 import QtQuick3D
+import "SceneFraming.js" as SceneFraming
 
 ApplicationWindow {
     id: app
@@ -50,14 +51,38 @@ ApplicationWindow {
     property bool operationsDockOpen: false
     property int operationsTab: 2
     property url pendingRecordedArchive: ""
-    readonly property bool navigatorVisible: workspaceSettings.values.navigatorOpen && (!compactLayout || compactPane === "navigator")
-    readonly property bool inspectorVisible: workspaceSettings.values.inspectorOpen && (!compactLayout || compactPane === "inspector")
+    property bool sceneOnly: false
+    readonly property bool navigatorVisible: !sceneOnly && workspaceSettings.values.navigatorOpen && (!compactLayout || compactPane === "navigator")
+    readonly property bool inspectorVisible: !sceneOnly && workspaceSettings.values.inspectorOpen && (!compactLayout || compactPane === "inspector")
     property bool topView: false
     property bool siteGridVisible: true
     property bool fittedView: false
     property real fittedDistance: 720
     property real fitSpan: 800
+    property var framedBounds: null
+    property string frameScope: "saved"
+    property string frameSelectionKey: ""
+    property string frameCountText: ""
+    property double frameEditorRevision: 0
+    property bool frameAdjusted: false
+    property real planZoom: 1
+    property real planPanX: 0
+    property real planPanZ: 0
+    readonly property string selectionFrameKey: controller.selected.kind === "route" ? "route:" + controller.selectedId : JSON.stringify(controller.selectedIds.slice().sort())
+    readonly property var planFit: framedBounds ? SceneFraming.fitPlan(framedBounds,
+        {width:view.width,height:view.height},
+        {left:14,right:14,top:(navigationHint.visible ? navigationHint.y+navigationHint.height : sceneToolbar.y+sceneToolbar.height)+14,
+            bottom:Math.max(54,routeSummary.visible ? routeSummary.height+28 : 0,sceneOrientation.visible ? sceneOrientation.height+28 : 0)}, planZoom) : null
+    readonly property string sceneViewStatus: {
+        const mode = topView ? "Plan" : "Perspective"
+        if (topView && !planFit) return mode + " · Expand workspace to fit"
+        if (!fittedView) return mode + (frameAdjusted ? " · Custom view" : " · Saved view")
+        if (frameAdjusted) return mode + " · Custom view"
+        return mode + " · " + (frameScope === "network" ? "Network fit" : frameSelectionKey === selectionFrameKey ? "Focused view" : "Previous focus") + " · " + frameCountText
+    }
+    function toggleSceneFocus() { sceneOnly = !sceneOnly }
     function openResults(index) {
+        sceneOnly = false
         resultTab = index; showAgent = index > 0
         workspaceSettings.setValue("dockOpen", true)
         if (index > 0) agentPanel.showTab([0, 1, 0, 2, 3][index])
@@ -70,6 +95,12 @@ ApplicationWindow {
         if (!rows.length) return
         let minX = rows[0].x, maxX = rows[0].x, minZ = rows[0].z, maxZ = rows[0].z
         for (const row of rows) { minX = Math.min(minX, row.x); maxX = Math.max(maxX, row.x); minZ = Math.min(minZ, row.z); maxZ = Math.max(maxZ, row.z) }
+        framedBounds = {minX:minX,maxX:maxX,minZ:minZ,maxZ:maxZ}
+        frameScope = selectedOnly ? "selection" : "network"
+        frameSelectionKey = selectionFrameKey
+        frameCountText = selectedOnly && selection.kind === "route" ? "2 endpoints" : rows.length + (rows.length === 1 ? " asset" : " assets")
+        frameEditorRevision = controller.editorRevision; frameAdjusted = false
+        planZoom = 1; planPanX = 0; planPanZ = 0
         fitSpan = Math.max(260, maxX - minX + 180, maxZ - minZ + 180)
         fittedDistance = Math.max(360, fitSpan * 1.65 * Math.max(1, view.height / Math.max(1, view.width)))
         cameraRig.x = (minX + maxX) / 2; cameraRig.z = (minZ + maxZ) / 2
@@ -77,6 +108,8 @@ ApplicationWindow {
     }
     function restoreOrbit() {
         topView = false; fittedView = false
+        framedBounds = null; frameScope = "saved"; frameAdjusted = false
+        planZoom = 1; planPanX = 0; planPanZ = 0
         yaw = controller.camera.yaw; pitch = controller.camera.pitch; distance = controller.camera.distance
         cameraRig.x = controller.camera.x; cameraRig.z = controller.camera.z
     }
@@ -261,9 +294,10 @@ ApplicationWindow {
     Component.onCompleted: { yaw = controller.camera.yaw; pitch = controller.camera.pitch; distance = controller.camera.distance; cameraRig.x = controller.camera.x; cameraRig.z = controller.camera.z }
     Connections {
         target: app.controller
-        function onCameraChanged() { app.topView = false; app.fittedView = false; app.yaw = app.controller.camera.yaw; app.pitch = app.controller.camera.pitch; app.distance = app.controller.camera.distance; cameraRig.x = app.controller.camera.x; cameraRig.z = app.controller.camera.z }
+        function onCameraChanged() { app.restoreOrbit() }
         function onActionFeedbackChanged() { actionNotice.showFeedback(app.controller.actionFeedback) }
         function onChanged() {
+            if (app.fittedView && app.controller.editorRevision !== app.frameEditorRevision) app.frameAdjusted = true
             if (app.inspectedAssetId !== app.controller.selectedId) {
                 app.inspectedAssetId = app.controller.selectedId
                 app.rejectedNumericFields = ({})
@@ -279,11 +313,13 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+0"; enabled: app.sceneKeysEnabled(); onActivated: app.frameScene(false) }
     Shortcut { sequence: "Ctrl+Home"; enabled: app.sceneKeysEnabled(); onActivated: app.restoreOrbit() }
     Shortcut { sequence: "F1"; enabled: app.sceneKeysEnabled(); onActivated: sceneHelpDialog.open() }
+    Shortcut { sequence: "Ctrl+Shift+F"; enabled: app.sceneKeysEnabled() && !app.connectMode && !sceneMouse.pressed; onActivated: app.toggleSceneFocus() }
     Shortcut {
         sequence: "Escape"
         onActivated: {
             if (sceneHelpDialog.visible) sceneHelpDialog.close()
             else if (actionNotice.visible && actionNotice.ownsFocus(app.activeFocusItem)) actionNotice.dismiss()
+            else if (app.sceneOnly && app.sceneKeysEnabled() && !app.connectMode && !sceneMouse.pressed) app.sceneOnly = false
             else {
                 sceneMouse.cancelDrag(); app.connectMode = false; app.connectionSource = ""
                 if (actionNotice.visible) actionNotice.dismiss()
@@ -379,8 +415,10 @@ ApplicationWindow {
                 id: viewMenuButton; iconName: "layout-template"; text: "View"; display: AbstractButton.IconOnly; tooltip: "Workspace layout and rendering"; onClicked: viewMenu.open()
                 Menu {
                     id: viewMenu; y: viewMenuButton.height + 6
-                    MenuItem { text: "Network navigator"; checkable: true; checked: app.navigatorVisible; onTriggered: { workspaceSettings.setValue("navigatorOpen", true); app.compactPane = "navigator"; if (!app.compactLayout) workspaceSettings.setValue("navigatorOpen", !checked ? false : true) } }
-                    MenuItem { text: "Equipment inspector"; checkable: true; checked: app.inspectorVisible; onTriggered: { workspaceSettings.setValue("inspectorOpen", true); app.compactPane = "inspector"; if (!app.compactLayout) workspaceSettings.setValue("inspectorOpen", checked) } }
+                    MenuItem { objectName: "sceneFocusMode"; text: "Scene focus mode (Ctrl+Shift+F)"; visible: app.workspace === "workbench"; enabled: !app.connectMode; checkable: true; checked: app.sceneOnly; onTriggered: app.toggleSceneFocus() }
+                    MenuSeparator { visible: app.workspace === "workbench" }
+                    MenuItem { text: "Network navigator"; checkable: true; checked: app.navigatorVisible; onTriggered: { const opening=checked; app.sceneOnly = false; workspaceSettings.setValue("navigatorOpen", app.compactLayout || opening); app.compactPane = "navigator" } }
+                    MenuItem { text: "Equipment inspector"; checkable: true; checked: app.inspectorVisible; onTriggered: { const opening=checked; app.sceneOnly = false; workspaceSettings.setValue("inspectorOpen", app.compactLayout || opening); app.compactPane = "inspector" } }
                     MenuItem { text: "More equipment labels"; checkable: true; checked: workspaceSettings.values.allLabels; onTriggered: workspaceSettings.setValue("allLabels", checked) }
                     MenuItem { text: "Layout grid"; visible: app.workspace === "workbench"; checkable: true; checked: app.siteGridVisible; onTriggered: app.siteGridVisible = checked }
                     MenuSeparator {}
@@ -389,7 +427,7 @@ ApplicationWindow {
                     MenuItem { text: "High rendering quality"; checkable: true; checked: workspaceSettings.values.quality === 2; onTriggered: workspaceSettings.setValue("quality", 2) }
                     MenuItem { text: "Compact controls"; checkable: true; checked: workspaceSettings.values.compactControls; onTriggered: workspaceSettings.setValue("compactControls", checked) }
                     MenuSeparator {}
-                    MenuItem { text: "Reset workspace layout"; onTriggered: { workspaceSettings.reset(); app.compactPane = "navigator" } }
+                    MenuItem { text: "Reset workspace layout"; onTriggered: { app.sceneOnly = false; workspaceSettings.reset(); app.compactPane = "navigator" } }
                     MenuItem { text: "Scene controls and shortcuts…"; visible: app.workspace === "workbench"; onTriggered: sceneHelpDialog.open() }
                 }
             }
@@ -401,7 +439,7 @@ ApplicationWindow {
         background: Rectangle { color: Theme.surface; Rectangle { width: parent.width; height: 1; color: Theme.divider } }
         RowLayout {
             anchors.fill: parent; anchors.leftMargin: 16; anchors.rightMargin: 16
-            Label { Layout.fillWidth: true; text: workspaceSettings.status.length ? workspaceSettings.status : app.workspace === "eog" ? "Recorded data · Advisory review · Original units" : "Synthetic network · Native numerical engine · Layout is schematic"; elide: Text.ElideRight; color: workspaceSettings.status.length ? Theme.warning : Theme.muted; font.pixelSize: Theme.captionSize }
+            Label { objectName: "workspaceViewStatus"; Layout.fillWidth: true; text: workspaceSettings.status.length ? workspaceSettings.status : app.workspace === "eog" ? "Recorded data · Advisory review · Original units" : (app.sceneOnly ? "Scene focus · Ctrl+Shift+F to return · " : "") + app.sceneViewStatus + " · Synthetic network · Layout is schematic"; textFormat: Text.PlainText; elide: Text.ElideRight; color: workspaceSettings.status.length ? Theme.warning : Theme.muted; font.pixelSize: Theme.captionSize; Accessible.name: text }
             Label { text: app.buildInfo; color: Theme.muted; font.pixelSize: Theme.captionSize }
         }
     }
@@ -628,7 +666,7 @@ ApplicationWindow {
                         eulerRotation: Qt.vector3d(app.pitch, app.yaw, 0)
                         PerspectiveCamera { id: sceneCamera; z: app.fittedView ? app.fittedDistance : app.distance; clipNear: 1; clipFar: Math.max(5000, z + app.fitSpan * 3) }
                     }
-                    OrthographicCamera { id: planCamera; x: cameraRig.x; y: 30000; z: cameraRig.z; eulerRotation.x: -90; clipNear: 1; clipFar: 60000; horizontalMagnification: Math.max(0.01, view.width / app.fitSpan); verticalMagnification: Math.max(0.01, view.width / app.fitSpan) }
+                    OrthographicCamera { id: planCamera; x: app.planFit ? app.planFit.cameraX + app.planPanX : cameraRig.x; y: 30000; z: app.planFit ? app.planFit.cameraZ + app.planPanZ : cameraRig.z; eulerRotation.x: -90; clipNear: 1; clipFar: 60000; horizontalMagnification: app.planFit ? app.planFit.magnification : Math.max(0.000001, Math.min(view.width,view.height)/app.fitSpan); verticalMagnification: horizontalMagnification }
                     camera: app.topView ? planCamera : sceneCamera
                     IndustrialLighting { quality: app.sceneQuality }
                     SiteGround { id: siteGround; centerX: app.siteBounds.x; centerZ: app.siteBounds.z; spanX: app.siteBounds.width; spanZ: app.siteBounds.depth; showGrid: app.siteGridVisible; quality: app.sceneQuality }
@@ -659,14 +697,14 @@ ApplicationWindow {
                     allLabels: workspaceSettings.values.allLabels; primaryId: controller.selectedId; hoveredId: app.hoveredAssetId
                     relatedIds: app.routeEndpointIds
                     draggedIds: sceneMouse.draggedIds; dragDelta: sceneMouse.dragDelta
-                    topInset: navigationHint.y + navigationHint.height + 8
+                    topInset: (navigationHint.visible ? navigationHint.y + navigationHint.height : sceneToolbar.y + sceneToolbar.height) + 8
                     exclusions: {
                         const regions = []
                         if (sceneOrientation.visible) regions.push({x:sceneOrientation.x,y:sceneOrientation.y,width:sceneOrientation.width,height:sceneOrientation.height})
                         if (routeSummary.visible) regions.push({x:routeSummary.x,y:routeSummary.y,width:routeSummary.width,height:routeSummary.height})
                         return regions
                     }
-                    viewState: [cameraRig.eulerRotation,cameraRig.position,sceneCamera.z,app.topView,planCamera.horizontalMagnification,view.width,view.height]
+                    viewState: [cameraRig.eulerRotation,cameraRig.position,sceneCamera.z,app.topView,planCamera.position,planCamera.horizontalMagnification,view.width,view.height]
                 }
                 MouseArea {
                     id: sceneMouse
@@ -696,8 +734,12 @@ ApplicationWindow {
                     }
                     onPositionChanged: function(mouse) {
                         const dx = mouse.x - previous.x, dy = mouse.y - previous.y
-                        if (pressedButtons & Qt.RightButton) { if (app.topView || app.fittedView) app.restoreOrbit(); app.yaw -= dx * 0.4; app.pitch = Math.max(-85, Math.min(-15, app.pitch - dy * 0.3)) }
-                        if (pressedButtons & Qt.MiddleButton) { cameraRig.x -= dx * app.distance / 900; cameraRig.z -= dy * app.distance / 900 }
+                        if (pressedButtons & Qt.RightButton) { if (app.topView || app.fittedView) app.restoreOrbit(); app.frameAdjusted = true; app.yaw -= dx * 0.4; app.pitch = Math.max(-85, Math.min(-15, app.pitch - dy * 0.3)) }
+                        if (pressedButtons & Qt.MiddleButton) {
+                            app.frameAdjusted = true
+                            if (app.topView) { app.planPanX -= dx / planCamera.horizontalMagnification; app.planPanZ -= dy / planCamera.verticalMagnification }
+                            else { cameraRig.x -= dx * app.distance / 900; cameraRig.z -= dy * app.distance / 900 }
+                        }
                         if ((pressedButtons & Qt.LeftButton) && draggedIds.length) {
                             const world = app.groundPoint(mouse.x, mouse.y)
                             dragDelta = Qt.vector3d(Math.round((world.x - startWorld.x) / 20) * 20, 0, Math.round((world.z - startWorld.z) / 20) * 20)
@@ -726,14 +768,19 @@ ApplicationWindow {
                             else if (!(mouse.modifiers & (Qt.ControlModifier | Qt.ShiftModifier))) controller.select("")
                         }
                         cancelDrag()
-                        if (!app.topView && !app.fittedView) controller.setCamera(app.yaw, app.pitch, app.distance, cameraRig.x, cameraRig.z)
+                        if (!app.topView && !app.fittedView) {
+                            const adjusted = app.frameAdjusted
+                            controller.setCamera(app.yaw, app.pitch, app.distance, cameraRig.x, cameraRig.z)
+                            app.frameAdjusted = adjusted
+                        }
                     }
                     onCanceled: cancelDrag()
                     onExited: app.hoveredAssetId = ""
                     onWheel: function(wheel) {
-                        if (app.topView) app.fitSpan = Math.max(180, Math.min(40000, app.fitSpan * (wheel.angleDelta.y > 0 ? 0.9 : 1.1)))
+                        app.frameAdjusted = true
+                        if (app.topView) app.planZoom = Math.max(0.05, Math.min(20, app.planZoom * (wheel.angleDelta.y > 0 ? 1.1 : 1/1.1)))
                         else if (app.fittedView) app.fittedDistance = Math.max(250, Math.min(60000, app.fittedDistance - wheel.angleDelta.y * Math.max(0.6, app.fittedDistance / 2000)))
-                        else { app.distance = Math.max(250, Math.min(1600, app.distance - wheel.angleDelta.y * 0.6)); controller.setCamera(app.yaw, app.pitch, app.distance, cameraRig.x, cameraRig.z) }
+                        else { app.distance = Math.max(250, Math.min(1600, app.distance - wheel.angleDelta.y * 0.6)); controller.setCamera(app.yaw, app.pitch, app.distance, cameraRig.x, cameraRig.z); app.frameAdjusted = true }
                     }
                 }
                 Rectangle {
@@ -760,8 +807,8 @@ ApplicationWindow {
                     id: sceneToolbar
                     anchors.top: parent.top; anchors.left: parent.left; anchors.topMargin: 12; anchors.leftMargin: 12; spacing: 5
                     ActionButton { objectName: "sceneHome"; iconName: "house"; display: AbstractButton.IconOnly; text: "Home"; tooltip: "Home · Restore saved perspective (Ctrl+Home)"; onClicked: app.restoreOrbit() }
-                    ActionButton { objectName: "sceneFit"; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network (Ctrl+0)"; onClicked: app.frameScene(false) }
-                    ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; tooltip: controller.selected.kind === "route" ? "Focus · Frame connection endpoints (F)" : "Focus · Frame selected equipment (F)"; onClicked: app.frameScene(true) }
+                    ActionButton { objectName: "sceneFit"; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network (Ctrl+0)"; checked: app.fittedView && !app.frameAdjusted && app.frameScope === "network"; onClicked: app.frameScene(false) }
+                    ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; checked: app.fittedView && !app.frameAdjusted && app.frameScope === "selection" && app.frameSelectionKey === app.selectionFrameKey; tooltip: controller.selected.kind === "route" ? "Focus · Frame connection endpoints (F)" : "Focus · Frame selected equipment (F)"; onClicked: app.frameScene(true) }
                     ActionButton { objectName: "sceneTop"; iconName: "layers"; display: AbstractButton.IconOnly; text: app.topView ? "Isometric" : "Top"; tooltip: app.topView ? "Isometric · Return to perspective" : "Top · View the site from above"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
                     ActionButton { objectName: "sceneGrid"; iconName: "grid-3x3"; display: AbstractButton.IconOnly; text: "Layout grid"; checked: app.siteGridVisible; tooltip: "Layout grid · " + siteGround.gridStep + " layout units; editor snaps to 20"; onClicked: app.siteGridVisible = !app.siteGridVisible }
                     ActionButton {
@@ -778,13 +825,14 @@ ApplicationWindow {
                             MenuItem { text: "Distribute along Z"; enabled: controller.selectedIds.length > 2; onTriggered: controller.alignSelection("z", true) }
                         }
                     }
-                    ActionButton { iconName: "panel-left"; display: AbstractButton.IconOnly; text: "Navigator"; visible: app.compactLayout; checked: app.navigatorVisible; onClicked: { workspaceSettings.setValue("navigatorOpen", true); app.compactPane = app.compactPane === "navigator" ? "" : "navigator" } }
-                    ActionButton { iconName: "settings-2"; display: AbstractButton.IconOnly; text: "Inspector"; visible: app.compactLayout; checked: app.inspectorVisible; onClicked: { workspaceSettings.setValue("inspectorOpen", true); app.compactPane = app.compactPane === "inspector" ? "" : "inspector" } }
+                    ActionButton { iconName: "panel-left"; display: AbstractButton.IconOnly; text: "Navigator"; visible: app.compactLayout; checked: app.navigatorVisible; onClicked: { const opening=!app.navigatorVisible; app.sceneOnly = false; workspaceSettings.setValue("navigatorOpen", true); app.compactPane = opening ? "navigator" : "" } }
+                    ActionButton { iconName: "settings-2"; display: AbstractButton.IconOnly; text: "Inspector"; visible: app.compactLayout; checked: app.inspectorVisible; onClicked: { const opening=!app.inspectorVisible; app.sceneOnly = false; workspaceSettings.setValue("inspectorOpen", true); app.compactPane = opening ? "inspector" : "" } }
                     ActionButton { objectName: "mouseRecommendation"; Layout.leftMargin: 7; iconName: "mouse"; text: "Mouse recommended"; tooltip: "Scene controls and keyboard shortcuts (F1)"; onClicked: sceneHelpDialog.open() }
                 }
                 Label {
                     id: navigationHint
                     objectName: "sceneNavigationHints"
+                    visible: scenePanel.height > 260 || app.connectMode
                     anchors.left: parent.left; anchors.top: sceneToolbar.bottom; anchors.leftMargin: 12; anchors.topMargin: 8
                     width: Math.min(parent.width - 24, implicitWidth)
                     padding: 8; wrapMode: Text.WordWrap
@@ -838,7 +886,7 @@ ApplicationWindow {
                     id: sceneOrientation
                     objectName: "workbenchOrientation"
                     projector: view; focusPoint: Qt.vector3d(cameraRig.x, 0, cameraRig.z)
-                    viewState: [app.yaw, app.pitch, app.topView, app.distance, app.fittedDistance, app.fitSpan, cameraRig.x, cameraRig.z, view.width, view.height, app.sceneReady]
+                    viewState: [app.yaw, app.pitch, app.topView, app.distance, app.fittedDistance, app.fitSpan, cameraRig.x, cameraRig.z, planCamera.position,planCamera.horizontalMagnification,view.width,view.height,app.sceneReady]
                     gridVisible: app.siteGridVisible; gridStep: siteGround.gridStep
                     anchors.left: parent.left; anchors.bottom: parent.bottom; anchors.margins: 14
                     visible: !actionNotice.visible && scenePanel.width > 520 && scenePanel.height > 260
@@ -859,6 +907,7 @@ ApplicationWindow {
         }
         Rectangle {
             id: workbenchDock
+            visible: !app.sceneOnly
             Layout.fillWidth: true; Layout.preferredHeight: workspaceSettings.values.dockOpen ? Math.min(workspaceSettings.values.dockHeight, app.contentItem.height * 0.55) : 42; color: Theme.surface
             RowLayout {
                 id: resultTabs; anchors.top: parent.top; anchors.left: parent.left; anchors.right: parent.right; height: 42; anchors.leftMargin: 12; anchors.rightMargin: 8; spacing: 4

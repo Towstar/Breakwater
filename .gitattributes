@@ -20,3 +20,8 @@ docs/evidence/portfolio/** -text whitespace=cr-at-eol
 
 # Keep v0.3 reports, canonical study rows and genuine hosted archives byte-bound.
 docs/evidence/v03/** -text whitespace=cr-at-eol
+
+# Keep framing and rendered-camera verification artifacts byte-bound as well.
+docs/evidence/workspace-framing/** -text whitespace=cr-at-eol
+# Preserve compiler-emitted spacing in raw console logs without rewriting hashes.
+docs/evidence/workspace-framing/*.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof

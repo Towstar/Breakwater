@@ -1,0 +1,53 @@
+{
+  "handoff_version": 1,
+  "recorded_utc": "2026-11-20T18:14:29.6134184Z",
+  "application_source_commit": "cd4dc5f60b7554c6bb93460ba2741b940865b76c",
+  "application_binary": {
+    "path": "out/portfolio-desktop/desktop/breakwater.exe",
+    "bytes": 9497600,
+    "sha256": "78ada623906fc0b06d547810eec0298a8b401a7ad192b411557517fb7b1958e6",
+    "published_binary": false
+  },
+  "visible_window_title": "BREAKWATER 0.2.0 · cd4dc5f | Sandbox",
+  "visible_breakwater_windows": 1,
+  "maximized": true,
+  "observation_method": "Windows Computer Use: returned app/window objects, screenshots and accessibility status",
+  "shown": [
+    "Usable-viewport Top network fit",
+    "Actual Windows Ctrl+Shift+F expanded scene focus",
+    "Escape restored navigator, inspector and results",
+    "Fitted perspective with all six assets"
+  ],
+  "left_view": "Perspective · Network fit · 6 assets · Synthetic network · Layout is schematic",
+  "manual_shortcut": "Ctrl+Shift+F",
+  "operator_controls_applied": false,
+  "saved_workspace": {
+    "sha256": "6978e0d824efaf73b7d76953503df11caad161a2c0a087344ec5e2d1768d5ddc",
+    "bytes": 16894,
+    "restored": true,
+    "raw_project_published": false,
+    "original_file_preserved": true,
+    "scope": "Last saved user project; manual actions only changed the view"
+  },
+  "health": {
+    "status": "completed",
+    "protocol_version": 1,
+    "python_version": "3.12.13",
+    "torch_detected": true,
+    "scope": "Legacy health-only exchange, not scientific execution or PhysicsNeMo qualification"
+  },
+  "local_check_manifest": "docs/evidence/workspace-framing/local-final-checks.json",
+  "intermediate_manifest": "docs/evidence/workspace-framing/local-checks.json",
+  "baseline_ci_manifest": "docs/evidence/workspace-framing/pr84-ci-final.json",
+  "cleanup_performed": false,
+  "review_provenance": "Independent same-family source/artifact reviews and root actual Windows walkthrough",
+  "complete_transcript_audit": "Not performed; current-task source, artifacts and observations only",
+  "public_release_approved": false,
+  "remaining_gates": [
+    "New increment full GitHub CI",
+    "Human owner review",
+    "Licensing/notices review",
+    "Main integration",
+    "Actual clean-Windows release testing"
+  ]
+}

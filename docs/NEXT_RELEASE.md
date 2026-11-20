@@ -1,6 +1,15 @@
 # v0.3.0 implementation ledger
 
-Current UI continuation: the Connections and selected-route inspection increments
+Current UI continuation: [workspace framing](WORKSPACE_FRAMING.md), application
+source `cd4dc5f`, passes seven focused desktop suites per mode, actual default/
+dense hardware picking and manual Windows Ctrl+Shift+F/Escape checks. The saved
+workspace was restored and the latest maximized app was shown. PR84's preceding
+head `96c9ee7` separately passed all six CI jobs. Initial full builds met the
+8 GiB gate; the final shortcut-only increment reused existing desktop targets.
+The earlier proposed cleanup was not executed. Current-source full CI and the
+owner/license, integration and clean-Windows release gates remain separate.
+
+Previous UI continuation: the Connections and selected-route inspection increments
 follow PR83. Application source `87021c2` passes six focused desktop suites in
 normal and ASan, with rendered projection and exact route-picking checks. The
 updated app and private saved workspace were shown; the later UI source remains

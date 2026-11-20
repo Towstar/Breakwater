@@ -21,6 +21,8 @@
 #include <QTextStream>
 #include <QTemporaryDir>
 #include <QTimer>
+#include <QWheelEvent>
+#include <cmath>
 #include <filesystem>
 #include <memory>
 #include <stdexcept>
@@ -47,6 +49,8 @@ class Check final : public QObject {
     int rendered_frames_ = 0, cue_frame_mark_ = 0;
     QElapsedTimer cue_settle_wait_;
     bool cue_fixture_captured_ = false;
+    QJsonObject scene_focus_preferences_, plan_before_dock_;
+    double plan_before_wheel_ = 0, plan_pan_x_ = 0, plan_pan_z_ = 0;
     bool observed_only_=false;
     QJsonObject observed_project_;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
@@ -130,6 +134,68 @@ class Check final : public QObject {
         require(cue_settle_wait_.elapsed()<2000,"route_cue_frames_did_not_settle"); window_->update(); return false;
     }
     void markCueFrames() { cue_frame_mark_=rendered_frames_; cue_settle_wait_.start(); window_->update(); }
+    void planLayoutFixture(bool wide) {
+        const auto physical=controller_->networkHash(), run=controller_->runId();
+        const auto revision=controller_->simulationRevision();
+        auto document=controller_->editorDocument(); const bool wrapped=document.value("version")==2;
+        auto project=wrapped ? document.value("project").toObject():document;
+        auto layout=project.value("layout").toObject(), positions=layout.value("positions").toObject();
+        const auto assets=controller_->assets(); require(assets.size()==6,"plan_fit_fixture_asset_count_wrong");
+        for (qsizetype i=0;i<assets.size();++i) {
+            const auto id=assets[i].toMap().value("id").toString();
+            const double along=(double(i)-2.5)*600, across=i%2 ? 100:-100;
+            positions[id]=QJsonObject{{"x",wide ? along:across},{"z",wide ? across:along}};
+        }
+        layout["positions"]=positions; project["layout"]=layout;
+        if (wrapped) document["project"]=project; else document=project;
+        require(controller_->restore(document),"plan_fit_layout_fixture_restore_failed");
+        require(controller_->networkHash()==physical && controller_->runId()==run
+            && controller_->simulationRevision()==revision && controller_->canApprove(),"plan_fit_layout_changed_numerical_evidence");
+        observed_project_=controller_->editorDocument(); hash_=physical; run_=run; revision_=revision;
+        navigation_editor_revision_=controller_->editorRevision();
+    }
+    QJsonObject planFootprints(const QString& name,const QStringList& ids={}) {
+        navigationPreserved(); QJsonArray chosen; for (const auto& id:ids) chosen.append(id);
+        const auto source=QStringLiteral(
+            "JSON.stringify((function(){const selected=%1,f=app.planFit,b=f.usable,rows=app.sceneAssets.filter(r=>!selected.length||selected.indexOf(r.id)>=0);"
+            // Qt Quick 3D camera properties are float, while the helper uses JS
+            // doubles. Allow float storage precision; rendered corner containment
+            // below remains an independent one-pixel bound.
+            "const nearFloat=(actual,expected)=>Math.abs(actual-expected)<=Math.max(1e-6,Math.abs(expected)*1.2e-7);"
+            "let valid=app.topView&&app.planZoom===1&&rows.length===(selected.length||app.sceneAssets.length)"
+            "&&[b.x,b.y,b.width,b.height,f.magnification,f.cameraX,f.cameraZ,planCamera.x,planCamera.z,planCamera.horizontalMagnification,planCamera.verticalMagnification].every(Number.isFinite)"
+            "&&b.width>0&&b.height>0&&f.magnification>0&&nearFloat(planCamera.x,f.cameraX)&&nearFloat(planCamera.z,f.cameraZ)"
+            "&&nearFloat(planCamera.horizontalMagnification,f.magnification)&&nearFloat(planCamera.verticalMagnification,f.magnification);"
+            "const raw=app.framedBounds,xs=rows.map(r=>r.x),zs=rows.map(r=>r.z);"
+            "valid=valid&&raw&&Math.abs(raw.minX-Math.min(...xs))<1e-6&&Math.abs(raw.maxX-Math.max(...xs))<1e-6"
+            "&&Math.abs(raw.minZ-Math.min(...zs))<1e-6&&Math.abs(raw.maxZ-Math.max(...zs))<1e-6"
+            "&&app.frameScope===(selected.length?'selection':'network');"
+            "const corners=[];for(const row of rows)for(const dx of [-70,70])for(const dz of [-90,90]){"
+            "const p=view.mapFrom3DScene(Qt.vector3d(row.x+dx,40,row.z+dz));"
+            "const inside=[p.x,p.y,p.z].every(Number.isFinite)&&p.z>0&&p.x>=b.x-1&&p.x<=b.x+b.width+1&&p.y>=b.y-1&&p.y<=b.y+b.height+1;"
+            "valid=valid&&inside;corners.push({id:row.id,x:p.x,y:p.y,inside:inside})}"
+            "return {valid:valid,fit:f,view_width:view.width,view_height:view.height,"
+            "camera:{x:planCamera.x,z:planCamera.z,horizontal:planCamera.horizontalMagnification,vertical:planCamera.verticalMagnification},corners:corners}})())")
+            .arg(QString::fromUtf8(QJsonDocument(chosen).toJson(QJsonDocument::Compact)));
+        const auto result=QJsonDocument::fromJson(eval(source).toString().toUtf8()).object();
+        workspace_observations_["plan_fit_"+name]=result;
+        require(result.value("valid").toBool(),"plan_fit_actual_camera_or_body_footprints_outside_usable_view");
+        return result;
+    }
+    QJsonObject panelPreferences() {
+        return QJsonDocument::fromJson(eval("JSON.stringify(workspaceSettings.values)").toString().toUtf8()).object();
+    }
+    void planWheel() {
+        const auto point=eval("view.mapToItem(null,Qt.point(app.planFit.usable.x+app.planFit.usable.width/2,app.planFit.usable.y+app.planFit.usable.height/2))").toPointF();
+        QWheelEvent event(point,point,QPoint{},QPoint(0,120),Qt::NoButton,Qt::NoModifier,Qt::NoScrollPhase,false);
+        QCoreApplication::sendEvent(window_,&event);
+    }
+    void planPan() {
+        const auto point=eval("view.mapToItem(null,Qt.point(app.planFit.usable.x+app.planFit.usable.width/2,app.planFit.usable.y+app.planFit.usable.height/2))").toPointF();
+        mouse(QEvent::MouseButtonPress,point,Qt::MiddleButton,Qt::MiddleButton);
+        mouse(QEvent::MouseMove,point+QPointF(-12,-8),Qt::NoButton,Qt::MiddleButton);
+        mouse(QEvent::MouseButtonRelease,point+QPointF(-12,-8),Qt::MiddleButton,Qt::NoButton);
+    }
     QJsonObject selectedCue() {
         return QJsonDocument::fromJson(eval(QStringLiteral(
             "JSON.stringify((function(){const id=app.controller.selectedId,seen=new Set(),active=[],models=[];let cue=null,pipeRed=false;"
@@ -859,6 +925,84 @@ class Check final : public QObject {
                 require(!eval("app.topView").toBool() && !eval("app.fittedView").toBool(),"projection_test_home_view_did_not_restore");
                 labelsMatchProjection("home");
                 passed("top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits");
+                planLayoutFixture(false);
+                eval("networkFilter.clear(); app.networkMode='equipment'");
+                click(item("sceneTop")); click(item("sceneFit")); markCueFrames(); break;
+            case 104:
+                if (!cueFramesReady()) return;
+                plan_before_dock_=planFootprints("tall");
+                require(!eval("app.frameAdjusted").toBool(),"plan_fit_starts_adjusted");
+                click(item("Toggle results",true)); markCueFrames(); break;
+            case 105:
+                if (!cueFramesReady()) return;
+                {
+                    const auto resized=planFootprints("tall_after_dock_resize");
+                    require(resized.value("view_height")!=plan_before_dock_.value("view_height"),"plan_fit_dock_did_not_resize_viewport");
+                    require(!eval("app.frameAdjusted").toBool(),"plan_fit_resize_requires_manual_refit");
+                }
+                planLayoutFixture(true); click(item("sceneTop")); click(item("sceneFit")); markCueFrames(); break;
+            case 106:
+                if (!cueFramesReady()) return;
+                planFootprints("wide");
+                // The cramped viewport above proves body framing. Give the separate
+                // label-pan check real label space instead of testing allowed culling.
+                if (eval("workspaceSettings.values.dockOpen").toBool()) click(item("Toggle results",true));
+                markCueFrames(); phase_=113; return;
+            case 113:
+                if (!cueFramesReady()) return;
+                navigationPreserved(); controller_->select("bypass"); click(item("sceneFocus"));
+                markCueFrames(); phase_=107; return;
+            case 107:
+                if (!cueFramesReady()) return;
+                planFootprints("route_endpoints",{"tank_a","tank_b"});
+                require(eval("app.planZoom===1 && app.planPanX===0 && app.planPanZ===0 && !app.frameAdjusted").toBool(),"plan_focus_did_not_reset_manual_adjustment");
+                plan_before_wheel_=eval("planCamera.horizontalMagnification").toDouble();
+                planWheel(); markCueFrames(); break;
+            case 108:
+                if (!cueFramesReady()) return;
+                navigationPreserved();
+                require(eval("app.frameAdjusted && Number.isFinite(app.planZoom) && app.planZoom!==1").toBool()
+                    && std::abs(eval("planCamera.horizontalMagnification").toDouble()-plan_before_wheel_)>1e-6,"plan_view_native_wheel_did_not_adjust_zoom");
+                plan_pan_x_=eval("app.planPanX").toDouble(); plan_pan_z_=eval("app.planPanZ").toDouble();
+                planPan(); markCueFrames(); phase_=112; return;
+            case 112:
+                if (!cueFramesReady()) return;
+                navigationPreserved();
+                require(eval("app.topView && app.frameAdjusted").toBool()
+                    && std::abs(eval("app.planPanX").toDouble()-plan_pan_x_)>1e-6
+                    && std::abs(eval("app.planPanZ").toDouble()-plan_pan_z_)>1e-6,"plan_view_native_middle_drag_did_not_pan");
+                labelsMatchProjection("top_pan");
+                scene_focus_preferences_=panelPreferences();
+                eval("scenePanel.forceActiveFocus()");
+                key(Qt::Key_F,Qt::ControlModifier|Qt::ShiftModifier,"F"); markCueFrames(); phase_=109; return;
+            case 109:
+                if (!cueFramesReady()) return;
+                navigationPreserved();
+                require(eval("app.sceneOnly && !app.navigatorVisible && !app.inspectorVisible && !workbenchDock.visible").toBool(),"scene_focus_did_not_hide_workspace_chrome");
+                require(panelPreferences()==scene_focus_preferences_,"scene_focus_changed_persisted_panel_preferences");
+                key(Qt::Key_F,Qt::ControlModifier|Qt::ShiftModifier,"F"); markCueFrames(); break;
+            case 110:
+                if (!cueFramesReady()) return;
+                navigationPreserved();
+                require(!eval("app.sceneOnly").toBool() && panelPreferences()==scene_focus_preferences_,"scene_focus_toggle_did_not_restore_preferences");
+                if (window_->property("compactLayout").toBool() && !window_->property("navigatorVisible").toBool()) {
+                    click(item("Navigator",true)); return;
+                }
+                click(item("networkFilter")); require(item("networkFilter")->hasActiveFocus(),"scene_focus_text_guard_fixture_has_no_focus");
+                key(Qt::Key_F,Qt::ControlModifier|Qt::ShiftModifier,"F");
+                require(!eval("app.sceneOnly").toBool(),"scene_focus_shortcut_escaped_text_editor_guard");
+                eval("scenePanel.forceActiveFocus()");
+                key(Qt::Key_F,Qt::ControlModifier|Qt::ShiftModifier,"F");
+                require(eval("app.sceneOnly").toBool(),"scene_focus_escape_fixture_did_not_enter");
+                key(Qt::Key_Escape);
+                require(!eval("app.sceneOnly").toBool() && panelPreferences()==scene_focus_preferences_,"scene_focus_escape_did_not_restore_mode_and_preferences");
+                click(item("sceneHome")); markCueFrames(); break;
+            case 111:
+                if (!cueFramesReady()) return;
+                navigationPreserved();
+                require(!eval("app.topView || app.fittedView || app.frameAdjusted").toBool(),"plan_view_home_did_not_restore_saved_orbit");
+                require(item("workspaceViewStatus")->isVisible() && !item("workspaceViewStatus")->property("text").toString().trimmed().isEmpty(),"workspace_view_status_missing");
+                passed("actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences");
                 require(controller_->restore(cue_original_project_),"route_cue_original_setup_restore_failed");
                 observed_project_=cue_original_project_;
                 eval("networkFilter.clear(); app.networkMode='equipment'"); controller_->select(navigation_selection_);
