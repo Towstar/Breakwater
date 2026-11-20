@@ -1,0 +1,133 @@
+{
+  "verification_version": 1,
+  "suite": "science",
+  "mode": "normal",
+  "status": "passed",
+  "started_utc": "2026-11-20T18:26:17.3323519Z",
+  "source_commit": "93e7101e6a96f6c8902f734e99cffd95f8449928",
+  "source_tree": "d0b729fae332b315ad7de220ecad82ae14562e71",
+  "working_tree_dirty": false,
+  "helper_sha256": {
+    "scripts/ci/Run-Checks.ps1": "0a1ae2418639e749bc8b5e35099ced601d2930bc3519d9a953d6134115761c05",
+    "scripts/ci/Initialize-Compiler.ps1": "93b0c388ac52900c4b81e1623e079827fa0cc67f4a4f5f3b2251c64b9f000cd1",
+    "scripts/ci/Write-JobEvidence.ps1": "16dc4bf3138ea97b0709cf919a2e8138a8908ce9c84b59ac0f9d55aaf3800424",
+    "scripts/ci/Run-PythonTests.py": "34a1655586b94f6d8e37a9e1c7b642f54a1b809f23a14554acb29b3c3536cd1b",
+    "scripts/ci/Read-QtResults.py": "4076358bca7e77d02ebc3341404cef6041b874ab522d7fb5e5b8211e4986a441",
+    "scripts/ci/requirements-win-py312.txt": "695c77a1fb88f2adb7c969e9c42a2c685023e272b1d07b5fbe1698918ff58c67",
+    ".github/workflows/windows-checks.yml": "506a6dec5cbd039ef15074bc1d0a9a6a3b2511b353bfe4370bca9ddf445c2df4"
+  },
+  "runner": {
+    "image": "win22",
+    "image_version": "20261116.370.1",
+    "os": "Microsoft Windows NT 10.0.20348.0"
+  },
+  "external_model_requests": "not_run",
+  "toolchain": {
+    "bootstrap": {
+      "python": "3.12.10",
+      "packages": {
+        "requests": "2.34.2",
+        "py7zr": "1.1.4",
+        "PyYAML": "6.0.3"
+      }
+    },
+    "science": {
+      "python": "3.12.13",
+      "torch": "2.15.0+cpu",
+      "numpy": "2.5.4",
+      "device": "cpu",
+      "dtype": "torch.float64"
+    },
+    "bootstrap_path_length_before": 2906,
+    "compiler": "14.44.35230.0",
+    "visual_studio": "17.14.37906.3",
+    "bootstrap_path_length": 213,
+    "compiler_path_length": 1995,
+    "windows_sdk": "10.0.26100.0\\",
+    "cmake": "cmake version 3.31.6",
+    "ninja": "1.13.2",
+    "eog_provider": {
+      "native_sha256": "115e6678faaee2ef8c3ed70e281575233ffe99656ecb0983d0e415b10765111d",
+      "plant_sha256": "f8a1cdfc22b6c2f05a16e055a9d3d1e09c3acee4d23c46c205144cda4016fa49",
+      "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+      "contracts": "contracts/eog",
+      "native_mode": "normal"
+    }
+  },
+  "steps": [
+    {
+      "name": "bootstrap-venv",
+      "exit_code": 0,
+      "elapsed_s": 9.5666158
+    },
+    {
+      "name": "bootstrap-lock",
+      "exit_code": 0,
+      "elapsed_s": 4.117359
+    },
+    {
+      "name": "bootstrap-versions",
+      "exit_code": 0,
+      "elapsed_s": 0.0815907
+    },
+    {
+      "name": "workflow-regressions",
+      "exit_code": 0,
+      "elapsed_s": 1.7706461
+    },
+    {
+      "name": "scientific-setup",
+      "exit_code": 0,
+      "elapsed_s": 20.1962261
+    },
+    {
+      "name": "scientific-runtime",
+      "exit_code": 0,
+      "elapsed_s": 3.8272956
+    },
+    {
+      "name": "eog-native-configure",
+      "exit_code": 0,
+      "elapsed_s": 18.3007377
+    },
+    {
+      "name": "eog-native-build",
+      "exit_code": 0,
+      "elapsed_s": 6.4150288
+    },
+    {
+      "name": "science-tests",
+      "exit_code": 0,
+      "elapsed_s": 83.0649902
+    }
+  ],
+  "science": {
+    "passed": true,
+    "tests_run": 468,
+    "tests_passed": 464,
+    "failures": 0,
+    "errors": 0,
+    "expected_failures": 0,
+    "unexpected_successes": 0,
+    "skipped": [
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      },
+      {
+        "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss",
+        "reason": "PhysicsNeMo is optional in the A3-only environment"
+      }
+    ],
+    "unexpected_skips": []
+  },
+  "finished_utc": "2026-11-20T18:28:53.8036873Z"
+}

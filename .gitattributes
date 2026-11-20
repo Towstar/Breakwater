@@ -25,3 +25,6 @@ docs/evidence/v03/** -text whitespace=cr-at-eol
 docs/evidence/workspace-framing/** -text whitespace=cr-at-eol
 # Preserve compiler-emitted spacing in raw console logs without rewriting hashes.
 docs/evidence/workspace-framing/*.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
+# Keep current preparation manifests and copied CI reports byte-bound.
+docs/evidence/candidate-readiness/** -text whitespace=cr-at-eol

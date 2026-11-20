@@ -41,6 +41,8 @@ does not relabel an older binary. The final evidence index must distinguish:
 
 Until that index records actual results, these final-candidate checks are pending.
 Do not infer a pass from this checklist or from the existence of a file.
+The [offline seven-case audit](FINAL_CANDIDATE_CHECKS.md) checks immutable retained
+evidence and source bindings; it does not launch a model or replace that round.
 
 ## Ethan's review boundary
 

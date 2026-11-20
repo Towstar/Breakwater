@@ -1,6 +1,25 @@
 # Actual candidate screenshots
 
-## Current candidate: ad45d45
+## Current framing UI: cd4dc5f
+
+Three unaltered Windows Computer Use captures of the running, verified
+application source `cd4dc5f60b7554c6bb93460ba2741b940865b76c`, captured on
+November 20, 2026. Only selection, camera and temporary panel state changed.
+No forecast, new model request or operating-control application was performed
+for these captures. The saved user project remains private. Exact image and
+executable hashes are in the [capture record](../../evidence/candidate-readiness/gallery-cd4dc5f.json).
+
+| Capture | Actual view |
+| --- | --- |
+| [Sandbox overview](framing-cd4dc5f/01-sandbox-overview.jpg) | Six-asset/six-route synthetic network, fitted perspective, industrial site, equipment navigator and overview inspector. |
+| [Plan scene focus](framing-cd4dc5f/02-plan-scene-focus.jpg) | Actual Top network fit with Ctrl+Shift+F scene focus. Escape restored the panels. This is a schematic layout, not a hydraulic or geographic survey. |
+| [Connections inspector](framing-cd4dc5f/03-connections-inspector.jpg) | Selected backup-pump route, exact Tank B → Treatment endpoints, 16 m³/h configured setting and separate available state. The route card explicitly distinguishes direction/settings from measured delivery. |
+
+These supplement the older seven views below. The planned eight-view gallery
+for the final combined candidate is still pending; older analysis screenshots
+are not relabeled as current-candidate results.
+
+## Earlier candidate: ad45d45
 
 Seven unaltered native JPEG captures from the relocated Windows candidate,
 source `ad45d4538bc30fd9839fc79171ae1ae8dc71d399`, on November 18, 2026 local time.

@@ -23,14 +23,15 @@ retained. A final combined candidate qualification and refreshed private kit are
 being prepared. Owner/licensing review and actual clean-Windows acceptance remain
 pending. No v0.3 public binary has been released.
 
-![Sandbox industrial workspace](docs/images/portfolio/01-sandbox-overview-ad45d45.jpg)
+![Sandbox industrial workspace](docs/images/portfolio/framing-cd4dc5f/01-sandbox-overview.jpg)
 
 ![Operations displaying the self-authored recorded dataset](docs/images/portfolio/05-operations-observations-ad45d45.jpg)
 
-These are unaltered captures of candidate `ad45d45`. The
-[seven-image gallery](docs/images/portfolio/README.md) also shows equipment detail,
-baseline/candidate trajectories, exact-plan review and a genuine historical
-Nemotron trace.
+The Sandbox capture shows application source `cd4dc5f`; the Operations capture
+is the retained `ad45d45` view. The [source-labeled gallery](docs/images/portfolio/README.md)
+adds current plan/scene-focus and Connections views alongside the earlier
+comparison, exact-plan review and genuine historical Nemotron trace. These are
+unaltered running-app captures, not a combined final-candidate qualification.
 
 The [prior v0.2 qualification record](docs/evidence/portfolio/release-readiness/README.md)
 binds candidate `ad45d45` to six passing Windows CI jobs and nine passing portable
