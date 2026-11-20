@@ -1,0 +1,917 @@
+{
+  "audit_version": 1,
+  "created_utc": "2026-11-20T22:51:17.575723+00:00",
+  "audit_kind": "fresh_round2_five_completed_cases_read_only",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "audit_status": "passed",
+  "qualification_status": "incomplete",
+  "manifest": {
+    "path": "out/candidate-readiness/hosted-3bb77a3-round2/manifest-0003.json",
+    "bytes": 5655,
+    "sha256": "156d5946127c9b073cca780548628ce67b8d3cf23ad23a614a817f6368e7719c"
+  },
+  "launch": {
+    "path": "out/candidate-readiness/hosted-3bb77a3-round2/launch.json",
+    "bytes": 1675,
+    "sha256": "34c60bef4c3f04473faec9fba7f2a5ebc60b0677f4309c1525535d41cb8dc9af"
+  },
+  "actual_executables": [
+    {
+      "path": "out/portfolio-desktop/desktop/breakwater.exe",
+      "bytes": 9506816,
+      "sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7"
+    },
+    {
+      "path": "out/portfolio-desktop/desktop/breakwater_eog_live_check.exe",
+      "bytes": 5582336,
+      "sha256": "07a6d845c2959f2e2fbaa1fed7dc2701dca37fea39346489dc0c3efb9f829e19"
+    },
+    {
+      "path": "out/portfolio-desktop/desktop/breakwater_nemotron_smoke.exe",
+      "bytes": 4074496,
+      "sha256": "b447f0b2492cdf67dc808eb8fe80bd658c99abcce4ab61a7e0f6431507a016d9"
+    }
+  ],
+  "existing_auditor_result": {
+    "audit_version": 1,
+    "audit_status": "passed",
+    "qualification_status": "incomplete",
+    "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+    "cases": [
+      {
+        "case": "protocol_smoke",
+        "status": "passed"
+      },
+      {
+        "case": "canonical_1",
+        "status": "passed",
+        "session_id": "fdbab207-5f39-48da-a2f7-d7ac529aac49",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "canonical_2",
+        "status": "passed",
+        "session_id": "f2e7df30-429c-4e67-a506-b313738342ae",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "canonical_3",
+        "status": "passed",
+        "session_id": "0532a0f1-1bd5-4da1-857e-7aa2a90297f8",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "renamed_topology",
+        "status": "passed",
+        "session_id": "b31dc16e-fde3-41f7-a8b5-b8d660b65349",
+        "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "observed_pump",
+        "status": "pending"
+      },
+      {
+        "case": "observed_missing_coverage",
+        "status": "pending"
+      }
+    ],
+    "public_release_approved": false,
+    "limits": "Hash/source bindings are witnessed manifest provenance, not execution attestation. This audit checks retained integrity/grounding, not numerical accuracy, model prose or external release gates."
+  },
+  "completed_cases": [
+    {
+      "case": "protocol_smoke",
+      "status": "passed",
+      "process": {
+        "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+        "executable_sha256": "b447f0b2492cdf67dc808eb8fe80bd658c99abcce4ab61a7e0f6431507a016d9",
+        "exit_code": 0,
+        "timed_out": false,
+        "started_utc": "2026-11-20T22:44:43.1932055Z",
+        "finished_utc": "2026-11-20T22:44:44.3647475Z",
+        "elapsed_s": 1.1688185
+      }
+    },
+    {
+      "case": "canonical_1",
+      "status": "passed",
+      "session_id": "fdbab207-5f39-48da-a2f7-d7ac529aac49",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "elapsed_s": 43.4046918,
+      "model_request_completions": 13,
+      "http_200": 13,
+      "retry_count": 0,
+      "client_post_attempts_inferred": 13,
+      "ordered_tool_calls": [
+        {
+          "call_id": "call-c24c18fe-0f43-4bae-b931-e293ea400fe5",
+          "name": "detect",
+          "arguments": {
+            "system_ids": [
+              "NORTH",
+              "SOUTH"
+            ]
+          },
+          "analysis_request_id": "ca57dd58-5b8e-4924-96c8-eefefafa9977",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-13d67bc7-4900-49d3-a6d5-83e87598b024",
+          "name": "read_topology",
+          "arguments": {
+            "limit": 128,
+            "offset": 0
+          },
+          "analysis_request_id": null,
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-cf525697-b78f-4ca0-b40d-6f5c1fb9dd84",
+          "name": "search_plans",
+          "arguments": {
+            "candidate_limit": 100,
+            "time_limit_s": 30
+          },
+          "analysis_request_id": "9a6082e0-50a4-48a5-b7bc-52310197f2af",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-99286bce-7f69-4586-af76-ee23b9b3d767",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "f0fab9de-632f-4456-831f-86621a86ec4f",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-16333d0e-be0c-449a-bfcd-8751549ef118",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "dbe67206-ea2f-4a56-8f13-65df1d9f32d8",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-80a2d6cc-8baa-44f4-a60c-69e503a3bda1",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "a8b0f8c6-f620-4176-b4b7-e9ff200ac7c8",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-dadae211-c7cc-459e-80f3-507e8060d3a8",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "a8b0f8c6-f620-4176-b4b7-e9ff200ac7c8",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-22d0cb44-527e-4c6e-b156-c2a18bd538dd",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "dbe67206-ea2f-4a56-8f13-65df1d9f32d8",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-412990c2-c104-4068-b73b-a280ac8d3aa4",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "f0fab9de-632f-4456-831f-86621a86ec4f",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-485d2eb4-6afe-45a3-a620-28dc0b814f75",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "a8b0f8c6-f620-4176-b4b7-e9ff200ac7c8",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-f3dd48bc-ab05-4056-aee1-e9b48d1c41f7",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "dbe67206-ea2f-4a56-8f13-65df1d9f32d8",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-07b502ac-d35b-42ce-bf10-77b32259fdc5",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "f0fab9de-632f-4456-831f-86621a86ec4f",
+          "reused_validation": true
+        }
+      ],
+      "completed_tool_calls": 12,
+      "executed_tools": 6,
+      "reused_validations": 6,
+      "provider_exchanges": 5,
+      "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+      "plan_hash": "256c87a4d2d44cf816f326144b1db45592e1a645dc597e87c48898b3984d6a94",
+      "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+      "model_call_ids_for_selected_validation": [
+        "call-99286bce-7f69-4586-af76-ee23b9b3d767",
+        "call-412990c2-c104-4068-b73b-a280ac8d3aa4",
+        "call-07b502ac-d35b-42ce-bf10-77b32259fdc5"
+      ],
+      "provider_request_for_selected_validation": "f0fab9de-632f-4456-831f-86621a86ec4f",
+      "validation_independent": true,
+      "validation_feasible": true,
+      "validation_coverage": "available",
+      "validation_violations": [],
+      "searches": [
+        {
+          "action_time_resolution_s": null,
+          "candidate_limit": 100,
+          "complete": false,
+          "elapsed_s": 0.023741599987260997,
+          "evaluated_candidates": 100,
+          "optimality": "best_found",
+          "scope": "bounded_search",
+          "space_description": "eog-joint-search-0.1.3 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+          "time_limit_s": 30
+        }
+      ],
+      "actionable": false,
+      "operator_records": []
+    },
+    {
+      "case": "canonical_2",
+      "status": "passed",
+      "session_id": "f2e7df30-429c-4e67-a506-b313738342ae",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "elapsed_s": 40.6075513,
+      "model_request_completions": 13,
+      "http_200": 13,
+      "retry_count": 0,
+      "client_post_attempts_inferred": 13,
+      "ordered_tool_calls": [
+        {
+          "call_id": "call-843e8108-d904-44f7-a8bb-63134355e592",
+          "name": "detect",
+          "arguments": {
+            "system_ids": [
+              "NORTH",
+              "SOUTH"
+            ]
+          },
+          "analysis_request_id": "d8c4bd84-d45d-4720-b75f-4d5b6de21c88",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-1b9c3771-41d4-49d5-b9dd-2974565de85a",
+          "name": "read_topology",
+          "arguments": {
+            "limit": 128,
+            "offset": 0
+          },
+          "analysis_request_id": null,
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-d309c4b1-60f1-434e-8ba0-d4342080de49",
+          "name": "search_plans",
+          "arguments": {
+            "candidate_limit": 100,
+            "time_limit_s": 30
+          },
+          "analysis_request_id": "8ec87bea-9d2f-4aec-a596-764fcb935ea6",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-b3e428c4-e15a-4256-8995-791919b9a886",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "36962984-7f85-42ec-8081-e59273114906",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-0b70ff87-2763-42d9-a437-486799fcd627",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "d032fc31-edf6-4d94-994c-4f670ba277f2",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-1c4eed19-d8d4-40bd-a38a-a4a3cc9ba320",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "0a0e9566-d359-4775-b6e5-3e25c57b13b4",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-2deffe79-baa2-4aae-aeae-d031448b0f17",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "36962984-7f85-42ec-8081-e59273114906",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-458416b5-ccd4-409a-b3f3-d74870ff76e9",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "d032fc31-edf6-4d94-994c-4f670ba277f2",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-b5bbb2cf-af3e-427a-ae2e-a1db6a1ad0d2",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "0a0e9566-d359-4775-b6e5-3e25c57b13b4",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-05d9ec29-b064-4a4e-9f0f-34472a278193",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "36962984-7f85-42ec-8081-e59273114906",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-2c22778b-31f1-4c92-87d5-c8b85d29b72c",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "0a0e9566-d359-4775-b6e5-3e25c57b13b4",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-470ca40d-efe6-494c-9db6-b6145fc5e5fb",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "d032fc31-edf6-4d94-994c-4f670ba277f2",
+          "reused_validation": true
+        }
+      ],
+      "completed_tool_calls": 12,
+      "executed_tools": 6,
+      "reused_validations": 6,
+      "provider_exchanges": 5,
+      "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+      "plan_hash": "256c87a4d2d44cf816f326144b1db45592e1a645dc597e87c48898b3984d6a94",
+      "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+      "model_call_ids_for_selected_validation": [
+        "call-b3e428c4-e15a-4256-8995-791919b9a886",
+        "call-2deffe79-baa2-4aae-aeae-d031448b0f17",
+        "call-05d9ec29-b064-4a4e-9f0f-34472a278193"
+      ],
+      "provider_request_for_selected_validation": "36962984-7f85-42ec-8081-e59273114906",
+      "validation_independent": true,
+      "validation_feasible": true,
+      "validation_coverage": "available",
+      "validation_violations": [],
+      "searches": [
+        {
+          "action_time_resolution_s": null,
+          "candidate_limit": 100,
+          "complete": false,
+          "elapsed_s": 0.028853700030595064,
+          "evaluated_candidates": 100,
+          "optimality": "best_found",
+          "scope": "bounded_search",
+          "space_description": "eog-joint-search-0.1.3 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+          "time_limit_s": 30
+        }
+      ],
+      "actionable": false,
+      "operator_records": []
+    },
+    {
+      "case": "canonical_3",
+      "status": "passed",
+      "session_id": "0532a0f1-1bd5-4da1-857e-7aa2a90297f8",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "elapsed_s": 36.628063,
+      "model_request_completions": 13,
+      "http_200": 13,
+      "retry_count": 0,
+      "client_post_attempts_inferred": 13,
+      "ordered_tool_calls": [
+        {
+          "call_id": "call-f796b5de-6902-445c-b894-c4e5c6ca0e70",
+          "name": "detect",
+          "arguments": {
+            "system_ids": [
+              "NORTH",
+              "SOUTH"
+            ]
+          },
+          "analysis_request_id": "e1112616-cc63-45c8-9d3a-3bc5ae79c4e1",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-2fbbcaaa-1cde-419a-98c0-a8002fec2d0e",
+          "name": "read_topology",
+          "arguments": {
+            "limit": 128,
+            "offset": 0
+          },
+          "analysis_request_id": null,
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-8adccc17-40be-4ef6-918f-c5167abb87cb",
+          "name": "search_plans",
+          "arguments": {
+            "candidate_limit": 100,
+            "time_limit_s": 30
+          },
+          "analysis_request_id": "68dac00a-247c-4036-a70a-0ae5ea880826",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-870d66a0-15dc-4093-a46f-dbd957f32f38",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "81e60da8-8dc5-48a3-a4ce-36c394de04fe",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-b8cf852d-8f29-4f46-afc5-8a25aee61129",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "eb9b04af-967b-4952-b026-4bdea57dc20a",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-6bea6129-1600-45d1-a406-e7c78e7861be",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "37213a45-023b-4f40-83f7-5f1382452e73",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-6552cce5-6614-4846-8956-ac93388837e3",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "37213a45-023b-4f40-83f7-5f1382452e73",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-18716a33-d0ca-42db-9003-3e5a4fa952d0",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "eb9b04af-967b-4952-b026-4bdea57dc20a",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-6155e17a-b1dd-47dd-9f96-094c97c420bf",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "81e60da8-8dc5-48a3-a4ce-36c394de04fe",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-d83f9433-1adb-4ca8-87e8-be37f5b2722b",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "analysis_request_id": "37213a45-023b-4f40-83f7-5f1382452e73",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-b7695145-e80e-45d4-b648-a2b2372b82d4",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "analysis_request_id": "eb9b04af-967b-4952-b026-4bdea57dc20a",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-231ea49b-a5ba-409f-95ff-1aac8d0496b4",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "analysis_request_id": "81e60da8-8dc5-48a3-a4ce-36c394de04fe",
+          "reused_validation": true
+        }
+      ],
+      "completed_tool_calls": 12,
+      "executed_tools": 6,
+      "reused_validations": 6,
+      "provider_exchanges": 5,
+      "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+      "plan_hash": "256c87a4d2d44cf816f326144b1db45592e1a645dc597e87c48898b3984d6a94",
+      "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+      "model_call_ids_for_selected_validation": [
+        "call-870d66a0-15dc-4093-a46f-dbd957f32f38",
+        "call-6155e17a-b1dd-47dd-9f96-094c97c420bf",
+        "call-231ea49b-a5ba-409f-95ff-1aac8d0496b4"
+      ],
+      "provider_request_for_selected_validation": "81e60da8-8dc5-48a3-a4ce-36c394de04fe",
+      "validation_independent": true,
+      "validation_feasible": true,
+      "validation_coverage": "available",
+      "validation_violations": [],
+      "searches": [
+        {
+          "action_time_resolution_s": null,
+          "candidate_limit": 100,
+          "complete": false,
+          "elapsed_s": 0.023549300036393106,
+          "evaluated_candidates": 100,
+          "optimality": "best_found",
+          "scope": "bounded_search",
+          "space_description": "eog-joint-search-0.1.3 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+          "time_limit_s": 30
+        }
+      ],
+      "actionable": false,
+      "operator_records": []
+    },
+    {
+      "case": "renamed_topology",
+      "status": "passed",
+      "session_id": "b31dc16e-fde3-41f7-a8b5-b8d660b65349",
+      "capture_id": "d4934a4536c9bd0e11079dc4975be69193190c2af9f01cf53fc5f7f3a06909fd",
+      "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+      "elapsed_s": 35.4257512,
+      "model_request_completions": 13,
+      "http_200": 13,
+      "retry_count": 0,
+      "client_post_attempts_inferred": 13,
+      "ordered_tool_calls": [
+        {
+          "call_id": "call-a68b5510-2f0e-4aaa-b7be-4bafc3286444",
+          "name": "detect",
+          "arguments": {
+            "system_ids": [
+              "DELTA/\u03b1"
+            ]
+          },
+          "analysis_request_id": "2fd8a3bf-75cf-4db0-80da-8d0a966ebf95",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-dccf316f-90a7-432e-9767-8768358e72e9",
+          "name": "read_topology",
+          "arguments": {
+            "limit": 128,
+            "offset": 0
+          },
+          "analysis_request_id": null,
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-b712d59d-748d-4d91-935a-7a9649636f18",
+          "name": "search_plans",
+          "arguments": {
+            "candidate_limit": 100,
+            "time_limit_s": 30
+          },
+          "analysis_request_id": "1aa8e9c9-a13c-455c-95b8-2ea6a766b0f4",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-cdf54d8a-a3cb-4e79-97d8-b84e35af59a2",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-562b489d8d34c318dc809fb290d37d41"
+          },
+          "analysis_request_id": "9548510e-cfb5-4725-a0fa-a1442ae67a77",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-8dc98954-e435-4270-ae53-f3c65ea21df7",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-30488b4e43c0f04d51628b04f969d7ad"
+          },
+          "analysis_request_id": "f09015a7-9e6a-4236-a5c5-32ff2699abc6",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-d8531b0c-691f-48f8-ba31-6a3388232079",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-36c04538cdc97e2bfbbb0772f4adee34"
+          },
+          "analysis_request_id": "8cfe9416-be4f-4bdc-b86b-a32cd8e411ae",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-265f4f04-6b3f-4875-848d-f02a4c6e4dcd",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-30488b4e43c0f04d51628b04f969d7ad"
+          },
+          "analysis_request_id": "f09015a7-9e6a-4236-a5c5-32ff2699abc6",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-cdfab2ba-1dd1-4514-98f5-b23a593215a7",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-36c04538cdc97e2bfbbb0772f4adee34"
+          },
+          "analysis_request_id": "8cfe9416-be4f-4bdc-b86b-a32cd8e411ae",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-a74e967b-442e-4cdd-ad54-211ed42ef37b",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-562b489d8d34c318dc809fb290d37d41"
+          },
+          "analysis_request_id": "9548510e-cfb5-4725-a0fa-a1442ae67a77",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-950fc2d1-8ce4-4f25-929a-69e0d0d8c6ad",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-218c56a2fc7a647969449e4b0281076d"
+          },
+          "analysis_request_id": "fb545c05-2608-45ab-9155-932ff37f5a8e",
+          "reused_validation": false
+        },
+        {
+          "call_id": "call-66d55d36-8662-4f8b-9357-27ac1117ee16",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-218c56a2fc7a647969449e4b0281076d"
+          },
+          "analysis_request_id": "fb545c05-2608-45ab-9155-932ff37f5a8e",
+          "reused_validation": true
+        },
+        {
+          "call_id": "call-b1565a38-11b8-463d-8636-254823cf98db",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-36c04538cdc97e2bfbbb0772f4adee34"
+          },
+          "analysis_request_id": "8cfe9416-be4f-4bdc-b86b-a32cd8e411ae",
+          "reused_validation": true
+        }
+      ],
+      "completed_tool_calls": 12,
+      "executed_tools": 7,
+      "reused_validations": 5,
+      "provider_exchanges": 6,
+      "selected_plan_id": "plan-562b489d8d34c318dc809fb290d37d41",
+      "plan_hash": "6cf6adcf9fe87c3c3d5d0e3fc86d2d09a5823912115991a65bfd5b04e8b09e39",
+      "validation_id": "validation-f3cd67c7444fb4a9532ff3c13740b80e53a3ff8062cc65ad7cc8ff5f0ffcb830",
+      "model_call_ids_for_selected_validation": [
+        "call-cdf54d8a-a3cb-4e79-97d8-b84e35af59a2",
+        "call-a74e967b-442e-4cdd-ad54-211ed42ef37b"
+      ],
+      "provider_request_for_selected_validation": "9548510e-cfb5-4725-a0fa-a1442ae67a77",
+      "validation_independent": true,
+      "validation_feasible": true,
+      "validation_coverage": "available",
+      "validation_violations": [],
+      "searches": [
+        {
+          "action_time_resolution_s": null,
+          "candidate_limit": 100,
+          "complete": false,
+          "elapsed_s": 0.025121700018644333,
+          "evaluated_candidates": 100,
+          "optimality": "best_found",
+          "scope": "bounded_search",
+          "space_description": "eog-joint-search-0.1.3 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+          "time_limit_s": 30
+        }
+      ],
+      "actionable": false,
+      "operator_records": []
+    }
+  ],
+  "verified_artifacts": [
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/protocol-smoke.log",
+      "bytes": 199,
+      "sha256": "99e2ddaa8a71b2211dd5cbec260653dfbfb145d7859d70e4ad33a9f775ab72f5"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/protocol-smoke.json",
+      "bytes": 329,
+      "sha256": "5bdf106e977b23a69add4180fbfddaf583890f868f799285bc35d14ced308494"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-1.eog-session.json",
+      "bytes": 116239,
+      "sha256": "e37fa5685c117a2b3cbc281428121db07a0f87c87bf2ff4113e12011833cd3e8"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-1.log",
+      "bytes": 1190,
+      "sha256": "9c7f10a684a9dc23668e4abed82fde74fdc3b13c657028cfabc08f61aa92457c"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/verification.json",
+      "bytes": 7449,
+      "sha256": "6dbf19238eb069baeeda03e01936c45b775a5e832b375cb4b48414ab62829933"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-2.eog-session.json",
+      "bytes": 116011,
+      "sha256": "9e0a02bdf9ba983744a3b563ab10bf6ae9b7d218a10da093fdcbe0539c85ff91"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-2.log",
+      "bytes": 1190,
+      "sha256": "86a690ab31356789d220ae0a315b5c975b16f6bba800c4725dec50983545109f"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-3.eog-session.json",
+      "bytes": 116185,
+      "sha256": "1489ea0c4dd6c02f0bdc83ee6919832a125cf440bc8192dbd32b2e19fe063bbf"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-3.log",
+      "bytes": 1190,
+      "sha256": "3c85370e64112e476df826fbaa3c1b77990699a16aa7625f3b59f27b1bf7dc28"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-4.eog-session.json",
+      "bytes": 119552,
+      "sha256": "b19763920731f0de3c116c125d8edfc6b689a2eb068ea483ca77cffb897ccca4"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round2/eog/run-4.log",
+      "bytes": 1190,
+      "sha256": "817eec8edeea88da690a83b717c0c598b5138e2314632feeb221c920319e2d2c"
+    }
+  ],
+  "fresh_sessions_not_counted_in_round1": true,
+  "no_success_copied_across_rounds": true,
+  "manifest_unchanged": true,
+  "round1_seal": {
+    "path": "out/candidate-readiness/hosted-3bb77a3-round1/SEALED.json",
+    "bytes": 286,
+    "sha256": "123445191cc46d75bccb4f30157830de85ce7a07b1238736c0a69bc3a1d2dfac"
+  },
+  "round1_sealed_audit": {
+    "audit_version": 1,
+    "audit_status": "passed",
+    "qualification_status": "incomplete",
+    "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+    "cases": [
+      {
+        "case": "protocol_smoke",
+        "status": "passed"
+      },
+      {
+        "case": "canonical_1",
+        "status": "passed",
+        "session_id": "6b180eb5-56f1-42dd-93f9-60e2ac7c49b4",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "canonical_2",
+        "status": "passed",
+        "session_id": "9122736c-59be-43c7-8569-cf06a5b750cb",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "canonical_3",
+        "status": "passed",
+        "session_id": "03e49fe8-fc85-4a08-869a-1eefebd2b9f2",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "renamed_topology",
+        "status": "passed",
+        "session_id": "9be3142b-a12e-47f1-8ea0-068722e64a40",
+        "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "observed_pump",
+        "status": "failed",
+        "session_id": "a9187859-feca-475a-a9b7-e94c4c623ebd",
+        "capture_id": "capture-47d36a4c-1621-4ffb-8ecb-1b18933067fd",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "observed_missing_coverage",
+        "status": "passed",
+        "session_id": "d8f8dbb0-217a-4dfc-8062-48db86f1a424",
+        "capture_id": "capture-142d12d2-2384-498b-bdf5-c0f2f71d7ebe",
+        "model_requests": 13,
+        "tool_calls": 12
+      }
+    ],
+    "public_release_approved": false,
+    "limits": "Hash/source bindings are witnessed manifest provenance, not execution attestation. This audit checks retained integrity/grounding, not numerical accuracy, model prose or external release gates."
+  },
+  "round1_final_manifest": {
+    "path": "out/candidate-readiness/hosted-3bb77a3-round1/manifest-0006.json",
+    "bytes": 6417,
+    "sha256": "5ce965ac08ee7be19a5aed072bfa3462e1050d3f465729f3a3b4048fba9878b3"
+  },
+  "round1_preserved_strict_pump_failure": {
+    "path": "out/candidate-readiness/observed-pump-attempt-0001-audit-3bb77a3.json",
+    "bytes": 3254,
+    "sha256": "003f7f14c8daf52db9e0e6862bad778c908f0ed71252d42af6b4398ddb56e1b0"
+  },
+  "public_release_approved": false,
+  "limits": [
+    "Round2 observed cases remain pending. Round1 is sealed incomplete, retaining its failed exact-validation gate; its successes were not substituted into round2.",
+    "Integrity and exact model-issued plan/own-independent-validation grounding only; no numerical accuracy/global optimality or wire-level attestation claim.",
+    "Only static evidence, executable bytes and local sources were read. No desktop DB inspection for round2, model calls, builds, UI, tracked edits or Git mutations."
+  ]
+}

@@ -1,0 +1,25 @@
+{
+    "analysis_panel_visible": false,
+    "analysis_status": "not_requested",
+    "cutoff_unix": 1794830400,
+    "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+    "evidence_version": 1,
+    "hosted_model_requests": "not_run",
+    "provider_configured": true,
+    "provider_execution_verified": false,
+    "rendered_frame_ready": true,
+    "scene_mode": "overview",
+    "scene_nodes": 4,
+    "scene_routes": 4,
+    "source_hashes": {
+        "network.json": "38b5c246a6b7fa5087643cfc680e1d3088b036ee76b53f50453062b2c98c5802",
+        "ops.json": "0e4f78d7931c2c33d039324e85cb02c8aee083dcbdb0a82d59bbecfb3cc6c3c1",
+        "telemetry.csv": "1a4ac89d38081a9a88545b3d215e2802e18d5a6a2dddebbfae8f6a8a6a13af20"
+    },
+    "trend_guides": 3,
+    "trend_ready": true,
+    "trend_samples": 37,
+    "visible_labels": 4,
+    "workbench_unchanged": true,
+    "workspace": "eog"
+}

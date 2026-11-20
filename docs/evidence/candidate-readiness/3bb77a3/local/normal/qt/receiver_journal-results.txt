@@ -1,0 +1,17 @@
+********* Start testing of ReceiverJournalTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : ReceiverJournalTests::initTestCase()
+PASS   : ReceiverJournalTests::bytesAndReceiptClocksRoundTripExactly()
+PASS   : ReceiverJournalTests::malformedEntriesVersionsAndDuplicateKeysReject()
+PASS   : ReceiverJournalTests::boundedRecordingCannotClaimComplete()
+PASS   : ReceiverJournalTests::replayPreservesLateFutureDuplicateAndForeignEpochClassification(playback-clock)
+PASS   : ReceiverJournalTests::replayPreservesLateFutureDuplicateAndForeignEpochClassification(historical)
+PASS   : ReceiverJournalTests::sourceLossUsesRecordedReceiverClockEvenWhenSourceEventClockIsPaused()
+PASS   : ReceiverJournalTests::missingOrConflictingFooterCannotClaimCompletedEvidence(prefix)
+PASS   : ReceiverJournalTests::missingOrConflictingFooterCannotClaimCompletedEvidence(missing-footer)
+PASS   : ReceiverJournalTests::missingOrConflictingFooterCannotClaimCompletedEvidence(false-completion)
+PASS   : ReceiverJournalTests::missingOrConflictingFooterCannotClaimCompletedEvidence(backwards-receipt)
+PASS   : ReceiverJournalTests::missingOrConflictingFooterCannotClaimCompletedEvidence(size-limit)
+PASS   : ReceiverJournalTests::cleanupTestCase()
+Totals: 13 passed, 0 failed, 0 skipped, 0 blacklisted, 2605ms
+********* Finished testing of ReceiverJournalTests *********

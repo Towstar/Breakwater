@@ -1,0 +1,101 @@
+{
+  "audit_version": 1,
+  "created_utc": "2026-11-20T23:05:31.271156+00:00",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "case": "observed_pump",
+  "status": "passed",
+  "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+  "selected_run_id": "0135ae36-efa4-4c6e-ba51-033e92bb0188",
+  "selected_validation_id": "ff213d2c-5685-4fbf-b1f6-6839d03b9bfa",
+  "explicit_validation_results": [
+    {
+      "tool_call_id": "call-e1181d1c-b370-4d42-bd6c-447e6f2c424a",
+      "run_id": "0135ae36-efa4-4c6e-ba51-033e92bb0188",
+      "validation_id": "ff213d2c-5685-4fbf-b1f6-6839d03b9bfa",
+      "selected_exact_match": true,
+      "request": {
+        "elapsed_ms": 9128,
+        "sequence": 36,
+        "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+        "snapshot_id": "23838f5b-6c60-45ef-9b35-885d840b1154",
+        "timestamp": "2026-11-20T23:03:44.051Z",
+        "tool_call_id": "call-e1181d1c-b370-4d42-bd6c-447e6f2c424a",
+        "tool_name": "validate_run",
+        "type": "tool_requested"
+      }
+    },
+    {
+      "tool_call_id": "call-865259b6-35ae-42e6-8afb-b1635c1f7a9a",
+      "run_id": "3ccf6292-8efa-491d-80d6-76373822cb4f",
+      "validation_id": "433bdf88-ac26-456d-86c5-c761c99b2273",
+      "selected_exact_match": false,
+      "request": {
+        "elapsed_ms": 11987,
+        "sequence": 48,
+        "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+        "snapshot_id": "23838f5b-6c60-45ef-9b35-885d840b1154",
+        "timestamp": "2026-11-20T23:03:46.908Z",
+        "tool_call_id": "call-865259b6-35ae-42e6-8afb-b1635c1f7a9a",
+        "tool_name": "validate_run",
+        "type": "tool_requested"
+      }
+    },
+    {
+      "tool_call_id": "call-a99caa52-011b-48fa-86db-69a513393323",
+      "run_id": "bd5b84a5-a14e-4b13-a045-2018c5637e79",
+      "validation_id": "cca32c38-1cc1-45f6-9c90-3e1aa911c992",
+      "selected_exact_match": false,
+      "request": {
+        "elapsed_ms": 13267,
+        "sequence": 54,
+        "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+        "snapshot_id": "23838f5b-6c60-45ef-9b35-885d840b1154",
+        "timestamp": "2026-11-20T23:03:48.189Z",
+        "tool_call_id": "call-a99caa52-011b-48fa-86db-69a513393323",
+        "tool_name": "validate_run",
+        "type": "tool_requested"
+      }
+    },
+    {
+      "tool_call_id": "call-fd9dde6f-15b9-44c0-bfa4-97d7dac23778",
+      "run_id": "78396530-8a23-40df-8270-43c6cfbfc3e0",
+      "validation_id": "81ee3596-6c1c-496b-b373-52c551bc8224",
+      "selected_exact_match": false,
+      "request": {
+        "elapsed_ms": 14836,
+        "sequence": 60,
+        "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+        "snapshot_id": "23838f5b-6c60-45ef-9b35-885d840b1154",
+        "timestamp": "2026-11-20T23:03:49.758Z",
+        "tool_call_id": "call-fd9dde6f-15b9-44c0-bfa4-97d7dac23778",
+        "tool_name": "validate_run",
+        "type": "tool_requested"
+      }
+    },
+    {
+      "tool_call_id": "call-04fad819-ba3a-4fa2-a200-37bde6f96212",
+      "run_id": "07c58c4c-f758-4166-94d9-04bcbfb724c2",
+      "validation_id": "9f4c5955-8cca-477d-96f0-7b1657d0d4df",
+      "selected_exact_match": false,
+      "request": {
+        "elapsed_ms": 16059,
+        "sequence": 66,
+        "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+        "snapshot_id": "23838f5b-6c60-45ef-9b35-885d840b1154",
+        "timestamp": "2026-11-20T23:03:50.981Z",
+        "tool_call_id": "call-04fad819-ba3a-4fa2-a200-37bde6f96212",
+        "tool_name": "validate_run",
+        "type": "tool_requested"
+      }
+    }
+  ],
+  "most_recent_result_is_selected": false,
+  "exact_earlier_selected_validation_accepted": true,
+  "model_explanation_preserved_unchanged": true,
+  "model_prose_limitation": "The final explanation mentions human acknowledgment before controls take effect. This is model prose, not application authority. This observed-origin archive is actionable=false, approvals are empty, no applied event exists, and operator review is advisory acknowledgment only; it cannot apply Sandbox or publisher controls.",
+  "raw_archive_sha256": "dba1174664d44448ccb3e28909b13c2729c07e19ff2fe7f0569fc058c41f7370",
+  "manifest_sha256": "5603291e428ddc52349391802a5b385690e4b19e9db75363a0dbfd846bc68529",
+  "qualification_status": "incomplete",
+  "round_sealed": false,
+  "public_release_approved": false
+}

@@ -1,0 +1,181 @@
+{
+    "actual_body_picks": {
+        "body_probes": [
+            {
+                "asset_id": "tank_a",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_a",
+                        "x": 394.3231506347656,
+                        "y": 139.4772186279297
+                    }
+                ],
+                "body_models": 2,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "tank_b",
+                "attempts": [
+                    {
+                        "hit": "asset:tank_b",
+                        "x": 369.06719970703125,
+                        "y": 186.15292358398438
+                    }
+                ],
+                "body_models": 2,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_a",
+                "attempts": [
+                    {
+                        "hit": "asset:source_a",
+                        "x": 410.2615661621094,
+                        "y": 111.0978775024414
+                    }
+                ],
+                "body_models": 3,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "source_b",
+                "attempts": [
+                    {
+                        "hit": "asset:source_b",
+                        "x": 320.28759765625,
+                        "y": 168.19932556152344
+                    }
+                ],
+                "body_models": 3,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "treatment",
+                "attempts": [
+                    {
+                        "hit": "asset:treatment",
+                        "x": 423.28936767578125,
+                        "y": 207.86927795410156
+                    }
+                ],
+                "body_models": 3,
+                "pickable": true,
+                "projected": true
+            },
+            {
+                "asset_id": "trucking",
+                "attempts": [
+                    {
+                        "hit": "asset:trucking",
+                        "x": 452.1561584472656,
+                        "y": 151.8198699951172
+                    }
+                ],
+                "body_models": 2,
+                "pickable": true,
+                "projected": true
+            }
+        ],
+        "culled_label_ids": [
+        ],
+        "failed_asset_ids": [
+        ],
+        "label_layout": [
+            {
+                "asset_id": "tank_a",
+                "height": 26,
+                "width": 49,
+                "x": 369.8813781738281,
+                "y": 125.08457946777344
+            },
+            {
+                "asset_id": "tank_b",
+                "height": 26,
+                "width": 48,
+                "x": 343.10235595703125,
+                "y": 173.5409698486328
+            },
+            {
+                "asset_id": "source_a",
+                "height": 26,
+                "width": 84,
+                "x": 461.4410400390625,
+                "y": 96
+            },
+            {
+                "asset_id": "source_b",
+                "height": 26,
+                "width": 83,
+                "x": 272.6974182128906,
+                "y": 121.65992736816406
+            },
+            {
+                "asset_id": "treatment",
+                "height": 26,
+                "width": 67,
+                "x": 431.07904052734375,
+                "y": 202.52842712402344
+            },
+            {
+                "asset_id": "trucking",
+                "height": 26,
+                "width": 120,
+                "x": 463.85955810546875,
+                "y": 139.0814666748047
+            }
+        ],
+        "label_overlaps": 0,
+        "label_viewport": {
+            "height": 310,
+            "top_inset": 96,
+            "width": 787
+        },
+        "labels": 6,
+        "pickable": 6,
+        "projected": 6
+    },
+    "all_bodies_pickable": true,
+    "assets": 6,
+    "benchmark_version": 2,
+    "camera_yaw_end": 113.125,
+    "camera_yaw_start": 35,
+    "client_height": 672,
+    "client_width": 1008,
+    "compact_fixture_requested": true,
+    "detail_visible": true,
+    "device_pixel_ratio": 1,
+    "effective_scene_quality": 1,
+    "elapsed_ms": 9973.439999999993,
+    "fixture_fitted": true,
+    "fps": 31.78441941797416,
+    "frame_interval_p50_ms": 30.5984,
+    "frame_interval_p95_ms": 40.3534,
+    "frames": 317,
+    "graphics_api": 4,
+    "hardware_target_met": false,
+    "label_overlap_pairs": 0,
+    "measurement": "continuous view-only camera sweep, 2.5 s warmup and 10 s sample",
+    "measurement_window_ms": 10007.4785,
+    "numerical_identity_unchanged": true,
+    "picking_error": "",
+    "post_stop_rendered_frames": 2,
+    "recorded_utc": "2026-11-20T22:11:35Z",
+    "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+    },
+    "routes": 6,
+    "screenshot_written": true,
+    "software_renderer_requested": true,
+    "status": "measured",
+    "target_fps": 60,
+    "target_met": false,
+    "visible_label_count": 6
+}

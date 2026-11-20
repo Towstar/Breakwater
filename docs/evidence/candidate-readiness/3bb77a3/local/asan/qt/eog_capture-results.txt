@@ -1,0 +1,16 @@
+********* Start testing of EogCaptureTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : EogCaptureTests::initTestCase()
+PASS   : EogCaptureTests::snapshotCopiesExactlyThreeOriginalFilesAndPublishesBoundManifest()
+PASS   : EogCaptureTests::historicalPrefixPreservesBomQuotingCrLfAndExcludesFuture()
+PASS   : EogCaptureTests::cutoffMustStayInsideTheOriginalWindow()
+PASS   : EogCaptureTests::editedSourceIsRejected(network)
+PASS   : EogCaptureTests::editedSourceIsRejected(ops)
+PASS   : EogCaptureTests::editedSourceIsRejected(telemetry)
+PASS   : EogCaptureTests::missingFileAndMismatchedDatasetIdentityAreRejected()
+PASS   : EogCaptureTests::sourcePathRejectsAmbiguousRootsBeforeOpeningFiles()
+PASS   : EogCaptureTests::cancellationDoesNotInvalidateAnExistingCapture()
+PASS   : EogCaptureTests::lastLeaseOwnsCleanupAndOutlivesSource()
+PASS   : EogCaptureTests::cleanupTestCase()
+Totals: 12 passed, 0 failed, 0 skipped, 0 blacklisted, 657ms
+********* Finished testing of EogCaptureTests *********

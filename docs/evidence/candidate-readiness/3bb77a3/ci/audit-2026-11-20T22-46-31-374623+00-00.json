@@ -1,0 +1,910 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-11-20T22:46:31.374623+00:00",
+  "pr": 88,
+  "head_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "head_source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+  "workflow_run": 44823006438,
+  "url": "https://github.com/Towstar/Breakwater/actions/runs/44823006438",
+  "run": {
+    "id": 44823006438,
+    "name": "Windows checks",
+    "status": "completed",
+    "conclusion": "success",
+    "run_number": 123,
+    "jobs_url": "https://api.github.com/repos/Towstar/Breakwater/actions/runs/44823006438/jobs",
+    "logs_url": "https://api.github.com/repos/Towstar/Breakwater/actions/runs/44823006438/logs",
+    "workflow_id": 410921879
+  },
+  "checkpoint_file": "checkpoint-2026-11-20T22-46-30-081Z.json",
+  "checkpoint_sha256": "63c441c7383d435b32503839794aec4b61cd0687afc17e7d186d8ae311e7a742",
+  "jobs": [
+    {
+      "id": 136588412782,
+      "name": "Native (asan)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Configure, build and test native code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Retain native evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        }
+      ]
+    },
+    {
+      "id": 136588413015,
+      "name": "Native (normal)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Configure, build and test native code",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Retain native evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        }
+      ]
+    },
+    {
+      "id": 136594011907,
+      "name": "Python science (CPU)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run actual CPU science discovery",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Retain science evidence and explicit skips",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Post Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        }
+      ]
+    },
+    {
+      "id": 136594012017,
+      "name": "Desktop (asan)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Restore verified Qt SDK cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Configure, build and test desktop",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Retain desktop evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Restore verified Qt SDK cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        }
+      ]
+    },
+    {
+      "id": 136594012041,
+      "name": "Desktop (normal)",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Restore verified Qt SDK cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Configure, build and test desktop",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Retain desktop evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Post Restore pinned scientific downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Restore verified Qt SDK cache",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 18
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        }
+      ]
+    },
+    {
+      "id": 136594012156,
+      "name": "Lean assumption audit",
+      "status": "completed",
+      "conclusion": "success",
+      "run_id": 44823006438,
+      "logs_url": null,
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Initialize setup evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Restore pinned Lean and Mathlib downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Build proofs and run positive/negative audits",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Record job outcome",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Retain proof evidence",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Post Restore pinned Lean and Mathlib downloads",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 13
+        },
+        {
+          "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 14
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 14677155031,
+      "name": "windows-desktop-asan",
+      "status": "digest_and_source_verified",
+      "sha256": "1baf5466f7e1da7737722c3584303ef9137b01bbfa4003f65808f8c7e80cac52",
+      "bytes": 2816107,
+      "tested_merge_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "status_from_verification": "passed",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "qt": "6.12.0",
+        "eog_provider": {
+          "native_sha256": "6e7370330f95ef2b61fa4e8af10286c6d108df27b3cbfa5dd0f04deccf181127",
+          "plant_sha256": "796a8949445df1120171917a5466004e6683ff3bf57dc2abe2623a077f497fe4",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "asan",
+          "asan_runtime_sha256": "3aa742521e8cbd23252f0545aa51d5a15624a3e4430fbe2f81567afaeb3fc59b"
+        }
+      },
+      "step_failures": [],
+      "ctest": {
+        "registered": 88,
+        "executed": 88,
+        "skipped": 0
+      },
+      "qt": {
+        "suites": 37,
+        "passed": 1162,
+        "failed": 0,
+        "skipped": 1,
+        "skip_details": [
+          {
+            "suite": "pipe_transport-results",
+            "passed": 17,
+            "failed": 0,
+            "skipped": 1,
+            "blacklisted": 0,
+            "skip_reasons": [
+              "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+            ],
+            "unexpected_skips": []
+          }
+        ],
+        "unexpected_skips": []
+      },
+      "warp_picking": {
+        "assets": 6,
+        "pickable": 6,
+        "labels": 6,
+        "label_overlaps": 0,
+        "all_bodies_pickable": true,
+        "renderer": {
+          "adapter": "Microsoft Basic Render Driver",
+          "device_id": 140,
+          "software": true,
+          "status": "identified",
+          "vendor_id": 5140
+        },
+        "fps": 13.992814969369531,
+        "scope": "Hosted WARP correctness, not a hardware FPS qualification."
+      }
+    },
+    {
+      "id": 14675061032,
+      "name": "windows-desktop-normal",
+      "status": "digest_and_source_verified",
+      "sha256": "3192f8dfd3963b404cec878a2e5b749c7f6de7d098b6bf4758f44d6e8b77cd37",
+      "bytes": 2818145,
+      "tested_merge_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "status_from_verification": "passed",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "qt": "6.12.0",
+        "eog_provider": {
+          "native_sha256": "1341efee04abd2083ec8fac8a6a0ebfcc26fbcdc6ce4c58fec07afb8155e3878",
+          "plant_sha256": "26f375068a520ad7ac8068e8f7db44158225188eabbb89855a469f4d1875b2a4",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "normal"
+        }
+      },
+      "step_failures": [],
+      "ctest": {
+        "registered": 88,
+        "executed": 88,
+        "skipped": 0
+      },
+      "qt": {
+        "suites": 37,
+        "passed": 1162,
+        "failed": 0,
+        "skipped": 1,
+        "skip_details": [
+          {
+            "suite": "pipe_transport-results",
+            "passed": 17,
+            "failed": 0,
+            "skipped": 1,
+            "blacklisted": 0,
+            "skip_reasons": [
+              "PipeTransportTests::actualPhysicsNeMoEstimateRequiresExplicitApply() Explicit real PhysicsNeMo runtime test not requested."
+            ],
+            "unexpected_skips": []
+          }
+        ],
+        "unexpected_skips": []
+      },
+      "warp_picking": {
+        "assets": 6,
+        "pickable": 6,
+        "labels": 6,
+        "label_overlaps": 0,
+        "all_bodies_pickable": true,
+        "renderer": {
+          "adapter": "Microsoft Basic Render Driver",
+          "device_id": 140,
+          "software": true,
+          "status": "identified",
+          "vendor_id": 5140
+        },
+        "fps": 31.78441941797416,
+        "scope": "Hosted WARP correctness, not a hardware FPS qualification."
+      }
+    },
+    {
+      "id": 14674125355,
+      "name": "windows-science-cpu",
+      "status": "digest_and_source_verified",
+      "sha256": "e59928f598c8056c08edbbc6086b5798974aed90432ff5b7a34ee1b35d1cd548",
+      "bytes": 27185,
+      "tested_merge_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "status_from_verification": "passed",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "eog_provider": {
+          "native_sha256": "c19350ba2b30d70362edb2dffcc6e48fa97b62a6ac9153341295176c3c0c2716",
+          "plant_sha256": "5b34ff39881b473df32bd24858ec135ac0177d985e08150c61bbbb35a6d45fa1",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "normal"
+        }
+      },
+      "step_failures": [],
+      "science": {
+        "passed": true,
+        "tests_run": 468,
+        "tests_passed": 464,
+        "failures": 0,
+        "errors": 0,
+        "expected_failures": 0,
+        "unexpected_successes": 0,
+        "skipped": [
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          },
+          {
+            "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss",
+            "reason": "PhysicsNeMo is optional in the A3-only environment"
+          }
+        ],
+        "unexpected_skips": []
+      }
+    },
+    {
+      "id": 14673295630,
+      "name": "windows-native-normal",
+      "status": "digest_and_source_verified",
+      "sha256": "09a0b5b429c589aafd6e45d0f2207b1b4b8b88171a6dfc500131c5d9becddf54",
+      "bytes": 25038,
+      "tested_merge_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "status_from_verification": "passed",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2"
+      },
+      "step_failures": [],
+      "ctest": {
+        "registered": 17,
+        "executed": 17,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 14673137888,
+      "name": "windows-native-asan",
+      "status": "digest_and_source_verified",
+      "sha256": "097027c44ad22d4d9aa3a359819076642f40d8b6d3ba8c55465531191fdaa2d5",
+      "bytes": 25022,
+      "tested_merge_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "status_from_verification": "passed",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2"
+      },
+      "step_failures": [],
+      "ctest": {
+        "registered": 17,
+        "executed": 17,
+        "skipped": 0
+      }
+    },
+    {
+      "id": 14672699253,
+      "name": "windows-lean",
+      "status": "digest_and_source_verified",
+      "sha256": "803d07a9c3da38641af4aadc2c4d1fe8252eaf1df90dbfb4061196609939ef6f",
+      "bytes": 7486,
+      "tested_merge_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "status_from_verification": "passed",
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "lean_archive_sha256": "5fc033e93e1a7bc59c5ebf311103d2c9cd18d4b3eddda4ffa3414e8adb0ef79e",
+        "lean": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)"
+      },
+      "step_failures": [],
+      "proof_audit": {
+        "status": "passed",
+        "lean_version": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)",
+        "mathlib_revision": "56a005855ea17e0b0958f73ec801ae140b0a1679",
+        "audited_algorithm_theorems": 54,
+        "unapproved_assumption_probe_rejected": true,
+        "scope": "Exact-real finite-graph storage/control-influence, discrete FVM mass balance and conditional native-law nonnegativity; not IEEE floating-point or compiled nonnegativity, compiled memory safety, PDE accuracy, scheduling, or hydraulics."
+      }
+    }
+  ],
+  "scope": "Credential-free CI only. Hosted Nemotron, owner/license approval and clean-Windows acceptance remain separate.",
+  "logs": [
+    {
+      "name": "desktop-asan.log",
+      "sha256": "4a86ed9c21d8c39d76e257ec3d21d05d3b9a302278489f426b3129e505bf903b",
+      "helper_regression_tests": 78,
+      "scope": "Decoded connector text with newline normalization; the first unittest run is the CI helper regression suite."
+    },
+    {
+      "name": "desktop-normal.log",
+      "sha256": "671c8c0b99c4fff02e7abf592df64caa45e248ec389a3cc00142c3dce9887072",
+      "helper_regression_tests": 78,
+      "scope": "Decoded connector text with newline normalization; the first unittest run is the CI helper regression suite."
+    },
+    {
+      "name": "lean.log",
+      "sha256": "fc1535b99c58fefa74d10a5914e3a8f023ad03224ef3382e2877ec4ca9927183",
+      "helper_regression_tests": null,
+      "scope": "Decoded connector text with newline normalization; the first unittest run is the CI helper regression suite."
+    },
+    {
+      "name": "native-asan.log",
+      "sha256": "530bd7c4ea7781eb8e7a2d9d297836d3d8d0f6a780885fcfb0b0149e07d6e014",
+      "helper_regression_tests": 78,
+      "scope": "Decoded connector text with newline normalization; the first unittest run is the CI helper regression suite."
+    },
+    {
+      "name": "native-normal.log",
+      "sha256": "ea874560a840e5982a1a9fec25678ea0f82c8c264a7a0eb6caff3a0cb8227414",
+      "helper_regression_tests": 78,
+      "scope": "Decoded connector text with newline normalization; the first unittest run is the CI helper regression suite."
+    },
+    {
+      "name": "science-cpu.log",
+      "sha256": "c1b24e51f8cb7023c335c0c7f3c44ff12ce80d739a4cd9e8bd219d8613feda22",
+      "helper_regression_tests": 78,
+      "scope": "Decoded connector text with newline normalization; the first unittest run is the CI helper regression suite."
+    }
+  ],
+  "all_six_jobs_succeeded": true,
+  "all_six_artifacts_verified": true,
+  "status": "passed"
+}

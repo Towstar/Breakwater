@@ -1,0 +1,12 @@
+********* Start testing of EogEventDetailsTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : EogEventDetailsTests::initTestCase()
+PASS   : EogEventDetailsTests::acceptedEvidenceRemainsReadable(canonical)
+PASS   : EogEventDetailsTests::acceptedEvidenceRemainsReadable(renamed-compact)
+PASS   : EogEventDetailsTests::acceptedEvidenceRemainsReadable(no-selection)
+PASS   : EogEventDetailsTests::rawValuesUnknownsAndQualificationsArePreserved()
+PASS   : EogEventDetailsTests::epochZeroIsNotUnavailableAndClearedSelectionRetiresText()
+PASS   : EogEventDetailsTests::all4096EvidenceRowsRemainLazyAndImmutable()
+PASS   : EogEventDetailsTests::cleanupTestCase()
+Totals: 8 passed, 0 failed, 0 skipped, 0 blacklisted, 7863ms
+********* Finished testing of EogEventDetailsTests *********

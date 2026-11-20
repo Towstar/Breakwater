@@ -1,0 +1,12 @@
+{
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "dirty": false,
+  "mode": "normal",
+  "status": "passed",
+  "started_utc": "2026-11-20T22:04:23.2414092Z",
+  "free_before_bytes": 12387565568,
+  "app_sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7",
+  "exit_code": 0,
+  "finished_utc": "2026-11-20T22:11:54.5154569Z",
+  "free_after_bytes": 12286545920
+}

@@ -14,30 +14,41 @@ Unreleased v0.3 development adds seeded local acquisition, immutable observed
 captures, bounded symptom detection, native advisory forecasts, v2 evidence
 history and manual Science on stored candidates. See the
 [implementation ledger](docs/NEXT_RELEASE.md), [local monitoring](docs/LOCAL_MONITORING.md)
-and [workspace clarity checks](docs/WORKSPACE_CLARITY.md). The
-[current readiness packet](docs/CANDIDATE_READINESS.md) separates the latest UI,
-hosted and packaging evidence. PR85 passes all six Windows CI jobs. The prior
-hosted round at source `29df04f` passed its four Operations cases and separate
-desktop observed pump/no-coverage cases; the earlier unsuccessful rounds remain
-retained. A final combined candidate qualification and refreshed private kit are
-being prepared. Owner/licensing review and actual clean-Windows acceptance remain
-pending. No v0.3 public binary has been released.
+and [workspace clarity checks](docs/WORKSPACE_CLARITY.md).
 
-![Sandbox industrial workspace](docs/images/portfolio/framing-cd4dc5f/01-sandbox-overview.jpg)
+Clean engineering candidate `3bb77a3` passes 88/88 normal CTest suites, 88/88 ASan
+suites and all 78 helper tests. The tested normal executable matches the sealed
+Windows package; ten bundled checks pass both in place and after extracting the
+actual ZIP to a spaces/Unicode path. All six
+[Windows CI jobs](https://github.com/Towstar/Breakwater/actions/runs/44823006438)
+pass for its matching source tree. These are local and CI results, not
+clean-Windows acceptance.
 
-![Operations displaying the self-authored recorded dataset](docs/images/portfolio/05-operations-observations-ad45d45.jpg)
+The second hosted round passes all seven declared cases: protocol smoke, three
+canonical Operations investigations, a renamed/topology case, an observed-pump
+advisory and a missing-coverage refusal. The first round's failed exact-validation
+case remains retained. Repeated tool calls and model prose errors remain explicit
+limitations; this is not a general reliability or numerical-accuracy claim. See
+[candidate results](docs/CANDIDATE_RESULTS_3BB77A3.md) and
+[release readiness](docs/CANDIDATE_READINESS.md). A private Windows/source handoff
+kit is staged. Required owner/licensing review and actual clean-Windows acceptance
+remain unverified; no v0.3 public binary has been released.
 
-The Sandbox capture shows application source `cd4dc5f`; the Operations capture
-is the retained `ad45d45` view. The [source-labeled gallery](docs/images/portfolio/README.md)
-adds current plan/scene-focus and Connections views alongside the earlier
-comparison, exact-plan review and genuine historical Nemotron trace. These are
-unaltered running-app captures, not a combined final-candidate qualification.
+![Sandbox industrial workspace at source 3bb77a3](docs/images/portfolio/candidate-3bb77a3/01-sandbox-overview.jpg)
+
+![Operations historical plans from the retained hosted round](docs/images/portfolio/candidate-3bb77a3/07-operations-historical-plans.jpg)
+
+The [source-labeled gallery](docs/images/portfolio/README.md) records actual
+running-app views at `3bb77a3`, including scene focus, Connections, observed-state
+comparison, advisory review and retained hosted history. Historical views make no
+new model request and restore no operating authority. Older galleries retain their
+original source labels; screenshots supplement the separate executable evidence.
 
 The [prior v0.2 qualification record](docs/evidence/portfolio/release-readiness/README.md)
 binds candidate `ad45d45` to six passing Windows CI jobs and nine passing portable
 checks. Its fresh hosted round passed two of three Operations investigations and
 the renamed-network investigation; the third Operations final was rejected for
-invalid JSON. The all-four hosted gate remains incomplete. Owner review, licensing
+invalid JSON. That source's all-four hosted gate was incomplete. Owner review, licensing
 and an actual clean Windows VM check remain pending before a public binary release.
 
 | Area | Available behavior | Boundary |
@@ -176,11 +187,13 @@ Lucas owns desktop/UI, 3D interaction, asynchronous adapters, shared contracts,
 Nemotron integration, persistence, packaging and integration verification. Ethan
 owns the numerical engine, scientific methods, sensor-generation mathematics,
 response evaluator/validator/search and Lean proofs. Shared numerical changes
-require Ethan's review.
+require Ethan's review. Codex assisted implementation, tests and troubleshooting;
+runtime Nemotron is the separate optional investigation agent.
 
 Observed-state forecasting and advisory review are implemented in the v0.3
-development stack and still require final candidate qualification and owner
-review. Commitment-aware fleet dispatch, broader numerical accuracy studies and
+development stack, with the declared `3bb77a3` checks recorded above. Owner review,
+licensing/notices review and actual clean-Windows acceptance remain open.
+Commitment-aware fleet dispatch, broader numerical accuracy studies and
 remaining research methods are future work. Existing project-v1/v2
 formats and evidence contracts remain compatible. See [G1](contracts/telemetry/README.md),
 [G2](docs/TELEMETRY_DESKTOP.md), [pipe transport](docs/PIPE_TRANSPORT.md),

@@ -8,53 +8,62 @@ license or main integration is authorized by this packet.
 
 ## Current engineering baseline
 
-The [stored-candidate Science UI follow-up](STORED_SCIENCE_CI.md) preserves PR87's
-separate ASan minimum-view failure and records exact-source convergence diagnostics.
-Targeted normal/ASan minimum checks pass with the preserved working-tree patch;
-full frozen-candidate qualification remains pending.
+The clean engineering source is
+`3bb77a353fb04267260764060bc5f58d61d5e7f5`. It includes the stored-candidate Science
+convergence barrier and worker lifecycle fixture timing correction. The
+[Science CI follow-up](STORED_SCIENCE_CI.md) and
+[worker lifecycle follow-up](WORKER_LIFECYCLE_CI.md) preserve PR87's original
+failures and targeted diagnostics. Later passing checks do not erase them.
 
-The [worker lifecycle CI follow-up](WORKER_LIFECYCLE_CI.md) preserves PR87's
-original normal-job failure and records the fixture timing/diagnostic correction.
-Its complete class passes normal and ASan locally; final candidate qualification
-is still pending. Both exact cleanups (2.54 GiB and the separately approved
-3.52 GiB inventory) completed with recovery inputs unchanged. Resource gates
-remain explicit; broader cleanup is not authorized by either inventory.
+The complete normal and ASan CTest configurations each pass 88/88 suites. The
+normal tested executable matches the sealed Windows package. All 78 helper tests
+and ten bundled checks pass, including ten checks after extracting the actual ZIP
+to a spaces/Unicode path. Six jobs in
+[Windows run 44823006438](https://github.com/Towstar/Breakwater/actions/runs/44823006438)
+pass for PR head `3bb77a3` and its matching source tree. Raw job records preserve
+their GitHub merge-ref checkout commit rather than relabeling it as the head.
 
-PR [85](https://github.com/Towstar/Breakwater/pull/85), exact head
-`440cb3d73c6a8da398edf483438ef197ff93f199`, passes all six jobs in
-[Windows run 44791528171](https://github.com/Towstar/Breakwater/actions/runs/44791528171).
-Its framing implementation is application source `cd4dc5f`. Local normal/ASan
-rendered containment, route focus and Windows Ctrl+Shift+F/Escape checks are
-indexed by [workspace framing](WORKSPACE_FRAMING.md). Those checks do not supply
-clean-Windows acceptance or final hosted qualification of a later candidate.
+The second fresh hosted round passes all seven declared cases under the unchanged
+strict evidence checks. The first round remains sealed at 6/7: its observed-pump
+case omitted model-issued `validate_run` for the exact selected run and failed.
+Round 2 explicitly requested that validation in its pump objective. It is not an
+unchanged-prompt retry or a statistical reliability estimate. Repeated calls and
+inaccurate model prose remain documented in
+[candidate results](CANDIDATE_RESULTS_3BB77A3.md).
 
-The previous full hosted Operations round at source `29df04f` passed all four
-declared cases. Actual desktop observed pump-loss and missing-coverage cases also
-passed their separate advisory/no-plan gates at that source. Earlier unsuccessful
-rounds remain in the [reliability evidence](RELIABILITY_PICKING_FOLLOWUP.md).
-These are source-qualified engineering observations, not a statistical reliability
-estimate or a model-to-model comparison.
+Both approved cleanups (2.54 GiB and the separate 3.52 GiB inventory) completed
+with recovery inputs unchanged. They do not authorize broader deletion. Earlier
+PR85/framing and `29df04f` hosted results retain their original scope in
+[workspace framing](WORKSPACE_FRAMING.md) and the
+[reliability history](RELIABILITY_PICKING_FOLLOWUP.md).
 
 ## Final candidate evidence
 
-Freeze a clean engineering commit before building. Bind each executable, archive
-and report to that original source and its SHA-256. Documentation committed later
-does not relabel an older binary. The final evidence index must distinguish:
+The [source-qualified results](CANDIDATE_RESULTS_3BB77A3.md) link the retained raw
+records, both sealed hosted rounds and independent artifact audits. Documentation
+committed later does not relabel the original executable or source ZIP.
 
-- Normal and ASan local checks and the six exact-source Windows CI jobs.
-- One protocol smoke, three canonical Operations sessions, one renamed/topology
-  session, one observed pump advisory and one missing-coverage no-plan session.
-  Retain every attempt and actual model-selected tool order. No repaired final
-  references, mixed-build successful subsets or substituted local-search results.
-- Private portable/source ZIPs, actual extraction to a spaces/Unicode path,
-  bundled offline checks, deployed-file/notices/source inventory and checksums.
-- Actual screenshots with source, fixture/capture identity and historical status.
-  Synthetic example metrics and official challenge metrics stay separate.
+| Check | Actual result | Boundary |
+|---|---|---|
+| Normal CTest | 88/88 passed | Tested executable hash matches sealed package |
+| ASan CTest | 88/88 passed | Owned C++ targets; prebuilt dependencies separate |
+| Qt subcases | 1,162 passed and one optional skip per configuration | Zero outer CTest skips; 37 Qt suites |
+| Helpers | 78/78 passed | Offline helper suite |
+| Windows CI | Six jobs passed, run 44823006438 | Head-bound, tree-matching merge-ref checkout |
+| Bundled runtime | 10/10 in place and 10/10 relocated | Sanitized development-machine process, not clean Windows |
+| Hardware renderer | 118.62 FPS default; 73.45 FPS dense | One Radeon 880M device; diagnostic sweeps |
+| Hosted round 1 | 6/7 passed; observed pump failed | Original failure and archives preserved |
+| Hosted round 2 | 7/7 passed | Declared strict evidence/refusal gates; prompt change recorded |
+| Private handoff | Windows/source ZIPs and hashes verified | Candidate only; no public release approval |
+| Manual clean Windows | Pending | All 19 template-v2 checks remain `not_run` |
+| Owner/licensing review | Not verified | Requires actual human review and consent records |
 
-Until that index records actual results, these final-candidate checks are pending.
-Do not infer a pass from this checklist or from the existence of a file.
-The [offline seven-case audit](FINAL_CANDIDATE_CHECKS.md) checks immutable retained
-evidence and source bindings; it does not launch a model or replace that round.
+The [offline seven-case audit](FINAL_CANDIDATE_CHECKS.md) checks retained evidence;
+it does not itself launch a model. Hash/source bindings are witnessed provenance,
+not authenticated execution or wire attestation. No controlled rendering speedup,
+model comparison, global plan optimum or field-accuracy result is claimed. The
+[gallery](images/portfolio/README.md) identifies native and historical views;
+synthetic example costs are not the official challenge's cost result.
 
 ## Ethan's review boundary
 
@@ -69,15 +78,19 @@ transport method and documented F1 accuracy limitations remain unchanged.
 
 Separately record Ethan's explicit GPLv3 agreement for his contributions, including
 the reviewed revision and evidence URL. Tests, repository visibility and coding
-agent self-review cannot supply that agreement. No review or consent is recorded
-by this packet. No message or review request is sent automatically.
+agent self-review cannot supply that agreement. This pass does not freshly verify
+remote human review or GPLv3 consent; both remain unverified release gates. No
+review request or message is sent automatically.
 
 ## Private Windows handoff
 
-Prepare a new kit without changing older kits or their version-1 result records.
-New acceptance templates are version 2. All manual outcomes start as `not_run`;
-owner, licensing and clean-Windows gates start pending. The current kit summary
-must identify its actual packaged source and hashes and include both dated packets.
+A private kit for `3bb77a3` is staged with matching Windows/source ZIPs, a source
+map, package record, both dated review packets and acceptance template v2. The
+[handoff audit](evidence/candidate-readiness/3bb77a3/audits/handoff-and-pump-record-audit-3bb77a3.json)
+binds the retained hashes; [candidate results](CANDIDATE_RESULTS_3BB77A3.md) list
+the exact executable and archive identities. All 19 manual outcomes remain
+`not_run`, and owner, licensing and clean-Windows gates remain pending. Keep the
+sealed kit, older kits and version-1 result records unchanged.
 
 The recipient supplies an actual clean Windows 11 x64 VM/account with no SDK,
 Python, Torch or model key. No VM is provisioned by this implementation pass.

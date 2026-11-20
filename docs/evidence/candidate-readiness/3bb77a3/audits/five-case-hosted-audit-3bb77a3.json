@@ -1,0 +1,1083 @@
+{
+  "audit_version": 1,
+  "audit_kind": "five_completed_hosted_cases_read_only",
+  "created_utc": "2026-11-20T22:38:40.802286+00:00",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "candidate_executables": {
+    "desktop": {
+      "path": "out/portfolio-desktop/desktop/breakwater.exe",
+      "bytes": 9506816,
+      "sha256": "880cc3130120f658ae49fe13c030a0a7f85d5ca3e46c31335fe7584813b580c7"
+    },
+    "eog_live_check": {
+      "path": "out/portfolio-desktop/desktop/breakwater_eog_live_check.exe",
+      "bytes": 5582336,
+      "sha256": "07a6d845c2959f2e2fbaa1fed7dc2701dca37fea39346489dc0c3efb9f829e19"
+    },
+    "nemotron_smoke": {
+      "path": "out/portfolio-desktop/desktop/breakwater_nemotron_smoke.exe",
+      "bytes": 4074496,
+      "sha256": "b447f0b2492cdf67dc808eb8fe80bd658c99abcce4ab61a7e0f6431507a016d9"
+    }
+  },
+  "manifest_unchanged": true,
+  "existing_auditor_result": {
+    "audit_version": 1,
+    "audit_status": "passed",
+    "qualification_status": "incomplete",
+    "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+    "cases": [
+      {
+        "case": "protocol_smoke",
+        "status": "passed"
+      },
+      {
+        "case": "canonical_1",
+        "status": "passed",
+        "session_id": "6b180eb5-56f1-42dd-93f9-60e2ac7c49b4",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "canonical_2",
+        "status": "passed",
+        "session_id": "9122736c-59be-43c7-8569-cf06a5b750cb",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "canonical_3",
+        "status": "passed",
+        "session_id": "03e49fe8-fc85-4a08-869a-1eefebd2b9f2",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "renamed_topology",
+        "status": "passed",
+        "session_id": "9be3142b-a12e-47f1-8ea0-068722e64a40",
+        "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+        "model_requests": 13,
+        "tool_calls": 12
+      },
+      {
+        "case": "observed_pump",
+        "status": "pending"
+      },
+      {
+        "case": "observed_missing_coverage",
+        "status": "pending"
+      }
+    ],
+    "public_release_approved": false,
+    "limits": "Hash/source bindings are witnessed manifest provenance, not execution attestation. This audit checks retained integrity/grounding, not numerical accuracy, model prose or external release gates."
+  },
+  "completed_cases": [
+    {
+      "case": "protocol_smoke",
+      "status": "passed",
+      "actual_tool": "get_network_state",
+      "matching_tool_result_continuation": true,
+      "process_record": {
+        "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+        "executable_sha256": "b447f0b2492cdf67dc808eb8fe80bd658c99abcce4ab61a7e0f6431507a016d9",
+        "exit_code": 0,
+        "timed_out": false,
+        "started_utc": "2026-11-20T22:18:38.1034810Z",
+        "finished_utc": "2026-11-20T22:18:39.3740766Z",
+        "elapsed_s": 1.2686132
+      }
+    },
+    {
+      "case": "canonical_1",
+      "status": "passed",
+      "session_id": "6b180eb5-56f1-42dd-93f9-60e2ac7c49b4",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "event_type_counts": {
+        "model_request": 13,
+        "tool_call": 12,
+        "tool_result": 12,
+        "final": 1
+      },
+      "logical_model_requests": 13,
+      "matching_model_http_200_completion_records": 13,
+      "recorded_retries": 0,
+      "post_attempts_inferred_from_client_and_completed_metadata": 13,
+      "model_issued_and_completed_tool_calls": 12,
+      "executed_tools_excluding_reused_validations": 6,
+      "reused_validation_calls": 6,
+      "provider_exchanges": 5,
+      "provider_operations": {
+        "detect": 1,
+        "search_plans": 1,
+        "validate_plan": 3
+      },
+      "ordered_tool_evidence": [
+        {
+          "ordinal": 1,
+          "call_id": "call-38845ca6-2730-4037-a18a-c6665db4b2ca",
+          "name": "detect",
+          "arguments": {
+            "system_ids": [
+              "NORTH",
+              "SOUTH"
+            ]
+          },
+          "ok": true,
+          "analysis_request_id": "084a6835-7e99-4141-a19b-fe2427337956",
+          "reused_validation": false,
+          "output_sha256": "b0688bcf0666e041812525921f80db00680c8a42fa44d4cb6a90b141ed863979"
+        },
+        {
+          "ordinal": 2,
+          "call_id": "call-36ac9456-f636-42b2-b705-35b547312b6b",
+          "name": "read_topology",
+          "arguments": {
+            "limit": 128,
+            "offset": 0
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "ea710f18c614985f8384db04725e149215a5d2427e772c410cd364494d7736ec"
+        },
+        {
+          "ordinal": 3,
+          "call_id": "call-85cd342a-faf4-47cb-927a-57503f238922",
+          "name": "search_plans",
+          "arguments": {
+            "candidate_limit": 100,
+            "time_limit_s": 30
+          },
+          "ok": true,
+          "analysis_request_id": "cc326270-5168-489c-9cb6-b11ed2a4d183",
+          "reused_validation": false,
+          "output_sha256": "d8bea4832ddefb10a79e09b5a4d203dc40f72bd6743994fa21bcce279c2698aa"
+        },
+        {
+          "ordinal": 4,
+          "call_id": "call-51ae974f-e432-45a3-8bed-5c4a78da9d1f",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "ok": true,
+          "analysis_request_id": "2f8d1778-e633-40e7-95ce-c360c1b714cf",
+          "reused_validation": false,
+          "output_sha256": "f9a637740e217c0e836114f5d790c9580ed562de7d3804c6748edf1aaddf097c"
+        },
+        {
+          "ordinal": 5,
+          "call_id": "call-0dd7674c-1f76-4adf-8075-ed2167d624e9",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "2563e325-9c0c-41ef-9d6f-c4027572ca5e",
+          "reused_validation": false,
+          "output_sha256": "fc998798799e13e02f15a1841a3a463930ebbcf2ad91da416b959ade50c44719"
+        },
+        {
+          "ordinal": 6,
+          "call_id": "call-05cdc68c-2d02-4ead-bccb-64736255b1ce",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "ok": true,
+          "analysis_request_id": "903f8c74-d61f-4276-b338-9a460afcc77e",
+          "reused_validation": false,
+          "output_sha256": "d08fdc39ec5dd70bf417b2cc0ad1e8e583b586025cd1893041ebec58da1160ec"
+        },
+        {
+          "ordinal": 7,
+          "call_id": "call-67d01a91-cc7d-4c28-b076-8e104b3fcedd",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "ok": true,
+          "analysis_request_id": "903f8c74-d61f-4276-b338-9a460afcc77e",
+          "reused_validation": true,
+          "output_sha256": "bba1efe2558656c21b382320c9d788ed926f97137dd34f502f706b57d5c92690"
+        },
+        {
+          "ordinal": 8,
+          "call_id": "call-9d682a48-c9f8-446c-987a-8393574c14b0",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "2563e325-9c0c-41ef-9d6f-c4027572ca5e",
+          "reused_validation": true,
+          "output_sha256": "bacad8f5bfe5fe53a345344b1e68d3be466310dc613c20b8ff1e9156e53d37de"
+        },
+        {
+          "ordinal": 9,
+          "call_id": "call-0d039063-5aed-4756-a482-e751ca7b49e4",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "ok": true,
+          "analysis_request_id": "2f8d1778-e633-40e7-95ce-c360c1b714cf",
+          "reused_validation": true,
+          "output_sha256": "50c88174104942eacb18460dfc2380a2454e385e45a26cd87c0cbd9433f0e044"
+        },
+        {
+          "ordinal": 10,
+          "call_id": "call-e0d2743a-e865-478f-967e-1e6981a0432b",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff"
+          },
+          "ok": true,
+          "analysis_request_id": "903f8c74-d61f-4276-b338-9a460afcc77e",
+          "reused_validation": true,
+          "output_sha256": "bba1efe2558656c21b382320c9d788ed926f97137dd34f502f706b57d5c92690"
+        },
+        {
+          "ordinal": 11,
+          "call_id": "call-929cabf2-443d-418f-b4a9-b35f544d8247",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "2563e325-9c0c-41ef-9d6f-c4027572ca5e",
+          "reused_validation": true,
+          "output_sha256": "bacad8f5bfe5fe53a345344b1e68d3be466310dc613c20b8ff1e9156e53d37de"
+        },
+        {
+          "ordinal": 12,
+          "call_id": "call-ace96226-e368-4cca-a870-f877a13b11c4",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "ok": true,
+          "analysis_request_id": "2f8d1778-e633-40e7-95ce-c360c1b714cf",
+          "reused_validation": true,
+          "output_sha256": "50c88174104942eacb18460dfc2380a2454e385e45a26cd87c0cbd9433f0e044"
+        }
+      ],
+      "selected_plan_id": "plan-4b5097bb39da0ec60869fa9e2c999dff",
+      "plan_hash": "aaa78d55d04ce12780355f2768b82a8e1dfff1397605449d9dae4323f53cd1e7",
+      "validation_id": "validation-b062f3bfb02e94f805cd85f746af374c1493d45f41ca637c36f6f115834d6922",
+      "validation_provider_request_id": "903f8c74-d61f-4276-b338-9a460afcc77e",
+      "validation_model_call_ids": [
+        "call-05cdc68c-2d02-4ead-bccb-64736255b1ce",
+        "call-67d01a91-cc7d-4c28-b076-8e104b3fcedd",
+        "call-e0d2743a-e865-478f-967e-1e6981a0432b"
+      ],
+      "independent": true,
+      "feasible": true,
+      "coverage": "available",
+      "violations": [],
+      "search": {
+        "action_time_resolution_s": null,
+        "candidate_limit": 100,
+        "complete": false,
+        "elapsed_s": 0.02222410007379949,
+        "evaluated_candidates": 100,
+        "optimality": "best_found",
+        "scope": "bounded_search",
+        "space_description": "eog-joint-search-0.1.3 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "time_limit_s": 30
+      },
+      "historical": true,
+      "actionable": false,
+      "operator_records": 0,
+      "final_summary_sha256": "133c66781045781b30447ac0b19c432bdd5dc2576543ec46fd86fc192238ca61"
+    },
+    {
+      "case": "canonical_2",
+      "status": "passed",
+      "session_id": "9122736c-59be-43c7-8569-cf06a5b750cb",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "event_type_counts": {
+        "model_request": 13,
+        "tool_call": 12,
+        "tool_result": 12,
+        "final": 1
+      },
+      "logical_model_requests": 13,
+      "matching_model_http_200_completion_records": 13,
+      "recorded_retries": 0,
+      "post_attempts_inferred_from_client_and_completed_metadata": 13,
+      "model_issued_and_completed_tool_calls": 12,
+      "executed_tools_excluding_reused_validations": 5,
+      "reused_validation_calls": 7,
+      "provider_exchanges": 4,
+      "provider_operations": {
+        "detect": 1,
+        "search_plans": 1,
+        "validate_plan": 2
+      },
+      "ordered_tool_evidence": [
+        {
+          "ordinal": 1,
+          "call_id": "call-9d975570-ad6c-4920-85b1-d89bf060f1bd",
+          "name": "detect",
+          "arguments": {
+            "system_ids": [
+              "NORTH",
+              "SOUTH"
+            ]
+          },
+          "ok": true,
+          "analysis_request_id": "f4d370b9-3a09-41bd-9aed-fa791f157c90",
+          "reused_validation": false,
+          "output_sha256": "bb2c96904ada4d16e1edb222bcd03c0b6eb8ddca8bdaf1640363171b7ad0eae6"
+        },
+        {
+          "ordinal": 2,
+          "call_id": "call-12cb7aed-afb2-4e4d-833c-2d7c32455f98",
+          "name": "read_topology",
+          "arguments": {
+            "limit": 128,
+            "offset": 0
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "ea710f18c614985f8384db04725e149215a5d2427e772c410cd364494d7736ec"
+        },
+        {
+          "ordinal": 3,
+          "call_id": "call-33b4d541-108d-4ae4-8f23-8ee98132a82d",
+          "name": "search_plans",
+          "arguments": {
+            "candidate_limit": 100,
+            "time_limit_s": 30
+          },
+          "ok": true,
+          "analysis_request_id": "aabf9454-5d12-41c4-bae1-5d8f7a56d7fb",
+          "reused_validation": false,
+          "output_sha256": "a50d98136a03132fb0dfdfc294bad4758e2b4d5fc0dc9648caa21b8337293c7f"
+        },
+        {
+          "ordinal": 4,
+          "call_id": "call-18a31133-ac72-456a-8773-45d59de7c276",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "ok": true,
+          "analysis_request_id": "8e88ae7f-9a54-46a4-aa3a-80e0cc0740e7",
+          "reused_validation": false,
+          "output_sha256": "687e0d9e6226ad1807634ed86e3f31cd0e02f3ee358944f9cd4d210fac54bc75"
+        },
+        {
+          "ordinal": 5,
+          "call_id": "call-2b6e0568-5947-4111-924d-0fe6f21e8170",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "216804b8-2ead-4268-b412-fd2ef1dcb524",
+          "reused_validation": false,
+          "output_sha256": "fc12233372c69830bfefa5f607e16e011f278a2f1963db73712d7a25f56972c6"
+        },
+        {
+          "ordinal": 6,
+          "call_id": "call-7fec793e-fddf-4ba1-a487-c20e4e2d3ad2",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "216804b8-2ead-4268-b412-fd2ef1dcb524",
+          "reused_validation": true,
+          "output_sha256": "5b4ec105df58cb07422c7b6b0866fb8ad04d126338f16fee9e39e8f445818eb6"
+        },
+        {
+          "ordinal": 7,
+          "call_id": "call-328fc325-2fc6-4fff-9273-646441947a54",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "ok": true,
+          "analysis_request_id": "8e88ae7f-9a54-46a4-aa3a-80e0cc0740e7",
+          "reused_validation": true,
+          "output_sha256": "c62b3763644d9759ee5d0c7f95ab6a098cde6fac0f7044895138b03038f6c105"
+        },
+        {
+          "ordinal": 8,
+          "call_id": "call-e6a4b25e-a65c-4710-8ba2-078b34cf5eec",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "216804b8-2ead-4268-b412-fd2ef1dcb524",
+          "reused_validation": true,
+          "output_sha256": "5b4ec105df58cb07422c7b6b0866fb8ad04d126338f16fee9e39e8f445818eb6"
+        },
+        {
+          "ordinal": 9,
+          "call_id": "call-19d11a87-2cce-49b2-b731-bd4eb7b16cb2",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "ok": true,
+          "analysis_request_id": "8e88ae7f-9a54-46a4-aa3a-80e0cc0740e7",
+          "reused_validation": true,
+          "output_sha256": "c62b3763644d9759ee5d0c7f95ab6a098cde6fac0f7044895138b03038f6c105"
+        },
+        {
+          "ordinal": 10,
+          "call_id": "call-2686ef3c-60a0-43ca-984c-aa38205af2cc",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "216804b8-2ead-4268-b412-fd2ef1dcb524",
+          "reused_validation": true,
+          "output_sha256": "5b4ec105df58cb07422c7b6b0866fb8ad04d126338f16fee9e39e8f445818eb6"
+        },
+        {
+          "ordinal": 11,
+          "call_id": "call-d7137b08-3dd4-4f8b-ae81-90665551975b",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "ok": true,
+          "analysis_request_id": "8e88ae7f-9a54-46a4-aa3a-80e0cc0740e7",
+          "reused_validation": true,
+          "output_sha256": "c62b3763644d9759ee5d0c7f95ab6a098cde6fac0f7044895138b03038f6c105"
+        },
+        {
+          "ordinal": 12,
+          "call_id": "call-4cbbcae1-857c-4c72-a807-1223a42976fc",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "216804b8-2ead-4268-b412-fd2ef1dcb524",
+          "reused_validation": true,
+          "output_sha256": "5b4ec105df58cb07422c7b6b0866fb8ad04d126338f16fee9e39e8f445818eb6"
+        }
+      ],
+      "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+      "plan_hash": "256c87a4d2d44cf816f326144b1db45592e1a645dc597e87c48898b3984d6a94",
+      "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+      "validation_provider_request_id": "8e88ae7f-9a54-46a4-aa3a-80e0cc0740e7",
+      "validation_model_call_ids": [
+        "call-18a31133-ac72-456a-8773-45d59de7c276",
+        "call-328fc325-2fc6-4fff-9273-646441947a54",
+        "call-19d11a87-2cce-49b2-b731-bd4eb7b16cb2",
+        "call-d7137b08-3dd4-4f8b-ae81-90665551975b"
+      ],
+      "independent": true,
+      "feasible": true,
+      "coverage": "available",
+      "violations": [],
+      "search": {
+        "action_time_resolution_s": null,
+        "candidate_limit": 100,
+        "complete": false,
+        "elapsed_s": 0.021468000020831823,
+        "evaluated_candidates": 100,
+        "optimality": "best_found",
+        "scope": "bounded_search",
+        "space_description": "eog-joint-search-0.1.3 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "time_limit_s": 30
+      },
+      "historical": true,
+      "actionable": false,
+      "operator_records": 0,
+      "final_summary_sha256": "cca2dce747ea8c55fd7e6360a357e0a3f4e636622772353789636395d9e1d627"
+    },
+    {
+      "case": "canonical_3",
+      "status": "passed",
+      "session_id": "03e49fe8-fc85-4a08-869a-1eefebd2b9f2",
+      "capture_id": "84745ddc89443d60c0effe6a163665e61884cb720598217baf4683b9206d7722",
+      "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+      "event_type_counts": {
+        "model_request": 13,
+        "tool_call": 12,
+        "tool_result": 12,
+        "final": 1
+      },
+      "logical_model_requests": 13,
+      "matching_model_http_200_completion_records": 13,
+      "recorded_retries": 0,
+      "post_attempts_inferred_from_client_and_completed_metadata": 13,
+      "model_issued_and_completed_tool_calls": 12,
+      "executed_tools_excluding_reused_validations": 12,
+      "reused_validation_calls": 0,
+      "provider_exchanges": 4,
+      "provider_operations": {
+        "detect": 1,
+        "search_plans": 1,
+        "validate_plan": 2
+      },
+      "ordered_tool_evidence": [
+        {
+          "ordinal": 1,
+          "call_id": "call-6f438502-c072-4985-8644-ae37f6498b68",
+          "name": "detect",
+          "arguments": {
+            "system_ids": [
+              "NORTH",
+              "SOUTH"
+            ]
+          },
+          "ok": true,
+          "analysis_request_id": "24650792-5290-4fc6-8c10-5c2007c36296",
+          "reused_validation": false,
+          "output_sha256": "583c29b8d5f277c6a79c7b3ef251bb6017eb2ef3bbcd9cc4cedbe33a5ca65715"
+        },
+        {
+          "ordinal": 2,
+          "call_id": "call-0f72aeaa-abfd-4755-889f-2b9d088171da",
+          "name": "search_plans",
+          "arguments": {
+            "candidate_limit": 100,
+            "time_limit_s": 30
+          },
+          "ok": true,
+          "analysis_request_id": "ae5e1fef-df31-4f04-8f66-9cf89ba91196",
+          "reused_validation": false,
+          "output_sha256": "d15656a7ec8fe05e76d9b550a653902f1c91f03e8bae0443e3dd82fc79ebe305"
+        },
+        {
+          "ordinal": 3,
+          "call_id": "call-6548d141-40a1-42df-9c76-b4be9c22c1c2",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-873040552c79d1f7f3fb1a1489927cef"
+          },
+          "ok": true,
+          "analysis_request_id": "91925d81-6bc5-45c5-b620-74cc2ae2a743",
+          "reused_validation": false,
+          "output_sha256": "c149840ebfc712e32ea588b38c5cef3b914233dbbb9f04e56f0cff4ff2a4f53a"
+        },
+        {
+          "ordinal": 4,
+          "call_id": "call-91f3d156-2810-448d-a5d0-e5bd7ebeacdb",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-82b2c6c1ec9b01d261a443a4851f28b9"
+          },
+          "ok": true,
+          "analysis_request_id": "e3e06ec4-4c47-4d62-aa75-8f91f821f6ec",
+          "reused_validation": false,
+          "output_sha256": "cca0033af44ec4fd3042ab46ad292fd4703b440c60e5ed645a12609d06867af3"
+        },
+        {
+          "ordinal": 5,
+          "call_id": "call-b7903786-da45-4573-ba43-cefaea61ede2",
+          "name": "read_topology",
+          "arguments": {
+            "limit": 128,
+            "offset": 0
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "e042ee4e05c375b68af7cf400472f8045ca0af2aa719a2d1f31e04543fe395a8"
+        },
+        {
+          "ordinal": 6,
+          "call_id": "call-4440d707-95a2-4ed8-8f6f-3497af6e5998",
+          "name": "read_observations",
+          "arguments": {
+            "asset_id": "NORTH_PAD_A_PUMP",
+            "limit": 5,
+            "metric": "status"
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "74db97593768e5f87f025785b0dcbc08dd1e652346dcbf0e0a2c2d1d01cb3b74"
+        },
+        {
+          "ordinal": 7,
+          "call_id": "call-31e0ea57-d08b-4c2e-aa5a-f374d5ddc2b1",
+          "name": "read_observations",
+          "arguments": {
+            "asset_id": "NORTH_PAD_A",
+            "limit": 5,
+            "metric": "inflow_bpd"
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "b86d4c7533d59da803a0d8924e1d371924d7836681f4b382de90e2fc007d2409"
+        },
+        {
+          "ordinal": 8,
+          "call_id": "call-95b11c09-818f-4530-8208-c7b6b8506a26",
+          "name": "read_observations",
+          "arguments": {
+            "asset_id": "NORTH_PAD_A_WELL_1",
+            "limit": 5,
+            "metric": "status"
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "8770457c33bae2854500eeedbb50c05c07df741cc8cf045ecf5dca6834bad37d"
+        },
+        {
+          "ordinal": 9,
+          "call_id": "call-d6ca8e75-ff1c-490e-a598-b911fe802981",
+          "name": "read_observations",
+          "arguments": {
+            "asset_id": "NORTH_PAD_A_WELL_2",
+            "limit": 5,
+            "metric": "status"
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "88dd9b403fb4f57ec7d82d9c1a72de0450239593cb5d78214b9509a4690ae431"
+        },
+        {
+          "ordinal": 10,
+          "call_id": "call-f607572c-0f0b-4996-bda2-69782fbba15f",
+          "name": "read_observations",
+          "arguments": {
+            "asset_id": "NORTH_PAD_A_WELL_3",
+            "limit": 5,
+            "metric": "status"
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "f8a3cdf14708a7db539017ae33fde748e5b25af6c72aaa3d8fa6286314cd85d8"
+        },
+        {
+          "ordinal": 11,
+          "call_id": "call-c42a1256-865c-409e-9682-ed6a1bf896f5",
+          "name": "read_observations",
+          "arguments": {
+            "asset_id": "NORTH_PAD_B_PUMP",
+            "limit": 5,
+            "metric": "status"
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "d077611ba536ac04c36b85d28e35eb2bb212b58821592881a078002432859e93"
+        },
+        {
+          "ordinal": 12,
+          "call_id": "call-47135767-906e-496c-a6c0-d826a6adfcf1",
+          "name": "read_observations",
+          "arguments": {
+            "asset_id": "SOUTH_PAD_A_PUMP",
+            "limit": 5,
+            "metric": "status"
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "92c79f500aeb066a7c02968aba31e1d761e3b1674440a835c3b3025345104942"
+        }
+      ],
+      "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+      "plan_hash": "256c87a4d2d44cf816f326144b1db45592e1a645dc597e87c48898b3984d6a94",
+      "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+      "validation_provider_request_id": "91925d81-6bc5-45c5-b620-74cc2ae2a743",
+      "validation_model_call_ids": [
+        "call-6548d141-40a1-42df-9c76-b4be9c22c1c2"
+      ],
+      "independent": true,
+      "feasible": true,
+      "coverage": "available",
+      "violations": [],
+      "search": {
+        "action_time_resolution_s": null,
+        "candidate_limit": 100,
+        "complete": false,
+        "elapsed_s": 0.022118399967439473,
+        "evaluated_candidates": 100,
+        "optimality": "best_found",
+        "scope": "bounded_search",
+        "space_description": "eog-joint-search-0.1.3 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "time_limit_s": 30
+      },
+      "historical": true,
+      "actionable": false,
+      "operator_records": 0,
+      "final_summary_sha256": "89b3754dd97259cb4ea2b4eb658dd70ede8e7a2d2c3b113b49214bc51cbd1ddc"
+    },
+    {
+      "case": "renamed_topology",
+      "status": "passed",
+      "session_id": "9be3142b-a12e-47f1-8ea0-068722e64a40",
+      "capture_id": "d4934a4536c9bd0e11079dc4975be69193190c2af9f01cf53fc5f7f3a06909fd",
+      "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+      "event_type_counts": {
+        "model_request": 13,
+        "tool_call": 12,
+        "tool_result": 12,
+        "final": 1
+      },
+      "logical_model_requests": 13,
+      "matching_model_http_200_completion_records": 13,
+      "recorded_retries": 0,
+      "post_attempts_inferred_from_client_and_completed_metadata": 13,
+      "model_issued_and_completed_tool_calls": 12,
+      "executed_tools_excluding_reused_validations": 7,
+      "reused_validation_calls": 5,
+      "provider_exchanges": 6,
+      "provider_operations": {
+        "detect": 1,
+        "search_plans": 1,
+        "validate_plan": 4
+      },
+      "ordered_tool_evidence": [
+        {
+          "ordinal": 1,
+          "call_id": "call-a84a697d-3219-42ca-bcd1-26f0838d261f",
+          "name": "detect",
+          "arguments": {
+            "system_ids": [
+              "DELTA/\u03b1"
+            ]
+          },
+          "ok": true,
+          "analysis_request_id": "27150004-4507-49e7-8258-a493a962281f",
+          "reused_validation": false,
+          "output_sha256": "1290510274865792d6e90872e5cada0bdabc7575ae3a939dbc7727b40732b197"
+        },
+        {
+          "ordinal": 2,
+          "call_id": "call-31e1491e-0cec-49db-9ce1-9c09e2a8b3ab",
+          "name": "read_topology",
+          "arguments": {
+            "limit": 128,
+            "offset": 0
+          },
+          "ok": true,
+          "analysis_request_id": null,
+          "reused_validation": false,
+          "output_sha256": "6e54d043362b90369b9b3260599bd783ed1c3f0812ed76abdd1686eb70ee747e"
+        },
+        {
+          "ordinal": 3,
+          "call_id": "call-c8d83638-3a6a-4fea-a701-102950ec677a",
+          "name": "search_plans",
+          "arguments": {
+            "candidate_limit": 50,
+            "time_limit_s": 30
+          },
+          "ok": true,
+          "analysis_request_id": "eeae2899-c1cc-4744-bd21-62b7b662e9e5",
+          "reused_validation": false,
+          "output_sha256": "55b88722701493816e30c72a4e7c05a8eee33a445a8a53215e6ea507ee287354"
+        },
+        {
+          "ordinal": 4,
+          "call_id": "call-47253d78-8e01-475d-b253-8de9b41f93a3",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-562b489d8d34c318dc809fb290d37d41"
+          },
+          "ok": true,
+          "analysis_request_id": "0e4beede-ab28-4450-ba8e-189cb18b8494",
+          "reused_validation": false,
+          "output_sha256": "83ea0129ef863311bd3a3fcc6ed10e9f0d13947efac35d08c5343b25d8659c5b"
+        },
+        {
+          "ordinal": 5,
+          "call_id": "call-2f46f14b-f475-4faf-997d-dcedc93bca05",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-36c04538cdc97e2bfbbb0772f4adee34"
+          },
+          "ok": true,
+          "analysis_request_id": "8bfbec48-07ea-45ef-b7be-64328ed235f4",
+          "reused_validation": false,
+          "output_sha256": "79206cc9b75e24293283cb8a0283b687eb305176622689e178226f21ed79a29d"
+        },
+        {
+          "ordinal": 6,
+          "call_id": "call-7f9a4905-9e03-4f64-8b00-33774218a00f",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-30488b4e43c0f04d51628b04f969d7ad"
+          },
+          "ok": true,
+          "analysis_request_id": "8488250c-a596-4df0-a763-bc153c133bca",
+          "reused_validation": false,
+          "output_sha256": "76ef4de6836a6c8ef3387b3ed9ab1fab92b43864a03712d0be9c6e6402e00b2c"
+        },
+        {
+          "ordinal": 7,
+          "call_id": "call-112d3003-8d62-4b54-a4d1-12ac683a07fe",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4f83f21f725c7ddb931318d332f47553"
+          },
+          "ok": true,
+          "analysis_request_id": "bc565912-5c51-4949-a392-9c36ad3d0cec",
+          "reused_validation": false,
+          "output_sha256": "9569aecc8e99d30c587d5c8ece910c9fb715f6b1e8436d287f83407ba334bd68"
+        },
+        {
+          "ordinal": 8,
+          "call_id": "call-71c26026-05bb-4f05-8c1a-6e9eb31e3566",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4f83f21f725c7ddb931318d332f47553"
+          },
+          "ok": true,
+          "analysis_request_id": "bc565912-5c51-4949-a392-9c36ad3d0cec",
+          "reused_validation": true,
+          "output_sha256": "73249b56650621d5d873eb09c310ffcf308cd55a4db7aeb264457f7ea8535638"
+        },
+        {
+          "ordinal": 9,
+          "call_id": "call-13b4cc7b-4666-4be0-9df9-471dada44110",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-30488b4e43c0f04d51628b04f969d7ad"
+          },
+          "ok": true,
+          "analysis_request_id": "8488250c-a596-4df0-a763-bc153c133bca",
+          "reused_validation": true,
+          "output_sha256": "0d5cc7ae65ff4e2f98c06204606b63ae6e54043eb899f2e7e88b320c41c3efd3"
+        },
+        {
+          "ordinal": 10,
+          "call_id": "call-21069b02-7aeb-48ad-8281-dbd81795f151",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-36c04538cdc97e2bfbbb0772f4adee34"
+          },
+          "ok": true,
+          "analysis_request_id": "8bfbec48-07ea-45ef-b7be-64328ed235f4",
+          "reused_validation": true,
+          "output_sha256": "05f5e41497b96630ba98d72e7300217eef46a090f9d264f1a1cbc6ae133cabd0"
+        },
+        {
+          "ordinal": 11,
+          "call_id": "call-8ad91636-b68c-4a96-bd40-f3f7104b162f",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-4f83f21f725c7ddb931318d332f47553"
+          },
+          "ok": true,
+          "analysis_request_id": "bc565912-5c51-4949-a392-9c36ad3d0cec",
+          "reused_validation": true,
+          "output_sha256": "73249b56650621d5d873eb09c310ffcf308cd55a4db7aeb264457f7ea8535638"
+        },
+        {
+          "ordinal": 12,
+          "call_id": "call-c223ee7b-b545-4394-a4a8-6f7bad1a7a64",
+          "name": "validate_plan",
+          "arguments": {
+            "evaluator_method": "eog-native-seconds-0.1.1",
+            "plan_id": "plan-562b489d8d34c318dc809fb290d37d41"
+          },
+          "ok": true,
+          "analysis_request_id": "0e4beede-ab28-4450-ba8e-189cb18b8494",
+          "reused_validation": true,
+          "output_sha256": "f8c552a08feb392f2635bc2f824f5c7859b1db3b44fa46121936c3942476cc87"
+        }
+      ],
+      "selected_plan_id": "plan-30488b4e43c0f04d51628b04f969d7ad",
+      "plan_hash": "ebe351c667b89ea5ad0a47ab639c2fd5afac58fe021596d10b6c14e83582250f",
+      "validation_id": "validation-61c148a37446982c24203665baf0a7f46ef6b00e4bf042e3573ac41f1f62ced0",
+      "validation_provider_request_id": "8488250c-a596-4df0-a763-bc153c133bca",
+      "validation_model_call_ids": [
+        "call-7f9a4905-9e03-4f64-8b00-33774218a00f",
+        "call-13b4cc7b-4666-4be0-9df9-471dada44110"
+      ],
+      "independent": true,
+      "feasible": true,
+      "coverage": "available",
+      "violations": [],
+      "search": {
+        "action_time_resolution_s": null,
+        "candidate_limit": 50,
+        "complete": false,
+        "elapsed_s": 0.0123475999571383,
+        "evaluated_candidates": 50,
+        "optimality": "best_found",
+        "scope": "bounded_search",
+        "space_description": "eog-joint-search-0.1.3 rules=e1ce6b0bac5a0482; complete current failures; terminal/prefix greedy well policies and ULP neighbors; 64 joint-policy combinations/schedule; yard/stock/crossing/quarter-horizon calls; small/needed/economic/extreme trip counts; 256 jobs total, 256 jobs/truck; symmetric unused trucks canonicalized; no controls in already-shut/zero-loss fields. No continuous/global claim.",
+        "time_limit_s": 30
+      },
+      "historical": true,
+      "actionable": false,
+      "operator_records": 0,
+      "final_summary_sha256": "42b74a36d8d431299666460484c600b1edfeae6cf7eef342646e4fe866439d9d"
+    }
+  ],
+  "verified_artifact_references": [
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/manifest-0003.json",
+      "bytes": 5654,
+      "sha256": "0f485b8f8547daabc8ea5e4f9a29b56105117b3e930d4397659fa9d3f62b3e29"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/launch.json",
+      "bytes": 1675,
+      "sha256": "f8b78769fd9d8e54c6827abce05e719c697e687da979bb2c384660fff0c5b5ce"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/protocol-smoke.log",
+      "bytes": 199,
+      "sha256": "ee2896187b9ca1995afa6e04f4681a072e2694c3ac9dc78d4be3cd4a6c028509"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/protocol-smoke.json",
+      "bytes": 329,
+      "sha256": "59c709416a5affb0ded1b7b20b4dc0b2fc0c62c31fd43021f3481a13bd02f647"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/run-1.eog-session.json",
+      "bytes": 116332,
+      "sha256": "7b0b5356e2fbadcfeea14ea63f76eff50b2bb206003691735ba785f18ca1a7c4"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/run-1.log",
+      "bytes": 1190,
+      "sha256": "9fdcff40b4e3121ed61326a70310f71b5f9f02078e49ae06ed07c86888587f9b"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/verification.json",
+      "bytes": 7479,
+      "sha256": "e9ae8bd9b41736f7370bf1b3abdd04d2f5be19386df5bc6e023b223c3f615623"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/run-2.eog-session.json",
+      "bytes": 98949,
+      "sha256": "8c645d94691d917be79648617022c481dc633165b8f79601d078090108337821"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/run-2.log",
+      "bytes": 1190,
+      "sha256": "0ae4ad50393901264a8961c77b4af5c8778853519922535cf7f04dd7cc8d7308"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/run-3.eog-session.json",
+      "bytes": 95959,
+      "sha256": "4dc6d56075f8bc7f9689846ad103b54dbfc51671740f2dfa9048d7ffb75c5011"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/run-3.log",
+      "bytes": 1219,
+      "sha256": "76059f450d63d3afc18d2672274278d17962e773ad105996129e5dcb094bb338"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/run-4.eog-session.json",
+      "bytes": 119323,
+      "sha256": "fe2d3aaeed11be5d2629ba9fe07cffffde3d440d5be8f64e2a39cc66f8f22757"
+    },
+    {
+      "path": "out/candidate-readiness/hosted-3bb77a3-round1/eog/run-4.log",
+      "bytes": 1190,
+      "sha256": "f0ad4e4e7b8bb6e88c91086cb8ef8920bcc647576bf96d68b8189b6320422847"
+    }
+  ],
+  "audited_source_files": [
+    {
+      "path": "scripts/audit_candidate_evidence.py",
+      "bytes": 20151,
+      "sha256": "5ecbb04b51737799f3850f3ddd889d110be9449cf5c5059f68215457d94ca2fb"
+    },
+    {
+      "path": "scripts/verify_v03_evidence.py",
+      "bytes": 9309,
+      "sha256": "9d8af5273b3dd25c8f9e09daa0aca992459cce9fbb089a5a32c817c038591ba7"
+    },
+    {
+      "path": "scripts/prepare_release_handoff.py",
+      "bytes": 12520,
+      "sha256": "1a7bc166cc3a6eceb36eff5230eb1ac41585e523cf7feef0d4f3a79639161d6f"
+    },
+    {
+      "path": "desktop/eog/live_check.cpp",
+      "bytes": 20811,
+      "sha256": "e5fc53ac85765043c34aece7ec458e0c5886c9400666053a3c035a93198cf3d5"
+    },
+    {
+      "path": "desktop/agent/NemotronClient.cpp",
+      "bytes": 21184,
+      "sha256": "797083f54b2dcb8f3b9c60a28b8e4a5fee375568b7ae31f2161f06777efa7b10"
+    },
+    {
+      "path": "desktop/eog/EogInvestigator.cpp",
+      "bytes": 36060,
+      "sha256": "8f3ef8395a09cc95ecf696181aab25b6044f1725f423afb8ef5fb95863319f6d"
+    },
+    {
+      "path": "desktop/eog/EogInvestigator.hpp",
+      "bytes": 4026,
+      "sha256": "2936056af7edd32e820daf8d70483683f6b34244402838ebb6aaf5ad4f6eeb23"
+    },
+    {
+      "path": "desktop/eog/EogAnalysisController.cpp",
+      "bytes": 61587,
+      "sha256": "13c50d4b31c12dc8438860ccd458386d810f78e58786887241503f4f7534cb62"
+    }
+  ],
+  "counter_explanation": {
+    "model_requests": "live_check.cpp increments on ModelTransport::requestStarted. NemotronClient emits this once per logical request before send(); send() increments attempts_ for each QNetworkAccessManager POST; metadata retry_count is max(attempts_-1,0). The counter alone is not wire-level attestation.",
+    "actual_completed_case_evidence": "Each Operations archive has 13 matching-model HTTP-200 completion records, zero retries, 12 paired tool calls/results and one final. This supports 13 client POST attempts per case by implementation/metadata inference, not a captured network trace.",
+    "executed_tools": "collectTrace counts successful matched tool results except unchanged validate_plan results marked reused_validation. Local topology/observation reads count as executed_tools but not Python provider exchanges.",
+    "final_turn": "All four use the 12-tool budget, then the existing requestModel path offers no tools and requests final JSON. No final-format correction event is present."
+  },
+  "limitations": [
+    "Five completed cases passed retained integrity/grounding; both observed cases are pending and the seven-case qualification remains incomplete.",
+    "Repeated validation requests remain visible: 6/7/0/5 reused calls. Canonical_3 instead repeats observation reads. Completion succeeds within bounded tooling; this is not evidence that unnecessary calls were eliminated.",
+    "All retained searches explicitly report bounded_search, best_found, complete=false. Model prose is not a proof of global optimality; retain this caveat even where final prose says no lower-cost admissible plan exists.",
+    "The auditor checks exact plan/hash/capture and model-issued own validation grounding, not numerical accuracy, model prose correctness or authenticated execution attestation.",
+    "No desktop database, active observed capture, UI, build, hosted API or Git mutation was accessed for this audit."
+  ],
+  "external_gates": {
+    "clean_windows": "pending",
+    "owner_review": "pending",
+    "licensing_review": "pending",
+    "public_release_approved": false
+  }
+}

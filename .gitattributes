@@ -29,6 +29,9 @@ docs/evidence/workspace-framing/*.log -text whitespace=cr-at-eol,-blank-at-eol,-
 # Keep current preparation manifests and copied CI reports byte-bound.
 docs/evidence/candidate-readiness/** -text whitespace=cr-at-eol
 
+# Preserve tool-emitted spacing in this candidate's raw logs and their hashes.
+docs/evidence/candidate-readiness/3bb77a3/**/*.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
 # Retain lifecycle CI and local test evidence without newline rewriting.
 docs/evidence/worker-lifecycle-ci/** -text whitespace=cr-at-eol
 docs/evidence/worker-lifecycle-ci/*.txt -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof

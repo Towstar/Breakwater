@@ -1,0 +1,37 @@
+{
+  "verification_version": 1,
+  "suite": "lean",
+  "mode": "normal",
+  "status": "passed",
+  "started_utc": "2026-11-20T21:57:11.0178886Z",
+  "source_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+  "source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+  "working_tree_dirty": false,
+  "helper_sha256": {
+    "scripts/ci/Run-Checks.ps1": "0a1ae2418639e749bc8b5e35099ced601d2930bc3519d9a953d6134115761c05",
+    "scripts/ci/Initialize-Compiler.ps1": "93b0c388ac52900c4b81e1623e079827fa0cc67f4a4f5f3b2251c64b9f000cd1",
+    "scripts/ci/Write-JobEvidence.ps1": "16dc4bf3138ea97b0709cf919a2e8138a8908ce9c84b59ac0f9d55aaf3800424",
+    "scripts/ci/Run-PythonTests.py": "34a1655586b94f6d8e37a9e1c7b642f54a1b809f23a14554acb29b3c3536cd1b",
+    "scripts/ci/Read-QtResults.py": "4076358bca7e77d02ebc3341404cef6041b874ab522d7fb5e5b8211e4986a441",
+    "scripts/ci/requirements-win-py312.txt": "695c77a1fb88f2adb7c969e9c42a2c685023e272b1d07b5fbe1698918ff58c67",
+    ".github/workflows/windows-checks.yml": "506a6dec5cbd039ef15074bc1d0a9a6a3b2511b353bfe4370bca9ddf445c2df4"
+  },
+  "runner": {
+    "image": "win22",
+    "image_version": "20261116.370.1",
+    "os": "Microsoft Windows NT 10.0.20348.0"
+  },
+  "external_model_requests": "not_run",
+  "toolchain": {
+    "lean_archive_sha256": "5fc033e93e1a7bc59c5ebf311103d2c9cd18d4b3eddda4ffa3414e8adb0ef79e",
+    "lean": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)"
+  },
+  "steps": [
+    {
+      "name": "lean-audits",
+      "exit_code": 0,
+      "elapsed_s": 49.5805012
+    }
+  ],
+  "finished_utc": "2026-11-20T21:58:02.6168815Z"
+}

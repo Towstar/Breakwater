@@ -1,0 +1,1121 @@
+{
+  "check": "ui_overhaul",
+  "checks": [
+    "native_assets_accessibility_action_gates",
+    "empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project",
+    "route_list_selection_focus_and_related_labels_preserve_project",
+    "route_keyboard_and_inspector_focus_preserve_numerical_evidence",
+    "connection_filters_id_endpoints_source_settings_and_modes_preserve_selection",
+    "zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls",
+    "top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits",
+    "actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences",
+    "actual_1_25h_forecast",
+    "nested_geometry_pick_and_click",
+    "layout_drag_preserves_hash_run_approval",
+    "keyboard_rejection_repeat_dismiss_preserves_evidence",
+    "focused_notice_escape_isolated",
+    "outside_notice_escape_cancels_connection",
+    "valid_retry_clears_inline_retires_run_approval",
+    "edited_focus_loss_once_unedited_focus_loss_no_commit",
+    "native_multiselect_duplicate_atomic_undo",
+    "native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle",
+    "bundled_hosted_recording_reopens_historical_without_review_authority",
+    "native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges",
+    "inspector_route_state_preserves_numerical_evidence",
+    "world_aligned_bounded_grid_toggle_preserves_numerical_evidence",
+    "instrumented_example_and_monitoring_controls_have_explicit_empty_state",
+    "actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls",
+    "native_source_selector_uses_immutable_stored_candidate_without_applying_controls"
+  ],
+  "code": "ok",
+  "device_pixel_ratio": 1,
+  "elapsed_ms": 42322,
+  "hosted_model_requests": "not_requested",
+  "observed": {
+    "after_focused_escape": {
+      "active_focus_item": "dismissActionFeedback",
+      "connect_mode": true,
+      "feedback_code": "property.invalid_number",
+      "feedback_id": "3",
+      "field_active_focus": false,
+      "field_pending_commit": false,
+      "field_text": "120",
+      "notice_visible": false,
+      "window_active": true
+    },
+    "after_outside_escape": {
+      "active_focus_item": "numericProperty_capacity",
+      "connect_mode": false,
+      "feedback_code": "property.invalid_number",
+      "feedback_id": "3",
+      "field_active_focus": true,
+      "field_pending_commit": false,
+      "field_text": "120",
+      "notice_visible": false,
+      "window_active": true
+    },
+    "before_dismiss_feedback_id": "2",
+    "capacity": 120,
+    "feedback_id": "2",
+    "field_text": "120",
+    "focused_before_escape": {
+      "active_focus_item": "dismissActionFeedback",
+      "connect_mode": true,
+      "feedback_code": "property.invalid_number",
+      "feedback_id": "3",
+      "field_active_focus": false,
+      "field_pending_commit": false,
+      "field_text": "120",
+      "notice_visible": true,
+      "window_active": true
+    },
+    "inline_visible": true,
+    "inspector_scrollbar": {
+      "height": 286,
+      "panel_height": 310,
+      "panel_width": 286,
+      "size": 0.3530864197530864,
+      "x": 264
+    },
+    "notice_visible": false,
+    "outside_escape_before_key": {
+      "active_focus_item": "numericProperty_capacity",
+      "connect_mode": true,
+      "feedback_code": "property.invalid_number",
+      "feedback_id": "3",
+      "field_active_focus": true,
+      "field_pending_commit": false,
+      "field_text": "120",
+      "notice_visible": false,
+      "window_active": true
+    },
+    "outside_escape_setup_started": {
+      "active_focus_item": "numericProperty_capacity",
+      "connect_mode": true,
+      "feedback_code": "property.invalid_number",
+      "feedback_id": "3",
+      "field_active_focus": true,
+      "field_pending_commit": false,
+      "field_text": "120",
+      "notice_visible": false,
+      "window_active": true
+    },
+    "recording": {
+      "folder_matches": true,
+      "historical": true,
+      "loaded": true,
+      "loading": false,
+      "pending": false,
+      "status": "Historical evidence. Imported or reopened plans cannot restore current review eligibility.",
+      "storage": "EOG evidence is retained locally.",
+      "trace": 28
+    },
+    "retained_pipe_button": {
+      "height": 36,
+      "scroll_y": 151,
+      "viewport_height": 126,
+      "width": 149,
+      "x": 611,
+      "y": 554
+    },
+    "retained_pipe_open": {
+      "imported": true,
+      "status": "Retained historical native scalar evidence. Approval and operating controls are unavailable.",
+      "visible": true
+    },
+    "selected_id": "tank_a",
+    "stored_science_source": {
+      "can_run": true,
+      "historical": false,
+      "history_busy": false,
+      "history_candidate": "d4fdc8d1-f1bd-4f37-aed3-32810bd7c060",
+      "history_session": "41e07425-9155-4607-bd3e-e9d9582044ed",
+      "history_status": "completed \u00b7 current session",
+      "investigator_status": "validated_recommendation",
+      "recommendation": {
+        "actionable": true,
+        "approval_status": "pending_operator",
+        "candidate_id": "search:3c053d61-7f19-46a9-a1e1-c5c093aadfca:410",
+        "controls": [
+          {
+            "control_id": "route:main_pump:flow",
+            "value": 27.5
+          },
+          {
+            "control_id": "route:backup_pump:flow",
+            "value": 26.25
+          },
+          {
+            "control_id": "route:bypass:flow",
+            "value": 12.5
+          },
+          {
+            "control_id": "route:truck_route:flow",
+            "value": 0
+          }
+        ],
+        "cost": 0,
+        "cost_unit": "synthetic units",
+        "created_at": "2026-11-20T22:17:20.430Z",
+        "current": true,
+        "explanation": "Local native finite search selected the lowest-cost returned response on a grid of up to four available controls (flow actuators first), with up to six values per axis including current operation. Independent validation and explicit operator review are required. This is a finite-grid result, not a global optimum. No hosted model was used.",
+        "horizon_h": 3,
+        "objective": "Local native finite search: at most four available controls, flow controls first, up to six values per axis including the current value. Preserve unspecified controls. No hosted model requests.",
+        "ok": true,
+        "physical_hash": "3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381",
+        "run_id": "d4fdc8d1-f1bd-4f37-aed3-32810bd7c060",
+        "sample_step_h": 0.025,
+        "search_candidate_index": 410,
+        "search_id": "3c053d61-7f19-46a9-a1e1-c5c093aadfca",
+        "selected_run_id": "d4fdc8d1-f1bd-4f37-aed3-32810bd7c060",
+        "session_id": "41e07425-9155-4607-bd3e-e9d9582044ed",
+        "snapshot_id": "457cdbef-17b2-4c7d-926b-4064202a413f",
+        "solver": "dense_reference",
+        "solver_version": "constant-flow-0.1.1",
+        "source_mode": "local_native",
+        "status": "validated_recommendation",
+        "tanks": [
+          {
+            "asset_id": "tank_a",
+            "final_m3": 115.99999999999974,
+            "initial_m3": 80,
+            "trajectory_summary": [
+              {
+                "time_h": 0,
+                "volume_m3": 80
+              },
+              {
+                "time_h": 1.5,
+                "volume_m3": 97.99999999999983
+              },
+              {
+                "time_h": 3,
+                "volume_m3": 115.99999999999974
+              }
+            ]
+          },
+          {
+            "asset_id": "tank_b",
+            "final_m3": 120.75000000000068,
+            "initial_m3": 114,
+            "trajectory_summary": [
+              {
+                "time_h": 0,
+                "volume_m3": 114
+              },
+              {
+                "time_h": 1.5,
+                "volume_m3": 117.37500000000034
+              },
+              {
+                "time_h": 3,
+                "volume_m3": 120.75000000000068
+              }
+            ]
+          }
+        ],
+        "validation": {
+          "feasible": true,
+          "limits": [],
+          "max_conservation_residual_m3": 1.199040866595169e-14,
+          "minimum_headroom_m3": 4,
+          "violations": []
+        },
+        "validation_id": "a9c785c9-b1d2-4a40-8ea1-5e4aee265d3c",
+        "validation_source": "validate_run",
+        "validation_status": "validated",
+        "verified_cost": 0,
+        "verified_feasible": true,
+        "warnings": [
+          "Synthetic constant-flow model; nominal volume feasibility only.",
+          "Quality is not evaluated. Finite candidate evaluation does not establish global optimality."
+        ]
+      },
+      "source_busy": false,
+      "source_identity": {
+        "effective_physical_hash": "05a643d05775cdc5b9b6b000e38ff1c992202d4c86a7a7379e1b689a6ccae21f",
+        "horizon_h": 3,
+        "numerical_revision": 0,
+        "sample_step_h": 0.025,
+        "source_mode": "stored_candidate",
+        "source_physical_hash": "3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381",
+        "source_run_id": "d4fdc8d1-f1bd-4f37-aed3-32810bd7c060",
+        "source_session_id": "41e07425-9155-4607-bd3e-e9d9582044ed",
+        "source_snapshot_id": "457cdbef-17b2-4c7d-926b-4064202a413f"
+      },
+      "source_mode": "candidate",
+      "source_status": "Immutable stored candidate ready. Science does not apply its controls.",
+      "wait_ms": 1173,
+      "worker_busy": false
+    },
+    "third_retry_before_escape": {
+      "active_focus_item": "numericProperty_capacity",
+      "connect_mode": true,
+      "feedback_code": "property.invalid_number",
+      "feedback_id": "3",
+      "field_active_focus": true,
+      "field_pending_commit": false,
+      "field_text": "120",
+      "notice_visible": true,
+      "window_active": true
+    }
+  },
+  "passed": true,
+  "phase": 52,
+  "window_height": 672,
+  "window_width": 1008,
+  "workspace_observations": {
+    "label_projection_home": {
+      "label_count": 3,
+      "labels": [
+        {
+          "actual_x": 322.4853515625,
+          "actual_y": 205.38034057617188,
+          "anchor_x": 322.4853515625,
+          "anchor_y": 205.38034057617188,
+          "error_px": 0,
+          "id": "tank_a",
+          "passed": true
+        },
+        {
+          "actual_x": 504.01397705078125,
+          "actual_y": 196.82632446289062,
+          "anchor_x": 504.01397705078125,
+          "anchor_y": 196.82632446289062,
+          "error_px": 0,
+          "id": "treatment",
+          "passed": true
+        },
+        {
+          "actual_x": 431.58990478515625,
+          "actual_y": 265.6672668457031,
+          "anchor_x": 431.58990478515625,
+          "anchor_y": 265.6672668457031,
+          "error_px": 0,
+          "id": "tank_b",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "label_projection_perspective": {
+      "label_count": 3,
+      "labels": [
+        {
+          "actual_x": 322.4853515625,
+          "actual_y": 205.38034057617188,
+          "anchor_x": 322.4853515625,
+          "anchor_y": 205.38034057617188,
+          "error_px": 0,
+          "id": "tank_a",
+          "passed": true
+        },
+        {
+          "actual_x": 504.01397705078125,
+          "actual_y": 196.82632446289062,
+          "anchor_x": 504.01397705078125,
+          "anchor_y": 196.82632446289062,
+          "error_px": 0,
+          "id": "treatment",
+          "passed": true
+        },
+        {
+          "actual_x": 431.58990478515625,
+          "actual_y": 265.6672668457031,
+          "anchor_x": 431.58990478515625,
+          "anchor_y": 265.6672668457031,
+          "error_px": 0,
+          "id": "tank_b",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "label_projection_top": {
+      "label_count": 3,
+      "labels": [
+        {
+          "actual_x": 375.44232177734375,
+          "actual_y": 264.51708984375,
+          "anchor_x": 375.44232177734375,
+          "anchor_y": 264.51708984375,
+          "error_px": 0,
+          "id": "tank_a",
+          "passed": true
+        },
+        {
+          "actual_x": 495.8269348144531,
+          "actual_y": 168.2093963623047,
+          "anchor_x": 495.8269348144531,
+          "anchor_y": 168.2093963623047,
+          "error_px": 0,
+          "id": "treatment",
+          "passed": true
+        },
+        {
+          "actual_x": 483.7884826660156,
+          "actual_y": 264.51708984375,
+          "anchor_x": 483.7884826660156,
+          "anchor_y": 264.51708984375,
+          "error_px": 0,
+          "id": "tank_b",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "label_projection_top_focus": {
+      "label_count": 3,
+      "labels": [
+        {
+          "actual_x": 301.4411926269531,
+          "actual_y": 332.1437683105469,
+          "anchor_x": 301.4411926269531,
+          "anchor_y": 332.1437683105469,
+          "error_px": 0,
+          "id": "tank_a",
+          "passed": true
+        },
+        {
+          "actual_x": 485.5588073730469,
+          "actual_y": 184.84967041015625,
+          "anchor_x": 485.5588073730469,
+          "anchor_y": 184.84967041015625,
+          "error_px": 0,
+          "id": "treatment",
+          "passed": true
+        },
+        {
+          "actual_x": 467.14703369140625,
+          "actual_y": 332.1437683105469,
+          "anchor_x": 467.14703369140625,
+          "anchor_y": 332.1437683105469,
+          "error_px": 0,
+          "id": "tank_b",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "label_projection_top_pan": {
+      "label_count": 2,
+      "labels": [
+        {
+          "actual_x": 109.68425750732422,
+          "actual_y": 159.8915252685547,
+          "anchor_x": 109.68425750732422,
+          "anchor_y": 159.8915252685547,
+          "error_px": 0,
+          "id": "tank_a",
+          "passed": true
+        },
+        {
+          "actual_x": 653.3158569335938,
+          "actual_y": 341.10205078125,
+          "anchor_x": 653.3158569335938,
+          "anchor_y": 341.10205078125,
+          "error_px": 0,
+          "id": "tank_b",
+          "passed": true
+        }
+      ],
+      "passed": true
+    },
+    "plan_fit_route_endpoints": {
+      "camera": {
+        "horizontal": 0.8236842155456543,
+        "vertical": 0.8236842155456543,
+        "x": -1200,
+        "z": 12.747603416442871
+      },
+      "corners": [
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 88.73682403564453,
+          "y": 101.99710083007812
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 88.73682403564453,
+          "y": 250.26022338867188
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 204.05267333984375,
+          "y": 101.99710083007812
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 204.05267333984375,
+          "y": 250.26022338867188
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 582.9473876953125,
+          "y": 266.73388671875
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 582.9473876953125,
+          "y": 414.99700927734375
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 698.26318359375,
+          "y": 266.73388671875
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 698.26318359375,
+          "y": 414.99700927734375
+        }
+      ],
+      "fit": {
+        "cameraX": -1200,
+        "cameraZ": 12.747603833865815,
+        "magnification": 0.8236842105263158,
+        "spanX": 780,
+        "spanZ": 380,
+        "usable": {
+          "height": 313,
+          "width": 759,
+          "x": 14,
+          "y": 102
+        }
+      },
+      "valid": true,
+      "view_height": 538,
+      "view_width": 787
+    },
+    "plan_fit_tall": {
+      "camera": {
+        "horizontal": 0.10125786066055298,
+        "vertical": 0.10125786066055298,
+        "x": 0,
+        "z": 59.25465774536133
+      },
+      "corners": [
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 376.2861633300781,
+          "y": 101.99966430664062
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 376.2861633300781,
+          "y": 120.22607421875
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 390.4622497558594,
+          "y": 101.99966430664062
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 390.4622497558594,
+          "y": 120.22607421875
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 396.5377197265625,
+          "y": 162.75436401367188
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 396.5377197265625,
+          "y": 180.98077392578125
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 410.71380615234375,
+          "y": 162.75436401367188
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 410.71380615234375,
+          "y": 180.98077392578125
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 376.2861633300781,
+          "y": 223.5090789794922
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 376.2861633300781,
+          "y": 241.73548889160156
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 390.4622497558594,
+          "y": 223.5090789794922
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 390.4622497558594,
+          "y": 241.73548889160156
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 396.5377197265625,
+          "y": 284.2637634277344
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 396.5377197265625,
+          "y": 302.4902038574219
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 410.71380615234375,
+          "y": 284.2637634277344
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 410.71380615234375,
+          "y": 302.4902038574219
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 376.2861633300781,
+          "y": 345.01849365234375
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 376.2861633300781,
+          "y": 363.2449035644531
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 390.4622497558594,
+          "y": 345.01849365234375
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 390.4622497558594,
+          "y": 363.2449035644531
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 396.5377197265625,
+          "y": 405.773193359375
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 396.5377197265625,
+          "y": 423.9996032714844
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 410.71380615234375,
+          "y": 405.773193359375
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 410.71380615234375,
+          "y": 423.9996032714844
+        }
+      ],
+      "fit": {
+        "cameraX": 0,
+        "cameraZ": 59.254658385093165,
+        "magnification": 0.10125786163522013,
+        "spanX": 380,
+        "spanZ": 3180,
+        "usable": {
+          "height": 322,
+          "width": 759,
+          "x": 14,
+          "y": 102
+        }
+      },
+      "valid": true,
+      "view_height": 538,
+      "view_width": 787
+    },
+    "plan_fit_tall_after_dock_resize": {
+      "camera": {
+        "horizontal": 0.029559748247265816,
+        "vertical": 0.029559748247265816,
+        "x": 0,
+        "z": 202.97872924804688
+      },
+      "corners": [
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 388.474853515625,
+          "y": 101.9999008178711
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 388.474853515625,
+          "y": 107.32066345214844
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 392.61322021484375,
+          "y": 101.9999008178711
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 392.61322021484375,
+          "y": 107.32066345214844
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 394.3868103027344,
+          "y": 119.73574829101562
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 394.3868103027344,
+          "y": 125.0564956665039
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 398.525146484375,
+          "y": 119.73574829101562
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 398.525146484375,
+          "y": 125.0564956665039
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 388.474853515625,
+          "y": 137.4716033935547
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 388.474853515625,
+          "y": 142.79234313964844
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 392.61322021484375,
+          "y": 137.4716033935547
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 392.61322021484375,
+          "y": 142.79234313964844
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 394.3868103027344,
+          "y": 155.20742797851562
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 394.3868103027344,
+          "y": 160.5281982421875
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 398.525146484375,
+          "y": 155.20742797851562
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 398.525146484375,
+          "y": 160.5281982421875
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 388.474853515625,
+          "y": 172.94329833984375
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 388.474853515625,
+          "y": 178.2640380859375
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 392.61322021484375,
+          "y": 172.94329833984375
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 392.61322021484375,
+          "y": 178.2640380859375
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 394.3868103027344,
+          "y": 190.6791229248047
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 394.3868103027344,
+          "y": 195.99989318847656
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 398.525146484375,
+          "y": 190.6791229248047
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 398.525146484375,
+          "y": 195.99989318847656
+        }
+      ],
+      "fit": {
+        "cameraX": 0,
+        "cameraZ": 202.9787234042553,
+        "magnification": 0.029559748427672956,
+        "spanX": 380,
+        "spanZ": 3180,
+        "usable": {
+          "height": 94,
+          "width": 759,
+          "x": 14,
+          "y": 102
+        }
+      },
+      "valid": true,
+      "view_height": 310,
+      "view_width": 787
+    },
+    "plan_fit_wide": {
+      "camera": {
+        "horizontal": 0.23867924511432648,
+        "vertical": 0.23867924511432648,
+        "x": 0,
+        "z": 25.13833999633789
+      },
+      "corners": [
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 18.77358055114746,
+          "y": 103.65008544921875
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 18.77358055114746,
+          "y": 146.6123504638672
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 52.188682556152344,
+          "y": 103.65008544921875
+        },
+        {
+          "id": "tank_a",
+          "inside": true,
+          "x": 52.188682556152344,
+          "y": 146.6123504638672
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 161.98114013671875,
+          "y": 151.3859405517578
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 161.98114013671875,
+          "y": 194.3481903076172
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 195.396240234375,
+          "y": 151.3859405517578
+        },
+        {
+          "id": "tank_b",
+          "inside": true,
+          "x": 195.396240234375,
+          "y": 194.3481903076172
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 305.1886901855469,
+          "y": 103.65008544921875
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 305.1886901855469,
+          "y": 146.6123504638672
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 338.6037902832031,
+          "y": 103.65008544921875
+        },
+        {
+          "id": "source_a",
+          "inside": true,
+          "x": 338.6037902832031,
+          "y": 146.6123504638672
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 448.3962097167969,
+          "y": 151.3859405517578
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 448.3962097167969,
+          "y": 194.3481903076172
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 481.8113098144531,
+          "y": 151.3859405517578
+        },
+        {
+          "id": "source_b",
+          "inside": true,
+          "x": 481.8113098144531,
+          "y": 194.3481903076172
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 591.603759765625,
+          "y": 103.65008544921875
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 591.603759765625,
+          "y": 146.6123504638672
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 625.0188598632812,
+          "y": 103.65008544921875
+        },
+        {
+          "id": "treatment",
+          "inside": true,
+          "x": 625.0188598632812,
+          "y": 146.6123504638672
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 734.8113403320312,
+          "y": 151.3859405517578
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 734.8113403320312,
+          "y": 194.3481903076172
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 768.2264404296875,
+          "y": 151.3859405517578
+        },
+        {
+          "id": "trucking",
+          "inside": true,
+          "x": 768.2264404296875,
+          "y": 194.3481903076172
+        }
+      ],
+      "fit": {
+        "cameraX": 0,
+        "cameraZ": 25.138339920948617,
+        "magnification": 0.23867924528301887,
+        "spanX": 3180,
+        "spanZ": 380,
+        "usable": {
+          "height": 94,
+          "width": 759,
+          "x": 14,
+          "y": 102
+        }
+      },
+      "valid": true,
+      "view_height": 310,
+      "view_width": 787
+    },
+    "route_cue_bypass": {
+      "active": [
+        "selectedRouteCue:bypass"
+      ],
+      "body_hit": "route:bypass",
+      "found": true,
+      "geometry": {
+        "models": [
+          {
+            "name": "selectedRouteCueHead:bypass",
+            "neutral": true,
+            "pickable": false,
+            "position": [
+              0,
+              10,
+              0
+            ],
+            "scale": [
+              0.15000000596046448,
+              0.1599999964237213,
+              0.10000000149011612
+            ],
+            "source": "#Cone"
+          },
+          {
+            "name": "selectedRouteCueShaft:bypass",
+            "neutral": true,
+            "pickable": false,
+            "position": [
+              0,
+              -7,
+              0
+            ],
+            "scale": [
+              0.054999999701976776,
+              0.2199999988079071,
+              0.02500000037252903
+            ],
+            "source": "#Cube"
+          }
+        ],
+        "position": [
+          11.600000381469727,
+          19,
+          30
+        ],
+        "rotation": [
+          0.7071068286895752,
+          0,
+          0,
+          -0.7071068286895752
+        ]
+      },
+      "pipe_red": false,
+      "visible": true
+    },
+    "route_cue_main_pump": {
+      "active": [
+        "selectedRouteCue:main_pump"
+      ],
+      "body_hit": "route:main_pump",
+      "found": true,
+      "geometry": {
+        "models": [
+          {
+            "name": "selectedRouteCueHead:main_pump",
+            "neutral": true,
+            "pickable": false,
+            "position": [
+              0,
+              10,
+              0
+            ],
+            "scale": [
+              0.15000000596046448,
+              0.1599999964237213,
+              0.10000000149011612
+            ],
+            "source": "#Cone"
+          },
+          {
+            "name": "selectedRouteCueShaft:main_pump",
+            "neutral": true,
+            "pickable": false,
+            "position": [
+              0,
+              -7,
+              0
+            ],
+            "scale": [
+              0.054999999701976776,
+              0.2199999988079071,
+              0.02500000037252903
+            ],
+            "source": "#Cube"
+          }
+        ],
+        "position": [
+          24,
+          19,
+          -69.19999694824219
+        ],
+        "rotation": [
+          0.7071068286895752,
+          -0.4417261481285095,
+          0,
+          -0.5521577000617981
+        ]
+      },
+      "pipe_red": true,
+      "visible": true
+    }
+  }
+}

@@ -1,0 +1,14 @@
+{
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "dirty": false,
+  "mode": "asan",
+  "status": "passed",
+  "scope": "Full configured build graph",
+  "started_utc": "2026-11-20T21:19:20.5953988Z",
+  "free_before_bytes": 9002442752,
+  "app_sha256": "77cb77d0b51349c8796fd9b8b44cf0d9aa6b2415936c9759413a8b196166c437",
+  "eog_live_check_sha256": "a802d0954d5d77014b636962e8af54dea86f9d40745f3a9d527ee3bf44bde449",
+  "nemotron_smoke_sha256": "067b83be1d2e21e66c2bfc3387894ed23a1b1cc2374317858a5825159e45de3a",
+  "finished_utc": "2026-11-20T21:20:48.0495948Z",
+  "free_after_bytes": 8766119936
+}

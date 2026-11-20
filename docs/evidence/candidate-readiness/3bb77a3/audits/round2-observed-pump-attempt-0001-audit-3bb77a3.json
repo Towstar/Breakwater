@@ -1,0 +1,272 @@
+{
+  "audit_version": 1,
+  "created_utc": "2026-11-20T23:04:53.682439+00:00",
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "round": 2,
+  "case": "observed_pump",
+  "audit_status": "passed",
+  "audit_failure": null,
+  "strict_auditor_result": {
+    "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+    "capture_id": "capture-4d42caa1-79ac-45b9-a205-63ce552b5032",
+    "model_requests": 13,
+    "tool_calls": 12
+  },
+  "manifest_recorded": false,
+  "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+  "checkpoint_sequence": 28,
+  "database_record": {
+    "mode": "ro",
+    "query_only": true,
+    "created_at": "2026-11-20T23:03:34.922Z",
+    "updated_at": "2026-11-20T23:03:53.632Z",
+    "status": "completed"
+  },
+  "archive": {
+    "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\observed-pump-attempt-0001.session.json",
+    "bytes": 169223,
+    "sha256": "dba1174664d44448ccb3e28909b13c2729c07e19ff2fe7f0569fc058c41f7370",
+    "unchanged_blob_bytes": true
+  },
+  "origin_capture_id": "capture-4d42caa1-79ac-45b9-a205-63ce552b5032",
+  "origin_clock": {
+    "captured_event_time_s": 85.90097839999999,
+    "expires_event_time_s": 90.01599999994505,
+    "availability": "available"
+  },
+  "mapping_status": "available",
+  "recommendation": {
+    "actionable": false,
+    "approval_status": "pending_advisory_review",
+    "candidate_id": "search:9990b2a0-4e89-4ac7-9c85-3e0b89c8f226:720",
+    "controls": [
+      {
+        "control_id": "route:backup_pump:flow",
+        "value": 35
+      },
+      {
+        "control_id": "route:bypass:flow",
+        "value": 18.75
+      },
+      {
+        "control_id": "route:truck_route:flow",
+        "value": 22
+      },
+      {
+        "control_id": "source:source_a:curtail",
+        "value": 0
+      }
+    ],
+    "cost": 5280,
+    "cost_unit": "synthetic units",
+    "created_at": "2026-11-20T23:03:40.732Z",
+    "current": true,
+    "explanation": "The lowest-cost validated advisory run is 0135ae36 with cost 5280 synthetic units. It sets backup_pump flow to 35 m\u00b3/h, bypass flow to 18.75 m\u00b3/h, truck_route flow to 22 m\u00b3/h, and source_a curtailment to 0. All tanks remain within capacity over the 3\u2011hour horizon with no violations. The run has been independently validated (validation_id ff213d2c) and staged for advisory review. No controls are applied; a human operator must acknowledge the staged plan before any simulated controls take effect. Caveats: the synthetic constant-flow model provides nominal volume feasibility only; quality is not evaluated; the finite candidate set does not establish global optimality; detector coverage is active but the pump\u2011delivery warning remains unresolved from the incident evidence.",
+    "horizon_h": 3,
+    "objective": "Inspect these frozen observations and incident evidence. Find a low-cost nominally feasible advisory response, or explain missing coverage. For any selected run, independently validate that exact stored run with validate_run before staging advisory review; retain its matching validation reference. Do not apply controls. Avoid repeating unchanged tool calls.",
+    "ok": true,
+    "physical_hash": "704b84a329243106e3219328dcf9071a8e602efc0dafa3d2f11be2bd43cf3471",
+    "run_id": "0135ae36-efa4-4c6e-ba51-033e92bb0188",
+    "sample_step_h": 0.025,
+    "search_candidate_index": 720,
+    "search_id": "9990b2a0-4e89-4ac7-9c85-3e0b89c8f226",
+    "selected_run_id": "0135ae36-efa4-4c6e-ba51-033e92bb0188",
+    "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+    "snapshot_id": "23838f5b-6c60-45ef-9b35-885d840b1154",
+    "solver": "dense_reference",
+    "solver_version": "constant-flow-0.1.1",
+    "source_mode": "hosted",
+    "status": "validated_recommendation",
+    "tanks": [
+      {
+        "asset_id": "tank_a",
+        "final_m3": 114.24930240064877,
+        "initial_m3": 80.49514144752611,
+        "trajectory_summary": [
+          {
+            "time_h": 0,
+            "volume_m3": 80.49514144752611
+          },
+          {
+            "time_h": 1.5,
+            "volume_m3": 97.37222192408738
+          },
+          {
+            "time_h": 3,
+            "volume_m3": 114.24930240064877
+          }
+        ]
+      },
+      {
+        "asset_id": "tank_b",
+        "final_m3": 113.25265153818714,
+        "initial_m3": 113.9993737531038,
+        "trajectory_summary": [
+          {
+            "time_h": 0,
+            "volume_m3": 113.9993737531038
+          },
+          {
+            "time_h": 1.5,
+            "volume_m3": 113.62601264564535
+          },
+          {
+            "time_h": 3,
+            "volume_m3": 113.25265153818714
+          }
+        ]
+      }
+    ],
+    "validation": {
+      "feasible": true,
+      "limits": [],
+      "max_conservation_residual_m3": 1.354472090042691e-14,
+      "minimum_headroom_m3": 5.750697599350815,
+      "violations": []
+    },
+    "validation_id": "ff213d2c-5685-4fbf-b1f6-6839d03b9bfa",
+    "validation_source": "validate_run",
+    "validation_status": "validated",
+    "verified_cost": 5280,
+    "verified_feasible": true,
+    "warnings": [
+      "Synthetic constant-flow model; nominal volume feasibility only.",
+      "Quality is not evaluated. Finite candidate evaluation does not establish global optimality."
+    ]
+  },
+  "event_type_counts": {
+    "agent_started": 1,
+    "model_request_started": 13,
+    "model_request_completed": 13,
+    "tool_requested": 12,
+    "tool_started": 12,
+    "tool_completed": 12,
+    "search_started": 1,
+    "search_completed": 1,
+    "candidate_validated": 5,
+    "approval_requested": 1,
+    "recommendation_ready": 1
+  },
+  "ordered_tool_evidence": [
+    {
+      "tool_call_id": "call-03f48a31-9f09-4095-a043-0c55cd30e04b",
+      "tool_name": "get_observations",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-959e519d-51b1-4b9b-b91c-bfbbcfb5f77c",
+      "tool_name": "get_detection_events",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-d4c0053e-cec0-4d45-8ec6-7677dcc95d26",
+      "tool_name": "get_network_state",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-5f5c9d66-de43-4dda-8b07-a642cfb9fef4",
+      "tool_name": "get_control_catalog",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-edf6ac43-2397-41d2-999d-977e9824868b",
+      "tool_name": "forecast_baseline",
+      "arguments": null,
+      "ok": true,
+      "run_id": "cac95958-a8dc-4792-8512-b3474be6cd5e",
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-6049f497-f0cc-4123-aced-857812db19d3",
+      "tool_name": "search_interventions",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-e1181d1c-b370-4d42-bd6c-447e6f2c424a",
+      "tool_name": "validate_run",
+      "arguments": null,
+      "ok": true,
+      "run_id": "0135ae36-efa4-4c6e-ba51-033e92bb0188",
+      "validation_id": "ff213d2c-5685-4fbf-b1f6-6839d03b9bfa"
+    },
+    {
+      "tool_call_id": "call-76c4e84b-b087-4bcc-b4bd-7a4983273c62",
+      "tool_name": "request_approval",
+      "arguments": null,
+      "ok": true,
+      "run_id": null,
+      "validation_id": null
+    },
+    {
+      "tool_call_id": "call-865259b6-35ae-42e6-8afb-b1635c1f7a9a",
+      "tool_name": "validate_run",
+      "arguments": null,
+      "ok": true,
+      "run_id": "3ccf6292-8efa-491d-80d6-76373822cb4f",
+      "validation_id": "433bdf88-ac26-456d-86c5-c761c99b2273"
+    },
+    {
+      "tool_call_id": "call-a99caa52-011b-48fa-86db-69a513393323",
+      "tool_name": "validate_run",
+      "arguments": null,
+      "ok": true,
+      "run_id": "bd5b84a5-a14e-4b13-a045-2018c5637e79",
+      "validation_id": "cca32c38-1cc1-45f6-9c90-3e1aa911c992"
+    },
+    {
+      "tool_call_id": "call-fd9dde6f-15b9-44c0-bfa4-97d7dac23778",
+      "tool_name": "validate_run",
+      "arguments": null,
+      "ok": true,
+      "run_id": "78396530-8a23-40df-8270-43c6cfbfc3e0",
+      "validation_id": "81ee3596-6c1c-496b-b373-52c551bc8224"
+    },
+    {
+      "tool_call_id": "call-04fad819-ba3a-4fa2-a200-37bde6f96212",
+      "tool_name": "validate_run",
+      "arguments": null,
+      "ok": true,
+      "run_id": "07c58c4c-f758-4166-94d9-04bcbfb724c2",
+      "validation_id": "9f4c5955-8cca-477d-96f0-7b1657d0d4df"
+    }
+  ],
+  "request_metadata": {
+    "count": 13,
+    "http_statuses": {
+      "200": 13
+    },
+    "outcomes": {
+      "succeeded": 13
+    },
+    "retry_count": 0,
+    "model_pairs": [
+      [
+        "nvidia/nemotron-3.5-lightning-30b-a3b",
+        "nvidia/nemotron-3.5-lightning-30b-a3b"
+      ]
+    ]
+  },
+  "retained_run_count": 6,
+  "selected_run_count": 1,
+  "selected_run_source_matches": true,
+  "approvals": [],
+  "actionable": false,
+  "applied_events": 0,
+  "public_release_approved": false,
+  "limits": "Retained observed evidence integrity/grounding only, not numerical accuracy or global optimality. Original completed SQLite BLOB exported with mode=ro and query_only; no source/database changes, model calls, UI or numerical execution by this helper. A missing-coverage no-plan result is a safety boundary, not proof of numerical infeasibility."
+}

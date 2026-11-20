@@ -1,0 +1,20 @@
+********* Start testing of ObservedForecastTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : ObservedForecastTests::initTestCase()
+PASS   : ObservedForecastTests::truncatedMissingCoverageRequiresObservationInspection(missing-observation-inspection)
+PASS   : ObservedForecastTests::truncatedMissingCoverageRequiresObservationInspection(inspected-unavailable-coverage)
+PASS   : ObservedForecastTests::frozenMeasurementsInitializeRenamedChangedTopologyWithoutEditingDesign()
+PASS   : ObservedForecastTests::failedPumpCannotBeReenabledByAnObservedCandidate()
+PASS   : ObservedForecastTests::missingCoverageBlocksEveryNumericalAndScientificTool()
+PASS   : ObservedForecastTests::finiteOutOfRangeMeasurementsStayRawAndUnavailable()
+PASS   : ObservedForecastTests::mappingBoundsCannotBeSubstituted()
+PASS   : ObservedForecastTests::detectorCoverageIsFrozenAndRejectsFutureForeignOrUnsupportedReports()
+PASS   : ObservedForecastTests::slowHistoryCoalescesIntermediateCheckpointsAndRetainsCompleteEvidence()
+PASS   : ObservedForecastTests::modelMustInspectObservationsAndKeepsItsSelectedToolOrder()
+PASS   : ObservedForecastTests::catalogGridRecoversCoupledPumpResponseWithoutApplyingControls()
+PASS   : ObservedForecastTests::missingCoverageOffersOnlyInspectionAndStillRejectsUnadvertisedNumerics()
+PASS   : ObservedForecastTests::actualPublisherCaptureSearchReviewAndHistoryNeverApplyControls()
+PASS   : ObservedForecastTests::detectorEventsFreezeAtCaptureAndExpiryRetiresAdvisoryReview()
+PASS   : ObservedForecastTests::cleanupTestCase()
+Totals: 16 passed, 0 failed, 0 skipped, 0 blacklisted, 38104ms
+********* Finished testing of ObservedForecastTests *********

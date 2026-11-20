@@ -1,0 +1,276 @@
+{
+  "summary_version": 1,
+  "candidate_head": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "candidate_source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+  "workflow_run": 44823006438,
+  "workflow_url": "https://github.com/Towstar/Breakwater/actions/runs/44823006438",
+  "scope": "Parsed raw job records. PR merge-ref checkout identity is preserved separately from candidate head; matching tree is content provenance, not execution attestation.",
+  "jobs": [
+    {
+      "source_record": "out/candidate-readiness/ci88-3bb77a3/records/14672699253-windows-lean-verification.json",
+      "source_record_sha256": "64ac2cfdc24515d05ccdedb45a68d9ff6602c9a027789c59720798b5a867c76e",
+      "suite": "lean",
+      "mode": "normal",
+      "status": "passed",
+      "recorded_checkout_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "recorded_source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "tree_matches_candidate_head_audit": true,
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "lean_archive_sha256": "5fc033e93e1a7bc59c5ebf311103d2c9cd18d4b3eddda4ffa3414e8adb0ef79e",
+        "lean": "Lean (version 4.35.0, x86_64-w64-windows-gnu, commit eb6cafb7290e8bd5f2937522d8d804f58f02bafc, Release)"
+      },
+      "ctest": null,
+      "external_model_requests": "not_run",
+      "asan_scope": null
+    },
+    {
+      "source_record": "out/candidate-readiness/ci88-3bb77a3/records/14673137888-windows-native-asan-verification.json",
+      "source_record_sha256": "31d87eb13e98e4370e0af50662ae3594dad3f5098d965956cb500b17ce7fa6be",
+      "suite": "native",
+      "mode": "asan",
+      "status": "passed",
+      "recorded_checkout_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "recorded_source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "tree_matches_candidate_head_audit": true,
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2"
+      },
+      "ctest": {
+        "registered": 17,
+        "executed": 17,
+        "skipped": 0
+      },
+      "external_model_requests": "not_run",
+      "asan_scope": "Owned C++ targets only; prebuilt Qt/Python/Torch are outside established instrumentation coverage."
+    },
+    {
+      "source_record": "out/candidate-readiness/ci88-3bb77a3/records/14673295630-windows-native-normal-verification.json",
+      "source_record_sha256": "c07fa887a50903373434c0733168c82a8ec8a2b27129cb1d478db615fcb17aa9",
+      "suite": "native",
+      "mode": "normal",
+      "status": "passed",
+      "recorded_checkout_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "recorded_source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "tree_matches_candidate_head_audit": true,
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2"
+      },
+      "ctest": {
+        "registered": 17,
+        "executed": 17,
+        "skipped": 0
+      },
+      "external_model_requests": "not_run",
+      "asan_scope": "Owned C++ targets only; prebuilt Qt/Python/Torch are outside established instrumentation coverage."
+    },
+    {
+      "source_record": "out/candidate-readiness/ci88-3bb77a3/records/14674125355-windows-science-cpu-verification.json",
+      "source_record_sha256": "7efffa74d32515b7c4b91979ed9064e365567209616671ef649f5276df7a56f2",
+      "suite": "science",
+      "mode": "normal",
+      "status": "passed",
+      "recorded_checkout_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "recorded_source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "tree_matches_candidate_head_audit": true,
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "eog_provider": {
+          "native_sha256": "c19350ba2b30d70362edb2dffcc6e48fa97b62a6ac9153341295176c3c0c2716",
+          "plant_sha256": "5b34ff39881b473df32bd24858ec135ac0177d985e08150c61bbbb35a6d45fa1",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "normal"
+        }
+      },
+      "ctest": null,
+      "external_model_requests": "not_run",
+      "asan_scope": null
+    },
+    {
+      "source_record": "out/candidate-readiness/ci88-3bb77a3/records/14675061032-windows-desktop-normal-verification.json",
+      "source_record_sha256": "ffc26bb669622cffcbc72a14d05621d35cf2f29651ef065d12a65542ca43c8d8",
+      "suite": "desktop",
+      "mode": "normal",
+      "status": "passed",
+      "recorded_checkout_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "recorded_source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "tree_matches_candidate_head_audit": true,
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "qt": "6.12.0",
+        "eog_provider": {
+          "native_sha256": "1341efee04abd2083ec8fac8a6a0ebfcc26fbcdc6ce4c58fec07afb8155e3878",
+          "plant_sha256": "26f375068a520ad7ac8068e8f7db44158225188eabbb89855a469f4d1875b2a4",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "normal"
+        }
+      },
+      "ctest": {
+        "registered": 88,
+        "executed": 88,
+        "skipped": 0
+      },
+      "external_model_requests": "not_run",
+      "asan_scope": "Owned C++ targets only; prebuilt Qt/Python/Torch are outside established instrumentation coverage."
+    },
+    {
+      "source_record": "out/candidate-readiness/ci88-3bb77a3/records/14677155031-windows-desktop-asan-verification.json",
+      "source_record_sha256": "847cf4c88c5c0018198e72d98ceb6820be6f3adbe945ce54a4cbd827d0263c27",
+      "suite": "desktop",
+      "mode": "asan",
+      "status": "passed",
+      "recorded_checkout_commit": "adf625a03423aed55e98bc9c63f7dd67a145719e",
+      "recorded_source_tree": "71475d970f784daa61c2da70dd3a03a66ad0ab7a",
+      "tree_matches_candidate_head_audit": true,
+      "runner": {
+        "image": "win22",
+        "image_version": "20261116.370.1",
+        "os": "Microsoft Windows NT 10.0.20348.0"
+      },
+      "toolchain": {
+        "bootstrap": {
+          "python": "3.12.10",
+          "packages": {
+            "requests": "2.34.2",
+            "py7zr": "1.1.4",
+            "PyYAML": "6.0.3"
+          }
+        },
+        "bootstrap_path_length_before": 2906,
+        "compiler": "14.44.35230.0",
+        "visual_studio": "17.14.37906.3",
+        "bootstrap_path_length": 213,
+        "compiler_path_length": 1995,
+        "windows_sdk": "10.0.26100.0\\",
+        "cmake": "cmake version 3.31.6",
+        "ninja": "1.13.2",
+        "science": {
+          "python": "3.12.13",
+          "torch": "2.15.0+cpu",
+          "numpy": "2.5.4",
+          "device": "cpu",
+          "dtype": "torch.float64"
+        },
+        "qt": "6.12.0",
+        "eog_provider": {
+          "native_sha256": "6e7370330f95ef2b61fa4e8af10286c6d108df27b3cbfa5dd0f04deccf181127",
+          "plant_sha256": "796a8949445df1120171917a5466004e6683ff3bf57dc2abe2623a077f497fe4",
+          "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+          "contracts": "contracts/eog",
+          "native_mode": "asan",
+          "asan_runtime_sha256": "3aa742521e8cbd23252f0545aa51d5a15624a3e4430fbe2f81567afaeb3fc59b"
+        }
+      },
+      "ctest": {
+        "registered": 88,
+        "executed": 88,
+        "skipped": 0
+      },
+      "external_model_requests": "not_run",
+      "asan_scope": "Owned C++ targets only; prebuilt Qt/Python/Torch are outside established instrumentation coverage."
+    }
+  ],
+  "ui_dimension_limit": "CI reports three named layouts at actual 1008x672 and the minimum at 960x540. Do not claim four distinct actual CI windows.",
+  "wire_attestation": "not_claimed",
+  "statistical_reliability": "not_claimed"
+}

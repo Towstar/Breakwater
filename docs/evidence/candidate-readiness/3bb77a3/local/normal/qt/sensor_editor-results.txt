@@ -1,0 +1,21 @@
+********* Start testing of SensorEditorTests *********
+Config: Using QtTest library 6.12.0, Qt 6.12.0 (x86_64-little_endian-llp64 shared (dynamic) release build; by MSVC 2022), windows 11
+PASS   : SensorEditorTests::initTestCase()
+PASS   : SensorEditorTests::emptyEditorIsUnchangedV1AndValidContext()
+PASS   : SensorEditorTests::sensorWrapperRoundTripsWithoutChangingNumericalPayload()
+PASS   : SensorEditorTests::labelAndMarkerEditsPreserveIdentityAndManualEvidence()
+PASS   : SensorEditorTests::semanticChangesNotifyWithoutOverwritingCommands()
+PASS   : SensorEditorTests::rejectedMappingAndAttachmentAreAtomic()
+PASS   : SensorEditorTests::levelNeedsExplicitMonotoneCalibrationAndVersionsChanges()
+PASS   : SensorEditorTests::markersFollowEquipmentLayoutAndUndoPreservesIds()
+PASS   : SensorEditorTests::deletionRequiresExplicitSensorDisposition()
+PASS   : SensorEditorTests::topologyChangesRebindPhysicalIdentity()
+PASS   : SensorEditorTests::customNetworkUsesItsActualStableIds()
+PASS   : SensorEditorTests::concentrationRequiresDeclaredGeometryAndRetiresOnGeometryChanges()
+PASS   : SensorEditorTests::primaryTransferIsAtomicAndGroupsCannotMixPhysicalQuantities()
+PASS   : SensorEditorTests::saveLoadStrictDecodeAndMalformedWrapperLeaveStateUnchanged()
+PASS   : SensorEditorTests::rejectedApprovalMutationCannotReportApplication()
+PASS   : SensorEditorTests::failedSensorTransactionCannotRecordAgentOperatorApproval()
+PASS   : SensorEditorTests::cleanupTestCase()
+Totals: 17 passed, 0 failed, 0 skipped, 0 blacklisted, 579ms
+********* Finished testing of SensorEditorTests *********

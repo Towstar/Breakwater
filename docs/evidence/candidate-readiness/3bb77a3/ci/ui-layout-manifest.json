@@ -1,0 +1,104 @@
+{
+  "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+  "workflow_run": 44823006438,
+  "ui_reports": [
+    {
+      "artifact_id": 14675061032,
+      "mode": "normal",
+      "ctest_name": "desktop.ui_overhaul_normal",
+      "window_width": 1008,
+      "window_height": 672,
+      "checks_passed": 25,
+      "elapsed_ms": 13567,
+      "path": "14675061032-desktop.ui_overhaul_normal.json",
+      "sha256": "4910a2a4bdcb4346900a63f1b2828c38ffe28cb38b95f97dbec97f94cab7928e",
+      "scope": "Parsed real CI UI report; original bytes remain in the verified ZIP/LastTest.log. Actual reported window dimensions, not assumed requested dimensions."
+    },
+    {
+      "artifact_id": 14675061032,
+      "mode": "normal",
+      "ctest_name": "desktop.ui_overhaul_compact",
+      "window_width": 1008,
+      "window_height": 672,
+      "checks_passed": 25,
+      "elapsed_ms": 12687,
+      "path": "14675061032-desktop.ui_overhaul_compact.json",
+      "sha256": "c3cbe4adfaa7022be76b2d8507b977671183305ce0624e38aabf6322c20a9396",
+      "scope": "Parsed real CI UI report; original bytes remain in the verified ZIP/LastTest.log. Actual reported window dimensions, not assumed requested dimensions."
+    },
+    {
+      "artifact_id": 14675061032,
+      "mode": "normal",
+      "ctest_name": "desktop.ui_overhaul_short",
+      "window_width": 1008,
+      "window_height": 672,
+      "checks_passed": 25,
+      "elapsed_ms": 12792,
+      "path": "14675061032-desktop.ui_overhaul_short.json",
+      "sha256": "c33d2a0eacba1099aed51c8eb618cecdac77e024c2f1d84af650acf87fffcb74",
+      "scope": "Parsed real CI UI report; original bytes remain in the verified ZIP/LastTest.log. Actual reported window dimensions, not assumed requested dimensions."
+    },
+    {
+      "artifact_id": 14675061032,
+      "mode": "normal",
+      "ctest_name": "desktop.ui_overhaul_minimum",
+      "window_width": 960,
+      "window_height": 540,
+      "checks_passed": 25,
+      "elapsed_ms": 12696,
+      "path": "14675061032-desktop.ui_overhaul_minimum.json",
+      "sha256": "9f152c97bcbd5680375aa93ac09558e35267492a94f398bd462e078af9f13171",
+      "scope": "Parsed real CI UI report; original bytes remain in the verified ZIP/LastTest.log. Actual reported window dimensions, not assumed requested dimensions."
+    },
+    {
+      "artifact_id": 14677155031,
+      "mode": "asan",
+      "ctest_name": "desktop.ui_overhaul_normal",
+      "window_width": 1008,
+      "window_height": 672,
+      "checks_passed": 25,
+      "elapsed_ms": 42322,
+      "path": "14677155031-desktop.ui_overhaul_normal.json",
+      "sha256": "d4f8d13cc465fcf76de6d72b78885df90ad3a2d8d4f4d40490717035c1ecb227",
+      "scope": "Parsed real CI UI report; original bytes remain in the verified ZIP/LastTest.log. Actual reported window dimensions, not assumed requested dimensions."
+    },
+    {
+      "artifact_id": 14677155031,
+      "mode": "asan",
+      "ctest_name": "desktop.ui_overhaul_compact",
+      "window_width": 1008,
+      "window_height": 672,
+      "checks_passed": 25,
+      "elapsed_ms": 38733,
+      "path": "14677155031-desktop.ui_overhaul_compact.json",
+      "sha256": "782fe8663bcd0f5dc6767d6de3318578372547af81c063132611b71a683535e2",
+      "scope": "Parsed real CI UI report; original bytes remain in the verified ZIP/LastTest.log. Actual reported window dimensions, not assumed requested dimensions."
+    },
+    {
+      "artifact_id": 14677155031,
+      "mode": "asan",
+      "ctest_name": "desktop.ui_overhaul_short",
+      "window_width": 1008,
+      "window_height": 672,
+      "checks_passed": 25,
+      "elapsed_ms": 39059,
+      "path": "14677155031-desktop.ui_overhaul_short.json",
+      "sha256": "f05335a7ecd113e82c063d28d0c3503960ef6d9e7cc81ca4b14237ca1df09eaa",
+      "scope": "Parsed real CI UI report; original bytes remain in the verified ZIP/LastTest.log. Actual reported window dimensions, not assumed requested dimensions."
+    },
+    {
+      "artifact_id": 14677155031,
+      "mode": "asan",
+      "ctest_name": "desktop.ui_overhaul_minimum",
+      "window_width": 960,
+      "window_height": 540,
+      "checks_passed": 25,
+      "elapsed_ms": 38941,
+      "path": "14677155031-desktop.ui_overhaul_minimum.json",
+      "sha256": "02de616e204b91c90c46865ae4abe4392aaa4e714c6f0a2b0659cd5288da83c0",
+      "scope": "Parsed real CI UI report; original bytes remain in the verified ZIP/LastTest.log. Actual reported window dimensions, not assumed requested dimensions."
+    }
+  ],
+  "ci_logs_credential_shape_scan_passed": 6,
+  "limitations": "Logical window checks on hosted Windows. These are not actual clean-Windows11 VM acceptance or real Windows display-scale tests."
+}

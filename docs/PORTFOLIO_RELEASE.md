@@ -4,7 +4,29 @@ Accepted direction: 17 November 2026. This is an implementation ledger, not a
 claim that the release gates have passed. Devpost and the frozen hackathon build
 are outside this work.
 
-## Active release-readiness pass
+## Current development candidate
+
+Clean engineering source `3bb77a3` passes 88/88 normal CTest suites, 88/88 ASan
+suites and all 78 helpers. Ten bundled checks pass in place and ten after actual
+ZIP extraction to a spaces/Unicode path. All six Windows CI jobs pass for its
+matching source tree. The second hosted round passes all seven declared strict
+cases; the first round's failed pump validation remains retained. The second pump
+objective explicitly requested exact stored-run validation. Repeated calls,
+bounded searches and inaccurate model prose remain documented limitations.
+
+A private Windows/source kit is staged, and actual application views are indexed
+in the [source-labeled gallery](images/portfolio/README.md). All 19 manual
+clean-Windows checks remain `not_run`; required owner review and GPLv3 agreement
+have not been freshly verified. Licensing/source delivery, ordered integration
+and actual clean-Windows acceptance remain gates. This is not a public v0.3
+release. See [candidate results](CANDIDATE_RESULTS_3BB77A3.md) and
+[readiness](CANDIDATE_READINESS.md) for original executable/source identities.
+
+## Historical v0.2.0 readiness pass
+
+The ledger below retains the dated v0.2.0 scope and observations. Its source IDs,
+test counts, pending work and historical main/PR state are not current `3bb77a3`
+claims; the later development results are recorded above.
 
 The implemented application stack through PR66 (`0cfee72`) is followed by draft
 [PR67](https://github.com/Towstar/Breakwater/pull/67). Its clean binary candidate is

@@ -1,0 +1,30 @@
+{
+  "copy_version": 1,
+  "raw_bytes_unchanged": true,
+  "files": [
+    {
+      "source": "out/candidate-readiness/round2-seven-case-final-audit-3bb77a3.json",
+      "destination": "docs/evidence/candidate-readiness/3bb77a3/audits/round2-seven-case-final-audit-3bb77a3.json",
+      "bytes": 14994,
+      "sha256": "eb00eb689afed9680d895a1b870dd24eb5daa07bf42daec892acdea5c3131746"
+    },
+    {
+      "source": "out/candidate-readiness/round2-observed-missing-coverage-attempt-0001-audit-3bb77a3.json",
+      "destination": "docs/evidence/candidate-readiness/3bb77a3/audits/round2-observed-missing-coverage-attempt-0001-audit-3bb77a3.json",
+      "bytes": 6613,
+      "sha256": "04b57b2493dbbf2308d8168ce0747796c927285564d67528717b247c747529ba"
+    },
+    {
+      "source": "out/candidate-readiness/round2-observed-pump-attempt-0001-audit-3bb77a3.json",
+      "destination": "docs/evidence/candidate-readiness/3bb77a3/audits/round2-observed-pump-attempt-0001-audit-3bb77a3.json",
+      "bytes": 9760,
+      "sha256": "7d1367cc199005d0fd5e05c8cefacdf4424609d7cf44571fe63fed4b8ff0183d"
+    },
+    {
+      "source": "out/candidate-readiness/round2-observed-pump-exact-validation-binding-3bb77a3.json",
+      "destination": "docs/evidence/candidate-readiness/3bb77a3/audits/round2-observed-pump-exact-validation-binding-3bb77a3.json",
+      "bytes": 4442,
+      "sha256": "d33dabd115ebec66c64fbaa76db5864ca3608741811bc3dd572c5a09780b4074"
+    }
+  ]
+}
