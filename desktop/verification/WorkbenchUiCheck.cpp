@@ -173,6 +173,19 @@ class Check final : public QObject {
         }
         require(cue.value("body_hit").toString()=="route:"+id,"route_cue_changed_primary_picking");
     }
+    void labelsMatchProjection(const QString& viewName) {
+        const auto result=QJsonDocument::fromJson(eval(QStringLiteral(
+            "JSON.stringify((function(){const rows=app.controller.assets;const checks=sceneLabelLayer.positioned.map(label=>{"
+            "const asset=rows.find(row=>row.id===label.id);if(!asset)return {id:label.id,passed:false};"
+            "const p=view.mapFrom3DScene(Qt.vector3d(asset.x,108,asset.z));"
+            "const finite=[label.anchorX,label.anchorY,p.x,p.y].every(Number.isFinite);"
+            "const error=Math.max(Math.abs(label.anchorX-p.x),Math.abs(label.anchorY-p.y));"
+            "return {id:label.id,anchor_x:label.anchorX,anchor_y:label.anchorY,actual_x:p.x,actual_y:p.y,error_px:error,passed:finite&&error<=1}});"
+            "return {label_count:checks.length,passed:checks.length>0&&checks.every(row=>row.passed),labels:checks}})())")).toString().toUtf8()).object();
+        observed_["label_projection_"+viewName]=result;
+        navigationPreserved();
+        require(result.value("passed").toBool(),"scene_label_projection_stale_after_view_change");
+    }
     QJsonObject focusObservation() {
         auto* field = item("numericProperty_capacity");
         auto* focused = window_->activeFocusItem();
@@ -824,11 +837,32 @@ class Check final : public QObject {
                 require(selectedCue().value("pipe_red").toBool(),"unavailable_route_selection_lost_availability_colour");
                 snapshot("24-unavailable-route-cue.png");
                 passed("zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls");
+                click(item("sceneTop")); markCueFrames(); phase_=100; return;
+            case 100:
+                if (!cueFramesReady()) return;
+                require(eval("app.topView").toBool(),"projection_test_top_view_did_not_activate");
+                labelsMatchProjection("top");
+                click(item("sceneFocus")); markCueFrames(); break;
+            case 101:
+                if (!cueFramesReady()) return;
+                require(eval("app.topView").toBool(),"route_focus_left_top_view");
+                routeFocused(); labelsMatchProjection("top_focus");
+                click(item("sceneTop")); markCueFrames(); break;
+            case 102:
+                if (!cueFramesReady()) return;
+                require(!eval("app.topView").toBool() && !eval("app.fittedView").toBool(),"projection_test_perspective_did_not_restore");
+                labelsMatchProjection("perspective");
+                click(item("sceneHome")); markCueFrames(); break;
+            case 103:
+                if (!cueFramesReady()) return;
+                require(!eval("app.topView").toBool() && !eval("app.fittedView").toBool(),"projection_test_home_view_did_not_restore");
+                labelsMatchProjection("home");
+                passed("top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits");
                 require(controller_->restore(cue_original_project_),"route_cue_original_setup_restore_failed");
                 observed_project_=cue_original_project_;
                 eval("networkFilter.clear(); app.networkMode='equipment'"); controller_->select(navigation_selection_);
                 if (eval("workspaceSettings.values.dockOpen").toBool()!=navigation_dock_open_) click(item("Toggle results",true));
-                click(item("sceneHome")); break;
+                click(item("sceneHome")); phase_=99; return;
             case 99: {
                 require(controller_->editorDocument()==cue_original_project_ && controller_->selectedId()==navigation_selection_
                     && !item("sceneRouteSummary")->isVisible() && !eval("app.fittedView").toBool()
