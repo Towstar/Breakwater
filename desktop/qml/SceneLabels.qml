@@ -1,6 +1,7 @@
 pragma ComponentBehavior: Bound
 import QtQuick
 import QtQuick.Controls
+import QtQuick.Window
 import "LabelPlacement.js" as LabelPlacement
 
 Item {
@@ -17,9 +18,34 @@ Item {
     property vector3d dragDelta: Qt.vector3d(0, 0, 0)
     property real topInset: 90
     property var exclusions: []
+    property bool projectionPending: false
+    property int projectionRevision: 0
+    function requestProjection() {
+        if (!ready || !visible || !projector) return
+        projectionPending = true
+        if (labels.Window.window) labels.Window.window.update()
+    }
+    onViewStateChanged: requestProjection()
+    onReadyChanged: requestProjection()
+    onWidthChanged: requestProjection()
+    onHeightChanged: requestProjection()
+    onVisibleChanged: requestProjection()
+    Connections {
+        target: labels.Window.window
+        function onFrameSwapped() {
+            if (!labels.projectionPending) return
+            labels.projectionPending = false
+            // Camera property bindings run before Qt Quick 3D publishes its new
+            // projection matrix. Recompute once after that frame, then draw the
+            // resulting labels. Idle frames never rebuild the label repeater.
+            labels.projectionRevision += 1
+            labels.Window.window.update()
+        }
+    }
     readonly property int visibleCount: positioned.length
     readonly property var positioned: {
         const view = viewState
+        const renderedProjection = projectionRevision
         if (!ready || !projector || width <= 20 || height <= topInset + 60) return []
         const candidates = []
         for (const row of rows) {
