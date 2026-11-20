@@ -1,0 +1,15 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+    Start 31: desktop.observed_forecast
+1/2 Test #31: desktop.observed_forecast .........   Passed   11.93 sec
+    Start 74: desktop.eog_analysis_controller
+2/2 Test #74: desktop.eog_analysis_controller ...***Failed   35.38 sec
+
+
+50% tests passed, 1 tests failed out of 2
+
+Total Test time (real) =  47.32 sec
+
+The following tests FAILED:
+	 74 - desktop.eog_analysis_controller (Failed)
+Errors while running CTest

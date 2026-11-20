@@ -1,0 +1,186 @@
+{
+  "checkpoint_version": 1,
+  "recorded_utc": "2026-11-20T01:36:08.384947+00:00",
+  "public_release_approved": false,
+  "scope": "Completed GitHub Windows-checks run, retaining the single failing normal-desktop checkpoint without promoting it to success.",
+  "workflow_run": {
+    "id": 44647353356,
+    "attempt": 1,
+    "url": "https://github.com/Towstar/Breakwater/actions/runs/44647353356",
+    "head_source": "efd82a6187ac9a5cbaba14e1d4415523fb2ed133",
+    "checked_out_merge_source": "c6f2fe6cae971fce0cf5705cce6d65f33a6b6adb",
+    "checked_out_tree": "cfb2abf34819db861d1e02ccf2d20f09ecff597b",
+    "working_tree_dirty": false,
+    "event": "pull_request",
+    "conclusion": "failure",
+    "jobs": [
+      {
+        "id": 135993216823,
+        "name": "Native (normal)",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44647353356/job/135993216823"
+      },
+      {
+        "id": 135993217145,
+        "name": "Native (asan)",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44647353356/job/135993217145"
+      },
+      {
+        "id": 135997254184,
+        "name": "Lean assumption audit",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44647353356/job/135997254184"
+      },
+      {
+        "id": 135997254199,
+        "name": "Desktop (normal)",
+        "conclusion": "failure",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44647353356/job/135997254199"
+      },
+      {
+        "id": 135997254228,
+        "name": "Desktop (asan)",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44647353356/job/135997254228"
+      },
+      {
+        "id": 135997254253,
+        "name": "Python science (CPU)",
+        "conclusion": "success",
+        "url": "https://github.com/Towstar/Breakwater/actions/runs/44647353356/job/135997254253"
+      }
+    ],
+    "job_status_provenance": "GitHub workflow-run-jobs connector returned all six completed job conclusions; exact other-job test counts were not independently audited here."
+  },
+  "downloaded_artifact": {
+    "id": 14590762191,
+    "name": "windows-desktop-normal",
+    "url": "https://github.com/Towstar/Breakwater/actions/runs/44647353356/artifacts/14590762191",
+    "api_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14590762191",
+    "zip_bytes": 2815800,
+    "zip_sha256": "1d6e48234da373f9d2bacf21b33ba256ec23cba8df6dceee4c5f4ea2ad1ef9f0",
+    "sha256_matched_github_digest": true,
+    "copied_members_matched_zip_bytes": true
+  },
+  "normal_desktop": {
+    "job_id": 135997254199,
+    "conclusion": "failure",
+    "source_commit": "c6f2fe6cae971fce0cf5705cce6d65f33a6b6adb",
+    "source_tree": "cfb2abf34819db861d1e02ccf2d20f09ecff597b",
+    "runner": {
+      "image": "win22",
+      "image_version": "20261116.370.1",
+      "os": "Microsoft Windows NT 10.0.20348.0"
+    },
+    "toolchain": {
+      "bootstrap": {
+        "python": "3.12.10",
+        "packages": {
+          "requests": "2.34.2",
+          "py7zr": "1.1.4",
+          "PyYAML": "6.0.3"
+        }
+      },
+      "bootstrap_path_length_before": 2906,
+      "compiler": "14.44.35230.0",
+      "visual_studio": "17.14.37906.3",
+      "bootstrap_path_length": 213,
+      "compiler_path_length": 1995,
+      "windows_sdk": "10.0.26100.0\\",
+      "cmake": "cmake version 3.31.6",
+      "ninja": "1.13.2",
+      "science": {
+        "python": "3.12.13",
+        "torch": "2.15.0+cpu",
+        "numpy": "2.5.4",
+        "device": "cpu",
+        "dtype": "torch.float64"
+      },
+      "qt": "6.12.0",
+      "eog_provider": {
+        "native_sha256": "e6a4c2278c811749c86985bb6e154aeaef6a83bd72123bb700049c7c0111cc81",
+        "plant_sha256": "2671225ff2cf9b65c09e0ce365975f4a1bbd83341f446911e96a6202f2d85bfe",
+        "worker_sha256": "34d83bdddfa85e4af6b6b50adc4c85354dbd63b57d323fffafffee90dc5390b2",
+        "contracts": "contracts/eog",
+        "native_mode": "normal"
+      }
+    },
+    "test_count": 87,
+    "passed": 86,
+    "failed": 1,
+    "skipped": 0,
+    "failed_test": "desktop.scene_picking_warp",
+    "failure_assertion": "labels are missing or overlap",
+    "actual_failure_evidence": "Five visible labels for six assets, with zero overlaps; all six actual nearest-object picks succeeded.",
+    "benchmark": {
+      "protocol_version": 2,
+      "status": "measured",
+      "assets": 6,
+      "actual_body_picks": 6,
+      "projected": 6,
+      "visible_labels": 5,
+      "label_overlaps": 0,
+      "client_width": 1008,
+      "client_height": 672,
+      "device_pixel_ratio": 1,
+      "renderer": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "software_renderer_requested": true,
+      "post_stop_rendered_frames": 2,
+      "measurement_window_ms": 10028.7661,
+      "fps_diagnostic_only": 23.738719513236443,
+      "numerical_identity_unchanged": true,
+      "picking_error": ""
+    }
+  },
+  "copied_files": [
+    {
+      "path": "docs/evidence/v03/reliability-picking-20261120/ci-44647353356-desktop-normal/benchmark.json",
+      "bytes": 3841,
+      "sha256": "dcda0910b7a447c39d9f3d4786d54199995fceadcf3f088dde45666b6720aefc",
+      "zip_member": "out/ci/desktop-normal/test-artifacts/scene-picking-warp-0c037ea6dbc948fc86ae473d99b2122c/benchmark.json",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/v03/reliability-picking-20261120/ci-44647353356-desktop-normal/ctest-results.xml",
+      "bytes": 36765,
+      "sha256": "62760d06e0df60014f205ea02bdf7dcd6eb5fc041d42035ec8bcdc4b3e9b56a9",
+      "zip_member": "out/ci/desktop-normal/ctest-results.xml",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/v03/reliability-picking-20261120/ci-44647353356-desktop-normal/job-start.json",
+      "bytes": 832,
+      "sha256": "6641b3858eac82c589055e63dc992e823c1aba91168bc04e1fb2912e5e01fbb7",
+      "zip_member": "out/ci/desktop-normal/job-start.json",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/v03/reliability-picking-20261120/ci-44647353356-desktop-normal/job-finish.json",
+      "bytes": 840,
+      "sha256": "4c23b54ff1c20c70fde13a3aee2a4024d7fd809baa219a580d162c640dd769c6",
+      "zip_member": "out/ci/desktop-normal/job-finish.json",
+      "copied_verbatim": true
+    },
+    {
+      "path": "docs/evidence/v03/reliability-picking-20261120/ci-44647353356-desktop-normal/verification.json",
+      "bytes": 3577,
+      "sha256": "f677cb296184749c8b9ec5ead8378e0b384aeb87d15a19a62cc416b59ee122a4",
+      "zip_member": "out/ci/desktop-normal/verification.json",
+      "copied_verbatim": true
+    }
+  ],
+  "remaining_work": "Correct compact-viewport label culling and qualify a fresh source/CI run. This failed checkpoint is preserved; a local pass or later fix must not rewrite its result.",
+  "qualification_limits": [
+    "The raw benchmark reports measured rendering, not overall CI success. The harness correctly rejects missing labels.",
+    "WARP FPS is diagnostic; the failure concerns label coverage, not an FPS target or nearest-object picking.",
+    "Other five jobs succeeded, but this run as a whole failed. No claim is made that all CI passed.",
+    "This checkpoint does not qualify the later concise request-mode source29df04f or a pending label fix."
+  ]
+}

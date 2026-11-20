@@ -1,16 +1,22 @@
 # Implementation status
 
-## Active development: expanded v0.3.0, November 19, 2026
+## Active development: expanded v0.3.0, November 20 UTC, 2026
 
 A [reliability and picking follow-up](RELIABILITY_PICKING_FOLLOWUP.md), application
-source `7f6294d`, builds in normal and ASan. Normal checkpoint checks and the
-final-source focused EOG suites pass; full final ASan, hosted qualification and
-the app handoff remain pending. Approved cleanup is complete. The earlier fixed
-hosted round remains 2/4, with both failures retained; a demonstrated eligibility
-index gap is corrected without changing final admission. `c71249e` remains the
-last completed app handoff until the new candidate is qualified and shown.
+source `29df04f`, builds in normal and ASan and is the only open app instance
+after the updated workspace was shown. The latest fixed hosted EOG round passed
+4/4, and desktop pump-loss/missing-coverage cases passed their advisory/no-plan
+gates. Both earlier 2/4 rounds remain retained. Concise generation, exact
+completion references and the unchanged admission checks improve bounded
+completion; repeated cached tool requests remain observable. WARP picks all
+6/6 canonical assets in normal and ASan; hardware default/dense picks pass
+6/6 and 128/128. The full ASan 87/87 matrix is from `7f6294d`, with subsequent
+`29df04f` client/render and live checks recorded separately in the
+[source-qualified evidence](evidence/v03/reliability-picking-20261120/tests-and-rendering.json).
+Approved cleanup is complete. PR82 is stacked on PR81. Human owner review,
+licensing, integration and actual clean-Windows release acceptance remain open.
 
-Implemented candidate: `c71249ee2dbef04480ee8ea52806b1808622e44a`, in the
+Prior candidate checkpoint: `c71249ee2dbef04480ee8ea52806b1808622e44a`, in the
 PR68 through PR80 stack. The [current review packet](RELEASE_REVIEW_V03.md) and
 [final verification index](evidence/v03/final-verification.json) supersede pending
 checkpoints in the dated component reports without replacing their history.

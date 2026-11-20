@@ -1,0 +1,698 @@
+{
+  "evidence_version": 1,
+  "recorded_utc": "2026-11-20T01:28:41.646520+00:00",
+  "scope": "Local Windows test and renderer evidence; original reports are preserved.",
+  "latest_application_source": "29df04f63a6af81671e1d223cb005c350a4a7289",
+  "source_provenance": "Source bindings are retained task/build provenance; raw CTest XML and renderer JSON do not embed the Git revision. SHA-256 verifies copies against their original evidence bytes, not a reproducible-build claim.",
+  "normal_resolved_checkpoint": {
+    "scope": "Resolved per-test checkpoint across earlier mixed-source runs, not a single full-suite execution at the latest source.",
+    "unique_suites": 87,
+    "passed": 87,
+    "unresolved_failures": 0,
+    "skipped": 0,
+    "snapshots_in_resolution_order": [
+      {
+        "source_binding": "Earlier mixed-source normal checkpoints through 7f6294d943c95642b62037df0678f83c9e1c2d87; XML does not embed a source revision.",
+        "xml": "docs/evidence/v03/reliability-picking-20261120/focused-normal-first.xml",
+        "timestamp_local": "2026-11-19T18:07:12",
+        "tests": 7,
+        "passed": 5,
+        "failed": 2,
+        "skipped": 0,
+        "test_names": [
+          "desktop.nemotron_client",
+          "desktop.agent_gateway",
+          "desktop.agent_orchestrator",
+          "desktop.observed_forecast",
+          "desktop.scene_picking_warp",
+          "desktop.eog_investigator",
+          "desktop.eog_analysis_controller"
+        ],
+        "failed_test_names": [
+          "desktop.observed_forecast",
+          "desktop.eog_analysis_controller"
+        ]
+      },
+      {
+        "source_binding": "Earlier mixed-source normal checkpoints through 7f6294d943c95642b62037df0678f83c9e1c2d87; XML does not embed a source revision.",
+        "xml": "docs/evidence/v03/reliability-picking-20261120/remaining-normal.xml",
+        "timestamp_local": "2026-11-19T18:09:06",
+        "tests": 80,
+        "passed": 78,
+        "failed": 2,
+        "skipped": 0,
+        "test_names": [
+          "engine.observation_detection",
+          "engine.observation_qualification",
+          "engine.observations",
+          "engine.eog_committed",
+          "engine.eog_plant_abi",
+          "engine.eog_simulation",
+          "engine.eog_response",
+          "engine.eog_analytical",
+          "engine.eog_analytical_example",
+          "engine.benchmark_correctness",
+          "engine.acceptance",
+          "engine.search",
+          "engine.control_influence",
+          "engine.search_example",
+          "engine.search_infeasible_example",
+          "engine.transport",
+          "engine.transport_example",
+          "desktop.label_placement",
+          "desktop.evidence_v2",
+          "desktop.workspace_settings",
+          "desktop.editor_tools",
+          "desktop.ui_overhaul_normal",
+          "desktop.ui_overhaul_compact",
+          "desktop.ui_overhaul_short",
+          "desktop.ui_overhaul_minimum",
+          "desktop.project",
+          "desktop.pipe_parameters",
+          "desktop.session_repository",
+          "desktop.history_controller",
+          "desktop.python_worker",
+          "desktop.pipe_transport",
+          "desktop.pipe_transport_evidence",
+          "desktop.storage_worker",
+          "desktop.storage_science",
+          "desktop.stored_science",
+          "desktop.science_evidence",
+          "desktop.agent_science",
+          "desktop.sensor_editor",
+          "desktop.telemetry_stream",
+          "desktop.telemetry_lifecycle",
+          "desktop.observed_capture",
+          "desktop.local_publisher",
+          "desktop.receiver_journal",
+          "desktop.sensor_editor_normal_smoke",
+          "desktop.telemetry_replay_normal_smoke",
+          "desktop.sensor_editor_compact_smoke",
+          "desktop.telemetry_replay_compact_smoke",
+          "desktop.telemetry_contracts",
+          "contracts.telemetry",
+          "desktop.eog_contracts",
+          "contracts.eog",
+          "desktop.observed_advisory_normal",
+          "desktop.observed_advisory_compact",
+          "desktop.observed_advisory_short",
+          "desktop.observed_advisory_minimum",
+          "desktop.storage_science_normal",
+          "desktop.storage_science_compact",
+          "desktop.storage_science_derivatives",
+          "desktop.qml_smoke",
+          "desktop.scientific_history_normal",
+          "desktop.scientific_history_compact",
+          "desktop.pipe_evidence_smoke",
+          "desktop.portfolio_examples",
+          "desktop.eog_dataset",
+          "desktop.eog_capture",
+          "desktop.eog_analysis_client",
+          "desktop.eog_history",
+          "desktop.eog_provider",
+          "desktop.eog_demo_input",
+          "desktop.eog_live_cli",
+          "desktop.eog_cli",
+          "desktop.eog_plan_chart",
+          "desktop.eog_plan_details",
+          "desktop.eog_event_details",
+          "desktop.eog_analysis_normal",
+          "desktop.eog_overview_normal",
+          "desktop.eog_facility_normal",
+          "desktop.eog_analysis_compact",
+          "desktop.eog_overview_compact",
+          "desktop.eog_facility_compact"
+        ],
+        "failed_test_names": [
+          "desktop.eog_live_cli",
+          "desktop.eog_cli"
+        ],
+        "log": "docs/evidence/v03/reliability-picking-20261120/remaining-normal.log"
+      },
+      {
+        "source_binding": "Earlier mixed-source normal checkpoints through 7f6294d943c95642b62037df0678f83c9e1c2d87; XML does not embed a source revision.",
+        "xml": "docs/evidence/v03/reliability-picking-20261120/corrected-normal.xml",
+        "timestamp_local": "2026-11-19T18:10:56",
+        "tests": 2,
+        "passed": 1,
+        "failed": 1,
+        "skipped": 0,
+        "test_names": [
+          "desktop.observed_forecast",
+          "desktop.eog_analysis_controller"
+        ],
+        "failed_test_names": [
+          "desktop.eog_analysis_controller"
+        ],
+        "log": "docs/evidence/v03/reliability-picking-20261120/corrected-normal.log"
+      },
+      {
+        "source_binding": "Earlier mixed-source normal checkpoints through 7f6294d943c95642b62037df0678f83c9e1c2d87; XML does not embed a source revision.",
+        "xml": "docs/evidence/v03/reliability-picking-20261120/controller-final-normal.xml",
+        "timestamp_local": "2026-11-19T18:17:20",
+        "tests": 1,
+        "passed": 1,
+        "failed": 0,
+        "skipped": 0,
+        "test_names": [
+          "desktop.eog_analysis_controller"
+        ],
+        "failed_test_names": [],
+        "log": "docs/evidence/v03/reliability-picking-20261120/controller-final-normal.log"
+      },
+      {
+        "source_binding": "Earlier mixed-source normal checkpoints through 7f6294d943c95642b62037df0678f83c9e1c2d87; XML does not embed a source revision.",
+        "xml": "docs/evidence/v03/reliability-picking-20261120/cli-normal-unsandboxed.xml",
+        "timestamp_local": "2026-11-19T18:23:29",
+        "tests": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "test_names": [
+          "desktop.eog_live_cli",
+          "desktop.eog_cli"
+        ],
+        "failed_test_names": [],
+        "log": "docs/evidence/v03/reliability-picking-20261120/cli-normal-unsandboxed.log"
+      },
+      {
+        "source_binding": "Earlier mixed-source normal checkpoints through 7f6294d943c95642b62037df0678f83c9e1c2d87; XML does not embed a source revision.",
+        "xml": "docs/evidence/v03/reliability-picking-20261120/final-eog-normal.xml",
+        "timestamp_local": "2026-11-19T18:33:54",
+        "tests": 2,
+        "passed": 2,
+        "failed": 0,
+        "skipped": 0,
+        "test_names": [
+          "desktop.eog_investigator",
+          "desktop.eog_analysis_controller"
+        ],
+        "failed_test_names": [],
+        "log": "docs/evidence/v03/reliability-picking-20261120/final-eog-normal.log"
+      }
+    ],
+    "superseded_failure_records": [
+      {
+        "xml": "docs/evidence/v03/reliability-picking-20261120/focused-normal-first.xml",
+        "test": "desktop.observed_forecast"
+      },
+      {
+        "xml": "docs/evidence/v03/reliability-picking-20261120/focused-normal-first.xml",
+        "test": "desktop.eog_analysis_controller"
+      },
+      {
+        "xml": "docs/evidence/v03/reliability-picking-20261120/remaining-normal.xml",
+        "test": "desktop.eog_live_cli"
+      },
+      {
+        "xml": "docs/evidence/v03/reliability-picking-20261120/remaining-normal.xml",
+        "test": "desktop.eog_cli"
+      },
+      {
+        "xml": "docs/evidence/v03/reliability-picking-20261120/corrected-normal.xml",
+        "test": "desktop.eog_analysis_controller"
+      }
+    ]
+  },
+  "full_asan_checkpoint": {
+    "source_binding": "7f6294d943c95642b62037df0678f83c9e1c2d87",
+    "xml": "docs/evidence/v03/reliability-picking-20261120/final-asan-full.xml",
+    "timestamp_local": "2026-11-19T18:33:57",
+    "tests": 87,
+    "passed": 87,
+    "failed": 0,
+    "skipped": 0,
+    "test_names": [
+      "engine.observation_detection",
+      "engine.observation_qualification",
+      "engine.observations",
+      "engine.eog_committed",
+      "engine.eog_plant_abi",
+      "engine.eog_simulation",
+      "engine.eog_response",
+      "engine.eog_analytical",
+      "engine.eog_analytical_example",
+      "engine.benchmark_correctness",
+      "engine.acceptance",
+      "engine.search",
+      "engine.control_influence",
+      "engine.search_example",
+      "engine.search_infeasible_example",
+      "engine.transport",
+      "engine.transport_example",
+      "desktop.label_placement",
+      "desktop.evidence_v2",
+      "desktop.workspace_settings",
+      "desktop.editor_tools",
+      "desktop.ui_overhaul_normal",
+      "desktop.ui_overhaul_compact",
+      "desktop.ui_overhaul_short",
+      "desktop.ui_overhaul_minimum",
+      "desktop.project",
+      "desktop.pipe_parameters",
+      "desktop.nemotron_client",
+      "desktop.agent_gateway",
+      "desktop.agent_orchestrator",
+      "desktop.observed_forecast",
+      "desktop.session_repository",
+      "desktop.history_controller",
+      "desktop.python_worker",
+      "desktop.pipe_transport",
+      "desktop.pipe_transport_evidence",
+      "desktop.storage_worker",
+      "desktop.storage_science",
+      "desktop.stored_science",
+      "desktop.science_evidence",
+      "desktop.agent_science",
+      "desktop.scene_picking_warp",
+      "desktop.sensor_editor",
+      "desktop.telemetry_stream",
+      "desktop.telemetry_lifecycle",
+      "desktop.observed_capture",
+      "desktop.local_publisher",
+      "desktop.receiver_journal",
+      "desktop.sensor_editor_normal_smoke",
+      "desktop.telemetry_replay_normal_smoke",
+      "desktop.sensor_editor_compact_smoke",
+      "desktop.telemetry_replay_compact_smoke",
+      "desktop.telemetry_contracts",
+      "contracts.telemetry",
+      "desktop.eog_contracts",
+      "contracts.eog",
+      "desktop.observed_advisory_normal",
+      "desktop.observed_advisory_compact",
+      "desktop.observed_advisory_short",
+      "desktop.observed_advisory_minimum",
+      "desktop.storage_science_normal",
+      "desktop.storage_science_compact",
+      "desktop.storage_science_derivatives",
+      "desktop.qml_smoke",
+      "desktop.scientific_history_normal",
+      "desktop.scientific_history_compact",
+      "desktop.pipe_evidence_smoke",
+      "desktop.portfolio_examples",
+      "desktop.eog_dataset",
+      "desktop.eog_capture",
+      "desktop.eog_analysis_client",
+      "desktop.eog_history",
+      "desktop.eog_investigator",
+      "desktop.eog_analysis_controller",
+      "desktop.eog_provider",
+      "desktop.eog_demo_input",
+      "desktop.eog_live_cli",
+      "desktop.eog_cli",
+      "desktop.eog_plan_chart",
+      "desktop.eog_plan_details",
+      "desktop.eog_event_details",
+      "desktop.eog_analysis_normal",
+      "desktop.eog_overview_normal",
+      "desktop.eog_facility_normal",
+      "desktop.eog_analysis_compact",
+      "desktop.eog_overview_compact",
+      "desktop.eog_facility_compact"
+    ],
+    "failed_test_names": [],
+    "log": "docs/evidence/v03/reliability-picking-20261120/final-asan-full.log"
+  },
+  "latest_focused_checks": [
+    {
+      "source_binding": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "xml": "docs/evidence/v03/reliability-picking-20261120/concise-client-normal.xml",
+      "timestamp_local": "2026-11-19T18:45:17",
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "test_names": [
+        "desktop.nemotron_client"
+      ],
+      "failed_test_names": [],
+      "log": "docs/evidence/v03/reliability-picking-20261120/concise-client-normal.log",
+      "configuration": "normal"
+    },
+    {
+      "source_binding": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "xml": "docs/evidence/v03/reliability-picking-20261120/concise-warp-normal.xml",
+      "timestamp_local": "2026-11-19T19:01:54",
+      "tests": 1,
+      "passed": 1,
+      "failed": 0,
+      "skipped": 0,
+      "test_names": [
+        "desktop.scene_picking_warp"
+      ],
+      "failed_test_names": [],
+      "log": "docs/evidence/v03/reliability-picking-20261120/concise-warp-normal.log",
+      "configuration": "normal"
+    },
+    {
+      "source_binding": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "xml": "docs/evidence/v03/reliability-picking-20261120/concise-final-asan.xml",
+      "timestamp_local": "2026-11-19T19:06:27",
+      "tests": 2,
+      "passed": 2,
+      "failed": 0,
+      "skipped": 0,
+      "test_names": [
+        "desktop.nemotron_client",
+        "desktop.scene_picking_warp"
+      ],
+      "failed_test_names": [],
+      "log": "docs/evidence/v03/reliability-picking-20261120/concise-final-asan.log",
+      "configuration": "asan"
+    }
+  ],
+  "rendering_checks": [
+    {
+      "source": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "configuration": "normal",
+      "report": "docs/evidence/v03/reliability-picking-20261120/warp-normal-29df04f.json",
+      "recorded_utc": "2026-11-20T01:02:08Z",
+      "assets": 6,
+      "routes": 6,
+      "actual_exact_nearest_body_picks": 6,
+      "failed_asset_ids": [],
+      "visible_labels": 6,
+      "label_overlap_pairs": 0,
+      "adapter": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "fps": 22.707713813396715,
+      "frame_interval_p95_ms": 55.9741,
+      "measurement_window_ms": 10010.821,
+      "post_stop_rendered_frames": 2,
+      "reported_numerical_identity_unchanged": true,
+      "client_size": [
+        1440,
+        900
+      ],
+      "device_pixel_ratio": 1.75,
+      "fps_acceptance": "diagnostic_only_no_software_fps_gate",
+      "hardware_target_fps": null,
+      "hardware_target_met": null,
+      "process_log": "docs/evidence/v03/reliability-picking-20261120/warp-normal-29df04f.log"
+    },
+    {
+      "source": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "configuration": "asan",
+      "report": "docs/evidence/v03/reliability-picking-20261120/warp-asan-29df04f.json",
+      "recorded_utc": "2026-11-20T01:06:50Z",
+      "assets": 6,
+      "routes": 6,
+      "actual_exact_nearest_body_picks": 6,
+      "failed_asset_ids": [],
+      "visible_labels": 6,
+      "label_overlap_pairs": 0,
+      "adapter": {
+        "adapter": "Microsoft Basic Render Driver",
+        "device_id": 140,
+        "software": true,
+        "status": "identified",
+        "vendor_id": 5140
+      },
+      "fps": 12.08164291012949,
+      "frame_interval_p95_ms": 108.7866,
+      "measurement_window_ms": 10079.2952,
+      "post_stop_rendered_frames": 2,
+      "reported_numerical_identity_unchanged": true,
+      "client_size": [
+        1440,
+        900
+      ],
+      "device_pixel_ratio": 1.75,
+      "fps_acceptance": "diagnostic_only_no_software_fps_gate",
+      "hardware_target_fps": null,
+      "hardware_target_met": null,
+      "process_log": "docs/evidence/v03/reliability-picking-20261120/warp-asan-29df04f.log"
+    },
+    {
+      "source": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "configuration": "normal",
+      "report": "docs/evidence/v03/reliability-picking-20261120/hardware-default-29df04f.json",
+      "recorded_utc": "2026-11-20T01:00:32Z",
+      "assets": 6,
+      "routes": 6,
+      "actual_exact_nearest_body_picks": 6,
+      "failed_asset_ids": [],
+      "visible_labels": 6,
+      "label_overlap_pairs": 0,
+      "adapter": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "fps": 62.487381729737045,
+      "frame_interval_p95_ms": 18.2119,
+      "measurement_window_ms": 10000.8845,
+      "post_stop_rendered_frames": 2,
+      "reported_numerical_identity_unchanged": true,
+      "client_size": [
+        1440,
+        900
+      ],
+      "device_pixel_ratio": 1.75,
+      "fps_acceptance": "hardware_target_reported",
+      "hardware_target_fps": 60,
+      "hardware_target_met": true,
+      "process_log": "docs/evidence/v03/reliability-picking-20261120/hardware-default-29df04f.log"
+    },
+    {
+      "source": "29df04f63a6af81671e1d223cb005c350a4a7289",
+      "configuration": "normal",
+      "report": "docs/evidence/v03/reliability-picking-20261120/hardware-dense-29df04f.json",
+      "recorded_utc": "2026-11-20T01:00:47Z",
+      "assets": 128,
+      "routes": 256,
+      "actual_exact_nearest_body_picks": 128,
+      "failed_asset_ids": [],
+      "visible_labels": 22,
+      "label_overlap_pairs": 0,
+      "adapter": {
+        "adapter": "AMD Radeon(TM) 880M Graphics",
+        "device_id": 5390,
+        "software": false,
+        "status": "identified",
+        "vendor_id": 4098
+      },
+      "fps": 55.57707150390804,
+      "frame_interval_p95_ms": 32.6059,
+      "measurement_window_ms": 10000.3053,
+      "post_stop_rendered_frames": 2,
+      "reported_numerical_identity_unchanged": true,
+      "client_size": [
+        1440,
+        900
+      ],
+      "device_pixel_ratio": 1.75,
+      "fps_acceptance": "hardware_target_reported",
+      "hardware_target_fps": 30,
+      "hardware_target_met": true,
+      "process_log": "docs/evidence/v03/reliability-picking-20261120/hardware-dense-29df04f.log"
+    }
+  ],
+  "screenshots_retained_in_original_output_only": [
+    {
+      "original_path": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-fa15c630235b4657bf831f1b77ad8c3e/benchmark.json.png",
+      "sha256": "e4438611e6bc74a378d33bdacdc23657180a08f8c7c6204acc497a724c050f3a",
+      "bytes": 846084,
+      "copied_to_public_evidence": false
+    },
+    {
+      "original_path": "out/portfolio-desktop-asan/desktop/test-artifacts/scene-picking-warp-c685f1f8c5f943c481aa8364d4a89666/benchmark.json.png",
+      "sha256": "460a272e0cf226a6130e8742cc3a06c749e47a6947be864ccdfc274199440b08",
+      "bytes": 877618,
+      "copied_to_public_evidence": false
+    },
+    {
+      "original_path": "out/reliability-picking/hardware-default-29df04f.json.png",
+      "sha256": "d4909bedd0b381b5fd1bd462cd6fcbc165288f0fe2cfc9fdc9bcd2748e4a2c38",
+      "bytes": 847458,
+      "copied_to_public_evidence": false
+    },
+    {
+      "original_path": "out/reliability-picking/hardware-dense-29df04f.json.png",
+      "sha256": "925891f140fb0c4f59e909141888cf9c2b1400b2f84dd78440f1f1f1c345ba14",
+      "bytes": 695598,
+      "copied_to_public_evidence": false
+    }
+  ],
+  "artifacts": [
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/focused-normal-first.xml",
+      "original_path": "out/reliability-picking/focused-normal-first.xml",
+      "sha256": "5ccaeaf7c780a4868afed3ccf935175f07adae5929800d192b6d4505a1604905",
+      "bytes": 1753
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/remaining-normal.xml",
+      "original_path": "out/reliability-picking/remaining-normal.xml",
+      "sha256": "c26701be14e9590ae7b906e23431450134bca45e3cfb0fa9b34acb37d9be4443",
+      "bytes": 39839
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/remaining-normal.log",
+      "original_path": "out/reliability-picking/remaining-normal.log",
+      "sha256": "997d373784e4bce8321c5368bb284e451417b8aaae98456bbbae5a0f8230c348",
+      "bytes": 17515
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/corrected-normal.xml",
+      "original_path": "out/reliability-picking/corrected-normal.xml",
+      "sha256": "8b8ab263f3516038d303afe3ec88d6415c0fe74477331753e8d88165eea5951d",
+      "bytes": 605
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/corrected-normal.log",
+      "original_path": "out/reliability-picking/corrected-normal.log",
+      "sha256": "00be213430d7b1278f56bed52be93c211ee738b3d4a8157eed40bd3105fd69ca",
+      "bytes": 667
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/controller-final-normal.xml",
+      "original_path": "out/reliability-picking/controller-final-normal.xml",
+      "sha256": "bc45b88c1b1dfaa4f0cdd61dbf29cbd8ca0ee28888e408457c57fff0d7e5ad94",
+      "bytes": 401
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/controller-final-normal.log",
+      "original_path": "out/reliability-picking/controller-final-normal.log",
+      "sha256": "af15ddcb242c963ae99b23de0feae393648333f1ebb1b7d52e26a7ff45c2a598",
+      "bytes": 445
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/cli-normal-unsandboxed.xml",
+      "original_path": "out/reliability-picking/cli-normal-unsandboxed.xml",
+      "sha256": "45642b097b05d7daa27b82ff3a17929f5964430dd2457b2991f012258762325f",
+      "bytes": 2783
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/cli-normal-unsandboxed.log",
+      "original_path": "out/reliability-picking/cli-normal-unsandboxed.log",
+      "sha256": "a119eb2c698d260f4d4f244a75e471682f32a26d217534c1337ff6828d421033",
+      "bytes": 535
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/final-eog-normal.xml",
+      "original_path": "out/reliability-picking/final-eog-normal.xml",
+      "sha256": "5f9c1d495e16b4b6fcab9079bafcf6f3012ef751c1d00ce1b964418b720b75be",
+      "bytes": 569
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/final-eog-normal.log",
+      "original_path": "out/reliability-picking/final-eog-normal.log",
+      "sha256": "a2a4deff8cc8c205a70074d8f1a81c93a50525d2207673d4bb4e9743e7290429",
+      "bytes": 557
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/final-asan-full.xml",
+      "original_path": "out/reliability-picking/final-asan-full.xml",
+      "sha256": "c485b6afeea5a1dc343a8b26f403958a5f0b0d5a9f1dc43ba7078e80f5b1010d",
+      "bytes": 36323
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/final-asan-full.log",
+      "original_path": "out/reliability-picking/final-asan-full.log",
+      "sha256": "fe43e5bc9389cd9c01d49b253d4458c5cd7e44dbad907c5e9e806f67d43b6916",
+      "bytes": 11106
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/concise-client-normal.xml",
+      "original_path": "out/reliability-picking/concise-client-normal.xml",
+      "sha256": "dd9182991841bd9467869691ec929a0760a465c539b86520a0b5678c03e8f4d2",
+      "bytes": 384
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/concise-client-normal.log",
+      "original_path": "out/reliability-picking/concise-client-normal.log",
+      "sha256": "7559d70eb3231791ad973420eeb6ed760234431b78383205dda68ea002d4eebe",
+      "bytes": 436
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/concise-warp-normal.xml",
+      "original_path": "out/reliability-picking/concise-warp-normal.xml",
+      "sha256": "8d2d0e6021df7e30f977a33dca34cef37f49ed1f4c945b35013dbeed7c4afc5d",
+      "bytes": 656
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/concise-warp-normal.log",
+      "original_path": "out/reliability-picking/concise-warp-normal.log",
+      "sha256": "a88e10ff7dc73d55c3c14fbfec2c72b5a0fad2af5702bd34bb1b318bd58edd4c",
+      "bytes": 439
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/concise-final-asan.xml",
+      "original_path": "out/reliability-picking/concise-final-asan.xml",
+      "sha256": "b39230b2a3d46e13a80c6b92a09ca0b8b6383c53f250d8b3caf51cb18618230d",
+      "bytes": 829
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/concise-final-asan.log",
+      "original_path": "out/reliability-picking/concise-final-asan.log",
+      "sha256": "63669c3f8d39c7130c781156d41987e822a0db2f4d31b303e794241ad2aab954",
+      "bytes": 559
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/warp-normal-29df04f.json",
+      "original_path": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-fa15c630235b4657bf831f1b77ad8c3e/benchmark.json",
+      "sha256": "1857afd10183697269976616c2873de9e7689275150181b7288a817303177d99",
+      "bytes": 3844
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/warp-normal-29df04f.log",
+      "original_path": "out/portfolio-desktop/desktop/test-artifacts/scene-picking-warp-fa15c630235b4657bf831f1b77ad8c3e/process.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/warp-asan-29df04f.json",
+      "original_path": "out/portfolio-desktop-asan/desktop/test-artifacts/scene-picking-warp-c685f1f8c5f943c481aa8364d4a89666/benchmark.json",
+      "sha256": "aa22a517c3e80309e2a25e19b9874f446c5685da24c167e4c628510c1b7621a6",
+      "bytes": 3839
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/warp-asan-29df04f.log",
+      "original_path": "out/portfolio-desktop-asan/desktop/test-artifacts/scene-picking-warp-c685f1f8c5f943c481aa8364d4a89666/process.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/hardware-default-29df04f.json",
+      "original_path": "out/reliability-picking/hardware-default-29df04f.json",
+      "sha256": "4b57315356d2c78ec22feb742f9e70db97be00212dd7657075a4efb233a07410",
+      "bytes": 3831
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/hardware-default-29df04f.log",
+      "original_path": "out/reliability-picking/hardware-default-29df04f.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/hardware-dense-29df04f.json",
+      "original_path": "out/reliability-picking/hardware-dense-29df04f.json",
+      "sha256": "4c5b98186a3716a2b369aa77600c85d183a2ce39c8f4e24fd90e9f08bd11b891",
+      "bytes": 53621
+    },
+    {
+      "public_path": "docs/evidence/v03/reliability-picking-20261120/hardware-dense-29df04f.log",
+      "original_path": "out/reliability-picking/hardware-dense-29df04f.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    }
+  ],
+  "limitations": [
+    "No tests or rendering were rerun while collecting these evidence copies.",
+    "The full ASan suite passed at 7f6294d; it was not rerun at 29df04f. Latest-source focused checks and renderer runs are recorded separately.",
+    "The normal 87-suite checkpoint combines earlier runs and successful corrections, including a sandbox-specific hard-link rerun; initial failed XML records remain present.",
+    "WARP FPS is diagnostic only. Hardware 60/30 FPS targets apply only to these local default/dense measurements.",
+    "Exact body picking is tested at one settled camera view per asset; this does not qualify every mesh or viewing angle.",
+    "Dense-scene label culling is intentional; zero overlaps does not imply all 128 labels were visible.",
+    "These artifacts do not establish hosted Nemotron reliability, clean-Windows installation, owner review, licensing agreement or release approval."
+  ]
+}
