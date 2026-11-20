@@ -45,6 +45,7 @@ ApplicationWindow {
     minimumHeight: 540
     readonly property bool compactLayout: width < 1280
     property string compactPane: "navigator"
+    property string networkMode: "equipment"
     property int resultTab: 0
     property bool operationsDockOpen: false
     property int operationsTab: 2
@@ -62,7 +63,10 @@ ApplicationWindow {
         if (index > 0) agentPanel.showTab([0, 1, 0, 2, 3][index])
     }
     function frameScene(selectedOnly) {
-        const rows = controller.assets.filter(row => !selectedOnly || row.selected)
+        const selection = controller.selected
+        const rows = selectedOnly && selection.kind === "route"
+            ? sceneAssets.filter(row => row.id === selection.source || row.id === selection.target)
+            : sceneAssets.filter(row => !selectedOnly || row.selected)
         if (!rows.length) return
         let minX = rows[0].x, maxX = rows[0].x, minZ = rows[0].z, maxZ = rows[0].z
         for (const row of rows) { minX = Math.min(minX, row.x); maxX = Math.max(maxX, row.x); minZ = Math.min(minZ, row.z); maxZ = Math.max(maxZ, row.z) }
@@ -97,12 +101,39 @@ ApplicationWindow {
     palette.light: Theme.raised
     palette.brightText: Theme.text
     Binding { target: Theme; property: "compactControls"; value: workspaceSettings.values.compactControls }
-    readonly property int sceneAssetCount: controller.assets.length
+    readonly property var sceneAssets: controller.assets
+    readonly property var sceneRoutes: controller.routes
+    readonly property var networkAssetIndex: new Map(sceneAssets.map(row => [row.id, row]))
+    readonly property int sceneAssetCount: sceneAssets.length
     readonly property int sceneSelectedCount: controller.selectedIds.length
     readonly property var filteredNetworkAssets: {
         const query = networkFilter.text.trim().toLowerCase()
-        return controller.assets.filter(row => !query || [row.label, row.id, row.kind, Theme.equipmentName(row.kind)].some(value => String(value).toLowerCase().includes(query)))
+        return sceneAssets.filter(row => !query || [row.label, row.id, row.kind, Theme.equipmentName(row.kind)].some(value => String(value).toLowerCase().includes(query)))
     }
+    readonly property var networkRouteRows: sceneRoutes.map(row => {
+        const source = networkAssetIndex.get(row.source), target = networkAssetIndex.get(row.target)
+        const sourceLabel = source ? source.label : row.source, targetLabel = target ? target.label : row.target
+        const sourceDriven = !!source && source.kind === "source"
+        const rate = typeof row.flow === "number" && Number.isFinite(row.flow)
+            ? row.flow.toLocaleString(Qt.locale(), "f", 2) + " m³/h" : "Unavailable"
+        const settingText = rate + (sourceDriven ? " · source setting" : " · setpoint")
+        const statusText = !row.available ? (row.pump ? "Pump unavailable" : "Route unavailable")
+            : row.pump ? "Pump available" : sourceDriven ? "Source-driven" : "Configured route"
+        return Object.assign({}, row, {kind:"route", label:sourceLabel + " → " + targetLabel,
+            sourceLabel:sourceLabel, targetLabel:targetLabel, sourceDriven:sourceDriven,
+            settingText:settingText, statusText:statusText})
+    })
+    readonly property var filteredNetworkRoutes: {
+        const query = networkFilter.text.trim().toLowerCase()
+        return networkRouteRows.filter(row => !query || [row.id, row.label, row.source, row.target,
+            row.statusText, row.pump ? "pump" : "pipe", "route", "connection"]
+            .some(value => String(value).toLowerCase().includes(query)))
+    }
+    readonly property var networkRows: networkMode === "connections" ? filteredNetworkRoutes : filteredNetworkAssets
+    readonly property var routeEndpointIds: controller.selected.kind === "route"
+        ? [controller.selected.source, controller.selected.target].filter(id => typeof id === "string" && id.length > 0) : []
+    onNetworkModeChanged: { if (networkAssetList) networkAssetList.positionViewAtBeginning() }
+    onConnectModeChanged: { if (connectMode) networkMode = "equipment" }
     readonly property bool detailedScene: workspaceSettings.values.quality > 0 && (sceneAssetCount < 48 || (fittedView ? fittedDistance : distance) < 1500)
     readonly property int sceneQuality: detailedScene ? workspaceSettings.values.quality : 0
     readonly property var siteBounds: {
@@ -221,6 +252,11 @@ ApplicationWindow {
             if (!(keys & Qt.ShiftModifier)) listSelectionAnchor = id
         }
     }
+    function selectRoute(id) {
+        if (connectMode) return
+        listSelectionAnchor = ""
+        controller.select(id)
+    }
     Component.onCompleted: { yaw = controller.camera.yaw; pitch = controller.camera.pitch; distance = controller.camera.distance; cameraRig.x = controller.camera.x; cameraRig.z = controller.camera.z }
     Connections {
         target: app.controller
@@ -230,6 +266,7 @@ ApplicationWindow {
             if (app.inspectedAssetId !== app.controller.selectedId) {
                 app.inspectedAssetId = app.controller.selectedId
                 app.rejectedNumericFields = ({})
+                if (app.controller.selected.kind) app.networkMode = app.controller.selected.kind === "route" ? "connections" : "equipment"
             }
         }
     }
@@ -470,22 +507,34 @@ ApplicationWindow {
                         }
                     }
                     RowLayout {
-                        Layout.fillWidth: true
+                        Layout.fillWidth: true; spacing: 4
                         Label { Layout.fillWidth: true; text: "NETWORK"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.4; font.bold: true; color: Theme.secondary }
-                        Label { objectName: "networkFilterCount"; text: networkFilter.text.trim().length ? app.filteredNetworkAssets.length + " / " + app.sceneAssetCount : String(app.sceneAssetCount); color: Theme.muted; font.family: Theme.monoFamily; font.pixelSize: Theme.captionSize }
+                        ActionButton {
+                            objectName: "networkEquipmentMode"; iconName: "boxes"; text: "Equipment"
+                            display: AbstractButton.IconOnly; checked: app.networkMode === "equipment"
+                            Layout.preferredWidth: 28; Layout.preferredHeight: 28; implicitWidth: 28; implicitHeight: 28
+                            icon.width: 15; icon.height: 15; onClicked: app.networkMode = "equipment"
+                        }
+                        ActionButton {
+                            objectName: "networkConnectionsMode"; iconName: "route"; text: "Connections"
+                            display: AbstractButton.IconOnly; checked: app.networkMode === "connections"; enabled: !app.connectMode
+                            Layout.preferredWidth: 28; Layout.preferredHeight: 28; implicitWidth: 28; implicitHeight: 28
+                            icon.width: 15; icon.height: 15; onClicked: app.networkMode = "connections"
+                        }
+                        Label { objectName: "networkFilterCount"; text: networkFilter.text.trim().length ? app.networkRows.length + " / " + (app.networkMode === "connections" ? app.sceneRoutes.length : app.sceneAssetCount) : String(app.networkMode === "connections" ? app.sceneRoutes.length : app.sceneAssetCount); color: Theme.muted; font.family: Theme.monoFamily; font.pixelSize: Theme.captionSize }
                     }
                     TextField {
                         id: networkFilter; objectName: "networkFilter"
                         Layout.fillWidth: true; implicitHeight: Theme.controlHeight; rightPadding: 32
-                        placeholderText: "Filter equipment"; selectByMouse: true
-                        Accessible.name: "Filter equipment"
-                        Accessible.description: "Filter by name, ID or type. Filtering leaves scene selection unchanged."
+                        placeholderText: app.networkMode === "connections" ? "Filter connections" : "Filter equipment"; selectByMouse: true
+                        Accessible.name: placeholderText
+                        Accessible.description: "Filter by name, ID, type or connection endpoint. Filtering leaves scene selection unchanged."
                         ActionButton {
                             objectName: "clearNetworkFilter"
                             anchors.right: parent.right; anchors.rightMargin: 3; anchors.verticalCenter: parent.verticalCenter
                             width: 26; height: 26; implicitWidth: 26; implicitHeight: 26
                             visible: networkFilter.text.length > 0; iconName: "x"; icon.width: 13; icon.height: 13
-                            text: "Clear equipment filter"; display: AbstractButton.IconOnly
+                            text: app.networkMode === "connections" ? "Clear connection filter" : "Clear equipment filter"; display: AbstractButton.IconOnly
                             onClicked: { networkFilter.clear(); networkFilter.forceActiveFocus() }
                         }
                     }
@@ -495,18 +544,29 @@ ApplicationWindow {
                         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 48
                         clip: true; spacing: 4; boundsBehavior: Flickable.StopAtBounds
                         flickableDirection: Flickable.VerticalFlick
-                        model: app.filteredNetworkAssets
+                        model: app.networkRows
                         Label {
                             anchors.centerIn: parent; width: parent.width - 16; visible: networkAssetList.count === 0
-                            text: app.sceneAssetCount ? "No equipment matches.\nClear or change the filter." : "No equipment yet."
+                            text: app.networkMode === "connections"
+                                ? app.sceneRoutes.length ? "No connections match.\nClear or change the filter." : "No connections yet."
+                                : app.sceneAssetCount ? "No equipment matches.\nClear or change the filter." : "No equipment yet."
                             horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.smallSize
                         }
                         delegate: ItemDelegate {
                             id: networkAssetDelegate
                             required property var modelData
-                            objectName: "networkAsset:" + modelData.id
+                            readonly property bool isRoute: modelData.kind === "route"
+                            objectName: (isRoute ? "networkRoute:" : "networkAsset:") + modelData.id
                             width: ListView.view.width - networkScrollBar.width - 4
                             text: modelData.label; highlighted: modelData.selected
+                            Accessible.name: isRoute ? modelData.label + ". " + modelData.settingText + ". " + modelData.statusText + ". ID " + modelData.id : text
+                            ToolTip {
+                                id: networkRowTip
+                                visible: networkAssetDelegate.hovered || networkAssetDelegate.activeFocus
+                                delay: 500; width: Math.min(360, app.width - 32)
+                                text: networkAssetDelegate.isRoute ? networkAssetDelegate.modelData.label + "\n" + networkAssetDelegate.modelData.id + "\n" + networkAssetDelegate.modelData.settingText + "\n" + networkAssetDelegate.modelData.statusText + "\nSimulation settings, not measured delivery." : networkAssetDelegate.modelData.label
+                                contentItem: Label { text: networkRowTip.text; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.text; font.pixelSize: Theme.smallSize }
+                            }
                             background: Rectangle { color: modelData.selected ? Theme.selected : parent.hovered ? Theme.hover : "transparent"; Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: 3; color: Theme.text; visible: modelData.selected } }
                             contentItem: RowLayout {
                                 spacing: 10
@@ -516,13 +576,18 @@ ApplicationWindow {
                                     sourceSize.width: 18; sourceSize.height: 18
                                     fillMode: Image.PreserveAspectFit; Accessible.ignored: true
                                 }
-                                Label { Layout.fillWidth: true; text: networkAssetDelegate.text; textFormat: Text.PlainText; elide: Text.ElideRight; verticalAlignment: Text.AlignVCenter; color: Theme.text; font.pixelSize: Theme.smallSize }
+                                ColumnLayout {
+                                    Layout.fillWidth: true; spacing: 2
+                                    Label { Layout.fillWidth: true; text: networkAssetDelegate.text; textFormat: Text.PlainText; elide: Text.ElideRight; verticalAlignment: Text.AlignVCenter; color: Theme.text; font.pixelSize: Theme.smallSize }
+                                    Label { objectName: "networkRouteSetting:" + networkAssetDelegate.modelData.id; Layout.fillWidth: true; visible: networkAssetDelegate.isRoute; text: networkAssetDelegate.modelData.settingText || ""; textFormat: Text.PlainText; elide: Text.ElideRight; color: Theme.secondary; font.pixelSize: Theme.captionSize }
+                                    Label { objectName: "networkRouteState:" + networkAssetDelegate.modelData.id; Layout.fillWidth: true; visible: networkAssetDelegate.isRoute; text: networkAssetDelegate.modelData.statusText || ""; textFormat: Text.PlainText; elide: Text.ElideRight; color: networkAssetDelegate.modelData.available === false ? Theme.error : Theme.muted; font.pixelSize: Theme.captionSize }
+                                }
                             }
-                            onClicked: app.clickAsset(modelData.id, Qt.NoModifier, true)
+                            onClicked: { if (isRoute) app.selectRoute(modelData.id); else app.clickAsset(modelData.id, Qt.NoModifier, true) }
                             MouseArea {
                                 anchors.fill: parent; cursorShape: Qt.PointingHandCursor
                                 onPressed: parent.forceActiveFocus()
-                                onClicked: function(mouse) { app.clickAsset(modelData.id, mouse.modifiers, true) }
+                                onClicked: function(mouse) { if (networkAssetDelegate.isRoute) app.selectRoute(modelData.id); else app.clickAsset(modelData.id, mouse.modifiers, true) }
                             }
                         }
                         ScrollBar.vertical: ScrollBar {
@@ -591,6 +656,7 @@ ApplicationWindow {
                     id: sceneLabelLayer; anchors.fill: parent
                     rows: controller.assets; projector: view; ready: app.sceneReady
                     allLabels: workspaceSettings.values.allLabels; primaryId: controller.selectedId; hoveredId: app.hoveredAssetId
+                    relatedIds: app.routeEndpointIds
                     draggedIds: sceneMouse.draggedIds; dragDelta: sceneMouse.dragDelta
                     topInset: navigationHint.y + navigationHint.height + 8
                     exclusions: sceneOrientation.visible ? [{x:sceneOrientation.x,y:sceneOrientation.y,width:sceneOrientation.width,height:sceneOrientation.height}] : []
@@ -650,7 +716,7 @@ ApplicationWindow {
                                 controller.selectAssets(ids)
                             } else if (pickedName.indexOf("sensor:") === 0) { controller.selectSensor(pickedName.substring(7)); app.openSensors() }
                             else if (pickedName.indexOf("asset:") === 0) app.clickAsset(pickedName.substring(6), mouse.modifiers, false)
-                            else if (pickedName.indexOf("route:") === 0) controller.select(pickedName.substring(6))
+                            else if (pickedName.indexOf("route:") === 0) app.selectRoute(pickedName.substring(6))
                             else if (!(mouse.modifiers & (Qt.ControlModifier | Qt.ShiftModifier))) controller.select("")
                         }
                         cancelDrag()
@@ -689,7 +755,7 @@ ApplicationWindow {
                     anchors.top: parent.top; anchors.left: parent.left; anchors.topMargin: 12; anchors.leftMargin: 12; spacing: 5
                     ActionButton { objectName: "sceneHome"; iconName: "house"; display: AbstractButton.IconOnly; text: "Home"; tooltip: "Home · Restore saved perspective (Ctrl+Home)"; onClicked: app.restoreOrbit() }
                     ActionButton { objectName: "sceneFit"; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network (Ctrl+0)"; onClicked: app.frameScene(false) }
-                    ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; tooltip: "Focus · Frame selected equipment (F)"; onClicked: app.frameScene(true) }
+                    ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; tooltip: controller.selected.kind === "route" ? "Focus · Frame connection endpoints (F)" : "Focus · Frame selected equipment (F)"; onClicked: app.frameScene(true) }
                     ActionButton { objectName: "sceneTop"; iconName: "layers"; display: AbstractButton.IconOnly; text: app.topView ? "Isometric" : "Top"; tooltip: app.topView ? "Isometric · Return to perspective" : "Top · View the site from above"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
                     ActionButton { objectName: "sceneGrid"; iconName: "grid-3x3"; display: AbstractButton.IconOnly; text: "Layout grid"; checked: app.siteGridVisible; tooltip: "Layout grid · " + siteGround.gridStep + " layout units; editor snaps to 20"; onClicked: app.siteGridVisible = !app.siteGridVisible }
                     ActionButton {
