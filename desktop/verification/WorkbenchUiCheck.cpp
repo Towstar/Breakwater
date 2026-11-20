@@ -938,7 +938,15 @@ class Check final : public QObject {
                 planLayoutFixture(true); click(item("sceneTop")); click(item("sceneFit")); markCueFrames(); break;
             case 106:
                 if (!cueFramesReady()) return;
-                planFootprints("wide"); controller_->select("bypass"); click(item("sceneFocus")); markCueFrames(); break;
+                planFootprints("wide");
+                // The cramped viewport above proves body framing. Give the separate
+                // label-pan check real label space instead of testing allowed culling.
+                if (eval("workspaceSettings.values.dockOpen").toBool()) click(item("Toggle results",true));
+                markCueFrames(); phase_=113; return;
+            case 113:
+                if (!cueFramesReady()) return;
+                navigationPreserved(); controller_->select("bypass"); click(item("sceneFocus"));
+                markCueFrames(); phase_=107; return;
             case 107:
                 if (!cueFramesReady()) return;
                 planFootprints("route_endpoints",{"tank_a","tank_b"});
