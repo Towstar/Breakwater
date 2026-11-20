@@ -15,7 +15,7 @@ It keeps camera state separate from numerical network inputs and approval.
   reflect the current framing target rather than a later selection.
 - Middle drag and wheel in Top change the plan camera. Projected equipment
   labels refresh after plan translation as well as zoom and camera switches.
-- View > Scene focus mode, or Ctrl+Shift+Space outside text editors and dialogs,
+- View > Scene focus mode, or Ctrl+Shift+F outside text editors and dialogs,
   temporarily hides navigator, inspector and results. Toggle again or press
   Escape to return. Opening panels, results or resetting workspace layout exits
   this mode. Saved panel preferences are preserved by the temporary mode itself.

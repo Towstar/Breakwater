@@ -974,13 +974,13 @@ class Check final : public QObject {
                 labelsMatchProjection("top_pan");
                 scene_focus_preferences_=panelPreferences();
                 eval("scenePanel.forceActiveFocus()");
-                key(Qt::Key_Space,Qt::ControlModifier|Qt::ShiftModifier," "); markCueFrames(); phase_=109; return;
+                key(Qt::Key_F,Qt::ControlModifier|Qt::ShiftModifier,"F"); markCueFrames(); phase_=109; return;
             case 109:
                 if (!cueFramesReady()) return;
                 navigationPreserved();
                 require(eval("app.sceneOnly && !app.navigatorVisible && !app.inspectorVisible && !workbenchDock.visible").toBool(),"scene_focus_did_not_hide_workspace_chrome");
                 require(panelPreferences()==scene_focus_preferences_,"scene_focus_changed_persisted_panel_preferences");
-                key(Qt::Key_Space,Qt::ControlModifier|Qt::ShiftModifier," "); markCueFrames(); break;
+                key(Qt::Key_F,Qt::ControlModifier|Qt::ShiftModifier,"F"); markCueFrames(); break;
             case 110:
                 if (!cueFramesReady()) return;
                 navigationPreserved();
@@ -989,10 +989,10 @@ class Check final : public QObject {
                     click(item("Navigator",true)); return;
                 }
                 click(item("networkFilter")); require(item("networkFilter")->hasActiveFocus(),"scene_focus_text_guard_fixture_has_no_focus");
-                key(Qt::Key_Space,Qt::ControlModifier|Qt::ShiftModifier," ");
+                key(Qt::Key_F,Qt::ControlModifier|Qt::ShiftModifier,"F");
                 require(!eval("app.sceneOnly").toBool(),"scene_focus_shortcut_escaped_text_editor_guard");
                 eval("scenePanel.forceActiveFocus()");
-                key(Qt::Key_Space,Qt::ControlModifier|Qt::ShiftModifier," ");
+                key(Qt::Key_F,Qt::ControlModifier|Qt::ShiftModifier,"F");
                 require(eval("app.sceneOnly").toBool(),"scene_focus_escape_fixture_did_not_enter");
                 key(Qt::Key_Escape);
                 require(!eval("app.sceneOnly").toBool() && panelPreferences()==scene_focus_preferences_,"scene_focus_escape_did_not_restore_mode_and_preferences");

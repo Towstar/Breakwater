@@ -313,7 +313,7 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+0"; enabled: app.sceneKeysEnabled(); onActivated: app.frameScene(false) }
     Shortcut { sequence: "Ctrl+Home"; enabled: app.sceneKeysEnabled(); onActivated: app.restoreOrbit() }
     Shortcut { sequence: "F1"; enabled: app.sceneKeysEnabled(); onActivated: sceneHelpDialog.open() }
-    Shortcut { sequence: "Ctrl+Shift+Space"; enabled: app.sceneKeysEnabled() && !app.connectMode && !sceneMouse.pressed; onActivated: app.toggleSceneFocus() }
+    Shortcut { sequence: "Ctrl+Shift+F"; enabled: app.sceneKeysEnabled() && !app.connectMode && !sceneMouse.pressed; onActivated: app.toggleSceneFocus() }
     Shortcut {
         sequence: "Escape"
         onActivated: {
@@ -415,7 +415,7 @@ ApplicationWindow {
                 id: viewMenuButton; iconName: "layout-template"; text: "View"; display: AbstractButton.IconOnly; tooltip: "Workspace layout and rendering"; onClicked: viewMenu.open()
                 Menu {
                     id: viewMenu; y: viewMenuButton.height + 6
-                    MenuItem { objectName: "sceneFocusMode"; text: "Scene focus mode (Ctrl+Shift+Space)"; visible: app.workspace === "workbench"; enabled: !app.connectMode; checkable: true; checked: app.sceneOnly; onTriggered: app.toggleSceneFocus() }
+                    MenuItem { objectName: "sceneFocusMode"; text: "Scene focus mode (Ctrl+Shift+F)"; visible: app.workspace === "workbench"; enabled: !app.connectMode; checkable: true; checked: app.sceneOnly; onTriggered: app.toggleSceneFocus() }
                     MenuSeparator { visible: app.workspace === "workbench" }
                     MenuItem { text: "Network navigator"; checkable: true; checked: app.navigatorVisible; onTriggered: { const opening=checked; app.sceneOnly = false; workspaceSettings.setValue("navigatorOpen", app.compactLayout || opening); app.compactPane = "navigator" } }
                     MenuItem { text: "Equipment inspector"; checkable: true; checked: app.inspectorVisible; onTriggered: { const opening=checked; app.sceneOnly = false; workspaceSettings.setValue("inspectorOpen", app.compactLayout || opening); app.compactPane = "inspector" } }
@@ -439,7 +439,7 @@ ApplicationWindow {
         background: Rectangle { color: Theme.surface; Rectangle { width: parent.width; height: 1; color: Theme.divider } }
         RowLayout {
             anchors.fill: parent; anchors.leftMargin: 16; anchors.rightMargin: 16
-            Label { objectName: "workspaceViewStatus"; Layout.fillWidth: true; text: workspaceSettings.status.length ? workspaceSettings.status : app.workspace === "eog" ? "Recorded data · Advisory review · Original units" : (app.sceneOnly ? "Scene focus · Ctrl+Shift+Space to return · " : "") + app.sceneViewStatus + " · Synthetic network · Layout is schematic"; textFormat: Text.PlainText; elide: Text.ElideRight; color: workspaceSettings.status.length ? Theme.warning : Theme.muted; font.pixelSize: Theme.captionSize; Accessible.name: text }
+            Label { objectName: "workspaceViewStatus"; Layout.fillWidth: true; text: workspaceSettings.status.length ? workspaceSettings.status : app.workspace === "eog" ? "Recorded data · Advisory review · Original units" : (app.sceneOnly ? "Scene focus · Ctrl+Shift+F to return · " : "") + app.sceneViewStatus + " · Synthetic network · Layout is schematic"; textFormat: Text.PlainText; elide: Text.ElideRight; color: workspaceSettings.status.length ? Theme.warning : Theme.muted; font.pixelSize: Theme.captionSize; Accessible.name: text }
             Label { text: app.buildInfo; color: Theme.muted; font.pixelSize: Theme.captionSize }
         }
     }

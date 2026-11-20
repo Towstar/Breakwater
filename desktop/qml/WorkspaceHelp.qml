@@ -25,7 +25,7 @@ Dialog {
                 Label { text: "Zoom toward the workspace"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
                 Label { text: "Ctrl+Home / Ctrl+0 / F"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
                 Label { text: "Restore / fit network / focus equipment or connection endpoints"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
-                Label { text: "Ctrl+Shift+Space"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                Label { text: "Ctrl+Shift+F"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
                 Label { text: "Toggle scene focus mode; Escape returns to your panels"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
                 Label { text: "Ctrl-click / Shift-click"; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
                 Label { text: "Toggle / extend equipment selection"; Layout.fillWidth: true; wrapMode: Text.WordWrap }
