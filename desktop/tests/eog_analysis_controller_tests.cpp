@@ -269,6 +269,8 @@ private slots:
         const QByteArray before = R"([evaluation(plan("protocol-only-no-action")), evaluation(plan("protocol-only-truck-plan", True))])";
         QVERIFY(source.contains(before));
         source.replace(before, R"([evaluation(plan("protocol-only-truck-plan", True))] + [evaluation(plan("protocol-only-extra-" + str(i), True)) for i in range(9)])");
+        const QByteArray count = R"("evaluated_candidates": 2)";
+        QVERIFY(source.contains(count)); source.replace(count, R"("evaluated_candidates": 10)");
         const auto scripted = fixture.filePath("many_candidates_fixture.py"); QVERIFY(write(scripted, source));
         Harness h(fixtures_, scripted); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
         h.model.respond = [step = 0](const QJsonArray&) mutable {
@@ -276,8 +278,10 @@ private slots:
         };
         h.analysis.investigate("Present a bounded inventory without selecting references.");
         QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        const auto searched = resultFor(h.model.messages, "search");
+        QVERIFY2(searched.value("ok").toBool(), qPrintable(QString::fromUtf8(QJsonDocument(searched).toJson(QJsonDocument::Compact))));
         QCOMPARE(h.analysis.plans().size(), 10);
-        const auto index = resultFor(h.model.messages, "search").value("retained_evidence").toObject();
+        const auto index = searched.value("retained_evidence").toObject();
         QCOMPARE(index.value("plans").toArray().size(), 8); QCOMPARE(index.value("omitted_plan_count").toInt(), 2);
         QCOMPARE(index.value("selection_status"), QJsonValue("no_validated_plan_in_index"));
         for (const auto& value : index.value("plans").toArray()) {
