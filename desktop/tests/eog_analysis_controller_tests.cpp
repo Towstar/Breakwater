@@ -212,7 +212,7 @@ private slots:
         const auto index = resultFor(h.model.messages, "validation").value("retained_evidence").toObject();
         QCOMPARE(index.value("capture_id"), QJsonObject::fromVariantMap(h.analysis.evidenceContext()).value("capture_id"));
         QCOMPARE(index.value("cutoff_unix").toDouble(), h.dataset.cursorUnix());
-        QCOMPARE(index.value("selection_status"), QJsonValue("validated_evidence_available"));
+        QCOMPARE(index.value("selection_status"), QJsonValue("admissible_evidence_available"));
         QCOMPARE(index.value("omitted_plan_count").toInt(), 0); QCOMPARE(index.value("omitted_event_count").toInt(), 0);
         QCOMPARE(index.value("event_ids").toArray(), QJsonArray{"protocol-only-event"});
         const auto plans = index.value("plans").toArray(); QCOMPARE(plans.size(), 2);
@@ -223,7 +223,7 @@ private slots:
             if (row.value("selected_plan_id") == selected) {
                 QCOMPARE(row.value("validation_id"), validation.value("validation_id"));
                 QCOMPARE(row.value("plan_hash"), validation.value("plan_hash"));
-                QCOMPARE(row.value("selection_eligibility"), QJsonValue("validated"));
+                QCOMPARE(row.value("selection_eligibility"), QJsonValue("admissible"));
                 QVERIFY(row.value("independent_validation").toBool()); QVERIFY(row.value("validation_feasible").toBool());
             } else {
                 QVERIFY(row.value("validation_id").isNull()); QVERIFY(!row.value("independent_validation").toBool());
@@ -246,8 +246,73 @@ private slots:
         QCOMPARE(fresh.value("cutoff_unix").toDouble(), h.dataset.firstUnix());
         QVERIFY(fresh.value("capture_id") != index.value("capture_id"));
         QVERIFY(fresh.value("plans").toArray().isEmpty()); QVERIFY(fresh.value("event_ids").toArray().isEmpty());
-        QCOMPARE(fresh.value("selection_status"), QJsonValue("no_validated_plan_in_index"));
+        QCOMPARE(fresh.value("selection_status"), QJsonValue("no_admissible_validated_plan"));
         QVERIFY(!QJsonDocument(h.model.messages).toJson().contains(validation.value("validation_id").toString().toUtf8()));
+    }
+    void cheaperUnvalidatedPlanRetiresCompletionPairAndTiesKeepTheirOwnReferences() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const auto policy = parse(QString::fromUtf8(bytes(QDir(h.folder).filePath("ops.json"))));
+        const auto baseline = noAction(h, "retained-baseline", policy.value("expected_repair_hours").toObject().value("pump_failure").toDouble() * 3600);
+        h.model.respond = [step = 0, baseline, chosen = QString{}, alternative = QJsonObject{}](const QJsonArray& messages) mutable {
+            switch (step++) {
+            case 0: return tool("baseline", "evaluate_plan", {{"plan", baseline}});
+            case 1: return tool("baseline-validation", "validate_plan", {{"plan_id", baseline.value("plan_id")}, {"evaluator_method", "protocol-only-evaluator"}});
+            case 2: return tool("search", "search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}});
+            case 3: return tool("baseline-revalidation", "validate_plan", {{"plan_id", baseline.value("plan_id")}, {"evaluator_method", "protocol-only-evaluator"}});
+            case 4: {
+                const auto result = resultFor(messages, "search").value("result").toObject().value("result").toObject();
+                chosen = result.value("selected_plan_id").toString();
+                for (const auto& value : result.value("evaluations").toArray()) {
+                    const auto plan = value.toObject().value("plan").toObject();
+                    if (plan.value("plan_id") == chosen) alternative = plan;
+                }
+                return tool("cheapest-validation", "validate_plan", {{"plan_id", chosen}, {"evaluator_method", "protocol-only-evaluator"}});
+            }
+            case 5:
+                alternative["plan_id"] = "retained-equal-cost-alternative"; alternative["plan_hash"] = plan_identity(alternative);
+                return tool("equal-cost", "evaluate_plan", {{"plan", alternative}});
+            case 6: return tool("equal-cost-validation", "validate_plan", {{"plan_id", alternative.value("plan_id")}, {"evaluator_method", "protocol-only-evaluator"}});
+            default: {
+                const auto validation = resultFor(messages, "equal-cost-validation").value("result").toObject().value("result").toObject().value("validation").toObject();
+                return final(alternative.value("plan_id").toString(), validation.value("validation_id").toString());
+            }
+            }
+        };
+        h.analysis.investigate("Compare compatible retained costs and finish with a chosen exact admissible pair.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 8 && !h.analysis.busy(), 30000);
+        const auto indexFor = [&](const QString& call) { return resultFor(h.model.messages, call).value("retained_evidence").toObject(); };
+        const auto rowFor = [](const QJsonObject& index, const QString& id) {
+            for (const auto& value : index.value("plans").toArray()) if (value.toObject().value("selected_plan_id") == id) return value.toObject();
+            return QJsonObject{};
+        };
+        const auto initial = indexFor("baseline-validation");
+        QCOMPARE(initial.value("completion_pairs").toArray().size(), 1);
+        QCOMPARE(rowFor(initial, "retained-baseline").value("selection_eligibility"), QJsonValue("admissible"));
+        const auto searched = indexFor("search");
+        QVERIFY(rowFor(searched, "protocol-only-truck-plan").value("validation_id").isNull());
+        QVERIFY(searched.value("completion_pairs").toArray().isEmpty());
+        QCOMPARE(searched.value("selection_status"), QJsonValue("no_admissible_validated_plan"));
+        QCOMPARE(rowFor(searched, "retained-baseline").value("selection_eligibility"), QJsonValue("validated_but_cheaper_compatible_exists"));
+        QVERIFY(!rowFor(searched, "retained-baseline").value("validation_id").toString().isEmpty());
+        QVERIFY(resultFor(h.model.messages, "baseline-revalidation").value("reused_validation").toBool());
+        QVERIFY(indexFor("baseline-revalidation").value("completion_pairs").toArray().isEmpty());
+        const auto cheapest = indexFor("cheapest-validation"); const auto pair = cheapest.value("completion_pairs").toArray();
+        QCOMPARE(pair.size(), 1); QCOMPARE(pair.first().toObject().value("selected_plan_id"), QJsonValue("protocol-only-truck-plan"));
+        QCOMPARE(rowFor(cheapest, "protocol-only-truck-plan").value("selection_eligibility"), QJsonValue("admissible"));
+        QCOMPARE(rowFor(cheapest, "retained-baseline").value("selection_eligibility"), QJsonValue("validated_but_cheaper_compatible_exists"));
+        const auto tied = indexFor("equal-cost-validation"); const auto pairs = tied.value("completion_pairs").toArray();
+        QCOMPARE(pairs.size(), 2); QSet<QString> ids;
+        for (const auto& value : pairs) {
+            const auto completion = value.toObject(); const auto id = completion.value("selected_plan_id").toString(); ids.insert(id);
+            QCOMPARE(completion.value("validation_id"), rowFor(tied, id).value("validation_id"));
+            QCOMPARE(rowFor(tied, id).value("selection_eligibility"), QJsonValue("admissible"));
+        }
+        QCOMPARE(ids, (QSet<QString>{"protocol-only-truck-plan", "retained-equal-cost-alternative"}));
+        QCOMPARE(tied.value("omitted_completion_pair_count").toInt(), 0);
+        QVERIFY(QJsonDocument(tied).toJson(QJsonDocument::Compact).size() < 64 * 1024);
+        QVERIFY2(h.analysis.canReview(), qPrintable(h.analysis.status()));
+        QCOMPARE(h.analysis.selectedPlanId(), QString("retained-equal-cost-alternative"));
+        QCOMPARE(h.providerCalls(), 6); // Revalidation reused evidence; model tool order was not rewritten.
     }
     void unavailableDetectionDoesNotInventEvidenceIndexReferences() {
         Harness h(fixtures_, worker_, "unavailable_detect");
@@ -261,7 +326,7 @@ private slots:
         QCOMPARE(outcome.value("result").toObject().value("status"), QJsonValue("unavailable"));
         const auto index = outcome.value("retained_evidence").toObject();
         QVERIFY(index.value("plans").toArray().isEmpty()); QVERIFY(index.value("event_ids").toArray().isEmpty());
-        QCOMPARE(index.value("selection_status"), QJsonValue("no_validated_plan_in_index"));
+        QCOMPARE(index.value("selection_status"), QJsonValue("no_admissible_validated_plan"));
         QVERIFY(!h.analysis.canReview()); QVERIFY(h.analysis.selectedPlanId().isEmpty());
     }
     void evidenceIndexIsBoundedWithoutInventingValidation() {
@@ -283,7 +348,7 @@ private slots:
         QCOMPARE(h.analysis.plans().size(), 10);
         const auto index = searched.value("retained_evidence").toObject();
         QCOMPARE(index.value("plans").toArray().size(), 8); QCOMPARE(index.value("omitted_plan_count").toInt(), 2);
-        QCOMPARE(index.value("selection_status"), QJsonValue("no_validated_plan_in_index"));
+        QCOMPARE(index.value("selection_status"), QJsonValue("no_admissible_validated_plan"));
         for (const auto& value : index.value("plans").toArray()) {
             const auto row = value.toObject(); QVERIFY(row.value("validation_id").isNull());
             QVERIFY(row.value("evaluator_method").isNull());
