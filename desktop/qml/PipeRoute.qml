@@ -82,6 +82,7 @@ Node {
         visible: active
         position: Qt.vector3d(route.sx + route.dx * 0.62, 19, route.sz + route.dz * 0.62)
         rotation: route.direction
+        scale: Qt.vector3d(Math.min(1, route.length / 80), Math.min(1, route.length / 80), Math.min(1, route.length / 80))
         sourceComponent: Node {
             PrincipledMaterial { id: directionPaint; baseColor: "#EDF1F3"; lighting: PrincipledMaterial.NoLighting }
             Model { objectName: "selectedRouteCueShaft:" + route.routeData.id; source: "#Cube"; y: -7; scale: Qt.vector3d(0.055, 0.22, 0.025); materials: directionPaint; pickable: false; castsShadows: false }
