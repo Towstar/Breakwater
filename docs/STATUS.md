@@ -2,6 +2,14 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
+Current CI follow-up: [worker lifecycle timing](WORKER_LIFECYCLE_CI.md).
+PR87's original normal desktop run passed 87/88 entries; its retained fixture
+startup-observation failure led to separate test budgets and public diagnostics.
+The complete storage-worker class passes 121/121 Qt cases in normal and ASan at
+`948d5bc`, retaining all 50 cancel/retry cycles and lifecycle checks. Production
+worker deadlines and numerical methods are preserved. New full candidate checks
+remain pending; these targeted results are not an all-green final matrix.
+
 Current release preparation: [candidate readiness](CANDIDATE_READINESS.md).
 PR85 head `440cb3d` now passes all six Windows jobs in run `44791528171`.
 New private kits use a source-qualified summary, the current readiness packet,

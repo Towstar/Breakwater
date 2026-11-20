@@ -1,0 +1,10 @@
+{
+  "source_commit": "948d5bc0a8018d78c4cad7b6732b736c785420d0",
+  "scope": "Single existing storage-worker test target and complete regression class; not final candidate qualification",
+  "status": "passed",
+  "mode": "normal",
+  "free_before_bytes": 6936117248,
+  "started_utc": "2026-11-20T20:40:19.9680900Z",
+  "finished_utc": "2026-11-20T20:43:06.1941517Z",
+  "free_after_bytes": 6852231168
+}

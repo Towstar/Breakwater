@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="1"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="132"
+	timestamp="2026-11-20T14:44:10"
+	>
+	<testcase name="desktop.storage_worker" classname="desktop.storage_worker" time="132.276" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

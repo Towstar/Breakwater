@@ -8,6 +8,13 @@ license or main integration is authorized by this packet.
 
 ## Current engineering baseline
 
+The [worker lifecycle CI follow-up](WORKER_LIFECYCLE_CI.md) preserves PR87's
+original normal-job failure and records the fixture timing/diagnostic correction.
+Its complete class passes normal and ASan locally; final candidate qualification
+is still pending. Both exact cleanups (2.54 GiB and the separately approved
+3.52 GiB inventory) completed with recovery inputs unchanged. Resource gates
+remain explicit; broader cleanup is not authorized by either inventory.
+
 PR [85](https://github.com/Towstar/Breakwater/pull/85), exact head
 `440cb3d73c6a8da398edf483438ef197ff93f199`, passes all six jobs in
 [Windows run 44791528171](https://github.com/Towstar/Breakwater/actions/runs/44791528171).
