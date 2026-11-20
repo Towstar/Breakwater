@@ -2,6 +2,12 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
+Current UI CI follow-up: [stored-candidate Science convergence](STORED_SCIENCE_CI.md).
+PR87's original ASan job passed 87/88 entries; phase 51 now waits for exact
+recommendation/History/source identity convergence with bounded diagnostics.
+Targeted normal/ASan minimum checks pass on the preserved dirty working patch;
+these do not establish a clean frozen-candidate matrix or hosted qualification.
+
 Current CI follow-up: [worker lifecycle timing](WORKER_LIFECYCLE_CI.md).
 PR87's original normal desktop run passed 87/88 entries; its retained fixture
 startup-observation failure led to separate test budgets and public diagnostics.

@@ -32,3 +32,7 @@ docs/evidence/candidate-readiness/** -text whitespace=cr-at-eol
 # Retain lifecycle CI and local test evidence without newline rewriting.
 docs/evidence/worker-lifecycle-ci/** -text whitespace=cr-at-eol
 docs/evidence/worker-lifecycle-ci/*.txt -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+
+# Preserve failed CI and working-tree stored-source UI diagnostics verbatim.
+docs/evidence/stored-science-ci/** -text whitespace=cr-at-eol
+docs/evidence/stored-science-ci/*.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof

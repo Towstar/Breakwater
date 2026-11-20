@@ -1,0 +1,5 @@
+[0/2] Re-checking globbed directories...
+[1/85] Automatic MOC and UIC for target breakwater
+[2/84] Running AUTOMOC file extraction for target breakwater
+[3/5] Building CXX object desktop\CMakeFiles\breakwater.dir\verification\WorkbenchUiCheck.cpp.obj
+[4/5] Linking CXX executable desktop\breakwater.exe

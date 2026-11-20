@@ -1,0 +1,442 @@
+{
+  "verification_version": 1,
+  "recorded_utc": "2026-11-20T21:16:45.313499+00:00",
+  "status": "targeted_working_tree_checks_passed",
+  "public_release_approved": false,
+  "original_ci": {
+    "pr": 87,
+    "workflow_run": 44807769311,
+    "job_id": 136540070609,
+    "head_commit": "fe9dd97a503786c356f941793cca1555959021e9",
+    "merge_commit": "26c98f0c95a6aeeb032f6b3a0230a1358a1bba0f",
+    "ctest_passed": 87,
+    "ctest_failed": 1,
+    "failure": {
+      "path": "docs/evidence/stored-science-ci/ci87-asan-failure.json",
+      "bytes": 2397,
+      "sha256": "c5c90da9ad022470632bff5779f7d11bd9c249402dff15c5441e4e1b96340747",
+      "original": "out/candidate-readiness/ci87/failure-136540070609.json",
+      "copied_verbatim": true
+    },
+    "ui_result": {
+      "path": "docs/evidence/stored-science-ci/ci87-ui-overhaul-minimum.json",
+      "bytes": 26628,
+      "sha256": "61ac5386777726f59a5c59ff02d9de17b051ab12fd9f338677ff4f60280e81f8",
+      "original": "out/candidate-readiness/ci87/records/14670141546-ui-overhaul-minimum.json",
+      "copied_verbatim": true
+    },
+    "last_test": {
+      "path": "docs/evidence/stored-science-ci/ci87-asan-last-test.log",
+      "bytes": 162381,
+      "sha256": "71aa119433d47188124a72feda8a60e32f6591f8c1ea070dbe469beff1e114d7",
+      "original": "out/candidate-readiness/ci87/records/14670141546-LastTest.log",
+      "copied_verbatim": true
+    },
+    "limit": "The original phase51 output lacks source/history state needed to distinguish pending reconstruction from terminal rejection."
+  },
+  "source_context": {
+    "base_commit": "e5a76aed06703497b3d4c8aafc4ed500a094fc4a",
+    "dirty": true,
+    "changed_runtime_source": [
+      "desktop/verification/WorkbenchUiCheck.cpp"
+    ],
+    "code_sha256": "cfa7089e7ea29965a2cee101d79e005aa605e79b64feb26972ae70447d133023",
+    "limits": "The preserved uncommitted verification patch identifies the tested working code. No clean final-source qualification is claimed."
+  },
+  "runs": [
+    {
+      "mode": "normal",
+      "status": "passed",
+      "ctest_entries": 1,
+      "failed": 0,
+      "skipped": 0,
+      "elapsed_s": 16.609,
+      "timestamp_local": "2026-11-20T15:12:16",
+      "timezone": "America/Chicago",
+      "ui_groups": 25,
+      "window_width": 960,
+      "window_height": 540,
+      "device_pixel_ratio": 1.75,
+      "hosted_model_requests": "not_requested",
+      "observed_source": {
+        "can_run": true,
+        "historical": false,
+        "history_busy": false,
+        "history_candidate": "d270086d-cd21-4932-b0ea-df5ba8f12d2e",
+        "history_session": "41eb7c34-22d5-4918-8ce9-207fc821afd0",
+        "history_status": "completed \u00b7 current session",
+        "investigator_status": "validated_recommendation",
+        "recommendation": {
+          "actionable": true,
+          "approval_status": "pending_operator",
+          "candidate_id": "search:1c9151a0-6d0b-4b2e-9fe9-8fdeb0dba004:410",
+          "controls": [
+            {
+              "control_id": "route:main_pump:flow",
+              "value": 27.5
+            },
+            {
+              "control_id": "route:backup_pump:flow",
+              "value": 26.25
+            },
+            {
+              "control_id": "route:bypass:flow",
+              "value": 12.5
+            },
+            {
+              "control_id": "route:truck_route:flow",
+              "value": 0
+            }
+          ],
+          "cost": 0,
+          "cost_unit": "synthetic units",
+          "created_at": "2026-11-20T21:12:32.114Z",
+          "current": true,
+          "explanation": "Local native finite search selected the lowest-cost returned response on a grid of up to four available controls (flow actuators first), with up to six values per axis including current operation. Independent validation and explicit operator review are required. This is a finite-grid result, not a global optimum. No hosted model was used.",
+          "horizon_h": 3,
+          "objective": "Local native finite search: at most four available controls, flow controls first, up to six values per axis including the current value. Preserve unspecified controls. No hosted model requests.",
+          "ok": true,
+          "physical_hash": "3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381",
+          "run_id": "d270086d-cd21-4932-b0ea-df5ba8f12d2e",
+          "sample_step_h": 0.025,
+          "search_candidate_index": 410,
+          "search_id": "1c9151a0-6d0b-4b2e-9fe9-8fdeb0dba004",
+          "selected_run_id": "d270086d-cd21-4932-b0ea-df5ba8f12d2e",
+          "session_id": "41eb7c34-22d5-4918-8ce9-207fc821afd0",
+          "snapshot_id": "8370eca8-7035-4a59-a180-aa57345b50c5",
+          "solver": "dense_reference",
+          "solver_version": "constant-flow-0.1.1",
+          "source_mode": "local_native",
+          "status": "validated_recommendation",
+          "tanks": [
+            {
+              "asset_id": "tank_a",
+              "final_m3": 115.99999999999974,
+              "initial_m3": 80,
+              "trajectory_summary": [
+                {
+                  "time_h": 0,
+                  "volume_m3": 80
+                },
+                {
+                  "time_h": 1.5,
+                  "volume_m3": 97.99999999999983
+                },
+                {
+                  "time_h": 3,
+                  "volume_m3": 115.99999999999974
+                }
+              ]
+            },
+            {
+              "asset_id": "tank_b",
+              "final_m3": 120.75000000000068,
+              "initial_m3": 114,
+              "trajectory_summary": [
+                {
+                  "time_h": 0,
+                  "volume_m3": 114
+                },
+                {
+                  "time_h": 1.5,
+                  "volume_m3": 117.37500000000034
+                },
+                {
+                  "time_h": 3,
+                  "volume_m3": 120.75000000000068
+                }
+              ]
+            }
+          ],
+          "validation": {
+            "feasible": true,
+            "limits": [],
+            "max_conservation_residual_m3": 1.199040866595169e-14,
+            "minimum_headroom_m3": 4,
+            "violations": []
+          },
+          "validation_id": "7d54bed1-a32c-4a03-9fbb-b42975b2e400",
+          "validation_source": "validate_run",
+          "validation_status": "validated",
+          "verified_cost": 0,
+          "verified_feasible": true,
+          "warnings": [
+            "Synthetic constant-flow model; nominal volume feasibility only.",
+            "Quality is not evaluated. Finite candidate evaluation does not establish global optimality."
+          ]
+        },
+        "source_busy": false,
+        "source_identity": {
+          "effective_physical_hash": "05a643d05775cdc5b9b6b000e38ff1c992202d4c86a7a7379e1b689a6ccae21f",
+          "horizon_h": 3,
+          "numerical_revision": 0,
+          "sample_step_h": 0.025,
+          "source_mode": "stored_candidate",
+          "source_physical_hash": "3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381",
+          "source_run_id": "d270086d-cd21-4932-b0ea-df5ba8f12d2e",
+          "source_session_id": "41eb7c34-22d5-4918-8ce9-207fc821afd0",
+          "source_snapshot_id": "8370eca8-7035-4a59-a180-aa57345b50c5"
+        },
+        "source_mode": "candidate",
+        "source_status": "Immutable stored candidate ready. Science does not apply its controls.",
+        "wait_ms": 0,
+        "worker_busy": false
+      },
+      "binary_sha256": "d1d05ba4a4168cca7ce38baa33747336e6b077139650361400fc23e4a20dba8e",
+      "binary_path": "out/portfolio-desktop/desktop/breakwater.exe",
+      "source_context": {
+        "base_commit": "e5a76aed06703497b3d4c8aafc4ed500a094fc4a",
+        "dirty": true,
+        "code_path": "desktop/verification/WorkbenchUiCheck.cpp",
+        "code_sha256": "cfa7089e7ea29965a2cee101d79e005aa605e79b64feb26972ae70447d133023",
+        "patch_sha256": "a89624abf4a4a1b139af4934f552736f8db47cc534b6c5a115d63c5dfa2d2ab9"
+      },
+      "artifacts": {
+        "build": {
+          "path": "docs/evidence/stored-science-ci/normal-build.log",
+          "bytes": 308,
+          "sha256": "e4b61cac39f97bf0c02aa5320ee690c8e9585aa7ff4ef22e7f6b69c058d1c447",
+          "original": "out/candidate-readiness/stored-source-barrier-working-normal/build.log",
+          "copied_verbatim": true
+        },
+        "ctest": {
+          "path": "docs/evidence/stored-science-ci/normal-ctest.log",
+          "bytes": 440,
+          "sha256": "1c862f05bfc7ec6eff8208adeb80d12f1afa6e89fdc5aae64f85e4fb1a64fc3b",
+          "original": "out/candidate-readiness/stored-source-barrier-working-normal/ctest.log",
+          "copied_verbatim": true
+        },
+        "ctest-junit": {
+          "path": "docs/evidence/stored-science-ci/normal-ctest-junit.xml",
+          "bytes": 1511,
+          "sha256": "ddcb3f741b9df19ce4298747b2983cb71c2b0302018b004fb2c045af10a45093",
+          "original": "out/candidate-readiness/stored-source-barrier-working-normal/ctest.xml",
+          "copied_verbatim": true
+        },
+        "last-test": {
+          "path": "docs/evidence/stored-science-ci/normal-last-test.log",
+          "bytes": 20091,
+          "sha256": "04b0673ce9bad528847b757a2ae976bb8be1903a3188c29bbaea4f0e91912964",
+          "original": "out/candidate-readiness/stored-source-barrier-working-normal/last-test.log",
+          "copied_verbatim": true
+        },
+        "source": {
+          "path": "docs/evidence/stored-science-ci/normal-source.diff",
+          "bytes": 4304,
+          "sha256": "a89624abf4a4a1b139af4934f552736f8db47cc534b6c5a115d63c5dfa2d2ab9",
+          "original": "out/candidate-readiness/stored-source-barrier-working-normal/source.diff",
+          "copied_verbatim": true
+        }
+      }
+    },
+    {
+      "mode": "asan",
+      "status": "passed",
+      "ctest_entries": 1,
+      "failed": 0,
+      "skipped": 0,
+      "elapsed_s": 35.8668,
+      "timestamp_local": "2026-11-20T15:13:17",
+      "timezone": "America/Chicago",
+      "ui_groups": 25,
+      "window_width": 960,
+      "window_height": 540,
+      "device_pixel_ratio": 1.75,
+      "hosted_model_requests": "not_requested",
+      "observed_source": {
+        "can_run": true,
+        "historical": false,
+        "history_busy": false,
+        "history_candidate": "fee172bc-3480-4dbe-955e-e369a5b78583",
+        "history_session": "d8cccd9d-4827-4c37-a118-0e3bedc93707",
+        "history_status": "completed \u00b7 current session",
+        "investigator_status": "validated_recommendation",
+        "recommendation": {
+          "actionable": true,
+          "approval_status": "pending_operator",
+          "candidate_id": "search:ba2b3641-0fd0-45fd-914c-f681cc4f3652:410",
+          "controls": [
+            {
+              "control_id": "route:main_pump:flow",
+              "value": 27.5
+            },
+            {
+              "control_id": "route:backup_pump:flow",
+              "value": 26.25
+            },
+            {
+              "control_id": "route:bypass:flow",
+              "value": 12.5
+            },
+            {
+              "control_id": "route:truck_route:flow",
+              "value": 0
+            }
+          ],
+          "cost": 0,
+          "cost_unit": "synthetic units",
+          "created_at": "2026-11-20T21:13:50.299Z",
+          "current": true,
+          "explanation": "Local native finite search selected the lowest-cost returned response on a grid of up to four available controls (flow actuators first), with up to six values per axis including current operation. Independent validation and explicit operator review are required. This is a finite-grid result, not a global optimum. No hosted model was used.",
+          "horizon_h": 3,
+          "objective": "Local native finite search: at most four available controls, flow controls first, up to six values per axis including the current value. Preserve unspecified controls. No hosted model requests.",
+          "ok": true,
+          "physical_hash": "3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381",
+          "run_id": "fee172bc-3480-4dbe-955e-e369a5b78583",
+          "sample_step_h": 0.025,
+          "search_candidate_index": 410,
+          "search_id": "ba2b3641-0fd0-45fd-914c-f681cc4f3652",
+          "selected_run_id": "fee172bc-3480-4dbe-955e-e369a5b78583",
+          "session_id": "d8cccd9d-4827-4c37-a118-0e3bedc93707",
+          "snapshot_id": "8d6f9e70-a059-4710-80d9-5b51623f2bee",
+          "solver": "dense_reference",
+          "solver_version": "constant-flow-0.1.1",
+          "source_mode": "local_native",
+          "status": "validated_recommendation",
+          "tanks": [
+            {
+              "asset_id": "tank_a",
+              "final_m3": 115.99999999999974,
+              "initial_m3": 80,
+              "trajectory_summary": [
+                {
+                  "time_h": 0,
+                  "volume_m3": 80
+                },
+                {
+                  "time_h": 1.5,
+                  "volume_m3": 97.99999999999983
+                },
+                {
+                  "time_h": 3,
+                  "volume_m3": 115.99999999999974
+                }
+              ]
+            },
+            {
+              "asset_id": "tank_b",
+              "final_m3": 120.75000000000068,
+              "initial_m3": 114,
+              "trajectory_summary": [
+                {
+                  "time_h": 0,
+                  "volume_m3": 114
+                },
+                {
+                  "time_h": 1.5,
+                  "volume_m3": 117.37500000000034
+                },
+                {
+                  "time_h": 3,
+                  "volume_m3": 120.75000000000068
+                }
+              ]
+            }
+          ],
+          "validation": {
+            "feasible": true,
+            "limits": [],
+            "max_conservation_residual_m3": 1.199040866595169e-14,
+            "minimum_headroom_m3": 4,
+            "violations": []
+          },
+          "validation_id": "7e67529c-887d-4b86-8994-c377e361ab70",
+          "validation_source": "validate_run",
+          "validation_status": "validated",
+          "verified_cost": 0,
+          "verified_feasible": true,
+          "warnings": [
+            "Synthetic constant-flow model; nominal volume feasibility only.",
+            "Quality is not evaluated. Finite candidate evaluation does not establish global optimality."
+          ]
+        },
+        "source_busy": false,
+        "source_identity": {
+          "effective_physical_hash": "05a643d05775cdc5b9b6b000e38ff1c992202d4c86a7a7379e1b689a6ccae21f",
+          "horizon_h": 3,
+          "numerical_revision": 0,
+          "sample_step_h": 0.025,
+          "source_mode": "stored_candidate",
+          "source_physical_hash": "3eb0b6e477f605d63a3d4d1f4ebcbcfd72ced288019f29a76de4eadd2aa78381",
+          "source_run_id": "fee172bc-3480-4dbe-955e-e369a5b78583",
+          "source_session_id": "d8cccd9d-4827-4c37-a118-0e3bedc93707",
+          "source_snapshot_id": "8d6f9e70-a059-4710-80d9-5b51623f2bee"
+        },
+        "source_mode": "candidate",
+        "source_status": "Immutable stored candidate ready. Science does not apply its controls.",
+        "wait_ms": 346,
+        "worker_busy": false
+      },
+      "binary_sha256": "d1453bdee8b1561b6d0749cde506800a59c048b26c7361048284e505352abfe2",
+      "binary_path": "out/portfolio-desktop-asan/desktop/breakwater.exe",
+      "source_context": {
+        "base_commit": "e5a76aed06703497b3d4c8aafc4ed500a094fc4a",
+        "dirty": true,
+        "code_path": "desktop/verification/WorkbenchUiCheck.cpp",
+        "code_sha256": "cfa7089e7ea29965a2cee101d79e005aa605e79b64feb26972ae70447d133023",
+        "patch_sha256": "a89624abf4a4a1b139af4934f552736f8db47cc534b6c5a115d63c5dfa2d2ab9"
+      },
+      "artifacts": {
+        "build": {
+          "path": "docs/evidence/stored-science-ci/asan-build.log",
+          "bytes": 879,
+          "sha256": "a1040fe969cce8f1b0754e6a4afe24dff1aab490ea42a08f8d468c314cec4dee",
+          "original": "out/candidate-readiness/stored-source-barrier-working-asan/build.log",
+          "copied_verbatim": true
+        },
+        "ctest": {
+          "path": "docs/evidence/stored-science-ci/asan-ctest.log",
+          "bytes": 450,
+          "sha256": "088e4a375f90c341d66c5fe7a1a46609e86599e39a608541f3f7ca1ae658409f",
+          "original": "out/candidate-readiness/stored-source-barrier-working-asan/ctest.log",
+          "copied_verbatim": true
+        },
+        "ctest-junit": {
+          "path": "docs/evidence/stored-science-ci/asan-ctest-junit.xml",
+          "bytes": 1512,
+          "sha256": "deca62881befb0d87cbc29c97603d6030a71d7a09ba4c83503ad6a44d790c353",
+          "original": "out/candidate-readiness/stored-source-barrier-working-asan/ctest.xml",
+          "copied_verbatim": true
+        },
+        "last-test": {
+          "path": "docs/evidence/stored-science-ci/asan-last-test.log",
+          "bytes": 20101,
+          "sha256": "8f27745bce7155a797c0d2fae143b41bfa3be3a0a1f79223b5cac991c895a6de",
+          "original": "out/candidate-readiness/stored-source-barrier-working-asan/last-test.log",
+          "copied_verbatim": true
+        },
+        "source": {
+          "path": "docs/evidence/stored-science-ci/asan-source.diff",
+          "bytes": 4304,
+          "sha256": "a89624abf4a4a1b139af4934f552736f8db47cc534b6c5a115d63c5dfa2d2ab9",
+          "original": "out/candidate-readiness/stored-source-barrier-working-asan/source.diff",
+          "copied_verbatim": true
+        }
+      }
+    }
+  ],
+  "guards": {
+    "phase_wait_ms": 15000,
+    "global_ui_budget_ms": 60000,
+    "ctest_timeout_ms": 90000,
+    "exact_session_run_snapshot_match": true,
+    "aligned_idle_rejection_fails_promptly": true,
+    "numerical_hash_run_revision_and_preview_approval_checks_unchanged": true,
+    "forecast_source_restore_required": true,
+    "production_reconstruction_and_approval_rules_unchanged": true
+  },
+  "review": {
+    "provenance": "independent same-family read-only source review",
+    "findings": "No outstanding consequential issue in reviewed convergence guards.",
+    "not_human_owner_acceptance": true
+  },
+  "pending": [
+    "full frozen-source local/CI checks",
+    "declared complete hosted qualification round",
+    "refreshed private package/source inventory",
+    "actual clean-Windows acceptance",
+    "owner review",
+    "licensing/source-delivery review",
+    "ordered integration"
+  ]
+}

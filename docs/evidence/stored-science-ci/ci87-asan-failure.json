@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-11-20T21:07:34.351Z",
+  "pr": 87,
+  "workflow_run": 44807769311,
+  "job_id": 136540070609,
+  "job": "Desktop (asan)",
+  "head_commit": "fe9dd97a503786c356f941793cca1555959021e9",
+  "tested_merge_commit": "26c98f0c95a6aeeb032f6b3a0230a1358a1bba0f",
+  "source_tree": "f7bdf95e862171b25c964ea3240ec68d0e11d52e",
+  "status": "failed",
+  "ctest": {
+    "passed": 87,
+    "failed": 1,
+    "registered": 88,
+    "failed_test": "desktop.ui_overhaul_minimum",
+    "elapsed_s": 48.12
+  },
+  "ui_check": {
+    "code": "selected_stored_science_source_did_not_reconstruct",
+    "phase": 51,
+    "window_width": 960,
+    "window_height": 540,
+    "elapsed_ms": 42545,
+    "phase_guard_ms": 3000,
+    "global_guard_ms": 60000,
+    "source": "desktop/verification/WorkbenchUiCheck.cpp",
+    "line": 639,
+    "condition": "storageScience.sourceMode==='candidate' && storageScience.canRun && storageScience.sourceIdentity.source_run_id===history.candidateRunId",
+    "diagnostic_limitation": "Failed output did not retain candidate/source identity, science source busy/status or history busy at phase51."
+  },
+  "artifact": {
+    "id": 14670141546,
+    "name": "windows-desktop-asan",
+    "sha256": "9a5177d270164c87d07895ed7b071e9bbbdd6192d52db2bd564263be38eca271",
+    "bytes": 2821022,
+    "digest_verified": true,
+    "last_test_log": "records/14670141546-LastTest.log",
+    "parsed_ui_result": "records/14670141546-ui-overhaul-minimum.json"
+  },
+  "facts": [
+    "The global UI timeout did not expire; the phase51 source-readiness assertion failed after its own bounded wait.",
+    "All preceding24 UI groups passed, including route/framing/scene focus/picking and retained pipe history.",
+    "Source reconstruction uses QtConcurrent and independently revalidates retained numerical evidence.",
+    "Original normal-mode failure was a separate storage-worker PID/startup wait assertion."
+  ],
+  "inference": "The existing output cannot distinguish reconstruction latency from terminal source rejection. Diagnose complete exact-source readiness with bounded waits and explicit source/status fields while preserving identity and approval assertions.",
+  "actions_taken": [
+    "Preserved the failed original job log and complete byte-verified artifact.",
+    "Reported exact failure promptly.",
+    "No GitHub rerun/cancel or local production/test edits."
+  ]
+}

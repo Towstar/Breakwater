@@ -632,13 +632,40 @@ class Check final : public QObject {
             case 50:
                 require(eval("app.storageScience.sourceMode==='candidate' && !app.storageScience.canRun").toBool(),"empty_stored_source_borrowed_current_forecast");
                 eval("app.investigator.searchLocally()"); break;
-            case 51:
+            case 51: {
                 if (eval("app.investigator.running").toBool()) return;
                 if (!stored_source_wait_.isValid()) stored_source_wait_.start();
-                if (eval("app.storageScience.busy || !app.storageScience.canRun").toBool() && stored_source_wait_.elapsed()<3000) return;
-                require(eval("app.storageScience.sourceMode==='candidate' && app.storageScience.canRun && app.storageScience.sourceIdentity.source_run_id===app.history.candidateRunId").toBool(),"selected_stored_science_source_did_not_reconstruct");
+                const auto state = QJsonObject::fromVariantMap(eval("({"
+                    "recommendation:app.investigator.recommendation,investigator_status:app.investigator.status,"
+                    "history_session:app.history.selectedSessionId,history_candidate:app.history.candidateRunId,"
+                    "history_busy:app.history.busy,historical:app.history.historical,history_status:app.history.status,"
+                    "source_mode:app.storageScience.sourceMode,source_busy:app.storageScience.busy,"
+                    "can_run:app.storageScience.canRun,source_identity:app.storageScience.sourceIdentity,"
+                    "source_status:app.storageScience.status,worker_busy:app.scientificWorker.busy})").toMap());
+                auto diagnostics = state;
+                diagnostics["wait_ms"] = stored_source_wait_.elapsed();
+                observed_["stored_science_source"] = diagnostics;
+                const auto recommendation = state.value("recommendation").toObject();
+                const auto selected = recommendation.value("selected_run_id").toString();
+                const auto session = recommendation.value("session_id").toString();
+                require(!selected.isEmpty() && !session.isEmpty(), "stored_science_recommendation_missing");
+                const bool historyAligned = state.value("history_session").toString()==session
+                    && state.value("history_candidate").toString()==selected && !state.value("history_busy").toBool();
+                const auto identity = state.value("source_identity").toObject();
+                const bool ready = historyAligned && state.value("source_mode").toString()=="candidate"
+                    && !state.value("source_busy").toBool() && state.value("can_run").toBool()
+                    && identity.value("source_run_id").toString()==selected
+                    && identity.value("source_session_id").toString()==session
+                    && identity.value("source_snapshot_id")==recommendation.value("snapshot_id");
+                // Investigation completion precedes checkpoint publication and asynchronous reconstruction.
+                // A completed rejection must fail promptly; only pending convergence receives a bounded wait.
+                const bool rejected = historyAligned && !state.value("source_busy").toBool()
+                    && !state.value("worker_busy").toBool() && !state.value("can_run").toBool();
+                if (!ready && !rejected && stored_source_wait_.elapsed()<15000) return;
+                require(ready,"selected_stored_science_source_did_not_reconstruct");
                 preserved(); snapshot("16-selected-candidate-science.png");
                 click(item("scienceSourceSelector")); key(Qt::Key_Home); key(Qt::Key_Return); break;
+            }
             case 52:
                 require(eval("app.storageScience.sourceMode==='forecast'").toBool(),"scientific_source_selector_did_not_restore_forecast");
                 preserved(); passed("native_source_selector_uses_immutable_stored_candidate_without_applying_controls");

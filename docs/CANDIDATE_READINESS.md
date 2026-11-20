@@ -8,6 +8,11 @@ license or main integration is authorized by this packet.
 
 ## Current engineering baseline
 
+The [stored-candidate Science UI follow-up](STORED_SCIENCE_CI.md) preserves PR87's
+separate ASan minimum-view failure and records exact-source convergence diagnostics.
+Targeted normal/ASan minimum checks pass with the preserved working-tree patch;
+full frozen-candidate qualification remains pending.
+
 The [worker lifecycle CI follow-up](WORKER_LIFECYCLE_CI.md) preserves PR87's
 original normal-job failure and records the fixture timing/diagnostic correction.
 Its complete class passes normal and ASan locally; final candidate qualification
