@@ -819,9 +819,11 @@ ApplicationWindow {
                         Label { Layout.fillWidth: true; text: "Direction only · Not measured delivery"; textFormat: Text.PlainText; elide: Text.ElideRight; color: Theme.muted; font.pixelSize: Theme.captionSize }
                     }
                     ToolTip {
+                        id: routeSummaryTip
                         visible: routeSummaryHover.hovered; delay: 500; timeout: 10000
-                        width: Math.min(360, app.width - 32); textFormat: Text.PlainText; wrapMode: Text.WordWrap
+                        width: Math.min(360, app.width - 32)
                         text: routeSummary.Accessible.name
+                        contentItem: Label { text: routeSummaryTip.text; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.text; font.pixelSize: Theme.smallSize }
                     }
                     HoverHandler { id: routeSummaryHover; blocking: false }
                 }
