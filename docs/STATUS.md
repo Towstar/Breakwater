@@ -2,10 +2,13 @@
 
 ## Active development: expanded v0.3.0, November 19, 2026
 
-A [reliability and picking follow-up](RELIABILITY_PICKING_FOLLOWUP.md) is now
-implemented in source. Compilation, hosted tests and renderer acceptance are
-pending the new storage review; `c71249e` remains the last verified application.
-The follow-up preserves prior evidence and all final admission checks.
+A [reliability and picking follow-up](RELIABILITY_PICKING_FOLLOWUP.md), application
+source `7f6294d`, builds in normal and ASan. Normal checkpoint checks and the
+final-source focused EOG suites pass; full final ASan, hosted qualification and
+the app handoff remain pending. Approved cleanup is complete. The earlier fixed
+hosted round remains 2/4, with both failures retained; a demonstrated eligibility
+index gap is corrected without changing final admission. `c71249e` remains the
+last completed app handoff until the new candidate is qualified and shown.
 
 Implemented candidate: `c71249ee2dbef04480ee8ea52806b1808622e44a`, in the
 PR68 through PR80 stack. The [current review packet](RELEASE_REVIEW_V03.md) and

@@ -1,8 +1,11 @@
 # Reliability and picking follow-up, November 19
 
-Status: source changes and independent same-family source reviews complete;
-compilation, normal/ASan execution, hosted qualification and updated-app handoff
-are pending. This document does not supersede the prior candidate's evidence.
+Checkpoint: application source `7f6294d` builds in normal and ASan configurations.
+The earlier normal checkpoint reached 87/87 passing checks after test-fixture
+corrections and a sandbox-specific hard-link rerun. The final-source EOG suites
+pass 77 investigator and 58 controller cases in normal; the new admissibility
+regression also passes under ASan. The full final-source ASan suite, final hosted
+round and updated-app handoff remain pending. Prior evidence is preserved.
 
 GitHub was fetched before changes. Main remained `3116b3d`; no remote refs
 changed. PR58 still had no formal review. No main merge or release is authorized
@@ -20,7 +23,12 @@ network/control inspection and, for observed sessions, observation inspection.
 The native loop presents exact current independently validated run references.
 The EOG controller supplies a bounded current-capture index with up to eight
 existing plans, their own validation references, eligibility and bounded event
-IDs. It records omitted counts. The index is presentation only: it neither
+IDs. Compact `completion_pairs` contain only admissible exact plan/own-validation
+pairs. A completed validation loses final eligibility when a cheaper compatible
+available evaluation exists; that cheaper evaluation still needs its own
+independent validation. The index shares the final validator's unchanged
+cheaper-compatible predicate and retains equal-cost alternatives and omitted
+counts. The index is presentation only: it neither
 selects a response nor repairs IDs, runs tools or changes final admission.
 Exact plan/hash/validation/current-capture and cheapest-compatible checks remain.
 Every validation tool call still consumes its allowance, even when reused.
@@ -60,19 +68,29 @@ every mesh or every viewing angle is pickable.
 
 The accepted release ledger requires at least 8 GiB free for full builds,
 qualification or packaging. About 7.1 GiB was free at this task's storage review.
-A fresh exact proposal for 132 reproducible normal linker files (3.039 GiB) is
+A fresh exact inventory for 132 reproducible normal linker files (3.039 GiB) is
 at `out/reliability-picking/STORAGE_REVIEW.md` and `storage-proposal.json`.
-No file from that proposal has been deleted; user approval is pending. The
-earlier 23.225 GiB approval does not authorize this new inventory.
+The user approved this inventory separately. The guarded cleanup checked every
+path/size/mtime/hash, then removed only those unchanged individual files, recovering
+3,262,720,941 bytes. See `cleanup-result.json`. Subsequent builds regenerate matching
+symbols. Lossless NTFS compression preserves every rebuilt symbol/object/library
+file, with content hashes checked before and after each operation. These records
+are time-specific: later recompilation legitimately changes compiler output.
 
-After approval: verify each listed path/size/mtime/hash, remove only unchanged
-approved files, measure free space, and run focused normal/ASan client,
-orchestrator, observed, EOG and WARP checks. Run broader affected suites and
-hardware scene checks once those pass. Commit the qualified source before live
-rehearsals, retain every hosted attempt in a new evidence directory, and report
-the fixed three-canonical/one-renamed round plus observed pump/missing-coverage
-cases without overwriting older results. Only then install and show the latest
-verified app, closing older instances gracefully with state preservation.
+The native protocol smoke passed. The first fixed hosted round, source `726a4da`,
+was 2/4: two canonical completions, one first-request 60.206-second timeout with
+zero executed tools, and one renamed-network grounding rejection. Independent
+archive audit confirmed both accepted finals and both failed records. Repeated
+validation remains observable: three reused baseline validations in runs 2 and 4.
+Run 4 retained cheaper responses but validated only the baseline, leaving no
+admissible final pair. This demonstrated the index eligibility gap corrected in
+`7f6294d`; it does not establish the exact rejected IDs, which are not retained.
+
+Next: finish the ASan suite, hardware/default/dense picking checks and fresh fixed
+hosted round for the changed source; retain all attempts and observed
+pump/missing-coverage cases. Show the latest verified app and close older
+instances gracefully with state preservation. Do not replace a failed round's
+score with supplementary successful attempts.
 
 Independent same-family agents reviewed the native, EOG and picking boundaries.
 No consequential source defect was identified. This is not runtime acceptance,
