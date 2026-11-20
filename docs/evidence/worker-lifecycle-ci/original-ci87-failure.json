@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "recorded_utc": "2026-11-20T20:41:08.340Z",
+  "pr": 87,
+  "workflow_run": 44807769311,
+  "job_id": 136540070742,
+  "job": "Desktop (normal)",
+  "head_commit": "fe9dd97a503786c356f941793cca1555959021e9",
+  "tested_merge_commit": "26c98f0c95a6aeeb032f6b3a0230a1358a1bba0f",
+  "source_tree": "f7bdf95e862171b25c964ea3240ec68d0e11d52e",
+  "status": "failed",
+  "ctest": {
+    "passed": 87,
+    "failed": 1,
+    "registered": 88,
+    "failed_test": "desktop.storage_worker",
+    "elapsed_s": 128.43
+  },
+  "qt": {
+    "passed": 1161,
+    "failed": 1,
+    "skipped": 1,
+    "failed_suite": {
+      "name": "StorageWorkerTests",
+      "passed": 120,
+      "failed": 1,
+      "skipped": 0,
+      "function": "fiftyCancelRetryCyclesHaveNoOverlapSurvivorsOrLatePublication",
+      "source": "desktop/tests/storage_worker_tests.cpp",
+      "line": 423,
+      "check": "readPid() != 0 && readPid() != cancelled",
+      "requested_wait_ms": 10000,
+      "completed_cycles_logged": 7,
+      "diagnostic": "QTestLib reported the requested timeout was too short and the condition sufficient at the timeout boundary."
+    }
+  },
+  "artifact": {
+    "id": 14668210661,
+    "name": "windows-desktop-normal",
+    "sha256": "3fd850446e6fb3349f36868689f867facd4a51414b1c7c7b3296e5474a62721b",
+    "bytes": 2814814,
+    "digest_verified": true,
+    "qt_result": "records/14668210661-storage_worker-results.txt"
+  },
+  "facts": [
+    "This test retains original Windows process handles to guard against PID reuse.",
+    "The controlled stdlib Python fixture writes its PID before protocol exchange and detects a prior live PID.",
+    "This test configures a 10-second client deadline and 10-second PID wait; production storage jobs default to 60 seconds.",
+    "The PR86-to-PR87 diff contains documentation/media/delivery-audit scripts, without production runtime or lifecycle-test edits.",
+    "All actual worker/native comparison cases after the failure passed."
+  ],
+  "inference": "The immediate failure is a PID/startup wait assertion at its 10-second boundary. This evidence alone does not establish a production overlap bug, nor justify weakening survivor/no-overlap assertions.",
+  "actions_taken": [
+    "Preserved original failed job log and byte-verified artifact.",
+    "Reported failure and exact assertion to root promptly.",
+    "No rerun, cancellation, branch mutation or production/test edit performed."
+  ],
+  "remaining": "Original Desktop ASan job still running at this checkpoint."
+}

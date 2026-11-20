@@ -400,9 +400,20 @@ private slots:
         QTemporaryDir directory; QVERIFY(directory.isValid());
         const auto pidPath = directory.filePath("pid.txt"); qputenv("BREAKWATER_STORAGE_FIXTURE_PIDFILE", pidPath.toUtf8());
         const auto readPid = [&] { QFile file(pidPath); return file.open(QIODevice::ReadOnly) ? file.readAll().toLongLong() : qint64{0}; };
-        PythonWorkerClient client(python(), fixture()); client.setTimeoutMs(10000); client.setTerminationGraceMs(25);
+        // This repeated fixture exercises retirement and publication across
+        // interpreter startups on shared runners. Keep its observation window
+        // inside the whole-job deadline, which includes deferred retirement.
+        // The dedicated deadline case above retains its 750 ms timeout.
+        constexpr int fixtureObservationMs = 30000;
+        PythonWorkerClient client(python(), fixture()); client.setTimeoutMs(60000); client.setTerminationGraceMs(25);
         QSignalSpy ready(&client, &PythonWorkerClient::storageReady), failed(&client, &PythonWorkerClient::failed);
         qint64 previous = 0;
+        const auto diagnostic = [&](int cycle, const char* phase) {
+            const auto lastError = failed.isEmpty() ? QStringLiteral("none") : failed.last().first().toString();
+            return QString("Cycle %1, %2: busy=%3 ready=%4 failed=%5 pid=%6 previous=%7 last_error=%8 status=%9")
+                .arg(cycle + 1).arg(QString::fromLatin1(phase)).arg(client.busy())
+                .arg(ready.size()).arg(failed.size()).arg(readPid()).arg(previous).arg(lastError).arg(client.status());
+        };
 #ifdef Q_OS_WIN
         // Retain the original process objects. A bare PID may be reused by an
         // unrelated Python process before the next iteration checks survivors.
@@ -410,30 +421,40 @@ private slots:
         const auto retain = [&](HANDLE handle) { children.emplace_back(handle, [](void* value) { CloseHandle(value); }); };
 #endif
         for (int cycle = 0; cycle < 50; ++cycle) {
+            QElapsedTimer startup; startup.start();
             mode("hang"); client.runStorage(payload());
-            QTRY_VERIFY_WITH_TIMEOUT(readPid() != 0 && readPid() != previous, 10000);
+            QTRY_VERIFY2_WITH_TIMEOUT((readPid() != 0 && readPid() != previous) || failed.size() != cycle,
+                qPrintable(diagnostic(cycle, "cancelled fixture startup")), fixtureObservationMs);
+            QVERIFY2(failed.size() == cycle, qPrintable(diagnostic(cycle, "cancelled fixture failed")));
             const auto cancelled = readPid();
+            const auto cancelledStartupMs = startup.elapsed();
 #ifdef Q_OS_WIN
             const auto cancelledHandle = OpenProcess(SYNCHRONIZE, FALSE, static_cast<DWORD>(cancelled));
             QVERIFY(cancelledHandle); retain(cancelledHandle);
 #endif
             client.cancel(); QCOMPARE(failed.size(), cycle + 1); QCOMPARE(ready.size(), cycle);
             QVERIFY(!client.readiness().value("storage_execution_verified").toBool());
-            mode("valid_linger"); client.runStorage(payload());
-            QTRY_VERIFY_WITH_TIMEOUT(readPid() != 0 && readPid() != cancelled, 10000);
+            startup.restart(); mode("valid_linger"); client.runStorage(payload());
+            QTRY_VERIFY2_WITH_TIMEOUT((readPid() != 0 && readPid() != cancelled) || failed.size() != cycle + 1,
+                qPrintable(diagnostic(cycle, "retry fixture startup")), fixtureObservationMs);
+            QVERIFY2(failed.size() == cycle + 1, qPrintable(diagnostic(cycle, "retry fixture failed")));
             previous = readPid();
+            const auto retryStartupMs = startup.elapsed();
 #ifdef Q_OS_WIN
             const auto completedHandle = OpenProcess(SYNCHRONIZE, FALSE, static_cast<DWORD>(previous));
             QVERIFY(completedHandle); retain(completedHandle);
 #endif
-            QTRY_COMPARE_WITH_TIMEOUT(ready.size(), cycle + 1, 10000); QCOMPARE(failed.size(), cycle + 1);
+            QTRY_VERIFY2_WITH_TIMEOUT(ready.size() >= cycle + 1 || failed.size() != cycle + 1,
+                qPrintable(diagnostic(cycle, "retry completion")), fixtureObservationMs);
+            QCOMPARE(ready.size(), cycle + 1); QCOMPARE(failed.size(), cycle + 1);
             QVERIFY(previous != cancelled);
 #ifdef Q_OS_WIN
             for (const auto& child : children)
                 QVERIFY2(WaitForSingleObject(child.get(), 0) == WAIT_OBJECT_0, qPrintable(QString("Surviving original fixture process after cycle %1").arg(cycle + 1)));
 #endif
-            qInfo("Cancel/retry cycle %d: clean exit, no overlap, no late publication; PIDs %lld/%lld", cycle + 1,
-                  static_cast<long long>(cancelled), static_cast<long long>(previous));
+            qInfo("Cancel/retry cycle %d: clean exit, no overlap, no late publication; PIDs %lld/%lld; startup ms %lld/%lld", cycle + 1,
+                  static_cast<long long>(cancelled), static_cast<long long>(previous),
+                  static_cast<long long>(cancelledStartupMs), static_cast<long long>(retryStartupMs));
         }
         QTest::qWait(250); QCOMPARE(ready.size(), 50); QCOMPARE(failed.size(), 50);
     }

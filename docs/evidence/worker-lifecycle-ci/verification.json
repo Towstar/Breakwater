@@ -1,0 +1,146 @@
+{
+  "verification_version": 1,
+  "recorded_utc": "2026-11-20T20:59:47.100512+00:00",
+  "test_source_commit": "948d5bc0a8018d78c4cad7b6732b736c785420d0",
+  "scope": "Original CI failure, bounded lifecycle fixture correction and actual focused regression; final candidate pending",
+  "test_source_sha256": {
+    "path": "desktop/tests/storage_worker_tests.cpp",
+    "bytes": 41953,
+    "sha256": "1f5412d60be20bffd808c954e440d76a7a22a2b4ffa83dc94543fb2da05670cd"
+  },
+  "local": {
+    "normal": {
+      "ctest_passed": 1,
+      "qt_passed": 121,
+      "qt_failed": 0,
+      "qt_skipped": 0,
+      "elapsed_s": 127.38
+    },
+    "asan": {
+      "ctest_passed": 1,
+      "qt_passed": 121,
+      "qt_failed": 0,
+      "qt_skipped": 0,
+      "elapsed_s": 132.28
+    },
+    "cycles_per_mode": 50,
+    "original_process_handles_retained": true,
+    "dedicated_750ms_deadline_test_preserved_and_passed": true,
+    "production_timeouts_unchanged": true,
+    "asan_scope": "Owned C++ targets; prebuilt Qt and Python/Torch remain outside instrumentation scope"
+  },
+  "normal_application_build": {
+    "source_commit": "fe9dd97a503786c356f941793cca1555959021e9",
+    "dirty": false,
+    "mode": "normal",
+    "status": "passed",
+    "scope": "Full configured build graph",
+    "started_utc": "2026-11-20T20:17:18.6042408Z",
+    "free_before_bytes": 9729511424,
+    "app_sha256": "518b47233349ad4367feae103f199f0da12e89fbff5edfcd736e2ef29d304481",
+    "eog_live_check_sha256": "0d59767221a80d8a17cc4120e8391a6ce1f0d89037041b829ad9fd88ffcb7ef4",
+    "nemotron_smoke_sha256": "98f4f79e12b19b39b61328c85023144d7496010da766fb622aae0a625334e3fa",
+    "finished_utc": "2026-11-20T20:20:07.0029612Z",
+    "free_after_bytes": 8012238848
+  },
+  "original_ci_failure": {
+    "path": "docs/evidence/worker-lifecycle-ci/original-ci87-failure.json",
+    "bytes": 2508,
+    "sha256": "849755082c8e5130c57a05854731ebd847adb2cb86d932a562e1279e69a6a19f"
+  },
+  "cleanup": [
+    {
+      "inventory_sha256": "50d382048d92457b5d2a02436c82d6d7e5fa0bd5c017548f67714c30694d74b6",
+      "deleted_files": 11734,
+      "inventoried_allocation_bytes": 2728606425,
+      "recovery_verified": true,
+      "raw_result": {
+        "path": "out/candidate-readiness/storage/cleanup-result.json",
+        "bytes": 1895,
+        "sha256": "966ef535e353dc49416f9ad9a5dfb5a6d565bf1de59e3579a75a97ca2a13415e"
+      }
+    },
+    {
+      "inventory_sha256": "93b5e322cccefa38b6466ccb96b5d4e2b8e56312e73666a83309916f184142db",
+      "deleted_files": 13013,
+      "inventoried_allocation_bytes": 3776659258,
+      "recovery_inputs_verified": 104,
+      "recovery_verified": true,
+      "volume_free_after_bytes": 10625597440,
+      "raw_result": {
+        "path": "out/candidate-readiness/storage-followup/execution-result.json",
+        "bytes": 900,
+        "sha256": "5fecb10622a6e2964499ea2ce73a5e991e0fd738edc08bb710f5dba8b2d61f16"
+      }
+    }
+  ],
+  "compaction": {
+    "content_hashes_preserved": true,
+    "files_deleted": 0,
+    "allocation_and_volume_free_are_distinct_observations": true,
+    "reports": [
+      {
+        "path": "out/candidate-readiness/normal-symbol-linker-compaction-result.json",
+        "bytes": 31122,
+        "sha256": "70e60c314f25af2c651b9d81cee794b56c579d96cfea8d2c9907fd3a98708c85"
+      },
+      {
+        "path": "out/candidate-readiness/normal-xpress-compaction-result.json",
+        "bytes": 31110,
+        "sha256": "420a2380ee637ae273fbd30831cd9a2773341ee5e10ba010558a18c53b6b5bef"
+      }
+    ]
+  },
+  "review": {
+    "provenance": "Independent same-family read-only review",
+    "outstanding_consequential_findings": []
+  },
+  "files": [
+    {
+      "path": "docs/evidence/worker-lifecycle-ci/asan-check.json",
+      "bytes": 406,
+      "sha256": "2541fc847e118997a22fa840cb168685f1ecc31a59d57e4b04b9d9c524fe9b9a"
+    },
+    {
+      "path": "docs/evidence/worker-lifecycle-ci/asan-ctest.xml",
+      "bytes": 384,
+      "sha256": "0685278774015a5b5fa7b04fc03266a56ab400373bb228e137c2480e690456e5"
+    },
+    {
+      "path": "docs/evidence/worker-lifecycle-ci/asan-results.txt",
+      "bytes": 20867,
+      "sha256": "838c2ad1961f737f73825045ad170a8c66bf41ec908240b8b79f6e5518b55db2"
+    },
+    {
+      "path": "docs/evidence/worker-lifecycle-ci/normal-check.json",
+      "bytes": 408,
+      "sha256": "aaf502236c7037a870fd9bdf20f2f7ae52276c36b4e0abcbe95812690393cf95"
+    },
+    {
+      "path": "docs/evidence/worker-lifecycle-ci/normal-ctest.xml",
+      "bytes": 384,
+      "sha256": "0151c74f40414f55e30068bf8c991b0ed20bb15e9f22f7f90f1d68c95922db90"
+    },
+    {
+      "path": "docs/evidence/worker-lifecycle-ci/normal-results.txt",
+      "bytes": 20868,
+      "sha256": "e83eed3a77d4f44d34c80e4ab9e762607e8b13a214634422d51f83787ed0ce16"
+    },
+    {
+      "path": "docs/evidence/worker-lifecycle-ci/original-ci87-failure.json",
+      "bytes": 2508,
+      "sha256": "849755082c8e5130c57a05854731ebd847adb2cb86d932a562e1279e69a6a19f"
+    },
+    {
+      "path": "docs/evidence/worker-lifecycle-ci/original-ci87-normal-results.txt",
+      "bytes": 12464,
+      "sha256": "361ce63b249f77f6bc88a220bac1ffdccc15917193f8b6af7fb4cd43ee922ccb"
+    }
+  ],
+  "new_hosted_requests": 0,
+  "final_candidate_qualification": "pending_new_frozen_candidate",
+  "owner_review": "pending",
+  "licensing_review": "pending",
+  "clean_windows": "pending_external_acceptance",
+  "public_release_approved": false
+}

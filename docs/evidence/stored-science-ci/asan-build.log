@@ -1,0 +1,6 @@
+[0/2] Re-checking globbed directories...
+[1/86] C:\Windows\system32\cmd.exe /C "cd /D C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop && "C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -E copy_if_different "C:/Program Files/Microsoft Visual Studio/2022/Community/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/clang_rt.asan_dynamic-x86_64.dll" C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/engine/clang_rt.asan_dynamic-x86_64.dll"
+[2/86] Automatic MOC and UIC for target breakwater
+[3/85] Running AUTOMOC file extraction for target breakwater
+[4/6] Building CXX object desktop\CMakeFiles\breakwater.dir\verification\WorkbenchUiCheck.cpp.obj
+[5/6] Linking CXX executable desktop\breakwater.exe
