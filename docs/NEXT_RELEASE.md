@@ -1,5 +1,12 @@
 # v0.3.0 implementation ledger
 
+Current release-preparation increment: [candidate readiness](CANDIDATE_READINESS.md).
+PR85's exact head `440cb3d` passes all six Windows CI jobs. The new private-kit
+helper preserves old kits and v1 results while adding a source-qualified summary,
+current/historical review packets and acceptance template v2. Its 48 combined
+helper tests pass locally. Final combined candidate qualification/packaging and
+external release gates remain pending; no release version or tag is created.
+
 Current UI continuation: [workspace framing](WORKSPACE_FRAMING.md), application
 source `cd4dc5f`, passes seven focused desktop suites per mode, actual default/
 dense hardware picking and manual Windows Ctrl+Shift+F/Escape checks. The saved

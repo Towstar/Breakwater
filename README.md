@@ -15,13 +15,13 @@ captures, bounded symptom detection, native advisory forecasts, v2 evidence
 history and manual Science on stored candidates. See the
 [implementation ledger](docs/NEXT_RELEASE.md), [local monitoring](docs/LOCAL_MONITORING.md)
 and [workspace clarity checks](docs/WORKSPACE_CLARITY.md). The
-[v0.3 review packet](docs/RELEASE_REVIEW_V03.md) binds the implemented candidate
-`c71249e` to normal/ASan checks, CPU science, real Windows scaling and private
-bundle verification. Hosted qualification remains incomplete: its fixed latest
-EOG round passed 2/4, with one additional canonical passing (3/5 overall); the
-observed pump case still missed a feasible native response. Owner/licensing and
-actual clean-Windows acceptance also remain pending. No v0.3 public binary has
-been released.
+[current readiness packet](docs/CANDIDATE_READINESS.md) separates the latest UI,
+hosted and packaging evidence. PR85 passes all six Windows CI jobs. The prior
+hosted round at source `29df04f` passed its four Operations cases and separate
+desktop observed pump/no-coverage cases; the earlier unsuccessful rounds remain
+retained. A final combined candidate qualification and refreshed private kit are
+being prepared. Owner/licensing review and actual clean-Windows acceptance remain
+pending. No v0.3 public binary has been released.
 
 ![Sandbox industrial workspace](docs/images/portfolio/01-sandbox-overview-ad45d45.jpg)
 
