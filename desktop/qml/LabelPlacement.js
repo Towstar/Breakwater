@@ -21,7 +21,11 @@ function place(candidates, bounds, exclusions) {
             [row.anchorX + 8, row.anchorY],
             [row.anchorX - row.width - 8, row.anchorY],
             [row.anchorX - row.width / 2, row.anchorY + row.height + 6],
-            [row.anchorX - row.width / 2, row.anchorY - 2 * (row.height + 6)]
+            [row.anchorX - row.width / 2, row.anchorY - 2 * (row.height + 6)],
+            // Near a toolbar edge, vertical attempts can clamp to the same
+            // occupied row. Try one bounded wider horizontal ring before culling.
+            [row.anchorX + row.width / 2 + 8, row.anchorY],
+            [row.anchorX - 1.5 * row.width - 8, row.anchorY]
         ]
         for (const attempt of attempts) {
             const rectangle = {x: Math.max(bounds.x, Math.min(bounds.x + bounds.width - row.width, attempt[0])),

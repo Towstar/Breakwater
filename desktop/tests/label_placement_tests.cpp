@@ -49,6 +49,47 @@ private slots:
             }
         }
     }
+    void compactToolbarBoundaryRetainsAllCanonicalLabels_data() {
+        QTest::addColumn<double>("sourceWidth");
+        QTest::newRow("82-pixel-source-label") << 82.0;
+        QTest::newRow("83-pixel-source-label") << 83.0;
+        QTest::newRow("84-pixel-source-label") << 84.0;
+    }
+    void compactToolbarBoundaryRetainsAllCanonicalLabels() {
+        QFETCH(double, sourceWidth);
+        // 1008x672 normal WARP evidence, bb250d7, yaw 113.120243125:
+        // scene-picking-warp-646c6e57dcfa409f9ef82f5bbdf23b66/benchmark.json.
+        // The five retained rectangles recover their anchors. The culled source
+        // anchor is projected from the same fitted camera and canonical position.
+        const auto candidate = [](const QString& id,int priority,double x,double y,double width) {
+            auto value=row(id,priority,x,y); value["width"]=width; value["height"]=26; return value;
+        };
+        const QJsonArray candidates{
+            candidate("tank_a",3,394.37982177734375,125.08451080322266,49),
+            candidate("tank_b",3,367.1260681152344,173.54283142089844,48),
+            candidate("source_a",4,411.424,94.780,sourceWidth),
+            candidate("source_b",4,314.2571716308594,153.665283203125,83),
+            candidate("treatment",4,423.06439208984375,202.5261688232422,68),
+            candidate("trucking",4,455.8133544921875,139.07737731933594,119)};
+        const QJsonObject bounds{{"x",10},{"y",96},{"width",767},{"height",166}};
+        const QJsonObject reserved{{"x",14},{"y",210},{"width",84},{"height",86}};
+        const auto original=candidates, result=place(candidates,bounds,{reserved});
+        QCOMPARE(candidates,original); QCOMPARE(result.size(),6);
+        QCOMPARE(result.first().toObject().value("id"),QJsonValue("tank_a"));
+        QJsonArray reversed; for (auto i=candidates.size();i>0;--i) reversed.append(candidates[i-1]);
+        QCOMPARE(result,place(reversed,bounds,{reserved}));
+        for (qsizetype i=0;i<result.size();++i) {
+            const auto a=result[i].toObject();
+            const QRectF rectangle(a["x"].toDouble(),a["y"].toDouble(),a["width"].toDouble(),a["height"].toDouble());
+            QVERIFY(QRectF(10,96,767,166).contains(rectangle));
+            QVERIFY(!rectangle.adjusted(-4,-4,4,4).intersects(QRectF(14,210,84,86)));
+            for (qsizetype j=0;j<i;++j) {
+                const auto b=result[j].toObject();
+                QVERIFY(!rectangle.adjusted(-4,-4,4,4).intersects(
+                    QRectF(b["x"].toDouble(),b["y"].toDouble(),b["width"].toDouble(),b["height"].toDouble())));
+            }
+        }
+    }
     void tinyOrInvalidViewportNeverCreatesClippedOrInvalidLabels() {
         QCOMPARE(place({row("too-wide",0)},{{"x",0},{"y",0},{"width",40},{"height",40}}).size(),0);
         QCOMPARE(place({row("invalid",0)},{{"x",0},{"y",0},{"width",0},{"height",40}}).size(),0);

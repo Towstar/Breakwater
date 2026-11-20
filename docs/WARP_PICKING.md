@@ -49,3 +49,13 @@ for every fixture. It retains the same production culling and overlap policy.
 The WARP regression explicitly reproduces that compact client area with
 `BREAKWATER_BENCHMARK_COMPACT=1` and still requires six labels and six exact body
 picks. Reports include positioned label rectangles and culled asset IDs.
+
+The first fitted local normal compact run at `bb250d7` still culled Production A
+at a 96-pixel toolbar inset and 26-pixel label height; ASan passed at a different
+end angle. No failed result is superseded by that different view. The original
+six placement attempts could all collide or clamp near the upper boundary while
+free room remained horizontally. Two bounded wider horizontal attempts now run
+before culling, preserving priority, the four-pixel gap, viewport bounds and
+reserved controls. A fixed placement regression reconstructs this captured
+compact layout and tests neighboring label widths without weakening the six-label
+renderer check.
