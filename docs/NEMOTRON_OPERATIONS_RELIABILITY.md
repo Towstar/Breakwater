@@ -87,5 +87,8 @@ Hosted testing requires a clean source freeze, executable/input/harness hashes,
 a new fixed declaration and serial cases with provider cooldown. Preserve all
 failures and the original round denominators. A protocol smoke is not a completed
 investigation. This document describes implementation; dated execution evidence
-must identify its actual revision. Independent owner/licensing review and deferred
+must identify its actual revision. See [the dated verification report](NEMOTRON_OPERATIONS_VERIFICATION.md)
+for the clean `db1d0bd` executions, retained ASan timing failure and isolated pass,
+4/4 targeted hosted supplement and separate 2/2 observed-origin GUI round.
+Independent owner/licensing review and deferred
 clean-Windows release acceptance are not granted by local tests or rehearsals.
