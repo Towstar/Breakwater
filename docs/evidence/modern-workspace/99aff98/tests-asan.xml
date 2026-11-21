@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="32"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="509"
+	timestamp="2026-11-20T19:40:11"
+	>
+	<testcase name="desktop.scene_framing" classname="desktop.scene_framing" time="0.133188" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.label_placement" classname="desktop.label_placement" time="0.0688239" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.workspace_settings" classname="desktop.workspace_settings" time="0.198713" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.editor_tools" classname="desktop.editor_tools" time="1.7577" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_normal" classname="desktop.ui_overhaul_normal" time="43.2175" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/modern-workspace/ui-asan/breakwater-ui-wSQMwU","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connec...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_compact" classname="desktop.ui_overhaul_compact" time="42.4732" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/modern-workspace/ui-asan/breakwater-ui-RAWmwb","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connec...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_short" classname="desktop.ui_overhaul_short" time="40.2298" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/modern-workspace/ui-asan/breakwater-ui-rvmRWp","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connec...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_minimum" classname="desktop.ui_overhaul_minimum" time="41.129" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/modern-workspace/ui-asan/breakwater-ui-kcFNoX","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connec...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.project" classname="desktop.project" time="1.22124" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_transport" classname="desktop.pipe_transport" time="16.7653" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.scene_picking_warp" classname="desktop.scene_picking_warp" time="20.4901" status="run">
+		<properties/>
+		<system-out>Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop\test-artifacts\scene-picking-warp-ec164e187b5247f189f310e98dc93082
+PASS: 6/6 actual body picks; WARP 13.87 FPS (diagnostic only)
+</system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_lifecycle" classname="desktop.telemetry_lifecycle" time="26.1976" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor_normal_smoke" classname="desktop.sensor_editor_normal_smoke" time="9.98821" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_replay_normal_smoke" classname="desktop.telemetry_replay_normal_smoke" time="10.0304" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor_compact_smoke" classname="desktop.sensor_editor_compact_smoke" time="10.2807" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_replay_compact_smoke" classname="desktop.telemetry_replay_compact_smoke" time="10.1129" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_normal" classname="desktop.observed_advisory_normal" time="20.3055" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/modern-workspace/ui-asan/breakwater-ui-mwJVcB","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":13687,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":900,"window_width":1440}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_compact" classname="desktop.observed_advisory_compact" time="19.8189" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/modern-workspace/ui-asan/breakwater-ui-JxWEja","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":13035,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":700,"window_width":1100}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_short" classname="desktop.observed_advisory_short" time="19.2068" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/modern-workspace/ui-asan/breakwater-ui-ssvYBo","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":12794,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":672,"window_width":1008}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_minimum" classname="desktop.observed_advisory_minimum" time="18.8061" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/modern-workspace/ui-asan/breakwater-ui-zmyXmf","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":12492,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":540,"window_width":960}
+</system-out>
+	</testcase>
+	<testcase name="desktop.storage_science_normal" classname="desktop.storage_science_normal" time="14.618" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.storage_science_compact" classname="desktop.storage_science_compact" time="14.9628" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.qml_smoke" classname="desktop.qml_smoke" time="9.69939" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_evidence_smoke" classname="desktop.pipe_evidence_smoke" time="9.95536" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_client" classname="desktop.eog_analysis_client" time="15.2277" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_controller" classname="desktop.eog_analysis_controller" time="38.7571" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_normal" classname="desktop.eog_analysis_normal" time="8.81686" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_normal" classname="desktop.eog_overview_normal" time="8.98151" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_normal" classname="desktop.eog_facility_normal" time="9.50911" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_compact" classname="desktop.eog_analysis_compact" time="8.64116" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_compact" classname="desktop.eog_overview_compact" time="9.03391" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_compact" classname="desktop.eog_facility_compact" time="9.22951" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

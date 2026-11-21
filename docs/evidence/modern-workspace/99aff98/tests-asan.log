@@ -1,0 +1,70 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan
+      Start 18: desktop.scene_framing
+ 1/32 Test #18: desktop.scene_framing ....................   Passed    0.13 sec
+      Start 19: desktop.label_placement
+ 2/32 Test #19: desktop.label_placement ..................   Passed    0.07 sec
+      Start 21: desktop.workspace_settings
+ 3/32 Test #21: desktop.workspace_settings ...............   Passed    0.20 sec
+      Start 22: desktop.editor_tools
+ 4/32 Test #22: desktop.editor_tools .....................   Passed    1.76 sec
+      Start 23: desktop.ui_overhaul_normal
+ 5/32 Test #23: desktop.ui_overhaul_normal ...............   Passed   43.22 sec
+      Start 24: desktop.ui_overhaul_compact
+ 6/32 Test #24: desktop.ui_overhaul_compact ..............   Passed   42.47 sec
+      Start 25: desktop.ui_overhaul_short
+ 7/32 Test #25: desktop.ui_overhaul_short ................   Passed   40.23 sec
+      Start 26: desktop.ui_overhaul_minimum
+ 8/32 Test #26: desktop.ui_overhaul_minimum ..............   Passed   41.13 sec
+      Start 27: desktop.project
+ 9/32 Test #27: desktop.project ..........................   Passed    1.22 sec
+      Start 36: desktop.pipe_transport
+10/32 Test #36: desktop.pipe_transport ...................   Passed   16.77 sec
+      Start 43: desktop.scene_picking_warp
+11/32 Test #43: desktop.scene_picking_warp ...............   Passed   20.49 sec
+      Start 46: desktop.telemetry_lifecycle
+12/32 Test #46: desktop.telemetry_lifecycle ..............   Passed   26.20 sec
+      Start 50: desktop.sensor_editor_normal_smoke
+13/32 Test #50: desktop.sensor_editor_normal_smoke .......   Passed    9.99 sec
+      Start 51: desktop.telemetry_replay_normal_smoke
+14/32 Test #51: desktop.telemetry_replay_normal_smoke ....   Passed   10.03 sec
+      Start 52: desktop.sensor_editor_compact_smoke
+15/32 Test #52: desktop.sensor_editor_compact_smoke ......   Passed   10.28 sec
+      Start 53: desktop.telemetry_replay_compact_smoke
+16/32 Test #53: desktop.telemetry_replay_compact_smoke ...   Passed   10.11 sec
+      Start 58: desktop.observed_advisory_normal
+17/32 Test #58: desktop.observed_advisory_normal .........   Passed   20.31 sec
+      Start 59: desktop.observed_advisory_compact
+18/32 Test #59: desktop.observed_advisory_compact ........   Passed   19.82 sec
+      Start 60: desktop.observed_advisory_short
+19/32 Test #60: desktop.observed_advisory_short ..........   Passed   19.21 sec
+      Start 61: desktop.observed_advisory_minimum
+20/32 Test #61: desktop.observed_advisory_minimum ........   Passed   18.81 sec
+      Start 62: desktop.storage_science_normal
+21/32 Test #62: desktop.storage_science_normal ...........   Passed   14.62 sec
+      Start 63: desktop.storage_science_compact
+22/32 Test #63: desktop.storage_science_compact ..........   Passed   14.96 sec
+      Start 65: desktop.qml_smoke
+23/32 Test #65: desktop.qml_smoke ........................   Passed    9.70 sec
+      Start 68: desktop.pipe_evidence_smoke
+24/32 Test #68: desktop.pipe_evidence_smoke ..............   Passed    9.96 sec
+      Start 72: desktop.eog_analysis_client
+25/32 Test #72: desktop.eog_analysis_client ..............   Passed   15.23 sec
+      Start 75: desktop.eog_analysis_controller
+26/32 Test #75: desktop.eog_analysis_controller ..........   Passed   38.76 sec
+      Start 83: desktop.eog_analysis_normal
+27/32 Test #83: desktop.eog_analysis_normal ..............   Passed    8.82 sec
+      Start 84: desktop.eog_overview_normal
+28/32 Test #84: desktop.eog_overview_normal ..............   Passed    8.98 sec
+      Start 85: desktop.eog_facility_normal
+29/32 Test #85: desktop.eog_facility_normal ..............   Passed    9.51 sec
+      Start 86: desktop.eog_analysis_compact
+30/32 Test #86: desktop.eog_analysis_compact .............   Passed    8.64 sec
+      Start 87: desktop.eog_overview_compact
+31/32 Test #87: desktop.eog_overview_compact .............   Passed    9.03 sec
+      Start 88: desktop.eog_facility_compact
+32/32 Test #88: desktop.eog_facility_compact .............   Passed    9.23 sec
+
+100% tests passed, 0 tests failed out of 32
+
+Total Test time (real) = 509.93 sec

@@ -1,0 +1,732 @@
+{
+  "checked_utc": "2026-11-21T01:59:46.931Z",
+  "pr": {
+    "url": "https://github.com/Towstar/Breakwater/pull/91",
+    "number": 91,
+    "state": "open",
+    "merged": false,
+    "mergeable": true,
+    "draft": true,
+    "body": "Record verification of engineering source `3d91452d81af7052effb35f98afe48c6f3661b20` from PR #90, including original failures and separately passing reruns. This documentation increment does not rebuild or relabel the executable; the running normal app remains SHA-256 `90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649`.\n\n- PR #89 passed all six CI jobs without a fix or retry. PR #90 has five successful jobs and Desktop ASan pending at the retained snapshot; its normal desktop job passed 88/88.\n- Seven fresh strict hosted checks passed. Six analysis sessions used 5–7 tools each versus 12 in the prior small rehearsal sample. Exact selected numerical validation remained grounded; model prose stays unverified and searches remain bounded.\n- All 88 normal entries verified across 86 initial passes plus two unchanged Windows-filesystem reruns. All 88 ASan entries verified across 83 initial passes plus five unchanged isolated reruns. Each mode recorded 1,181 Qt passes and one optional skip. The original three UI failures remain visible with an inconclusive cause; no assertion or deadline changed.\n- Local helpers passed 21 + 78 cases. All 68 copied evidence/image identities matched source and staged bytes; the public copied hosted audit passed. Same-family review checked 113 local links and the numerical claims.\n- Four actual native UI images show grounded recommendation, advisory-only review, missing-coverage explanation and reopened historical summary. The saved user workspace was preserved and reopened maximized with exactly one latest app instance.\n\nRead [results and audit instructions](https://github.com/Towstar/Breakwater/blob/codex/breakwater-nemotron-completion-evidence/docs/NEMOTRON_COMPLETION_RESULTS.md). No database, binary, SDK, credential or private user project is included. The existing portable kit stays pinned to earlier `3bb77a3`; owner/licensing review, ordered integration and actual clean-Windows acceptance remain separate gates.\n\nStacked on draft PR #90 so its source-head CI continues unchanged. No main merge, release tag or public binary.",
+    "title": "Record Nemotron completion results and grounded UI gallery",
+    "base": "codex/breakwater-nemotron-completion",
+    "base_sha": "3d91452d81af7052effb35f98afe48c6f3661b20",
+    "head": "codex/breakwater-nemotron-completion-evidence",
+    "head_sha": "4559bf1d058d2d5eaadfe2ce50eaca7925727157",
+    "head_repo_id": 1449744374,
+    "head_repo_full_name": "Towstar/Breakwater",
+    "merge_commit_sha": "9c8998a998357fedcde1fe05292ebc10c670d753",
+    "user": {
+      "login": "Towstar",
+      "name": "Towstar",
+      "email": null,
+      "avatar_url": "https://avatars.githubusercontent.com/u/10840841?v=4",
+      "id": 10840841
+    },
+    "requested_reviewers": null,
+    "requested_team_reviewers": null,
+    "diff": null,
+    "comments": null,
+    "created_at": "2026-11-21T01:06:57Z",
+    "updated_at": "2026-11-21T01:06:57Z",
+    "closed_at": null,
+    "merged_at": null,
+    "commits": 1,
+    "changed_files": 74,
+    "additions": 10172,
+    "deletions": 20,
+    "display_url": "https://github.com/Towstar/Breakwater/pull/91",
+    "display_title": "Record Nemotron completion results and grounded UI gallery"
+  },
+  "workflow": {
+    "workflow_runs": [
+      {
+        "id": 44848185755,
+        "name": "Windows checks",
+        "status": "completed",
+        "conclusion": "success",
+        "run_number": 126,
+        "jobs_url": "https://api.github.com/repos/Towstar/Breakwater/actions/runs/44848185755/jobs",
+        "logs_url": "https://api.github.com/repos/Towstar/Breakwater/actions/runs/44848185755/logs",
+        "workflow_id": 410921879
+      }
+    ]
+  },
+  "jobs": {
+    "jobs": [
+      {
+        "id": 136672985007,
+        "name": "Native (asan)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44848185755,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Initialize setup evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Configure, build and test native code",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Record job outcome",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Retain native evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          }
+        ]
+      },
+      {
+        "id": 136672985201,
+        "name": "Native (normal)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44848185755,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Initialize setup evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Configure, build and test native code",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Record job outcome",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Retain native evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          }
+        ]
+      },
+      {
+        "id": 136676136105,
+        "name": "Desktop (asan)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44848185755,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Initialize setup evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Restore verified Qt SDK cache",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Restore pinned scientific downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Configure, build and test desktop",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Record job outcome",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Retain desktop evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Post Restore pinned scientific downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Restore verified Qt SDK cache",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          }
+        ]
+      },
+      {
+        "id": 136676136167,
+        "name": "Python science (CPU)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44848185755,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Initialize setup evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Restore pinned scientific downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Run actual CPU science discovery",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Record job outcome",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Retain science evidence and explicit skips",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Post Restore pinned scientific downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          }
+        ]
+      },
+      {
+        "id": 136676136225,
+        "name": "Lean assumption audit",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44848185755,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Initialize setup evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Restore pinned Lean and Mathlib downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Build proofs and run positive/negative audits",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Record job outcome",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Retain proof evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Post Restore pinned Lean and Mathlib downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 13
+          },
+          {
+            "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 14
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          }
+        ]
+      },
+      {
+        "id": 136676136290,
+        "name": "Desktop (normal)",
+        "status": "completed",
+        "conclusion": "success",
+        "run_id": 44848185755,
+        "logs_url": null,
+        "steps": [
+          {
+            "name": "Set up job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 1
+          },
+          {
+            "name": "Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 2
+          },
+          {
+            "name": "Initialize setup evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 3
+          },
+          {
+            "name": "Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 4
+          },
+          {
+            "name": "Restore verified Qt SDK cache",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 5
+          },
+          {
+            "name": "Restore pinned scientific downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 6
+          },
+          {
+            "name": "Configure, build and test desktop",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 7
+          },
+          {
+            "name": "Record job outcome",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 8
+          },
+          {
+            "name": "Retain desktop evidence",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 9
+          },
+          {
+            "name": "Post Restore pinned scientific downloads",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 15
+          },
+          {
+            "name": "Post Restore verified Qt SDK cache",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 16
+          },
+          {
+            "name": "Post Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 17
+          },
+          {
+            "name": "Post Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 18
+          },
+          {
+            "name": "Complete job",
+            "status": "completed",
+            "conclusion": "success",
+            "number": 19
+          }
+        ]
+      }
+    ]
+  },
+  "artifacts": [
+    {
+      "id": 14686202125,
+      "name": "windows-desktop-asan",
+      "size_in_bytes": 2818675,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14686202125",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14686202125/zip",
+      "expired": false,
+      "created_at": "2026-11-21T01:58:32Z",
+      "expires_at": "2026-12-05T01:58:31Z",
+      "updated_at": "2026-11-21T01:58:32Z",
+      "digest": "sha256:945080038f6a6e3f53d60d12565c1fcccd69220a73ebb2b8f6b721d243d894d8",
+      "workflow_run": {
+        "id": 44848185755,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-nemotron-completion-evidence",
+        "head_sha": "4559bf1d058d2d5eaadfe2ce50eaca7925727157"
+      }
+    },
+    {
+      "id": 14685267166,
+      "name": "windows-desktop-normal",
+      "size_in_bytes": 2817405,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14685267166",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14685267166/zip",
+      "expired": false,
+      "created_at": "2026-11-21T01:37:53Z",
+      "expires_at": "2026-12-05T01:37:52Z",
+      "updated_at": "2026-11-21T01:37:53Z",
+      "digest": "sha256:4b0d04efc9cef53dc07f44c7a6e361c1cd90e05dcfe35e2ae409066d508524ef",
+      "workflow_run": {
+        "id": 44848185755,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-nemotron-completion-evidence",
+        "head_sha": "4559bf1d058d2d5eaadfe2ce50eaca7925727157"
+      }
+    },
+    {
+      "id": 14684842265,
+      "name": "windows-lean",
+      "size_in_bytes": 8760,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14684842265",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14684842265/zip",
+      "expired": false,
+      "created_at": "2026-11-21T01:19:03Z",
+      "expires_at": "2026-12-05T01:19:03Z",
+      "updated_at": "2026-11-21T01:19:03Z",
+      "digest": "sha256:ef2c26a92dc65a80f916bd4997bf2ea0aefd1c7599e87390cf93568b58fa860e",
+      "workflow_run": {
+        "id": 44848185755,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-nemotron-completion-evidence",
+        "head_sha": "4559bf1d058d2d5eaadfe2ce50eaca7925727157"
+      }
+    },
+    {
+      "id": 14684741779,
+      "name": "windows-science-cpu",
+      "size_in_bytes": 27606,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14684741779",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14684741779/zip",
+      "expired": false,
+      "created_at": "2026-11-21T01:19:27Z",
+      "expires_at": "2026-12-05T01:19:26Z",
+      "updated_at": "2026-11-21T01:19:27Z",
+      "digest": "sha256:984046a15c4cff7c021e13d03ad08b542b25c616107b3b06ff753862e33be66f",
+      "workflow_run": {
+        "id": 44848185755,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-nemotron-completion-evidence",
+        "head_sha": "4559bf1d058d2d5eaadfe2ce50eaca7925727157"
+      }
+    },
+    {
+      "id": 14684082563,
+      "name": "windows-native-asan",
+      "size_in_bytes": 25026,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14684082563",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14684082563/zip",
+      "expired": false,
+      "created_at": "2026-11-21T01:16:15Z",
+      "expires_at": "2026-12-05T01:16:14Z",
+      "updated_at": "2026-11-21T01:16:15Z",
+      "digest": "sha256:44044a98bc0e19376e8a2afdb0a62292fa3fd511aa28e427b86f6453b060a3f4",
+      "workflow_run": {
+        "id": 44848185755,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-nemotron-completion-evidence",
+        "head_sha": "4559bf1d058d2d5eaadfe2ce50eaca7925727157"
+      }
+    },
+    {
+      "id": 14683678017,
+      "name": "windows-native-normal",
+      "size_in_bytes": 25041,
+      "url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14683678017",
+      "archive_download_url": "https://api.github.com/repos/Towstar/Breakwater/actions/artifacts/14683678017/zip",
+      "expired": false,
+      "created_at": "2026-11-21T01:09:27Z",
+      "expires_at": "2026-12-05T01:09:25Z",
+      "updated_at": "2026-11-21T01:09:27Z",
+      "digest": "sha256:a8a96ce700e231c24d23f8fc32689c0f27daed55794a806280bac04a8368a9a7",
+      "workflow_run": {
+        "id": 44848185755,
+        "repository_id": 1449744374,
+        "head_repository_id": 1449744374,
+        "head_branch": "codex/breakwater-nemotron-completion-evidence",
+        "head_sha": "4559bf1d058d2d5eaadfe2ce50eaca7925727157"
+      }
+    }
+  ],
+  "upstream_check": {
+    "checked_utc": "2026-11-21T01:48:44.477Z",
+    "main": "3116b3d8349beab729f8a1413cbbd9ff160e67ac",
+    "person_a_branch_count": 17,
+    "changes": [],
+    "removed": [],
+    "person_a_heads": [
+      {
+        "branch": "codex/person-a-engine",
+        "sha": "2696a2bfdadd393b2c443f8f3de3e58d0d8457d6"
+      },
+      {
+        "branch": "codex/person-a-eog-analysis",
+        "sha": "351cf5a8531e599275689c6cc1edb069654f3dd5"
+      },
+      {
+        "branch": "codex/person-a-eog-commitments",
+        "sha": "e71ed5a717a82283680444c3cdb7edb4ac57361f"
+      },
+      {
+        "branch": "codex/person-a-eog-committed-response",
+        "sha": "3796432987e404268675e6ae70adae96ac6e82de"
+      },
+      {
+        "branch": "codex/person-a-eog-detection",
+        "sha": "7c390d2ee4516fb8ce7e3de516f5e27adce92359"
+      },
+      {
+        "branch": "codex/person-a-eog-inspection",
+        "sha": "0085c264b675e8263b92defcaf1fc2d174f95f9d"
+      },
+      {
+        "branch": "codex/person-a-eog-observations",
+        "sha": "ff2a75541808ec0fcc19f16f3abbd5427cda8cbe"
+      },
+      {
+        "branch": "codex/person-a-eog-report-guard",
+        "sha": "451ef063f6ff672ef7c7c3a3be70d6feeed0bbb2"
+      },
+      {
+        "branch": "codex/person-a-eog-response",
+        "sha": "db4bee8c38c7348026dc4ed9e7a32e6aea8fbb32"
+      },
+      {
+        "branch": "codex/person-a-eog-search",
+        "sha": "65d8c4a883114c15e935c5c275452cfccfe5f102"
+      },
+      {
+        "branch": "codex/person-a-eog-search-robustness",
+        "sha": "6e58ed5762f8fb40dd1fe0693fafe786bfbcf0aa"
+      },
+      {
+        "branch": "codex/person-a-eog-simulation",
+        "sha": "d86cf2c939ff9404128db4521171ae384ec42a85"
+      },
+      {
+        "branch": "codex/person-a-eog-synthetic-observations",
+        "sha": "6cba85df48769a26f9acb1276cb5006b161a04f9"
+      },
+      {
+        "branch": "codex/person-a-eog-validation",
+        "sha": "d30cd04205b6421b48ba4c9b06b0db810cd23088"
+      },
+      {
+        "branch": "codex/person-a-front-accuracy",
+        "sha": "57fd674dcdd4d395b4ba7c24f19636c2325294b6"
+      },
+      {
+        "branch": "codex/person-a-front-comparator",
+        "sha": "d53565fcce93dcc9689e7312f2f15c680825574d"
+      },
+      {
+        "branch": "codex/person-a-transport-qualification",
+        "sha": "8d2e84de6de1e2111b25243d0de769d9c1a98212"
+      }
+    ]
+  }
+}
