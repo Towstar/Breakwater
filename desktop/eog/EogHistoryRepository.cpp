@@ -1,5 +1,6 @@
 #include "EogHistoryRepository.hpp"
 #include "agent/RetryMetadata.hpp"
+#include "agent/TransportDiagnostics.hpp"
 #include "EogContracts.hpp"
 #include "telemetry/TelemetryContracts.hpp"
 #include <QCryptographicHash>
@@ -73,12 +74,13 @@ QDateTime date(const QJsonObject& value, const QString& key) {
 }
 void sessionId(const QString& id) { require(id.size() <= 64 && !QUuid::fromString(id).isNull(), "Session IDs must be UUIDs."); }
 QJsonObject metadata(const QJsonObject& value) {
-    const QSet<QString> permitted{"model_identity", "http_status", "duration_ms", "retry_count", "retry_wait_policy", "retry_delays_ms"};
+    const QSet<QString> permitted{"model_identity", "http_status", "duration_ms", "retry_count", "retry_wait_policy", "retry_delays_ms", "transport_diagnostics"};
     for (auto it = value.begin(); it != value.end(); ++it)
         if (!permitted.contains(it.key())) reject("invalid_metadata", "Only sanitized model/status/duration/retry metadata is permitted.");
     if (value.contains("model_identity")) (void)text(value, "model_identity");
     if (value.contains("http_status")) {
-        const auto status = integer(value, "http_status", 599); require(status >= 100, "Invalid HTTP status.");
+        const auto status = integer(value, "http_status", 599);
+        require(status >= 100 || (status == 0 && agent::validTransportDiagnostics(value.value("transport_diagnostics"))), "Invalid HTTP status.");
     }
     if (value.contains("duration_ms")) {
         const auto amount = value.value("duration_ms");
@@ -88,6 +90,8 @@ QJsonObject metadata(const QJsonObject& value) {
     if (value.contains("retry_count")) (void)integer(value, "retry_count", 1000);
     if (value.contains("retry_wait_policy") || value.contains("retry_delays_ms"))
         require(agent::sanitizedRetryMetadata(value).size() == 2, "Invalid sanitized retry-wait metadata.");
+    if (value.contains("transport_diagnostics"))
+        require(agent::validTransportDiagnosticsForRequest(value), "Invalid closed transport diagnostics or attempt totals.");
     return value;
 }
 void inspectEvent(const QJsonValue& value, const QString& runtimeDirectory, int depth = 0) {

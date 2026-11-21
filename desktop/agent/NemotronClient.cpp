@@ -7,6 +7,7 @@
 #include <QFile>
 #include <QFileInfo>
 #include <QHash>
+#include <QRandomGenerator>
 #include <QJsonDocument>
 #include <QJsonParseError>
 #include <QNetworkAccessManager>
@@ -17,6 +18,8 @@
 #include <QThread>
 #include <QUuid>
 #include <algorithm>
+#include <cmath>
+#include <limits>
 
 namespace breakwater::desktop::agent {
 namespace {
@@ -55,7 +58,7 @@ QHash<QString, QString> localEnvironmentValues(const QString& path) {
         const auto separator = line.indexOf('=');
         if (separator < 0) continue;
         const auto name = line.left(separator).trimmed();
-        if (name != "NVIDIA_API_KEY" && name != "NVIDIA_BASE_URL" && name != "NEMOTRON_MODEL") continue;
+        if (name != "NVIDIA_API_KEY" && name != "NVIDIA_BASE_URL" && name != "NEMOTRON_MODEL" && name != "BREAKWATER_NEMOTRON_INTERVAL_MS") continue;
         auto value = line.mid(separator + 1).trimmed();
         if (value.startsWith('\'') || value.startsWith('"')) {
             const auto end = value.indexOf(value.front(), 1);
@@ -93,6 +96,43 @@ bool retryable(QNetworkReply::NetworkError error) {
     return error == QNetworkReply::ConnectionRefusedError || error == QNetworkReply::RemoteHostClosedError ||
            error == QNetworkReply::TimeoutError || error == QNetworkReply::TemporaryNetworkFailureError ||
            error == QNetworkReply::NetworkSessionFailedError;
+}
+
+// Parse only Retry-After's defined seconds/date forms. Raw values never leave
+// this function. Excessive valid waits must not turn into an early POST.
+std::pair<qint64, QString> retryAfter(const QByteArray& header) {
+    const auto value = header.trimmed();
+    if (value.isEmpty()) return {-1, "bounded_backoff"};
+    if (std::all_of(value.cbegin(), value.cend(), [](char ch) { return ch >= '0' && ch <= '9'; })) {
+        bool ok = false; const auto seconds = value.toULongLong(&ok);
+        const auto maximum = std::numeric_limits<qint64>::max() / 4;
+        return {!ok || seconds > quint64(maximum / 1000) ? maximum : qint64(seconds * 1000), "retry_after_seconds"};
+    }
+    if (value.size() > 128) return {-1, "invalid_retry_after_backoff"};
+    const auto text = QString::fromLatin1(value);
+    auto date = QDateTime::fromString(text, Qt::RFC2822Date);
+    if (!date.isValid() && text.endsWith(" GMT"))
+        date = QDateTime::fromString(text.chopped(4) + " +0000", "ddd, dd MMM yyyy HH:mm:ss tt");
+    if (!date.isValid()) {
+        static const QRegularExpression obsolete(QStringLiteral("^([A-Za-z]+, [0-9]{2}-[A-Za-z]{3}-)([0-9]{2})( [0-9]{2}:[0-9]{2}:[0-9]{2} GMT)$"));
+        const auto match = obsolete.match(text);
+        if (match.hasMatch()) {
+            const auto nowYear = QDateTime::currentDateTimeUtc().date().year();
+            int year = (nowYear / 100) * 100 + match.captured(2).toInt();
+            if (year > nowYear + 50) year -= 100;
+            const auto expanded = match.captured(1) + QString::number(year) + match.captured(3);
+            date = QDateTime::fromString(expanded.chopped(4) + " +0000", "dddd, dd-MMM-yyyy HH:mm:ss tt");
+        } else date = QDateTime::fromString(text.simplified() + " +0000", "ddd MMM d HH:mm:ss yyyy tt");
+    }
+    return date.isValid() ? std::pair<qint64, QString>{std::max<qint64>(0, QDateTime::currentDateTimeUtc().msecsTo(date)), "retry_after_date"}
+                          : std::pair<qint64, QString>{-1, "invalid_retry_after_backoff"};
+}
+
+void numericHeader(QJsonObject& result, const char* field, const QByteArray& raw) {
+    const auto value = raw.trimmed();
+    if (value.isEmpty() || value.size() > 13 || !std::all_of(value.cbegin(), value.cend(), [](char ch) { return ch >= '0' && ch <= '9'; })) return;
+    bool ok = false; const auto number = value.toULongLong(&ok);
+    if (ok && number <= 1000000000000ULL) result[field] = qint64(number);
 }
 
 const char* parseAssistant(const QByteArray& bytes, QJsonObject& assistant, QString& model) {
@@ -185,6 +225,11 @@ NemotronConfig NemotronConfig::fromEnvironment(const QString& envFilePath, const
     }
     const auto model = setting("NEMOTRON_MODEL");
     if (!model.isEmpty()) config.model = model;
+    const auto interval = setting("BREAKWATER_NEMOTRON_INTERVAL_MS");
+    if (!interval.isEmpty()) {
+        bool ok = false; const auto value = interval.toInt(&ok);
+        config.minimumIntervalMs = ok && value >= 1000 && value <= 60000 ? value : -1;
+    }
     return config;
 }
 
@@ -199,11 +244,16 @@ bool NemotronClient::reloadConfiguration() {
     return true;
 }
 
-NemotronClient::NemotronClient(NemotronConfig config, QObject* parent, QNetworkAccessManager* manager)
+NemotronClient::NemotronClient(NemotronConfig config, QObject* parent, QNetworkAccessManager* manager,
+                               std::shared_ptr<NemotronRequestPacer> pacer)
     : ModelTransport(parent), config_(std::move(config)),
+      pacer_(pacer ? std::move(pacer) : NemotronRequestPacer::shared()),
       manager_(manager ? manager : new QNetworkAccessManager(this)) {
     config_.timeoutMs = std::clamp(config_.timeoutMs, 1, 300000);
     config_.maxRetries = std::clamp(config_.maxRetries, 0, 3);
+    config_.backoffBaseMs = std::clamp(config_.backoffBaseMs, 1, 60000);
+    config_.backoffJitterMs = std::clamp(config_.backoffJitterMs, 0, 5000);
+    config_.terminalCooldownMs = std::clamp(config_.terminalCooldownMs, 0, 86400000);
     timeout_.setParent(this);
     retry_.setParent(this);
     budget_timeout_.setParent(this); budget_timeout_.setSingleShot(true);
@@ -220,6 +270,7 @@ NemotronClient::NemotronClient(NemotronConfig config, QObject* parent, QNetworkA
 }
 
 NemotronClient::~NemotronClient() {
+    if (active_) { recordAttempt(); retainTerminalCooldown(); }
     active_ = false;
     timeout_.stop();
     retry_.stop();
@@ -228,6 +279,7 @@ NemotronClient::~NemotronClient() {
 }
 
 QString NemotronClient::configuredModelIdentifier() const { return modelIdentifier(config_.model, config_.apiKey); }
+qint64 NemotronClient::admissionDelayMs() const { return pacer_->admissionDelayMs(); }
 
 void NemotronClient::request(const QJsonArray& messages, const QJsonArray& tools) {
     requestImpl(messages, tools, false);
@@ -247,6 +299,9 @@ void NemotronClient::requestImpl(const QJsonArray& messages, const QJsonArray& t
     retries_ = attempts_ = httpStatus_ = 0;
     budget_is_explicit_ = budgetMs != 0;
     retry_delays_ = {}; retry_wait_policy_.clear();
+    attempt_diagnostics_ = {}; attempt_pending_ = false;
+    admission_wait_ms_ = 0; admission_started_ms_ = -1;
+    retry_after_ms_ = -1; retry_after_policy_.clear();
     request_budget_ms_ = budgetMs == 0 ? config_.timeoutMs * (config_.maxRetries + 1) + 5000 * config_.maxRetries : budgetMs;
     responseModel_.clear();
     requestId_ = QUuid::createUuid().toString(QUuid::WithoutBraces);
@@ -260,8 +315,9 @@ void NemotronClient::requestImpl(const QJsonArray& messages, const QJsonArray& t
     if (config_.apiKey.size() > 4096 || config_.apiKey.contains('\r') || config_.apiKey.contains('\n') || config_.model.trimmed().isEmpty() ||
         config_.model.size() > 256 || !config_.endpoint.isValid() || config_.endpoint.scheme() != "https" ||
         config_.endpoint.host().isEmpty() || !config_.endpoint.userInfo().isEmpty() ||
-        config_.endpoint.hasFragment() || !manager_ || manager_->thread() != thread() || QThread::currentThread() != thread()) {
-        fail("configuration_invalid", "The model configuration is invalid; HTTPS is required."); return;
+        config_.endpoint.hasFragment() || config_.minimumIntervalMs < 0 || config_.minimumIntervalMs > 60000 ||
+        !manager_ || manager_->thread() != thread() || QThread::currentThread() != thread()) {
+        fail("configuration_invalid", "The model configuration requires HTTPS and bounded request settings."); return;
     }
     if (messages.isEmpty()) { fail("request_invalid", "At least one model message is required."); return; }
     QJsonObject body{{"model", config_.model}, {"messages", messages}, {"stream", false},
@@ -297,7 +353,21 @@ void NemotronClient::send() {
         fail(budget_is_explicit_ ? "request_budget_exceeded" : "timeout", "The model request reached its overall time limit."); return;
     }
     if (!manager_) { fail("transport_failed", "The model network transport is no longer available."); return; }
+    const auto wait = pacer_->acquire(this, config_.minimumIntervalMs);
+    if (wait != 0) {
+        if (admission_started_ms_ < 0) admission_started_ms_ = elapsed_.elapsed();
+        const auto remaining = request_budget_ms_ - elapsed_.elapsed();
+        if (wait > 0 && wait >= remaining) {
+            fail(pacer_->cooldownRemainingMs() > 0 ? "rate_limit_wait_exceeds_budget" : "request_budget_exceeded",
+                 "Provider admission exceeds the remaining investigation deadline. Completed evidence is retained."); return;
+        }
+        retry_.start(int(wait < 0 ? std::min<qint64>(50, std::max<qint64>(1, remaining)) : wait)); return;
+    }
+    if (admission_started_ms_ >= 0) {
+        admission_wait_ms_ += elapsed_.elapsed() - admission_started_ms_; admission_started_ms_ = -1;
+    }
     response_.clear();
+    httpStatus_ = 0;
     QNetworkRequest request(config_.endpoint);
     request.setHeader(QNetworkRequest::ContentTypeHeader, "application/json");
     request.setRawHeader("Accept", "application/json");
@@ -305,6 +375,7 @@ void NemotronClient::send() {
     request.setAttribute(QNetworkRequest::RedirectPolicyAttribute, QNetworkRequest::ManualRedirectPolicy);
     request.setTransferTimeout(config_.timeoutMs);
     ++attempts_;
+    attempt_started_ms_ = elapsed_.elapsed(); attempt_pending_ = true;
     reply_ = manager_->post(request, payload_);
     reply_->setReadBufferSize(maximumResponseBytes + 1);
     connect(reply_, &QIODevice::readyRead, this, &NemotronClient::consume);
@@ -321,12 +392,14 @@ void NemotronClient::consume() {
 }
 
 void NemotronClient::releaseReply(bool abort) {
-    if (!reply_) return;
-    auto* reply = reply_.data();
-    reply_.clear();
-    disconnect(reply, nullptr, this, nullptr);
-    if (abort && reply->isRunning()) reply->abort();
-    reply->deleteLater();
+    if (reply_) {
+        auto* reply = reply_.data();
+        reply_.clear();
+        disconnect(reply, nullptr, this, nullptr);
+        if (abort && reply->isRunning()) reply->abort();
+        reply->deleteLater();
+    }
+    pacer_->release(this);
 }
 
 void NemotronClient::fail(const QString& code, const QString& message) {
@@ -342,6 +415,13 @@ QJsonObject NemotronClient::metadata(const QString& outcome, const QString& code
     if (!retry_wait_policy_.isEmpty()) {
         result["retry_wait_policy"] = retry_wait_policy_; result["retry_delays_ms"] = retry_delays_;
     }
+    const auto cooldown = pacer_->cooldownRemainingMs();
+    result["transport_diagnostics"] = QJsonObject{{"version", 1}, {"minimum_interval_ms", std::clamp(config_.minimumIntervalMs, 0, 60000)},
+        {"backoff_base_ms", config_.backoffBaseMs}, {"backoff_jitter_ms", config_.backoffJitterMs},
+        {"terminal_cooldown_ms", config_.terminalCooldownMs},
+        {"admission_wait_ms", admission_wait_ms_ + (admission_started_ms_ < 0 ? 0 : elapsed_.elapsed() - admission_started_ms_)},
+        {"cooldown_remaining_ms", std::min<qint64>(86400000, cooldown)}, {"cooldown_capped", cooldown > 86400000},
+        {"attempts", attempt_diagnostics_}};
     return result;
 }
 
@@ -354,6 +434,7 @@ void NemotronClient::rejectBusyRequest() {
     rejected["duration_ms"] = 0;
     rejected["retry_count"] = 0;
     rejected.remove("retry_wait_policy"); rejected.remove("retry_delays_ms");
+    rejected.remove("transport_diagnostics");
     const QPointer<NemotronClient> guard(this);
     emit requestCompleted(rejected);
     if (guard && requestGeneration_ == generation && active_)
@@ -362,9 +443,11 @@ void NemotronClient::rejectBusyRequest() {
 
 void NemotronClient::complete(const QJsonObject& assistant, const QString& code, const QString& message) {
     if (!active_) return;
+    recordAttempt();
     responseModel_ = modelIdentifier(responseModel_, config_.apiKey);
     if (reply_) httpStatus_ = reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (httpStatus_ < 100 || httpStatus_ > 599) httpStatus_ = 0;
+    if (!code.isEmpty()) retainTerminalCooldown();
     const auto outcome = code.isEmpty() ? QStringLiteral("succeeded") :
         (code == "cancelled" ? QStringLiteral("cancelled") : QStringLiteral("failed"));
     const auto completed = metadata(outcome, code);
@@ -388,37 +471,9 @@ void NemotronClient::complete(const QJsonObject& assistant, const QString& code,
 }
 
 void NemotronClient::scheduleRetry() {
-    qint64 delay = 250 * (1 << retries_);
-    retry_wait_policy_ = "bounded_backoff";
-    const auto value = reply_->rawHeader("Retry-After").trimmed();
+    const auto delay = next_retry_ms_;
+    retry_wait_policy_ = retry_after_policy_;
     const auto remaining = request_budget_ms_ - elapsed_.elapsed();
-    const bool digits = !value.isEmpty() && std::all_of(value.cbegin(), value.cend(), [](char ch) { return ch >= '0' && ch <= '9'; });
-    if (digits) {
-        bool ok = false; const auto seconds = value.toULongLong(&ok);
-        retry_wait_policy_ = "retry_after_seconds";
-        delay = !ok || seconds > quint64(std::max<qint64>(0, remaining) / 1000) ? remaining : qint64(seconds * 1000);
-    } else if (!value.isEmpty() && value.size() <= 128) {
-        const auto text = QString::fromLatin1(value);
-        auto date = QDateTime::fromString(text, Qt::RFC2822Date);
-        if (!date.isValid() && text.endsWith(" GMT"))
-            date = QDateTime::fromString(text.chopped(4) + " +0000", "ddd, dd MMM yyyy HH:mm:ss tt");
-        if (!date.isValid()) {
-            // RFC9110 recipients also accept obsolete RFC850 and asctime dates.
-            static const QRegularExpression obsolete(QStringLiteral("^([A-Za-z]+, [0-9]{2}-[A-Za-z]{3}-)([0-9]{2})( [0-9]{2}:[0-9]{2}:[0-9]{2} GMT)$"));
-            const auto match = obsolete.match(text);
-            if (match.hasMatch()) {
-                const auto nowYear = QDateTime::currentDateTimeUtc().date().year();
-                int year = (nowYear / 100) * 100 + match.captured(2).toInt();
-                if (year > nowYear + 50) year -= 100;
-                const auto expanded = match.captured(1) + QString::number(year) + match.captured(3);
-                date = QDateTime::fromString(expanded.chopped(4) + " +0000", "dddd, dd-MMM-yyyy HH:mm:ss tt");
-            } else date = QDateTime::fromString(text.simplified() + " +0000", "ddd MMM d HH:mm:ss yyyy tt");
-        }
-        if (date.isValid()) {
-            retry_wait_policy_ = "retry_after_date";
-            delay = std::max<qint64>(0, QDateTime::currentDateTimeUtc().msecsTo(date));
-        } else retry_wait_policy_ = "invalid_retry_after_backoff";
-    } else if (!value.isEmpty()) retry_wait_policy_ = "invalid_retry_after_backoff";
     if (remaining <= 0 || delay >= remaining) {
         retry_wait_policy_ = "retry_after_exceeds_budget";
         fail(httpStatus_ == 429 ? "rate_limit_wait_exceeds_budget" : "retry_wait_exceeds_budget",
@@ -430,6 +485,61 @@ void NemotronClient::scheduleRetry() {
     releaseReply(false);
     response_.clear();
     retry_.start(int(delay));
+}
+
+qint64 NemotronClient::fallbackDelayMs() const {
+    return qint64(config_.backoffBaseMs) * (qint64{1} << retries_) +
+        (config_.backoffJitterMs ? QRandomGenerator::global()->bounded(config_.backoffJitterMs + 1) : 0);
+}
+
+void NemotronClient::retainTerminalCooldown() {
+    const auto status = reply_ ? reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() : httpStatus_;
+    // A budget refusal, cancellation or destruction can end a throttled request
+    // before retries are exhausted. Ending it must not shorten shared cooldown.
+    if (status == 429 || status == 503) pacer_->defer(config_.terminalCooldownMs);
+}
+
+void NemotronClient::recordAttempt() {
+    if (!attempt_pending_) return;
+    attempt_pending_ = false;
+    auto status = reply_ ? reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() : 0;
+    if (status < 100 || status > 599) status = 0;
+    const auto hint = retryAfter(reply_ ? reply_->rawHeader("Retry-After") : QByteArray{});
+    retry_after_ms_ = hint.first; retry_after_policy_ = hint.second;
+    QJsonObject diagnostic{{"attempt", attempts_}, {"started_ms", attempt_started_ms_},
+        {"duration_ms", elapsed_.elapsed() - attempt_started_ms_}, {"http_status", status}};
+    if (retry_after_ms_ >= 0) {
+        diagnostic["retry_after_ms"] = std::min<qint64>(86400000, retry_after_ms_);
+        diagnostic["retry_after_capped"] = retry_after_ms_ > 86400000;
+    }
+    QJsonObject limits;
+    if (reply_) {
+        numericHeader(limits, "request_limit", reply_->rawHeader("x-ratelimit-limit-requests"));
+        numericHeader(limits, "request_remaining", reply_->rawHeader("x-ratelimit-remaining-requests"));
+        numericHeader(limits, "token_limit", reply_->rawHeader("x-ratelimit-limit-tokens"));
+        numericHeader(limits, "token_remaining", reply_->rawHeader("x-ratelimit-remaining-tokens"));
+    }
+    if (!limits.isEmpty()) diagnostic["rate_limits"] = limits;
+    const auto envelope = QJsonDocument::fromJson(response_).object();
+    if (status == 200) {
+        QJsonObject usage;
+        const auto raw = envelope.value("usage").toObject();
+        for (const auto* key : {"prompt_tokens", "completion_tokens", "total_tokens"}) {
+            const auto value = raw.value(QLatin1String(key)); const auto n = value.toDouble(-1);
+            if (value.isDouble() && std::isfinite(n) && n >= 0 && n <= 1000000000000.0 && std::floor(n) == n) usage[key] = value;
+        }
+        if (!usage.isEmpty()) diagnostic["usage"] = usage;
+    } else {
+        const auto code = envelope.value("error").toObject().value("code").toString();
+        static const QSet<QString> codes{"rate_limit_exceeded", "insufficient_quota", "too_many_requests", "concurrency_limit_exceeded", "model_unavailable"};
+        if (codes.contains(code)) diagnostic["provider_error_code"] = code;
+    }
+    attempt_diagnostics_.append(diagnostic);
+    next_retry_ms_ = retry_after_ms_ >= 0 ? retry_after_ms_ : fallbackDelayMs();
+    const bool serviceRetry = status == 429 || status == 500 || status == 502 || status == 503 || status == 504;
+    if (status == 429 || status == 503 || (serviceRetry && retry_after_ms_ >= 0)) {
+        pacer_->defer(next_retry_ms_);
+    }
 }
 
 void NemotronClient::finish() {
@@ -449,6 +559,7 @@ void NemotronClient::finish() {
     const auto status = reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     httpStatus_ = status;
     const auto error = reply_->error();
+    recordAttempt();
     if ((status == 429 || status == 500 || status == 502 || status == 503 || status == 504 ||
          (status == 0 && retryable(error))) && retries_ < config_.maxRetries) {
         scheduleRetry(); return;

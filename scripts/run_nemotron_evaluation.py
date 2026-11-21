@@ -46,7 +46,8 @@ OBSERVED_METRICS = {"logical_requests", "model_requests", "completed_model_reque
                     "dispatched_tool_calls", "predispatch_rejections", "stored_runs", "selected_cost", "provider_exchanges"}
 ENVIRONMENT = ("SYSTEMROOT", "WINDIR", "COMSPEC", "TEMP", "TMP", "USERPROFILE", "LOCALAPPDATA", "APPDATA",
                "PROGRAMDATA", "PATHEXT", "PATH", "PROCESSOR_ARCHITECTURE", "NUMBER_OF_PROCESSORS",
-               "BREAKWATER_PYTHON", "BREAKWATER_EOG_WORKER", "BREAKWATER_EOG_CONTRACTS", "BREAKWATER_EOG_NATIVE")
+               "BREAKWATER_PYTHON", "BREAKWATER_EOG_WORKER", "BREAKWATER_EOG_CONTRACTS", "BREAKWATER_EOG_NATIVE",
+               "BREAKWATER_NEMOTRON_INTERVAL_MS")
 METRICS = ("logical_requests", "http_attempts", "retries", "total_tool_calls", "duplicate_calls", "successful_tools",
            "validation_reuse", "stored_runs", "model_duration_ms", "read_repeats", "duplicate_expensive_calls",
            "duplicate_expensive_executions", "actual_tool_executions", "provider_exchanges", "predispatch_rejections",

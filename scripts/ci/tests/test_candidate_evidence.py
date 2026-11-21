@@ -170,6 +170,36 @@ class CandidateEvidenceTests(unittest.TestCase):
             with self.assertRaises(ValueError):
                 auditor.request_metadata([row])
 
+    def test_closed_transport_diagnostics_support_both_archives_and_reject_tampering(self):
+        diagnostics = {"version": 1, "minimum_interval_ms": 6000, "backoff_base_ms": 2000,
+                       "backoff_jitter_ms": 1000, "terminal_cooldown_ms": 60000,
+                       "admission_wait_ms": 1, "cooldown_remaining_ms": 0, "cooldown_capped": False,
+                       "attempts": [{"attempt": 1, "started_ms": 1, "duration_ms": 8, "http_status": 200,
+                                     "usage": {"prompt_tokens": 32, "completion_tokens": 16},
+                                     "rate_limits": {"request_limit": 40}}]}
+        for observed_mode in (False, True):
+            original = (observed()["events"][0]["request"] if observed_mode else operations("canonical_1")[0]["agent_events"][0]["event"])
+            valid = {**original, "transport_diagnostics": diagnostics}
+            self.assertTrue(request_fields_match(valid, set(original)))
+            auditor.request_metadata([valid], observed=observed_mode)
+            for change in ({"retry_count": 1}, {"http_status": 429}, {"duration_ms": 8}):
+                self.assertFalse(request_fields_match({**valid, **change}, set(original)))
+            for change in ({"headers": {}}, {"version": True}, {"version": 2}, {"admission_wait_ms": -1},
+                           {"minimum_interval_ms": 60001}, {"cooldown_capped": 1},
+                           {"backoff_jitter_ms": float("inf")}, {"attempts": [{}]},
+                           {"attempts": diagnostics["attempts"] * 5}):
+                row = {**valid, "transport_diagnostics": {**diagnostics, **change}}
+                with self.subTest(change=change, observed=observed_mode):
+                    self.assertFalse(request_fields_match(row, set(original)))
+            for change in ({"raw_body": "private"}, {"provider_error_code": "private error"},
+                           {"usage": {"total_tokens": True}}, {"rate_limits": {"unknown": 1}},
+                           {"retry_after_ms": 1}, {"http_status": 42}, {"started_ms": 10 ** 400},
+                           {"duration_ms": 0.5}, {"attempt": 2}):
+                row = deepcopy(valid)
+                row["transport_diagnostics"]["attempts"][0].update(change)
+                with self.subTest(attempt_change=change):
+                    self.assertFalse(request_fields_match(row, set(original)))
+
     def test_pending_round_is_honestly_incomplete(self):
         self.manifest["status"] = "pending"
         row = self.row("observed_pump")

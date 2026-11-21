@@ -102,10 +102,15 @@ def retained_tool_metrics(requests, calls, results, *, logical=None, arguments="
                 executions += int(ok and not cached)
         counters[key] += 1
     retry_count = sum(row["retry_count"] for row in requests)
+    has_attempts = ["transport_diagnostics" in row for row in requests]
+    http_attempts = sum(len(row["transport_diagnostics"]["attempts"]) if "transport_diagnostics" in row
+                        else 1 + row["retry_count"] for row in requests)
+    basis = ("per_attempt_diagnostics" if has_attempts and all(has_attempts) else
+             "mixed_attempt_and_legacy_metadata" if any(has_attempts) else "completed_request_metadata")
     logical_count = len(requests) if logical is None else logical
     return {"logical_requests": logical_count, "model_requests": logical_count,
-            "completed_model_requests": len(requests), "http_attempts": len(requests) + retry_count,
-            "http_attempts_basis": "completed_request_metadata", "request_counts_complete": logical_count == len(requests),
+            "completed_model_requests": len(requests), "http_attempts": http_attempts,
+            "http_attempts_basis": basis, "request_counts_complete": logical_count == len(requests),
             "retries": retry_count, "retry_count": retry_count, "total_tool_calls": len(calls), "tool_calls": len(calls),
             "duplicate_calls": sum(count - 1 for count in counters.values()), "read_repeats": read_repeats,
             "duplicate_expensive_calls": expensive, "duplicate_expensive_executions": executions,

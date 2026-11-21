@@ -311,8 +311,12 @@ private slots:
         QSignalSpy saved(&repository, &EogHistoryRepository::sessionSaved), failed(&repository, &EogHistoryRepository::failed), exported(&repository, &EogHistoryRepository::archiveExported);
         QTRY_COMPARE(ready.size(), 1); repository.beginSession(session, "Adaptive protocol trace", lease);
         const auto detect = request(lease, "detect"), validation = request(lease, "validate", "validate_plan");
+        const QJsonObject diagnostics{{"version", 1}, {"minimum_interval_ms", 6000}, {"backoff_base_ms", 2000}, {"backoff_jitter_ms", 1000},
+            {"terminal_cooldown_ms", 60000}, {"admission_wait_ms", 0}, {"cooldown_remaining_ms", 0}, {"cooldown_capped", false},
+            {"attempts", QJsonArray{QJsonObject{{"attempt", 1}, {"started_ms", 0}, {"duration_ms", 2}, {"http_status", 200},
+                {"usage", QJsonObject{{"prompt_tokens", 32}, {"completion_tokens", 16}}}}}}};
         const QJsonObject model{{"type", "model_request"}, {"model_identity", "protocol-fixture-model"}, {"http_status", 200}, {"duration_ms", 2.5}, {"retry_count", 0},
-            {"retry_wait_policy", "retry_after_seconds"}, {"retry_delays_ms", QJsonArray{1000}}};
+            {"retry_wait_policy", "retry_after_seconds"}, {"retry_delays_ms", QJsonArray{1000}}, {"transport_diagnostics", diagnostics}};
         repository.appendAgentEvent(session, model);
         repository.appendAgentEvent(session, {{"type", "tool_call"}, {"call_id", "call-1"}, {"name", "detect"}, {"arguments", QJsonObject{{"system_ids", QJsonArray{}}}}});
         repository.appendAnalysis(session, detect, response(detect));
@@ -329,6 +333,7 @@ private slots:
         repository.exportSession(session, path); QTRY_VERIFY(exported.size() == 1 || failed.size() > 1); QVERIFY2(exported.size() == 1, qPrintable(failureText(failed)));
         const auto archive = QJsonDocument::fromJson(bytes(path.toLocalFile())).object(); const auto events = archive.value("agent_events").toArray();
         QCOMPARE(events.first().toObject().value("event").toObject().value("retry_delays_ms").toArray(), QJsonArray({1000}));
+        QCOMPARE(events.first().toObject()["event"].toObject()["transport_diagnostics"].toObject(), diagnostics);
         QCOMPARE(events.size(), 7); const QStringList order{"model_request", "tool_call", "tool_result", "model_request", "tool_call", "tool_result", "final"};
         for (qsizetype index = 0; index < events.size(); ++index) {
             const auto item = events[index].toObject(); QCOMPARE(item.value("sequence").toInt(), index + 1);
@@ -340,6 +345,11 @@ private slots:
         auto bad = archive; auto badEvents = events; auto second = badEvents[1].toObject(); second["sequence"] = 1; badEvents[1] = second; bad["agent_events"] = badEvents;
         const auto badPath = QUrl::fromLocalFile(directory.filePath("bad-agent.eog-session.json")); QVERIFY(write(badPath.toLocalFile(), QJsonDocument(bad).toJson(QJsonDocument::Compact)));
         imported.importSession(badPath); QTRY_COMPARE(importedFailed.size(), 1); QCOMPARE(done.size(), 0);
+        bad = archive; badEvents = events; auto first = badEvents[0].toObject(); auto event = first["event"].toObject();
+        auto modified = diagnostics; modified["unknown_quota_text"] = "private"; event["transport_diagnostics"] = modified;
+        first["event"] = event; badEvents[0] = first; bad["agent_events"] = badEvents;
+        QVERIFY(write(badPath.toLocalFile(), QJsonDocument(bad).toJson(QJsonDocument::Compact)));
+        imported.importSession(badPath); QTRY_COMPARE(importedFailed.size(), 2); QCOMPARE(done.size(), 0);
         imported.importSession(path); QTRY_COMPARE(done.size(), 1); imported.loadSession(session); QTRY_COMPARE(loaded.size(), 1);
         QCOMPARE(loaded.first().first().toJsonObject().value("agent_events").toArray(), events);
     }

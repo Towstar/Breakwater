@@ -21,6 +21,9 @@ public:
         if (finalJson) requestFinalJson(messages); else request(messages, tools);
     }
     virtual void cancel() = 0;
+    // Readiness never grants approval or extends an observed capture. Negative
+    // means another request has admission; zero means no known provider wait.
+    virtual qint64 admissionDelayMs() const { return 0; }
 signals:
     void requestStarted();
     void requestCompleted(const QJsonObject& metadata);

@@ -22,8 +22,58 @@ def require(condition, message):
         raise ValueError(message)
 
 
+def transport_diagnostics_valid(value):
+    def integer(n, maximum=9007199254740991):
+        return type(n) in (int, float) and 0 <= n <= maximum and math.isfinite(n) and int(n) == n
+
+    required = {"version", "minimum_interval_ms", "backoff_base_ms", "backoff_jitter_ms", "terminal_cooldown_ms",
+                "admission_wait_ms", "cooldown_remaining_ms", "cooldown_capped", "attempts"}
+    if not isinstance(value, dict) or set(value) != required:
+        return False
+    bounds = {"version": 1, "minimum_interval_ms": 60000, "backoff_base_ms": 60000,
+              "backoff_jitter_ms": 5000, "terminal_cooldown_ms": 86400000,
+              "admission_wait_ms": 9007199254740991, "cooldown_remaining_ms": 86400000}
+    if (not all(integer(value[key], bound) for key, bound in bounds.items()) or value["version"] != 1 or value["backoff_base_ms"] == 0
+            or type(value["cooldown_capped"]) is not bool or not isinstance(value["attempts"], list)
+            or len(value["attempts"]) > 4):
+        return False
+    if value["cooldown_capped"] and value["cooldown_remaining_ms"] != 86400000:
+        return False
+    previous_end = 0
+    for index, attempt in enumerate(value["attempts"], 1):
+        keys = {"attempt", "started_ms", "duration_ms", "http_status"}
+        optional = {"retry_after_ms", "retry_after_capped", "rate_limits", "usage", "provider_error_code"}
+        if (not isinstance(attempt, dict) or not keys <= set(attempt) or set(attempt) - keys - optional
+                or not integer(attempt["attempt"], 4) or attempt["attempt"] != index
+                or not integer(attempt["started_ms"]) or not integer(attempt["duration_ms"])
+                or attempt["started_ms"] < previous_end or not integer(attempt["http_status"], 599)
+                or (attempt["http_status"] != 0 and attempt["http_status"] < 100)):
+            return False
+        previous_end = attempt["started_ms"] + attempt["duration_ms"]
+        if previous_end > 9007199254740991:
+            return False
+        if ("retry_after_ms" in attempt) != ("retry_after_capped" in attempt):
+            return False
+        if "retry_after_ms" in attempt and (not integer(attempt["retry_after_ms"], 86400000)
+                                           or type(attempt["retry_after_capped"]) is not bool):
+            return False
+        if attempt.get("retry_after_capped") and attempt["retry_after_ms"] != 86400000:
+            return False
+        for group, allowed in (("usage", {"prompt_tokens", "completion_tokens", "total_tokens"}),
+                               ("rate_limits", {"request_limit", "request_remaining", "token_limit", "token_remaining"})):
+            if group in attempt:
+                numbers = attempt[group]
+                if (not isinstance(numbers, dict) or not numbers or set(numbers) - allowed
+                        or not all(integer(number, 1000000000000) for number in numbers.values())):
+                    return False
+        if "provider_error_code" in attempt and attempt["provider_error_code"] not in (
+                "rate_limit_exceeded", "insufficient_quota", "too_many_requests", "concurrency_limit_exceeded", "model_unavailable"):
+            return False
+    return True
+
+
 def request_fields_match(request, required):
-    """Accept legacy metadata or the closed, optional scheduled-retry pair.
+    """Accept legacy metadata plus closed optional retry/attempt diagnostics.
 
     Delays describe scheduled waits, so cancellation can leave more scheduled
     waits than actual posted retries. Raw Retry-After values are never allowed.
@@ -31,6 +81,24 @@ def request_fields_match(request, required):
     if not isinstance(request, dict) or not required <= set(request):
         return False
     extra = set(request) - required
+    if "transport_diagnostics" in extra:
+        if not transport_diagnostics_valid(request["transport_diagnostics"]):
+            return False
+        attempts = request["transport_diagnostics"]["attempts"]
+        if (type(request.get("retry_count")) is not int or request["retry_count"] != max(0, len(attempts) - 1)
+                or type(request.get("http_status")) is not int
+                or type(request.get("duration_ms")) not in (int, float)
+                or not 0 <= request["duration_ms"] <= 9007199254740991):
+            return False
+        if not attempts:
+            if request.get("http_status") != 0:
+                return False
+        elif (request.get("http_status") != attempts[-1]["http_status"]
+              or type(request.get("duration_ms")) not in (int, float)
+              or not 0 <= request["duration_ms"] <= 9007199254740991
+              or request["duration_ms"] < attempts[-1]["started_ms"] + attempts[-1]["duration_ms"]):
+            return False
+        extra.remove("transport_diagnostics")
     if not extra:
         return True
     if extra != {"retry_wait_policy", "retry_delays_ms"}:

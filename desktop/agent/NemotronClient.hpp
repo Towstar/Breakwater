@@ -1,6 +1,7 @@
 #pragma once
 
 #include "ModelTransport.hpp"
+#include "NemotronRequestPacer.hpp"
 #include <QElapsedTimer>
 #include <QPointer>
 #include <QTimer>
@@ -18,6 +19,10 @@ struct NemotronConfig {
     QString credentialSource;
     int timeoutMs = 60000;
     int maxRetries = 2;
+    int minimumIntervalMs = 6000;
+    int backoffBaseMs = 2000;
+    int backoffJitterMs = 1000;
+    int terminalCooldownMs = 60000;
     // An explicit file is useful for isolated launches; otherwise discover the local .env.
     // Nonempty process variables take precedence. Endpoints follow the selected
     // credential source unless explicitly overridden by the process environment.
@@ -31,7 +36,8 @@ class NemotronClient final : public ModelTransport {
 public:
     // An injected manager remains caller-owned and must share this object's thread.
     explicit NemotronClient(NemotronConfig config = NemotronConfig::fromEnvironment(),
-                            QObject* parent = nullptr, QNetworkAccessManager* manager = nullptr);
+                            QObject* parent = nullptr, QNetworkAccessManager* manager = nullptr,
+                            std::shared_ptr<NemotronRequestPacer> pacer = {});
     ~NemotronClient() override;
     void request(const QJsonArray& messages, const QJsonArray& tools) override;
     void requestFinalJson(const QJsonArray& messages) override;
@@ -42,15 +48,25 @@ public:
     const NemotronConfig& config() const { return config_; }
     QString configuredModelIdentifier() const;
     QString lastResponseModel() const;
+    qint64 admissionDelayMs() const override;
 private:
     static constexpr qsizetype maximumResponseBytes = 2 * 1024 * 1024;
     NemotronConfig config_;
+    std::shared_ptr<NemotronRequestPacer> pacer_;
     QPointer<QNetworkAccessManager> manager_;
     QPointer<QNetworkReply> reply_;
     QTimer timeout_;
     QTimer retry_;
     QTimer budget_timeout_;
     QJsonArray retry_delays_;
+    QJsonArray attempt_diagnostics_;
+    qint64 attempt_started_ms_ = 0;
+    qint64 admission_started_ms_ = -1;
+    qint64 admission_wait_ms_ = 0;
+    qint64 retry_after_ms_ = -1;
+    qint64 next_retry_ms_ = 0;
+    QString retry_after_policy_;
+    bool attempt_pending_ = false;
     QString retry_wait_policy_;
     QByteArray payload_;
     QByteArray response_;
@@ -75,6 +91,9 @@ private:
     QJsonObject metadata(const QString& outcome, const QString& code) const;
     void rejectBusyRequest();
     void scheduleRetry();
+    void recordAttempt();
+    void retainTerminalCooldown();
+    qint64 fallbackDelayMs() const;
 };
 
 } // namespace breakwater::desktop::agent
