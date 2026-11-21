@@ -1,6 +1,24 @@
 # Actual candidate screenshots
 
-## Current engineering candidate: 3bb77a3
+## Modern instrument workspace: 99aff98
+
+Three unaltered synthetic-fixture PNGs from the successful ASan UI checks at
+`99aff9851544d2cba00b463b2c617b37a97a4a43`, captured November 21, 2026 UTC.
+The [capture record](../../evidence/modern-workspace/99aff98/gallery.json) retains
+exact image/app hashes, source identity, test cases, logical client sizes and DPR.
+Private saved-user-workspace images are excluded.
+
+| Capture | Actual view |
+| --- | --- |
+| [Workbench overview](modern-99aff98/01-workbench.png) | Initial synthetic network, grouped scene tools, quieter navigation and mode switch. Logical client 1440×900. |
+| [Connection inspector](modern-99aff98/02-route-inspector.png) | Selected connection and existing nominal forecast, with visible selected-tool/dock outlines and units. Logical client 1440×900. |
+| [Compact sensor editor](modern-99aff98/03-sensor-editor-compact.png) | Synthetic sensor form, title/X, dropdowns and footer in a 1100×700 logical client. Remaining fields scroll below the fold. |
+
+See [implementation and focused normal/ASan results](../../MODERN_WORKSPACE.md).
+These are actual interface captures, not hosted-model or operational-monitoring
+qualification.
+
+## Sealed package candidate: 3bb77a3
 
 Eight unaltered native Windows captures of application source
 `3bb77a353fb04267260764060bc5f58d61d5e7f5`, executable SHA-256

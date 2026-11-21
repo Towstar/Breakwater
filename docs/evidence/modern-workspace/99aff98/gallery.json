@@ -1,0 +1,38 @@
+[
+  {
+    "file": "docs/images/portfolio/modern-99aff98/01-workbench.png",
+    "sha256": "308e822961fa187e0876e993a253bfee0901c4f93ed56694835787ebc8fe89ec",
+    "source_commit": "99aff9851544d2cba00b463b2c617b37a97a4a43",
+    "app_sha256": "251fb7ec0e110abcb8be038086101a29c3531a8ef1ad43e7166690dc73be0fad",
+    "mode": "asan",
+    "test_case": "desktop.ui_overhaul_normal",
+    "logical_client_width": 1440,
+    "logical_client_height": 900,
+    "device_pixel_ratio": 1.75,
+    "scope": "Unaltered synthetic-fixture test capture; no hosted model request"
+  },
+  {
+    "file": "docs/images/portfolio/modern-99aff98/02-route-inspector.png",
+    "sha256": "ea8d4369590954d0c6d5b8a3dbf1f9dc143d71730c3f90e2da62691689994fea",
+    "source_commit": "99aff9851544d2cba00b463b2c617b37a97a4a43",
+    "app_sha256": "251fb7ec0e110abcb8be038086101a29c3531a8ef1ad43e7166690dc73be0fad",
+    "mode": "asan",
+    "test_case": "desktop.ui_overhaul_normal",
+    "logical_client_width": 1440,
+    "logical_client_height": 900,
+    "device_pixel_ratio": 1.75,
+    "scope": "Unaltered synthetic-fixture test capture; no hosted model request"
+  },
+  {
+    "file": "docs/images/portfolio/modern-99aff98/03-sensor-editor-compact.png",
+    "sha256": "5f2fc58925e6be99c0be65cbfa1d5b0645beff681188158cdffa7a118617c0d7",
+    "source_commit": "99aff9851544d2cba00b463b2c617b37a97a4a43",
+    "app_sha256": "251fb7ec0e110abcb8be038086101a29c3531a8ef1ad43e7166690dc73be0fad",
+    "mode": "asan",
+    "test_case": "desktop.ui_overhaul_compact",
+    "logical_client_width": 1100,
+    "logical_client_height": 700,
+    "device_pixel_ratio": 1.75,
+    "scope": "Unaltered synthetic-fixture test capture; no hosted model request"
+  }
+]

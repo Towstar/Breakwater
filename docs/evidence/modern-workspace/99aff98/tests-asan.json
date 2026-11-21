@@ -1,0 +1,14 @@
+{
+  "source_commit": "99aff9851544d2cba00b463b2c617b37a97a4a43",
+  "dirty": false,
+  "mode": "asan",
+  "status": "passed",
+  "filter": "^desktop\\.(ui_overhaul_.*|observed_advisory_.*|sensor_editor_.*|telemetry_replay_.*|eog_(analysis|overview|facility)_.*|qml_smoke|scene_picking_warp|scene_framing|label_placement|workspace_settings|editor_tools|project|pipe_evidence_smoke|storage_science_(normal|compact))$",
+  "started_utc": "2026-11-21T01:40:09.8002739Z",
+  "app_sha256": "251fb7ec0e110abcb8be038086101a29c3531a8ef1ad43e7166690dc73be0fad",
+  "free_before_bytes": 8706383872,
+  "scope": "Credential-free UI and interaction regression; WARP picking; fixtures included automatically",
+  "exit_code": 0,
+  "finished_utc": "2026-11-21T01:48:41.9231558Z",
+  "free_after_bytes": 8605048832
+}

@@ -1,0 +1,474 @@
+﻿2026-11-21T01:16:22.3129663Z Current runner version: '2.338.2'
+2026-11-21T01:16:22.3163998Z ##[group]Runner Image Provisioner
+2026-11-21T01:16:22.3165067Z Hosted Compute Agent
+2026-11-21T01:16:22.3165860Z Version: 20261111.635
+2026-11-21T01:16:22.3166661Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-21T01:16:22.3167579Z Build Date: 2026-11-11T01:49:01Z
+2026-11-21T01:16:22.3168517Z Worker ID: {a33fd312-637b-4da8-af77-5fa87c181dcb}
+2026-11-21T01:16:22.3169453Z Region: northcentralus
+2026-11-21T01:16:22.3170177Z Cloud: Azure
+2026-11-21T01:16:22.3170848Z ##[endgroup]
+2026-11-21T01:16:22.3172971Z ##[group]Operating System
+2026-11-21T01:16:22.3173817Z Microsoft Windows Server 2022
+2026-11-21T01:16:22.3174572Z 10.0.20348
+2026-11-21T01:16:22.3175245Z Datacenter
+2026-11-21T01:16:22.3175867Z ##[endgroup]
+2026-11-21T01:16:22.3176540Z ##[group]Runner Image
+2026-11-21T01:16:22.3177319Z Image: windows-2022
+2026-11-21T01:16:22.3178032Z Version: 20261116.370.1
+2026-11-21T01:16:22.3180066Z Included Software: https://github.com/actions/runner-images/blob/win22/20261116.370/images/windows/Windows2022-Readme.md
+2026-11-21T01:16:22.3182658Z Image Release: https://github.com/actions/runner-images/releases/tag/win22%2F20261116.370
+2026-11-21T01:16:22.3183880Z ##[endgroup]
+2026-11-21T01:16:22.3185116Z ##[group]GITHUB_TOKEN Permissions
+2026-11-21T01:16:22.3188105Z Contents: read
+2026-11-21T01:16:22.3188993Z Metadata: read
+2026-11-21T01:16:22.3189903Z ##[endgroup]
+2026-11-21T01:16:22.3193034Z Secret source: Actions
+2026-11-21T01:16:22.3194597Z Cache mode: write
+2026-11-21T01:16:22.3195605Z Prepare workflow directory
+2026-11-21T01:16:22.3605794Z Prepare all required actions
+2026-11-21T01:16:22.3652611Z Getting action download info
+2026-11-21T01:16:22.5979904Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+2026-11-21T01:16:22.7031919Z Download action repository 'actions/cache@caa296126883cff596d87d8935842f9db880ef25' (SHA:caa296126883cff596d87d8935842f9db880ef25)
+2026-11-21T01:16:22.8298461Z Download action repository 'actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f' (SHA:b7c566a772e6b6bfb58ed0dc250532a479d7789f)
+2026-11-21T01:16:23.1122273Z Complete job name: Lean assumption audit
+2026-11-21T01:16:23.2716781Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+2026-11-21T01:16:23.2718441Z with:
+2026-11-21T01:16:23.2719060Z   persist-credentials: false
+2026-11-21T01:16:23.2719643Z   repository: Towstar/Breakwater
+2026-11-21T01:16:23.2723580Z   token: ***
+2026-11-21T01:16:23.2724036Z   ssh-strict: true
+2026-11-21T01:16:23.2724475Z   ssh-user: git
+2026-11-21T01:16:23.2724935Z   clean: true
+2026-11-21T01:16:23.2725410Z   sparse-checkout-cone-mode: true
+2026-11-21T01:16:23.2725950Z   fetch-depth: 1
+2026-11-21T01:16:23.2726379Z   fetch-tags: false
+2026-11-21T01:16:23.2726805Z   show-progress: true
+2026-11-21T01:16:23.2727307Z   lfs: false
+2026-11-21T01:16:23.2727728Z   submodules: false
+2026-11-21T01:16:23.2728206Z   set-safe-directory: true
+2026-11-21T01:16:23.2728693Z   allow-unsafe-pr-checkout: false
+2026-11-21T01:16:23.2729461Z env:
+2026-11-21T01:16:23.2729898Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:23.2730432Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:23.2730953Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:23.2731388Z ##[endgroup]
+2026-11-21T01:16:23.4207816Z Syncing repository: Towstar/Breakwater
+2026-11-21T01:16:23.4210833Z ##[group]Getting Git version info
+2026-11-21T01:16:23.4211828Z Working directory is 'D:\a\Breakwater\Breakwater'
+2026-11-21T01:16:23.5049816Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-21T01:16:23.8895242Z git version 2.56.1.windows.1
+2026-11-21T01:16:23.8939213Z ##[endgroup]
+2026-11-21T01:16:23.8957661Z Temporarily overriding HOME='D:\a\_temp\1a7a28bf-b338-43e5-b170-1a4500560510' before making global git config changes
+2026-11-21T01:16:23.8959261Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T01:16:23.8968673Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Breakwater\Breakwater
+2026-11-21T01:16:23.9595183Z Deleting the contents of 'D:\a\Breakwater\Breakwater'
+2026-11-21T01:16:23.9600486Z ##[group]Determining repository object format
+2026-11-21T01:16:23.9603422Z ##[endgroup]
+2026-11-21T01:16:23.9604992Z ##[group]Initializing the repository
+2026-11-21T01:16:23.9613352Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\Breakwater\Breakwater
+2026-11-21T01:16:24.0268996Z Initialized empty Git repository in D:/a/Breakwater/Breakwater/.git/
+2026-11-21T01:16:24.0312875Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/Towstar/Breakwater
+2026-11-21T01:16:24.0939559Z ##[endgroup]
+2026-11-21T01:16:24.0940599Z ##[group]Disabling automatic garbage collection
+2026-11-21T01:16:24.0948788Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-11-21T01:16:24.1312241Z ##[endgroup]
+2026-11-21T01:16:24.1313893Z ##[group]Setting up auth
+2026-11-21T01:16:24.1316844Z Removing SSH command configuration
+2026-11-21T01:16:24.1323641Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T01:16:24.1651282Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-21T01:16:25.5057999Z Removing HTTP extra header
+2026-11-21T01:16:25.5068211Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T01:16:25.5381910Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-21T01:16:26.0324839Z Removing includeIf entries pointing to credentials config files
+2026-11-21T01:16:26.0337227Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T01:16:26.0659581Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-21T01:16:26.5489288Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-11-21T01:16:26.5810389Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:26.6119961Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:26.6493374Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:26.6812814Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:26.7131747Z ##[endgroup]
+2026-11-21T01:16:26.7132486Z ##[group]Fetching the repository
+2026-11-21T01:16:26.7146808Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9c8998a998357fedcde1fe05292ebc10c670d753:refs/remotes/pull/91/merge
+2026-11-21T01:16:28.8206190Z From https://github.com/Towstar/Breakwater
+2026-11-21T01:16:28.8207011Z  * [new ref]         9c8998a998357fedcde1fe05292ebc10c670d753 -> pull/91/merge
+2026-11-21T01:16:28.8252901Z ##[endgroup]
+2026-11-21T01:16:28.8254291Z ##[group]Determining the checkout info
+2026-11-21T01:16:28.8257135Z ##[endgroup]
+2026-11-21T01:16:28.8265466Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-11-21T01:16:28.8687628Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-11-21T01:16:28.8983984Z ##[group]Checking out the ref
+2026-11-21T01:16:28.8993490Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/91/merge
+2026-11-21T01:16:29.4847928Z Note: switching to 'refs/remotes/pull/91/merge'.
+2026-11-21T01:16:29.4848406Z 
+2026-11-21T01:16:29.4848684Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-21T01:16:29.4849477Z changes and commit them, and you can discard any commits you make in this
+2026-11-21T01:16:29.4850162Z state without impacting any branches by switching back to a branch.
+2026-11-21T01:16:29.4850586Z 
+2026-11-21T01:16:29.4850920Z If you want to create a new branch to retain commits you create, you may
+2026-11-21T01:16:29.4852658Z do so (now or later) by using -c with the switch command. Example:
+2026-11-21T01:16:29.4853113Z 
+2026-11-21T01:16:29.4853363Z   git switch -c <new-branch-name>
+2026-11-21T01:16:29.4853633Z 
+2026-11-21T01:16:29.4853927Z Or undo this operation with:
+2026-11-21T01:16:29.4854211Z 
+2026-11-21T01:16:29.4854378Z   git switch -
+2026-11-21T01:16:29.4854584Z 
+2026-11-21T01:16:29.4854927Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-21T01:16:29.4855435Z 
+2026-11-21T01:16:29.4856549Z HEAD is now at 9c8998a Merge 4559bf1d058d2d5eaadfe2ce50eaca7925727157 into 3d91452d81af7052effb35f98afe48c6f3661b20
+2026-11-21T01:16:29.4996279Z ##[endgroup]
+2026-11-21T01:16:29.5421849Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-11-21T01:16:29.5701505Z 9c8998a998357fedcde1fe05292ebc10c670d753
+2026-11-21T01:16:29.5741853Z ##[group]Removing auth
+2026-11-21T01:16:29.5742352Z Removing SSH command configuration
+2026-11-21T01:16:29.5750857Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T01:16:29.6054220Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-21T01:16:30.1013617Z Removing HTTP extra header
+2026-11-21T01:16:30.1031033Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T01:16:30.1345583Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-21T01:16:30.6167647Z Removing includeIf entries pointing to credentials config files
+2026-11-21T01:16:30.6168454Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T01:16:30.6450237Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-21T01:16:30.6450978Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-21T01:16:30.6451623Z includeif.gitdir:/github/workspace/.git.path
+2026-11-21T01:16:30.6452099Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-21T01:16:30.6489929Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-21T01:16:30.6756976Z D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:30.6796807Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:30.7102543Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-21T01:16:30.7372144Z D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:30.7410689Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:30.7723989Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-21T01:16:30.7990984Z /github/runner_temp/git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:30.8029653Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:30.8340632Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-21T01:16:30.8600775Z /github/runner_temp/git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:30.8639338Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:16:30.8950306Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-21T01:16:31.3983374Z Removing credentials config 'D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config'
+2026-11-21T01:16:31.3993709Z ##[endgroup]
+2026-11-21T01:16:31.4341822Z ##[group]Run ./scripts/ci/Write-JobEvidence.ps1 -Suite lean
+2026-11-21T01:16:31.4342608Z [36;1m./scripts/ci/Write-JobEvidence.ps1 -Suite lean[0m
+2026-11-21T01:16:31.4465285Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T01:16:31.4465739Z env:
+2026-11-21T01:16:31.4466036Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:31.4466416Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:31.4466715Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:31.4466980Z ##[endgroup]
+2026-11-21T01:16:31.9176977Z Job start evidence retained for lean/normal (running).
+2026-11-21T01:16:32.0931170Z ##[group]Run actions/cache@caa296126883cff596d87d8935842f9db880ef25
+2026-11-21T01:16:32.0931830Z with:
+2026-11-21T01:16:32.0932323Z   path: .tools/lean
+.tools/mathlib-cache
+proofs/.lake/packages
+
+2026-11-21T01:16:32.0932903Z   key: windows-2022-lean-bc581e7e79a216f218dd98edbe516a6f126c286188b558d85dbc4afeab59cca3
+2026-11-21T01:16:32.0933408Z   enableCrossOsArchive: false
+2026-11-21T01:16:32.0933741Z   fail-on-cache-miss: false
+2026-11-21T01:16:32.0934047Z   lookup-only: false
+2026-11-21T01:16:32.0934328Z   save-always: false
+2026-11-21T01:16:32.0934639Z env:
+2026-11-21T01:16:32.0934901Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:32.0935215Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:32.0935507Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:32.0935760Z ##[endgroup]
+2026-11-21T01:16:32.4901582Z Cache not found for input keys: windows-2022-lean-bc581e7e79a216f218dd98edbe516a6f126c286188b558d85dbc4afeab59cca3
+2026-11-21T01:16:32.5137998Z ##[group]Run ./scripts/ci/Run-Checks.ps1 -Suite lean
+2026-11-21T01:16:32.5138564Z [36;1m./scripts/ci/Run-Checks.ps1 -Suite lean[0m
+2026-11-21T01:16:32.5173299Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T01:16:32.5173716Z env:
+2026-11-21T01:16:32.5174058Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:32.5174387Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:32.5174675Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:32.5175033Z ##[endgroup]
+2026-11-21T01:17:24.3481668Z ##[group]lean-audits
+2026-11-21T01:17:25.0227096Z [31;1minfo: mathlib: materializing new dependency[0m
+2026-11-21T01:17:25.4650856Z [31;1minfo: mathlib: fetching revision '56a005855ea17e0b0958f73ec801ae140b0a1679' from https://github.com/leanprover-community/mathlib4.git[0m
+2026-11-21T01:17:29.3827826Z [31;1minfo: mathlib: checking out revision '56a005855ea17e0b0958f73ec801ae140b0a1679'[0m
+2026-11-21T01:17:42.6105015Z [31;1minfo: plausible: materializing new dependency[0m
+2026-11-21T01:17:42.6761364Z [31;1minfo: plausible: fetching revision 'dfa4f38190d07c37e315953e08b90fe2d95b3c24' from https://github.com/leanprover-community/plausible[0m
+2026-11-21T01:17:43.2616639Z [31;1minfo: plausible: checking out revision 'dfa4f38190d07c37e315953e08b90fe2d95b3c24'[0m
+2026-11-21T01:17:44.0954270Z [31;1minfo: LeanSearchClient: materializing new dependency[0m
+2026-11-21T01:17:44.1586935Z [31;1minfo: LeanSearchClient: fetching revision 'd6b4c7be5be75ec4917c873ac50c756dc1436372' from https://github.com/leanprover-community/LeanSearchClient[0m
+2026-11-21T01:17:44.6019047Z [31;1minfo: LeanSearchClient: checking out revision 'd6b4c7be5be75ec4917c873ac50c756dc1436372'[0m
+2026-11-21T01:17:45.3962697Z [31;1minfo: importGraph: materializing new dependency[0m
+2026-11-21T01:17:45.4671848Z [31;1minfo: importGraph: fetching revision 'a41f0e9a4dea23188ea9cc1c41ac9f8bbafe0b93' from https://github.com/leanprover-community/import-graph[0m
+2026-11-21T01:17:45.9691035Z [31;1minfo: importGraph: checking out revision 'a41f0e9a4dea23188ea9cc1c41ac9f8bbafe0b93'[0m
+2026-11-21T01:17:46.8690007Z [31;1minfo: proofwidgets: materializing new dependency[0m
+2026-11-21T01:17:46.9337319Z [31;1minfo: proofwidgets: fetching revision 'df72b022e558978a1c50264cfc4d7fec86fa8e04' from https://github.com/leanprover-community/ProofWidgets4[0m
+2026-11-21T01:17:47.4985406Z [31;1minfo: proofwidgets: checking out revision 'df72b022e558978a1c50264cfc4d7fec86fa8e04'[0m
+2026-11-21T01:17:49.3441326Z [31;1minfo: aesop: materializing new dependency[0m
+2026-11-21T01:17:49.4120739Z [31;1minfo: aesop: fetching revision '4a174c490d8707121c4a9290800489f105d85e07' from https://github.com/leanprover-community/aesop[0m
+2026-11-21T01:17:50.0172592Z [31;1minfo: aesop: checking out revision '4a174c490d8707121c4a9290800489f105d85e07'[0m
+2026-11-21T01:17:50.9692220Z [31;1minfo: Qq: materializing new dependency[0m
+2026-11-21T01:17:51.0351267Z [31;1minfo: Qq: fetching revision 'dce0ad79c486cb1fb504af04f953c3466b0c6db8' from https://github.com/leanprover-community/quote4[0m
+2026-11-21T01:17:51.4810504Z [31;1minfo: Qq: checking out revision 'dce0ad79c486cb1fb504af04f953c3466b0c6db8'[0m
+2026-11-21T01:17:52.2943164Z [31;1minfo: batteries: materializing new dependency[0m
+2026-11-21T01:17:52.3606036Z [31;1minfo: batteries: fetching revision '66e469188fe07963e5cf666c7d4433f45b8131c5' from https://github.com/leanprover-community/batteries[0m
+2026-11-21T01:17:53.6528562Z [31;1minfo: batteries: checking out revision '66e469188fe07963e5cf666c7d4433f45b8131c5'[0m
+2026-11-21T01:17:54.8748264Z [31;1minfo: Cli: materializing new dependency[0m
+2026-11-21T01:17:54.9396630Z [31;1minfo: Cli: fetching revision 'c24fe6078c630e89b489bffe59b3e20ac30d12c8' from https://github.com/leanprover/lean4-cli[0m
+2026-11-21T01:17:55.4257214Z [31;1minfo: Cli: checking out revision 'c24fe6078c630e89b489bffe59b3e20ac30d12c8'[0m
+2026-11-21T01:17:57.1781208Z [31;1m✔ [1/5] Built Cache.Cli (903ms)[0m
+2026-11-21T01:17:57.2878746Z [31;1m✔ [2/5] Built Cache.Lean (991ms)[0m
+2026-11-21T01:17:58.1553198Z [31;1m✔ [6/42] Built Cache.Cli:c.o (263ms)[0m
+2026-11-21T01:17:58.1554458Z [31;1m✔ [7/42] Built Cache.Lean:c.o (270ms)[0m
+2026-11-21T01:17:58.8109815Z [31;1m✔ [8/42] Built Cache.Env (939ms)[0m
+2026-11-21T01:17:59.6880224Z [31;1m✔ [9/42] Built Batteries.Tactic.OpenPrivate (1.8s)[0m
+2026-11-21T01:17:59.6883521Z [31;1m✔ [10/42] Built Cache.Env:c.o (918ms)[0m
+2026-11-21T01:17:59.8563962Z [31;1m✔ [11/42] Built Cache.Infra (954ms)[0m
+2026-11-21T01:18:01.0135718Z [31;1m✔ [12/42] Built Cache.Location (1.2s)[0m
+2026-11-21T01:18:01.0148189Z [31;1m✔ [13/42] Built Cache.Infra:c.o (1.2s)[0m
+2026-11-21T01:18:01.3297370Z [31;1m✔ [14/42] Built Cache.Location:c.o (297ms)[0m
+2026-11-21T01:18:02.0809314Z [31;1m✔ [15/42] Built Cache.IO (2.4s)[0m
+2026-11-21T01:18:02.0812641Z [31;1m✔ [16/42] Built Batteries.Tactic.OpenPrivate:c.o (2.4s)[0m
+2026-11-21T01:18:03.2845299Z [31;1m✔ [17/42] Built Cache.Hashing (1.3s)[0m
+2026-11-21T01:18:03.9579253Z [31;1m✔ [18/42] Built Cache.IO:c.o (1.9s)[0m
+2026-11-21T01:18:05.5988820Z [31;1m✔ [19/42] Built Cache.Requests (2.3s)[0m
+2026-11-21T01:18:05.5993525Z [31;1m✔ [20/42] Built Cache.Hashing:c.o (2.3s)[0m
+2026-11-21T01:18:06.5878798Z [31;1m✔ [21/42] Built Cache.Marker (916ms)[0m
+2026-11-21T01:18:06.8060040Z [31;1m✔ [22/42] Built Cache.Marker:c.o (207ms)[0m
+2026-11-21T01:18:08.2401931Z [31;1m✔ [23/42] Built Cache.Upload.Curl (1.5s)[0m
+2026-11-21T01:18:08.2422153Z [31;1m✔ [24/42] Built Cache.Upload.Rclone (1.6s)[0m
+2026-11-21T01:18:08.3202798Z [31;1m✔ [25/42] Built Cache.Query (1.5s)[0m
+2026-11-21T01:18:08.4658144Z [31;1m✔ [26/42] Built Cache.Upload.Curl:c.o (299ms)[0m
+2026-11-21T01:18:08.5580718Z [31;1m✔ [27/42] Built Cache.Upload.Rclone:c.o (400ms)[0m
+2026-11-21T01:18:08.7843556Z [31;1m✔ [28/42] Built Cache.Query:c.o (400ms)[0m
+2026-11-21T01:18:09.1042391Z [31;1m✔ [29/42] Built Cache.Requests:c.o (3.4s)[0m
+2026-11-21T01:18:09.5431432Z [31;1m✔ [30/42] Built Cache.Upload.Azure (1.3s)[0m
+2026-11-21T01:18:09.7652393Z [31;1m✔ [31/42] Built Cache.Upload.Azure:c.o (178ms)[0m
+2026-11-21T01:18:09.9842631Z [31;1m✔ [32/42] Built Cache.Upload.S3 (1.4s)[0m
+2026-11-21T01:18:10.0909365Z [31;1m✔ [33/42] Built Cache.Warning (1.4s)[0m
+2026-11-21T01:18:10.5285643Z [31;1m✔ [34/42] Built Cache.Warning:c.o (342ms)[0m
+2026-11-21T01:18:10.8564205Z [31;1m✔ [35/42] Built Cache.Upload.S3:c.o (963ms)[0m
+2026-11-21T01:18:10.9673451Z [31;1m✔ [36/42] Built Cache.Upload.Defs (1000ms)[0m
+2026-11-21T01:18:11.7331894Z [31;1m✔ [37/42] Built Cache.Upload (790ms)[0m
+2026-11-21T01:18:11.7333187Z [31;1m✔ [38/42] Built Cache.Upload.Defs:c.o (760ms)[0m
+2026-11-21T01:18:13.0460548Z [31;1m✔ [39/42] Built Cache.Main (1.4s)[0m
+2026-11-21T01:18:13.0461300Z [31;1m✔ [40/42] Built Cache.Upload:c.o (1.3s)[0m
+2026-11-21T01:18:14.0315404Z [31;1m✔ [41/42] Built Cache.Main:c.o (947ms)[0m
+2026-11-21T01:18:15.7837115Z [31;1m✔ [42/42] Built cache:exe (1.7s)[0m
+2026-11-21T01:18:27.4928754Z Current branch: HEAD
+2026-11-21T01:18:27.4929478Z Using cache from origin: (some leanprover-community/mathlib4)
+2026-11-21T01:18:27.4931216Z Attempting to download 1039 file(s) from leanprover-community/mathlib4 cache at https://cache.mathlib.org/mathlib4-master
+2026-11-21T01:18:28.0362620Z [31;1m[0m
+2026-11-21T01:18:28.1449698Z [31;1mDownloaded: 1 file(s) [attempted 1/1039 = 0%, 31 KB/s][0m
+2026-11-21T01:18:28.2500010Z [31;1mDownloaded: 82 file(s) [attempted 82/1039 = 7%, 850 KB/s][0m
+2026-11-21T01:18:28.3610869Z [31;1mDownloaded: 170 file(s) [attempted 170/1039 = 16%, 3876 KB/s][0m
+2026-11-21T01:18:28.4572503Z [31;1mDownloaded: 244 file(s) [attempted 244/1039 = 23%, 566 KB/s][0m
+2026-11-21T01:18:28.5574913Z [31;1mDownloaded: 362 file(s) [attempted 362/1039 = 34%, 8984 KB/s][0m
+2026-11-21T01:18:28.6683401Z [31;1mDownloaded: 461 file(s) [attempted 461/1039 = 44%, 1033 KB/s][0m
+2026-11-21T01:18:28.7574586Z [31;1mDownloaded: 558 file(s) [attempted 558/1039 = 53%, 3807 KB/s][0m
+2026-11-21T01:18:28.8578351Z [31;1mDownloaded: 662 file(s) [attempted 662/1039 = 63%, 1830 KB/s][0m
+2026-11-21T01:18:28.9531431Z [31;1mDownloaded: 767 file(s) [attempted 767/1039 = 73%, 7052 KB/s][0m
+2026-11-21T01:18:29.1160893Z [31;1mDownloaded: 861 file(s) [attempted 861/1039 = 82%, 1386 KB/s][0m
+2026-11-21T01:18:29.2762779Z [31;1mDownloaded: 954 file(s) [attempted 954/1039 = 91%, 3327 KB/s][0m
+2026-11-21T01:18:29.3154119Z [31;1mDownloaded: 1019 file(s) [attempted 1019/1039 = 98%, 650 KB/s][0m
+2026-11-21T01:18:29.3204372Z [31;1mDownloaded: 1039 file(s) [attempted 1039/1039 = 100%, 650 KB/s][0m
+2026-11-21T01:18:29.3206417Z [31;1mStill decompressing downloaded files...[0m
+2026-11-21T01:18:32.9463399Z Decompressed 1039 file(s)
+2026-11-21T01:18:32.9465059Z Already decompressed 1039 file(s)
+2026-11-21T01:18:52.2256368Z ✔ [1055/1063] Built Breakwater.Graph (3.3s)
+2026-11-21T01:18:52.2258203Z ✔ [1056/1063] Built Breakwater.Affine (3.5s)
+2026-11-21T01:18:52.2263448Z ✔ [1057/1063] Built Breakwater.Network (3.4s)
+2026-11-21T01:18:52.2264555Z ✔ [1058/1063] Built Breakwater.Transport (3.9s)
+2026-11-21T01:18:52.2270553Z ✔ [1059/1063] Built Breakwater.ControlInfluence (3.2s)
+2026-11-21T01:18:52.2272530Z ✔ [1060/1063] Built Breakwater.TransportNonnegativity (3.8s)
+2026-11-21T01:18:52.2275702Z ℹ [1061/1063] Built Breakwater.Audit (2.8s)
+2026-11-21T01:18:52.2279112Z info: Breakwater/Audit.lean:12:0: 'Breakwater.sparse_eq_dense' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2283572Z info: Breakwater/Audit.lean:13:0: 'Breakwater.sparse_permuted_eq_dense' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2286125Z info: Breakwater/Audit.lean:14:0: 'Breakwater.denseRate_total_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2289189Z info: Breakwater/Audit.lean:15:0: 'Breakwater.sparse_total_conserved' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2292308Z info: Breakwater/Audit.lean:16:0: 'Breakwater.graphEuler_total_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2296741Z info: Breakwater/Audit.lean:17:0: 'Breakwater.Affine.repeatedEuler_closed_form' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2298678Z info: Breakwater/Audit.lean:18:0: 'Breakwater.Affine.variableEuler_closed_form' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2300538Z info: Breakwater/Audit.lean:19:0: 'Breakwater.Affine.timeSteps_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2302121Z info: Breakwater/Audit.lean:20:0: 'Breakwater.Affine.variableEuler_on_grid' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2304167Z info: Breakwater/Audit.lean:21:0: 'Breakwater.Affine.scalar_endpoint_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2306450Z info: Breakwater/Audit.lean:22:0: 'Breakwater.Affine.trajectory_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2308633Z info: Breakwater/Audit.lean:23:0: 'Breakwater.Affine.trajectory_zero_horizon_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2309953Z info: Breakwater/Audit.lean:24:0: 'Breakwater.network_rollout_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2312028Z info: Breakwater/Audit.lean:25:0: 'Breakwater.network_rollout_total_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2315853Z info: Breakwater/Audit.lean:26:0: 'Breakwater.network_interval_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2319617Z info: Breakwater/Audit.lean:27:0: 'Breakwater.ControlInfluence.weightedFold_eq_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2323242Z info: Breakwater/Audit.lean:28:0: 'Breakwater.ControlInfluence.weighted_candidate_decomposition' depends on axioms: [propext,
+2026-11-21T01:18:52.2325505Z  Classical.choice,
+2026-11-21T01:18:52.2328225Z  Quot.sound]
+2026-11-21T01:18:52.2332252Z info: Breakwater/Audit.lean:29:0: 'Breakwater.ControlInfluence.precomputed_eq_direct' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2336400Z info: Breakwater/Audit.lean:30:0: 'Breakwater.ControlInfluence.precomputed_zero_delta' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2342104Z info: Breakwater/Audit.lean:31:0: 'Breakwater.ControlInfluence.precomputed_network_rate' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2343745Z info: Breakwater/Audit.lean:32:0: 'Breakwater.ControlInfluence.precomputed_network_trajectory' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2345024Z info: Breakwater/Audit.lean:33:0: 'Breakwater.Transport.inventory_eq_scale_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2347698Z info: Breakwater/Audit.lean:34:0: 'Breakwater.Transport.face_differences_telescope' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2351100Z info: Breakwater/Audit.lean:35:0: 'Breakwater.Transport.euler_sum_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2353311Z info: Breakwater/Audit.lean:36:0: 'Breakwater.Transport.euler_inventory_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2357352Z info: Breakwater/Audit.lean:37:0: 'Breakwater.Transport.openFlux_inlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2361089Z info: Breakwater/Audit.lean:38:0: 'Breakwater.Transport.openFlux_outlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2364712Z info: Breakwater/Audit.lean:39:0: 'Breakwater.Transport.openFlux_interior' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2368688Z info: Breakwater/Audit.lean:40:0: 'Breakwater.Transport.closedFlux_inlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2370998Z info: Breakwater/Audit.lean:41:0: 'Breakwater.Transport.closedFlux_outlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2373325Z info: Breakwater/Audit.lean:42:0: 'Breakwater.Transport.closedFlux_interior' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2378280Z info: Breakwater/Audit.lean:43:0: 'Breakwater.Transport.open_euler_inventory_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2381260Z info: Breakwater/Audit.lean:44:0: 'Breakwater.Transport.closed_euler_inventory_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2386614Z info: Breakwater/Audit.lean:45:0: 'Breakwater.Transport.zero_flow_inlet_loss' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2389068Z info: Breakwater/Audit.lean:46:0: 'Breakwater.Transport.rollout_residual_preserved' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2392125Z info: Breakwater/Audit.lean:47:0: 'Breakwater.Transport.rollout_mass_residual_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2395076Z info: Breakwater/Audit.lean:48:0: 'Breakwater.Transport.rollout_inventory_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2397910Z info: Breakwater/Audit.lean:50:0: 'Breakwater.Transport.open_first_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2401339Z info: Breakwater/Audit.lean:51:0: 'Breakwater.Transport.open_last_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2407185Z info: Breakwater/Audit.lean:52:0: 'Breakwater.Transport.open_interior_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2409533Z info: Breakwater/Audit.lean:53:0: 'Breakwater.Transport.closed_first_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2412831Z info: Breakwater/Audit.lean:54:0: 'Breakwater.Transport.closed_last_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2417759Z info: Breakwater/Audit.lean:55:0: 'Breakwater.Transport.closed_interior_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2421681Z info: Breakwater/Audit.lean:56:0: 'Breakwater.Transport.dimensionless_numbers_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2423861Z info: Breakwater/Audit.lean:57:0: 'Breakwater.Transport.open_budget_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2425476Z info: Breakwater/Audit.lean:58:0: 'Breakwater.Transport.closed_budget_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2427221Z info: Breakwater/Audit.lean:59:0: 'Breakwater.Transport.open_coefficient_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2428624Z info: Breakwater/Audit.lean:60:0: 'Breakwater.Transport.closed_coefficient_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2432531Z info: Breakwater/Audit.lean:61:0: 'Breakwater.Transport.open_euler_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2436668Z info: Breakwater/Audit.lean:62:0: 'Breakwater.Transport.closed_euler_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2439003Z info: Breakwater/Audit.lean:63:0: 'Breakwater.Transport.native_step_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2443941Z info: Breakwater/Audit.lean:64:0: 'Breakwater.Transport.native_rollout_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2447238Z info: Breakwater/Audit.lean:65:0: 'Breakwater.Transport.native_rollout_nonnegative_mass_balance' depends on axioms: [propext,
+2026-11-21T01:18:52.2449096Z  Classical.choice,
+2026-11-21T01:18:52.2453336Z  Quot.sound]
+2026-11-21T01:18:52.2456304Z info: Breakwater/Audit.lean:66:0: 'Breakwater.Transport.interior_only_bound_counterexample' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:52.2457624Z info: Breakwater/Audit.lean:144:0: BREAKWATER assumption audit passed for 54 algorithm theorems
+2026-11-21T01:18:52.2460400Z ✔ [1062/1063] Built Breakwater (2.6s)
+2026-11-21T01:18:52.2462027Z Build completed successfully (1063 jobs).
+2026-11-21T01:18:57.3887133Z 'Breakwater.sparse_eq_dense' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3888100Z 'Breakwater.sparse_permuted_eq_dense' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3889034Z 'Breakwater.denseRate_total_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3891746Z 'Breakwater.sparse_total_conserved' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3893984Z 'Breakwater.graphEuler_total_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3897742Z 'Breakwater.Affine.repeatedEuler_closed_form' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3899116Z 'Breakwater.Affine.variableEuler_closed_form' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3901185Z 'Breakwater.Affine.timeSteps_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3904811Z 'Breakwater.Affine.variableEuler_on_grid' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3905782Z 'Breakwater.Affine.scalar_endpoint_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3907823Z 'Breakwater.Affine.trajectory_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3910212Z 'Breakwater.Affine.trajectory_zero_horizon_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3911376Z 'Breakwater.network_rollout_affine' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3912608Z 'Breakwater.network_rollout_total_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3917412Z 'Breakwater.network_interval_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3920601Z 'Breakwater.ControlInfluence.weightedFold_eq_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3922232Z 'Breakwater.ControlInfluence.weighted_candidate_decomposition' depends on axioms: [propext,
+2026-11-21T01:18:57.3924863Z  Classical.choice,
+2026-11-21T01:18:57.3925921Z  Quot.sound]
+2026-11-21T01:18:57.3930098Z 'Breakwater.ControlInfluence.precomputed_eq_direct' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3931423Z 'Breakwater.ControlInfluence.precomputed_zero_delta' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3932696Z 'Breakwater.ControlInfluence.precomputed_network_rate' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3934700Z 'Breakwater.ControlInfluence.precomputed_network_trajectory' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3938318Z 'Breakwater.Transport.inventory_eq_scale_sum' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3939492Z 'Breakwater.Transport.face_differences_telescope' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3941861Z 'Breakwater.Transport.euler_sum_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3945562Z 'Breakwater.Transport.euler_inventory_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3946731Z 'Breakwater.Transport.openFlux_inlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3948776Z 'Breakwater.Transport.openFlux_outlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3952674Z 'Breakwater.Transport.openFlux_interior' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3953786Z 'Breakwater.Transport.closedFlux_inlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3955510Z 'Breakwater.Transport.closedFlux_outlet' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3957999Z 'Breakwater.Transport.closedFlux_interior' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3959202Z 'Breakwater.Transport.open_euler_inventory_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3960987Z 'Breakwater.Transport.closed_euler_inventory_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3962391Z 'Breakwater.Transport.zero_flow_inlet_loss' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3963909Z 'Breakwater.Transport.rollout_residual_preserved' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3965630Z 'Breakwater.Transport.rollout_mass_residual_zero' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3967293Z 'Breakwater.Transport.rollout_inventory_balance' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3969468Z 'Breakwater.Transport.open_first_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3970756Z 'Breakwater.Transport.open_last_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3972612Z 'Breakwater.Transport.open_interior_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3974644Z 'Breakwater.Transport.closed_first_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3977891Z 'Breakwater.Transport.closed_last_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3979296Z 'Breakwater.Transport.closed_interior_expansion' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3981706Z 'Breakwater.Transport.dimensionless_numbers_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3983551Z 'Breakwater.Transport.open_budget_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3984882Z 'Breakwater.Transport.closed_budget_identity' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3987125Z 'Breakwater.Transport.open_coefficient_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3989318Z 'Breakwater.Transport.closed_coefficient_bounds' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3991520Z 'Breakwater.Transport.open_euler_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3992927Z 'Breakwater.Transport.closed_euler_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3994070Z 'Breakwater.Transport.native_step_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3995899Z 'Breakwater.Transport.native_rollout_nonnegative' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.3998498Z 'Breakwater.Transport.native_rollout_nonnegative_mass_balance' depends on axioms: [propext,
+2026-11-21T01:18:57.3999322Z  Classical.choice,
+2026-11-21T01:18:57.4001246Z  Quot.sound]
+2026-11-21T01:18:57.4003851Z 'Breakwater.Transport.interior_only_bound_counterexample' depends on axioms: [propext, Classical.choice, Quot.sound]
+2026-11-21T01:18:57.4005737Z BREAKWATER assumption audit passed for 54 algorithm theorems
+2026-11-21T01:19:02.4244956Z Checked algorithm proof evidence: D:\a\Breakwater\Breakwater\out\a6-proofs
+2026-11-21T01:19:02.4468180Z ##[endgroup]
+2026-11-21T01:19:02.5522971Z ##[group]Run ./scripts/ci/Write-JobEvidence.ps1 -Suite lean -Phase finish -Outcome 'success'
+2026-11-21T01:19:02.5523975Z [36;1m./scripts/ci/Write-JobEvidence.ps1 -Suite lean -Phase finish -Outcome 'success'[0m
+2026-11-21T01:19:02.5564219Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T01:19:02.5564656Z env:
+2026-11-21T01:19:02.5564972Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:19:02.5565308Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:19:02.5565614Z   NVIDIA_API_KEY: 
+2026-11-21T01:19:02.5565907Z ##[endgroup]
+2026-11-21T01:19:02.9411942Z Job finish evidence retained for lean/normal (success).
+2026-11-21T01:19:02.9978505Z ##[group]Run actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+2026-11-21T01:19:02.9979050Z with:
+2026-11-21T01:19:02.9979339Z   name: windows-lean
+2026-11-21T01:19:02.9979654Z   path: out/ci/lean-normal/
+out/a6-proofs/
+
+2026-11-21T01:19:02.9980012Z   if-no-files-found: error
+2026-11-21T01:19:02.9980355Z   retention-days: 14
+2026-11-21T01:19:02.9980629Z   compression-level: 6
+2026-11-21T01:19:02.9980922Z   overwrite: false
+2026-11-21T01:19:02.9981203Z   include-hidden-files: false
+2026-11-21T01:19:02.9981504Z env:
+2026-11-21T01:19:02.9981774Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:19:02.9982058Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:19:02.9982369Z   NVIDIA_API_KEY: 
+2026-11-21T01:19:02.9982631Z ##[endgroup]
+2026-11-21T01:19:03.2050554Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-21T01:19:03.2053876Z The least common ancestor is D:\a\Breakwater\Breakwater\out. This will be the root directory of the artifact
+2026-11-21T01:19:03.2054703Z With the provided path, there will be 9 files uploaded
+2026-11-21T01:19:03.2058843Z Artifact name is valid!
+2026-11-21T01:19:03.2061420Z Root directory input is valid!
+2026-11-21T01:19:03.4694039Z Beginning upload of artifact content to blob storage
+2026-11-21T01:19:03.6255008Z Uploaded bytes 8760
+2026-11-21T01:19:03.6557117Z Finished uploading artifact content to blob storage!
+2026-11-21T01:19:03.6558543Z SHA256 digest of uploaded artifact zip is ef2c26a92dc65a80f916bd4997bf2ea0aefd1c7599e87390cf93568b58fa860e
+2026-11-21T01:19:03.6562133Z Finalizing artifact upload
+2026-11-21T01:19:04.0321524Z Artifact windows-lean.zip successfully finalized. Artifact ID 14684842265
+2026-11-21T01:19:04.0323027Z Artifact windows-lean has been successfully uploaded! Final size is 8760 bytes. Artifact ID is 14684842265
+2026-11-21T01:19:04.0329077Z Artifact download URL: https://github.com/Towstar/Breakwater/actions/runs/44848185755/artifacts/14684842265
+2026-11-21T01:19:04.1695567Z Post job cleanup.
+2026-11-21T01:19:04.4500893Z [command]"C:\Program Files\Git\usr\bin\tar.exe" --posix -cf cache.tzst --exclude cache.tzst -P -C D:/a/Breakwater/Breakwater --files-from manifest.txt --force-local --use-compress-program "zstd -T0"
+2026-11-21T01:19:24.1766951Z Sent 0 of 2140927683 (0.0%), 0.0 MBs/sec
+2026-11-21T01:19:25.1818917Z Sent 536870912 of 2140927683 (25.1%), 255.7 MBs/sec
+2026-11-21T01:19:26.1841238Z Sent 1073741824 of 2140927683 (50.2%), 341.0 MBs/sec
+2026-11-21T01:19:27.1838613Z Sent 1409286144 of 2140927683 (65.8%), 335.7 MBs/sec
+2026-11-21T01:19:28.1831650Z Sent 1811939328 of 2140927683 (84.6%), 345.0 MBs/sec
+2026-11-21T01:19:28.6286555Z Sent 2140927683 of 2140927683 (100.0%), 374.4 MBs/sec
+2026-11-21T01:19:29.1237265Z Cache saved with key: windows-2022-lean-bc581e7e79a216f218dd98edbe516a6f126c286188b558d85dbc4afeab59cca3
+2026-11-21T01:19:29.1551151Z Post job cleanup.
+2026-11-21T01:19:29.3374515Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-21T01:19:29.3663762Z git version 2.56.1.windows.1
+2026-11-21T01:19:29.3726305Z Temporarily overriding HOME='D:\a\_temp\6e2a2608-09d9-4700-a6b0-805d278c2da6' before making global git config changes
+2026-11-21T01:19:29.3727753Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T01:19:29.3737722Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Breakwater\Breakwater
+2026-11-21T01:19:29.4042983Z Removing SSH command configuration
+2026-11-21T01:19:29.4054332Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T01:19:29.4374210Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-21T01:19:29.9334631Z Removing HTTP extra header
+2026-11-21T01:19:29.9345988Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T01:19:29.9662466Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-21T01:19:30.5901144Z Removing includeIf entries pointing to credentials config files
+2026-11-21T01:19:30.5914313Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T01:19:30.6198358Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-21T01:19:30.6199196Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-21T01:19:30.6242982Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-21T01:19:30.6520338Z D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:19:30.6562641Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:19:30.6883163Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-21T01:19:30.7155899Z D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:19:30.7204704Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config
+2026-11-21T01:19:30.7518206Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-21T01:19:31.2786312Z Removing credentials config 'D:\a\_temp\git-credentials-17fc76de-1f7d-4b0f-aa41-df307ae85fef.config'
+2026-11-21T01:19:31.3002387Z Cleaning up orphan processes
+

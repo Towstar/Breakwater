@@ -4,12 +4,15 @@ import QtQuick
 QtObject {
     property bool compactControls: false
     readonly property int controlHeight: compactControls ? 30 : 36
-    readonly property color background: "#0D0F11"
-    readonly property color surface: "#15181B"
-    readonly property color raised: "#1D2125"
-    readonly property color hover: "#262B30"
-    readonly property color selected: "#2D3339"
-    readonly property color divider: "#333A42"
+    readonly property color background: "#101316"
+    readonly property color surface: "#181D22"
+    readonly property color raised: "#21282F"
+    readonly property color hover: "#2B353E"
+    readonly property color selected: "#30434F"
+    readonly property color divider: "#303A43"
+    readonly property color accent: "#92BDD0"
+    readonly property color overlay: "#EB181D22"
+    readonly property color overlayBorder: "#52606C"
     readonly property color controlBorder: "#68727D"
     readonly property color text: "#F3F3F3"
     readonly property color primaryHover: "#FFFFFF"
@@ -26,7 +29,7 @@ QtObject {
     readonly property int bodySize: 13
     readonly property int smallSize: 12
     readonly property int captionSize: 11
-    readonly property int cornerRadius: 4
+    readonly property int cornerRadius: 6
     function icon(name) { return name.length ? "qrc:/breakwater/assets/icons/" + name + ".svg" : "" }
     function equipmentIcon(kind) {
         return icon(({tank:"cylinder",source:"waves",treatment:"factory",trucking:"truck",pump:"gauge",route:"route"})[kind] || "boxes")

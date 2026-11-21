@@ -29,8 +29,8 @@ Pane {
         return typeof value === "number" && isFinite(value) ? value.toLocaleString(Qt.locale(), "f", 2) : "unavailable"
     }
     component SectionHeading: Label {
-        Layout.fillWidth: true; Layout.topMargin: 7
-        color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true; font.letterSpacing: 1
+        Layout.fillWidth: true; Layout.topMargin: 12; Layout.bottomMargin: 2
+        color: Theme.secondary; font.pixelSize: Theme.captionSize; font.weight: Font.DemiBold; font.letterSpacing: 0.8
     }
 
     contentItem: ScrollView {
@@ -54,36 +54,36 @@ Pane {
             RowLayout {
                 Layout.fillWidth: true
                 Label { Layout.fillWidth: true; text: inspector.hasSelection ? inspector.selection.kind === "route" ? "CONNECTION INSPECTOR" : "EQUIPMENT INSPECTOR" : "NETWORK OVERVIEW"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.letterSpacing: 1; font.bold: true }
-                ActionButton { objectName: "inspectorFocus"; visible: inspector.hasSelection; iconName: "focus"; display: AbstractButton.IconOnly; text: inspector.selection.kind === "route" ? "Focus connection endpoints" : "Focus selected equipment"; onClicked: inspector.focusRequested() }
+                ActionButton { objectName: "inspectorFocus"; visible: inspector.hasSelection; flat: true; iconName: "focus"; display: AbstractButton.IconOnly; text: inspector.selection.kind === "route" ? "Focus connection endpoints" : "Focus selected equipment"; onClicked: inspector.focusRequested() }
             }
             Pane {
                 Layout.fillWidth: true; visible: inspector.hasSelection; padding: 10
-                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                background: Rectangle { color: Theme.background; radius: Theme.cornerRadius }
                 contentItem: ColumnLayout {
-                    spacing: 5
+                    spacing: 8
                     RowLayout {
                         Layout.fillWidth: true; spacing: 8
                         Image { Layout.preferredWidth: 18; Layout.preferredHeight: 18; source: Theme.equipmentIcon(inspector.selection.kind || ""); sourceSize.width: 18; sourceSize.height: 18; Accessible.ignored: true }
-                        Label { Layout.fillWidth: true; text: Theme.equipmentName(inspector.selection.kind || ""); color: Theme.secondary; font.pixelSize: Theme.smallSize; wrapMode: Text.WordWrap }
+                        Label { Layout.fillWidth: true; text: Theme.equipmentName(inspector.selection.kind || ""); color: Theme.accent; font.pixelSize: Theme.smallSize; font.weight: Font.Medium; wrapMode: Text.WordWrap }
                     }
                     TextField {
                         objectName: "equipmentLabel"
                         Layout.fillWidth: true; visible: inspector.selection.kind !== "route"
-                        text: inspector.selection.label || ""; font.weight: Font.DemiBold
+                        text: inspector.selection.label || ""; font.pixelSize: 14; font.weight: Font.DemiBold
                         Accessible.name: "Equipment label"; placeholderText: "Equipment label"
                         onEditingFinished: inspector.controller.editSelected("label", text)
                     }
-                    Label { Layout.fillWidth: true; visible: inspector.selection.kind === "route"; text: inspector.selection.id || ""; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.weight: Font.DemiBold }
+                    Label { Layout.fillWidth: true; visible: inspector.selection.kind === "route"; text: inspector.selection.id || ""; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.text; font.family: Theme.monoFamily; font.pixelSize: Theme.bodySize; font.weight: Font.DemiBold }
                     Label { Layout.fillWidth: true; visible: inspector.selection.kind !== "route"; text: "ID  " + (inspector.selection.id || ""); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.muted; font.family: Theme.monoFamily; font.pixelSize: Theme.captionSize }
                 }
             }
             Pane {
                 Layout.fillWidth: true; visible: inspector.selection.kind === "route"; padding: 10
-                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                background: Rectangle { color: "transparent" }
                 contentItem: ColumnLayout {
-                    spacing: 6
-                    Label { text: "DIRECTED CONNECTION"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
-                    Label { Layout.fillWidth: true; text: inspector.assetLabel(inspector.selection.source || "") + " → " + inspector.assetLabel(inspector.selection.target || ""); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.weight: Font.DemiBold }
+                    spacing: 8
+                    Label { text: "DIRECTED CONNECTION"; color: Theme.muted; font.pixelSize: Theme.captionSize; font.weight: Font.DemiBold; font.letterSpacing: 0.5 }
+                    Label { Layout.fillWidth: true; text: inspector.assetLabel(inspector.selection.source || "") + " → " + inspector.assetLabel(inspector.selection.target || ""); textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.text; font.pixelSize: Theme.bodySize; font.weight: Font.DemiBold }
                     Label { objectName: "inspectorRouteSetting"; Layout.fillWidth: true; text: inspector.number(inspector.selectedRoute.flow) + " m³/h · " + (inspector.selection.sourceDriven ? "source setting" : "setpoint"); textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
                     RowLayout {
                         visible: !!inspector.selection.pump; Layout.fillWidth: true; spacing: 7
@@ -98,8 +98,8 @@ Pane {
                 text: "Primary of " + inspector.controller.selectedIds.length + " selected. These fields edit only this asset; use the scene Edit menu for group actions."
                 wrapMode: Text.WordWrap; color: Theme.secondary; font.pixelSize: Theme.smallSize
             }
-            Label { Layout.fillWidth: true; visible: !inspector.hasSelection; text: inspector.equipment.length + " assets · " + inspector.routes.length + " routes"; color: Theme.text; font.pixelSize: 18; wrapMode: Text.WordWrap }
-            Label { Layout.fillWidth: true; visible: !inspector.hasSelection; text: "Select equipment in the scene or Network list to inspect its inputs. Ctrl-click adds to the selection."; wrapMode: Text.WordWrap; color: Theme.secondary; font.pixelSize: Theme.smallSize }
+            Label { Layout.fillWidth: true; Layout.topMargin: 2; Layout.bottomMargin: 2; visible: !inspector.hasSelection; text: inspector.equipment.length + " assets · " + inspector.routes.length + " routes"; color: Theme.text; font.pixelSize: 20; font.weight: Font.DemiBold; wrapMode: Text.WordWrap }
+            Label { Layout.fillWidth: true; visible: !inspector.hasSelection; text: "Select equipment in the scene or Network list to inspect its inputs. Ctrl-click adds to the selection."; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.smallSize; lineHeight: 1.25 }
             Repeater {
                 model: inspector.hasSelection ? [] : [
                     {kind:"tank",name:"Storage tanks",count:inspector.equipment.filter(row => row.kind === "tank").length},
@@ -110,10 +110,10 @@ Pane {
                 ]
                 delegate: RowLayout {
                     required property var modelData
-                    Layout.fillWidth: true; spacing: 8
+                    Layout.fillWidth: true; Layout.minimumHeight: 28; spacing: 8
                     Image { Layout.preferredWidth: 16; Layout.preferredHeight: 16; source: Theme.equipmentIcon(modelData.kind); sourceSize.width: 16; sourceSize.height: 16; Accessible.ignored: true }
                     Label { Layout.fillWidth: true; text: modelData.name; color: Theme.secondary; font.pixelSize: Theme.smallSize; wrapMode: Text.WordWrap }
-                    Label { text: String(modelData.count); font.family: Theme.monoFamily; font.weight: Font.DemiBold }
+                    Label { text: String(modelData.count); color: Theme.text; font.family: Theme.monoFamily; font.pixelSize: Theme.bodySize; font.weight: Font.DemiBold }
                 }
             }
             SectionHeading { visible: inspector.hasSelection; text: "SIMULATION INPUTS" }
@@ -130,16 +130,17 @@ Pane {
                     id: numericRow
                     required property var modelData
                     readonly property var rejection: inspector.numericRejections[modelData.key] || ({})
-                    Layout.fillWidth: true; spacing: 3
+                    Layout.fillWidth: true; Layout.topMargin: 4; spacing: 5
                     RowLayout {
                         Layout.fillWidth: true
                         Label { Layout.fillWidth: true; text: numericRow.modelData.name; color: numericRow.rejection.message ? Theme.error : Theme.secondary; font.pixelSize: Theme.smallSize; wrapMode: Text.WordWrap }
-                        Label { text: numericRow.modelData.unit; color: Theme.muted; font.pixelSize: Theme.captionSize }
+                        Label { text: numericRow.modelData.unit; color: Theme.muted; font.family: Theme.monoFamily; font.pixelSize: Theme.captionSize }
                     }
                     TextField {
                         objectName: "numericProperty_" + numericRow.modelData.key
                         property bool pendingUserCommit: false
                         Layout.fillWidth: true; text: String(inspector.selection[numericRow.modelData.key] ?? "")
+                        font.family: Theme.monoFamily; font.pixelSize: Theme.bodySize
                         inputMethodHints: Qt.ImhFormattedNumbersOnly
                         Accessible.name: numericRow.modelData.name + " (" + numericRow.modelData.unit + ")"
                         Accessible.description: numericRow.rejection.message || ""
@@ -165,12 +166,12 @@ Pane {
             Label { visible: inspector.selection.kind === "route" && !!inspector.selection.sourceDriven; Layout.fillWidth: true; text: "Source-route flow follows production minus reduction."; wrapMode: Text.WordWrap; color: Theme.secondary; font.pixelSize: Theme.smallSize }
             Pane {
                 Layout.fillWidth: true; visible: inspector.selection.kind === "tank"; padding: 10
-                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: inspector.selectedRow.violated ? Theme.error : Theme.divider }
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: inspector.selectedRow.violated ? Theme.error : "transparent" }
                 contentItem: ColumnLayout {
-                    spacing: 4
-                    Label { text: inspector.controller.runId.length ? "FORECAST INVENTORY" : "INITIAL INVENTORY"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
-                    Label { objectName: "inspectorInventory"; text: inspector.number(inspector.selectedRow.volume) + " m³"; color: inspector.selectedRow.violated ? Theme.error : Theme.text; font.family: Theme.monoFamily; font.pixelSize: 19 }
-                    Label { Layout.fillWidth: true; text: (inspector.controller.runId.length ? "At " + inspector.number(inspector.controller.forecastTimeH) + " h · " : "") + "Capacity " + inspector.number(inspector.selection.capacity) + " m³"; wrapMode: Text.WordWrap; color: Theme.secondary; font.pixelSize: Theme.smallSize }
+                    spacing: 6
+                    Label { text: inspector.controller.runId.length ? "FORECAST INVENTORY" : "INITIAL INVENTORY"; color: Theme.muted; font.pixelSize: Theme.captionSize; font.weight: Font.DemiBold; font.letterSpacing: 0.5 }
+                    Label { objectName: "inspectorInventory"; Layout.fillWidth: true; text: inspector.number(inspector.selectedRow.volume) + " m³"; wrapMode: Text.WrapAnywhere; color: inspector.selectedRow.violated ? Theme.error : Theme.text; font.family: Theme.monoFamily; font.pixelSize: 22 }
+                    Label { Layout.fillWidth: true; text: (inspector.controller.runId.length ? "At " + inspector.number(inspector.controller.forecastTimeH) + " h · " : "") + "Capacity " + inspector.number(inspector.selection.capacity) + " m³"; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.smallSize }
                 }
             }
             SectionHeading { visible: inspector.selection.kind === "route"; text: "ROUTE & PUMP" }
@@ -179,19 +180,19 @@ Pane {
             ActionButton { iconName: "triangle-alert"; Layout.fillWidth: true; visible: !!inspector.selection.pump; enabled: !!inspector.selection.available; text: "Fail selected pump"; onClicked: inspector.controller.failSelectedPump() }
             ActionButton { objectName: "inspectPipeTransport"; iconName: "waves"; Layout.fillWidth: true; visible: inspector.selection.kind === "route"; enabled: inspector.pipeTransportReady; text: "Inspect pipe transport"; onClicked: inspector.pipeTransportRequested() }
             Label { Layout.fillWidth: true; visible: inspector.hasSelection; text: "Numerical edits require a new forecast."; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.captionSize }
-            ActionButton { iconName: "trash-2"; Layout.fillWidth: true; visible: inspector.hasSelection; text: "Delete selected"; tooltip: inspector.controller.selectedIds.length > 1 ? "Delete all " + inspector.controller.selectedIds.length + " selected assets" : "Delete selected equipment or route"; onClicked: inspector.controller.deleteSelected() }
+            ActionButton { iconName: "trash-2"; Layout.fillWidth: true; visible: inspector.hasSelection; flat: true; text: "Delete selected"; tooltip: inspector.controller.selectedIds.length > 1 ? "Delete all " + inspector.controller.selectedIds.length + " selected assets" : "Delete selected equipment or route"; onClicked: inspector.controller.deleteSelected() }
             SectionHeading { text: "NETWORK CHECKS" }
             Pane {
                 Layout.fillWidth: true; padding: 10
-                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
+                background: Rectangle { color: Theme.background; radius: Theme.cornerRadius; border.color: inspector.controller.draftIssues.length ? Theme.warning : "transparent" }
                 contentItem: ColumnLayout {
-                    spacing: 6
+                    spacing: 8
                     RowLayout {
                         Layout.fillWidth: true; spacing: 7
                         Image { Layout.preferredWidth: 16; Layout.preferredHeight: 16; source: Theme.icon(inspector.controller.draftIssues.length ? "triangle-alert" : "check"); sourceSize.width: 16; sourceSize.height: 16; Accessible.ignored: true }
                         Label { Layout.fillWidth: true; text: inspector.controller.draftIssues.length ? inspector.controller.draftIssues.length + " draft issues" : "Ready to forecast"; color: inspector.controller.draftIssues.length ? Theme.warning : Theme.text; wrapMode: Text.WordWrap; font.weight: Font.DemiBold }
                     }
-                    Label { Layout.fillWidth: true; visible: !inspector.controller.draftIssues.length; text: "No draft issues. Run a forecast to assess capacity constraints."; wrapMode: Text.WordWrap; color: Theme.secondary; font.pixelSize: Theme.smallSize }
+                    Label { Layout.fillWidth: true; visible: !inspector.controller.draftIssues.length; text: "No draft issues. Run a forecast to assess capacity constraints."; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.smallSize; lineHeight: 1.25 }
                     Repeater {
                         model: inspector.controller.draftIssues
                         delegate: Label { required property string modelData; Layout.fillWidth: true; text: modelData; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.pixelSize: Theme.smallSize; color: Theme.warning }

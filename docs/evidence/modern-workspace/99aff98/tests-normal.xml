@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="32"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="183"
+	timestamp="2026-11-20T19:37:06"
+	>
+	<testcase name="desktop.scene_framing" classname="desktop.scene_framing" time="0.0694139" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.label_placement" classname="desktop.label_placement" time="0.0955099" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.workspace_settings" classname="desktop.workspace_settings" time="0.234002" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.editor_tools" classname="desktop.editor_tools" time="0.377521" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_normal" classname="desktop.ui_overhaul_normal" time="13.6164" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atom...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_compact" classname="desktop.ui_overhaul_compact" time="13.8503" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atom...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_short" classname="desktop.ui_overhaul_short" time="14.0443" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atom...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_minimum" classname="desktop.ui_overhaul_minimum" time="14.0091" status="run">
+		<properties/>
+		<system-out>{"check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atom...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.project" classname="desktop.project" time="0.53674" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_transport" classname="desktop.pipe_transport" time="4.63132" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.scene_picking_warp" classname="desktop.scene_picking_warp" time="13.9204" status="run">
+		<properties/>
+		<system-out>Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop\desktop\test-artifacts\scene-picking-warp-93da713859434793b14a4f2d3488ada9
+PASS: 6/6 actual body picks; WARP 32.56 FPS (diagnostic only)
+</system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_lifecycle" classname="desktop.telemetry_lifecycle" time="25.2224" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor_normal_smoke" classname="desktop.sensor_editor_normal_smoke" time="1.69042" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_replay_normal_smoke" classname="desktop.telemetry_replay_normal_smoke" time="1.74856" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor_compact_smoke" classname="desktop.sensor_editor_compact_smoke" time="1.70361" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_replay_compact_smoke" classname="desktop.telemetry_replay_compact_smoke" time="1.66" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_normal" classname="desktop.observed_advisory_normal" time="3.48765" status="run">
+		<properties/>
+		<system-out>{"check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2508,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":900,"window_width":1440}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_compact" classname="desktop.observed_advisory_compact" time="3.39795" status="run">
+		<properties/>
+		<system-out>{"check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2400,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":700,"window_width":1100}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_short" classname="desktop.observed_advisory_short" time="3.48889" status="run">
+		<properties/>
+		<system-out>{"check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2405,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":672,"window_width":1008}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_minimum" classname="desktop.observed_advisory_minimum" time="3.32125" status="run">
+		<properties/>
+		<system-out>{"check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":2188,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":540,"window_width":960}
+</system-out>
+	</testcase>
+	<testcase name="desktop.storage_science_normal" classname="desktop.storage_science_normal" time="6.76774" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.storage_science_compact" classname="desktop.storage_science_compact" time="5.388" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.qml_smoke" classname="desktop.qml_smoke" time="1.49287" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_evidence_smoke" classname="desktop.pipe_evidence_smoke" time="1.6785" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_client" classname="desktop.eog_analysis_client" time="12.7601" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_controller" classname="desktop.eog_analysis_controller" time="22.9971" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_normal" classname="desktop.eog_analysis_normal" time="1.71479" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_normal" classname="desktop.eog_overview_normal" time="2.25409" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_normal" classname="desktop.eog_facility_normal" time="1.90346" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_compact" classname="desktop.eog_analysis_compact" time="1.76932" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_compact" classname="desktop.eog_overview_compact" time="1.69826" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_compact" classname="desktop.eog_facility_compact" time="1.66992" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

@@ -3,7 +3,7 @@ import QtQuick3D
 SceneEnvironment {
     property int quality: 1
     backgroundMode: SceneEnvironment.Color
-    clearColor: "#CDD6DA"
+    clearColor: "#9DAFB8"
     antialiasingMode: quality === 0 ? SceneEnvironment.NoAA : SceneEnvironment.MSAA
     antialiasingQuality: quality === 2 ? SceneEnvironment.High : SceneEnvironment.Medium
     aoEnabled: quality === 2

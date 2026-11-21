@@ -2,15 +2,23 @@
 
 ## Active development: expanded v0.3.0, November 20, 2026 (America/Chicago)
 
-The latest runtime increment is `3d91452`: evidence-owned explanation headlines,
+The latest desktop visual increment is `99aff98`: a modern instrument workspace
+with grouped navigation and scene tools, quieter flat controls, clearer selection
+and inspector hierarchy, and a cohesive graphite palette. Both full configured
+builds pass; all 32 focused UI/interaction CTests pass in normal and ASan, with
+zero failures/skips. Four actual client sizes, WARP picking and synthetic-only
+screenshots were reviewed. This is a focused UI matrix, not a new full numerical
+or hosted-model qualification. See [implementation, evidence and review](MODERN_WORKSPACE.md).
+
+The latest agent-runtime increment remains `3d91452`: evidence-owned explanation headlines,
 idempotent explicit validation and bounded completion after repeated calls.
 Original model narratives remain separately labeled and retained. All seven fresh
 hosted checks pass. Normal and ASan each verified all 88 CTest entries across
 retained initial attempts and targeted reruns, with 1,181 Qt passes and one
 optional skip each. Three initial ASan UI failures did not recur in quiet
 unrestricted reruns; their cause remains inconclusive. PR #89 passes all six CI
-jobs; PR #90 has five passing jobs and Desktop ASan pending at the retained
-check. See [implementation](NEMOTRON_COMPLETION.md) and
+jobs; PR #90 and PR #91 now each pass all six CI jobs. No CI fix or rerun was
+needed in this follow-up. See [implementation](NEMOTRON_COMPLETION.md) and
 [results, raw evidence and UI views](NEMOTRON_COMPLETION_RESULTS.md).
 
 The earlier sealed engineering/package candidate is `3bb77a3`. Full local normal and ASan CTest

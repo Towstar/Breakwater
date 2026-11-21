@@ -1,0 +1,981 @@
+﻿2026-11-21T01:16:22.3340897Z Current runner version: '2.338.2'
+2026-11-21T01:16:22.3375793Z ##[group]Runner Image Provisioner
+2026-11-21T01:16:22.3377156Z Hosted Compute Agent
+2026-11-21T01:16:22.3378057Z Version: 20261111.635
+2026-11-21T01:16:22.3379058Z Commit: b8a594ea514ff44cadb5342986c68b1eac6e22ed
+2026-11-21T01:16:22.3380294Z Build Date: 2026-11-11T01:49:01Z
+2026-11-21T01:16:22.3381419Z Worker ID: {3e1a6fba-2f24-45f0-9ef0-6dbef3c96ab8}
+2026-11-21T01:16:22.3382704Z Region: eastus
+2026-11-21T01:16:22.3383712Z Cloud: Azure
+2026-11-21T01:16:22.3384735Z ##[endgroup]
+2026-11-21T01:16:22.3387262Z ##[group]Operating System
+2026-11-21T01:16:22.3388326Z Microsoft Windows Server 2022
+2026-11-21T01:16:22.3389242Z 10.0.20348
+2026-11-21T01:16:22.3390175Z Datacenter
+2026-11-21T01:16:22.3391090Z ##[endgroup]
+2026-11-21T01:16:22.3391991Z ##[group]Runner Image
+2026-11-21T01:16:22.3392901Z Image: windows-2022
+2026-11-21T01:16:22.3393814Z Version: 20261116.370.1
+2026-11-21T01:16:22.3396284Z Included Software: https://github.com/actions/runner-images/blob/win22/20261116.370/images/windows/Windows2022-Readme.md
+2026-11-21T01:16:22.3398861Z Image Release: https://github.com/actions/runner-images/releases/tag/win22%2F20261116.370
+2026-11-21T01:16:22.3400764Z ##[endgroup]
+2026-11-21T01:16:22.3402521Z ##[group]GITHUB_TOKEN Permissions
+2026-11-21T01:16:22.3405332Z Contents: read
+2026-11-21T01:16:22.3406224Z Metadata: read
+2026-11-21T01:16:22.3407181Z ##[endgroup]
+2026-11-21T01:16:22.3410352Z Secret source: Actions
+2026-11-21T01:16:22.3411838Z Cache mode: write
+2026-11-21T01:16:22.3413008Z Prepare workflow directory
+2026-11-21T01:16:22.3855754Z Prepare all required actions
+2026-11-21T01:16:22.3920826Z Getting action download info
+2026-11-21T01:16:22.5790049Z Download action repository 'actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803' (SHA:d23441a48e516b6c34aea4fa41551a30e30af803)
+2026-11-21T01:16:22.7055505Z Download action repository 'actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1' (SHA:ece7cb06caefa5fff74198d8649806c4678c61a1)
+2026-11-21T01:16:22.8467538Z Download action repository 'actions/cache@caa296126883cff596d87d8935842f9db880ef25' (SHA:caa296126883cff596d87d8935842f9db880ef25)
+2026-11-21T01:16:22.9798972Z Download action repository 'actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f' (SHA:b7c566a772e6b6bfb58ed0dc250532a479d7789f)
+2026-11-21T01:16:23.3186218Z Complete job name: Python science (CPU)
+2026-11-21T01:16:23.4997877Z ##[group]Run actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803
+2026-11-21T01:16:23.4999659Z with:
+2026-11-21T01:16:23.5000389Z   persist-credentials: false
+2026-11-21T01:16:23.5001268Z   repository: Towstar/Breakwater
+2026-11-21T01:16:23.5008397Z   token: ***
+2026-11-21T01:16:23.5009105Z   ssh-strict: true
+2026-11-21T01:16:23.5009823Z   ssh-user: git
+2026-11-21T01:16:23.5010513Z   clean: true
+2026-11-21T01:16:23.5011253Z   sparse-checkout-cone-mode: true
+2026-11-21T01:16:23.5012139Z   fetch-depth: 1
+2026-11-21T01:16:23.5012854Z   fetch-tags: false
+2026-11-21T01:16:23.5013621Z   show-progress: true
+2026-11-21T01:16:23.5014355Z   lfs: false
+2026-11-21T01:16:23.5015058Z   submodules: false
+2026-11-21T01:16:23.5015827Z   set-safe-directory: true
+2026-11-21T01:16:23.5016682Z   allow-unsafe-pr-checkout: false
+2026-11-21T01:16:23.5017781Z env:
+2026-11-21T01:16:23.5018485Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:23.5019346Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:23.5020143Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:23.5020857Z ##[endgroup]
+2026-11-21T01:16:23.6479822Z Syncing repository: Towstar/Breakwater
+2026-11-21T01:16:23.6482393Z ##[group]Getting Git version info
+2026-11-21T01:16:23.6483517Z Working directory is 'D:\a\Breakwater\Breakwater'
+2026-11-21T01:16:23.7544680Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-21T01:16:24.1235781Z git version 2.56.1.windows.1
+2026-11-21T01:16:24.1288176Z ##[endgroup]
+2026-11-21T01:16:24.1307495Z Temporarily overriding HOME='D:\a\_temp\87bfd18a-2a14-4c70-9831-62ad57b51b69' before making global git config changes
+2026-11-21T01:16:24.1311025Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T01:16:24.1319853Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Breakwater\Breakwater
+2026-11-21T01:16:24.2285300Z Deleting the contents of 'D:\a\Breakwater\Breakwater'
+2026-11-21T01:16:24.2291172Z ##[group]Determining repository object format
+2026-11-21T01:16:24.2374768Z ##[endgroup]
+2026-11-21T01:16:24.2376267Z ##[group]Initializing the repository
+2026-11-21T01:16:24.2377372Z [command]"C:\Program Files\Git\bin\git.exe" init D:\a\Breakwater\Breakwater
+2026-11-21T01:16:24.3017047Z Initialized empty Git repository in D:/a/Breakwater/Breakwater/.git/
+2026-11-21T01:16:24.3061619Z [command]"C:\Program Files\Git\bin\git.exe" remote add origin https://github.com/Towstar/Breakwater
+2026-11-21T01:16:24.3727549Z ##[endgroup]
+2026-11-21T01:16:24.3729141Z ##[group]Disabling automatic garbage collection
+2026-11-21T01:16:24.3739554Z [command]"C:\Program Files\Git\bin\git.exe" config --local gc.auto 0
+2026-11-21T01:16:24.4049212Z ##[endgroup]
+2026-11-21T01:16:24.4049995Z ##[group]Setting up auth
+2026-11-21T01:16:24.4051036Z Removing SSH command configuration
+2026-11-21T01:16:24.4062545Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T01:16:24.4404119Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-21T01:16:25.8621186Z Removing HTTP extra header
+2026-11-21T01:16:25.8633205Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T01:16:25.8946430Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-21T01:16:26.4056154Z Removing includeIf entries pointing to credentials config files
+2026-11-21T01:16:26.4072434Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T01:16:26.4391111Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-21T01:16:26.9427112Z [command]"C:\Program Files\Git\bin\git.exe" config --file D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config http.https://github.com/.extraheader "AUTHORIZATION: basic ***"
+2026-11-21T01:16:26.9745964Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:27.0056048Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:27.0415078Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:27.0742826Z [command]"C:\Program Files\Git\bin\git.exe" config --local includeIf.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:27.1073181Z ##[endgroup]
+2026-11-21T01:16:27.1073883Z ##[group]Fetching the repository
+2026-11-21T01:16:27.1087239Z [command]"C:\Program Files\Git\bin\git.exe" -c protocol.version=2 fetch --no-tags --prune --no-recurse-submodules --depth=1 origin +9c8998a998357fedcde1fe05292ebc10c670d753:refs/remotes/pull/91/merge
+2026-11-21T01:16:28.6634611Z From https://github.com/Towstar/Breakwater
+2026-11-21T01:16:28.6635942Z  * [new ref]         9c8998a998357fedcde1fe05292ebc10c670d753 -> pull/91/merge
+2026-11-21T01:16:28.6671405Z ##[endgroup]
+2026-11-21T01:16:28.6672308Z ##[group]Determining the checkout info
+2026-11-21T01:16:28.6673436Z ##[endgroup]
+2026-11-21T01:16:28.6682987Z [command]"C:\Program Files\Git\bin\git.exe" sparse-checkout disable
+2026-11-21T01:16:28.7132510Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset-all extensions.worktreeConfig
+2026-11-21T01:16:28.7438597Z ##[group]Checking out the ref
+2026-11-21T01:16:28.7447437Z [command]"C:\Program Files\Git\bin\git.exe" checkout --progress --force refs/remotes/pull/91/merge
+2026-11-21T01:16:29.4130275Z Note: switching to 'refs/remotes/pull/91/merge'.
+2026-11-21T01:16:29.4130896Z 
+2026-11-21T01:16:29.4131319Z You are in 'detached HEAD' state. You can look around, make experimental
+2026-11-21T01:16:29.4132494Z changes and commit them, and you can discard any commits you make in this
+2026-11-21T01:16:29.4133456Z state without impacting any branches by switching back to a branch.
+2026-11-21T01:16:29.4133917Z 
+2026-11-21T01:16:29.4134209Z If you want to create a new branch to retain commits you create, you may
+2026-11-21T01:16:29.4134844Z do so (now or later) by using -c with the switch command. Example:
+2026-11-21T01:16:29.4135208Z 
+2026-11-21T01:16:29.4135335Z   git switch -c <new-branch-name>
+2026-11-21T01:16:29.4135569Z 
+2026-11-21T01:16:29.4135689Z Or undo this operation with:
+2026-11-21T01:16:29.4135853Z 
+2026-11-21T01:16:29.4135935Z   git switch -
+2026-11-21T01:16:29.4136049Z 
+2026-11-21T01:16:29.4136262Z Turn off this advice by setting config variable advice.detachedHead to false
+2026-11-21T01:16:29.4136578Z 
+2026-11-21T01:16:29.4136956Z HEAD is now at 9c8998a Merge 4559bf1d058d2d5eaadfe2ce50eaca7925727157 into 3d91452d81af7052effb35f98afe48c6f3661b20
+2026-11-21T01:16:29.4275454Z ##[endgroup]
+2026-11-21T01:16:29.4715995Z [command]"C:\Program Files\Git\bin\git.exe" log -1 --format=%H
+2026-11-21T01:16:29.5003726Z 9c8998a998357fedcde1fe05292ebc10c670d753
+2026-11-21T01:16:29.5039941Z ##[group]Removing auth
+2026-11-21T01:16:29.5040306Z Removing SSH command configuration
+2026-11-21T01:16:29.5048268Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T01:16:29.5354706Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-21T01:16:30.0102733Z Removing HTTP extra header
+2026-11-21T01:16:30.0112946Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T01:16:30.0429809Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-21T01:16:30.5559827Z Removing includeIf entries pointing to credentials config files
+2026-11-21T01:16:30.5568769Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T01:16:30.5851645Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-21T01:16:30.5852836Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-21T01:16:30.5853725Z includeif.gitdir:/github/workspace/.git.path
+2026-11-21T01:16:30.5854443Z includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-21T01:16:30.5893566Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-21T01:16:30.6174760Z D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:30.6214305Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:30.6563674Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-21T01:16:30.6839157Z D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:30.6883100Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:30.7191340Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git.path
+2026-11-21T01:16:30.7455770Z /github/runner_temp/git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:30.7492572Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git.path /github/runner_temp/git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:30.7794802Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:/github/workspace/.git/worktrees/*.path
+2026-11-21T01:16:30.8062293Z /github/runner_temp/git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:30.8102517Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:/github/workspace/.git/worktrees/*.path /github/runner_temp/git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:16:30.8421078Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-21T01:16:31.3366832Z Removing credentials config 'D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config'
+2026-11-21T01:16:31.3377485Z ##[endgroup]
+2026-11-21T01:16:31.3706587Z ##[group]Run ./scripts/ci/Write-JobEvidence.ps1 -Suite science
+2026-11-21T01:16:31.3707198Z [36;1m./scripts/ci/Write-JobEvidence.ps1 -Suite science[0m
+2026-11-21T01:16:31.3824870Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T01:16:31.3825306Z env:
+2026-11-21T01:16:31.3825534Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:31.3825806Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:31.3826035Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:31.3826247Z ##[endgroup]
+2026-11-21T01:16:31.9031200Z Job start evidence retained for science/normal (running).
+2026-11-21T01:16:31.9715504Z ##[group]Run actions/setup-python@ece7cb06caefa5fff74198d8649806c4678c61a1
+2026-11-21T01:16:31.9716019Z with:
+2026-11-21T01:16:31.9716217Z   python-version: 3.12.10
+2026-11-21T01:16:31.9716445Z   check-latest: false
+2026-11-21T01:16:31.9718711Z   token: ***
+2026-11-21T01:16:31.9718903Z   update-environment: true
+2026-11-21T01:16:31.9719127Z   allow-prereleases: false
+2026-11-21T01:16:31.9719337Z   freethreaded: false
+2026-11-21T01:16:31.9719519Z env:
+2026-11-21T01:16:31.9719687Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:31.9719902Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:31.9720083Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:31.9720271Z ##[endgroup]
+2026-11-21T01:16:32.1259639Z ##[group]Installed versions
+2026-11-21T01:16:32.1312982Z Successfully set up CPython (3.12.10)
+2026-11-21T01:16:32.1313862Z ##[endgroup]
+2026-11-21T01:16:32.2698905Z ##[group]Run actions/cache@caa296126883cff596d87d8935842f9db880ef25
+2026-11-21T01:16:32.2699409Z with:
+2026-11-21T01:16:32.2699802Z   path: .tools/uv
+.tools/uv-python
+.tools/uv-python-cache
+.tools/uv-cache
+
+2026-11-21T01:16:32.2700480Z   key: windows-2022-cpu-d37be48a79ea6033162d958b557593566b3a45f57c8390d79a2df661acb2adbc
+2026-11-21T01:16:32.2701051Z   enableCrossOsArchive: false
+2026-11-21T01:16:32.2701330Z   fail-on-cache-miss: false
+2026-11-21T01:16:32.2701588Z   lookup-only: false
+2026-11-21T01:16:32.2701825Z   save-always: false
+2026-11-21T01:16:32.2702035Z env:
+2026-11-21T01:16:32.2702250Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:32.2702525Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:32.2702750Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:32.2703301Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:16:32.2703855Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-21T01:16:32.2704462Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:16:32.2704950Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:16:32.2705432Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:16:32.2705807Z ##[endgroup]
+2026-11-21T01:16:32.6704426Z Cache not found for input keys: windows-2022-cpu-d37be48a79ea6033162d958b557593566b3a45f57c8390d79a2df661acb2adbc
+2026-11-21T01:16:32.6954087Z ##[group]Run ./scripts/ci/Run-Checks.ps1 -Suite science
+2026-11-21T01:16:32.6954603Z [36;1m./scripts/ci/Run-Checks.ps1 -Suite science[0m
+2026-11-21T01:16:32.6995123Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T01:16:32.6995477Z env:
+2026-11-21T01:16:32.6995670Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:16:32.6995923Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:16:32.6996124Z   NVIDIA_API_KEY: 
+2026-11-21T01:16:32.6996403Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:16:32.6996858Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-21T01:16:32.6997309Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:16:32.6997715Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:16:32.6998111Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:16:32.6998427Z ##[endgroup]
+2026-11-21T01:16:33.5146262Z ##[group]bootstrap-venv
+2026-11-21T01:16:39.8919390Z ##[endgroup]
+2026-11-21T01:16:39.9049204Z ##[group]bootstrap-lock
+2026-11-21T01:16:41.9546993Z Collecting backports-zstd==1.8.0 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 3))
+2026-11-21T01:16:42.1484077Z   Downloading backports_zstd-1.8.0-cp312-cp312-win_amd64.whl (330 kB)
+2026-11-21T01:16:42.4955609Z Collecting brotli==1.2.1 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 97))
+2026-11-21T01:16:42.5634376Z   Downloading brotli-1.2.1-cp312-cp312-win_amd64.whl (371 kB)
+2026-11-21T01:16:42.7281464Z Collecting certifi==2026.10.23 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 242))
+2026-11-21T01:16:42.7940235Z   Downloading certifi-2026.10.23-py3-none-any.whl (135 kB)
+2026-11-21T01:16:43.1120454Z Collecting charset-normalizer==3.5.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 246))
+2026-11-21T01:16:43.1773460Z   Downloading charset_normalizer-3.5.2-cp312-cp312-win_amd64.whl (207 kB)
+2026-11-21T01:16:43.3132592Z Collecting idna==3.20 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 420))
+2026-11-21T01:16:43.3792229Z   Downloading idna-3.20-py3-none-any.whl (69 kB)
+2026-11-21T01:16:43.5385842Z Collecting inflate64==1.0.4 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 424))
+2026-11-21T01:16:43.6077631Z   Downloading inflate64-1.0.4-cp312-cp312-win_amd64.whl (35 kB)
+2026-11-21T01:16:43.7381788Z Collecting multivolumefile==0.2.3 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 497))
+2026-11-21T01:16:43.8091557Z   Downloading multivolumefile-0.2.3-py3-none-any.whl (17 kB)
+2026-11-21T01:16:44.0015427Z Collecting psutil==7.2.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 501))
+2026-11-21T01:16:44.0676761Z   Downloading psutil-7.2.2-cp37-abi3-win_amd64.whl (137 kB)
+2026-11-21T01:16:44.2215468Z Collecting py7zr==1.1.4 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 524))
+2026-11-21T01:16:44.2884067Z   Downloading py7zr-1.1.4-py3-none-any.whl (75 kB)
+2026-11-21T01:16:44.4434351Z Collecting pybcj==1.0.8 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 528))
+2026-11-21T01:16:44.5099254Z   Downloading pybcj-1.0.8-cp312-cp312-win_amd64.whl (24 kB)
+2026-11-21T01:16:44.6955479Z Collecting pycryptodomex==3.24.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 585))
+2026-11-21T01:16:44.7660145Z   Downloading pycryptodomex-3.24.2-cp37-abi3-win_amd64.whl (1.8 MB)
+2026-11-21T01:16:44.9342686Z      ---------------------------------------- 1.8/1.8 MB 10.0 MB/s eta 0:00:00
+2026-11-21T01:16:45.0974740Z Collecting pyppmd==1.3.1 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 634))
+2026-11-21T01:16:45.1661772Z   Downloading pyppmd-1.3.1-cp312-cp312-win_amd64.whl (46 kB)
+2026-11-21T01:16:45.3261761Z Collecting pyyaml==6.0.3 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 697))
+2026-11-21T01:16:45.3919186Z   Downloading pyyaml-6.0.3-cp312-cp312-win_amd64.whl (154 kB)
+2026-11-21T01:16:45.5352708Z Collecting requests==2.34.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 772))
+2026-11-21T01:16:45.6005042Z   Downloading requests-2.34.2-py3-none-any.whl (73 kB)
+2026-11-21T01:16:45.7362555Z Collecting texttable==1.7.2 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 776))
+2026-11-21T01:16:45.8018664Z   Downloading texttable-1.7.2-py2.py3-none-any.whl (10 kB)
+2026-11-21T01:16:45.9309214Z Collecting urllib3==2.8.0 (from -r D:\a\Breakwater\Breakwater\scripts\ci\requirements-win-py312.txt (line 780))
+2026-11-21T01:16:45.9965461Z   Downloading urllib3-2.8.0-py3-none-any.whl (135 kB)
+2026-11-21T01:16:46.0821927Z Installing collected packages: texttable, brotli, urllib3, pyyaml, pyppmd, pycryptodomex, pybcj, psutil, multivolumefile, inflate64, idna, charset-normalizer, certifi, backports-zstd, requests, py7zr
+2026-11-21T01:16:47.3425878Z Successfully installed backports-zstd-1.8.0 brotli-1.2.1 certifi-2026.10.23 charset-normalizer-3.5.2 idna-3.20 inflate64-1.0.4 multivolumefile-0.2.3 psutil-7.2.2 py7zr-1.1.4 pybcj-1.0.8 pycryptodomex-3.24.2 pyppmd-1.3.1 pyyaml-6.0.3 requests-2.34.2 texttable-1.7.2 urllib3-2.8.0
+2026-11-21T01:16:47.6836473Z [31;1m[0m
+2026-11-21T01:16:47.6858550Z [31;1m[notice] A new release of pip is available: 25.0.1 -> 26.3[0m
+2026-11-21T01:16:47.6865625Z [31;1m[notice] To update, run: D:\a\Breakwater\Breakwater\.tools\ci-bootstrap\Scripts\python.exe -m pip install --upgrade pip[0m
+2026-11-21T01:16:47.7197269Z ##[endgroup]
+2026-11-21T01:16:47.7213546Z ##[group]bootstrap-versions
+2026-11-21T01:16:47.8268796Z {"python": "3.12.10", "packages": {"requests": "2.34.2", "py7zr": "1.1.4", "PyYAML": "6.0.3"}}
+2026-11-21T01:16:47.8417595Z ##[endgroup]
+2026-11-21T01:16:47.8523338Z ##[group]workflow-regressions
+2026-11-21T01:16:48.3836809Z [31;1mtest_actual_observed_desktop_completion_is_required (test_bundle_readiness.BundleReadinessTests.test_actual_observed_desktop_completion_is_required) ... ok[0m
+2026-11-21T01:16:48.3842188Z [31;1mtest_bundled_runtime_can_be_ready_without_any_operation (test_bundle_readiness.BundleReadinessTests.test_bundled_runtime_can_be_ready_without_any_operation) ... ok[0m
+2026-11-21T01:16:48.3848797Z [31;1mtest_explicit_invalid_override_must_remain_unavailable (test_bundle_readiness.BundleReadinessTests.test_explicit_invalid_override_must_remain_unavailable) ... ok[0m
+2026-11-21T01:16:48.3855094Z [31;1mtest_live_or_archived_output_is_rejected (test_bundle_readiness.BundleReadinessTests.test_live_or_archived_output_is_rejected) ... ok[0m
+2026-11-21T01:16:48.3863416Z [31;1mtest_missing_bundled_runtime_is_rejected (test_bundle_readiness.BundleReadinessTests.test_missing_bundled_runtime_is_rejected) ... ok[0m
+2026-11-21T01:16:48.3869075Z [31;1mtest_missing_or_foreign_status_is_rejected (test_bundle_readiness.BundleReadinessTests.test_missing_or_foreign_status_is_rejected) ... ok[0m
+2026-11-21T01:16:48.3874463Z [31;1mtest_model_or_provider_work_is_not_a_readiness_pass (test_bundle_readiness.BundleReadinessTests.test_model_or_provider_work_is_not_a_readiness_pass) ... ok[0m
+2026-11-21T01:16:48.4071075Z [31;1mtest_acknowledgement_is_advisory_only_and_apply_rejected (test_candidate_evidence.CandidateEvidenceTests.test_acknowledgement_is_advisory_only_and_apply_rejected) ... ok[0m
+2026-11-21T01:16:48.4188308Z [31;1mtest_all_seven_required_once (test_candidate_evidence.CandidateEvidenceTests.test_all_seven_required_once) ... ok[0m
+2026-11-21T01:16:48.4332024Z [31;1mtest_call_result_mismatch_rejected (test_candidate_evidence.CandidateEvidenceTests.test_call_result_mismatch_rejected) ... ok[0m
+2026-11-21T01:16:48.6161871Z [31;1mtest_cli_handles_deep_or_malformed_nested_containers_without_traceback (test_candidate_evidence.CandidateEvidenceTests.test_cli_handles_deep_or_malformed_nested_containers_without_traceback) ... ok[0m
+2026-11-21T01:16:48.8527577Z [31;1mtest_cli_incomplete_returns_two_without_printing_untrusted_errors (test_candidate_evidence.CandidateEvidenceTests.test_cli_incomplete_returns_two_without_printing_untrusted_errors) ... ok[0m
+2026-11-21T01:16:48.8748969Z [31;1mtest_complete_declared_round_passes_without_release_authority (test_candidate_evidence.CandidateEvidenceTests.test_complete_declared_round_passes_without_release_authority) ... ok[0m
+2026-11-21T01:16:48.8968573Z [31;1mtest_dirty_and_false_pass_rejected (test_candidate_evidence.CandidateEvidenceTests.test_dirty_and_false_pass_rejected) ... ok[0m
+2026-11-21T01:16:48.9087131Z [31;1mtest_duplicate_keys_rejected (test_candidate_evidence.CandidateEvidenceTests.test_duplicate_keys_rejected) ... ok[0m
+2026-11-21T01:16:48.9240243Z [31;1mtest_duplicate_session_cannot_count_as_a_second_rehearsal (test_candidate_evidence.CandidateEvidenceTests.test_duplicate_session_cannot_count_as_a_second_rehearsal) ... ok[0m
+2026-11-21T01:16:48.9410504Z [31;1mtest_failed_attempt_is_retained_and_not_promoted (test_candidate_evidence.CandidateEvidenceTests.test_failed_attempt_is_retained_and_not_promoted) ... ok[0m
+2026-11-21T01:16:48.9599831Z [31;1mtest_failed_wrong_model_evidence_is_preserved_without_becoming_passed (test_candidate_evidence.CandidateEvidenceTests.test_failed_wrong_model_evidence_is_preserved_without_becoming_passed) ... ok[0m
+2026-11-21T01:16:48.9782508Z [31;1mtest_final_plan_and_validation_hash_must_match (test_candidate_evidence.CandidateEvidenceTests.test_final_plan_and_validation_hash_must_match) ... ok[0m
+2026-11-21T01:16:48.9970968Z [31;1mtest_interrupted_tool_prefix_is_allowed_only_for_failed_attempt (test_candidate_evidence.CandidateEvidenceTests.test_interrupted_tool_prefix_is_allowed_only_for_failed_attempt) ... ok[0m
+2026-11-21T01:16:49.0071340Z [31;1mtest_json_parser_consumes_the_verified_bytes (test_candidate_evidence.CandidateEvidenceTests.test_json_parser_consumes_the_verified_bytes) ... ok[0m
+2026-11-21T01:16:49.0300985Z [31;1mtest_matching_run_and_validation_cannot_belong_to_another_snapshot (test_candidate_evidence.CandidateEvidenceTests.test_matching_run_and_validation_cannot_belong_to_another_snapshot) ... ok[0m
+2026-11-21T01:16:49.0506472Z [31;1mtest_missing_coverage_cannot_produce_numerical_tools_runs_or_approval (test_candidate_evidence.CandidateEvidenceTests.test_missing_coverage_cannot_produce_numerical_tools_runs_or_approval) ... ok[0m
+2026-11-21T01:16:49.0748239Z [31;1mtest_missing_coverage_permits_a_rejected_model_numerical_request (test_candidate_evidence.CandidateEvidenceTests.test_missing_coverage_permits_a_rejected_model_numerical_request) ... ok[0m
+2026-11-21T01:16:49.1253455Z [31;1mtest_missing_coverage_rejects_success_from_plural_simulator_and_science (test_candidate_evidence.CandidateEvidenceTests.test_missing_coverage_rejects_success_from_plural_simulator_and_science) ... ok[0m
+2026-11-21T01:16:49.1404056Z [31;1mtest_mixed_source_and_binary_rejected (test_candidate_evidence.CandidateEvidenceTests.test_mixed_source_and_binary_rejected) ... ok[0m
+2026-11-21T01:16:49.1567342Z [31;1mtest_observed_local_search_is_not_hosted_qualification (test_candidate_evidence.CandidateEvidenceTests.test_observed_local_search_is_not_hosted_qualification) ... ok[0m
+2026-11-21T01:16:49.1735959Z [31;1mtest_observed_must_be_hosted_and_use_frozen_effective_network (test_candidate_evidence.CandidateEvidenceTests.test_observed_must_be_hosted_and_use_frozen_effective_network) ... ok[0m
+2026-11-21T01:16:49.1900707Z [31;1mtest_observed_selected_run_needs_own_exact_validation (test_candidate_evidence.CandidateEvidenceTests.test_observed_selected_run_needs_own_exact_validation) ... ok[0m
+2026-11-21T01:16:49.2109120Z [31;1mtest_orphan_or_different_model_validation_cannot_ground_the_final (test_candidate_evidence.CandidateEvidenceTests.test_orphan_or_different_model_validation_cannot_ground_the_final) ... ok[0m
+2026-11-21T01:16:49.2310436Z [31;1mtest_pending_round_is_honestly_incomplete (test_candidate_evidence.CandidateEvidenceTests.test_pending_round_is_honestly_incomplete) ... ok[0m
+2026-11-21T01:16:49.2495164Z [31;1mtest_recovered_requests_and_bounded_retries_are_retained (test_candidate_evidence.CandidateEvidenceTests.test_recovered_requests_and_bounded_retries_are_retained) ... ok[0m
+2026-11-21T01:16:49.2664311Z [31;1mtest_renamed_cannot_reuse_canonical_dataset (test_candidate_evidence.CandidateEvidenceTests.test_renamed_cannot_reuse_canonical_dataset) ... ok[0m
+2026-11-21T01:16:49.2829571Z [31;1mtest_secret_fields_nonfinite_and_credential_text_rejected (test_candidate_evidence.CandidateEvidenceTests.test_secret_fields_nonfinite_and_credential_text_rejected) ... ok[0m
+2026-11-21T01:16:49.2956272Z [31;1mtest_smoke_needs_actual_execution_continuation_and_matching_model (test_candidate_evidence.CandidateEvidenceTests.test_smoke_needs_actual_execution_continuation_and_matching_model) ... ok[0m
+2026-11-21T01:16:49.3098029Z [31;1mtest_tampering_size_path_escape_and_oversize_rejected (test_candidate_evidence.CandidateEvidenceTests.test_tampering_size_path_escape_and_oversize_rejected) ... ok[0m
+2026-11-21T01:16:49.3222590Z [31;1mtest_wrong_model_request_or_capture_rejected (test_candidate_evidence.CandidateEvidenceTests.test_wrong_model_request_or_capture_rejected) ... ok[0m
+2026-11-21T01:16:49.3324625Z [31;1mtest_exact_optional_calibration_skip_is_retained (test_ci.QtResultTests.test_exact_optional_calibration_skip_is_retained) ... ok[0m
+2026-11-21T01:16:49.3730065Z [31;1mtest_failures_blacklists_and_missing_suites_remain_failures (test_ci.QtResultTests.test_failures_blacklists_and_missing_suites_remain_failures) ... ok[0m
+2026-11-21T01:16:49.3858459Z [31;1mtest_missing_duplicate_and_unaccounted_totals_fail (test_ci.QtResultTests.test_missing_duplicate_and_unaccounted_totals_fail) ... ok[0m
+2026-11-21T01:16:49.3963977Z [31;1mtest_optional_qualification_cannot_skip_its_real_case (test_ci.QtResultTests.test_optional_qualification_cannot_skip_its_real_case) ... ok[0m
+2026-11-21T01:16:49.4176214Z [31;1mtest_other_missing_dependency_or_changed_reason_is_a_failure (test_ci.QtResultTests.test_other_missing_dependency_or_changed_reason_is_a_failure) ... ok[0m
+2026-11-21T01:16:49.4180710Z [31;1mtest_all_optional_skips_are_not_executed_science (test_ci.ResultTests.test_all_optional_skips_are_not_executed_science) ... ok[0m
+2026-11-21T01:16:49.4185656Z [31;1mtest_empty_discovery_is_not_a_pass (test_ci.ResultTests.test_empty_discovery_is_not_a_pass) ... ok[0m
+2026-11-21T01:16:49.4190274Z [31;1mtest_known_optional_physicsnemo_skip_is_explicit (test_ci.ResultTests.test_known_optional_physicsnemo_skip_is_explicit) ... ok[0m
+2026-11-21T01:16:49.4194978Z [31;1mtest_other_dependency_skip_fails_the_job (test_ci.ResultTests.test_other_dependency_skip_fails_the_job) ... ok[0m
+2026-11-21T01:16:49.4199670Z [31;1mtest_real_failures_cannot_become_a_successful_report (test_ci.ResultTests.test_real_failures_cannot_become_a_successful_report) ... ok[0m
+2026-11-21T01:16:49.4203770Z [31;1mtest_success_is_reported (test_ci.ResultTests.test_success_is_reported) ... ok[0m
+2026-11-21T01:16:49.4336553Z [31;1mtest_actions_are_exact_pins_and_checkout_cannot_leave_credentials (test_ci.WorkflowTests.test_actions_are_exact_pins_and_checkout_cannot_leave_credentials) ... ok[0m
+2026-11-21T01:16:49.4342817Z [31;1mtest_caches_exclude_credentials_and_only_restore_declared_tool_paths (test_ci.WorkflowTests.test_caches_exclude_credentials_and_only_restore_declared_tool_paths) ... ok[0m
+2026-11-21T01:16:49.4348047Z [31;1mtest_desktop_uses_warp_with_actual_rhi (test_ci.WorkflowTests.test_desktop_uses_warp_with_actual_rhi) ... ok[0m
+2026-11-21T01:16:49.4354190Z [31;1mtest_evidence_is_uploaded_even_after_failure_without_build_trees (test_ci.WorkflowTests.test_evidence_is_uploaded_even_after_failure_without_build_trees) ... ok[0m
+2026-11-21T01:16:50.4155266Z [31;1mtest_failed_bootstrap_retains_real_metadata_without_claiming_tests_or_copying_secrets (test_ci.WorkflowTests.test_failed_bootstrap_retains_real_metadata_without_claiming_tests_or_copying_secrets) ... ok[0m
+2026-11-21T01:16:50.4158816Z [31;1mtest_fork_pull_requests_run_without_secrets_or_write_token (test_ci.WorkflowTests.test_fork_pull_requests_run_without_secrets_or_write_token) ... ok[0m
+2026-11-21T01:16:50.4163218Z [31;1mtest_heavy_jobs_require_both_native_modes (test_ci.WorkflowTests.test_heavy_jobs_require_both_native_modes) ... ok[0m
+2026-11-21T01:16:50.4168243Z [31;1mtest_setup_evidence_precedes_dependencies_and_finishes_before_upload (test_ci.WorkflowTests.test_setup_evidence_precedes_dependencies_and_finishes_before_upload) ... ok[0m
+2026-11-21T01:16:50.4173092Z [31;1mtest_windows_bootstrap_has_an_available_pin_separate_from_science (test_ci.WorkflowTests.test_windows_bootstrap_has_an_available_pin_separate_from_science) ... ok[0m
+2026-11-21T01:16:50.4207742Z [31;1mtest_manual_only_readonly_pinned_and_retains_failed_setup (test_optional_science.OptionalScienceWorkflow.test_manual_only_readonly_pinned_and_retains_failed_setup) ... ok[0m
+2026-11-21T01:16:50.4305787Z [31;1mtest_ambiguous_windows_archive_is_rejected (test_release_handoff.HandoffTests.test_ambiguous_windows_archive_is_rejected) ... ok[0m
+2026-11-21T01:16:50.4391984Z [31;1mtest_changed_source_is_rejected (test_release_handoff.HandoffTests.test_changed_source_is_rejected) ... ok[0m
+2026-11-21T01:16:50.4474012Z [31;1mtest_changed_windows_zip_is_rejected (test_release_handoff.HandoffTests.test_changed_windows_zip_is_rejected) ... ok[0m
+2026-11-21T01:16:50.4584722Z [31;1mtest_copy_failure_never_produces_a_prepared_record (test_release_handoff.HandoffTests.test_copy_failure_never_produces_a_prepared_record) ... ok[0m
+2026-11-21T01:16:50.5127629Z [31;1mtest_current_summary_and_historical_packets_are_distinct_and_hash_checked (test_release_handoff.HandoffTests.test_current_summary_and_historical_packets_are_distinct_and_hash_checked) ... ok[0m
+2026-11-21T01:16:50.5245925Z [31;1mtest_dirty_or_unqualified_candidate_is_rejected (test_release_handoff.HandoffTests.test_dirty_or_unqualified_candidate_is_rejected) ... ok[0m
+2026-11-21T01:16:50.5328825Z [31;1mtest_duplicate_archive_path_is_rejected (test_release_handoff.HandoffTests.test_duplicate_archive_path_is_rejected) ... ok[0m
+2026-11-21T01:16:50.5422460Z [31;1mtest_duplicate_json_keys_and_nonobjects_are_rejected (test_release_handoff.HandoffTests.test_duplicate_json_keys_and_nonobjects_are_rejected) ... ok[0m
+2026-11-21T01:16:50.5496512Z [31;1mtest_existing_destination_is_preserved (test_release_handoff.HandoffTests.test_existing_destination_is_preserved) ... ok[0m
+2026-11-21T01:16:50.5571641Z [31;1mtest_existing_version_one_handoff_is_never_upgraded_in_place (test_release_handoff.HandoffTests.test_existing_version_one_handoff_is_never_upgraded_in_place) ... ok[0m
+2026-11-21T01:16:50.5871696Z [31;1mtest_legacy_candidate_and_version_one_results_are_preserved_without_inheriting_acceptance (test_release_handoff.HandoffTests.test_legacy_candidate_and_version_one_results_are_preserved_without_inheriting_acceptance) ... ok[0m
+2026-11-21T01:16:50.5953512Z [31;1mtest_missing_source_file_is_rejected (test_release_handoff.HandoffTests.test_missing_source_file_is_rejected) ... ok[0m
+2026-11-21T01:16:50.6026450Z [31;1mtest_nested_destination_is_rejected (test_release_handoff.HandoffTests.test_nested_destination_is_rejected) ... ok[0m
+2026-11-21T01:16:50.6253085Z [31;1mtest_new_observed_and_framing_acceptance_cannot_be_inferred_from_packaging (test_release_handoff.HandoffTests.test_new_observed_and_framing_acceptance_cannot_be_inferred_from_packaging) ... ok[0m
+2026-11-21T01:16:50.6531087Z [31;1mtest_preserves_archives_and_keeps_all_external_gates_pending (test_release_handoff.HandoffTests.test_preserves_archives_and_keeps_all_external_gates_pending) ... ok[0m
+2026-11-21T01:16:50.6620686Z [31;1mtest_unlisted_source_file_is_rejected (test_release_handoff.HandoffTests.test_unlisted_source_file_is_rejected) ... ok[0m
+2026-11-21T01:16:50.6714527Z [31;1mtest_unsafe_archive_path_is_rejected_without_extraction (test_release_handoff.HandoffTests.test_unsafe_archive_path_is_rejected_without_extraction) ... ok[0m
+2026-11-21T01:16:50.6802167Z [31;1mtest_unsafe_empty_archive_directory_is_rejected (test_release_handoff.HandoffTests.test_unsafe_empty_archive_directory_is_rejected) ... ok[0m
+2026-11-21T01:16:50.6927017Z [31;1mtest_unsafe_or_ambiguous_manifest_paths_are_rejected (test_release_handoff.HandoffTests.test_unsafe_or_ambiguous_manifest_paths_are_rejected) ... ok[0m
+2026-11-21T01:16:50.7012727Z [31;1mtest_wrong_packaged_executable_is_rejected (test_release_handoff.HandoffTests.test_wrong_packaged_executable_is_rejected) ... ok[0m
+2026-11-21T01:16:50.7015731Z [31;1m[0m
+2026-11-21T01:16:50.7020388Z [31;1m----------------------------------------------------------------------[0m
+2026-11-21T01:16:50.7036525Z [31;1mRan 78 tests in 2.327s[0m
+2026-11-21T01:16:50.7040290Z [31;1m[0m
+2026-11-21T01:16:50.7044146Z [31;1mOK[0m
+2026-11-21T01:16:50.7208761Z ##[endgroup]
+2026-11-21T01:16:50.7243918Z ##[group]scientific-setup
+2026-11-21T01:16:51.0963076Z Downloading project-local uv 0.11.9...
+2026-11-21T01:16:52.2725198Z Installing/checking isolated CPython 3.12.13 AMD64...
+2026-11-21T01:16:54.8600861Z Synchronizing the committed CPU hash lock...
+2026-11-21T01:17:14.3552442Z Scientific Python ready: D:\a\Breakwater\Breakwater\.tools\science-cpu\Scripts\python.exe
+2026-11-21T01:17:14.3665342Z 
+2026-11-21T01:17:14.3670956Z [32;1mpython_executable       : [0mD:\a\Breakwater\Breakwater\.tools\science-cpu\Scripts\python.exe
+2026-11-21T01:17:14.3672120Z [32;1mpython_version          : [0m3.12.13
+2026-11-21T01:17:14.3672762Z [32;1marchitecture            : [0mAMD64
+2026-11-21T01:17:14.3673415Z [32;1mtorch_version           : [0m2.15.0+cpu
+2026-11-21T01:17:14.3674074Z [32;1mnumpy_version           : [0m2.5.4
+2026-11-21T01:17:14.3674772Z [32;1mjsonschema_version      : [0m4.25.1
+2026-11-21T01:17:14.3677010Z [32;1mdtype                   : [0mtorch.float64
+2026-11-21T01:17:14.3678252Z [32;1mdevice                  : [0mcpu
+2026-11-21T01:17:14.3678873Z [32;1mcpu_matrix_result       : [0m11
+2026-11-21T01:17:14.3683570Z [32;1muv_version              : [0m0.11.9
+2026-11-21T01:17:14.3685500Z [32;1muv_archive_sha256       : [0mfacbf9637c373761a96fa63c537d6c46581d357a65af01eacfd8c6319e6fb14e
+2026-11-21T01:17:14.3686894Z [32;1mcpu_lock_sha256         : [0m587ef90593e0fddcfa2881d1d027c1f470e12cf3fd02f2f2a6e2739d27c9b08f
+2026-11-21T01:17:14.3688162Z [32;1mworker_test_lock_sha256 : [0m17183f19ccedfca07cb7dd7602117c96e567ecb38ebc48c0658c8d9604f3b0d3
+2026-11-21T01:17:14.3689472Z [32;1mchecked_utc             : [0m2026-11-21T01:17:14.3423172Z
+2026-11-21T01:17:14.3689849Z 
+2026-11-21T01:17:14.3888145Z ##[endgroup]
+2026-11-21T01:17:14.3910425Z ##[group]scientific-runtime
+2026-11-21T01:17:19.0551810Z {"python": "3.12.13", "torch": "2.15.0+cpu", "numpy": "2.5.4", "device": "cpu", "dtype": "torch.float64"}
+2026-11-21T01:17:19.4375562Z ##[endgroup]
+2026-11-21T01:17:20.6951901Z **********************************************************************
+2026-11-21T01:17:20.6952664Z ** Visual Studio 2022 Developer PowerShell v17.14.45
+2026-11-21T01:17:20.6953258Z ** Copyright (c) 2025 Microsoft Corporation
+2026-11-21T01:17:20.6953796Z **********************************************************************
+2026-11-21T01:17:24.0245792Z ##[group]eog-native-configure
+2026-11-21T01:17:29.7638952Z -- The CXX compiler identification is MSVC 19.44.35230.0
+2026-11-21T01:17:29.9237272Z -- Detecting CXX compiler ABI info
+2026-11-21T01:17:31.5313600Z -- Detecting CXX compiler ABI info - done
+2026-11-21T01:17:31.5445662Z -- Check for working CXX compiler: C:/Program Files/Microsoft Visual Studio/2022/Enterprise/VC/Tools/MSVC/14.44.35207/bin/Hostx64/x64/cl.exe - skipped
+2026-11-21T01:17:31.5461824Z -- Detecting CXX compile features
+2026-11-21T01:17:31.5536440Z -- Detecting CXX compile features - done
+2026-11-21T01:17:31.5704782Z -- Configuring done (7.5s)
+2026-11-21T01:17:31.6291921Z -- Generating done (0.1s)
+2026-11-21T01:17:31.6301069Z -- Build files have been written to: D:/a/Breakwater/Breakwater/out/ci-build/science-normal
+2026-11-21T01:17:31.6371548Z ##[endgroup]
+2026-11-21T01:17:31.6387593Z ##[group]eog-native-build
+2026-11-21T01:17:35.3188341Z [1/6] Building CXX object engine\CMakeFiles\breakwater_eog_response.dir\src\eog_response.cpp.obj
+2026-11-21T01:17:35.4399248Z [2/6] Building CXX object engine\CMakeFiles\breakwater_eog_simulation.dir\src\eog_simulation.cpp.obj
+2026-11-21T01:17:35.4798875Z [3/6] Linking CXX static library engine\breakwater_eog_simulation.lib
+2026-11-21T01:17:35.9370026Z [4/6] Linking CXX shared library engine\breakwater_eog_response.dll
+2026-11-21T01:17:36.5692615Z [5/6] Building CXX object engine\CMakeFiles\breakwater_eog_plant.dir\src\eog_simulation_c.cpp.obj
+2026-11-21T01:17:36.8046454Z [6/6] Linking CXX shared library engine\breakwater_eog_plant.dll
+2026-11-21T01:17:36.8132263Z ##[endgroup]
+2026-11-21T01:17:36.8217856Z ##[group]science-tests
+2026-11-21T01:17:41.7909092Z [31;1mtest_bad_unknown_incomplete_and_future_inputs_are_explicit (test_eog_commitments.CommitmentTests.test_bad_unknown_incomplete_and_future_inputs_are_explicit) ... ok[0m
+2026-11-21T01:17:41.7911757Z [31;1mtest_catalog_mismatch_and_explicit_zero_fleet (test_eog_commitments.CommitmentTests.test_catalog_mismatch_and_explicit_zero_fleet) ... ok[0m
+2026-11-21T01:17:41.7916451Z [31;1mtest_fractional_return_half_open_boundary_and_sequential_yard_job (test_eog_commitments.CommitmentTests.test_fractional_return_half_open_boundary_and_sequential_yard_job) ... ok[0m
+2026-11-21T01:17:41.7919808Z [31;1mtest_history_and_result_are_immutable_and_do_not_authorize_actions (test_eog_commitments.CommitmentTests.test_history_and_result_are_immutable_and_do_not_authorize_actions) ... ok[0m
+2026-11-21T01:17:41.8171014Z [31;1mtest_identity_cutoff_catalog_and_work_bounds (test_eog_commitments.CommitmentTests.test_identity_cutoff_catalog_and_work_bounds) ... ok[0m
+2026-11-21T01:17:41.8179198Z [31;1mtest_independent_system_fleets_and_well_facts_do_not_release_trucks (test_eog_commitments.CommitmentTests.test_independent_system_fleets_and_well_facts_do_not_release_trucks) ... ok[0m
+2026-11-21T01:17:41.8203927Z [31;1mtest_reconstruction_needs_no_native_files_or_future_observations (test_eog_commitments.CommitmentTests.test_reconstruction_needs_no_native_files_or_future_observations) ... ok[0m
+2026-11-21T01:17:41.8216639Z [31;1mtest_unrepresentable_calendar_never_becomes_free_or_zero_cost (test_eog_commitments.CommitmentTests.test_unrepresentable_calendar_never_becomes_free_or_zero_cost) ... ok[0m
+2026-11-21T01:17:41.8247882Z [31;1mtest_cancelled_native_run_cannot_publish_healthy_history (test_eog_commitments.NativeCommitmentTests.test_cancelled_native_run_cannot_publish_healthy_history) ... ok[0m
+2026-11-21T01:17:41.8277229Z [31;1mtest_equal_truck_ordinals_in_two_real_systems_are_independent (test_eog_commitments.NativeCommitmentTests.test_equal_truck_ordinals_in_two_real_systems_are_independent) ... ok[0m
+2026-11-21T01:17:41.8332907Z [31;1mtest_future_truth_rejected_attempts_and_fractional_controls_do_not_leak (test_eog_commitments.NativeCommitmentTests.test_future_truth_rejected_attempts_and_fractional_controls_do_not_leak) ... ok[0m
+2026-11-21T01:17:41.8358902Z [31;1mtest_later_cancel_cannot_invalidate_a_verified_historical_control_prefix (test_eog_commitments.NativeCommitmentTests.test_later_cancel_cannot_invalidate_a_verified_historical_control_prefix) ... ok[0m
+2026-11-21T01:17:41.8441844Z [31;1mtest_native_repair_does_not_release_truck_and_exact_return_allows_next_job (test_eog_commitments.NativeCommitmentTests.test_native_repair_does_not_release_truck_and_exact_return_allows_next_job) ... ok[0m
+2026-11-21T01:17:42.0227867Z [31;1mtest_seeded_accepted_dispatches_match_actual_native_calendars (test_eog_commitments.NativeCommitmentTests.test_seeded_accepted_dispatches_match_actual_native_calendars) ... ok[0m
+2026-11-21T01:17:42.0253375Z [31;1mtest_busy_return_tie_and_duplicate_prior_stop_are_invalid (test_eog_committed_response.CommittedNativeTests.test_busy_return_tie_and_duplicate_prior_stop_are_invalid) ... ok[0m
+2026-11-21T01:17:42.0277817Z [31;1mtest_committed_suffix_matches_actual_stateful_plant_and_excludes_sunk_cost (test_eog_committed_response.CommittedNativeTests.test_committed_suffix_matches_actual_stateful_plant_and_excludes_sunk_cost) ... ok[0m
+2026-11-21T01:17:42.4232276Z [31;1mtest_complete_point_and_independent_work_bounds_are_unavailable (test_eog_committed_response.CommittedNativeTests.test_complete_point_and_independent_work_bounds_are_unavailable) ... ok[0m
+2026-11-21T01:17:42.4249186Z [31;1mtest_cross_facility_reservation_and_independent_system_slots (test_eog_committed_response.CommittedNativeTests.test_cross_facility_reservation_and_independent_system_slots) ... ok[0m
+2026-11-21T01:17:42.6286883Z [31;1mtest_generated_mixed_committed_cases_match_independent_arithmetic (test_eog_committed_response.CommittedNativeTests.test_generated_mixed_committed_cases_match_independent_arithmetic) ... ok[0m
+2026-11-21T01:17:42.6303156Z [31;1mtest_independent_result_binding_rejects_forged_context_cost_and_method (test_eog_committed_response.CommittedNativeTests.test_independent_result_binding_rejects_forged_context_cost_and_method) ... ok[0m
+2026-11-21T01:17:42.6318627Z [31;1mtest_known_committed_and_new_loads_and_prior_loss (test_eog_committed_response.CommittedNativeTests.test_known_committed_and_new_loads_and_prior_loss) ... ok[0m
+2026-11-21T01:17:42.6714529Z [31;1mtest_legacy_and_empty_committed_context_match_all_available_values (test_eog_committed_response.CommittedNativeTests.test_legacy_and_empty_committed_context_match_all_available_values) ... ok[0m
+2026-11-21T01:17:42.6738590Z [31;1mtest_malformed_context_rejects_in_both_implementations (test_eog_committed_response.CommittedNativeTests.test_malformed_context_rejects_in_both_implementations) ... ok[0m
+2026-11-21T01:17:42.6759265Z [31;1mtest_numerical_cost_underflow_overflow_and_no_partial_outcome_claim (test_eog_committed_response.CommittedNativeTests.test_numerical_cost_underflow_overflow_and_no_partial_outcome_claim) ... ok[0m
+2026-11-21T01:17:42.6769477Z [31;1mtest_simultaneous_known_and_new_pickups_need_full_combined_inventory (test_eog_committed_response.CommittedNativeTests.test_simultaneous_known_and_new_pickups_need_full_combined_inventory) ... ok[0m
+2026-11-21T01:17:42.6780994Z [31;1mtest_exact_return_boundary_and_one_ulp_early (test_eog_committed_response.CommittedPureTests.test_exact_return_boundary_and_one_ulp_early) ... ok[0m
+2026-11-21T01:17:42.6795484Z [31;1mtest_known_future_cost_and_volume_without_native_or_files (test_eog_committed_response.CommittedPureTests.test_known_future_cost_and_volume_without_native_or_files) ... ok[0m
+2026-11-21T01:17:42.6805196Z [31;1mtest_prior_stop_preserves_future_opportunity_cost (test_eog_committed_response.CommittedPureTests.test_prior_stop_preserves_future_opportunity_cost) ... ok[0m
+2026-11-21T01:17:42.6849687Z [31;1mtest_all_system_urgency_uses_countdown_then_exposure (test_eog_detection.EogDetectionTests.test_all_system_urgency_uses_countdown_then_exposure) ... ok[0m
+2026-11-21T01:17:42.6866555Z [31;1mtest_already_shut_in_does_not_erase_revenue (test_eog_detection.EogDetectionTests.test_already_shut_in_does_not_erase_revenue) ... ok[0m
+2026-11-21T01:17:42.6934776Z [31;1mtest_default_five_percent_inspection_boundaries (test_eog_detection.EogDetectionTests.test_default_five_percent_inspection_boundaries) ... ok[0m
+2026-11-21T01:17:42.6951401Z [31;1mtest_degradation_followed_by_failure_stays_separate_and_masked (test_eog_detection.EogDetectionTests.test_degradation_followed_by_failure_stays_separate_and_masked) ... ok[0m
+2026-11-21T01:17:42.7007310Z [31;1mtest_detector_does_not_open_files_or_read_labels (test_eog_detection.EogDetectionTests.test_detector_does_not_open_files_or_read_labels) ... ok[0m
+2026-11-21T01:17:42.7204225Z [31;1mtest_exact_leak_threshold_and_one_ulp_neighbors (test_eog_detection.EogDetectionTests.test_exact_leak_threshold_and_one_ulp_neighbors) ... ok[0m
+2026-11-21T01:17:42.7209655Z [31;1mtest_excessive_running_flow_cannot_resolve_a_fault (test_eog_detection.EogDetectionTests.test_excessive_running_flow_cannot_resolve_a_fault) ... ok[0m
+2026-11-21T01:17:42.7215146Z [31;1mtest_expired_configured_repair_does_not_resolve_persistent_fault (test_eog_detection.EogDetectionTests.test_expired_configured_repair_does_not_resolve_persistent_fault) ... ok[0m
+2026-11-21T01:17:42.7220623Z [31;1mtest_extreme_finite_raw_level_does_not_create_infinite_derived_inventory (test_eog_detection.EogDetectionTests.test_extreme_finite_raw_level_does_not_create_infinite_derived_inventory) ... ok[0m
+2026-11-21T01:17:42.7225752Z [31;1mtest_fault_feedback_with_positive_delivery_is_ambiguous (test_eog_detection.EogDetectionTests.test_fault_feedback_with_positive_delivery_is_ambiguous) ... ok[0m
+2026-11-21T01:17:42.7235636Z [31;1mtest_finite_invalid_volume_is_retained_not_clipped (test_eog_detection.EogDetectionTests.test_finite_invalid_volume_is_retained_not_clipped) ... ok[0m
+2026-11-21T01:17:42.7238639Z [31;1mtest_future_values_cannot_change_any_current_event (test_eog_detection.EogDetectionTests.test_future_values_cannot_change_any_current_event) ... ok[0m
+2026-11-21T01:17:42.8367662Z [31;1mtest_generated_countdown_oracle_and_prefix_invariance (test_eog_detection.EogDetectionTests.test_generated_countdown_oracle_and_prefix_invariance) ... ok[0m
+2026-11-21T01:17:42.8374149Z [31;1mtest_historical_gap_forecast_uses_real_sample_age (test_eog_detection.EogDetectionTests.test_historical_gap_forecast_uses_real_sample_age) ... ok[0m
+2026-11-21T01:17:42.8383943Z [31;1mtest_known_failure_countdown_and_revenue (test_eog_detection.EogDetectionTests.test_known_failure_countdown_and_revenue) ... ok[0m
+2026-11-21T01:17:42.8394574Z [31;1mtest_known_preexisting_all_off_wells_keep_real_zero_exposure (test_eog_detection.EogDetectionTests.test_known_preexisting_all_off_wells_keep_real_zero_exposure) ... ok[0m
+2026-11-21T01:17:42.8408691Z [31;1mtest_leak_and_degradation_can_coexist (test_eog_detection.EogDetectionTests.test_leak_and_degradation_can_coexist) ... ok[0m
+2026-11-21T01:17:42.8418885Z [31;1mtest_left_censored_already_shut_in_never_invents_zero_exposure (test_eog_detection.EogDetectionTests.test_left_censored_already_shut_in_never_invents_zero_exposure) ... ok[0m
+2026-11-21T01:17:42.8428006Z [31;1mtest_left_censored_fault_keeps_horizon_unknown (test_eog_detection.EogDetectionTests.test_left_censored_fault_keeps_horizon_unknown) ... ok[0m
+2026-11-21T01:17:42.8836673Z [31;1mtest_normal_sawtooth_and_off_states_do_not_create_events (test_eog_detection.EogDetectionTests.test_normal_sawtooth_and_off_states_do_not_create_events) ... ok[0m
+2026-11-21T01:17:42.8849416Z [31;1mtest_off_period_does_not_resolve_leak (test_eog_detection.EogDetectionTests.test_off_period_does_not_resolve_leak) ... ok[0m
+2026-11-21T01:17:42.8865814Z [31;1mtest_one_bad_frame_does_not_create_inspection_event (test_eog_detection.EogDetectionTests.test_one_bad_frame_does_not_create_inspection_event) ... ok[0m
+2026-11-21T01:17:42.8876096Z [31;1mtest_onset_bound_retains_the_actual_preceding_normal_pump_evidence (test_eog_detection.EogDetectionTests.test_onset_bound_retains_the_actual_preceding_normal_pump_evidence) ... ok[0m
+2026-11-21T01:17:43.0521658Z [31;1mtest_predeclared_bounded_noise_and_unfamiliar_deficiency_family (test_eog_detection.EogDetectionTests.test_predeclared_bounded_noise_and_unfamiliar_deficiency_family) ... ok[0m
+2026-11-21T01:17:43.0529990Z [31;1mtest_predicted_crossing_between_samples_is_not_observed_trip (test_eog_detection.EogDetectionTests.test_predicted_crossing_between_samples_is_not_observed_trip) ... ok[0m
+2026-11-21T01:17:43.0540493Z [31;1mtest_preexisting_inactive_well_has_no_opportunity_cost (test_eog_detection.EogDetectionTests.test_preexisting_inactive_well_has_no_opportunity_cost) ... ok[0m
+2026-11-21T01:17:43.0556335Z [31;1mtest_pressure_is_optional_evidence_not_invented_hydraulics (test_eog_detection.EogDetectionTests.test_pressure_is_optional_evidence_not_invented_hydraulics) ... ok[0m
+2026-11-21T01:17:43.0566560Z [31;1mtest_rapid_samples_cannot_fake_sustained_five_minute_evidence (test_eog_detection.EogDetectionTests.test_rapid_samples_cannot_fake_sustained_five_minute_evidence) ... ok[0m
+2026-11-21T01:17:43.0579051Z [31;1mtest_repeated_failures_get_distinct_stable_episodes (test_eog_detection.EogDetectionTests.test_repeated_failures_get_distinct_stable_episodes) ... ok[0m
+2026-11-21T01:17:43.0596869Z [31;1mtest_resolution_requires_observed_recovery_not_future_label (test_eog_detection.EogDetectionTests.test_resolution_requires_observed_recovery_not_future_label) ... ok[0m
+2026-11-21T01:17:43.1057277Z [31;1mtest_retained_inspection_evidence_is_bounded_and_current (test_eog_detection.EogDetectionTests.test_retained_inspection_evidence_is_bounded_and_current) ... ok[0m
+2026-11-21T01:17:43.1059484Z [31;1mtest_rules_and_event_budget_are_explicit (test_eog_detection.EogDetectionTests.test_rules_and_event_budget_are_explicit) ... ok[0m
+2026-11-21T01:17:43.1061516Z [31;1mtest_sampling_gap_breaks_confirmation_not_lifecycle (test_eog_detection.EogDetectionTests.test_sampling_gap_breaks_confirmation_not_lifecycle) ... ok[0m
+2026-11-21T01:17:43.1064032Z [31;1mtest_stale_or_missing_evidence_does_not_clear_fault (test_eog_detection.EogDetectionTests.test_stale_or_missing_evidence_does_not_clear_fault) ... ok[0m
+2026-11-21T01:17:43.1067738Z [31;1mtest_sustained_leak_has_inspection_and_no_countdown (test_eog_detection.EogDetectionTests.test_sustained_leak_has_inspection_and_no_countdown) ... ok[0m
+2026-11-21T01:17:43.1070276Z [31;1mtest_sustained_observed_recovery_closes_inspection_episode (test_eog_detection.EogDetectionTests.test_sustained_observed_recovery_closes_inspection_episode) ... ok[0m
+2026-11-21T01:17:43.1072677Z [31;1mtest_unbalanced_well_inflow_abstains (test_eog_detection.EogDetectionTests.test_unbalanced_well_inflow_abstains) ... ok[0m
+2026-11-21T01:17:43.1076893Z [31;1mtest_unfamiliar_changed_network_uses_actual_capacity_economics_and_ids (test_eog_detection.EogDetectionTests.test_unfamiliar_changed_network_uses_actual_capacity_economics_and_ids) ... ok[0m
+2026-11-21T01:17:43.1080276Z [31;1mtest_unknown_status_never_means_healthy (test_eog_detection.EogDetectionTests.test_unknown_status_never_means_healthy) ... ok[0m
+2026-11-21T01:17:43.1082316Z [31;1mtest_wrong_units_or_status_domains_are_rejected (test_eog_detection.EogDetectionTests.test_wrong_units_or_status_domains_are_rejected) ... ok[0m
+2026-11-21T01:17:43.1085566Z [31;1mtest_zero_inflow_producing_state_has_no_future_crossing (test_eog_detection.EogDetectionTests.test_zero_inflow_producing_state_has_no_future_crossing) ... ok[0m
+2026-11-21T01:17:43.1132319Z [31;1mtest_byte_limit_is_checked_before_full_read (test_eog_inputs.EogInputTests.test_byte_limit_is_checked_before_full_read) ... ok[0m
+2026-11-21T01:17:43.2642148Z [31;1mtest_csv_timestamp_value_header_and_identity_corruption (test_eog_inputs.EogInputTests.test_csv_timestamp_value_header_and_identity_corruption) ... ok[0m
+2026-11-21T01:17:43.3830769Z [31;1mtest_duplicate_json_and_nonfinite_input_are_rejected (test_eog_inputs.EogInputTests.test_duplicate_json_and_nonfinite_input_are_rejected) ... ok[0m
+2026-11-21T01:17:43.4431882Z [31;1mtest_duplicate_samples_and_unknown_channels_are_not_dropped (test_eog_inputs.EogInputTests.test_duplicate_samples_and_unknown_channels_are_not_dropped) ... ok[0m
+2026-11-21T01:17:43.5262885Z [31;1mtest_explicit_capture_gap_is_allowed_but_future_rows_reject (test_eog_inputs.EogInputTests.test_explicit_capture_gap_is_allowed_but_future_rows_reject) ... ok[0m
+2026-11-21T01:17:44.6733530Z [31;1mtest_hard_link_report_alias_preserves_both_directory_entries (test_eog_inputs.EogInputTests.test_hard_link_report_alias_preserves_both_directory_entries) ... ok[0m
+2026-11-21T01:17:44.6966580Z [31;1mtest_json_depth_limit_is_not_hidden_by_unknown_shape (test_eog_inputs.EogInputTests.test_json_depth_limit_is_not_hidden_by_unknown_shape) ... ok[0m
+2026-11-21T01:17:44.6975709Z [31;1mtest_missing_files_fail_without_enumerating_directory (test_eog_inputs.EogInputTests.test_missing_files_fail_without_enumerating_directory) ... ok[0m
+2026-11-21T01:17:44.7260793Z [31;1mtest_mutation_during_compilation_is_rejected (test_eog_inputs.EogInputTests.test_mutation_during_compilation_is_rejected) ... ok[0m
+2026-11-21T01:17:46.0673360Z [31;1mtest_offline_command_has_explicit_success_failure_and_historical_cutoff (test_eog_inputs.EogInputTests.test_offline_command_has_explicit_success_failure_and_historical_cutoff) ... ok[0m
+2026-11-21T01:17:46.1126135Z [31;1mtest_only_allowed_names_are_read_even_if_answer_key_exists (test_eog_inputs.EogInputTests.test_only_allowed_names_are_read_even_if_answer_key_exists) ... ok[0m
+2026-11-21T01:17:46.1659383Z [31;1mtest_raw_hashes_and_bom_are_preserved (test_eog_inputs.EogInputTests.test_raw_hashes_and_bom_are_preserved) ... ok[0m
+2026-11-21T01:17:47.3388900Z [31;1mtest_relative_report_alias_is_resolved_before_analysis (test_eog_inputs.EogInputTests.test_relative_report_alias_is_resolved_before_analysis) ... ok[0m
+2026-11-21T01:17:49.6880289Z [31;1mtest_report_collision_preserves_all_sources_for_success_and_failure (test_eog_inputs.EogInputTests.test_report_collision_preserves_all_sources_for_success_and_failure) ... ok[0m
+2026-11-21T01:17:49.6956517Z [31;1mtest_cumulative_rule_values_and_stricter_gap_policy_are_checked (test_eog_inspection.CumulativeInspectionTests.test_cumulative_rule_values_and_stricter_gap_policy_are_checked) ... ok[0m
+2026-11-21T01:17:49.7293725Z [31;1mtest_fast_acquisitions_cannot_accumulate_score (test_eog_inspection.CumulativeInspectionTests.test_fast_acquisitions_cannot_accumulate_score) ... ok[0m
+2026-11-21T01:17:51.6497484Z [31;1mtest_fresh_seed_healthy_noisy_day_family (test_eog_inspection.CumulativeInspectionTests.test_fresh_seed_healthy_noisy_day_family) ... ok[0m
+2026-11-21T01:17:57.4165452Z [31;1mtest_fresh_seed_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_fresh_seed_small_loss_and_short_cycle_family) ... ok[0m
+2026-11-21T01:17:57.4271393Z [31;1mtest_future_changes_and_file_access_cannot_change_causal_score (test_eog_inspection.CumulativeInspectionTests.test_future_changes_and_file_access_cannot_change_causal_score) ... ok[0m
+2026-11-21T01:17:57.4394108Z [31;1mtest_gap_invalid_stop_and_fault_break_pending_score (test_eog_inspection.CumulativeInspectionTests.test_gap_invalid_stop_and_fault_break_pending_score) ... ok[0m
+2026-11-21T01:17:57.4480446Z [31;1mtest_one_or_two_large_outliers_do_not_create_an_episode (test_eog_inspection.CumulativeInspectionTests.test_one_or_two_large_outliers_do_not_create_an_episode) ... ok[0m
+2026-11-21T01:17:57.4823802Z [31;1mtest_original_evidence_is_bounded_and_raw_values_remain_exact (test_eog_inspection.CumulativeInspectionTests.test_original_evidence_is_bounded_and_raw_values_remain_exact) ... ok[0m
+2026-11-21T01:17:57.4919954Z [31;1mtest_persistent_meter_bias_has_an_identical_observation_counterexample (test_eog_inspection.CumulativeInspectionTests.test_persistent_meter_bias_has_an_identical_observation_counterexample) ... ok[0m
+2026-11-21T01:17:58.4728768Z [31;1mtest_predeclared_healthy_noisy_day_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_healthy_noisy_day_family) ... ok[0m
+2026-11-21T01:18:01.3151507Z [31;1mtest_predeclared_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_predeclared_small_loss_and_short_cycle_family) ... ok[0m
+2026-11-21T01:18:01.3305040Z [31;1mtest_recovery_requires_running_agreement_and_next_episode_is_fresh (test_eog_inspection.CumulativeInspectionTests.test_recovery_requires_running_agreement_and_next_episode_is_fresh) ... ok[0m
+2026-11-21T01:18:05.2910218Z [31;1mtest_second_fresh_seed_healthy_noisy_day_family (test_eog_inspection.CumulativeInspectionTests.test_second_fresh_seed_healthy_noisy_day_family) ... ok[0m
+2026-11-21T01:18:17.0000090Z [31;1mtest_second_fresh_seed_small_loss_and_short_cycle_family (test_eog_inspection.CumulativeInspectionTests.test_second_fresh_seed_small_loss_and_short_cycle_family) ... ok[0m
+2026-11-21T01:18:17.0079699Z [31;1mtest_short_cycle_recovery_uses_four_running_samples_not_stopped_frames (test_eog_inspection.CumulativeInspectionTests.test_short_cycle_recovery_uses_four_running_samples_not_stopped_frames) ... ok[0m
+2026-11-21T01:18:17.0167669Z [31;1mtest_short_cycles_retain_only_observed_continuity (test_eog_inspection.CumulativeInspectionTests.test_short_cycles_retain_only_observed_continuity) ... ok[0m
+2026-11-21T01:18:17.0251097Z [31;1mtest_six_hour_expiry_prevents_cross_cycle_old_score (test_eog_inspection.CumulativeInspectionTests.test_six_hour_expiry_prevents_cross_cycle_old_score) ... ok[0m
+2026-11-21T01:18:17.0351688Z [31;1mtest_three_percent_step_matches_independent_fraction_score (test_eog_inspection.CumulativeInspectionTests.test_three_percent_step_matches_independent_fraction_score) ... ok[0m
+2026-11-21T01:18:17.0354890Z [31;1mtest_annotation_shapes_are_bounded_and_unknown_metadata_still_rejected (test_eog_model.EogModelTests.test_annotation_shapes_are_bounded_and_unknown_metadata_still_rejected) ... ok[0m
+2026-11-21T01:18:17.0357848Z [31;1mtest_compiled_model_is_immutable_and_input_changes_do_not_leak (test_eog_model.EogModelTests.test_compiled_model_is_immutable_and_input_changes_do_not_leak) ... ok[0m
+2026-11-21T01:18:17.0359878Z [31;1mtest_duplicate_cross_kind_asset_identity_is_rejected (test_eog_model.EogModelTests.test_duplicate_cross_kind_asset_identity_is_rejected) ... ok[0m
+2026-11-21T01:18:17.0365283Z [31;1mtest_empty_wells_and_invalid_fleet_or_dataset_are_explicit (test_eog_model.EogModelTests.test_empty_wells_and_invalid_fleet_or_dataset_are_explicit) ... ok[0m
+2026-11-21T01:18:17.0377292Z [31;1mtest_fingerprint_changes_for_economics_capacity_and_ids (test_eog_model.EogModelTests.test_fingerprint_changes_for_economics_capacity_and_ids) ... ok[0m
+2026-11-21T01:18:17.0382882Z [31;1mtest_full_unicode_id_catalog_is_derived_not_hardcoded (test_eog_model.EogModelTests.test_full_unicode_id_catalog_is_derived_not_hardcoded) ... ok[0m
+2026-11-21T01:18:17.0389160Z [31;1mtest_geometry_is_checked_and_does_not_determine_physics (test_eog_model.EogModelTests.test_geometry_is_checked_and_does_not_determine_physics) ... ok[0m
+2026-11-21T01:18:17.0392442Z [31;1mtest_nonfinite_bool_and_string_economics_rejected (test_eog_model.EogModelTests.test_nonfinite_bool_and_string_economics_rejected) ... ok[0m
+2026-11-21T01:18:17.0396092Z [31;1mtest_ops_identity_sets_must_match_network (test_eog_model.EogModelTests.test_ops_identity_sets_must_match_network) ... ok[0m
+2026-11-21T01:18:17.0400132Z [31;1mtest_public_illustration_units_and_economics_without_labels (test_eog_model.EogModelTests.test_public_illustration_units_and_economics_without_labels) ... ok[0m
+2026-11-21T01:18:17.0407305Z [31;1mtest_published_demo_annotations_do_not_influence_model_or_identity (test_eog_model.EogModelTests.test_published_demo_annotations_do_not_influence_model_or_identity) ... ok[0m
+2026-11-21T01:18:17.0411473Z [31;1mtest_threshold_order_and_configuration_bounds (test_eog_model.EogModelTests.test_threshold_order_and_configuration_bounds) ... ok[0m
+2026-11-21T01:18:17.0415016Z [31;1mtest_units_and_timezone_cannot_silently_change (test_eog_model.EogModelTests.test_units_and_timezone_cannot_silently_change) ... ok[0m
+2026-11-21T01:18:17.0417669Z [31;1mtest_unknown_or_missing_fields_are_explicit_errors (test_eog_model.EogModelTests.test_unknown_or_missing_fields_are_explicit_errors) ... ok[0m
+2026-11-21T01:18:17.0419837Z [31;1mtest_unrepresentable_well_revenue_is_not_infinity (test_eog_model.EogModelTests.test_unrepresentable_well_revenue_is_not_infinity) ... ok[0m
+2026-11-21T01:18:17.0422716Z [31;1mtest_zero_prices_and_zero_fleet_are_valid_not_missing (test_eog_model.EogModelTests.test_zero_prices_and_zero_fleet_are_valid_not_missing) ... ok[0m
+2026-11-21T01:18:17.0426133Z [31;1mtest_all_queries_need_no_files_or_model_packages (test_eog_observations.CausalObservationTests.test_all_queries_need_no_files_or_model_packages) ... ok[0m
+2026-11-21T01:18:17.0429142Z [31;1mtest_archive_and_returned_evidence_are_immutable (test_eog_observations.CausalObservationTests.test_archive_and_returned_evidence_are_immutable) ... ok[0m
+2026-11-21T01:18:17.0432382Z [31;1mtest_capture_gap_does_not_refresh_or_fabricate_a_sample (test_eog_observations.CausalObservationTests.test_capture_gap_does_not_refresh_or_fabricate_a_sample) ... ok[0m
+2026-11-21T01:18:17.0435346Z [31;1mtest_cohort_requires_matching_acquisition_by_default (test_eog_observations.CausalObservationTests.test_cohort_requires_matching_acquisition_by_default) ... ok[0m
+2026-11-21T01:18:17.0438230Z [31;1mtest_cohort_retains_every_unavailable_reason (test_eog_observations.CausalObservationTests.test_cohort_retains_every_unavailable_reason) ... ok[0m
+2026-11-21T01:18:17.0441019Z [31;1mtest_dataset_clock_is_actual_sample_extrema (test_eog_observations.CausalObservationTests.test_dataset_clock_is_actual_sample_extrema) ... ok[0m
+2026-11-21T01:18:17.0444301Z [31;1mtest_declared_capture_rejects_future_rows_and_invalid_clock (test_eog_observations.CausalObservationTests.test_declared_capture_rejects_future_rows_and_invalid_clock) ... ok[0m
+2026-11-21T01:18:17.0447282Z [31;1mtest_direct_view_construction_cannot_bypass_cutoff (test_eog_observations.CausalObservationTests.test_direct_view_construction_cannot_bypass_cutoff) ... ok[0m
+2026-11-21T01:18:17.0449869Z [31;1mtest_duplicate_acquisition_and_channel_catalog_are_rejected (test_eog_observations.CausalObservationTests.test_duplicate_acquisition_and_channel_catalog_are_rejected) ... ok[0m
+2026-11-21T01:18:17.0452427Z [31;1mtest_empty_input_and_catalog_do_not_create_fake_window (test_eog_observations.CausalObservationTests.test_empty_input_and_catalog_do_not_create_fake_window) ... ok[0m
+2026-11-21T01:18:17.0455861Z [31;1mtest_evidence_hash_binds_cutoff_values_units_status_domain_and_policy (test_eog_observations.CausalObservationTests.test_evidence_hash_binds_cutoff_values_units_status_domain_and_policy) ... ok[0m
+2026-11-21T01:18:17.0458842Z [31;1mtest_evidence_hash_excludes_future_and_is_order_independent_at_same_time (test_eog_observations.CausalObservationTests.test_evidence_hash_excludes_future_and_is_order_independent_at_same_time) ... ok[0m
+2026-11-21T01:18:17.0461853Z [31;1mtest_explicit_skew_policy_can_allow_prior_frame (test_eog_observations.CausalObservationTests.test_explicit_skew_policy_can_allow_prior_frame) ... ok[0m
+2026-11-21T01:18:17.0464231Z [31;1mtest_freshness_boundary_is_inclusive_without_epsilon (test_eog_observations.CausalObservationTests.test_freshness_boundary_is_inclusive_without_epsilon) ... ok[0m
+2026-11-21T01:18:17.0466404Z [31;1mtest_full_id_and_unicode_are_retained (test_eog_observations.CausalObservationTests.test_full_id_and_unicode_are_retained) ... ok[0m
+2026-11-21T01:18:17.0470069Z [31;1mtest_future_only_channel_is_missing_in_every_causal_query (test_eog_observations.CausalObservationTests.test_future_only_channel_is_missing_in_every_causal_query) ... ok[0m
+2026-11-21T01:18:17.0472548Z [31;1mtest_id_length_uses_utf16_units_and_rejects_surrogates (test_eog_observations.CausalObservationTests.test_id_length_uses_utf16_units_and_rejects_surrogates) ... ok[0m
+2026-11-21T01:18:17.0476580Z [31;1mtest_invalid_cohort_keys_and_policy_do_not_get_defaults (test_eog_observations.CausalObservationTests.test_invalid_cohort_keys_and_policy_do_not_get_defaults) ... ok[0m
+2026-11-21T01:18:17.0478744Z [31;1mtest_missing_is_not_zero_or_healthy (test_eog_observations.CausalObservationTests.test_missing_is_not_zero_or_healthy) ... ok[0m
+2026-11-21T01:18:17.0480979Z [31;1mtest_no_numeric_string_bool_nonfinite_or_overflow_coercion (test_eog_observations.CausalObservationTests.test_no_numeric_string_bool_nonfinite_or_overflow_coercion) ... ok[0m
+2026-11-21T01:18:17.0483643Z [31;1mtest_queries_do_not_silently_decimate_evidence (test_eog_observations.CausalObservationTests.test_queries_do_not_silently_decimate_evidence) ... ok[0m
+2026-11-21T01:18:17.0486066Z [31;1mtest_query_at_cutoff_never_uses_next_acquisition (test_eog_observations.CausalObservationTests.test_query_at_cutoff_never_uses_next_acquisition) ... ok[0m
+2026-11-21T01:18:17.0593814Z [31;1mtest_randomized_views_match_independent_prefix_filter (test_eog_observations.CausalObservationTests.test_randomized_views_match_independent_prefix_filter) ... ok[0m
+2026-11-21T01:18:17.0596139Z [31;1mtest_stale_raw_evidence_remains_visible (test_eog_observations.CausalObservationTests.test_stale_raw_evidence_remains_visible) ... ok[0m
+2026-11-21T01:18:17.0599144Z [31;1mtest_status_catalog_is_bounded_and_cannot_contain_arbitrary_numbers (test_eog_observations.CausalObservationTests.test_status_catalog_is_bounded_and_cannot_contain_arbitrary_numbers) ... ok[0m
+2026-11-21T01:18:17.0602394Z [31;1mtest_timestamp_is_exact_integer_and_bounded (test_eog_observations.CausalObservationTests.test_timestamp_is_exact_integer_and_bounded) ... ok[0m
+2026-11-21T01:18:17.0605039Z [31;1mtest_unordered_and_unknown_rows_are_explicit_errors (test_eog_observations.CausalObservationTests.test_unordered_and_unknown_rows_are_explicit_errors) ... ok[0m
+2026-11-21T01:18:17.0607927Z [31;1mtest_unusual_status_is_evidence_with_unavailable_interpretation (test_eog_observations.CausalObservationTests.test_unusual_status_is_evidence_with_unavailable_interpretation) ... ok[0m
+2026-11-21T01:18:17.0610828Z [31;1mtest_verified_capture_cutoff_can_follow_its_last_acquisition (test_eog_observations.CausalObservationTests.test_verified_capture_cutoff_can_follow_its_last_acquisition) ... ok[0m
+2026-11-21T01:18:17.0613597Z [31;1mtest_window_and_series_validate_bounds (test_eog_observations.CausalObservationTests.test_window_and_series_validate_bounds) ... ok[0m
+2026-11-21T01:18:17.0616411Z [31;1mtest_window_distinguishes_missing_history_and_stale (test_eog_observations.CausalObservationTests.test_window_distinguishes_missing_history_and_stale) ... ok[0m
+2026-11-21T01:18:17.0619253Z [31;1mtest_window_exposes_internal_gap_despite_fresh_latest (test_eog_observations.CausalObservationTests.test_window_exposes_internal_gap_despite_fresh_latest) ... ok[0m
+2026-11-21T01:18:17.0621756Z [31;1mtest_window_keeps_predecessor_and_checks_boundary_gap (test_eog_observations.CausalObservationTests.test_window_keeps_predecessor_and_checks_boundary_gap) ... ok[0m
+2026-11-21T01:18:17.0624458Z [31;1mtest_window_preserves_unsupported_earlier_status (test_eog_observations.CausalObservationTests.test_window_preserves_unsupported_earlier_status) ... ok[0m
+2026-11-21T01:18:17.0627300Z [31;1mtest_window_tail_respects_gap_policy_even_when_fresh (test_eog_observations.CausalObservationTests.test_window_tail_respects_gap_policy_even_when_fresh) ... ok[0m
+2026-11-21T01:18:17.0629912Z [31;1mtest_work_limits_consume_only_one_excess_input (test_eog_observations.CausalObservationTests.test_work_limits_consume_only_one_excess_input) ... ok[0m
+2026-11-21T01:18:17.0632290Z [31;1mtest_alarm_emitted_after_true_endpoint_cannot_match (test_eog_offline_evaluation.OfflineEvaluationTests.test_alarm_emitted_after_true_endpoint_cannot_match) ... ok[0m
+2026-11-21T01:18:17.0635081Z [31;1mtest_duplicate_and_future_prediction_rows_are_rejected (test_eog_offline_evaluation.OfflineEvaluationTests.test_duplicate_and_future_prediction_rows_are_rejected) ... ok[0m
+2026-11-21T01:18:17.0638149Z [31;1mtest_evaluation_does_not_mutate_predictions_or_labels (test_eog_offline_evaluation.OfflineEvaluationTests.test_evaluation_does_not_mutate_predictions_or_labels) ... ok[0m
+2026-11-21T01:18:17.0640860Z [31;1mtest_exact_match_passes_without_copying_reference_actions (test_eog_offline_evaluation.OfflineEvaluationTests.test_exact_match_passes_without_copying_reference_actions) ... ok[0m
+2026-11-21T01:18:17.0643964Z [31;1mtest_fragmented_extra_alarm_is_not_hidden (test_eog_offline_evaluation.OfflineEvaluationTests.test_fragmented_extra_alarm_is_not_hidden) ... ok[0m
+2026-11-21T01:18:17.0646683Z [31;1mtest_future_reference_end_is_censored_at_historical_cutoff (test_eog_offline_evaluation.OfflineEvaluationTests.test_future_reference_end_is_censored_at_historical_cutoff) ... ok[0m
+2026-11-21T01:18:17.0649437Z [31;1mtest_future_reference_onset_is_not_an_current_miss (test_eog_offline_evaluation.OfflineEvaluationTests.test_future_reference_onset_is_not_an_current_miss) ... ok[0m
+2026-11-21T01:18:17.0652396Z [31;1mtest_maximum_matching_does_not_spend_two_predictions_on_one_reference (test_eog_offline_evaluation.OfflineEvaluationTests.test_maximum_matching_does_not_spend_two_predictions_on_one_reference) ... ok[0m
+2026-11-21T01:18:17.0655418Z [31;1mtest_missed_category_does_not_become_a_passing_empty_result (test_eog_offline_evaluation.OfflineEvaluationTests.test_missed_category_does_not_become_a_passing_empty_result) ... ok[0m
+2026-11-21T01:18:17.0658135Z [31;1mtest_resolution_confusion_and_detection_delay_are_separate (test_eog_offline_evaluation.OfflineEvaluationTests.test_resolution_confusion_and_detection_delay_are_separate) ... ok[0m
+2026-11-21T01:18:17.0659940Z [31;1mtest_wrong_id_or_category_is_both_false_positive_and_miss (test_eog_offline_evaluation.OfflineEvaluationTests.test_wrong_id_or_category_is_both_false_positive_and_miss) ... ok[0m
+2026-11-21T01:18:17.0811467Z [31;1mtest_joint_facilities_and_between_frame_snapshot_recompute (test_eog_plan_validator.IndependentNativeCrossChecks.test_joint_facilities_and_between_frame_snapshot_recompute) ... ok[0m
+2026-11-21T01:18:17.8392619Z [31;1mtest_randomized_candidate_recomputation_from_raw_view (test_eog_plan_validator.IndependentNativeCrossChecks.test_randomized_candidate_recomputation_from_raw_view) ... ok[0m
+2026-11-21T01:18:17.8411762Z [31;1mtest_already_shut_preserves_recorded_inventory_and_pretrip_cost (test_eog_plan_validator.IndependentValidatorTests.test_already_shut_preserves_recorded_inventory_and_pretrip_cost) ... ok[0m
+2026-11-21T01:18:17.8418759Z [31;1mtest_caller_freshness_policy_cannot_relax_public_300_seconds (test_eog_plan_validator.IndependentValidatorTests.test_caller_freshness_policy_cannot_relax_public_300_seconds) ... ok[0m
+2026-11-21T01:18:17.8465125Z [31;1mtest_deadline_claim_exactly_recomputed_and_full_set_required (test_eog_plan_validator.IndependentValidatorTests.test_deadline_claim_exactly_recomputed_and_full_set_required) ... ok[0m
+2026-11-21T01:18:17.8487552Z [31;1mtest_future_prefix_invariance_and_preexisting_inactive (test_eog_plan_validator.IndependentValidatorTests.test_future_prefix_invariance_and_preexisting_inactive) ... ok[0m
+2026-11-21T01:18:17.8505642Z [31;1mtest_left_censored_expired_stale_and_unknown_context_are_unavailable (test_eog_plan_validator.IndependentValidatorTests.test_left_censored_expired_stale_and_unknown_context_are_unavailable) ... ok[0m
+2026-11-21T01:18:17.8516213Z [31;1mtest_native_ambiguous_volume_rounding_is_not_certified (test_eog_plan_validator.IndependentValidatorTests.test_native_ambiguous_volume_rounding_is_not_certified) ... ok[0m
+2026-11-21T01:18:17.8538252Z [31;1mtest_no_action_known_inventory_cost_and_raw_evidence (test_eog_plan_validator.IndependentValidatorTests.test_no_action_known_inventory_cost_and_raw_evidence) ... ok[0m
+2026-11-21T01:18:17.8701286Z [31;1mtest_no_calls_to_detector_compiler_native_or_files (test_eog_plan_validator.IndependentValidatorTests.test_no_calls_to_detector_compiler_native_or_files) ... ok[0m
+2026-11-21T01:18:17.8717649Z [31;1mtest_nonadvancing_yard_return_and_extreme_late_call_are_invalid (test_eog_plan_validator.IndependentValidatorTests.test_nonadvancing_yard_return_and_extreme_late_call_are_invalid) ... ok[0m
+2026-11-21T01:18:17.8737830Z [31;1mtest_positive_loss_underflow_is_unavailable_for_both_method_revisions (test_eog_plan_validator.IndependentValidatorTests.test_positive_loss_underflow_is_unavailable_for_both_method_revisions) ... ok[0m
+2026-11-21T01:18:17.8740993Z [31;1mtest_rational_primitive_rounds_one_ulp_and_bounds_work (test_eog_plan_validator.IndependentValidatorTests.test_rational_primitive_rounds_one_ulp_and_bounds_work) ... ok[0m
+2026-11-21T01:18:17.8763921Z [31;1mtest_repeated_failure_uses_current_onset_and_never_expected_repair_as_recovery (test_eog_plan_validator.IndependentValidatorTests.test_repeated_failure_uses_current_onset_and_never_expected_repair_as_recovery) ... ok[0m
+2026-11-21T01:18:17.8776560Z [31;1mtest_same_time_full_inventory_is_combined (test_eog_plan_validator.IndependentValidatorTests.test_same_time_full_inventory_is_combined) ... ok[0m
+2026-11-21T01:18:17.8824532Z [31;1mtest_shared_fleet_pairwise_calendar_and_final_return (test_eog_plan_validator.IndependentValidatorTests.test_shared_fleet_pairwise_calendar_and_final_return) ... ok[0m
+2026-11-21T01:18:17.8846773Z [31;1mtest_threshold_first_tie_one_ulp_and_late_pickup (test_eog_plan_validator.IndependentValidatorTests.test_threshold_first_tie_one_ulp_and_late_pickup) ... ok[0m
+2026-11-21T01:18:17.8871180Z [31;1mtest_truck_and_delayed_well_economics (test_eog_plan_validator.IndependentValidatorTests.test_truck_and_delayed_well_economics) ... ok[0m
+2026-11-21T01:18:17.8919351Z [31;1mtest_unknown_actions_wrong_ownership_and_partial_loads_are_invalid (test_eog_plan_validator.IndependentValidatorTests.test_unknown_actions_wrong_ownership_and_partial_loads_are_invalid) ... ok[0m
+2026-11-21T01:18:17.8942369Z [31;1mtest_validation_identity_includes_economics_and_exact_candidate (test_eog_plan_validator.IndependentValidatorTests.test_validation_identity_includes_economics_and_exact_candidate) ... ok[0m
+2026-11-21T01:18:17.8956021Z [31;1mtest_already_shut_preserves_raw_inventory_and_pretrip_wells (test_eog_response.ResponseCompilationTests.test_already_shut_preserves_raw_inventory_and_pretrip_wells) ... ok[0m
+2026-11-21T01:18:17.8986878Z [31;1mtest_complete_current_failure_set_and_pretrip_economics (test_eog_response.ResponseCompilationTests.test_complete_current_failure_set_and_pretrip_economics) ... ok[0m
+2026-11-21T01:18:17.9011825Z [31;1mtest_expired_unknown_and_incomplete_context_are_unavailable (test_eog_response.ResponseCompilationTests.test_expired_unknown_and_incomplete_context_are_unavailable) ... ok[0m
+2026-11-21T01:18:17.9029724Z [31;1mtest_explicit_meter_reconciliation_retains_raw_evidence (test_eog_response.ResponseCompilationTests.test_explicit_meter_reconciliation_retains_raw_evidence) ... ok[0m
+2026-11-21T01:18:17.9040964Z [31;1mtest_known_inactive_has_zero_cost_eligibility_and_unknown_is_not_zero (test_eog_response.ResponseCompilationTests.test_known_inactive_has_zero_cost_eligibility_and_unknown_is_not_zero) ... ok[0m
+2026-11-21T01:18:17.9059278Z [31;1mtest_seconds_are_derived_without_hours_roundtrip (test_eog_response.ResponseCompilationTests.test_seconds_are_derived_without_hours_roundtrip) ... ok[0m
+2026-11-21T01:18:17.9073146Z [31;1mtest_unknown_ids_remain_invalid_without_repairing_candidate (test_eog_response.ResponseCompilationTests.test_unknown_ids_remain_invalid_without_repairing_candidate) ... ok[0m
+2026-11-21T01:18:17.9107265Z [31;1mtest_forged_repair_claim_and_missing_concurrent_facility_are_rejected (test_eog_response.ResponseNativeTests.test_forged_repair_claim_and_missing_concurrent_facility_are_rejected) ... ok[0m
+2026-11-21T01:18:17.9126864Z [31;1mtest_real_native_known_economics_and_exact_plan_retention (test_eog_response.ResponseNativeTests.test_real_native_known_economics_and_exact_plan_retention) ... ok[0m
+2026-11-21T01:18:17.9141791Z [31;1mtest_shared_labels_cannot_create_an_extra_truck (test_eog_response.ResponseNativeTests.test_shared_labels_cannot_create_an_extra_truck) ... ok[0m
+2026-11-21T01:18:17.9806272Z [31;1mtest_candidate_counter_bounds_actual_native_calls (test_eog_search.SearchNativeTests.test_candidate_counter_bounds_actual_native_calls) ... ok[0m
+2026-11-21T01:18:18.0376994Z [31;1mtest_causal_reproducibility_and_no_file_access (test_eog_search.SearchNativeTests.test_causal_reproducibility_and_no_file_access) ... ok[0m
+2026-11-21T01:18:18.1203866Z [31;1mtest_default_retention_preserves_available_response_family_comparisons (test_eog_search.SearchNativeTests.test_default_retention_preserves_available_response_family_comparisons) ... ok[0m
+2026-11-21T01:18:18.1263465Z [31;1mtest_finite_completed_space_and_unknown_arithmetic_do_not_share_claim (test_eog_search.SearchNativeTests.test_finite_completed_space_and_unknown_arithmetic_do_not_share_claim) ... ok[0m
+2026-11-21T01:18:18.1543917Z [31;1mtest_frontier_output_and_time_bounds_are_explicit (test_eog_search.SearchNativeTests.test_frontier_output_and_time_bounds_are_explicit) ... ok[0m
+2026-11-21T01:18:18.1864023Z [31;1mtest_independent_disagreement_is_not_hidden_by_native_flags (test_eog_search.SearchNativeTests.test_independent_disagreement_is_not_hidden_by_native_flags) ... ok[0m
+2026-11-21T01:18:18.2275922Z [31;1mtest_late_first_pickup_requires_real_prearrival_curtailment (test_eog_search.SearchNativeTests.test_late_first_pickup_requires_real_prearrival_curtailment) ... ok[0m
+2026-11-21T01:18:18.2786399Z [31;1mtest_mixed_truck_and_delayed_cheap_well_known_minimum (test_eog_search.SearchNativeTests.test_mixed_truck_and_delayed_cheap_well_known_minimum) ... ok[0m
+2026-11-21T01:18:18.2828356Z [31;1mtest_no_action_zero_cost_and_small_budget_are_valid_not_infeasibility (test_eog_search.SearchNativeTests.test_no_action_zero_cost_and_small_budget_are_valid_not_infeasibility) ... ok[0m
+2026-11-21T01:18:18.4241000Z [31;1mtest_repeat_trip_economic_breakpoint_known_minimum (test_eog_search.SearchNativeTests.test_repeat_trip_economic_breakpoint_known_minimum) ... ok[0m
+2026-11-21T01:18:19.3720015Z [31;1mtest_sequential_yard_jobs_known_global_minimum (test_eog_search.SearchNativeTests.test_sequential_yard_jobs_known_global_minimum) ... ok[0m
+2026-11-21T01:18:19.5104402Z [31;1mtest_shared_fleet_known_minimum_prefers_high_exposure (test_eog_search.SearchNativeTests.test_shared_fleet_known_minimum_prefers_high_exposure) ... ok[0m
+2026-11-21T01:18:19.5334676Z [31;1mtest_single_truck_known_global_minimum (test_eog_search.SearchNativeTests.test_single_truck_known_global_minimum) ... ok[0m
+2026-11-21T01:18:19.5356971Z [31;1mtest_validation_deadline_never_turns_unchecked_candidate_into_selection (test_eog_search.SearchNativeTests.test_validation_deadline_never_turns_unchecked_candidate_into_selection) ... ok[0m
+2026-11-21T01:18:19.5477571Z [31;1mtest_well_only_fractional_knapsack_bound_and_zero_water_economics (test_eog_search.SearchNativeTests.test_well_only_fractional_knapsack_bound_and_zero_water_economics) ... ok[0m
+2026-11-21T01:18:19.5502231Z [31;1mtest_prepared_validator_matches_direct_and_honors_expired_deadline (test_eog_search.SearchPolicyTests.test_prepared_validator_matches_direct_and_honors_expired_deadline) ... ok[0m
+2026-11-21T01:18:19.5506295Z [31;1mtest_rules_and_input_bounds_are_explicit (test_eog_search.SearchPolicyTests.test_rules_and_input_bounds_are_explicit) ... ok[0m
+2026-11-21T01:18:19.5937999Z [31;1mtest_genuinely_unrepresentable_candidate_cost_stays_unavailable (test_eog_search_robustness.SearchExtremeNativeTests.test_genuinely_unrepresentable_candidate_cost_stays_unavailable) ... ok[0m
+2026-11-21T01:18:19.6453630Z [31;1mtest_oversized_finite_loads_do_not_discard_a_valid_independently_checked_baseline (test_eog_search_robustness.SearchExtremeNativeTests.test_oversized_finite_loads_do_not_discard_a_valid_independently_checked_baseline) ... ok[0m
+2026-11-21T01:18:21.9642950Z [31;1mtest_real_worker_search_and_no_dll_validation_accept_finite_extreme_truck_setting (test_eog_search_robustness.SearchExtremeNativeTests.test_real_worker_search_and_no_dll_validation_accept_finite_extreme_truck_setting) ... ok[0m
+2026-11-21T01:18:22.0095402Z [31;1mtest_subnormal_load_size_keeps_a_real_finite_selected_plan (test_eog_search_robustness.SearchExtremeNativeTests.test_subnormal_load_size_keeps_a_real_finite_selected_plan) ... ok[0m
+2026-11-21T01:18:22.0111063Z [31;1mtest_prefix_seed_generation_keeps_finite_control_times (test_eog_search_robustness.SearchSeedRobustnessTests.test_prefix_seed_generation_keeps_finite_control_times) ... ok[0m
+2026-11-21T01:18:22.0121559Z [31;1mtest_schedule_estimate_does_not_convert_an_overflowed_product_to_fraction (test_eog_search_robustness.SearchSeedRobustnessTests.test_schedule_estimate_does_not_convert_an_overflowed_product_to_fraction) ... ok[0m
+2026-11-21T01:18:22.0134122Z [31;1mtest_trip_priorities_do_not_overflow_before_native_inventory_checks (test_eog_search_robustness.SearchSeedRobustnessTests.test_trip_priorities_do_not_overflow_before_native_inventory_checks) ... ok[0m
+2026-11-21T01:18:22.0144787Z [31;1mtest_imported_parameters_opaque_ids_and_explicit_initial_conditions (test_eog_synthetic.SyntheticCompilationTests.test_imported_parameters_opaque_ids_and_explicit_initial_conditions) ... ok[0m
+2026-11-21T01:18:22.0152146Z [31;1mtest_invalid_numeric_schedule_and_bounded_complete_output (test_eog_synthetic.SyntheticCompilationTests.test_invalid_numeric_schedule_and_bounded_complete_output) ... ok[0m
+2026-11-21T01:18:22.0159334Z [31;1mtest_known_model_repair_duration_and_no_hidden_initial_productivity (test_eog_synthetic.SyntheticCompilationTests.test_known_model_repair_duration_and_no_hidden_initial_productivity) ... ok[0m
+2026-11-21T01:18:22.0189083Z [31;1mtest_seeded_receipt_repeatability_and_nonhardcoded_networks (test_eog_synthetic.SyntheticCompilationTests.test_seeded_receipt_repeatability_and_nonhardcoded_networks) ... ok[0m
+2026-11-21T01:18:22.0192627Z [31;1mtest_unobservable_future_economics_are_not_silently_passed_to_analysis (test_eog_synthetic.SyntheticCompilationTests.test_unobservable_future_economics_are_not_silently_passed_to_analysis) ... ok[0m
+2026-11-21T01:18:22.0352581Z [31;1mtest_advance_partition_reset_and_noise_are_exactly_repeatable (test_eog_synthetic.SyntheticExecutionTests.test_advance_partition_reset_and_noise_are_exactly_repeatable) ... ok[0m
+2026-11-21T01:18:22.0380805Z [31;1mtest_analysis_uses_only_the_causal_view_with_no_native_or_file_access (test_eog_synthetic.SyntheticExecutionTests.test_analysis_uses_only_the_causal_view_with_no_native_or_file_access) ... ok[0m
+2026-11-21T01:18:22.0405183Z [31;1mtest_cancellation_invalid_clock_and_reset_preserve_prior_evidence (test_eog_synthetic.SyntheticExecutionTests.test_cancellation_invalid_clock_and_reset_preserve_prior_evidence) ... ok[0m
+2026-11-21T01:18:22.0450431Z [31;1mtest_control_journal_replays_fractional_actions_and_bounds_before_mutation (test_eog_synthetic.SyntheticExecutionTests.test_control_journal_replays_fractional_actions_and_bounds_before_mutation) ... ok[0m
+2026-11-21T01:18:22.0467471Z [31;1mtest_fractional_commands_current_rates_and_persistent_real_commitment (test_eog_synthetic.SyntheticExecutionTests.test_fractional_commands_current_rates_and_persistent_real_commitment) ... ok[0m
+2026-11-21T01:18:22.0517551Z [31;1mtest_future_truth_cannot_change_an_earlier_observation_or_detection (test_eog_synthetic.SyntheticExecutionTests.test_future_truth_cannot_change_an_earlier_observation_or_detection) ... ok[0m
+2026-11-21T01:18:22.0532075Z [31;1mtest_gap_keeps_actual_age_and_cannot_fabricate_current_samples (test_eog_synthetic.SyntheticExecutionTests.test_gap_keeps_actual_age_and_cannot_fabricate_current_samples) ... ok[0m
+2026-11-21T01:18:22.1374216Z [31;1mtest_healthy_day_creates_no_fault_alerts_from_declared_small_noise (test_eog_synthetic.SyntheticExecutionTests.test_healthy_day_creates_no_fault_alerts_from_declared_small_noise) ... ok[0m
+2026-11-21T01:18:22.1395920Z [31;1mtest_noise_keeps_finite_negative_raw_values_without_mutating_truth (test_eog_synthetic.SyntheticExecutionTests.test_noise_keeps_finite_negative_raw_values_without_mutating_truth) ... ok[0m
+2026-11-21T01:18:23.2655185Z [31;1mtest_actual_cumulative_inspection_process_retains_bound_raw_evidence (test_eog_worker.EogWorkerTests.test_actual_cumulative_inspection_process_retains_bound_raw_evidence) ... ok[0m
+2026-11-21T01:18:24.3604124Z [31;1mtest_actual_independent_validation_process_and_forged_deadline (test_eog_worker.EogWorkerTests.test_actual_independent_validation_process_and_forged_deadline) ... ok[0m
+2026-11-21T01:18:25.6465932Z [31;1mtest_actual_joint_search_process_and_independent_selected_record (test_eog_worker.EogWorkerTests.test_actual_joint_search_process_and_independent_selected_record) ... ok[0m
+2026-11-21T01:18:25.8199179Z [31;1mtest_actual_native_noaction_and_forged_horizon (test_eog_worker.EogWorkerTests.test_actual_native_noaction_and_forged_horizon) ... ok[0m
+2026-11-21T01:18:26.9038381Z [31;1mtest_actual_native_process_and_full_trip_contract (test_eog_worker.EogWorkerTests.test_actual_native_process_and_full_trip_contract) ... ok[0m
+2026-11-21T01:18:27.8657128Z [31;1mtest_actual_one_shot_process_stdout_is_one_bound_line (test_eog_worker.EogWorkerTests.test_actual_one_shot_process_stdout_is_one_bound_line) ... ok[0m
+2026-11-21T01:18:30.1185350Z [31;1mtest_actual_process_malformed_oversized_and_unterminated_requests (test_eog_worker.EogWorkerTests.test_actual_process_malformed_oversized_and_unterminated_requests) ... ok[0m
+2026-11-21T01:18:30.1351277Z [31;1mtest_capture_hash_tamper_is_not_an_empty_healthy_result (test_eog_worker.EogWorkerTests.test_capture_hash_tamper_is_not_an_empty_healthy_result) ... ok[0m
+2026-11-21T01:18:30.2148803Z [31;1mtest_change_between_verifier_and_loader_is_rejected (test_eog_worker.EogWorkerTests.test_change_between_verifier_and_loader_is_rejected) ... ok[0m
+2026-11-21T01:18:30.2269780Z [31;1mtest_contract_pin_rejects_unreviewed_runtime (test_eog_worker.EogWorkerTests.test_contract_pin_rejects_unreviewed_runtime) ... ok[0m
+2026-11-21T01:18:30.4102695Z [31;1mtest_historical_future_identity_does_not_change_analysis_evidence (test_eog_worker.EogWorkerTests.test_historical_future_identity_does_not_change_analysis_evidence) ... ok[0m
+2026-11-21T01:18:30.5061978Z [31;1mtest_independent_validation_needs_no_native_or_detector_execution (test_eog_worker.EogWorkerTests.test_independent_validation_needs_no_native_or_detector_execution) ... ok[0m
+2026-11-21T01:18:30.5950493Z [31;1mtest_missing_native_capability_is_explicit (test_eog_worker.EogWorkerTests.test_missing_native_capability_is_explicit) ... ok[0m
+2026-11-21T01:18:30.7300059Z [31;1mtest_oversized_result_becomes_explicit_unavailable (test_eog_worker.EogWorkerTests.test_oversized_result_becomes_explicit_unavailable) ... ok[0m
+2026-11-21T01:18:32.7316167Z [31;1mtest_positive_cost_underflow_is_unavailable_in_both_real_processes (test_eog_worker.EogWorkerTests.test_positive_cost_underflow_is_unavailable_in_both_real_processes) ... ok[0m
+2026-11-21T01:18:32.8317927Z [31;1mtest_protected_causal_detection_and_exact_binding (test_eog_worker.EogWorkerTests.test_protected_causal_detection_and_exact_binding) ... ok[0m
+2026-11-21T01:18:32.9262939Z [31;1mtest_repeated_private_evidence_maps_to_unique_public_references (test_eog_worker.EogWorkerTests.test_repeated_private_evidence_maps_to_unique_public_references) ... ok[0m
+2026-11-21T01:18:33.0230959Z [31;1mtest_runtime_only_reads_fixed_inputs_and_trusted_schemas (test_eog_worker.EogWorkerTests.test_runtime_only_reads_fixed_inputs_and_trusted_schemas) ... ok[0m
+2026-11-21T01:18:33.3570813Z [31;1mtest_search_system_scope_never_silently_drops_other_failures (test_eog_worker.EogWorkerTests.test_search_system_scope_never_silently_drops_other_failures) ... ok[0m
+2026-11-21T01:18:33.4458797Z [31;1mtest_search_tiny_budget_returns_no_selection_not_empty_healthy_data (test_eog_worker.EogWorkerTests.test_search_tiny_budget_returns_no_selection_not_empty_healthy_data) ... ok[0m
+2026-11-21T01:18:33.5373724Z [31;1mtest_unknown_evaluator_cannot_be_relabeled_as_independent_validation (test_eog_worker.EogWorkerTests.test_unknown_evaluator_cannot_be_relabeled_as_independent_validation) ... ok[0m
+2026-11-21T01:18:33.7046164Z [31;1mtest_unknown_system_and_missing_search_native_are_explicit (test_eog_worker.EogWorkerTests.test_unknown_system_and_missing_search_native_are_explicit) ... ok[0m
+2026-11-21T01:18:33.7061153Z [31;1mtest_existing_attempt_is_not_overwritten (test_front_accuracy.CommandTests.test_existing_attempt_is_not_overwritten) ... Refusing to overwrite an existing F1 attempt directory[0m
+2026-11-21T01:18:33.7067392Z [31;1mok[0m
+2026-11-21T01:18:33.7159739Z [31;1mtest_invalid_config_is_retained_as_failed_attempt (test_front_accuracy.CommandTests.test_invalid_config_is_retained_as_failed_attempt) ... ok[0m
+2026-11-21T01:18:33.7265594Z [31;1mtest_nonzero_native_exit_retains_raw_diagnostics (test_front_accuracy.CommandTests.test_nonzero_native_exit_retains_raw_diagnostics) ... ok[0m
+2026-11-21T01:18:33.7273785Z [31;1mtest_changed_matrix_and_thresholds_rejected (test_front_accuracy.MatrixTests.test_changed_matrix_and_thresholds_rejected) ... ok[0m
+2026-11-21T01:18:33.7277677Z [31;1mtest_declared_case_families_and_sizes (test_front_accuracy.MatrixTests.test_declared_case_families_and_sizes) ... ok[0m
+2026-11-21T01:18:33.7299348Z [31;1mtest_legacy_a9_configs_unchanged (test_front_accuracy.MatrixTests.test_legacy_a9_configs_unchanged) ... ok[0m
+2026-11-21T01:18:33.7301255Z [31;1mtest_metadata_matrix_validates_without_inventing_fields (test_front_accuracy.MatrixTests.test_metadata_matrix_validates_without_inventing_fields) ... ok[0m
+2026-11-21T01:18:33.7308205Z [31;1mtest_missing_duplicate_foreign_case_ids_rejected (test_front_accuracy.MatrixTests.test_missing_duplicate_foreign_case_ids_rejected) ... ok[0m
+2026-11-21T01:18:33.7321599Z [31;1mtest_missing_or_changed_budget_rejection_rejected (test_front_accuracy.MatrixTests.test_missing_or_changed_budget_rejection_rejected) ... ok[0m
+2026-11-21T01:18:33.7338783Z [31;1mtest_predeclared_gates_are_not_relaxable (test_front_accuracy.MatrixTests.test_predeclared_gates_are_not_relaxable) ... ok[0m
+2026-11-21T01:18:33.7352167Z [31;1mtest_wrong_method_variant_and_boolean_version_rejected (test_front_accuracy.MatrixTests.test_wrong_method_variant_and_boolean_version_rejected) ... ok[0m
+2026-11-21T01:18:33.7481293Z [31;1mtest_bad_reference_check_cannot_fall_back (test_front_accuracy.NativeEvidenceTests.test_bad_reference_check_cannot_fall_back) ... ok[0m
+2026-11-21T01:18:33.8681706Z [31;1mtest_corrupted_concentration_inventory_and_signed_ledger_rejected (test_front_accuracy.NativeEvidenceTests.test_corrupted_concentration_inventory_and_signed_ledger_rejected) ... ok[0m
+2026-11-21T01:18:33.8695055Z [31;1mtest_forged_initial_averages_rejected (test_front_accuracy.NativeEvidenceTests.test_forged_initial_averages_rejected) ... ok[0m
+2026-11-21T01:18:33.9782318Z [31;1mtest_invalid_diagnostics_work_cfl_and_provenance_rejected (test_front_accuracy.NativeEvidenceTests.test_invalid_diagnostics_work_cfl_and_provenance_rejected) ... ok[0m
+2026-11-21T01:18:34.0702237Z [31;1mtest_malformed_nonfinite_boolean_and_clipped_field_rejected (test_front_accuracy.NativeEvidenceTests.test_malformed_nonfinite_boolean_and_clipped_field_rejected) ... ok[0m
+2026-11-21T01:18:34.0924225Z [31;1mtest_missing_shifted_duplicate_output_times_rejected_exactly (test_front_accuracy.NativeEvidenceTests.test_missing_shifted_duplicate_output_times_rejected_exactly) ... ok[0m
+2026-11-21T01:18:34.1202520Z [31;1mtest_shifted_or_reversed_cell_identity_rejected (test_front_accuracy.NativeEvidenceTests.test_shifted_or_reversed_cell_identity_rejected) ... ok[0m
+2026-11-21T01:18:34.1317268Z [31;1mtest_well_shaped_parser_buffer_is_not_an_accuracy_verdict (test_front_accuracy.NativeEvidenceTests.test_well_shaped_parser_buffer_is_not_an_accuracy_verdict) ... ok[0m
+2026-11-21T01:18:34.1775968Z [31;1mtest_wrong_forcing_geometry_and_selection_identity_rejected (test_front_accuracy.NativeEvidenceTests.test_wrong_forcing_geometry_and_selection_identity_rejected) ... ok[0m
+2026-11-21T01:18:34.1889093Z [31;1mtest_wrong_litre_conversion_rejected (test_front_accuracy.NativeEvidenceTests.test_wrong_litre_conversion_rejected) ... ok[0m
+2026-11-21T01:18:34.1893329Z [31;1mtest_boolean_sample_cannot_impersonate_exact_numeric_one (test_front_accuracy.ObservationTests.test_boolean_sample_cannot_impersonate_exact_numeric_one) ... ok[0m
+2026-11-21T01:18:34.1896372Z [31;1mtest_crossing_returns_bracket_not_invented_exact_time (test_front_accuracy.ObservationTests.test_crossing_returns_bracket_not_invented_exact_time) ... ok[0m
+2026-11-21T01:18:34.2169754Z [31;1mtest_decimation_uses_original_indices_and_retains_endpoint (test_front_accuracy.ObservationTests.test_decimation_uses_original_indices_and_retains_endpoint) ... ok[0m
+2026-11-21T01:18:34.2178759Z [31;1mtest_endpoint_retained_when_stride_does_not_divide_grid (test_front_accuracy.ObservationTests.test_endpoint_retained_when_stride_does_not_divide_grid) ... ok[0m
+2026-11-21T01:18:34.2181808Z [31;1mtest_exact_grid_retains_one_ulp_endpoint (test_front_accuracy.ObservationTests.test_exact_grid_retains_one_ulp_endpoint) ... ok[0m
+2026-11-21T01:18:34.2185279Z [31;1mtest_initial_equality_and_repeated_crossings (test_front_accuracy.ObservationTests.test_initial_equality_and_repeated_crossings) ... ok[0m
+2026-11-21T01:18:34.2188435Z [31;1mtest_invalid_trace_times_values_and_threshold_rejected (test_front_accuracy.ObservationTests.test_invalid_trace_times_values_and_threshold_rejected) ... ok[0m
+2026-11-21T01:18:34.2192772Z [31;1mtest_missing_discharge_is_not_bridged (test_front_accuracy.ObservationTests.test_missing_discharge_is_not_bridged) ... ok[0m
+2026-11-21T01:18:34.2196207Z [31;1mtest_no_crossing_and_unavailable_discharge_are_distinct (test_front_accuracy.ObservationTests.test_no_crossing_and_unavailable_discharge_are_distinct) ... ok[0m
+2026-11-21T01:18:34.2199743Z [31;1mtest_norms_have_concentration_units_and_independent_values (test_front_accuracy.ObservationTests.test_norms_have_concentration_units_and_independent_values) ... ok[0m
+2026-11-21T01:18:34.2202307Z [31;1mtest_norms_preserve_tiny_values_without_auxiliary_underflow (test_front_accuracy.ObservationTests.test_norms_preserve_tiny_values_without_auxiliary_underflow) ... ok[0m
+2026-11-21T01:18:34.2223159Z [31;1mtest_paused_outlet_field_is_not_a_discharge_observation (test_front_accuracy.ObservationTests.test_paused_outlet_field_is_not_a_discharge_observation) ... ok[0m
+2026-11-21T01:18:34.2226482Z [31;1mtest_reference_floor_marks_orders_unresolved (test_front_accuracy.ObservationTests.test_reference_floor_marks_orders_unresolved) ... ok[0m
+2026-11-21T01:18:34.2263616Z [31;1mtest_sparse_observations_can_miss_a_pulse_honestly (test_front_accuracy.ObservationTests.test_sparse_observations_can_miss_a_pulse_honestly) ... ok[0m
+2026-11-21T01:18:34.2266532Z [31;1mtest_all_box_thresholds_cross_at_front_arrival (test_front_reference.PhysicalReferenceTests.test_all_box_thresholds_cross_at_front_arrival) ... ok[0m
+2026-11-21T01:18:34.2270449Z [31;1mtest_box_partial_cell_averages_are_geometric (test_front_reference.PhysicalReferenceTests.test_box_partial_cell_averages_are_geometric) ... ok[0m
+2026-11-21T01:18:34.2278049Z [31;1mtest_box_point_arrivals_use_right_continuous_time (test_front_reference.PhysicalReferenceTests.test_box_point_arrivals_use_right_continuous_time) ... ok[0m
+2026-11-21T01:18:34.2285910Z [31;1mtest_characteristic_peak_is_not_a_sampled_peak (test_front_reference.PhysicalReferenceTests.test_characteristic_peak_is_not_a_sampled_peak) ... ok[0m
+2026-11-21T01:18:34.3187141Z [31;1mtest_initial_references_agree_with_split_quadrature (test_front_reference.PhysicalReferenceTests.test_initial_references_agree_with_split_quadrature) ... ok[0m
+2026-11-21T01:18:34.3190145Z [31;1mtest_invalid_reference_domain_is_rejected (test_front_reference.PhysicalReferenceTests.test_invalid_reference_domain_is_rejected) ... ok[0m
+2026-11-21T01:18:34.3193203Z [31;1mtest_invalid_source_schedule_and_threshold_are_rejected (test_front_reference.PhysicalReferenceTests.test_invalid_source_schedule_and_threshold_are_rejected) ... ok[0m
+2026-11-21T01:18:34.3196744Z [31;1mtest_native_buffers_do_not_construct_reference (test_front_reference.PhysicalReferenceTests.test_native_buffers_do_not_construct_reference) ... ok[0m
+2026-11-21T01:18:34.3200492Z [31;1mtest_no_crossing_before_horizon (test_front_reference.PhysicalReferenceTests.test_no_crossing_before_horizon) ... ok[0m
+2026-11-21T01:18:34.3204209Z [31;1mtest_no_discharge_has_no_effluent_peak (test_front_reference.PhysicalReferenceTests.test_no_discharge_has_no_effluent_peak) ... ok[0m
+2026-11-21T01:18:34.3208146Z [31;1mtest_point_outlet_is_distinct_from_last_cell_average (test_front_reference.PhysicalReferenceTests.test_point_outlet_is_distinct_from_last_cell_average) ... ok[0m
+2026-11-21T01:18:34.3245693Z [31;1mtest_reference_check_reports_uncertainty_not_formal_bound (test_front_reference.PhysicalReferenceTests.test_reference_check_reports_uncertainty_not_formal_bound) ... ok[0m
+2026-11-21T01:18:34.3252461Z [31;1mtest_scheduled_displacement_and_pause (test_front_reference.PhysicalReferenceTests.test_scheduled_displacement_and_pause) ... ok[0m
+2026-11-21T01:18:34.3259698Z [31;1mtest_scheduled_first_and_repeated_crossings (test_front_reference.PhysicalReferenceTests.test_scheduled_first_and_repeated_crossings) ... ok[0m
+2026-11-21T01:18:34.3327817Z [31;1mtest_scheduled_mass_and_independent_spatial_quadrature (test_front_reference.PhysicalReferenceTests.test_scheduled_mass_and_independent_spatial_quadrature) ... ok[0m
+2026-11-21T01:18:34.3331022Z [31;1mtest_smooth_initial_integral_and_litre_conversion (test_front_reference.PhysicalReferenceTests.test_smooth_initial_integral_and_litre_conversion) ... ok[0m
+2026-11-21T01:18:34.3337030Z [31;1mtest_smooth_point_peak_and_exact_first_crossing (test_front_reference.PhysicalReferenceTests.test_smooth_point_peak_and_exact_first_crossing) ... ok[0m
+2026-11-21T01:18:34.3350180Z [31;1mtest_translated_pulses_leave_pipe_without_mass_renormalization (test_front_reference.PhysicalReferenceTests.test_translated_pulses_leave_pipe_without_mass_renormalization) ... ok[0m
+2026-11-21T01:18:34.3353964Z [31;1mtest_invalid_clock_and_count (test_front_reference.PoissonSemigroupTests.test_invalid_clock_and_count) ... ok[0m
+2026-11-21T01:18:34.3356938Z [31;1mtest_kernel_is_never_renormalized (test_front_reference.PoissonSemigroupTests.test_kernel_is_never_renormalized) ... ok[0m
+2026-11-21T01:18:34.3360159Z [31;1mtest_known_one_and_two_cell_convolution (test_front_reference.PoissonSemigroupTests.test_known_one_and_two_cell_convolution) ... ok[0m
+2026-11-21T01:18:34.3364296Z [31;1mtest_semigroup_composes_with_open_escape (test_front_reference.PoissonSemigroupTests.test_semigroup_composes_with_open_escape) ... ok[0m
+2026-11-21T01:18:34.3400215Z [31;1mtest_underflowing_zero_order_weight_does_not_erase_mode (test_front_reference.PoissonSemigroupTests.test_underflowing_zero_order_weight_does_not_erase_mode) ... ok[0m
+2026-11-21T01:18:34.3404202Z [31;1mtest_zero_clock_is_identity (test_front_reference.PoissonSemigroupTests.test_zero_clock_is_identity) ... ok[0m
+2026-11-21T01:18:34.3431005Z [31;1mtest_analytical_balance_and_fault_boundary_splitting (test_local_plant.PlantTests.test_analytical_balance_and_fault_boundary_splitting) ... ok[0m
+2026-11-21T01:18:34.3435362Z [31;1mtest_renamed_topology_and_level_inverse (test_local_plant.PlantTests.test_renamed_topology_and_level_inverse) ... ok[0m
+2026-11-21T01:18:34.3438529Z [31;1mtest_resource_and_nonfinite_inputs (test_local_plant.PlantTests.test_resource_and_nonfinite_inputs) ... ok[0m
+2026-11-21T01:18:34.3480650Z [31;1mtest_seeded_noise_is_bounded_and_repeatable (test_local_plant.PlantTests.test_seeded_noise_is_bounded_and_repeatable) ... ok[0m
+2026-11-21T01:18:34.3486444Z [31;1mtest_stuck_drift_missing_and_out_of_range_evidence (test_local_plant.PlantTests.test_stuck_drift_missing_and_out_of_range_evidence) ... ok[0m
+2026-11-21T01:18:34.3489874Z [31;1mtest_zero_delivery_feedback_and_recovery_preserve_commands (test_local_plant.PlantTests.test_zero_delivery_feedback_and_recovery_preserve_commands) ... ok[0m
+2026-11-21T01:18:34.3500018Z [31;1mtest_duplicate_commands_are_idempotent_and_conflicts_fault (test_local_plant.PublisherTests.test_duplicate_commands_are_idempotent_and_conflicts_fault) ... ok[0m
+2026-11-21T01:18:34.3514440Z [31;1mtest_real_lifecycle_matching_acks_and_new_epoch (test_local_plant.PublisherTests.test_real_lifecycle_matching_acks_and_new_epoch) ... ok[0m
+2026-11-21T01:18:34.6939028Z [31;1mtest_real_process_exits_cleanly_after_stop_with_parent_stdin_still_open (test_local_plant.PublisherTests.test_real_process_exits_cleanly_after_stop_with_parent_stdin_still_open) ... ok[0m
+2026-11-21T01:18:34.6941914Z [31;1mtest_unsupported_commands_cannot_change_plant_controls (test_local_plant.PublisherTests.test_unsupported_commands_cannot_change_plant_controls) ... ok[0m
+2026-11-21T01:18:34.6962619Z [31;1mtest_actual_native_no_action_and_copy_lifetime (test_native_eog.NativeEogExecutionTests.test_actual_native_no_action_and_copy_lifetime) ... ok[0m
+2026-11-21T01:18:34.6965686Z [31;1mtest_derived_overflow_and_underflow_are_unavailable (test_native_eog.NativeEogExecutionTests.test_derived_overflow_and_underflow_are_unavailable) ... ok[0m
+2026-11-21T01:18:34.6969012Z [31;1mtest_full_trips_and_fleet (test_native_eog.NativeEogExecutionTests.test_full_trips_and_fleet) ... ok[0m
+2026-11-21T01:18:34.6972784Z [31;1mtest_invalid_claim_is_structured_and_uncosted (test_native_eog.NativeEogExecutionTests.test_invalid_claim_is_structured_and_uncosted) ... ok[0m
+2026-11-21T01:18:34.6975680Z [31;1mtest_native_snapshot_failure_is_not_zero_cost (test_native_eog.NativeEogExecutionTests.test_native_snapshot_failure_is_not_zero_cost) ... ok[0m
+2026-11-21T01:18:34.6979952Z [31;1mtest_strict_bridge_fields_indices_and_numeric_values (test_native_eog.NativeEogExecutionTests.test_strict_bridge_fields_indices_and_numeric_values) ... ok[0m
+2026-11-21T01:18:34.6983375Z [31;1mtest_explicit_library_required (test_native_eog.NativeEogInputTests.test_explicit_library_required) ... ok[0m
+2026-11-21T01:18:34.6987984Z [31;1mtest_cancellation_callback_cannot_reenter_or_destroy_live_native_state (test_native_eog_plant.NativePlantTests.test_cancellation_callback_cannot_reenter_or_destroy_live_native_state) ... ok[0m
+2026-11-21T01:18:34.6991094Z [31;1mtest_explicit_absolute_library_has_no_fallback (test_native_eog_plant.NativePlantTests.test_explicit_absolute_library_has_no_fallback) ... ok[0m
+2026-11-21T01:18:34.6996492Z [31;1mtest_failure_rate_schedules_are_copied_and_never_returned (test_native_eog_plant.NativePlantTests.test_failure_rate_schedules_are_copied_and_never_returned) ... ok[0m
+2026-11-21T01:18:34.7005541Z [31;1mtest_invalid_calls_preserve_clock_and_close_is_idempotent (test_native_eog_plant.NativePlantTests.test_invalid_calls_preserve_clock_and_close_is_idempotent) ... ok[0m
+2026-11-21T01:18:34.7010526Z [31;1mtest_native_well_control_and_cancel_never_claim_completed_cost (test_native_eog_plant.NativePlantTests.test_native_well_control_and_cancel_never_claim_completed_cost) ... ok[0m
+2026-11-21T01:18:34.7018247Z [31;1mtest_real_actions_final_return_and_whole_load_failure (test_native_eog_plant.NativePlantTests.test_real_actions_final_return_and_whole_load_failure) ... ok[0m
+2026-11-21T01:18:34.7024319Z [31;1mtest_real_native_clock_copied_snapshot_trace_and_reset (test_native_eog_plant.NativePlantTests.test_real_native_clock_copied_snapshot_trace_and_reset) ... ok[0m
+2026-11-21T01:18:34.7045795Z [31;1mtest_strict_shapes_types_flags_counts_and_native_values (test_native_eog_plant.NativePlantTests.test_strict_shapes_types_flags_counts_and_native_values) ... ok[0m
+2026-11-21T01:18:34.7050202Z [31;1mtest_actual_model_and_smooth_boundary_ansatz (test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz) ... skipped 'PhysicsNeMo is optional in the A3-only environment'[0m
+2026-11-21T01:18:34.7054019Z [31;1mtest_actual_optimizer_step_and_float64_mdlus_round_trip (test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip) ... skipped 'PhysicsNeMo is optional in the A3-only environment'[0m
+2026-11-21T01:18:34.7057843Z [31;1mtest_predicted_cell_averages_match_independent_32_point_quadrature (test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature) ... skipped 'PhysicsNeMo is optional in the A3-only environment'[0m
+2026-11-21T01:18:34.7061535Z [31;1mtest_residual_only_neural_gradients_match_finite_difference_and_reduce_loss (test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss) ... skipped 'PhysicsNeMo is optional in the A3-only environment'[0m
+2026-11-21T01:18:34.7064049Z [31;1mtest_case_is_immutable_and_has_consistent_physical_rates (test_physicsnemo.TransportMathematicsTests.test_case_is_immutable_and_has_consistent_physical_rates) ... ok[0m
+2026-11-21T01:18:37.2321759Z [31;1mtest_cell_average_inventory_reproduces_analytic_ledger (test_physicsnemo.TransportMathematicsTests.test_cell_average_inventory_reproduces_analytic_ledger) ... ok[0m
+2026-11-21T01:18:37.2327756Z [31;1mtest_cell_averages_are_not_point_samples (test_physicsnemo.TransportMathematicsTests.test_cell_averages_are_not_point_samples) ... ok[0m
+2026-11-21T01:18:37.2349118Z [31;1mtest_constant_fields_have_zero_coordinate_derivatives (test_physicsnemo.TransportMathematicsTests.test_constant_fields_have_zero_coordinate_derivatives) ... ok[0m
+2026-11-21T01:18:37.2432912Z [31;1mtest_coordinate_independent_parameter_retains_decay_gradient (test_physicsnemo.TransportMathematicsTests.test_coordinate_independent_parameter_retains_decay_gradient) ... ok[0m
+2026-11-21T01:18:37.2508680Z [31;1mtest_exact_cell_averages_match_independent_high_order_quadrature (test_physicsnemo.TransportMathematicsTests.test_exact_cell_averages_match_independent_high_order_quadrature) ... ok[0m
+2026-11-21T01:18:37.2520910Z [31;1mtest_exact_eigenmode_cancels_all_pde_terms (test_physicsnemo.TransportMathematicsTests.test_exact_eigenmode_cancels_all_pde_terms) ... ok[0m
+2026-11-21T01:18:37.2532277Z [31;1mtest_exact_values_initial_data_and_boundary_conditions (test_physicsnemo.TransportMathematicsTests.test_exact_values_initial_data_and_boundary_conditions) ... ok[0m
+2026-11-21T01:18:37.2540174Z [31;1mtest_invalid_mathematical_input_is_explicit (test_physicsnemo.TransportMathematicsTests.test_invalid_mathematical_input_is_explicit) ... ok[0m
+2026-11-21T01:18:37.2560224Z [31;1mtest_linear_fields_include_first_derivatives_and_zero_curvature (test_physicsnemo.TransportMathematicsTests.test_linear_fields_include_first_derivatives_and_zero_curvature) ... ok[0m
+2026-11-21T01:18:37.2583722Z [31;1mtest_parameterized_affine_field_has_analytic_parameter_gradients (test_physicsnemo.TransportMathematicsTests.test_parameterized_affine_field_has_analytic_parameter_gradients) ... ok[0m
+2026-11-21T01:18:37.2602196Z [31;1mtest_residual_does_not_swallow_derivative_errors (test_physicsnemo.TransportMathematicsTests.test_residual_does_not_swallow_derivative_errors) ... ok[0m
+2026-11-21T01:18:37.2605074Z [31;1mtest_residual_does_not_swallow_field_errors (test_physicsnemo.TransportMathematicsTests.test_residual_does_not_swallow_field_errors) ... ok[0m
+2026-11-21T01:18:37.2627955Z [31;1mtest_residual_enables_derivatives_inside_no_grad_and_retains_parameters (test_physicsnemo.TransportMathematicsTests.test_residual_enables_derivatives_inside_no_grad_and_retains_parameters) ... ok[0m
+2026-11-21T01:18:37.2659108Z [31;1mtest_residual_on_polynomial_has_correct_signs_and_physical_units (test_physicsnemo.TransportMathematicsTests.test_residual_on_polynomial_has_correct_signs_and_physical_units) ... ok[0m
+2026-11-21T01:18:37.2662529Z [31;1mtest_residual_rejects_inference_mode_explicitly (test_physicsnemo.TransportMathematicsTests.test_residual_rejects_inference_mode_explicitly) ... ok[0m
+2026-11-21T01:18:37.2665254Z [31;1mtest_residual_retains_trainable_parameter_graph (test_physicsnemo.TransportMathematicsTests.test_residual_retains_trainable_parameter_graph) ... ok[0m
+2026-11-21T01:18:37.2667915Z [31;1mtest_signed_ledger_matches_closed_form_and_mass_balance (test_physicsnemo.TransportMathematicsTests.test_signed_ledger_matches_closed_form_and_mass_balance) ... ok[0m
+2026-11-21T01:18:37.2675865Z [31;1mtest_zero_parameter_value_does_not_remove_derivative_dependency (test_physicsnemo.TransportMathematicsTests.test_zero_parameter_value_does_not_remove_derivative_dependency) ... ok[0m
+2026-11-21T01:18:37.2702062Z [31;1mtest_all_control_gradients_have_physical_signs_and_source_feed_savings (test_rollout.RolloutTests.test_all_control_gradients_have_physical_signs_and_source_feed_savings) ... ok[0m
+2026-11-21T01:18:37.2716033Z [31;1mtest_capacity_equality_is_permitted (test_rollout.RolloutTests.test_capacity_equality_is_permitted) ... ok[0m
+2026-11-21T01:18:37.2746840Z [31;1mtest_capture_defaults_and_returned_results_are_isolated (test_rollout.RolloutTests.test_capture_defaults_and_returned_results_are_isolated) ... ok[0m
+2026-11-21T01:18:37.2751515Z [31;1mtest_combined_control_price_overflow_rejects_even_zero_flow (test_rollout.RolloutTests.test_combined_control_price_overflow_rejects_even_zero_flow) ... ok[0m
+2026-11-21T01:18:37.3124761Z [31;1mtest_concurrent_calls_do_not_share_candidate_state (test_rollout.RolloutTests.test_concurrent_calls_do_not_share_candidate_state) ... ok[0m
+2026-11-21T01:18:37.3143267Z [31;1mtest_custom_ids_inventory_cost_and_catalog_order (test_rollout.RolloutTests.test_custom_ids_inventory_cost_and_catalog_order) ... ok[0m
+2026-11-21T01:18:37.3234434Z [31;1mtest_finite_unit_price_retains_zero_and_repaired_cost_candidates (test_rollout.RolloutTests.test_finite_unit_price_retains_zero_and_repaired_cost_candidates) ... ok[0m
+2026-11-21T01:18:37.3245952Z [31;1mtest_initial_sample_and_exact_nondividing_final_time (test_rollout.RolloutTests.test_initial_sample_and_exact_nondividing_final_time) ... ok[0m
+2026-11-21T01:18:37.3281689Z [31;1mtest_invalid_controls_fail_without_changing_defaults (test_rollout.RolloutTests.test_invalid_controls_fail_without_changing_defaults) ... ok[0m
+2026-11-21T01:18:37.3295547Z [31;1mtest_invalid_forecast_configuration_is_rejected (test_rollout.RolloutTests.test_invalid_forecast_configuration_is_rejected) ... ok[0m
+2026-11-21T01:18:37.3312364Z [31;1mtest_invalid_network_structure_is_rejected (test_rollout.RolloutTests.test_invalid_network_structure_is_rejected) ... ok[0m
+2026-11-21T01:18:37.3321460Z [31;1mtest_invalid_parameter_numbers_and_size_limits_are_rejected (test_rollout.RolloutTests.test_invalid_parameter_numbers_and_size_limits_are_rejected) ... ok[0m
+2026-11-21T01:18:37.3365759Z [31;1mtest_mapping_scalar_tensor_preserves_its_autograd_history (test_rollout.RolloutTests.test_mapping_scalar_tensor_preserves_its_autograd_history) ... ok[0m
+2026-11-21T01:18:37.4130903Z [31;1mtest_maximum_step_count_remains_supported (test_rollout.RolloutTests.test_maximum_step_count_remains_supported) ... ok[0m
+2026-11-21T01:18:37.4254765Z [31;1mtest_multiple_central_difference_scales_on_smooth_objective (test_rollout.RolloutTests.test_multiple_central_difference_scales_on_smooth_objective) ... ok[0m
+2026-11-21T01:18:37.4277047Z [31;1mtest_negative_and_overflowing_storage_are_not_clipped (test_rollout.RolloutTests.test_negative_and_overflowing_storage_are_not_clipped) ... ok[0m
+2026-11-21T01:18:37.4280694Z [31;1mtest_non_cpu_tensors_are_explicit_errors (test_rollout.RolloutTests.test_non_cpu_tensors_are_explicit_errors) ... ok[0m
+2026-11-21T01:18:37.4299418Z [31;1mtest_omitted_stored_roundoff_default_differs_from_explicit_override (test_rollout.RolloutTests.test_omitted_stored_roundoff_default_differs_from_explicit_override) ... ok[0m
+2026-11-21T01:18:37.4308174Z [31;1mtest_one_ulp_tail_preserves_regular_samples_and_exact_horizon (test_rollout.RolloutTests.test_one_ulp_tail_preserves_regular_samples_and_exact_horizon) ... ok[0m
+2026-11-21T01:18:37.4341534Z [31;1mtest_overrides_keep_every_unspecified_control_fixed (test_rollout.RolloutTests.test_overrides_keep_every_unspecified_control_fixed) ... ok[0m
+2026-11-21T01:18:37.4347065Z [31;1mtest_requested_horizon_excess_is_retained_at_large_finite_flow (test_rollout.RolloutTests.test_requested_horizon_excess_is_retained_at_large_finite_flow) ... ok[0m
+2026-11-21T01:18:37.4356033Z [31;1mtest_rounding_up_the_quotient_does_not_duplicate_final_sample (test_rollout.RolloutTests.test_rounding_up_the_quotient_does_not_duplicate_final_sample) ... ok[0m
+2026-11-21T01:18:37.4373358Z [31;1mtest_shared_destination_excess_is_a_prediction_not_a_torch_verdict (test_rollout.RolloutTests.test_shared_destination_excess_is_a_prediction_not_a_torch_verdict) ... ok[0m
+2026-11-21T01:18:37.4392063Z [31;1mtest_source_curtailment_rechecks_actual_feed_route_capacity (test_rollout.RolloutTests.test_source_curtailment_rechecks_actual_feed_route_capacity) ... ok[0m
+2026-11-21T01:18:37.4401976Z [31;1mtest_step_larger_than_horizon_has_two_samples (test_rollout.RolloutTests.test_step_larger_than_horizon_has_two_samples) ... ok[0m
+2026-11-21T01:18:37.4414997Z [31;1mtest_subnormal_horizon_and_overflowing_step_multiple_are_supported (test_rollout.RolloutTests.test_subnormal_horizon_and_overflowing_step_multiple_are_supported) ... ok[0m
+2026-11-21T01:18:37.4422840Z [31;1mtest_tensor_dtype_shape_and_nonfinite_values_are_explicit_errors (test_rollout.RolloutTests.test_tensor_dtype_shape_and_nonfinite_values_are_explicit_errors) ... ok[0m
+2026-11-21T01:18:37.4522172Z [31;1mtest_torch_gradcheck_for_vector_endpoint_and_cost (test_rollout.RolloutTests.test_torch_gradcheck_for_vector_endpoint_and_cost) ... ok[0m
+2026-11-21T01:18:37.4547946Z [31;1mtest_zero_control_network_stays_on_cpu_under_non_cpu_default_device (test_rollout.RolloutTests.test_zero_control_network_stays_on_cpu_under_non_cpu_default_device) ... ok[0m
+2026-11-21T01:18:37.4555150Z [31;1mtest_zero_control_static_network (test_rollout.RolloutTests.test_zero_control_static_network) ... ok[0m
+2026-11-21T01:18:37.4560160Z [31;1mtest_independent_reference (test_transport_calibration.CalibrationInputTests.test_independent_reference) ... ok[0m
+2026-11-21T01:18:37.4563586Z [31;1mtest_malformed_inputs (test_transport_calibration.CalibrationInputTests.test_malformed_inputs) ... ok[0m
+2026-11-21T01:18:37.4567454Z [31;1mtest_unsupported_rate_rejected (test_transport_calibration.CalibrationInputTests.test_unsupported_rate_rejected) ... ok[0m
+2026-11-21T01:18:37.4572443Z [31;1mtest_captured_inputs_cannot_be_changed_to_fit_the_result (test_transport_qualification.QualificationEvidenceTests.test_captured_inputs_cannot_be_changed_to_fit_the_result) ... ok[0m
+2026-11-21T01:18:37.4581588Z [31;1mtest_conserving_but_wrong_field_fails_the_independent_solution (test_transport_qualification.QualificationEvidenceTests.test_conserving_but_wrong_field_fails_the_independent_solution) ... ok[0m
+2026-11-21T01:18:37.4589223Z [31;1mtest_consistent_missing_litre_conversion_cannot_pass_balance (test_transport_qualification.QualificationEvidenceTests.test_consistent_missing_litre_conversion_cannot_pass_balance) ... ok[0m
+2026-11-21T01:18:37.4600871Z [31;1mtest_exact_uniform_source_has_correct_units_and_passes (test_transport_qualification.QualificationEvidenceTests.test_exact_uniform_source_has_correct_units_and_passes) ... ok[0m
+2026-11-21T01:18:37.4626811Z [31;1mtest_false_diagnostics_and_positive_excess_work_fail_gates (test_transport_qualification.QualificationEvidenceTests.test_false_diagnostics_and_positive_excess_work_fail_gates) ... ok[0m
+2026-11-21T01:18:37.4629702Z [31;1mtest_initial_metadata_and_result_must_both_match_cell_average_oracle (test_transport_qualification.QualificationEvidenceTests.test_initial_metadata_and_result_must_both_match_cell_average_oracle) ... ok[0m
+2026-11-21T01:18:37.4644327Z [31;1mtest_nonfinite_negative_and_untyped_diagnostics_are_rejected (test_transport_qualification.QualificationEvidenceTests.test_nonfinite_negative_and_untyped_diagnostics_are_rejected) ... ok[0m
+2026-11-21T01:18:37.4652762Z [31;1mtest_result_shapes_nonfinite_values_and_endpoint_are_rejected (test_transport_qualification.QualificationEvidenceTests.test_result_shapes_nonfinite_values_and_endpoint_are_rejected) ... ok[0m
+2026-11-21T01:18:37.4657331Z [31;1mtest_scheduled_result_cannot_omit_intermediate_requested_outputs (test_transport_qualification.QualificationEvidenceTests.test_scheduled_result_cannot_omit_intermediate_requested_outputs) ... ok[0m
+2026-11-21T01:18:37.4664113Z [31;1mtest_wrong_source_ledger_sign_cannot_pass_recorded_zero_residual (test_transport_qualification.QualificationEvidenceTests.test_wrong_source_ledger_sign_cannot_pass_recorded_zero_residual) ... ok[0m
+2026-11-21T01:18:37.4667085Z [31;1mtest_zero_step_diagnostic_is_explicitly_malformed (test_transport_qualification.QualificationEvidenceTests.test_zero_step_diagnostic_is_explicitly_malformed) ... ok[0m
+2026-11-21T01:18:37.4674044Z [31;1mtest_declared_matrix_metadata_is_accepted (test_transport_qualification.QualificationMatrixTests.test_declared_matrix_metadata_is_accepted) ... ok[0m
+2026-11-21T01:18:37.4682313Z [31;1mtest_empty_missing_duplicate_and_changed_matrix_are_rejected (test_transport_qualification.QualificationMatrixTests.test_empty_missing_duplicate_and_changed_matrix_are_rejected) ... ok[0m
+2026-11-21T01:18:37.4686404Z [31;1mtest_evaluation_rejects_result_method_identity_mismatch (test_transport_qualification.QualificationMatrixTests.test_evaluation_rejects_result_method_identity_mismatch) ... ok[0m
+2026-11-21T01:18:37.4693166Z [31;1mtest_refined_followup_keeps_every_original_acceptance_gate (test_transport_qualification.QualificationMatrixTests.test_refined_followup_keeps_every_original_acceptance_gate) ... ok[0m
+2026-11-21T01:18:37.4705070Z [31;1mtest_refined_matrix_accepts_only_its_tag_and_refined_inlet_meshes (test_transport_qualification.QualificationMatrixTests.test_refined_matrix_accepts_only_its_tag_and_refined_inlet_meshes) ... ok[0m
+2026-11-21T01:18:37.4712666Z [31;1mtest_required_rejections_need_the_declared_type_and_retained_error (test_transport_qualification.QualificationMatrixTests.test_required_rejections_need_the_declared_type_and_retained_error) ... ok[0m
+2026-11-21T01:18:37.4756589Z [31;1mtest_analytic_inventory_and_signed_ledgers_agree (test_transport_reference.TransportReferenceTests.test_analytic_inventory_and_signed_ledgers_agree) ... ok[0m
+2026-11-21T01:18:37.4760080Z [31;1mtest_discrete_diffusion_mode_rates_match_face_flux_generator (test_transport_reference.TransportReferenceTests.test_discrete_diffusion_mode_rates_match_face_flux_generator) ... ok[0m
+2026-11-21T01:18:37.4771219Z [31;1mtest_flow_pause_freezes_pulse_and_semidiscrete_reference (test_transport_reference.TransportReferenceTests.test_flow_pause_freezes_pulse_and_semidiscrete_reference) ... ok[0m
+2026-11-21T01:18:37.4785497Z [31;1mtest_initial_time_has_exact_semidiscrete_and_zero_ledger_limits (test_transport_reference.TransportReferenceTests.test_initial_time_has_exact_semidiscrete_and_zero_ledger_limits) ... ok[0m
+2026-11-21T01:18:37.4789017Z [31;1mtest_missing_or_inconsistent_reference_parameters_fail_explicitly (test_transport_reference.TransportReferenceTests.test_missing_or_inconsistent_reference_parameters_fail_explicitly) ... ok[0m
+2026-11-21T01:18:37.4798376Z [31;1mtest_mixed_eigensolution_matches_independent_face_flux_derivative (test_transport_reference.TransportReferenceTests.test_mixed_eigensolution_matches_independent_face_flux_derivative) ... ok[0m
+2026-11-21T01:18:37.4807140Z [31;1mtest_mixed_modes_have_independent_continuum_flux_balance (test_transport_reference.TransportReferenceTests.test_mixed_modes_have_independent_continuum_flux_balance) ... ok[0m
+2026-11-21T01:18:37.4838798Z [31;1mtest_mixed_reference_eigen_checks_positivity_and_mesh_refinement (test_transport_reference.TransportReferenceTests.test_mixed_reference_eigen_checks_positivity_and_mesh_refinement) ... ok[0m
+2026-11-21T01:18:37.4859553Z [31;1mtest_native_initial_and_result_values_are_not_used_by_oracles (test_transport_reference.TransportReferenceTests.test_native_initial_and_result_values_are_not_used_by_oracles) ... ok[0m
+2026-11-21T01:18:37.4862804Z [31;1mtest_open_diffusion_exchanges_negative_mass_without_water_flow (test_transport_reference.TransportReferenceTests.test_open_diffusion_exchanges_negative_mass_without_water_flow) ... ok[0m
+2026-11-21T01:18:37.4944383Z [31;1mtest_scheduled_inlet_characteristics_match_piecewise_quadrature (test_transport_reference.TransportReferenceTests.test_scheduled_inlet_characteristics_match_piecewise_quadrature) ... ok[0m
+2026-11-21T01:18:37.4956088Z [31;1mtest_scheduled_inlet_mass_uses_velocity_weighted_time_integrals (test_transport_reference.TransportReferenceTests.test_scheduled_inlet_mass_uses_velocity_weighted_time_integrals) ... ok[0m
+2026-11-21T01:18:37.5120027Z [31;1mtest_smooth_analytic_cell_averages_match_independent_quadrature (test_transport_reference.TransportReferenceTests.test_smooth_analytic_cell_averages_match_independent_quadrature) ... ok[0m
+2026-11-21T01:18:37.5124241Z [31;1mtest_source_and_decay_ledgers_have_independent_ode_values (test_transport_reference.TransportReferenceTests.test_source_and_decay_ledgers_have_independent_ode_values) ... ok[0m
+2026-11-21T01:18:37.5240729Z [31;1mtest_translated_pulse_cell_averages_match_piecewise_quadrature (test_transport_reference.TransportReferenceTests.test_translated_pulse_cell_averages_match_piecewise_quadrature) ... ok[0m
+2026-11-21T01:18:37.5245032Z [31;1mtest_upwind_poisson_solution_matches_independent_two_cell_odes (test_transport_reference.TransportReferenceTests.test_upwind_poisson_solution_matches_independent_two_cell_odes) ... ok[0m
+2026-11-21T01:18:37.7041253Z [31;1mtest_health_and_explicit_unimplemented_method (test_worker.WorkerTests.test_health_and_explicit_unimplemented_method) ... ok[0m
+2026-11-21T01:18:37.8876027Z [31;1mtest_malformed_requests_do_not_break_next_request (test_worker.WorkerTests.test_malformed_requests_do_not_break_next_request) ... ok[0m
+2026-11-21T01:18:38.0675607Z [31;1mtest_bad_json_duplicates_nonfinite_and_utf8_resynchronize_at_next_line (test_worker_protocol.FramingTests.test_bad_json_duplicates_nonfinite_and_utf8_resynchronize_at_next_line) ... ok[0m
+2026-11-21T01:18:38.4287948Z [31;1mtest_exact_line_budget_is_accepted_and_oversize_stops_without_resync (test_worker_protocol.FramingTests.test_exact_line_budget_is_accepted_and_oversize_stops_without_resync) ... ok[0m
+2026-11-21T01:18:38.6023083Z [31;1mtest_health_works_without_site_packages_and_keeps_legacy_shape (test_worker_protocol.FramingTests.test_health_works_without_site_packages_and_keeps_legacy_shape) ... ok[0m
+2026-11-21T01:18:38.7842753Z [31;1mtest_installed_single_file_still_supports_health_and_honest_capabilities (test_worker_protocol.FramingTests.test_installed_single_file_still_supports_health_and_honest_capabilities) ... ok[0m
+2026-11-21T01:18:38.9580620Z [31;1mtest_invalid_id_and_unknown_envelope_fields_fail_explicitly (test_worker_protocol.FramingTests.test_invalid_id_and_unknown_envelope_fields_fail_explicitly) ... ok[0m
+2026-11-21T01:18:39.2239763Z [31;1mtest_missing_torch_does_not_turn_detection_into_verified_execution (test_worker_protocol.FramingTests.test_missing_torch_does_not_turn_detection_into_verified_execution) ... ok[0m
+2026-11-21T01:18:39.4818641Z [31;1mtest_nonfinite_control_price_is_rejected_without_loading_torch (test_worker_protocol.FramingTests.test_nonfinite_control_price_is_rejected_without_loading_torch) ... ok[0m
+2026-11-21T01:18:39.6540150Z [31;1mtest_numeric_version_and_representability_errors_match_contract_semantics (test_worker_protocol.FramingTests.test_numeric_version_and_representability_errors_match_contract_semantics) ... ok[0m
+2026-11-21T01:18:39.8283034Z [31;1mtest_semantic_errors_preserve_exact_valid_request_identity (test_worker_protocol.FramingTests.test_semantic_errors_preserve_exact_valid_request_identity) ... ok[0m
+2026-11-21T01:18:40.1657522Z [31;1mtest_unterminated_frame_and_empty_stream (test_worker_protocol.FramingTests.test_unterminated_frame_and_empty_stream) ... ok[0m
+2026-11-21T01:18:45.3609177Z [31;1mtest_capability_verification_requires_success_and_is_session_local (test_worker_protocol.ScientificProcessTests.test_capability_verification_requires_success_and_is_session_local) ... ok[0m
+2026-11-21T01:18:45.6529844Z [31;1mtest_invalid_network_artifact_and_boundary_derivatives_are_explicit (test_worker_protocol.ScientificProcessTests.test_invalid_network_artifact_and_boundary_derivatives_are_explicit) ... ok[0m
+2026-11-21T01:18:50.7559442Z [31;1mtest_one_ulp_terminal_tail_counts_toward_work_limit (test_worker_protocol.ScientificProcessTests.test_one_ulp_terminal_tail_counts_toward_work_limit) ... ok[0m
+2026-11-21T01:18:55.7628225Z [31;1mtest_output_budget_failure_never_marks_execution_verified (test_worker_protocol.ScientificProcessTests.test_output_budget_failure_never_marks_execution_verified) ... ok[0m
+2026-11-21T01:19:00.6391729Z [31;1mtest_output_budget_reduces_only_preview_and_preserves_derivatives (test_worker_protocol.ScientificProcessTests.test_output_budget_reduces_only_preview_and_preserves_derivatives) ... ok[0m
+2026-11-21T01:19:05.5525645Z [31;1mtest_partial_overrides_are_isolated_and_zero_controls_have_empty_derivatives (test_worker_protocol.ScientificProcessTests.test_partial_overrides_are_isolated_and_zero_controls_have_empty_derivatives) ... ok[0m
+2026-11-21T01:19:10.3809452Z [31;1mtest_preview_keeps_original_indices_endpoints_and_does_not_clip_predictions (test_worker_protocol.ScientificProcessTests.test_preview_keeps_original_indices_endpoints_and_does_not_clip_predictions) ... ok[0m
+2026-11-21T01:19:15.2695150Z [31;1mtest_publication_rejects_mapper_that_omits_one_ulp_terminal_interval (test_worker_protocol.ScientificProcessTests.test_publication_rejects_mapper_that_omits_one_ulp_terminal_interval) ... ok[0m
+2026-11-21T01:19:20.2096269Z [31;1mtest_requested_horizon_grid_regressions_and_selected_derivative (test_worker_protocol.ScientificProcessTests.test_requested_horizon_grid_regressions_and_selected_derivative) ... ok[0m
+2026-11-21T01:19:25.1536250Z [31;1mtest_selected_control_order_unicode_ids_and_derivative_units (test_worker_protocol.ScientificProcessTests.test_selected_control_order_unicode_ids_and_derivative_units) ... ok[0m
+2026-11-21T01:19:25.1634611Z [31;1mtest_cost_overflow_does_not_preclude_finite_control_override (test_worker_storage.StorageExecutionTests.test_cost_overflow_does_not_preclude_finite_control_override) ... ok[0m
+2026-11-21T01:19:25.1640914Z [31;1mtest_large_finite_source_retains_requested_endpoint_overflow (test_worker_storage.StorageExecutionTests.test_large_finite_source_retains_requested_endpoint_overflow) ... ok[0m
+2026-11-21T01:19:25.2446675Z [31;1mtest_long_forward_grid_does_not_create_long_backward_graph (test_worker_storage.StorageExecutionTests.test_long_forward_grid_does_not_create_long_backward_graph) ... ok[0m
+2026-11-21T01:19:25.2465656Z [31;1mtest_negative_and_capacity_overflow_evidence_is_not_clipped (test_worker_storage.StorageExecutionTests.test_negative_and_capacity_overflow_evidence_is_not_clipped) ... ok[0m
+2026-11-21T01:19:25.2509002Z [31;1mtest_nonfinite_forecast_or_derivative_is_explicit_failure (test_worker_storage.StorageExecutionTests.test_nonfinite_forecast_or_derivative_is_explicit_failure) ... ok[0m
+2026-11-21T01:19:25.2648538Z [31;1mtest_one_step_derivatives_match_full_autograd_and_central_differences (test_worker_storage.StorageExecutionTests.test_one_step_derivatives_match_full_autograd_and_central_differences) ... ok[0m
+2026-11-21T01:19:25.2678198Z [31;1mtest_one_ulp_tail_forward_and_derivatives_use_same_horizon (test_worker_storage.StorageExecutionTests.test_one_ulp_tail_forward_and_derivatives_use_same_horizon) ... ok[0m
+2026-11-21T01:19:25.2748641Z [31;1mtest_partial_overrides_selected_derivative_order_and_units (test_worker_storage.StorageExecutionTests.test_partial_overrides_selected_derivative_order_and_units) ... ok[0m
+2026-11-21T01:19:25.2771200Z [31;1mtest_preview_uses_real_frames_and_exact_shortened_horizon (test_worker_storage.StorageExecutionTests.test_preview_uses_real_frames_and_exact_shortened_horizon) ... ok[0m
+2026-11-21T01:19:25.6722501Z [31;1mtest_roundoff_and_subnormal_grids_keep_exact_requested_horizon (test_worker_storage.StorageExecutionTests.test_roundoff_and_subnormal_grids_keep_exact_requested_horizon) ... ok[0m
+2026-11-21T01:19:25.6745111Z [31;1mtest_wire_units_ids_default_controls_and_provenance (test_worker_storage.StorageExecutionTests.test_wire_units_ids_default_controls_and_provenance) ... ok[0m
+2026-11-21T01:19:25.6765106Z [31;1mtest_zero_selected_derivatives_are_empty_not_full_catalog (test_worker_storage.StorageExecutionTests.test_zero_selected_derivatives_are_empty_not_full_catalog) ... ok[0m
+2026-11-21T01:19:25.6776244Z [31;1mtest_combined_control_price_overflow_fails_before_runtime (test_worker_storage.ValidationTests.test_combined_control_price_overflow_fails_before_runtime) ... ok[0m
+2026-11-21T01:19:25.6790977Z [31;1mtest_derivative_domain_excludes_fixed_bounds_and_feed_capacity_boundary (test_worker_storage.ValidationTests.test_derivative_domain_excludes_fixed_bounds_and_feed_capacity_boundary) ... ok[0m
+2026-11-21T01:19:25.6812254Z [31;1mtest_explicit_controls_are_exact_catalog_entries_and_not_clipped (test_worker_storage.ValidationTests.test_explicit_controls_are_exact_catalog_entries_and_not_clipped) ... ok[0m
+2026-11-21T01:19:25.6831533Z [31;1mtest_horizon_preview_and_work_bounds (test_worker_storage.ValidationTests.test_horizon_preview_and_work_bounds) ... ok[0m
+2026-11-21T01:19:25.6846461Z [31;1mtest_payload_and_identity_are_strict_and_opaque (test_worker_storage.ValidationTests.test_payload_and_identity_are_strict_and_opaque) ... ok[0m
+2026-11-21T01:19:25.6874596Z [31;1mtest_project_units_and_draft_checks_precede_overrides (test_worker_storage.ValidationTests.test_project_units_and_draft_checks_precede_overrides) ... ok[0m
+2026-11-21T01:19:25.6878944Z [31;1mtest_valid_optional_project_defaults_and_unknown_properties_reach_runtime (test_worker_storage.ValidationTests.test_valid_optional_project_defaults_and_unknown_properties_reach_runtime) ... ok[0m
+2026-11-21T01:19:25.6882742Z [31;1m[0m
+2026-11-21T01:19:25.6886272Z [31;1m----------------------------------------------------------------------[0m
+2026-11-21T01:19:25.6889094Z [31;1mRan 468 tests in 103.908s[0m
+2026-11-21T01:19:25.6892640Z [31;1m[0m
+2026-11-21T01:19:25.6895711Z [31;1mOK (skipped=4)[0m
+2026-11-21T01:19:25.6896927Z F1 failed: C:\Users\runneradmin\AppData\Local\Temp\tmpnk58k_b7\attempt\report.json
+2026-11-21T01:19:25.6897954Z 'study_version'
+2026-11-21T01:19:25.6898822Z F1 failed: C:\Users\runneradmin\AppData\Local\Temp\tmpj2w1d4hh\attempt\report.json
+2026-11-21T01:19:25.6900274Z Native execution failed (exit 7); raw evidence retained
+2026-11-21T01:19:25.6901008Z {
+2026-11-21T01:19:25.6901265Z   "passed": true,
+2026-11-21T01:19:25.6903002Z   "tests_run": 468,
+2026-11-21T01:19:25.6903775Z   "tests_passed": 464,
+2026-11-21T01:19:25.6904144Z   "failures": 0,
+2026-11-21T01:19:25.6905688Z   "errors": 0,
+2026-11-21T01:19:25.6906929Z   "expected_failures": 0,
+2026-11-21T01:19:25.6908132Z   "unexpected_successes": 0,
+2026-11-21T01:19:25.6909207Z   "skipped": [
+2026-11-21T01:19:25.6910222Z     {
+2026-11-21T01:19:25.6911744Z       "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_model_and_smooth_boundary_ansatz",
+2026-11-21T01:19:25.6913322Z       "reason": "PhysicsNeMo is optional in the A3-only environment"
+2026-11-21T01:19:25.6913824Z     },
+2026-11-21T01:19:25.6914236Z     {
+2026-11-21T01:19:25.6916060Z       "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_actual_optimizer_step_and_float64_mdlus_round_trip",
+2026-11-21T01:19:25.6917144Z       "reason": "PhysicsNeMo is optional in the A3-only environment"
+2026-11-21T01:19:25.6918471Z     },
+2026-11-21T01:19:25.6920387Z     {
+2026-11-21T01:19:25.6921175Z       "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_predicted_cell_averages_match_independent_32_point_quadrature",
+2026-11-21T01:19:25.6922576Z       "reason": "PhysicsNeMo is optional in the A3-only environment"
+2026-11-21T01:19:25.6923790Z     },
+2026-11-21T01:19:25.6925769Z     {
+2026-11-21T01:19:25.6926588Z       "test": "test_physicsnemo.ActualPhysicsNeMoTests.test_residual_only_neural_gradients_match_finite_difference_and_reduce_loss",
+2026-11-21T01:19:25.6927880Z       "reason": "PhysicsNeMo is optional in the A3-only environment"
+2026-11-21T01:19:25.6929197Z     }
+2026-11-21T01:19:25.6930653Z   ],
+2026-11-21T01:19:25.6931951Z   "unexpected_skips": []
+2026-11-21T01:19:25.6932339Z }
+2026-11-21T01:19:26.1434346Z ##[endgroup]
+2026-11-21T01:19:26.2457078Z ##[group]Run ./scripts/ci/Write-JobEvidence.ps1 -Suite science -Phase finish -Outcome 'success'
+2026-11-21T01:19:26.2458086Z [36;1m./scripts/ci/Write-JobEvidence.ps1 -Suite science -Phase finish -Outcome 'success'[0m
+2026-11-21T01:19:26.2499939Z shell: C:\Program Files\PowerShell\7\pwsh.EXE -command ". '{0}'"
+2026-11-21T01:19:26.2500401Z env:
+2026-11-21T01:19:26.2500668Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:19:26.2500994Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:19:26.2501275Z   NVIDIA_API_KEY: 
+2026-11-21T01:19:26.2501622Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:19:26.2502224Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-21T01:19:26.2502751Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:19:26.2503236Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:19:26.2503791Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:19:26.2504188Z ##[endgroup]
+2026-11-21T01:19:26.6766733Z Job finish evidence retained for science/normal (success).
+2026-11-21T01:19:26.7565349Z ##[group]Run actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f
+2026-11-21T01:19:26.7565823Z with:
+2026-11-21T01:19:26.7566060Z   name: windows-science-cpu
+2026-11-21T01:19:26.7566485Z   path: out/ci/science-normal/
+.tools/science-setup/*.log
+.tools/science-setup/runtime.json
+
+2026-11-21T01:19:26.7566938Z   if-no-files-found: error
+2026-11-21T01:19:26.7567151Z   retention-days: 14
+2026-11-21T01:19:26.7567355Z   compression-level: 6
+2026-11-21T01:19:26.7567558Z   overwrite: false
+2026-11-21T01:19:26.7567762Z   include-hidden-files: false
+2026-11-21T01:19:26.7567971Z env:
+2026-11-21T01:19:26.7568146Z   PYTHONDONTWRITEBYTECODE: 1
+2026-11-21T01:19:26.7568365Z   PYTHONNOUSERSITE: 1
+2026-11-21T01:19:26.7568555Z   NVIDIA_API_KEY: 
+2026-11-21T01:19:26.7568822Z   pythonLocation: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:19:26.7569283Z   PKG_CONFIG_PATH: C:\hostedtoolcache\windows\Python\3.12.10\x64/lib/pkgconfig
+2026-11-21T01:19:26.7569776Z   Python_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:19:26.7570172Z   Python2_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:19:26.7570562Z   Python3_ROOT_DIR: C:\hostedtoolcache\windows\Python\3.12.10\x64
+2026-11-21T01:19:26.7570870Z ##[endgroup]
+2026-11-21T01:19:26.9790719Z Multiple search paths detected. Calculating the least common ancestor of all paths
+2026-11-21T01:19:26.9794120Z The least common ancestor is D:\a\Breakwater\Breakwater. This will be the root directory of the artifact
+2026-11-21T01:19:26.9794970Z With the provided path, there will be 21 files uploaded
+2026-11-21T01:19:26.9800196Z Artifact name is valid!
+2026-11-21T01:19:26.9802124Z Root directory input is valid!
+2026-11-21T01:19:27.1808689Z Beginning upload of artifact content to blob storage
+2026-11-21T01:19:27.2946679Z Uploaded bytes 27606
+2026-11-21T01:19:27.3099422Z Finished uploading artifact content to blob storage!
+2026-11-21T01:19:27.3101187Z SHA256 digest of uploaded artifact zip is 984046a15c4cff7c021e13d03ad08b542b25c616107b3b06ff753862e33be66f
+2026-11-21T01:19:27.3103650Z Finalizing artifact upload
+2026-11-21T01:19:27.6388776Z Artifact windows-science-cpu.zip successfully finalized. Artifact ID 14684741779
+2026-11-21T01:19:27.6390073Z Artifact windows-science-cpu has been successfully uploaded! Final size is 27606 bytes. Artifact ID is 14684741779
+2026-11-21T01:19:27.6396314Z Artifact download URL: https://github.com/Towstar/Breakwater/actions/runs/44848185755/artifacts/14684741779
+2026-11-21T01:19:27.7688549Z Post job cleanup.
+2026-11-21T01:19:28.0700652Z [command]"C:\Program Files\Git\usr\bin\tar.exe" --posix -cf cache.tzst --exclude cache.tzst -P -C D:/a/Breakwater/Breakwater --files-from manifest.txt --force-local --use-compress-program "zstd -T0"
+2026-11-21T01:19:34.3133980Z Sent 17620063 of 218946655 (8.0%), 16.7 MBs/sec
+2026-11-21T01:19:35.3290402Z Sent 218946655 of 218946655 (100.0%), 103.3 MBs/sec
+2026-11-21T01:19:35.7854951Z Cache saved with key: windows-2022-cpu-d37be48a79ea6033162d958b557593566b3a45f57c8390d79a2df661acb2adbc
+2026-11-21T01:19:35.8116112Z Post job cleanup.
+2026-11-21T01:19:35.9895272Z Post job cleanup.
+2026-11-21T01:19:36.1912924Z [command]"C:\Program Files\Git\bin\git.exe" version
+2026-11-21T01:19:36.2184625Z git version 2.56.1.windows.1
+2026-11-21T01:19:36.2247965Z Temporarily overriding HOME='D:\a\_temp\26dee95c-0aa0-4c9a-8ca0-7a7ef895b5de' before making global git config changes
+2026-11-21T01:19:36.2249103Z Adding repository directory to the temporary git global config as a safe directory
+2026-11-21T01:19:36.2260315Z [command]"C:\Program Files\Git\bin\git.exe" config --global --add safe.directory D:\a\Breakwater\Breakwater
+2026-11-21T01:19:36.2569142Z Removing SSH command configuration
+2026-11-21T01:19:36.2585088Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp core\.sshCommand
+2026-11-21T01:19:36.2896448Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :\""
+2026-11-21T01:19:36.7991729Z Removing HTTP extra header
+2026-11-21T01:19:36.8002665Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+2026-11-21T01:19:36.8311590Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "sh -c \"git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :\""
+2026-11-21T01:19:37.3443608Z Removing includeIf entries pointing to credentials config files
+2026-11-21T01:19:37.3455929Z [command]"C:\Program Files\Git\bin\git.exe" config --local --name-only --get-regexp ^includeIf\.gitdir:
+2026-11-21T01:19:37.3730953Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-21T01:19:37.3731925Z includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-21T01:19:37.3766321Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path
+2026-11-21T01:19:37.4034650Z D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:19:37.4070446Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git.path D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:19:37.4375658Z [command]"C:\Program Files\Git\bin\git.exe" config --local --get-all includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path
+2026-11-21T01:19:37.4650865Z D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:19:37.4684196Z [command]"C:\Program Files\Git\bin\git.exe" config --local --unset includeif.gitdir:D:/a/Breakwater/Breakwater/.git/worktrees/*.path D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config
+2026-11-21T01:19:37.4990744Z [command]"C:\Program Files\Git\bin\git.exe" submodule foreach --recursive "git config --local --show-origin --name-only --get-regexp remote.origin.url"
+2026-11-21T01:19:37.9635697Z Removing credentials config 'D:\a\_temp\git-credentials-9f6a49b8-6503-4dd3-953d-1af0b92acbf2.config'
+2026-11-21T01:19:37.9817937Z Cleaning up orphan processes
+2026-11-21T01:19:38.0279885Z Terminate orphan process: pid (1348) (vctip)
+

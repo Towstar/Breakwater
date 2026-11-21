@@ -32,11 +32,13 @@ Button {
     background: Rectangle {
         implicitHeight: Theme.controlHeight
         radius: Theme.cornerRadius
-        color: !control.enabled ? Theme.surface
+        color: !control.enabled ? (control.flat ? "transparent" : Theme.surface)
             : control.highlighted ? (control.down ? Theme.primaryPressed : control.hovered ? Theme.primaryHover : Theme.text)
-            : control.down || control.checked ? Theme.selected : control.hovered ? Theme.hover : Theme.raised
+            : control.down || control.checked ? Theme.selected : control.hovered ? Theme.hover : control.flat ? "transparent" : Theme.raised
         border.width: control.checked ? 2 : 1
-        border.color: !control.enabled ? Theme.divider : control.highlighted || control.checked || control.visualFocus ? Theme.text : Theme.controlBorder
+        border.color: control.checked || control.visualFocus ? Theme.text
+            : control.flat && !control.highlighted ? "transparent"
+            : !control.enabled ? Theme.divider : control.highlighted ? Theme.text : Theme.controlBorder
         Rectangle {
             anchors.fill: parent
             anchors.margins: -3

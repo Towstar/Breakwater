@@ -45,3 +45,7 @@ docs/evidence/nemotron-completion/3d91452/** -text whitespace=cr-at-eol
 docs/evidence/nemotron-completion/3d91452/**/*.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 docs/evidence/nemotron-completion/3d91452/**/*.xml -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 docs/images/portfolio/nemotron-3d91452/** -text whitespace=cr-at-eol
+docs/evidence/modern-workspace/99aff98/** -text whitespace=cr-at-eol
+docs/evidence/modern-workspace/99aff98/**/*.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+docs/evidence/modern-workspace/99aff98/**/*.xml -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+docs/images/portfolio/modern-99aff98/** -text whitespace=cr-at-eol
