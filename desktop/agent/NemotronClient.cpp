@@ -270,6 +270,7 @@ NemotronClient::NemotronClient(NemotronConfig config, QObject* parent, QNetworkA
 }
 
 NemotronClient::~NemotronClient() {
+    if (active_) { recordAttempt(); retainTerminalCooldown(); }
     active_ = false;
     timeout_.stop();
     retry_.stop();
@@ -446,6 +447,7 @@ void NemotronClient::complete(const QJsonObject& assistant, const QString& code,
     responseModel_ = modelIdentifier(responseModel_, config_.apiKey);
     if (reply_) httpStatus_ = reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt();
     if (httpStatus_ < 100 || httpStatus_ > 599) httpStatus_ = 0;
+    if (!code.isEmpty()) retainTerminalCooldown();
     const auto outcome = code.isEmpty() ? QStringLiteral("succeeded") :
         (code == "cancelled" ? QStringLiteral("cancelled") : QStringLiteral("failed"));
     const auto completed = metadata(outcome, code);
@@ -490,6 +492,13 @@ qint64 NemotronClient::fallbackDelayMs() const {
         (config_.backoffJitterMs ? QRandomGenerator::global()->bounded(config_.backoffJitterMs + 1) : 0);
 }
 
+void NemotronClient::retainTerminalCooldown() {
+    const auto status = reply_ ? reply_->attribute(QNetworkRequest::HttpStatusCodeAttribute).toInt() : httpStatus_;
+    // A budget refusal, cancellation or destruction can end a throttled request
+    // before retries are exhausted. Ending it must not shorten shared cooldown.
+    if (status == 429 || status == 503) pacer_->defer(config_.terminalCooldownMs);
+}
+
 void NemotronClient::recordAttempt() {
     if (!attempt_pending_) return;
     attempt_pending_ = false;
@@ -529,10 +538,7 @@ void NemotronClient::recordAttempt() {
     next_retry_ms_ = retry_after_ms_ >= 0 ? retry_after_ms_ : fallbackDelayMs();
     const bool serviceRetry = status == 429 || status == 500 || status == 502 || status == 503 || status == 504;
     if (status == 429 || status == 503 || (serviceRetry && retry_after_ms_ >= 0)) {
-        auto cooldown = next_retry_ms_;
-        if (retries_ >= config_.maxRetries && (status == 429 || status == 503))
-            cooldown = std::max<qint64>(cooldown, config_.terminalCooldownMs);
-        pacer_->defer(cooldown);
+        pacer_->defer(next_retry_ms_);
     }
 }
 

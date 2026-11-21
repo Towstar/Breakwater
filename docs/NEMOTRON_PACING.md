@@ -36,6 +36,8 @@ longer valid server wait. A new request, client replacement or cancellation
 cannot erase it. Other retryable server responses share an explicit server wait
 when supplied. Actual provider waits can exceed displayed diagnostic bounds;
 the transport continues to enforce the full wait, with a capping flag in evidence.
+Ending a throttled logical request because of its budget, cancellation or client
+destruction also establishes the terminal cooldown, even with retries left.
 
 Hosted observed investigations check readiness before binding their existing
 capture and initializing its numerical gateway. Known busy/cooldown state leaves

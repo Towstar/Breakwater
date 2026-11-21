@@ -92,6 +92,7 @@ private:
     void rejectBusyRequest();
     void scheduleRetry();
     void recordAttempt();
+    void retainTerminalCooldown();
     qint64 fallbackDelayMs() const;
 };
 

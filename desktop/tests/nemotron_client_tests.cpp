@@ -227,6 +227,45 @@ private slots:
         QTRY_COMPARE_WITH_TIMEOUT(ready.size(), 1, 1000);
         QVERIFY(network.postedMs[1] - network.postedMs[0] >= 249);
     }
+    void terminalCooldownAppliesBeforeRetryExhaustion_data() {
+        QTest::addColumn<int>("status"); QTest::addColumn<bool>("cancel");
+        QTest::newRow("429-budget") << 429 << false;
+        QTest::newRow("503-budget") << 503 << false;
+        QTest::newRow("429-cancel") << 429 << true;
+        QTest::newRow("503-cancel") << 503 << true;
+    }
+    void terminalCooldownAppliesBeforeRetryExhaustion() {
+        QFETCH(int, status); QFETCH(bool, cancel);
+        FakeNetwork network; network.responses = {Response{status, "private"}, Response{200, textCompletion()}};
+        auto config = configuration(); config.maxRetries = 2; config.backoffBaseMs = 150; config.terminalCooldownMs = 600;
+        NemotronClient first(config, nullptr, &network, pacer_), second(config, nullptr, &network, pacer_);
+        QSignalSpy failed(&first, &ModelTransport::requestFailed), metadata(&first, &ModelTransport::requestCompleted);
+        first.requestWithBudget(messages(), {}, cancel ? 1000 : 50, false);
+        if (cancel) { QTest::qWait(30); first.cancel(); }
+        QTRY_COMPARE(failed.size(), 1); QCOMPARE(network.requests.size(), 1);
+        QCOMPARE(failed[0][0].toString(), cancel ? QString("cancelled") :
+            status == 429 ? QString("rate_limit_wait_exceeds_budget") : QString("retry_wait_exceeds_budget"));
+        const auto retained = metadata[0][0].toJsonObject();
+        QCOMPARE(retained["retry_count"].toInt(), 0);
+        QVERIFY(validTransportDiagnosticsForRequest(retained));
+        QVERIFY(retained["transport_diagnostics"].toObject()["cooldown_remaining_ms"].toInteger() >= 500);
+        QSignalSpy blocked(&second, &ModelTransport::requestFailed);
+        second.requestWithBudget(messages(), {}, 200, false); QTRY_COMPARE(blocked.size(), 1);
+        QCOMPARE(blocked[0][0].toString(), QString("rate_limit_wait_exceeds_budget"));
+        QCOMPARE(network.requests.size(), 1);
+    }
+    void destroyingAClientDuringThrottledBackoffKeepsTerminalCooldown() {
+        FakeNetwork network; network.responses = {Response{429, "private"}, Response{200, textCompletion()}};
+        auto config = configuration(); config.maxRetries = 2; config.backoffBaseMs = 150; config.terminalCooldownMs = 600;
+        auto* first = new NemotronClient(config, nullptr, &network, pacer_);
+        first->request(messages(), {}); QTest::qWait(30); QCOMPARE(network.requests.size(), 1);
+        delete first;
+        NemotronClient second(config, nullptr, &network, pacer_);
+        QSignalSpy blocked(&second, &ModelTransport::requestFailed);
+        second.requestWithBudget(messages(), {}, 200, false); QTRY_COMPARE(blocked.size(), 1);
+        QCOMPARE(blocked[0][0].toString(), QString("rate_limit_wait_exceeds_budget"));
+        QCOMPARE(network.requests.size(), 1);
+    }
     void longerFallbackBackoffHasBoundedJitterAndCountsActualAttempts() {
         FakeNetwork network;
         network.responses = {Response{429, "private"}, Response{503, "private", 0, QNetworkReply::NoError, "invalid"}, Response{200, textCompletion()}};
