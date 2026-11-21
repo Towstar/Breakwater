@@ -1,4 +1,5 @@
 #include "EogHistoryRepository.hpp"
+#include "agent/RetryMetadata.hpp"
 #include "EogContracts.hpp"
 #include "telemetry/TelemetryContracts.hpp"
 #include <QCryptographicHash>
@@ -72,7 +73,7 @@ QDateTime date(const QJsonObject& value, const QString& key) {
 }
 void sessionId(const QString& id) { require(id.size() <= 64 && !QUuid::fromString(id).isNull(), "Session IDs must be UUIDs."); }
 QJsonObject metadata(const QJsonObject& value) {
-    const QSet<QString> permitted{"model_identity", "http_status", "duration_ms", "retry_count"};
+    const QSet<QString> permitted{"model_identity", "http_status", "duration_ms", "retry_count", "retry_wait_policy", "retry_delays_ms"};
     for (auto it = value.begin(); it != value.end(); ++it)
         if (!permitted.contains(it.key())) reject("invalid_metadata", "Only sanitized model/status/duration/retry metadata is permitted.");
     if (value.contains("model_identity")) (void)text(value, "model_identity");
@@ -85,6 +86,8 @@ QJsonObject metadata(const QJsonObject& value) {
                 amount.toDouble() <= 9007199254740991.0, "Invalid request duration.");
     }
     if (value.contains("retry_count")) (void)integer(value, "retry_count", 1000);
+    if (value.contains("retry_wait_policy") || value.contains("retry_delays_ms"))
+        require(agent::sanitizedRetryMetadata(value).size() == 2, "Invalid sanitized retry-wait metadata.");
     return value;
 }
 void inspectEvent(const QJsonValue& value, const QString& runtimeDirectory, int depth = 0) {
@@ -156,6 +159,11 @@ void checkAgentEvent(const QJsonObject& event, const QMap<QString, QJsonObject>&
         for (const auto& item : event.value("event_ids").toArray()) {
             require(item.isString() && known.contains(item.toString()) && !seen.contains(item.toString()), "Final event reference is absent or repeated."); seen.insert(item.toString());
         }
+    } else if (type == "completion_recovery") {
+        keys(event, {"type", "reason", "selected_plan_id", "validation_id"});
+        require(event.value("reason") == "exact_validation_mismatch", "Unknown completion recovery reason.");
+        for (const auto* key : {"selected_plan_id", "validation_id"})
+            if (!event.value(QLatin1String(key)).isNull()) (void)text(event, QLatin1String(key));
     } else {
         require(type == "failure" || type == "cancel", "Unsupported agent event type."); keys(event, {"type", "code"}); (void)text(event, "code", 128);
     }

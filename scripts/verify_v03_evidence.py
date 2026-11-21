@@ -22,6 +22,29 @@ def require(condition, message):
         raise ValueError(message)
 
 
+def request_fields_match(request, required):
+    """Accept legacy metadata or the closed, optional scheduled-retry pair.
+
+    Delays describe scheduled waits, so cancellation can leave more scheduled
+    waits than actual posted retries. Raw Retry-After values are never allowed.
+    """
+    if not isinstance(request, dict) or not required <= set(request):
+        return False
+    extra = set(request) - required
+    if not extra:
+        return True
+    if extra != {"retry_wait_policy", "retry_delays_ms"}:
+        return False
+    if not isinstance(request["retry_wait_policy"], str) or request["retry_wait_policy"] not in {
+            "bounded_backoff", "invalid_retry_after_backoff", "retry_after_seconds",
+            "retry_after_date", "retry_after_exceeds_budget"}:
+        return False
+    delays = request["retry_delays_ms"]
+    return (isinstance(delays, list) and len(delays) <= 3
+            and all(type(delay) in (int, float) and 0 <= delay <= 1215000
+                    and math.isfinite(delay) and int(delay) == delay for delay in delays))
+
+
 def inspect(value):
     if isinstance(value, dict):
         require(not (set(map(str.lower, value)) & FORBIDDEN), "Disallowed retained field.")
@@ -62,7 +85,7 @@ def eog_run(root, row):
     require([x["name"] for x in calls] == row["tool_order"], "Tool order mismatch.")
     requests = [x for x in events if x["type"] == "model_request"]
     require(len(requests) == row["model_requests"], "Request count mismatch.")
-    require(all(set(x) == {"duration_ms", "http_status", "model_identity", "retry_count", "type"}
+    require(all(request_fields_match(x, {"duration_ms", "http_status", "model_identity", "retry_count", "type"})
                 and x["model_identity"] == MODEL and x["http_status"] == 200
                 and x["duration_ms"] >= 0 and x["retry_count"] >= 0 for x in requests),
             "Unexpected request metadata.")
@@ -106,8 +129,8 @@ def native_run(root, row):
     require(mode == row["source_mode"], "Native search cannot be relabeled hosted.")
     requests = [x["request"] for x in value["events"] if x["type"] == "model_request_completed"]
     require(len(requests) == row["model_requests"] and all(
-        set(x) == {"configured_model", "duration_ms", "error_code", "http_status", "model_request_id",
-                   "outcome", "response_model", "retry_count"} and x["configured_model"] == MODEL
+        request_fields_match(x, {"configured_model", "duration_ms", "error_code", "http_status", "model_request_id",
+                                "outcome", "response_model", "retry_count"}) and x["configured_model"] == MODEL
         and x["duration_ms"] >= 0 and x["retry_count"] >= 0 for x in requests),
         "Unexpected observed-request metadata.")
     require(len(value["runs"]) == row["stored_runs"] and len(value["approvals"]) == row["advisory_acknowledgements"],

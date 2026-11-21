@@ -469,6 +469,27 @@ class EvaluationAuditTests(unittest.TestCase):
         with self.assertRaises(ValueError):
             audit_case("eog", archive, summary, "missing_coverage")
 
+    def test_retry_budget_failures_are_service_failures_without_numerical_authority(self):
+        for code in ("request_budget_exceeded", "rate_limit_wait_exceeds_budget", "retry_wait_exceeds_budget"):
+            for no_http_response in (False, True):
+                with self.subTest(code=code, no_http_response=no_http_response):
+                    archive, summary = eog(refusal="failure_context_incomplete")
+                    archive["status"] = "failed"
+                    metadata = archive["agent_events"][0]["event"]
+                    metadata.update(retry_wait_policy="retry_after_exceeds_budget", retry_delays_ms=[])
+                    if no_http_response:
+                        del metadata["http_status"]
+                    else:
+                        metadata["http_status"] = 429
+                    archive["agent_events"].append({"sequence": 99, "event": {"type": "failure", "code": code}})
+                    value = audit_case("eog", archive, summary, "missing_coverage")
+                    self.assertFalse(value["passed"])
+                    self.assertEqual(value["classification"], "transport_failure")
+        archive, summary = eog()
+        del archive["agent_events"][0]["event"]["http_status"]
+        with self.assertRaises(ValueError):
+            audit_case("eog", archive, summary, "advisory_plan")
+
     def test_call_identity_order_and_request_counts_are_not_repairable(self):
         archive, summary = eog()
         archive["agent_events"][2]["event"]["call_id"] = "other"

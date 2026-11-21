@@ -72,8 +72,9 @@ runner are terminated on those outer limits. Partial artifacts and pending cases
 remain recorded. Hosted helpers have a recorded 30-second completion-to-next-start
 gap by default, within the same round deadline. `-CaseGapSeconds` accepts 0..60
 for an explicitly recorded alternative. This courtesy spacing does not establish
-the account's quota or guarantee that rate limits cannot occur. Production HTTP
-retries and model tool selection are unchanged. Observed GUI sessions are a separately witnessed step, outside
+the account's quota or guarantee that rate limits cannot occur. The subsequent
+[recovery increment](NEMOTRON_RECOVERY.md) changes deadline-bound HTTP wait handling
+and adds one restricted model-driven completion repair. Observed GUI sessions are a separately witnessed step, outside
 the command-line time budget. No credentials, authorization headers or raw model
 reasoning belong in evidence.
 

@@ -2,6 +2,8 @@
 #include "EogContracts.hpp"
 #include "agent/NemotronClient.hpp"
 #include <QCryptographicHash>
+#include <QDateTime>
+#include <QTimeZone>
 #include <QFutureWatcher>
 #include <QJsonDocument>
 #include <QSet>
@@ -216,6 +218,14 @@ EogAnalysisController::EogAnalysisController(EogDatasetController* dataset, EogA
         review_disabled_ = true;
         client_->cancel(); pending_request_ = {}; pending_execution_.clear();
         status_ = "Nemotron investigation incomplete (" + recordedCode + "). Numerical evidence remains available.";
+        if (recordedCode == "ungrounded_final" || recordedCode == "semantic_recovery_tool_limit") {
+            summary_ = "The model's final references remain ungrounded after the bounded recovery opportunity. No advisory review is authorized.";
+            status_ = "Nemotron completion rejected; retained numerical evidence remains viewable.";
+        }
+        if (recordedCode == "rate_limit_wait_exceeds_budget")
+            status_ = "NVIDIA requested a longer wait than this investigation allows. Retained evidence is available; start a fresh investigation later.";
+        else if (recordedCode == "rate_limited")
+            status_ = "NVIDIA rate limits prevented completion. Retained numerical evidence remains available.";
         if (!session_id_.isEmpty() && !sealed_) { recordEvent({{"type", "failure"}, {"code", recordedCode}}); history_->finishSession(session_id_, "failed"); sealed_ = true; }
         emit changed();
     });
@@ -226,6 +236,9 @@ EogAnalysisController::EogAnalysisController(EogDatasetController* dataset, EogA
     });
     connect(&investigator_, &EogInvestigator::activity, this, [this](const QJsonObject& activity) {
         const auto type = activity.value("type").toString();
+        if (type == "final_reference_rejected") recordEvent({{"type", "completion_recovery"},
+            {"reason", "exact_validation_mismatch"}, {"selected_plan_id", activity.value("selected_plan_id")},
+            {"validation_id", activity.value("validation_id")}});
         if (type == "tool_call") recordEvent({{"type", type}, {"call_id", activity.value("call_id")},
             {"name", activity.value("name")}, {"arguments", activity.value("arguments")}});
         if (type == "tool_result") {
@@ -809,6 +822,60 @@ QString EogAnalysisController::evidenceSummary(const QJsonObject& result) const 
                validation.value("independent").toBool() && validation.value("feasible").toBool() && validation.value("coverage") == "available") {
         text = QString("Retained plan %1 has matching independent validation %2. Modeled cost: $%3.")
             .arg(selected, validationId).arg(evaluation.value("cost").toObject().value("total").toDouble(), 0, 'f', 2);
+        const auto number = [](const QJsonValue& value) {
+            return value.isDouble() && std::isfinite(value.toDouble()) ? QString::number(value.toDouble(), 'g', 12) : QStringLiteral("unavailable");
+        };
+        const auto cost = evaluation.value("cost").toObject(), plan = evaluation.value("plan").toObject();
+        text += QString("\nStored costs: trucks $%1; lost revenue $%2; total $%3.")
+            .arg(number(cost.value("truck_cost")), number(cost.value("lost_revenue")), number(cost.value("total")));
+        text += QString("\nPlan hash %1; cutoff %2; coverage %3; modeled outcome %4.")
+            .arg(plan.value("plan_hash").toString(), QDateTime::fromSecsSinceEpoch(plan.value("start_unix").toInteger(), QTimeZone::UTC).toString(Qt::ISODate), evaluation.value("coverage").toString(),
+                 evaluation.value("outcome").toString("unavailable"));
+        const auto deadlines = plan.value("repair_deadlines").toArray();
+        for (qsizetype i = 0; i < deadlines.size() && i < 8; ++i) {
+            const auto deadline = deadlines[i].toObject();
+            text += QString("\nCaptured response horizon for %1: %2 s after the cutoff.")
+                .arg(deadline.value("facility_id").toString(), number(deadline.value("repair_elapsed_s")));
+        }
+        const auto jobs = plan.value("truck_jobs").toArray(), shutIns = plan.value("well_shut_ins").toArray();
+        qsizetype trips = 0;
+        for (const auto& job : jobs) trips += job.toObject().value("trips").toArray().size();
+        text += QString("\nPlanned actions: %1 truck trips; %2 well shut-in intervals. Predicted automatic shutdown records: %3.")
+            .arg(trips).arg(shutIns.size()).arg(evaluation.value("shutdowns").toArray().size());
+        qsizetype shownTrips = 0;
+        for (const auto& value : jobs) {
+            const auto job = value.toObject();
+            for (const auto& tripValue : job.value("trips").toArray()) {
+                if (++shownTrips > 8) continue;
+                const auto trip = tripValue.toObject();
+                text += QString("\nPlanned truck %1 at %2: called at %3 elapsed s; trip arrives at %4 elapsed s; %5 bbl; stored trip cost $%6.")
+                    .arg(job.value("truck_id").toString(), job.value("facility_id").toString(), number(job.value("called_elapsed_s")),
+                         number(trip.value("arrival_elapsed_s")), number(trip.value("volume_bbl")), number(trip.value("cost")));
+            }
+        }
+        if (shownTrips > 8) text += QString("\n%1 additional trips are in the stored plan.").arg(shownTrips - 8);
+        for (qsizetype i = 0; i < shutIns.size() && i < 8; ++i) {
+            const auto row = shutIns[i].toObject();
+            text += QString("\nPlanned well %1 at %2: shut in from %3 to %4 elapsed s.")
+                .arg(row.value("well_id").toString(), row.value("facility_id").toString(),
+                     number(row.value("start_elapsed_s")), number(row.value("end_elapsed_s")));
+        }
+        const auto trajectories = evaluation.value("trajectories").toArray();
+        for (qsizetype i = 0; i < trajectories.size() && i < 8; ++i) {
+            const auto row = trajectories[i].toObject(); const auto volumes = row.value("volumes_bbl").toArray();
+            if (!volumes.isEmpty()) text += QString("\nTank %1: initial %2 bbl; terminal %3 bbl; capacity %4 bbl; shutdown boundary %5 bbl.")
+                .arg(row.value("tank_id").toString(), number(volumes.first()), number(volumes.last()),
+                     number(row.value("capacity_bbl")), number(row.value("shutdown_volume_bbl")));
+        }
+        text += "\nMinimum recorded independent shutdown margin: " + number(validation.value("minimum_shutdown_margin_bbl")) + " bbl.";
+        const auto shutdowns = evaluation.value("shutdowns").toArray();
+        if (!shutdowns.isEmpty()) {
+            const auto row = shutdowns.first().toObject();
+            text += QString("\nFirst recorded automatic shutdown: %1 at %2 s after the cutoff.")
+                .arg(row.value("facility_id").toString(), number(row.value("elapsed_s")));
+        }
+        if (deadlines.size() > 8 || shutIns.size() > 8 || trajectories.size() > 8)
+            text += "\nDetails above show the first eight entries per section; complete evidence remains in the stored plan and validation.";
     } else {
         text = "The selected response has no matching available independent validation in the retained evidence.";
     }

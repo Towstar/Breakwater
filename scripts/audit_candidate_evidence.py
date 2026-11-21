@@ -12,7 +12,7 @@ from pathlib import Path
 import re
 
 from prepare_release_handoff import read_json, relative_name, unique_object
-from verify_v03_evidence import MODEL, inspect, require
+from verify_v03_evidence import MODEL, inspect, require, request_fields_match
 
 
 CASES = {
@@ -64,7 +64,7 @@ def request_metadata(requests, observed=False, success=True):
         if observed:
             fields = {"configured_model", "response_model", "model_request_id", "duration_ms",
                       "error_code", "http_status", "outcome", "retry_count"}
-            require(set(request) == fields and isinstance(request["configured_model"], str)
+            require(request_fields_match(request, fields) and isinstance(request["configured_model"], str)
                     and isinstance(request["response_model"], str), "Unexpected observed request metadata.")
             require(request["outcome"] in {"succeeded", "failed", "cancelled", "rejected"}, "Unknown observed request outcome.")
             if request["outcome"] == "succeeded":
@@ -75,15 +75,19 @@ def request_metadata(requests, observed=False, success=True):
                             "Successful observed reply differs from the configured model.")
                 successful_requests += 1
         else:
-            require(set(request) == {"duration_ms", "http_status", "model_identity", "retry_count", "type"}
+            fields = {"duration_ms", "http_status", "model_identity", "retry_count", "type"}
+            if not success and "http_status" not in request:
+                fields.remove("http_status")  # Operations omits status when no HTTP response arrived.
+            require(request_fields_match(request, fields)
                     and isinstance(request["model_identity"], str), "Unexpected Operations request metadata.")
             if success:
                 require(request["model_identity"] == MODEL, "Operations model identity differs.")
-            successful_requests += int(request["http_status"] == 200)
+            successful_requests += int(request.get("http_status", 0) == 200)
         require(number(request["duration_ms"]) and request["duration_ms"] >= 0
                 and type(request["retry_count"]) is int and request["retry_count"] >= 0,
                 "Invalid request timing or retry count.")
-        require(type(request["http_status"]) is int and 0 <= request["http_status"] <= 599,
+        status = request.get("http_status", 0)
+        require(type(status) is int and 0 <= status <= 599,
                 "Invalid retained HTTP status.")
     if success:
         require(successful_requests > 0, "Passing case lacks a successful matching-model reply.")

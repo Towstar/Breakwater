@@ -22,7 +22,8 @@ CORRECTIONS = {"final_format_rejected_" + reason for reason in (
     "content_type", "encoding_or_size", "json_document", "field_set", "summary", "selected_plan_reference",
     "validation_reference", "event_ids", "event_reference", "duplicate_event_ids", "response_truncated")}
 TRANSPORT_CODES = {"transport_failed", "rate_limited", "authentication_failed", "model_unavailable",
-                   "timeout", "response_invalid_json", "response_invalid_envelope", "response_truncated"}
+                   "timeout", "response_invalid_json", "response_invalid_envelope", "response_truncated",
+                   "request_budget_exceeded", "rate_limit_wait_exceeds_budget", "retry_wait_exceeds_budget"}
 PHYSICAL_VIOLATIONS = {"storage_capacity", "negative_inventory", "destination_throughput", "route_capacity"}
 EVENT_FIELDS = {"type", "session_id", "snapshot_id", "sequence", "timestamp", "elapsed_ms"}
 PREDISPATCH_ERRORS = {
@@ -133,18 +134,20 @@ def _process(summary, archive, session, *, preflight=False):
     return summary["exit_code"]
 
 
-def _model(requests, hosted, *, sandbox=False):
+def _model(requests, hosted, *, sandbox=False, completed=True):
     if not hosted:
         require(not requests, "Local evidence contains hosted requests.")
         return
     if requests:
+        require(sandbox or not completed or all("http_status" in row for row in requests),
+                "Completed Operations evidence omits an HTTP status.")
         request_metadata(requests, observed=sandbox, success=False)
     for row in requests:
         if sandbox:
             require(row["configured_model"] == MODEL, "Configured hosted model differs.")
             if row["outcome"] == "succeeded":
                 require(row["response_model"] == MODEL, "Successful response model differs.")
-        elif row["http_status"] == 200:
+        elif row.get("http_status", 0) == 200:
             require(row["model_identity"] == MODEL, "Successful response model differs.")
 
 
@@ -242,7 +245,7 @@ def _sandbox(archive, summary, expected, hosted):
     require(all(row.get("snapshot_id", snapshot["snapshot_id"]) == snapshot["snapshot_id"] for row in events),
             "Event/frozen snapshot identity differs.")
     requests = [row["request"] for row in events if row["type"] == "model_request_completed"]
-    _model(requests, hosted, sandbox=True)
+    _model(requests, hosted, sandbox=True, completed=archive["status"] == "completed")
     if hosted:
         require(archive["model"]["configured_model"] == MODEL, "Archive hosted model differs.")
     logical = sum(row["type"] == "model_request_started" for row in events)
@@ -354,7 +357,7 @@ def _eog(archive, summary, expected, hosted):
         require(type(row["sequence"]) is int and row["sequence"] > previous, "Invalid EOG event ordering.")
         previous = row["sequence"]
     requests = [row for row in events if row["type"] == "model_request"]
-    _model(requests, hosted)
+    _model(requests, hosted, completed=archive["status"] == "completed")
     require(summary["model_requests"] == len(requests), "EOG request count differs.")
     calls = [row for row in events if row["type"] == "tool_call"]
     results = [row for row in events if row["type"] == "tool_result"]
@@ -444,7 +447,7 @@ def _eog(archive, summary, expected, hosted):
     failure = _failed(events, archive["status"])
     if failure:
         return failure, metrics
-    if hosted and not any(row["http_status"] == 200 for row in requests):
+    if hosted and not any(row.get("http_status", 0) == 200 for row in requests):
         return "no_successful_hosted_reply", metrics
     if process_code not in {0, 3}:
         return "incomplete_execution", metrics

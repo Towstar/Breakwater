@@ -82,7 +82,7 @@ QString sessionInstructions(bool observed) {
 AgentOrchestrator::AgentOrchestrator(ModelTransport* transport, QObject* parent)
     : QObject(parent), transport_(transport) {
     Q_ASSERT(transport_);
-    deadline_.setSingleShot(true);
+    deadline_.setSingleShot(true); deadline_.setTimerType(Qt::PreciseTimer);
     connect(&deadline_, &QTimer::timeout, this, [this] { fail("deadline_exceeded", "Investigation reached its time limit. Completed runs were retained."); });
     connect(transport_, &QObject::destroyed, this, [this] {
         if (running_ && !local_only_) fail("transport_unavailable", "The hosted model transport is unavailable.");
@@ -144,6 +144,7 @@ void AgentOrchestrator::start(std::shared_ptr<SimulationGateway> gateway, const 
     limits.durationMs = std::clamp(limits.durationMs, 1, 120000);
     limits_ = limits;
     events_.clear(); result_ = {}; messages_ = {}; pending_calls_ = {}; seen_call_ids_.clear(); model_validations_.clear();
+    reference_recovery_used_ = recovery_validation_pending_ = false;
     tool_calls_ = refinement_rounds_ = request_rounds_ = 0;
     awaiting_model_ = executing_tool_ = false;
     network_seen_ = controls_seen_ = false;
@@ -232,6 +233,7 @@ void AgentOrchestrator::requestModel() {
     const bool ready = inspected && ((completionEvidence.value("ok").toBool() && modelValidated(completionEvidence)) ||
         (coverage_read_repeated_ && !gateway_->observationsAvailable()));
     if (!ready) staging_only_ = false;
+    if (reference_recovery_used_ && !recovery_validation_pending_) { completion_only_ = true; staging_only_ = false; }
     const bool needsStage = ready && !completion_run_.isEmpty() &&
         gateway_->stagedPlan().value("selected_run_id").toString() != completion_run_;
     if (ready && !completion_only_ && (!needsStage || !staging_only_)) {
@@ -244,6 +246,7 @@ void AgentOrchestrator::requestModel() {
     QJsonArray tools;
     if (!final_correction_ && !completion_only_ && callsLeft > 0) for (const auto& definition : SimulationGateway::toolDefinitions(gateway_->advisoryOnly())) {
         const auto name = definition.toObject().value("function").toObject().value("name").toString();
+        if (reference_recovery_used_ && (!recovery_validation_pending_ || name != "validate_run")) continue;
         if (staging_only_ && name != "request_approval") continue;
         if (!gateway_->observationsAvailable() && name != "get_observations" && name != "get_detection_events" &&
             name != "get_network_state" && name != "get_control_catalog") continue;
@@ -292,10 +295,10 @@ void AgentOrchestrator::requestModel() {
         "use the remaining request_approval tool once to stage its exact stored run for human review, then finish. "
         "You may instead finish without a selection. No staging or operating action happens automatically.";
     messages[0] = system;
-    if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
+    const auto budget = limits_.durationMs - elapsed_.elapsed();
+    if (budget <= 0) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     awaiting_model_ = true;
-    if (tools.isEmpty()) transport_->requestFinalJson(messages);
-    else transport_->request(messages, tools);
+    transport_->requestWithBudget(messages, tools, int(budget), tools.isEmpty());
 }
 
 void AgentOrchestrator::receive(const QJsonObject& message) {
@@ -307,6 +310,10 @@ void AgentOrchestrator::receive(const QJsonObject& message) {
     if (!callsValue.isUndefined() && !callsValue.isArray()) { fail("malformed_tool_calls", "Model returned malformed tool calls."); return; }
     const auto calls = callsValue.toArray();
     if (calls.isEmpty()) { finish(message); return; }
+    if (recovery_validation_pending_ && (calls.size() != 1 ||
+        calls.first().toObject().value("function").toObject().value("name") != "validate_run")) {
+        fail("semantic_recovery_tool_limit", "Final-reference recovery permits one model-issued validation only."); return;
+    }
     if (final_correction_) { fail("invalid_recommendation", "A format-only correction cannot request more tools."); return; }
     if (completion_only_) { fail("completion_tools_closed", "Completion requires final JSON from retained evidence; no further tools were executed."); return; }
     if (tool_calls_ + calls.size() > limits_.toolCalls) { fail("tool_limit", "Investigation reached its tool-call limit. Completed runs were retained."); return; }
@@ -394,6 +401,7 @@ void AgentOrchestrator::completeTool(quint64 generation, const std::shared_ptr<S
     }
     if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     executing_tool_ = false;
+    if (recovery_validation_pending_) recovery_validation_pending_ = false;
     if (!gateway_->isCurrent()) { invalidate(); return; }
     messages_.append(QJsonObject{{"role", "tool"}, {"tool_call_id", id},
         {"content", QString::fromUtf8(QJsonDocument(outcome).toJson(QJsonDocument::Compact))}});
@@ -506,7 +514,7 @@ void AgentOrchestrator::startSensitivity(const QJsonObject& arguments, quint64 g
 }
 
 bool AgentOrchestrator::correctFinalFormat(const QString& reason) {
-    if (!running_ || local_only_ || final_correction_ || !network_seen_ || !controls_seen_ ||
+    if (!running_ || local_only_ || final_correction_ || reference_recovery_used_ || !network_seen_ || !controls_seen_ ||
         (gateway_->advisoryOnly() && !observations_seen_) || request_rounds_ >= limits_.toolCalls+2 ||
         !gateway_->isCurrent() || elapsed_.elapsed() >= limits_.durationMs) return false;
     final_correction_=true; awaiting_model_=false;
@@ -516,6 +524,29 @@ bool AgentOrchestrator::correctFinalFormat(const QString& reason) {
     event("final_format_correction_requested",{{"reason",reason}});
     if (guard && running_ && generation_==epoch) QTimer::singleShot(0,this,[this,epoch] {
         if (running_ && generation_==epoch && !awaiting_model_ && !executing_tool_) requestModel();
+    });
+    return true;
+}
+bool AgentOrchestrator::recoverFinalReference(const QJsonObject& final) {
+    if (local_only_ || reference_recovery_used_ || final_correction_ || tool_calls_ >= limits_.toolCalls ||
+        request_rounds_ + 2 > limits_.toolCalls + 2 || elapsed_.elapsed() >= limits_.durationMs || !transport_) return false;
+    const auto detail = gateway_->runDetails(final.value("selected_run_id").toString());
+    const auto run = detail.value("run").toObject();
+    if (!detail.value("ok").toBool() || !run.value("current").toBool() || modelValidated(run)) return false;
+    reference_recovery_used_ = recovery_validation_pending_ = true;
+    completion_only_ = staging_only_ = false; completion_run_.clear(); completion_reason_.clear();
+    const auto epoch = generation_; const QPointer<AgentOrchestrator> guard(this);
+    event("final_reference_rejected", {{"reason", "explicit_validation_required"},
+        {"selected_run_id", final.value("selected_run_id")}});
+    if (!guard || generation_ != epoch || !running_) return true;
+    messages_.append(QJsonObject{{"role", "user"}, {"content", QStringLiteral(
+        "The proposed selected run lacks this investigation's explicit validate_run proof. One bounded "
+        "recovery remains within the original budgets: you may issue one validate_run call for an actual "
+        "stored run and then finish with matching evidence, or finish with selected_run_id null. "
+        "No new candidates, searches or approval staging are offered in this recovery. The application "
+        "has not selected a replacement, validated a run or applied controls for you.")}});
+    QTimer::singleShot(0, this, [this, epoch] {
+        if (generation_ == epoch && running_ && !awaiting_model_ && !executing_tool_) requestModel();
     });
     return true;
 }
@@ -536,9 +567,13 @@ void AgentOrchestrator::finish(const QJsonObject& message) {
             {"horizon_h", gateway_->horizonH()}, {"feasible", false}, {"approval_status", "unavailable"}};
     } else if (final.value("selected_run_id").isString()) {
         result_ = gateway_->recommendation(final.value("selected_run_id").toString());
-        if (!result_.value("ok").toBool()) { result_ = {}; fail("ungrounded_recommendation", "Selected run has no eligible independent validation evidence."); return; }
+        if (!result_.value("ok").toBool()) {
+            result_ = {}; if (recoverFinalReference(final)) return;
+            fail("ungrounded_recommendation", "Selected run has no eligible independent validation evidence."); return;
+        }
         if (!local_only_ && !modelValidated(result_)) {
-            result_ = {}; fail("explicit_validation_required", "Hosted completion requires validate_run on the exact selected run. Native search validation remains retained."); return;
+            result_ = {}; if (recoverFinalReference(final)) return;
+            fail("explicit_validation_required", "Hosted completion requires validate_run on the exact selected run. Native search validation remains retained."); return;
         }
         result_["status"] = "validated_recommendation";
     } else { fail("invalid_recommendation", "Selected run ID must be a stored ID or null."); return; }
@@ -558,6 +593,7 @@ void AgentOrchestrator::finish(const QJsonObject& message) {
         : " Applying simulated controls requires separate operator review of a matching staged plan.";
     if (local_only_) evidenceExplanation += " Local native investigation; no hosted model was used.";
     else result_["model_explanation"] = final.value("explanation");
+    if (result_.value("ok").toBool()) evidenceExplanation += "\n\n" + gateway_->evidenceExplanation(result_.value("selected_run_id").toString());
     result_["explanation"] = evidenceExplanation;
     result_["explanation_source"] = "retained_evidence";
     if (elapsed_.elapsed() >= limits_.durationMs) {

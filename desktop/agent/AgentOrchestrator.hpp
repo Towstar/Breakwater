@@ -60,6 +60,7 @@ private:
     bool recording_cancel_metadata_ = false;
     bool local_only_ = false;
     bool final_correction_ = false;
+    bool reference_recovery_used_ = false, recovery_validation_pending_ = false;
     bool completion_only_ = false, staging_only_ = false, coverage_read_repeated_ = false, detection_seen_ = false;
     QString completion_run_, completion_reason_;
     int local_step_ = 0;
@@ -79,6 +80,7 @@ private:
     void cancelSensitivity();
     void finish(const QJsonObject& message);
     bool correctFinalFormat(const QString& reason);
+    bool recoverFinalReference(const QJsonObject& final);
     void fail(const QString& code, const QString& message);
     void event(const QString& type, QJsonObject fields = {});
 };

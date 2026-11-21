@@ -12,6 +12,7 @@ from unittest.mock import patch
 ROOT = Path(__file__).resolve().parents[3]
 sys.path.insert(0, str(ROOT / "scripts"))
 import audit_candidate_evidence as auditor
+from verify_v03_evidence import request_fields_match
 
 
 def operations(case):
@@ -132,6 +133,42 @@ class CandidateEvidenceTests(unittest.TestCase):
         self.assertEqual(result["qualification_status"], "passed")
         self.assertFalse(result["public_release_approved"])
         self.assertEqual(len(result["cases"]), 7)
+
+    def test_closed_retry_wait_metadata_supports_legacy_and_both_archive_kinds(self):
+        for observed_mode in (False, True):
+            request = (observed()["events"][0]["request"] if observed_mode else
+                       operations("canonical_1")[0]["agent_events"][0]["event"])
+            required = set(request)
+            auditor.request_metadata([request], observed=observed_mode)
+            for policy, delays in (("retry_after_seconds", [6000]), ("retry_after_date", [0]),
+                                   ("bounded_backoff", [250, 500, 1000]),
+                                   ("retry_after_exceeds_budget", []),
+                                   ("invalid_retry_after_backoff", [250])):
+                with self.subTest(observed=observed_mode, policy=policy):
+                    row = {**request, "retry_wait_policy": policy, "retry_delays_ms": delays}
+                    self.assertTrue(request_fields_match(row, required))
+                    auditor.request_metadata([row], observed=observed_mode)
+
+    def test_retry_wait_metadata_rejects_tampering_without_relaxing_primary_fields(self):
+        original = operations("canonical_1")[0]["agent_events"][0]["event"]
+        valid = {**original, "retry_wait_policy": "retry_after_seconds", "retry_delays_ms": [6000]}
+        for update in ({"retry_wait_policy": "raw-private-header"}, {"retry_wait_policy": {}},
+                       {"retry_delays_ms": [True]}, {"retry_delays_ms": [-1]},
+                       {"retry_delays_ms": [0.5]}, {"retry_delays_ms": [1215001]},
+                       {"retry_delays_ms": [10 ** 400]}, {"retry_delays_ms": [float("inf")]},
+                       {"retry_delays_ms": [float("nan")]}, {"retry_delays_ms": [0] * 4},
+                       {"retry_delays_ms": "6000"}, {"headers": {"Retry-After": "private"}}):
+            with self.subTest(update=update):
+                row = {**valid, **update}
+                self.assertFalse(request_fields_match(row, set(original)))
+                with self.assertRaises(ValueError):
+                    auditor.request_metadata([row])
+        for missing in ("retry_wait_policy", "retry_delays_ms", "model_identity"):
+            row = dict(valid)
+            del row[missing]
+            self.assertFalse(request_fields_match(row, set(original)))
+            with self.assertRaises(ValueError):
+                auditor.request_metadata([row])
 
     def test_pending_round_is_honestly_incomplete(self):
         self.manifest["status"] = "pending"

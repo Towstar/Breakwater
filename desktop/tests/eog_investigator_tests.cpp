@@ -83,6 +83,73 @@ public:
 class EogInvestigatorTests final : public QObject {
     Q_OBJECT
 private slots:
+    void finalReferenceRecovery_data() {
+        QTest::addColumn<QString>("mode");
+        for (const auto* mode : {"repair", "wrong-again", "malformed-after-repair", "no-budget", "candidate-in-recovery", "cancel", "stale"})
+            QTest::newRow(mode) << QString::fromLatin1(mode);
+    }
+    void finalReferenceRecovery() {
+        QFETCH(QString, mode);
+        FakeTransport model;
+        model.respond = [&](const QJsonArray&, int step) {
+            if (step == 1) return calls({call("search", "search_plans")});
+            if (step == 2) return finalReply("cheap-plan", "baseline-validation");
+            if (step == 3) return mode == "candidate-in-recovery" ? calls({call("new-search", "search_plans")})
+                : calls({call("validate-selected", "validate_plan", "{\"plan_id\":\"cheap-plan\",\"evaluator_method\":\"retained-method\"}")});
+            if (mode == "malformed-after-repair") return QJsonObject{{"role", "assistant"}, {"content", "not JSON"}};
+            return finalReply("cheap-plan", mode == "wrong-again" ? "baseline-validation" : "cheap-validation");
+        };
+        EogInvestigator investigator(&model);
+        QSignalSpy finished(&investigator, &EogInvestigator::finished), failed(&investigator, &EogInvestigator::failed);
+        QStringList executed;
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& id, const QString& name, const QJsonObject& arguments) {
+                executed.append(name); const bool validated = name == "validate_plan";
+                if (validated) QCOMPARE(arguments.value("plan_id").toString(), QString("cheap-plan"));
+                const QJsonObject row{{"selected_plan_id", "cheap-plan"}, {"evaluator_method", "retained-method"},
+                    {"selection_eligibility", validated ? "admissible" : "validation_required"},
+                    {"validation_id", validated ? QJsonValue("cheap-validation") : QJsonValue(QJsonValue::Null)}};
+                auto answer = outcome(); answer["retained_evidence"] = QJsonObject{{"plans", QJsonArray{row}},
+                    {"completion_pairs", validated ? QJsonArray{QJsonObject{{"selected_plan_id", "cheap-plan"}, {"validation_id", "cheap-validation"}}} : QJsonArray{}}};
+                investigator.completeTool(id, answer);
+            });
+        int rejections = 0;
+        connect(&investigator, &EogInvestigator::activity, &investigator, [&](const QJsonObject& event) {
+            if (event.value("type") != "final_reference_rejected") return;
+            ++rejections;
+            if (mode == "cancel") investigator.cancel();
+            if (mode == "stale") investigator.invalidate();
+        });
+        investigator.start("Use the selected plan's own independent validation.", {}, definitions(),
+            {mode == "no-budget" ? 1 : 2, 1, 5000});
+        QTRY_VERIFY_WITH_TIMEOUT(!investigator.running(), 6000);
+        if (mode == "repair") {
+            QCOMPARE(finished.size(), 1); QVERIFY(failed.isEmpty());
+            QCOMPARE(investigator.result().value("validation_id").toString(), QString("cheap-validation"));
+        } else { QVERIFY(finished.isEmpty()); QCOMPARE(failed.size(), 1); QVERIFY(investigator.result().isEmpty()); }
+        QCOMPARE(rejections, mode == "no-budget" ? 0 : 1);
+        QCOMPARE(executed, mode == "repair" || mode == "wrong-again" || mode == "malformed-after-repair"
+            ? QStringList({"search_plans", "validate_plan"}) : QStringList({"search_plans"}));
+        if (model.requests >= 3) QCOMPARE(names(model.toolLists[2]), QStringList({"validate_plan"}));
+        if (model.requests == 4) QVERIFY(model.toolLists[3].isEmpty());
+        QVERIFY(model.requests <= 4);
+    }
+
+    void retryWaitMetadataIsClosedAndSanitized() {
+        FakeTransport model;
+        model.metadata["retry_wait_policy"] = "retry_after_seconds";
+        model.metadata["retry_delays_ms"] = QJsonArray{1000, 2000};
+        model.metadata["headers"] = "PRIVATE_HEADER_CANARY";
+        EogInvestigator investigator(&model); QSignalSpy requests(&investigator, &EogInvestigator::requestMetadata);
+        investigator.start("Inspect.", {}, definitions()); QTRY_VERIFY(!investigator.running());
+        const auto metadata = requests.first().first().toJsonObject();
+        QCOMPARE(metadata.value("retry_delays_ms").toArray(), QJsonArray({1000, 2000}));
+        QVERIFY(!QJsonDocument(metadata).toJson().contains("PRIVATE_HEADER_CANARY"));
+        model.metadata["retry_wait_policy"] = "PRIVATE_HEADER_CANARY";
+        investigator.start("Inspect again.", {}, definitions()); QTRY_VERIFY(!investigator.running());
+        QVERIFY(!requests.last().first().toJsonObject().contains("retry_delays_ms"));
+    }
+
     void preservesModelOrderAndMatchingContinuation() {
         FakeTransport model;
         model.respond = [](const QJsonArray& history, int step) {
