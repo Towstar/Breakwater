@@ -74,6 +74,9 @@ AgentOrchestrator::AgentOrchestrator(ModelTransport* transport, QObject* parent)
     Q_ASSERT(transport_);
     deadline_.setSingleShot(true);
     connect(&deadline_, &QTimer::timeout, this, [this] { fail("deadline_exceeded", "Investigation reached its time limit. Completed runs were retained."); });
+    connect(transport_, &QObject::destroyed, this, [this] {
+        if (running_ && !local_only_) fail("transport_unavailable", "The hosted model transport is unavailable.");
+    });
     connect(transport_, &ModelTransport::requestStarted, this, [this] {
         if (running_ && awaiting_model_) event("model_request_started");
     });
@@ -202,6 +205,7 @@ void AgentOrchestrator::requestModel() {
     if (!gateway_->isCurrent()) { invalidate(); return; }
     if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     if (local_only_) { advanceLocal(); return; }
+    if (!transport_) { fail("transport_unavailable", "The hosted model transport is unavailable."); return; }
     if (++request_rounds_ > limits_.toolCalls + 2) { fail("request_limit", "Investigation reached its model-request limit."); return; }
     const auto callsLeft = std::max(0, limits_.toolCalls - tool_calls_);
     const auto refinementsLeft = std::max(0, limits_.refinementRounds - refinement_rounds_);
@@ -267,6 +271,7 @@ void AgentOrchestrator::requestModel() {
         "use the remaining request_approval tool once to stage its exact stored run for human review, then finish. "
         "You may instead finish without a selection. No staging or operating action happens automatically.";
     messages[0] = system;
+    if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     awaiting_model_ = true;
     if (tools.isEmpty()) transport_->requestFinalJson(messages);
     else transport_->request(messages, tools);
@@ -274,6 +279,7 @@ void AgentOrchestrator::requestModel() {
 
 void AgentOrchestrator::receive(const QJsonObject& message) {
     if (!running_ || !awaiting_model_) return;
+    if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     awaiting_model_ = false;
     if (!gateway_->isCurrent()) { invalidate(); return; }
     const auto callsValue = message.value("tool_calls");
@@ -306,6 +312,7 @@ void AgentOrchestrator::receive(const QJsonObject& message) {
 
 void AgentOrchestrator::nextTool() {
     if (!running_ || executing_tool_) return;
+    if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     if (!gateway_->isCurrent()) { invalidate(); return; }
     if (pending_calls_.isEmpty()) { requestModel(); return; }
     const auto call = pending_calls_.takeAt(0).toObject();
@@ -318,6 +325,7 @@ void AgentOrchestrator::nextTool() {
     ++tool_calls_;
     event("tool_requested", {{"tool_name", name}, {"tool_call_id", id}});
     if (!guard || generation != generation_ || !running_ || gateway != gateway_) return;
+    if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     QJsonObject arguments;
     QJsonObject rejected;
     try { arguments = telemetry::decode_document(function.value("arguments").toString().toUtf8(),256*1024); }
@@ -339,6 +347,7 @@ void AgentOrchestrator::nextTool() {
     if (!guard || generation != generation_ || !running_ || gateway != gateway_) return;
     if (name == "search_interventions") event("search_started", {{"tool_name", name}, {"tool_call_id", id}});
     if (!guard || generation != generation_ || !running_ || gateway != gateway_) return;
+    if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     if (name == "analyze_sensitivities") {
         startSensitivity(arguments, generation, gateway, id, started);
         return;
@@ -362,6 +371,7 @@ void AgentOrchestrator::completeTool(quint64 generation, const std::shared_ptr<S
         if (gateway_ == gateway) emit changed();
         return;
     }
+    if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
     executing_tool_ = false;
     if (!gateway_->isCurrent()) { invalidate(); return; }
     messages_.append(QJsonObject{{"role", "tool"}, {"tool_call_id", id},
@@ -418,6 +428,7 @@ void AgentOrchestrator::startSensitivity(const QJsonObject& arguments, quint64 g
     connect(watcher, &QFutureWatcher<PreparedSensitivity>::finished, this, [this, watcher, generation, gateway, id, started] {
         const auto request = watcher->result(); watcher->deleteLater();
         if (generation != generation_ || !running_ || gateway_ != gateway) return;
+        if (elapsed_.elapsed() >= limits_.durationMs) { fail("deadline_exceeded", "Investigation reached its time limit."); return; }
         if (!gateway->isCurrent()) { invalidate(); return; }
         if (!request.error.isEmpty()) { completeTool(generation, gateway, id, "analyze_sensitivities", started, request.error); return; }
         const auto unavailable = QJsonObject{{"ok", false}, {"error", QJsonObject{{"code", "science_unavailable"},
@@ -513,6 +524,9 @@ void AgentOrchestrator::finish(const QJsonObject& message) {
     else result_["model_explanation"] = final.value("explanation");
     result_["explanation"] = evidenceExplanation;
     result_["explanation_source"] = "retained_evidence";
+    if (elapsed_.elapsed() >= limits_.durationMs) {
+        result_ = {}; fail("deadline_exceeded", "Investigation reached its time limit."); return;
+    }
     result_["actionable"] = !gateway_->advisoryOnly() && gateway_->isCurrent() && result_.value("ok").toBool();
     running_ = false; deadline_.stop(); status_ = result_.value("status").toString();
     event("recommendation_ready", {{"recommendation", result_}});
@@ -527,7 +541,7 @@ void AgentOrchestrator::fail(const QString& code, const QString& message) {
     cancelSensitivity();
     if (!guard || generation_ != epoch || running_) return;
     recording_cancel_metadata_ = true;
-    transport_->cancel();
+    if (transport_) transport_->cancel();
     if (!guard) return;
     recording_cancel_metadata_ = false;
     if (generation_ != epoch || running_) return;
@@ -543,7 +557,7 @@ void AgentOrchestrator::cancel() {
     cancelSensitivity();
     if (!guard || generation_ != epoch || running_) return;
     recording_cancel_metadata_ = true;
-    transport_->cancel();
+    if (transport_) transport_->cancel();
     if (!guard) return;
     recording_cancel_metadata_ = false;
     if (generation_ != epoch || running_) return;

@@ -175,6 +175,12 @@ plans. No comparative model benchmark establishes superiority over other LLMs.
 See [agent integration](docs/AGENT_INTEGRATION.md) and
 [the scientific worker contract](science/WORKER.md).
 
+The [functional evaluation runner](docs/NEMOTRON_EVALUATION.md) declares 22
+hosted Sandbox/Operations cases plus two actual observed-sensor sessions. Its
+default is credential-free numerical preflight. Explicit hosted runs retain all
+attempts, exact source/input/binary bindings and independently checked outcomes;
+missing coverage cannot count as a validated plan.
+
 ## Local portable candidate
 
 ```powershell

@@ -38,7 +38,7 @@ signals:
     void activity(const QJsonObject& event);
     void scientificEvidenceReady(const QJsonObject& archive);
 private:
-    ModelTransport* transport_;
+    QPointer<ModelTransport> transport_;
     QPointer<science::AgentSensitivityClient> sensitivity_client_;
     QMetaObject::Connection sensitivity_completed_, sensitivity_failed_, sensitivity_destroyed_;
     std::shared_ptr<SimulationGateway> gateway_;

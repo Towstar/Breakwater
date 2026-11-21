@@ -4,6 +4,7 @@
 #include "history/HistoryController.hpp"
 #include "history/RehearsalEvidenceGuard.hpp"
 #include "history/RehearsalArchiveCoordinator.hpp"
+#include <QElapsedTimer>
 #include <QFile>
 #include <QFileInfo>
 #include <QJsonDocument>
@@ -11,6 +12,7 @@
 #include <QSignalSpy>
 #include <QTemporaryDir>
 #include <QtTest>
+#include <algorithm>
 #include <functional>
 
 #ifndef BREAKWATER_TEST_PYTHON
@@ -848,6 +850,91 @@ private slots:
         session.start(std::make_shared<SimulationGateway>(canonical_scenario(), "new"), "Inspect.");
         session.cancel(); QVERIFY(!session.running());
         QCOMPARE(session.events().last().toMap()["type"].toString(), "agent_cancelled");
+    }
+    void lateModelFinalCannotBeatAnOverdueDeadline() {
+        FakeModel model; model.silent = true;
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "late-final");
+        const auto snapshot = gateway->snapshotId();
+        const auto run = gateway->execute("forecast_baseline", {{"snapshot_id", snapshot}}).value("run").toObject().value("run_id").toString();
+        QVERIFY(!run.isEmpty());
+        QVERIFY(gateway->execute("validate_run", {{"snapshot_id", snapshot}, {"run_id", run}}).value("ok").toBool());
+        AgentOrchestrator session(&model); QElapsedTimer elapsed; elapsed.start();
+        session.start(gateway, "Inspect then finish.", {12, 3, 1000});
+        emit model.replyReady(calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")}));
+        QTRY_COMPARE_WITH_TIMEOUT(model.requests, 2, 10000);
+        QVERIFY(session.running());
+        // Keep the event loop blocked so the elapsed deadline, not timer delivery,
+        // decides whether an otherwise grounded final can publish.
+        QTest::qSleep(static_cast<int>(std::max<qint64>(1, 1025 - elapsed.elapsed())));
+        emit model.replyReady(conclusion(run));
+        QVERIFY(!session.running()); QVERIFY(session.result().isEmpty());
+        QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("deadline_exceeded"));
+        QCOMPARE(gateway->runs().size(), 1);
+    }
+    void deadlineBlocksDispatchAfterDelayedActivity_data() {
+        QTest::addColumn<QString>("delayedEvent");
+        QTest::newRow("requested") << "tool_requested";
+        QTest::newRow("started") << "tool_started";
+        QTest::newRow("completed-before-next-call") << "tool_completed";
+    }
+    void deadlineBlocksDispatchAfterDelayedActivity() {
+        QFETCH(QString, delayedEvent);
+        FakeModel model; model.silent = true;
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "delayed-dispatch");
+        AgentOrchestrator session(&model); bool delayed = false;
+        connect(&session, &AgentOrchestrator::activity, &session, [&](const QJsonObject& event) {
+            if (!delayed && event.value("type") == delayedEvent) { delayed = true; QTest::qSleep(1025); }
+        });
+        session.start(gateway, "Inspect within the original deadline.", {12, 3, 1000});
+        if (delayedEvent == "tool_completed")
+            emit model.replyReady(calls({call("state", "get_network_state"), call("late", "forecast_baseline", {{"snapshot_id", gateway->snapshotId()}})}));
+        else emit model.replyReady(calls({call("late", "forecast_baseline", {{"snapshot_id", gateway->snapshotId()}})}));
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QTest::qWait(50); // A wrongly dispatched native result must not appear later.
+        QVERIFY(delayed); QVERIFY(gateway->runs().isEmpty()); QVERIFY(session.result().isEmpty());
+        QCOMPARE(model.requests, 1);
+        QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("deadline_exceeded"));
+    }
+    void transportLossFailsImmediatelyAndRetainsCompletedRuns() {
+        auto* model = new FakeModel; model->silent = true;
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "transport-loss");
+        QVERIFY(gateway->execute("forecast_baseline", {{"snapshot_id", gateway->snapshotId()}}).value("ok").toBool());
+        AgentOrchestrator session(model); session.start(gateway, "Inspect the retained snapshot.");
+        delete model;
+        QVERIFY(!session.running()); QVERIFY(session.result().isEmpty());
+        QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("transport_unavailable"));
+        QCOMPARE(gateway->runs().size(), 1);
+        session.cancel(); // Cleanup must not call the destroyed transport.
+        session.start(std::make_shared<SimulationGateway>(canonical_scenario(), "missing-transport"), "Start again.");
+        QVERIFY(!session.running());
+        QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("transport_unavailable"));
+    }
+    void transportLossDuringActivityPreventsPendingDispatch() {
+        auto* model = new FakeModel; model->silent = true;
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "transport-dispatch-loss");
+        AgentOrchestrator session(model);
+        connect(&session, &AgentOrchestrator::activity, &session, [&](const QJsonObject& event) {
+            if (event.value("type") == "tool_started") { delete model; model = nullptr; }
+        });
+        session.start(gateway, "Inspect.");
+        emit model->replyReady(calls({call("late", "forecast_baseline", {{"snapshot_id", gateway->snapshotId()}})}));
+        QVERIFY(!session.running()); QVERIFY(gateway->runs().isEmpty()); QVERIFY(session.result().isEmpty());
+        QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("transport_unavailable"));
+    }
+    void localNativeSearchSurvivesTransportLoss() {
+        auto* model = new FakeModel; model->silent = true;
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "local-transport-loss");
+        AgentOrchestrator session(model);
+        connect(&session, &AgentOrchestrator::activity, &session, [&](const QJsonObject& event) {
+            if (model && event.value("type") == "tool_started") {
+                QCOMPARE(model->requests, 0); delete model; model = nullptr;
+            }
+        });
+        session.start(gateway, "Run native finite search.", {}, true);
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(!model); QVERIFY(!gateway->runs().isEmpty());
+        QCOMPARE(session.result().value("source_mode").toString(), QString("local_native"));
+        QCOMPARE(session.events().last().toMap().value("type").toString(), QString("recommendation_ready"));
     }
     void malformedUnknownAndReusedToolCalls() {
         FakeModel model;
