@@ -32,8 +32,10 @@ Item {
         onHeightChanged: chart.invalidatePlot()
         onPaint: {
             const ctx = getContext("2d")
-            ctx.reset(); ctx.fillStyle = "#15181B"; ctx.fillRect(0, 0, width, height)
-            ctx.fillStyle = "#BBC2C9"; ctx.font = "12px sans-serif"
+            const captionFont = Theme.captionSize + 'px "' + Theme.fontFamily + '"'
+            const bodyFont = Theme.smallSize + 'px "' + Theme.fontFamily + '"'
+            ctx.reset(); ctx.fillStyle = Theme.surface; ctx.fillRect(0, 0, width, height)
+            ctx.fillStyle = Theme.secondary; ctx.font = bodyFont
             const points = []
             for (let i = 0; i < chart.samples.length; ++i) {
                 const s = chart.samples[i]
@@ -66,16 +68,31 @@ Item {
                 const real = normalized * valueScale
                 return isFinite(real) ? chart.axisLabel(real) : normalized.toPrecision(3) + "×" + valueScale.toExponential(1)
             }
-            ctx.strokeStyle = "#414950"; ctx.beginPath()
+            // Reference grid only: the observed values and guide coordinates
+            // retain the same normalized range, padding and plot bounds.
+            ctx.lineWidth = 1; ctx.strokeStyle = Theme.divider; ctx.beginPath()
+            for (let tick = 1; tick < 4; ++tick) {
+                const gridY = top + (bottom - top) * tick / 4
+                const gridX = left + (right - left) * tick / 4
+                ctx.moveTo(left, gridY); ctx.lineTo(right, gridY)
+                ctx.moveTo(gridX, top); ctx.lineTo(gridX, bottom)
+            }
+            ctx.stroke()
+            ctx.strokeStyle = Theme.controlBorder; ctx.beginPath()
             ctx.moveTo(left, top); ctx.lineTo(left, bottom); ctx.lineTo(right, bottom); ctx.stroke()
+            ctx.font = captionFont; ctx.fillStyle = Theme.secondary
             ctx.fillText(axisText(axisHigh), 5, top + 4); ctx.fillText(axisText(axisLow), 5, bottom)
-            ctx.font = "13px sans-serif"
+            if (bottom - top >= 150) ctx.fillText(axisText((axisHigh + axisLow) / 2), 5, (top + bottom) / 2 + 4)
+            ctx.font = bodyFont
             ctx.fillText(chart.unit + (chart.discrete ? " · status observations" : " · recorded observations"), left, 15)
-            ctx.font = "12px sans-serif"
-            ctx.fillText(chart.utcLabel(minT) + " UTC", left, height - 8)
-            if (right - left > 250) ctx.fillText(chart.utcLabel(maxT) + " UTC", right - 130, height - 8)
+            ctx.font = captionFont; ctx.fillStyle = Theme.muted
+            const firstTimeText = chart.utcLabel(minT) + " UTC", lastTimeText = chart.utcLabel(maxT) + " UTC"
+            const firstTimeWidth = ctx.measureText(firstTimeText).width, lastTimeWidth = ctx.measureText(lastTimeText).width
+            ctx.fillText(firstTimeText, left, height - 8)
+            if (minT !== maxT && right - left > firstTimeWidth + lastTimeWidth + 24)
+                ctx.fillText(lastTimeText, right - lastTimeWidth, height - 8)
             const guideColor = function(kind) {
-                return kind === "shutdown" ? "#EB8585" : kind === "warning" ? "#E4B55B" : "#68727D"
+                return kind === "shutdown" ? Theme.error : kind === "warning" ? Theme.warning : Theme.controlBorder
             }
             for (const guide of guideLines) {
                 guide.y = y(guide.value)
@@ -84,7 +101,7 @@ Item {
             }
             ctx.setLineDash([])
             let previous = null
-            ctx.strokeStyle = "#F3F3F3"; ctx.fillStyle = "#F3F3F3"
+            ctx.lineWidth = 1.5; ctx.strokeStyle = Theme.plotCandidate; ctx.fillStyle = Theme.plotCandidate
             for (const p of points) {
                 // break_before comes from source gaps, never decimation spacing.
                 if (!chart.discrete && previous && !p.gap) {
@@ -107,11 +124,11 @@ Item {
                 guide.baseline = Math.min(guide.baseline, bottom - 3, lastBaseline - 15)
                 lastBaseline = guide.baseline
             }
-            ctx.font = "12px sans-serif"
+            ctx.lineWidth = 1; ctx.font = bodyFont
             for (const guide of guideLines) {
                 const text = guide.label + " " + Number(guide.value.toPrecision(4)) + chart.unit
                 const textWidth = ctx.measureText(text).width
-                ctx.fillStyle = "#15181B"; ctx.fillRect(right - textWidth - 8, guide.baseline - 13, textWidth + 8, 16)
+                ctx.fillStyle = Theme.surface; ctx.fillRect(right - textWidth - 8, guide.baseline - 13, textWidth + 8, 16)
                 ctx.strokeStyle = guideColor(guide.kind)
                 if (Math.abs(guide.baseline - 4 - guide.y) > 7) {
                     ctx.beginPath(); ctx.moveTo(right, guide.y); ctx.lineTo(right, guide.baseline - 4); ctx.stroke()

@@ -73,6 +73,7 @@ target_link_libraries(breakwater_export_examples PRIVATE breakwater_desktop_base
 set_target_properties(breakwater_export_examples PROPERTIES WIN32_EXECUTABLE FALSE)
 
 qt_add_executable(breakwater WIN32 main.cpp verification/WorkbenchUiCheck.hpp verification/WorkbenchUiCheck.cpp
+  verification/EogWorkspaceCheck.h
   verification/SceneBenchmark.hpp verification/SceneBenchmark.cpp)
 if(WIN32)
   enable_language(RC)
@@ -528,6 +529,22 @@ if(BUILD_TESTING)
       set_tests_properties(desktop.eog_${_eog_scene}_${_eog_size} PROPERTIES TIMEOUT 45
         ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
     endforeach()
+  endforeach()
+  set(_eog_workspace_evidence "${CMAKE_CURRENT_BINARY_DIR}/test-artifacts/eog-workspace")
+  file(MAKE_DIRECTORY "${_eog_workspace_evidence}")
+  foreach(_eog_workspace_size normal compact minimum)
+    set(_eog_workspace_args --workspace eog --eog-workspace-check
+      --eog-dataset "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")
+    if(NOT _eog_workspace_size STREQUAL "normal")
+      list(APPEND _eog_workspace_args --compact-ui)
+    endif()
+    add_test(NAME desktop.eog_workspace_${_eog_workspace_size} COMMAND breakwater ${_eog_workspace_args})
+    set_tests_properties(desktop.eog_workspace_${_eog_workspace_size} PROPERTIES TIMEOUT 75
+      ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1;NVIDIA_API_KEY=;BREAKWATER_UI_EVIDENCE_DIR=${_eog_workspace_evidence}"
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    if(_eog_workspace_size STREQUAL "minimum")
+      set_property(TEST desktop.eog_workspace_minimum APPEND PROPERTY ENVIRONMENT "BREAKWATER_UI_MINIMUM=1")
+    endif()
   endforeach()
 endif()
 include(eog/InstallProvider.cmake)

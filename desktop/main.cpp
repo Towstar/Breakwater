@@ -2,6 +2,7 @@
 #include "WorkspaceSettings.hpp"
 #include "LocalRuntime.hpp"
 #include "verification/WorkbenchUiCheck.hpp"
+#include "verification/EogWorkspaceCheck.h"
 #include "verification/SceneBenchmark.hpp"
 #include "agent/AgentController.hpp"
 #include "agent/ObservedInvestigationController.hpp"
@@ -59,6 +60,8 @@ int main(int argc, char** argv) {
     breakwater::desktop::runtime::configureBundledPython();
     const auto arguments = app.arguments();
     const bool uiOverhaulCheck = arguments.contains("--ui-overhaul-check");
+    const bool eogWorkspaceCheck = arguments.contains("--eog-workspace-check");
+    std::unique_ptr<QTemporaryDir> eogWorkspaceFixture;
     QString startupProject, startupObjective, rehearsalArchive, startupHistory, startupTelemetryReplay;
     QString startupWorkspace, startupEogDataset, startupEogFacility, eogReport, benchmarkOutput;
     const auto singleValue = [&](const QString& name, QString& destination) {
@@ -74,7 +77,7 @@ int main(int argc, char** argv) {
     const bool benchmark = !benchmarkOutput.isEmpty();
     if (benchmark) {
         if (!QDir::isAbsolutePath(benchmarkOutput) || QFileInfo::exists(benchmarkOutput)) return 8;
-        for (const auto* flag : {"--ui-overhaul-check", "--investigate", "--smoke", "--screenshot", "--science-check", "--import-session",
+        for (const auto* flag : {"--ui-overhaul-check", "--eog-workspace-check", "--investigate", "--smoke", "--screenshot", "--science-check", "--import-session",
                  "--eog-dataset", "--eog-analysis-panel", "--workspace", "--worker-health", "--agent-panel", "--sensor-editor-check", "--telemetry-replay"})
             if (arguments.contains(QLatin1String(flag))) return 8;
     }
@@ -106,6 +109,13 @@ int main(int argc, char** argv) {
         for (const auto* flag : {"--project", "--investigate", "--history-db", "--science-check", "--smoke", "--screenshot",
                  "--import-session", "--import-pipe-evidence", "--open-scientific-history", "--telemetry-replay", "--sensor-editor-check",
                  "--eog-dataset", "--eog-facility", "--eog-report", "--eog-analysis-panel", "--worker-health", "--agent-panel"})
+            if (arguments.contains(QLatin1String(flag))) return 8;
+    }
+    if (eogWorkspaceCheck) {
+        if (arguments.count("--eog-workspace-check") != 1 || startupWorkspace != "eog" || startupEogDataset.isEmpty()) return 8;
+        for (const auto* flag : {"--ui-overhaul-check", "--project", "--investigate", "--history-db", "--science-check", "--smoke", "--screenshot",
+                 "--import-session", "--import-pipe-evidence", "--open-scientific-history", "--telemetry-replay", "--sensor-editor-check",
+                 "--eog-facility", "--eog-report", "--eog-analysis-panel", "--worker-health", "--agent-panel", "--rehearsal-archive"})
             if (arguments.contains(QLatin1String(flag))) return 8;
     }
     bool workbenchOperation = uiOverhaulCheck || !startupProject.isEmpty() || startupInvestigation || !startupTelemetryReplay.isEmpty();
@@ -166,6 +176,12 @@ int main(int argc, char** argv) {
         }
         rehearsalArchive = archive.absoluteFilePath();
     }
+    if (eogWorkspaceCheck) {
+        eogWorkspaceFixture = breakwater::desktop::prepareEogWorkspaceFixture(startupEogDataset);
+        if (!eogWorkspaceFixture) { qCritical("Cannot prepare the isolated EOG workspace check."); return 8; }
+        startupEogDataset = eogWorkspaceFixture->path();
+        qputenv("NVIDIA_API_KEY", QByteArray{});
+    }
     QQuickStyle::setStyle("Basic");
     breakwater::desktop::ProjectController controller;
     breakwater::desktop::eog::EogDatasetController eog;
@@ -212,7 +228,7 @@ int main(int argc, char** argv) {
     }
     const auto historyIndex = arguments.indexOf("--history-db");
     std::unique_ptr<QTemporaryDir> uiCheckStorage;
-    if (uiOverhaulCheck || benchmark) {
+    if (uiOverhaulCheck || eogWorkspaceCheck || benchmark) {
         uiCheckStorage = std::make_unique<QTemporaryDir>();
         if (!uiCheckStorage->isValid()) return 8;
     }
@@ -251,17 +267,32 @@ int main(int argc, char** argv) {
     bool historyReady = false;
     QObject::connect(&repository, &breakwater::desktop::history::SessionRepository::ready, &app, [&] { historyReady = true; });
     breakwater::desktop::history::HistoryController history(&repository);
-    breakwater::desktop::agent::AgentController investigator(&controller);
+    // The EOG UI probe must not discover checkout or saved-user credentials.
+    // Explicit transports also outlive the controllers that borrow them.
+    std::unique_ptr<breakwater::desktop::eog_workspace_check::RejectingModelTransport> isolatedWorkbenchModel, isolatedObservedModel, isolatedEogModel;
+    if (eogWorkspaceCheck) {
+        isolatedWorkbenchModel = std::make_unique<breakwater::desktop::eog_workspace_check::RejectingModelTransport>();
+        isolatedObservedModel = std::make_unique<breakwater::desktop::eog_workspace_check::RejectingModelTransport>();
+        isolatedEogModel = std::make_unique<breakwater::desktop::eog_workspace_check::RejectingModelTransport>();
+    }
+    breakwater::desktop::agent::AgentController investigator(&controller, isolatedWorkbenchModel.get());
     breakwater::desktop::history::HistoryController observedHistory(&repository);
-    breakwater::desktop::agent::ObservedInvestigationController observedInvestigator(&controller,&telemetry);
+    breakwater::desktop::agent::ObservedInvestigationController observedInvestigator(&controller,&telemetry,isolatedObservedModel.get());
     observedInvestigator.setHistory(&repository,&observedHistory);
-    breakwater::desktop::agent::CredentialSettings credentials;
+    breakwater::desktop::agent::CredentialSettings credentials(nullptr,
+        eogWorkspaceCheck ? uiCheckStorage->filePath("credentials.env") : QString{});
     // EOG has separate provider processes, model conversation and history. The
     // workbench investigator and its approval state retain their own ownership.
     breakwater::desktop::eog::EogAnalysisClient eogClient;
     breakwater::desktop::eog::EogHistoryRepository eogHistory(historyPath.isEmpty() ? QString{} : historyPath + ".eog.sqlite");
-    breakwater::desktop::agent::NemotronClient eogModel;
-    breakwater::desktop::eog::EogAnalysisController eogAnalysis(&eog, &eogClient, &eogHistory, &eogModel);
+    std::unique_ptr<breakwater::desktop::agent::NemotronClient> eogModel;
+    if (!eogWorkspaceCheck) eogModel = std::make_unique<breakwater::desktop::agent::NemotronClient>();
+    auto* eogTransport = eogWorkspaceCheck
+        ? static_cast<breakwater::desktop::agent::ModelTransport*>(isolatedEogModel.get()) : eogModel.get();
+    if (eogWorkspaceCheck && (credentials.configured() || credentials.saved())) {
+        qCritical("EOG workspace verification must use isolated empty credentials."); return 8;
+    }
+    breakwater::desktop::eog::EogAnalysisController eogAnalysis(&eog, &eogClient, &eogHistory, eogTransport);
     investigator.setHistory(&repository, &history);
     breakwater::desktop::quality::PipeTransportController pipeTransport(&controller, &history);
     breakwater::desktop::science::PythonWorkerClient scientificWorker;
@@ -320,9 +351,17 @@ int main(int argc, char** argv) {
             });
     }
     std::unique_ptr<QTemporaryDir> preferenceStorage;
-    if (uiOverhaulCheck || benchmark || arguments.contains("--smoke") || arguments.contains("--screenshot"))
+    if (uiOverhaulCheck || eogWorkspaceCheck || benchmark || arguments.contains("--smoke") || arguments.contains("--screenshot"))
         preferenceStorage = std::make_unique<QTemporaryDir>();
+    if (preferenceStorage && !preferenceStorage->isValid()) {
+        qCritical("Cannot prepare isolated verification preferences."); return 8;
+    }
     breakwater::desktop::WorkspaceSettings workspaceSettings(preferenceStorage ? preferenceStorage->filePath("workspace.ini") : QString{});
+    auto portfolioExamples = breakwater::desktop::runtime::exampleFiles(QString::fromUtf8(BREAKWATER_EXAMPLE_DIRECTORY), QString::fromUtf8(BREAKWATER_RUNTIME_DEV_BIN));
+    if (eogWorkspaceCheck) {
+        portfolioExamples["operations"] = QUrl::fromLocalFile(startupEogDataset);
+        portfolioExamples["operationsPath"] = startupEogDataset;
+    }
     QQmlApplicationEngine engine;
     engine.setInitialProperties({{"controller", QVariant::fromValue(&controller)}, {"investigator", QVariant::fromValue(&investigator)},
         {"observedInvestigator",QVariant::fromValue(&observedInvestigator)},{"observedHistory",QVariant::fromValue(&observedHistory)},
@@ -333,7 +372,7 @@ int main(int argc, char** argv) {
         {"workspaceSettings", QVariant::fromValue(&workspaceSettings)},
         {"availableClientSize", app.primaryScreen() ? app.primaryScreen()->availableGeometry().size() - QSize(16, 56) : QSize(1440, 900)},
         {"buildInfo", QString("%1 · %2").arg(BREAKWATER_APP_VERSION, BREAKWATER_SOURCE_REVISION)},
-        {"portfolioExamples", breakwater::desktop::runtime::exampleFiles(QString::fromUtf8(BREAKWATER_EXAMPLE_DIRECTORY), QString::fromUtf8(BREAKWATER_RUNTIME_DEV_BIN))}});
+        {"portfolioExamples", portfolioExamples}});
     QObject::connect(&engine, &QQmlApplicationEngine::objectCreationFailed, &app, [] { QCoreApplication::exit(1); }, Qt::QueuedConnection);
     engine.loadFromModule("Breakwater", "Main");
     if (benchmark) {
@@ -346,11 +385,17 @@ int main(int argc, char** argv) {
         if (!window) return 8;
         breakwater::desktop::startWorkbenchUiCheck(window, &controller, &app);
     }
+    if (eogWorkspaceCheck) {
+        auto* window = engine.rootObjects().isEmpty() ? nullptr : qobject_cast<QQuickWindow*>(engine.rootObjects().front());
+        if (!window) return 8;
+        breakwater::desktop::startEogWorkspaceCheck(window, &controller, &eog, &eogAnalysis, &app,
+            {isolatedWorkbenchModel.get(), isolatedObservedModel.get(), isolatedEogModel.get()});
+    }
     if (eogAnalysisPanel && !engine.rootObjects().isEmpty())
         QMetaObject::invokeMethod(engine.rootObjects().front(), "openEogAnalysis");
     const auto workbenchBeforeEog = controller.editorDocument();
-    bool startupEogPending = !startupEogDataset.isEmpty();
-    if (!startupEogDataset.isEmpty()) {
+    bool startupEogPending = !startupEogDataset.isEmpty() && !eogWorkspaceCheck;
+    if (startupEogPending) {
         QObject::connect(&eog, &breakwater::desktop::eog::EogDatasetController::completed, &app, [&] {
             if (!startupEogPending) return;
             startupEogPending = false;

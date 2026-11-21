@@ -453,7 +453,7 @@ ApplicationWindow {
     }
     ColumnLayout {
         anchors.fill: parent; spacing: 1; visible: app.workspace === "eog"
-        EogDatasetPanel { id: eogPanel; eog: app.eog; condensed: app.operationsDockOpen && app.compactLayout; renderQuality: workspaceSettings.values.quality; Layout.fillWidth: true; Layout.fillHeight: true }
+        EogDatasetPanel { id: eogPanel; eog: app.eog; sampleDatasetPath: app.portfolioExamples.operations || ""; condensed: app.operationsDockOpen && app.compactLayout; renderQuality: workspaceSettings.values.quality; Layout.fillWidth: true; Layout.fillHeight: true }
         Rectangle {
             Layout.fillWidth: true
             Layout.preferredHeight: app.operationsDockOpen ? Math.min(workspaceSettings.values.dockHeight + 110, app.contentItem.height * 0.55) : 0

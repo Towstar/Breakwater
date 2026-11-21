@@ -8,6 +8,8 @@ Pane {
     required property var eog
     property int renderQuality: 1
     property bool condensed: false
+    property url sampleDatasetPath: ""
+    readonly property var reading: eog.selectedValues
     readonly property bool datasetSceneReady: eog.loaded && network.sceneReady
     readonly property int visibleSceneLabels: network.visibleSceneLabels
     readonly property bool datasetTrendReady: selectedTrend.chartReady
@@ -116,8 +118,23 @@ Pane {
     contentItem: ScrollView {
         id: scroll
         clip: true; contentWidth: availableWidth
+        ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
+        ScrollBar.vertical: ScrollBar {
+            id: observationScrollBar; objectName: "eogWorkspaceScrollBar"
+            parent: scroll
+            x: scroll.mirrored ? 0 : scroll.width - width
+            y: scroll.topPadding; height: scroll.availableHeight
+            visible: size < 1.0; policy: ScrollBar.AsNeeded; active: true; interactive: true
+            width: 10; padding: 1; minimumSize: 0.12
+            Accessible.name: "Operations workspace scroll"
+            background: Rectangle { color: Theme.background; border.color: Theme.divider; radius: 4 }
+            contentItem: Rectangle { implicitWidth: 8; implicitHeight: 32; radius: 3; color: observationScrollBar.pressed ? Theme.text : observationScrollBar.hovered ? Theme.secondary : Theme.controlBorder }
+        }
         ColumnLayout {
-            width: scroll.availableWidth; spacing: 8
+            x: scroll.mirrored ? 12 : 0
+            width: Math.max(0, scroll.availableWidth - 12)
+            height: Math.max(implicitHeight, scroll.availableHeight)
+            spacing: 12
             ColumnLayout {
                 id: dashboardHeader; visible: !panel.condensed
                 Layout.fillWidth: true; spacing: 6
@@ -125,79 +142,93 @@ Pane {
                     Layout.fillWidth: true; spacing: 8
                     Label {
                         Layout.fillWidth: true
-                        text: panel.eog.loaded ? "Recorded network" : "Open an EOG dataset to begin"
-                        font.pixelSize: 18; font.bold: true; color: Theme.text; elide: Text.ElideRight
+                        text: panel.eog.loaded ? "Recorded network" : "Operations workspace"
+                        font.pixelSize: 20; font.weight: Font.DemiBold; color: Theme.text; elide: Text.ElideRight
                     }
-                    ActionButton { iconName: "folder-open"; objectName: "eogOpenFolder"; text: "Open dataset"; onClicked: folder.open() }
+                    ActionButton { flat: true; iconName: "folder-open"; objectName: "eogOpenFolder"; text: "Open dataset"; onClicked: folder.open() }
                     ActionButton { iconName: "square"; text: "Cancel"; visible: panel.eog.busy; onClicked: panel.eog.cancel() }
                     BusyIndicator { running: panel.eog.busy; visible: running; Layout.preferredWidth: 26; Layout.preferredHeight: 26 }
-                    ActionButton { iconName: "clipboard-check"; objectName: "eogDatasetDetails"; text: "Dataset details"; onClicked: details.open() }
+                    ActionButton { flat: true; iconName: "clipboard-check"; objectName: "eogDatasetDetails"; text: "Dataset details"; onClicked: details.open() }
                 }
                 Label {
                     Layout.fillWidth: true
                     text: panel.eog.busy || !panel.eog.loaded ? panel.eog.status
                         : "Read-only · dataset " + panel.eog.datasetIdentity.substring(0, 12)
-                            + " · choose a cutoff, then investigate explicitly"
+                            + " · original units · choose a cutoff before investigating"
                             + (panel.eog.warnings.length > 0 ? " · coverage warnings in details" : "")
-                    textFormat: Text.PlainText; wrapMode: Text.Wrap; color: Theme.warning; font.pixelSize: Theme.captionSize
+                    textFormat: Text.PlainText; wrapMode: Text.Wrap
+                    color: panel.eog.warnings.length > 0 ? Theme.warning : Theme.secondary
+                    font.pixelSize: Theme.captionSize
                 }
                 Label {
                     Layout.fillWidth: true; visible: text.length > 0
                     text: panel.eog.error
                     textFormat: Text.PlainText; wrapMode: Text.Wrap; color: Theme.error
                 }
-                GridLayout {
-                    Layout.fillWidth: true; visible: panel.eog.loaded
-                    columns: panel.width < 650 ? 2 : 4
-                    columnSpacing: 12; rowSpacing: 8; Layout.topMargin: 4
-                    ColumnLayout {
-                        Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 4
-                        Label { text: "System"; font.pixelSize: Theme.smallSize; color: Theme.secondary }
-                        DatasetChoice {
-                            model: panel.eog.systems
-                            currentIndex: panel.indexFor(panel.eog.systems, panel.eog.systemId)
-                            onActivated: panel.eog.selectSystem(currentValue)
+                Pane {
+                    Layout.fillWidth: true; visible: panel.eog.loaded; padding: 12
+                    background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius; border.color: Theme.divider }
+                    contentItem: GridLayout {
+                        columns: panel.width < 650 ? 2 : 4
+                        columnSpacing: 12; rowSpacing: 8
+                        ColumnLayout {
+                            Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 4
+                            Label { text: "System"; font.pixelSize: Theme.smallSize; color: Theme.secondary }
+                            DatasetChoice {
+                                objectName: "eogSystemChoice"
+                                Accessible.name: "System"
+                                model: panel.eog.systems
+                                currentIndex: panel.indexFor(panel.eog.systems, panel.eog.systemId)
+                                onActivated: panel.eog.selectSystem(currentValue)
+                            }
                         }
-                    }
-                    ColumnLayout {
-                        Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 4
-                        Label { text: "Facility"; font.pixelSize: Theme.smallSize; color: Theme.secondary }
-                        DatasetChoice {
-                            model: panel.eog.facilities
-                            currentIndex: panel.indexFor(panel.eog.facilities, panel.eog.facilityId)
-                            onActivated: panel.eog.selectFacility(currentValue)
+                        ColumnLayout {
+                            Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 4
+                            Label { text: "Facility"; font.pixelSize: Theme.smallSize; color: Theme.secondary }
+                            DatasetChoice {
+                                objectName: "eogFacilityChoice"
+                                Accessible.name: "Facility"
+                                model: panel.eog.facilities
+                                currentIndex: panel.indexFor(panel.eog.facilities, panel.eog.facilityId)
+                                onActivated: panel.eog.selectFacility(currentValue)
+                            }
                         }
-                    }
-                    ColumnLayout {
-                        Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 4
-                        Label { text: "Equipment"; font.pixelSize: Theme.smallSize; color: Theme.secondary }
-                        DatasetChoice {
-                            model: panel.eog.assets
-                            currentIndex: panel.indexFor(panel.eog.assets, panel.eog.assetId)
-                            onActivated: panel.eog.selectAsset(currentValue)
+                        ColumnLayout {
+                            Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 4
+                            Label { text: "Equipment"; font.pixelSize: Theme.smallSize; color: Theme.secondary }
+                            DatasetChoice {
+                                objectName: "eogAssetChoice"
+                                Accessible.name: "Equipment"
+                                model: panel.eog.assets
+                                currentIndex: panel.indexFor(panel.eog.assets, panel.eog.assetId)
+                                onActivated: panel.eog.selectAsset(currentValue)
+                            }
                         }
-                    }
-                    ColumnLayout {
-                        Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 4
-                        Label { text: "Measurement"; font.pixelSize: Theme.smallSize; color: Theme.secondary }
-                        DatasetChoice {
-                            model: panel.eog.metrics
-                            currentIndex: panel.indexFor(panel.eog.metrics, panel.eog.metric)
-                            onActivated: panel.eog.selectMetric(currentValue)
+                        ColumnLayout {
+                            Layout.fillWidth: true; Layout.minimumWidth: 0; spacing: 4
+                            Label { text: "Measurement"; font.pixelSize: Theme.smallSize; color: Theme.secondary }
+                            DatasetChoice {
+                                objectName: "eogMetricChoice"
+                                Accessible.name: "Measurement"
+                                model: panel.eog.metrics
+                                currentIndex: panel.indexFor(panel.eog.metrics, panel.eog.metric)
+                                onActivated: panel.eog.selectMetric(currentValue)
+                            }
                         }
                     }
                 }
                 RowLayout {
                     Layout.fillWidth: true; visible: panel.eog.loaded; spacing: 8
-                    ActionButton { iconName: "network"; objectName: "eogOverview"; text: "All systems"; enabled: panel.eog.sceneMode !== "overview"; onClicked: panel.eog.showOverview() }
-                    ActionButton { iconName: "factory"; objectName: "eogFacility"; text: "Facility"; enabled: panel.eog.sceneMode !== "facility"; onClicked: panel.eog.showFacility(panel.eog.facilityId) }
-                    Label {
+                    ActionButton { flat: true; iconName: "network"; objectName: "eogOverview"; text: "All systems"; checked: panel.eog.sceneMode === "overview"; enabled: panel.eog.sceneMode !== "overview"; onClicked: panel.eog.showOverview() }
+                    ActionButton { flat: true; iconName: "factory"; objectName: "eogFacility"; text: "Facility"; checked: panel.eog.sceneMode === "facility"; enabled: panel.eog.sceneMode !== "facility"; onClicked: panel.eog.showFacility(panel.eog.facilityId) }
+                    ColumnLayout {
                         Layout.preferredWidth: panel.width < 1000 ? 170 : 235
-                        text: (panel.historicalCursor ? "Historical: " : "Cutoff: ") + panel.utc(panel.eog.cursorUnix)
-                        color: panel.historicalCursor ? Theme.warning : Theme.text
-                        wrapMode: Text.Wrap; font.pixelSize: Theme.captionSize
+                        spacing: 2
+                        Label { text: panel.historicalCursor ? "HISTORICAL CUTOFF" : "OBSERVATION CUTOFF"; font.pixelSize: Theme.captionSize; color: panel.historicalCursor ? Theme.warning : Theme.muted }
+                        Label { Layout.fillWidth: true; text: panel.utc(panel.eog.cursorUnix); color: Theme.text; wrapMode: Text.Wrap; font.family: Theme.monoFamily; font.pixelSize: Theme.captionSize }
                     }
                     Slider {
+                        objectName: "eogCutoffSlider"
                         Layout.fillWidth: true; Layout.minimumWidth: 80
                         from: panel.eog.firstUnix; to: Math.max(from, panel.eog.nowUnix)
                         stepSize: 300; value: panel.eog.cursorUnix
@@ -205,13 +236,50 @@ Pane {
                         onMoved: panel.eog.setCursorUnix(value)
                         Accessible.name: "Recorded observation cutoff"
                     }
-                    ActionButton { iconName: "history"; text: "Now"; enabled: panel.historicalCursor; onClicked: panel.eog.setCursorUnix(panel.eog.nowUnix) }
+                    ActionButton { objectName: "eogLatestCutoff"; flat: true; iconName: "history"; text: "Latest"; tooltip: "Return to the latest recorded cutoff"; enabled: panel.historicalCursor; onClicked: panel.eog.setCursorUnix(panel.eog.nowUnix) }
+                }
+            }
+            Pane {
+                objectName: "eogEmptyState"
+                Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 320
+                visible: !panel.eog.loaded; padding: 12
+                background: Item {}
+                contentItem: ColumnLayout {
+                    Item { Layout.fillHeight: true }
+                    Pane {
+                        Layout.alignment: Qt.AlignHCenter
+                        Layout.fillWidth: true; Layout.maximumWidth: 760; padding: 24
+                        background: Rectangle { color: Theme.surface; radius: Theme.cornerRadius + 2; border.color: Theme.divider }
+                        contentItem: ColumnLayout {
+                            spacing: 16
+                            RowLayout {
+                                spacing: 14; Layout.fillWidth: true
+                                Image { source: Theme.icon("network"); Layout.preferredWidth: 32; Layout.preferredHeight: 32; sourceSize.width: 32; sourceSize.height: 32; Accessible.ignored: true }
+                                ColumnLayout {
+                                    Layout.fillWidth: true; spacing: 4
+                                    Label { Layout.fillWidth: true; text: "Explore a recorded network"; wrapMode: Text.WordWrap; font.pixelSize: 24; font.weight: Font.DemiBold; color: Theme.text }
+                                    Label { Layout.fillWidth: true; text: "Inspect equipment and measurements, then investigate a chosen point in time."; wrapMode: Text.WordWrap; color: Theme.secondary; font.pixelSize: Theme.bodySize }
+                                }
+                            }
+                            Label { Layout.fillWidth: true; text: "Choose a folder containing these three files:"; wrapMode: Text.WordWrap; color: Theme.secondary }
+                            Label { Layout.fillWidth: true; text: "network.json   ·   ops.json   ·   telemetry.csv"; wrapMode: Text.WrapAnywhere; color: Theme.accent; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize }
+                            RowLayout {
+                                Layout.fillWidth: true; spacing: 8
+                                ActionButton { objectName: "eogStartImport"; text: "Open dataset"; iconName: "folder-open"; highlighted: true; enabled: !panel.eog.busy; onClicked: folder.open() }
+                                ActionButton { objectName: "eogOpenExample"; text: "Try a synthetic example"; iconName: "play"; visible: panel.sampleDatasetPath.toString().length > 0; enabled: !panel.eog.busy; onClicked: panel.eog.loadFolder(panel.sampleDatasetPath) }
+                                Item { Layout.fillWidth: true }
+                            }
+                            Label { Layout.fillWidth: true; text: "Recorded data stays read-only. Investigations start only when you ask."; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.smallSize }
+                        }
+                    }
+                    Item { Layout.fillHeight: true }
                 }
             }
             GridLayout {
                 id: evidenceGrid
                 Layout.fillWidth: true; visible: panel.eog.loaded
-                Layout.preferredHeight: panel.condensed ? Math.max(160, panel.availableHeight - 12) : Math.max(300, Math.min(540, panel.availableHeight - dashboardHeader.implicitHeight - 12))
+                Layout.fillHeight: true
+                Layout.preferredHeight: panel.condensed ? Math.max(160, panel.availableHeight - 12) : Math.max(340, panel.availableHeight - dashboardHeader.implicitHeight - 12)
                 columns: panel.width < 900 ? 1 : 2
                 columnSpacing: 10; rowSpacing: 8
                 EogNetworkView { renderQuality: panel.renderQuality;
@@ -225,10 +293,30 @@ Pane {
                     Layout.preferredWidth: 450; Layout.minimumWidth: 0
                     spacing: 6
                     Label {
+                        objectName: "eogChannelIdentity"
                         Layout.fillWidth: true
                         text: panel.eog.assetId + " · " + panel.eog.metric
-                        textFormat: Text.PlainText; color: Theme.secondary; font.pixelSize: Theme.smallSize
+                        textFormat: Text.PlainText; color: Theme.secondary; font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize
                         elide: Text.ElideMiddle
+                    }
+                    Pane {
+                        objectName: "eogObservationReadout"
+                        Layout.fillWidth: true; padding: 12
+                        Accessible.role: Accessible.StaticText; Accessible.name: panel.measurementDescription()
+                        background: Rectangle { radius: Theme.cornerRadius; color: Theme.surface; border.color: panel.reading.stale ? Theme.warning : Theme.divider }
+                        contentItem: ColumnLayout {
+                            spacing: 5
+                            RowLayout {
+                                Layout.fillWidth: true; spacing: 10
+                                Label { objectName: "eogObservationValue"; Layout.fillWidth: true; text: panel.reading.has_sample ? panel.number(panel.reading.value, panel.eog.metric === "status" ? 0 : 2) : "No reading"; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; font.family: panel.reading.has_sample ? Theme.monoFamily : Theme.fontFamily; font.pixelSize: 24; color: !panel.reading.has_sample ? Theme.muted : panel.reading.stale ? Theme.warning : Theme.text }
+                                Label { objectName: "eogObservationUnit"; visible: !!panel.reading.has_sample; text: panel.reading.unit || panel.eog.unit; textFormat: Text.PlainText; font.pixelSize: Theme.bodySize; color: Theme.secondary }
+                            }
+                            Label { objectName: "eogObservationStatus"; Layout.fillWidth: true; visible: !!panel.reading.has_sample && !!panel.reading.status_label; text: panel.reading.status_label || ""; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary }
+                            Label { objectName: "eogObservationFreshness"; Layout.fillWidth: true; text: panel.reading.has_sample ? (panel.historicalCursor ? "Historical · " : "At cutoff · ") + (panel.reading.freshness_label || (panel.reading.stale ? "stale" : "recorded")) : "Unavailable"; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: panel.reading.stale ? Theme.warning : Theme.secondary; font.pixelSize: Theme.smallSize }
+                            Label { objectName: "eogObservationTimestamp"; Layout.fillWidth: true; visible: !!panel.reading.has_sample; text: "Recorded " + panel.utc(panel.reading.event_unix) + " · age " + panel.number(panel.reading.age_s, 0) + " s"; textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.muted; font.pixelSize: Theme.captionSize }
+                            Label { objectName: "eogObservationMissing"; Layout.fillWidth: true; visible: !panel.reading.has_sample; text: panel.measurementDescription(); textFormat: Text.PlainText; wrapMode: Text.WordWrap; color: Theme.secondary; font.pixelSize: Theme.smallSize }
+                            Label { objectName: "eogObservationStaleNotice"; Layout.fillWidth: true; visible: !!panel.reading.has_sample && !!panel.reading.stale; text: "Last value retained as evidence; unavailable as a fresh measurement."; wrapMode: Text.WordWrap; color: Theme.warning; font.pixelSize: Theme.smallSize }
+                        }
                     }
                     EogTrendChart {
                         id: selectedTrend
@@ -236,17 +324,6 @@ Pane {
                         samples: panel.eog.selectedSeries; unit: panel.eog.unit
                         guides: panel.eog.selectedThresholds
                         discrete: panel.eog.metric === "status"
-                    }
-                    Rectangle {
-                        Layout.fillWidth: true; implicitHeight: measurementText.implicitHeight + 18
-                        radius: 5; color: Theme.raised; border.color: Theme.divider
-                        Label {
-                            id: measurementText
-                            anchors.fill: parent; anchors.margins: 9
-                            text: panel.measurementDescription()
-                            textFormat: Text.PlainText; wrapMode: Text.Wrap; font.pixelSize: Theme.smallSize
-                            color: panel.eog.selectedValues.stale ? Theme.warning : Theme.text
-                        }
                     }
                     Label {
                         Layout.fillWidth: true
