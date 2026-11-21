@@ -151,6 +151,20 @@ class Check final : public QObject {
         require(ok && std::isfinite(value) && std::abs(value - expected) < 1e-9, "workspace_numeric_readout_incorrect");
         require(text("eogObservationUnit") == dataset_->unit(), "workspace_reading_unit_incorrect");
     }
+    void mapFooterClear() const {
+        auto* legend = item("eogSceneLegend");
+        const auto footer = legend->mapRectToScene(legend->boundingRect());
+        bool checked = false;
+        for (const auto& entry : dataset_->sceneNodes()) {
+            const auto row = entry.toMap();
+            if (row.value("kind").toString() != "truck_yard") continue;
+            auto* label = item("eogLabel:" + row.value("id").toString());
+            require(label->isVisible() && !label->mapRectToScene(label->boundingRect()).intersects(footer),
+                "workspace_truck_yard_label_obscured_by_footer");
+            checked = true;
+        }
+        require(checked, "workspace_truck_yard_fixture_missing");
+    }
     void preserved() const {
         for (const auto& model : models_)
             require(model && model->requestAttempts() == 0, "workspace_model_request_forbidden");
@@ -218,6 +232,8 @@ class Check final : public QObject {
                 reveal(item("eogObservationReadout")); break;
             case 2: {
                 if (!window_->property("eogSceneReady").toBool() || !window_->property("eogTrendReady").toBool()) return;
+                mapFooterClear();
+                checks_.append("rendered_truck_yard_label_is_clear_of_map_footer");
                 const auto row = dataset_->selectedValues();
                 require(row.value("has_sample").toBool() && row.value("stale").toBool() && row.value("age_s").toDouble() == 1500, "workspace_stale_fixture_incorrect");
                 numeric(104); require(text("eogObservationFreshness").contains("stale", Qt::CaseInsensitive)
@@ -285,6 +301,8 @@ class Check final : public QObject {
                     "workspace_scrollbar_drag_did_not_reach_top");
                 dragScrollBar(true); break;
             case 14: {
+                if (!window_->property("eogSceneReady").toBool()) return;
+                mapFooterClear();
                 auto* bar = item("eogWorkspaceScrollBar");
                 auto* chart = item("eogTrendChart");
                 const auto chartBounds = chart->mapRectToScene(chart->boundingRect());

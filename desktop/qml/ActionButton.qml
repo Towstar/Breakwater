@@ -26,7 +26,7 @@ Button {
     palette.brightText: !enabled ? Theme.muted : highlighted ? Theme.background : Theme.text
     Accessible.name: accessibleName.length ? accessibleName : tooltip
     Accessible.description: tooltip
-    ToolTip.visible: (hovered || activeFocus) && tooltip.length > 0
+    ToolTip.visible: control.visible && (hovered || activeFocus) && tooltip.length > 0
     ToolTip.delay: activeFocus ? 0 : 450
     ToolTip.text: tooltip
     background: Rectangle {
