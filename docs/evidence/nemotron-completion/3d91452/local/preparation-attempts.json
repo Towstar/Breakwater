@@ -1,0 +1,17 @@
+{
+  "source": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "status": "preparation_only",
+  "attempts": [
+    {
+      "reason": "Private helper requires a new child of out/candidate-readiness; corrected destination used.",
+      "result": "rejected_before_requests",
+      "operation": "hosted_round_init"
+    },
+    {
+      "reason": "Copied private launcher retained user-workspace hash while selecting healthy fixture; corrected executable hash check before launch.",
+      "result": "rejected_before_launch",
+      "operation": "desktop_qa_launch"
+    }
+  ],
+  "raw_evidence_unchanged": true
+}

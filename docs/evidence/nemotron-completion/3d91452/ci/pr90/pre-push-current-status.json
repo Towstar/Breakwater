@@ -1,0 +1,165 @@
+{
+  "checked_at_utc": "2026-11-21T00:59:29.575Z",
+  "pr": 90,
+  "head_sha": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "base_sha": "7df8c379e1178600bcb869cd62ab3d6751ea8a38",
+  "merge_sha": "695e6f65d1efe39d4f3054c1b653a9447fee8b1d",
+  "run_id": 44842134400,
+  "jobs": [
+    {
+      "id": 136652866400,
+      "name": "Native (normal)",
+      "status": "completed",
+      "conclusion": "success",
+      "current_step": null
+    },
+    {
+      "id": 136652866679,
+      "name": "Native (asan)",
+      "status": "completed",
+      "conclusion": "success",
+      "current_step": null
+    },
+    {
+      "id": 136657602531,
+      "name": "Python science (CPU)",
+      "status": "completed",
+      "conclusion": "success",
+      "current_step": null
+    },
+    {
+      "id": 136657602686,
+      "name": "Desktop (normal)",
+      "status": "completed",
+      "conclusion": "success",
+      "current_step": null
+    },
+    {
+      "id": 136657602711,
+      "name": "Lean assumption audit",
+      "status": "completed",
+      "conclusion": "success",
+      "current_step": null
+    },
+    {
+      "id": 136657602713,
+      "name": "Desktop (asan)",
+      "status": "in_progress",
+      "conclusion": null,
+      "current_step": "Configure, build and test desktop"
+    }
+  ],
+  "all_jobs_passed": false,
+  "remote_heads": [
+    {
+      "ref": "main",
+      "sha": "3116b3d8349beab729f8a1413cbbd9ff160e67ac",
+      "previous_sha": "3116b3d8349beab729f8a1413cbbd9ff160e67ac",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-engine",
+      "sha": "2696a2bfdadd393b2c443f8f3de3e58d0d8457d6",
+      "previous_sha": "2696a2bfdadd393b2c443f8f3de3e58d0d8457d6",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-analysis",
+      "sha": "351cf5a8531e599275689c6cc1edb069654f3dd5",
+      "previous_sha": "351cf5a8531e599275689c6cc1edb069654f3dd5",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-commitments",
+      "sha": "e71ed5a717a82283680444c3cdb7edb4ac57361f",
+      "previous_sha": "e71ed5a717a82283680444c3cdb7edb4ac57361f",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-committed-response",
+      "sha": "3796432987e404268675e6ae70adae96ac6e82de",
+      "previous_sha": "3796432987e404268675e6ae70adae96ac6e82de",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-detection",
+      "sha": "7c390d2ee4516fb8ce7e3de516f5e27adce92359",
+      "previous_sha": "7c390d2ee4516fb8ce7e3de516f5e27adce92359",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-inspection",
+      "sha": "0085c264b675e8263b92defcaf1fc2d174f95f9d",
+      "previous_sha": "0085c264b675e8263b92defcaf1fc2d174f95f9d",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-observations",
+      "sha": "ff2a75541808ec0fcc19f16f3abbd5427cda8cbe",
+      "previous_sha": "ff2a75541808ec0fcc19f16f3abbd5427cda8cbe",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-report-guard",
+      "sha": "451ef063f6ff672ef7c7c3a3be70d6feeed0bbb2",
+      "previous_sha": "451ef063f6ff672ef7c7c3a3be70d6feeed0bbb2",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-response",
+      "sha": "db4bee8c38c7348026dc4ed9e7a32e6aea8fbb32",
+      "previous_sha": "db4bee8c38c7348026dc4ed9e7a32e6aea8fbb32",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-search",
+      "sha": "65d8c4a883114c15e935c5c275452cfccfe5f102",
+      "previous_sha": "65d8c4a883114c15e935c5c275452cfccfe5f102",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-search-robustness",
+      "sha": "6e58ed5762f8fb40dd1fe0693fafe786bfbcf0aa",
+      "previous_sha": "6e58ed5762f8fb40dd1fe0693fafe786bfbcf0aa",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-simulation",
+      "sha": "d86cf2c939ff9404128db4521171ae384ec42a85",
+      "previous_sha": "d86cf2c939ff9404128db4521171ae384ec42a85",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-synthetic-observations",
+      "sha": "6cba85df48769a26f9acb1276cb5006b161a04f9",
+      "previous_sha": "6cba85df48769a26f9acb1276cb5006b161a04f9",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-eog-validation",
+      "sha": "d30cd04205b6421b48ba4c9b06b0db810cd23088",
+      "previous_sha": "d30cd04205b6421b48ba4c9b06b0db810cd23088",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-front-accuracy",
+      "sha": "57fd674dcdd4d395b4ba7c24f19636c2325294b6",
+      "previous_sha": "57fd674dcdd4d395b4ba7c24f19636c2325294b6",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-front-comparator",
+      "sha": "d53565fcce93dcc9689e7312f2f15c680825574d",
+      "previous_sha": "d53565fcce93dcc9689e7312f2f15c680825574d",
+      "unchanged": true
+    },
+    {
+      "ref": "codex/person-a-transport-qualification",
+      "sha": "8d2e84de6de1e2111b25243d0de769d9c1a98212",
+      "previous_sha": "8d2e84de6de1e2111b25243d0de769d9c1a98212",
+      "unchanged": true
+    }
+  ],
+  "reruns_requested": 0,
+  "source_changes": []
+}

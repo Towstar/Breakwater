@@ -1,0 +1,90 @@
+{
+  "manifest_version": 1,
+  "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "dirty": false,
+  "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+  "status": "pending",
+  "executables": {
+    "desktop": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+    "eog_live_check": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+    "nemotron_smoke": "2d0900e4602b7db7a9f368c0ded777306a5d3ae78cde4b3b4619f1f55648c61b"
+  },
+  "launch_record": {
+    "path": "launch.json",
+    "bytes": 1675,
+    "sha256": "7b141681b01275f4ff70fcf66fc63d7de8aa31188feaaed7c88abe3ac1b208f5"
+  },
+  "cases": [
+    {
+      "case": "protocol_smoke",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "nemotron_smoke",
+      "executable_sha256": "2d0900e4602b7db7a9f368c0ded777306a5d3ae78cde4b3b4619f1f55648c61b",
+      "status": "passed",
+      "exit_code": 0,
+      "evidence": {
+        "path": "protocol-smoke.log",
+        "bytes": 199,
+        "sha256": "9072241a01705e4a8143f9b3db37df1f91855e9ba813796f93b1a07a5080aedb"
+      },
+      "process_record": {
+        "path": "protocol-smoke.json",
+        "bytes": 329,
+        "sha256": "f856cfcc1ec29079b65cbaa97cd9628a15cdd9353f0367be077fb8d6f997f4de"
+      },
+      "stderr": {
+        "path": "protocol-smoke-stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "canonical_1",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "eog_live_check",
+      "executable_sha256": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+      "status": "pending"
+    },
+    {
+      "case": "canonical_2",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "eog_live_check",
+      "executable_sha256": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+      "status": "pending"
+    },
+    {
+      "case": "canonical_3",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "eog_live_check",
+      "executable_sha256": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+      "status": "pending"
+    },
+    {
+      "case": "renamed_topology",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "eog_live_check",
+      "executable_sha256": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+      "status": "pending"
+    },
+    {
+      "case": "observed_pump",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "desktop",
+      "executable_sha256": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+      "status": "pending"
+    },
+    {
+      "case": "observed_missing_coverage",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "desktop",
+      "executable_sha256": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+      "status": "pending"
+    }
+  ],
+  "public_release_approved": false,
+  "clean_windows": "pending",
+  "owner_review": "pending",
+  "licensing_review": "pending",
+  "recorded_utc": "2026-11-21T00:13:14.566847+00:00",
+  "manifest_sequence": 2
+}

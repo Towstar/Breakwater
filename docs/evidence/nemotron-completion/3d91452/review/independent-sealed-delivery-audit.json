@@ -1,0 +1,131 @@
+{
+  "audit_version": 1,
+  "generated_utc": "2026-11-21T00:48:29.128841+00:00",
+  "status": "passed",
+  "round": {
+    "audit_version": 1,
+    "audit_status": "passed",
+    "qualification_status": "passed",
+    "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+    "cases": [
+      {
+        "case": "protocol_smoke",
+        "status": "passed"
+      },
+      {
+        "case": "canonical_1",
+        "status": "passed",
+        "session_id": "66af3ac5-65d8-4015-ab26-cd74c0f38b8b",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 8,
+        "tool_calls": 7
+      },
+      {
+        "case": "canonical_2",
+        "status": "passed",
+        "session_id": "98926236-54cf-4738-bce0-7a67bb789ce9",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 8,
+        "tool_calls": 7
+      },
+      {
+        "case": "canonical_3",
+        "status": "passed",
+        "session_id": "d38ab7a8-8ec4-40ef-872e-283531a7069e",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 8,
+        "tool_calls": 7
+      },
+      {
+        "case": "renamed_topology",
+        "status": "passed",
+        "session_id": "6481c700-7943-4754-96e1-75bbd6d4718f",
+        "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+        "model_requests": 6,
+        "tool_calls": 5
+      },
+      {
+        "case": "observed_pump",
+        "status": "passed",
+        "session_id": "bf6bf0b9-56bb-43ff-b66d-0adf611856f4",
+        "capture_id": "capture-0d16cb50-46ca-4899-8813-967cfbefe44a",
+        "model_requests": 8,
+        "tool_calls": 7
+      },
+      {
+        "case": "observed_missing_coverage",
+        "status": "passed",
+        "session_id": "07ebfcf3-6fd5-472e-be52-044146af3ec5",
+        "capture_id": "capture-b8f78516-6a80-4520-b26d-c2f4769543b4",
+        "model_requests": 6,
+        "tool_calls": 5
+      }
+    ],
+    "public_release_approved": false,
+    "limits": "Hash/source bindings are witnessed manifest provenance, not execution attestation. This audit checks retained integrity/grounding, not numerical accuracy, model prose or external release gates."
+  },
+  "gallery": {
+    "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+    "app_sha256": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+    "recorded_utc": "2026-11-21T00:41:15.658903+00:00",
+    "provenance": "Original native Sky screenshot bytes; no image editing or compositing; actual desktop observations.",
+    "images": [
+      {
+        "path": "01-observed-grounded-recommendation.jpg",
+        "bytes": 170825,
+        "sha256": "9387f3592065fb9ca6db403fc35c36ad37335ee38b68f83ef7641ec7ad8d7ce8",
+        "caption": "Fresh hosted observed-pump recommendation; evidence-owned headline; unverified model narrative collapsed.",
+        "width": 1442,
+        "height": 931,
+        "byte_hash_audit": "passed"
+      },
+      {
+        "path": "02-observed-advisory-review.jpg",
+        "bytes": 143706,
+        "sha256": "5f7cbd9bdc76eabd59ca970df4d9c640439cb87d751ac8a23e209278c6ac5626",
+        "caption": "Same exact selected run and validation; acknowledgement only; no controls applied.",
+        "width": 1442,
+        "height": 931,
+        "byte_hash_audit": "passed"
+      },
+      {
+        "path": "03-missing-coverage-explanation.jpg",
+        "bytes": 162918,
+        "sha256": "b1f2bfcb70ec84fe7a37b6e5900e295ff3417145a4eca7fd69047d2fcba69a16",
+        "caption": "Fresh hosted missing-inventory refusal; no runs or approval; native simulator distinguished from capture eligibility.",
+        "width": 1442,
+        "height": 931,
+        "byte_hash_audit": "passed"
+      },
+      {
+        "path": "04-operations-grounded-history.jpg",
+        "bytes": 148874,
+        "sha256": "039667edf0d4f33a4a833aa76acbccfc2e9b009f8787f3d307f0d38fa300a581",
+        "caption": "Reopened fresh hosted Operations archive; evidence-owned summary; historical review disabled.",
+        "width": 1442,
+        "height": 931,
+        "byte_hash_audit": "passed"
+      }
+    ]
+  },
+  "inputs": [
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\SEALED.json",
+      "bytes": 282,
+      "sha256": "041b77edaa01fca09e9e753faea991176cce1289b832faf755e3088912eeb86b"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\manifest-0006.json",
+      "bytes": 6413,
+      "sha256": "e51d9b8d5edbba4b6a408599001556c874a0a09a0501ab6638502e9de01767da"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\nemotron-completion\\gallery\\gallery.json",
+      "bytes": 1541,
+      "sha256": "5fa49d9b9a30f75a213e8098e37f2c11ee19ce956b8f339b374d74fe14cb0137"
+    }
+  ],
+  "reviewer": "Delegated same-family agent. Independent raw evidence/presentation audit; authored EOG repeat-guard implementation earlier.",
+  "visual_review": "All four original native images were separately opened and inspected. They show source 3d91452 in the title, evidence-owned explanations, the advisory-only review boundary, missing-coverage refusal and historical Operations evidence.",
+  "limits": "Artifact integrity and retained reference grounding only. Not a numerical accuracy study, complete transcript audit, clean Windows acceptance, human review or release approval. Original-native-capture provenance is the supplied witnessed gallery record, not independent screenshot attestation."
+}

@@ -1,0 +1,12 @@
+{
+  "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "native_sha256": "31f2c6439c0eae5e16070e5f16978ebfc0888298d621c8f16ab15042e94d9ed4",
+  "worker_sha256": "ebef6083848bdc4dc5233ed1be2bec60d2647c53d53f8d2778af94a402168b9d",
+  "python": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater\\.tools\\science-cpu\\Scripts\\python.exe",
+  "schemas": {
+    "analysis-request-v1.schema.json": "c9cf0408d5e6540900f55be2f27c91a90c48aff66316d8e76d89332b0b630eb2",
+    "analysis-response-v1.schema.json": "44c27baf998e8aced87befe3e80613fc0b9bb44c61abf1c075cb41b65ac76d20",
+    "capture-manifest-v1.schema.json": "77889d1e39ae260e8e58b7e116f21bc19d2f3ca4c281c433c8f97550d240aeae",
+    "common-v1.schema.json": "e4bc08c5ce5e6b608a64d94417740a74dc5e343df6e4349478697eb4f21cd6e7"
+  }
+}

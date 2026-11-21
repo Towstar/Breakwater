@@ -1,0 +1,38 @@
+[
+  {
+    "id": 14682403118,
+    "name": "windows-desktop-asan",
+    "sha256": "5a55d0e1bb0216799db4e82c58035eb05484e57eb4bd46b8175931b1a7cc4bb7",
+    "verified": true
+  },
+  {
+    "id": 14680885302,
+    "name": "windows-science-cpu",
+    "sha256": "20a4401c6da34e48901dc12bed08c7121ecc0705bcea2cfd1348563478bffebf",
+    "verified": true
+  },
+  {
+    "id": 14680462838,
+    "name": "windows-desktop-normal",
+    "sha256": "ec9c2fb10fbe7776614fc807577b91df1209d07dfd302d131da0503a88999a88",
+    "verified": true
+  },
+  {
+    "id": 14680061414,
+    "name": "windows-lean",
+    "sha256": "1be28a97bd5b004e844bfbdb8a813e352ec35d9c83ca994a244c715961908b98",
+    "verified": true
+  },
+  {
+    "id": 14679394444,
+    "name": "windows-native-asan",
+    "sha256": "3ade088247689a78c14c0b3e0bab81ae53107fa62d3b8687c014d78b29b2ac06",
+    "verified": true
+  },
+  {
+    "id": 14678284895,
+    "name": "windows-native-normal",
+    "sha256": "515362c91e63fd6c15ef1854fa6de76664bfc1a72d6bb9b3061a101314e1afc1",
+    "verified": true
+  }
+]

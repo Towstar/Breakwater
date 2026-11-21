@@ -1,0 +1,12 @@
+{
+  "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "app_sha256": "b436b02650efe9b77139f99a778db59ddd7e44374d8f64a740e1436d0dee31e5",
+  "started_utc": "2026-11-21T00:52:21.3362047Z",
+  "scope": "Only original failed UI and CLI entries, same unchanged ASan executable",
+  "conditions": "No concurrent agent UI input; completed QA app minimized; no other CTest in this build. User/OS inactivity is not attested.",
+  "status": "passed",
+  "free_before_bytes": 9354149888,
+  "exit_code": 0,
+  "finished_utc": "2026-11-21T00:54:39.1059024Z",
+  "free_after_bytes": 8993021952
+}

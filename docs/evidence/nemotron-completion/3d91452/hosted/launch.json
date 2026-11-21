@@ -1,0 +1,29 @@
+{
+  "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "dirty": false,
+  "started_utc": "2026-11-21T00:13:11.637942+00:00",
+  "executables": {
+    "desktop": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+    "eog_live_check": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+    "nemotron_smoke": "2d0900e4602b7db7a9f368c0ded777306a5d3ae78cde4b3b4619f1f55648c61b"
+  },
+  "executable_paths": {
+    "desktop": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\portfolio-desktop\\desktop\\breakwater.exe",
+    "eog_live_check": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\portfolio-desktop\\desktop\\breakwater_eog_live_check.exe",
+    "nemotron_smoke": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\portfolio-desktop\\desktop\\breakwater_nemotron_smoke.exe"
+  },
+  "datasets": {
+    "operations": {
+      "network.json": "7420fc7dbb549ae2629fa81089243f38ee57f4911dc26723cac794bd021efe05",
+      "ops.json": "cace2ef1085f5a7f5143cbb3d6c4102ac3331b01555c4761778c2df965a82369",
+      "telemetry.csv": "3f15cfb15a191b83aa2fffcef84979c19585decf9d459a70e048e4f09be09633"
+    },
+    "renamed-topology": {
+      "network.json": "38b5c246a6b7fa5087643cfc680e1d3088b036ee76b53f50453062b2c98c5802",
+      "ops.json": "0e4f78d7931c2c33d039324e85cb02c8aee083dcbdb0a82d59bbecfb3cc6c3c1",
+      "telemetry.csv": "1a4ac89d38081a9a88545b3d215e2802e18d5a6a2dddebbfae8f6a8a6a13af20"
+    }
+  },
+  "provenance": "Witnessed source/process binding, not authenticated execution attestation.",
+  "public_release_approved": false
+}

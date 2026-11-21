@@ -1,0 +1,32 @@
+{
+  "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "app_sha256": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+  "recorded_utc": "2026-11-21T00:41:15.658903+00:00",
+  "provenance": "Original native Sky screenshot bytes; no image editing or compositing; actual desktop observations.",
+  "images": [
+    {
+      "path": "01-observed-grounded-recommendation.jpg",
+      "bytes": 170825,
+      "sha256": "9387f3592065fb9ca6db403fc35c36ad37335ee38b68f83ef7641ec7ad8d7ce8",
+      "caption": "Fresh hosted observed-pump recommendation; evidence-owned headline; unverified model narrative collapsed."
+    },
+    {
+      "path": "02-observed-advisory-review.jpg",
+      "bytes": 143706,
+      "sha256": "5f7cbd9bdc76eabd59ca970df4d9c640439cb87d751ac8a23e209278c6ac5626",
+      "caption": "Same exact selected run and validation; acknowledgement only; no controls applied."
+    },
+    {
+      "path": "03-missing-coverage-explanation.jpg",
+      "bytes": 162918,
+      "sha256": "b1f2bfcb70ec84fe7a37b6e5900e295ff3417145a4eca7fd69047d2fcba69a16",
+      "caption": "Fresh hosted missing-inventory refusal; no runs or approval; native simulator distinguished from capture eligibility."
+    },
+    {
+      "path": "04-operations-grounded-history.jpg",
+      "bytes": 148874,
+      "sha256": "039667edf0d4f33a4a833aa76acbccfc2e9b009f8787f3d307f0d38fa300a581",
+      "caption": "Reopened fresh hosted Operations archive; evidence-owned summary; historical review disabled."
+    }
+  ]
+}

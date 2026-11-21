@@ -2,8 +2,8 @@
 
 This increment starts from PR #89 head `7df8c379e1178600bcb869cd62ab3d6751ea8a38`.
 The sealed `3bb77a3` candidate, unsuccessful attempts and original hosted traces
-remain unchanged. New results belong to the new runtime and will be recorded
-after actual execution.
+remain unchanged. Results for the new runtime are recorded below and in the
+linked verification report.
 
 ## Runtime behavior
 
@@ -32,12 +32,19 @@ No response is automatically selected, staged, approved or applied.
 
 ## Verification
 
-Focused normal suites passed before the final inspection/staging regression
-additions: gateway, orchestrator, observed forecast, EOG investigator and EOG
-analysis controller. Full normal/ASan, fresh hosted checks and UI verification
-are pending for the final source of this increment. Prior candidate passes do
-not qualify changed runtime code.
+Engineering source `3d91452` passed all seven fresh strict hosted cases. The six
+analysis cases used 5..7 model-issued tools each, compared with 12 each in the
+earlier round. This small sample is descriptive, not a reliability benchmark.
 
-PR #89's workflow was still running at the initial check, with no failure
-reported. Current CI provenance and final new-runtime results will be added to
-this record after collection.
+All 88 normal and ASan test entries were verified across retained initial runs
+and targeted reruns. Both configurations recorded 1,181 Qt case passes and one
+optional skip. Initial sandbox hard-link failures and three initial ASan UI
+failures remain visible; the UI cause remains inconclusive despite passing
+unchanged quiet reruns. No assertions or deadlines were weakened.
+
+PR #89 completed all six CI jobs successfully without a source fix. PR #90's
+normal desktop job passed 88/88; its Desktop ASan job was pending at the retained
+check. [Results and executable audit instructions](NEMOTRON_COMPLETION_RESULTS.md)
+record exact source/binary identities, original failures, new hosted archives,
+native UI views and the single-instance saved-workspace handoff. The existing
+portable kit remains the separately qualified `3bb77a3` package.

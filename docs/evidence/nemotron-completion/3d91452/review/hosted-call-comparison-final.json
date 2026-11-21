@@ -1,0 +1,663 @@
+{
+  "report_version": 1,
+  "generated_utc": "2026-11-21T00:35:00.686668+00:00",
+  "scope": "Read-only exact-reference audit and descriptive call-count comparison of the declared rounds.",
+  "limits": [
+    "Four Operations cases and two observed cases are a small rehearsal sample, not a comparative model benchmark or statistical reliability estimate.",
+    "Tool ordering remains model selected. Several different validations may be useful; cached repeat counts are reported separately.",
+    "Exact reference audits authenticate retained numerical evidence, not the accuracy of arbitrary model narrative.",
+    "Search remains bounded/best_found when recorded; no global optimum or absence of cheaper untested alternatives is established.",
+    "Observed captures and objectives differ between rounds; their call counts are descriptive, not a paired performance test.",
+    "No human release review, clean Windows acceptance, or licensing gate is satisfied by this report."
+  ],
+  "old": {
+    "source_commit": "3bb77a353fb04267260764060bc5f58d61d5e7f5",
+    "status": "passed",
+    "cases": [
+      {
+        "case": "canonical_1",
+        "session_id": "fdbab207-5f39-48da-a2f7-d7ac529aac49",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12,
+        "reused_validations": 6,
+        "tool_order": [
+          "detect",
+          "read_topology",
+          "search_plans",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan"
+        ],
+        "tool_counts": {
+          "detect": 1,
+          "read_topology": 1,
+          "search_plans": 1,
+          "validate_plan": 9
+        },
+        "provider_validation_exchanges": 3,
+        "exact_selected_validation_grounding_audit": "passed",
+        "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+        "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+        "raw_model_narrative": "Three admissible validated plans all cost $1810 and avoid shutdown. plan-4b5097bb39da0ec60869fa9e2c999dff (validation-b062f3bfb02e94f805cd85f746af374c1493d45f41ca637c36f6f115834d6922), plan-82b2c6c1ec9b01d261a443a4851f28b9 (validation-ac43baccbb123b79c303c4fc6edeec833d549806ee5bc7fc5a3e9d3990ac5077), and plan-873040552c79d1f7f3fb1a1489927cef (validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651) are all independently validated with identical cost and feasibility. No cheaper validated alternative exists. All three are admissible per the retained evidence index.",
+        "search_claims": [
+          {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "complete": false,
+            "evaluated_candidates": 100,
+            "candidate_limit": 100
+          }
+        ],
+        "elapsed_s_descriptive_only": 43.4046918
+      },
+      {
+        "case": "canonical_2",
+        "session_id": "f2e7df30-429c-4e67-a506-b313738342ae",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12,
+        "reused_validations": 6,
+        "tool_order": [
+          "detect",
+          "read_topology",
+          "search_plans",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan"
+        ],
+        "tool_counts": {
+          "detect": 1,
+          "read_topology": 1,
+          "search_plans": 1,
+          "validate_plan": 9
+        },
+        "provider_validation_exchanges": 3,
+        "exact_selected_validation_grounding_audit": "passed",
+        "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+        "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+        "raw_model_narrative": "Three validated plans all cost $1810, avoid shutdown, and have independent validation. plan-873040552c79d1f7f3fb1a1489927cef (validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651) is the initial selected plan from the search. All three are admissible with equal cost; the operator may select any. I retain the first validated pair found.",
+        "search_claims": [
+          {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "complete": false,
+            "evaluated_candidates": 100,
+            "candidate_limit": 100
+          }
+        ],
+        "elapsed_s_descriptive_only": 40.6075513
+      },
+      {
+        "case": "canonical_3",
+        "session_id": "0532a0f1-1bd5-4da1-857e-7aa2a90297f8",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 13,
+        "tool_calls": 12,
+        "reused_validations": 6,
+        "tool_order": [
+          "detect",
+          "read_topology",
+          "search_plans",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan"
+        ],
+        "tool_counts": {
+          "detect": 1,
+          "read_topology": 1,
+          "search_plans": 1,
+          "validate_plan": 9
+        },
+        "provider_validation_exchanges": 3,
+        "exact_selected_validation_grounding_audit": "passed",
+        "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+        "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+        "raw_model_narrative": "Three admissible validated plans all cost $1810 and avoid shutdown. plan-4b5097bb39da0ec60869fa9e2c999dff (validation-b062f3bfb02e94f805cd85f746af374c1493d45f41ca637c36f6f115834d6922), plan-82b2c6c1ec9b01d261a443a4851f28b9 (validation-ac43baccbb123b79c303c4fc6edeec833d549806ee5bc7fc5a3e9d3990ac5077), and plan-873040552c79d1f7f3fb1a1489927cef (validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651) are all independently validated with the same cost and feasible outcome. No cheaper validated alternative exists.",
+        "search_claims": [
+          {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "complete": false,
+            "evaluated_candidates": 100,
+            "candidate_limit": 100
+          }
+        ],
+        "elapsed_s_descriptive_only": 36.628063
+      },
+      {
+        "case": "renamed_topology",
+        "session_id": "b31dc16e-fde3-41f7-a8b5-b8d660b65349",
+        "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+        "model_requests": 13,
+        "tool_calls": 12,
+        "reused_validations": 5,
+        "tool_order": [
+          "detect",
+          "read_topology",
+          "search_plans",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan"
+        ],
+        "tool_counts": {
+          "detect": 1,
+          "read_topology": 1,
+          "search_plans": 1,
+          "validate_plan": 9
+        },
+        "provider_validation_exchanges": 4,
+        "exact_selected_validation_grounding_audit": "passed",
+        "selected_plan_id": "plan-562b489d8d34c318dc809fb290d37d41",
+        "validation_id": "validation-f3cd67c7444fb4a9532ff3c13740b80e53a3ff8062cc65ad7cc8ff5f0ffcb830",
+        "raw_model_narrative": "Investigation of the EOG dataset identified one ongoing pump_failure event at DELTA/α/STATION-1_PUMP (event_id: eog-b3483b6079dcd6fc20cf8fed215cae6a), onset at unix 1794826800, with 1.45 hours elapsed before cutoff. All four lowest-cost plans (plan-218c56a2fc7a647969449e4b0281076d, plan-30488b4e43c0f04d51628b04f969d7ad, plan-36c04538cdc97e2bfbbb0772f4adee34, plan-562b489d8d34c318dc809fb290d37d41) share identical cost of $1810, avoid shutdown, and have independent validations completed. The selected plan is plan-562b489d8d34c318dc809fb290d37d41 with its validation validation-f3cd67c7444fb4a9532ff3c13740b80e53a3ff8062cc65ad7cc8ff5f0ffcb830, which has the earliest truck arrival (4500s) and no well shut-ins, making it the most operationally efficient among the equal-cost admissible alternatives.",
+        "search_claims": [
+          {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "complete": false,
+            "evaluated_candidates": 100,
+            "candidate_limit": 100
+          }
+        ],
+        "elapsed_s_descriptive_only": 35.4257512
+      },
+      {
+        "case": "observed_pump",
+        "status": "passed",
+        "session_id": "65ad0c2a-dc49-4ee6-bbdc-5a434d2fdc0e",
+        "capture_id": "capture-4d42caa1-79ac-45b9-a205-63ce552b5032",
+        "model_requests": 13,
+        "tool_calls": 12,
+        "tool_order": [
+          "get_observations",
+          "get_detection_events",
+          "get_network_state",
+          "get_control_catalog",
+          "forecast_baseline",
+          "search_interventions",
+          "validate_run",
+          "request_approval",
+          "validate_run",
+          "validate_run",
+          "validate_run",
+          "validate_run"
+        ],
+        "tool_counts": {
+          "get_observations": 1,
+          "get_detection_events": 1,
+          "get_network_state": 1,
+          "get_control_catalog": 1,
+          "forecast_baseline": 1,
+          "search_interventions": 1,
+          "validate_run": 5,
+          "request_approval": 1
+        },
+        "reused_validations": 0,
+        "exact_selected_validation_grounding_or_missing_coverage_refusal_audit": "passed",
+        "selected_run_id": "0135ae36-efa4-4c6e-ba51-033e92bb0188",
+        "validation_id": "ff213d2c-5685-4fbf-b1f6-6839d03b9bfa",
+        "explanation_source": "legacy_model_narrative",
+        "evidence_explanation": null,
+        "raw_model_narrative": "The lowest-cost validated advisory run is 0135ae36 with cost 5280 synthetic units. It sets backup_pump flow to 35 m³/h, bypass flow to 18.75 m³/h, truck_route flow to 22 m³/h, and source_a curtailment to 0. All tanks remain within capacity over the 3‑hour horizon with no violations. The run has been independently validated (validation_id ff213d2c) and staged for advisory review. No controls are applied; a human operator must acknowledge the staged plan before any simulated controls take effect. Caveats: the synthetic constant-flow model provides nominal volume feasibility only; quality is not evaluated; the finite candidate set does not establish global optimality; detector coverage is active but the pump‑delivery warning remains unresolved from the incident evidence.",
+        "approval_records": 0,
+        "actionable": false
+      },
+      {
+        "case": "observed_missing_coverage",
+        "status": "passed",
+        "session_id": "3f634161-a075-45b0-96b9-635248f87320",
+        "capture_id": "capture-afc2ec47-cc30-4572-b1da-3f46ae0a46f0",
+        "model_requests": 13,
+        "tool_calls": 12,
+        "tool_order": [
+          "get_observations",
+          "get_detection_events",
+          "get_network_state",
+          "get_control_catalog",
+          "get_observations",
+          "get_network_state",
+          "get_control_catalog",
+          "get_observations",
+          "get_network_state",
+          "get_control_catalog",
+          "get_observations",
+          "get_network_state"
+        ],
+        "tool_counts": {
+          "get_observations": 4,
+          "get_detection_events": 1,
+          "get_network_state": 4,
+          "get_control_catalog": 3
+        },
+        "reused_validations": 0,
+        "exact_selected_validation_grounding_or_missing_coverage_refusal_audit": "passed",
+        "selected_run_id": null,
+        "validation_id": null,
+        "explanation_source": "legacy_model_narrative",
+        "evidence_explanation": null,
+        "raw_model_narrative": "No validated feasible advisory response found. Key evidence: (1) Detector balance_status='coverage_unavailable' with window_points=0, window_s=0 — missing temporal coverage prevents numerical forecasts or plans. (2) Observed snapshot reports issue 'missing_or_unusable_inventory' on tank_a with sensor_id empty — tank A inventory measurement is unavailable. (3) Sensor coverage requires sensor_1796ce451e0647e69f5b3574d5c79ae3 (Tank A inventory) but it is marked stale in derived_state and missing from effective bounds. (4) The network has no native simulation capability; forecasts are nominal only. (5) All candidate refinement calls are exhausted (3/3 used) with no validated runs produced. Without coverage of tank A inventory and valid detector state, no advisory plan can be numerically screened or validated. Selected run ID is null.",
+        "approval_records": 0,
+        "actionable": false
+      }
+    ]
+  },
+  "new": {
+    "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+    "status": "passed",
+    "cases": [
+      {
+        "case": "canonical_1",
+        "session_id": "66af3ac5-65d8-4015-ab26-cd74c0f38b8b",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 8,
+        "tool_calls": 7,
+        "reused_validations": 1,
+        "tool_order": [
+          "detect",
+          "read_topology",
+          "search_plans",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan"
+        ],
+        "tool_counts": {
+          "detect": 1,
+          "read_topology": 1,
+          "search_plans": 1,
+          "validate_plan": 4
+        },
+        "provider_validation_exchanges": 3,
+        "exact_selected_validation_grounding_audit": "passed",
+        "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+        "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+        "raw_model_narrative": "The operator's investigation identified one ongoing pump failure at NORTH_PAD_A_PUMP (event eog-3faf13c7df0391569d502deba836238e) with onset at 1794826800. All three cost-1810 plans (plan-4b5097bb39da0ec60869fa9e2c999dff, plan-82b2c6c1ec9b01d261a443a4851f28b9, plan-873040552c79d1f7f3fb1a1489927cef) are feasible, cover the full failure set, and have independent validations. Among these, plan-873040552c79d1f7f3fb1a1489927cef has the earliest truck dispatch (first trip at 4500s) and the shortest total elapsed time (18000s) while avoiding any well shutdown, making it the best among compatible retained evaluations. Its validation ID is validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651.",
+        "search_claims": [
+          {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "complete": false,
+            "evaluated_candidates": 100,
+            "candidate_limit": 100
+          }
+        ],
+        "elapsed_s_descriptive_only": 22.4256994
+      },
+      {
+        "case": "canonical_2",
+        "session_id": "98926236-54cf-4738-bce0-7a67bb789ce9",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 8,
+        "tool_calls": 7,
+        "reused_validations": 1,
+        "tool_order": [
+          "detect",
+          "read_topology",
+          "search_plans",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan"
+        ],
+        "tool_counts": {
+          "detect": 1,
+          "read_topology": 1,
+          "search_plans": 1,
+          "validate_plan": 4
+        },
+        "provider_validation_exchanges": 3,
+        "exact_selected_validation_grounding_audit": "passed",
+        "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+        "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+        "raw_model_narrative": "Three plans share the minimum cost of 1810 and are all independently validated as feasible with shutdown avoided. plan-4b5097bb39da0ec60869fa9e2c999dff (validation-b062f3bfb02e94f805cd85f746af374c1493d45f41ca637c36f6f115834d6922), plan-82b2c6c1ec9b01d261a443a4851f28b9 (validation-ac43baccbb123b79c303c4fc6edeec833d549806ee5bc7fc5a3e9d3990ac5077), and plan-873040552c79d1f7f3fb1a1489927cef (validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651) all have identical cost, coverage, and feasibility. The selection among them is arbitrary given equal admissible evidence.",
+        "search_claims": [
+          {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "complete": false,
+            "evaluated_candidates": 100,
+            "candidate_limit": 100
+          }
+        ],
+        "elapsed_s_descriptive_only": 23.2299843
+      },
+      {
+        "case": "canonical_3",
+        "session_id": "d38ab7a8-8ec4-40ef-872e-283531a7069e",
+        "dataset_identity": "5bfcdae6a07a3beb0875413980ef55b34bc5b955603bfbaa3deb41ed97cb11c0",
+        "model_requests": 8,
+        "tool_calls": 7,
+        "reused_validations": 1,
+        "tool_order": [
+          "detect",
+          "read_topology",
+          "search_plans",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan"
+        ],
+        "tool_counts": {
+          "detect": 1,
+          "read_topology": 1,
+          "search_plans": 1,
+          "validate_plan": 4
+        },
+        "provider_validation_exchanges": 3,
+        "exact_selected_validation_grounding_audit": "passed",
+        "selected_plan_id": "plan-873040552c79d1f7f3fb1a1489927cef",
+        "validation_id": "validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651",
+        "raw_model_narrative": "Three admissible plans all cost 1810 and avoid shutdown, each with independent validation. plan-4b5097bb39da0ec60869fa9e2c999dff (validation-b062f3bfb02e94f805cd85f746af374c1493d45f41ca637c36f6f115834d6922), plan-82b2c6c1ec9b01d261a443a4851f28b9 (validation-ac43baccbb123b79c303c4fc6edeec833d549806ee5bc7fc5a3e9d3990ac5077), and plan-873040552c79d1f7f3fb1a1489927cef (validation-ce8daf51cfda2951758658395331b08bc05d03f4ea4d3ef8fe9c2925baf85651) are all equally cheap and fully validated. No cheaper validated plan exists; the next cheapest (2825) lacks validation.",
+        "search_claims": [
+          {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "complete": false,
+            "evaluated_candidates": 100,
+            "candidate_limit": 100
+          }
+        ],
+        "elapsed_s_descriptive_only": 22.9953009
+      },
+      {
+        "case": "renamed_topology",
+        "session_id": "6481c700-7943-4754-96e1-75bbd6d4718f",
+        "dataset_identity": "ce0aa8e4cd1871a3beb47f6779c280d4ee4004569cc5555da2ac59a0bbb180f6",
+        "model_requests": 6,
+        "tool_calls": 5,
+        "reused_validations": 1,
+        "tool_order": [
+          "detect",
+          "search_plans",
+          "validate_plan",
+          "validate_plan",
+          "validate_plan"
+        ],
+        "tool_counts": {
+          "detect": 1,
+          "search_plans": 1,
+          "validate_plan": 3
+        },
+        "provider_validation_exchanges": 2,
+        "exact_selected_validation_grounding_audit": "passed",
+        "selected_plan_id": "plan-218c56a2fc7a647969449e4b0281076d",
+        "validation_id": "validation-6bd797b389a1dc95bd3c9e867f5f5a8bc562b56f61fb4f6f9a96d259d27c8455",
+        "raw_model_narrative": "Operator investigation identified one ongoing pump failure at DELTA/α/STATION-1_PUMP (event eog-b3483b6079dcd6fc20cf8fed215cae6a, onset 1794826800). Two admissible validated plans both cost $1810 and avoid shutdown: plan-218c56a2fc7a647969449e4b0281076d with validation-6bd797b389a1dc95bd3c9e867f5f5a8bc562b56f61fb4f6f9a96d259d27c8455, and plan-562b489d8d34c318dc809fb290d37d41 with validation-f3cd67c7444fb4a9532ff3c13740b80e53a3ff8062cc65ad7cc8ff5f0ffcb830. Both are compatible retained evaluations with independent validation. No cheaper validated alternative exists.",
+        "search_claims": [
+          {
+            "scope": "bounded_search",
+            "optimality": "best_found",
+            "complete": false,
+            "evaluated_candidates": 100,
+            "candidate_limit": 100
+          }
+        ],
+        "elapsed_s_descriptive_only": 13.6227103
+      },
+      {
+        "case": "observed_pump",
+        "status": "passed",
+        "session_id": "bf6bf0b9-56bb-43ff-b66d-0adf611856f4",
+        "capture_id": "capture-0d16cb50-46ca-4899-8813-967cfbefe44a",
+        "model_requests": 8,
+        "tool_calls": 7,
+        "tool_order": [
+          "get_observations",
+          "get_network_state",
+          "get_control_catalog",
+          "forecast_baseline",
+          "search_interventions",
+          "validate_run",
+          "request_approval"
+        ],
+        "tool_counts": {
+          "get_observations": 1,
+          "get_network_state": 1,
+          "get_control_catalog": 1,
+          "forecast_baseline": 1,
+          "search_interventions": 1,
+          "validate_run": 1,
+          "request_approval": 1
+        },
+        "reused_validations": 0,
+        "exact_selected_validation_grounding_or_missing_coverage_refusal_audit": "passed",
+        "selected_run_id": "efbe934b-55dd-4471-a33c-c1302300ff8e",
+        "validation_id": "4fd78c26-c989-4ced-bcc8-1ff3a82da9d7",
+        "explanation_source": "retained_evidence",
+        "evidence_explanation": "The selected stored run has independent validation of nominal feasibility for the fixed snapshot and horizon. Finite experiments and search do not establish a global optimum or an uncertainty guarantee. Advisory review records acknowledgement only; it never applies controls or clears an incident.",
+        "raw_model_narrative": "The selected run efbe934b-55dd-4471-a33c-c1302300ff8e is a validated feasible advisory response from the search grid. It sets route:backup_pump:flow=35 m³/h, route:bypass:flow=18.75 m³/h, route:truck_route:flow=22 m³/h, and source:source_a:curtail=0 m³/h. The native dense reference validation confirms no tank capacity violations, no flow limits exceeded, and minimum headroom of 5.33 m³ across the 3‑hour horizon. Cost is 5280 synthetic units. Controls not explicitly set retain their snapshot values (source:source_b:curtail=0, route:main_pump:flow=0, backup_pump:flow was already 16.0015 m³/h). This run was validated via validate_run and staged with request_approval. Advisory acknowledgement only; no controls are applied in this session. Caveats: The synthetic constant-flow model provides nominal volume feasibility only; quality is not evaluated. The search evaluated a finite grid (750 combinations) and found this as the lowest-cost validated plan. Global optimality is not claimed. Missing sensor coverage or unbounded controls could affect real‑world applicability.",
+        "approval_records": 0,
+        "actionable": false
+      },
+      {
+        "case": "observed_missing_coverage",
+        "status": "passed",
+        "session_id": "07ebfcf3-6fd5-472e-be52-044146af3ec5",
+        "capture_id": "capture-b8f78516-6a80-4520-b26d-c2f4769543b4",
+        "model_requests": 6,
+        "tool_calls": 5,
+        "tool_order": [
+          "get_observations",
+          "get_detection_events",
+          "get_network_state",
+          "get_control_catalog",
+          "get_network_state"
+        ],
+        "tool_counts": {
+          "get_observations": 1,
+          "get_detection_events": 1,
+          "get_network_state": 2,
+          "get_control_catalog": 1
+        },
+        "reused_validations": 0,
+        "exact_selected_validation_grounding_or_missing_coverage_refusal_audit": "passed",
+        "selected_run_id": null,
+        "validation_id": null,
+        "explanation_source": "retained_evidence",
+        "evidence_explanation": "Required observed initial-state coverage is unavailable for this frozen capture. The native simulator is present, but no numerical forecast or plan is eligible. Inspect missing/conflicting measurements and capture fresh coherent evidence. Advisory review records acknowledgement only; it never applies controls or clears an incident.",
+        "raw_model_narrative": "No validated advisory response is available. The observed snapshot has critical coverage gaps: Tank A inventory sensor is missing (sensor_8d0c9728140f4625853dbd0a81717267 listed as required but absent from observed data), and the detector reports balance_status=coverage_unavailable with 0 window points. The network state confirms numerical_eligibility=false — the native simulator cannot produce forecasts or plans without required initial-state coverage. The control catalog is available, but any candidate run would be ineligible for numerical validation. Without eligible initial-state coverage, no modeled cost can be computed or validated. Select null and explain the missing coverage evidence.",
+        "approval_records": 0,
+        "actionable": false
+      }
+    ]
+  },
+  "comparisons": [
+    {
+      "case": "canonical_1",
+      "model_requests": {
+        "old": 13,
+        "new": 8
+      },
+      "tool_calls": {
+        "old": 12,
+        "new": 7
+      },
+      "reused_validations": {
+        "old": 6,
+        "new": 1
+      }
+    },
+    {
+      "case": "canonical_2",
+      "model_requests": {
+        "old": 13,
+        "new": 8
+      },
+      "tool_calls": {
+        "old": 12,
+        "new": 7
+      },
+      "reused_validations": {
+        "old": 6,
+        "new": 1
+      }
+    },
+    {
+      "case": "canonical_3",
+      "model_requests": {
+        "old": 13,
+        "new": 8
+      },
+      "tool_calls": {
+        "old": 12,
+        "new": 7
+      },
+      "reused_validations": {
+        "old": 6,
+        "new": 1
+      }
+    },
+    {
+      "case": "renamed_topology",
+      "model_requests": {
+        "old": 13,
+        "new": 6
+      },
+      "tool_calls": {
+        "old": 12,
+        "new": 5
+      },
+      "reused_validations": {
+        "old": 5,
+        "new": 1
+      }
+    },
+    {
+      "case": "observed_pump",
+      "model_requests": {
+        "old": 13,
+        "new": 8
+      },
+      "tool_calls": {
+        "old": 12,
+        "new": 7
+      },
+      "reused_validations": {
+        "old": 0,
+        "new": 0
+      }
+    },
+    {
+      "case": "observed_missing_coverage",
+      "model_requests": {
+        "old": 13,
+        "new": 6
+      },
+      "tool_calls": {
+        "old": 12,
+        "new": 5
+      },
+      "reused_validations": {
+        "old": 0,
+        "new": 0
+      }
+    }
+  ],
+  "inputs": [
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\eog\\verification.json",
+      "bytes": 7449,
+      "sha256": "6dbf19238eb069baeeda03e01936c45b775a5e832b375cb4b48414ab62829933"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\eog\\run-1.eog-session.json",
+      "bytes": 116239,
+      "sha256": "e37fa5685c117a2b3cbc281428121db07a0f87c87bf2ff4113e12011833cd3e8"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\eog\\run-2.eog-session.json",
+      "bytes": 116011,
+      "sha256": "9e0a02bdf9ba983744a3b563ab10bf6ae9b7d218a10da093fdcbe0539c85ff91"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\eog\\run-3.eog-session.json",
+      "bytes": 116185,
+      "sha256": "1489ea0c4dd6c02f0bdc83ee6919832a125cf440bc8192dbd32b2e19fe063bbf"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\eog\\run-4.eog-session.json",
+      "bytes": 119552,
+      "sha256": "b19763920731f0de3c116c125d8edfc6b689a2eb068ea483ca77cffb897ccca4"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\eog\\verification.json",
+      "bytes": 6818,
+      "sha256": "b7aded7ca4f5807fe8298ebf222c8158971a90e8ee03b9257b341678c26cc315"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\eog\\run-1.eog-session.json",
+      "bytes": 110679,
+      "sha256": "7eff5fb4330934ea07eda6a79b12c3e2907cfea582019f614b7301e00460627c"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\eog\\run-2.eog-session.json",
+      "bytes": 110554,
+      "sha256": "9f755e878945872672a47c54fcae8a2e96c75c8ebd333e36bd83e9239eadece9"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\eog\\run-3.eog-session.json",
+      "bytes": 110529,
+      "sha256": "e433baddd976596a7d1ed78b9ecb486b42b4c0f3e52aca4008b0e2849f667af7"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\eog\\run-4.eog-session.json",
+      "bytes": 82043,
+      "sha256": "5f32d56d7876039ad876176136153362bdc6590ddb141b2ee1c19b798f4bf221"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\manifest-0006.json",
+      "bytes": 6414,
+      "sha256": "d00818a36ac6cc016699a6cec0637702e9966818badfd399a2498eaa2f018df4"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\observed\\observed_pump.session.json",
+      "bytes": 169223,
+      "sha256": "dba1174664d44448ccb3e28909b13c2729c07e19ff2fe7f0569fc058c41f7370"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\hosted-3bb77a3-round2\\observed\\observed_missing_coverage.session.json",
+      "bytes": 130035,
+      "sha256": "f6f039f32800c74ba02423d6b9be3969e7f3de41711a00b9bc894da3ea6a6573"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\manifest-0006.json",
+      "bytes": 6413,
+      "sha256": "e51d9b8d5edbba4b6a408599001556c874a0a09a0501ab6638502e9de01767da"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\observed\\observed_pump.session.json",
+      "bytes": 144368,
+      "sha256": "5e30e512efcc1955b254cf8bdc22efcb00147b5f8697478e8c01b4c4bc5268a9"
+    },
+    {
+      "path": "C:\\Users\\lucas\\Documents\\Codex\\2026-11-07\\for-x20\\work\\Breakwater-next\\out\\candidate-readiness\\nemotron-completion-3d91452-round1\\observed\\observed_missing_coverage.session.json",
+      "bytes": 60306,
+      "sha256": "fdbfea718c01b210f5d1a1e6749016962f06ca2432d357eb4e41c652051d8c2c"
+    }
+  ]
+}

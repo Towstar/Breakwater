@@ -1,0 +1,172 @@
+{
+  "manifest_version": 1,
+  "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "dirty": false,
+  "model_identity": "nvidia/nemotron-3.5-lightning-30b-a3b",
+  "status": "pending",
+  "executables": {
+    "desktop": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+    "eog_live_check": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+    "nemotron_smoke": "2d0900e4602b7db7a9f368c0ded777306a5d3ae78cde4b3b4619f1f55648c61b"
+  },
+  "launch_record": {
+    "path": "launch.json",
+    "bytes": 1675,
+    "sha256": "7b141681b01275f4ff70fcf66fc63d7de8aa31188feaaed7c88abe3ac1b208f5"
+  },
+  "cases": [
+    {
+      "case": "protocol_smoke",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "nemotron_smoke",
+      "executable_sha256": "2d0900e4602b7db7a9f368c0ded777306a5d3ae78cde4b3b4619f1f55648c61b",
+      "status": "passed",
+      "exit_code": 0,
+      "evidence": {
+        "path": "protocol-smoke.log",
+        "bytes": 199,
+        "sha256": "9072241a01705e4a8143f9b3db37df1f91855e9ba813796f93b1a07a5080aedb"
+      },
+      "process_record": {
+        "path": "protocol-smoke.json",
+        "bytes": 329,
+        "sha256": "f856cfcc1ec29079b65cbaa97cd9628a15cdd9353f0367be077fb8d6f997f4de"
+      },
+      "stderr": {
+        "path": "protocol-smoke-stderr.log",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    },
+    {
+      "case": "canonical_1",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "eog_live_check",
+      "executable_sha256": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 22.4256994,
+      "summary": {
+        "path": "eog/run-1.log",
+        "bytes": 1106,
+        "sha256": "ae327f14fbd1c3832d39312cdcb5bef0fcb63383718848496d1d8a1cf386fe2e"
+      },
+      "process_record": {
+        "path": "eog/verification.json",
+        "bytes": 6818,
+        "sha256": "b7aded7ca4f5807fe8298ebf222c8158971a90e8ee03b9257b341678c26cc315"
+      },
+      "evidence": {
+        "path": "eog/run-1.eog-session.json",
+        "bytes": 110679,
+        "sha256": "7eff5fb4330934ea07eda6a79b12c3e2907cfea582019f614b7301e00460627c"
+      }
+    },
+    {
+      "case": "canonical_2",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "eog_live_check",
+      "executable_sha256": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 23.2299843,
+      "summary": {
+        "path": "eog/run-2.log",
+        "bytes": 1106,
+        "sha256": "a43e95c391893bf6de0cfc48f0c5ab4dd9fec907fa9bb35a5601c31261b5a1d7"
+      },
+      "process_record": {
+        "path": "eog/verification.json",
+        "bytes": 6818,
+        "sha256": "b7aded7ca4f5807fe8298ebf222c8158971a90e8ee03b9257b341678c26cc315"
+      },
+      "evidence": {
+        "path": "eog/run-2.eog-session.json",
+        "bytes": 110554,
+        "sha256": "9f755e878945872672a47c54fcae8a2e96c75c8ebd333e36bd83e9239eadece9"
+      }
+    },
+    {
+      "case": "canonical_3",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "eog_live_check",
+      "executable_sha256": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 22.9953009,
+      "summary": {
+        "path": "eog/run-3.log",
+        "bytes": 1106,
+        "sha256": "a0ea12e13af39812aa6414ff433fa38e113270d7e286680f6bd17b24d31f5930"
+      },
+      "process_record": {
+        "path": "eog/verification.json",
+        "bytes": 6818,
+        "sha256": "b7aded7ca4f5807fe8298ebf222c8158971a90e8ee03b9257b341678c26cc315"
+      },
+      "evidence": {
+        "path": "eog/run-3.eog-session.json",
+        "bytes": 110529,
+        "sha256": "e433baddd976596a7d1ed78b9ecb486b42b4c0f3e52aca4008b0e2849f667af7"
+      }
+    },
+    {
+      "case": "renamed_topology",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "eog_live_check",
+      "executable_sha256": "7e62e17af92961f1d88902d145c0187dbb6dfdc2a39af081e2f90a99ec5906e3",
+      "status": "passed",
+      "exit_code": 0,
+      "elapsed_s": 13.6227103,
+      "summary": {
+        "path": "eog/run-4.log",
+        "bytes": 1074,
+        "sha256": "9102ebb0c37916185239a294926cde7776b28189d4fedf509169ca59da72dff9"
+      },
+      "process_record": {
+        "path": "eog/verification.json",
+        "bytes": 6818,
+        "sha256": "b7aded7ca4f5807fe8298ebf222c8158971a90e8ee03b9257b341678c26cc315"
+      },
+      "evidence": {
+        "path": "eog/run-4.eog-session.json",
+        "bytes": 82043,
+        "sha256": "5f32d56d7876039ad876176136153362bdc6590ddb141b2ee1c19b798f4bf221"
+      }
+    },
+    {
+      "case": "observed_pump",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "desktop",
+      "executable_sha256": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+      "status": "passed",
+      "evidence": {
+        "path": "observed/observed_pump.session.json",
+        "bytes": 144368,
+        "sha256": "5e30e512efcc1955b254cf8bdc22efcb00147b5f8697478e8c01b4c4bc5268a9"
+      },
+      "session_id": "bf6bf0b9-56bb-43ff-b66d-0adf611856f4",
+      "provenance": "Actual desktop exercise under the launch record's source/executable. Archive bytes are unchanged."
+    },
+    {
+      "case": "observed_missing_coverage",
+      "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+      "executable": "desktop",
+      "executable_sha256": "90f3b8e8f6b573cfbe3f3e3f3235ee7c9327d01a9618dfb9d6d24ce2c7427649",
+      "status": "passed",
+      "evidence": {
+        "path": "observed/observed_missing_coverage.session.json",
+        "bytes": 60306,
+        "sha256": "fdbfea718c01b210f5d1a1e6749016962f06ca2432d357eb4e41c652051d8c2c"
+      },
+      "session_id": "07ebfcf3-6fd5-472e-be52-044146af3ec5",
+      "provenance": "Actual desktop exercise under the launch record's source/executable. Archive bytes are unchanged."
+    }
+  ],
+  "public_release_approved": false,
+  "clean_windows": "pending",
+  "owner_review": "pending",
+  "licensing_review": "pending",
+  "recorded_utc": "2026-11-21T00:33:51.164003+00:00",
+  "manifest_sequence": 5
+}
