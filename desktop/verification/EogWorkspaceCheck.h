@@ -286,7 +286,13 @@ class Check final : public QObject {
                 choose("eogAssetChoice", dataset_->assets(), "tank-Z"); click("eogFacility"); break;
             case 8:
                 require(dataset_->sceneMode() == "facility", "workspace_facility_action_not_connected");
-                if (!window_->property("eogSceneReady").toBool()) return;
+                // The preceding readout/filter actions can scroll the scene
+                // out of the clip. Readiness requires actually visible labels;
+                // keep it in view and supply frames while projection settles.
+                reveal(item("eogNetworkView"));
+                if (!window_->property("eogSceneReady").toBool()) {
+                    window_->requestUpdate(); return;
+                }
                 checks_.append("facility_scene_inspection_keeps_analysis_explicit"); snapshot("06-facility-inspection.png");
                 click("eogOverview"); break;
             case 9:
