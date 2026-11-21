@@ -1,0 +1,44 @@
+[
+  {
+    "path": "docs/images/portfolio/operations-1b16a88/01-onboarding.png",
+    "sha256": "595cb3e0a8dfda9049214c10bfc80eb98aa2c2f9e9985808fe219d45ed7c7c87",
+    "bytes": 182972,
+    "source_commit": "1b16a881fa5d5ee87269188fc4f0ef7070c5de89",
+    "app_sha256": "b5c8e073dbc5cfd585221a2f457dda011a43faa3718e0a8023278cbfac628f91",
+    "logical_width": 1440,
+    "logical_height": 900,
+    "device_pixel_ratio": 1.75,
+    "original_capture": "01-unloaded-workspace.png",
+    "format": "PNG",
+    "synthetic_fixture": true,
+    "altered": false
+  },
+  {
+    "path": "docs/images/portfolio/operations-1b16a88/02-recorded-observation.png",
+    "sha256": "f9f155932139017050e02036ca1e5115464da39c009f3c7e8df90d4d4ae503b6",
+    "bytes": 525417,
+    "source_commit": "1b16a881fa5d5ee87269188fc4f0ef7070c5de89",
+    "app_sha256": "b5c8e073dbc5cfd585221a2f457dda011a43faa3718e0a8023278cbfac628f91",
+    "logical_width": 1440,
+    "logical_height": 900,
+    "device_pixel_ratio": 1.75,
+    "original_capture": "02-stale-recorded-reading.png",
+    "format": "PNG",
+    "synthetic_fixture": true,
+    "altered": false
+  },
+  {
+    "path": "docs/images/portfolio/operations-1b16a88/03-condensed-dock.png",
+    "sha256": "d4c3954a1d4ef79e3423e620407b74642b089e31e5b4354518e18b3a3f74c109",
+    "bytes": 356796,
+    "source_commit": "1b16a881fa5d5ee87269188fc4f0ef7070c5de89",
+    "app_sha256": "b5c8e073dbc5cfd585221a2f457dda011a43faa3718e0a8023278cbfac628f91",
+    "logical_width": 1100,
+    "logical_height": 700,
+    "device_pixel_ratio": 1.75,
+    "original_capture": "09-condensed-dock-chart.png",
+    "format": "PNG",
+    "synthetic_fixture": true,
+    "altered": false
+  }
+]

@@ -1,0 +1,14 @@
+{
+  "source_commit": "1b16a881fa5d5ee87269188fc4f0ef7070c5de89",
+  "dirty": false,
+  "mode": "normal",
+  "scope": "probe",
+  "filter": "^desktop\\.eog_workspace_",
+  "status": "passed",
+  "started_utc": "2026-11-21T04:36:13.7112780Z",
+  "app_sha256": "b5c8e073dbc5cfd585221a2f457dda011a43faa3718e0a8023278cbfac628f91",
+  "free_before_bytes": 9262665728,
+  "exit_code": 0,
+  "finished_utc": "2026-11-21T04:36:27.0725275Z",
+  "free_after_bytes": 9251540992
+}

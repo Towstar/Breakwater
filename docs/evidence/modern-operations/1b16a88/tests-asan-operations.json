@@ -1,0 +1,14 @@
+{
+  "source_commit": "1b16a881fa5d5ee87269188fc4f0ef7070c5de89",
+  "dirty": false,
+  "mode": "asan",
+  "scope": "operations",
+  "filter": "^desktop\\.(eog_(analysis|overview|facility)_.*|eog_cli|qml_smoke)$",
+  "status": "passed",
+  "started_utc": "2026-11-21T04:38:00.5557879Z",
+  "app_sha256": "1081993d7c12dd833cb91f18cff674f8cc6b76e3de57b67f8501ff9c456ff080",
+  "free_before_bytes": 9243791360,
+  "exit_code": 0,
+  "finished_utc": "2026-11-21T04:40:34.4632661Z",
+  "free_after_bytes": 9196445696
+}

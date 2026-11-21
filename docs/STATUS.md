@@ -2,7 +2,19 @@
 
 ## Active development: expanded v0.3.0, November 20, 2026 (America/Chicago)
 
-The latest desktop visual increment is `99aff98`: a modern instrument workspace
+The latest desktop visual increment is `1b16a88`: a modern Operations observation
+workspace with explicit dataset onboarding, grouped filters, clearer original-unit
+readouts/freshness, chart grid/labels and reachable compact dock content. Both full
+configured builds pass. The preceding `df404bb` normal/ASan matrices each pass
+36/36 focused CTests; final-source affected checks each pass 13/13, with zero
+failures/skips. Actual compact/minimum dock thumb dragging verifies the lower axis
+and caption inside the scroll clip. All six new probes report zero model requests
+and unchanged sandbox/approval state. PR #92 passes all six CI jobs at its earlier
+head; no new Person A changes were found. See [implementation and source-qualified
+evidence](OPERATIONS_WORKSPACE.md). This is focused UI/integration validation, not
+fresh hosted, numerical or clean-Windows qualification.
+
+The preceding desktop visual increment is `99aff98`: a modern instrument workspace
 with grouped navigation and scene tools, quieter flat controls, clearer selection
 and inspector hierarchy, and a cohesive graphite palette. Both full configured
 builds pass; all 32 focused UI/interaction CTests pass in normal and ASan, with

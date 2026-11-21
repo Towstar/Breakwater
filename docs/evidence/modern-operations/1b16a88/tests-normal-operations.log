@@ -1,0 +1,26 @@
+Internal ctest changing into directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+Test project C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop
+      Start 65: desktop.qml_smoke
+ 1/10 Test #65: desktop.qml_smoke .................   Passed    1.68 sec
+      Start 72: desktop.eog_analysis_client
+ 2/10 Test #72: desktop.eog_analysis_client .......   Passed   11.92 sec
+      Start 75: desktop.eog_analysis_controller
+ 3/10 Test #75: desktop.eog_analysis_controller ...   Passed   22.16 sec
+      Start 79: desktop.eog_cli
+ 4/10 Test #79: desktop.eog_cli ...................   Passed    5.68 sec
+      Start 83: desktop.eog_analysis_normal
+ 5/10 Test #83: desktop.eog_analysis_normal .......   Passed    1.77 sec
+      Start 84: desktop.eog_overview_normal
+ 6/10 Test #84: desktop.eog_overview_normal .......   Passed    1.90 sec
+      Start 85: desktop.eog_facility_normal
+ 7/10 Test #85: desktop.eog_facility_normal .......   Passed    1.82 sec
+      Start 86: desktop.eog_analysis_compact
+ 8/10 Test #86: desktop.eog_analysis_compact ......   Passed    1.78 sec
+      Start 87: desktop.eog_overview_compact
+ 9/10 Test #87: desktop.eog_overview_compact ......   Passed    1.72 sec
+      Start 88: desktop.eog_facility_compact
+10/10 Test #88: desktop.eog_facility_compact ......   Passed    1.72 sec
+
+100% tests passed, 0 tests failed out of 10
+
+Total Test time (real) =  52.18 sec
