@@ -22,6 +22,7 @@ class EogAnalysisController final : public QObject {
     Q_PROPERTY(QString storageStatus READ storageStatus NOTIFY changed)
     Q_PROPERTY(QString sessionId READ sessionId NOTIFY changed)
     Q_PROPERTY(QString summary READ summary NOTIFY changed)
+    Q_PROPERTY(QString modelSummary READ modelSummary NOTIFY changed)
     Q_PROPERTY(QString selectedPlanId READ selectedPlanId NOTIFY changed)
     Q_PROPERTY(QString baselinePlanId READ baselinePlanId NOTIFY changed)
     Q_PROPERTY(QVariantList events READ events NOTIFY changed)
@@ -52,6 +53,7 @@ public:
     QString storageStatus() const { return storage_status_; }
     QString sessionId() const { return session_id_; }
     QString summary() const { return summary_; }
+    QString modelSummary() const { return model_summary_; }
     QString selectedPlanId() const { return selected_; }
     QString baselinePlanId() const { return baseline_; }
     QVariantList events() const;
@@ -106,7 +108,7 @@ private:
     bool review_disabled_ = false;
     int request_count_ = 0;
     QString session_id_, status_ = "Run analysis explicitly. Loading or selecting data makes no model request.";
-    QString storage_status_ = "Opening EOG history...", summary_, selected_, baseline_, pending_execution_, pending_name_, pending_history_id_;
+    QString storage_status_ = "Opening EOG history...", summary_, model_summary_, selected_, baseline_, pending_execution_, pending_name_, pending_history_id_;
     QJsonObject pending_request_, search_, historical_manifest_, detection_, last_operation_;
     bool history_current_dataset_ = true, history_match_cutoff_ = false;
     QString history_query_;
@@ -129,6 +131,7 @@ private:
     void completeTool(const QJsonObject& outcome);
     void recordEvent(const QJsonObject& event);
     void finalResult(const QJsonObject& result);
+    QString evidenceSummary(const QJsonObject& result) const;
     void clearEvidence();
 };
 } // namespace breakwater::desktop::eog

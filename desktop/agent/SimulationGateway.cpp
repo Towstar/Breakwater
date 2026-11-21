@@ -357,7 +357,11 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
             return {{"ok", true}, {"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h},
                 {"network", network_json(network_)}, {"draft_issues", issues_json(issues)},
                 {"capabilities", QJsonObject{{"native_simulation", observationsAvailable()}, {"independent_validation", observationsAvailable()},
-                    {"search_interventions", observationsAvailable()},{"observed_advisory",advisoryOnly()}}},
+                    {"search_interventions", observationsAvailable()},{"observed_advisory",advisoryOnly()},
+                    {"native_engine_supported", true}}},
+                {"numerical_eligibility", QJsonObject{{"eligible", observationsAvailable()},
+                    {"reason", observationsAvailable() ? "Current snapshot is eligible for native tools."
+                        : "The native simulator is present, but this frozen capture lacks required observed initial-state coverage. No numerical forecast or plan is eligible."}}},
                 {"model_limitations", QJsonArray{"Synthetic constant-flow network; geometry does not determine flow.", "Quality is not evaluated."}}};
         }
         if (name == "get_control_catalog") {
@@ -466,6 +470,14 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
                 std::lock_guard lock(mutex_);
                 const auto it = runs_.find(id);
                 if (it == runs_.end()) reject("unknown_run", "The run ID is not in this session's immutable run store.");
+                // An immutable run already explicitly checked by this tool has
+                // no new inputs to validate. Keep its exact evidence identity.
+                // Search's independent screening is distinct: the first model
+                // validate_run must still execute and retain its own report.
+                if (it->second.explicit_validation && it->second.validation_source == "validate_run") {
+                    if (!current_.load()) reject("stale_snapshot", "The physical snapshot changed before validation reuse.");
+                    return {{"ok", true}, {"run", summary(it->second)}, {"reused_validation", true}};
+                }
                 copy = it->second;
             }
             const auto report = validate(copy.compiled, copy.result, config_);
@@ -479,7 +491,7 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
                 auto error = failure("stale_snapshot", "The physical snapshot changed during validation.");
                 error["completed_runs"] = QJsonArray{result}; return error;
             }
-            return {{"ok", true}, {"run", result}};
+            return {{"ok", true}, {"run", result}, {"reused_validation", false}};
         }
         if (name == "compare_runs") {
             keys(args, {"snapshot_id", "run_ids"}, {"snapshot_id", "run_ids"});
@@ -511,8 +523,10 @@ QJsonObject SimulationGateway::execute(const QString& name, const QJsonObject& a
             staged_run_id_ = id;
             auto plan = recommendationLocked(id);
             if (!plan.value("ok").toBool()) { staged_run_id_.clear(); return plan; }
-            return {{"ok", true}, {"plan", plan}, {"run_id", id}, {"approval_status", "pending_operator"},
-                {"applied", false}, {"message", "Staged for an explicit human action. No operating controls were changed."}};
+            return {{"ok", true}, {"plan", plan}, {"run_id", id}, {"approval_status", plan.value("approval_status")},
+                {"applied", false}, {"message", advisoryOnly()
+                    ? "Staged for advisory acknowledgement only. Acknowledgement never applies controls or clears incidents."
+                    : "Staged for an explicit human action. No operating controls were changed."}};
         }
         keys(args, {"snapshot_id", "axes", "result_limit"}, {"snapshot_id", "axes"});
         if (!args.value("axes").isArray()) reject("invalid_arguments", "axes must be an array.");

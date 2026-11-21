@@ -182,7 +182,10 @@ EogAnalysisController::EogAnalysisController(EogDatasetController* dataset, EogA
         for (const auto& value : archive.value("agent_events").toArray()) {
             const auto event = value.toObject().value("event").toObject(); trace_.append(event.toVariantMap());
             if (event.value("type") == "final") {
-                summary_ = event.value("summary").toString(); const auto selected = event.value("selected_plan_id").toString();
+                model_summary_ = event.value("summary").toString();
+                // Rebuild the headline from retained evidence even for legacy
+                // archives. Never promote their original model prose to fact.
+                summary_ = evidenceSummary(event); const auto selected = event.value("selected_plan_id").toString();
                 if (evaluations_.contains(selected)) selected_ = selected;
             }
         }
@@ -244,7 +247,7 @@ EogAnalysisController::~EogAnalysisController() {
 bool EogAnalysisController::busy() const { return preparing_ || client_->busy() || investigator_.running(); }
 void EogAnalysisController::clearEvidence() {
     responses_.clear(); evaluations_.clear(); validations_.clear(); validation_requests_.clear(); validation_arguments_.clear();
-    event_rows_.clear(); event_requests_.clear(); selected_.clear(); baseline_.clear(); summary_.clear(); search_ = {}; historical_manifest_ = {}; trace_.clear(); operator_records_.clear();
+    event_rows_.clear(); event_requests_.clear(); selected_.clear(); baseline_.clear(); summary_.clear(); model_summary_.clear(); search_ = {}; historical_manifest_ = {}; trace_.clear(); operator_records_.clear();
     detection_ = {}; last_operation_ = {};
 }
 void EogAnalysisController::retire(const QString& reason, bool clear) {
@@ -795,6 +798,25 @@ void EogAnalysisController::investigate(const QString& objective) {
         investigator_.start(objective, context, toolDefinitions()); status_ = "Nemotron is investigating this immutable capture on request.";
     });
 }
+QString EogAnalysisController::evidenceSummary(const QJsonObject& result) const {
+    const auto selected = result.value("selected_plan_id").toString();
+    const auto validationId = result.value("validation_id").toString();
+    const auto evaluation = evaluations_.value(selected), validation = validationFor(selected);
+    QString text;
+    if (selected.isEmpty()) {
+        text = "No validated response was selected. This does not establish that no feasible response exists.";
+    } else if (available(evaluation) && !validationId.isEmpty() && validation.value("validation_id") == validationId &&
+               validation.value("independent").toBool() && validation.value("feasible").toBool() && validation.value("coverage") == "available") {
+        text = QString("Retained plan %1 has matching independent validation %2. Modeled cost: $%3.")
+            .arg(selected, validationId).arg(evaluation.value("cost").toObject().value("total").toDouble(), 0, 'f', 2);
+    } else {
+        text = "The selected response has no matching available independent validation in the retained evidence.";
+    }
+    if (!search_.isEmpty())
+        text += " Search coverage: " + search_.value("scope").toString("unavailable") + ", " + search_.value("optimality").toString("unavailable") + ".";
+    text += " Comparisons cover retained compatible plans; global optimality is not established. Advisory only: review never dispatches equipment or applies controls. Review eligibility is checked separately.";
+    return text;
+}
 void EogAnalysisController::finalResult(const QJsonObject& result) {
     bool grounded = true; const auto selected = result.value("selected_plan_id").toString(), validationId = result.value("validation_id").toString();
     if (!selected.isEmpty()) {
@@ -815,7 +837,10 @@ void EogAnalysisController::finalResult(const QJsonObject& result) {
         history_->finishSession(session_id_, "failed"); sealed_ = true; emit changed(); return;
     }
     if (!selected.isEmpty()) selected_ = selected;
-    summary_ = result.value("summary").toString(); auto event = result; event["type"] = "final"; recordEvent(event);
+    model_summary_ = result.value("summary").toString(); summary_ = evidenceSummary(result);
+    // Keep the versioned final event and its original prose unchanged. The
+    // application headline is rebuilt from evidence, including on reopening.
+    auto event = result; event["type"] = "final"; recordEvent(event);
     history_->finishSession(session_id_); sealed_ = true;
     status_ = "Nemotron completed. Review the retained numerical evidence and limitations before recording advisory review."; refreshHistory(); emit changed();
 }

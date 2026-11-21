@@ -64,7 +64,7 @@ private:
     QJsonArray messages_, tools_, queued_calls_;
     QSet<QString> seen_ids_, offered_names_;
     QVariantList events_;
-    QJsonObject result_, evidence_ledger_;
+    QJsonObject result_, evidence_ledger_, repeated_completion_;
     QString session_id_, status_ = QStringLiteral("Ready"), final_rejection_reason_;
     Pending pending_;
     QList<QMetaObject::Connection> request_connections_;

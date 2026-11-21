@@ -54,6 +54,68 @@ QJsonArray commandsFor(const ProjectController& project) {
 class ObservedForecastTests final:public QObject {
     Q_OBJECT
 private slots:
+    void stagingBeforeObservationInspectionKeepsRequiredReadAvailable() {
+        Fixture f;f.begin();auto gateway=SimulationGateway::fromObservation(f.stream.captureObserved(f.context,f.commands,0,"late-observation-read"),0.1);
+        Model model;QString snapshot,selected;int step=0;bool inspectionOffered=false;
+        model.respond=[&](const QJsonArray& h)->QJsonObject {
+            switch(step++) {
+            case 0:return calls({tool("n","get_network_state"),tool("c","get_control_catalog")});
+            case 1:snapshot=result(h,"n").value("snapshot_id").toString();return calls({tool("b","forecast_baseline",{{"snapshot_id",snapshot}})});
+            case 2:selected=result(h,"b").value("run").toObject().value("run_id").toString();return calls({tool("v","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}})});
+            case 3:return calls({tool("stage","request_approval",{{"snapshot_id",snapshot},{"run_id",selected}})});
+            case 4:
+                for(const auto& d:model.offered.last())if(d.toObject().value("function").toObject().value("name")=="get_observations")inspectionOffered=true;
+                return calls({tool("o","get_observations")});
+            default:return final(selected);
+            }
+        };
+        AgentOrchestrator session(&model);session.start(gateway,"Inspect this capture before completing.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);QVERIFY(inspectionOffered);QVERIFY(session.result().value("verified_feasible").toBool());
+        QCOMPARE(model.finalRequests,1);QVERIFY(!session.result().value("actionable").toBool());
+    }
+    void evidenceSummarySeparatesCoverageAuthorityAndUnverifiedModelNarrative_data() {
+        QTest::addColumn<bool>("missing");
+        QTest::newRow("validated-advisory")<<false;
+        QTest::newRow("missing-initial-state")<<true;
+    }
+    void evidenceSummarySeparatesCoverageAuthorityAndUnverifiedModelNarrative() {
+        QFETCH(bool,missing);Fixture f;if(missing)f.readings.removeFirst();f.begin();
+        auto gateway=SimulationGateway::fromObservation(f.stream.captureObserved(f.context,f.commands,0,"explanation-boundary"),0.1);
+        const auto before=project_json(f.project);Model model;int step=0;QString snapshot,selected;
+        const QString misleading="Acknowledgement applies controls. The network has no native simulator. This is the global optimum.";
+        model.respond=[&](const QJsonArray& h)->QJsonObject {
+            switch(step++) {
+            case 0:return calls({tool("o","get_observations"),tool("n","get_network_state"),tool("c","get_control_catalog")});
+            case 1:
+                snapshot=result(h,"n").value("snapshot_id").toString();
+                if(missing)return calls({tool("repeat","get_observations"),tool("events","get_detection_events")});
+                return calls({tool("b","forecast_baseline",{{"snapshot_id",snapshot}})});
+            case 2:
+                if(!missing) {selected=result(h,"b").value("run").toObject().value("run_id").toString();return calls({tool("v","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}})});}
+                break;
+            case 3:if(!missing)return calls({tool("stage","request_approval",{{"snapshot_id",snapshot},{"run_id",selected}})});break;
+            }
+            return {{"content",QString::fromUtf8(QJsonDocument(QJsonObject{{"selected_run_id",selected.isEmpty()?QJsonValue(QJsonValue::Null):QJsonValue(selected)},{"explanation",misleading}}).toJson(QJsonDocument::Compact))}};
+        };
+        AgentOrchestrator session(&model);session.start(gateway,"Explain the retained observations.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+        const auto evidence=session.result();QCOMPARE(evidence.value("explanation_source").toString(),QString("retained_evidence"));
+        QCOMPARE(evidence.value("model_explanation").toString(),misleading);QVERIFY(evidence.value("explanation").toString()!=misleading);
+        QVERIFY(evidence.value("explanation").toString().contains("never applies controls"));QVERIFY(!evidence.value("actionable").toBool());
+        QCOMPARE(model.finalRequests,1);QVERIFY(model.offered.last().isEmpty());QCOMPARE(project_json(f.project),before);
+        const auto state=result(model.history,"n");QVERIFY(state.value("capabilities").toObject().value("native_engine_supported").toBool());
+        QCOMPARE(state.value("numerical_eligibility").toObject().value("eligible").toBool(),!missing);
+        if(missing) {
+            QVERIFY(evidence.value("selected_run_id").isNull());QVERIFY(gateway->runs().isEmpty());
+            QVERIFY(evidence.value("explanation").toString().contains("native simulator is present"));
+            QVERIFY(result(model.history,"events").value("ok").toBool());
+        } else {
+            QVERIFY(evidence.value("verified_feasible").toBool());QCOMPARE(evidence.value("selected_run_id").toString(),selected);
+            QVERIFY(evidence.value("explanation").toString().contains("do not establish a global optimum"));
+            const auto staged=result(model.history,"stage");QCOMPARE(staged.value("approval_status").toString(),QString("pending_advisory_review"));
+            QVERIFY(staged.value("message").toString().contains("never applies controls"));
+        }
+    }
     void truncatedMissingCoverageRequiresObservationInspection_data() {
         QTest::addColumn<bool>("inspectObservations");
         QTest::newRow("missing-observation-inspection")<<false;

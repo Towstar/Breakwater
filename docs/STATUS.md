@@ -2,6 +2,13 @@
 
 ## Active development: expanded v0.3.0, November 20 UTC, 2026
 
+The next runtime increment adds evidence-owned explanation headlines and bounded
+completion after repeated immutable validations. Original model narratives remain
+separately labeled and retained. Observed acknowledgement remains advisory only;
+missing initial-state coverage is distinguished from native engine support.
+The in-progress validation for this increment is separate from the sealed
+`3bb77a3` candidate below. See [Nemotron completion follow-up](NEMOTRON_COMPLETION.md).
+
 The clean engineering candidate is `3bb77a3`. Full local normal and ASan CTest
 each pass 88/88 suites, with 1,162 Qt subcase passes and one optional subcase skip
 per configuration. All 78 helpers pass. The normal tested executable matches the
