@@ -182,11 +182,17 @@ class CandidateEvidenceTests(unittest.TestCase):
             valid = {**original, "transport_diagnostics": diagnostics}
             self.assertTrue(request_fields_match(valid, set(original)))
             auditor.request_metadata([valid], observed=observed_mode)
+            for size in (1, 12345, 2 * 1024 * 1024):
+                sized = {**valid, "transport_diagnostics": {**diagnostics, "request_bytes": size}}
+                self.assertTrue(request_fields_match(sized, set(original)))
+                auditor.request_metadata([sized], observed=observed_mode)
             for change in ({"retry_count": 1}, {"http_status": 429}, {"duration_ms": 8}):
                 self.assertFalse(request_fields_match({**valid, **change}, set(original)))
             for change in ({"headers": {}}, {"version": True}, {"version": 2}, {"admission_wait_ms": -1},
                            {"minimum_interval_ms": 60001}, {"cooldown_capped": 1},
                            {"backoff_jitter_ms": float("inf")}, {"attempts": [{}]},
+                           {"request_bytes": 0}, {"request_bytes": -1}, {"request_bytes": 0.5}, {"request_bytes": True},
+                           {"request_bytes": 2 * 1024 * 1024 + 1}, {"request_bytes": "private"},
                            {"attempts": diagnostics["attempts"] * 5}):
                 row = {**valid, "transport_diagnostics": {**diagnostics, **change}}
                 with self.subTest(change=change, observed=observed_mode):

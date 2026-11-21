@@ -1,5 +1,6 @@
 #include "eog/EogInvestigator.hpp"
 #include <QJsonDocument>
+#include <QCryptographicHash>
 #include <QPointer>
 #include <QRegularExpression>
 #include <QSignalSpy>
@@ -83,6 +84,126 @@ public:
 class EogInvestigatorTests final : public QObject {
     Q_OBJECT
 private slots:
+    void cooperativeRepairs_data() {
+        QTest::addColumn<QString>("mode");
+        for (const auto* mode : {"format-first", "reference-first", "wrong-again", "request-cap", "tool-cap", "cancel", "stale"})
+            QTest::newRow(mode) << QString::fromLatin1(mode);
+    }
+    void cooperativeRepairs() {
+        QFETCH(QString, mode); FakeTransport model; const bool referenceFirst = mode == "reference-first";
+        model.respond = [=](const QJsonArray&, int step) {
+            if (step == 1) return calls({call("search", "search_plans")});
+            if (step == (referenceFirst ? 3 : 4)) return calls({call("check", "validate_plan", "{\"plan_id\":\"chosen\"}")});
+            if (step == (referenceFirst ? 4 : 2)) return QJsonObject{{"role", "assistant"}, {"content", "invalid JSON"}};
+            return finalReply("chosen", step == 5 && mode != "wrong-again" ? "own-validation" : "other-validation");
+        };
+        EogInvestigator investigator(&model); QStringList order;
+        QSignalSpy finished(&investigator, &EogInvestigator::finished), failed(&investigator, &EogInvestigator::failed);
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString& name, const QJsonObject&) {
+                order.append(name); const bool checked = name == "validate_plan";
+                auto answer = outcome(); answer["retained_evidence"] = QJsonObject{{"plans", QJsonArray{QJsonObject{
+                    {"selected_plan_id", "chosen"}, {"evaluator_method", "method"},
+                    {"selection_eligibility", checked ? "admissible" : "validation_required"},
+                    {"validation_id", checked ? QJsonValue("own-validation") : QJsonValue(QJsonValue::Null)}}}},
+                    {"completion_pairs", checked ? QJsonArray{QJsonObject{{"selected_plan_id", "chosen"}, {"validation_id", "own-validation"}}} : QJsonArray{}}};
+                investigator.completeTool(execution, answer);
+            });
+        connect(&investigator, &EogInvestigator::activity, &investigator, [&](const QJsonObject& event) {
+            if (event["type"] != "final_reference_rejected") return;
+            if (mode == "cancel") investigator.cancel();
+            if (mode == "stale") investigator.invalidate();
+        });
+        const int cap = mode == "tool-cap" ? 1 : mode == "request-cap" ? 2 : 3;
+        investigator.start("Correct syntax and exact references without changing evidence.", {}, definitions(), {cap, 1, 5000});
+        QTRY_VERIFY_WITH_TIMEOUT(!investigator.running(), 6000);
+        const bool passes = mode == "format-first" || referenceFirst;
+        QCOMPARE(finished.size(), passes ? 1 : 0); QCOMPARE(failed.size(), passes ? 0 : 1);
+        if (passes) {
+            QCOMPARE(order, (QStringList{"search_plans", "validate_plan"})); QCOMPARE(model.requests, 5); QCOMPARE(model.finalRequests, 2);
+            QCOMPARE(investigator.result()["validation_id"], QJsonValue("own-validation"));
+        } else QVERIFY(investigator.result().isEmpty());
+        QVERIFY(model.requests <= cap + 2); QVERIFY(order.size() <= cap);
+        if (mode == "request-cap" || mode == "tool-cap" || mode == "cancel" || mode == "stale") QCOMPARE(order.size(), 1);
+    }
+    void alreadyValidatedRepairDoesNotReexecuteNumerics_data() {
+        QTest::addColumn<bool>("wrongAgain"); QTest::newRow("corrected") << false; QTest::newRow("still-wrong") << true;
+    }
+    void alreadyValidatedRepairDoesNotReexecuteNumerics() {
+        QFETCH(bool, wrongAgain); FakeTransport model;
+        model.respond = [=](const QJsonArray&, int step) {
+            if (step == 1) return calls({call("original", "validate_plan", "{\"plan_id\":\"plan-a\"}")});
+            return finalReply("plan-a", step == 3 && !wrongAgain ? "validation-a" : "wrong-validation");
+        };
+        EogInvestigator investigator(&model); int numerics = 0;
+        QSignalSpy finished(&investigator, &EogInvestigator::finished), failed(&investigator, &EogInvestigator::failed);
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString&, const QJsonObject&) {
+                ++numerics; auto answer = validationOutcome(false, {QJsonObject{{"selected_plan_id", "plan-a"}, {"validation_id", "validation-a"}}});
+                auto index = answer["retained_evidence"].toObject();
+                index["plans"] = QJsonArray{QJsonObject{{"selected_plan_id", "plan-a"}, {"validation_id", "validation-a"}, {"selection_eligibility", "admissible"}}};
+                answer["retained_evidence"] = index; investigator.completeTool(execution, answer);
+            });
+        investigator.start("Use existing independent validation without repeating it.", {}, definitions(), {1, 0, 5000});
+        QTRY_VERIFY_WITH_TIMEOUT(!investigator.running(), 6000);
+        QCOMPARE(numerics, 1); QCOMPARE(model.requests, 3); QCOMPARE(model.finalRequests, 2); QVERIFY(model.toolLists.last().isEmpty());
+        QCOMPARE(finished.size(), wrongAgain ? 0 : 1); QCOMPARE(failed.size(), wrongAgain ? 1 : 0);
+    }
+    void productionPlanningRequiresRawInspection_data() {
+        QTest::addColumn<QString>("mode");
+        for (const auto* mode : {"inspected", "failed-read", "omitted-read"}) QTest::newRow(mode) << QString::fromLatin1(mode);
+    }
+    void productionPlanningRequiresRawInspection() {
+        QFETCH(QString, mode); FakeTransport model;
+        model.respond = [&](const QJsonArray&, int step) {
+            if (step == 1) return calls({call("detect", "detect"), call("topology", "read_topology")});
+            if (step == 2) return mode == "omitted-read" ? finalReply("invented", "invented") : calls({call("raw", "read_observations")});
+            if (step == 3) return calls({call("search", "search_plans")});
+            return finalReply();
+        };
+        EogInvestigator investigator(&model); QStringList order;
+        QSignalSpy finished(&investigator, &EogInvestigator::finished), failed(&investigator, &EogInvestigator::failed);
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString& name, const QJsonObject&) {
+                order.append(name); auto answer = outcome(); if (name == "read_observations" && mode == "failed-read") answer["ok"] = false;
+                investigator.completeTool(execution, answer);
+            });
+        investigator.start("Inspect original measurements before planning.", {}, definitions(), {8, 2, 5000, true});
+        QTRY_VERIFY_WITH_TIMEOUT(!investigator.running(), 6000);
+        QVERIFY(!names(model.toolLists[0]).contains("search_plans")); QVERIFY(!names(model.toolLists[0]).contains("evaluate_plan"));
+        QCOMPARE(order.mid(0, 2), (QStringList{"detect", "read_topology"})); QCOMPARE(order.contains("search_plans"), mode == "inspected");
+        if (mode == "omitted-read") { QVERIFY(finished.isEmpty()); QCOMPARE(failed[0][0].toString(), QString("observation_inspection_required")); }
+        else { QCOMPARE(finished.size(), 1); QVERIFY(failed.isEmpty()); QCOMPARE(names(model.toolLists[2]).contains("search_plans"), mode == "inspected"); }
+        model.respond = [](const QJsonArray&, int) { return finalReply("invented", "invented"); };
+        investigator.start("A fresh session does not inherit inspection.", {}, definitions(), {8, 2, 5000, true});
+        QTRY_VERIFY_WITH_TIMEOUT(!investigator.running(), 6000); QVERIFY(!names(model.toolLists.last()).contains("search_plans"));
+        QCOMPARE(failed.last()[0].toString(), QString("observation_inspection_required"));
+    }
+    void largeContextOmitsOnlyDuplicatedIndexes() {
+        const QJsonObject index{{"padding", QString(10000, 'x')}, {"completion_pairs", QJsonArray{}}};
+        const QJsonObject numerical{{"request_id", "actual"}, {"value", -12.5}, {"volumes", QJsonArray{-1, 110}}};
+        const QJsonObject answer{{"ok", true}, {"result", numerical}, {"retained_evidence", index}};
+        FakeTransport model; model.respond = [](const QJsonArray&, int step) {
+            if (step < 3) return calls({call(step == 1 ? "one" : "two", step == 1 ? "read_topology" : "read_observations")});
+            return finalReply();
+        };
+        EogInvestigator investigator(&model); QSignalSpy finished(&investigator, &EogInvestigator::finished);
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString&, const QJsonObject&) { investigator.completeTool(execution, answer); });
+        investigator.start("Preserve numerical outputs while reducing duplicated context.", {}, definitions()); QTRY_COMPARE(finished.size(), 1);
+        QCOMPARE(resultFor(model.histories[1], "one"), answer);
+        for (const auto* id : {"one", "two"}) {
+            const auto wire = resultFor(model.histories.last(), QLatin1String(id));
+            QCOMPARE(wire.contains("retained_evidence"), QLatin1String(id) == QLatin1String("two"));
+            QCOMPARE(wire["result"].toObject(), numerical);
+        }
+        const auto system = model.histories.last().first().toObject()["content"].toString();
+        QVERIFY(!system.contains(QString(10000, 'x'))); QVERIFY(system.contains("duplicated metadata only"));
+        QCOMPARE(QString::fromUtf8(QJsonDocument(model.histories.last()).toJson()).count(QString(10000, 'x')), 1);
+        for (const auto& row : investigator.events()) if (row.toMap()["type"] == "tool_result")
+            QCOMPARE(row.toMap()["output_sha256"].toString(), QString::fromLatin1(QCryptographicHash::hash(
+                QJsonDocument(answer).toJson(QJsonDocument::Compact), QCryptographicHash::Sha256).toHex()));
+    }
     void finalReferenceRecovery_data() {
         QTest::addColumn<QString>("mode");
         for (const auto* mode : {"repair", "wrong-again", "malformed-after-repair", "no-budget", "candidate-in-recovery", "cancel", "stale"})

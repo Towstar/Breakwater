@@ -416,12 +416,16 @@ QJsonObject NemotronClient::metadata(const QString& outcome, const QString& code
         result["retry_wait_policy"] = retry_wait_policy_; result["retry_delays_ms"] = retry_delays_;
     }
     const auto cooldown = pacer_->cooldownRemainingMs();
-    result["transport_diagnostics"] = QJsonObject{{"version", 1}, {"minimum_interval_ms", std::clamp(config_.minimumIntervalMs, 0, 60000)},
+    QJsonObject diagnostics{{"version", 1}, {"minimum_interval_ms", std::clamp(config_.minimumIntervalMs, 0, 60000)},
         {"backoff_base_ms", config_.backoffBaseMs}, {"backoff_jitter_ms", config_.backoffJitterMs},
         {"terminal_cooldown_ms", config_.terminalCooldownMs},
         {"admission_wait_ms", admission_wait_ms_ + (admission_started_ms_ < 0 ? 0 : elapsed_.elapsed() - admission_started_ms_)},
         {"cooldown_remaining_ms", std::min<qint64>(86400000, cooldown)}, {"cooldown_capped", cooldown > 86400000},
         {"attempts", attempt_diagnostics_}};
+    // Oversized logical input is rejected before POST. Do not clip its length
+    // into a false in-range count or make the retained failure malformed.
+    if (payload_.size() <= maximumResponseBytes) diagnostics["request_bytes"] = payload_.size();
+    result["transport_diagnostics"] = diagnostics;
     return result;
 }
 

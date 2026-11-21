@@ -93,6 +93,20 @@ QJsonObject modelResponse(QJsonObject response) {
         for (const auto& value : all) { if (retained.size() == 64) break; retained.append(value); }
         result["evidence"] = retained; result["retained_evidence_count"] = all.size();
     }
+    if (result.value("validation").isObject()) {
+        auto validation = result.value("validation").toObject();
+        const auto all = validation.value("evidence").toArray();
+        if (all.size() > 16) {
+            QJsonArray preview;
+            for (qsizetype i = 0; i < 16; ++i) preview.append(all[i]);
+            validation["evidence"] = preview;
+            validation["retained_evidence_count"] = all.size();
+            validation["additional_evidence_in_local_history"] = true;
+            // Preserve all proof references, constraints, costs, margins and
+            // exact validation/plan identities. The registry/history is full.
+            result["validation"] = validation;
+        }
+    }
     response["result"] = result;
     if (QJsonDocument(response).toJson(QJsonDocument::Compact).size() > modelResponseBudget &&
         (result.contains("evaluation") || result.contains("evaluations"))) {
@@ -808,7 +822,8 @@ void EogAnalysisController::investigate(const QString& objective) {
             if (QJsonDocument(candidate).toJson(QJsonDocument::Compact).size() <= 8 * 1024) policy = candidate;
         }
         for (auto it = policy.begin(); it != policy.end(); ++it) context[it.key()] = it.value();
-        investigator_.start(objective, context, toolDefinitions()); status_ = "Nemotron is investigating this immutable capture on request.";
+        EogInvestigationLimits limits; limits.requireObservationInspection = true;
+        investigator_.start(objective, context, toolDefinitions(), limits); status_ = "Nemotron is investigating this immutable capture on request.";
     });
 }
 QString EogAnalysisController::evidenceSummary(const QJsonObject& result) const {

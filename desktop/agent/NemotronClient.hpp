@@ -20,7 +20,7 @@ struct NemotronConfig {
     int timeoutMs = 60000;
     int maxRetries = 2;
     int minimumIntervalMs = 6000;
-    int backoffBaseMs = 2000;
+    int backoffBaseMs = 8000;
     int backoffJitterMs = 1000;
     int terminalCooldownMs = 60000;
     // An explicit file is useful for isolated launches; otherwise discover the local .env.

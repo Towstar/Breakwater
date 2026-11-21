@@ -14,6 +14,7 @@ struct EogInvestigationLimits {
     int toolCalls = 12;
     int refinementRounds = 3;
     int durationMs = maximum_eog_investigation_duration_ms;
+    bool requireObservationInspection = false;
 };
 
 // EOG-only model loop. Numeric evidence/reference verification belongs to the
@@ -74,6 +75,7 @@ private:
     bool recording_cancel_metadata_ = false, metadata_seen_ = false, started_seen_ = false;
     bool final_correction_used_ = false, json_final_phase_ = false;
     bool reference_recovery_used_ = false, recovery_validation_pending_ = false;
+    bool observations_inspected_ = false;
     void disconnectRequest();
     bool appendMessage(const QJsonObject& message);
     bool recordEvent(const QString& type, QJsonObject fields = {});

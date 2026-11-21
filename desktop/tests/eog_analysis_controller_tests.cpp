@@ -59,13 +59,24 @@ public:
     int requests = 0, finalRequests = 0, cancellations = 0, generation = 0;
     bool deferFinalResponse = false;
     QJsonArray messages, definitions, finalMessages;
+    QHash<QString, QJsonObject> originalToolResults;
+    void rememberResults(const QJsonArray& history) {
+        bool hasTools = false;
+        for (const auto& value : history) if (value.toObject()["role"] == "tool") {
+            hasTools = true; const auto row = value.toObject(); const auto result = parse(row["content"].toString());
+            if (result.contains("retained_evidence")) originalToolResults[row["tool_call_id"].toString()] = result;
+        }
+        if (!hasTools) originalToolResults.clear();
+    }
     std::function<QJsonObject(const QJsonArray&)> respond = [](const QJsonArray&) { return final(); };
     std::function<QJsonObject(const QJsonArray&)> respondFinal;
     void request(const QJsonArray& history, const QJsonArray& tools) override {
+        rememberResults(history);
         messages = history; definitions = tools; ++requests; emit requestStarted();
         completeReply(respond(history));
     }
     void requestFinalJson(const QJsonArray& history) override {
+        rememberResults(history);
         messages = finalMessages = history; definitions = {}; ++requests; ++finalRequests; emit requestStarted();
         if (!deferFinalResponse) completeReply(respondFinal ? respondFinal(history) : respond(history));
     }
@@ -80,6 +91,16 @@ public:
     }
     void cancel() override { ++generation; ++cancellations; }
 };
+void observeBeforePlanning(FakeModelTransport& model) {
+    // A deliberate scripted model step, separate from the numeric scenario
+    // under test. Production code must not execute this read on its behalf.
+    const auto scripted = model.respond;
+    model.respond = [scripted, first = true](const QJsonArray& messages) mutable {
+        if (first) { first = false; return tool("script-raw-inspection", "read_observations",
+            {{"asset_id", "tank-Z"}, {"metric", "level_pct"}, {"window_s", 300}, {"limit", 8}}); }
+        return scripted(messages);
+    };
+}
 void adaptive(FakeModelTransport& model, bool skipValidation = false, bool wrongFinal = false,
               const QString& preferredPlan = {}, bool incompatibleAlternative = false) {
     // The fake model deliberately chooses observation -> topology -> detection;
@@ -334,9 +355,10 @@ private slots:
             }
             }
         };
+        observeBeforePlanning(h.model);
         h.analysis.investigate("Compare compatible retained costs and finish with a chosen exact admissible pair.");
-        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 8 && !h.analysis.busy(), 30000);
-        const auto indexFor = [&](const QString& call) { return resultFor(h.model.messages, call).value("retained_evidence").toObject(); };
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 9 && !h.analysis.busy(), 30000);
+        const auto indexFor = [&](const QString& call) { return h.model.originalToolResults.value(call).value("retained_evidence").toObject(); };
         const auto rowFor = [](const QJsonObject& index, const QString& id) {
             for (const auto& value : index.value("plans").toArray()) if (value.toObject().value("selected_plan_id") == id) return value.toObject();
             return QJsonObject{};
@@ -385,6 +407,34 @@ private slots:
         QCOMPARE(index.value("selection_status"), QJsonValue("no_admissible_validated_plan"));
         QVERIFY(!h.analysis.canReview()); QVERIFY(h.analysis.selectedPlanId().isEmpty());
     }
+    void validationPreviewKeepsCompleteLocalProof() {
+        QTemporaryDir fixture; QVERIFY(fixture.isValid()); auto source = bytes(worker_);
+        const QByteArray before = R"("evidence_ids": [evidence["evidence_id"]], "evidence": [evidence])";
+        const QByteArray after = R"("evidence_ids": [evidence["evidence_id"] + "-" + str(i) for i in range(32)], "evidence": [dict(evidence, evidence_id=evidence["evidence_id"] + "-" + str(i)) for i in range(32)])";
+        QVERIFY(source.contains(before)); source.replace(before, after);
+        const auto script = fixture.filePath("many_proof_rows.py"); QVERIFY(write(script, source));
+        Harness h(fixtures_, script); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        adaptive(h.model); h.analysis.investigate("Inspect raw observations and retain the complete independent proof.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests >= 6 && !h.analysis.busy(), 20000);
+        const auto wire = resultFor(h.model.messages, "validation").value("result").toObject().value("result").toObject().value("validation").toObject();
+        const auto full = QJsonObject::fromVariantMap(h.analysis.selectedValidation());
+        QCOMPARE(full["evidence"].toArray().size(), 32); QCOMPARE(full["evidence_ids"].toArray().size(), 32);
+        QCOMPARE(wire["evidence"].toArray().size(), 16); QCOMPARE(wire["evidence_ids"], full["evidence_ids"]);
+        QCOMPARE(wire["retained_evidence_count"].toInt(), 32); QVERIFY(wire["additional_evidence_in_local_history"].toBool());
+        for (const auto* field : {"validation_id", "plan_id", "plan_hash", "cost", "coverage", "feasible", "independent",
+                                  "violations", "validated_horizons", "minimum_shutdown_margin_bbl"}) QCOMPARE(wire[field], full[field]);
+        QVERIFY(drain(h.history)); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+        QSignalSpy loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        h.history.loadSession(h.analysis.sessionId()); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        const auto archive = loaded[0][0].toJsonObject(); bool found = false;
+        for (const auto& row : archive["analyses"].toArray()) {
+            const auto response = row.toObject()["response"].toObject();
+            if (response["operation"] == "validate_plan") {
+                QCOMPARE(response["result"].toObject()["validation"], QJsonValue(full)); found = true;
+            }
+        }
+        QVERIFY(found); QVERIFY(archive["operator_records"].toArray().isEmpty());
+    }
     void evidenceIndexIsBoundedWithoutInventingValidation() {
         QTemporaryDir fixture; QVERIFY(fixture.isValid()); auto source = bytes(worker_);
         const QByteArray before = R"([evaluation(plan("protocol-only-no-action")), evaluation(plan("protocol-only-truck-plan", True))])";
@@ -397,8 +447,9 @@ private slots:
         h.model.respond = [step = 0](const QJsonArray&) mutable {
             return step++ == 0 ? tool("search", "search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}}) : final();
         };
+        observeBeforePlanning(h.model);
         h.analysis.investigate("Present a bounded inventory without selecting references.");
-        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 3 && !h.analysis.busy(), 15000);
         const auto searched = resultFor(h.model.messages, "search");
         QVERIFY2(searched.value("ok").toBool(), qPrintable(QString::fromUtf8(QJsonDocument(searched).toJson(QJsonDocument::Compact))));
         QCOMPARE(h.analysis.plans().size(), 10);
@@ -440,8 +491,9 @@ private slots:
                 }
             };
             const auto before = h.model.requests;
+            observeBeforePlanning(h.model);
             h.analysis.investigate("Keep exact independent validation references without redundant provider execution.");
-            QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == before + 4 && !h.analysis.busy(), 20000);
+            QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == before + 5 && !h.analysis.busy(), 20000);
             QCOMPARE(h.providerCalls(), (repetition + 1) * providersPerRun);
             const auto original = resultFor(h.model.messages, "first-validation");
             const auto repeated = resultFor(h.model.messages, "repeated-validation");
@@ -470,8 +522,9 @@ private slots:
             return step++ == 0 ? tool("plain-proposal", "evaluate_plan", {{"plan", proposal}}) : final();
         };
         QSignalSpy done(&h.client, &EogAnalysisClient::completed);
+        observeBeforePlanning(h.model);
         h.analysis.investigate("Evaluate this explicit plain plan; no fixed tool order is required.");
-        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 3 && !h.analysis.busy(), 15000);
         QCOMPARE(done.size(), 1); QCOMPARE(h.providerCalls(), 1);
         QJsonObject exposed;
         for (const auto& value : h.model.definitions) {
@@ -573,8 +626,9 @@ private slots:
             return step++ == 0 ? tool("unfiltered-search", "search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}}) : final();
         };
         QSignalSpy completed(&h.client, &EogAnalysisClient::completed);
+        observeBeforePlanning(h.model);
         h.analysis.investigate("Search the complete captured network using the unfiltered search capability.");
-        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 3 && !h.analysis.busy(), 15000);
         QCOMPARE(h.providerCalls(), 1); QCOMPARE(completed.size(), 1);
         QVERIFY(resultFor(h.model.messages, "unfiltered-search").value("ok").toBool());
         QVERIFY(drain(h.history)); QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
@@ -629,8 +683,9 @@ private slots:
             }
         };
         QSignalSpy completed(&h.client, &EogAnalysisClient::completed);
+        observeBeforePlanning(h.model);
         h.analysis.investigate("Search all systems explicitly after any unsupported subset request.");
-        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 3 && !h.analysis.busy(), 15000);
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 4 && !h.analysis.busy(), 15000);
         QCOMPARE(h.providerCalls(), 1); QCOMPARE(completed.size(), 1);
         const auto rejected = resultFor(h.model.messages, "subset-search"); QVERIFY(!rejected.value("ok").toBool());
         const auto error = rejected.value("error").toObject();
@@ -670,8 +725,9 @@ private slots:
         h.model.respond = [step = 0, scope](const QJsonArray&) mutable {
             return step++ == 0 ? tool("invalid-scope", "search_plans", {{"system_ids", scope}, {"candidate_limit", 32}, {"time_limit_s", 5}}) : final();
         };
+        observeBeforePlanning(h.model);
         h.analysis.investigate("Reject malformed or unknown system scope without provider execution.");
-        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 3 && !h.analysis.busy(), 15000);
         QCOMPARE(h.providerCalls(), 0);
         const auto rejected = resultFor(h.model.messages, "invalid-scope"); QVERIFY(!rejected.value("ok").toBool());
         QVERIFY(!rejected.value("error").toObject().value("code").toString().isEmpty());
@@ -696,8 +752,9 @@ private slots:
             return step++ == 0 ? tool("bad-proposal", "evaluate_plan", {{"plan", proposal}}) : final();
         };
         QSignalSpy done(&h.client, &EogAnalysisClient::completed);
+        observeBeforePlanning(h.model);
         h.analysis.investigate("A wrong explicit claim must not be silently repaired.");
-        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 3 && !h.analysis.busy(), 15000);
         QCOMPARE(h.providerCalls(), 0); QCOMPARE(done.size(), 0); QVERIFY(h.analysis.plans().isEmpty());
         const auto continuation = resultFor(h.model.messages, "bad-proposal"); QVERIFY(!continuation.value("ok").toBool());
         QCOMPARE(continuation.value("error").toObject().value("code"), QJsonValue("invalid_plan_proposal")); QVERIFY(!h.analysis.canReview());
@@ -730,8 +787,9 @@ private slots:
         h.model.respond = [step = 0, proposal](const QJsonArray&) mutable {
             return step++ == 0 ? tool("invalid-shape", "evaluate_plan", {{"plan", proposal}}) : final();
         };
+        observeBeforePlanning(h.model);
         h.analysis.investigate("A rejected proposal needs bounded schema correction guidance.");
-        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 2 && !h.analysis.busy(), 15000);
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 3 && !h.analysis.busy(), 15000);
         QCOMPARE(h.providerCalls(), 0); QVERIFY(h.analysis.plans().isEmpty()); QVERIFY(!h.analysis.canReview());
         const auto error = resultFor(h.model.messages, "invalid-shape").value("error").toObject();
         QCOMPARE(error.value("code"), QJsonValue("invalid_plan_proposal"));
@@ -1080,8 +1138,14 @@ private slots:
             corrected["content"] = QString::fromUtf8(QJsonDocument(body).toJson(QJsonDocument::Compact));
         }
         h.model.completeReply(corrected);
+        if (!grounded) {
+            QTRY_VERIFY_WITH_TIMEOUT(h.model.finalRequests == 2 && h.analysis.busy(), 15000);
+            // The one bounded reference correction still receives the same
+            // wrong model-authored claim. It must be rejected, never filled in.
+            h.model.completeReply(corrected);
+        }
         QTRY_VERIFY_WITH_TIMEOUT(!h.analysis.busy(), 15000);
-        QCOMPARE(h.model.finalRequests, 1); QCOMPARE(h.model.requests, 7); QCOMPARE(h.providerCalls(), 3);
+        QCOMPARE(h.model.finalRequests, grounded ? 1 : 2); QCOMPARE(h.model.requests, grounded ? 7 : 8); QCOMPARE(h.providerCalls(), 3);
         QCOMPARE(h.analysis.canReview(), grounded);
         QVERIFY2(h.analysis.status().contains(grounded ? "Nemotron completed" : "completion rejected"), qPrintable(h.analysis.status()));
         const auto completeArchive = h.directory.filePath("corrected-final.eog-session.json");

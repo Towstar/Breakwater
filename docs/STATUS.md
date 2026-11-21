@@ -1,5 +1,20 @@
 # Implementation status
 
+## Operations completion and provider load, November 21, 2026 (America/Chicago)
+
+The [Operations reliability increment](NEMOTRON_OPERATIONS_RELIABILITY.md) follows
+PR #96. It lengthens fallback retries to 8/16 seconds, records bounded request
+size, removes repeated model-facing evidence indexes and previews nested proof
+rows while retaining complete local validation evidence. New production planning
+requires a model-issued raw-observation inspection. One syntax correction and one
+exact-reference repair can cooperate under unchanged global budgets; already
+validated references use a JSON-only correction without repeated numerical work.
+
+Final source-bound normal/ASan and hosted qualification are required for this
+increment. The preceding 2/4 targeted and 1/2 observed-origin rounds below remain
+unchanged. Validation, source freshness and explicit approval stay mandatory;
+no numerical/scientific implementation or release authority changes here.
+
 ## Nemotron pacing and diagnostic policy, November 21, 2026 (America/Chicago)
 
 The [pacing increment](NEMOTRON_PACING.md) adds process-shared POST admission and
