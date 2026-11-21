@@ -1,4 +1,5 @@
 #include "SimulationGateway.hpp"
+#include <QStringList>
 #include "ProjectDocument.hpp"
 #include "science/StorageScienceAnalysis.hpp"
 #include "breakwater/search.hpp"
@@ -270,6 +271,43 @@ QJsonObject SimulationGateway::snapshot() const {
     QJsonObject result{{"snapshot_id", snapshot_id_}, {"physical_hash", physical_hash_}, {"horizon_h", config_.horizon_h}, {"network", network_json(network_)}};
     if (advisoryOnly()) result["numerical_revision"]=observed_origin_.value("snapshot").toObject().value("numerical_revision");
     return result;
+}
+
+QString SimulationGateway::evidenceExplanation(const QString& runId) const {
+    std::lock_guard lock(mutex_);
+    const auto found = runs_.find(runId);
+    if (found == runs_.end()) return {};
+    const auto& run = found->second;
+    const auto number = [](double value) { return QString::number(value, 'g', 12); };
+    QStringList lines{QString("Run %1; snapshot %2; horizon %3 h.").arg(run.id, snapshot_id_, number(config_.horizon_h)),
+        QString("Stored modeled cost: %1 synthetic units.").arg(number(run.result.cost))};
+    const auto& report = run.explicit_validation ? *run.explicit_validation : run.reported_validation;
+    lines.append(QString("Validation: %1; reference %2; minimum recorded headroom %3 m3.")
+        .arg(run.explicit_validation ? (report.feasible ? "nominally feasible" : "rejected") : "not independently requested",
+             run.validation_id.isEmpty() ? "unavailable" : run.validation_id, number(report.minimum_headroom_m3)));
+    const auto catalog = control_catalog(network_);
+    int changed = 0;
+    for (const auto& control : run.overrides) {
+        const auto captured = std::find_if(catalog.begin(), catalog.end(), [&](const auto& item) { return item.id == control.id; });
+        if (captured == catalog.end() || captured->value == control.value) continue;
+        if (++changed <= 12) lines.append(QString("Control %1: %2 -> %3 %4.")
+            .arg(q(control.id), number(captured->value), number(control.value), q(captured->unit)));
+    }
+    if (!changed) lines.append("No operating-control changes in this stored run.");
+    else if (changed > 12) lines.append(QString("%1 additional changes are in the stored run.").arg(changed - 12));
+    for (std::size_t i = 0; i < run.result.tank_ids.size() && i < 12; ++i) {
+        const auto& id = run.result.tank_ids[i]; const auto& values = run.result.volumes_m3[i];
+        const auto asset = std::find_if(network_.assets.begin(), network_.assets.end(), [&](const auto& item) { return item.id == id; });
+        if (asset != network_.assets.end() && !values.empty()) lines.append(
+            QString("Tank %1: initial %2 m3; terminal %3 m3; capacity %4 m3.")
+                .arg(q(id), number(values.front()), number(values.back()), number(asset->capacity_m3)));
+    }
+    if (report.violations.empty()) lines.append("No violations in the recorded nominal validation report.");
+    else {
+        const auto first = issues_json(report.violations).first().toObject();
+        lines.append("First recorded violation: " + QString::fromUtf8(QJsonDocument(first).toJson(QJsonDocument::Compact)));
+    }
+    return lines.join('\n');
 }
 
 PreparedSensitivity SimulationGateway::prepareSensitivity(const QJsonObject& args) const {

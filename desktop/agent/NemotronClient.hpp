@@ -35,6 +35,7 @@ public:
     ~NemotronClient() override;
     void request(const QJsonArray& messages, const QJsonArray& tools) override;
     void requestFinalJson(const QJsonArray& messages) override;
+    void requestWithBudget(const QJsonArray& messages, const QJsonArray& tools, int budgetMs, bool finalJson) override;
     void cancel() override;
     // Configuration changes are allowed between requests only.
     bool reloadConfiguration();
@@ -48,6 +49,9 @@ private:
     QPointer<QNetworkReply> reply_;
     QTimer timeout_;
     QTimer retry_;
+    QTimer budget_timeout_;
+    QJsonArray retry_delays_;
+    QString retry_wait_policy_;
     QByteArray payload_;
     QByteArray response_;
     QString responseModel_;
@@ -56,10 +60,12 @@ private:
     int httpStatus_ = 0;
     int attempts_ = 0;
     int retries_ = 0;
+    int request_budget_ms_ = 0;
+    bool budget_is_explicit_ = false;
     quint64 requestGeneration_ = 0;
     quint64 deliveringGeneration_ = 0;
     bool active_ = false;
-    void requestImpl(const QJsonArray& messages, const QJsonArray& tools, bool jsonFinal);
+    void requestImpl(const QJsonArray& messages, const QJsonArray& tools, bool jsonFinal, int budgetMs = 0);
     void send();
     void consume();
     void finish();

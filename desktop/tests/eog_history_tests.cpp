@@ -311,7 +311,8 @@ private slots:
         QSignalSpy saved(&repository, &EogHistoryRepository::sessionSaved), failed(&repository, &EogHistoryRepository::failed), exported(&repository, &EogHistoryRepository::archiveExported);
         QTRY_COMPARE(ready.size(), 1); repository.beginSession(session, "Adaptive protocol trace", lease);
         const auto detect = request(lease, "detect"), validation = request(lease, "validate", "validate_plan");
-        const QJsonObject model{{"type", "model_request"}, {"model_identity", "protocol-fixture-model"}, {"http_status", 200}, {"duration_ms", 2.5}, {"retry_count", 0}};
+        const QJsonObject model{{"type", "model_request"}, {"model_identity", "protocol-fixture-model"}, {"http_status", 200}, {"duration_ms", 2.5}, {"retry_count", 0},
+            {"retry_wait_policy", "retry_after_seconds"}, {"retry_delays_ms", QJsonArray{1000}}};
         repository.appendAgentEvent(session, model);
         repository.appendAgentEvent(session, {{"type", "tool_call"}, {"call_id", "call-1"}, {"name", "detect"}, {"arguments", QJsonObject{{"system_ids", QJsonArray{}}}}});
         repository.appendAnalysis(session, detect, response(detect));
@@ -327,6 +328,7 @@ private slots:
         const auto path = QUrl::fromLocalFile(directory.filePath("agent.eog-session.json"));
         repository.exportSession(session, path); QTRY_VERIFY(exported.size() == 1 || failed.size() > 1); QVERIFY2(exported.size() == 1, qPrintable(failureText(failed)));
         const auto archive = QJsonDocument::fromJson(bytes(path.toLocalFile())).object(); const auto events = archive.value("agent_events").toArray();
+        QCOMPARE(events.first().toObject().value("event").toObject().value("retry_delays_ms").toArray(), QJsonArray({1000}));
         QCOMPARE(events.size(), 7); const QStringList order{"model_request", "tool_call", "tool_result", "model_request", "tool_call", "tool_result", "final"};
         for (qsizetype index = 0; index < events.size(); ++index) {
             const auto item = events[index].toObject(); QCOMPARE(item.value("sequence").toInt(), index + 1);

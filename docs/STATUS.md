@@ -1,5 +1,22 @@
 # Implementation status
 
+## Nemotron completion and retry recovery, November 21, 2026 (America/Chicago)
+
+The [bounded recovery increment](NEMOTRON_RECOVERY.md) follows PR #94. Known final
+selections without their own explicit validation can receive one model-driven
+validation repair inside the original budgets. HTTP retries honor admissible
+server waits and stop when those waits exceed the remaining deadline. Closed,
+sanitized wait metadata survives history export and offline audit. Explanations
+now render detailed stored actions, margins and tank quantities separately from
+optional model prose. Existing exact-evidence and operator-approval checks remain.
+
+The preceding expanded hosted round at `297afe9` remains 22/24 passed; its two
+observed sessions failed with HTTP 429. The separate four-case tool supplement
+remains 0/4. These dated failures are not replaced by offline recovery fixtures.
+New build, test and hosted evidence must identify this increment's actual source.
+No engine/science implementation or numerical accuracy claim is changed. Owner
+reviews, clean-Windows acceptance and public release remain separate gates.
+
 ## Nemotron evaluation expansion, November 21, 2026 (America/Chicago)
 
 The new [functional evaluation increment](NEMOTRON_EVALUATION.md) starts from

@@ -126,6 +126,70 @@ void adaptiveModel(FakeModel& model, bool skipValidation = false) {
 class OrchestratorTests : public QObject {
     Q_OBJECT
 private slots:
+    void recoversExactStoredRunOnlyAfterModelValidation_data() {
+        QTest::addColumn<bool>("budget");
+        QTest::addColumn<bool>("malformed");
+        QTest::newRow("one-validation-recovery") << true << false;
+        QTest::newRow("no-extra-tool-budget") << false << false;
+        QTest::newRow("no-second-format-repair") << true << true;
+    }
+    void recoversExactStoredRunOnlyAfterModelValidation() {
+        QFETCH(bool, budget); QFETCH(bool, malformed);
+        Network network; network.assets = {{"store", "Store", AssetKind::tank, 90.0, 45.0}};
+        const auto gateway = std::make_shared<SimulationGateway>(network, "fixed-input");
+        const auto original = gateway->snapshot();
+        FakeModel model; QString selected; QStringList recoveryTools; int step = 0;
+        model.respond = [&](const QJsonArray& history) {
+            if (step++ == 0) return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog"),
+                call("baseline", "forecast_baseline", {{"snapshot_id", gateway->snapshotId()}})});
+            selected = resultFor(history, "baseline").value("run").toObject().value("run_id").toString();
+            if (step == 3) {
+                recoveryTools = toolNames(model.tools);
+                return calls({call("own-proof", "validate_run", {{"snapshot_id", gateway->snapshotId()}, {"run_id", selected}})});
+            }
+            if (malformed && step == 4) return QJsonObject{{"role", "assistant"}, {"content", "not JSON"}};
+            return conclusion(selected);
+        };
+        AgentOrchestrator investigator(&model);
+        investigator.start(gateway, "Keep controls fixed and validate the selected stored run.", {budget ? 4 : 3, 1, 5000});
+        QTRY_VERIFY_WITH_TIMEOUT(!investigator.running(), 6000);
+        QCOMPARE(gateway->snapshot(), original); QVERIFY(!gateway->stagedPlan().value("ok").toBool());
+        if (budget && !malformed) {
+            QCOMPARE(recoveryTools, QStringList({"validate_run"}));
+            QVERIFY(investigator.result().value("verified_feasible").toBool());
+            const auto text = investigator.result().value("explanation").toString();
+            QVERIFY(text.contains("initial 45 m3; terminal 45 m3; capacity 90 m3"));
+            QVERIFY(text.contains("No operating-control changes"));
+            QVERIFY(!text.contains("full capacity"));
+        } else QVERIFY(investigator.result().isEmpty());
+        if (malformed) {
+            QCOMPARE(model.requests, 4);
+            for (const auto& row : investigator.events())
+                QVERIFY(row.toMap().value("type") != "final_format_correction_requested");
+        }
+    }
+
+    void completedInfeasibleProofDoesNotStartReferenceRecovery() {
+        const auto network = main_pump_failure(canonical_scenario());
+        const auto gateway = std::make_shared<SimulationGateway>(network, "infeasible-fixed-input");
+        FakeModel model; QString selected; int step = 0;
+        model.respond = [&](const QJsonArray& history) {
+            if (step++ == 0) return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog"),
+                call("baseline", "forecast_baseline", {{"snapshot_id", gateway->snapshotId()}})});
+            selected = resultFor(history, "baseline").value("run").toObject().value("run_id").toString();
+            if (step == 2) return calls({call("own-proof", "validate_run", {{"snapshot_id", gateway->snapshotId()}, {"run_id", selected}})});
+            return conclusion(selected);
+        };
+        AgentOrchestrator investigator(&model);
+        investigator.start(gateway, "Retain the actual failed independent validation.", {8, 1, 5000});
+        QTRY_VERIFY_WITH_TIMEOUT(!investigator.running(), 6000);
+        QCOMPARE(model.requests, 3); QVERIFY(investigator.result().isEmpty());
+        QCOMPARE(investigator.events().last().toMap().value("error").toMap().value("code").toString(), QString("ungrounded_recommendation"));
+        for (const auto& row : investigator.events()) QVERIFY(row.toMap().value("type") != "final_reference_rejected");
+        const auto run = gateway->runDetails(selected).value("run").toObject();
+        QVERIFY(!run.value("validation").toObject().value("feasible").toBool());
+        QVERIFY(!gateway->stagedPlan().value("ok").toBool());
+    }
     void repeatedEligibleValidationClosesToolsWithoutInventingASelection() {
         FakeModel model; QString snapshot, selected; int step = 0;
         model.respond = [&](const QJsonArray& history) -> QJsonObject {
@@ -573,7 +637,7 @@ private slots:
         session.start(gateway, "Find a validated response.");
         QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
         QVERIFY(session.result().isEmpty());
-        QCOMPARE(session.events().last().toMap()["error"].toMap()["code"].toString(), "ungrounded_recommendation");
+        QCOMPARE(session.events().last().toMap()["error"].toMap()["code"].toString(), "semantic_recovery_tool_limit");
         QCOMPARE(gateway->runs().size(), 3); // Completed runs survive failure.
     }
     void resetAndNumericEditsInvalidateButLayoutDoesNot() {
@@ -1170,7 +1234,7 @@ private slots:
         session.start(gateway, "Compare the retained runs and select a response with its own explicit check.");
         QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
         QVERIFY(validationOffered); QVERIFY(!selected.isEmpty()); QVERIFY(selected != other);
-        QCOMPARE(model.requests, stageBeforeFinal ? 6 : 5); QCOMPARE(model.finalJsonRequests, 0);
+        QCOMPARE(model.requests, stageBeforeFinal ? 7 : 6); QCOMPARE(model.finalJsonRequests, 0);
         QVERIFY(session.result().isEmpty());
         QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("explicit_validation_required"));
         const auto native = gateway->recommendation(selected);
@@ -1212,7 +1276,7 @@ private slots:
         AgentOrchestrator session(&model); session.start(gateway, "Inspect the retained evidence and explicitly check the chosen run.");
         QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
         QVERIFY(offered); QVERIFY(modelCheckMissing);
-        QCOMPARE(model.requests, modelChecksRun ? 4 : 3);
+        QCOMPARE(model.requests, 4); // External proof alone gets one bounded model recovery turn.
         QCOMPARE(model.finalJsonRequests, modelChecksRun ? 1 : 0);
         QCOMPARE(gateway->recommendation(run).value("validation_id"), external.value("validation_id"));
         if (modelChecksRun) {

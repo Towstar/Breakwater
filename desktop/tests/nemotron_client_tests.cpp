@@ -2,6 +2,7 @@
 #include "agent/CredentialSettings.hpp"
 
 #include <QBuffer>
+#include <QDateTime>
 #include <QDir>
 #include <QFile>
 #include <QJsonDocument>
@@ -740,13 +741,13 @@ private slots:
         QTest::addColumn<QByteArray>("retryAfter"); QTest::addColumn<int>("minimumDelayMs");
         QTest::addColumn<int>("completionDeadlineMs");
         QTest::newRow("zero") << QByteArray("0") << 0 << 2000;
-        QTest::newRow("maximum-signed-seconds") << QByteArray("9223372036854775807") << 4000 << 7500;
         QTest::newRow("missing") << QByteArray{} << 100 << 3000;
-        QTest::newRow("overflowing-seconds") << QByteArray("9223372036854775808") << 100 << 3000;
         QTest::newRow("negative-seconds") << QByteArray("-1") << 100 << 3000;
         QTest::newRow("fractional-seconds") << QByteArray("0.5") << 100 << 3000;
         QTest::newRow("not-numeric") << QByteArray("PRIVATE_RETRY_AFTER_CANARY") << 100 << 3000;
-        QTest::newRow("http-date") << QByteArray("Thu, 31 Dec 2099 23:59:59 GMT") << 100 << 3000;
+        QTest::newRow("past-http-date") << QByteArray("Sun, 06 Nov 1994 08:49:37 GMT") << 0 << 2000;
+        QTest::newRow("past-rfc850-date") << QByteArray("Sunday, 06-Nov-94 08:49:37 GMT") << 0 << 2000;
+        QTest::newRow("past-asctime-date") << QByteArray("Sun Nov  6 08:49:37 1994") << 0 << 2000;
     }
     void retryAfterValuesKeepWaitingBounded() {
         QFETCH(QByteArray, retryAfter); QFETCH(int, minimumDelayMs); QFETCH(int, completionDeadlineMs);
@@ -768,6 +769,8 @@ private slots:
         QCOMPARE(metadata["http_status"].toInt(), 200); QCOMPARE(metadata["retry_count"].toInt(), 1);
         QCOMPARE(metadata["outcome"].toString(), "succeeded"); QVERIFY(metadata["error_code"].toString().isEmpty());
         QVERIFY(metadata["duration_ms"].toDouble() >= minimumDelayMs);
+        if (retryAfter.contains("1994") || retryAfter.contains("-94"))
+            QCOMPARE(metadata.value("retry_wait_policy").toString(), QString("retry_after_date"));
         const auto exposed = QJsonDocument(metadata).toJson();
         QVERIFY(!exposed.contains("PRIVATE_RETRY_AFTER_CANARY")); QVERIFY(!exposed.contains("PRIVATE_HTTP_FAILURE_CANARY"));
     }
@@ -782,6 +785,64 @@ private slots:
         QCOMPARE(started.size(), 1); QCOMPARE(network.requests.size(), 2); QCOMPARE(network.payloads.at(0), network.payloads.at(1));
         QCOMPARE(completed.size(), 1); QCOMPARE(completed.front().front().toJsonObject()["retry_count"].toInt(), 1);
         QCOMPARE(completed.front().front().toJsonObject()["http_status"].toInt(), 200);
+    }
+
+    void retryAfterCannotBeClampedIntoAnEarlyPost() {
+        FakeNetwork network; network.responses.append(Response{429, {}, 0, QNetworkReply::NoError, "6"});
+        network.responses.append(Response{200, textCompletion()});
+        auto config = configuration(); config.maxRetries = 1; config.timeoutMs = 1000;
+        NemotronClient client(config, nullptr, &network);
+        QSignalSpy success(&client, &ModelTransport::replyReady), failed(&client, &ModelTransport::requestFailed),
+            completed(&client, &ModelTransport::requestCompleted);
+        QElapsedTimer elapsed; elapsed.start(); client.requestWithBudget(messages(), {}, 10000, false);
+        QTRY_COMPARE_WITH_TIMEOUT(success.size(), 1, 11000);
+        QVERIFY(elapsed.elapsed() >= 5900); QVERIFY(failed.isEmpty()); QCOMPARE(network.requests.size(), 2);
+        const auto metadata = completed.first().first().toJsonObject();
+        QCOMPARE(metadata.value("retry_wait_policy").toString(), QString("retry_after_seconds"));
+        QCOMPARE(metadata.value("retry_delays_ms").toArray(), QJsonArray({6000}));
+    }
+    void overBudgetServerWaitIsRetainedWithoutAnotherPost_data() {
+        QTest::addColumn<QByteArray>("header"); QTest::addColumn<int>("status");
+        QTest::newRow("seconds") << QByteArray("30") << 429;
+        QTest::newRow("overflow") << QByteArray("9999999999999999999999999999999999999999") << 429;
+        QTest::newRow("date") << QByteArray("Thu, 31 Dec 2099 23:59:59 GMT") << 429;
+        QTest::newRow("service-unavailable") << QByteArray("30") << 503;
+    }
+    void overBudgetServerWaitIsRetainedWithoutAnotherPost() {
+        QFETCH(QByteArray, header); QFETCH(int, status);
+        FakeNetwork network; network.responses.append(Response{status, "PRIVATE_RESPONSE", 0, QNetworkReply::NoError, header});
+        auto config = configuration(); config.maxRetries = 2;
+        NemotronClient client(config, nullptr, &network);
+        QSignalSpy failed(&client, &ModelTransport::requestFailed), completed(&client, &ModelTransport::requestCompleted);
+        client.requestWithBudget(messages(), {}, 500, false); QTRY_COMPARE(failed.size(), 1);
+        QCOMPARE(network.requests.size(), 1);
+        QCOMPARE(failed.first().first().toString(), status == 429 ? QString("rate_limit_wait_exceeds_budget") : QString("retry_wait_exceeds_budget"));
+        const auto metadata = completed.first().first().toJsonObject();
+        QCOMPARE(metadata.value("retry_count").toInt(), 0);
+        QCOMPARE(metadata.value("retry_wait_policy").toString(), QString("retry_after_exceeds_budget"));
+        QVERIFY(metadata.value("retry_delays_ms").toArray().isEmpty());
+        const auto publicBytes = QJsonDocument(metadata).toJson();
+        if (header.size() > 8) QVERIFY(!publicBytes.contains(header));
+        QVERIFY(!publicBytes.contains("PRIVATE_RESPONSE"));
+        network.responses.append(Response{200, textCompletion()}); QSignalSpy success(&client, &ModelTransport::replyReady);
+        client.request(messages(), {}); QTRY_COMPARE(success.size(), 1);
+        QVERIFY(!completed.last().first().toJsonObject().contains("retry_wait_policy"));
+    }
+    void delayedRetryTimerHonorsOriginalMonotonicBudget() {
+        FakeNetwork network; network.responses.append(Response{503, {}});
+        network.responses.append(Response{200, textCompletion()});
+        auto config = configuration(); config.maxRetries = 1;
+        NemotronClient client(config, nullptr, &network);
+        QSignalSpy failed(&client, &ModelTransport::requestFailed), success(&client, &ModelTransport::replyReady);
+        client.requestWithBudget(messages(), {}, 1000, false);
+        const auto replies = network.findChildren<QNetworkReply*>(QString{}, Qt::FindDirectChildrenOnly);
+        QCOMPARE(replies.size(), 1);
+        // Client's earlier finished slot schedules backoff first. Block timer
+        // delivery afterward, without allowing an early second POST.
+        connect(replies.first(), &QNetworkReply::finished, &network, [] { QTest::qSleep(1100); });
+        QTRY_COMPARE_WITH_TIMEOUT(failed.size(), 1, 3000);
+        QCOMPARE(failed.first().first().toString(), QString("request_budget_exceeded"));
+        QCOMPARE(network.requests.size(), 1); QVERIFY(success.isEmpty());
     }
 
     void exhaustedRateLimitRetriesFail() {
@@ -833,10 +894,13 @@ private slots:
         const auto metadata = completed.front().front().toJsonObject();
         QCOMPARE(metadata["retry_count"].toInt(), 0); QCOMPARE(metadata["http_status"].toInt(), 503);
         QCOMPARE(metadata["outcome"].toString(), "cancelled"); QCOMPARE(metadata["error_code"].toString(), "cancelled");
+        QCOMPARE(metadata.value("retry_wait_policy"), QJsonValue("retry_after_seconds"));
+        QCOMPARE(metadata.value("retry_delays_ms").toArray(), QJsonArray{1000});
         client.request(messages(), {}); QTRY_COMPARE(success.size(), 1);
         QCOMPARE(network.requests.size(), 2); QCOMPARE(completed.size(), 2); QCOMPARE(started.size(), 2);
         QVERIFY(metadata["model_request_id"] != completed.at(1).front().toJsonObject()["model_request_id"]);
         QCOMPARE(completed.at(1).front().toJsonObject()["retry_count"].toInt(), 0);
+        QVERIFY(!completed.at(1).front().toJsonObject().contains("retry_delays_ms"));
     }
 
     void timeoutOnRetriedPostCompletesOnceAndAllowsAnotherRequest() {

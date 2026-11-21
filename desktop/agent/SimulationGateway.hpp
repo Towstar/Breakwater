@@ -42,6 +42,7 @@ public:
     std::vector<ControlValue> stagedControls() const;
     QJsonArray runs() const;
     QJsonObject runDetails(const QString& runId) const;
+    QString evidenceExplanation(const QString& runId) const;
     QJsonObject snapshot() const;
     // Existing local finite-grid heuristic, exposed as optional model input.
     // Does not search, create runs or change the immutable incident controls.

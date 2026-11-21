@@ -73,6 +73,7 @@ private:
     bool running_ = false, awaiting_model_ = false, executing_tool_ = false;
     bool recording_cancel_metadata_ = false, metadata_seen_ = false, started_seen_ = false;
     bool final_correction_used_ = false, json_final_phase_ = false;
+    bool reference_recovery_used_ = false, recovery_validation_pending_ = false;
     void disconnectRequest();
     bool appendMessage(const QJsonObject& message);
     bool recordEvent(const QString& type, QJsonObject fields = {});
@@ -82,6 +83,7 @@ private:
     void stop(const QString& code, const QString& message, bool recordFailure = true);
     void completeFinal(const QJsonObject& message);
     bool requestFinalCorrection(const QString& reason);
+    bool requestReferenceRecovery(const QJsonObject& final);
     void recordMetadata(const QJsonObject& metadata, quint64 generation, quint64 request);
 };
 } // namespace breakwater::desktop::eog

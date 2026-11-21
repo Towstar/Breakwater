@@ -1,5 +1,6 @@
 #include "EogInvestigator.hpp"
 #include "EogContracts.hpp"
+#include "agent/RetryMetadata.hpp"
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QJsonDocument>
@@ -143,10 +144,13 @@ QString modelIdentity(const QJsonObject& metadata) {
     return {};
 }
 QJsonObject sanitizedMetadata(const QJsonObject& metadata) {
-    return {{"model_identity", modelIdentity(metadata)},
+    QJsonObject result{{"model_identity", modelIdentity(metadata)},
         {"http_status", boundedInteger(metadata.value("http_status"), 599)},
         {"duration_ms", boundedInteger(metadata.value("duration_ms"), 9007199254740991.0)},
         {"retry_count", boundedInteger(metadata.value("retry_count"), 32)}};
+    const auto retry = agent::sanitizedRetryMetadata(metadata);
+    for (auto it = retry.begin(); it != retry.end(); ++it) result[it.key()] = it.value();
+    return result;
 }
 QJsonObject outputSummary(const QJsonObject& outcome) {
     QJsonObject summary;
@@ -188,7 +192,7 @@ QJsonObject outputSummary(const QJsonObject& outcome) {
 
 EogInvestigator::EogInvestigator(agent::ModelTransport* transport, QObject* parent)
     : QObject(parent), transport_(transport) {
-    deadline_.setSingleShot(true);
+    deadline_.setSingleShot(true); deadline_.setTimerType(Qt::PreciseTimer);
     connect(&deadline_, &QTimer::timeout, this, [this] {
         stop("deadline_exceeded", "The EOG investigation reached its overall deadline.");
     });
@@ -243,6 +247,7 @@ void EogInvestigator::start(const QString& objective, const QJsonObject& context
     messages_ = {}; tools_ = {}; queued_calls_ = {}; seen_ids_.clear(); offered_names_.clear();
     events_.clear(); result_ = {}; evidence_ledger_ = {}; repeated_completion_ = {}; pending_ = {};
     final_rejection_reason_.clear(); final_correction_used_ = json_final_phase_ = false;
+    reference_recovery_used_ = recovery_validation_pending_ = false;
     tool_calls_ = refinement_rounds_ = request_rounds_ = 0;
     awaiting_model_ = executing_tool_ = recording_cancel_metadata_ = metadata_seen_ = started_seen_ = false;
     limits.toolCalls = std::clamp(limits.toolCalls, 0, 12);
@@ -297,10 +302,11 @@ void EogInvestigator::requestModel() {
     // A later search in this model batch can retire that pair; all queued calls
     // keep their original order and a cheaper new plan may still be validated.
     const bool repeatedCompletion = containsCompletionPair(evidence_ledger_, repeated_completion_);
-    if (remaining <= 0 || repeatedCompletion) json_final_phase_ = true;
+    if (remaining <= 0 || repeatedCompletion || (reference_recovery_used_ && !recovery_validation_pending_)) json_final_phase_ = true;
     QJsonArray offered; offered_names_.clear();
     if (!json_final_phase_ && remaining > 0) for (const auto& item : tools_) {
         const auto name = item.toObject().value("function").toObject().value("name").toString();
+        if (recovery_validation_pending_ && name != "validate_plan") continue;
         if (candidate(name) && refinements <= 0) continue;
         offered.append(item); offered_names_.insert(name);
     }
@@ -352,8 +358,9 @@ void EogInvestigator::requestModel() {
         }, Qt::QueuedConnection));
     const QPointer<EogInvestigator> guard(this);
     try {
-        if (json_final_phase_) transport_->requestFinalJson(messages);
-        else transport_->request(messages, offered);
+        const auto budget = limits_.durationMs - elapsed_.elapsed();
+        if (budget <= 0) { stop("deadline_exceeded", "The EOG investigation reached its overall deadline."); return; }
+        transport_->requestWithBudget(messages, offered, int(budget), json_final_phase_);
     }
     catch (const std::exception&) { if (guard && generation_ == epoch && running_) stop("model_failed", "The hosted model request failed."); }
 }
@@ -385,6 +392,10 @@ void EogInvestigator::receive(const QJsonObject& message) {
     }
     const auto calls = callValue.toArray();
     if (calls.isEmpty()) { completeFinal(safe); return; }
+    if (recovery_validation_pending_ && (calls.size() != 1 ||
+        calls.first().toObject().value("function").toObject().value("name") != "validate_plan")) {
+        stop("semantic_recovery_tool_limit", "Final-reference recovery permits one model-issued validation only."); return;
+    }
     if (calls.size() > limits_.toolCalls - tool_calls_) { stop("tool_limit", "The investigation tool-call limit was reached."); return; }
     QSet<QString> batchIds; QJsonArray clean;
     for (const auto& item : calls) {
@@ -447,6 +458,7 @@ void EogInvestigator::completeTool(const QString& callId, const QJsonObject& out
     const auto bytes = QJsonDocument(safe).toJson(QJsonDocument::Compact);
     if (!appendMessage({{"role", "tool"}, {"tool_call_id", completed.modelId}, {"content", QString::fromUtf8(bytes)}})) return;
     executing_tool_ = false; pending_ = {};
+    if (recovery_validation_pending_) recovery_validation_pending_ = false;
     const auto rawOk = safe.value("ok");
     const bool ok = rawOk.isBool() && rawOk.toBool();
     if (ok && completed.name == "validate_plan" && safe.value("reused_validation") == true &&
@@ -499,6 +511,20 @@ void EogInvestigator::completeFinal(const QJsonObject& message) {
         if (requestFinalCorrection(QString::fromLatin1(stage))) return;
         stop("invalid_final", QStringLiteral("The model final was rejected (%1); required bounded JSON checks failed.").arg(QLatin1String(stage))); return;
     }
+    if (elapsed_.elapsed() >= limits_.durationMs) { stop("deadline_exceeded", "The EOG investigation reached its overall deadline."); return; }
+    // The bounded index can prove a mismatch for a known row. Omitted rows are
+    // left to the controller's complete-store reference check, as before.
+    bool knownMismatch = final.value("selected_plan_id").isNull() && !final.value("validation_id").isNull();
+    for (const auto& value : evidence_ledger_.value("plans").toArray()) {
+        const auto row = value.toObject();
+        if (row.value("selected_plan_id") == final.value("selected_plan_id"))
+            knownMismatch = row.value("selection_eligibility") != "admissible" ||
+                row.value("validation_id") != final.value("validation_id");
+    }
+    if (knownMismatch) {
+        if (requestReferenceRecovery(final)) return;
+        stop("ungrounded_final", "Final plan references still lack matching admissible independent validation."); return;
+    }
     deadline_.stop(); disconnectRequest(); running_ = awaiting_model_ = executing_tool_ = false;
     queued_calls_ = {}; pending_ = {}; result_ = final; ++generation_;
     status_ = "Model completed; numerical reference review is required";
@@ -506,12 +532,39 @@ void EogInvestigator::completeFinal(const QJsonObject& message) {
     if (!recordEvent("final", final) || !guard || generation_ != epoch) return;
     emit finished(final);
 }
+bool EogInvestigator::requestReferenceRecovery(const QJsonObject& final) {
+    if (reference_recovery_used_ || final_correction_used_ || tool_calls_ >= limits_.toolCalls ||
+        request_rounds_ + 2 > limits_.toolCalls + eog_finalization_request_allowance ||
+        elapsed_.elapsed() >= limits_.durationMs || !transport_) return false;
+    bool validatorAvailable = false;
+    for (const auto& value : tools_)
+        validatorAvailable |= value.toObject().value("function").toObject().value("name") == "validate_plan";
+    if (!validatorAvailable) return false;
+    reference_recovery_used_ = recovery_validation_pending_ = true;
+    json_final_phase_ = false; repeated_completion_ = {};
+    const auto epoch = generation_; const QPointer<EogInvestigator> guard(this);
+    if (!recordEvent("final_reference_rejected", {{"reason", "exact_validation_mismatch"},
+            {"selected_plan_id", final.value("selected_plan_id")}, {"validation_id", final.value("validation_id")}}) ||
+        !guard || generation_ != epoch || !running_) return true;
+    if (!appendMessage({{"role", "user"}, {"content", QStringLiteral(
+        "The proposed final references do not match an admissible plan's own independent validation. "
+        "One bounded recovery remains within the original budgets. You may issue one validate_plan call "
+        "for an actual retained plan using its exact evaluator_method, then finish with its matching evidence, "
+        "or finish with both references null. No candidate, search or staging tools are available in this recovery. "
+        "Use the current retained evidence index and original tool results. The application has not selected "
+        "a plan, executed validation or granted advisory review for you.")}})) return true;
+    status_ = "Recovering final references within the original investigation budget";
+    QTimer::singleShot(0, this, [this, epoch] {
+        if (generation_ == epoch && running_ && !awaiting_model_ && !executing_tool_) requestModel();
+    });
+    return true;
+}
 bool EogInvestigator::requestFinalCorrection(const QString& reason) {
     final_rejection_reason_ = reason;
     if (elapsed_.elapsed() >= limits_.durationMs) {
         stop("deadline_exceeded", "The EOG investigation reached its overall deadline."); return true;
     }
-    if (final_correction_used_ || request_rounds_ >= limits_.toolCalls + eog_finalization_request_allowance) return false;
+    if (final_correction_used_ || reference_recovery_used_ || request_rounds_ >= limits_.toolCalls + eog_finalization_request_allowance) return false;
     final_correction_used_ = json_final_phase_ = true;
     const auto correction = QStringLiteral(
         "Final JSON formatting correction: the previous response failed the %1 check. "

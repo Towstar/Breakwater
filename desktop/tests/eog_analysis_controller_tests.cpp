@@ -203,6 +203,62 @@ private slots:
         for (const auto* value : {"same", "changed-method", "extra-plan-field", "new-generation"})
             QTest::newRow(value) << QString::fromLatin1(value);
     }
+    void finalReferenceRecoveryUsesRealValidationAndPersistsWithoutApproval() {
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const auto identity = h.dataset.datasetIdentity();
+        adaptive(h.model, true); const auto delegate = h.model.respond;
+        QJsonArray recoveryTools;
+        h.model.respond = [&, delegate, recovering = false, selected = QString{}, event = QString{}](const QJsonArray& messages) mutable {
+            if (!recovering) {
+                auto reply = delegate(messages);
+                if (!reply.contains("tool_calls")) {
+                    const auto body = parse(reply.value("content").toString());
+                    selected = body.value("selected_plan_id").toString();
+                    const auto events = body.value("event_ids").toArray();
+                    if (!events.isEmpty()) event = events.first().toString();
+                    recovering = true;
+                }
+                return reply;
+            }
+            const auto outcome = resultFor(messages, "repair-proof");
+            if (outcome.isEmpty()) {
+                recoveryTools = h.model.definitions;
+                return tool("repair-proof", "validate_plan", {{"plan_id", selected}, {"evaluator_method", "protocol-only-evaluator"}});
+            }
+            const auto validation = outcome.value("result").toObject().value("result").toObject().value("validation").toObject();
+            return final(selected, validation.value("validation_id").toString(), event);
+        };
+        h.analysis.investigate("Recover a known plan only through its exact independent model-requested validation.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests == 7 && !h.analysis.busy(), 30000);
+        QCOMPARE(recoveryTools.size(), 1);
+        QCOMPARE(recoveryTools.first().toObject().value("function").toObject().value("name"), QJsonValue("validate_plan"));
+        QVERIFY2(h.analysis.canReview(), qPrintable(h.analysis.status())); QCOMPARE(h.providerCalls(), 3);
+        QCOMPARE(h.analysis.selectedValidation().value("plan_id").toString(), h.analysis.selectedPlanId());
+        QVERIFY(!h.analysis.selectedValidation().value("validation_id").toString().isEmpty());
+        QCOMPARE(h.dataset.datasetIdentity(), identity); QVERIFY(h.analysis.operatorRecords().isEmpty());
+        const auto session = h.analysis.sessionId(); QVERIFY(drain(h.history));
+        QSignalSpy exported(&h.history, &EogHistoryRepository::archiveExported);
+        const auto path = h.directory.filePath("recovered.eog-session.json");
+        h.analysis.exportHistory(session, QUrl::fromLocalFile(path));
+        QTRY_VERIFY_WITH_TIMEOUT(exported.size() == 1 || !h.historyFailures.isEmpty(), 15000);
+        QVERIFY2(exported.size() == 1, qPrintable(failureText(h.historyFailures)));
+        const auto archive = QJsonDocument::fromJson(bytes(path)).object(); QCOMPARE(archive.value("status"), QJsonValue("completed"));
+        int recoveries = 0;
+        for (const auto& value : archive.value("agent_events").toArray()) {
+            const auto row = value.toObject().value("event").toObject();
+            if (row.value("type") == "completion_recovery") {
+                ++recoveries; QCOMPARE(row.value("reason"), QJsonValue("exact_validation_mismatch"));
+            }
+        }
+        QCOMPARE(recoveries, 1); QVERIFY(archive.value("operator_records").toArray().isEmpty());
+        QSignalSpy imported(&h.history, &EogHistoryRepository::archiveImported);
+        h.analysis.importHistory(QUrl::fromLocalFile(path));
+        QTRY_VERIFY_WITH_TIMEOUT(imported.size() == 1 || !h.historyFailures.isEmpty(), 15000);
+        QVERIFY2(imported.size() == 1, qPrintable(failureText(h.historyFailures)));
+        QTRY_VERIFY_WITH_TIMEOUT(h.analysis.historical(), 15000); QVERIFY(!h.analysis.canReview());
+        h.analysis.recordReview(); QVERIFY(drain(h.history)); QCOMPARE(h.operatorRecords.size(), 0);
+        QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+    }
     void retainedEvidenceIndexUsesOwnValidationAndCurrentCaptureOnly() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
         adaptive(h.model); h.analysis.investigate("Copy exact references from retained evidence.");
@@ -1139,6 +1195,17 @@ private slots:
             QVERIFY(summary.contains(h.analysis.selectedValidation().value("validation_id").toString()));
             QVERIFY(summary.contains("bounded_search, best_found"));
             QVERIFY(summary.contains(QString::number(h.analysis.selectedEvaluation().value("cost").toMap().value("total").toDouble(), 'f', 2)));
+            QVERIFY(summary.contains("Stored costs: trucks $"));
+            QVERIFY(summary.contains("Planned actions:"));
+            QVERIFY(summary.contains("Predicted automatic shutdown records:"));
+            QVERIFY(summary.contains("Plan hash " + h.analysis.selectedEvaluation().value("plan").toMap().value("plan_hash").toString()));
+            // Independent fixture facts, not a restatement of the model prose:
+            // 80% of 725 bbl, then +1 -137 +6 gives 450 terminal bbl.
+            QVERIFY(summary.contains("Tank tank-Z: initial 580 bbl; terminal 450 bbl; capacity 725 bbl; shutdown boundary 681.5 bbl."));
+            QVERIFY(summary.contains("Planned actions: 1 truck trips; 0 well shut-in intervals. Predicted automatic shutdown records: 0."));
+            QVERIFY(summary.contains("Planned truck protocol-only-truck at facility-Z: called at 0 elapsed s; trip arrives at 5040 elapsed s; 137 bbl; stored trip cost $919."));
+            QVERIFY(summary.contains("Captured response horizon for facility-Z: 25200 s after the cutoff."));
+            QVERIFY(summary.contains("Minimum recorded independent shutdown margin: 100 bbl."));
         } else {
             QVERIFY(summary.contains("No validated response was selected"));
             QVERIFY(summary.contains("does not establish that no feasible response exists"));
