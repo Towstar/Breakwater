@@ -116,7 +116,7 @@ Pane {
         }
     }
     contentItem: ScrollView {
-        id: scroll
+        id: scroll; objectName: "eogWorkspaceScroll"
         clip: true; contentWidth: availableWidth
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
         ScrollBar.vertical: ScrollBar {
@@ -279,7 +279,11 @@ Pane {
                 id: evidenceGrid
                 Layout.fillWidth: true; visible: panel.eog.loaded
                 Layout.fillHeight: true
-                Layout.preferredHeight: panel.condensed ? Math.max(160, panel.availableHeight - 12) : Math.max(340, panel.availableHeight - dashboardHeader.implicitHeight - 12)
+                // The readout and plot must contribute their full content
+                // height, including when the open dock hides the header.
+                Layout.preferredHeight: Math.max(observationColumn.implicitHeight,
+                    panel.condensed ? Math.max(160, panel.availableHeight - 12)
+                                    : Math.max(340, panel.availableHeight - dashboardHeader.implicitHeight - 12))
                 columns: panel.width < 900 ? 1 : 2
                 columnSpacing: 10; rowSpacing: 8
                 EogNetworkView { renderQuality: panel.renderQuality;
@@ -289,6 +293,7 @@ Pane {
                     Layout.preferredWidth: 620; Layout.minimumHeight: panel.condensed ? 120 : 200
                 }
                 ColumnLayout {
+                    id: observationColumn
                     Layout.fillWidth: true; Layout.fillHeight: true
                     Layout.preferredWidth: 450; Layout.minimumWidth: 0
                     spacing: 6
@@ -326,6 +331,7 @@ Pane {
                         discrete: panel.eog.metric === "status"
                     }
                     Label {
+                        objectName: "eogObservationCaption"
                         Layout.fillWidth: true
                         text: "Observed through cutoff · gaps preserved · original units"
                         wrapMode: Text.Wrap; color: Theme.muted; font.pixelSize: Theme.captionSize

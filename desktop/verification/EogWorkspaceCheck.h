@@ -80,6 +80,10 @@ class Check final : public QObject {
     static void require(bool condition, const char* code) {
         if (!condition) throw std::runtime_error(code);
     }
+    static QJsonObject geometry(const QRectF& rectangle) {
+        return {{"x", rectangle.x()}, {"y", rectangle.y()},
+            {"width", rectangle.width()}, {"height", rectangle.height()}};
+    }
     QQuickItem* find(QQuickItem* root, const QString& name) const {
         if (!root) return nullptr;
         if (root->objectName() == name) return root;
@@ -295,6 +299,7 @@ class Check final : public QObject {
                 preserved(); snapshot("07-latest-cutoff.png");
                 checks_.append("all_loading_selection_cutoff_and_scene_actions_preserve_sandbox_controls_and_review_authority");
                 if (requested_.height() == 540) { dragScrollBar(false); break; }
+                if (requested_ == QSize(1100, 700)) { phase_ = 15; return; }
                 finish(true, "ok"); return;
             case 13:
                 require(item("eogWorkspaceScrollBar")->property("position").toDouble() < 0.01,
@@ -313,7 +318,59 @@ class Check final : public QObject {
                 observations_["minimum_scroll"] = QJsonObject{{"position", bar->property("position").toDouble()},
                     {"size", bar->property("size").toDouble()}, {"visible_chart_height", visible.height()}};
                 checks_.append("minimum_client_overflow_bar_is_visible_interactive_and_reaches_chart_by_actual_thumb_drag");
-                snapshot("08-minimum-scrollbar-chart.png"); finish(true, "ok"); return;
+                snapshot("08-minimum-scrollbar-chart.png"); phase_ = 15; return;
+            }
+            case 15: {
+                auto* panel = item("eogDatasetPanel");
+                require(!window_->property("operationsDockOpen").toBool() && !panel->property("condensed").toBool(),
+                    "workspace_condensed_probe_requires_closed_dock");
+                observations_["before_condensed_dock"] = QJsonObject{{"dock_open", false},
+                    {"window_width", window_->width()}, {"window_height", window_->height()},
+                    {"panel", geometry(panel->mapRectToScene(panel->boundingRect()))}};
+                click("openEogAnalysis"); break;
+            }
+            case 16: {
+                auto* panel = item("eogDatasetPanel");
+                if (!window_->property("operationsDockOpen").toBool() || !panel->property("condensed").toBool()) return;
+                const auto previousHeight = observations_.value("before_condensed_dock").toObject()
+                    .value("panel").toObject().value("height").toDouble();
+                if (panel->height() >= previousHeight) return; // Await the dock's layout turn.
+                auto* bar = item("eogWorkspaceScrollBar");
+                require(bar->isVisible() && bar->isEnabled() && bar->property("interactive").toBool()
+                    && bar->property("size").toDouble() > 0 && bar->property("size").toDouble() < 1,
+                    "workspace_condensed_overflow_scrollbar_unavailable");
+                dragScrollBar(true); break;
+            }
+            case 17: {
+                auto* panel = item("eogDatasetPanel");
+                auto* scroll = item("eogWorkspaceScroll");
+                auto* chart = item("eogTrendChart");
+                auto* caption = item("eogObservationCaption");
+                auto* bar = item("eogWorkspaceScrollBar");
+                if (!chart->property("chartReady").toBool()) return;
+                const auto panelBounds = panel->mapRectToScene(panel->boundingRect());
+                const auto clip = scroll->mapRectToScene(scroll->boundingRect()).intersected(panelBounds)
+                    .intersected(QRectF(QPointF{}, QSizeF(window_->size())));
+                const auto chartBounds = chart->mapRectToScene(chart->boundingRect());
+                const auto captionBounds = caption->mapRectToScene(caption->boundingRect());
+                const auto visibleChart = chartBounds.intersected(clip);
+                observations_["condensed_dock"] = QJsonObject{{"dock_open", window_->property("operationsDockOpen").toBool()},
+                    {"panel_condensed", panel->property("condensed").toBool()}, {"window_width", window_->width()},
+                    {"window_height", window_->height()}, {"panel", geometry(panelBounds)}, {"scroll_clip", geometry(clip)},
+                    {"chart", geometry(chartBounds)}, {"visible_chart", geometry(visibleChart)}, {"caption", geometry(captionBounds)},
+                    {"scroll_position", bar->property("position").toDouble()}, {"scroll_size", bar->property("size").toDouble()}};
+                require(window_->size() == requested_ && window_->property("operationsDockOpen").toBool()
+                    && panel->property("condensed").toBool(), "workspace_condensed_dock_state_changed");
+                require(caption->isVisible() && captionBounds.width() > 0 && captionBounds.height() > 0
+                    && clip.contains(captionBounds), "workspace_condensed_caption_clipped");
+                // The Canvas draws its lower axis/date labels inside the chart's
+                // bottom edge, so retaining that whole edge protects both.
+                require(chartBounds.left() >= clip.left() && chartBounds.right() <= clip.right()
+                    && chartBounds.bottom() <= clip.bottom() && visibleChart.width() > 0
+                    && visibleChart.height() >= std::min(80.0, chart->height() / 2), "workspace_condensed_chart_axis_clipped");
+                preserved();
+                checks_.append("condensed_dock_thumb_drag_reaches_caption_and_bottom_axis_inside_scroll_clip_without_analysis");
+                snapshot("09-condensed-dock-chart.png"); finish(true, "ok"); return;
             }
             default: throw std::runtime_error("workspace_invalid_phase");
             }
