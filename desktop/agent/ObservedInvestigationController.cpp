@@ -11,6 +11,7 @@ ObservedInvestigationController::ObservedInvestigationController(ProjectControll
                                                                  ModelTransport* transport,QObject* parent)
     :QObject(parent),project_(project),telemetry_(monitor) {
     if (!transport) transport=owned_client_=new NemotronClient(NemotronConfig::fromEnvironment(),this);
+    transport_=transport;
     if (const auto* client=qobject_cast<NemotronClient*>(transport)) configured_model_=client->configuredModelIdentifier();
     session_=new AgentOrchestrator(transport,this);
     session_->setSensitivityClient(new science::AgentSensitivityClient({},{},this));
@@ -83,9 +84,13 @@ void ObservedInvestigationController::start(const QString& objective,bool local)
         if (!running()) { status_="Capture fresh synthetic observations before investigating. Expired, replayed or retired sources are read only."; emit changed(); }
         return;
     }
+    if (!local && owned_client_) { owned_client_->reloadConfiguration(); configured_model_=owned_client_->configuredModelIdentifier(); }
+    if (!local && transport_ && transport_->admissionDelayMs() != 0) {
+        status_="The model service is busy or cooling down. Wait before starting with fresh observed evidence.";
+        emit changed(); return;
+    }
     if (recorder_) recorder_->flush();
     if (session_->gateway()) session_->invalidate();
-    if (!local && owned_client_) { owned_client_->reloadConfiguration(); configured_model_=owned_client_->configuredModelIdentifier(); }
     if (recorder_) recorder_->setConfiguredModel(local ? "local-native-finite-search":configured_model_);
     source_=telemetry_->capturedObservation(); acknowledged_={}; preparing_=true;
     status_="Checking the immutable observed source…"; const auto epoch=++generation_; const auto source=source_;

@@ -1,6 +1,7 @@
 #include "EogInvestigator.hpp"
 #include "EogContracts.hpp"
 #include "agent/RetryMetadata.hpp"
+#include "agent/TransportDiagnostics.hpp"
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QJsonDocument>
@@ -150,6 +151,8 @@ QJsonObject sanitizedMetadata(const QJsonObject& metadata) {
         {"retry_count", boundedInteger(metadata.value("retry_count"), 32)}};
     const auto retry = agent::sanitizedRetryMetadata(metadata);
     for (auto it = retry.begin(); it != retry.end(); ++it) result[it.key()] = it.value();
+    const auto diagnostics = agent::sanitizedTransportDiagnostics(metadata);
+    for (auto it = diagnostics.begin(); it != diagnostics.end(); ++it) result[it.key()] = it.value();
     return result;
 }
 QJsonObject outputSummary(const QJsonObject& outcome) {

@@ -3,6 +3,7 @@
 #include "ProjectDocument.hpp"
 #include "science/StorageScienceEvidence.hpp"
 #include "telemetry/TelemetryContracts.hpp"
+#include "agent/TransportDiagnostics.hpp"
 
 #include <QDateTime>
 #include <QDir>
@@ -230,6 +231,11 @@ void checkArchive(const QJsonObject& archive) {
     for (const auto& value : archive.value("events").toArray()) {
         require(value.isObject(), "Events must be structured objects.");
         const auto event = value.toObject();
+        if (event.value("type") == "model_request_completed") {
+            const auto request = event.value("request").toObject();
+            if (request.contains("transport_diagnostics"))
+                require(agent::validTransportDiagnosticsForRequest(request), "Invalid closed transport diagnostics or attempt totals.");
+        }
         (void)boundedText(event, "type", 128);
         require(boundedText(event, "session_id") == session, "Event session identity differs from the archive.");
         const auto next = finiteNumber(event, "sequence");

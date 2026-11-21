@@ -1,5 +1,6 @@
 #include "AgentController.hpp"
 #include "NemotronClient.hpp"
+#include "TransportDiagnostics.hpp"
 #include "../EvidencePaths.hpp"
 #include "../LocalRuntime.hpp"
 #include "history/HistoryController.hpp"
@@ -241,9 +242,11 @@ private:
                 ++completedRequests;
                 const auto request = event.value("request").toObject();
                 const auto retry = request.value("retry_count").toInt(); retries += retry;
-                // This scheduler never cancels synchronously from requestStarted;
-                // each started, completed request has reached send().
-                if (completedRequests <= requests) http += 1 + retry;
+                // A logical request can finish while still awaiting admission.
+                // Count the posted attempts, not a presumed initial POST.
+                if (request.contains("transport_diagnostics"))
+                    http += request.value("transport_diagnostics").toObject().value("attempts").toArray().size();
+                else if (completedRequests <= requests) http += 1 + retry;
                 if (request.value("outcome") == "succeeded") {
                     ++successes;
                     identities &= request.value("configured_model") == model_.configuredModelIdentifier() &&

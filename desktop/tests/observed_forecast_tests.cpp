@@ -31,6 +31,8 @@ public:
     std::function<QJsonObject(const QJsonArray&)> respond;
     QJsonArray history; QList<QJsonArray> offered; int requests=0,generation=0;
     int truncateAt=0, finalRequests=0;
+    qint64 admission=0;
+    qint64 admissionDelayMs() const override { return admission; }
     void request(const QJsonArray& messages,const QJsonArray& definitions) override {
         history=messages; offered.append(definitions); ++requests;
         if (requests==truncateAt) {
@@ -379,6 +381,14 @@ private slots:
         QVERIFY(coverage.value("as_of_s").toDouble()<=monitor.capturedObservation()->document.value("captured_event_time_s").toDouble());
         QTemporaryDir directory; SessionRepository repository(directory.filePath("observed.sqlite")); HistoryController history(&repository);
         Model unused; ObservedInvestigationController investigation(&project,&monitor,&unused); investigation.setHistory(&repository,&history);
+        const auto originalCapture=monitor.capturedObservation();
+        for (const auto delay : {qint64{-1}, qint64{60000}}) {
+            unused.admission=delay; investigation.investigate("Inspect the fresh synthetic source.");
+            QVERIFY(!investigation.running()); QCOMPARE(unused.requests,0);
+            QVERIFY(investigation.status().contains("cooling down")); QCOMPARE(monitor.capturedObservation(),originalCapture);
+            QCOMPARE(project.editorDocument(),document);
+        }
+        // Native investigation remains available during hosted-service cooldown.
         investigation.searchLocally(); QTRY_VERIFY_WITH_TIMEOUT(!investigation.running(),20000); QTRY_VERIFY_WITH_TIMEOUT(investigation.canAcknowledge(),15000);
         QVERIFY(!investigation.canApprove()); QCOMPARE(unused.requests,0); QCOMPARE(project.editorDocument(),document);
         QCOMPARE(project.simulationRevision(),revision); QVERIFY(project.capturedRun().isEmpty());

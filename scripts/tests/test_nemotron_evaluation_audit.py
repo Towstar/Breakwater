@@ -122,6 +122,18 @@ def eog(*, refusal=None, hosted=True):
 
 
 class EvaluationAuditTests(unittest.TestCase):
+    def test_actual_attempt_diagnostics_do_not_invent_a_post_for_queued_cancellation(self):
+        queued = {"retry_count": 0, "duration_ms": 70, "transport_diagnostics": {"attempts": []}}
+        posted = {"retry_count": 1, "duration_ms": 30, "transport_diagnostics": {"attempts": [{}, {}]}}
+        metrics = retained_tool_metrics([queued, posted], [], [], name="tool_name", identity="tool_call_id")
+        self.assertEqual(metrics["logical_requests"], 2)
+        self.assertEqual(metrics["http_attempts"], 2)
+        self.assertEqual(metrics["http_attempts_basis"], "per_attempt_diagnostics")
+        legacy = {"retry_count": 1, "duration_ms": 12}
+        metrics = retained_tool_metrics([queued, legacy], [], [], name="tool_name", identity="tool_call_id")
+        self.assertEqual(metrics["http_attempts"], 2)
+        self.assertEqual(metrics["http_attempts_basis"], "mixed_attempt_and_legacy_metadata")
+
     def test_public_retained_metrics_use_actual_request_retries_and_only_known_arguments(self):
         archive, _ = sandbox_predispatch(code="invalid_arguments")
         events = archive["events"]

@@ -1,5 +1,19 @@
 # Implementation status
 
+## Nemotron pacing and diagnostic policy, November 21, 2026 (America/Chicago)
+
+The [pacing increment](NEMOTRON_PACING.md) adds process-shared POST admission and
+cooldown, a configurable conservative interval, longer bounded fallback with
+jitter, and closed per-attempt diagnostics in History and offline audits. Existing
+validation, original deadlines and explicit approval remain mandatory. Hosted
+observed readiness cannot extend capture freshness; native search stays available.
+
+The preceding source-`a7d76a4` four-case hosted round remains 0/4, each ending on
+HTTP 429. Later isolated availability probes and a real Qt tool-calling smoke
+passed, but did not replace that round. This increment requires its own frozen
+build and newly declared hosted outcomes. The account allowance is still
+unverified. No numerical implementation or release authority changes here.
+
 ## Nemotron completion and retry recovery, November 21, 2026 (America/Chicago)
 
 The [bounded recovery increment](NEMOTRON_RECOVERY.md) follows PR #94. Known final

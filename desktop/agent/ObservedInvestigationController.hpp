@@ -54,6 +54,7 @@ private:
     QPointer<history::SessionRepository> repository_;
     QPointer<history::HistoryController> history_;
     AgentOrchestrator* session_;
+    QPointer<ModelTransport> transport_;
     NemotronClient* owned_client_=nullptr;
     history::SessionRecorder* recorder_=nullptr;
     std::shared_ptr<const telemetry::ObservedEvidence> source_;

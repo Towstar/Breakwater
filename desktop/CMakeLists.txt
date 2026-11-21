@@ -41,6 +41,7 @@ qt_add_resources(breakwater_eog_contracts eog_contract_schemas
 
 qt_add_library(breakwater_agent STATIC
   agent/ModelTransport.hpp agent/NemotronClient.hpp agent/NemotronClient.cpp
+  agent/NemotronRequestPacer.hpp agent/NemotronRequestPacer.cpp
   agent/CredentialSettings.hpp agent/CredentialSettings.cpp
   agent/SimulationGateway.hpp agent/SimulationGateway.cpp
   agent/AgentOrchestrator.hpp agent/AgentOrchestrator.cpp
