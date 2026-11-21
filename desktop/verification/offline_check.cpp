@@ -1,4 +1,5 @@
 #include "eog/EogAnalysisController.hpp"
+#include "../EvidencePaths.hpp"
 #include "LocalRuntime.hpp"
 #include <QCoreApplication>
 #include <QCryptographicHash>
@@ -209,8 +210,8 @@ int main(int argc, char** argv) {
     runtime::configureBundledPython();
     const bool isPreflight = app.arguments().size() == 4 && app.arguments()[3] == "--preflight";
     if (app.arguments().size() != 3 && !isPreflight) { QTextStream(stderr) << "Usage: breakwater_offline_check <dataset-folder> <existing-output-root> [--preflight]\n"; return 2; }
-    const auto input = QFileInfo(app.arguments()[1]).canonicalFilePath(), output = QFileInfo(app.arguments()[2]).canonicalFilePath();
-    if (!QFileInfo(input).isDir() || !QFileInfo(output).isDir() || output.compare(input, Qt::CaseInsensitive) == 0 || output.startsWith(input + '/', Qt::CaseInsensitive)) return 2;
+    const auto input = evidencepaths::canonicalExisting(app.arguments()[1]), output = evidencepaths::canonicalExisting(app.arguments()[2]);
+    if (input.isEmpty() || output.isEmpty() || !QFileInfo(input).isDir() || !QFileInfo(output).isDir() || evidencepaths::within(output, input)) return 2;
     QTemporaryDir artifacts(QDir(output).filePath("breakwater-offline-XXXXXX")); if (!artifacts.isValid()) return 2;
     artifacts.setAutoRemove(false);
     const auto archive = artifacts.filePath("local-analysis.eog-session.json");

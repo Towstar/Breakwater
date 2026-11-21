@@ -47,12 +47,30 @@ class EogOfflinePreflightTests(unittest.TestCase):
                  "BREAKWATER_PYTHON", "BREAKWATER_EOG_WORKER", "BREAKWATER_EOG_CONTRACTS", "BREAKWATER_EOG_NATIVE")
         return {name: os.environ[name] for name in names if name in os.environ}
 
-    def invoke(self, *flags, expected=0, overrides=None):
+    def short_alias(self, directory):
+        if os.name != "nt":
+            self.skipTest("Real Windows 8.3 aliases are required for this regression.")
+        import ctypes
+        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+        short_path = kernel.GetShortPathNameW
+        short_path.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32]
+        short_path.restype = ctypes.c_uint32
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = short_path(str(directory), buffer, len(buffer))
+        self.assertTrue(0 < length < len(buffer), "Cannot query the fixture's actual Windows short path.")
+        alias = Path(buffer.value)
+        self.assertTrue(os.path.samefile(alias, directory))
+        self.assertEqual(alias.resolve(), directory.resolve())
+        if str(alias).casefold() == str(directory).casefold():
+            self.skipTest("This Windows filesystem has no distinct 8.3 alias for the fixture.")
+        return alias
+
+    def invoke(self, *flags, expected=0, overrides=None, output=None):
         before = hashes(self.dataset)
         environment = self.environment()
         environment.update(overrides or {})
         try:
-            result = subprocess.run([str(EXECUTABLE), str(self.dataset), str(self.output), *flags],
+            result = subprocess.run([str(EXECUTABLE), str(self.dataset), str(self.output if output is None else output), *flags],
                                     capture_output=True, text=True, encoding="utf-8", errors="replace",
                                     timeout=150, env=environment, cwd=self.root)
         finally:
@@ -216,6 +234,20 @@ class EogOfflinePreflightTests(unittest.TestCase):
         self.assertIs(summary["provider_exchange_verified"], False)
         self.assertNotIn("outcome", summary)
         self.assertNotIn("archive_path", summary)
+
+    def test_windows_short_output_alias_cannot_write_inside_input(self):
+        descendant = self.dataset / "long-output-parent"
+        descendant.mkdir()
+        before = set(self.dataset.rglob("*"))
+        for directory in (self.dataset, descendant):
+            with self.subTest(physical_output=str(directory)):
+                self.invoke("--preflight", expected=2, output=self.short_alias(directory))
+                self.assertEqual(set(self.dataset.rglob("*")), before)
+                self.assertEqual(list(self.output.iterdir()), [])
+        summary = self.invoke("--preflight", output=self.short_alias(self.output))
+        self.assertIs(summary["inputs_unchanged"], True)
+        self.assertTrue(Path(summary["artifact_directory"]).is_relative_to(self.output))
+        self.assertEqual(set(self.dataset.rglob("*")), before)
 
     def test_unknown_duplicate_and_misplaced_flags_fail_before_artifact_creation(self):
         for flags in (("--prefight",), ("--preflight=true",), ("--preflight", "--preflight"),

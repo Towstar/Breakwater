@@ -1,5 +1,6 @@
 #include "AgentController.hpp"
 #include "NemotronClient.hpp"
+#include "../EvidencePaths.hpp"
 #include "../LocalRuntime.hpp"
 #include "history/HistoryController.hpp"
 #include "history/SessionRepository.hpp"
@@ -24,6 +25,7 @@
 using namespace breakwater::desktop;
 using namespace breakwater::desktop::agent;
 using namespace breakwater::desktop::history;
+using namespace breakwater::desktop::evidencepaths;
 
 namespace {
 volatile std::sig_atomic_t interrupted = 0;
@@ -38,34 +40,6 @@ QString reference(const QString& value) {
     if (value.contains("nvapi-", Qt::CaseInsensitive) || value.contains("bearer", Qt::CaseInsensitive)) return {};
     const auto match = allowed.match(value);
     return match.hasMatch() && match.capturedLength() == value.size() ? value : QString{};
-}
-QString pathKey(QString value) {
-    value = QDir::cleanPath(QDir::fromNativeSeparators(value));
-#ifdef Q_OS_WIN
-    value = value.toCaseFolded();
-#endif
-    return value;
-}
-QString resolvedOutput(const QString& path) {
-    const QFileInfo target(path);
-    if (target.exists() || target.isSymLink()) return target.canonicalFilePath();
-    QStringList suffix{target.fileName()};
-    QFileInfo ancestor(target.absolutePath());
-    while (!ancestor.exists()) {
-        suffix.prepend(ancestor.fileName());
-        const QFileInfo parent(ancestor.absolutePath());
-        if (parent.absoluteFilePath() == ancestor.absoluteFilePath()) return {};
-        ancestor = parent;
-    }
-    if (!ancestor.isDir()) return {};
-    auto result = ancestor.canonicalFilePath();
-    if (result.isEmpty()) return {};
-    for (const auto& part : suffix) result = QDir(result).filePath(part);
-    return QDir::cleanPath(result);
-}
-bool within(const QString& candidate, const QString& directory) {
-    const auto path = pathKey(candidate), root = pathKey(directory);
-    return path == root || path.startsWith(root.endsWith('/') ? root : root + '/');
 }
 QByteArray fileHash(const QString& path) {
     QFile file(path);
@@ -336,7 +310,7 @@ int main(int argc, char** argv) {
         "Keep action for human review and use returned evidence references."), local};
     const QFileInfo source(options.project), archive(options.archive), database(options.database);
     const auto archivePath = resolvedOutput(options.archive), databasePath = resolvedOutput(options.database);
-    const auto inputFolder = QFileInfo(source.absolutePath()).canonicalFilePath();
+    const auto inputFolder = canonicalExisting(source.absolutePath());
     if (!parser.isSet("project") || !parser.isSet("archive") || !parser.isSet("db") ||
         parser.value("project").isEmpty() || parser.value("archive").isEmpty() || parser.value("db").isEmpty() ||
         !parser.positionalArguments().isEmpty() || !source.isFile() || source.isSymLink() || source.size() > 2 * 1024 * 1024 ||
@@ -352,6 +326,7 @@ int main(int argc, char** argv) {
             print(summary(InvalidArguments, "output_path_collision", live)); return InvalidArguments;
         }
     }
+    options.archive = archivePath; options.database = databasePath;
     ProjectController project;
     bool projectValid = false;
     QFile input(options.project);
@@ -376,7 +351,7 @@ int main(int argc, char** argv) {
     runtime::configureBundledPython();
     auto configuration = local ? NemotronConfig{} : NemotronConfig::fromEnvironment();
     if (live && configuration.apiKey.isEmpty()) { print(summary(SetupFailure, "credentials_missing", true)); return SetupFailure; }
-    if (!QDir().mkpath(archive.absolutePath()) || !QDir().mkpath(database.absolutePath())) {
+    if (!QDir().mkpath(QFileInfo(options.archive).absolutePath()) || !QDir().mkpath(QFileInfo(options.database).absolutePath())) {
         print(summary(SetupFailure, "output_directory_unavailable", live)); return SetupFailure;
     }
     std::signal(SIGINT, interrupt); std::signal(SIGTERM, interrupt);

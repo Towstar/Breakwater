@@ -16,6 +16,13 @@ deadline checks and safe handling of a lost hosted transport. Local search keeps
 working without the hosted transport. Verification records for a run must name
 its actual revision; this source document is not a passing-run attestation.
 
+Hosted selection also requires this investigation's explicit `validate_run` on
+the exact selected run, including after staging native-search evidence. Planning
+uses a bounded reasoning allowance; final formatting keeps reasoning disabled,
+and private response fields never enter retained assistant messages. Verification
+CLIs normalize existing Windows path ancestors before checking that evidence is
+outside the input folder, including real 8.3 aliases and fresh descendants.
+
 Clean-Windows acceptance remains explicitly deferred with the prepared test kit.
 Owner/licensing review, ordered integration and public distribution remain
 separate gates. No new engine, scientific method or field-accuracy claim is made.

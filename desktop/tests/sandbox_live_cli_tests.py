@@ -24,7 +24,7 @@ class SandboxLiveCliTests(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory(prefix="breakwater-sandbox-cli-α#-")
         self.addCleanup(self.directory.cleanup)
-        self.root = Path(self.directory.name)
+        self.root = Path(self.directory.name).resolve()
         self.inputs = self.root / "input"
         self.inputs.mkdir()
         self.project = self.inputs / "healthy.json"
@@ -195,6 +195,44 @@ class SandboxLiveCliTests(unittest.TestCase):
         before_hash = hashlib.sha256(self.before).hexdigest()
         self.invoke(database=database, code="invalid_input_or_output_paths")
         self.assertEqual(hashlib.sha256(database.read_bytes()).hexdigest(), before_hash)
+
+    @unittest.skipUnless(os.name == "nt", "Windows 8.3 aliases only")
+    def test_short_spelled_outputs_cannot_write_inside_long_spelled_input(self):
+        import ctypes
+        from ctypes import wintypes
+
+        short_path = ctypes.WinDLL("kernel32", use_last_error=True).GetShortPathNameW
+        short_path.argtypes = (wintypes.LPCWSTR, wintypes.LPWSTR, wintypes.DWORD)
+        short_path.restype = wintypes.DWORD
+        buffer = ctypes.create_unicode_buffer(32768)
+        size = short_path(str(self.inputs), buffer, len(buffer))
+        if not size or size >= len(buffer) or buffer.value.casefold() == str(self.inputs).casefold():
+            self.skipTest("This volume does not supply a distinct Windows 8.3 alias")
+        alias = Path(buffer.value)
+        self.assertTrue(os.path.samefile(alias, self.inputs))
+        self.assertEqual(alias.resolve(), self.inputs)
+        before_names = sorted(path.relative_to(self.inputs) for path in self.inputs.rglob("*"))
+        for arguments in ((), ("--local",)):
+            for kind in ("archive", "database"):
+                with self.subTest(mode=arguments, destination=kind):
+                    destination = alias / "fresh-evidence" / ("trace.session.json" if kind == "archive" else "history.sqlite")
+                    _, archive, database = self.invoke(*arguments, **{kind: destination},
+                        code="invalid_input_or_output_paths")
+                    self.assertFalse(archive.exists())
+                    self.assertFalse(database.exists())
+                    self.assertFalse((self.inputs / "fresh-evidence").exists())
+        self.assertEqual(sorted(path.relative_to(self.inputs) for path in self.inputs.rglob("*")), before_names)
+        # Normalize a legitimate outside alias too; do not reject every short
+        # spelling just to make the in-input regression pass.
+        outside = self.root / "outside-evidence-output"
+        outside.mkdir()
+        size = short_path(str(outside), buffer, len(buffer))
+        self.assertTrue(0 < size < len(buffer))
+        outside_alias = Path(buffer.value)
+        self.assertTrue(os.path.samefile(outside_alias, outside))
+        self.invoke(archive=outside_alias / "new.session.json", database=outside_alias / "new.sqlite",
+                    expected=3, code="live_not_enabled")
+        self.assertEqual(list(outside.iterdir()), [])
 
 
 if __name__ == "__main__":

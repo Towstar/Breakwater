@@ -162,6 +162,20 @@ attempts and their original verdicts remain preserved. Subsequent rounds use the
 same declared inputs, objectives, numerical limits and outcome rubric.
 
 The offline mutation, CLI and transport suites are credential-free CI checks.
+CLI output checks resolve existing Windows ancestors through their final handle
+paths before comparing input/output containment. Real short-name regressions
+cover fresh nested destinations and valid outside destinations. These checks
+preserve input bytes; they are not a filesystem sandbox against concurrent path
+replacement. The original hosted binaries and their recorded results remain
+separate from later CLI guard builds.
+
+Rejected observed attachments remain failed attempts. Their original sealed
+summary can lack request/tool counters and then reports incomplete counts.
+Read-only reconstruction may obtain those counters from the retained failed
+archive using `audit_observed(..., passed=False)` and `observed_metrics`; label
+them reconstructed and keep the original summary, seal and verdict unchanged.
+Never call `seal` again to overwrite a sealed round.
+
 Transport checks include JSON delivered over multiple reads, split UTF-8 and an
 unexpected SSE body. Production requests `stream: false`; rejecting SSE does not
 establish streaming support.
