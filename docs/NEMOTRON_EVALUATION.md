@@ -51,6 +51,21 @@ The new absolute-deadline checks reject overdue replies even when the GUI event
 loop has delayed timer delivery. Losing a borrowed hosted transport fails safely;
 local native search remains independent of that transport.
 
+Hosted completion also distinguishes the native search's independent reference
+proof from this investigation's model-issued `validate_run`. Staging a search
+result keeps validation available; checking that exact staged run can then close
+completion. A different run's validation cannot qualify the final selection.
+Local native search retains its own supported reference-proof workflow.
+
+Ordinary hosted planning requests enable bounded thinking with the existing
+1,024-token reasoning allowance and 4,096-token total output cap. Explicit final
+JSON/correction requests keep thinking off. This follows a testable configuration
+option in [NVIDIA's hosted example](https://build.nvidia.com/nvidia/nemotron-3.5-lightning-30b-a3b/build);
+the effect on these tasks must be measured. Private response fields are stripped,
+tagged reasoning in visible content is rejected, and privacy checks cover the
+next tool-result conversation as well as replies and metadata. The evaluator does
+not retain raw reasoning or claim that every untagged narrative is accurate.
+
 A round has a maximum 1,800-second command-line budget, a 450-second outer bound
 per helper, 8 MiB stdout and 1 MiB stderr bounds. Only subprocesses launched by the
 runner are terminated on those outer limits. Partial artifacts and pending cases

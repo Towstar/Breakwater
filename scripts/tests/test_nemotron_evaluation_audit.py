@@ -302,12 +302,38 @@ class EvaluationAuditTests(unittest.TestCase):
                 audit_case("sandbox", archive, summary, "advisory_plan")
 
     def test_search_screening_cannot_replace_model_issued_validation(self):
+        # Renaming a validate_run execution does not authenticate search proof.
         archive, summary = sandbox()
         for row in archive["events"]:
             if row.get("tool_name") == "validate_run":
                 row["tool_name"] = "search_interventions"
         with self.assertRaises(ValueError):
             audit_case("sandbox", archive, summary, "advisory_plan")
+        for hosted in (True, False):
+            archive, summary = sandbox(hosted=hosted)
+            run = archive["runs"][0]["run"]
+            run["validation_source"] = "native_search_dense_reference"
+            archive["recommendation"]["validation_source"] = "native_search_dense_reference"
+            for row in archive["events"]:
+                if row.get("tool_name") == "validate_run":
+                    row["tool_name"] = "search_interventions"
+                    if row["type"] == "tool_started":
+                        row["input_summary"] = {"snapshot_id": "snapshot-1", "axes": []}
+                    elif row["type"] == "tool_completed":
+                        row["result"] = {**archive["snapshot"], "ok": True, "runs": [deepcopy(run)], "search_status": "recommendations_ready"}
+                elif row["type"] == "recommendation_ready":
+                    row["recommendation"] = deepcopy(archive["recommendation"])
+            value = audit_case("sandbox", archive, summary, "advisory_plan", hosted=hosted)
+            with self.subTest(hosted=hosted):
+                self.assertEqual(value["passed"], not hosted)
+                self.assertEqual(value["classification"], "explicit_model_validation_missing" if hosted else "advisory_plan")
+                self.assertEqual(value["logical_requests"], int(hosted))
+                self.assertEqual(value["http_attempts"], 2 if hosted else 0)
+                self.assertEqual(value["total_tool_calls"], 1)
+                self.assertEqual(value["stored_runs"], 1)
+                self.assertEqual(value["selected_cost"], 12)
+                self.assertTrue(value["request_counts_complete"])
+                self.assertTrue(value["duplicate_counts_complete"])
 
     def test_authority_and_secret_or_raw_reasoning_fields_are_rejected(self):
         for change in (lambda a, s: a["approvals"].append({"status": "operator_applied"}),

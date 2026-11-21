@@ -1067,8 +1067,9 @@ private slots:
         QCOMPARE(session.result()["status"].toString(), "no_validated_plan");
     }
     void nativeSearchToolProducesStoredValidatedRecommendations() {
-        FakeModel model;
-        model.respond = [step = 0, snapshot = QString{}, selected = QString{}](const QJsonArray& history) mutable -> QJsonObject {
+        FakeModel model; QString selected, searchValidation;
+        bool validationOfferedAfterStage = false, ledgerRequiresExplicit = false, finalToolsClosed = false;
+        model.respond = [&, step = 0, snapshot = QString{}](const QJsonArray& history) mutable -> QJsonObject {
             switch (step++) {
             case 0: return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
             case 1: {
@@ -1085,20 +1086,179 @@ private slots:
                 const auto runs = resultFor(history, "search")["runs"].toArray();
                 if (runs.isEmpty()) return conclusion();
                 selected = runs.first().toObject()["run_id"].toString();
+                searchValidation = runs.first().toObject()["validation_id"].toString();
                 return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", selected}})});
             }
-            default: return conclusion(selected);
+            case 3:
+                validationOfferedAfterStage = toolNames(model.tools).contains("validate_run");
+                for (const auto& row : completionLedger(history).value("eligible_validated_runs").toArray())
+                    if (row.toObject().value("run_id").toString() == selected)
+                        ledgerRequiresExplicit = row.toObject().value("explicit_validate_run_required").toBool();
+                return calls({call("selected-validation", "validate_run", {{"snapshot_id", snapshot}, {"run_id", selected}})});
+            default:
+                finalToolsClosed = model.tools.isEmpty();
+                return conclusion(selected);
             }
         };
         AgentOrchestrator session(&model);
-        session.start(std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()), "search-incident"), "Find a low-cost validated response.");
+        const auto gateway = std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()), "search-incident");
+        const auto original = gateway->snapshot(); session.start(gateway, "Find a low-cost validated response.");
         QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(validationOfferedAfterStage); QVERIFY(ledgerRequiresExplicit); QVERIFY(finalToolsClosed);
+        QCOMPARE(model.requests, 5); QCOMPARE(model.finalJsonRequests, 1);
         QCOMPARE(resultFor(model.history, "search")["diagnostics"].toObject()["candidates_evaluated"].toInt(), 432);
+        const auto stage = resultFor(model.history, "stage").value("plan").toObject();
+        QCOMPARE(stage.value("validation_source").toString(), QString("native_search_dense_reference"));
+        QCOMPARE(stage.value("validation_id").toString(), searchValidation);
+        const auto checked = resultFor(model.history, "selected-validation").value("run").toObject();
+        QCOMPARE(checked.value("run_id").toString(), selected);
+        QCOMPARE(checked.value("validation_source").toString(), QString("validate_run"));
+        QVERIFY(checked.value("validation_id").toString() != searchValidation);
+        QStringList executed;
+        for (const auto& row : session.events()) if (row.toMap().value("type") == "tool_completed") executed.append(row.toMap().value("tool_name").toString());
+        QCOMPARE(executed, (QStringList{"get_network_state", "get_control_catalog", "search_interventions", "request_approval", "validate_run"}));
         QVERIFY(session.result()["verified_feasible"].toBool());
+        QCOMPARE(session.result().value("validation_source").toString(), QString("validate_run"));
         QCOMPARE(session.result()["verified_cost"].toDouble(), 4800.0);
         QCOMPARE(session.result()["approval_status"].toString(), "pending_operator");
         QVERIFY(!session.result()["validation_id"].toString().isEmpty());
         QVERIFY(session.result()["warnings"].toArray().size() > 0);
+        QCOMPARE(gateway->snapshot(), original);
+    }
+    void hostedSearchSelectionRequiresItsOwnExplicitValidation_data() {
+        QTest::addColumn<bool>("stageBeforeFinal");
+        QTest::newRow("search-final") << false;
+        QTest::newRow("search-stage-final") << true;
+    }
+    void hostedSearchSelectionRequiresItsOwnExplicitValidation() {
+        QFETCH(bool, stageBeforeFinal);
+        FakeModel model; QString snapshot, selected, other;
+        bool validationOffered = false; int step = 0;
+        model.respond = [&](const QJsonArray& history) -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history, "state").value("snapshot_id").toString();
+                return calls({call("baseline", "forecast_baseline", {{"snapshot_id", snapshot}})});
+            case 2:
+                other = resultFor(history, "baseline").value("run").toObject().value("run_id").toString();
+                return calls({call("other-validation", "validate_run", {{"snapshot_id", snapshot}, {"run_id", other}})});
+            case 3: return calls({call("search", "search_interventions", {{"snapshot_id", snapshot}, {"axes", QJsonArray{}}, {"result_limit", 1}})});
+            case 4: {
+                const auto runs = resultFor(history, "search").value("runs").toArray();
+                if (runs.isEmpty()) return conclusion();
+                selected = runs.first().toObject().value("run_id").toString();
+                if (stageBeforeFinal) return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", selected}})});
+                [[fallthrough]];
+            }
+            default:
+                validationOffered = toolNames(model.tools).contains("validate_run");
+                return conclusion(selected);
+            }
+        };
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "own-search-validation");
+        const auto original = gateway->snapshot(); AgentOrchestrator session(&model);
+        session.start(gateway, "Compare the retained runs and select a response with its own explicit check.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(validationOffered); QVERIFY(!selected.isEmpty()); QVERIFY(selected != other);
+        QCOMPARE(model.requests, stageBeforeFinal ? 6 : 5); QCOMPARE(model.finalJsonRequests, 0);
+        QVERIFY(session.result().isEmpty());
+        QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("explicit_validation_required"));
+        const auto native = gateway->recommendation(selected);
+        QVERIFY(native.value("ok").toBool());
+        QCOMPARE(native.value("validation_status").toString(), QString("validated"));
+        QCOMPARE(native.value("validation_source").toString(), QString("native_search_dense_reference"));
+        QCOMPARE(gateway->recommendation(other).value("validation_source").toString(), QString("validate_run"));
+        QCOMPARE(gateway->snapshot(), original);
+    }
+    void prevalidatedGatewayRequiresThisSessionsModelCheck_data() {
+        QTest::addColumn<bool>("modelChecksRun");
+        QTest::newRow("external-check-only") << false;
+        QTest::newRow("cached-model-check") << true;
+    }
+    void prevalidatedGatewayRequiresThisSessionsModelCheck() {
+        QFETCH(bool, modelChecksRun);
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "prevalidated-gateway");
+        const auto snapshot = gateway->snapshotId();
+        const auto run = gateway->execute("forecast_baseline", {{"snapshot_id", snapshot}}).value("run").toObject().value("run_id").toString();
+        const auto external = gateway->execute("validate_run", {{"snapshot_id", snapshot}, {"run_id", run}}).value("run").toObject();
+        QCOMPARE(external.value("validation_source").toString(), QString("validate_run"));
+        QVERIFY(external.value("validation").toObject().value("feasible").toBool());
+        FakeModel model; int step = 0; bool offered = false, modelCheckMissing = false;
+        model.respond = [&](const QJsonArray& history) -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
+            case 1: return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            case 2:
+                offered = toolNames(model.tools).contains("validate_run");
+                for (const auto& row : completionLedger(history).value("eligible_validated_runs").toArray())
+                    if (row.toObject().value("run_id").toString() == run)
+                        modelCheckMissing = !row.toObject().value("model_validation_completed").toBool() &&
+                            row.toObject().value("explicit_validate_run_required").toBool();
+                if (modelChecksRun) return calls({call("model-check", "validate_run", {{"snapshot_id", snapshot}, {"run_id", run}})});
+                [[fallthrough]];
+            default: return conclusion(run);
+            }
+        };
+        AgentOrchestrator session(&model); session.start(gateway, "Inspect the retained evidence and explicitly check the chosen run.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(offered); QVERIFY(modelCheckMissing);
+        QCOMPARE(model.requests, modelChecksRun ? 4 : 3);
+        QCOMPARE(model.finalJsonRequests, modelChecksRun ? 1 : 0);
+        QCOMPARE(gateway->recommendation(run).value("validation_id"), external.value("validation_id"));
+        if (modelChecksRun) {
+            QVERIFY(resultFor(model.history, "model-check").value("reused_validation").toBool());
+            QVERIFY(session.result().value("verified_feasible").toBool());
+            QCOMPARE(session.result().value("selected_run_id").toString(), run);
+        } else {
+            QVERIFY(session.result().isEmpty());
+            QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("explicit_validation_required"));
+        }
+    }
+    void modelValidationBeforeInspectionRetainsItsExactProof_data() {
+        QTest::addColumn<bool>("inspectBeforeFinal");
+        QTest::newRow("inspect-after-validation") << true;
+        QTest::newRow("inspection-still-required") << false;
+    }
+    void modelValidationBeforeInspectionRetainsItsExactProof() {
+        QFETCH(bool, inspectBeforeFinal);
+        const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(), "early-model-validation");
+        const auto snapshot = gateway->snapshotId();
+        FakeModel model; QString run, validation; bool inspectionBlockedRecommendation = false, ledgerHasModelProof = false; int step = 0;
+        model.respond = [&](const QJsonArray& history) -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("baseline", "forecast_baseline", {{"snapshot_id", snapshot}})});
+            case 1:
+                run = resultFor(history, "baseline").value("run").toObject().value("run_id").toString();
+                return calls({call("check", "validate_run", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            case 2:
+                validation = resultFor(history, "check").value("run").toObject().value("validation_id").toString();
+                inspectionBlockedRecommendation = gateway->recommendation(run).value("error").toObject().value("code") == "inspection_required";
+                if (inspectBeforeFinal) return calls({call("state", "get_network_state"), call("catalog", "get_control_catalog")});
+                [[fallthrough]];
+            default:
+                for (const auto& row : completionLedger(history).value("eligible_validated_runs").toArray())
+                    if (row.toObject().value("run_id").toString() == run)
+                        ledgerHasModelProof = row.toObject().value("model_validation_completed").toBool() &&
+                            !row.toObject().value("explicit_validate_run_required").toBool();
+                return conclusion(run);
+            }
+        };
+        AgentOrchestrator session(&model); session.start(gateway, "Forecast, validate the chosen run, then inspect before concluding.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(inspectionBlockedRecommendation); QVERIFY(!validation.isEmpty());
+        QStringList executed;
+        for (const auto& row : session.events()) if (row.toMap().value("type") == "tool_completed") executed.append(row.toMap().value("tool_name").toString());
+        if (inspectBeforeFinal) {
+            QVERIFY(ledgerHasModelProof); QVERIFY(session.result().value("verified_feasible").toBool());
+            QCOMPARE(session.result().value("validation_id").toString(), validation);
+            QCOMPARE(executed, (QStringList{"forecast_baseline", "validate_run", "get_network_state", "get_control_catalog"}));
+        } else {
+            QVERIFY(session.result().isEmpty());
+            QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(), QString("inspection_required"));
+            QCOMPARE(executed, (QStringList{"forecast_baseline", "validate_run"}));
+        }
+        QCOMPARE(model.requests, inspectBeforeFinal ? 4 : 3);
     }
 };
 QTEST_GUILESS_MAIN(OrchestratorTests)

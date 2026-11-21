@@ -499,8 +499,10 @@ if(BUILD_TESTING)
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
     add_test(NAME desktop.nemotron_evaluation COMMAND "${Python3_EXECUTABLE}" -B -m unittest discover
       -s "${PROJECT_SOURCE_DIR}/scripts/tests" -p "test_nemotron_evaluation_*.py" -v)
-    # These offline mutation tests exercise complete hash/journal rounds on disk.
-    set_tests_properties(desktop.nemotron_evaluation PROPERTIES TIMEOUT 900)
+    # The shared Python corpus exercises complete hash/journal rounds on disk;
+    # the 65-case local run took 739 s under concurrent qualification load.
+    # This watchdog does not alter any production investigation deadline.
+    set_tests_properties(desktop.nemotron_evaluation PROPERTIES TIMEOUT 1200)
     add_test(NAME desktop.eog_cli COMMAND "${Python3_EXECUTABLE}" -B
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_cli_tests.py" "$<TARGET_FILE:breakwater>"
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")

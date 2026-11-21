@@ -247,10 +247,10 @@ void NemotronClient::requestImpl(const QJsonArray& messages, const QJsonArray& t
     if (messages.isEmpty()) { fail("request_invalid", "At least one model message is required."); return; }
     QJsonObject body{{"model", config_.model}, {"messages", messages}, {"stream", false},
                      {"max_tokens", 4096}, {"temperature", jsonFinal ? 0.0 : 0.2},
-                     {"chat_template_kwargs", QJsonObject{{"enable_thinking", false}}}};
-    // This integration needs structured calls and evidence references. Use
-    // concise generation so the fixed output cap serves that visible payload.
-    // The model still selects investigations; numerical tools supply evidence.
+                     {"chat_template_kwargs", QJsonObject{{"enable_thinking", !jsonFinal}}}};
+    // Evaluate bounded reasoning for ordinary tool planning, within the same
+    // output cap. Explicit final/correction requests only format retained
+    // evidence and keep reasoning off. parseAssistant discards private fields.
     // The NVIDIA hosted endpoint uses reasoning_budget (the self-hosted NIM
     // interface has a different name). Keep the existing bounded allowance.
     if (!jsonFinal) body.insert("reasoning_budget", 1024);

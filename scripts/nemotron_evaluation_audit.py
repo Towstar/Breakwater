@@ -277,6 +277,7 @@ def _sandbox(archive, summary, expected, hosted):
                    and start_by_id[row["tool_call_id"]].get("input_summary", {}).get("run_id") == run["run_id"]
                    and start_by_id[row["tool_call_id"]].get("input_summary", {}).get("snapshot_id") == snapshot["snapshot_id"]
                    for row in results)
+    explicit_validation_missing = False
     if selected:
         require(selected in runs and validation_id, "Selected run/validation is missing.")
         run = runs[selected]
@@ -289,9 +290,28 @@ def _sandbox(archive, summary, expected, hosted):
                 and recommendation["verified_cost"] == run["cost"] == recommendation["cost"]
                 and type(run["cost"]) in (int, float) and run["cost"] >= 0, "Selected native evidence differs.")
         require(recommendation["validation_source"] == run["validation_source"], "Validation source differs.")
-        require((run["validation_source"] == "validate_run" and bound_validation(run)) if hosted else
-                run["validation_source"] in {"validate_run", "native_search_dense_reference"},
-                "Selected run lacks its actual independent validation operation.")
+        if hosted:
+            source = run["validation_source"]
+            require(source in {"validate_run", "native_search_dense_reference"}, "Unsupported selected validation source.")
+            for row in results:
+                if row["tool_name"] != "validate_run" or row.get("result", {}).get("ok") is not True:
+                    continue
+                args = start_by_id[row["tool_call_id"]]["input_summary"]
+                checked = row["result"].get("run", {})
+                if args.get("run_id") == selected or checked.get("run_id") == selected:
+                    require(source == "validate_run" and checked == run and args.get("run_id") == selected and
+                            args.get("snapshot_id") == snapshot["snapshot_id"], "Selected explicit validation event is mismatched.")
+            if source == "validate_run":
+                require(bound_validation(run), "Selected run lacks its actual independent validation operation.")
+            else:
+                require(any(row["type"] == "tool_completed" and row["tool_name"] == "search_interventions" and
+                            row.get("result", {}).get("ok") is True and run in row["result"].get("runs", []) and
+                            all(row["result"].get(field) == snapshot[field] for field in ("snapshot_id", "physical_hash", "horizon_h")) and
+                            start_by_id[row["tool_call_id"]]["input_summary"].get("snapshot_id") == snapshot["snapshot_id"]
+                            for row in results), "Selected native-search proof has no matching completed search.")
+                explicit_validation_missing = True
+        else:
+            require(run["validation_source"] in {"validate_run", "native_search_dense_reference"}, "Unsupported selected validation source.")
     else:
         require(validation_id is None, "A null selected run has a validation reference.")
     metrics.update(stored_runs=len(runs), selected_cost=runs[selected]["cost"] if selected else None, provider_exchanges=0)
@@ -302,6 +322,8 @@ def _sandbox(archive, summary, expected, hosted):
         return "no_successful_hosted_reply", metrics
     if summary["exit_code"] not in {0, 3}:
         return "incomplete_execution", metrics
+    if explicit_validation_missing:
+        return "explicit_model_validation_missing", metrics
     if selected:
         return ("advisory_plan" if expected == "advisory_plan" and summary["exit_code"] == 0 else "unexpected_selected_plan"), metrics
     search = [row.get("result", {}) for row in results if row["tool_name"] == "search_interventions"

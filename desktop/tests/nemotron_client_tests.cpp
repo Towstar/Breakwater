@@ -151,7 +151,7 @@ private slots:
             {"parameters", QJsonObject{{"type", "object"}}}}}}};
         const QJsonObject ordinary{{"model", config.model}, {"messages", messages()}, {"stream", false},
             {"max_tokens", 4096}, {"reasoning_budget", 1024}, {"temperature", 0.2},
-            {"chat_template_kwargs",QJsonObject{{"enable_thinking",false}}}, {"tools", tools}, {"tool_choice", "auto"}};
+            {"chat_template_kwargs",QJsonObject{{"enable_thinking",true}}}, {"tools", tools}, {"tool_choice", "auto"}};
         client.request(messages(), tools); QTRY_COMPARE(success.size(), 1);
         QCOMPARE(QJsonDocument::fromJson(network.payloads[0]).object(), ordinary);
         client.requestFinalJson(messages()); QTRY_COMPARE(success.size(), 2);
@@ -466,13 +466,45 @@ private slots:
         FakeNetwork network;
         const QJsonArray calls{call("call-1"), call("call-2", "get_control_catalog")};
         network.responses.append(Response{200, completion(QJsonObject{{"role", "assistant"}, {"content", QJsonValue::Null},
-            {"tool_calls", calls}, {"reasoning", "private internal trace"}, {"reasoning_content", "another private trace"}}, "tool_calls")});
-        NemotronClient client(configuration(), nullptr, &network); QSignalSpy success(&client, &ModelTransport::replyReady);
+            {"tool_calls", calls}, {"reasoning", "PRIVATE_REASONING_CANARY"},
+            {"reasoning_content", "PRIVATE_REASONING_CONTENT_CANARY"}}, "tool_calls")});
+        network.responses.append(Response{200, textCompletion()});
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed);
+        QSignalSpy metadata(&client, &ModelTransport::requestCompleted);
         client.request(messages(), {}); QTRY_COMPARE(success.size(), 1);
         const auto assistant = success.front().front().toJsonObject();
         QVERIFY(assistant["content"].isNull()); QCOMPARE(assistant["tool_calls"].toArray(), calls);
         QVERIFY(!assistant.contains("reasoning")); QVERIFY(!assistant.contains("reasoning_content"));
-        QVERIFY(!QJsonDocument(assistant).toJson().contains("private"));
+        const auto publicReply = QJsonDocument(assistant).toJson();
+        QVERIFY(!publicReply.contains("PRIVATE_REASONING_CANARY"));
+        QVERIFY(!publicReply.contains("PRIVATE_REASONING_CONTENT_CANARY"));
+        auto history = messages(); history.append(assistant);
+        for (const auto& value : calls) {
+            history.append(QJsonObject{{"role", "tool"}, {"tool_call_id", value.toObject()["id"]},
+                {"content", "{\"ok\":true,\"offline_fixture\":true}"}});
+        }
+        client.request(history, {}); QTRY_COMPARE(success.size(), 2);
+        QCOMPARE(network.requests.size(), 2); QCOMPARE(metadata.size(), 2); QVERIFY(failure.isEmpty());
+        const auto outgoing = QJsonDocument::fromJson(network.payloads[1]).object();
+        QCOMPARE(outgoing["messages"].toArray(), history);
+        const auto continued = outgoing["messages"].toArray();
+        for (qsizetype index = 0; index < calls.size(); ++index) {
+            const auto result = continued[index + 2].toObject();
+            QCOMPARE(result["role"], QJsonValue("tool"));
+            QCOMPARE(result["tool_call_id"], calls[index].toObject()["id"]);
+        }
+        QVERIFY(!network.payloads[1].contains("PRIVATE_REASONING_CANARY"));
+        QVERIFY(!network.payloads[1].contains("PRIVATE_REASONING_CONTENT_CANARY"));
+        QVERIFY(!network.payloads[1].contains("\"reasoning\""));
+        QVERIFY(!network.payloads[1].contains("\"reasoning_content\""));
+        for (const auto& row : metadata) {
+            const auto retained = row.first().toJsonObject();
+            QVERIFY(!retained.contains("reasoning")); QVERIFY(!retained.contains("reasoning_content"));
+            const auto bytes = QJsonDocument(retained).toJson();
+            QVERIFY(!bytes.contains("PRIVATE_REASONING_CANARY"));
+            QVERIFY(!bytes.contains("PRIVATE_REASONING_CONTENT_CANARY"));
+        }
     }
 
     void leavesArgumentJsonValidationToDispatcher() {
