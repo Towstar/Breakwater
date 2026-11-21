@@ -58,6 +58,8 @@ private:
     bool recording_cancel_metadata_ = false;
     bool local_only_ = false;
     bool final_correction_ = false;
+    bool completion_only_ = false, staging_only_ = false, coverage_read_repeated_ = false, detection_seen_ = false;
+    QString completion_run_, completion_reason_;
     int local_step_ = 0;
     int local_observation_step_ = 0;
     QJsonObject local_last_;

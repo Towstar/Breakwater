@@ -41,6 +41,10 @@ ColumnLayout {
                 ? Number(value).toFixed(digits === undefined ? 2 : digits) : "—"
     }
     function shortId(value) { return value ? String(value).substring(0, 8) : "none" }
+    function modelNarrative(recommendation) {
+        if (!recommendation) return ""
+        return recommendation.model_explanation || (recommendation.explanation_source === "retained_evidence" ? "" : recommendation.explanation || "")
+    }
     function unit(value) { return value === "m3/h" ? "m³/h" : (value || "") }
     function validationText(run) {
         if (!run || !run.run_id) return "No run selected"
@@ -209,10 +213,29 @@ ColumnLayout {
                                 if (!r || !r.status) return (panel.advisoryOnly
                                     ? "Investigate the frozen observations explicitly. Missing coverage yields no numerical plan. Review records advisory acknowledgement only; no controls can be applied.\n\n"
                                     : "Start an investigation on the current network. Numerical tools execute the C++ engine; recommendations require stored validation evidence.\n\nSimulated controls change only after you review and apply a validated plan.\n\n") + panel.investigator.storageStatus
-                                let summary = (r.explanation || "") + "\n\nRun: " + (r.selected_run_id || "none")
+                                let summary = (r.explanation_source === "retained_evidence" ? r.explanation
+                                    : "Legacy recommendation. Inspect the retained run and validation evidence. Its model narrative is unverified.")
+                                    + "\n\nRun: " + (r.selected_run_id || "none")
                                 if (r.ok) summary += "\nCost: " + panel.number(r.cost) + " synthetic units · Horizon: " + panel.number(r.horizon_h) + " h\nValidation: " + (r.validation_id || "none")
                                 return summary + "\nApproval: " + (r.approval_status || "unavailable") + "\n\nSynthetic model. Quality is not evaluated.\n" + panel.investigator.storageStatus
                             }
+                        }
+                    }
+                    CheckBox {
+                        id: showModelNarrative; objectName: "showUnverifiedModelExplanation"
+                        Layout.fillWidth: true
+                        visible: panel.modelNarrative(panel.investigator.recommendation).length > 0
+                        text: "Show model explanation · unverified narrative"
+                    }
+                    ScrollView {
+                        Layout.fillWidth: true; Layout.preferredHeight: 90
+                        visible: showModelNarrative.visible && showModelNarrative.checked
+                        contentWidth: availableWidth; clip: true
+                        TextArea {
+                            objectName: "unverifiedModelExplanation"
+                            readOnly: true; selectByMouse: true; wrapMode: TextEdit.Wrap; textFormat: TextEdit.PlainText
+                            text: panel.modelNarrative(panel.investigator.recommendation)
+                            font.pixelSize: Theme.smallSize; color: Theme.secondary; background: null
                         }
                     }
                 }

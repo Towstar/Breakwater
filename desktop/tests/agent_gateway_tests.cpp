@@ -44,6 +44,30 @@ QJsonArray canonicalSearchAxes() {
 class AgentGatewayTests : public QObject {
     Q_OBJECT
 private slots:
+    void repeatedExplicitValidationRetainsIdentityAndSearchStillGetsItsOwnCheck() {
+        SimulationGateway gateway(main_pump_failure(canonical_scenario()), "idempotent-validation");
+        inspect(gateway);
+        const auto before = gateway.snapshot();
+        const auto searched = gateway.execute("search_interventions", args(gateway, {{"axes", canonicalSearchAxes()}, {"result_limit", 1}}));
+        const auto searchedRun = searched.value("runs").toArray().first().toObject();
+        QCOMPARE(searchedRun.value("validation_source").toString(), QString("native_search_dense_reference"));
+        const auto checked = validateCase(gateway, searchedRun);
+        QVERIFY(checked.value("ok").toBool()); QVERIFY(!checked.value("reused_validation").toBool());
+        const auto report = checked.value("run").toObject();
+        QCOMPARE(report.value("validation_source").toString(), QString("validate_run"));
+        QVERIFY(report.value("validation_id") != searchedRun.value("validation_id"));
+        const auto repeated = validateCase(gateway, report);
+        QVERIFY(repeated.value("reused_validation").toBool()); QCOMPARE(repeated.value("run").toObject(), report);
+        // Infeasible results are equally immutable; retrying cannot fix them.
+        const auto bad = runCase(gateway, "bad");
+        const auto badChecked = validateCase(gateway, bad);
+        QVERIFY(!badChecked.value("run").toObject().value("validation").toObject().value("feasible").toBool());
+        const auto badRepeated = validateCase(gateway, bad);
+        QVERIFY(badRepeated.value("reused_validation").toBool()); QCOMPARE(badRepeated.value("run"), badChecked.value("run"));
+        QCOMPARE(gateway.snapshot(), before);
+        gateway.invalidate();
+        QCOMPARE(errorCode(validateCase(gateway, report)), QString("stale_snapshot"));
+    }
     void suggestedGridBoundsAndOmissionsDoNotCreateRuns() {
         auto network=canonical_scenario();
         for (auto& route:network.routes) if (route.id=="main_pump") { route.available=true; route.setpoint_m3h=44; }

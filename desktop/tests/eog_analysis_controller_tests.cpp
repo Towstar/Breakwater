@@ -1103,6 +1103,63 @@ private slots:
         QVERIFY(h.analysis.summary().isEmpty()); h.analysis.recordReview(); QVERIFY(drain(h.history)); QCOMPARE(h.operatorRecords.size(), 0);
         QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
     }
+    void modelNarrativeCannotOverrideEvidenceSummary_data() {
+        QTest::addColumn<bool>("selected");
+        QTest::newRow("bounded-selected-plan") << true;
+        QTest::newRow("no-selection-is-not-global-infeasibility") << false;
+    }
+    void modelNarrativeCannotOverrideEvidenceSummary() {
+        QFETCH(bool, selected);
+        Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
+        const auto datasetIdentity = h.dataset.datasetIdentity();
+        const auto narrative = selected ? QStringLiteral("Guaranteed globally optimal; review dispatches the truck.")
+                                        : QStringLiteral("No response can exist anywhere; the native simulator is absent.");
+        if (selected) adaptive(h.model);
+        else h.model.respond = [step = 0](const QJsonArray&) mutable {
+            return step++ == 0 ? tool("topology", "read_topology", {{"offset", 0}, {"limit", 64}}) : final();
+        };
+        const auto delegate = h.model.respond;
+        h.model.respond = [delegate, narrative](const QJsonArray& messages) mutable {
+            auto reply = delegate(messages);
+            if (!reply.contains("tool_calls")) {
+                auto body = parse(reply.value("content").toString()); body["summary"] = narrative;
+                reply["content"] = QString::fromUtf8(QJsonDocument(body).toJson(QJsonDocument::Compact));
+            }
+            return reply;
+        };
+        h.analysis.investigate("Explain the retained evidence without changing authority or claiming global optimality.");
+        QTRY_VERIFY_WITH_TIMEOUT(h.model.requests >= (selected ? 6 : 2) && !h.analysis.busy(), 30000);
+        QVERIFY2(h.analysis.status().contains("Nemotron completed"), qPrintable(h.analysis.status()));
+        QCOMPARE(h.analysis.modelSummary(), narrative);
+        const auto summary = h.analysis.summary(); QVERIFY(!summary.contains(narrative));
+        QVERIFY(summary.contains("global optimality is not established"));
+        QVERIFY(summary.contains("review never dispatches equipment or applies controls"));
+        if (selected) {
+            QVERIFY(summary.contains(h.analysis.selectedPlanId()));
+            QVERIFY(summary.contains(h.analysis.selectedValidation().value("validation_id").toString()));
+            QVERIFY(summary.contains("bounded_search, best_found"));
+            QVERIFY(summary.contains(QString::number(h.analysis.selectedEvaluation().value("cost").toMap().value("total").toDouble(), 'f', 2)));
+        } else {
+            QVERIFY(summary.contains("No validated response was selected"));
+            QVERIFY(summary.contains("does not establish that no feasible response exists"));
+            QVERIFY(!h.analysis.canReview());
+        }
+        QCOMPARE(h.dataset.datasetIdentity(), datasetIdentity); QVERIFY(h.analysis.operatorRecords().isEmpty());
+        const auto session = h.analysis.sessionId(); QVERIFY(drain(h.history));
+        QVERIFY2(h.historyFailures.isEmpty(), qPrintable(failureText(h.historyFailures)));
+        QSignalSpy loaded(&h.history, &EogHistoryRepository::sessionLoaded);
+        h.analysis.openHistory(session); QTRY_COMPARE_WITH_TIMEOUT(loaded.size(), 1, 15000);
+        QVERIFY(h.analysis.historical()); QVERIFY(!h.analysis.canReview());
+        QCOMPARE(h.analysis.summary(), summary); QCOMPARE(h.analysis.modelSummary(), narrative);
+        const auto archived = loaded.first().at(0).toJsonObject(); bool found = false;
+        for (const auto& value : archived.value("agent_events").toArray()) {
+            const auto event = value.toObject().value("event").toObject();
+            if (event.value("type") != "final") continue;
+            found = true; QCOMPARE(event.value("summary").toString(), narrative);
+            QCOMPARE(event.size(), 5); // Keep the versioned final event unchanged.
+        }
+        QVERIFY(found);
+    }
     void reopenedModelSessionRestoresItsFinalChoiceAndSummary() {
         Harness h(fixtures_, worker_); QTRY_VERIFY_WITH_TIMEOUT(h.dataset.loaded() && h.historyReady.size() == 1, 15000);
         const auto finalChoice = QStringLiteral("protocol-only-alternative");

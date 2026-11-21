@@ -124,6 +124,98 @@ void adaptiveModel(FakeModel& model, bool skipValidation = false) {
 class OrchestratorTests : public QObject {
     Q_OBJECT
 private slots:
+    void repeatedEligibleValidationClosesToolsWithoutInventingASelection() {
+        FakeModel model; QString snapshot, selected; int step = 0;
+        model.respond = [&](const QJsonArray& history) -> QJsonObject {
+            switch (step++) {
+            case 0: return calls({call("n", "get_network_state"), call("c", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history,"n").value("snapshot_id").toString();
+                return calls({call("candidate", "simulate_candidates", candidateArguments(snapshot,"mixed",controlJson(incident_controls("mixed"))))});
+            case 2:
+                selected = resultFor(history,"candidate").value("runs").toArray().first().toObject().value("run_id").toString();
+                return calls({call("v1","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}})});
+            case 3: return calls({call("v2","validate_run",{{"run_id",selected},{"snapshot_id",snapshot}}), call("read","get_control_catalog")});
+            default: return conclusion(); // Model remains free to select null.
+            }
+        };
+        AgentOrchestrator session(&model);
+        auto gateway=std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()),"completion-repeat");
+        session.start(gateway,"Inspect and investigate."); QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+        QCOMPARE(model.requests,5); QCOMPARE(model.finalJsonRequests,0); QCOMPARE(toolNames(model.tools),QStringList{"request_approval"});
+        QVERIFY(resultFor(model.history,"v2").value("reused_validation").toBool());
+        QCOMPARE(resultFor(model.history,"v1").value("run"),resultFor(model.history,"v2").value("run"));
+        QVERIFY(resultFor(model.history,"read").value("ok").toBool()); // Entire batch retained in order.
+        QVERIFY(session.result().value("selected_run_id").isNull()); QVERIFY(!gateway->stagedPlan().value("ok").toBool());
+        QCOMPARE(gateway->runs().size(),1);
+        QVERIFY(session.result().value("explanation").toString().contains("does not establish"));
+    }
+    void repeatedValidationStillAllowsExplicitStagingAndFreshSessionsResetCompletion() {
+        FakeModel model;AgentOrchestrator session(&model);
+        for(int attempt=0;attempt<2;++attempt) {
+            QString snapshot,selected;int step=0;model.requests=model.finalJsonRequests=0;
+            model.respond=[&](const QJsonArray& h)->QJsonObject {
+                switch(step++) {
+                case 0:return calls({call("n","get_network_state"),call("c","get_control_catalog")});
+                case 1:snapshot=resultFor(h,"n").value("snapshot_id").toString();return calls({call("a","simulate_candidates",candidateArguments(snapshot,"mixed",controlJson(incident_controls("mixed"))))});
+                case 2:selected=resultFor(h,"a").value("runs").toArray().first().toObject().value("run_id").toString();return calls({call("v1","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}})});
+                case 3:return calls({call("v2","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}})});
+                case 4:return calls({call("stage","request_approval",{{"snapshot_id",snapshot},{"run_id",selected}})});
+                default:return conclusion(selected);
+                }
+            };
+            auto gateway=std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()),"repeat-stage");
+            const auto before=gateway->snapshot();session.start(gateway,"Investigate and stage for review.");
+            QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);QCOMPARE(model.requests,6);QCOMPARE(model.finalJsonRequests,1);
+            QCOMPARE(toolNames(model.toolsPerRequest[model.toolsPerRequest.size()-2]),QStringList{"request_approval"});
+            QCOMPARE(session.result().value("selected_run_id").toString(),selected);
+            QCOMPARE(session.result().value("approval_status").toString(),QString("pending_operator"));
+            QCOMPARE(gateway->stagedPlan().value("selected_run_id").toString(),selected);QCOMPARE(gateway->snapshot(),before);
+        }
+    }
+    void newNumericalWorkInRepeatedValidationBatchKeepsAdaptiveToolsAvailable() {
+        FakeModel model; QString snapshot, selected; int step=0; bool adaptive=false;
+        model.respond=[&](const QJsonArray& h)->QJsonObject {
+            switch(step++) {
+            case 0:return calls({call("n","get_network_state"),call("c","get_control_catalog")});
+            case 1:
+                snapshot=resultFor(h,"n").value("snapshot_id").toString();
+                return calls({call("a","simulate_candidates",candidateArguments(snapshot,"mixed",controlJson(incident_controls("mixed"))))});
+            case 2:
+                selected=resultFor(h,"a").value("runs").toArray().first().toObject().value("run_id").toString();
+                return calls({call("v1","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}})});
+            case 3:return calls({call("v2","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}}),
+                call("b","simulate_candidates",candidateArguments(snapshot,"different",controlJson(incident_controls("bad"))))});
+            default:adaptive=!model.tools.isEmpty();return conclusion(selected);
+            }
+        };
+        auto gateway=std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()),"completion-new-work");
+        AgentOrchestrator session(&model);session.start(gateway,"Investigate alternatives.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);QVERIFY(adaptive);QCOMPARE(model.finalJsonRequests,0);
+        QCOMPARE(gateway->runs().size(),2);QVERIFY(session.result().value("verified_feasible").toBool());
+    }
+    void stagingCompletionKeepsCancellationAndRejectsExtraTools() {
+        for(const bool cancel:{false,true}) {
+            FakeModel model;QString snapshot,selected;int step=0;
+            model.respond=[&](const QJsonArray& h)->QJsonObject {
+                switch(step++) {
+                case 0:return calls({call("n","get_network_state"),call("c","get_control_catalog")});
+                case 1:snapshot=resultFor(h,"n").value("snapshot_id").toString();return calls({call("a","simulate_candidates",candidateArguments(snapshot,"mixed",controlJson(incident_controls("mixed"))))});
+                case 2:selected=resultFor(h,"a").value("runs").toArray().first().toObject().value("run_id").toString();return calls({call("v","validate_run",{{"snapshot_id",snapshot},{"run_id",selected}})});
+                case 3:return calls({call("stage","request_approval",{{"snapshot_id",snapshot},{"run_id",selected}})});
+                default:return calls({call("extra","forecast_baseline",{{"snapshot_id",snapshot}})});
+                }
+            };
+            auto gateway=std::make_shared<SimulationGateway>(main_pump_failure(canonical_scenario()),"stage-completion");
+            const auto before=gateway->snapshot();AgentOrchestrator session(&model);
+            connect(&session,&AgentOrchestrator::activity,&session,[&](const QJsonObject& e){if(cancel && e.value("type")=="completion_tools_closed")session.cancel();});
+            session.start(gateway,"Stage a validated response.");QTRY_VERIFY_WITH_TIMEOUT(!session.running(),10000);
+            QVERIFY(session.result().isEmpty());QCOMPARE(gateway->runs().size(),1);QCOMPARE(gateway->snapshot(),before);
+            QCOMPARE(model.finalJsonRequests,cancel?0:1);
+            if(cancel) QCOMPARE(session.events().last().toMap().value("type").toString(),QString("agent_cancelled"));
+            else QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),QString("completion_tools_closed"));
+        }
+    }
     void localSearchUsesRealNumericsWithoutAnyModelRequestsOrAutomaticApplication() {
         ProjectController project; project.loadExample("baseline");
         const auto before = project.editorDocument(); const auto hash = project.networkHash();

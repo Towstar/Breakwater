@@ -226,9 +226,15 @@ Pane {
                 spacing: 8
                 Label {
                     Layout.fillWidth: true
-                    text: panel.analysis.summary || "Actual model exchanges and tool executions appear here as they are retained. No model explanation has completed."
+                    objectName: "eogEvidenceSummary"
+                    text: panel.analysis.summary || "Actual model exchanges and tool executions appear here as they are retained. No investigation has completed."
                     textFormat: Text.PlainText; wrapMode: Text.Wrap; maximumLineCount: 4; elide: Text.ElideRight
                     color: Theme.text; font.pixelSize: Theme.bodySize
+                }
+                Label {
+                    Layout.fillWidth: true; textFormat: Text.PlainText; wrapMode: Text.Wrap
+                    text: "Advisory review never dispatches equipment or applies controls. Retained comparisons do not establish global optimality."
+                    color: Theme.secondary; font.pixelSize: Theme.captionSize
                 }
                 Label { Layout.fillWidth: true; text: "EXECUTION FEED · " + panel.analysis.trace.length + " retained events"; color: Theme.secondary; font.pixelSize: Theme.captionSize; font.bold: true }
                 ListView {
@@ -272,7 +278,12 @@ Pane {
                         : "Operator records are confirmed in storage status and retained in the session archive."
                     textFormat: Text.PlainText; wrapMode: Text.Wrap; color: Theme.muted; font.pixelSize: Theme.captionSize
                 }
-                CheckBox { id: exactTrace; objectName: "showExactEogTrace"; text: "Show full explanation and exact trace / operator JSON" }
+                CheckBox { id: exactTrace; objectName: "showExactEogTrace"; text: "Show model narrative (unverified) and exact trace / operator JSON" }
+                Label {
+                    visible: exactTrace.checked; Layout.fillWidth: true; wrapMode: Text.Wrap
+                    text: "The model narrative is retained verbatim. Its prose is unverified; use the stored numerical evidence and review eligibility."
+                    color: Theme.secondary; font.pixelSize: Theme.captionSize
+                }
                 Loader {
                     objectName: "exactEogTraceDisclosure"
                     Layout.fillWidth: true; Layout.preferredHeight: active ? Math.max(100, tracePage.height * 0.35) : 0
@@ -281,7 +292,7 @@ Pane {
                         clip: true; contentWidth: availableWidth
                         TextArea {
                             readOnly: true; selectByMouse: true; wrapMode: TextEdit.WrapAnywhere
-                            text: panel.pretty({summary: panel.analysis.summary, trace: panel.analysis.trace, operator_records: panel.analysis.operatorRecords})
+                            text: panel.pretty({evidence_summary: panel.analysis.summary, model_narrative_unverified: panel.analysis.modelSummary || "", trace: panel.analysis.trace, operator_records: panel.analysis.operatorRecords})
                             font.family: Theme.monoFamily; font.pixelSize: Theme.smallSize
                         }
                     }

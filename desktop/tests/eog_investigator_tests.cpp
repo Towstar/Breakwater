@@ -27,6 +27,12 @@ QJsonObject finalReply(const QJsonValue& plan = QJsonValue::Null, const QJsonVal
     return {{"role", "assistant"}, {"content", QString::fromUtf8(QJsonDocument(value).toJson(QJsonDocument::Compact))}};
 }
 QJsonObject outcome(const QJsonObject& result = {}) { return {{"ok", true}, {"result", result}}; }
+QJsonObject validationOutcome(bool reused, const QJsonArray& pairs) {
+    return {{"ok", true}, {"reused_validation", reused},
+        {"result", QJsonObject{{"request_id", "retained-validation-request"}, {"operation", "validate_plan"},
+            {"status", "completed"}, {"result", QJsonObject{{"validation", QJsonObject{{"validation_id", "validation-a"}}}}}}},
+        {"retained_evidence", QJsonObject{{"completion_pairs", pairs}}}};
+}
 QJsonObject resultFor(const QJsonArray& messages, const QString& id) {
     for (const auto& value : messages) {
         const auto item = value.toObject();
@@ -181,6 +187,119 @@ private slots:
         investigator.completeTool(tools[1][0].toString(), outcome()); QTRY_COMPARE(finished.size(), 1);
         QVERIFY(resultFor(model.histories.last(), "one").value("ok").toBool());
         QVERIFY(resultFor(model.histories.last(), "two").value("ok").toBool());
+    }
+    void repeatedAdmissibleValidationFinishesWithoutRewritingItsResult_data() {
+        QTest::addColumn<QString>("variation");
+        for (const auto* variation : {"admissible", "wrong-plan", "wrong-validation", "missing-ledger", "failed", "not-reused"})
+            QTest::newRow(variation) << QString::fromLatin1(variation);
+    }
+    void repeatedAdmissibleValidationFinishesWithoutRewritingItsResult() {
+        QFETCH(QString, variation);
+        const QJsonObject pair{{"selected_plan_id", "plan-a"}, {"validation_id", "validation-a"}};
+        FakeTransport model;
+        model.respond = [](const QJsonArray&, int step) {
+            if (step <= 2) return calls({call(step == 1 ? "original" : "repeat", "validate_plan",
+                "{\"plan_id\":\"plan-a\",\"evaluator_method\":\"fixture-method\"}")});
+            return finalReply(); // The application never fills the model's null references.
+        };
+        EogInvestigator investigator(&model);
+        QSignalSpy finished(&investigator, &EogInvestigator::finished), failed(&investigator, &EogInvestigator::failed);
+        int executions = 0; QJsonObject repeated;
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString& name, const QJsonObject& arguments) {
+                QCOMPARE(name, QString("validate_plan")); QCOMPARE(arguments.value("plan_id"), QJsonValue("plan-a"));
+                auto currentPair = pair;
+                if (++executions == 2 && variation == "wrong-plan") currentPair["selected_plan_id"] = "plan-b";
+                if (executions == 2 && variation == "wrong-validation") currentPair["validation_id"] = "validation-b";
+                auto result = validationOutcome(executions == 2, {currentPair});
+                if (executions == 2) {
+                    if (variation == "missing-ledger") result.remove("retained_evidence");
+                    if (variation == "failed") result["ok"] = false;
+                    if (variation == "not-reused") result["reused_validation"] = false;
+                    repeated = result;
+                }
+                investigator.completeTool(execution, result);
+            });
+        investigator.start("Finish an unchanged completed validation; preserve exact evidence.", {}, definitions());
+        QTRY_COMPARE(finished.size(), 1); QVERIFY(failed.isEmpty()); QCOMPARE(executions, 2); QCOMPARE(model.requests, 3);
+        // Missing ledger data cannot establish current eligibility, even though
+        // the preceding ledger had a matching pair.
+        const bool closesTools = variation == "admissible";
+        QCOMPARE(model.finalRequests, closesTools ? 1 : 0);
+        QCOMPARE(model.toolLists.last().isEmpty(), closesTools);
+        QCOMPARE(resultFor(model.histories.last(), "repeat"), repeated);
+        QVERIFY(investigator.result().value("selected_plan_id").isNull());
+        QVERIFY(investigator.result().value("validation_id").isNull());
+    }
+    void repeatedValidationDrainsExistingBatchBeforeJsonOnlyCompletion() {
+        const QJsonObject pair{{"selected_plan_id", "plan-a"}, {"validation_id", "validation-a"}};
+        FakeTransport model;
+        model.respond = [](const QJsonArray& messages, int step) {
+            if (step == 1) return calls({call("original", "validate_plan", "{\"plan_id\":\"plan-a\"}")});
+            if (step == 2) return calls({call("repeat", "validate_plan", "{\"plan_id\":\"plan-a\"}"),
+                call("fresh-observation", "read_observations", "{\"asset_id\":\"tank-b\"}")});
+            if (!resultFor(messages, "fresh-observation").value("ok").toBool()) return QJsonObject{};
+            return finalReply("plan-a", "validation-a");
+        };
+        EogInvestigator investigator(&model); QStringList order;
+        QSignalSpy finished(&investigator, &EogInvestigator::finished), failed(&investigator, &EogInvestigator::failed);
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString& name, const QJsonObject&) {
+                order.append(name);
+                auto result = name == "validate_plan" ? validationOutcome(order.size() == 2, {pair}) : outcome();
+                result["retained_evidence"] = QJsonObject{{"completion_pairs", QJsonArray{pair}}};
+                investigator.completeTool(execution, result);
+            });
+        investigator.start("Preserve my selected batch before final completion.", {}, definitions());
+        QTRY_COMPARE(finished.size(), 1); QVERIFY(failed.isEmpty());
+        QCOMPARE(order, (QStringList{"validate_plan", "validate_plan", "read_observations"}));
+        QCOMPARE(model.requests, 3); QCOMPARE(model.finalRequests, 1); QVERIFY(model.toolLists.last().isEmpty());
+        QVERIFY(model.histories.last().first().toObject().value("content").toString().contains("further tools are closed"));
+        QCOMPARE(investigator.result().value("selected_plan_id"), QJsonValue("plan-a"));
+    }
+    void cheaperPlanInSameBatchRetiresRepeatedCompletion() {
+        const QJsonObject pair{{"selected_plan_id", "plan-a"}, {"validation_id", "validation-a"}};
+        FakeTransport model;
+        model.respond = [](const QJsonArray&, int step) {
+            if (step == 1) return calls({call("original", "validate_plan", "{\"plan_id\":\"plan-a\"}")});
+            if (step == 2) return calls({call("repeat", "validate_plan", "{\"plan_id\":\"plan-a\"}"), call("cheaper-search", "search_plans")});
+            if (step == 3) return calls({call("new-validation", "validate_plan", "{\"plan_id\":\"plan-b\"}")});
+            return finalReply("plan-b", "validation-b");
+        };
+        EogInvestigator investigator(&model); QStringList order;
+        QSignalSpy finished(&investigator, &EogInvestigator::finished), failed(&investigator, &EogInvestigator::failed);
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString& name, const QJsonObject& arguments) {
+                order.append(name); auto result = validationOutcome(order.size() == 2, {pair});
+                if (name == "search_plans") result = outcome();
+                if (name == "search_plans" || arguments.value("plan_id") == "plan-b")
+                    result["retained_evidence"] = QJsonObject{{"completion_pairs", QJsonArray{}}};
+                investigator.completeTool(execution, result);
+            });
+        investigator.start("Validate a cheaper new plan after the old completion is retired.", {}, definitions());
+        QTRY_COMPARE(finished.size(), 1); QVERIFY(failed.isEmpty()); QCOMPARE(model.requests, 4); QCOMPARE(model.finalRequests, 0);
+        QCOMPARE(order, (QStringList{"validate_plan", "validate_plan", "search_plans", "validate_plan"}));
+        QVERIFY(!model.toolLists.at(2).isEmpty());
+    }
+    void repeatedCompletionCannotExecuteToolsFromJsonOnlyReply() {
+        const QJsonObject pair{{"selected_plan_id", "plan-a"}, {"validation_id", "validation-a"}};
+        FakeTransport model;
+        model.respond = [](const QJsonArray&, int step) {
+            if (step <= 2) return calls({call(step == 1 ? "original" : "repeat", "validate_plan", "{\"plan_id\":\"plan-a\"}")});
+            return calls({call("not-offered", "search_plans")});
+        };
+        EogInvestigator investigator(&model); int executions = 0;
+        connect(&investigator, &EogInvestigator::toolRequested, &investigator,
+            [&](const QString& execution, const QString&, const QJsonObject&) {
+                investigator.completeTool(execution, validationOutcome(++executions == 2, {pair}));
+            });
+        QSignalSpy failed(&investigator, &EogInvestigator::failed), finished(&investigator, &EogInvestigator::finished);
+        investigator.start("Do not execute any new tools once completion is requested.", {}, definitions());
+        QTRY_COMPARE(failed.size(), 1); QVERIFY(finished.isEmpty()); QCOMPARE(executions, 2);
+        QCOMPARE(model.requests, 3); QCOMPARE(model.finalRequests, 1);
+        QCOMPARE(failed.first().first().toString(), QString("invalid_final"));
+        QCOMPARE(investigator.finalRejectionReason(), QString("tool_calls"));
+        QVERIFY(investigator.result().isEmpty());
     }
     void repeatedModelIds_data() {
         QTest::addColumn<bool>("sameBatch"); QTest::newRow("batch") << true; QTest::newRow("turns") << false;
