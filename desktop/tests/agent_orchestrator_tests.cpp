@@ -288,11 +288,11 @@ private slots:
         const auto validation = resultFor(model.history, "validate-search");
         QVERIFY(validation.value("ok").toBool());
         const auto checked = validation.value("run").toObject();
-        QCOMPARE(checked.value("run_id"), agent.recommendation().value("selected_run_id"));
+        QCOMPARE(checked.value("run_id").toString(), agent.recommendation().value("selected_run_id").toString());
         QCOMPARE(checked.value("validation_source").toString(), QString("validate_run"));
         QVERIFY(checked.value("validation").toObject().value("feasible").toBool());
         QVERIFY(!checked.value("validation_id").toString().isEmpty());
-        QCOMPARE(checked.value("validation_id"), agent.recommendation().value("validation_id"));
+        QCOMPARE(checked.value("validation_id").toString(), agent.recommendation().value("validation_id").toString());
         QTRY_VERIFY_WITH_TIMEOUT(agent.canApprove(), 10000);
         QVERIFY(agent.approvePlan());
         if (editDuringForecast) {
@@ -830,18 +830,18 @@ private slots:
                 }
             });
             const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(),"repair-retirement");
+            constexpr int originalDeadlineMs = 10000;
             QElapsedTimer elapsed; elapsed.start();
-            session.start(gateway,"Inspect.",{12,3,1000});
-            // Observe entry into correction before testing its retirement. A
-            // 100-ms startup assumption could expire before the first request
-            // when other builds/workers occupied the machine.
-            QTRY_VERIFY_WITH_TIMEOUT(model.requests >= (cancelAtCorrection ? 2 : 3) || !session.running(),10000);
+            session.start(gateway,"Inspect.",{12,3,originalDeadlineMs});
+            // Reach the correction before deliberately blocking timer delivery.
+            // Cold worker/thread startup under sanitizer load can exceed 1 s.
+            QTRY_VERIFY_WITH_TIMEOUT(model.requests >= (cancelAtCorrection ? 2 : 3) || !session.running(),15000);
             QVERIFY(correctionRequested);
             if (!cancelAtCorrection) {
                 QCOMPARE(model.requests,3); QVERIFY(session.running());
                 // Delay timer delivery, then send an otherwise valid correction.
                 // It must still obey the original absolute session deadline.
-                QTest::qSleep(static_cast<int>(std::max<qint64>(1,1025-elapsed.elapsed())));
+                QTest::qSleep(static_cast<int>(std::max<qint64>(1,originalDeadlineMs+25-elapsed.elapsed())));
                 emit model.replyReady(conclusion());
             }
             QVERIFY(!session.running()); QVERIFY(session.result().isEmpty());
