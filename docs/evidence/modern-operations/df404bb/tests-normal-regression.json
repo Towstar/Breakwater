@@ -1,0 +1,14 @@
+{
+  "source_commit": "df404bb8d527a9e63de257dbb1fe3d6066552b9f",
+  "dirty": false,
+  "mode": "normal",
+  "scope": "regression",
+  "filter": "^desktop\\.(ui_overhaul_.*|observed_advisory_.*|sensor_editor_.*|telemetry_replay_.*|eog_(analysis|overview|facility)_.*|eog_cli|qml_smoke|scene_picking_warp|scene_framing|label_placement|workspace_settings|editor_tools|project|pipe_evidence_smoke|storage_science_(normal|compact))$",
+  "status": "passed",
+  "started_utc": "2026-11-21T04:19:32.1643380Z",
+  "app_sha256": "756629062a9bc5486cf71b4e268cd079533184d813bac6b61e92dcd98eb43d4d",
+  "free_before_bytes": 9387593728,
+  "exit_code": 0,
+  "finished_utc": "2026-11-21T04:22:49.0193094Z",
+  "free_after_bytes": 9316495360
+}

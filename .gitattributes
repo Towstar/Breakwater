@@ -49,3 +49,9 @@ docs/evidence/modern-workspace/99aff98/** -text whitespace=cr-at-eol
 docs/evidence/modern-workspace/99aff98/**/*.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 docs/evidence/modern-workspace/99aff98/**/*.xml -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
 docs/images/portfolio/modern-99aff98/** -text whitespace=cr-at-eol
+
+# Preserve the Operations increment's raw evidence and native PNG hashes.
+docs/evidence/modern-operations/** -text whitespace=cr-at-eol
+docs/evidence/modern-operations/**/*.log -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+docs/evidence/modern-operations/**/*.xml -text whitespace=cr-at-eol,-blank-at-eol,-blank-at-eof
+docs/images/portfolio/operations-1b16a88/** -text whitespace=cr-at-eol

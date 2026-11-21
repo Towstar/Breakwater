@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="3"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="36"
+	timestamp="2026-11-20T22:36:29"
+	>
+	<testcase name="desktop.eog_workspace_normal" classname="desktop.eog_workspace_normal" time="12.2885" status="run">
+		<properties/>
+		<system-out>{"analysis_busy":false,"analysis_requested_by_probe":false,"analysis_session_id":"","artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/eog-workspace/breakwater-eog-ui-GdpTIP","check":"eog_workspace","checks":["unloaded_onboarding_and_accessible_explicit_actions","rendered_truck_yard_label_is_clear_of_map_footer","loaded_stale_reading_retains_original_value_unit_timestamp_and_age","historical_negative_reading_is_preserved","finite_above_capacity_reading_is_not_clamped","actual_equipment_filter_and_discrete_status_label","actual_metric_filter_preserves_a_legitimate_zero_reading","missing_channel_is_explicitly_unavailable_and_never_zero","facility_scene_inspection_keeps_analysis_explicit","actual_cutoff_slider_changes_only_recorded_view","latest_cutoff_restores_playback_clock_without_starting_analysis","all_loading_selection_cutoff_and_scene_actions_preserve_sandbox_controls_and_review_authority"],"code":"ok","device_pixe...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_workspace_compact" classname="desktop.eog_workspace_compact" time="12.1202" status="run">
+		<properties/>
+		<system-out>{"analysis_busy":false,"analysis_requested_by_probe":false,"analysis_session_id":"","artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/eog-workspace/breakwater-eog-ui-JAiIEs","check":"eog_workspace","checks":["unloaded_onboarding_and_accessible_explicit_actions","rendered_truck_yard_label_is_clear_of_map_footer","loaded_stale_reading_retains_original_value_unit_timestamp_and_age","historical_negative_reading_is_preserved","finite_above_capacity_reading_is_not_clamped","actual_equipment_filter_and_discrete_status_label","actual_metric_filter_preserves_a_legitimate_zero_reading","missing_channel_is_explicitly_unavailable_and_never_zero","facility_scene_inspection_keeps_analysis_explicit","actual_cutoff_slider_changes_only_recorded_view","latest_cutoff_restores_playback_clock_without_starting_analysis","all_loading_selection_cutoff_and_scene_actions_preserve_sandbox_controls_and_review_authority","condensed_dock_thumb_dra...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_workspace_minimum" classname="desktop.eog_workspace_minimum" time="11.967" status="run">
+		<properties/>
+		<system-out>{"analysis_busy":false,"analysis_requested_by_probe":false,"analysis_session_id":"","artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop-asan/desktop/test-artifacts/eog-workspace/breakwater-eog-ui-WkYHPl","check":"eog_workspace","checks":["unloaded_onboarding_and_accessible_explicit_actions","rendered_truck_yard_label_is_clear_of_map_footer","loaded_stale_reading_retains_original_value_unit_timestamp_and_age","historical_negative_reading_is_preserved","finite_above_capacity_reading_is_not_clamped","actual_equipment_filter_and_discrete_status_label","actual_metric_filter_preserves_a_legitimate_zero_reading","missing_channel_is_explicitly_unavailable_and_never_zero","facility_scene_inspection_keeps_analysis_explicit","actual_cutoff_slider_changes_only_recorded_view","latest_cutoff_restores_playback_clock_without_starting_analysis","all_loading_selection_cutoff_and_scene_actions_preserve_sandbox_controls_and_review_authority","minimum_client_overflow_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

@@ -22,6 +22,9 @@ Rectangle {
     property real zoomFactor: 1
     readonly property real fitDistance: Math.max(420, (sceneBounds.radius || 220) * 2.2)
     readonly property real distance: fitDistance * zoomFactor
+    readonly property real labelTopInset: sceneNavigation.y + sceneNavigation.height + 6
+    readonly property real labelBottomInset: Math.max(8, height - sceneLegend.y + 6,
+        sceneAxes.visible ? height - sceneAxes.y + 6 : 8)
     property int visibleSceneLabels: 0
     color: "#11171c"; radius: 6; clip: true; border.color: "#41494f"
     implicitHeight: 320
@@ -32,6 +35,13 @@ Rectangle {
         if (visible && network.Window.window) network.Window.window.update()
     }
     function visibleNode(row) { return overview || row.kind !== "facility" }
+    function labelY(value: real, labelHeight: real): real {
+        // Keep labels clear of the navigation/footer overlays without moving
+        // imported equipment, their picks or their world-space coordinates.
+        const maximum = Math.max(8, height - labelHeight - labelBottomInset)
+        const minimum = Math.min(maximum, labelTopInset)
+        return Math.max(minimum, Math.min(maximum, value))
+    }
     function withinVisibleClip(label: Item): bool {
         if (!label.visible) return false
         let ancestor = label.parent
@@ -78,7 +88,7 @@ Rectangle {
                 let chosenY = baseY
                 for (let candidate = 0; candidate < 25; ++candidate) {
                     const row = candidate === 0 ? 0 : Math.ceil(candidate / 2) * (candidate % 2 ? -1 : 1)
-                    const y = Math.max(8, Math.min(Math.max(8, height - label.height - 8), baseY + row * step))
+                    const y = labelY(baseY + row * step, label.height)
                     let collision = false
                     for (let previous = 0; previous < placed.length; ++previous) {
                         const box = placed[previous]
@@ -120,6 +130,8 @@ Rectangle {
     onVisibleChanged: invalidateScene()
     onWidthChanged: invalidateScene()
     onHeightChanged: invalidateScene()
+    onLabelTopInsetChanged: invalidateScene()
+    onLabelBottomInsetChanged: invalidateScene()
     onYawChanged: invalidateScene()
     onPitchChanged: invalidateScene()
     onZoomFactorChanged: invalidateScene()
@@ -232,7 +244,7 @@ Rectangle {
             objectName: "eogLabel:" + modelData.id
             visible: network.projectionReady && network.visibleNode(modelData) && projectedPoint.z > 0
             property real collisionOffsetY: 0
-            readonly property real baseY: Math.max(8, Math.min(Math.max(8, network.height - height - 8), projectedPoint.y + screenOffset.y))
+            readonly property real baseY: network.labelY(projectedPoint.y + screenOffset.y, height)
             x: Math.max(8, Math.min(Math.max(8, network.width - width - 8), projectedPoint.x - width / 2 + screenOffset.x))
             y: baseY + collisionOffsetY
             width: Math.min(180, implicitWidth)
@@ -279,6 +291,7 @@ Rectangle {
         onWheel: function(wheel) { network.zoomFactor = Math.max(0.45, Math.min(3, network.zoomFactor - wheel.angleDelta.y / 120 * 0.10)) }
     }
     Label {
+        id: sceneNavigation
         anchors.left: parent.left; anchors.top: parent.top; anchors.margins: 10; width: Math.min(implicitWidth, Math.max(0, parent.width - 20))
         text: network.overview ? "SYSTEMS · select a facility to inspect equipment · right-drag to orbit"
                                : "FACILITY · select equipment · right-drag to orbit · scroll to zoom"
@@ -286,6 +299,8 @@ Rectangle {
         background: Rectangle { color: "#B315191B"; border.color: "#26FFFFFF"; radius: 6 }
     }
     Label {
+        id: sceneLegend
+        objectName: "eogSceneLegend"
         anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 10; width: Math.min(implicitWidth, Math.max(0, parent.width - 116))
         text: network.overview ? "Pipe: water connection · dashed: truck access · travel times from ops.json"
                                : "Schematic equipment and topology · raw observations remain unchanged"
@@ -293,6 +308,7 @@ Rectangle {
         background: Rectangle { color: "#B315191B"; border.color: "#26FFFFFF"; radius: 6 }
     }
     SceneAxes {
+        id: sceneAxes
         objectName: "operationsOrientation"
         projector: view; focusPoint: rig.position
         viewState: [network.yaw, network.pitch, network.zoomFactor, network.sceneRevision, network.projectionReady, view.width, view.height]

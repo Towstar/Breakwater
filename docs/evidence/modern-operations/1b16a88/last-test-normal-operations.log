@@ -1,0 +1,166 @@
+Start testing: Nov 20 22:37 Central Standard Time
+----------------------------------------------------------
+65/91 Testing: desktop.qml_smoke
+65/91 Test: desktop.qml_smoke
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater.exe" "--smoke"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.qml_smoke" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.68 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.qml_smoke" end time: Nov 20 22:37 Central Standard Time
+"desktop.qml_smoke" time elapsed: 00:00:01
+----------------------------------------------------------
+
+72/91 Testing: desktop.eog_analysis_client
+72/91 Test: desktop.eog_analysis_client
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater_eog_analysis_client_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog_analysis_client-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_analysis_client" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  11.92 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_analysis_client" end time: Nov 20 22:37 Central Standard Time
+"desktop.eog_analysis_client" time elapsed: 00:00:11
+----------------------------------------------------------
+
+75/91 Testing: desktop.eog_analysis_controller
+75/91 Test: desktop.eog_analysis_controller
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater_eog_analysis_controller_tests.exe" "-o" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog_analysis_controller-results.txt,txt"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_analysis_controller" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =  22.16 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_analysis_controller" end time: Nov 20 22:37 Central Standard Time
+"desktop.eog_analysis_controller" time elapsed: 00:00:22
+----------------------------------------------------------
+
+79/91 Testing: desktop.eog_cli
+79/91 Test: desktop.eog_cli
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater/.tools/science-cpu/Scripts/python.exe" "-B" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_cli_tests.py" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater.exe" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_cli" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+test_conflicting_workbench_operations_are_rejected (__main__.EogCliTests.test_conflicting_workbench_operations_are_rejected) ... ok
+test_facility_and_report_need_a_dataset (__main__.EogCliTests.test_facility_and_report_need_a_dataset) ... ok
+test_inputs_cannot_be_report_screenshot_or_database (__main__.EogCliTests.test_inputs_cannot_be_report_screenshot_or_database) ... ok
+test_legacy_report_writers_are_rejected (__main__.EogCliTests.test_legacy_report_writers_are_rejected) ... ok
+test_reports_cannot_overwrite_database_journals (__main__.EogCliTests.test_reports_cannot_overwrite_database_journals) ... ok
+test_reports_screenshot_and_database_are_distinct (__main__.EogCliTests.test_reports_screenshot_and_database_are_distinct) ... ok
+test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input) ... ok
+test_unknown_workspace_and_facility_are_rejected (__main__.EogCliTests.test_unknown_workspace_and_facility_are_rejected) ... ok
+
+----------------------------------------------------------------------
+Ran 8 tests in 5.497s
+
+OK
+<end of output>
+Test time =   5.68 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_cli" end time: Nov 20 22:37 Central Standard Time
+"desktop.eog_cli" time elapsed: 00:00:05
+----------------------------------------------------------
+
+83/91 Testing: desktop.eog_analysis_normal
+83/91 Test: desktop.eog_analysis_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--eog-analysis-panel" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-analysis-normal.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-analysis-normal.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-analysis-normal.sqlite"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_analysis_normal" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.77 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_analysis_normal" end time: Nov 20 22:37 Central Standard Time
+"desktop.eog_analysis_normal" time elapsed: 00:00:01
+----------------------------------------------------------
+
+84/91 Testing: desktop.eog_overview_normal
+84/91 Test: desktop.eog_overview_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-overview-normal.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-overview-normal.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-overview-normal.sqlite"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_overview_normal" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.90 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_overview_normal" end time: Nov 20 22:37 Central Standard Time
+"desktop.eog_overview_normal" time elapsed: 00:00:01
+----------------------------------------------------------
+
+85/91 Testing: desktop.eog_facility_normal
+85/91 Test: desktop.eog_facility_normal
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-facility-normal.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-facility-normal.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-facility-normal.sqlite" "--eog-facility" "facility-Z"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_facility_normal" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.82 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_facility_normal" end time: Nov 20 22:37 Central Standard Time
+"desktop.eog_facility_normal" time elapsed: 00:00:01
+----------------------------------------------------------
+
+86/91 Testing: desktop.eog_analysis_compact
+86/91 Test: desktop.eog_analysis_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--eog-analysis-panel" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-analysis-compact.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-analysis-compact.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-analysis-compact.sqlite" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_analysis_compact" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.78 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_analysis_compact" end time: Nov 20 22:37 Central Standard Time
+"desktop.eog_analysis_compact" time elapsed: 00:00:01
+----------------------------------------------------------
+
+87/91 Testing: desktop.eog_overview_compact
+87/91 Test: desktop.eog_overview_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-overview-compact.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-overview-compact.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-overview-compact.sqlite" "--compact-ui"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_overview_compact" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.72 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_overview_compact" end time: Nov 20 22:37 Central Standard Time
+"desktop.eog_overview_compact" time elapsed: 00:00:01
+----------------------------------------------------------
+
+88/91 Testing: desktop.eog_facility_compact
+88/91 Test: desktop.eog_facility_compact
+Command: "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/breakwater.exe" "--workspace" "eog" "--eog-dataset" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/desktop/tests/eog_fixtures/render" "--smoke" "--eog-report" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-facility-compact.json" "--screenshot" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-facility-compact.png" "--history-db" "C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop/eog-facility-compact.sqlite" "--compact-ui" "--eog-facility" "facility-Z"
+Directory: C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/portfolio-desktop/desktop
+"desktop.eog_facility_compact" start time: Nov 20 22:37 Central Standard Time
+Output:
+----------------------------------------------------------
+<end of output>
+Test time =   1.72 sec
+----------------------------------------------------------
+Test Passed.
+"desktop.eog_facility_compact" end time: Nov 20 22:38 Central Standard Time
+"desktop.eog_facility_compact" time elapsed: 00:00:01
+----------------------------------------------------------
+
+End testing: Nov 20 22:38 Central Standard Time

@@ -1,5 +1,21 @@
 # Actual candidate screenshots
 
+## Modern Operations workspace: 1b16a88
+
+Three unaltered normal-build Qt PNGs from runtime source
+`1b16a881fa5d5ee87269188fc4f0ef7070c5de89`, captured November 20, 2026
+(America/Chicago). The [capture record](../../evidence/modern-operations/1b16a88/gallery.json)
+retains source/app hashes, actual logical sizes and DPR 1.75. These use only the
+isolated synthetic render fixture; private user-project/manual captures are excluded.
+
+| Capture | Actual view |
+| --- | --- |
+| [Operations onboarding](operations-1b16a88/01-onboarding.png) | Explicit import/example actions and the three required input files, 1440x900 logical client. |
+| [Recorded observation](operations-1b16a88/02-recorded-observation.png) | Original 104% reading retained with 1500-second stale age, grouped selectors and threshold guides, 1440x900 logical client. No analysis requested. |
+| [Compact dock scrolling](operations-1b16a88/03-condensed-dock.png) | Real open investigation dock after actual scrollbar thumb drag; full lower axis and caption are reachable, 1100x700 logical client. No plans or model requests were created. |
+
+See [implementation, normal/ASan checks and limits](../../OPERATIONS_WORKSPACE.md).
+
 ## Modern instrument workspace: 99aff98
 
 Three unaltered synthetic-fixture PNGs from the successful ASan UI checks at
