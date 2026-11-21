@@ -2,6 +2,7 @@
 #include "ModelTransport.hpp"
 #include "SimulationGateway.hpp"
 #include <QElapsedTimer>
+#include <QHash>
 #include <QPointer>
 #include <QSet>
 #include <QTimer>
@@ -38,7 +39,7 @@ signals:
     void activity(const QJsonObject& event);
     void scientificEvidenceReady(const QJsonObject& archive);
 private:
-    ModelTransport* transport_;
+    QPointer<ModelTransport> transport_;
     QPointer<science::AgentSensitivityClient> sensitivity_client_;
     QMetaObject::Connection sensitivity_completed_, sensitivity_failed_, sensitivity_destroyed_;
     std::shared_ptr<SimulationGateway> gateway_;
@@ -48,6 +49,7 @@ private:
     QString session_id_, objective_, status_ = "Ready";
     QJsonArray messages_, pending_calls_;
     QSet<QString> seen_call_ids_;
+    QHash<QString, QString> model_validations_;
     QVariantList events_;
     QJsonObject result_;
     quint64 generation_ = 0;
@@ -65,6 +67,7 @@ private:
     QJsonObject local_last_;
     QString local_baseline_, local_selected_;
     void advanceLocal();
+    bool modelValidated(const QJsonObject& run) const;
     void requestModel();
     void receive(const QJsonObject& message);
     void nextTool();

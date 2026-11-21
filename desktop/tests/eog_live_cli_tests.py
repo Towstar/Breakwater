@@ -26,7 +26,7 @@ class EogLiveCliTests(unittest.TestCase):
     def setUp(self):
         self.directory = tempfile.TemporaryDirectory(prefix="breakwater-eog-live-cli-")
         self.addCleanup(self.directory.cleanup)
-        self.root = Path(self.directory.name)
+        self.root = Path(self.directory.name).resolve()
         self.dataset = self.root / "data"
         self.dataset.mkdir()
         for name in FILES:
@@ -40,6 +40,24 @@ class EogLiveCliTests(unittest.TestCase):
     def hashes(self):
         return {name: hashlib.sha256((self.dataset / name).read_bytes()).hexdigest()
                 for name in FILES}
+
+    def short_alias(self, directory):
+        if os.name != "nt":
+            self.skipTest("Real Windows 8.3 aliases are required for this regression.")
+        import ctypes
+        kernel = ctypes.WinDLL("kernel32", use_last_error=True)
+        short_path = kernel.GetShortPathNameW
+        short_path.argtypes = [ctypes.c_wchar_p, ctypes.c_wchar_p, ctypes.c_uint32]
+        short_path.restype = ctypes.c_uint32
+        buffer = ctypes.create_unicode_buffer(32768)
+        length = short_path(str(directory), buffer, len(buffer))
+        self.assertTrue(0 < length < len(buffer), "Cannot query the fixture's actual Windows short path.")
+        alias = Path(buffer.value)
+        self.assertTrue(os.path.samefile(alias, directory))
+        self.assertEqual(alias.resolve(), directory.resolve())
+        if str(alias).casefold() == str(directory).casefold():
+            self.skipTest("This Windows filesystem has no distinct 8.3 alias for the fixture.")
+        return alias
 
     def invoke(self, *arguments, archive=None, database=None, expected=2, code=None):
         self.invocations += 1
@@ -125,6 +143,33 @@ class EogLiveCliTests(unittest.TestCase):
         collision = self.root / "collision.eog-session.json"
         self.invoke(archive=collision, database=collision, code="invalid_input_or_output_paths")
         self.assertFalse(collision.exists())
+
+    def test_windows_short_alias_cannot_place_archive_or_database_in_source(self):
+        parent = self.dataset / "long-output-parent"
+        parent.mkdir()
+        alias = self.short_alias(parent)
+        for suffix in (Path(), Path("fresh-child") / "deeper"):
+            with self.subTest(output="archive", fresh_suffix=str(suffix)):
+                _, archive, database = self.invoke(archive=alias / suffix / "new.eog-session.json",
+                                                   code="invalid_input_or_output_paths")
+                self.assertFalse(archive.exists())
+                self.assertFalse(database.exists())
+                self.assertEqual(list(parent.iterdir()), [])
+            with self.subTest(output="database", fresh_suffix=str(suffix)):
+                _, archive, database = self.invoke(database=alias / suffix / "new.sqlite",
+                                                   code="invalid_input_or_output_paths")
+                self.assertFalse(archive.exists())
+                self.assertFalse(database.exists())
+                self.assertEqual(list(parent.iterdir()), [])
+
+        outside = self.root / "outside-evidence-output"
+        outside.mkdir()
+        alias = self.short_alias(outside)
+        _, archive, database = self.invoke(archive=alias / "new.eog-session.json", database=alias / "history.sqlite",
+                                           expected=3, code="live_not_enabled")
+        self.assertFalse(archive.exists())
+        self.assertTrue(database.is_file())
+        self.assertEqual(list(parent.iterdir()), [])
 
     def test_database_sidecar_names_cannot_be_used_as_archives(self):
         database = self.root / "history.sqlite"

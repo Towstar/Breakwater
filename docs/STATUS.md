@@ -1,5 +1,32 @@
 # Implementation status
 
+## Nemotron evaluation expansion, November 21, 2026 (America/Chicago)
+
+The new [functional evaluation increment](NEMOTRON_EVALUATION.md) starts from
+PR #93 head `ab29cdd`. That preceding private packaged candidate passed all six
+Windows CI jobs and its seven declared hosted checks. Those dated results remain
+bound to their original source and executable; they do not qualify a new build.
+
+The expanded corpus declares 22 CLI investigations over 11 self-authored inputs,
+plus two actual observed-sensor sessions. All inputs require production numerical
+preflight before hosted admission. A sealed round separately reports grounded
+plans, supported refusals, model/setup failures, pending cases, duplicate calls,
+HTTP attempts and exact source/input/binary hashes. Runtime changes add absolute
+deadline checks and safe handling of a lost hosted transport. Local search keeps
+working without the hosted transport. Verification records for a run must name
+its actual revision; this source document is not a passing-run attestation.
+
+Hosted selection also requires this investigation's explicit `validate_run` on
+the exact selected run, including after staging native-search evidence. Planning
+uses a bounded reasoning allowance; final formatting keeps reasoning disabled,
+and private response fields never enter retained assistant messages. Verification
+CLIs normalize existing Windows path ancestors before checking that evidence is
+outside the input folder, including real 8.3 aliases and fresh descendants.
+
+Clean-Windows acceptance remains explicitly deferred with the prepared test kit.
+Owner/licensing review, ordered integration and public distribution remain
+separate gates. No new engine, scientific method or field-accuracy claim is made.
+
 ## Active development: expanded v0.3.0, November 20, 2026 (America/Chicago)
 
 The latest desktop visual increment is `1b16a88`: a modern Operations observation

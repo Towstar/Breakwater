@@ -68,6 +68,10 @@ target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_CALIBRATION_PATH=
 target_compile_definitions(breakwater_agent PRIVATE BREAKWATER_DEVELOPMENT_BIN_DIR="$<TARGET_FILE_DIR:breakwater>")
 qt_add_executable(breakwater_nemotron_smoke agent/live_smoke.cpp)
 target_link_libraries(breakwater_nemotron_smoke PRIVATE breakwater_agent)
+qt_add_executable(breakwater_live_check agent/live_check.cpp)
+target_link_libraries(breakwater_live_check PRIVATE breakwater_agent)
+set_target_properties(breakwater_live_check PROPERTIES WIN32_EXECUTABLE FALSE)
+install(TARGETS breakwater_live_check RUNTIME DESTINATION bin)
 qt_add_executable(breakwater_export_examples verification/export_examples.cpp)
 target_link_libraries(breakwater_export_examples PRIVATE breakwater_desktop_base)
 set_target_properties(breakwater_export_examples PROPERTIES WIN32_EXECUTABLE FALSE)
@@ -482,6 +486,23 @@ if(BUILD_TESTING)
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")
     set_tests_properties(desktop.eog_live_cli PROPERTIES TIMEOUT 120
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    add_test(NAME desktop.sandbox_live_cli COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/sandbox_live_cli_tests.py" "$<TARGET_FILE:breakwater_live_check>"
+      "${PROJECT_SOURCE_DIR}/examples/portfolio/sandbox/healthy.json")
+    set_tests_properties(desktop.sandbox_live_cli PROPERTIES TIMEOUT 240
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    add_test(NAME desktop.eog_offline_preflight COMMAND "${Python3_EXECUTABLE}" -B
+      "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_offline_preflight_tests.py" "$<TARGET_FILE:breakwater_offline_check>"
+      "${PROJECT_SOURCE_DIR}/examples/portfolio/operations")
+    set_tests_properties(desktop.eog_offline_preflight PROPERTIES TIMEOUT 240
+      ENVIRONMENT "BREAKWATER_PYTHON=${Python3_EXECUTABLE};BREAKWATER_EOG_NATIVE=$<TARGET_FILE:breakwater_eog_response>;BREAKWATER_EOG_CONTRACTS=${PROJECT_SOURCE_DIR}/contracts/eog;BREAKWATER_EOG_WORKER=${PROJECT_SOURCE_DIR}/science/eog_worker.py"
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    add_test(NAME desktop.nemotron_evaluation COMMAND "${Python3_EXECUTABLE}" -B -m unittest discover
+      -s "${PROJECT_SOURCE_DIR}/scripts/tests" -p "test_nemotron_evaluation_*.py" -v)
+    # The shared Python corpus exercises complete hash/journal rounds on disk;
+    # the 65-case local run took 739 s under concurrent qualification load.
+    # This watchdog does not alter any production investigation deadline.
+    set_tests_properties(desktop.nemotron_evaluation PROPERTIES TIMEOUT 1200)
     add_test(NAME desktop.eog_cli COMMAND "${Python3_EXECUTABLE}" -B
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_cli_tests.py" "$<TARGET_FILE:breakwater>"
       "${CMAKE_CURRENT_SOURCE_DIR}/tests/eog_fixtures/render")

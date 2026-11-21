@@ -1,4 +1,5 @@
 #include "EogAnalysisController.hpp"
+#include "../EvidencePaths.hpp"
 #include "../LocalRuntime.hpp"
 #include "agent/NemotronClient.hpp"
 #include <QCommandLineParser>
@@ -31,34 +32,6 @@ QString safeReference(const QString& value) {
     if (value.contains("nvapi-", Qt::CaseInsensitive) || value.contains("bearer", Qt::CaseInsensitive)) return {};
     const auto match = allowed.match(value);
     return match.hasMatch() && match.capturedLength() == value.size() ? value : QString{};
-}
-QString pathKey(QString value) {
-    value = QDir::cleanPath(QDir::fromNativeSeparators(value));
-#ifdef Q_OS_WIN
-    value = value.toCaseFolded();
-#endif
-    return value;
-}
-QString resolvedOutput(const QString& path) {
-    const QFileInfo target(path);
-    if (target.exists() || target.isSymLink()) return target.canonicalFilePath();
-    QStringList suffix{target.fileName()};
-    QFileInfo ancestor(target.absolutePath());
-    while (!ancestor.exists()) {
-        suffix.prepend(ancestor.fileName());
-        const QFileInfo parent(ancestor.absolutePath());
-        if (parent.absoluteFilePath() == ancestor.absoluteFilePath()) return {};
-        ancestor = parent;
-    }
-    if (!ancestor.isDir()) return {};
-    auto resolved = ancestor.canonicalFilePath();
-    if (resolved.isEmpty()) return {};
-    for (const auto& part : suffix) resolved = QDir(resolved).filePath(part);
-    return QDir::cleanPath(resolved);
-}
-bool within(const QString& path, const QString& folder) {
-    const auto candidate = pathKey(path), root = pathKey(folder);
-    return candidate == root || candidate.startsWith(root.endsWith('/') ? root : root + '/');
 }
 void print(const QJsonObject& summary) {
     QTextStream(stdout) << QString::fromUtf8(QJsonDocument(summary).toJson(QJsonDocument::Compact)) << Qt::endl;
@@ -311,22 +284,23 @@ int main(int argc, char** argv) {
         }
     }
     const QFileInfo archive(options.archive), database(options.database);
-    const auto archivePath = resolvedOutput(options.archive), databasePath = resolvedOutput(options.database);
-    const auto sourceFolder = QFileInfo(options.dataset).canonicalFilePath();
+    const auto archivePath = evidencepaths::resolvedOutput(options.archive), databasePath = evidencepaths::resolvedOutput(options.database);
+    const auto sourceFolder = evidencepaths::canonicalExisting(options.dataset);
     if (!parser.isSet("dataset") || !parser.isSet("archive") || parser.value("dataset").isEmpty() || parser.value("archive").isEmpty() ||
             !parser.positionalArguments().isEmpty() || !QFileInfo(options.dataset).isDir() || sourceFolder.isEmpty() ||
             options.objective.trimmed().isEmpty() || options.objective.size() > 4000 ||
             !archive.fileName().endsWith(".eog-session.json", Qt::CaseInsensitive) || archive.exists() || archive.isSymLink() || database.isSymLink() ||
             (database.exists() && !database.isFile()) || (parser.isSet("db") && parser.value("db").isEmpty()) ||
-            archivePath.isEmpty() || databasePath.isEmpty() || pathKey(archivePath) == pathKey(databasePath) ||
-            within(archivePath, sourceFolder) || within(databasePath, sourceFolder)) {
+            archivePath.isEmpty() || databasePath.isEmpty() || evidencepaths::pathKey(archivePath) == evidencepaths::pathKey(databasePath) ||
+            evidencepaths::within(archivePath, sourceFolder) || evidencepaths::within(databasePath, sourceFolder)) {
         print({{"status", "failed"}, {"code", "invalid_input_or_output_paths"}, {"exit_code", InvalidArguments}}); return InvalidArguments;
     }
     // A database journal/lock cannot occupy the archive destination either.
-    for (const auto* suffix : {"-wal", "-shm", "-journal", ".lock"}) if (pathKey(archivePath) == pathKey(databasePath + QLatin1String(suffix))) {
+    for (const auto* suffix : {"-wal", "-shm", "-journal", ".lock"}) if (evidencepaths::pathKey(archivePath) == evidencepaths::pathKey(databasePath + QLatin1String(suffix))) {
         print({{"status", "failed"}, {"code", "output_path_collision"}, {"exit_code", InvalidArguments}}); return InvalidArguments;
     }
-    if (!QDir().mkpath(archive.absolutePath())) {
+    options.dataset = sourceFolder; options.archive = archivePath; options.database = databasePath;
+    if (!QDir().mkpath(QFileInfo(options.archive).absolutePath())) {
         print({{"status", "failed"}, {"code", "archive_directory_unavailable"}, {"exit_code", SetupFailure}}); return SetupFailure;
     }
     std::signal(SIGINT, interrupt); std::signal(SIGTERM, interrupt);
