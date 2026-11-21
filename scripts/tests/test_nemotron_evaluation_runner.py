@@ -22,6 +22,17 @@ runner = importlib.util.module_from_spec(spec)
 spec.loader.exec_module(runner)
 
 
+def observed_archive(session):
+    events = [{"type": "model_request_started"}, {"type": "model_request_completed", "request": {
+        "model_request_id": "request-" + session, "duration_ms": 1, "retry_count": 0}}]
+    for index, name in enumerate(("get_network_state", "get_control_catalog")):
+        identity = f"call-{index}"
+        events.extend([{"type": "tool_requested", "tool_call_id": identity, "tool_name": name},
+                       {"type": "tool_started", "tool_call_id": identity, "tool_name": name, "input_summary": {}},
+                       {"type": "tool_completed", "tool_call_id": identity, "tool_name": name, "result": {"ok": True}}])
+    return {"session_id": session, "events": events}
+
+
 class RunnerTests(unittest.TestCase):
     def setUp(self):
         temporary = tempfile.TemporaryDirectory(prefix="breakwater-runner-mocks-")
@@ -47,7 +58,8 @@ class RunnerTests(unittest.TestCase):
 
     def args(self, name="round", live=False):
         return SimpleNamespace(output=self.root / name, live=live, expected_source="a" * 40 if live else None,
-                               duration_seconds=1800, **{key + "_executable": value for key, value in self.executables.items()})
+                               duration_seconds=1800, case_gap_seconds=0,
+                               **{key + "_executable": value for key, value in self.executables.items()})
 
     @staticmethod
     def fake_audit(mode, archive, summary, expected, *, hosted=True):
@@ -289,7 +301,7 @@ class RunnerTests(unittest.TestCase):
         with patch.object(runner, "audit_observed", side_effect=lambda value, **_: {"session_id": value["session_id"], "tool_calls": 2, "model_requests": 1}):
             for identity in runner.OBSERVED:
                 path = self.root / (identity + ".json")
-                raw = (json.dumps({"session_id": identity}) + "\n").encode(); path.write_bytes(raw)
+                raw = (json.dumps(observed_archive(identity)) + "\n").encode(); path.write_bytes(raw)
                 code, manifest = runner.attach_observed(SimpleNamespace(directory=args.output, case=identity, archive=path))
                 self.assertEqual(code, 0)
                 copied = args.output / "observed" / identity / "evidence.session.json"
@@ -318,7 +330,7 @@ class RunnerTests(unittest.TestCase):
     def test_failed_observed_attachment_is_an_attempt_and_cannot_be_replaced(self):
         args = self.args(live=True); runner.run_round(args)
         archive = self.root / "failed-observation.json"
-        raw = b'{"session_id":"synthetic-failed-observed"}\n'; archive.write_bytes(raw)
+        raw = (json.dumps(observed_archive("synthetic-failed-observed")) + "\n").encode(); archive.write_bytes(raw)
         request = SimpleNamespace(directory=args.output, case="observed-pump", archive=archive)
         with patch.object(runner, "audit_observed", side_effect=ValueError("Synthetic observed rejection")):
             code, manifest = runner.attach_observed(request)
@@ -358,6 +370,190 @@ class RunnerTests(unittest.TestCase):
             self.assertEqual(result["failure"], "output_limit" if oversized else "helper_timeout")
             self.assertLessEqual(len(result["stdout"]), 16)
             self.assertEqual(result["exit_code"], -9)
+
+    def test_cadence_integrates_deadline_without_delaying_native_or_first_hosted_case(self):
+        clock, sleeps = [0.0], []
+        def sleep(seconds):
+            sleeps.append((len(self.calls), seconds)); clock[0] += seconds
+        args = self.args(live=True); args.case_gap_seconds = 30; args.duration_seconds = 60
+        with patch.object(runner.time, "monotonic", side_effect=lambda: clock[0]), patch.object(runner.time, "sleep", side_effect=sleep):
+            code, manifest = runner.run_round(args)
+        self.assertEqual(code, 2); self.assertEqual(len(self.calls), 13)
+        self.assertEqual(sum(item["status"] == "passed" for item in manifest["preflights"]), 11)
+        self.assertEqual(sum(item["attempted"] for item in manifest["cases"]), 2)
+        self.assertEqual(manifest["stop_reason"], "round_deadline")
+        self.assertTrue(all(count in (12, 13) and 0 < delay <= .25 for count, delay in sleeps))
+        self.assertEqual(sum(delay for _, delay in sleeps), 60)
+        history = runner.validate_delay_history(manifest)
+        self.assertEqual([entry["start"]["planned_delay_s"] for entry in history.values()], [0, 30, 30])
+        self.assertEqual(list(history.values())[-1]["finish"]["status"], "round_deadline")
+        sealed_code, summary = runner.seal_round(SimpleNamespace(directory=args.output))
+        self.assertEqual(sealed_code, 2); self.assertFalse(summary["overall_passed"])
+        self.assertEqual(summary["delayed_s"], 60); self.assertEqual(summary["delay_policy"], runner.delay_policy(30))
+
+    def test_cadence_rechecks_binding_after_the_wait_before_launch(self):
+        clock = [0.0]
+        def sleep(seconds):
+            clock[0] += seconds
+            self.source["dirty"] = True
+        args = self.args(live=True); args.case_gap_seconds = 30
+        with patch.object(runner.time, "monotonic", side_effect=lambda: clock[0]), patch.object(runner.time, "sleep", side_effect=sleep):
+            code, manifest = runner.run_round(args)
+        self.assertEqual(code, 1); self.assertEqual(len(self.calls), 12)
+        self.assertEqual(manifest["stage"], "invalid")
+        self.assertEqual(sum(case["attempted"] for case in manifest["cases"]), 1)
+        self.assertEqual(manifest["cases"][0]["status"], "passed")
+        self.assertIn("result", manifest["cases"][0])
+        self.assertTrue(all(case["status"] == "pending" for case in manifest["cases"][1:]))
+
+
+class CadenceTests(unittest.TestCase):
+    def setUp(self):
+        temporary = tempfile.TemporaryDirectory(prefix="breakwater-cadence-")
+        self.addCleanup(temporary.cleanup); self.root = Path(temporary.name)
+        self.clock, self.sleeps, self.snapshots = 0.0, [], []
+        self.real_journal = runner.journal
+        self.stack = ExitStack(); self.addCleanup(self.stack.close)
+        self.stack.enter_context(patch.object(runner.time, "monotonic", side_effect=lambda: self.clock))
+        self.stack.enter_context(patch.object(runner.time, "sleep", side_effect=self.sleep))
+        self.stack.enter_context(patch.object(runner, "journal", side_effect=lambda _, manifest: self.snapshots.append(copy.deepcopy(manifest))))
+
+    def sleep(self, seconds):
+        self.sleeps.append(seconds); self.clock += seconds
+
+    def manifest(self, gap=30, duration=1800):
+        return {"format": runner.FORMAT, "delay_policy": runner.delay_policy(gap), "wait_records": [], "preflights": [],
+                "limits": {"round_seconds": duration}, "cases": [
+                    {"case_id": f"case-{index:02d}", "mode": "sandbox", "attempted": False, "status": "pending"} for index in range(1, 23)] +
+                    [{"case_id": name, "mode": "observed", "attempted": False, "status": "pending"} for name in runner.OBSERVED]}
+
+    def test_cadence_defaults_override_and_policy_types(self):
+        captured = []
+        arguments = ["run", "--output", "new", "--sandbox-executable", "s", "--eog-executable", "e", "--offline-executable", "o", "--desktop-executable", "d"]
+        with patch.object(runner, "run_round", side_effect=lambda args: (captured.append(args.case_gap_seconds) or 0, {"stage": "preflight_complete"})), redirect_stdout(io.StringIO()):
+            self.assertEqual(runner.main(arguments), 0)
+            self.assertEqual(runner.main(arguments + ["--case-gap-seconds", "0"]), 0)
+            self.assertEqual(runner.main(arguments + ["--case-gap-seconds", "60"]), 0)
+        self.assertEqual(captured, [30, 0, 60])
+        for invalid in (-1, 61, True, 30.0):
+            with self.subTest(invalid=invalid), self.assertRaises(runner.EvaluationError):
+                runner.delay_policy(invalid)
+
+    def test_cadence_uses_prior_completion_and_credits_already_elapsed_time(self):
+        manifest = self.manifest()
+        first = runner.wait_for_hosted_case(self.root, manifest, "case-01", None, 0, 1800)
+        self.assertEqual(first["start"]["planned_delay_s"], 0); self.assertEqual(self.sleeps, [])
+        manifest["cases"][0]["attempted"] = True; self.clock = 105.0
+        second = runner.wait_for_hosted_case(self.root, manifest, "case-02", ("case-01", 100.0), 0, 1800)
+        self.assertEqual(second["start"]["eligible_elapsed_s"], 130)
+        self.assertEqual(second["start"]["planned_delay_s"], 25)
+        self.assertEqual(second["finish"]["delayed_s"], 25); self.assertEqual(self.clock, 130)
+        manifest["cases"][1]["attempted"] = True; self.clock = 175.0; before = len(self.sleeps)
+        third = runner.wait_for_hosted_case(self.root, manifest, "case-03", ("case-02", 140.0), 0, 1800)
+        self.assertEqual(third["start"]["planned_delay_s"], 0); self.assertEqual(len(self.sleeps), before)
+        self.assertEqual(runner.validate_delay_history(manifest)["case-02"], second)
+
+    def test_cadence_deadline_and_interrupt_leave_the_next_case_unattempted(self):
+        for interrupt in (False, True):
+            with self.subTest(interrupt=interrupt):
+                self.clock = 0.0; manifest = self.manifest(duration=20)
+                runner.wait_for_hosted_case(self.root, manifest, "case-01", None, 0, 20)
+                manifest["cases"][0]["attempted"] = True; self.clock = 1.0
+                def sleep(seconds):
+                    if interrupt:
+                        raise KeyboardInterrupt
+                    self.sleep(seconds)
+                with patch.object(runner.time, "sleep", side_effect=sleep):
+                    outcome = runner.wait_for_hosted_case(self.root, manifest, "case-02", ("case-01", 1.0), 0, 20)
+                self.assertIsNone(outcome)
+                self.assertEqual(manifest["stop_reason"], "interrupted" if interrupt else "round_deadline")
+                self.assertFalse(manifest["cases"][1]["attempted"])
+                self.assertEqual(manifest["cases"][1]["status"], "pending")
+                self.assertEqual(runner.validate_delay_history(manifest)["case-02"]["finish"]["status"], manifest["stop_reason"])
+
+    def test_cadence_final_clock_sample_crossing_deadline_keeps_valid_pending_evidence(self):
+        manifest = self.manifest(duration=20)
+        samples = iter((19.5, 19.75, 20.0))
+        with patch.object(runner.time, "monotonic", side_effect=lambda: next(samples)):
+            result = runner.wait_for_hosted_case(self.root, manifest, "case-01", None, 0, 20)
+        self.assertIsNone(result); self.assertFalse(manifest["cases"][0]["attempted"])
+        self.assertEqual(manifest["stop_reason"], "round_deadline")
+        record = runner.validate_delay_history(manifest)["case-01"]
+        self.assertEqual(record["finish"]["status"], "round_deadline")
+        self.assertEqual(record["finish"]["finished_elapsed_s"], 20)
+
+    def test_cadence_policy_wait_history_and_attempts_cannot_be_rewritten(self):
+        for mutation in ("policy", "wait", "attempt"):
+            with self.subTest(mutation=mutation):
+                directory = self.root / mutation; directory.mkdir()
+                self.clock = 0.0; manifest = self.manifest()
+                runner.wait_for_hosted_case(directory, manifest, "case-01", None, 0, 1800)
+                manifest["cases"][0].update(attempted=True, status="failed", result={"path": "failed.json", "bytes": 1, "sha256": "a" * 64})
+                self.real_journal(directory, manifest)
+                if mutation == "policy":
+                    manifest["delay_policy"] = runner.delay_policy(0)
+                elif mutation == "wait":
+                    manifest["wait_records"][0].update(started_elapsed_s=1.0, eligible_elapsed_s=1.0)
+                    manifest["wait_records"][1]["finished_elapsed_s"] = 1.0
+                else:
+                    manifest["cases"][0].update(attempted=False, status="pending"); del manifest["cases"][0]["result"]
+                self.real_journal(directory, manifest)
+                with self.assertRaises(runner.EvaluationError):
+                    runner.load_round(directory)
+
+    def observed(self):
+        events = [{"type": "model_request_started"}, {"type": "model_request_completed", "request": {
+            "model_request_id": "request-1", "retry_count": 2, "duration_ms": 25}}]
+        for index in range(1, 5):
+            identity = f"call-{index}"; name = "get_network_state" if index < 4 else "validate_run"
+            arguments = {} if index < 4 else {"snapshot_id": "snapshot-1", "run_id": "run-1"}
+            events.extend([{"type": "tool_requested", "tool_call_id": identity, "tool_name": name},
+                           {"type": "tool_started", "tool_call_id": identity, "tool_name": name, "input_summary": arguments},
+                           {"type": "tool_completed", "tool_call_id": identity, "tool_name": name,
+                            "result": {"ok": True, "reused_validation": index == 4}}])
+        return {"session_id": "observed-unit-only", "events": events, "runs": [{"id": "r1"}, {"id": "r2"}],
+                "recommendation": {"selected_run_id": "r2", "verified_cost": 12.5}}, {"session_id": "observed-unit-only", "tool_calls": 4, "model_requests": 1}
+
+    def test_cadence_observed_metrics_keep_unretained_arguments_unknown(self):
+        value, audited = self.observed()
+        metrics = runner.observed_metrics(value, audited)
+        self.assertEqual(set(metrics), runner.OBSERVED_METRICS)
+        self.assertTrue(metrics["duplicate_counts_complete"]); self.assertTrue(metrics["request_counts_complete"])
+        self.assertEqual((metrics["duplicate_calls"], metrics["unknown_argument_calls"], metrics["dispatched_tool_calls"], metrics["predispatch_rejections"]), (2, 0, 4, 0))
+        self.assertEqual((metrics["successful_tools"], metrics["validation_reuse"]), (4, 1))
+        self.assertEqual((metrics["http_attempts"], metrics["retries"], metrics["model_duration_ms"], metrics["actual_tool_executions"]), (3, 2, 25, 3))
+        self.assertEqual((metrics["read_repeats"], metrics["stored_runs"], metrics["selected_cost"]), (2, 2, 12.5))
+        del next(event for event in value["events"] if event.get("type") == "tool_started" and event["tool_call_id"] == "call-3")["input_summary"]
+        metrics = runner.observed_metrics(value, audited)
+        self.assertFalse(metrics["duplicate_counts_complete"])
+        self.assertEqual((metrics["duplicate_calls"], metrics["unknown_argument_calls"]), (1, 1))
+        value["events"] = [event for event in value["events"] if event["type"] != "model_request_started"]
+        self.assertFalse(runner.observed_metrics(value, audited)["request_counts_complete"])
+
+    def test_cadence_observed_metric_mutations_fail_reaudit(self):
+        value, audited = self.observed()
+        archive = self.root / "observed.json"; runner.write_new(archive, runner.encoded(value))
+        archived = runner.reference(self.root, archive)
+        base = {"case_id": "observed-pump", "mode": "observed", "hosted": True, "status": "passed", "archive": archived,
+                "source_archive_sha256": archived["sha256"], "source_archive_bytes": archived["bytes"],
+                "audit": {**audited, **runner.observed_metrics(value, audited), "passed": True, "classification": "advisory_plan"}}
+        item = {"case_id": "observed-pump", "mode": "observed", "status": "passed"}
+        with patch.object(runner, "audit_observed", return_value=audited):
+            path = self.root / "original-result.json"; runner.write_new(path, runner.encoded(base))
+            runner.reaudit(self.root, {**item, "result": runner.reference(self.root, path)}, observed_metrics_required=True)
+            for key in sorted(runner.OBSERVED_METRICS):
+                changed = copy.deepcopy(base)
+                old = changed["audit"][key]
+                changed["audit"][key] = not old if type(old) is bool else old + " changed" if isinstance(old, str) else old + 1
+                path = self.root / (key + ".json"); runner.write_new(path, runner.encoded(changed))
+                with self.subTest(metric=key), self.assertRaises(runner.EvaluationError):
+                    runner.reaudit(self.root, {**item, "result": runner.reference(self.root, path)}, observed_metrics_required=True)
+            changed = copy.deepcopy(base)
+            for key in runner.OBSERVED_METRICS:
+                changed["audit"].pop(key, None)
+            path = self.root / "removed-metrics.json"; runner.write_new(path, runner.encoded(changed))
+            with self.assertRaises(runner.EvaluationError):
+                runner.reaudit(self.root, {**item, "result": runner.reference(self.root, path)}, observed_metrics_required=True)
 
 
 if __name__ == "__main__":

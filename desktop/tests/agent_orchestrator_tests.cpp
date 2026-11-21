@@ -813,12 +813,29 @@ private slots:
                 if (step++==0) return calls({call("state","get_network_state"),call("catalog","get_control_catalog")});
                 model.silent=true; return {{"content","malformed"}};
             };
-            AgentOrchestrator session(&model);
+            AgentOrchestrator session(&model); bool correctionRequested = false;
             connect(&session,&AgentOrchestrator::activity,&session,[&](const QJsonObject& e) {
-                if (cancelAtCorrection && e.value("type")=="final_format_correction_requested") session.cancel();
+                if (e.value("type")=="final_format_correction_requested") {
+                    correctionRequested = true;
+                    if (cancelAtCorrection) session.cancel();
+                }
             });
-            session.start(std::make_shared<SimulationGateway>(canonical_scenario(),"repair-retirement"),"Inspect.",{12,3,100});
-            QTRY_VERIFY_WITH_TIMEOUT(!session.running(),2000); QVERIFY(session.result().isEmpty());
+            const auto gateway = std::make_shared<SimulationGateway>(canonical_scenario(),"repair-retirement");
+            QElapsedTimer elapsed; elapsed.start();
+            session.start(gateway,"Inspect.",{12,3,1000});
+            // Observe entry into correction before testing its retirement. A
+            // 100-ms startup assumption could expire before the first request
+            // when other builds/workers occupied the machine.
+            QTRY_VERIFY_WITH_TIMEOUT(model.requests >= (cancelAtCorrection ? 2 : 3) || !session.running(),10000);
+            QVERIFY(correctionRequested);
+            if (!cancelAtCorrection) {
+                QCOMPARE(model.requests,3); QVERIFY(session.running());
+                // Delay timer delivery, then send an otherwise valid correction.
+                // It must still obey the original absolute session deadline.
+                QTest::qSleep(static_cast<int>(std::max<qint64>(1,1025-elapsed.elapsed())));
+                emit model.replyReady(conclusion());
+            }
+            QVERIFY(!session.running()); QVERIFY(session.result().isEmpty());
             if (cancelAtCorrection) { QCOMPARE(model.requests,2); QCOMPARE(session.events().last().toMap().value("type").toString(),QString("agent_cancelled")); }
             else { QCOMPARE(model.requests,3); QCOMPARE(session.events().last().toMap().value("error").toMap().value("code").toString(),QString("deadline_exceeded")); }
             emit model.replyReady(conclusion()); QVERIFY(session.result().isEmpty());

@@ -54,7 +54,11 @@ local native search remains independent of that transport.
 A round has a maximum 1,800-second command-line budget, a 450-second outer bound
 per helper, 8 MiB stdout and 1 MiB stderr bounds. Only subprocesses launched by the
 runner are terminated on those outer limits. Partial artifacts and pending cases
-remain recorded. Observed GUI sessions are a separately witnessed step, outside
+remain recorded. Hosted helpers have a recorded 30-second completion-to-next-start
+gap by default, within the same round deadline. `-CaseGapSeconds` accepts 0..60
+for an explicitly recorded alternative. This courtesy spacing does not establish
+the account's quota or guarantee that rate limits cannot occur. Production HTTP
+retries and model tool selection are unchanged. Observed GUI sessions are a separately witnessed step, outside
 the command-line time budget. No credentials, authorization headers or raw model
 reasoning belong in evidence.
 
@@ -131,6 +135,20 @@ reliability rate, prove field accuracy, or show superiority over another LLM.
 Retain original narratives separately from evidence-owned UI metrics. Imported
 and replayed history cannot restore actionable approval.
 
+The first expanded round on `e1713b8` was sealed incomplete: 10 of 22 CLI cases
+passed and two observed cases were left pending. Ten CLI cases failed transport
+checks, including observed NVIDIA rate limits; one failed to find a supported
+plan despite a successful native preflight. Another successfully grounded plan
+was rejected by the new auditor because it incorrectly required a dispatch start
+for a tool call refused before dispatch at the refinement limit. The follow-up
+distinguishes those exact recorded rejections from missing execution evidence,
+and marks their unretained arguments unknown in duplicate metrics. Original
+attempts and their original verdicts remain preserved. Subsequent rounds use the
+same declared inputs, objectives, numerical limits and outcome rubric.
+
 The offline mutation, CLI and transport suites are credential-free CI checks.
+Transport checks include JSON delivered over multiple reads, split UTF-8 and an
+unexpected SSE body. Production requests `stream: false`; rejecting SSE does not
+establish streaming support.
 Hosted runs remain explicitly local. Human ownership/licensing review and actual
 clean-Windows acceptance remain separate release gates.

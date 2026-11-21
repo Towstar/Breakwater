@@ -7,6 +7,7 @@ param(
     [string]$QtPrefix = '',
     [ValidatePattern('^[0-9a-f]{40}$')][string]$ExpectedSourceCommit,
     [ValidateRange(60,1800)][int]$DurationSeconds = 1800,
+    [ValidateRange(0,60)][int]$CaseGapSeconds = 30,
     [switch]$Live
 )
 $ErrorActionPreference = 'Stop'
@@ -34,7 +35,8 @@ $arguments = @('-B', (Join-Path $PSScriptRoot 'run_nemotron_evaluation.py'), 'ru
     '--eog-executable', (Join-Path $BuildDirectory 'desktop/breakwater_eog_live_check.exe'),
     '--offline-executable', (Join-Path $BuildDirectory 'desktop/breakwater_offline_check.exe'),
     '--desktop-executable', (Join-Path $BuildDirectory 'desktop/breakwater.exe'),
-    '--expected-source', $ExpectedSourceCommit, '--duration-seconds', [string]$DurationSeconds)
+    '--expected-source', $ExpectedSourceCommit, '--duration-seconds', [string]$DurationSeconds,
+    '--case-gap-seconds', [string]$CaseGapSeconds)
 if ($Live) { $arguments += '--live' }
 # Preserve only these known process settings. Values, especially the key, are
 # never logged, added to argv, written to source or persisted by this wrapper.

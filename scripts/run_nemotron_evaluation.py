@@ -25,7 +25,7 @@ import time
 import uuid
 
 from nemotron_evaluation_fixtures import generate_fixtures
-from nemotron_evaluation_audit import audit_case
+from nemotron_evaluation_audit import audit_case, retained_tool_metrics
 from audit_candidate_evidence import audit_observed
 from verify_v03_evidence import inspect
 
@@ -36,14 +36,21 @@ MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b"
 ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
 SEMANTIC = {"advisory_plan", "no_supported_plan", "missing_coverage", "stale_coverage"}
 MAX_PROCESS_SECONDS, MAX_ROUND_SECONDS, MAX_CLI_CASES = 450, 1800, 32
+DEFAULT_CASE_GAP_SECONDS = 30
 STDOUT_LIMIT, STDERR_LIMIT, ARTIFACT_LIMIT = 8 * 1024 * 1024, 1024 * 1024, 64 * 1024 * 1024
 OBSERVED = {"observed-pump": False, "observed-missing": True}
+OBSERVED_METRICS = {"logical_requests", "model_requests", "completed_model_requests", "http_attempts", "http_attempts_basis",
+                    "request_counts_complete", "retries", "retry_count", "total_tool_calls", "tool_calls", "duplicate_calls",
+                    "read_repeats", "duplicate_expensive_calls", "duplicate_expensive_executions", "unknown_argument_calls",
+                    "duplicate_counts_complete", "successful_tools", "validation_reuse", "actual_tool_executions", "model_duration_ms",
+                    "dispatched_tool_calls", "predispatch_rejections", "stored_runs", "selected_cost", "provider_exchanges"}
 ENVIRONMENT = ("SYSTEMROOT", "WINDIR", "COMSPEC", "TEMP", "TMP", "USERPROFILE", "LOCALAPPDATA", "APPDATA",
                "PROGRAMDATA", "PATHEXT", "PATH", "PROCESSOR_ARCHITECTURE", "NUMBER_OF_PROCESSORS",
                "BREAKWATER_PYTHON", "BREAKWATER_EOG_WORKER", "BREAKWATER_EOG_CONTRACTS", "BREAKWATER_EOG_NATIVE")
 METRICS = ("logical_requests", "http_attempts", "retries", "total_tool_calls", "duplicate_calls", "successful_tools",
            "validation_reuse", "stored_runs", "model_duration_ms", "read_repeats", "duplicate_expensive_calls",
-           "duplicate_expensive_executions", "actual_tool_executions", "provider_exchanges")
+           "duplicate_expensive_executions", "actual_tool_executions", "provider_exchanges", "predispatch_rejections",
+           "dispatched_tool_calls", "unknown_argument_calls")
 
 
 class EvaluationError(ValueError):
@@ -273,17 +280,129 @@ def journal(root, manifest):
     return path
 
 
+def delay_policy(gap):
+    require(type(gap) is int and 0 <= gap <= 60, "Case gap must be an integer from zero to sixty seconds.")
+    return {"kind": "hosted_completion_to_next_start", "gap_seconds": gap, "first_hosted_gap_seconds": 0,
+            "preflight_gap_seconds": 0, "included_in_round_deadline": True}
+
+
+def validate_delay_history(manifest):
+    policy = manifest.get("delay_policy")
+    if policy is None:
+        require("delay_policy" not in manifest and "wait_records" not in manifest, "Legacy delay policy differs.")
+        return {}
+    require(isinstance(policy, dict), "Delay policy differs.")
+    expected = delay_policy(policy.get("gap_seconds"))
+    require(set(policy) == set(expected) and all(type(policy[key]) is type(value) and policy[key] == value for key, value in expected.items()),
+            "Delay policy differs.")
+    records = manifest.get("wait_records")
+    cases = [case for case in manifest["cases"] if case["mode"] != "observed"]
+    require(isinstance(records, list) and len(records) <= 2 * len(cases), "Invalid delay records.")
+    completed, pending = {}, None
+    start_keys = {"kind", "case_id", "previous_case_id", "previous_completed_elapsed_s", "started_elapsed_s", "eligible_elapsed_s", "planned_delay_s"}
+    finish_keys = {"kind", "case_id", "finished_elapsed_s", "delayed_s", "status"}
+    def number(value):
+        return type(value) in (int, float) and math.isfinite(value) and value >= 0
+    for record in records:
+        require(isinstance(record, dict), "Malformed delay record.")
+        if record.get("kind") == "hosted_delay_started":
+            index = len(completed)
+            require(pending is None and index < len(cases) and set(record) == start_keys and record["case_id"] == cases[index]["case_id"],
+                    "Delay order differs from declared cases.")
+            started, eligible, planned = (record[key] for key in ("started_elapsed_s", "eligible_elapsed_s", "planned_delay_s"))
+            require(all(number(value) for value in (started, eligible, planned)), "Invalid delay timing.")
+            previous = record["previous_completed_elapsed_s"]
+            if index == 0:
+                require(record["previous_case_id"] is None and previous is None and eligible == started and planned == 0,
+                        "First hosted case gained an undeclared delay.")
+            else:
+                previous_id = cases[index - 1]["case_id"]
+                require(record["previous_case_id"] == previous_id and number(previous) and
+                        cases[index - 1]["attempted"] is True and
+                        completed[previous_id]["finish"]["status"] == "completed" and
+                        previous >= completed[previous_id]["finish"]["finished_elapsed_s"] and started >= previous and
+                        eligible == previous + policy["gap_seconds"] and planned == max(0, eligible - started),
+                        "Completion-to-next-start delay differs from policy.")
+            pending = record
+        else:
+            require(pending is not None and set(record) == finish_keys and record.get("kind") == "hosted_delay_finished" and
+                    record["case_id"] == pending["case_id"] and record["status"] in {"completed", "round_deadline", "interrupted"},
+                    "Delay completion has no matching start.")
+            finished, delayed = record["finished_elapsed_s"], record["delayed_s"]
+            require(number(finished) and number(delayed) and finished >= pending["started_elapsed_s"] and
+                    delayed == finished - pending["started_elapsed_s"], "Delay duration differs.")
+            if record["status"] == "completed":
+                require(finished >= pending["eligible_elapsed_s"] and finished < manifest["limits"]["round_seconds"],
+                        "Hosted delay completed before eligibility or after the round deadline.")
+            elif record["status"] == "round_deadline":
+                require(finished >= manifest["limits"]["round_seconds"], "Delay deadline was not reached.")
+            completed[pending["case_id"]] = {"policy": policy, "start": pending, "finish": record}
+            pending = None
+    for case in cases:
+        if case["attempted"]:
+            require(case["case_id"] in completed and completed[case["case_id"]]["finish"]["status"] == "completed",
+                    "Attempted case has no completed declared delay.")
+    return completed
+
+
+def wait_for_hosted_case(root, manifest, case_id, previous, round_started, deadline):
+    started = time.monotonic()
+    previous_id, previous_completed = previous if previous is not None else (None, None)
+    started_elapsed = started - round_started
+    eligible_elapsed = started_elapsed if previous is None else previous_completed + manifest["delay_policy"]["gap_seconds"]
+    begin = {"kind": "hosted_delay_started", "case_id": case_id, "previous_case_id": previous_id,
+             "previous_completed_elapsed_s": previous_completed, "started_elapsed_s": started_elapsed,
+             "eligible_elapsed_s": eligible_elapsed, "planned_delay_s": max(0, eligible_elapsed - started_elapsed)}
+    manifest["wait_records"].append(begin)
+    status = "completed"
+    try:
+        if begin["planned_delay_s"] > 0:
+            journal(root, manifest)  # Preserve the declared wait even if interrupted.
+        while True:
+            now = time.monotonic()
+            if now >= deadline:
+                status = "round_deadline"; break
+            if now - round_started >= eligible_elapsed:
+                break
+            time.sleep(min(0.25, eligible_elapsed - (now - round_started), deadline - now))
+    except KeyboardInterrupt:
+        status = "interrupted"
+    finished = time.monotonic()
+    if status == "completed" and finished >= deadline:
+        status = "round_deadline"
+    end = {"kind": "hosted_delay_finished", "case_id": case_id, "finished_elapsed_s": finished - round_started,
+           "delayed_s": (finished - round_started) - started_elapsed, "status": status}
+    manifest["wait_records"].append(end)
+    if status != "completed":
+        manifest["stop_reason"] = status
+        return None
+    return {"policy": manifest["delay_policy"], "start": begin, "finish": end}
+
+
 def load_round(directory):
     root = plain(directory, directory=True)
     paths = sorted(root.glob("manifest-[0-9][0-9][0-9][0-9].json"))
     require(paths, "Round has no journal.")
-    previous = None
+    previous, prior_value = None, None
     for sequence, path in enumerate(paths, 1):
         require(path.name == f"manifest-{sequence:04d}.json", "Journal sequence has a gap.")
         value = document(bytes_at(path))
         require(value.get("format") == FORMAT and value.get("journal_sequence") == sequence and
                 value.get("previous_manifest") == previous, "Journal chain differs.")
+        validate_delay_history(value)
+        if prior_value is not None:
+            require(value.get("delay_policy") == prior_value.get("delay_policy") and
+                    value.get("wait_records", [])[:len(prior_value.get("wait_records", []))] == prior_value.get("wait_records", []),
+                    "Delay policy or earlier wait records changed.")
+            for group in ("cases", "preflights"):
+                require(len(value[group]) == len(prior_value[group]), "Declared case membership changed.")
+                for before, after in zip(prior_value[group], value[group], strict=True):
+                    key = "case_id" if group == "cases" else "input_id"
+                    require(before[key] == after[key] and (not before["attempted"] or after["attempted"]), "An attempted case was hidden.")
+                    if "result" in before:
+                        require(after.get("result") == before["result"] and after["status"] == before["status"], "A completed result was changed or hidden.")
         previous = reference(root, path)
+        prior_value = value
     require(len(value.get("cases", [])) == 24 and len({case["case_id"] for case in value["cases"]}) == 24,
             "Round declaration differs.")
     return root, value
@@ -353,7 +472,7 @@ def horizon_binding(mode, archive, summary):
             "repair_deadlines": sorted(plan["repair_deadlines"], key=lambda item: item["facility_id"])}
 
 
-def attempt(root, definition, folder, executable, environment, timeout, *, hosted, binding):
+def attempt(root, definition, folder, executable, environment, timeout, *, hosted, binding, cadence=None, round_started=None):
     folder.mkdir(exist_ok=False)
     started = utc()
     require(executable_identity(executable) == binding["executable"], "Executable changed before helper launch.")
@@ -367,6 +486,7 @@ def attempt(root, definition, folder, executable, environment, timeout, *, hoste
                      "--db", str(folder / "history.sqlite"), "--objective", definition["objective"], "--live" if hosted else "--local"]
         if mode == "eog":
             arguments.extend(["--cutoff", str(definition["cutoff_unix"])])
+    helper_started = time.monotonic()
     process = run_helper(arguments, folder, environment, timeout)
     result = {"case_id": definition["case_id"], "mode": mode, "hosted": hosted, "objective": definition["objective"],
               "input_files": definition["input_files"], "expected": definition["expected"], "started_utc": started,
@@ -416,12 +536,18 @@ def attempt(root, definition, folder, executable, environment, timeout, *, hoste
     require(len(partial) <= 1024, "Attempt produced too many artifacts.")
     result["partial_artifacts"] = [reference(root, path) for path in partial]
     result["finished_utc"] = utc()
+    if cadence is not None:
+        result["cadence"] = cadence
+        result["helper_started_elapsed_s"] = helper_started - round_started
+        result["completed_elapsed_s"] = time.monotonic() - round_started
     path = folder / "result.json"; write_new(path, encoded(result))
     return result, reference(root, path)
 
 
 def run_round(args):
-    deadline = time.monotonic() + args.duration_seconds
+    round_started = time.monotonic()
+    deadline = round_started + args.duration_seconds
+    policy = delay_policy(args.case_gap_seconds)
     require(type(args.duration_seconds) is int and 0 < args.duration_seconds <= MAX_ROUND_SECONDS, "Round duration exceeds its bound.")
     require(args.expected_source is None or re.fullmatch(r"[0-9a-f]{40}", args.expected_source), "Expected source must be a full commit ID.")
     output = Path(args.output).absolute()
@@ -443,6 +569,7 @@ def run_round(args):
     manifest = {"format": FORMAT, "round_id": str(uuid.uuid4()), "started_utc": utc(), "stage": "preflight", "live_enabled": args.live,
                 "source": source, "expected_source": args.expected_source, "executables": executables,
                 "model": {"identifier": MODEL, "endpoint": ENDPOINT}, "binding_kind": "Recorded source and executable hashes; not signed build or execution attestation",
+                "delay_policy": policy, "wait_records": [],
                 "limits": {"process_seconds": MAX_PROCESS_SECONDS, "round_seconds": args.duration_seconds, "maximum_cli_cases": MAX_CLI_CASES,
                            "stdout_bytes": STDOUT_LIMIT, "stderr_bytes": STDERR_LIMIT},
                 "fixture_manifest": reference(output, output / "fixtures/manifest.json"), "case_catalog": reference(output, output / "fixtures/cases.json"),
@@ -483,11 +610,16 @@ def run_round(args):
             return (0 if qualified else 2), manifest
         expectations = {item["input_id"]: item["qualified_expected"] for item in manifest["preflights"]}
         manifest["stage"] = "hosted"; journal(output, manifest)
+        previous_completed = None
         for index, case in enumerate(manifest["cases"], 1):
             if case["mode"] == "observed":
                 continue
             if time.monotonic() >= deadline:
                 manifest["stop_reason"] = "round_deadline"; break
+            check_binding(manifest, live=True); verify_fixtures(output, manifest)
+            cadence = wait_for_hosted_case(output, manifest, case["case_id"], previous_completed, round_started, deadline)
+            if cadence is None:
+                break
             check_binding(manifest, live=True); verify_fixtures(output, manifest)
             if time.monotonic() >= deadline:
                 manifest["stop_reason"] = "round_deadline"; break
@@ -495,8 +627,9 @@ def run_round(args):
             case.update(status="running", attempted=True); journal(output, manifest)
             result, ref = attempt(output, definition, output / "hosted" / f"c{index:02d}", executables[case["mode"]]["path"], live_environment,
                                   min(MAX_PROCESS_SECONDS, max(0.001, deadline - time.monotonic())), hosted=True,
-                                  binding={"source": source, "executable": executables[case["mode"]]})
+                                  binding={"source": source, "executable": executables[case["mode"]]}, cadence=cadence, round_started=round_started)
             case.update(status=result["status"], result=ref); journal(output, manifest)
+            previous_completed = (case["case_id"], result["completed_elapsed_s"])
             check_binding(manifest, live=True); verify_fixtures(output, manifest)
             if result["process"]["failure"] == "interrupted":
                 manifest["stop_reason"] = "interrupted"; break
@@ -508,6 +641,36 @@ def run_round(args):
     except (ValueError, KeyError, TypeError, OSError):
         manifest.update(stage="invalid", stop_reason="round_integrity_or_binding_failure"); journal(output, manifest)
         return 1, manifest
+
+
+def observed_metrics(value, audited):
+    events = value.get("events", [])
+    calls = [event for event in events if event.get("type") == "tool_requested"]
+    starts = [event for event in events if event.get("type") == "tool_started"]
+    results = [event for event in events if event.get("type") == "tool_completed"]
+    requests = [event["request"] for event in events if event.get("type") == "model_request_completed"]
+    model_starts = sum(event.get("type") == "model_request_started" for event in events)
+    known_calls = len(calls) == audited["tool_calls"]
+    by_id = {event["tool_call_id"]: event for event in starts}
+    prepared = []
+    for call in calls:
+        start = by_id.get(call["tool_call_id"], {})
+        arguments = start.get("input_summary")
+        prepared_call = {"tool_name": call["tool_name"], "tool_call_id": call["tool_call_id"]}
+        if start.get("tool_name") == call.get("tool_name") and isinstance(arguments, dict):
+            prepared_call["arguments"] = arguments
+        prepared.append(prepared_call)  # Unknown arguments are omitted, never replaced with {}.
+    metrics = retained_tool_metrics(requests, prepared, results, logical=model_starts, name="tool_name", identity="tool_call_id")
+    request_ids = [request.get("model_request_id") for request in requests]
+    metrics["duplicate_counts_complete"] &= known_calls
+    metrics["request_counts_complete"] &= len(requests) == audited["model_requests"] and all(
+        isinstance(identity, str) and identity for identity in request_ids) and len(set(request_ids)) == len(request_ids)
+    recommendation = value.get("recommendation", {})
+    metrics.update(dispatched_tool_calls=len(starts), stored_runs=len(value.get("runs", [])), provider_exchanges=0,
+                   selected_cost=recommendation.get("verified_cost") if recommendation.get("selected_run_id") else None)
+    if known_calls:
+        metrics["predispatch_rejections"] = len(calls) - sum(call["tool_call_id"] in by_id for call in calls)
+    return metrics
 
 
 def attach_observed(args):
@@ -536,7 +699,7 @@ def attach_observed(args):
     if safe:
         path = folder / "evidence.session.json"; write_new(path, raw); result["archive"] = reference(root, path)
     if accepted:
-        result["audit"].update(logical_requests=audited.get("model_requests", 0), total_tool_calls=audited.get("tool_calls", 0))
+        result["audit"].update(observed_metrics(value, audited))
     result_path = folder / "result.json"; write_new(result_path, encoded(result))
     case.update(status=result["status"], attempted=True, result=reference(root, result_path))
     manifest["stage"] = "ready_to_seal" if all(item["status"] == "passed" for item in manifest["cases"]) else "incomplete"
@@ -544,9 +707,18 @@ def attach_observed(args):
     return (0 if accepted else 2), manifest
 
 
-def reaudit(root, item):
+def reaudit(root, item, *, cadence=None, observed_metrics_required=False):
     result = document(read_reference(root, item["result"]))
     require(result["case_id"] == item["case_id"] and result["status"] == item["status"], "Case/result identity differs.")
+    if cadence is not None:
+        require(result.get("cadence") == cadence and cadence["finish"]["status"] == "completed" and
+                type(result.get("helper_started_elapsed_s")) in (int, float) and
+                type(result.get("completed_elapsed_s")) in (int, float) and
+                math.isfinite(result["helper_started_elapsed_s"]) and math.isfinite(result["completed_elapsed_s"]) and
+                result["helper_started_elapsed_s"] >= cadence["finish"]["finished_elapsed_s"] and
+                result["completed_elapsed_s"] >= result["helper_started_elapsed_s"], "Case delay differs from its declared wait.")
+    else:
+        require("cadence" not in result, "Case delay lacks its manifest binding.")
     if item["mode"] != "observed":
         require(result["mode"] == item["mode"] and result["input_files"] == item["definition"]["input_files"] and
                 result["objective"] == item["definition"]["objective"], "Result objective or input binding differs.")
@@ -567,7 +739,13 @@ def reaudit(root, item):
             require(result["status"] == "failed" and result["audit"].get("classification") == "evidence_audit_rejected",
                     "Passing observed evidence failed re-audit.")
             return result
-        require(result["status"] == "passed" and all(result["audit"].get(key) == val for key, val in audit.items()), "Observed re-audit differs.")
+        supplemental = observed_metrics_required or bool(set(result["audit"]) & (OBSERVED_METRICS - {"logical_requests", "total_tool_calls", "model_requests", "tool_calls"}))
+        require(result["status"] == "passed" and all(result["audit"].get(key) == val for key, val in audit.items()
+                if key != "model_requests" or not supplemental), "Observed re-audit differs.")
+        if supplemental:
+            require(result["audit"].get("completed_model_requests") == audit["model_requests"], "Observed completed request count differs.")
+            require({key: val for key, val in result["audit"].items() if key in OBSERVED_METRICS} == observed_metrics(value, audit),
+                    "Observed supplemental metrics differ from raw evidence.")
     elif result.get("raw_output_retained"):
         summary = document(read_reference(root, result["stdout"]))
         read_reference(root, result["stderr"])
@@ -591,6 +769,7 @@ def seal_round(args):
     root, manifest = load_round(args.directory)
     require(not (root / "SEALED.json").exists() and manifest["stage"] != "invalid", "Round is already sealed or invalid.")
     check_binding(manifest, live=manifest["live_enabled"]); verify_fixtures(root, manifest)
+    cadence = validate_delay_history(manifest)
     results, sessions, preflight_results = [], set(), {}
     for preflight in manifest["preflights"]:
         if "result" in preflight:
@@ -605,11 +784,15 @@ def seal_round(args):
             require(preflight["status"] in ("pending", "running"), "Completed preflight has no result.")
     for case in manifest["cases"]:
         if "result" in case:
-            result = reaudit(root, case); results.append(result)
+            result = reaudit(root, case, cadence=cadence.get(case["case_id"]), observed_metrics_required="delay_policy" in manifest); results.append(result)
             require(result["hosted"] is True and result["binding"] == {"source": manifest["source"], "executable": manifest["executables"]["desktop" if case["mode"] == "observed" else case["mode"]]}, "Case source/executable binding differs.")
             if case["mode"] != "observed":
                 native = preflight_results[case["definition"]["input_id"]]
                 require(native["status"] == "passed" and result["expected"] == native["audit"]["classification"], "Hosted expectation lacks passing preflight evidence.")
+                for following in cadence.values():
+                    if following["start"]["previous_case_id"] == case["case_id"]:
+                        require(following["start"]["previous_completed_elapsed_s"] == result.get("completed_elapsed_s"),
+                                "Following delay differs from the actual prior case completion.")
             if "archive" in result:
                 session = document(read_reference(root, result["archive"])).get("session_id")
                 require(session and session not in sessions, "A session was reused across declared cases.")
@@ -644,7 +827,10 @@ def seal_round(args):
                "refusal_categories": dict(Counter(result["audit"]["classification"] for result in results if result["audit"]["classification"] in SEMANTIC - {"advisory_plan"})),
                "metrics": totals, "selected_costs": [{"case_id": result["case_id"], "selected_cost": result["audit"].get("selected_cost")} for result in results],
                "native_preflight_cost_gaps": cost_gaps,
+               "delay_policy": manifest.get("delay_policy"),
+               "delayed_s": sum(record["finish"]["delayed_s"] for record in cadence.values()),
                "request_counts_complete": all(result["audit"].get("request_counts_complete") is True for result in results),
+               "duplicate_counts_complete": all(result["audit"].get("duplicate_counts_complete") is True for result in results),
                "cases": [{"case_id": case["case_id"], "status": case["status"], "result": case.get("result")} for case in manifest["cases"]],
                "limitations": "All declared attempts are counted. Grounded completion/refusal is not prose accuracy, global optimality, field qualification, execution attestation or release approval. Native/hosted cost comparisons require matching input hashes and horizons.",
                "public_release_approved": False}
@@ -667,6 +853,8 @@ def main(argv=None):
         run.add_argument("--" + name + "-executable", type=Path, required=True)
     run.add_argument("--expected-source"); run.add_argument("--live", action="store_true")
     run.add_argument("--duration-seconds", type=int, default=MAX_ROUND_SECONDS)
+    run.add_argument("--case-gap-seconds", type=int, default=DEFAULT_CASE_GAP_SECONDS,
+                     help="Hosted completion-to-next-start courtesy gap (0..60 seconds), within the round deadline")
     attach = commands.add_parser("attach-observed")
     attach.add_argument("--directory", type=Path, required=True); attach.add_argument("--case", choices=OBSERVED, required=True)
     attach.add_argument("--archive", type=Path, required=True)

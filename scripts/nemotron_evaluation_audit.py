@@ -5,10 +5,12 @@ an archive, certifies free text, or grants approval. Hash/source/process binding
 belongs to the enclosing runner manifest. Synthetic unit fixtures are not runs.
 """
 from collections import Counter
+from datetime import datetime
 import json
 
 from audit_candidate_evidence import audit_eog, pairs, request_metadata
 from prepare_release_handoff import unique_object
+from nemotron_evaluation_fixtures import POLICY
 from verify_v03_evidence import MODEL, inspect, require
 
 EXPECTED = {"advisory_plan", "no_supported_plan", "missing_coverage", "stale_coverage"}
@@ -22,6 +24,11 @@ CORRECTIONS = {"final_format_rejected_" + reason for reason in (
 TRANSPORT_CODES = {"transport_failed", "rate_limited", "authentication_failed", "model_unavailable",
                    "timeout", "response_invalid_json", "response_invalid_envelope", "response_truncated"}
 PHYSICAL_VIOLATIONS = {"storage_capacity", "negative_inventory", "destination_throughput", "route_capacity"}
+EVENT_FIELDS = {"type", "session_id", "snapshot_id", "sequence", "timestamp", "elapsed_ms"}
+PREDISPATCH_ERRORS = {
+    "invalid_arguments": "Tool arguments must be a JSON object.",
+    "refinement_limit": "Candidate refinement limit reached; inspect existing evidence or finish."}
+CANDIDATE_TOOLS = {"simulate_candidates", "search_interventions"}
 
 
 def _object(value):
@@ -66,13 +73,12 @@ def _brief(row):
     return _object(value)
 
 
-def _metrics(requests, calls, results, *, logical=None, arguments="arguments", name="name", identity="call_id"):
+def retained_tool_metrics(requests, calls, results, *, logical=None, arguments="arguments", name="name", identity="call_id"):
+    """Count retained requests/tools; absent arguments never imply equality."""
     counters, successes, reused = Counter(), 0, 0
-    read_repeats = expensive = executions = 0
+    read_repeats = expensive = executions = unknown_arguments = 0
     by_id = {row[identity]: row for row in results}
     for call in calls:
-        args = _object(call.get(arguments, {}))
-        key = (call[name], json.dumps(args, sort_keys=True, ensure_ascii=False, allow_nan=False, separators=(",", ":")))
         result = by_id.get(call[identity], {})
         payload = result.get("result", {})
         ok = result.get("ok") is True if name == "name" else isinstance(payload, dict) and payload.get("ok") is True
@@ -80,6 +86,13 @@ def _metrics(requests, calls, results, *, logical=None, arguments="arguments", n
                   isinstance(payload, dict) and payload.get("reused_validation") is True)
         successes += int(ok)
         reused += int(cached and ok)
+        if arguments not in call:
+            # Predispatch rejection records contain no raw argument object.
+            # Absence cannot establish equality with another call's {}.
+            unknown_arguments += 1
+            continue
+        args = _object(call[arguments])
+        key = (call[name], json.dumps(args, sort_keys=True, ensure_ascii=False, allow_nan=False, separators=(",", ":")))
         if counters[key]:
             if call[name] in READS:
                 read_repeats += 1
@@ -95,6 +108,7 @@ def _metrics(requests, calls, results, *, logical=None, arguments="arguments", n
             "retries": retry_count, "retry_count": retry_count, "total_tool_calls": len(calls), "tool_calls": len(calls),
             "duplicate_calls": sum(count - 1 for count in counters.values()), "read_repeats": read_repeats,
             "duplicate_expensive_calls": expensive, "duplicate_expensive_executions": executions,
+            "unknown_argument_calls": unknown_arguments, "duplicate_counts_complete": unknown_arguments == 0,
             "successful_tools": successes, "validation_reuse": reused, "actual_tool_executions": successes - reused,
             "model_duration_ms": sum(row["duration_ms"] for row in requests)}
 
@@ -151,6 +165,62 @@ def _failed(events, status, *, sandbox=False):
     return None
 
 
+def _sandbox_starts(events, calls, starts, results, *, complete):
+    """Match dispatches without inventing starts for the two gateway bypasses."""
+    elapsed = 0
+    for sequence, row in enumerate(events, 1):
+        require(type(row["sequence"]) is int and row["sequence"] == sequence,
+                "Sandbox event sequence differs from its retained order.")
+        require(type(row["elapsed_ms"]) is int and row["elapsed_ms"] >= elapsed,
+                "Sandbox event elapsed time is invalid or moves backwards.")
+        elapsed = row["elapsed_ms"]
+        stamp = row["timestamp"]
+        require(isinstance(stamp, str) and len(stamp) == 24 and stamp.endswith("Z"), "Sandbox event timestamp must be UTC milliseconds.")
+        try:
+            parsed = datetime.strptime(stamp, "%Y-%m-%dT%H:%M:%S.%fZ")
+        except ValueError:
+            raise ValueError("Invalid Sandbox event timestamp.") from None
+        require(parsed.strftime("%Y-%m-%dT%H:%M:%S.%f")[:-3] + "Z" == stamp, "Sandbox event timestamp is not canonical UTC milliseconds.")
+    start_by_id = {row["tool_call_id"]: row for row in starts}
+    require(len(start_by_id) == len(starts), "A tool dispatch identity was reused.")
+    result_by_id = {row["tool_call_id"]: row for row in results}
+    rejected, refinements = set(), 0
+    for call in calls:
+        identity, name = call["tool_call_id"], call["tool_name"]
+        refinements += int(name in CANDIDATE_TOOLS)
+        result, start = result_by_id.get(identity), start_by_id.get(identity)
+        if start is not None:
+            _object(start["input_summary"])
+            require(start["tool_name"] == name and call["sequence"] < start["sequence"],
+                    "Tool dispatch precedes or differs from its request.")
+        if result is None:
+            continue  # Only an unfinished tail is allowed by call/result pairing.
+        require(call["sequence"] < result["sequence"], "Tool result precedes its request.")
+        if start is not None:
+            require(start["sequence"] < result["sequence"] and
+                    set(result) != EVENT_FIELDS | {"tool_name", "tool_call_id", "error"},
+                    "Tool result precedes dispatch or claims both dispatch and predispatch rejection.")
+            continue
+        require(result["type"] == "tool_failed" and
+                set(result) == EVENT_FIELDS | {"tool_name", "tool_call_id", "error"},
+                "A non-predispatch tool result has no start.")
+        error = _object(result["error"])
+        code = error.get("code")
+        require(code in PREDISPATCH_ERRORS and error == {"code": code, "message": PREDISPATCH_ERRORS[code]},
+                "Unknown predispatch tool rejection.")
+        over_limit = name in CANDIDATE_TOOLS and refinements > POLICY["refinement_rounds"]
+        require((code == "refinement_limit") == over_limit,
+                "Predispatch rejection differs from the candidate refinement boundary.")
+        require([row["type"] for row in events if row.get("tool_call_id") == identity] == ["tool_requested", "tool_failed"],
+                "Predispatch rejection also contains execution evidence.")
+        rejected.add(identity)
+    expected = [(row["tool_call_id"], row["tool_name"]) for row in calls if row["tool_call_id"] not in rejected]
+    dispatched = [(row["tool_call_id"], row["tool_name"]) for row in starts]
+    require(dispatched == expected[:len(dispatched)] and (not complete or dispatched == expected),
+            "Tool dispatch identities or order differ.")
+    return rejected
+
+
 def _sandbox(archive, summary, expected, hosted):
     require(archive["archive_version"] == 1 and not archive.get("session_kind"), "Expected a Sandbox session-v1 archive.")
     require(archive["status"] in {"running", "completed", "failed", "cancelled", "stale"}, "Unknown Sandbox archive status.")
@@ -167,8 +237,8 @@ def _sandbox(archive, summary, expected, hosted):
     starts = [row for row in events if row["type"] == "tool_started"]
     results = [row for row in events if row["type"] in {"tool_completed", "tool_failed"}]
     complete = archive["status"] == "completed"
-    pairs(calls, starts, "tool_call_id", "tool_name", complete=complete)
     pairs(calls, results, "tool_call_id", "tool_name", complete=complete)
+    rejected = _sandbox_starts(events, calls, starts, results, complete=complete)
     require(all(row.get("snapshot_id", snapshot["snapshot_id"]) == snapshot["snapshot_id"] for row in events),
             "Event/frozen snapshot identity differs.")
     requests = [row["request"] for row in events if row["type"] == "model_request_completed"]
@@ -180,8 +250,10 @@ def _sandbox(archive, summary, expected, hosted):
     if complete:
         require(logical == len(requests), "Completed investigation has unfinished request metadata.")
     start_by_id = {row["tool_call_id"]: row for row in starts}
-    metric_calls = [{**call, "arguments": start_by_id.get(call["tool_call_id"], {}).get("input_summary", {})} for call in calls]
-    metrics = _metrics(requests, metric_calls, results, logical=logical, name="tool_name", identity="tool_call_id")
+    metric_calls = [{**call, **({"arguments": start_by_id[call["tool_call_id"]]["input_summary"]}
+                              if call["tool_call_id"] in start_by_id else {})} for call in calls]
+    metrics = retained_tool_metrics(requests, metric_calls, results, logical=logical, name="tool_name", identity="tool_call_id")
+    metrics.update(predispatch_rejections=len(rejected), dispatched_tool_calls=len(starts))
     runs = {}
     for detail in _array(archive["runs"]):
         run = _object(detail["run"])
@@ -273,7 +345,7 @@ def _eog(archive, summary, expected, hosted):
             "EOG evidence gained operating authority.")
     if hosted:
         require(summary["tool_order"] == [row["name"] for row in calls], "EOG process tool order differs.")
-    metrics = _metrics(requests, calls, results)
+    metrics = retained_tool_metrics(requests, calls, results)
     capture = archive["capture_manifest"]
     require(summary["capture_id"] == capture["capture_id"] and summary["dataset_identity"] == capture["dataset_identity"],
             "Process/captured input identity differs.")

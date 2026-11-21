@@ -42,6 +42,7 @@ struct Response {
     QNetworkReply::NetworkError error = QNetworkReply::NoError;
     QByteArray retryAfter;
     bool emitReadyRead = true;
+    QList<QByteArray> chunks;
 };
 
 class FakeReply final : public QNetworkReply {
@@ -54,14 +55,11 @@ public:
         setAttribute(QNetworkRequest::HttpStatusCodeAttribute, response_.status);
         if (!response_.retryAfter.isEmpty()) setRawHeader("Retry-After", response_.retryAfter);
         open(QIODevice::ReadOnly | QIODevice::Unbuffered);
-        if (response_.delayMs >= 0) QTimer::singleShot(response_.delayMs, this, [this] {
-            if (isFinished()) return;
-            delivered_ = true;
-            if (response_.error != QNetworkReply::NoError) setError(response_.error, "private-transport-message");
-            if (response_.emitReadyRead && !response_.bytes.isEmpty()) emit readyRead();
-            setFinished(true);
-            emit finished();
-        });
+        if (!response_.chunks.isEmpty()) {
+            response_.bytes.clear();
+            for (const auto& chunk : response_.chunks) response_.bytes.append(chunk);
+        }
+        if (response_.delayMs >= 0) QTimer::singleShot(response_.delayMs, this, [this] { publish(); });
     }
     void abort() override {
         if (isFinished()) return;
@@ -70,21 +68,31 @@ public:
         emit finished();
     }
     qint64 bytesAvailable() const override {
-        return (delivered_ ? static_cast<qint64>(response_.bytes.size()) - offset_ : 0) + QIODevice::bytesAvailable();
+        return available_ - offset_ + QIODevice::bytesAvailable();
     }
 protected:
     qint64 readData(char* data, qint64 maximum) override {
-        if (!delivered_) return 0;
-        const auto length = std::min(maximum, static_cast<qint64>(response_.bytes.size()) - offset_);
-        if (length <= 0) return -1;
+        const auto length = std::min(maximum, available_ - offset_);
+        if (length <= 0) return isFinished() ? -1 : 0;
         std::memcpy(data, response_.bytes.constData() + offset_, static_cast<std::size_t>(length));
         offset_ += length;
         return length;
     }
 private:
     Response response_;
-    qint64 offset_ = 0;
-    bool delivered_ = false;
+    qint64 offset_ = 0, available_ = 0;
+    qsizetype chunk_ = 0;
+    void publish() {
+        if (isFinished()) return;
+        const bool fragmented = !response_.chunks.isEmpty();
+        available_ = fragmented ? available_ + response_.chunks[chunk_++].size() : response_.bytes.size();
+        const bool last = !fragmented || chunk_ == response_.chunks.size();
+        if (last && response_.error != QNetworkReply::NoError) setError(response_.error, "private-transport-message");
+        if (response_.emitReadyRead && available_ > offset_) emit readyRead();
+        if (isFinished()) return; // A size-limit rejection may synchronously abort.
+        if (!last) { QTimer::singleShot(1, this, [this] { publish(); }); return; }
+        setFinished(true); emit finished();
+    }
 };
 
 class FakeNetwork final : public QNetworkAccessManager {
@@ -508,6 +516,7 @@ private slots:
         QTest::addColumn<QByteArray>("body");
         QTest::addColumn<QString>("code");
         QTest::newRow("invalid-json") << QByteArray("{not json PRIVATE_DIAGNOSTIC_CANARY") << QString("response_invalid_json");
+        QTest::newRow("unexpected-sse") << QByteArray("data: {\"choices\":[]}\n\ndata: [DONE]\n\nPRIVATE_DIAGNOSTIC_CANARY") << QString("response_invalid_json");
         QTest::newRow("non-object-envelope") << QByteArray("[]") << QString("response_invalid_envelope");
         QTest::newRow("empty-choices") << QByteArray("{\"choices\":[]}") << QString("response_invalid_choices");
         QTest::newRow("non-object-message") << QByteArray("{\"choices\":[{\"message\":[]}]}") << QString("response_invalid_message");
@@ -533,6 +542,62 @@ private slots:
         QTest::newRow("unparsed-reasoning") << completion(QJsonObject{{"role", "assistant"}, {"content", "<think>PRIVATE_DIAGNOSTIC_CANARY</think>answer"}}) << QString("response_invalid_private_reasoning");
         QTest::newRow("unknown-finish-reason") << completion(QJsonObject{{"role", "assistant"}, {"content", "PRIVATE_DIAGNOSTIC_CANARY"}}, "PRIVATE_DIAGNOSTIC_CANARY") << QString("response_invalid_finish_reason");
         QTest::newRow("truncated-generation") << completion(QJsonObject{{"role", "assistant"}, {"content", "PRIVATE_DIAGNOSTIC_CANARY"}}, "length") << QString("response_truncated");
+    }
+    void fragmentedJsonAndUtf8AreBufferedUntilComplete_data() {
+        QTest::addColumn<bool>("insideUtf8");
+        QTest::newRow("split-json") << false;
+        QTest::newRow("split-utf8") << true;
+    }
+    void fragmentedJsonAndUtf8AreBufferedUntilComplete() {
+        QFETCH(bool, insideUtf8);
+        const auto content = QString::fromUtf8(QByteArray::fromHex("ceb1f09f8cb5"));
+        const auto body = completion(QJsonObject{{"role", "assistant"}, {"content", content}});
+        const auto split = insideUtf8 ? body.indexOf(QByteArray::fromHex("f09f8cb5")) + 1 : 7;
+        QVERIFY(split > 0 && split + 1 < body.size());
+        Response response{200, {}}; response.chunks = {body.left(split), body.mid(split, 1), body.mid(split + 1)};
+        FakeNetwork network; network.responses.append(response);
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed);
+        QSignalSpy completed(&client, &ModelTransport::requestCompleted);
+        client.request(messages(), {});
+        auto* reply = network.findChild<QNetworkReply*>(); QVERIFY(reply);
+        int partialReads = 0; bool publishedBeforeFinished = false;
+        connect(reply, &QIODevice::readyRead, &client, [&] {
+            ++partialReads;
+            publishedBeforeFinished |= !reply->isFinished() && (!success.isEmpty() || !completed.isEmpty());
+        });
+        QTRY_COMPARE(success.size(), 1); QCOMPARE(partialReads, 3); QVERIFY(!publishedBeforeFinished);
+        QCOMPARE(success.first().first().toJsonObject()["content"].toString(), content);
+        QCOMPARE(completed.size(), 1); QVERIFY(failure.isEmpty());
+        QCOMPARE(network.requests.size(), 1);
+        QCOMPARE(QJsonDocument::fromJson(network.payloads.first()).object()["stream"], QJsonValue(false));
+    }
+    void fragmentedToolCallPreservesExactArguments() {
+        auto tool = call("fragmented-call", "validate_run");
+        auto function = tool["function"].toObject();
+        function["arguments"] = QString::fromUtf8(QJsonDocument(QJsonObject{{"snapshot_id", "snapshot-fixture"},
+            {"run_id", "run-fixture"}}).toJson(QJsonDocument::Compact));
+        tool["function"] = function;
+        const auto body = completion(QJsonObject{{"role", "assistant"}, {"content", QJsonValue::Null},
+            {"tool_calls", QJsonArray{tool}}}, "tool_calls");
+        Response response{200, {}};
+        const auto split = body.indexOf("\\\"run_id\\\"") + 5;
+        QVERIFY(split > 5 && split + 1 < body.size());
+        response.chunks = {body.left(split), body.mid(split, body.size() - split - 1), body.right(1)};
+        FakeNetwork network; network.responses.append(response);
+        NemotronClient client(configuration(), nullptr, &network);
+        QSignalSpy success(&client, &ModelTransport::replyReady), failure(&client, &ModelTransport::requestFailed);
+        QSignalSpy completed(&client, &ModelTransport::requestCompleted);
+        client.request(messages(), {});
+        auto* reply = network.findChild<QNetworkReply*>(); QVERIFY(reply);
+        int partialReads = 0; bool publishedBeforeFinished = false;
+        connect(reply, &QIODevice::readyRead, &client, [&] {
+            ++partialReads;
+            publishedBeforeFinished |= !reply->isFinished() && (!success.isEmpty() || !completed.isEmpty());
+        });
+        QTRY_COMPARE(success.size(), 1); QCOMPARE(partialReads, 3); QVERIFY(!publishedBeforeFinished);
+        QCOMPARE(success.first().first().toJsonObject()["tool_calls"].toArray(), QJsonArray{tool});
+        QCOMPARE(completed.size(), 1); QVERIFY(failure.isEmpty()); QCOMPARE(network.requests.size(), 1);
     }
     void rejectsMalformedResponses() {
         QFETCH(QByteArray, body); QFETCH(QString, code); FakeNetwork network; network.responses.append(Response{200, body});

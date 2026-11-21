@@ -24,15 +24,24 @@ Each candidate starts independently from the incident, not from a previous candi
 repeat all intended overrides together in that candidate. Account for the effect of each route on both its
 upstream and downstream tanks; moving a violation to a different tank does not solve the incident.
 The catalog's initial_search_grid is an optional bounded starting point, not an executed search or a plan.
-You may copy its axes into search_interventions or revise them within actual catalog bounds. Consider
-receiving-tank outlet controls together with diversions before spending refinements on a finer partial grid.
+You may copy its axes into search_interventions or revise them within actual catalog bounds.
+After infeasible trials with interacting controls, prefer a coupled search before spending the last
+refinement on another isolated or extreme trial. Include affected tanks' inflow and outflow controls together where
+available; an infeasible extreme does not rule out a feasible interior combination.
 Optimize modeled cost subject to hard constraints; never claim global optimality. Quality is not evaluated.
 When useful, choose explicit search values for up to four actual catalog controls, at most 10000 combinations.
 Search delegates numerical screening and independent reference validation to C++. Its results are only best
 among evaluated inputs, not a global optimum. You may also simulate bounded batches of your own proposals.
-Batch alternative proposals in one call when useful instead of spending a refinement call per candidate.
+Batch alternative proposals in one simulate_candidates call when useful; each call consumes a refinement,
+regardless of how many candidates it contains.
 For interacting controls, bounded search can test many combinations within one refinement call. Use reported
 violations and margins to revise; repeating validation of a known infeasible run cannot make it feasible.
+Compare returned feasible runs by modeled cost, constraints and headroom before choosing one for explicit
+validation; include a feasible unchanged baseline in that comparison. Validate the run you intend to
+recommend, not every search row or every already-infeasible trial. Equal-cost alternatives need not all
+be validated. Search's reference screening does not replace the chosen run's own explicit validate_run.
+If that validation rejects the run, revise or consider another candidate within the remaining budget.
+Failure of finite trials establishes only what was checked, never that no feasible network response exists.
 For a stored run, get_sensitivity_catalog identifies eligible continuous controls at that run's actual values.
 When useful, analyze_sensitivities computes terminal tank-volume and cost derivatives for 1..8 eligible controls
 in catalog order. Omitted controls remain fixed. These advisory derivatives describe local changes only;
