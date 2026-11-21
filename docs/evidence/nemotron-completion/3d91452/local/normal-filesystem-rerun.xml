@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="2"
+	failures="0"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="8"
+	timestamp="2026-11-20T18:26:20"
+	>
+	<testcase name="desktop.eog_live_cli" classname="desktop.eog_live_cli" time="2.18391" status="run">
+		<properties/>
+		<system-out>test_database_sidecar_names_cannot_be_used_as_archives (__main__.EogLiveCliTests.test_database_sidecar_names_cannot_be_used_as_archives) ... ok
+test_invalid_existing_and_in_source_archives_are_rejected (__main__.EogLiveCliTests.test_invalid_existing_and_in_source_archives_are_rejected) ... ok
+test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive (__main__.EogLiveCliTests.test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive) ... ok
+test_native_executable_and_inputs_are_required_without_skips (__main__.EogLiveCliTests.test_native_executable_and_inputs_are_required_without_skips) ... ok
+test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) ... ok
+test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives (__main__.EogLiveCliTests.test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives) ... ok
+test_source_database_paths_and_archive_database_co...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_cli" classname="desktop.eog_cli" time="6.13219" status="run">
+		<properties/>
+		<system-out>test_conflicting_workbench_operations_are_rejected (__main__.EogCliTests.test_conflicting_workbench_operations_are_rejected) ... ok
+test_facility_and_report_need_a_dataset (__main__.EogCliTests.test_facility_and_report_need_a_dataset) ... ok
+test_inputs_cannot_be_report_screenshot_or_database (__main__.EogCliTests.test_inputs_cannot_be_report_screenshot_or_database) ... ok
+test_legacy_report_writers_are_rejected (__main__.EogCliTests.test_legacy_report_writers_are_rejected) ... ok
+test_reports_cannot_overwrite_database_journals (__main__.EogCliTests.test_reports_cannot_overwrite_database_journals) ... ok
+test_reports_screenshot_and_database_are_distinct (__main__.EogCliTests.test_reports_screenshot_and_database_are_distinct) ... ok
+test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input) ... ok
+test_unknown_workspace_and_facility_are_rejected (__main__.EogCliTests.test_unknown_workspace_and_facility_are_rejected) ... ok
+
+---------...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+</testsuite>

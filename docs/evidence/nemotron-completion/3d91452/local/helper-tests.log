@@ -1,0 +1,26 @@
+test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes (test_eog_demo.EogDemoTests.test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes) ... ok
+test_destination_appearing_at_publication_is_not_overwritten_or_merged (test_eog_demo.EogDemoTests.test_destination_appearing_at_publication_is_not_overwritten_or_merged) ... ok
+test_deterministic_topology_rename_preserves_values_economics_and_all_references (test_eog_demo.EogDemoTests.test_deterministic_topology_rename_preserves_values_economics_and_all_references) ... ok
+test_every_system_disposal_and_retained_facility_operations_key_is_renamed (test_eog_demo.EogDemoTests.test_every_system_disposal_and_retained_facility_operations_key_is_renamed) ... ok
+test_external_source_change_before_publication_is_detected (test_eog_demo.EogDemoTests.test_external_source_change_before_publication_is_detected) ... ok
+test_negative_overflow_and_stale_acquisition_field_text_and_line_endings_are_exact (test_eog_demo.EogDemoTests.test_negative_overflow_and_stale_acquisition_field_text_and_line_endings_are_exact) ... ok
+test_only_fixed_input_names_are_opened (test_eog_demo.EogDemoTests.test_only_fixed_input_names_are_opened) ... ok
+test_oversize_input_and_failed_writes_or_publication_never_leave_partial_output (test_eog_demo.EogDemoTests.test_oversize_input_and_failed_writes_or_publication_never_leave_partial_output) ... ok
+test_quoted_unicode_source_ids_only_change_the_asset_token (test_eog_demo.EogDemoTests.test_quoted_unicode_source_ids_only_change_the_asset_token) ... ok
+test_single_facility_existing_and_in_source_output_are_refused (test_eog_demo.EogDemoTests.test_single_facility_existing_and_in_source_output_are_refused) ... ok
+test_unsupported_shape_references_duplicate_keys_and_nonfinite_samples_fail_without_output (test_eog_demo.EogDemoTests.test_unsupported_shape_references_duplicate_keys_and_nonfinite_samples_fail_without_output) ... ok
+test_duplicate_topology_identity (test_live_rehearsals.FixtureTests.test_duplicate_topology_identity) ... ok
+test_malformed_duplicate_nonfinite_json_and_forbidden_fields (test_live_rehearsals.FixtureTests.test_malformed_duplicate_nonfinite_json_and_forbidden_fields) ... ok
+test_mismatched_tool_call_identity (test_live_rehearsals.FixtureTests.test_mismatched_tool_call_identity) ... ok
+test_missing_hosted_metadata (test_live_rehearsals.FixtureTests.test_missing_hosted_metadata) ... ok
+test_missing_operator_approval (test_live_rehearsals.FixtureTests.test_missing_operator_approval) ... ok
+test_missing_retained_scientific_result (test_live_rehearsals.FixtureTests.test_missing_retained_scientific_result) ... ok
+test_no_successful_tool_result_continuation (test_live_rehearsals.FixtureTests.test_no_successful_tool_result_continuation) ... ok
+test_positive_internal_consistency_fixture (test_live_rehearsals.FixtureTests.test_positive_internal_consistency_fixture) ... ok
+test_staging_or_native_validation_mismatch (test_live_rehearsals.FixtureTests.test_staging_or_native_validation_mismatch) ... ok
+test_wrong_hosted_identity (test_live_rehearsals.FixtureTests.test_wrong_hosted_identity) ... ok
+
+----------------------------------------------------------------------
+Ran 21 tests in 4.036s
+
+OK

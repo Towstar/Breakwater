@@ -1,0 +1,42 @@
+{
+  "source_commit": "3d91452d81af7052effb35f98afe48c6f3661b20",
+  "recorded_utc": "2026-11-21T00:56:19.098371+00:00",
+  "configurations": {
+    "normal": {
+      "initial_entries": 88,
+      "initial_passed": 86,
+      "initial_failed": [
+        "desktop.eog_live_cli",
+        "desktop.eog_cli"
+      ],
+      "rerun_entries": 2,
+      "rerun_all_passed": true,
+      "all_entries_verified": 88,
+      "combined_status": "passed",
+      "initial_report": "out\\candidate-readiness\\tests-normal-3d91452\\verification.json",
+      "rerun_junit": "out\\nemotron-completion\\normal-filesystem-rerun.xml"
+    },
+    "asan": {
+      "initial_entries": 88,
+      "initial_passed": 83,
+      "initial_failed": [
+        "desktop.ui_overhaul_normal",
+        "desktop.ui_overhaul_compact",
+        "desktop.ui_overhaul_minimum",
+        "desktop.eog_live_cli",
+        "desktop.eog_cli"
+      ],
+      "rerun_entries": 5,
+      "rerun_all_passed": true,
+      "all_entries_verified": 88,
+      "combined_status": "passed",
+      "initial_report": "out\\candidate-readiness\\tests-asan-3d91452\\verification.json",
+      "rerun_junit": "out\\nemotron-completion\\asan-quiet-rerun\\ctest.xml"
+    }
+  },
+  "limitations": [
+    "Original full attempts are retained and were not clean first-pass successes.",
+    "Quiet UI reruns changed test conditions but no source or assertions; original UI failure cause remains inconclusive.",
+    "Development laptop verification is not clean Windows acceptance."
+  ]
+}

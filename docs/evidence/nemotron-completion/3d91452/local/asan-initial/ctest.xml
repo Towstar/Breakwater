@@ -1,0 +1,621 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="Win32-ninja"
+	tests="88"
+	failures="5"
+	disabled="0"
+	skipped="0"
+	hostname="LucasCLaptop"
+	time="2108"
+	timestamp="2026-11-20T18:16:38"
+	>
+	<testcase name="engine.observation_detection" classname="engine.observation_detection" time="72.2805" status="run">
+		<properties/>
+		<system-out>Held-out qualification: 2 topologies x 10 seeds x 1 healthy hour; 72020 captures, 0 physical event updates, 0 coverage failures
+8 observation detector suites passed
+</system-out>
+	</testcase>
+	<testcase name="engine.observation_qualification" classname="engine.observation_qualification" time="575.99" status="run">
+		<properties/>
+		<system-out>{
+  "qualification_version": 1,
+  "detector_version": "bounded-volume-monitor-0.1.1",
+  "topologies": 2,
+  "seeds_per_topology": 10,
+  "seed_range": [2001,2010],
+  "uncertainty_scales": [1,10],
+  "cases": 400,
+  "captures": 480400,
+  "healthy_and_skew_hours": 80,
+  "target_failures": 0,
+  "false_native_activations_in_no_alert_cases": 0,
+  "coverage_classification_mismatches": 0,
+  "healthy_absolute_bound_checks": 1296360,
+  "healthy_absolute_bound_misses": 0,
+  "passed": true,
+  "presets": [
+    {"preset":"healthy","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":0,"ewma_alarm_cases":0,"ewma_worst_physical_latency_s":null,"cusum_alarm_cases":0,"cusum_worst_physical_latency_s":null},
+    {"preset":"clock_skew","cases":40,"observable_cases":0,"native_detected_cases":0,"native_worst_physical_latency_s":null,"native_worst_observable_latency_s":null,"coverage_unavailable_captures":0,"ewma_alarm_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.observations" classname="engine.observations" time="0.102578" status="run">
+		<properties/>
+		<system-out>6 observation suites passed: analytical balances, calibration bounds, coverage/time, raw values, redundancy and spatial support
+</system-out>
+	</testcase>
+	<testcase name="engine.eog_committed" classname="engine.eog_committed" time="0.12934" status="run">
+		<properties/>
+		<system-out>Committed-state native checks passed: 43
+</system-out>
+	</testcase>
+	<testcase name="engine.eog_plant_abi" classname="engine.eog_plant_abi" time="0.106192" status="run">
+		<properties/>
+		<system-out>28 synthetic C ABI checks passed
+</system-out>
+	</testcase>
+	<testcase name="engine.eog_simulation" classname="engine.eog_simulation" time="0.833306" status="run">
+		<properties/>
+		<system-out>31-day cycle: final_bbl=62.851351849390191 oracle_bbl=62.851351351107596 error_bbl=4.9828259562900712e-07 mass_residual_bbl=-8.5472594690827464e-07 event_boundary_rounding_bbl=6.9979188310753671e-07
+57498 synthetic-event checks passed (100 long-run partition and 100 actual E3 comparisons)
+</system-out>
+	</testcase>
+	<testcase name="engine.eog_response" classname="engine.eog_response" time="0.115077" status="run">
+		<properties/>
+		<system-out>6768 response checks passed (600 independent no-action and 600 well-stop randomized cases)
+</system-out>
+	</testcase>
+	<testcase name="engine.eog_analytical" classname="engine.eog_analytical" time="0.143094" status="run">
+		<properties/>
+		<system-out>PASS barrel and daily units
+PASS finite raw unusual values are not clipped
+PASS normal stopped state and hysteretic cycle
+PASS fault feedback and unknown restart
+PASS analytical countdown uses shutdown threshold
+PASS remaining repair is based on assumed onset
+PASS observation fixture uses an explicit historical clock and policy
+PASS missing stale future and incoherent evidence abstains
+PASS no-crossing and reached are distinct from unavailable
+PASS opening no-action trip and loss
+PASS opening full-load truck and return
+PASS truck removal keeps both sides of the jump
+PASS repeat trip arrivals and return
+PASS truck too late cannot restart shut wells
+PASS threshold wins exact truck tie
+PASS full fixed load cannot exceed inventory
+PASS simultaneous full loads are checked together
+PASS every load must precede repair strictly
+PASS last repeat arrival also respects repair
+PASS immediate well shut-in cost
+PASS delayed well shut-in cost
+PASS each well has its own start and revenue
+PASS mixed response costs are itemize...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.eog_analytical_example" classname="engine.eog_analytical_example" time="0.0854393" status="run">
+		<properties/>
+		<system-out>method=eog-analytical-0.1.0 (private E1 fixture; no detection/search/worker)
+no-action: shutdown_after_h=4.480000 cost=5016.000000
+one-truck: arrival_h=1.250000 free_h=5.083333 final_bbl=700.000000 cost=905.000000
+well-2-off-at-2h: final_bbl=733.333333 cost=2000.000000
+</system-out>
+	</testcase>
+	<testcase name="engine.benchmark_correctness" classname="engine.benchmark_correctness" time="0.595237" status="run">
+		<properties/>
+		<system-out>canonical_incident candidates=100 verified=100 feasible=5 screen_passes=5 influence_passes=5 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+custom_24_tanks candidates=100 verified=100 feasible=23 screen_passes=23 influence_passes=23 public_evaluator=route_walk influence_fallbacks=1 reference_checks=5
+{"benchmark_version":2,"status":"passed","method":"correctness_only","configuration":"RelWithDebInfo","checked_build":true,"cpp_standard":2020,"compiler":"MSVC 194435219","logical_processors_reported":20,"processor_identifier":"AMD64 Family 26 Model 36 Stepping 0, AuthenticAMD","steady_clock":true,"warmup_batches":2,"repeats":7,"calibration_target_ms":10,"maximum_iterations_per_sample":1024,"phase_order":"rotated per repetition","quantile":"p90 nearest rank; stddev population","notes":"Kernel setup excluded except explicitly timed influence_precompute. Dense/sparse have identical samples, writes and full-buffer checksum consumption. Affine avoids trajectories. Paired route-walk/influence scr...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.acceptance" classname="engine.acceptance" time="0.420625" status="run">
+		<properties/>
+		<system-out>PASS healthy preview accumulates explicitly
+PASS baseline exact limit time and unclipped prediction
+PASS isolated downstream failure
+PASS mixed plan cost and inventory
+PASS capacity equality is permitted
+PASS generic renamed network and shared throughput
+PASS negative inventories remain visible
+PASS unknown nonfinite duplicate and unavailable controls rejected
+PASS draft and malformed topology rejected
+PASS independent validator catches corrupted trajectories and cost
+PASS nonfinite derived catalog prices are explicit invalid network parameters
+PASS independent cost overflow rejects finite infinite and NaN result costs
+PASS simulated cost overflow remains visible and fails independent validation
+PASS finite huge and zero costs validate independently of cached pricing
+PASS decimal horizon edge cases preserve interior samples and the exact endpoint
+PASS subnormal and neighboring horizons remain strictly covered
+PASS one-ULP shortened and extended results never satisfy requested-horizon validation
+PASS requested...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.search" classname="engine.search" time="0.131804" status="run">
+		<properties/>
+		<system-out>PASS canonical explicit batch rejects bad plans and returns real mixed reference
+PASS small canonical grid agrees with exhaustive independent reference oracle
+PASS curtailment ranking includes savings on nonzero-cost source feed route
+PASS renamed colon IDs and unspecified settings remain intact
+PASS shared treatment and trucking limits screen aggregate arrivals
+PASS capacity equality and validator tolerance are respected
+PASS no axes evaluate one unchanged candidate and infeasible search is explicit
+PASS valid decimal and subnormal grids do not become false no-plan results
+PASS one-ULP final overflow never receives a recommendation
+PASS forecast work-limit errors precede candidate screening
+PASS equal cost results retain input order
+PASS exactly 10000 candidates accepted and larger requests rejected
+PASS grid product limit and four-control limit are enforced
+PASS unknown duplicate nonfinite out-of-bounds and unavailable controls rejected
+PASS source control cannot exceed its connected feed capacity
+PASS malf...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.control_influence" classname="engine.control_influence" time="7.72265" status="run">
+		<properties/>
+		<system-out>PASS large public batch and Cartesian search retain exhaustive reference rankings
+PASS precomputed rates and destination sums match route traversal across actual network shapes
+PASS nonzero source feed cost and partial defaults agree at the numeric screen
+PASS near-boundary predictions exercise the route-walk fallback
+PASS canonical and custom batch rankings agree with exhaustive native oracle
+PASS partial overrides keep other route and source settings fixed
+PASS close reference costs and ties preserve exact ranking across the result cutoff
+PASS shared destination equality and near-boundary rows match independent validation
+PASS storage equality and narrowed horizon preserve the reference feasibility decision
+PASS nonfinite baseline cost does not hide a finite overridden candidate
+PASS automatic influence dispatch rejects cost overflow but preserves finite repairs
+PASS reciprocal huge flows and zeroed overrides do not lose finite cancellation
+PASS changed costs topology and availability are rebuilt for each c...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.search_example" classname="engine.search_example" time="0.093849" status="run">
+		<properties/>
+		<system-out>SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=432 screen_survivors=39 constraint_rejections=393 numerical_rejections=0 reference_checks=5 reference_rejections=0
+candidate=352 reference_validated=true cost=4800 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=20 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=356 reference_validated=true cost=5280 synthetic_units minimum_headroom=10 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=22 m3/h
+  source:source_a:curtail=0 m3/h
+  tank_a final=110 m3
+  tank_b final=117 m3
+candidate=349 reference_validated=true cost=7350 synthetic_units minimum_headroom=4 m3
+  route:bypass:flow=20 m3/h
+  route:backup_pump:flow=35 m3/h
+  route:truck_route:flow=15 m3/h
+  source:source_a:curtail=5 m3/h
+  tank_a final=116 m3
+  tank_b final=117 m3
+candidate=281 reference_validated=true cost=8550 synt...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.search_infeasible_example" classname="engine.search_infeasible_example" time="0.056233" status="run">
+		<properties/>
+		<system-out>SYNTHETIC | constant-flow-0.1.1 | nominal 3 h finite candidate search
+candidates=2 screen_survivors=0 constraint_rejections=2 numerical_rejections=0 reference_checks=0 reference_rejections=0
+NO_FEASIBLE_PLAN_FOUND among evaluated candidates; not a global infeasibility proof.
+</system-out>
+	</testcase>
+	<testcase name="engine.transport" classname="engine.transport" time="7.4334" status="run">
+		<properties/>
+		<system-out>PASS large finite concentration and mass do not overflow auxiliary norms
+PASS finite physical mass survives a concentration-sum overflow
+PASS disabled processes preserve a nonuniform field and exact output horizon
+PASS pure decay agrees with analytic solution and converges in time
+PASS one open Euler step balances signed faces source and old-state decay
+PASS one closed Euler step cancels internal faces with source and decay
+PASS variable event steps telescope the old-inventory source and decay ledger
+PASS constant field survives positive advection and diffusion
+PASS CFL one pure upwind advection shifts by one cell
+PASS closed diffusion cosine cell averages converge under mesh refinement
+SOURCE_REFERENCE,coupled_mesh,16,0.01,3.1775078324639688e-05,1.1199009926118886e-05,5.9535036772917493e-05,4.1300296516055823e-13,643,10288
+SOURCE_REFERENCE,coupled_mesh,32,0.01,7.916981579812396e-06,2.894612996394777e-06,1.4975294866215183e-05,1.8784973576657649e-12,2486,79552
+SOURCE_REFERENCE,coupled_mesh,64,0.01,1.979605421...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="engine.transport_example" classname="engine.transport_example" time="0.0865262" status="run">
+		<properties/>
+		<system-out>SYNTHETIC | fvm-upwind-euler-0.1.0 | single-pipe tracer reference
+cells=64 frames=41 substeps=136 maximum_cfl=0.9
+final_inventory_mg=1994.10774493 signed_inlet_exchange_mg=4533.10789803 outlet_exchange_mg=4276.15496538 decayed_mg=262.845187721
+maximum_mass_residual_mg=1.36887055523e-12 minimum_concentration_mg_l=0.189932938338 final_outlet_cell_mg_l=0.275066562435
+Scalar transport proxy; network-wide chemistry and learned model validation are separate work.
+</system-out>
+	</testcase>
+	<testcase name="desktop.scene_framing" classname="desktop.scene_framing" time="0.190984" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.label_placement" classname="desktop.label_placement" time="0.110595" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.evidence_v2" classname="desktop.evidence_v2" time="45.118" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.workspace_settings" classname="desktop.workspace_settings" time="0.25619" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.editor_tools" classname="desktop.editor_tools" time="1.92019" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_normal" classname="desktop.ui_overhaul_normal" time="67.8483" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3d91452/ui/breakwater-ui-GASnOK","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_escape_cancels_connection","valid_retry_clears_inline_retires_run_approval","edited_focus_loss_once_unedited_focus_loss_no_commit","native_multiselect_duplicate_atomic_undo","native_tool_highlights_close_buttons_shortcut_guard_repeat_toggle","bundled_hosted_recording_reopens_historical_without_review_authority","native_filter_preserves_evidence_selection_shortcuts_and_visible_ranges","inspector_route_state_preserves_numerical_evidence","world_aligned_bounded_grid_toggle_preserves_numerical_evidence","instrumented_example_and_monitoring_controls_have_explicit_empty_state","actual_pipe_execution_retention_reload_and_history_viewer_preserve_volume_controls"],"code":"ui_check_timeout","device_pixel_ratio":1.75,"elapsed_ms":60049,"hosted_model_requests":"not_requested","observed":{"after_focused_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"after_outside_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":false,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"before_dismiss_feedback_id":"2","capacity":120,"feedback_id":"2","field_text":"120","focused_before_escape":{"active_focus_item":"dismissActionFeedback","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":false,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true},"inline_visible":true,"inspector_scrollbar":{"height":514,"panel_height":538,"panel_width":286,"size":0.6314496314496314,"x":264},"notice_visible":false,"outside_escape_before_key":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"outside_escape_setup_started":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":false,"window_active":true},"recording":{"folder_matches":true,"historical":true,"loaded":true,"loading":false,"pending":false,"status":"Historical evidence. Imported or reopened plans cannot restore current review eligibility.","storage":"EOG evidence is retained locally.","trace":28},"retained_pipe_button":{"height":36,"scroll_y":156,"viewport_height":126,"width":152,"x":1021,"y":782},"retained_pipe_open":{"imported":true,"status":"Retained historical native scalar evidence. Approval and operating controls are unavailable.","visible":true},"selected_id":"tank_a","third_retry_before_escape":{"active_focus_item":"numericProperty_capacity","connect_mode":true,"feedback_code":"property.invalid_number","feedback_id":"3","field_active_focus":true,"field_pending_commit":false,"field_text":"120","notice_visible":true,"window_active":true}},"passed":false,"phase":50,"window_height":900,"window_width":1440,"workspace_observations":{"label_projection_home":{"label_count":3,"labels":[{"actual_x":364.92767333984375,"actual_y":292.4188537597656,"anchor_x":364.92767333984375,"anchor_y":292.4188537597656,"error_px":0,"id":"tank_a","passed":true},{"actual_x":623.290283203125,"actual_y":280.2397155761719,"anchor_x":623.290283203125,"anchor_y":280.2397155761719,"error_px":0,"id":"treatment","passed":true},{"actual_x":520.2119140625,"actual_y":378.2548828125,"anchor_x":520.2119140625,"anchor_y":378.2548828125,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_perspective":{"label_count":3,"labels":[{"actual_x":364.92767333984375,"actual_y":292.4188537597656,"anchor_x":364.92767333984375,"anchor_y":292.4188537597656,"error_px":0,"id":"tank_a","passed":true},{"actual_x":623.290283203125,"actual_y":280.2397155761719,"anchor_x":623.290283203125,"anchor_y":280.2397155761719,"error_px":0,"id":"treatment","passed":true},{"actual_x":520.2119140625,"actual_y":378.2548828125,"anchor_x":520.2119140625,"anchor_y":378.2548828125,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top":{"label_count":3,"labels":[{"actual_x":434.8461608886719,"actual_y":382.3807067871094,"anchor_x":434.8461608886719,"anchor_y":382.38092041015625,"error_px":0.000213623046875,"id":"tank_a","passed":true},{"actual_x":642.5384521484375,"actual_y":216.1648712158203,"anchor_x":642.5384521484375,"anchor_y":216.2270965576172,"error_px":0.062225341796875,"id":"treatment","passed":true},{"actual_x":621.769287109375,"actual_y":382.3807067871094,"anchor_x":621.769287109375,"anchor_y":382.38092041015625,"error_px":0.000213623046875,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_focus":{"label_count":3,"labels":[{"actual_x":307.17645263671875,"actual_y":499.0964660644531,"anchor_x":307.17645263671875,"anchor_y":499.0964660644531,"error_px":0,"id":"tank_a","passed":true},{"actual_x":624.8235473632812,"actual_y":244.884033203125,"anchor_x":624.8235473632812,"anchor_y":244.884033203125,"error_px":0,"id":"treatment","passed":true},{"actual_x":593.0587768554688,"actual_y":499.0964660644531,"anchor_x":593.0587768554688,"anchor_y":499.0964660644531,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"label_projection_top_pan":{"label_count":2,"labels":[{"actual_x":71.53848266601562,"actual_y":236.45362854003906,"anchor_x":71.53848266601562,"anchor_y":236.45362854003906,"error_px":0,"id":"tank_a","passed":true},{"actual_x":836.4614868164062,"actual_y":491.5231018066406,"anchor_x":836.4614868164062,"anchor_y":491.5231018066406,"error_px":0,"id":"tank_b","passed":true}],"passed":true},"plan_fit_route_endpoints":{"camera":{"horizontal":1.1589744091033936,"vertical":1.1589744091033936,"x":-1200,"z":9.491150856018066},"corners":[{"id":"tank_a","inside":true,"x":37.179527282714844,"y":151.70449829101562},{"id":"tank_a","inside":true,"x":37.179527282714844,"y":360.397705078125},{"id":"tank_a","inside":true,"x":199.43588256835938,"y":151.70449829101562},{"id":"tank_a","inside":true,"x":199.43588256835938,"y":360.397705078125},{"id":"tank_b","inside":true,"x":732.5641479492188,"y":383.5858154296875},{"id":"tank_b","inside":true,"x":732.5641479492188,"y":592.2789916992188},{"id":"tank_b","inside":true,"x":894.820556640625,"y":383.5858154296875},{"id":"tank_b","inside":true,"x":894.820556640625,"y":592.2789916992188}],"fit":{"cameraX":-1200,"cameraZ":9.491150442477876,"magnification":1.158974358974359,"spanX":780,"spanZ":380,"usable":{"height":540,"width":904,"x":14,"y":102}},"valid":true,"view_height":766,"view_width":932},"plan_fit_tall":{"camera":{"horizontal":0.1729559749364853,"vertical":0.1729559749364853,"x":0,"z":34.69091033935547},"corners":[{"id":"tank_a","inside":true,"x":436.5975036621094,"y":101.89453887939453},{"id":"tank_a","inside":true,"x":436.5975036621094,"y":133.0382537841797},{"id":"tank_a","inside":true,"x":460.8113098144531,"y":101.89453887939453},{"id":"tank_a","inside":true,"x":460.8113098144531,"y":133.0382537841797},{"id":"tank_b","inside":true,"x":471.1886901855469,"y":205.7068634033203},{"id":"tank_b","inside":true,"x":471.1886901855469,"y":236.85052490234375},{"id":"tank_b","inside":true,"x":495.40252685546875,"y":205.7068634033203},{"id":"tank_b","inside":true,"x":495.40252685546875,"y":236.85052490234375},{"id":"source_a","inside":true,"x":436.5975036621094,"y":309.5191345214844},{"id":"source_a","inside":true,"x":436.5975036621094,"y":340.662841796875},{"id":"source_a","inside":true,"x":460.8113098144531,"y":309.5191345214844},{"id":"source_a","inside":true,"x":460.8113098144531,"y":340.662841796875},{"id":"source_b","inside":true,"x":471.1886901855469,"y":413.3314208984375},{"id":"source_b","inside":true,"x":471.1886901855469,"y":444.4751281738281},{"id":"source_b","inside":true,"x":495.40252685546875,"y":413.3314208984375},{"id":"source_b","inside":true,"x":495.40252685546875,"y":444.4751281738281},{"id":"treatment","inside":true,"x":436.5975036621094,"y":517.1437377929688},{"id":"treatment","inside":true,"x":436.5975036621094,"y":548.2874145507812},{"id":"treatment","inside":true,"x":460.8113098144531,"y":517.1437377929688},{"id":"treatment","inside":true,"x":460.8113098144531,"y":548.2874145507812},{"id":"trucking","inside":true,"x":471.1886901855469,"y":620.9559936523438},{"id":"trucking","inside":true,"x":471.1886901855469,"y":652.0997314453125},{"id":"trucking","inside":true,"x":495.40252685546875,"y":620.9559936523438},{"id":"trucking","inside":true,"x":495.40252685546875,"y":652.0997314453125}],"fit":{"cameraX":0,"cameraZ":34.690909090909095,"magnification":0.17295597484276728,"spanX":380,"spanZ":3180,"usable":{"height":550,"width":904,"x":14,"y":102}},"valid":true,"view_height":766,"view_width":932},"plan_fit_tall_after_dock_resize":{"camera":{"horizontal":0.10125786066055298,"vertical":0.10125786066055298,"x":0,"z":59.25465774536133},"corners":[{"id":"tank_a","inside":true,"x":448.7861633300781,"y":101.91096496582031},{"id":"tank_a","inside":true,"x":448.7861633300781,"y":120.14706420898438},{"id":"tank_a","inside":true,"x":462.9622802734375,"y":101.91096496582031},{"id":"tank_a","inside":true,"x":462.9622802734375,"y":120.14706420898438},{"id":"tank_b","inside":true,"x":469.0377197265625,"y":162.69793701171875},{"id":"tank_b","inside":true,"x":469.0377197265625,"y":180.93402099609375},{"id":"tank_b","inside":true,"x":483.2138671875,"y":162.69793701171875},{"id":"tank_b","inside":true,"x":483.2138671875,"y":180.93402099609375},{"id":"source_a","inside":true,"x":448.7861633300781,"y":223.48489379882812},{"id":"source_a","inside":true,"x":448.7861633300781,"y":241.7209930419922},{"id":"source_a","inside":true,"x":462.9622802734375,"y":223.48489379882812},{"id":"source_a","inside":true,"x":462.9622802734375,"y":241.7209930419922},{"id":"source_b","inside":true,"x":469.0377197265625,"y":284.2718811035156},{"id":"source_b","inside":true,"x":469.0377197265625,"y":302.50799560546875},{"id":"source_b","inside":true,"x":483.2138671875,"y":284.2718811035156},{"id":"source_b","inside":true,"x":483.2138671875,"y":302.50799560546875},{"id":"treatment","inside":true,"x":448.7861633300781,"y":345.05889892578125},{"id":"treatment","inside":true,"x":448.7861633300781,"y":363.29498291015625},{"id":"treatment","inside":true,"x":462.9622802734375,"y":345.05889892578125},{"id":"treatment","inside":true,"x":462.9622802734375,"y":363.29498291015625},{"id":"trucking","inside":true,"x":469.0377197265625,"y":405.8458557128906},{"id":"trucking","inside":true,"x":469.0377197265625,"y":424.0819396972656},{"id":"trucking","inside":true,"x":483.2138671875,"y":405.8458557128906},{"id":"trucking","inside":true,"x":483.2138671875,"y":424.0819396972656}],"fit":{"cameraX":0,"cameraZ":59.254658385093165,"magnification":0.10125786163522013,"spanX":380,"spanZ":3180,"usable":{"height":322,"width":904,"x":14,"y":102}},"valid":true,"view_height":538,"view_width":932},"plan_fit_wide":{"camera":{"horizontal":0.28427672386169434,"vertical":0.28427672386169434,"x":0,"z":21.1061954498291},"corners":[{"id":"tank_a","inside":true,"x":19.685544967651367,"y":208.95452880859375},{"id":"tank_a","inside":true,"x":19.685544967651367,"y":260.1515197753906},{"id":"tank_a","inside":true,"x":59.48427200317383,"y":208.95452880859375},{"id":"tank_a","inside":true,"x":59.48427200317383,"y":260.1515197753906},{"id":"tank_b","inside":true,"x":190.25157165527344,"y":265.840087890625},{"id":"tank_b","inside":true,"x":190.25157165527344,"y":317.0370788574219},{"id":"tank_b","inside":true,"x":230.05032348632812,"y":265.840087890625},{"id":"tank_b","inside":true,"x":230.05032348632812,"y":317.0370788574219},{"id":"source_a","inside":true,"x":360.817626953125,"y":208.95452880859375},{"id":"source_a","inside":true,"x":360.817626953125,"y":260.1515197753906},{"id":"source_a","inside":true,"x":400.6163635253906,"y":208.95452880859375},{"id":"source_a","inside":true,"x":400.6163635253906,"y":260.1515197753906},{"id":"source_b","inside":true,"x":531.3836669921875,"y":265.840087890625},{"id":"source_b","inside":true,"x":531.3836669921875,"y":317.0370788574219},{"id":"source_b","inside":true,"x":571.182373046875,"y":265.840087890625},{"id":"source_b","inside":true,"x":571.182373046875,"y":317.0370788574219},{"id":"treatment","inside":true,"x":701.9496459960938,"y":208.95452880859375},{"id":"treatment","inside":true,"x":701.9496459960938,"y":260.1515197753906},{"id":"treatment","inside":true,"x":741.7484741210938,"y":208.95452880859375},{"id":"treatment","inside":true,"x":741.7484741210938,"y":260.1515197753906},{"id":"trucking","inside":true,"x":872.5157470703125,"y":265.840087890625},{"id":"trucking","inside":true,"x":872.5157470703125,"y":317.0370788574219},{"id":"trucking","inside":true,"x":912.314453125,"y":265.840087890625},{"id":"trucking","inside":true,"x":912.314453125,"y":317.0370788574219}],"fit":{"cameraX":0,"cameraZ":21.106194690265486,"magnification":0.2842767295597484,"spanX":3180,"spanZ":380,"usable":{"height":322,"width":904,"x":14,"y":102}},"valid":true,"view_height":538,"view_width":932},"route_cue_bypass":{"active":["selectedRouteCue:bypass"],"body_hit":"route:bypass","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:bypass","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:bypass","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[11.600000381469727,19,30],"rotation":[0.7071068286895752,0,0,-0.7071068286895752]},"pipe_red":false,"visible":true},"route_cue_main_pump":{"active":["selectedRouteCue:main_pump"],"body_hit":"route:main_pump","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:main_pump","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:main_pump","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[24,19,-69.19999694824219],"rotation":[0.7071068286895752,-0.4417261481285095,0,-0.5521577000617981]},"pipe_red":true,"visible":true}}}
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_compact" classname="desktop.ui_overhaul_compact" time="23.197" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3d91452/ui/breakwater-ui-oxKQia","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project"],"code":"route_filter_clear_changed_selection_or_count","device_pixel_ratio":1.75,"elapsed_ms":14627,"hosted_model_requests":"not_requested","observed":{},"passed":false,"phase":74,"window_height":700,"window_width":1100}
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_short" classname="desktop.ui_overhaul_short" time="68.3929" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3d91452/ui/breakwater-ui-LXkoNe","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection","zero_setting_and_unavailable_route_static_cues_status_bounds_and_picking_preserve_controls","top_focus_perspective_and_home_label_anchors_follow_rendered_projection_without_numerical_edits","actual_tall_wide_plan_framing_resize_route_focus_zoom_and_scene_focus_preserve_evidence_and_preferences","actual_1_25h_forecast","nested_geometry_pick_and_click","layout_drag_preserves_hash_run_approval","keyboard_rejection_repeat_dismiss_preserves_evidence","focused_notice_escape_isolated","outside_notice_esca...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.ui_overhaul_minimum" classname="desktop.ui_overhaul_minimum" time="29.8883" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3d91452/ui/breakwater-ui-xuYeki","check":"ui_overhaul","checks":["native_assets_accessibility_action_gates","empty_native_forecast_keyboard_help_and_view_shortcuts_preserve_project","route_list_selection_focus_and_related_labels_preserve_project","route_keyboard_and_inspector_focus_preserve_numerical_evidence","connection_filters_id_endpoints_source_settings_and_modes_preserve_selection"],"code":"route_cue_changed_primary_picking","device_pixel_ratio":1.75,"elapsed_ms":20756,"hosted_model_requests":"not_requested","observed":{},"passed":false,"phase":95,"window_height":540,"window_width":960,"workspace_observations":{"route_cue_bypass":{"active":["selectedRouteCue:bypass"],"body_hit":"","found":true,"geometry":{"models":[{"name":"selectedRouteCueHead:bypass","neutral":true,"pickable":false,"position":[0,10,0],"scale":[0.15000000596046448,0.1599999964237213,0.10000000149011612],"source":"#Cone"},{"name":"selectedRouteCueShaft:bypass","neutral":true,"pickable":false,"position":[0,-7,0],"scale":[0.054999999701976776,0.2199999988079071,0.02500000037252903],"source":"#Cube"}],"position":[11.600000381469727,19,30],"rotation":[0.7071068286895752,0,0,-0.7071068286895752]},"pipe_red":false,"visible":true}}}
+</system-out>
+	</testcase>
+	<testcase name="desktop.project" classname="desktop.project" time="1.31126" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_parameters" classname="desktop.pipe_parameters" time="0.159788" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.nemotron_client" classname="desktop.nemotron_client" time="2.47679" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.agent_gateway" classname="desktop.agent_gateway" time="0.669395" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.agent_orchestrator" classname="desktop.agent_orchestrator" time="21.7085" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.observed_forecast" classname="desktop.observed_forecast" time="75.172" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.session_repository" classname="desktop.session_repository" time="3.33997" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.history_controller" classname="desktop.history_controller" time="2.22595" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.python_worker" classname="desktop.python_worker" time="4.34244" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_transport" classname="desktop.pipe_transport" time="14.0328" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_transport_evidence" classname="desktop.pipe_transport_evidence" time="0.496414" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.storage_worker" classname="desktop.storage_worker" time="145.499" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.storage_science" classname="desktop.storage_science" time="107.949" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.stored_science" classname="desktop.stored_science" time="7.98325" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.science_evidence" classname="desktop.science_evidence" time="20.6181" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.agent_science" classname="desktop.agent_science" time="14.399" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.scene_picking_warp" classname="desktop.scene_picking_warp" time="21.3658" status="run">
+		<properties/>
+		<system-out>Retained scene-picking evidence: C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\out\portfolio-desktop-asan\desktop\test-artifacts\scene-picking-warp-24bb691afdfe4028864a05a2cdcc23b2
+PASS: 6/6 actual body picks; WARP 14.94 FPS (diagnostic only)
+</system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor" classname="desktop.sensor_editor" time="4.60451" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_stream" classname="desktop.telemetry_stream" time="174.123" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_lifecycle" classname="desktop.telemetry_lifecycle" time="27.4004" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.observed_capture" classname="desktop.observed_capture" time="8.89106" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.local_publisher" classname="desktop.local_publisher" time="5.78114" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.receiver_journal" classname="desktop.receiver_journal" time="11.0565" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor_normal_smoke" classname="desktop.sensor_editor_normal_smoke" time="11.3942" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_replay_normal_smoke" classname="desktop.telemetry_replay_normal_smoke" time="11.9012" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.sensor_editor_compact_smoke" classname="desktop.sensor_editor_compact_smoke" time="11.3554" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_replay_compact_smoke" classname="desktop.telemetry_replay_compact_smoke" time="11.3205" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.telemetry_contracts" classname="desktop.telemetry_contracts" time="14.27" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="contracts.telemetry" classname="contracts.telemetry" time="5.36659" status="run">
+		<properties/>
+		<system-out>...................
+----------------------------------------------------------------------
+Ran 19 tests in 4.838s
+
+OK
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_contracts" classname="desktop.eog_contracts" time="1.38673" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="contracts.eog" classname="contracts.eog" time="2.6153" status="run">
+		<properties/>
+		<system-out>................................................
+----------------------------------------------------------------------
+Ran 48 tests in 2.267s
+
+OK
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_normal" classname="desktop.observed_advisory_normal" time="21.0454" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3d91452/ui/breakwater-ui-CitwTS","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":14430,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":900,"window_width":1440}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_compact" classname="desktop.observed_advisory_compact" time="21.1908" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3d91452/ui/breakwater-ui-PiXlzO","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":13907,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":700,"window_width":1100}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_short" classname="desktop.observed_advisory_short" time="20.8394" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3d91452/ui/breakwater-ui-uwUUSR","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":14014,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":672,"window_width":1008}
+</system-out>
+	</testcase>
+	<testcase name="desktop.observed_advisory_minimum" classname="desktop.observed_advisory_minimum" time="20.8642" status="run">
+		<properties/>
+		<system-out>{"artifact_directory":"C:/Users/lucas/Documents/Codex/2026-11-07/for-x20/work/Breakwater-next/out/candidate-readiness/tests-asan-3d91452/ui/breakwater-ui-xODcKp","check":"ui_observed_advisory","checks":["native_assets_accessibility_action_gates","actual_python_capture_native_search_advisory_review_and_retention_without_control_application"],"code":"ok","device_pixel_ratio":1.75,"elapsed_ms":13891,"hosted_model_requests":"not_requested","observed":{},"passed":true,"phase":63,"window_height":540,"window_width":960}
+</system-out>
+	</testcase>
+	<testcase name="desktop.storage_science_normal" classname="desktop.storage_science_normal" time="14.6381" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.storage_science_compact" classname="desktop.storage_science_compact" time="15.4517" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.storage_science_derivatives" classname="desktop.storage_science_derivatives" time="15.5" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.qml_smoke" classname="desktop.qml_smoke" time="11.091" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.scientific_history_normal" classname="desktop.scientific_history_normal" time="11.7472" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.scientific_history_compact" classname="desktop.scientific_history_compact" time="11.2199" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.pipe_evidence_smoke" classname="desktop.pipe_evidence_smoke" time="12.397" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.portfolio_examples" classname="desktop.portfolio_examples" time="11.9652" status="run">
+		<properties/>
+		<system-out>test_native_projects_match_the_committed_oracles (__main__.PortfolioExamples.test_native_projects_match_the_committed_oracles) ... ok
+test_recorded_inputs_search_validate_and_reopen_without_a_model (__main__.PortfolioExamples.test_recorded_inputs_search_validate_and_reopen_without_a_model) ... ok
+
+----------------------------------------------------------------------
+Ran 2 tests in 11.717s
+
+OK
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_dataset" classname="desktop.eog_dataset" time="19.3797" status="run">
+		<properties/>
+		<system-out>Official input check NOT RUN: BREAKWATER_EOG_OFFICIAL_ROOT not supplied.
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_capture" classname="desktop.eog_capture" time="1.12846" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_client" classname="desktop.eog_analysis_client" time="19.3568" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_history" classname="desktop.eog_history" time="34.2815" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_investigator" classname="desktop.eog_investigator" time="5.90288" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_controller" classname="desktop.eog_analysis_controller" time="53.2648" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_provider" classname="desktop.eog_provider" time="20.9452" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_demo_input" classname="desktop.eog_demo_input" time="1.76428" status="run">
+		<properties/>
+		<system-out>test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes (__main__.EogDemoTests.test_cli_uses_new_fixed_provenance_and_reports_real_exit_codes) ... ok
+test_destination_appearing_at_publication_is_not_overwritten_or_merged (__main__.EogDemoTests.test_destination_appearing_at_publication_is_not_overwritten_or_merged) ... ok
+test_deterministic_topology_rename_preserves_values_economics_and_all_references (__main__.EogDemoTests.test_deterministic_topology_rename_preserves_values_economics_and_all_references) ... ok
+test_every_system_disposal_and_retained_facility_operations_key_is_renamed (__main__.EogDemoTests.test_every_system_disposal_and_retained_facility_operations_key_is_renamed) ... ok
+test_external_source_change_before_publication_is_detected (__main__.EogDemoTests.test_external_source_change_before_publication_is_detected) ... ok
+test_negative_overflow_and_stale_acquisition_field_text_and_line_endings_are_exact (__main__.EogDemoTests.test_negative_overflow_and_stale_acquisition_field_text_and_line_...
+[This part of the test output was removed since it exceeds the threshold of 1024 bytes.]
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_live_cli" classname="desktop.eog_live_cli" time="3.17773" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>test_database_sidecar_names_cannot_be_used_as_archives (__main__.EogLiveCliTests.test_database_sidecar_names_cannot_be_used_as_archives) ... ok
+test_invalid_existing_and_in_source_archives_are_rejected (__main__.EogLiveCliTests.test_invalid_existing_and_in_source_archives_are_rejected) ... ok
+test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive (__main__.EogLiveCliTests.test_malformed_cutoffs_and_future_cutoffs_cannot_write_an_archive) ... ok
+test_native_executable_and_inputs_are_required_without_skips (__main__.EogLiveCliTests.test_native_executable_and_inputs_are_required_without_skips) ... ok
+test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) ... 
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json') ... ERROR
+  test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv') ... ERROR
+test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives (__main__.EogLiveCliTests.test_readiness_at_current_and_historical_cutoffs_never_runs_or_archives) ... ok
+test_source_database_paths_and_archive_database_collision_are_rejected (__main__.EogLiveCliTests.test_source_database_paths_and_archive_database_collision_are_rejected) ... ok
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='network.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{5df8f561-093b-418e-bf29-fc133e9cc277}\\Temp\\breakwater-eog-live-cli-v46hb911\\data\\network.json' -&gt; 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{5df8f561-093b-418e-bf29-fc133e9cc277}\\Temp\\breakwater-eog-live-cli-v46hb911\\network.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='ops.json')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{5df8f561-093b-418e-bf29-fc133e9cc277}\\Temp\\breakwater-eog-live-cli-v46hb911\\data\\ops.json' -&gt; 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{5df8f561-093b-418e-bf29-fc133e9cc277}\\Temp\\breakwater-eog-live-cli-v46hb911\\ops.json.sqlite'
+
+======================================================================
+ERROR: test_outside_hardlinked_input_databases_fail_without_modifying_any_input (__main__.EogLiveCliTests.test_outside_hardlinked_input_databases_fail_without_modifying_any_input) (input='telemetry.csv')
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\eog_live_cli_tests.py", line 155, in test_outside_hardlinked_input_databases_fail_without_modifying_any_input
+    os.link(self.dataset / name, database)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{5df8f561-093b-418e-bf29-fc133e9cc277}\\Temp\\breakwater-eog-live-cli-v46hb911\\data\\telemetry.csv' -&gt; 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{5df8f561-093b-418e-bf29-fc133e9cc277}\\Temp\\breakwater-eog-live-cli-v46hb911\\telemetry.csv.sqlite'
+
+----------------------------------------------------------------------
+Ran 7 tests in 2.953s
+
+FAILED (errors=3)
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_cli" classname="desktop.eog_cli" time="16.4364" status="fail">
+		<failure message="Failed"/>
+		<properties/>
+		<system-out>test_conflicting_workbench_operations_are_rejected (__main__.EogCliTests.test_conflicting_workbench_operations_are_rejected) ... ok
+test_facility_and_report_need_a_dataset (__main__.EogCliTests.test_facility_and_report_need_a_dataset) ... ok
+test_inputs_cannot_be_report_screenshot_or_database (__main__.EogCliTests.test_inputs_cannot_be_report_screenshot_or_database) ... ok
+test_legacy_report_writers_are_rejected (__main__.EogCliTests.test_legacy_report_writers_are_rejected) ... ok
+test_reports_cannot_overwrite_database_journals (__main__.EogCliTests.test_reports_cannot_overwrite_database_journals) ... ok
+test_reports_screenshot_and_database_are_distinct (__main__.EogCliTests.test_reports_screenshot_and_database_are_distinct) ... ok
+test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input) ... ERROR
+test_unknown_workspace_and_facility_are_rejected (__main__.EogCliTests.test_unknown_workspace_and_facility_are_rejected) ... ok
+
+======================================================================
+ERROR: test_screenshot_replaces_hardlink_without_mutating_input (__main__.EogCliTests.test_screenshot_replaces_hardlink_without_mutating_input)
+----------------------------------------------------------------------
+Traceback (most recent call last):
+  File "C:\Users\lucas\Documents\Codex\2026-11-07\for-x20\work\Breakwater-next\desktop\tests\eog_cli_tests.py", line 79, in test_screenshot_replaces_hardlink_without_mutating_input
+    os.link(self.dataset / "network.json", screenshot)
+PermissionError: [WinError 5] Access is denied: 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{5df8f561-093b-418e-bf29-fc133e9cc277}\\Temp\\tmpuapsqdba\\data\\network.json' -&gt; 'C:\\Users\\lucas\\AppData\\Local\\Packages\\openai.codex_2p2nqsd0c76g0\\AC\\#!sandbox.{5df8f561-093b-418e-bf29-fc133e9cc277}\\Temp\\tmpuapsqdba\\capture.png'
+
+----------------------------------------------------------------------
+Ran 8 tests in 16.223s
+
+FAILED (errors=1)
+</system-out>
+	</testcase>
+	<testcase name="desktop.eog_plan_chart" classname="desktop.eog_plan_chart" time="9.27716" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_plan_details" classname="desktop.eog_plan_details" time="11.1411" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_event_details" classname="desktop.eog_event_details" time="9.11905" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_normal" classname="desktop.eog_analysis_normal" time="11.3643" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_normal" classname="desktop.eog_overview_normal" time="11.1932" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_normal" classname="desktop.eog_facility_normal" time="11.688" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_analysis_compact" classname="desktop.eog_analysis_compact" time="10.9319" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_overview_compact" classname="desktop.eog_overview_compact" time="10.4773" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+	<testcase name="desktop.eog_facility_compact" classname="desktop.eog_facility_compact" time="10.6477" status="run">
+		<properties/>
+		<system-out></system-out>
+	</testcase>
+</testsuite>

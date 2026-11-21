@@ -1,15 +1,19 @@
 # Implementation status
 
-## Active development: expanded v0.3.0, November 20 UTC, 2026
+## Active development: expanded v0.3.0, November 20, 2026 (America/Chicago)
 
-The next runtime increment adds evidence-owned explanation headlines and bounded
-completion after repeated immutable validations. Original model narratives remain
-separately labeled and retained. Observed acknowledgement remains advisory only;
-missing initial-state coverage is distinguished from native engine support.
-The in-progress validation for this increment is separate from the sealed
-`3bb77a3` candidate below. See [Nemotron completion follow-up](NEMOTRON_COMPLETION.md).
+The latest runtime increment is `3d91452`: evidence-owned explanation headlines,
+idempotent explicit validation and bounded completion after repeated calls.
+Original model narratives remain separately labeled and retained. All seven fresh
+hosted checks pass. Normal and ASan each verified all 88 CTest entries across
+retained initial attempts and targeted reruns, with 1,181 Qt passes and one
+optional skip each. Three initial ASan UI failures did not recur in quiet
+unrestricted reruns; their cause remains inconclusive. PR #89 passes all six CI
+jobs; PR #90 has five passing jobs and Desktop ASan pending at the retained
+check. See [implementation](NEMOTRON_COMPLETION.md) and
+[results, raw evidence and UI views](NEMOTRON_COMPLETION_RESULTS.md).
 
-The clean engineering candidate is `3bb77a3`. Full local normal and ASan CTest
+The earlier sealed engineering/package candidate is `3bb77a3`. Full local normal and ASan CTest
 each pass 88/88 suites, with 1,162 Qt subcase passes and one optional subcase skip
 per configuration. All 78 helpers pass. The normal tested executable matches the
 sealed package; ten bundled checks pass in place and ten after actual ZIP
