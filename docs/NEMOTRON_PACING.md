@@ -93,5 +93,7 @@ round independently. A passing transport smoke is not a completed investigation.
 Pacing does not reserve NVIDIA shared capacity. Any dedicated hosting change,
 owner/licensing review or clean-Windows release acceptance is a separate decision.
 
-This document describes implementation, not a passing hosted qualification.
-Actual build/test and live results must identify their executed source revision.
+See [the dated verification report](NEMOTRON_PACING_VERIFICATION.md) for actual
+source-bound build/test and hosted outcomes. The targeted live regression is
+2/4 and the separate observed-origin round is 1/2; this implementation does not
+establish all-green hosted investigation reliability.

@@ -10,9 +10,22 @@ observed readiness cannot extend capture freshness; native search stays availabl
 
 The preceding source-`a7d76a4` four-case hosted round remains 0/4, each ending on
 HTTP 429. Later isolated availability probes and a real Qt tool-calling smoke
-passed, but did not replace that round. This increment requires its own frozen
-build and newly declared hosted outcomes. The account allowance is still
-unverified. No numerical implementation or release authority changes here.
+passed, but did not replace that round. This increment's newly declared clean
+`7c7aff1` round is **2/4 for required tools**, with **3/4 production-grounded
+completions**. All 31 logical requests completed after 43 POST attempts including
+12 recovered HTTP 429 replies. A separate observed-origin GUI round is **1/2**:
+the pump investigation ended in HTTP 429 after a real forecast; missing coverage
+produced a grounded refusal without numerical runs or approvals. Earlier rounds
+and their denominators remain unchanged.
+
+Final transport source `7ed7d71` also preserves terminal cooldown when a
+throttled request ends before retry exhaustion. Its focused normal/ASan checks
+pass 8/8 in each configuration; four final normal/compact D3D11/WARP checks and
+one genuine hosted Qt protocol smoke pass. The candidate auditor passes 33
+Python tests; the full evaluation suite runs 68 with zero failures and one
+environment capability skip. See the [dated verification report](NEMOTRON_PACING_VERIFICATION.md).
+The account allowance and full hosted completion reliability remain unqualified.
+No numerical implementation or release authority changes here.
 
 ## Nemotron completion and retry recovery, November 21, 2026 (America/Chicago)
 
