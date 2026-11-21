@@ -378,11 +378,19 @@ ApplicationWindow {
             anchors.fill: parent; anchors.leftMargin: 16; anchors.rightMargin: 16; spacing: 8
             Image { source: "qrc:/breakwater/assets/breakwater-logo.svg"; fillMode: Image.PreserveAspectFit; Layout.preferredWidth: app.width < 1080 ? 130 : 156; Layout.preferredHeight: 42; Accessible.name: "Breakwater"; Accessible.role: Accessible.StaticText }
             Rectangle { Layout.preferredWidth: 1; Layout.preferredHeight: 26; color: Theme.divider; Layout.leftMargin: 8; Layout.rightMargin: 8 }
-            ActionButton { objectName: "switchToWorkbench"; iconName: "boxes"; text: "Sandbox"; checked: app.workspace === "workbench"; onClicked: app.workspace = "workbench" }
-            ActionButton { objectName: "switchToOperations"; iconName: "network"; text: "Operations"; checked: app.workspace === "eog"; onClicked: { app.closeWorkbenchPanels(); app.workspace = "eog" } }
+            Pane {
+                padding: 4
+                // One workspace switch; each mode keeps its own accessible button.
+                background: Rectangle { color: Theme.background; radius: Theme.cornerRadius + 2 }
+                contentItem: RowLayout {
+                    spacing: 4
+                    ActionButton { objectName: "switchToWorkbench"; flat: true; iconName: "boxes"; text: "Sandbox"; checked: app.workspace === "workbench"; onClicked: app.workspace = "workbench" }
+                    ActionButton { objectName: "switchToOperations"; flat: true; iconName: "network"; text: "Operations"; checked: app.workspace === "eog"; onClicked: { app.closeWorkbenchPanels(); app.workspace = "eog" } }
+                }
+            }
             Item { Layout.fillWidth: true; Layout.minimumWidth: 0 }
             ActionButton {
-                id: projectMenuButton; iconName: "folder-open"; text: "Project"; visible: app.workspace === "workbench"; onClicked: projectMenu.open()
+                id: projectMenuButton; flat: true; iconName: "folder-open"; text: "Project"; visible: app.workspace === "workbench"; onClicked: projectMenu.open()
                 Menu {
                     id: projectMenu; y: projectMenuButton.height + 6
                     MenuItem { text: "Open project…"; onTriggered: openDialog.open() }
@@ -395,15 +403,15 @@ ApplicationWindow {
                     MenuItem { text: "Mixed response example"; onTriggered: controller.loadExample("mixed") }
                 }
             }
-            ActionButton { text: "Undo"; iconName: "undo-2"; visible: app.workspace === "workbench"; display: AbstractButton.IconOnly; tooltip: "Undo"; enabled: controller.canUndo; onClicked: controller.undo() }
-            ActionButton { text: "Redo"; iconName: "redo-2"; visible: app.workspace === "workbench"; display: AbstractButton.IconOnly; tooltip: "Redo"; enabled: controller.canRedo; onClicked: controller.redo() }
+            ActionButton { flat: true; text: "Undo"; iconName: "undo-2"; visible: app.workspace === "workbench"; display: AbstractButton.IconOnly; tooltip: "Undo"; enabled: controller.canUndo; onClicked: controller.undo() }
+            ActionButton { flat: true; text: "Redo"; iconName: "redo-2"; visible: app.workspace === "workbench"; display: AbstractButton.IconOnly; tooltip: "Redo"; enabled: controller.canRedo; onClicked: controller.redo() }
             // Keep accessible Open/Save actions for keyboard and verification consumers.
-            ActionButton { text: "Open"; iconName: "folder-open"; visible: app.workspace === "workbench" && app.width >= 1080; display: AbstractButton.IconOnly; tooltip: "Open project"; onClicked: openDialog.open() }
-            ActionButton { text: "Save"; iconName: "save"; visible: app.workspace === "workbench" && app.width >= 1080; display: AbstractButton.IconOnly; tooltip: "Save project"; onClicked: saveDialog.open() }
+            ActionButton { flat: true; text: "Open"; iconName: "folder-open"; visible: app.workspace === "workbench" && app.width >= 1080; display: AbstractButton.IconOnly; tooltip: "Open project"; onClicked: openDialog.open() }
+            ActionButton { flat: true; text: "Save"; iconName: "save"; visible: app.workspace === "workbench" && app.width >= 1080; display: AbstractButton.IconOnly; tooltip: "Save project"; onClicked: saveDialog.open() }
             ActionButton { iconName: "play"; text: controller.busy ? "Calculating…" : "Run forecast"; visible: app.workspace === "workbench"; highlighted: true; enabled: !controller.busy && controller.draftIssues.length === 0; onClicked: { app.openResults(0); controller.forecast() } }
             ActionButton { objectName: "openEogAnalysis"; iconName: "workflow"; highlighted: true; text: "Investigate / history"; visible: app.workspace === "eog"; checked: app.operationsDockOpen; onClicked: { if (app.operationsDockOpen) app.operationsDockOpen = false; else app.openEogAnalysis() } }
             ActionButton {
-                id: exampleButton; text: "Examples"; iconName: "play"; visible: app.workspace === "eog"; onClicked: exampleMenu.open()
+                id: exampleButton; flat: true; text: "Examples"; iconName: "play"; visible: app.workspace === "eog"; onClicked: exampleMenu.open()
                 Menu {
                     id: exampleMenu; y: exampleButton.height + 6
                     MenuItem { text: "Synthetic operations demo"; enabled: !!app.portfolioExamples.operations; onTriggered: eog.loadFolder(app.portfolioExamples.operations) }
@@ -412,7 +420,7 @@ ApplicationWindow {
                 }
             }
             ActionButton {
-                id: viewMenuButton; iconName: "layout-template"; text: "View"; display: AbstractButton.IconOnly; tooltip: "Workspace layout and rendering"; onClicked: viewMenu.open()
+                id: viewMenuButton; flat: true; iconName: "layout-template"; text: "View"; display: AbstractButton.IconOnly; tooltip: "Workspace layout and rendering"; onClicked: viewMenu.open()
                 Menu {
                     id: viewMenu; y: viewMenuButton.height + 6
                     MenuItem { objectName: "sceneFocusMode"; text: "Scene focus mode (Ctrl+Shift+F)"; visible: app.workspace === "workbench"; enabled: !app.connectMode; checkable: true; checked: app.sceneOnly; onTriggered: app.toggleSceneFocus() }
@@ -431,7 +439,7 @@ ApplicationWindow {
                     MenuItem { text: "Scene controls and shortcuts…"; visible: app.workspace === "workbench"; onTriggered: sceneHelpDialog.open() }
                 }
             }
-            ActionButton { iconName: "clipboard-check"; text: "About"; tooltip: "Version and capability information"; display: AbstractButton.IconOnly; onClicked: aboutDialog.open() }
+            ActionButton { flat: true; iconName: "clipboard-check"; text: "About"; tooltip: "Version and capability information"; display: AbstractButton.IconOnly; onClicked: aboutDialog.open() }
         }
     }
     footer: ToolBar {
@@ -493,7 +501,7 @@ ApplicationWindow {
                             objectName: "equipmentTool_" + modelData.kind
                             Layout.fillWidth: true; Layout.minimumWidth: 0; Layout.preferredWidth: 54; Layout.preferredHeight: 44
                             implicitWidth: 54; implicitHeight: 44; radius: Theme.cornerRadius; color: paletteMouse.containsMouse ? Theme.hover : Theme.raised
-                            border.color: activeFocus ? Theme.text : paletteMouse.containsMouse ? Theme.controlBorder : Theme.divider
+                            border.color: activeFocus ? Theme.text : paletteMouse.containsMouse ? Theme.controlBorder : "transparent"
                             border.width: 1
                             activeFocusOnTab: true
                             Accessible.role: Accessible.Button
@@ -549,13 +557,13 @@ ApplicationWindow {
                         Layout.fillWidth: true; spacing: 4
                         Label { Layout.fillWidth: true; text: "NETWORK"; font.pixelSize: Theme.captionSize; font.letterSpacing: 1.4; font.bold: true; color: Theme.secondary }
                         ActionButton {
-                            objectName: "networkEquipmentMode"; iconName: "boxes"; text: "Equipment"
+                            objectName: "networkEquipmentMode"; flat: true; iconName: "boxes"; text: "Equipment"
                             display: AbstractButton.IconOnly; checked: app.networkMode === "equipment"
                             Layout.preferredWidth: 28; Layout.preferredHeight: 28; implicitWidth: 28; implicitHeight: 28
                             icon.width: 15; icon.height: 15; onClicked: app.networkMode = "equipment"
                         }
                         ActionButton {
-                            objectName: "networkConnectionsMode"; iconName: "route"; text: "Connections"
+                            objectName: "networkConnectionsMode"; flat: true; iconName: "route"; text: "Connections"
                             display: AbstractButton.IconOnly; checked: app.networkMode === "connections"; enabled: !app.connectMode
                             Layout.preferredWidth: 28; Layout.preferredHeight: 28; implicitWidth: 28; implicitHeight: 28
                             icon.width: 15; icon.height: 15; onClicked: app.networkMode = "connections"
@@ -606,7 +614,7 @@ ApplicationWindow {
                                 text: networkAssetDelegate.isRoute ? networkAssetDelegate.modelData.label + "\n" + networkAssetDelegate.modelData.id + "\n" + networkAssetDelegate.modelData.settingText + "\n" + networkAssetDelegate.modelData.statusText + "\nSimulation settings, not measured delivery." : networkAssetDelegate.modelData.label
                                 contentItem: Label { text: networkRowTip.text; textFormat: Text.PlainText; wrapMode: Text.WrapAnywhere; color: Theme.text; font.pixelSize: Theme.smallSize }
                             }
-                            background: Rectangle { color: modelData.selected ? Theme.selected : parent.hovered ? Theme.hover : "transparent"; Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; width: 3; color: Theme.text; visible: modelData.selected } }
+                            background: Rectangle { radius: Theme.cornerRadius; color: modelData.selected ? Theme.selected : parent.hovered ? Theme.hover : "transparent"; Rectangle { anchors.left: parent.left; anchors.top: parent.top; anchors.bottom: parent.bottom; anchors.topMargin: 8; anchors.bottomMargin: 8; width: 3; radius: 1; color: Theme.accent; visible: modelData.selected } }
                             contentItem: RowLayout {
                                 spacing: 10
                                 Image {
@@ -643,10 +651,10 @@ ApplicationWindow {
                     }
                     GridLayout {
                         Layout.fillWidth: true; columns: app.height < 620 ? 2 : 1; columnSpacing: 6; rowSpacing: 4
-                        ActionButton { objectName: "toggleInvestigator"; Layout.fillWidth: true; iconName: "workflow"; text: "Nemotron investigator"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: app.showAgent; onClicked: app.toggleWorkbenchPanel("investigator") }
-                        ActionButton { objectName: "openSensorEditor"; Layout.fillWidth: true; iconName: "gauge"; text: "Sensors"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: sensorDialog.visible; onClicked: app.toggleWorkbenchPanel("sensors") }
-                        ActionButton { objectName: "openTelemetry"; Layout.fillWidth: true; iconName: "activity"; text: "Local monitoring"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: telemetryDialog.visible || observedInvestigationDialog.visible; onClicked: app.toggleWorkbenchPanel("telemetry") }
-                        ActionButton { objectName: "openPipeEvidence"; Layout.fillWidth: true; iconName: "waves"; text: "Pipe transport"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: pipeTransportDialog.visible; onClicked: app.toggleWorkbenchPanel("pipe") }
+                        ActionButton { objectName: "toggleInvestigator"; flat: true; Layout.fillWidth: true; iconName: "workflow"; text: "Nemotron investigator"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: app.showAgent; onClicked: app.toggleWorkbenchPanel("investigator") }
+                        ActionButton { objectName: "openSensorEditor"; flat: true; Layout.fillWidth: true; iconName: "gauge"; text: "Sensors"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: sensorDialog.visible; onClicked: app.toggleWorkbenchPanel("sensors") }
+                        ActionButton { objectName: "openTelemetry"; flat: true; Layout.fillWidth: true; iconName: "activity"; text: "Local monitoring"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: telemetryDialog.visible || observedInvestigationDialog.visible; onClicked: app.toggleWorkbenchPanel("telemetry") }
+                        ActionButton { objectName: "openPipeEvidence"; flat: true; Layout.fillWidth: true; iconName: "waves"; text: "Pipe transport"; display: app.height < 620 ? AbstractButton.IconOnly : AbstractButton.TextBesideIcon; checked: pipeTransportDialog.visible; onClicked: app.toggleWorkbenchPanel("pipe") }
                     }
                 }
             }
@@ -803,16 +811,21 @@ ApplicationWindow {
                         drop.acceptProposedAction()
                     }
                 }
+                Rectangle {
+                    objectName: "sceneToolbarPlate"
+                    anchors.fill: sceneToolbar; anchors.margins: -4
+                    color: Theme.overlay; radius: Theme.cornerRadius + 2; border.color: Theme.overlayBorder
+                }
                 RowLayout {
                     id: sceneToolbar
                     anchors.top: parent.top; anchors.left: parent.left; anchors.topMargin: 12; anchors.leftMargin: 12; spacing: 5
-                    ActionButton { objectName: "sceneHome"; iconName: "house"; display: AbstractButton.IconOnly; text: "Home"; tooltip: "Home · Restore saved perspective (Ctrl+Home)"; onClicked: app.restoreOrbit() }
-                    ActionButton { objectName: "sceneFit"; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network (Ctrl+0)"; checked: app.fittedView && !app.frameAdjusted && app.frameScope === "network"; onClicked: app.frameScene(false) }
-                    ActionButton { objectName: "sceneFocus"; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; checked: app.fittedView && !app.frameAdjusted && app.frameScope === "selection" && app.frameSelectionKey === app.selectionFrameKey; tooltip: controller.selected.kind === "route" ? "Focus · Frame connection endpoints (F)" : "Focus · Frame selected equipment (F)"; onClicked: app.frameScene(true) }
-                    ActionButton { objectName: "sceneTop"; iconName: "layers"; display: AbstractButton.IconOnly; text: app.topView ? "Isometric" : "Top"; tooltip: app.topView ? "Isometric · Return to perspective" : "Top · View the site from above"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
-                    ActionButton { objectName: "sceneGrid"; iconName: "grid-3x3"; display: AbstractButton.IconOnly; text: "Layout grid"; checked: app.siteGridVisible; tooltip: "Layout grid · " + siteGround.gridStep + " layout units; editor snaps to 20"; onClicked: app.siteGridVisible = !app.siteGridVisible }
+                    ActionButton { objectName: "sceneHome"; flat: true; iconName: "house"; display: AbstractButton.IconOnly; text: "Home"; tooltip: "Home · Restore saved perspective (Ctrl+Home)"; onClicked: app.restoreOrbit() }
+                    ActionButton { objectName: "sceneFit"; flat: true; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network (Ctrl+0)"; checked: app.fittedView && !app.frameAdjusted && app.frameScope === "network"; onClicked: app.frameScene(false) }
+                    ActionButton { objectName: "sceneFocus"; flat: true; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; checked: app.fittedView && !app.frameAdjusted && app.frameScope === "selection" && app.frameSelectionKey === app.selectionFrameKey; tooltip: controller.selected.kind === "route" ? "Focus · Frame connection endpoints (F)" : "Focus · Frame selected equipment (F)"; onClicked: app.frameScene(true) }
+                    ActionButton { objectName: "sceneTop"; flat: true; iconName: "layers"; display: AbstractButton.IconOnly; text: app.topView ? "Isometric" : "Top"; tooltip: app.topView ? "Isometric · Return to perspective" : "Top · View the site from above"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
+                    ActionButton { objectName: "sceneGrid"; flat: true; iconName: "grid-3x3"; display: AbstractButton.IconOnly; text: "Layout grid"; checked: app.siteGridVisible; tooltip: "Layout grid · " + siteGround.gridStep + " layout units; editor snaps to 20"; onClicked: app.siteGridVisible = !app.siteGridVisible }
                     ActionButton {
-                        id: editMenuButton; objectName: "sceneEdit"; iconName: "pencil"; display: AbstractButton.IconOnly
+                        id: editMenuButton; objectName: "sceneEdit"; flat: true; iconName: "pencil"; display: AbstractButton.IconOnly
                         text: controller.selectedIds.length > 1 ? "Edit " + controller.selectedIds.length + " assets" : "Edit"; tooltip: text + " · Selection and layout tools"; onClicked: editMenu.open()
                         Menu {
                             id: editMenu; y: editMenuButton.height + 6
@@ -825,9 +838,9 @@ ApplicationWindow {
                             MenuItem { text: "Distribute along Z"; enabled: controller.selectedIds.length > 2; onTriggered: controller.alignSelection("z", true) }
                         }
                     }
-                    ActionButton { iconName: "panel-left"; display: AbstractButton.IconOnly; text: "Navigator"; visible: app.compactLayout; checked: app.navigatorVisible; onClicked: { const opening=!app.navigatorVisible; app.sceneOnly = false; workspaceSettings.setValue("navigatorOpen", true); app.compactPane = opening ? "navigator" : "" } }
-                    ActionButton { iconName: "settings-2"; display: AbstractButton.IconOnly; text: "Inspector"; visible: app.compactLayout; checked: app.inspectorVisible; onClicked: { const opening=!app.inspectorVisible; app.sceneOnly = false; workspaceSettings.setValue("inspectorOpen", true); app.compactPane = opening ? "inspector" : "" } }
-                    ActionButton { objectName: "mouseRecommendation"; Layout.leftMargin: 7; iconName: "mouse"; text: "Mouse recommended"; tooltip: "Scene controls and keyboard shortcuts (F1)"; onClicked: sceneHelpDialog.open() }
+                    ActionButton { flat: true; iconName: "panel-left"; display: AbstractButton.IconOnly; text: "Navigator"; visible: app.compactLayout; checked: app.navigatorVisible; onClicked: { const opening=!app.navigatorVisible; app.sceneOnly = false; workspaceSettings.setValue("navigatorOpen", true); app.compactPane = opening ? "navigator" : "" } }
+                    ActionButton { flat: true; iconName: "settings-2"; display: AbstractButton.IconOnly; text: "Inspector"; visible: app.compactLayout; checked: app.inspectorVisible; onClicked: { const opening=!app.inspectorVisible; app.sceneOnly = false; workspaceSettings.setValue("inspectorOpen", true); app.compactPane = opening ? "inspector" : "" } }
+                    ActionButton { objectName: "mouseRecommendation"; flat: true; Layout.leftMargin: 7; iconName: "mouse"; text: "Mouse recommended"; tooltip: "Scene controls and keyboard shortcuts (F1)"; onClicked: sceneHelpDialog.open() }
                 }
                 Label {
                     id: navigationHint
@@ -837,8 +850,8 @@ ApplicationWindow {
                     width: Math.min(parent.width - 24, implicitWidth)
                     padding: 8; wrapMode: Text.WordWrap
                     text: app.connectMode ? (app.connectionSource.length > 0 ? "Choose destination equipment" : "Choose source equipment") : "Drag to move · Right-drag to orbit · Middle-drag to pan · Scroll to zoom"
-                    color: Theme.text; font.pixelSize: Theme.smallSize
-                    background: Rectangle { color: "#B315191B"; radius: 6; border.color: "#26FFFFFF" }
+                    color: app.connectMode ? Theme.text : Theme.secondary; font.pixelSize: Theme.smallSize
+                    background: Rectangle { color: app.connectMode ? Theme.overlay : "#D9181D22"; radius: Theme.cornerRadius; border.color: app.connectMode ? Theme.accent : "transparent" }
                 }
                 Label { visible: !routeSummary.visible; anchors.right: parent.right; anchors.bottom: parent.bottom; anchors.margins: 14; width: Math.min(parent.width - 28, implicitWidth); padding: 7; elide: Text.ElideRight
                     text: app.hoveredConnection.message || "SCHEMATIC SITE · Layout does not determine hydraulic flow"; textFormat: Text.PlainText; color: Theme.text; font.pixelSize: Theme.captionSize
@@ -915,7 +928,7 @@ ApplicationWindow {
                     ActionButton { required property int index; required property string modelData; text: modelData; checked: app.resultTab === index && workspaceSettings.values.dockOpen; flat: !checked; onClicked: app.openResults(index) }
                 }
                 Item { Layout.fillWidth: true }
-                ActionButton { text: "Toggle results"; iconName: workspaceSettings.values.dockOpen ? "chevron-down" : "activity"; display: AbstractButton.IconOnly; tooltip: workspaceSettings.values.dockOpen ? "Collapse results" : "Expand results"; onClicked: workspaceSettings.setValue("dockOpen", !workspaceSettings.values.dockOpen) }
+                ActionButton { flat: true; text: "Toggle results"; iconName: workspaceSettings.values.dockOpen ? "chevron-down" : "activity"; display: AbstractButton.IconOnly; tooltip: workspaceSettings.values.dockOpen ? "Collapse results" : "Expand results"; onClicked: workspaceSettings.setValue("dockOpen", !workspaceSettings.values.dockOpen) }
             }
             Rectangle { anchors.top: parent.top; width: parent.width; height: 1; color: Theme.divider }
             MouseArea {
