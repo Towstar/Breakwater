@@ -1,55 +1,48 @@
 # BREAKWATER
 
-Breakwater is a Windows desktop workbench for investigating synthetic fluid
-networks and recorded operating data. It combines an editable industrial 3D
-workspace, native numerical forecasts, bounded response search, independent
-validation, and persistent evidence. A human reviews an exact validated plan
-before any simulated controls change.
+Breakwater is a Windows desktop application for exploring synthetic fluid
+networks, inspecting recorded observations and testing responses to operating
+incidents. Native numerical tools compute forecasts and check exact plans;
+optional NVIDIA Nemotron chooses investigation tools and follows their evidence.
+Results, validation and history remain inspectable before human review.
 
-The v0.2.0 portfolio candidate leads with **Sandbox**, the editable network
-workbench. **Operations** presents recorded observations and advisory analysis;
-EOG remains a supported dataset adapter. Neither workspace controls a plant.
+**Sandbox** is an editable industrial 3D workbench. **Operations** is a read-only
+recorded-data workspace with original-unit charts and advisory response analysis;
+EOG is a supported dataset adapter. Both work locally without an API key. Neither
+workspace controls a plant, and the schematic 3D layout does not define hydraulics.
 
-Unreleased v0.3 development adds seeded local acquisition, immutable observed
-captures, bounded symptom detection, native advisory forecasts, v2 evidence
-history and manual Science on stored candidates. See the
-[implementation ledger](docs/NEXT_RELEASE.md), [local monitoring](docs/LOCAL_MONITORING.md)
-and [workspace clarity checks](docs/WORKSPACE_CLARITY.md).
+![Modern Sandbox instrument workspace, source 99aff98](docs/images/portfolio/modern-99aff98/01-workbench.png)
 
-Clean engineering candidate `3bb77a3` passes 88/88 normal CTest suites, 88/88 ASan
-suites and all 78 helper tests. The tested normal executable matches the sealed
-Windows package; ten bundled checks pass both in place and after extracting the
-actual ZIP to a spaces/Unicode path. All six
-[Windows CI jobs](https://github.com/Towstar/Breakwater/actions/runs/44823006438)
-pass for its matching source tree. These are local and CI results, not
-clean-Windows acceptance.
+![Modern Operations recorded observation, source 1b16a88](docs/images/portfolio/operations-1b16a88/02-recorded-observation.png)
 
-The second hosted round passes all seven declared cases: protocol smoke, three
-canonical Operations investigations, a renamed/topology case, an observed-pump
-advisory and a missing-coverage refusal. The first round's failed exact-validation
-case remains retained. Repeated tool calls and model prose errors remain explicit
-limitations; this is not a general reliability or numerical-accuracy claim. See
-[candidate results](docs/CANDIDATE_RESULTS_3BB77A3.md) and
-[release readiness](docs/CANDIDATE_READINESS.md). A private Windows/source handoff
-kit is staged. Required owner/licensing review and actual clean-Windows acceptance
-remain unverified; no v0.3 public binary has been released.
+These are actual synthetic-fixture captures, labeled with their runtime source.
+The [gallery](docs/images/portfolio/README.md) also shows compact layouts, route
+inspection, observed-state review and retained hosted traces. The current source
+includes the [modern instrument UI](docs/MODERN_WORKSPACE.md) and
+[Operations observation workspace](docs/OPERATIONS_WORKSPACE.md). The separate
+portable review kit remains at `3bb77a3`; newer source screenshots do not qualify
+that older package.
 
-![Sandbox industrial workspace at source 3bb77a3](docs/images/portfolio/candidate-3bb77a3/01-sandbox-overview.jpg)
+## Measured results and scope
 
-![Operations historical plans from the retained hosted round](docs/images/portfolio/candidate-3bb77a3/07-operations-historical-plans.jpg)
+| Evidence | Observed result | Scope |
+|---|---|---|
+| [Modern Operations, `1b16a88`](docs/OPERATIONS_WORKSPACE.md) | 13/13 affected CTests passed in both normal and ASan builds; actual 1440x900, 1100x700 and 960x540 clients at DPR 1.75 | Focused UI/integration checks, including real selection, cutoff and scrollbar interaction; not a full release qualification |
+| [Hosted investigation, `3d91452`](docs/NEMOTRON_COMPLETION_RESULTS.md) | All seven declared fresh cases passed; canonical tool calls fell from 12 to 7 in each of three rehearsals compared with retained `3bb77a3` runs | Small descriptive rounds, not a controlled benchmark or a general model-reliability claim |
+| [Retained Operations capture, `3bb77a3`](docs/images/portfolio/README.md#sealed-package-candidate-3bb77a3) | $11,726 modeled no-action cost and $1,810 selected response | Self-authored NORTH/SOUTH fixture at November 16 noon UTC; bounded search and separate exact validation, not field savings or global optimality |
 
-The [source-labeled gallery](docs/images/portfolio/README.md) records actual
-running-app views at `3bb77a3`, including scene focus, Connections, observed-state
-comparison, advisory review and retained hosted history. Historical views make no
-new model request and restore no operating authority. Older galleries retain their
-original source labels; screenshots supplement the separate executable evidence.
+The [sealed `3bb77a3` candidate](docs/CANDIDATE_RESULTS_3BB77A3.md) separately
+records 88/88 normal and ASan CTests, 78 helper tests and ten portable checks in
+place and after ZIP relocation. Those results retain their original source and
+do not substitute for testing newer changes. Failed earlier attempts remain in
+the evidence; model prose remains unverified even when its numerical references
+are valid.
 
-The [prior v0.2 qualification record](docs/evidence/portfolio/release-readiness/README.md)
-binds candidate `ad45d45` to six passing Windows CI jobs and nine passing portable
-checks. Its fresh hosted round passed two of three Operations investigations and
-the renamed-network investigation; the third Operations final was rejected for
-invalid JSON. That source's all-four hosted gate was incomplete. Owner review, licensing
-and an actual clean Windows VM check remain pending before a public binary release.
+The source includes unreleased v0.3 work: seeded local acquisition, immutable
+observed captures, bounded symptom detection, advisory forecasts, v2 history and
+Science on stored candidates. See the [implementation ledger](docs/NEXT_RELEASE.md)
+and [local monitoring](docs/LOCAL_MONITORING.md). Owner/licensing review and actual
+clean-Windows acceptance remain release gates. No v0.3 public binary is released.
 
 | Area | Available behavior | Boundary |
 |---|---|---|
@@ -68,6 +61,13 @@ See [the offline walkthrough](docs/PORTFOLIO_WALKTHROUGH.md),
 are recorded in [STATUS](docs/STATUS.md); historical hackathon reports retain
 their original source/runtime scope.
 
+The Qt desktop calls a Qt-free C++ engine and asynchronous versioned Python
+workers. Nemotron uses the same bounded numerical tools, with exact retained
+run/plan/validation references. Dedicated SQLite threads store completed evidence.
+Measurements stay separate from commanded controls; stale or missing coverage is
+explicit. Layout moves preserve numerical identity, while numerical/topology edits
+retire approval. Historical imports and replay never restore actionable approval.
+
 ## Build and run on Windows
 
 Use Visual Studio 2022 with Desktop C++, CMake/Ninja, PowerShell 7, a 64-bit
@@ -83,7 +83,7 @@ python -m venv .tools/ci-bootstrap
 ./scripts/Setup-ScientificWorker.ps1
 
 # In a VS developer PowerShell, or after the compiler bootstrap:
-./scripts/ci/Initialize-Compiler.ps1
+. ./scripts/ci/Initialize-Compiler.ps1
 cmake --preset portfolio -DCMAKE_PREFIX_PATH="C:/PATH/TO/Qt/6.12.0/msvc2022_64" -DPython3_EXECUTABLE="C:/PATH/TO/Breakwater/.tools/science-cpu/Scripts/python.exe" -DCMAKE_MSVC_DEBUG_INFORMATION_FORMAT=Embedded
 cmake --build --preset portfolio --parallel 3
 ctest --preset portfolio
@@ -104,6 +104,10 @@ workflow installs and qualifies the real pinned PhysicsNeMo environment separate
 
 ## Try the offline examples
 
+After building, launch with `scripts/Start-Portfolio.ps1` as above. Native forecasts,
+local search and the bundled recorded examples do not need NVIDIA credentials.
+Torch/PhysicsNeMo is used only by the separate scientific methods.
+
 Sandbox starts with a healthy synthetic network. Project contains healthy,
 failed-pump, bad-reroute and mixed-response examples. Run a forecast, select a
 tank, and inspect the full trajectory including negative/overflow values. Choose
@@ -115,6 +119,14 @@ starts an investigation. Select a cutoff, run Search plans and Validate exact
 plan explicitly. History can export and reopen the complete captured evidence.
 A bundled recorded Nemotron session is clearly historical, and makes no new
 hosted request. The renamed/topology-changed fixture requires fresh analysis.
+
+For another compatible dataset, choose **Operations → Open dataset** and select
+the folder containing `network.json`, `ops.json` and `telemetry.csv`. See the
+[import contract](contracts/eog/README.md) for identities, units and validation.
+The scene derives its equipment and connections from the imported network;
+positions are a schematic presentation. **Latest** selects the dataset's latest
+retained timestamp, not the current wall clock. Public examples are self-authored
+synthetic data, not EOG field measurements or challenge answer keys.
 
 The source verification helper exercises import → actual search → independent
 validation → SQLite completion → archive export → historical reopening:
@@ -189,6 +201,11 @@ owns the numerical engine, scientific methods, sensor-generation mathematics,
 response evaluator/validator/search and Lean proofs. Shared numerical changes
 require Ethan's review. Codex assisted implementation, tests and troubleshooting;
 runtime Nemotron is the separate optional investigation agent.
+
+For portfolio presentation, use the [offline walkthrough](docs/PORTFOLIO_WALKTHROUGH.md)
+and [short read-aloud narration](docs/PORTFOLIO_DEMO_SCRIPT.md). Show the actual
+capture's units, search scope and validation rather than borrowing another
+fixture's cost result.
 
 Observed-state forecasting and advisory review are implemented in the v0.3
 development stack, with the declared `3bb77a3` checks recorded above. Owner review,

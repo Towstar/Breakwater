@@ -70,6 +70,7 @@ class Check final : public QObject {
     int phase_ = 0;
     bool finished_ = false;
     QSize requested_;
+    int exposed_size_turns_ = 0;
     QJsonArray checks_;
     QJsonObject observations_, initial_project_;
     QString initial_hash_, initial_run_, dataset_id_;
@@ -212,6 +213,11 @@ class Check final : public QObject {
             switch (phase_) {
             case 0: {
                 if (!window_->isVisible() || !window_->isExposed()) return;
+                // Native Windows initial placement can finish after QML load.
+                // Resize once after exposure, then allow two timer/layout turns
+                // before accepting the exact requested client dimensions.
+                if (exposed_size_turns_++ == 0) { window_->resize(requested_); window_->requestUpdate(); return; }
+                if (exposed_size_turns_ < 3) return;
                 require(window_->size() == requested_, "workspace_actual_client_size_mismatch");
                 require(!dataset_->loaded() && !dataset_->busy() && item("eogEmptyState")->isVisible(), "workspace_did_not_start_unloaded");
                 for (const auto* name : {"eogOpenExample", "eogStartImport"}) {
@@ -387,6 +393,10 @@ public:
         for (std::size_t index = 0; index < models.size(); ++index) models_[index] = models[index];
         requested_ = qEnvironmentVariable("BREAKWATER_UI_MINIMUM") == "1" ? QSize(960, 540)
             : app->arguments().contains("--compact-ui") ? QSize(1100, 700) : QSize(1440, 900);
+        // An explicit finite maximum makes Qt supply WM_GETMINMAXINFO tracking
+        // limits instead of Windows' smaller hosted-runner desktop defaults.
+        // This belongs only to the verification window; production is unchanged.
+        window->setMaximumSize(requested_);
         window->resize(requested_); elapsed_.start();
         const auto evidence = qEnvironmentVariable("BREAKWATER_UI_EVIDENCE_DIR");
         if (!evidence.isEmpty()) {
