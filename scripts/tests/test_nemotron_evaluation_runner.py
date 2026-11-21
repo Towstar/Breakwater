@@ -97,6 +97,14 @@ class RunnerTests(unittest.TestCase):
             self.behavior(arguments, folder, archive_path, process)
         return process
 
+    def test_pacing_policy_is_forwarded_without_forwarding_unrelated_settings(self):
+        environment = {"PATH": "runtime", "NVIDIA_API_KEY": "fixture-key", "BREAKWATER_NEMOTRON_INTERVAL_MS": "9000", "OTHER_SECRET": "private"}
+        child = runner.child_environment(environment, live=True)
+        self.assertEqual(child["BREAKWATER_NEMOTRON_INTERVAL_MS"], "9000")
+        self.assertNotIn("OTHER_SECRET", child)
+        native = runner.child_environment(environment, live=False)
+        self.assertNotIn("NVIDIA_API_KEY", native)
+
     def test_default_preflights_all_inputs_without_reading_or_forwarding_credentials(self):
         self.source["dirty"] = True
         args = self.args()
