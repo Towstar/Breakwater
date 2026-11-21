@@ -272,6 +272,7 @@ private slots:
             case 3:
                 run = resultFor(history, "search").value("runs").toArray().first().toObject().value("run_id").toString();
                 return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", run}})});
+            case 4: return calls({call("validate-search", "validate_run", {{"snapshot_id", snapshot}, {"run_id", run}})});
             default: return conclusion(run);
             }
         };
@@ -284,6 +285,14 @@ private slots:
         coordinator.begin();
         agent.investigate("Use actual bounded search and stage a validated response for operator review.");
         QTRY_VERIFY_WITH_TIMEOUT(!agent.running(), 10000);
+        const auto validation = resultFor(model.history, "validate-search");
+        QVERIFY(validation.value("ok").toBool());
+        const auto checked = validation.value("run").toObject();
+        QCOMPARE(checked.value("run_id"), agent.recommendation().value("selected_run_id"));
+        QCOMPARE(checked.value("validation_source").toString(), QString("validate_run"));
+        QVERIFY(checked.value("validation").toObject().value("feasible").toBool());
+        QVERIFY(!checked.value("validation_id").toString().isEmpty());
+        QCOMPARE(checked.value("validation_id"), agent.recommendation().value("validation_id"));
         QTRY_VERIFY_WITH_TIMEOUT(agent.canApprove(), 10000);
         QVERIFY(agent.approvePlan());
         if (editDuringForecast) {
