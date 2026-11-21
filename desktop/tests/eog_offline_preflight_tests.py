@@ -30,7 +30,9 @@ class EogOfflinePreflightTests(unittest.TestCase):
         self.original = hashes(FIXTURE)
         self.directory = tempfile.TemporaryDirectory(prefix="breakwater-preflight-")
         self.addCleanup(self.directory.cleanup)
-        self.root = Path(self.directory.name)
+        # Hosted Windows TEMP may use an 8.3 profile alias. Supply its real
+        # existing path; the production capture deliberately rejects aliases.
+        self.root = Path(self.directory.name).resolve()
         self.dataset, self.output = self.root / "dataset", self.root / "output"
         self.dataset.mkdir()
         self.output.mkdir()
