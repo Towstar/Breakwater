@@ -72,12 +72,36 @@ Pane {
                 panel.reviewSnapshot = ({})
                 review.close()
                 editor.close()
+                verifiedExplanation.close()
             }
         }
     }
     FileDialog {
         id: importDialog; nameFilters: ["EOG evidence (*.eog-session.json)"]
         onAccepted: panel.analysis.importHistory(selectedFile)
+    }
+    Dialog {
+        id: verifiedExplanation; objectName: "eogVerifiedExplanation"
+        parent: Overlay.overlay; anchors.centerIn: parent; modal: true; focus: true
+        title: "Retained numerical evidence"
+        width: Math.min(820, parent ? parent.width - 32 : 820)
+        height: Math.min(720, parent ? parent.height - 32 : 720)
+        header: DialogHeading { owner: verifiedExplanation; closeName: "eogVerifiedExplanationClose" }
+        footer: DialogFooter { owner: verifiedExplanation }
+        onOpened: verifiedExplanationText.forceActiveFocus()
+        onClosed: evidenceButton.forceActiveFocus()
+        contentItem: ScrollView {
+            objectName: "eogVerifiedExplanationScroll"
+            clip: true; contentWidth: availableWidth
+            TextArea {
+                id: verifiedExplanationText; objectName: "eogVerifiedExplanationText"
+                readOnly: true; selectByMouse: true; textFormat: TextEdit.PlainText
+                wrapMode: TextEdit.Wrap; text: panel.analysis.summary
+                color: Theme.text; font.pixelSize: Theme.bodySize; padding: 12
+                Accessible.name: "Retained numerical evidence explanation"
+                background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius }
+            }
+        }
     }
     FileDialog {
         id: exportDialog; fileMode: FileDialog.SaveFile; defaultSuffix: "eog-session.json"
@@ -131,6 +155,13 @@ Pane {
             ActionButton { iconName: "square"; text: "Cancel"; visible: panel.analysis.busy; onClicked: panel.analysis.cancel() }
             ActionButton { iconName: "rotate-ccw"; text: "Return to live"; visible: panel.analysis.historical; onClicked: panel.analysis.returnToLive() }
             ActionButton { iconName: "arrow-down-to-line"; text: "Import history"; enabled: !panel.analysis.busy; onClicked: importDialog.open() }
+            ActionButton {
+                id: evidenceButton; objectName: "openEogVerifiedExplanation"
+                iconName: "clipboard-check"; text: "Read full evidence"; flat: true
+                visible: (panel.analysis.summary || "").length > 0
+                tooltip: "Read the complete numerical explanation without enabling unverified model narrative."
+                onClicked: verifiedExplanation.open()
+            }
         }
         RowLayout {
             Layout.fillWidth: true; visible: panel.showTabs || tabs.currentIndex === 2

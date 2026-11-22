@@ -496,10 +496,36 @@ class Check final : public QObject {
                     "recorded_investigation_not_historical_grounded_evidence");
                 snapshot("09-recorded-investigation.png");
                 passed("bundled_hosted_recording_reopens_historical_without_review_authority");
+                require(item("openEogVerifiedExplanation")->isVisible() && item("openEogVerifiedExplanation")->isEnabled(),
+                    "retained_evidence_reader_unavailable");
+                require(window_->contentItem()->boundingRect().contains(item("openEogVerifiedExplanation")->mapRectToScene(
+                    item("openEogVerifiedExplanation")->boundingRect())), "retained_evidence_reader_button_outside_client");
+                click(item("openEogVerifiedExplanation")); phase_=200; return;
+            case 200: {
+                auto* explanation = item("eogVerifiedExplanationText");
+                require(explanation->isVisible() && explanation->property("readOnly").toBool()
+                    && explanation->property("text").toString() == eval("app.eogAnalysis.summary").toString()
+                    && !item("showExactEogTrace")->property("checked").toBool()
+                    && !eval("app.eogAnalysis.canReview").toBool(), "retained_evidence_reader_text_or_authority_wrong");
+                auto* viewport = item("eogVerifiedExplanationScroll");
+                const auto rectangle = viewport->mapRectToScene(viewport->boundingRect());
+                require(rectangle.width() > 200 && rectangle.height() > 100
+                    && window_->contentItem()->boundingRect().contains(rectangle), "retained_evidence_reader_outside_client");
+                snapshot("09b-retained-numerical-explanation.png");
+                key(Qt::Key_Escape); phase_=201; return;
+            }
+            case 201: {
+                // Closed Qt popups detach their content from the visual tree.
+                const auto* explanation = find(window_->contentItem(), "eogVerifiedExplanationText");
+                require((!explanation || !explanation->isVisible())
+                    && item("openEogVerifiedExplanation")->hasActiveFocus()
+                    && !eval("app.eogAnalysis.canReview").toBool(), "retained_evidence_reader_close_or_focus_wrong");
+                passed("full_plain_numerical_explanation_without_raw_model_disclosure_or_authority");
                 eval("app.workspace='workbench'; app.compactPane='navigator'; workspaceSettings.setValue('navigatorOpen',true)");
                 controller_->select("source_b");
                 { SimulationConfig config; config.horizon_h = 1.25; controller_->forecastWithConfig(config); }
-                break;
+                phase_=31; return;
+            }
             case 31:
                 if (controller_->busy()) return;
                 require(controller_->canApprove() && !controller_->runId().isEmpty(), "filter_forecast_unavailable");
@@ -711,13 +737,21 @@ class Check final : public QObject {
                 if (window_->property("observedAdvisoryReviewVisible").toBool() || observedHistory->selectedArchive().value("approvals").toArray().size()!=1) return;
                 require(!eval("app.observedInvestigator.canAcknowledge || app.observedInvestigator.canApprove").toBool() &&
                     controller_->editorDocument()==observed_project_ && controller_->runId().isEmpty() && !controller_->canApprove(),"observed_review_restored_operating_authority");
-                click(item("observedInvestigationClose")); break;
+                eval("app.telemetry.requestObservedCapture()"); break;
             }
             case 62:
-                require(!window_->property("observedInvestigationVisible").toBool(),"observed_dialog_close_failed");
+                if (eval("app.telemetry.observedCaptureBusy || !app.observedInvestigator.nextSourceDiffers").toBool()) return;
+                require(eval("app.observedInvestigator.sourceSummary.status==='retired' && app.observedInvestigator.nextSourceSummary.status==='available'").toBool(),
+                    "observed_next_capture_mixed_with_displayed_evidence");
+                require(item("observedInvestigationNextSource")->isVisible() &&
+                    item("observedInvestigationNextSource")->property("text").toString().contains(eval("app.observedInvestigator.nextSourceSummary.snapshot_id").toString()),
+                    "observed_next_capture_preview_missing");
+                require(!eval("app.observedInvestigator.canAcknowledge || app.observedInvestigator.canApprove").toBool(),"new_capture_restored_old_advisory_authority");
+                snapshot("19b-next-capture-preview.png"); click(item("observedInvestigationClose"));
                 eval("app.telemetry.stop()"); break;
             case 63:
                 if (eval("app.telemetry.active").toBool()) return;
+                require(!window_->property("observedInvestigationVisible").toBool(),"observed_dialog_close_failed");
                 require(eval("app.telemetry.error.length===0").toBool(),"observed_ui_source_shutdown_failed");
                 passed("actual_python_capture_native_search_advisory_review_and_retention_without_control_application");
                 finish(true,"ok"); return;

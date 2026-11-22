@@ -109,7 +109,7 @@ private:
     int request_count_ = 0;
     QString session_id_, status_ = "Run analysis explicitly. Loading or selecting data makes no model request.";
     QString storage_status_ = "Opening EOG history...", summary_, model_summary_, selected_, baseline_, pending_execution_, pending_name_, pending_history_id_;
-    QJsonObject pending_request_, search_, historical_manifest_, detection_, last_operation_;
+    QJsonObject pending_request_, search_, historical_manifest_, detection_, last_operation_, captured_repair_policy_;
     bool history_current_dataset_ = true, history_match_cutoff_ = false;
     QString history_query_;
     QMap<QString, QJsonObject> responses_, evaluations_, validations_, event_rows_;
@@ -126,6 +126,7 @@ private:
     QJsonObject request(const QString& operation, const QJsonObject& arguments) const;
     QJsonObject bindPlanProposal(QJsonObject proposal) const;
     QJsonObject validationFor(const QString& plan) const;
+    bool validationReusable(const QString& plan, const QJsonObject& arguments) const;
     QJsonObject retainedEvidence() const;
     QJsonArray toolDefinitions() const;
     void completeTool(const QJsonObject& outcome);

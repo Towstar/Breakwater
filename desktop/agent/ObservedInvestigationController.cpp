@@ -131,7 +131,15 @@ bool ObservedInvestigationController::acknowledgePlan() {
     emit changed(); return true;
 }
 QVariantMap ObservedInvestigationController::sourceSummary() const {
-    const auto source=source_ ? source_:telemetry_ ? telemetry_->capturedObservation():nullptr;
+    return describeSource(source_ ? source_:telemetry_ ? telemetry_->capturedObservation():nullptr);
+}
+QVariantMap ObservedInvestigationController::nextSourceSummary() const {
+    return describeSource(telemetry_ ? telemetry_->capturedObservation():nullptr);
+}
+bool ObservedInvestigationController::nextSourceDiffers() const {
+    return source_ && telemetry_ && telemetry_->capturedObservation() && telemetry_->capturedObservation()!=source_;
+}
+QVariantMap ObservedInvestigationController::describeSource(const std::shared_ptr<const telemetry::ObservedEvidence>& source) const {
     if (!source) return {{"status","No observed capture"}};
     const auto& d=source->document;
     return {{"snapshot_id",d.value("snapshot_id").toVariant()},{"design_physical_hash",d.value("physical_hash").toVariant()},

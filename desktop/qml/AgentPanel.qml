@@ -13,6 +13,8 @@ ColumnLayout {
     required property var storageScience
     readonly property bool advisoryOnly: investigator.advisoryOnly === true
     readonly property var observedSource: advisoryOnly ? investigator.sourceSummary : ({})
+    readonly property var nextObservedSource: advisoryOnly ? investigator.nextSourceSummary : ({})
+    readonly property bool nextSourceDiffers: advisoryOnly && investigator.nextSourceDiffers === true
     readonly property bool scienceVisible: tabs.currentIndex === 3
     readonly property var reviewData: investigator.review || ({})
     signal openPipeEvidence(var evidence)
@@ -27,11 +29,23 @@ ColumnLayout {
     Frame {
         visible: panel.advisoryOnly; Layout.fillWidth: true; padding: 9
         background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
-        contentItem: PlainLabel {
+        contentItem: ColumnLayout {
+          spacing: 6
+          PlainLabel {
+            Layout.fillWidth: true
             objectName: panel.advisoryOnly ? "observedInvestigationOrigin":""; wrapMode: Text.WrapAnywhere; color: Theme.secondary; font.pixelSize: Theme.captionSize
             text: "OBSERVED ADVISORY · " + (panel.observedSource.status || "No capture")
                 + (panel.observedSource.snapshot_id ? " · as of " + panel.number(panel.observedSource.as_of_s) + " s · expires " + panel.number(panel.observedSource.expires_s) + " s\nCapture " + panel.observedSource.snapshot_id : "")
-                + "\nMeasurements stay separate from commands. This investigation cannot apply controls."
+                + (panel.nextSourceDiffers ? "\nDisplayed investigation evidence. It will not be replaced until a new investigation starts."
+                    : "\nMeasurements stay separate from commands. This investigation cannot apply controls.")
+          }
+          PlainLabel {
+            visible: panel.nextSourceDiffers; Layout.fillWidth: true
+            objectName: panel.advisoryOnly ? "observedInvestigationNextSource" : ""; wrapMode: Text.WrapAnywhere; font.pixelSize: Theme.captionSize
+            text: "NEXT INVESTIGATION · " + (panel.nextObservedSource.status || "No capture")
+                + " · as of " + panel.number(panel.nextObservedSource.as_of_s) + " s · expires " + panel.number(panel.nextObservedSource.expires_s) + " s"
+                + "\nCapture " + (panel.nextObservedSource.snapshot_id || "none") + " · advisory only; no controls can be applied."
+          }
         }
     }
     function showTab(index) { tabs.currentIndex = index; if (index === 2) history.refresh() }
@@ -154,7 +168,8 @@ ColumnLayout {
                 onClicked: { panel.history.showLive(); tabs.currentIndex = 0; panel.investigator.searchLocally() }
             }
             ActionButton { iconName: "workflow";
-                id: investigateButton; text: "Investigate"; highlighted: true
+                id: investigateButton; text: panel.nextSourceDiffers ? "Investigate latest capture" : "Investigate"; highlighted: true
+                tooltip: panel.advisoryOnly ? "Uses the latest captured measurements. Retained investigation evidence stays read only." : "Investigate the current immutable network."
                 enabled: !panel.investigator.running && objective.text.trim().length > 0 && (!panel.advisoryOnly || panel.investigator.localSearchAvailable)
                 onClicked: { panel.history.showLive(); tabs.currentIndex = 0; panel.investigator.investigate(objective.text) }
             }

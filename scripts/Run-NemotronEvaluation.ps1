@@ -6,7 +6,7 @@ param(
     [string]$PythonExecutable = '',
     [string]$QtPrefix = '',
     [ValidatePattern('^[0-9a-f]{40}$')][string]$ExpectedSourceCommit,
-    [ValidateRange(60,1800)][int]$DurationSeconds = 1800,
+    [ValidateRange(60,7200)][int]$DurationSeconds = 1800,
     [ValidateRange(0,60)][int]$CaseGapSeconds = 30,
     [switch]$Live
 )

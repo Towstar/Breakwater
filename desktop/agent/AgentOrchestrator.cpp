@@ -1,4 +1,5 @@
 #include "AgentOrchestrator.hpp"
+#include "ValidationToolOffering.hpp"
 #include "science/AgentSensitivityClient.hpp"
 #include "telemetry/TelemetryContracts.hpp"
 #include <QDateTime>
@@ -243,6 +244,11 @@ void AgentOrchestrator::requestModel() {
         event(needsStage ? "completion_staging_only" : "completion_tools_closed", {{"reason", completion_reason_}});
         if (!guard || !running_ || generation_ != epoch) return;
     }
+    QJsonArray validationTargets;
+    for (const auto& value : gateway_->runs()) {
+        const auto run = value.toObject();
+        if (run.value("current") == true && !modelValidated(run)) validationTargets.append(run.value("run_id"));
+    }
     QJsonArray tools;
     if (!final_correction_ && !completion_only_ && callsLeft > 0) for (const auto& definition : SimulationGateway::toolDefinitions(gateway_->advisoryOnly())) {
         const auto name = definition.toObject().value("function").toObject().value("name").toString();
@@ -251,7 +257,10 @@ void AgentOrchestrator::requestModel() {
         if (!gateway_->observationsAvailable() && name != "get_observations" && name != "get_detection_events" &&
             name != "get_network_state" && name != "get_control_catalog") continue;
         if (refinementsLeft == 0 && (name == "simulate_candidates" || name == "search_interventions")) continue;
-        tools.append(definition);
+        if (name == "validate_run") {
+            const auto offered = validationToolOffering(definition.toObject(), "run_id", validationTargets, true);
+            if (offered) tools.append(*offered);
+        } else tools.append(definition);
     }
     auto messages = messages_;
     auto system = messages.first().toObject();

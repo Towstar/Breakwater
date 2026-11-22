@@ -27,7 +27,7 @@ import uuid
 from nemotron_evaluation_fixtures import generate_fixtures
 from nemotron_evaluation_audit import audit_case, retained_tool_metrics
 from audit_candidate_evidence import audit_observed
-from verify_v03_evidence import inspect
+from verify_v03_evidence import inspect, transport_diagnostics_valid
 
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -35,7 +35,7 @@ FORMAT = "breakwater-nemotron-evaluation-v1"
 MODEL = "nvidia/nemotron-3.5-lightning-30b-a3b"
 ENDPOINT = "https://integrate.api.nvidia.com/v1/chat/completions"
 SEMANTIC = {"advisory_plan", "no_supported_plan", "missing_coverage", "stale_coverage"}
-MAX_PROCESS_SECONDS, MAX_ROUND_SECONDS, MAX_CLI_CASES = 450, 1800, 32
+MAX_PROCESS_SECONDS, DEFAULT_ROUND_SECONDS, MAX_ROUND_SECONDS, MAX_CLI_CASES = 450, 1800, 7200, 32
 DEFAULT_CASE_GAP_SECONDS = 30
 STDOUT_LIMIT, STDERR_LIMIT, ARTIFACT_LIMIT = 8 * 1024 * 1024, 1024 * 1024, 64 * 1024 * 1024
 OBSERVED = {"observed-pump": False, "observed-missing": True}
@@ -287,7 +287,47 @@ def delay_policy(gap):
             "preflight_gap_seconds": 0, "included_in_round_deadline": True}
 
 
+def provider_deferral_policy():
+    return {"version": 1, "basis": "latest_request_remaining_cooldown", "capped_wait": "stop",
+            "missing_diagnostics": "stop", "included_in_round_deadline": True}
+
+
+def provider_cooldown(root, result):
+    """Latest logical request only; earlier cooldowns may already have elapsed."""
+    if "archive" not in result:
+        return None
+    archive = document(read_reference(root, result["archive"]))
+    if result["mode"] == "sandbox":
+        requests = [row["request"] for row in archive.get("events", []) if row.get("type") == "model_request_completed"]
+    else:
+        requests = [row["event"] for row in archive.get("agent_events", []) if row.get("event", {}).get("type") == "model_request"]
+    if not requests or "transport_diagnostics" not in requests[-1]:
+        return None
+    diagnostic = requests[-1]["transport_diagnostics"]
+    require(transport_diagnostics_valid(diagnostic), "Provider cooldown diagnostics are invalid.")
+    return diagnostic["cooldown_remaining_ms"], diagnostic["cooldown_capped"]
+
+
+def validate_provider_following_delays(root, manifest, result):
+    cooldown = provider_cooldown(root, result)
+    following = [row for row in manifest["wait_records"] if
+                 row["kind"] == "hosted_delay_started" and row["previous_case_id"] == result["case_id"]]
+    if cooldown is None or cooldown[1]:
+        require(not following, "A case started after unknown or capped provider cooldown.")
+        return False
+    for row in following:
+        require(row["provider_not_before_elapsed_s"] == result["completed_elapsed_s"] + cooldown[0] / 1000,
+                "Provider eligibility differs from retained request diagnostics.")
+    return True
+
+
 def validate_delay_history(manifest):
+    provider = manifest.get("provider_deferral_policy")
+    if provider is not None:
+        expected = provider_deferral_policy()
+        require(isinstance(provider, dict) and set(provider) == set(expected) and
+                all(type(provider[key]) is type(value) and provider[key] == value for key, value in expected.items()),
+                "Provider deferral policy differs.")
     policy = manifest.get("delay_policy")
     if policy is None:
         require("delay_policy" not in manifest and "wait_records" not in manifest, "Legacy delay policy differs.")
@@ -301,6 +341,8 @@ def validate_delay_history(manifest):
     require(isinstance(records, list) and len(records) <= 2 * len(cases), "Invalid delay records.")
     completed, pending = {}, None
     start_keys = {"kind", "case_id", "previous_case_id", "previous_completed_elapsed_s", "started_elapsed_s", "eligible_elapsed_s", "planned_delay_s"}
+    if provider is not None:
+        start_keys.add("provider_not_before_elapsed_s")
     finish_keys = {"kind", "case_id", "finished_elapsed_s", "delayed_s", "status"}
     def number(value):
         return type(value) in (int, float) and math.isfinite(value) and value >= 0
@@ -313,8 +355,10 @@ def validate_delay_history(manifest):
             started, eligible, planned = (record[key] for key in ("started_elapsed_s", "eligible_elapsed_s", "planned_delay_s"))
             require(all(number(value) for value in (started, eligible, planned)), "Invalid delay timing.")
             previous = record["previous_completed_elapsed_s"]
+            provider_eligible = record.get("provider_not_before_elapsed_s", 0)
+            require(number(provider_eligible), "Invalid provider eligibility timing.")
             if index == 0:
-                require(record["previous_case_id"] is None and previous is None and eligible == started and planned == 0,
+                require(record["previous_case_id"] is None and previous is None and eligible == started and planned == 0 and provider_eligible == 0,
                         "First hosted case gained an undeclared delay.")
             else:
                 previous_id = cases[index - 1]["case_id"]
@@ -322,7 +366,7 @@ def validate_delay_history(manifest):
                         cases[index - 1]["attempted"] is True and
                         completed[previous_id]["finish"]["status"] == "completed" and
                         previous >= completed[previous_id]["finish"]["finished_elapsed_s"] and started >= previous and
-                        eligible == previous + policy["gap_seconds"] and planned == max(0, eligible - started),
+                        eligible == max(previous + policy["gap_seconds"], provider_eligible) and planned == max(0, eligible - started),
                         "Completion-to-next-start delay differs from policy.")
             pending = record
         else:
@@ -346,14 +390,16 @@ def validate_delay_history(manifest):
     return completed
 
 
-def wait_for_hosted_case(root, manifest, case_id, previous, round_started, deadline):
+def wait_for_hosted_case(root, manifest, case_id, previous, round_started, deadline, provider_not_before=0):
     started = time.monotonic()
     previous_id, previous_completed = previous if previous is not None else (None, None)
     started_elapsed = started - round_started
-    eligible_elapsed = started_elapsed if previous is None else previous_completed + manifest["delay_policy"]["gap_seconds"]
+    eligible_elapsed = started_elapsed if previous is None else max(previous_completed + manifest["delay_policy"]["gap_seconds"], provider_not_before)
     begin = {"kind": "hosted_delay_started", "case_id": case_id, "previous_case_id": previous_id,
              "previous_completed_elapsed_s": previous_completed, "started_elapsed_s": started_elapsed,
              "eligible_elapsed_s": eligible_elapsed, "planned_delay_s": max(0, eligible_elapsed - started_elapsed)}
+    if "provider_deferral_policy" in manifest:
+        begin["provider_not_before_elapsed_s"] = provider_not_before
     manifest["wait_records"].append(begin)
     status = "completed"
     try:
@@ -393,6 +439,7 @@ def load_round(directory):
         validate_delay_history(value)
         if prior_value is not None:
             require(value.get("delay_policy") == prior_value.get("delay_policy") and
+                    value.get("provider_deferral_policy") == prior_value.get("provider_deferral_policy") and
                     value.get("wait_records", [])[:len(prior_value.get("wait_records", []))] == prior_value.get("wait_records", []),
                     "Delay policy or earlier wait records changed.")
             for group in ("cases", "preflights"):
@@ -570,7 +617,7 @@ def run_round(args):
     manifest = {"format": FORMAT, "round_id": str(uuid.uuid4()), "started_utc": utc(), "stage": "preflight", "live_enabled": args.live,
                 "source": source, "expected_source": args.expected_source, "executables": executables,
                 "model": {"identifier": MODEL, "endpoint": ENDPOINT}, "binding_kind": "Recorded source and executable hashes; not signed build or execution attestation",
-                "delay_policy": policy, "wait_records": [],
+                "delay_policy": policy, "wait_records": [], "provider_deferral_policy": provider_deferral_policy(),
                 "limits": {"process_seconds": MAX_PROCESS_SECONDS, "round_seconds": args.duration_seconds, "maximum_cli_cases": MAX_CLI_CASES,
                            "stdout_bytes": STDOUT_LIMIT, "stderr_bytes": STDERR_LIMIT},
                 "fixture_manifest": reference(output, output / "fixtures/manifest.json"), "case_catalog": reference(output, output / "fixtures/cases.json"),
@@ -612,13 +659,16 @@ def run_round(args):
         expectations = {item["input_id"]: item["qualified_expected"] for item in manifest["preflights"]}
         manifest["stage"] = "hosted"; journal(output, manifest)
         previous_completed = None
+        provider_not_before = 0
         for index, case in enumerate(manifest["cases"], 1):
             if case["mode"] == "observed":
                 continue
             if time.monotonic() >= deadline:
                 manifest["stop_reason"] = "round_deadline"; break
             check_binding(manifest, live=True); verify_fixtures(output, manifest)
-            cadence = wait_for_hosted_case(output, manifest, case["case_id"], previous_completed, round_started, deadline)
+            if provider_not_before >= manifest["limits"]["round_seconds"]:
+                manifest["stop_reason"] = "provider_cooldown_exceeds_round"; break
+            cadence = wait_for_hosted_case(output, manifest, case["case_id"], previous_completed, round_started, deadline, provider_not_before)
             if cadence is None:
                 break
             check_binding(manifest, live=True); verify_fixtures(output, manifest)
@@ -631,6 +681,12 @@ def run_round(args):
                                   binding={"source": source, "executable": executables[case["mode"]]}, cadence=cadence, round_started=round_started)
             case.update(status=result["status"], result=ref); journal(output, manifest)
             previous_completed = (case["case_id"], result["completed_elapsed_s"])
+            cooldown = provider_cooldown(output, result)
+            if cooldown is None:
+                manifest["stop_reason"] = "provider_cooldown_unavailable"; break
+            if cooldown[1]:
+                manifest["stop_reason"] = "provider_cooldown_exceeds_diagnostic_bound"; break
+            provider_not_before = result["completed_elapsed_s"] + cooldown[0] / 1000
             check_binding(manifest, live=True); verify_fixtures(output, manifest)
             if result["process"]["failure"] == "interrupted":
                 manifest["stop_reason"] = "interrupted"; break
@@ -772,6 +828,7 @@ def seal_round(args):
     check_binding(manifest, live=manifest["live_enabled"]); verify_fixtures(root, manifest)
     cadence = validate_delay_history(manifest)
     results, sessions, preflight_results = [], set(), {}
+    provider_verified = True if "provider_deferral_policy" in manifest else None
     for preflight in manifest["preflights"]:
         if "result" in preflight:
             definition = next(case["definition"] for case in manifest["cases"] if case.get("definition", {}).get("input_id") == preflight["input_id"])
@@ -794,6 +851,9 @@ def seal_round(args):
                     if following["start"]["previous_case_id"] == case["case_id"]:
                         require(following["start"]["previous_completed_elapsed_s"] == result.get("completed_elapsed_s"),
                                 "Following delay differs from the actual prior case completion.")
+                if "provider_deferral_policy" in manifest:
+                    verified = validate_provider_following_delays(root, manifest, result)
+                    provider_verified = provider_verified and verified
             if "archive" in result:
                 session = document(read_reference(root, result["archive"])).get("session_id")
                 require(session and session not in sessions, "A session was reused across declared cases.")
@@ -802,7 +862,7 @@ def seal_round(args):
             require(case["status"] in ("pending", "running"), "Completed case has no result.")
     passed = sum(case["status"] == "passed" for case in manifest["cases"])
     cli = [case for case in manifest["cases"] if case["mode"] != "observed"]
-    all_passed = passed == 24 and all(item["status"] == "passed" for item in manifest["preflights"])
+    all_passed = passed == 24 and all(item["status"] == "passed" for item in manifest["preflights"]) and provider_verified is not False
     totals = {key: sum(result["audit"].get(key, 0) for result in results if type(result["audit"].get(key, 0)) in (int, float)) for key in METRICS}
     cost_gaps = []
     for result in results:
@@ -829,6 +889,7 @@ def seal_round(args):
                "metrics": totals, "selected_costs": [{"case_id": result["case_id"], "selected_cost": result["audit"].get("selected_cost")} for result in results],
                "native_preflight_cost_gaps": cost_gaps,
                "delay_policy": manifest.get("delay_policy"),
+               "provider_deferral_policy": manifest.get("provider_deferral_policy"), "provider_deferrals_verified": provider_verified,
                "delayed_s": sum(record["finish"]["delayed_s"] for record in cadence.values()),
                "request_counts_complete": all(result["audit"].get("request_counts_complete") is True for result in results),
                "duplicate_counts_complete": all(result["audit"].get("duplicate_counts_complete") is True for result in results),
@@ -853,7 +914,7 @@ def main(argv=None):
     for name in ("sandbox", "eog", "offline", "desktop"):
         run.add_argument("--" + name + "-executable", type=Path, required=True)
     run.add_argument("--expected-source"); run.add_argument("--live", action="store_true")
-    run.add_argument("--duration-seconds", type=int, default=MAX_ROUND_SECONDS)
+    run.add_argument("--duration-seconds", type=int, default=DEFAULT_ROUND_SECONDS)
     run.add_argument("--case-gap-seconds", type=int, default=DEFAULT_CASE_GAP_SECONDS,
                      help="Hosted completion-to-next-start courtesy gap (0..60 seconds), within the round deadline")
     attach = commands.add_parser("attach-observed")

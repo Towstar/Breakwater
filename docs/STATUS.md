@@ -1,5 +1,16 @@
 # Implementation status
 
+## Evidence completion increment, November 21, 2026 (America/Chicago)
+
+The [evidence-completion implementation](NEMOTRON_EVIDENCE_COMPLETION.md) adds
+bounded validation-target guidance, a complete plain-text numerical explanation,
+worker-derived frozen policy on history restore and a separate preview of the
+next observed capture. Exact validation, freshness, budgets and approval remain
+mandatory. New evaluation rounds can explicitly allow two hours for the full
+serial corpus and honor retained provider cooldown across helper processes.
+This implementation entry is not a source-bound qualification or release result;
+earlier dated evidence below retains its original scope and denominator.
+
 ## Operations completion and provider load, November 21, 2026 (America/Chicago)
 
 The [Operations reliability increment](NEMOTRON_OPERATIONS_RELIABILITY.md) follows

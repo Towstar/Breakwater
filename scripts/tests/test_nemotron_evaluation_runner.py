@@ -86,6 +86,15 @@ class RunnerTests(unittest.TestCase):
             # Read the generated declaration, rather than introducing another clock.
             catalog = json.loads((source.parents[2] / "cases.json").read_bytes())
             archive["capture_manifest"]["cutoff_unix"] = next(case["cutoff_unix"] for case in catalog["cases"] if case["input_id"] == identity)
+        if hosted:
+            diagnostic = {"version": 1, "minimum_interval_ms": 6000, "backoff_base_ms": 8000,
+                          "backoff_jitter_ms": 1000, "terminal_cooldown_ms": 60000, "admission_wait_ms": 0,
+                          "cooldown_remaining_ms": 0, "cooldown_capped": False,
+                          "attempts": [{"attempt": 1, "started_ms": 0, "duration_ms": 1, "http_status": 200}]}
+            if "--project" in arguments:
+                archive["events"] = [{"type": "model_request_completed", "request": {"transport_diagnostics": diagnostic}}]
+            else:
+                archive["agent_events"] = [{"event": {"type": "model_request", "transport_diagnostics": diagnostic}}]
         archive_path.write_bytes(json.dumps(archive).encode())
         code = 0 if offline_eog or classification == "advisory_plan" else 3
         summary = {"status": "passed" if code == 0 else "incomplete", "exit_code": code,
@@ -104,6 +113,84 @@ class RunnerTests(unittest.TestCase):
         self.assertNotIn("OTHER_SECRET", child)
         native = runner.child_environment(environment, live=False)
         self.assertNotIn("NVIDIA_API_KEY", native)
+
+    def test_full_paced_round_window_is_explicit_and_bounded(self):
+        self.assertEqual(runner.DEFAULT_ROUND_SECONDS, 1800)
+        args = self.args(); args.duration_seconds = 7200
+        code, manifest = runner.run_round(args)
+        self.assertEqual(code, 0); self.assertEqual(manifest["limits"]["round_seconds"], 7200)
+        self.assertTrue(all("NVIDIA_API_KEY" not in environment for _, _, environment, _ in self.calls))
+        for invalid in (7201, True):
+            invalid_args = self.args("invalid-" + str(invalid)); invalid_args.duration_seconds = invalid
+            with self.assertRaises(runner.EvaluationError): runner.run_round(invalid_args)
+            self.assertFalse(invalid_args.output.exists())
+
+    def test_cross_process_cooldown_exceeds_courtesy_gap_and_is_reaudited(self):
+        clock = [0.0]
+        def modify(arguments, folder, path, process):
+            if "--live" not in arguments or sum("--live" in row[0] for row in self.calls) != 1: return
+            archive = json.loads(path.read_bytes())
+            requests = archive["events"] if "events" in archive else archive["agent_events"]
+            request = requests[-1].get("request", requests[-1].get("event"))
+            request["transport_diagnostics"]["cooldown_remaining_ms"] = 90000
+            path.write_bytes(json.dumps(archive).encode())
+        self.behavior = modify
+        args = self.args(live=True); args.duration_seconds = 100; args.case_gap_seconds = 30
+        with patch.object(runner.time, "monotonic", side_effect=lambda: clock[0]), \
+                patch.object(runner.time, "sleep", side_effect=lambda seconds: clock.__setitem__(0, clock[0] + seconds)):
+            code, manifest = runner.run_round(args)
+        self.assertEqual(code, 2)
+        self.assertEqual(sum(case["attempted"] for case in manifest["cases"]), 2)
+        cadence = runner.validate_delay_history(manifest)
+        second = list(cadence.values())[1]
+        self.assertEqual(second["start"]["provider_not_before_elapsed_s"], 90)
+        self.assertEqual(second["start"]["eligible_elapsed_s"], 90)
+        self.assertEqual(second["finish"]["finished_elapsed_s"], 90)
+        first = runner.document(runner.read_reference(args.output, manifest["cases"][0]["result"]))
+        tampered = copy.deepcopy(manifest)
+        next(row for row in tampered["wait_records"] if row.get("previous_case_id") == first["case_id"])["provider_not_before_elapsed_s"] = 0
+        with self.assertRaisesRegex(runner.EvaluationError, "Provider eligibility differs"):
+            runner.validate_provider_following_delays(args.output, tampered, first)
+        sealed_code, summary = runner.seal_round(SimpleNamespace(directory=args.output))
+        self.assertEqual(sealed_code, 2); self.assertTrue(summary["provider_deferrals_verified"])
+
+    def test_unknown_or_capped_provider_wait_stops_without_another_case(self):
+        for variation in ("missing", "capped", "exceeds-round"):
+            with self.subTest(variation=variation):
+                self.calls.clear()
+                def modify(arguments, folder, path, process):
+                    if "--live" not in arguments: return
+                    archive = json.loads(path.read_bytes())
+                    rows = archive["events"] if "events" in archive else archive["agent_events"]
+                    request = rows[-1].get("request", rows[-1].get("event"))
+                    if variation == "missing": del request["transport_diagnostics"]
+                    elif variation == "capped": request["transport_diagnostics"].update(cooldown_remaining_ms=86400000, cooldown_capped=True)
+                    else: request["transport_diagnostics"]["cooldown_remaining_ms"] = 7200000
+                    path.write_bytes(json.dumps(archive).encode())
+                self.behavior = modify
+                args = self.args("wait-" + variation, live=True)
+                code, manifest = runner.run_round(args)
+                self.assertEqual(code, 2)
+                self.assertEqual(sum(case["attempted"] for case in manifest["cases"]), 1)
+                expected = {"missing": "provider_cooldown_unavailable", "capped": "provider_cooldown_exceeds_diagnostic_bound", "exceeds-round": "provider_cooldown_exceeds_round"}
+                self.assertEqual(manifest["stop_reason"], expected[variation])
+                self.assertTrue(all(not case["attempted"] for case in manifest["cases"][1:]))
+                sealed_code, summary = runner.seal_round(SimpleNamespace(directory=args.output))
+                self.assertEqual(sealed_code, 2); self.assertFalse(summary["overall_passed"])
+
+    def test_only_latest_request_cooldown_applies(self):
+        args = self.args(live=True)
+        def modify(arguments, folder, path, process):
+            if "--live" not in arguments: return
+            archive = json.loads(path.read_bytes())
+            rows = archive["events"] if "events" in archive else archive["agent_events"]
+            older = copy.deepcopy(rows[-1]); request = older.get("request", older.get("event"))
+            request["transport_diagnostics"]["cooldown_remaining_ms"] = 60000
+            rows.insert(0, older); path.write_bytes(json.dumps(archive).encode())
+        self.behavior = modify
+        _, manifest = runner.run_round(args)
+        first = runner.document(runner.read_reference(args.output, manifest["cases"][0]["result"]))
+        self.assertEqual(runner.provider_cooldown(args.output, first), (0, False))
 
     def test_default_preflights_all_inputs_without_reading_or_forwarding_credentials(self):
         self.source["dirty"] = True

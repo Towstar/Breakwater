@@ -2,6 +2,7 @@
 #include "EogContracts.hpp"
 #include "agent/RetryMetadata.hpp"
 #include "agent/TransportDiagnostics.hpp"
+#include "agent/ValidationToolOffering.hpp"
 #include <QCryptographicHash>
 #include <QDateTime>
 #include <QJsonDocument>
@@ -243,7 +244,7 @@ bool EogInvestigator::appendMessage(const QJsonObject& message) {
     messages_ = next; return true;
 }
 void EogInvestigator::start(const QString& objective, const QJsonObject& context,
-                           const QJsonArray& definitions, EogInvestigationLimits limits) {
+                           const QJsonArray& definitions, EogInvestigationLimits limits, const QJsonObject& initialEvidence) {
     const QPointer<EogInvestigator> guard(this);
     const auto afterCancel = generation_ + (running_ ? 1 : 0);
     cancel();
@@ -266,6 +267,9 @@ void EogInvestigator::start(const QString& objective, const QJsonObject& context
         require(transport_ && transport_->thread() == thread() && QThread::currentThread() == thread());
         require(!objective.trimmed().isEmpty() && objective.size() <= 4000 && QString::fromUtf8(objective.toUtf8()) == objective);
         const auto safeContext = checked(context, maximumContextBytes);
+        evidence_ledger_ = checked(initialEvidence, 64 * 1024);
+        if (!evidence_ledger_.isEmpty()) for (const auto* key : {"capture_id", "dataset_identity", "cutoff_unix"})
+            require(evidence_ledger_.contains(key) && evidence_ledger_.value(key) == safeContext.value(key));
         if (safeContext.contains("session_id")) {
             require(safeContext.value("session_id").isString() && identifier(safeContext.value("session_id").toString()));
             session_id_ = safeContext.value("session_id").toString();
@@ -318,7 +322,14 @@ void EogInvestigator::requestModel() {
         const auto name = item.toObject().value("function").toObject().value("name").toString();
         if (recovery_validation_pending_ && name != "validate_plan") continue;
         if (candidate(name) && (refinements <= 0 || needsObservations)) continue;
-        offered.append(item); offered_names_.insert(name);
+        if (name == "validate_plan") {
+            const auto catalogue = evidence_ledger_.value("validation_targets");
+            const auto narrowed = agent::validationToolOffering(item.toObject(), "plan_id", catalogue.toArray(),
+                catalogue.isArray() && evidence_ledger_.value("validation_targets_complete") == true);
+            if (!narrowed) continue;
+            offered.append(*narrowed);
+        } else offered.append(item);
+        offered_names_.insert(name);
     }
     auto messages = messages_; auto system = messages[0].toObject();
     system["content"] = QString::fromUtf8(instructions) + QString(

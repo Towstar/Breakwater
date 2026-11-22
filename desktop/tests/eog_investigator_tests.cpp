@@ -1,4 +1,5 @@
 #include "eog/EogInvestigator.hpp"
+#include "agent/ValidationToolOffering.hpp"
 #include <QJsonDocument>
 #include <QCryptographicHash>
 #include <QPointer>
@@ -84,6 +85,58 @@ public:
 class EogInvestigatorTests final : public QObject {
     Q_OBJECT
 private slots:
+    void validationCatalogueNarrowsOnlyCompleteEvidenceAndReopensForNewPlans() {
+        FakeTransport model;
+        model.respond = [](const QJsonArray&, int step) {
+            if (step == 1) return calls({call("read", "read_topology")});
+            if (step == 2) return calls({call("validate-a", "validate_plan", "{\"plan_id\":\"plan-a\"}")});
+            if (step == 3) return calls({call("new-work", "search_plans")});
+            if (step == 4) return calls({call("validate-b", "validate_plan", "{\"plan_id\":\"plan-b\"}")});
+            return finalReply("plan-b", "validation-b");
+        };
+        const QJsonObject context{{"capture_id", "capture"}, {"dataset_identity", "dataset"}, {"cutoff_unix", 300}};
+        const auto ledger = [&](const QJsonArray& targets, const QString& validated = {}) {
+            auto index = context; index["validation_targets"] = targets; index["validation_targets_complete"] = true;
+            if (!validated.isEmpty()) index["completion_pairs"] = QJsonArray{QJsonObject{
+                {"selected_plan_id", "plan-" + validated}, {"validation_id", "validation-" + validated}}};
+            return index;
+        };
+        EogInvestigator session(&model); QSignalSpy done(&session, &EogInvestigator::finished);
+        connect(&session, &EogInvestigator::toolRequested, &session,
+            [&](const QString& id, const QString& name, const QJsonObject& args) {
+                auto response = outcome();
+                if (name == "read_topology") response["retained_evidence"] = ledger({"plan-a"});
+                else if (name == "search_plans") response["retained_evidence"] = ledger({"plan-b"}, "a");
+                else response["retained_evidence"] = ledger({}, args.value("plan_id").toString().right(1));
+                session.completeTool(id, response);
+            });
+        session.start("Inspect original and new numerical evidence.", context, definitions(), {}, ledger({}));
+        QTRY_COMPARE(done.size(), 1);
+        QCOMPARE(model.requests, 5); QCOMPARE(model.finalRequests, 0);
+        QVERIFY(!names(model.toolLists[0]).contains("validate_plan"));
+        QVERIFY(!names(model.toolLists[2]).contains("validate_plan"));
+        QVERIFY(names(model.toolLists[2]).contains("search_plans"));
+        QVERIFY(!names(model.toolLists[4]).contains("validate_plan"));
+        for (const auto turn : {1, 3}) {
+            QJsonArray targets;
+            for (const auto& item : model.toolLists[turn]) {
+                const auto f = item.toObject().value("function").toObject();
+                if (f.value("name") == "validate_plan") targets = f.value("parameters").toObject().value("properties").toObject().value("plan_id").toObject().value("enum").toArray();
+            }
+            QCOMPARE(targets, QJsonArray{turn == 1 ? "plan-a" : "plan-b"});
+        }
+    }
+    void incompleteOrOversizedValidationCatalogueCannotHideTargets() {
+        const auto definition = definitions({"validate_plan"}).first().toObject();
+        const auto incomplete = breakwater::desktop::agent::validationToolOffering(definition, "plan_id", {}, false);
+        QVERIFY(incomplete); QCOMPARE(*incomplete, definition);
+        QJsonArray oversized;
+        for (int i = 0; i < 257; ++i) oversized.append(QString::number(i));
+        const auto unbounded = breakwater::desktop::agent::validationToolOffering(definition, "plan_id", oversized, true);
+        QVERIFY(unbounded); QCOMPARE(*unbounded, definition);
+        const auto malformed = breakwater::desktop::agent::validationToolOffering(definition, "plan_id", {"same", "same"}, true);
+        QVERIFY(malformed); QCOMPARE(*malformed, definition);
+    }
     void cooperativeRepairs_data() {
         QTest::addColumn<QString>("mode");
         for (const auto* mode : {"format-first", "reference-first", "wrong-again", "request-cap", "tool-cap", "cancel", "stale"})

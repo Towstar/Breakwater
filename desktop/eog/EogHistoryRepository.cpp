@@ -513,7 +513,12 @@ public:
         });
     }
     void load(const QString& id) {
-        perform("load", id, [&] { available(); live_.remove(id); Transaction transaction(database_); const auto archive = archiveFor(id); transaction.commit(); emit loaded(archive); });
+        perform("load", id, [&] {
+            available(); live_.remove(id); Transaction transaction(database_);
+            QJsonObject presentationContext;
+            const auto archive = archiveFor(id, &presentationContext);
+            transaction.commit(); emit loaded(archive, presentationContext);
+        });
     }
     void exportArchive(const QString& id, const QUrl& destination) {
         perform("export", id, [&] {
@@ -577,7 +582,7 @@ signals:
     void ready();
     void saved(const QString& id);
     void listed(const QJsonArray& sessions, int nextOffset);
-    void loaded(const QJsonObject& archive);
+    void loaded(const QJsonObject& archive, const QJsonObject& presentationContext);
     void exported(const QString& id, const QUrl& destination);
     void imported(const QString& id);
     void recorded(const QString& id, const QString& recordId);
@@ -735,7 +740,7 @@ private:
         }
         return captured;
     }
-    QJsonObject archiveFor(const QString& id) {
+    QJsonObject archiveFor(const QString& id, QJsonObject* presentationContext = nullptr) {
         const auto current = session(id); auto captured = readStoredCapture(current.value("capture_id").toString());
         QJsonObject inputs;
         for (const auto& name : inputNames) {
@@ -757,8 +762,12 @@ private:
         QJsonObject archive{{"eog_session_version", 1}, {"session_id", id}, {"objective", current.value("objective")}, {"status", current.value("status")},
             {"created_at", current.value("created_at")}, {"updated_at", current.value("updated_at")}, {"capture_manifest", captured.manifest},
             {"captured_inputs", inputs}, {"analyses", analyses}, {"operator_records", records}, {"agent_events", agentRecords(id)}, {"historical", true}, {"actionable", false}};
-        (void)validateArchive(archive);
+        const auto verified = validateArchive(archive);
         require(json(archive).size() <= EogHistoryRepository::maximumArchiveBytes, "Complete archive exceeds 256 MiB; no evidence was truncated.");
+        if (presentationContext) *presentationContext = QJsonObject{
+            {"capture_id", verified.manifest.value("capture_id")},
+            {"dataset_identity", verified.manifest.value("dataset_identity")},
+            {"expected_repair_hours", verified.dataset->ops.value("expected_repair_hours")}};
         return archive;
     }
 };

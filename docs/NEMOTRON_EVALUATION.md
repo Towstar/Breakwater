@@ -6,6 +6,12 @@ or authorize release. The preceding private packaged candidate, source `ab29cdd`
 passed its seven declared hosted checks. Those results belong to that candidate;
 new results must name the new source and executable hashes.
 
+The [evidence-completion increment](NEMOTRON_EVIDENCE_COMPLETION.md) permits an
+explicit 7,200-second full-corpus CLI window while retaining the 1,800-second
+default. New rounds additionally honor hash-bound provider cooldown across
+helper processes and stop on missing/capped diagnostics. Production investigation
+deadlines and all original denominators remain unchanged.
+
 ## What is tested
 
 The generated corpus declares 22 command-line investigations and two actual
@@ -66,7 +72,7 @@ tagged reasoning in visible content is rejected, and privacy checks cover the
 next tool-result conversation as well as replies and metadata. The evaluator does
 not retain raw reasoning or claim that every untagged narrative is accurate.
 
-A round has a maximum 1,800-second command-line budget, a 450-second outer bound
+A round defaults to a 1,800-second command-line budget, a 450-second outer bound
 per helper, 8 MiB stdout and 1 MiB stderr bounds. Only subprocesses launched by the
 runner are terminated on those outer limits. Partial artifacts and pending cases
 remain recorded. Hosted helpers have a recorded 30-second completion-to-next-start
