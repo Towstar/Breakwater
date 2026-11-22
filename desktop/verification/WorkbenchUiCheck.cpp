@@ -26,6 +26,7 @@
 #include <QUuid>
 #include <QWheelEvent>
 #include <cmath>
+#include <algorithm>
 #include <filesystem>
 #include <memory>
 #include <stdexcept>
@@ -58,6 +59,7 @@ class Check final : public QObject {
     bool compare_settings_only_=false;
     std::function<int()> model_requests_;
     QJsonObject comparison_project_, comparison_archive_;
+    QPointer<QQuickItem> comparison_key_input_, comparison_save_key_;
     std::unique_ptr<QTemporaryDir> comparison_storage_;
     qint64 comparison_checkpoint_=0;
     QJsonObject observed_project_;
@@ -366,10 +368,10 @@ class Check final : public QObject {
             require(item("comparisonCostDelta")->isVisible() && item("comparisonControlChanges")->isEnabled(),"compatible_pair_actions_missing");
             snapshot("04-comparison-metrics.png"); click(item("comparisonControlChanges")); markCueFrames(); break;
         case 249:
-            require(item("comparisonChangesDialog")->property("visible").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"comparison_dialog_or_shortcut_guard_missing");
+            require(item("runComparisonPanel")->property("dialogOpen").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"comparison_dialog_or_shortcut_guard_missing");
             key(Qt::Key_Escape); markCueFrames(); break;
         case 250: {
-            require(!item("comparisonChangesDialog")->property("visible").toBool() && item("comparisonControlChanges")->hasActiveFocus(),"comparison_dialog_close_or_focus_return_failed");
+            require(!item("runComparisonPanel")->property("dialogOpen").toBool() && item("comparisonControlChanges")->hasActiveFocus(),"comparison_dialog_close_or_focus_return_failed");
             // Deliberately incompatible display fixture, never an imported or qualified run.
             auto incompatible=comparison_archive_; auto runs=incompatible.value("runs").toArray();
             auto detail=runs.last().toObject(), run=detail.value("run").toObject(); run["snapshot_id"]="different-ui-fixture-snapshot";
@@ -402,7 +404,7 @@ class Check final : public QObject {
             require(!history->historical(),"comparison_return_current_failed");
             passed("historical_comparison_is_read_only"); click(item("openSettings")); markCueFrames(); break;
         case 255:
-            require(item("settingsDialog")->property("visible").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"settings_did_not_block_scene_keys");
+            require(eval("settingsDialog.visible").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"settings_did_not_block_scene_keys");
             click(item("settingsRenderingQuality")); key(Qt::Key_Home); key(Qt::Key_Return); markCueFrames(); break;
         case 256:
             require(eval("workspaceSettings.values.quality").toInt()==0,"quality_control_not_bound_to_existing_preferences");
@@ -421,13 +423,14 @@ class Check final : public QObject {
             require(!eval("app.credentials.configured || app.credentials.saved").toBool(),"settings_ui_discovered_user_credentials");
             click(item("settingsManageKey")); markCueFrames(); break;
         case 262:
-            require(item("nemotronKeyDialog")->property("visible").toBool() && item("nemotronApiKeyInput")->property("echoMode").toInt()==2,"shared_key_dialog_not_masked");
+            comparison_key_input_=item("nemotronApiKeyInput"); comparison_save_key_=item("saveNemotronKey");
+            require(eval("keyDialog.visible").toBool() && item("nemotronApiKeyInput")->property("echoMode").toInt()==2,"shared_key_dialog_not_masked");
             key(Qt::Key_unknown,Qt::NoModifier,"ui-placeholder-not-a-real-key"); key(Qt::Key_Escape); markCueFrames(); break;
         case 263:
-            require(!item("nemotronKeyDialog")->property("visible").toBool() && item("nemotronApiKeyInput")->property("text").toString().isEmpty()
+            require(!eval("keyDialog.visible").toBool() && comparison_key_input_ && comparison_key_input_->property("text").toString().isEmpty()
                 && item("settingsManageKey")->hasActiveFocus() && !eval("app.credentials.saved").toBool(),"key_cancel_retained_input_or_lost_focus");
             eval("settingsDialog.investigationRunning=true; keyDialog.investigationRunning=true");
-            require(!item("settingsManageKey")->isEnabled() && !item("saveNemotronKey")->isEnabled(),"busy_settings_allow_credential_change");
+            require(!item("settingsManageKey")->isEnabled() && comparison_save_key_ && !comparison_save_key_->isEnabled(),"busy_settings_allow_credential_change");
             eval("settingsDialog.investigationRunning=Qt.binding(function(){return app.credentialChangeBlocked}); keyDialog.investigationRunning=Qt.binding(function(){return app.credentialChangeBlocked})");
             click(item("settingsCheckWorker")); markCueFrames(); break;
         case 264:
@@ -438,18 +441,18 @@ class Check final : public QObject {
             passed("settings_preferences_shared_key_masking_busy_gates_and_missing_worker");
             key(Qt::Key_Escape); markCueFrames(); break;
         case 265:
-            require(!item("settingsDialog")->property("visible").toBool() && item("openSettings")->hasActiveFocus(),"settings_close_did_not_restore_focus");
+            require(!eval("settingsDialog.visible").toBool() && item("openSettings")->hasActiveFocus(),"settings_close_did_not_restore_focus");
             click(item("switchToOperations")); markCueFrames(); break;
         case 266:
             require(window_->property("workspace").toString()=="eog","settings_operations_fixture_failed");
             key(Qt::Key_Comma,Qt::ControlModifier,","); markCueFrames(); break;
         case 267:
-            require(item("settingsDialog")->property("visible").toBool(),"settings_shortcut_unavailable_in_operations");
+            require(eval("settingsDialog.visible").toBool(),"settings_shortcut_unavailable_in_operations");
             click(item("settingsInformationTab")); markCueFrames(); break;
         case 268:
             snapshot("08-settings-information.png"); click(item("settingsAbout")); markCueFrames(); break;
         case 269:
-            require(eval("aboutDialog.visible").toBool() && !item("settingsDialog")->property("visible").toBool(),"settings_about_navigation_failed");
+            require(eval("aboutDialog.visible").toBool() && !eval("settingsDialog.visible").toBool(),"settings_about_navigation_failed");
             eval("aboutDialog.close()"); click(item("switchToWorkbench")); markCueFrames(); break;
         case 270:
             passed("settings_both_workspaces_keyboard_escape_focus_and_about");

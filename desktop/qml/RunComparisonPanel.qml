@@ -5,6 +5,7 @@ import QtQuick.Layouts
 
 ColumnLayout {
     id: comparison
+    objectName: "runComparisonPanel"
     required property var history
     signal investigationRequested()
     signal historyRequested()
@@ -66,19 +67,19 @@ ColumnLayout {
         objectName: "comparisonScroll"
         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 0
         contentWidth: availableWidth; clip: true
-        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn }
         ColumnLayout {
             width: comparisonScroll.availableWidth; spacing: 12
             Frame {
                 objectName: "comparisonEmptyState"
                 visible: !comparison.hasRuns; Layout.fillWidth: true
-                Layout.preferredHeight: Math.max(195, comparisonScroll.availableHeight)
-                padding: 20
+                Layout.preferredHeight: Math.max(164, comparisonScroll.availableHeight)
+                padding: 16
                 background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
                 contentItem: Item {
                     ColumnLayout {
                         anchors.centerIn: parent; width: Math.min(500, parent.width); spacing: 12
-                        Image { source: Theme.icon("git-compare-arrows"); sourceSize.width: 24; sourceSize.height: 24; Layout.alignment: Qt.AlignHCenter; Accessible.ignored: true }
+                        Image { visible: comparisonScroll.availableHeight >= 240; source: Theme.icon("git-compare-arrows"); sourceSize.width: 24; sourceSize.height: 24; Layout.alignment: Qt.AlignHCenter; Accessible.ignored: true }
                         Copy { Layout.fillWidth: true; horizontalAlignment: Text.AlignHCenter; text: "No runs to compare yet"; font.pixelSize: 17; font.weight: Font.DemiBold }
                         Copy { Layout.fillWidth: true; horizontalAlignment: Text.AlignHCenter; color: Theme.secondary; text: "Use Local search or a Nemotron investigation to retain numerical runs, or reopen a saved session from History." }
                         Flow {
@@ -133,7 +134,7 @@ ColumnLayout {
                             id: runList; objectName: "comparisonRunList"
                             Layout.fillWidth: true; Layout.fillHeight: true; clip: true; spacing: 8
                             model: comparison.history.runs
-                            ScrollBar.vertical: ScrollBar { policy: ScrollBar.AsNeeded }
+                            ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn }
                             delegate: Frame {
                                 id: runCard; required property var modelData
                                 width: Math.max(0, runList.width - 12); padding: 10
