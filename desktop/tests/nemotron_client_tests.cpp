@@ -302,6 +302,10 @@ private slots:
         inconsistent = metadata; inconsistent["http_status"] = 503; QVERIFY(!validTransportDiagnosticsForRequest(inconsistent));
         inconsistent = metadata; inconsistent["duration_ms"] = -1; QVERIFY(!validTransportDiagnosticsForRequest(inconsistent));
         QVERIFY(validTransportDiagnostics(d)); const auto attempts = d.toObject()["attempts"].toArray();
+        QCOMPARE(d.toObject()["request_bytes"].toInteger(), network.payloads[0].size());
+        for (const auto bad : {QJsonValue(0), QJsonValue(-1), QJsonValue(0.5), QJsonValue(2 * 1024 * 1024 + 1), QJsonValue("raw"), QJsonValue(true)}) {
+            auto invalidSize = d.toObject(); invalidSize["request_bytes"] = bad; QVERIFY(!validTransportDiagnostics(invalidSize));
+        }
         QCOMPARE(attempts[0].toObject()["provider_error_code"].toString(), QString("insufficient_quota"));
         QCOMPARE(attempts[0].toObject()["rate_limits"].toObject(), (QJsonObject{{"request_limit", 40}}));
         QCOMPARE(attempts[1].toObject()["usage"].toObject(), (QJsonObject{{"prompt_tokens", 12}}));
@@ -311,6 +315,32 @@ private slots:
         auto invalid = d.toObject(); invalid["headers"] = QJsonObject{}; QVERIFY(!validTransportDiagnostics(invalid));
         invalid = d.toObject(); auto modified = attempts; auto attempt = modified[0].toObject(); attempt["raw_body"] = "private";
         modified[0] = attempt; invalid["attempts"] = modified; QVERIFY(!validTransportDiagnostics(invalid));
+    }
+    void oversizedRequestRetainsValidFailureWithoutPosting() {
+        FakeNetwork network; NemotronClient client(configuration(), nullptr, &network, pacer_);
+        QSignalSpy failed(&client, &ModelTransport::requestFailed), metadata(&client, &ModelTransport::requestCompleted);
+        client.request(QJsonArray{QJsonObject{{"role", "user"}, {"content", QString(3 * 1024 * 1024, 'x')}}}, {});
+        QTRY_COMPARE(failed.size(), 1); QCOMPARE(failed[0][0].toString(), QString("request_too_large"));
+        QVERIFY(network.requests.isEmpty()); const auto request = metadata[0][0].toJsonObject();
+        QVERIFY(validTransportDiagnosticsForRequest(request));
+        QVERIFY(!request["transport_diagnostics"].toObject().contains("request_bytes"));
+        QVERIFY(request["transport_diagnostics"].toObject()["attempts"].toArray().isEmpty());
+        network.responses = {Response{200, textCompletion()}}; QSignalSpy ready(&client, &ModelTransport::replyReady);
+        client.request(messages(), {}); QTRY_COMPARE(ready.size(), 1); QCOMPARE(network.requests.size(), 1);
+        QVERIFY(validTransportDiagnosticsForRequest(metadata.last()[0].toJsonObject()));
+    }
+    void defaultBackoffPreservesTheOriginalBudget() {
+        FakeNetwork network; network.responses = {Response{429, "private"}};
+        auto config = configuration(); config.maxRetries = 2; config.backoffBaseMs = NemotronConfig{}.backoffBaseMs;
+        QCOMPARE(config.backoffBaseMs, 8000);
+        NemotronClient client(config, nullptr, &network, pacer_);
+        QSignalSpy failed(&client, &ModelTransport::requestFailed), metadata(&client, &ModelTransport::requestCompleted);
+        client.requestWithBudget(messages(), {}, 5000, false); QTRY_COMPARE(failed.size(), 1);
+        QCOMPARE(network.requests.size(), 1); QCOMPARE(failed[0][0].toString(), QString("rate_limit_wait_exceeds_budget"));
+        const auto request = metadata[0][0].toJsonObject(); QCOMPARE(request["retry_count"].toInt(), 0);
+        QVERIFY(request["retry_delays_ms"].toArray().isEmpty());
+        QCOMPARE(request["transport_diagnostics"].toObject()["backoff_base_ms"].toInt(), 8000);
+        QVERIFY(request["duration_ms"].toDouble() < 5000); QVERIFY(validTransportDiagnosticsForRequest(request));
     }
     void finalJsonFallbackKeepsExistingTransportsCompatible() {
         class ExistingTransport final : public ModelTransport {

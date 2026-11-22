@@ -16,6 +16,7 @@
 #include <QTimer>
 #include <QTimeZone>
 #include <QtTest>
+#include <algorithm>
 #include <array>
 #include <cmath>
 #include <limits>
@@ -141,33 +142,57 @@ public:
 };
 class ProvenanceModel final : public agent::ModelTransport {
 public:
+    explicit ProvenanceModel(QString tank) : tank_(std::move(tank)) {}
     int requests = 0;
-    QString method, plan, validation;
-    void request(const QJsonArray& messages, const QJsonArray&) override {
+    QString method, plan, validation, scriptError;
+    QStringList toolOrder;
+    void request(const QJsonArray& messages, const QJsonArray& offered) override {
         ++requests;
         QJsonObject reply{{"role", "assistant"}};
-        const auto call = [&](const QString& name, const QJsonObject& arguments) {
+        const auto call = [&](const QString& name, const QJsonObject& arguments) -> bool {
+            const bool available = std::any_of(offered.cbegin(), offered.cend(), [&](const auto& item) {
+                return item.toObject().value("function").toObject().value("name") == name;
+            });
+            if (!available) { fail("Fixture requested an unoffered tool: " + name); return false; }
+            toolOrder.append(name);
             reply["tool_calls"] = QJsonArray{QJsonObject{{"id", QString("provenance-%1").arg(requests)}, {"type", "function"},
                 {"function", QJsonObject{{"name", name}, {"arguments", QString::fromUtf8(QJsonDocument(arguments).toJson(QJsonDocument::Compact))}}}}};
+            return true;
         };
-        if (requests == 1) call("search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}});
+        if (requests == 1) {
+            if (!call("read_observations", {{"asset_id", tank_}, {"metric", "level_pct"}, {"window_s", 600}, {"limit", 16}})) return;
+        }
         else {
             const auto envelope = QJsonDocument::fromJson(messages.last().toObject().value("content").toString().toUtf8()).object();
             const auto result = envelope.value("result").toObject().value("result").toObject();
             if (requests == 2) {
+                const auto observations = envelope.value("result").toObject();
+                if (envelope.value("ok") != true || observations.value("asset_id") != tank_ ||
+                    observations.value("metric") != "level_pct" || observations.value("samples").toArray().isEmpty()) {
+                    fail("Fixture did not inspect its actual captured observations."); return;
+                }
+                if (!call("search_plans", {{"candidate_limit", 32}, {"time_limit_s", 5}})) return;
+            } else if (requests == 3) {
+                if (result.value("evaluations").toArray().isEmpty()) { fail("Fixture search returned no evaluation."); return; }
                 const auto evaluation = result.value("evaluations").toArray().first().toObject();
                 plan = evaluation.value("plan").toObject().value("plan_id").toString();
                 method = evaluation.value("evaluator_method").toString();
-                call("validate_plan", {{"plan_id", plan}, {"evaluator_method", method}});
-            } else {
+                if (!call("validate_plan", {{"plan_id", plan}, {"evaluator_method", method}})) return;
+            } else if (requests == 4) {
                 validation = result.value("validation").toObject().value("validation_id").toString();
                 reply["content"] = QString::fromUtf8(QJsonDocument(QJsonObject{{"summary", "Real provider evidence with copied evaluator provenance."},
                     {"selected_plan_id", plan}, {"validation_id", validation}, {"event_ids", QJsonArray{}}}).toJson(QJsonDocument::Compact));
-            }
+            } else { fail("Fixture received an unexpected extra model request."); return; }
         }
         QTimer::singleShot(0, this, [this, reply] { emit replyReady(reply); });
     }
     void cancel() override {}
+private:
+    QString tank_;
+    void fail(const QString& reason) {
+        scriptError = reason;
+        QTimer::singleShot(0, this, [this, reason] { emit requestFailed("invalid_fixture_sequence", reason); });
+    }
 };
 }
 
@@ -183,14 +208,17 @@ private slots:
     void modelCopiesActualNumericalProvenanceWithoutChangingStoredWireEvidence() {
         Inputs inputs; QTemporaryDir storage;
         EogDatasetController dataset; EogAnalysisClient client(python(), worker(), providerArguments());
-        EogHistoryRepository history(storage.filePath("provenance.sqlite")); ProvenanceModel model;
+        EogHistoryRepository history(storage.filePath("provenance.sqlite")); ProvenanceModel model(inputs.tank);
         EogAnalysisController controller(&dataset, &client, &history, &model);
         QSignalSpy ready(&history, &EogHistoryRepository::ready), done(&client, &EogAnalysisClient::completed),
             failures(&client, &EogAnalysisClient::failed);
         dataset.loadFolder(QUrl::fromLocalFile(inputs.directory.path()));
         QTRY_VERIFY_WITH_TIMEOUT(dataset.loaded() && ready.size() == 1, 15000);
         controller.investigate("Inspect the real provider's supported response evidence and validate its exact plan.");
-        QTRY_VERIFY_WITH_TIMEOUT(model.requests == 3 && !controller.busy(), 30000);
+        QTRY_VERIFY_WITH_TIMEOUT(model.requests > 0 && !controller.busy(), 30000);
+        QVERIFY2(model.scriptError.isEmpty(), qPrintable(model.scriptError));
+        QCOMPARE(model.requests, 4);
+        QCOMPARE(model.toolOrder, (QStringList{"read_observations", "search_plans", "validate_plan"}));
         QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 2);
         QCOMPARE(model.method, "eog-native-seconds-0.1.1");
         QCOMPARE(controller.selectedEvaluatorMethod(), model.method);
@@ -200,6 +228,15 @@ private slots:
         QVERIFY(!raw.isEmpty());
         for (const auto& value : raw) QVERIFY(!value.toObject().contains("evaluator_method"));
         QCOMPARE(inputs.currentHashes(), inputs.hashes);
+    }
+    void provenanceFixtureRejectsUnofferedToolsPromptly() {
+        ProvenanceModel model("fixture/tank");
+        QSignalSpy failed(&model, &agent::ModelTransport::requestFailed), replies(&model, &agent::ModelTransport::replyReady);
+        model.request({}, {});
+        QTRY_COMPARE(failed.size(), 1);
+        QCOMPARE(replies.size(), 0);
+        QVERIFY(model.toolOrder.isEmpty());
+        QVERIFY(model.scriptError.contains("read_observations"));
     }
     void actualDetectionBindsItsCaptureAndLeavesSourcesUnchanged_data() {
         QTest::addColumn<QString>("prefix");

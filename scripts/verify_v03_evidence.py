@@ -28,7 +28,9 @@ def transport_diagnostics_valid(value):
 
     required = {"version", "minimum_interval_ms", "backoff_base_ms", "backoff_jitter_ms", "terminal_cooldown_ms",
                 "admission_wait_ms", "cooldown_remaining_ms", "cooldown_capped", "attempts"}
-    if not isinstance(value, dict) or set(value) != required:
+    if not isinstance(value, dict) or not required <= set(value) or set(value) - required - {"request_bytes"}:
+        return False
+    if "request_bytes" in value and not integer(value["request_bytes"], 2 * 1024 * 1024):
         return False
     bounds = {"version": 1, "minimum_interval_ms": 60000, "backoff_base_ms": 60000,
               "backoff_jitter_ms": 5000, "terminal_cooldown_ms": 86400000,
@@ -36,6 +38,8 @@ def transport_diagnostics_valid(value):
     if (not all(integer(value[key], bound) for key, bound in bounds.items()) or value["version"] != 1 or value["backoff_base_ms"] == 0
             or type(value["cooldown_capped"]) is not bool or not isinstance(value["attempts"], list)
             or len(value["attempts"]) > 4):
+        return False
+    if value.get("request_bytes") == 0 and value["attempts"]:
         return False
     if value["cooldown_capped"] and value["cooldown_remaining_ms"] != 86400000:
         return False

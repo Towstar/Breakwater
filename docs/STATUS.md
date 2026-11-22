@@ -1,5 +1,33 @@
 # Implementation status
 
+## Operations completion and provider load, November 21, 2026 (America/Chicago)
+
+The [Operations reliability increment](NEMOTRON_OPERATIONS_RELIABILITY.md) follows
+PR #96. It lengthens fallback retries to 8/16 seconds, records bounded request
+size, removes repeated model-facing evidence indexes and previews nested proof
+rows while retaining complete local validation evidence. New production planning
+requires a model-issued raw-observation inspection. One syntax correction and one
+exact-reference repair can cooperate under unchanged global budgets; already
+validated references use a JSON-only correction without repeated numerical work.
+
+Executed source `db1d0bd` passes the focused normal 8/8 suites, 33 candidate-audit
+tests, the 68-test evaluation suite (one capability skip, zero failures) and four
+normal/compact D3D11/WARP render checks. The initial ASan matrix passed 7/8;
+its existing correction-phase timing failure passed once in isolation with the
+original deadline unchanged. Both attempts are retained, not reported as one
+clean 8/8 ASan run. PR #96's preceding source passes all six Windows CI jobs.
+
+The newly declared live supplement passes **4/4**, and a separate witnessed
+sensor-origin round passes **2/2**. All 45 actual POSTs returned HTTP 200 with
+zero HTTP 429; no rehearsal approved or applied controls. Complete source/hash,
+scope and failure evidence is in [the dated verification report](NEMOTRON_OPERATIONS_VERIFICATION.md).
+Earlier 2/4 targeted, 1/2 observed-origin and 22/24 expanded rounds remain
+unchanged. Occasional duplicate validation and unverified model-prose mistakes
+remain limitations. Account capacity, independent reviews and clean-Windows
+release acceptance remain unqualified. Validation, source freshness and explicit
+approval stay mandatory; no numerical/scientific implementation or release
+authority changes here.
+
 ## Nemotron pacing and diagnostic policy, November 21, 2026 (America/Chicago)
 
 The [pacing increment](NEMOTRON_PACING.md) adds process-shared POST admission and

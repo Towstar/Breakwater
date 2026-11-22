@@ -19,13 +19,15 @@ inline bool validTransportDiagnostics(const QJsonValue& value) {
     if (!value.isObject()) return false;
     const auto d = value.toObject();
     if (!diagnosticFields(d, {"version", "minimum_interval_ms", "backoff_base_ms", "backoff_jitter_ms", "terminal_cooldown_ms",
-                            "admission_wait_ms", "cooldown_remaining_ms", "cooldown_capped", "attempts"}) ||
+                            "admission_wait_ms", "cooldown_remaining_ms", "cooldown_capped", "attempts"}, {"request_bytes"}) ||
         !diagnosticInteger(d["version"], 1) || d["version"] != 1 ||
         !diagnosticInteger(d["minimum_interval_ms"], 60000) || !diagnosticInteger(d["backoff_base_ms"], 60000) || d["backoff_base_ms"] == 0 ||
         !diagnosticInteger(d["backoff_jitter_ms"], 5000) || !diagnosticInteger(d["terminal_cooldown_ms"], 86400000) ||
         !diagnosticInteger(d["admission_wait_ms"]) || !diagnosticInteger(d["cooldown_remaining_ms"], 86400000) ||
         !d["cooldown_capped"].isBool() || !d["attempts"].isArray() || d["attempts"].toArray().size() > 4) return false;
     if (d["cooldown_capped"] == true && d["cooldown_remaining_ms"] != 86400000) return false;
+    if (d.contains("request_bytes") && !diagnosticInteger(d["request_bytes"], 2 * 1024 * 1024)) return false;
+    if (d.contains("request_bytes") && d["request_bytes"] == 0 && !d["attempts"].toArray().isEmpty()) return false;
     qint64 previousEnd = 0; int index = 0;
     for (const auto& item : d["attempts"].toArray()) {
         if (!item.isObject()) return false;

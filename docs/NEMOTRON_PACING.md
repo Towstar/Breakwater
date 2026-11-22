@@ -1,5 +1,10 @@
 # Bounded Nemotron pacing and diagnostics
 
+The subsequent [Operations reliability increment](NEMOTRON_OPERATIONS_RELIABILITY.md)
+changes the fallback base to 8000 ms and adds optional bounded request-size
+diagnostics. The policy below records the original PR #96 implementation; its
+dated verification outcomes are preserved.
+
 This Person B increment follows PR #95. It changes hosted transport policy and
 retained diagnostics, preserving the numerical engine, strict final evidence,
 validation, freshness, tool budgets and explicit operator approval.
