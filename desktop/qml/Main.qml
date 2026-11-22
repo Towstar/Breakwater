@@ -55,7 +55,13 @@ ApplicationWindow {
     readonly property bool navigatorVisible: !sceneOnly && workspaceSettings.values.navigatorOpen && (!compactLayout || compactPane === "navigator")
     readonly property bool inspectorVisible: !sceneOnly && workspaceSettings.values.inspectorOpen && (!compactLayout || compactPane === "inspector")
     property bool topView: false
-    property bool siteGridVisible: true
+    readonly property bool siteGridVisible: workspaceSettings.values.gridVisible
+    readonly property bool credentialChangeBlocked: investigator.running || observedInvestigator.running || eogAnalysis.busy
+    function openSettings() { settingsDialog.returnFocusItem = settingsButton; settingsDialog.open() }
+    function openKeySettings(source) {
+        if (credentialChangeBlocked) return
+        keyDialog.returnFocusItem = source; keyDialog.open()
+    }
     property bool fittedView: false
     property real fittedDistance: 720
     property real fitSpan: 800
@@ -189,7 +195,7 @@ ApplicationWindow {
     function sceneKeysEnabled() {
         const focus = app.activeFocusItem
         const textEditing = focus && typeof focus.selectAll === "function" && focus.text !== undefined
-        const blocked = [sensorDialog, telemetryDialog, observedInvestigationDialog, pipeTransportDialog, aboutDialog, sceneHelpDialog, projectMenu, viewMenu, editMenu, exampleMenu].some(item => item && item.visible)
+        const blocked = [sensorDialog, telemetryDialog, observedInvestigationDialog, pipeTransportDialog, aboutDialog, sceneHelpDialog, settingsDialog, keyDialog, projectMenu, viewMenu, editMenu, exampleMenu].some(item => item && item.visible)
         return app.workspace === "workbench" && !textEditing && !blocked && !(agentPanel && agentPanel.dialogOpen) && !(forecastPanel && forecastPanel.dialogOpen)
     }
     property bool connectMode: false
@@ -314,8 +320,11 @@ ApplicationWindow {
     Shortcut { sequence: "Ctrl+Home"; enabled: app.sceneKeysEnabled(); onActivated: app.restoreOrbit() }
     Shortcut { sequence: "F1"; enabled: app.sceneKeysEnabled(); onActivated: sceneHelpDialog.open() }
     Shortcut { sequence: "Ctrl+Shift+F"; enabled: app.sceneKeysEnabled() && !app.connectMode && !sceneMouse.pressed; onActivated: app.toggleSceneFocus() }
+    Shortcut { sequence: "Ctrl+,"; enabled: !settingsDialog.visible && !keyDialog.visible; onActivated: app.openSettings() }
     Shortcut {
         sequence: "Escape"
+        enabled: !settingsDialog.visible && !keyDialog.visible && !agentPanel.dialogOpen
+            && !(observedAgentLoader.item && observedAgentLoader.item.dialogOpen) && !forecastPanel.dialogOpen
         onActivated: {
             if (sceneHelpDialog.visible) sceneHelpDialog.close()
             else if (actionNotice.visible && actionNotice.ownsFocus(app.activeFocusItem)) actionNotice.dismiss()
@@ -332,6 +341,17 @@ ApplicationWindow {
     PipeTransportPanel { id: pipeTransportDialog; pipeTransport: app.pipeTransport }
     SensorPanel { id: sensorDialog; controller: app.controller }
     WorkspaceHelp { id: sceneHelpDialog }
+    SettingsDialog {
+        id: settingsDialog; workspaceSettings: app.workspaceSettings; credentials: app.credentials
+        scientificWorker: app.scientificWorker; buildInfo: app.buildInfo
+        investigationRunning: app.credentialChangeBlocked
+        onManageKeyRequested: source => app.openKeySettings(source)
+        onHelpRequested: sceneHelpDialog.open()
+        onAboutRequested: aboutDialog.open()
+    }
+    NemotronKeyDialog {
+        id: keyDialog; credentials: app.credentials; investigationRunning: app.credentialChangeBlocked
+    }
     TelemetryPanel {
         id: telemetryDialog; telemetry: app.telemetry
         onOpenInvestigation: { telemetryDialog.close(); observedInvestigationDialog.open() }
@@ -352,6 +372,7 @@ ApplicationWindow {
                 investigator: app.observedInvestigator; history: app.observedHistory; credentials: app.credentials
                 scientificWorker: app.scientificWorker; storageScience: app.storageScience
                 currentNetworkHash: ""
+                onConfigureKeyRequested: source => app.openKeySettings(source)
             }
         }
     }
@@ -428,17 +449,13 @@ ApplicationWindow {
                     MenuItem { text: "Network navigator"; checkable: true; checked: app.navigatorVisible; onTriggered: { const opening=checked; app.sceneOnly = false; workspaceSettings.setValue("navigatorOpen", app.compactLayout || opening); app.compactPane = "navigator" } }
                     MenuItem { text: "Equipment inspector"; checkable: true; checked: app.inspectorVisible; onTriggered: { const opening=checked; app.sceneOnly = false; workspaceSettings.setValue("inspectorOpen", app.compactLayout || opening); app.compactPane = "inspector" } }
                     MenuItem { text: "More equipment labels"; checkable: true; checked: workspaceSettings.values.allLabels; onTriggered: workspaceSettings.setValue("allLabels", checked) }
-                    MenuItem { text: "Layout grid"; visible: app.workspace === "workbench"; checkable: true; checked: app.siteGridVisible; onTriggered: app.siteGridVisible = checked }
+                    MenuItem { text: "Layout grid"; visible: app.workspace === "workbench"; checkable: true; checked: app.siteGridVisible; onTriggered: workspaceSettings.setValue("gridVisible", checked) }
                     MenuSeparator {}
-                    MenuItem { text: "Low rendering quality"; checkable: true; checked: workspaceSettings.values.quality === 0; onTriggered: workspaceSettings.setValue("quality", 0) }
-                    MenuItem { text: "Medium rendering quality"; checkable: true; checked: workspaceSettings.values.quality === 1; onTriggered: workspaceSettings.setValue("quality", 1) }
-                    MenuItem { text: "High rendering quality"; checkable: true; checked: workspaceSettings.values.quality === 2; onTriggered: workspaceSettings.setValue("quality", 2) }
-                    MenuItem { text: "Compact controls"; checkable: true; checked: workspaceSettings.values.compactControls; onTriggered: workspaceSettings.setValue("compactControls", checked) }
-                    MenuSeparator {}
-                    MenuItem { text: "Reset workspace layout"; onTriggered: { app.sceneOnly = false; workspaceSettings.reset(); app.compactPane = "navigator" } }
+                    MenuItem { text: "Settings…"; onTriggered: app.openSettings() }
                     MenuItem { text: "Scene controls and shortcuts…"; visible: app.workspace === "workbench"; onTriggered: sceneHelpDialog.open() }
                 }
             }
+            ActionButton { id: settingsButton; objectName: "openSettings"; flat: true; iconName: "settings-2"; text: "Settings"; display: AbstractButton.IconOnly; tooltip: "Settings (Ctrl+,)"; onClicked: app.openSettings() }
             ActionButton { flat: true; iconName: "clipboard-check"; text: "About"; tooltip: "Version and capability information"; display: AbstractButton.IconOnly; onClicked: aboutDialog.open() }
         }
     }
@@ -823,7 +840,7 @@ ApplicationWindow {
                     ActionButton { objectName: "sceneFit"; flat: true; iconName: "maximize"; display: AbstractButton.IconOnly; text: "Fit"; tooltip: "Fit · Frame the network (Ctrl+0)"; checked: app.fittedView && !app.frameAdjusted && app.frameScope === "network"; onClicked: app.frameScene(false) }
                     ActionButton { objectName: "sceneFocus"; flat: true; iconName: "focus"; display: AbstractButton.IconOnly; text: "Focus"; enabled: controller.selectedId.length > 0; checked: app.fittedView && !app.frameAdjusted && app.frameScope === "selection" && app.frameSelectionKey === app.selectionFrameKey; tooltip: controller.selected.kind === "route" ? "Focus · Frame connection endpoints (F)" : "Focus · Frame selected equipment (F)"; onClicked: app.frameScene(true) }
                     ActionButton { objectName: "sceneTop"; flat: true; iconName: "layers"; display: AbstractButton.IconOnly; text: app.topView ? "Isometric" : "Top"; tooltip: app.topView ? "Isometric · Return to perspective" : "Top · View the site from above"; checked: app.topView; onClicked: { if (app.topView) app.restoreOrbit(); else { app.frameScene(false); app.topView = true } } }
-                    ActionButton { objectName: "sceneGrid"; flat: true; iconName: "grid-3x3"; display: AbstractButton.IconOnly; text: "Layout grid"; checked: app.siteGridVisible; tooltip: "Layout grid · " + siteGround.gridStep + " layout units; editor snaps to 20"; onClicked: app.siteGridVisible = !app.siteGridVisible }
+                    ActionButton { objectName: "sceneGrid"; flat: true; iconName: "grid-3x3"; display: AbstractButton.IconOnly; text: "Layout grid"; checked: app.siteGridVisible; tooltip: "Layout grid · " + siteGround.gridStep + " layout units; editor snaps to 20"; onClicked: workspaceSettings.setValue("gridVisible", !app.siteGridVisible) }
                     ActionButton {
                         id: editMenuButton; objectName: "sceneEdit"; flat: true; iconName: "pencil"; display: AbstractButton.IconOnly
                         text: controller.selectedIds.length > 1 ? "Edit " + controller.selectedIds.length + " assets" : "Edit"; tooltip: text + " · Selection and layout tools"; onClicked: editMenu.open()
@@ -931,8 +948,10 @@ ApplicationWindow {
                 ActionButton { flat: true; text: "Toggle results"; iconName: workspaceSettings.values.dockOpen ? "chevron-down" : "activity"; display: AbstractButton.IconOnly; tooltip: workspaceSettings.values.dockOpen ? "Collapse results" : "Expand results"; onClicked: workspaceSettings.setValue("dockOpen", !workspaceSettings.values.dockOpen) }
             }
             Rectangle { anchors.top: parent.top; width: parent.width; height: 1; color: Theme.divider }
+            Rectangle { anchors.top: parent.top; anchors.horizontalCenter: parent.horizontalCenter; anchors.topMargin: 1; width: 34; height: 3; radius: 2; color: Theme.controlBorder }
             MouseArea {
-                anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top; height: 5; cursorShape: Qt.SizeVerCursor
+                anchors.left: parent.left; anchors.right: parent.right; anchors.top: parent.top; height: 7; cursorShape: Qt.SizeVerCursor
+                hoverEnabled: true; ToolTip.visible: containsMouse; ToolTip.delay: 450; ToolTip.text: "Drag to resize the results panel"
                 property real originY; property int originHeight
                 onPressed: function(mouse) { originY = mapToItem(app.contentItem, 0, mouse.y).y; originHeight = workspaceSettings.values.dockHeight }
                 onPositionChanged: function(mouse) { if (pressed) workspaceSettings.setValue("dockHeight", Math.round(Math.max(160, Math.min(640, originHeight + originY - mapToItem(app.contentItem, 0, mouse.y).y)))) }
@@ -942,6 +961,8 @@ ApplicationWindow {
                 visible: app.showAgent && workspaceSettings.values.dockOpen; embedded: true
                 currentNetworkHash: app.controller.networkHash; investigator: app.investigator; history: app.history
                 scientificWorker: app.scientificWorker; storageScience: app.storageScience; credentials: app.credentials
+                onConfigureKeyRequested: source => app.openKeySettings(source)
+                onNavigationRequested: index => app.openResults([2, 1, 3, 4][index])
                 onOpenPipeEvidence: evidence => { if (app.pipeTransport.showRetainedResult(evidence)) pipeTransportDialog.open() }
             }
             ForecastPanel { id: forecastPanel; controller: app.controller; anchors.fill: parent; anchors.margins: 14; anchors.topMargin: 48; visible: !app.showAgent && workspaceSettings.values.dockOpen }
