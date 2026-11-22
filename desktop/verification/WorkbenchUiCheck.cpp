@@ -494,15 +494,27 @@ class Check final : public QObject {
                 if (!eval("app.eogAnalysis.historical").toBool()) return;
                 require(eval("app.eog.loaded && app.eogAnalysis.trace.length > 0 && app.eogAnalysis.plans.length > 0 && app.eogAnalysis.summary.length > 0 && !app.eogAnalysis.canReview").toBool(),
                     "recorded_investigation_not_historical_grounded_evidence");
-                snapshot("09-recorded-investigation.png");
                 passed("bundled_hosted_recording_reopens_historical_without_review_authority");
+                // History restoration changes the Flow's visible actions. Wait
+                // for layout/rendering even when optional PNG capture is off;
+                // grabWindow() must not be what makes the mouse target settle.
+                markCueFrames(); phase_=198; return;
+            case 198:
+                if (!cueFramesReady()) return;
+                snapshot("09-recorded-investigation.png");
                 require(item("openEogVerifiedExplanation")->isVisible() && item("openEogVerifiedExplanation")->isEnabled(),
                     "retained_evidence_reader_unavailable");
                 require(window_->contentItem()->boundingRect().contains(item("openEogVerifiedExplanation")->mapRectToScene(
                     item("openEogVerifiedExplanation")->boundingRect())), "retained_evidence_reader_button_outside_client");
-                click(item("openEogVerifiedExplanation")); phase_=200; return;
+                click(item("openEogVerifiedExplanation"));
+                markCueFrames(); phase_=200; return;
             case 200: {
-                auto* explanation = item("eogVerifiedExplanationText");
+                if (!cueFramesReady()) return;
+                auto* explanation = find(window_->contentItem(), "eogVerifiedExplanationText");
+                if (!explanation || !explanation->isVisible()) {
+                    require(cue_settle_wait_.elapsed()<2000, "retained_evidence_reader_did_not_open");
+                    window_->update(); return;
+                }
                 require(explanation->isVisible() && explanation->property("readOnly").toBool()
                     && explanation->property("text").toString() == eval("app.eogAnalysis.summary").toString()
                     && !item("showExactEogTrace")->property("checked").toBool()
