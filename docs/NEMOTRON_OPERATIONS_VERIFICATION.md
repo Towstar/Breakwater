@@ -138,3 +138,20 @@ covered by controlled transport tests. Shared capacity can still throttle later
 sessions; the exact provider quota remains unknown. This is scoped self-review
 and focused qualification, not complete transcript, independent owner,
 clean-Windows, numerical-accuracy or public-release approval.
+
+## PR #97 integration-fixture follow-up
+
+The initial head `245ae05` passed four Windows jobs; both desktop configurations
+passed 93/94 CTests. Their only failure was the provider provenance fixture at
+line 193: its scripted model requested search before the production raw-read
+prerequisite. This was a fixture regression, not evidence to remove that gate.
+
+The fixture now reads its actual captured tank, searches, independently validates
+the exact returned plan/method and finishes in four model turns. It verifies that
+each requested tool is offered and rejects an invalid script promptly. The real
+provider still makes two numerical exchanges and its stored wire evidence/input
+hashes remain unchanged. No production code or deadlines changed in this fix.
+The complete provider suite passes 14 Qt cases with zero failures/skips in both
+local configurations: normal 10.10 seconds and ASan 17.13 seconds. Original CI
+failures and both local outputs are retained under `out/evidence-completion/`.
+The updated-head six-job CI result must be recorded separately when it finishes.
