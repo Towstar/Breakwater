@@ -11,22 +11,25 @@ recorded-data workspace with original-unit charts and advisory response analysis
 EOG is a supported dataset adapter. Both work locally without an API key. Neither
 workspace controls a plant, and the schematic 3D layout does not define hydraulics.
 
-![Modern Sandbox instrument workspace, source 99aff98](docs/images/portfolio/modern-99aff98/01-workbench.png)
+![Sandbox instrument workspace, source 9e97afa](docs/images/portfolio/evidence-9e97afa/01-workbench.png)
 
-![Modern Operations recorded observation, source 1b16a88](docs/images/portfolio/operations-1b16a88/02-recorded-observation.png)
+![Retained numerical evidence reader, source 9e97afa](docs/images/portfolio/evidence-9e97afa/02-retained-evidence.png)
 
 These are actual synthetic-fixture captures, labeled with their runtime source.
 The [gallery](docs/images/portfolio/README.md) also shows compact layouts, route
 inspection, observed-state review and retained hosted traces. The current source
 includes the [modern instrument UI](docs/MODERN_WORKSPACE.md) and
-[Operations observation workspace](docs/OPERATIONS_WORKSPACE.md). The separate
-portable review kit remains at `3bb77a3`; newer source screenshots do not qualify
-that older package.
+[Operations observation workspace](docs/OPERATIONS_WORKSPACE.md), plus a
+[complete numerical reader and separate next-capture preview](docs/NEMOTRON_EVIDENCE_COMPLETION.md).
+Portable packages and hosted runs retain separate source/binary identities;
+newer screenshots do not qualify an older package.
 
 ## Measured results and scope
 
 | Evidence | Observed result | Scope |
 |---|---|---|
+| [Expanded hosted evaluation, `a6b6aa9`](docs/NEMOTRON_EVIDENCE_COMPLETION_VERIFICATION.md) | 23/24 core cases and 3/4 strict supplementary cases; all 260 POSTs returned HTTP 200, with zero retries or repeated expensive executions | Full qualification remains incomplete: one final selection lacked validation, and one scientific case lacked matching-run validation. Every original attempt remains counted |
+| [Evidence-reader UI, `9e97afa`](docs/NEMOTRON_EVIDENCE_COMPLETION_VERIFICATION.md#desktop-and-offline-checks) | Four normal and four ASan checks passed with screenshots disabled; four normal capture-enabled checks also passed | Actual mouse opening, complete plain text, compact viewport, no-review state, Escape and focus return; original CI failures retained |
 | [Modern Operations, `1b16a88`](docs/OPERATIONS_WORKSPACE.md) | 13/13 affected CTests passed in both normal and ASan builds; actual 1440x900, 1100x700 and 960x540 clients at DPR 1.75 | Focused UI/integration checks, including real selection, cutoff and scrollbar interaction; not a full release qualification |
 | [Hosted investigation, `3d91452`](docs/NEMOTRON_COMPLETION_RESULTS.md) | All seven declared fresh cases passed; canonical tool calls fell from 12 to 7 in each of three rehearsals compared with retained `3bb77a3` runs | Small descriptive rounds, not a controlled benchmark or a general model-reliability claim |
 | [Retained Operations capture, `3bb77a3`](docs/images/portfolio/README.md#sealed-package-candidate-3bb77a3) | $11,726 modeled no-action cost and $1,810 selected response | Self-authored NORTH/SOUTH fixture at November 16 noon UTC; bounded search and separate exact validation, not field savings or global optimality |
@@ -214,9 +217,9 @@ capture's units, search scope and validation rather than borrowing another
 fixture's cost result.
 
 Observed-state forecasting and advisory review are implemented in the v0.3
-development stack, with the declared `3bb77a3` checks recorded above. Owner review,
+development stack, with source-bound continuation results linked above. Owner review,
 licensing/notices review and actual clean-Windows acceptance remain open.
-Commitment-aware fleet dispatch, broader numerical accuracy studies and
+Nemotron completion/compliance, scientific-run linkage, commitment-aware fleet dispatch, broader numerical accuracy studies and
 remaining research methods are future work. Existing project-v1/v2
 formats and evidence contracts remain compatible. See [G1](contracts/telemetry/README.md),
 [G2](docs/TELEMETRY_DESKTOP.md), [pipe transport](docs/PIPE_TRANSPORT.md),

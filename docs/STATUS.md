@@ -1,5 +1,35 @@
 # Implementation status
 
+## Evidence-completion verification, November 21, 2026 (America/Chicago)
+
+The [executed verification report](NEMOTRON_EVIDENCE_COMPLETION_VERIFICATION.md)
+records clean application source `a6b6aa9`: all 24 core cases attempted, 23 passed,
+and a separate four-case supplement with three strict passes. All four supplement
+investigations returned grounded native plans; the failed scientific case used
+different runs from its explicit validation. The core's failed shared-treatment
+selection was rejected for missing eligible validation. Neither failure was
+replaced or repaired by altering evidence, budgets or acceptance rules.
+
+All 260 POSTs returned HTTP 200 with zero retries or HTTP 429. Repeated/cached
+requests remain visible; no expensive execution repeated. Full hosted
+qualification remains incomplete. Native/scientific algorithms and explicit
+approval boundaries remain unchanged.
+
+PR97's fixture fix at `f8b0067` passes all six Windows CI jobs. The original PR98
+run passes normal desktop 94/94 and ASan 90/94; four reader-test interactions
+failed without screenshot capture. The source-`9e97afa` correction explicitly
+waits for rendered layout. All eight screenshot-disabled normal/ASan checks and
+four actual capture-enabled normal checks pass locally, with the original
+assertions and deadlines. The original failures and a capture-label correction
+are preserved; current hosted follow-up is visible on PR98.
+
+The frozen-source private package passes 10 installed and 10 actual Unicode-path
+relocation checks, with 3,856 files verified in each copy and 2,535 source files.
+New candidate refreshes keep their own manifests and do not inherit this hosted
+binding. All 19 manual clean-Windows checks, owner/licensing review and ordered
+integration remain separate gates. Earlier dated entries retain their original
+source, result and denominator.
+
 ## Evidence completion increment, November 21, 2026 (America/Chicago)
 
 The [evidence-completion implementation](NEMOTRON_EVIDENCE_COMPLETION.md) adds

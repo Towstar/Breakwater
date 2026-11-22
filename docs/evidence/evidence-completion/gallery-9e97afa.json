@@ -1,0 +1,52 @@
+{
+  "source_commit": "9e97afa7025e4b3ed69a9e80eea7610452450fad",
+  "app_sha256": "399d3c8a0e839e1911cc3877793336f8ea980b1313ef479bd0b2092335f206e7",
+  "captured_utc": "2026-11-22T03:48:18.669613+00:00",
+  "renderer": "D3D11/WARP",
+  "images": [
+    {
+      "file": "docs/images/portfolio/evidence-9e97afa/01-workbench.png",
+      "source_file": "01-workbench-ready.png",
+      "case": "normal",
+      "sha256": "e6babc6536ffb28e651fcaca7b029a78989ed91cac42ac9206332449c6a7db1b",
+      "bytes": 854944,
+      "image_width": 2520,
+      "image_height": 1575,
+      "logical_width": 1440,
+      "logical_height": 900,
+      "device_pixel_ratio": 1.75,
+      "scope": "Synthetic six-asset workbench before analysis; no model request or operating-control application.",
+      "modified": false
+    },
+    {
+      "file": "docs/images/portfolio/evidence-9e97afa/02-retained-evidence.png",
+      "source_file": "09b-retained-numerical-explanation.png",
+      "case": "normal",
+      "sha256": "cb04f2165b8ab5155f2f3ae29ae17df0498e48cd0bf82a09ebc6973900f30b47",
+      "bytes": 714855,
+      "image_width": 2520,
+      "image_height": 1575,
+      "logical_width": 1440,
+      "logical_height": 900,
+      "device_pixel_ratio": 1.75,
+      "scope": "Historical hosted recording in the complete numerical reader. Stored policy/cost/timing/quantities; this view makes no new hosted request.",
+      "modified": false
+    },
+    {
+      "file": "docs/images/portfolio/evidence-9e97afa/03-compact-evidence.png",
+      "source_file": "09b-retained-numerical-explanation.png",
+      "case": "minimum",
+      "sha256": "ad4b15669f780181001cba74b625454a94829961c5918337b93341a11321564b",
+      "bytes": 365471,
+      "image_width": 1680,
+      "image_height": 945,
+      "logical_width": 960,
+      "logical_height": 540,
+      "device_pixel_ratio": 1.75,
+      "scope": "The same historical numerical reader at a960x540 logical client. Remaining plain text scrolls; review stays unavailable.",
+      "modified": false
+    }
+  ],
+  "source": "Actual normal-build UI helper captures of self-authored synthetic fixtures; not user projects or official challenge data.",
+  "qualification": "UI evidence only; hosted evaluation outcomes retain their separate a6b6aa9 source binding."
+}

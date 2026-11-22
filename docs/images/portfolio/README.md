@@ -1,5 +1,22 @@
 # Actual candidate screenshots
 
+## Evidence reader and workspace: 9e97afa
+
+Three unmodified normal-build PNGs from the corrected reader checks, captured
+November 22, 2026 UTC. The [capture record](../../evidence/evidence-completion/gallery-9e97afa.json)
+retains the actual source/app/image hashes, client sizes and DPR 1.75. These are
+self-authored synthetic fixtures; private user projects and official challenge
+data are excluded. The reader displays a historical recording and makes no new
+hosted request. Fresh hosted outcomes retain their separate `a6b6aa9` binding.
+
+| Capture | Actual view |
+|---|---|
+| [Workbench](evidence-9e97afa/01-workbench.png) | Six-asset synthetic scene and instrument shell at a 1440×900 logical client, before analysis. |
+| [Complete numerical reader](evidence-9e97afa/02-retained-evidence.png) | Historical exact validation, $1,810 stored cost, captured six-hour policy, five remaining hours, two planned trips and stored margins. |
+| [Minimum-size reader](evidence-9e97afa/03-compact-evidence.png) | The same reader at a 960×540 logical client. Remaining text scrolls; historical review stays unavailable. |
+
+See [checks, original failures and limits](../../NEMOTRON_EVIDENCE_COMPLETION_VERIFICATION.md).
+
 ## Modern Operations workspace: 1b16a88
 
 Three unaltered normal-build Qt PNGs from runtime source

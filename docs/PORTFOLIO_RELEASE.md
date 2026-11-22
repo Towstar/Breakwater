@@ -4,7 +4,23 @@ Accepted direction: 17 November 2026. This is an implementation ledger, not a
 claim that the release gates have passed. Devpost and the frozen hackathon build
 are outside this work.
 
-## Current development candidate
+## Latest evidence-completion pass
+
+The [source-bound continuation report](NEMOTRON_EVIDENCE_COMPLETION_VERIFICATION.md)
+records the complete `a6b6aa9` evaluation: 23/24 core cases and 3/4 strict
+supplementary cases. All 260 POSTs returned HTTP 200; no expensive execution
+repeated. Full hosted qualification remains incomplete because one final lacked
+validation and one scientific case lacked matching-run validation. The original
+failures remain retained. Source `9e97afa` separately corrects the reader-test
+layout race and passes the eight screenshot-disabled normal/ASan checks plus
+four real capture-enabled normal checks.
+
+The updated [gallery](images/portfolio/README.md) uses actual synthetic captures.
+Private candidates retain exact source/app/ZIP manifests and pending manual
+results; newer code/images do not relabel older hosted evidence. Owner/licensing
+review, ordered integration and actual clean-Windows acceptance remain gates.
+
+## Earlier sealed development candidate: 3bb77a3
 
 Clean engineering source `3bb77a3` passes 88/88 normal CTest suites, 88/88 ASan
 suites and all 78 helpers. Ten bundled checks pass in place and ten after actual
