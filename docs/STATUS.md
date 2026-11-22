@@ -1,5 +1,21 @@
 # Implementation status
 
+## Compare and practical Settings, November 22, 2026 (America/Chicago)
+
+The [finishing-pass report](COMPARE_SETTINGS_POLISH.md) describes responsive
+comparison, explicit empty/single/incompatible/historical states and a small
+Workspace/Connections/Information Settings dialog. It reuses existing numerical
+evidence, credentials, worker health and local preferences. Grid visibility is
+an additive version-1 preference. Comparison models are inactive while hidden.
+
+Application source `bfb503c` passes the final normal and ASan affected-area
+matrices, each 18/18 with zero skips. Earlier failed/interrupted
+attempts and their corrections remain in the report. This is a desktop finishing
+pass, without a new hosted Nemotron qualification, package, main merge or release.
+Numerical/scientific policy, freshness, exact validation and approval boundaries
+remain unchanged. Owner/licensing reviews, ordered integration and clean-Windows
+acceptance remain separate.
+
 ## Evidence-completion verification, November 21, 2026 (America/Chicago)
 
 The [executed verification report](NEMOTRON_EVIDENCE_COMPLETION_VERIFICATION.md)
