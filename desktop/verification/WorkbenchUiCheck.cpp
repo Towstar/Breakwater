@@ -65,8 +65,9 @@ class Check final : public QObject {
     QJsonObject observed_project_;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
     std::unique_ptr<QTemporaryDir> artifacts_;
-    QVariant eval(const QString& source) {
-        QQmlExpression expression(QQmlEngine::contextForObject(window_), window_, source);
+    QVariant eval(const QString& source, QObject* scope=nullptr) {
+        if (!scope) scope=window_;
+        QQmlExpression expression(QQmlEngine::contextForObject(scope), scope, source);
         const auto value = expression.evaluate();
         if (expression.hasError()) throw std::runtime_error("qml_expression_failed");
         return value;
@@ -863,6 +864,7 @@ class Check final : public QObject {
                 click(item("scienceSourceSelector")); key(Qt::Key_Down); key(Qt::Key_Return); break;
             case 50:
                 require(eval("app.storageScience.sourceMode==='candidate' && !app.storageScience.canRun").toBool(),"empty_stored_source_borrowed_current_forecast");
+                require(eval("!visible && storedRuns.length===0 && runChoices.length===0",item("runComparisonPanel")).toBool(),"hidden_comparison_materialized_run_controls");
                 eval("app.investigator.searchLocally()"); break;
             case 51: {
                 if (eval("app.investigator.running").toBool()) return;
@@ -901,6 +903,16 @@ class Check final : public QObject {
             case 52:
                 require(eval("app.storageScience.sourceMode==='forecast'").toBool(),"scientific_source_selector_did_not_restore_forecast");
                 preserved(); passed("native_source_selector_uses_immutable_stored_candidate_without_applying_controls");
+                eval("app.openResults(1)"); markCueFrames(); phase_=280; return;
+            case 280:
+                if (!cueFramesReady()) return;
+                require(eval("visible && storedRuns.length===history.runs.length && storedRuns.length>2",item("runComparisonPanel")).toBool(),"local_search_comparison_did_not_materialize_retained_runs");
+                preserved(); snapshot("18-local-search-comparison.png");
+                eval("app.openResults(4)"); markCueFrames(); phase_=281; return;
+            case 281:
+                if (!cueFramesReady()) return;
+                require(eval("!visible && storedRuns.length===0 && runChoices.length===0",item("runComparisonPanel")).toBool(),"hidden_comparison_retained_run_controls");
+                preserved(); passed("local_search_comparison_is_lazy_and_preserves_controls");
                 finish(true,"ok"); return;
             case 53:
                 if (eval("app.telemetry.status!=='ready'").toBool()) return;

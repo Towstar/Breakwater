@@ -9,14 +9,15 @@ ColumnLayout {
     required property var history
     signal investigationRequested()
     signal historyRequested()
-    readonly property var evidence: history.comparison || ({})
-    readonly property bool hasRuns: history.runs.length > 0
-    readonly property bool retired: hasRuns && history.runs.some(run => run.current === false)
+    readonly property var storedRuns: visible ? history.runs : []
+    readonly property var evidence: visible ? history.comparison || ({}) : ({})
+    readonly property bool hasRuns: storedRuns.length > 0
+    readonly property bool retired: storedRuns.some(run => run.current === false)
     readonly property bool pairSelected: !!history.baselineRunId && !!history.candidateRunId && history.baselineRunId !== history.candidateRunId
     readonly property bool compatible: pairSelected && evidence.compatible === true
     readonly property bool wide: width >= 900
     readonly property bool dialogOpen: changesDialog.visible
-    readonly property var runChoices: history.runs.map(run => ({id: run.run_id,
+    readonly property var runChoices: wide ? [] : storedRuns.map(run => ({id: run.run_id,
         label: (run.candidate_id || "Run") + " · " + shortId(run.run_id) + " · " + number(run.cost) + " units"}))
     spacing: 10
 
@@ -131,11 +132,11 @@ ColumnLayout {
                     background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
                     contentItem: ColumnLayout {
                         spacing: 9
-                        Copy { text: "STORED RUNS · " + comparison.history.runs.length; color: Theme.secondary; font.pixelSize: Theme.captionSize }
+                        Copy { text: "STORED RUNS · " + comparison.storedRuns.length; color: Theme.secondary; font.pixelSize: Theme.captionSize }
                         ListView {
                             id: runList; objectName: "comparisonRunList"
                             Layout.fillWidth: true; Layout.fillHeight: true; clip: true; spacing: 8
-                            model: comparison.history.runs
+                            model: comparison.wide ? comparison.storedRuns : []
                             ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn }
                             delegate: Frame {
                                 id: runCard; required property var modelData
@@ -179,7 +180,7 @@ ColumnLayout {
                     }
                     TrajectoryChart {
                         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 160
-                        chart: comparison.history.chart
+                        chart: comparison.visible ? comparison.history.chart : ({})
                         emptyText: "No stored trajectory is available for this run and tank."
                     }
                     GridLayout {
