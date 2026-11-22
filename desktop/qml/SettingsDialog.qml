@@ -29,13 +29,26 @@ Dialog {
         checked: settings.workspaceSettings.values[preferenceKey]
         onToggled: settings.workspaceSettings.setValue(preferenceKey, checked)
     }
+    component SettingsTab: TabButton {
+        id: tab
+        implicitHeight: Theme.controlHeight
+        background: Rectangle {
+            radius: Theme.cornerRadius; color: tab.checked ? Theme.selected : tab.hovered ? Theme.hover : "transparent"
+            border.width: tab.checked || tab.visualFocus ? 1 : 0; border.color: Theme.text
+        }
+        contentItem: Label {
+            text: tab.text; textFormat: Text.PlainText; color: Theme.text; font.pixelSize: Theme.smallSize
+            horizontalAlignment: Text.AlignHCenter; verticalAlignment: Text.AlignVCenter
+        }
+    }
     contentItem: ColumnLayout {
         spacing: 12
         TabBar {
             id: settingsTabs; objectName: "settingsTabs"; Layout.fillWidth: true
-            TabButton { objectName: "settingsWorkspaceTab"; text: "Workspace" }
-            TabButton { objectName: "settingsConnectionsTab"; text: "Connections" }
-            TabButton { objectName: "settingsInformationTab"; text: "Information" }
+            spacing: 4
+            SettingsTab { objectName: "settingsWorkspaceTab"; text: "Workspace" }
+            SettingsTab { objectName: "settingsConnectionsTab"; text: "Connections" }
+            SettingsTab { objectName: "settingsInformationTab"; text: "Information" }
         }
         Copy { visible: settings.workspaceSettings.status.length > 0; text: settings.workspaceSettings.status; color: Theme.warning }
         StackLayout {

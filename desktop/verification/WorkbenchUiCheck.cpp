@@ -382,10 +382,14 @@ class Check final : public QObject {
             require(!history->comparison().value("compatible").toBool() && history->chart().value("series").toList().size()==1
                 && !item("comparisonCostDelta")->isVisible() && !item("comparisonControlChanges")->isEnabled(),"incompatible_pair_has_delta_or_overlay");
             const auto id=history->baselineRunId(); const auto before=history->selectedArchive(); history->selectRuns(id,id);
-            require(history->selectedArchive()==before,"run_selection_mutated_archive"); markCueFrames(); break;
+            require(history->selectedArchive()==before,"run_selection_mutated_archive");
+            auto retired=comparison_archive_; auto retiredRuns=retired.value("runs").toArray();
+            for(qsizetype i=0;i<retiredRuns.size();++i) { auto detail=retiredRuns[i].toObject(), run=detail.value("run").toObject(); run["current"]=false; detail["run"]=run; retiredRuns[i]=detail; }
+            retired["runs"]=retiredRuns; showComparison(retired); markCueFrames(); break;
         }
         case 252: {
-            require(!item("comparisonCostDelta")->isVisible() && !item("comparisonControlChanges")->isEnabled(),"same_run_twice_has_comparison_delta");
+            require(!item("comparisonCostDelta")->isVisible() && !item("comparisonControlChanges")->isEnabled()
+                && item("comparisonSourceWarning")->isVisible(),"same_or_retired_run_has_misleading_comparison");
             passed("single_matching_mismatched_and_same_run_preserve_controls_and_unclipped_evidence");
             showComparison(comparison_archive_);
             const auto rows=comparison_archive_.value("runs").toArray();

@@ -72,7 +72,7 @@ ColumnLayout {
     Connections {
         target: panel.history
         function onChanged() {
-            if (panel.history.historical && tabs.currentIndex === 0) tabs.currentIndex = 1
+            if (panel.history.historical && tabs.currentIndex === 0) panel.navigateTo(1)
         }
     }
 
@@ -300,7 +300,7 @@ ColumnLayout {
                         }
                     }
                 }
-                ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; visible: !panel.advisoryOnly; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: { panel.storageScience.setSourceMode("forecast"); tabs.currentIndex = 3 } }
+                ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; visible: !panel.advisoryOnly; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: { panel.storageScience.setSourceMode("forecast"); panel.navigateTo(3) } }
                 Flow {
                     Layout.fillWidth: true; spacing: 8
                     ActionButton { iconName: "git-compare-arrows"; text: "Compare runs"; enabled: panel.history.runs.length > 0; onClicked: panel.navigateTo(1) }

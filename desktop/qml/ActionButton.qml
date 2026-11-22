@@ -27,6 +27,7 @@ Button {
     Accessible.name: accessibleName.length ? accessibleName : tooltip
     Accessible.description: tooltip
     ToolTip.visible: control.visible && (hovered || activeFocus) && tooltip.length > 0
+        && (display === AbstractButton.IconOnly || tooltip !== text)
     ToolTip.delay: activeFocus ? 0 : 450
     ToolTip.text: tooltip
     background: Rectangle {

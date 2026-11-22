@@ -11,6 +11,7 @@ ColumnLayout {
     signal historyRequested()
     readonly property var evidence: history.comparison || ({})
     readonly property bool hasRuns: history.runs.length > 0
+    readonly property bool retired: hasRuns && history.runs.some(run => run.current === false)
     readonly property bool pairSelected: !!history.baselineRunId && !!history.candidateRunId && history.baselineRunId !== history.candidateRunId
     readonly property bool compatible: pairSelected && evidence.compatible === true
     readonly property bool wide: width >= 900
@@ -59,9 +60,10 @@ ColumnLayout {
         Layout.fillWidth: true; spacing: 12
         Copy { text: "Run comparison"; font.pixelSize: 16; font.weight: Font.DemiBold }
         Item { Layout.fillWidth: true }
-        Copy { text: comparison.history.historical ? "HISTORICAL · READ ONLY" : "CURRENT SESSION"; color: Theme.secondary; font.pixelSize: Theme.captionSize }
+        Copy { text: comparison.history.historical ? "HISTORICAL · READ ONLY" : comparison.retired ? "RETAINED · SOURCE CHANGED" : "CURRENT SESSION"; color: comparison.retired ? Theme.warning : Theme.secondary; font.pixelSize: Theme.captionSize }
         ActionButton { objectName: "comparisonReturnCurrent"; text: "Return to current"; iconName: "rotate-ccw"; visible: comparison.history.historical; onClicked: comparison.history.showLive() }
     }
+    Copy { objectName: "comparisonSourceWarning"; Layout.fillWidth: true; visible: comparison.retired && !comparison.history.historical; text: "These runs describe their original captured snapshot. The current network has changed."; color: Theme.warning; font.pixelSize: Theme.captionSize }
     ScrollView {
         id: comparisonScroll
         objectName: "comparisonScroll"
