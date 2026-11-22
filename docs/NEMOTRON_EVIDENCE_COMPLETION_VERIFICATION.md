@@ -156,6 +156,21 @@ owned C++, with prebuilt Qt/Python/Torch outside that instrumentation scope.
 Current PR checks are linked from [PR #98](https://github.com/Towstar/Breakwater/pull/98);
 the original failed attempt is not relabeled as green.
 
+The subsequent `c96863e` [run](https://github.com/Towstar/Breakwater/actions/runs/44983172514)
+passes five jobs, including normal desktop 94/94. Its checked desktop run passes
+all four reader layouts, but records a local-publisher shutdown failure and then
+reaches the 60-minute job ceiling during the bounded Python evaluation suite.
+GitHub's retained annotation explicitly reports that ceiling. This is not a
+complete ASan matrix. The publisher failure did not reproduce in ten bounded
+local ASan diagnostic executions; the original failure is retained.
+
+The follow-up gives only the ASan CI job a 90-minute ceiling, preserving every
+registered test, individual watchdog and production deadline. It adds sanitized
+publisher exit-status and terminal-frame clock diagnostics without accepting an
+ineligible end frame, raw stderr or publisher input. These diagnostics do not
+establish the cause of the unreproduced publisher failure. Fresh current-head
+results remain linked from the PR rather than inherited from an earlier run.
+
 ## Private package and release boundary
 
 The first frozen-source package passes ten sanitized installed checks and ten

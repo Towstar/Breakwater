@@ -58,7 +58,10 @@ jobs:
     name: Desktop (${{ matrix.mode }})
     needs: native
     runs-on: windows-2022
-    timeout-minutes: 60
+    # The complete checked matrix reached the 60-minute job ceiling while its
+    # bounded Python evidence tests were still running. Keep every test and its
+    # own timeout; the additional room applies only to ASan CI, not production.
+    timeout-minutes: ${{ matrix.mode == 'asan' && 90 || 60 }}
     strategy:
       fail-fast: false
       matrix:

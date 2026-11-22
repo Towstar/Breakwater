@@ -23,6 +23,13 @@ four actual capture-enabled normal checks pass locally, with the original
 assertions and deadlines. The original failures and a capture-label correction
 are preserved; current hosted follow-up is visible on PR98.
 
+The subsequent `c96863e` CI passes normal desktop 94/94 and all four checked
+reader layouts, but its ASan job reaches the 60-minute ceiling after an earlier
+publisher clean-end failure. Ten local ASan publisher diagnostic runs did not
+reproduce that failure. The follow-up adds bounded exit/clock diagnostics and a
+90-minute ASan-only CI ceiling; no test, lifecycle or investigation watchdog is
+relaxed. Complete current-head CI remains a separate requirement.
+
 The frozen-source private package passes 10 installed and 10 actual Unicode-path
 relocation checks, with 3,856 files verified in each copy and 2,535 source files.
 New candidate refreshes keep their own manifests and do not inherit this hosted
