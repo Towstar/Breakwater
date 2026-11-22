@@ -44,7 +44,9 @@ signals:
     void ready();
     void sessionSaved(const QString& id);
     void sessionsListed(const QJsonArray& sessions, int nextOffset);
-    void sessionLoaded(const QJsonObject& archive);
+    // Presentation-only context is derived from verified captured inputs on the
+    // worker. It is not inserted into or trusted instead of the archive.
+    void sessionLoaded(const QJsonObject& archive, const QJsonObject& presentationContext);
     void archiveExported(const QString& id, const QUrl& destination);
     void archiveImported(const QString& id);
     void operatorRecordSaved(const QString& id, const QString& recordId);

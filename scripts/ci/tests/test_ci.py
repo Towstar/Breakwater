@@ -43,12 +43,21 @@ class WorkflowTests(unittest.TestCase):
     def test_actions_are_exact_pins_and_checkout_cannot_leave_credentials(self):
         for job in self.workflow['jobs'].values():
             self.assertEqual(job['runs-on'], 'windows-2022')
-            self.assertLessEqual(job['timeout-minutes'], 60)
             for step in job['steps']:
                 if 'uses' in step:
                     self.assertRegex(step['uses'], r'^actions/[a-z-]+@[0-9a-f]{40}$')
                 if step.get('uses', '').startswith('actions/checkout@'):
                     self.assertIs(step['with']['persist-credentials'], False)
+
+    def test_job_budgets_keep_a_bounded_asan_only_exception(self):
+        for name, job in self.workflow['jobs'].items():
+            timeout = job['timeout-minutes']
+            if name == 'desktop':
+                self.assertEqual(timeout, "${{ matrix.mode == 'asan' && 90 || 60 }}")
+            else:
+                self.assertIs(type(timeout), int)
+                self.assertGreater(timeout, 0)
+                self.assertLessEqual(timeout, 60)
 
     def test_evidence_is_uploaded_even_after_failure_without_build_trees(self):
         for job in self.workflow['jobs'].values():

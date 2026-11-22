@@ -189,11 +189,14 @@ EogAnalysisController::EogAnalysisController(EogDatasetController* dataset, EogA
     connect(history_, &EogHistoryRepository::operatorRecordSaved, this, [this](const QString&, const QString&) {
         storage_status_ = "Operator record saved. This records advisory review only."; emit changed();
     });
-    connect(history_, &EogHistoryRepository::sessionLoaded, this, [this](const QJsonObject& archive) {
+    connect(history_, &EogHistoryRepository::sessionLoaded, this, [this](const QJsonObject& archive, const QJsonObject& presentationContext) {
         if (archive.value("session_id").toString() != pending_history_id_) return;
         retire("Historical EOG evidence; fresh analysis is required for current review.", true);
         historical_ = true; sealed_ = true; session_id_ = archive.value("session_id").toString();
         historical_manifest_ = archive.value("capture_manifest").toObject();
+        if (presentationContext.value("capture_id") == historical_manifest_.value("capture_id") &&
+            presentationContext.value("dataset_identity") == historical_manifest_.value("dataset_identity"))
+            captured_repair_policy_ = presentationContext.value("expected_repair_hours").toObject();
         for (const auto& value : archive.value("analyses").toArray()) acceptResponse(value.toObject().value("response").toObject(), {}, false);
         for (const auto& value : archive.value("agent_events").toArray()) {
             const auto event = value.toObject().value("event").toObject(); trace_.append(event.toVariantMap());
@@ -275,7 +278,7 @@ bool EogAnalysisController::busy() const { return preparing_ || client_->busy() 
 void EogAnalysisController::clearEvidence() {
     responses_.clear(); evaluations_.clear(); validations_.clear(); validation_requests_.clear(); validation_arguments_.clear();
     event_rows_.clear(); event_requests_.clear(); selected_.clear(); baseline_.clear(); summary_.clear(); model_summary_.clear(); search_ = {}; historical_manifest_ = {}; trace_.clear(); operator_records_.clear();
-    detection_ = {}; last_operation_ = {};
+    detection_ = {}; last_operation_ = {}; captured_repair_policy_ = {};
 }
 void EogAnalysisController::retire(const QString& reason, bool clear) {
     ++generation_; if (cancellation_) cancellation_->store(true); preparing_ = false;
@@ -314,7 +317,9 @@ void EogAnalysisController::prepare(const QString& objective, std::function<void
         const auto result = watcher->result(); watcher->deleteLater(); if (generation != generation_) return;
         preparing_ = false;
         if (!result.first) { status_ = "Capture unavailable: " + result.second; emit changed(); return; }
-        capture_ = result.first; session_id_ = newId(); history_->beginSession(session_id_, objective, capture_);
+        capture_ = result.first;
+        captured_repair_policy_ = source_->ops.value("expected_repair_hours").toObject();
+        session_id_ = newId(); history_->beginSession(session_id_, objective, capture_);
         status_ = "Captured immutable EOG evidence."; continuation(); emit changed();
     });
     watcher->setFuture(QtConcurrent::run([data, cutoff, token] {
@@ -459,6 +464,15 @@ QJsonObject EogAnalysisController::validationFor(const QString& plan) const {
     if (validation.value("plan_hash") != evaluations_.value(plan).value("plan").toObject().value("plan_hash")) return {};
     return validation;
 }
+bool EogAnalysisController::validationReusable(const QString& plan, const QJsonObject& arguments) const {
+    if (historical_ || !capture_ || !source_ || source_ != dataset_->capturedDataset() ||
+        cutoff_ != qint64(dataset_->cursorUnix()) || validationFor(plan).isEmpty() ||
+        !validation_arguments_.contains(plan) || validation_arguments_.value(plan) != arguments) return false;
+    const auto retained = responses_.value(validation_requests_.value(plan));
+    return retained.value("capture_id") == capture_->manifest().value("capture_id") &&
+        retained.value("dataset_identity") == source_->identity && retained.value("cutoff_unix") == cutoff_ &&
+        retained.value("operation") == "validate_plan" && retained.value("status") == "completed";
+}
 QVariantMap EogAnalysisController::selectedValidation() const { return validationFor(selected_).toVariantMap(); }
 QString EogAnalysisController::selectedPlanJson() const { return QString::fromUtf8(QJsonDocument(evaluations_.value(selected_).value("plan").toObject()).toJson(QJsonDocument::Indented)); }
 bool EogAnalysisController::canReview() const {
@@ -536,6 +550,22 @@ QJsonObject EogAnalysisController::retainedEvidence() const {
         cutoff_ != qint64(dataset_->cursorUnix())) return {};
     QJsonObject index{{"capture_id", capture_->manifest().value("capture_id")},
         {"dataset_identity", source_->identity}, {"cutoff_unix", cutoff_}};
+    QJsonArray validationTargets;
+    bool targetsComplete = true;
+    for (auto it = evaluations_.cbegin(); it != evaluations_.cend(); ++it) {
+        const auto method = evaluatorIdentity(it.value());
+        // Unknown provenance is not a complete catalogue. Do not invent its
+        // method or hide a target that cannot be classified by this preview.
+        if (method.isEmpty()) { targetsComplete = false; continue; }
+        if (validationReusable(it.key(), {{"plan", it.value().value("plan")}, {"evaluator_method", method}})) continue;
+        auto next = validationTargets; next.append(it.key());
+        if (next.size() > 256 || QJsonDocument(next).toJson(QJsonDocument::Compact).size() > 16 * 1024) {
+            targetsComplete = false; break;
+        }
+        validationTargets = next;
+    }
+    index["validation_targets"] = validationTargets;
+    index["validation_targets_complete"] = targetsComplete;
     auto ids = evaluations_.keys();
     std::sort(ids.begin(), ids.end(), [this](const QString& a, const QString& b) {
         const auto left = evaluations_.value(a), right = evaluations_.value(b);
@@ -786,12 +816,7 @@ void EogAnalysisController::toolRequested(const QString& execution, const QStrin
         try { validate_document(proposed, "analysis_request"); }
         catch (const std::exception&) { completeTool(failure("invalid_arguments")); return; }
         const auto retained = responses_.value(validation_requests_.value(plan));
-        const bool sameCapture = retained.value("capture_id") == proposed.value("capture_id") &&
-            retained.value("dataset_identity") == proposed.value("dataset_identity") &&
-            retained.value("cutoff_unix") == proposed.value("cutoff_unix");
-        if (!validationFor(plan).isEmpty() && validation_arguments_.contains(plan) &&
-            validation_arguments_.value(plan) == numerical && sameCapture &&
-            retained.value("operation") == "validate_plan" && retained.value("status") == "completed") {
+        if (validationReusable(plan, numerical)) {
             completeTool({{"ok", true}, {"result", modelResponse(retained)}, {"reused_validation", true}});
             return;
         }
@@ -823,7 +848,7 @@ void EogAnalysisController::investigate(const QString& objective) {
         }
         for (auto it = policy.begin(); it != policy.end(); ++it) context[it.key()] = it.value();
         EogInvestigationLimits limits; limits.requireObservationInspection = true;
-        investigator_.start(objective, context, toolDefinitions(), limits); status_ = "Nemotron is investigating this immutable capture on request.";
+        investigator_.start(objective, context, toolDefinitions(), limits, retainedEvidence()); status_ = "Nemotron is investigating this immutable capture on request.";
     });
 }
 QString EogAnalysisController::evidenceSummary(const QJsonObject& result) const {
@@ -835,17 +860,31 @@ QString EogAnalysisController::evidenceSummary(const QJsonObject& result) const 
         text = "No validated response was selected. This does not establish that no feasible response exists.";
     } else if (available(evaluation) && !validationId.isEmpty() && validation.value("validation_id") == validationId &&
                validation.value("independent").toBool() && validation.value("feasible").toBool() && validation.value("coverage") == "available") {
-        text = QString("Retained plan %1 has matching independent validation %2. Modeled cost: $%3.")
+        text = QString("VALIDATED RESPONSE\nRetained plan %1 has matching independent validation %2. Modeled cost: $%3.")
             .arg(selected, validationId).arg(evaluation.value("cost").toObject().value("total").toDouble(), 0, 'f', 2);
         const auto number = [](const QJsonValue& value) {
             return value.isDouble() && std::isfinite(value.toDouble()) ? QString::number(value.toDouble(), 'g', 12) : QStringLiteral("unavailable");
         };
         const auto cost = evaluation.value("cost").toObject(), plan = evaluation.value("plan").toObject();
-        text += QString("\nStored costs: trucks $%1; lost revenue $%2; total $%3.")
+        text += QString("\n\nMODELED COST\nStored costs: trucks $%1; lost revenue $%2; total $%3.")
             .arg(number(cost.value("truck_cost")), number(cost.value("lost_revenue")), number(cost.value("total")));
-        text += QString("\nPlan hash %1; cutoff %2; coverage %3; modeled outcome %4.")
+        text += QString("\n\nCAPTURE AND TIMING\nPlan hash %1; cutoff %2; coverage %3; modeled outcome %4.")
             .arg(plan.value("plan_hash").toString(), QDateTime::fromSecsSinceEpoch(plan.value("start_unix").toInteger(), QTimeZone::UTC).toString(Qt::ISODate), evaluation.value("coverage").toString(),
                  evaluation.value("outcome").toString("unavailable"));
+        const auto repairHours = captured_repair_policy_.value("pump_failure");
+        text += "\nCaptured pump-failure repair policy: " + number(repairHours) + " h.";
+        qsizetype onsetCount = 0;
+        for (auto it = event_rows_.cbegin(); it != event_rows_.cend(); ++it) {
+            const auto event = it.value();
+            if (event.value("category") != "pump_failure" || event.value("state") != "ongoing") continue;
+            if (++onsetCount > 8) continue;
+            const auto onset = event.value("onset_unix");
+            const auto date = QDateTime::fromSecsSinceEpoch(onset.toInteger(), QTimeZone::UTC);
+            const auto onsetText = onset.isDouble() && std::isfinite(onset.toDouble()) && std::floor(onset.toDouble()) == onset.toDouble() && date.isValid()
+                ? date.toString(Qt::ISODate) : QStringLiteral("unavailable");
+            text += QString("\nRetained event %1 at %2: causal onset %3.").arg(it.key(), event.value("facility_id").toString(), onsetText);
+        }
+        if (onsetCount > 8) text += QString("\n%1 additional ongoing pump-failure events remain in retained incident evidence.").arg(onsetCount - 8);
         const auto deadlines = plan.value("repair_deadlines").toArray();
         for (qsizetype i = 0; i < deadlines.size() && i < 8; ++i) {
             const auto deadline = deadlines[i].toObject();
@@ -855,7 +894,7 @@ QString EogAnalysisController::evidenceSummary(const QJsonObject& result) const 
         const auto jobs = plan.value("truck_jobs").toArray(), shutIns = plan.value("well_shut_ins").toArray();
         qsizetype trips = 0;
         for (const auto& job : jobs) trips += job.toObject().value("trips").toArray().size();
-        text += QString("\nPlanned actions: %1 truck trips; %2 well shut-in intervals. Predicted automatic shutdown records: %3.")
+        text += QString("\n\nPLANNED ACTIONS\nPlanned actions: %1 truck trips; %2 well shut-in intervals. Predicted automatic shutdown records: %3.")
             .arg(trips).arg(shutIns.size()).arg(evaluation.value("shutdowns").toArray().size());
         qsizetype shownTrips = 0;
         for (const auto& value : jobs) {
@@ -875,6 +914,7 @@ QString EogAnalysisController::evidenceSummary(const QJsonObject& result) const 
                 .arg(row.value("well_id").toString(), row.value("facility_id").toString(),
                      number(row.value("start_elapsed_s")), number(row.value("end_elapsed_s")));
         }
+        text += "\n\nRETAINED TRAJECTORIES AND MARGINS";
         const auto trajectories = evaluation.value("trajectories").toArray();
         for (qsizetype i = 0; i < trajectories.size() && i < 8; ++i) {
             const auto row = trajectories[i].toObject(); const auto volumes = row.value("volumes_bbl").toArray();
@@ -894,6 +934,7 @@ QString EogAnalysisController::evidenceSummary(const QJsonObject& result) const 
     } else {
         text = "The selected response has no matching available independent validation in the retained evidence.";
     }
+    text += "\n\nSCOPE AND LIMITATIONS\n";
     if (!search_.isEmpty())
         text += " Search coverage: " + search_.value("scope").toString("unavailable") + ", " + search_.value("optimality").toString("unavailable") + ".";
     text += " Comparisons cover retained compatible plans; global optimality is not established. Advisory only: review never dispatches equipment or applies controls. Review eligibility is checked separately.";

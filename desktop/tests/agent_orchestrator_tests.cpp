@@ -126,6 +126,47 @@ void adaptiveModel(FakeModel& model, bool skipValidation = false) {
 class OrchestratorTests : public QObject {
     Q_OBJECT
 private slots:
+    void validationCatalogueFollowsActualModelChecksAndKeepsNewWorkAvailable() {
+        FakeModel model; QString snapshot, baseline, candidate; int step = 0;
+        QMap<int, QJsonArray> targets; QMap<int, bool> offered;
+        bool scienceStillOffered = false;
+        model.respond = [&](const QJsonArray& history) -> QJsonObject {
+            const int turn = step++;
+            offered[turn] = toolNames(model.tools).contains("validate_run");
+            for (const auto& item : model.tools) {
+                const auto f = item.toObject().value("function").toObject();
+                if (f.value("name") == "validate_run")
+                    targets[turn] = f.value("parameters").toObject().value("properties").toObject().value("run_id").toObject().value("enum").toArray();
+            }
+            switch (turn) {
+            case 0: return calls({call("network", "get_network_state"), call("controls", "get_control_catalog")});
+            case 1:
+                snapshot = resultFor(history, "network").value("snapshot_id").toString();
+                return calls({call("baseline", "forecast_baseline", {{"snapshot_id", snapshot}})});
+            case 2:
+                baseline = resultFor(history, "baseline").value("run").toObject().value("run_id").toString();
+                return calls({call("check-baseline", "validate_run", {{"snapshot_id", snapshot}, {"run_id", baseline}})});
+            case 3:
+                scienceStillOffered = toolNames(model.tools).contains("get_sensitivity_catalog");
+                return calls({call("candidate", "simulate_candidates", candidateArguments(snapshot, "new-candidate", {}))});
+            case 4:
+                candidate = resultFor(history, "candidate").value("runs").toArray().first().toObject().value("run_id").toString();
+                return calls({call("check-candidate", "validate_run", {{"snapshot_id", snapshot}, {"run_id", candidate}})});
+            default: return conclusion();
+            }
+        };
+        AgentOrchestrator session(&model);
+        session.start(std::make_shared<SimulationGateway>(canonical_scenario(), "validation-catalogue"), "Inspect both actual retained runs.");
+        QTRY_VERIFY_WITH_TIMEOUT(!session.running(), 10000);
+        QVERIFY(!baseline.isEmpty()); QVERIFY(!candidate.isEmpty()); QVERIFY(baseline != candidate);
+        QVERIFY(!offered.value(0)); QVERIFY(!offered.value(1));
+        QCOMPARE(targets.value(2), QJsonArray{baseline});
+        QVERIFY(!offered.value(3)); QVERIFY(scienceStillOffered);
+        QCOMPARE(targets.value(4), QJsonArray{candidate}); QVERIFY(!offered.value(5));
+        QCOMPARE(model.requests, 6);
+        QVERIFY(resultFor(model.history, "check-baseline").value("ok").toBool());
+        QVERIFY(resultFor(model.history, "check-candidate").value("ok").toBool());
+    }
     void recoversExactStoredRunOnlyAfterModelValidation_data() {
         QTest::addColumn<bool>("budget");
         QTest::addColumn<bool>("malformed");
@@ -673,6 +714,7 @@ private slots:
         QString snapshot, selected;
         QStringList afterAttempt;
         bool attemptRejected = false;
+        bool validationOfferedAfterBaseline = false;
         int step = 0;
         model.respond = [&](const QJsonArray& history) -> QJsonObject {
             switch (step++) {
@@ -686,6 +728,7 @@ private slots:
                 afterAttempt = toolNames(model.tools);
                 return calls({call("baseline", "forecast_baseline", {{"snapshot_id", snapshot}})});
             case 3:
+                validationOfferedAfterBaseline = toolNames(model.tools).contains("validate_run");
                 selected = resultFor(history, "baseline")["run"].toObject()["run_id"].toString();
                 return calls({call("validate", "validate_run", {{"snapshot_id", snapshot}, {"run_id", selected}})});
             case 4: return calls({call("stage", "request_approval", {{"snapshot_id", snapshot}, {"run_id", selected}})});
@@ -700,7 +743,9 @@ private slots:
         QVERIFY(attemptRejected);
         QVERIFY(!afterAttempt.contains("simulate_candidates"));
         QVERIFY(!afterAttempt.contains("search_interventions"));
-        for (const auto& name : {"forecast_baseline", "validate_run", "compare_runs", "request_approval"})
+        QVERIFY(!afterAttempt.contains("validate_run")); // The rejected attempt retained no run.
+        QVERIFY(validationOfferedAfterBaseline);
+        for (const auto& name : {"forecast_baseline", "compare_runs", "request_approval"})
             QVERIFY2(afterAttempt.contains(name), name);
         QVERIFY(session.result()["verified_feasible"].toBool());
         QCOMPARE(session.result()["selected_run_id"].toString(), selected);

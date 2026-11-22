@@ -1,4 +1,5 @@
 #include "TelemetryController.hpp"
+#include <QDebug>
 #include "TelemetryContracts.hpp"
 #include "LocalRuntime.hpp"
 #include "TelemetryStream.hpp"
@@ -157,6 +158,13 @@ public:
             if (process != process_ || generation != generation_) return;
             if (!buffer_.isEmpty()) { fail("truncated_frame", "Publisher exited with an unfinished NDJSON frame."); return; }
             if (exitStatus != QProcess::NormalExit || exitCode != 0 || !received_end_) {
+                // Diagnostics only: never accept a missing/ineligible terminal
+                // frame or copy publisher stderr/input into application logs.
+                qWarning() << "Local publisher exit:" << "code" << exitCode
+                           << "normal" << (exitStatus == QProcess::NormalExit)
+                           << "eligible_end" << received_end_
+                           << "pending_operation" << pending_operation_
+                           << "end_clock" << end_clock_diagnostic_;
                 fail("process_exit", "Publisher exited without a clean, versioned end frame."); return;
             }
             active_ = false; status_ = "ended"; disposeProcess();
@@ -351,7 +359,7 @@ private:
     QString executable_, source_stream_, source_epoch_, replay_stream_, replay_epoch_;
     QStringList arguments_;
     QString recording_format_ = "g1_event_only";
-    QJsonObject replay_footer_;
+    QJsonObject replay_footer_, end_clock_diagnostic_;
     qint64 replay_bytes_ = 0;
     QString pending_request_, pending_operation_;
     double pending_deadline_ = 0, exit_deadline_ = 0, pending_rate_ = 1, base_event_ = 0, base_monotonic_ = 0, rate_ = 1;
@@ -422,7 +430,7 @@ private:
         acknowledged_.clear(); exit_deadline_ = 0;
         historical_ = false;
         journal_replay_ = false; previous_receipt_ = {}; next_receipt_ = {}; base_arrival_=0;
-        replay_footer_ = {}; replay_bytes_ = 0;
+        replay_footer_ = {}; end_clock_diagnostic_ = {}; replay_bytes_ = 0;
         declared_hold_model_=false; monitor_.reset(); monitor_emitted_.clear(); monitor_error_.clear(); monitor_samples_.clear(); last_monitor_evidence_={}; last_monitor_mono_=-1;
     }
     void reject(const QString& code, const QString& message) { emit rejected(code, message); }
@@ -514,7 +522,7 @@ private:
             if (awaiting_restart_) { source_serial_->fetch_add(1); stream_.beginEpoch("synthetic_live"); acknowledged_.clear();
                 monitor_.reset(declared_hold_model_); monitor_emitted_.clear(); monitor_error_.clear(); monitor_samples_.clear(); last_monitor_mono_=-1;
             }
-            started_ = true; starting_ = false; awaiting_restart_ = false; received_end_ = false;
+            started_ = true; starting_ = false; awaiting_restart_ = false; received_end_ = false; end_clock_diagnostic_ = {};
             base_event_ = frame.value("event_time_s").toDouble(); base_monotonic_ = monotonicS();
             rate_ = payload.value("clock_rate").toDouble(); paused_ = payload.value("paused").toBool(); status_ = "running";
             if (rate_ < 0.1 || rate_ > 4) { fail("clock_rate", "Publisher rate is outside the declared adapter range 0.1–4."); return false; }
@@ -523,8 +531,14 @@ private:
             return acceptCore(frame, line);
         if (type != "start" && type != "readings" &&
             (frame.value("event_time_s").toDouble() > nowEvent() + configuration_.value("policy").toObject().value("future_allowance_s").toDouble() ||
-             frame.value("event_time_s").toDouble() < stream_.report().value("watermark_event_time_s").toDouble()))
+             frame.value("event_time_s").toDouble() < stream_.report().value("watermark_event_time_s").toDouble())) {
+            // Keep one bounded diagnostic; repeated ineligible frames must not
+            // generate unbounded logs or acquire lifecycle authority.
+            if (type == "end") end_clock_diagnostic_ = {
+                {"event_s", frame.value("event_time_s")}, {"receiver_s", nowEvent()},
+                {"watermark_s", stream_.report().value("watermark_event_time_s")}};
             return acceptCore(frame, line);
+        }
         if (type == "heartbeat" && (payload.value("paused").toBool() != paused_ || payload.value("clock_rate").toDouble() != rate_)) {
             fail("heartbeat_clock", "Heartbeat clock state differs from the acknowledged receiver clock."); return false;
         }

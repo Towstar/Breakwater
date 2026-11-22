@@ -68,6 +68,9 @@ All examples are synthetic. Layout is schematic and supplies no hydraulic model.
    validation is a separate retained operation; search alone is insufficient.
 4. Export the completed session from History, restart and import it. Imported
    evidence can be inspected but never restores actionable review.
+   Use **Read full evidence** for stored validation, costs, repair policy/timing,
+   actions and margins. The complete plain-text reader scrolls at small sizes;
+   optional model narrative remains separately labeled and unverified.
 5. Choose **Examples → Recorded Nemotron investigation** when a qualified archive
    is bundled. Its tool order and numerical evidence came from the real hosted
    model; playback is explicitly historical and performs no new model request.

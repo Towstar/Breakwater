@@ -232,6 +232,12 @@ private slots:
         QSignalSpy restoredFailures(&restored, &EogHistoryRepository::failed);
         QTRY_COMPARE(restoredReady.size(), 1); restored.importSession(path); QTRY_COMPARE(imported.size(), 1);
         restored.loadSession(session); QTRY_COMPARE(loaded.size(), 1); QCOMPARE(loaded.first().first().toJsonObject(), archive);
+        const auto presentation = loaded.first().at(1).toJsonObject();
+        QCOMPARE(presentation.value("capture_id"), lease->manifest().value("capture_id"));
+        QCOMPARE(presentation.value("dataset_identity"), lease->manifest().value("dataset_identity"));
+        const auto frozenOps = QJsonDocument::fromJson(bytes(QDir(lease->directory()).filePath("ops.json"))).object();
+        QCOMPARE(presentation.value("expected_repair_hours"), frozenOps.value("expected_repair_hours"));
+        QVERIFY(!archive.contains("presentation_context")); // Wire evidence remains version 1 and unchanged.
         restored.recordOperatorReview(session, "validate-1"); QTRY_COMPARE(restoredFailures.size(), 1);
         QVERIFY(restoredFailures.first().at(3).toString().contains("Imported, reopened or retired"));
         QSignalSpy localLoaded(&repository, &EogHistoryRepository::sessionLoaded); repository.loadSession(session); QTRY_COMPARE(localLoaded.size(), 1);

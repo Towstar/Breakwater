@@ -1,5 +1,15 @@
 # v0.3.0 implementation ledger
 
+Latest continuation: [evidence completion and executed results](NEMOTRON_EVIDENCE_COMPLETION_VERIFICATION.md).
+Frozen source `a6b6aa9` finishes the full corpus at 23/24 and the separate strict
+supplement at 3/4, with every attempt retained. Transport records show 260 HTTP
+200 responses and no retries/429s; model completion and scientific-run linkage
+still prevent full hosted qualification. Source `9e97afa` fixes the reproduced
+reader-test layout race, passing eight normal/ASan checks without captures and
+four verified normal capture checks. Private packaging and actual clean-Windows
+acceptance remain distinct. The earlier checkpoint entries below retain their
+historical scope; none grants owner/licensing or public release approval.
+
 Current release-preparation increment: [candidate readiness](CANDIDATE_READINESS.md).
 PR85's exact head `440cb3d` passes all six Windows CI jobs. The new private-kit
 helper preserves old kits and v1 results while adding a source-qualified summary,

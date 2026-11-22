@@ -18,6 +18,8 @@ class ObservedInvestigationController final:public QObject {
     Q_PROPERTY(QVariantMap recommendation READ recommendation NOTIFY changed)
     Q_PROPERTY(QVariantMap review READ review NOTIFY changed)
     Q_PROPERTY(QVariantMap sourceSummary READ sourceSummary NOTIFY changed)
+    Q_PROPERTY(QVariantMap nextSourceSummary READ nextSourceSummary NOTIFY changed)
+    Q_PROPERTY(bool nextSourceDiffers READ nextSourceDiffers NOTIFY changed)
     Q_PROPERTY(QString storageStatus READ storageStatus NOTIFY changed)
     Q_PROPERTY(bool localOnly READ localOnly NOTIFY changed)
     Q_PROPERTY(bool localSearchAvailable READ localSearchAvailable NOTIFY changed)
@@ -36,6 +38,8 @@ public:
     QVariantMap recommendation() const { return acknowledged_.isEmpty() ? session_->result().toVariantMap():acknowledged_.toVariantMap(); }
     QVariantMap review() const;
     QVariantMap sourceSummary() const;
+    QVariantMap nextSourceSummary() const;
+    bool nextSourceDiffers() const;
     QString storageStatus() const;
     bool localOnly() const { return session_->localOnly(); }
     bool localSearchAvailable() const;
@@ -63,6 +67,7 @@ private:
     bool preparing_=false;
     quint64 generation_=0;
     bool currentSource(bool requireAvailable) const;
+    QVariantMap describeSource(const std::shared_ptr<const telemetry::ObservedEvidence>& source) const;
     void start(const QString& objective,bool local);
     void sourceChanged();
 };

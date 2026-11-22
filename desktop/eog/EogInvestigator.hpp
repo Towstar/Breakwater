@@ -30,7 +30,7 @@ public:
     explicit EogInvestigator(agent::ModelTransport* transport, QObject* parent = nullptr);
     ~EogInvestigator() override;
     void start(const QString& objective, const QJsonObject& context, const QJsonArray& toolDefinitions,
-               EogInvestigationLimits limits = {});
+               EogInvestigationLimits limits = {}, const QJsonObject& initialEvidence = {});
     // callId is the opaque execution ID emitted by toolRequested, not the model ID.
     void completeTool(const QString& callId, const QJsonObject& outcome);
     void cancel();

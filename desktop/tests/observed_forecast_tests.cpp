@@ -382,6 +382,8 @@ private slots:
         QTemporaryDir directory; SessionRepository repository(directory.filePath("observed.sqlite")); HistoryController history(&repository);
         Model unused; ObservedInvestigationController investigation(&project,&monitor,&unused); investigation.setHistory(&repository,&history);
         const auto originalCapture=monitor.capturedObservation();
+        QCOMPARE(investigation.nextSourceSummary(), investigation.sourceSummary());
+        QVERIFY(!investigation.nextSourceDiffers());
         for (const auto delay : {qint64{-1}, qint64{60000}}) {
             unused.admission=delay; investigation.investigate("Inspect the fresh synthetic source.");
             QVERIFY(!investigation.running()); QCOMPARE(unused.requests,0);
@@ -408,6 +410,18 @@ private slots:
         // A cancelled replacement cannot restore the preceding acknowledgement.
         history.showLive(); investigation.searchLocally(); investigation.cancel(); QTRY_VERIFY_WITH_TIMEOUT(!investigation.running(),15000);
         QVERIFY(!investigation.canAcknowledge());
+        const auto displayed = investigation.sourceSummary().value("snapshot_id");
+        monitor.requestObservedCapture(); QTRY_COMPARE(captured.size(), 2);
+        QVERIFY(investigation.nextSourceDiffers());
+        QCOMPARE(investigation.sourceSummary().value("snapshot_id"), displayed);
+        QCOMPARE(investigation.sourceSummary().value("status").toString(), QString("retired"));
+        QCOMPARE(investigation.nextSourceSummary().value("snapshot_id").toString(), monitor.capturedObservation()->document.value("snapshot_id").toString());
+        QCOMPARE(investigation.nextSourceSummary().value("status").toString(), QString("available"));
+        QVERIFY(!investigation.canAcknowledge()); QCOMPARE(unused.requests, 0);
+        QCOMPARE(project.simulationRevision(), revision);
+        investigation.searchLocally(); QTRY_VERIFY_WITH_TIMEOUT(!investigation.running(), 20000);
+        QVERIFY(!investigation.nextSourceDiffers());
+        QCOMPARE(investigation.sourceSummary(), investigation.nextSourceSummary());
         monitor.stop(); QTRY_VERIFY(!monitor.active());
     }
     void detectorEventsFreezeAtCaptureAndExpiryRetiresAdvisoryReview() {

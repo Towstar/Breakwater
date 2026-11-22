@@ -287,6 +287,7 @@ private slots:
         QVERIFY2(h.analysis.canReview(), qPrintable(h.analysis.status()));
         const auto selected = h.analysis.selectedPlanId(); const auto validation = QJsonObject::fromVariantMap(h.analysis.selectedValidation());
         const auto index = resultFor(h.model.messages, "validation").value("retained_evidence").toObject();
+        QCOMPARE(index.value("validation_targets_complete"), QJsonValue(false));
         QCOMPARE(index.value("capture_id"), QJsonObject::fromVariantMap(h.analysis.evidenceContext()).value("capture_id"));
         QCOMPARE(index.value("cutoff_unix").toDouble(), h.dataset.cursorUnix());
         QCOMPARE(index.value("selection_status"), QJsonValue("admissible_evidence_available"));
@@ -1255,6 +1256,9 @@ private slots:
         QVERIFY(summary.contains("global optimality is not established"));
         QVERIFY(summary.contains("review never dispatches equipment or applies controls"));
         if (selected) {
+            for (const auto* section : {"VALIDATED RESPONSE", "MODELED COST", "CAPTURE AND TIMING", "PLANNED ACTIONS", "RETAINED TRAJECTORIES AND MARGINS", "SCOPE AND LIMITATIONS"})
+                QVERIFY2(summary.contains(section), section);
+            QVERIFY(summary.contains("Captured pump-failure repair policy:"));
             QVERIFY(summary.contains(h.analysis.selectedPlanId()));
             QVERIFY(summary.contains(h.analysis.selectedValidation().value("validation_id").toString()));
             QVERIFY(summary.contains("bounded_search, best_found"));

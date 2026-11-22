@@ -145,9 +145,19 @@ public:
     explicit ProvenanceModel(QString tank) : tank_(std::move(tank)) {}
     int requests = 0;
     QString method, plan, validation, scriptError;
+    bool checkedTargetOffered = false, checkedCatalogueObserved = false;
     QStringList toolOrder;
     void request(const QJsonArray& messages, const QJsonArray& offered) override {
         ++requests;
+        if (requests == 4) {
+            checkedCatalogueObserved = true;
+            for (const auto& item : offered) {
+                const auto f = item.toObject().value("function").toObject();
+                if (f.value("name") != "validate_plan") continue;
+                const auto ids = f.value("parameters").toObject().value("properties").toObject().value("plan_id").toObject().value("enum");
+                checkedTargetOffered = !ids.isArray() || ids.toArray().contains(plan);
+            }
+        }
         QJsonObject reply{{"role", "assistant"}};
         const auto call = [&](const QString& name, const QJsonObject& arguments) -> bool {
             const bool available = std::any_of(offered.cbegin(), offered.cend(), [&](const auto& item) {
@@ -218,6 +228,7 @@ private slots:
         QTRY_VERIFY_WITH_TIMEOUT(model.requests > 0 && !controller.busy(), 30000);
         QVERIFY2(model.scriptError.isEmpty(), qPrintable(model.scriptError));
         QCOMPARE(model.requests, 4);
+        QVERIFY(model.checkedCatalogueObserved); QVERIFY(!model.checkedTargetOffered);
         QCOMPARE(model.toolOrder, (QStringList{"read_observations", "search_plans", "validate_plan"}));
         QVERIFY(failures.isEmpty()); QCOMPARE(done.size(), 2);
         QCOMPARE(model.method, "eog-native-seconds-0.1.1");
