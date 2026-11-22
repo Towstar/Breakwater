@@ -299,6 +299,11 @@ class Check final : public QObject {
             && !controller_->canApprove(),"comparison_or_settings_changed_project_or_approval");
         require(model_requests_ && model_requests_()==0,"comparison_or_settings_requested_model");
     }
+    void rightScrollBar(const QString& scrollName) {
+        require(eval("(function(){const b=ScrollBar.vertical;return b.visible && b.height>=height-1"
+            "&&b.x>=width-b.width-1 && b.x+b.width<=width+1})()",item(scrollName)).toBool(),
+            "scrollbar_not_full_height_on_right_edge");
+    }
     void revealInScroll(const QString& scrollName,const QString& targetName) {
         auto* flick=qobject_cast<QQuickItem*>(item(scrollName)->property("contentItem").value<QObject*>());
         require(flick,"comparison_scroll_content_missing"); auto* target=item(targetName);
@@ -340,6 +345,7 @@ class Check final : public QObject {
         switch(phase_) {
         case 240:
             require(item("comparisonEmptyState")->isVisible() && !item("trajectoryChart")->isVisible(),"empty_comparison_has_dead_controls");
+            rightScrollBar("comparisonScroll");
             snapshot("02-comparison-empty.png"); revealInScroll("comparisonScroll","comparisonBrowseHistory"); ++phase_; return;
         case 241:
             click(item("comparisonBrowseHistory")); markCueFrames(); break;
@@ -410,6 +416,7 @@ class Check final : public QObject {
             passed("historical_comparison_is_read_only"); click(item("openSettings")); markCueFrames(); break;
         case 255:
             require(eval("settingsDialog.visible").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"settings_did_not_block_scene_keys");
+            rightScrollBar("settingsWorkspaceScroll");
             click(item("settingsRenderingQuality")); key(Qt::Key_Home); key(Qt::Key_Return); markCueFrames(); break;
         case 256:
             require(eval("workspaceSettings.values.quality").toInt()==0,"quality_control_not_bound_to_existing_preferences");

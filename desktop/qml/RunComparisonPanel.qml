@@ -70,7 +70,7 @@ ColumnLayout {
         objectName: "comparisonScroll"
         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 0
         contentWidth: availableWidth; clip: true
-        ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn }
+        ScrollBar.vertical.policy: ScrollBar.AlwaysOn
         ColumnLayout {
             width: comparisonScroll.availableWidth; spacing: 12
             Frame {

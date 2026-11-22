@@ -55,7 +55,7 @@ Dialog {
             Layout.fillWidth: true; Layout.fillHeight: true; currentIndex: settingsTabs.currentIndex
             ScrollView {
                 id: workspaceScroll; objectName: "settingsWorkspaceScroll"; contentWidth: availableWidth; clip: true
-                ScrollBar.vertical: ScrollBar { policy: ScrollBar.AlwaysOn }
+                ScrollBar.vertical.policy: ScrollBar.AlwaysOn
                 ColumnLayout {
                     width: workspaceScroll.availableWidth; spacing: 10
                     Section { text: "Display" }
