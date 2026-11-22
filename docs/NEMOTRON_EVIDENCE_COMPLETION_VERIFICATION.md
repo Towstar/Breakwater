@@ -171,6 +171,13 @@ ineligible end frame, raw stderr or publisher input. These diagnostics do not
 establish the cause of the unreproduced publisher failure. Fresh current-head
 results remain linked from the PR rather than inherited from an earlier run.
 
+The first CI-ceiling follow-up at `8f0bc2c` was stopped by the existing bootstrap
+regression's hard-coded integer-60 assertion. Both native jobs report one error
+among 81 helper tests; downstream jobs were skipped, with no compiled test result
+claimed. The correction keeps the action-pin/credential checks and separately
+asserts the exact bounded ASan-90/normal-60 policy. The failed attempt remains
+retained rather than being hidden by the later helper run.
+
 ## Private package and release boundary
 
 The first frozen-source package passes ten sanitized installed checks and ten
