@@ -437,8 +437,8 @@ class Check final : public QObject {
         case 255:
             require(eval("settingsDialog.visible").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"settings_did_not_block_scene_keys");
             rightScrollBar("settingsWorkspaceScroll");
-            // A quality change rebuilds 3D resources on ASan/WARP. Keep both rendered
-            // frames and the global watchdog; give only this transition a bounded 6 s.
+            // Quality changes rebuild 3D resources on ASan/WARP. Keep both rendered
+            // frames and the global watchdog; give preset transitions a bounded 6 s.
             click(item("settingsRenderingQuality")); key(Qt::Key_Home); key(Qt::Key_Return); markCueFrames(6000); break;
         case 256:
             require(eval("workspaceSettings.values.quality").toInt()==0,"quality_control_not_bound_to_existing_preferences");
@@ -449,7 +449,7 @@ class Check final : public QObject {
             require(!window_->property("siteGridVisible").toBool(),"settings_grid_not_shared_with_scene");
             revealInScroll("settingsWorkspaceScroll","restoreWorkspacePreferences"); ++phase_; return;
         case 259:
-            click(item("restoreWorkspacePreferences")); markCueFrames(); break;
+            click(item("restoreWorkspacePreferences")); markCueFrames(6000); break;
         case 260:
             require(window_->property("siteGridVisible").toBool() && eval("workspaceSettings.values.quality").toInt()==1,"preference_reset_did_not_restore_display_defaults");
             snapshot("06-settings-workspace.png"); click(item("settingsConnectionsTab")); markCueFrames(); break;
