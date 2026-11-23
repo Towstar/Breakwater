@@ -1,5 +1,16 @@
 # Implementation status
 
+## Forecast pane resizing, November 23, 2026 (America/Chicago)
+
+The [resize follow-up](FORECAST_RESIZE_VERIFICATION.md) keeps the complete Forecast
+pane inside a scroll viewport at short dock/window heights. It preserves access
+to the empty-state action and executed-run timeline without overlap. Source
+`0257c1d` passes eight normal UI checks across four sizes. All four ASan Forecast
+checks pass; the combined ASan attempt is 7/8, with its failed focus-return check
+passing unchanged in an isolated recheck. Both results remain recorded. The
+quality-preset rendering wait has a separate bounded allowance for ASan/WARP;
+validation, approval, numerical behavior and the global UI watchdog are unchanged.
+
 ## Compare and practical Settings, November 22, 2026 (America/Chicago)
 
 The [finishing-pass report](COMPARE_SETTINGS_POLISH.md) describes responsive
