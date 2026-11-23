@@ -19,6 +19,7 @@ ColumnLayout {
     ScrollView {
         id: bodyScroll; objectName: "forecastBodyScroll"
         Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 0
+        rightPadding: 12
         contentWidth: availableWidth; clip: true
         ScrollBar.vertical.policy: ScrollBar.AlwaysOn
         ScrollBar.horizontal.policy: ScrollBar.AlwaysOff
