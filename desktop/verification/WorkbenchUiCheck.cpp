@@ -50,7 +50,7 @@ class Check final : public QObject {
     bool navigation_dock_open_ = false;
     QElapsedTimer route_label_wait_;
     QJsonObject cue_original_project_, cue_static_, workspace_observations_;
-    int rendered_frames_ = 0, cue_frame_mark_ = 0;
+    int rendered_frames_ = 0, cue_frame_mark_ = 0, cue_frame_deadline_ms_ = 2000;
     QElapsedTimer cue_settle_wait_;
     bool cue_fixture_captured_ = false;
     QJsonObject scene_focus_preferences_, plan_before_dock_;
@@ -63,6 +63,8 @@ class Check final : public QObject {
     std::unique_ptr<QTemporaryDir> comparison_storage_;
     qint64 comparison_checkpoint_=0;
     QJsonObject observed_project_;
+    QJsonObject forecast_resize_project_;
+    int forecast_resize_width_=0, forecast_resize_height_=0, forecast_resize_dock_=0;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
     std::unique_ptr<QTemporaryDir> artifacts_;
     QVariant eval(const QString& source, QObject* scope=nullptr) {
@@ -142,9 +144,27 @@ class Check final : public QObject {
     }
     bool cueFramesReady() {
         if (rendered_frames_-cue_frame_mark_>=2) return true;
-        require(cue_settle_wait_.elapsed()<2000,"route_cue_frames_did_not_settle"); window_->update(); return false;
+        require(cue_settle_wait_.elapsed()<cue_frame_deadline_ms_,"route_cue_frames_did_not_settle"); window_->update(); return false;
     }
-    void markCueFrames() { cue_frame_mark_=rendered_frames_; cue_settle_wait_.start(); window_->update(); }
+    void markCueFrames(int deadlineMs=2000) { cue_frame_deadline_ms_=deadlineMs; cue_frame_mark_=rendered_frames_; cue_settle_wait_.start(); window_->update(); }
+    void forecastResizeFits(bool empty) {
+        auto* panel=item("forecastPanel"); auto* scroll=item("forecastBodyScroll");
+        const auto bounds=scroll->mapRectToItem(panel,QRectF(0,0,scroll->width(),scroll->height()));
+        require(scroll->clip() && bounds.top()>=0 && bounds.bottom()<=panel->height()+1,"forecast_body_outside_panel");
+        if (empty) {
+            auto* card=item("forecastEmptyState"); auto* content=item("forecastEmptyContent");
+            const auto text=content->mapRectToItem(card,QRectF(0,0,content->width(),content->height()));
+            require(text.left()>=0 && text.top()>=0 && text.right()<=card->width()+1 && text.bottom()<=card->height()+1,
+                "forecast_empty_content_outside_card");
+            require(controller_->runId().isEmpty() && !controller_->canApprove(),"forecast_resize_created_a_run_or_approval");
+        } else {
+            auto* timeline=item("forecastTimeline"); const auto footer=timeline->mapRectToItem(panel,QRectF(0,0,timeline->width(),timeline->height()));
+            require(footer.top()>=bounds.bottom() && footer.bottom()<=panel->height()+1 && eval("plotted.available",panel).toBool(),
+                "forecast_resize_clipped_timeline_or_lost_plot");
+            preserved();
+        }
+        require(controller_->editorDocument()==forecast_resize_project_,"forecast_resize_changed_project");
+    }
     void planLayoutFixture(bool wide) {
         const auto physical=controller_->networkHash(), run=controller_->runId();
         const auto revision=controller_->simulationRevision();
@@ -417,7 +437,9 @@ class Check final : public QObject {
         case 255:
             require(eval("settingsDialog.visible").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"settings_did_not_block_scene_keys");
             rightScrollBar("settingsWorkspaceScroll");
-            click(item("settingsRenderingQuality")); key(Qt::Key_Home); key(Qt::Key_Return); markCueFrames(); break;
+            // A quality change rebuilds 3D resources on ASan/WARP. Keep both rendered
+            // frames and the global watchdog; give only this transition a bounded 6 s.
+            click(item("settingsRenderingQuality")); key(Qt::Key_Home); key(Qt::Key_Return); markCueFrames(6000); break;
         case 256:
             require(eval("workspaceSettings.values.quality").toInt()==0,"quality_control_not_bound_to_existing_preferences");
             revealInScroll("settingsWorkspaceScroll","settingsGridVisible"); ++phase_; return;
@@ -514,8 +536,36 @@ class Check final : public QObject {
                     eval("app.openTelemetry()"); phase_=52; break;
                 }
                 require(item("forecastEmptyRun")->isVisible() && item("forecastEmptyRun")->isEnabled(),"empty_forecast_action_unavailable");
-                click(item("forecastEmptyRun")); phase_=64; return;
+                forecast_resize_project_=controller_->editorDocument();
+                forecast_resize_width_=window_->width(); forecast_resize_height_=window_->height();
+                forecast_resize_dock_=eval("workspaceSettings.values.dockHeight").toInt();
+                eval("workspaceSettings.setValue('dockHeight',160)"); window_->resize(1008,672);
+                markCueFrames(); phase_=300; return;
             }
+            case 300:
+                if (!cueFramesReady()) return;
+                forecastResizeFits(true); snapshot("25-forecast-short-dock.png");
+                window_->resize(960,540); markCueFrames(); phase_=301; return;
+            case 301:
+                if (!cueFramesReady()) return;
+                forecastResizeFits(true); snapshot("26-forecast-minimum-empty.png");
+                revealInScroll("forecastBodyScroll","forecastEmptyRun"); phase_=302; return;
+            case 302:
+                if (!cueFramesReady()) return;
+                click(item("forecastEmptyRun"));
+                window_->resize(forecast_resize_width_,forecast_resize_height_);
+                eval(QStringLiteral("workspaceSettings.setValue('dockHeight',%1)").arg(forecast_resize_dock_));
+                phase_=64; return;
+            case 303:
+                if (!cueFramesReady()) return;
+                forecastResizeFits(false); snapshot("27-forecast-minimum-executed.png");
+                window_->resize(forecast_resize_width_,forecast_resize_height_);
+                eval(QStringLiteral("workspaceSettings.setValue('dockHeight',%1)").arg(forecast_resize_dock_));
+                markCueFrames(); phase_=304; return;
+            case 304:
+                if (!cueFramesReady()) return;
+                preserved(); passed("empty_and_executed_forecast_resize_scroll_preserve_project_and_evidence");
+                key(Qt::Key_F1); phase_=65; return;
             case 1:
                 if (controller_->busy()) return;
                 require(!controller_->runId().isEmpty() && controller_->forecastHorizonH() == 1.25
@@ -984,7 +1034,8 @@ class Check final : public QObject {
                 if (controller_->busy()) return;
                 require(!controller_->runId().isEmpty() && controller_->forecastHorizonH()==3,"onboarding_did_not_run_native_forecast");
                 observed_project_=controller_->editorDocument(); hash_=controller_->networkHash(); run_=controller_->runId(); revision_=controller_->simulationRevision();
-                key(Qt::Key_F1); break;
+                eval("workspaceSettings.setValue('dockHeight',160)"); window_->resize(960,540);
+                markCueFrames(); phase_=303; return;
             case 65:
                 if (!eval("sceneHelpDialog.visible").toBool()) return;
                 require(!eval("app.sceneKeysEnabled()").toBool(),"help_did_not_block_edit_shortcuts");
