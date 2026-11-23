@@ -158,8 +158,9 @@ class Check final : public QObject {
                 "forecast_empty_content_outside_card");
             require(controller_->runId().isEmpty() && !controller_->canApprove(),"forecast_resize_created_a_run_or_approval");
         } else {
-            auto* timeline=item("forecastTimeline"); const auto footer=timeline->mapRectToItem(panel,QRectF(0,0,timeline->width(),timeline->height()));
-            require(footer.top()>=bounds.bottom() && footer.bottom()<=panel->height()+1 && eval("plotted.available",panel).toBool(),
+            auto* timeline=item("forecastTimeline"); auto* canvas=item("forecastContent");
+            const auto footer=timeline->mapRectToItem(canvas,QRectF(0,0,timeline->width(),timeline->height()));
+            require(footer.top()>=0 && footer.bottom()<=canvas->height()+1 && eval("plotted.available",panel).toBool(),
                 "forecast_resize_clipped_timeline_or_lost_plot");
             preserved();
         }
@@ -559,9 +560,18 @@ class Check final : public QObject {
             case 303:
                 if (!cueFramesReady()) return;
                 forecastResizeFits(false); snapshot("27-forecast-minimum-executed.png");
+                revealInScroll("forecastBodyScroll","forecastTimeline"); phase_=305; return;
+            case 305: {
+                if (!cueFramesReady()) return;
+                auto* flick=qobject_cast<QQuickItem*>(item("forecastBodyScroll")->property("contentItem").value<QObject*>());
+                require(flick,"forecast_scroll_viewport_missing"); auto* timeline=item("forecastTimeline");
+                const auto footer=timeline->mapRectToItem(flick,QRectF(0,0,timeline->width(),timeline->height()));
+                require(footer.top()>=-1 && footer.bottom()<=flick->height()+1,"forecast_timeline_not_scrollable_into_view");
+                snapshot("28-forecast-scrolled-timeline.png");
                 window_->resize(forecast_resize_width_,forecast_resize_height_);
                 eval(QStringLiteral("workspaceSettings.setValue('dockHeight',%1)").arg(forecast_resize_dock_));
                 markCueFrames(); phase_=304; return;
+            }
             case 304:
                 if (!cueFramesReady()) return;
                 preserved(); passed("empty_and_executed_forecast_resize_scroll_preserve_project_and_evidence");
