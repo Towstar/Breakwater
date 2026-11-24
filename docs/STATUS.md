@@ -1,5 +1,18 @@
 # Implementation status
 
+## Settings signal cleanup, November 23, 2026 (America/Chicago)
+
+Settings now uses Dialog's inherited `helpRequested` signal, removing the
+duplicate declaration and its QML startup warning. Application source `5bff15b`
+passes the four existing Compare/Settings window sizes and QML startup check in
+both normal and ASan builds, each 5/5. Runtime logs contain no duplicate-signal or
+invalid-override warning, and the ASan log contains no sanitizer diagnostic.
+Manual review confirms Settings opens Controls and shortcuts and returns to the
+saved workspace. The latest app uses the hardware GPU and normal user history.
+Local logs and captures are retained under `out/settings-qml-warning/`.
+The preceding PR #99 head `0ef110f` passed all six CI jobs; those results remain
+separate from this focused follow-up. No numerical or approval behavior changed.
+
 ## Forecast pane resizing, November 23, 2026 (America/Chicago)
 
 The [resize follow-up](FORECAST_RESIZE_VERIFICATION.md) keeps the complete Forecast
