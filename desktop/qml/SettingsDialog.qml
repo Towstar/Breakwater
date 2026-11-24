@@ -12,7 +12,6 @@ Dialog {
     property bool investigationRunning: false
     property Item returnFocusItem: null
     signal manageKeyRequested(Item source)
-    signal helpRequested()
     signal aboutRequested()
     objectName: "settingsDialog"
     parent: Overlay.overlay; anchors.centerIn: parent; modal: true; closePolicy: Popup.CloseOnEscape
