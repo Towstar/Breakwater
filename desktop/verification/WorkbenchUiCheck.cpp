@@ -1,8 +1,10 @@
 #include "WorkbenchUiCheck.hpp"
 #include "../ProjectController.hpp"
 #include "../history/HistoryController.hpp"
+#include "../agent/SimulationGateway.hpp"
 #include <QCoreApplication>
 #include <QDir>
+#include <QDateTime>
 #include <QElapsedTimer>
 #include <QFile>
 #include <QFileInfo>
@@ -21,8 +23,10 @@
 #include <QTextStream>
 #include <QTemporaryDir>
 #include <QTimer>
+#include <QUuid>
 #include <QWheelEvent>
 #include <cmath>
+#include <algorithm>
 #include <filesystem>
 #include <memory>
 #include <stdexcept>
@@ -46,17 +50,26 @@ class Check final : public QObject {
     bool navigation_dock_open_ = false;
     QElapsedTimer route_label_wait_;
     QJsonObject cue_original_project_, cue_static_, workspace_observations_;
-    int rendered_frames_ = 0, cue_frame_mark_ = 0;
+    int rendered_frames_ = 0, cue_frame_mark_ = 0, cue_frame_deadline_ms_ = 2000;
     QElapsedTimer cue_settle_wait_;
     bool cue_fixture_captured_ = false;
     QJsonObject scene_focus_preferences_, plan_before_dock_;
     double plan_before_wheel_ = 0, plan_pan_x_ = 0, plan_pan_z_ = 0;
     bool observed_only_=false;
+    bool compare_settings_only_=false;
+    std::function<int()> model_requests_;
+    QJsonObject comparison_project_, comparison_archive_;
+    QPointer<QQuickItem> comparison_key_input_, comparison_save_key_;
+    std::unique_ptr<QTemporaryDir> comparison_storage_;
+    qint64 comparison_checkpoint_=0;
     QJsonObject observed_project_;
+    QJsonObject forecast_resize_project_;
+    int forecast_resize_width_=0, forecast_resize_height_=0, forecast_resize_dock_=0;
     QJsonObject position_; QPointF tank_; double capacity_ = 0;
     std::unique_ptr<QTemporaryDir> artifacts_;
-    QVariant eval(const QString& source) {
-        QQmlExpression expression(QQmlEngine::contextForObject(window_), window_, source);
+    QVariant eval(const QString& source, QObject* scope=nullptr) {
+        if (!scope) scope=window_;
+        QQmlExpression expression(QQmlEngine::contextForObject(scope), scope, source);
         const auto value = expression.evaluate();
         if (expression.hasError()) throw std::runtime_error("qml_expression_failed");
         return value;
@@ -131,9 +144,28 @@ class Check final : public QObject {
     }
     bool cueFramesReady() {
         if (rendered_frames_-cue_frame_mark_>=2) return true;
-        require(cue_settle_wait_.elapsed()<2000,"route_cue_frames_did_not_settle"); window_->update(); return false;
+        require(cue_settle_wait_.elapsed()<cue_frame_deadline_ms_,"route_cue_frames_did_not_settle"); window_->update(); return false;
     }
-    void markCueFrames() { cue_frame_mark_=rendered_frames_; cue_settle_wait_.start(); window_->update(); }
+    void markCueFrames(int deadlineMs=2000) { cue_frame_deadline_ms_=deadlineMs; cue_frame_mark_=rendered_frames_; cue_settle_wait_.start(); window_->update(); }
+    void forecastResizeFits(bool empty) {
+        auto* panel=item("forecastPanel"); auto* scroll=item("forecastBodyScroll");
+        const auto bounds=scroll->mapRectToItem(panel,QRectF(0,0,scroll->width(),scroll->height()));
+        require(scroll->clip() && bounds.top()>=0 && bounds.bottom()<=panel->height()+1,"forecast_body_outside_panel");
+        if (empty) {
+            auto* card=item("forecastEmptyState"); auto* content=item("forecastEmptyContent");
+            const auto text=content->mapRectToItem(card,QRectF(0,0,content->width(),content->height()));
+            require(text.left()>=0 && text.top()>=0 && text.right()<=card->width()+1 && text.bottom()<=card->height()+1,
+                "forecast_empty_content_outside_card");
+            require(controller_->runId().isEmpty() && !controller_->canApprove(),"forecast_resize_created_a_run_or_approval");
+        } else {
+            auto* timeline=item("forecastTimeline"); auto* canvas=item("forecastContent");
+            const auto footer=timeline->mapRectToItem(canvas,QRectF(0,0,timeline->width(),timeline->height()));
+            require(footer.top()>=0 && footer.bottom()<=canvas->height()+1 && eval("plotted.available",panel).toBool(),
+                "forecast_resize_clipped_timeline_or_lost_plot");
+            preserved();
+        }
+        require(controller_->editorDocument()==forecast_resize_project_,"forecast_resize_changed_project");
+    }
     void planLayoutFixture(bool wide) {
         const auto physical=controller_->networkHash(), run=controller_->runId();
         const auto revision=controller_->simulationRevision();
@@ -267,15 +299,202 @@ class Check final : public QObject {
     void finish(bool ok, const QString& code) {
         if (done_) return;
         done_ = true; timer_.stop();
-        QJsonObject result{{"check", observed_only_ ? "ui_observed_advisory":"ui_overhaul"}, {"passed", ok}, {"code", code},
+        QJsonObject result{{"check", compare_settings_only_ ? "ui_compare_settings" : observed_only_ ? "ui_observed_advisory":"ui_overhaul"}, {"passed", ok}, {"code", code},
             {"checks", checks_}, {"phase", phase_}, {"observed", observed_},
             {"device_pixel_ratio", window_ ? window_->devicePixelRatio() : 0.0},
             {"window_width", window_ ? window_->width() : 0}, {"window_height", window_ ? window_->height() : 0},
             {"elapsed_ms", elapsed_.elapsed()}, {"hosted_model_requests", "not_requested"}};
         if (artifacts_ && artifacts_->isValid()) result["artifact_directory"] = artifacts_->path();
+        if (model_requests_) result["forbidden_model_request_attempts"] = model_requests_();
         if (!workspace_observations_.isEmpty()) result["workspace_observations"] = workspace_observations_;
         QTextStream stream(stdout); stream << QJsonDocument(result).toJson(QJsonDocument::Compact) << '\n'; stream.flush();
         app_->exit(ok ? 0 : 8);
+    }
+    history::HistoryController* comparisonHistory() {
+        auto* result=window_->property("history").value<history::HistoryController*>();
+        require(result,"comparison_history_unavailable"); return result;
+    }
+    void comparisonPreserved() {
+        require(controller_->editorDocument()==comparison_project_ && controller_->networkHash()==hash_
+            && controller_->simulationRevision()==revision_ && controller_->runId()==run_
+            && !controller_->canApprove(),"comparison_or_settings_changed_project_or_approval");
+        require(model_requests_ && model_requests_()==0,"comparison_or_settings_requested_model");
+    }
+    void rightScrollBar(const QString& scrollName) {
+        require(eval("(function(){const b=ScrollBar.vertical;return b.visible && b.height>=height-1"
+            "&&b.x>=width-b.width-1 && b.x+b.width<=width+1})()",item(scrollName)).toBool(),
+            "scrollbar_not_full_height_on_right_edge");
+    }
+    void revealInScroll(const QString& scrollName,const QString& targetName) {
+        auto* flick=qobject_cast<QQuickItem*>(item(scrollName)->property("contentItem").value<QObject*>());
+        require(flick,"comparison_scroll_content_missing"); auto* target=item(targetName);
+        const auto rectangle=target->mapRectToItem(flick,QRectF(0,0,target->width(),target->height()));
+        double y=flick->property("contentY").toDouble();
+        if(rectangle.top()<8) y+=rectangle.top()-8;
+        else if(rectangle.bottom()>flick->height()-8) y+=rectangle.bottom()-(flick->height()-8);
+        flick->setProperty("contentY",std::clamp(y,0.0,std::max(0.0,flick->property("contentHeight").toDouble()-flick->height())));
+        markCueFrames();
+    }
+    QJsonObject comparisonFixture() {
+        auto project=example_project(); project.network=main_pump_failure(project.network);
+        agent::SimulationGateway gateway(project.network,physics_hash(project));
+        gateway.execute("get_network_state",{}); gateway.execute("get_control_catalog",{});
+        const auto base=gateway.execute("forecast_baseline",{{"snapshot_id",gateway.snapshotId()}}).value("run").toObject();
+        QJsonArray controls;
+        for(const auto& control:incident_controls("mixed")) controls.append(QJsonObject{{"control_id",QString::fromStdString(control.id)},{"value",control.value}});
+        const auto result=gateway.execute("simulate_candidates",{{"snapshot_id",gateway.snapshotId()},
+            {"candidates",QJsonArray{QJsonObject{{"candidate_id","Mixed response with retained numerical evidence and independent validation"},{"controls",controls}}}}}).value("runs").toArray();
+        require(result.size()==1,"comparison_native_fixture_failed");
+        const auto candidate=result.first().toObject().value("run_id").toString();
+        gateway.execute("validate_run",{{"snapshot_id",gateway.snapshotId()},{"run_id",candidate}});
+        const auto stamp=QDateTime::currentDateTimeUtc().toString(Qt::ISODateWithMs);
+        return {{"archive_version",1},{"session_id",QUuid::createUuid().toString(QUuid::WithoutBraces)},
+            {"checkpoint_sequence",1},{"created_at",stamp},{"updated_at",stamp},{"status","completed"},
+            {"objective","Offline UI check using actual native forecasts; no model execution."},
+            {"snapshot",gateway.snapshot()},{"model",QJsonObject{}},{"events",QJsonArray{}},{"approvals",QJsonArray{}},
+            {"runs",QJsonArray{gateway.runDetails(base.value("run_id").toString()),gateway.runDetails(candidate)}},
+            {"recommendation",gateway.recommendation(candidate)}};
+    }
+    void showComparison(QJsonObject archive) {
+        archive["checkpoint_sequence"]=++comparison_checkpoint_;
+        comparisonHistory()->setLiveSession(archive);
+    }
+    void compareSettingsTick() {
+        comparisonPreserved();
+        if (!cueFramesReady()) return;
+        auto* history=comparisonHistory();
+        switch(phase_) {
+        case 240:
+            require(item("comparisonEmptyState")->isVisible() && !item("trajectoryChart")->isVisible(),"empty_comparison_has_dead_controls");
+            rightScrollBar("comparisonScroll");
+            snapshot("02-comparison-empty.png"); revealInScroll("comparisonScroll","comparisonBrowseHistory"); ++phase_; return;
+        case 241:
+            click(item("comparisonBrowseHistory")); markCueFrames(); break;
+        case 242:
+            require(window_->property("resultTab").toInt()==3,"comparison_history_navigation_not_synchronized");
+            click(item("Compare",true)); markCueFrames(); break;
+        case 243:
+            revealInScroll("comparisonScroll","comparisonGoInvestigate"); ++phase_; return;
+        case 244:
+            click(item("comparisonGoInvestigate")); markCueFrames(); break;
+        case 245: {
+            require(window_->property("resultTab").toInt()==2 && !history->historical(),"comparison_investigation_navigation_not_synchronized");
+            passed("empty_comparison_and_both_navigation_actions");
+            comparison_archive_=comparisonFixture(); auto single=comparison_archive_;
+            single["runs"]=QJsonArray{single.value("runs").toArray().first()}; single["recommendation"]=QJsonObject{};
+            showComparison(single); eval("app.openResults(1)"); markCueFrames(); break;
+        }
+        case 246:
+            require(!item("comparisonEmptyState")->isVisible() && history->chart().value("series").toList().size()==1
+                && !item("comparisonCostDelta")->isVisible() && !item("comparisonControlChanges")->isEnabled(),"single_run_presented_as_pair");
+            require(history->chart().value("y_max").toDouble()>history->chart().value("capacity_m3").toDouble(),"comparison_clipped_overflow");
+            showComparison(comparison_archive_); markCueFrames(); break;
+        case 247:
+            require(history->comparison().value("compatible").toBool() && history->chart().value("series").toList().size()==2,"compatible_pair_not_overlaid");
+            snapshot("03-comparison-compatible.png"); revealInScroll("comparisonScroll","comparisonControlChanges"); ++phase_; return;
+        case 248:
+            require(item("comparisonCostDelta")->isVisible() && item("comparisonControlChanges")->isEnabled(),"compatible_pair_actions_missing");
+            snapshot("04-comparison-metrics.png"); click(item("comparisonControlChanges")); markCueFrames(); break;
+        case 249:
+            require(item("runComparisonPanel")->property("dialogOpen").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"comparison_dialog_or_shortcut_guard_missing");
+            key(Qt::Key_Escape); markCueFrames(); break;
+        case 250: {
+            require(!item("runComparisonPanel")->property("dialogOpen").toBool() && item("comparisonControlChanges")->hasActiveFocus(),"comparison_dialog_close_or_focus_return_failed");
+            // Deliberately incompatible display fixture, never an imported or qualified run.
+            auto incompatible=comparison_archive_; auto runs=incompatible.value("runs").toArray();
+            auto detail=runs.last().toObject(), run=detail.value("run").toObject(); run["snapshot_id"]="different-ui-fixture-snapshot";
+            detail["run"]=run; runs[1]=detail; incompatible["runs"]=runs;
+            showComparison(incompatible); markCueFrames(); break;
+        }
+        case 251: {
+            require(!history->comparison().value("compatible").toBool() && history->chart().value("series").toList().size()==1
+                && !item("comparisonCostDelta")->isVisible() && !item("comparisonControlChanges")->isEnabled(),"incompatible_pair_has_delta_or_overlay");
+            const auto id=history->baselineRunId(); const auto before=history->selectedArchive(); history->selectRuns(id,id);
+            require(history->selectedArchive()==before,"run_selection_mutated_archive");
+            auto retired=comparison_archive_; auto retiredRuns=retired.value("runs").toArray();
+            for(qsizetype i=0;i<retiredRuns.size();++i) { auto detail=retiredRuns[i].toObject(), run=detail.value("run").toObject(); run["current"]=false; detail["run"]=run; retiredRuns[i]=detail; }
+            retired["runs"]=retiredRuns; showComparison(retired); markCueFrames(); break;
+        }
+        case 252: {
+            require(!item("comparisonCostDelta")->isVisible() && !item("comparisonControlChanges")->isEnabled()
+                && item("comparisonSourceWarning")->isVisible(),"same_or_retired_run_has_misleading_comparison");
+            passed("single_matching_mismatched_and_same_run_preserve_controls_and_unclipped_evidence");
+            showComparison(comparison_archive_);
+            const auto rows=comparison_archive_.value("runs").toArray();
+            history->selectRuns(rows.first().toObject().value("run").toObject().value("run_id").toString(),rows.last().toObject().value("run").toObject().value("run_id").toString());
+            comparison_storage_=std::make_unique<QTemporaryDir>(); require(comparison_storage_->isValid(),"comparison_import_directory_failed");
+            QFile file(comparison_storage_->filePath("native-session.json")); require(file.open(QIODevice::WriteOnly|QIODevice::NewOnly),"comparison_archive_write_failed");
+            const auto bytes=QJsonDocument(comparison_archive_).toJson(); require(file.write(bytes)==bytes.size() && file.flush(),"comparison_archive_write_failed"); file.close();
+            history->importSession(QUrl::fromLocalFile(file.fileName())); markCueFrames(); break;
+        }
+        case 253:
+            if (history->busy()) { markCueFrames(); return; }
+            require(history->historical(),"comparison_history_import_failed");
+            require(item("comparisonReturnCurrent")->isVisible() && !controller_->canApprove(),"historical_comparison_restored_authority");
+            snapshot("05-comparison-historical.png"); click(item("comparisonReturnCurrent")); markCueFrames(); break;
+        case 254:
+            require(!history->historical(),"comparison_return_current_failed");
+            passed("historical_comparison_is_read_only"); click(item("openSettings")); markCueFrames(); break;
+        case 255:
+            require(eval("settingsDialog.visible").toBool() && !eval("app.sceneKeysEnabled()").toBool(),"settings_did_not_block_scene_keys");
+            rightScrollBar("settingsWorkspaceScroll");
+            // Quality changes rebuild 3D resources on ASan/WARP. Keep both rendered
+            // frames and the global watchdog; give preset transitions a bounded 6 s.
+            click(item("settingsRenderingQuality")); key(Qt::Key_Home); key(Qt::Key_Return); markCueFrames(6000); break;
+        case 256:
+            require(eval("workspaceSettings.values.quality").toInt()==0,"quality_control_not_bound_to_existing_preferences");
+            revealInScroll("settingsWorkspaceScroll","settingsGridVisible"); ++phase_; return;
+        case 257:
+            click(item("settingsGridVisible")); markCueFrames(); break;
+        case 258:
+            require(!window_->property("siteGridVisible").toBool(),"settings_grid_not_shared_with_scene");
+            revealInScroll("settingsWorkspaceScroll","restoreWorkspacePreferences"); ++phase_; return;
+        case 259:
+            click(item("restoreWorkspacePreferences")); markCueFrames(6000); break;
+        case 260:
+            require(window_->property("siteGridVisible").toBool() && eval("workspaceSettings.values.quality").toInt()==1,"preference_reset_did_not_restore_display_defaults");
+            snapshot("06-settings-workspace.png"); click(item("settingsConnectionsTab")); markCueFrames(); break;
+        case 261:
+            require(!eval("app.credentials.configured || app.credentials.saved").toBool(),"settings_ui_discovered_user_credentials");
+            click(item("settingsManageKey")); markCueFrames(); break;
+        case 262:
+            comparison_key_input_=item("nemotronApiKeyInput"); comparison_save_key_=item("saveNemotronKey");
+            require(eval("keyDialog.visible").toBool() && item("nemotronApiKeyInput")->property("echoMode").toInt()==2,"shared_key_dialog_not_masked");
+            key(Qt::Key_unknown,Qt::NoModifier,"ui-placeholder-not-a-real-key"); key(Qt::Key_Escape); markCueFrames(); break;
+        case 263:
+            require(!eval("keyDialog.visible").toBool() && comparison_key_input_ && comparison_key_input_->property("text").toString().isEmpty()
+                && item("settingsManageKey")->hasActiveFocus() && !eval("app.credentials.saved").toBool(),"key_cancel_retained_input_or_lost_focus");
+            eval("settingsDialog.investigationRunning=true; keyDialog.investigationRunning=true");
+            require(!item("settingsManageKey")->isEnabled() && comparison_save_key_ && !comparison_save_key_->isEnabled(),"busy_settings_allow_credential_change");
+            eval("settingsDialog.investigationRunning=Qt.binding(function(){return app.credentialChangeBlocked}); keyDialog.investigationRunning=Qt.binding(function(){return app.credentialChangeBlocked})");
+            click(item("settingsCheckWorker")); markCueFrames(); break;
+        case 264:
+            if(eval("app.scientificWorker.busy").toBool()) { markCueFrames(); return; }
+            require(eval("app.scientificWorker.readiness.health_status").toString()=="failed"
+                && !item("settingsWorkerStatus")->property("text").toString().isEmpty(),"missing_worker_not_visible_in_settings");
+            snapshot("07-settings-connections.png");
+            passed("settings_preferences_shared_key_masking_busy_gates_and_missing_worker");
+            key(Qt::Key_Escape); markCueFrames(); break;
+        case 265:
+            require(!eval("settingsDialog.visible").toBool() && item("openSettings")->hasActiveFocus(),"settings_close_did_not_restore_focus");
+            click(item("switchToOperations")); markCueFrames(); break;
+        case 266:
+            require(window_->property("workspace").toString()=="eog","settings_operations_fixture_failed");
+            key(Qt::Key_Comma,Qt::ControlModifier,","); markCueFrames(); break;
+        case 267:
+            require(eval("settingsDialog.visible").toBool(),"settings_shortcut_unavailable_in_operations");
+            click(item("settingsInformationTab")); markCueFrames(); break;
+        case 268:
+            snapshot("08-settings-information.png"); click(item("settingsAbout")); markCueFrames(); break;
+        case 269:
+            require(eval("aboutDialog.visible").toBool() && !eval("settingsDialog.visible").toBool(),"settings_about_navigation_failed");
+            eval("aboutDialog.close()"); click(item("switchToWorkbench")); markCueFrames(); break;
+        case 270:
+            passed("settings_both_workspaces_keyboard_escape_focus_and_about");
+            comparisonPreserved(); finish(true,{}); return;
+        default: throw std::runtime_error("invalid_compare_settings_phase");
+        }
+        ++phase_;
     }
     void tick() {
         try {
@@ -283,6 +502,7 @@ class Check final : public QObject {
             // Includes actual native pipe execution, SQL retention/reload and
             // the compact History-to-viewer action in addition to editor checks.
             require(elapsed_.elapsed() < (observed_only_ ? 40000 : 60000), "ui_check_timeout");
+            if(compare_settings_only_ && phase_>=240) { compareSettingsTick(); return; }
             switch (phase_) {
             case 0: {
                 if (!window_->isVisible() || !window_->isExposed() || !window_->property("sceneReady").toBool()) return;
@@ -307,13 +527,55 @@ class Check final : public QObject {
                     require(artifacts_->isValid(), "evidence_directory_creation_failed"); artifacts_->setAutoRemove(false);
                 }
                 snapshot("01-workbench-ready.png");
+                if(compare_settings_only_) {
+                    comparison_project_=controller_->editorDocument(); hash_=controller_->networkHash();
+                    run_=controller_->runId(); revision_=controller_->simulationRevision();
+                    eval("app.openResults(1)"); phase_=240; markCueFrames(); return;
+                }
                 if (observed_only_) {
                     controller_->loadExample("monitoring"); observed_project_=controller_->editorDocument();
                     eval("app.openTelemetry()"); phase_=52; break;
                 }
                 require(item("forecastEmptyRun")->isVisible() && item("forecastEmptyRun")->isEnabled(),"empty_forecast_action_unavailable");
-                click(item("forecastEmptyRun")); phase_=64; return;
+                forecast_resize_project_=controller_->editorDocument();
+                forecast_resize_width_=window_->width(); forecast_resize_height_=window_->height();
+                forecast_resize_dock_=eval("workspaceSettings.values.dockHeight").toInt();
+                eval("workspaceSettings.setValue('dockHeight',160)"); window_->resize(1008,672);
+                markCueFrames(); phase_=300; return;
             }
+            case 300:
+                if (!cueFramesReady()) return;
+                forecastResizeFits(true); snapshot("25-forecast-short-dock.png");
+                window_->resize(960,540); markCueFrames(); phase_=301; return;
+            case 301:
+                if (!cueFramesReady()) return;
+                forecastResizeFits(true); snapshot("26-forecast-minimum-empty.png");
+                revealInScroll("forecastBodyScroll","forecastEmptyRun"); phase_=302; return;
+            case 302:
+                if (!cueFramesReady()) return;
+                click(item("forecastEmptyRun"));
+                window_->resize(forecast_resize_width_,forecast_resize_height_);
+                eval(QStringLiteral("workspaceSettings.setValue('dockHeight',%1)").arg(forecast_resize_dock_));
+                phase_=64; return;
+            case 303:
+                if (!cueFramesReady()) return;
+                forecastResizeFits(false); snapshot("27-forecast-minimum-executed.png");
+                revealInScroll("forecastBodyScroll","forecastTimeline"); phase_=305; return;
+            case 305: {
+                if (!cueFramesReady()) return;
+                auto* flick=qobject_cast<QQuickItem*>(item("forecastBodyScroll")->property("contentItem").value<QObject*>());
+                require(flick,"forecast_scroll_viewport_missing"); auto* timeline=item("forecastTimeline");
+                const auto footer=timeline->mapRectToItem(flick,QRectF(0,0,timeline->width(),timeline->height()));
+                require(footer.top()>=-1 && footer.bottom()<=flick->height()+1,"forecast_timeline_not_scrollable_into_view");
+                snapshot("28-forecast-scrolled-timeline.png");
+                window_->resize(forecast_resize_width_,forecast_resize_height_);
+                eval(QStringLiteral("workspaceSettings.setValue('dockHeight',%1)").arg(forecast_resize_dock_));
+                markCueFrames(); phase_=304; return;
+            }
+            case 304:
+                if (!cueFramesReady()) return;
+                preserved(); passed("empty_and_executed_forecast_resize_scroll_preserve_project_and_evidence");
+                key(Qt::Key_F1); phase_=65; return;
             case 1:
                 if (controller_->busy()) return;
                 require(!controller_->runId().isEmpty() && controller_->forecastHorizonH() == 1.25
@@ -669,6 +931,7 @@ class Check final : public QObject {
                 click(item("scienceSourceSelector")); key(Qt::Key_Down); key(Qt::Key_Return); break;
             case 50:
                 require(eval("app.storageScience.sourceMode==='candidate' && !app.storageScience.canRun").toBool(),"empty_stored_source_borrowed_current_forecast");
+                require(eval("!visible && storedRuns.length===0 && runChoices.length===0",item("runComparisonPanel")).toBool(),"hidden_comparison_materialized_run_controls");
                 eval("app.investigator.searchLocally()"); break;
             case 51: {
                 if (eval("app.investigator.running").toBool()) return;
@@ -707,6 +970,16 @@ class Check final : public QObject {
             case 52:
                 require(eval("app.storageScience.sourceMode==='forecast'").toBool(),"scientific_source_selector_did_not_restore_forecast");
                 preserved(); passed("native_source_selector_uses_immutable_stored_candidate_without_applying_controls");
+                eval("app.openResults(1)"); markCueFrames(); phase_=280; return;
+            case 280:
+                if (!cueFramesReady()) return;
+                require(eval("visible && storedRuns.length===history.runs.length && storedRuns.length>2",item("runComparisonPanel")).toBool(),"local_search_comparison_did_not_materialize_retained_runs");
+                preserved(); snapshot("18-local-search-comparison.png");
+                eval("app.openResults(4)"); markCueFrames(); phase_=281; return;
+            case 281:
+                if (!cueFramesReady()) return;
+                require(eval("!visible && storedRuns.length===0 && runChoices.length===0",item("runComparisonPanel")).toBool(),"hidden_comparison_retained_run_controls");
+                preserved(); passed("local_search_comparison_is_lazy_and_preserves_controls");
                 finish(true,"ok"); return;
             case 53:
                 if (eval("app.telemetry.status!=='ready'").toBool()) return;
@@ -771,7 +1044,8 @@ class Check final : public QObject {
                 if (controller_->busy()) return;
                 require(!controller_->runId().isEmpty() && controller_->forecastHorizonH()==3,"onboarding_did_not_run_native_forecast");
                 observed_project_=controller_->editorDocument(); hash_=controller_->networkHash(); run_=controller_->runId(); revision_=controller_->simulationRevision();
-                key(Qt::Key_F1); break;
+                eval("workspaceSettings.setValue('dockHeight',160)"); window_->resize(960,540);
+                markCueFrames(); phase_=303; return;
             case 65:
                 if (!eval("sceneHelpDialog.visible").toBool()) return;
                 require(!eval("app.sceneKeysEnabled()").toBool(),"help_did_not_block_edit_shortcuts");
@@ -1095,9 +1369,10 @@ class Check final : public QObject {
         } catch (const std::exception& error) { finish(false, QString::fromLatin1(error.what())); }
     }
 public:
-    Check(QQuickWindow* window, ProjectController* controller, QCoreApplication* app)
-        : QObject(app), window_(window), controller_(controller), app_(app) {
+    Check(QQuickWindow* window, ProjectController* controller, QCoreApplication* app, std::function<int()> modelRequests)
+        : QObject(app), window_(window), controller_(controller), app_(app), model_requests_(std::move(modelRequests)) {
         observed_only_=qEnvironmentVariable("BREAKWATER_UI_OBSERVED_ONLY")=="1";
+        compare_settings_only_=qEnvironmentVariable("BREAKWATER_UI_COMPARE_SETTINGS_ONLY")=="1";
         if (qEnvironmentVariable("BREAKWATER_UI_MINIMUM") == "1") window->resize(960, 540);
         else if (qEnvironmentVariable("BREAKWATER_UI_SHORT") == "1") window->resize(1008, 672);
         elapsed_.start(); timer_.setInterval(100);
@@ -1107,7 +1382,7 @@ public:
     }
 };
 }
-void startWorkbenchUiCheck(QQuickWindow* window, ProjectController* controller, QCoreApplication* app) {
-    new Check(window, controller, app);
+void startWorkbenchUiCheck(QQuickWindow* window, ProjectController* controller, QCoreApplication* app, std::function<int()> modelRequests) {
+    new Check(window, controller, app,std::move(modelRequests));
 }
 }

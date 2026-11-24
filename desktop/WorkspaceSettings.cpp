@@ -12,7 +12,7 @@ QString preferencePath(const QString& path) {
 }
 QVariantMap WorkspaceSettings::defaults() {
     return {{"navigatorOpen", true}, {"inspectorOpen", true}, {"dockOpen", true},
-        {"dockHeight", 270}, {"allLabels", false}, {"quality", 1}, {"compactControls", false}};
+        {"dockHeight", 270}, {"gridVisible", true}, {"allLabels", false}, {"quality", 1}, {"compactControls", false}};
 }
 bool WorkspaceSettings::valid(const QString& key, const QVariant& value) {
     if (key == "dockHeight" || key == "quality") {

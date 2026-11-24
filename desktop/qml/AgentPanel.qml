@@ -18,8 +18,9 @@ ColumnLayout {
     readonly property bool scienceVisible: tabs.currentIndex === 3
     readonly property var reviewData: investigator.review || ({})
     signal openPipeEvidence(var evidence)
-    readonly property var comparisonData: history.comparison || ({})
-    readonly property bool dialogOpen: keyDialog.visible || reviewDialog.visible || changesDialog.visible
+    readonly property bool dialogOpen: reviewDialog.visible || comparisonPanel.dialogOpen
+    signal configureKeyRequested(Item source)
+    signal navigationRequested(int tabIndex)
     readonly property bool advisoryReviewVisible: advisoryOnly && reviewDialog.visible
     property bool embedded: false
     property string currentNetworkHash: ""
@@ -50,6 +51,11 @@ ColumnLayout {
     }
     function showTab(index) { tabs.currentIndex = index; if (index === 2) history.refresh() }
     function showScience() { tabs.currentIndex = 3 }
+    function navigateTo(index) {
+        if (index === 0) history.showLive()
+        showTab(index)
+        if (embedded) navigationRequested(index)
+    }
     function number(value, digits) {
         return value !== undefined && value !== null && Number.isFinite(Number(value))
                 ? Number(value).toFixed(digits === undefined ? 2 : digits) : "—"
@@ -60,72 +66,13 @@ ColumnLayout {
         return recommendation.model_explanation || (recommendation.explanation_source === "retained_evidence" ? "" : recommendation.explanation || "")
     }
     function unit(value) { return value === "m3/h" ? "m³/h" : (value || "") }
-    function validationText(run) {
-        if (!run || !run.run_id) return "No run selected"
-        const feasible = run.validation && run.validation.feasible
-        if (run.validation_status === "validated") return feasible ? "Validated feasible" : "Validated infeasible"
-        return (feasible ? "Reported feasible" : "Reported infeasible") + " · validation not requested"
-    }
-    function violationText(issue) {
-        if (!issue || !issue.code) return "No violation reported"
-        return (issue.asset_id || issue.code) + (issue.time_h !== undefined ? " at " + number(issue.time_h, 3) + " h" : " · " + issue.code)
-    }
-    function metricText(run, issue) {
-        if (!run || !run.run_id) return "No run selected"
-        return "Cost " + number(run.cost) + " · headroom " + number((run.validation || {}).minimum_headroom_m3) + " m³\n" + violationText(issue)
-    }
     component PlainLabel: Label { textFormat: Text.PlainText; color: Theme.text; font.pixelSize: Theme.bodySize }
     component SectionLabel: PlainLabel { color: Theme.secondary; font.pixelSize: Theme.captionSize; font.letterSpacing: 1 }
 
     Connections {
         target: panel.history
         function onChanged() {
-            if (panel.history.historical && tabs.currentIndex === 0) tabs.currentIndex = 1
-        }
-    }
-
-    Dialog {
-        id: keyDialog
-        objectName: "nemotronKeyDialog"
-        title: "NVIDIA API key"
-        header: DialogHeading { owner: keyDialog }
-        modal: true
-        anchors.centerIn: Overlay.overlay
-        width: Math.min(460, panel.width - 28)
-        onOpened: apiKeyInput.forceActiveFocus()
-        onClosed: apiKeyInput.clear()
-        contentItem: ColumnLayout {
-            spacing: 12
-            PlainLabel {
-                Layout.fillWidth: true; wrapMode: Text.WordWrap
-                text: "Paste your NVIDIA API key. It is saved locally for this Windows account and used for future investigations."
-            }
-            TextField {
-                id: apiKeyInput; objectName: "nemotronApiKeyInput"
-                Layout.fillWidth: true; placeholderText: "NVIDIA API key"
-                echoMode: TextInput.Password; maximumLength: 4096
-                selectByMouse: true
-                onAccepted: { if (saveKeyButton.enabled) saveKeyButton.clicked() }
-            }
-            PlainLabel {
-                Layout.fillWidth: true; wrapMode: Text.WordWrap
-                text: panel.credentials.status
-            }
-            RowLayout {
-                ActionButton {
-                    iconName: "key-round"
-                    id: saveKeyButton; objectName: "saveNemotronKey"; text: "Save key"; highlighted: true
-                    enabled: apiKeyInput.text.trim().length > 0 && !panel.investigator.running
-                    onClicked: { if (panel.credentials.saveApiKey(apiKeyInput.text)) { apiKeyInput.clear(); keyDialog.close() } }
-                }
-                ActionButton {
-                    iconName: "trash-2"
-                    text: "Remove saved key"; enabled: panel.credentials.saved && !panel.investigator.running
-                    onClicked: panel.credentials.forgetApiKey()
-                }
-                Item { Layout.fillWidth: true }
-                ActionButton { iconName: "x"; text: "Close"; onClicked: keyDialog.close() }
-            }
+            if (panel.history.historical && tabs.currentIndex === 0) panel.navigateTo(1)
         }
     }
 
@@ -143,10 +90,10 @@ ColumnLayout {
         }
         ActionButton {
             iconName: "key-round"
-            objectName: "configureNemotronKey"
+            id: configureKeyButton; objectName: "configureNemotronKey"
             text: panel.credentials.configured ? "API key settings" : "Set API key"
             enabled: !panel.investigator.running
-            onClicked: keyDialog.open()
+            onClicked: panel.configureKeyRequested(configureKeyButton)
         }
     }
 
@@ -179,6 +126,7 @@ ColumnLayout {
         }
     }
     Frame {
+        visible: tabs.currentIndex !== 1
         Layout.fillWidth: true; padding: 7
         background: Rectangle { color: Theme.raised; radius: Theme.cornerRadius; border.color: Theme.divider }
         contentItem: PlainLabel {
@@ -187,6 +135,7 @@ ColumnLayout {
         }
     }
     RowLayout {
+        visible: !panel.embedded || tabs.currentIndex !== 1
         Layout.fillWidth: true; spacing: 12
         TabBar {
             id: tabs; objectName: panel.advisoryOnly ? "observedAgentTabs":"agentTabs"; visible: !panel.embedded; Layout.preferredWidth: 510; Layout.maximumWidth: panel.width * 0.6
@@ -279,70 +228,11 @@ ColumnLayout {
                 }
             }
         }
-        RowLayout {
-            spacing: 14
-            ColumnLayout {
-                Layout.preferredWidth: Math.min(315, panel.width * 0.30)
-                Layout.maximumWidth: Math.min(315, panel.width * 0.30)
-                Layout.fillHeight: true; spacing: 4
-                SectionLabel { text: "STORED RUNS · " + panel.history.runs.length }
-                ListView {
-                    id: runList; Layout.fillWidth: true; Layout.fillHeight: true; clip: true; spacing: 6
-                    model: panel.history.runs; ScrollBar.vertical: ScrollBar {}
-                    delegate: Rectangle {
-                        required property var modelData
-                        width: runList.width - 12; height: runContent.implicitHeight + 16; color: Theme.raised; radius: 4
-                        ColumnLayout {
-                            id: runContent; anchors.fill: parent; anchors.margins: 8; spacing: 3
-                            PlainLabel { Layout.fillWidth: true; text: (modelData.candidate_id || "baseline") + " · " + panel.shortId(modelData.run_id); font.bold: true; elide: Text.ElideRight }
-                            PlainLabel { Layout.fillWidth: true; text: panel.validationText(modelData); wrapMode: Text.WordWrap; font.pixelSize: Theme.captionSize; color: modelData.validation && modelData.validation.feasible ? Theme.text : Theme.error }
-                            PlainLabel { text: "Cost " + panel.number(modelData.cost) + " · " + panel.number(modelData.horizon_h) + " h"; font.pixelSize: Theme.captionSize }
-                            RowLayout {
-                                Layout.fillWidth: true; spacing: 6
-                                ActionButton { iconName: "git-compare-arrows"; Layout.fillWidth: true; text: "Baseline"; checkable: true; checked: panel.history.baselineRunId === modelData.run_id; onClicked: panel.history.selectRuns(modelData.run_id, panel.history.candidateRunId) }
-                                ActionButton { iconName: "git-compare-arrows"; Layout.fillWidth: true; text: "Candidate"; checkable: true; checked: panel.history.candidateRunId === modelData.run_id; onClicked: panel.history.selectRuns(panel.history.baselineRunId, modelData.run_id) }
-                            }
-                        }
-                    }
-                    PlainLabel { anchors.centerIn: parent; width: parent.width - 18; horizontalAlignment: Text.AlignHCenter; wrapMode: Text.WordWrap; visible: runList.count === 0; text: "Completed numerical runs appear here."; color: Theme.muted }
-                }
-            }
-            ColumnLayout {
-                Layout.fillWidth: true; Layout.fillHeight: true; spacing: 5
-                RowLayout {
-                    Layout.fillWidth: true
-                    PlainLabel { text: "Tank"; color: Theme.secondary }
-                    AppComboBox {
-                        id: tankSelector; Layout.preferredWidth: 205
-                        model: panel.history.tanks; textRole: "label"; valueRole: "id"; enabled: count > 0
-                        currentIndex: {
-                            const options = panel.history.tanks
-                            for (let i = 0; i < options.length; ++i) if (options[i].id === panel.history.selectedTankId) return i
-                            return -1
-                        }
-                        onActivated: panel.history.selectTank(currentValue)
-                        contentItem: PlainLabel { text: tankSelector.displayText; verticalAlignment: Text.AlignVCenter; elide: Text.ElideRight; leftPadding: 8; rightPadding: 24 }
-                        delegate: ItemDelegate {
-                            required property var modelData
-                            required property int index
-                            width: tankSelector.width; highlighted: tankSelector.highlightedIndex === index
-                            contentItem: PlainLabel { text: modelData.label; elide: Text.ElideRight }
-                        }
-                    }
-                    PlainLabel { Layout.fillWidth: true; text: panel.comparisonData.reason || "Select stored runs"; wrapMode: Text.WordWrap; font.pixelSize: Theme.captionSize; color: panel.comparisonData.compatible ? Theme.secondary : Theme.warning }
-                }
-                TrajectoryChart { Layout.fillWidth: true; Layout.fillHeight: true; Layout.minimumHeight: 85; chart: panel.history.chart }
-                RowLayout {
-                    Layout.fillWidth: true; spacing: 14
-                    PlainLabel { Layout.fillWidth: true; text: "BASELINE · " + panel.shortId(panel.history.baselineRunId) + "\n" + panel.metricText(panel.comparisonData.baseline, panel.comparisonData.baseline_violation); font.pixelSize: Theme.captionSize; wrapMode: Text.WordWrap }
-                    PlainLabel { Layout.fillWidth: true; text: "CANDIDATE · " + panel.shortId(panel.history.candidateRunId) + "\n" + panel.metricText(panel.comparisonData.candidate, panel.comparisonData.candidate_violation); font.pixelSize: Theme.captionSize; wrapMode: Text.WordWrap }
-                }
-                RowLayout {
-                    Layout.fillWidth: true
-                    PlainLabel { Layout.fillWidth: true; text: panel.comparisonData.compatible ? "Candidate − baseline cost: " + panel.number(panel.comparisonData.cost_delta) + " synthetic units" : "Incompatible runs are not overlaid."; font.pixelSize: Theme.captionSize }
-                    ActionButton { iconName: "settings-2"; text: "Control changes"; enabled: !!panel.comparisonData.compatible; onClicked: changesDialog.open() }
-                }
-            }
+        RunComparisonPanel {
+            id: comparisonPanel
+            history: panel.history
+            onInvestigationRequested: panel.navigateTo(0)
+            onHistoryRequested: panel.navigateTo(2)
         }
         RowLayout {
             spacing: 18
@@ -410,10 +300,10 @@ ColumnLayout {
                         }
                     }
                 }
-                ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; visible: !panel.advisoryOnly; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: { panel.storageScience.setSourceMode("forecast"); tabs.currentIndex = 3 } }
+                ActionButton { iconName: "flask-conical"; objectName: "viewHistoricalScience"; text: "View scientific evidence"; visible: !panel.advisoryOnly; enabled: panel.history.historical && panel.history.scientificEvidence.length > 0; onClicked: { panel.storageScience.setSourceMode("forecast"); panel.navigateTo(3) } }
                 Flow {
                     Layout.fillWidth: true; spacing: 8
-                    ActionButton { iconName: "git-compare-arrows"; text: "Compare runs"; enabled: panel.history.runs.length > 0; onClicked: tabs.currentIndex = 1 }
+                    ActionButton { iconName: "git-compare-arrows"; text: "Compare runs"; enabled: panel.history.runs.length > 0; onClicked: panel.navigateTo(1) }
                     ActionButton { iconName: "arrow-up-from-line"; text: "Export JSON"; enabled: !panel.history.busy && panel.history.selectedSessionId.length > 0; onClicked: exportDialog.open() }
                     ActionButton { iconName: "arrow-down-to-line"; text: "Import JSON"; enabled: !panel.history.busy; onClicked: importDialog.open() }
                 }
@@ -484,31 +374,6 @@ ColumnLayout {
                 onClicked: { if (panel.advisoryOnly ? panel.investigator.acknowledgePlan():panel.investigator.approvePlan()) reviewDialog.close() }
             }
             onRejected: reviewDialog.close()
-        }
-    }
-    Dialog {
-        id: changesDialog; parent: Overlay.overlay
-        x: Math.round((parent.width - width) / 2); y: Math.round((parent.height - height) / 2)
-        width: Math.min(720, parent.width - 48); height: Math.min(430, parent.height - 80)
-        modal: true; title: "Baseline → candidate control changes"; standardButtons: Dialog.Close
-        header: DialogHeading { owner: changesDialog }
-        footer: DialogFooter { owner: changesDialog }
-        contentItem: ScrollView {
-            id: changesScroll; contentWidth: availableWidth
-            ColumnLayout {
-                width: changesScroll.availableWidth; spacing: 12
-                PlainLabel { Layout.fillWidth: true; text: panel.comparisonData.reason || ""; wrapMode: Text.WordWrap; color: Theme.secondary }
-                Repeater {
-                    model: panel.comparisonData.control_changes || []
-                    delegate: RowLayout {
-                        required property var modelData
-                        Layout.fillWidth: true
-                        PlainLabel { Layout.fillWidth: true; text: modelData.control_id; wrapMode: Text.WrapAnywhere }
-                        PlainLabel { text: panel.number(modelData.before) + " → " + panel.number(modelData.after) + " " + panel.unit(modelData.unit) }
-                    }
-                }
-                PlainLabel { visible: !(panel.comparisonData.control_changes || []).length; text: "No control settings differ between these runs."; color: Theme.secondary }
-            }
         }
     }
 }

@@ -109,6 +109,7 @@ qt_add_qml_module(breakwater URI Breakwater VERSION 1.0
     qml/IndustrialEquipment.qml qml/IndustrialPipe.qml qml/AppComboBox.qml qml/DialogHeading.qml
     qml/EogAnalysisView.qml qml/IndustrialEnvironment.qml qml/IndustrialLighting.qml
     qml/SiteGround.qml qml/SitePad.qml qml/ConnectionPreview.qml qml/ForecastPanel.qml qml/DialogFooter.qml qml/AssetInspector.qml qml/SceneAxes.qml
+    qml/RunComparisonPanel.qml qml/SettingsDialog.qml qml/NemotronKeyDialog.qml
     qml/SceneLabels.qml qml/LabelPlacement.js qml/SceneFraming.js qml/WorkspaceHelp.qml)
 file(GLOB _breakwater_action_icons CONFIGURE_DEPENDS "${CMAKE_CURRENT_SOURCE_DIR}/assets/icons/*.svg")
 qt_add_resources(breakwater breakwater_visual_assets PREFIX /breakwater/assets
@@ -172,10 +173,14 @@ if(BUILD_TESTING)
     set_tests_properties(desktop.ui_overhaul_${_ui_size} PROPERTIES TIMEOUT 90
       ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1"
       ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
+    add_test(NAME desktop.compare_settings_${_ui_size} COMMAND breakwater ${_ui_args})
+    set_tests_properties(desktop.compare_settings_${_ui_size} PROPERTIES TIMEOUT 90
+      ENVIRONMENT "QSG_RHI_BACKEND=d3d11;QSG_RHI_PREFER_SOFTWARE_RENDERER=1;BREAKWATER_UI_COMPARE_SETTINGS_ONLY=1;BREAKWATER_PYTHON=${CMAKE_CURRENT_BINARY_DIR}/compare-settings-no-python.exe"
+      ENVIRONMENT_MODIFICATION "PATH=path_list_prepend:${_qt_prefix}/bin")
     if(_ui_size STREQUAL "minimum")
-      set_property(TEST desktop.ui_overhaul_minimum APPEND PROPERTY ENVIRONMENT "BREAKWATER_UI_MINIMUM=1")
+      set_property(TEST desktop.ui_overhaul_minimum desktop.compare_settings_minimum APPEND PROPERTY ENVIRONMENT "BREAKWATER_UI_MINIMUM=1")
     elseif(_ui_size STREQUAL "short")
-      set_property(TEST desktop.ui_overhaul_short APPEND PROPERTY ENVIRONMENT "BREAKWATER_UI_SHORT=1")
+      set_property(TEST desktop.ui_overhaul_short desktop.compare_settings_short APPEND PROPERTY ENVIRONMENT "BREAKWATER_UI_SHORT=1")
     endif()
   endforeach()
   qt_add_executable(breakwater_desktop_tests tests/project_tests.cpp)

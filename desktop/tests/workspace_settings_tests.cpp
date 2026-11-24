@@ -39,6 +39,22 @@ private slots:
             QVERIFY(original.open(QIODevice::ReadOnly)); QCOMPARE(original.readAll(), bytes);
         }
     }
+    void legacyPreferencesGainOnlyTheGridDefaultAndPersistIt() {
+        QTemporaryDir directory; QVERIFY(directory.isValid());
+        const auto path = directory.filePath("legacy.ini");
+        { QSettings legacy(path, QSettings::IniFormat); legacy.setValue("version", 1); legacy.setValue("view/quality", 2); }
+        {
+            WorkspaceSettings settings(path);
+            QCOMPARE(settings.values().value("quality").toInt(), 2);
+            QCOMPARE(settings.values().value("gridVisible"), QVariant(true));
+            QVERIFY(settings.setValue("gridVisible", false));
+            QVERIFY(!settings.setValue("gridVisible", "false"));
+        }
+        WorkspaceSettings restored(path);
+        QCOMPARE(restored.values().value("gridVisible"), QVariant(false));
+        QCOMPARE(restored.values().value("quality").toInt(), 2);
+        restored.reset(); QCOMPARE(restored.values().value("gridVisible"), QVariant(true));
+    }
 };
 QTEST_GUILESS_MAIN(WorkspaceSettingsTests)
 #include "workspace_settings_tests.moc"

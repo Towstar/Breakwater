@@ -60,6 +60,8 @@ int main(int argc, char** argv) {
     breakwater::desktop::runtime::configureBundledPython();
     const auto arguments = app.arguments();
     const bool uiOverhaulCheck = arguments.contains("--ui-overhaul-check");
+    const bool compareSettingsCheck = uiOverhaulCheck && qEnvironmentVariable("BREAKWATER_UI_COMPARE_SETTINGS_ONLY") == "1";
+    const bool isolateUiModel = compareSettingsCheck || arguments.contains("--eog-workspace-check");
     const bool eogWorkspaceCheck = arguments.contains("--eog-workspace-check");
     std::unique_ptr<QTemporaryDir> eogWorkspaceFixture;
     QString startupProject, startupObjective, rehearsalArchive, startupHistory, startupTelemetryReplay;
@@ -267,10 +269,11 @@ int main(int argc, char** argv) {
     bool historyReady = false;
     QObject::connect(&repository, &breakwater::desktop::history::SessionRepository::ready, &app, [&] { historyReady = true; });
     breakwater::desktop::history::HistoryController history(&repository);
-    // The EOG UI probe must not discover checkout or saved-user credentials.
+    // The read-only UI probes must not discover checkout or saved-user credentials.
     // Explicit transports also outlive the controllers that borrow them.
+    if (compareSettingsCheck) qunsetenv("NVIDIA_API_KEY");
     std::unique_ptr<breakwater::desktop::eog_workspace_check::RejectingModelTransport> isolatedWorkbenchModel, isolatedObservedModel, isolatedEogModel;
-    if (eogWorkspaceCheck) {
+    if (isolateUiModel) {
         isolatedWorkbenchModel = std::make_unique<breakwater::desktop::eog_workspace_check::RejectingModelTransport>();
         isolatedObservedModel = std::make_unique<breakwater::desktop::eog_workspace_check::RejectingModelTransport>();
         isolatedEogModel = std::make_unique<breakwater::desktop::eog_workspace_check::RejectingModelTransport>();
@@ -280,17 +283,17 @@ int main(int argc, char** argv) {
     breakwater::desktop::agent::ObservedInvestigationController observedInvestigator(&controller,&telemetry,isolatedObservedModel.get());
     observedInvestigator.setHistory(&repository,&observedHistory);
     breakwater::desktop::agent::CredentialSettings credentials(nullptr,
-        eogWorkspaceCheck ? uiCheckStorage->filePath("credentials.env") : QString{});
+        isolateUiModel ? uiCheckStorage->filePath("credentials.env") : QString{});
     // EOG has separate provider processes, model conversation and history. The
     // workbench investigator and its approval state retain their own ownership.
     breakwater::desktop::eog::EogAnalysisClient eogClient;
     breakwater::desktop::eog::EogHistoryRepository eogHistory(historyPath.isEmpty() ? QString{} : historyPath + ".eog.sqlite");
     std::unique_ptr<breakwater::desktop::agent::NemotronClient> eogModel;
-    if (!eogWorkspaceCheck) eogModel = std::make_unique<breakwater::desktop::agent::NemotronClient>();
-    auto* eogTransport = eogWorkspaceCheck
+    if (!isolateUiModel) eogModel = std::make_unique<breakwater::desktop::agent::NemotronClient>();
+    auto* eogTransport = isolateUiModel
         ? static_cast<breakwater::desktop::agent::ModelTransport*>(isolatedEogModel.get()) : eogModel.get();
-    if (eogWorkspaceCheck && (credentials.configured() || credentials.saved())) {
-        qCritical("EOG workspace verification must use isolated empty credentials."); return 8;
+    if (isolateUiModel && (credentials.configured() || credentials.saved())) {
+        qCritical("UI verification must use isolated empty credentials."); return 8;
     }
     breakwater::desktop::eog::EogAnalysisController eogAnalysis(&eog, &eogClient, &eogHistory, eogTransport);
     investigator.setHistory(&repository, &history);
@@ -383,7 +386,10 @@ int main(int argc, char** argv) {
     if (uiOverhaulCheck) {
         auto* window = engine.rootObjects().isEmpty() ? nullptr : qobject_cast<QQuickWindow*>(engine.rootObjects().front());
         if (!window) return 8;
-        breakwater::desktop::startWorkbenchUiCheck(window, &controller, &app);
+        breakwater::desktop::startWorkbenchUiCheck(window, &controller, &app, compareSettingsCheck
+            ? std::function<int()>([&] { return isolatedWorkbenchModel->requestAttempts()
+                + isolatedObservedModel->requestAttempts() + isolatedEogModel->requestAttempts(); })
+            : std::function<int()>{});
     }
     if (eogWorkspaceCheck) {
         auto* window = engine.rootObjects().isEmpty() ? nullptr : qobject_cast<QQuickWindow*>(engine.rootObjects().front());

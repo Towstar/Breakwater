@@ -1,5 +1,45 @@
 # Implementation status
 
+## Settings signal cleanup, November 23, 2026 (America/Chicago)
+
+Settings now uses Dialog's inherited `helpRequested` signal, removing the
+duplicate declaration and its QML startup warning. Application source `5bff15b`
+passes the four existing Compare/Settings window sizes and QML startup check in
+both normal and ASan builds, each 5/5. Runtime logs contain no duplicate-signal or
+invalid-override warning, and the ASan log contains no sanitizer diagnostic.
+Manual review confirms Settings opens Controls and shortcuts and returns to the
+saved workspace. The latest app uses the hardware GPU and normal user history.
+Local logs and captures are retained under `out/settings-qml-warning/`.
+The preceding PR #99 head `0ef110f` passed all six CI jobs; those results remain
+separate from this focused follow-up. No numerical or approval behavior changed.
+
+## Forecast pane resizing, November 23, 2026 (America/Chicago)
+
+The [resize follow-up](FORECAST_RESIZE_VERIFICATION.md) keeps the complete Forecast
+pane inside a scroll viewport at short dock/window heights. It preserves access
+to the empty-state action and executed-run timeline without overlap. Source
+`0257c1d` passes eight normal UI checks across four sizes. All four ASan Forecast
+checks pass; the combined ASan attempt is 7/8, with its failed focus-return check
+passing unchanged in an isolated recheck. Both results remain recorded. The
+quality-preset rendering wait has a separate bounded allowance for ASan/WARP;
+validation, approval, numerical behavior and the global UI watchdog are unchanged.
+
+## Compare and practical Settings, November 22, 2026 (America/Chicago)
+
+The [finishing-pass report](COMPARE_SETTINGS_POLISH.md) describes responsive
+comparison, explicit empty/single/incompatible/historical states and a small
+Workspace/Connections/Information Settings dialog. It reuses existing numerical
+evidence, credentials, worker health and local preferences. Grid visibility is
+an additive version-1 preference. Comparison models are inactive while hidden.
+
+Application source `bfb503c` passes the final normal and ASan affected-area
+matrices, each 18/18 with zero skips. Earlier failed/interrupted
+attempts and their corrections remain in the report. This is a desktop finishing
+pass, without a new hosted Nemotron qualification, package, main merge or release.
+Numerical/scientific policy, freshness, exact validation and approval boundaries
+remain unchanged. Owner/licensing reviews, ordered integration and clean-Windows
+acceptance remain separate.
+
 ## Evidence-completion verification, November 21, 2026 (America/Chicago)
 
 The [executed verification report](NEMOTRON_EVIDENCE_COMPLETION_VERIFICATION.md)
